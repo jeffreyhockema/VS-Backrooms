@@ -1,0 +1,35 @@
+// Glass conference-room partition
+{
+	"code": "officeglass",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"renderpass": "Transparent",
+	"textures": {
+		"all": {
+			"base": "block/level4/officeglass"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"faceCullMode": "NeverCull",
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

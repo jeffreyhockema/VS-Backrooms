@@ -1,0 +1,78 @@
+// Furnace with a glowing door
+{
+	"code": "furnace",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/furnace",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/furnace",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/furnace",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/furnace",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.94,
+		"y2": 1,
+		"z2": 0.94
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.94,
+		"y2": 1,
+		"z2": 0.94
+	},
+	"lightHsv": [
+		4,
+		7,
+		12
+	]
+}

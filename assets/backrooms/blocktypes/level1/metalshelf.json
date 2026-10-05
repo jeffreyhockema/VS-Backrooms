@@ -1,0 +1,25 @@
+{
+	code: "metalshelf",
+	// Metal shelving with boxes of supplies; the variant is the side it opens toward
+	variantgroups: [{ code: "side", states: ["north", "east", "south", "west"] }],
+	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shapeByType: {
+		"*-north": { base: "block/metalshelf", rotateY: 0 },
+		"*-east": { base: "block/metalshelf", rotateY: 270 },
+		"*-south": { base: "block/metalshelf", rotateY: 180 },
+		"*-west": { base: "block/metalshelf", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 2,
+	drops: [
+		{ type: "item", code: "almondwater", quantity: { avg: 0.5, var: 0.5 } },
+		{ type: "item", code: "crackers", quantity: { avg: 0.4, var: 0.4 } },
+		{ type: "item", code: "game:flaxtwine", quantity: { avg: 0.3, var: 0.3 } },
+		{ type: "item", code: "game:candle", quantity: { avg: 0.2, var: 0.2 } }
+	],
+	sounds: { place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit" }
+}

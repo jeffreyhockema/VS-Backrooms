@@ -1,0 +1,13 @@
+{
+	code: "exitsign",
+	// Still faintly lit when everything else goes dark
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Stone",
+	drawtype: "cube",
+	textures: { all: { base: "block/level1/exitsign" } },
+	lightHsv: [21, 6, 6],
+	vertexFlags: { glowLevel: 120 },
+	lightAbsorption: 0,
+	resistance: 2,
+	sounds: { walk: "game:walk/stone", place: "game:block/glass", break: "game:block/glass", hit: "game:block/glass" }
+}

@@ -1,0 +1,37 @@
+// Hotel walls: mahogany wainscot, a red damask panel in a gilt frame, a cream frieze
+{
+	"code": "hotelwall",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"wainscot",
+				"panel",
+				"frieze"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelwall-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

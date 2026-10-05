@@ -1,0 +1,28 @@
+{
+	code: "wallpaper",
+	variantgroups: [
+		// "stripped" is bare drywall, left behind when the paper has been cut away
+		{ code: "pattern", states: ["chevron", "dotted", "cream", "manila", "stripped"] },
+		// "upper" is a plain wall block; the others are the bottom block with its trim
+		{ code: "part", states: ["upper", "plain", "baseboard", "rail", "outlet"] }
+	],
+	// A blade strips the paper off (for tinder and bindings), leaving the wall bare
+	behaviors: [{ name: "BackroomsStrippable", properties: {
+		result: "wallpaper-stripped-{part}", item: "wallpaperstrip",
+		variant: "pattern", allowed: ["chevron", "dotted", "manila"]
+	} }],
+	creativeinventory: { "general": ["*"], "construction": ["*"] },
+	blockmaterial: "Stone",
+	drawtype: "cube",
+	textures: {
+		all: { base: "block/wallpaper/{pattern}-{part}" }
+	},
+	resistance: 2.5,
+	lightAbsorption: 99,
+	sounds: {
+		walk: "game:walk/stone",
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks"
+	}
+}

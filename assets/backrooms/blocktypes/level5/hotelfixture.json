@@ -1,0 +1,52 @@
+// Hotel wall panels with a candle sconce, a portrait, or The Beverly Room's placard
+{
+	"code": "hotelfixture",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"sconce",
+				"portrait",
+				"beverly"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*": {
+			"base": "block/hotelfixture-{type}"
+		}
+	},
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelwall-panel"
+		}
+	},
+	"lightHsvByType": {
+		"*-sconce": [
+			6,
+			5,
+			11
+		]
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"lightAbsorptionByType": {
+		"*-sconce": 0
+	},
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

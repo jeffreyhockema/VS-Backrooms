@@ -1,0 +1,52 @@
+// Locked guest-room doors with brass number plaques. A few open after all, onto somewhere else
+{
+	"code": "hoteldoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper0",
+				"upper1",
+				"upper2",
+				"upper3",
+				"upper4",
+				"upper5",
+				"upper6",
+				"upper7"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hoteldoor-{part}"
+		}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "door"
+			}
+		}
+	],
+	"resistance": 2,
+	"drops": [],
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

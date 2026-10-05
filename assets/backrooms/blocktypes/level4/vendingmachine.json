@@ -1,0 +1,80 @@
+// Vending machine that still sells Almond Water: use it
+{
+	"code": "vendingmachine",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/vendingmachine",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/vendingmachine",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/vendingmachine",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/vendingmachine",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.94
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.94
+	},
+	"class": "BackroomsDispenser",
+	"entityClass": "BackroomsDispenser",
+	"lightHsv": [
+		10,
+		2,
+		6
+	]
+}

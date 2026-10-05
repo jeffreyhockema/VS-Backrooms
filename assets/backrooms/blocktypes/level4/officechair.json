@@ -1,0 +1,73 @@
+// Office chair
+{
+	"code": "officechair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/officechair",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/officechair",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/officechair",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/officechair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.5,
+		"z2": 0.8
+	},
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.5,
+		"z2": 0.8
+	}
+}

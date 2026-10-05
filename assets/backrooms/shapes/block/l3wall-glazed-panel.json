@@ -1,0 +1,493 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wall": "backrooms:block/level3/l3wall-glazed",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lagging": "backrooms:block/level2/pipe-lagging",
+  "red": "backrooms:block/level2/pipe-red",
+  "metal": "backrooms:block/props/metal",
+  "dark": "backrooms:block/props/metal-dark",
+  "panel": "backrooms:block/level3/panel",
+  "fan": "backrooms:block/level3/fan"
+ },
+ "elements": [
+  {
+   "name": "Cube",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Panel0",
+   "from": [
+    3,
+    2,
+    -2.5
+   ],
+   "to": [
+    13,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit0",
+   "from": [
+    7,
+    14,
+    -1.5
+   ],
+   "to": [
+    9,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Panel1",
+   "from": [
+    16,
+    2,
+    3
+   ],
+   "to": [
+    18.5,
+    14,
+    13
+   ],
+   "faces": {
+    "east": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "north": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit1",
+   "from": [
+    16,
+    14,
+    7
+   ],
+   "to": [
+    17.5,
+    16,
+    9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Panel2",
+   "from": [
+    3,
+    2,
+    16
+   ],
+   "to": [
+    13,
+    14,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit2",
+   "from": [
+    7,
+    14,
+    16
+   ],
+   "to": [
+    9,
+    16,
+    17.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Panel3",
+   "from": [
+    -2.5,
+    2,
+    3
+   ],
+   "to": [
+    0,
+    14,
+    13
+   ],
+   "faces": {
+    "south": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "north": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      10,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit3",
+   "from": [
+    -1.5,
+    14,
+    7
+   ],
+   "to": [
+    0,
+    16,
+    9
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2
+     ]
+    }
+   }
+  }
+ ]
+}

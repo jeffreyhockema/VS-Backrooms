@@ -1,0 +1,381 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "body": "backrooms:block/props/metal-dark",
+  "front": "backrooms:block/props/cabinet-front",
+  "metal": "backrooms:block/props/metal",
+  "rust": "backrooms:block/level2/pipe-rust"
+ },
+ "elements": [
+  {
+   "name": "Body",
+   "from": [
+    1,
+    0,
+    4
+   ],
+   "to": [
+    15,
+    15,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      14,
+      15
+     ]
+    },
+    "east": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      15
+     ]
+    },
+    "south": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      14,
+      15
+     ]
+    },
+    "west": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      15
+     ]
+    },
+    "up": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      14,
+      12
+     ]
+    },
+    "down": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      14,
+      12
+     ]
+    }
+   }
+  },
+  {
+   "name": "Front",
+   "from": [
+    1.5,
+    1,
+    3.5
+   ],
+   "to": [
+    14.5,
+    14,
+    4
+   ],
+   "faces": {
+    "north": {
+     "texture": "#front",
+     "uv": [
+      0,
+      0,
+      13.0,
+      13
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gauge1",
+   "from": [
+    3,
+    10,
+    2.8
+   ],
+   "to": [
+    6,
+    13,
+    3.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      0.7000000000000002
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      0.7000000000000002
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gauge2",
+   "from": [
+    10,
+    10,
+    2.8
+   ],
+   "to": [
+    13,
+    13,
+    3.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      0.7000000000000002
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      0.7000000000000002
+     ]
+    }
+   }
+  },
+  {
+   "name": "Handle",
+   "from": [
+    11,
+    5,
+    2.8
+   ],
+   "to": [
+    12,
+    8,
+    3.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.7000000000000002,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1,
+      0.7000000000000002
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1,
+      0.7000000000000002
+     ]
+    }
+   }
+  },
+  {
+   "name": "Pipe",
+   "from": [
+    11,
+    15,
+    11
+   ],
+   "to": [
+    14,
+    16,
+    14
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      3,
+      3
+     ]
+    }
+   }
+  }
+ ]
+}

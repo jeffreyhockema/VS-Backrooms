@@ -1,0 +1,11 @@
+{
+	code: "wallpaperstrip",
+	// Cut from a wall with a blade. Dry enough to use as tinder, tough enough to bind a handle.
+	maxstacksize: 32,
+	texture: { base: "item/salvage/wallpaperstrip" },
+	creativeinventory: { "general": ["*"], "items": ["*"] },
+	combustibleProps: { burnTemperature: 500, burnDuration: 6 },
+	guiTransform: { rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1 },
+	tpHandTransform: { translation: { x: -0.75, y: -0.4, z: -0.55 }, rotation: { x: 0, y: -45, z: -10 }, scale: 0.6 },
+	groundTransform: { rotation: { x: 90, y: 0, z: 0 }, origin: { x: 0.5, y: 0, z: 0.5 }, scale: 2 }
+}

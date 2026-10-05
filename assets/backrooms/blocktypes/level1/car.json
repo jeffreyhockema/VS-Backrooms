@@ -1,0 +1,22 @@
+{
+	code: "car",
+	// An abandoned car, 2 blocks wide and 4 long. This corner block draws the whole model;
+	// the rest of the footprint is carcollider blocks. "north" cars face north, "south" cars are turned around.
+	variantgroups: [
+		{ code: "colour", states: ["red", "blue", "white", "black"] },
+		{ code: "side", states: ["north", "south"] }
+	],
+	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shapeByType: {
+		"*-north": { base: "block/car-{colour}", rotateY: 0 },
+		"*-south": { base: "block/car-{colour}", rotateY: 180 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 20,
+	drops: [],
+	sounds: { walk: "game:walk/stone", hit: "game:block/heavymetal-hit", break: "game:block/heavymetal-hit" }
+}

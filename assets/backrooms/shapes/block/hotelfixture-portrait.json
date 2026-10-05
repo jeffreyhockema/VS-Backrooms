@@ -1,0 +1,1300 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade"
+ },
+ "elements": [
+  {
+   "name": "Cube",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#panel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Canvas0",
+   "from": [
+    3,
+    3,
+    -0.8
+   ],
+   "to": [
+    13,
+    14,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#portrait",
+     "uv": [
+      0,
+      0,
+      10,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameTop0",
+   "from": [
+    2,
+    14,
+    -1.2
+   ],
+   "to": [
+    14,
+    15,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameBottom0",
+   "from": [
+    2,
+    2,
+    -1.2
+   ],
+   "to": [
+    14,
+    3,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameLeft0",
+   "from": [
+    2,
+    3,
+    -1.2
+   ],
+   "to": [
+    3,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameRight0",
+   "from": [
+    13,
+    3,
+    -1.2
+   ],
+   "to": [
+    14,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Canvas1",
+   "from": [
+    16.5,
+    3,
+    3
+   ],
+   "to": [
+    16.8,
+    14,
+    13
+   ],
+   "faces": {
+    "east": {
+     "texture": "#portrait",
+     "uv": [
+      0,
+      0,
+      10,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameTop1",
+   "from": [
+    16,
+    14,
+    2
+   ],
+   "to": [
+    17.2,
+    15,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameBottom1",
+   "from": [
+    16,
+    2,
+    2
+   ],
+   "to": [
+    17.2,
+    3,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameLeft1",
+   "from": [
+    16,
+    3,
+    2
+   ],
+   "to": [
+    17.2,
+    14,
+    3
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameRight1",
+   "from": [
+    16,
+    3,
+    13
+   ],
+   "to": [
+    17.2,
+    14,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Canvas2",
+   "from": [
+    3,
+    3,
+    16.5
+   ],
+   "to": [
+    13,
+    14,
+    16.8
+   ],
+   "faces": {
+    "south": {
+     "texture": "#portrait",
+     "uv": [
+      0,
+      0,
+      10,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameTop2",
+   "from": [
+    2,
+    14,
+    16
+   ],
+   "to": [
+    14,
+    15,
+    17.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameBottom2",
+   "from": [
+    2,
+    2,
+    16
+   ],
+   "to": [
+    14,
+    3,
+    17.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameLeft2",
+   "from": [
+    13,
+    3,
+    16
+   ],
+   "to": [
+    14,
+    14,
+    17.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameRight2",
+   "from": [
+    2,
+    3,
+    16
+   ],
+   "to": [
+    3,
+    14,
+    17.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Canvas3",
+   "from": [
+    -0.8000000000000007,
+    3,
+    3
+   ],
+   "to": [
+    -0.5,
+    14,
+    13
+   ],
+   "faces": {
+    "west": {
+     "texture": "#portrait",
+     "uv": [
+      0,
+      0,
+      10,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameTop3",
+   "from": [
+    -1.1999999999999993,
+    14,
+    2
+   ],
+   "to": [
+    0,
+    15,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameBottom3",
+   "from": [
+    -1.1999999999999993,
+    2,
+    2
+   ],
+   "to": [
+    0,
+    3,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      12,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameLeft3",
+   "from": [
+    -1.1999999999999993,
+    3,
+    13
+   ],
+   "to": [
+    0,
+    14,
+    14
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameRight3",
+   "from": [
+    -1.1999999999999993,
+    3,
+    2
+   ],
+   "to": [
+    0,
+    14,
+    3
+   ],
+   "faces": {
+    "east": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "south": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "west": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      11
+     ]
+    },
+    "north": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1.2,
+      11
+     ]
+    },
+    "up": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#gilt",
+     "uv": [
+      0,
+      0,
+      1,
+      1.2
+     ]
+    }
+   }
+  }
+ ]
+}

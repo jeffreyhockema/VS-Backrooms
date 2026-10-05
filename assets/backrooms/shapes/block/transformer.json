@@ -1,0 +1,494 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "body": "backrooms:block/level3/transformer",
+  "metal": "backrooms:block/props/metal-dark",
+  "insulator": "backrooms:block/level3/insulator"
+ },
+ "elements": [
+  {
+   "name": "Tank",
+   "from": [
+    2,
+    0,
+    3
+   ],
+   "to": [
+    14,
+    12,
+    13
+   ],
+   "faces": {
+    "north": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      10,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    },
+    "down": {
+     "texture": "#body",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "name": "FinsWest",
+   "from": [
+    0.5,
+    1,
+    4
+   ],
+   "to": [
+    2,
+    11,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      10
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      8,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      8,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      8
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "name": "FinsEast",
+   "from": [
+    14,
+    1,
+    4
+   ],
+   "to": [
+    15.5,
+    11,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      10
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      8,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      8,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      8
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "name": "Lid",
+   "from": [
+    1.5,
+    12,
+    2.5
+   ],
+   "to": [
+    14.5,
+    13,
+    13.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      11.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      11.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      13.0,
+      11.0
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      13.0,
+      11.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Insulator1",
+   "from": [
+    4,
+    13,
+    7
+   ],
+   "to": [
+    6,
+    16,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Insulator2",
+   "from": [
+    7,
+    13,
+    7
+   ],
+   "to": [
+    9,
+    16,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Insulator3",
+   "from": [
+    10,
+    13,
+    7
+   ],
+   "to": [
+    12,
+    16,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#insulator",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  }
+ ]
+}

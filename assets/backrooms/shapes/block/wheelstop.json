@@ -1,0 +1,78 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "stop": "backrooms:block/level1/wheelstop"
+ },
+ "elements": [
+  {
+   "name": "Stop",
+   "from": [
+    0,
+    0,
+    6
+   ],
+   "to": [
+    16,
+    2.5,
+    10
+   ],
+   "faces": {
+    "north": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "east": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      4,
+      2.5
+     ]
+    },
+    "south": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      4,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#stop",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    }
+   }
+  }
+ ]
+}

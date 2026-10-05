@@ -1,0 +1,25 @@
+{
+	code: "carpet",
+	variantgroups: [
+		// "threadbare" is what is left once the pile has been cut out for its fibres
+		{ code: "type", states: ["normal", "stained", "soaked", "threadbare"] }
+	],
+	behaviors: [{ name: "BackroomsStrippable", properties: {
+		result: "carpet-threadbare", item: "carpetfibre",
+		variant: "type", allowed: ["normal", "stained"]
+	} }],
+	creativeinventory: { "general": ["*"], "construction": ["*"] },
+	blockmaterial: "Cloth",
+	drawtype: "cube",
+	textures: {
+		all: { base: "block/carpet-{type}" }
+	},
+	resistance: 1.5,
+	lightAbsorption: 99,
+	sounds: {
+		walk: "game:walk/cloth",
+		place: "game:block/cloth",
+		break: "game:block/cloth",
+		hit: "game:block/cloth"
+	}
+}

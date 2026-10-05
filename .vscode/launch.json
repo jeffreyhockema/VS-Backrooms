@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Vintage Story (client + mod)",
+      "type": "coreclr",
+      "request": "launch",
+      "targetArchitecture": "x86_64",
+      "preLaunchTask": "build",
+      "program": "G:/Games/Vintagestory/Vintagestory.exe",
+      "args": ["--tracelog", "--addModPath", "${workspaceFolder}/bin/Debug/Mods"],
+      "cwd": "G:/Games/Vintagestory",
+      "console": "internalConsole",
+      "justMyCode": true
+    }
+  ]
+}

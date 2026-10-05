@@ -1,0 +1,45 @@
+// Copper-cage elevator gate. Use it to ride
+{
+	"code": "cagedoor",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/cagedoor-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "elevator"
+			}
+		}
+	]
+}

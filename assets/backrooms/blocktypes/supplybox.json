@@ -1,0 +1,33 @@
+{
+	code: "supplybox",
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Wood",
+	drawtype: "json",
+	shape: { base: "block/supplybox" },
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0.125, y1: 0, z1: 0.125, x2: 0.875, y2: 0.625, z2: 0.875 },
+	selectionbox: { x1: 0.125, y1: 0, z1: 0.125, x2: 0.875, y2: 0.625, z2: 0.875 },
+	lightAbsorption: 0,
+	resistance: 0.6,
+	// Breaking a box rolls each entry independently. A quantity like avg 0.5 means a 50% chance of one.
+	drops: [
+		{ type: "item", code: "almondwater", quantity: { avg: 1.2, var: 0.8 } },
+		{ type: "item", code: "crackers", quantity: { avg: 0.6, var: 0.4 } },
+		{ type: "item", code: "cannedbeans", quantity: { avg: 0.3, var: 0.3 } },
+		// What a wanderer before you scraped together
+		{ type: "item", code: "carpetfibre", quantity: { avg: 1.2, var: 1.2 } },
+		{ type: "item", code: "wallpaperstrip", quantity: { avg: 0.8, var: 0.8 } },
+		{ type: "item", code: "glassshard", quantity: { avg: 0.5, var: 0.5 } },
+		{ type: "item", code: "metalbracket", quantity: { avg: 0.3, var: 0.3 } },
+		{ type: "item", code: "glassshiv", quantity: { avg: 0.08, var: 0 } },
+		{ type: "item", code: "game:candle", quantity: { avg: 0.15, var: 0.15 } }
+	],
+	sounds: {
+		place: "game:block/cloth",
+		break: "game:block/cloth",
+		hit: "game:block/cloth"
+	},
+	heldTpIdleAnimation: "holdbothhandslarge",
+	heldTpUseAnimation: "twohandplaceblock"
+}

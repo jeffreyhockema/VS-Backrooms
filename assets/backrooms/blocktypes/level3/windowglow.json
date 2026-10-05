@@ -1,0 +1,35 @@
+// A window behind bars, glowing like a sunny day
+{
+	"code": "windowglow",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level3/windowglow"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 0,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"lightHsv": [
+		8,
+		2,
+		16
+	],
+	"vertexFlags": {
+		"glowLevel": 200
+	}
+}

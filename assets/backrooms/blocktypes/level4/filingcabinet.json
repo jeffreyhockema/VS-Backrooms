@@ -1,0 +1,73 @@
+// Filing cabinet
+{
+	"code": "filingcabinet",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/filingcabinet",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/filingcabinet",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/filingcabinet",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/filingcabinet",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 1,
+		"z2": 0.875
+	},
+	"selectionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 1,
+		"z2": 0.875
+	}
+}

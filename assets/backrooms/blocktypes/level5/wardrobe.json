@@ -1,0 +1,73 @@
+// Mahogany wardrobe
+{
+	"code": "wardrobe",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/wardrobe",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/wardrobe",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/wardrobe",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/wardrobe",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.94,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.94,
+		"y2": 1,
+		"z2": 1
+	}
+}

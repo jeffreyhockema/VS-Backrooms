@@ -1,0 +1,27 @@
+// Dark walnut floorboards
+{
+	"code": "hotelwood",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelwood"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

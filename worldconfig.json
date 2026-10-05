@@ -1,0 +1,29 @@
+{
+  "playstyles": [
+    {
+      "code": "backrooms",
+      "playListCode": "survival",
+      "langCode": "backrooms",
+      "listOrder": 8,
+      "mods": ["game", "survival", "backrooms"],
+      "worldType": "backrooms",
+      "worldConfig": {
+        "worldClimate": "backrooms",
+        "gameMode": "survival",
+        "temporalStability": "true",
+        "temporalStorms": "off",
+        "temporalRifts": "off",
+        "loreContent": "false",
+        "snowAccum": "false",
+        "harshWinters": "false",
+        "spawnRadius": "0",
+        "graceTimer": "0",
+        "deathPunishment": "drop",
+        "surfaceCopperDeposits": "0",
+        "surfaceTinDeposits": "0",
+        "allowUndergroundFarming": "true"
+      }
+    }
+  ],
+  "worldConfigAttributes": []
+}

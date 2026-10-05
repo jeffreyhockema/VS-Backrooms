@@ -1,0 +1,27 @@
+{
+	code: "archheader",
+	// Half of an arched opening. The model's low, thick end sits on the west side and is rotated to face the pier.
+	variantgroups: [
+		{ code: "pier", states: ["west", "east", "north", "south"] }
+	],
+	creativeinventory: { "general": ["*"], "construction": ["*"] },
+	blockmaterial: "Stone",
+	drawtype: "json",
+	shapeByType: {
+		"*-west": { base: "block/archheader", rotateY: 0 },
+		"*-east": { base: "block/archheader", rotateY: 180 },
+		"*-north": { base: "block/archheader", rotateY: 270 },
+		"*-south": { base: "block/archheader", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 2.5,
+	drops: [{ type: "block", code: "wallpaper-cream-upper" }],
+	sounds: {
+		walk: "game:walk/stone",
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks"
+	}
+}

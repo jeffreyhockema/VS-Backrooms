@@ -1,0 +1,364 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wood": "backrooms:block/level4/laminate",
+  "metal": "backrooms:block/props/metal",
+  "plastic": "backrooms:block/level4/crt",
+  "screen": "backrooms:block/level4/crt-screen",
+  "fabric": "backrooms:block/level4/chairfabric",
+  "dark": "backrooms:block/props/metal-dark",
+  "partition": "backrooms:block/level4/partition",
+  "filing": "backrooms:block/level4/filing",
+  "vending": "backrooms:block/level4/vending",
+  "cooler": "backrooms:block/level4/cooler",
+  "water": "backrooms:block/level4/coolerbottle"
+ },
+ "elements": [
+  {
+   "name": "Seat",
+   "from": [
+    3,
+    6,
+    3
+   ],
+   "to": [
+    13,
+    8,
+    13
+   ],
+   "faces": {
+    "north": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    "east": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    "up": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    },
+    "down": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "name": "Back",
+   "from": [
+    3.5,
+    8,
+    11
+   ],
+   "to": [
+    12.5,
+    17,
+    13
+   ],
+   "faces": {
+    "north": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      9.0,
+      9
+     ]
+    },
+    "east": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      2,
+      9
+     ]
+    },
+    "south": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      9.0,
+      9
+     ]
+    },
+    "west": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      2,
+      9
+     ]
+    },
+    "up": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      9.0,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#fabric",
+     "uv": [
+      0,
+      0,
+      9.0,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Post",
+   "from": [
+    7,
+    2,
+    7
+   ],
+   "to": [
+    9,
+    6,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      4
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      4
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      4
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "BaseX",
+   "from": [
+    2,
+    0.5,
+    7.5
+   ],
+   "to": [
+    14,
+    1.5,
+    8.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "BaseZ",
+   "from": [
+    7.5,
+    0.5,
+    2
+   ],
+   "to": [
+    8.5,
+    1.5,
+    14
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      12
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      12
+     ]
+    }
+   }
+  }
+ ]
+}

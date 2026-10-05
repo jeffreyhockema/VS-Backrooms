@@ -1,0 +1,35 @@
+// A window onto rain and fog that never ends; its grey storm light is the main light on the floor
+{
+	"code": "officewindow",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level4/officewindow"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 0,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass",
+		"ambient": "backrooms:ambient/rain",
+		"ambientBlockCount": 12
+	},
+	"lightHsv": [
+		36,
+		1,
+		7
+	],
+	"drops": []
+}

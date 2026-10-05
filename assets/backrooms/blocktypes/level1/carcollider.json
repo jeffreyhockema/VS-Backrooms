@@ -1,0 +1,12 @@
+{
+	code: "carcollider",
+	// Invisible solid block filling out the footprint of an abandoned car; the car model is drawn by its corner block
+	blockmaterial: "Metal",
+	drawtype: "Empty",
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 20,
+	drops: [],
+	sounds: { walk: "game:walk/stone", hit: "game:block/heavymetal-hit", break: "game:block/heavymetal-hit" }
+}

@@ -1,0 +1,20 @@
+{
+	code: "machinecabinet",
+	// Disconnected machinery that whirs faintly; the variant is the way its front panel faces
+	variantgroups: [{ code: "side", states: ["north", "east", "south", "west"] }],
+	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shapeByType: {
+		"*-north": { base: "block/machinecabinet", rotateY: 0 },
+		"*-east": { base: "block/machinecabinet", rotateY: 270 },
+		"*-south": { base: "block/machinecabinet", rotateY: 180 },
+		"*-west": { base: "block/machinecabinet", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 3,
+	drops: [{ type: "item", code: "game:flaxtwine", quantity: { avg: 0.3, var: 0.3 } }],
+	sounds: { place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit" }
+}

@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>backrooms</AssemblyName>
+    <RootNamespace>Backrooms</RootNamespace>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <OutputPath>bin\$(Configuration)\Mods\backrooms\</OutputPath>
+    <!-- Override with an environment variable if the game lives elsewhere -->
+    <VintageStory Condition="'$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStory>
+    <VintageStory Condition="'$(VintageStory)' == ''">G:\Games\Vintagestory</VintageStory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="tools\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VintageStory)\VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>$(VintageStory)\Mods\VSEssentials.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VintageStory)\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="modinfo.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="worldconfig.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="modicon.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Release builds also produce a distributable zip in bin\ -->
+  <Target Name="PackageMod" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <ZipDirectory SourceDirectory="$(OutputPath)" DestinationFile="bin\backrooms_$(Version).zip" Overwrite="true" />
+  </Target>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+</Project>

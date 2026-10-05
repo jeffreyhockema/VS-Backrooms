@@ -1,0 +1,83 @@
+// Flush dome lights along the corridor ceilings
+{
+	"code": "domelight",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off",
+				"flicker"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-off": {
+			"base": "block/domelight-off"
+		},
+		"*": {
+			"base": "block/domelight-lit"
+		}
+	},
+	"lightHsvByType": {
+		"*-on": [
+			6,
+			4,
+			14
+		]
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:domelight-off"
+		}
+	},
+	"dropsByType": {
+		"*-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

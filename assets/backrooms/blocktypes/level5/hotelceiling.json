@@ -1,0 +1,36 @@
+// Cream corridor ceiling and the painted beams of the grand rooms
+{
+	"code": "hotelceiling",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"cream",
+				"beams"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelceiling-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

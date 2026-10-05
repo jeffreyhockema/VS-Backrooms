@@ -1,0 +1,313 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade"
+ },
+ "elements": [
+  {
+   "name": "Body",
+   "from": [
+    2,
+    0,
+    4
+   ],
+   "to": [
+    14,
+    10,
+    14
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    },
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      12,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampBase",
+   "from": [
+    6.5,
+    10,
+    7.5
+   ],
+   "to": [
+    9.5,
+    11,
+    10.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      3.0,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampStem",
+   "from": [
+    7.5,
+    11,
+    8.5
+   ],
+   "to": [
+    8.5,
+    15,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      4
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      4
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      4
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Shade",
+   "from": [
+    5,
+    14,
+    6.5
+   ],
+   "to": [
+    11,
+    19,
+    12.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6,
+      5
+     ],
+     "glow": 90
+    },
+    "east": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6.0,
+      5
+     ],
+     "glow": 90
+    },
+    "south": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6,
+      5
+     ],
+     "glow": 90
+    },
+    "west": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6.0,
+      5
+     ],
+     "glow": 90
+    },
+    "up": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6,
+      6.0
+     ],
+     "glow": 90
+    },
+    "down": {
+     "texture": "#lampshade",
+     "uv": [
+      0,
+      0,
+      6,
+      6.0
+     ],
+     "glow": 90
+    }
+   }
+  }
+ ]
+}

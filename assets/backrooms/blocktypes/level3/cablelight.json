@@ -1,0 +1,131 @@
+// Dim amber fluorescent fixtures hanging from the cable trays
+{
+	"code": "cablelight",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"warm",
+				"off",
+				"flicker"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-we"
+		],
+		"decorative": [
+			"*-we"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-off-we": {
+			"base": "block/cablelight-off",
+			"rotateY": 0
+		},
+		"*-off-ns": {
+			"base": "block/cablelight-off",
+			"rotateY": 90
+		},
+		"*-we": {
+			"base": "block/cablelight-lit",
+			"rotateY": 0
+		},
+		"*-ns": {
+			"base": "block/cablelight-lit",
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-warm-*": [
+			5,
+			5,
+			13
+		]
+	},
+	"entityClassByType": {
+		"*-flicker-*": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker-we": {
+			"offBlock": "backrooms:cablelight-off-we"
+		},
+		"*-flicker-ns": {
+			"offBlock": "backrooms:cablelight-off-ns"
+		}
+	},
+	"dropsByType": {
+		"*-off-*": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"*-flicker-*": [
+			{
+				"type": "block",
+				"code": "cablelight-off-we"
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0.55,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.55,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

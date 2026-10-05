@@ -1,0 +1,45 @@
+// Elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level
+{
+	"code": "elevatordoor",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level4/elevatordoor-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "elevator"
+			}
+		}
+	]
+}

@@ -1,0 +1,99 @@
+// Fluorescent troffers; about half are dead and their switches are missing
+{
+	"code": "officelight",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"lit",
+				"off",
+				"flicker"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-off": {
+			"all": {
+				"base": "block/level4/officelight-off"
+			}
+		},
+		"*": {
+			"all": {
+				"base": "block/level4/officelight-on"
+			}
+		}
+	},
+	"lightHsvByType": {
+		"*-on": [
+			10,
+			1,
+			17
+		]
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 160
+		},
+		"*-lit": {
+			"glowLevel": 160
+		},
+		"*-flicker": {
+			"glowLevel": 160
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:officelight-off"
+		}
+	},
+	"dropsByType": {
+		"*-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

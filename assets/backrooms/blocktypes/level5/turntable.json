@@ -1,0 +1,49 @@
+// A turntable playing jazz that drifts nearer and farther
+{
+	"code": "turntable",
+	"shape": {
+		"base": "block/turntable"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks",
+		"ambient": "backrooms:ambient/jazz",
+		"ambientBlockCount": 1
+	},
+	"collisionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 0.65,
+		"z2": 0.875
+	},
+	"selectionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 0.65,
+		"z2": 0.875
+	}
+}

@@ -1,0 +1,661 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wall": "backrooms:block/level3/l3wall-brick",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lagging": "backrooms:block/level2/pipe-lagging",
+  "red": "backrooms:block/level2/pipe-red",
+  "metal": "backrooms:block/props/metal",
+  "dark": "backrooms:block/props/metal-dark",
+  "panel": "backrooms:block/level3/panel",
+  "fan": "backrooms:block/level3/fan"
+ },
+ "elements": [
+  {
+   "name": "Cube",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeA0",
+   "from": [
+    0,
+    9,
+    -3
+   ],
+   "to": [
+    16,
+    13,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeB0",
+   "from": [
+    0,
+    3,
+    -2.5
+   ],
+   "to": [
+    16,
+    6.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bracket0",
+   "from": [
+    7,
+    2,
+    -3.5
+   ],
+   "to": [
+    9,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeA1",
+   "from": [
+    16,
+    9,
+    0
+   ],
+   "to": [
+    19,
+    13,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeB1",
+   "from": [
+    16,
+    3,
+    0
+   ],
+   "to": [
+    18.5,
+    6.5,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bracket1",
+   "from": [
+    16,
+    2,
+    7
+   ],
+   "to": [
+    19.5,
+    14,
+    9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeA2",
+   "from": [
+    0,
+    9,
+    16
+   ],
+   "to": [
+    16,
+    13,
+    19
+   ],
+   "faces": {
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeB2",
+   "from": [
+    0,
+    3,
+    16
+   ],
+   "to": [
+    16,
+    6.5,
+    18.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bracket2",
+   "from": [
+    7,
+    2,
+    16
+   ],
+   "to": [
+    9,
+    14,
+    19.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeA3",
+   "from": [
+    -3,
+    9,
+    0
+   ],
+   "to": [
+    0,
+    13,
+    16
+   ],
+   "faces": {
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "up": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      16,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "PipeB3",
+   "from": [
+    -2.5,
+    3,
+    0
+   ],
+   "to": [
+    0,
+    6.5,
+    16
+   ],
+   "faces": {
+    "west": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#lagging",
+     "uv": [
+      0,
+      0,
+      16,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bracket3",
+   "from": [
+    -3.5,
+    2,
+    7
+   ],
+   "to": [
+    0,
+    14,
+    9
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    }
+   }
+  }
+ ]
+}

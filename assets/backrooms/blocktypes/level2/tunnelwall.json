@@ -1,0 +1,31 @@
+{
+	code: "tunnelwall",
+	// Grimy concrete. "pipes", "riser" and "valve" carry real 3D pipework sticking out into the tunnel.
+	variantgroups: [{ code: "type", states: ["plain", "machinery", "brick", "warning", "pipes", "riser", "riserjoint", "valve"] }],
+	creativeinventory: { "general": ["*"], "construction": ["*"] },
+	blockmaterial: "Stone",
+	drawtypeByType: {
+		"*-pipes": "json",
+		"*-riser": "json",
+		"*-riserjoint": "json",
+		"*-valve": "json",
+		"*": "cube"
+	},
+	shapeByType: {
+		"*-pipes": { base: "block/tunnelwall-pipes" },
+		"*-riser": { base: "block/tunnelwall-riser" },
+		"*-riserjoint": { base: "block/tunnelwall-riserjoint" },
+		"*-valve": { base: "block/tunnelwall-valve" }
+	},
+	texturesByType: {
+		"*-pipes": { all: { base: "block/level2/tunnelwall-plain" } },
+		"*-riser": { all: { base: "block/level2/tunnelwall-plain" } },
+		"*-riserjoint": { all: { base: "block/level2/tunnelwall-plain" } },
+		"*-valve": { all: { base: "block/level2/tunnelwall-plain" } },
+		"*": { all: { base: "block/level2/tunnelwall-{type}" } }
+	},
+	resistance: 8,
+	requiredMiningTier: 3,
+	lightAbsorption: 99,
+	sounds: { walk: "game:walk/stone", place: "game:block/loosestone", break: "game:block/rock-break-pickaxe", hit: "game:block/rock-hit-pickaxe" }
+}

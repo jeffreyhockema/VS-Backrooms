@@ -1,0 +1,73 @@
+// Velvet sofa
+{
+	"code": "sofa",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/sofa",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/sofa",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/sofa",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/sofa",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 1,
+		"y2": 0.55,
+		"z2": 0.95
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 1,
+		"y2": 0.55,
+		"z2": 0.95
+	}
+}

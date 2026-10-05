@@ -1,0 +1,18 @@
+{
+ "ingredientPattern": "AAA",
+ "ingredients": {
+  "A": {
+   "type": "item",
+   "code": "carpetfibre",
+   "quantity": 1
+  }
+ },
+ "width": 3,
+ "height": 1,
+ "shapeless": true,
+ "output": {
+  "type": "item",
+  "code": "game:flaxtwine",
+  "quantity": 1
+ }
+}

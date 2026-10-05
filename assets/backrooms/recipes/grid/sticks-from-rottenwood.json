@@ -1,0 +1,18 @@
+{
+ "ingredientPattern": "A",
+ "ingredients": {
+  "A": {
+   "type": "item",
+   "code": "rottenwood",
+   "quantity": 1
+  }
+ },
+ "width": 1,
+ "height": 1,
+ "shapeless": true,
+ "output": {
+  "type": "item",
+  "code": "game:stick",
+  "quantity": 2
+ }
+}

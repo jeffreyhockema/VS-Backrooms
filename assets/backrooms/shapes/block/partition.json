@@ -1,0 +1,157 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wood": "backrooms:block/level4/laminate",
+  "metal": "backrooms:block/props/metal",
+  "plastic": "backrooms:block/level4/crt",
+  "screen": "backrooms:block/level4/crt-screen",
+  "fabric": "backrooms:block/level4/chairfabric",
+  "dark": "backrooms:block/props/metal-dark",
+  "partition": "backrooms:block/level4/partition",
+  "filing": "backrooms:block/level4/filing",
+  "vending": "backrooms:block/level4/vending",
+  "cooler": "backrooms:block/level4/cooler",
+  "water": "backrooms:block/level4/coolerbottle"
+ },
+ "elements": [
+  {
+   "name": "Panel",
+   "from": [
+    0,
+    0,
+    6.5
+   ],
+   "to": [
+    16,
+    24,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      16,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#partition",
+     "uv": [
+      0,
+      0,
+      16,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap",
+   "from": [
+    0,
+    24,
+    6
+   ],
+   "to": [
+    16,
+    24.5,
+    10
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    }
+   }
+  }
+ ]
+}

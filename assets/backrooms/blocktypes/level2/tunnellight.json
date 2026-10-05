@@ -1,0 +1,49 @@
+{
+	code: "tunnellight",
+	// Buzzing fluorescent fixtures under the tunnel ceiling, white or orange, wired in series.
+	// "we"/"ns" fixtures sit alongside a pipe bundle running that way, "hub" hangs from a junction box, "none" has no pipes.
+	variantgroups: [
+		{ code: "state", states: ["white", "warm", "off", "flicker"] },
+		{ code: "axis", states: ["we", "ns", "hub", "none"] }
+	],
+	creativeinventory: { "general": ["*-none"], "decorative": ["*-none"] },
+	blockmaterial: "Glass",
+	drawtype: "json",
+	shapeByType: {
+		"*-warm-we": { base: "block/tunnellight-bundle-warm", rotateY: 0 },
+		"*-warm-ns": { base: "block/tunnellight-bundle-warm", rotateY: 90 },
+		"*-warm-hub": { base: "block/tunnellight-hub-warm" },
+		"*-warm-none": { base: "block/tunnellight-plain-warm" },
+		"*-off-we": { base: "block/tunnellight-bundle-off", rotateY: 0 },
+		"*-off-ns": { base: "block/tunnellight-bundle-off", rotateY: 90 },
+		"*-off-hub": { base: "block/tunnellight-hub-off" },
+		"*-off-none": { base: "block/tunnellight-plain-off" },
+		"*-we": { base: "block/tunnellight-bundle-lit", rotateY: 0 },
+		"*-ns": { base: "block/tunnellight-bundle-lit", rotateY: 90 },
+		"*-hub": { base: "block/tunnellight-hub-lit" },
+		"*-none": { base: "block/tunnellight-plain-lit" }
+	},
+	lightHsvByType: {
+		"*-white-*": [10, 1, 15],
+		"*-warm-*": [6, 5, 14]
+	},
+	entityClassByType: { "*-flicker-*": "BackroomsFlicker" },
+	attributesByType: {
+		"*-flicker-we": { offBlock: "backrooms:tunnellight-off-we" },
+		"*-flicker-ns": { offBlock: "backrooms:tunnellight-off-ns" },
+		"*-flicker-hub": { offBlock: "backrooms:tunnellight-off-hub" },
+		"*-flicker-none": { offBlock: "backrooms:tunnellight-off-none" }
+	},
+	dropsByType: {
+		"*-off-*": [{ type: "item", code: "glassshard", quantity: { avg: 1.5, var: 0.5 } }, { type: "item", code: "metalbracket", quantity: { avg: 0.25, var: 0 } }, { type: "item", code: "scrapwire", quantity: { avg: 0.3, var: 0 } }],
+		"*-flicker-*": [{ type: "block", code: "tunnellight-off-none" }]
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0, y1: 0.55, z1: 0, x2: 1, y2: 1, z2: 1 },
+	selectionbox: { x1: 0, y1: 0.55, z1: 0, x2: 1, y2: 1, z2: 1 },
+	// Must be 0: a light source subtracts its own absorption before spreading
+	lightAbsorption: 0,
+	resistance: 0.8,
+	sounds: { place: "game:block/glass", break: "game:block/glass", hit: "game:block/glass" }
+}

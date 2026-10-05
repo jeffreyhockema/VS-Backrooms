@@ -1,0 +1,78 @@
+// Nightstand with a lamp
+{
+	"code": "nightstand",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/nightstand",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/nightstand",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/nightstand",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/nightstand",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.875,
+		"y2": 0.65,
+		"z2": 0.875
+	},
+	"selectionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.875,
+		"y2": 0.65,
+		"z2": 0.875
+	},
+	"lightHsv": [
+		6,
+		5,
+		9
+	]
+}

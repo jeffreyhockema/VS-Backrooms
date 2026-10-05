@@ -1,0 +1,19 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": { "tex": "backrooms:item/cannedbeans" },
+	"elements": [
+		{
+			"name": "Can",
+			"from": [5, 0, 5], "to": [11, 7, 11],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 0, 16, 12] },
+				"east": { "texture": "#tex", "uv": [0, 0, 16, 12] },
+				"south": { "texture": "#tex", "uv": [0, 0, 16, 12] },
+				"west": { "texture": "#tex", "uv": [0, 0, 16, 12] },
+				"up": { "texture": "#tex", "uv": [0, 12, 16, 16] },
+				"down": { "texture": "#tex", "uv": [0, 12, 16, 16] }
+			}
+		}
+	]
+}

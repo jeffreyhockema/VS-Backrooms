@@ -1,0 +1,67 @@
+{
+	code: "fluorescentlight",
+	variantgroups: [
+		{ code: "state", states: ["on", "lit", "flicker", "off", "dim"] }
+	],
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Glass",
+	drawtype: "cube",
+	texturesByType: {
+		// "lit" looks identical to "on" but emits no block light; only every few panels emit, to keep lighting fast
+		"*-lit": { all: { base: "block/fluorescentlight-on" } },
+		"*-flicker": { all: { base: "block/fluorescentlight-on" } },
+		"*": { all: { base: "block/fluorescentlight-{state}" } }
+	},
+	lightHsvByType: {
+		"*-on": [10, 2, 21],
+		// The Manila Room's single dim, orange-tinted lamp
+		"*-dim": [5, 6, 9]
+	},
+	vertexFlagsByType: {
+		"*-on": { glowLevel: 160 },
+		"*-lit": { glowLevel: 160 },
+		"*-flicker": { glowLevel: 160 },
+		"*-dim": { glowLevel: 80 }
+	},
+	// A failing panel: animated on the client by its block entity, swapping to the dead panel's look
+	entityClassByType: {
+		"*-flicker": "BackroomsFlicker"
+	},
+	attributesByType: {
+		"*-flicker": { offBlock: "backrooms:fluorescentlight-off" }
+	},
+	// Only dead fixtures can be pulled down, for their glass
+	dropsByType: {
+		"*-off": [{ type: "item", code: "glassshard", quantity: { avg: 1.5, var: 0.5 } }, { type: "item", code: "metalbracket", quantity: { avg: 0.25, var: 0 } }, { type: "item", code: "scrapwire", quantity: { avg: 0.3, var: 0 } }],
+		"*-flicker": [{ type: "block", code: "fluorescentlight-off" }],
+		"*-lit": [{ type: "block", code: "fluorescentlight-on" }]
+	},
+	resistance: 0.8,
+	// Must be 0: a light source subtracts its own absorption before spreading
+	lightAbsorption: 0,
+	soundsByType: {
+		"*-on": {
+			walk: "game:walk/stone",
+			place: "game:block/glass",
+			break: "game:block/glass",
+			hit: "game:block/glass",
+			// The endless hum-buzz. Volume scales with how many working lights are nearby, so dead zones go quiet.
+			ambient: "backrooms:ambient/hum",
+			ambientBlockCount: 140
+		},
+		"*-lit": {
+			walk: "game:walk/stone",
+			place: "game:block/glass",
+			break: "game:block/glass",
+			hit: "game:block/glass",
+			ambient: "backrooms:ambient/hum",
+			ambientBlockCount: 140
+		},
+		"*": {
+			walk: "game:walk/stone",
+			place: "game:block/glass",
+			break: "game:block/glass",
+			hit: "game:block/glass"
+		}
+	}
+}

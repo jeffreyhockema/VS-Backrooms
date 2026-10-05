@@ -1,0 +1,14 @@
+{
+	code: "pillarlight",
+	// A pillar with fluorescent tubes mounted on its faces
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Stone",
+	drawtype: "json",
+	shape: { base: "block/pillarlight" },
+	lightHsv: [32, 1, 14],
+	// Must be 0: a light source subtracts its own absorption before spreading
+	lightAbsorption: 0,
+	resistance: 8,
+	requiredMiningTier: 3,
+	sounds: { walk: "game:walk/stone", place: "game:block/glass", break: "game:block/glass", hit: "game:block/glass" }
+}

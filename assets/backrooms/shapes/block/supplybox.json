@@ -1,0 +1,23 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"side": "backrooms:block/supplybox-side",
+		"top": "backrooms:block/supplybox-top"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [2, 0, 2],
+			"to": [14, 10, 14],
+			"faces": {
+				"north": { "texture": "#side", "uv": [2, 0, 14, 10] },
+				"east": { "texture": "#side", "uv": [2, 0, 14, 10] },
+				"south": { "texture": "#side", "uv": [2, 0, 14, 10] },
+				"west": { "texture": "#side", "uv": [2, 0, 14, 10] },
+				"up": { "texture": "#top", "uv": [2, 2, 14, 14] },
+				"down": { "texture": "#side", "uv": [2, 2, 14, 14] }
+			}
+		}
+	]
+}

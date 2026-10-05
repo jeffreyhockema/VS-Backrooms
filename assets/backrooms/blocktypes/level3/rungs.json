@@ -1,0 +1,41 @@
+// Ladder rungs down the manhole shaft
+{
+	"code": "rungs",
+	"shape": {
+		"base": "block/rungs"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"climbable": true,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.1875,
+		"y1": 0,
+		"z1": 0,
+		"x2": 0.8125,
+		"y2": 1,
+		"z2": 0.125
+	}
+}

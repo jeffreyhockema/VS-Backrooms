@@ -1,0 +1,53 @@
+// 2x4 drop-ceiling tiles; the void above sometimes hides wire, brackets and rotten battens
+{
+	"code": "officeceiling",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level4/officeceiling"
+		}
+	},
+	"resistance": 1,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.12,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "rottenwood",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0
+			}
+		}
+	]
+}

@@ -1,0 +1,1981 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wall": "backrooms:block/level2/tunnelwall-plain",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lagging": "backrooms:block/level2/pipe-lagging",
+  "red": "backrooms:block/level2/pipe-red",
+  "metal": "backrooms:block/props/metal",
+  "dark": "backrooms:block/props/metal-dark",
+  "valve": "backrooms:block/props/valve",
+  "panel": "backrooms:block/props/cabinet-front"
+ },
+ "elements": [
+  {
+   "name": "Cube",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Stem0",
+   "from": [
+    7.5,
+    7.5,
+    -3
+   ],
+   "to": [
+    8.5,
+    8.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimTop0",
+   "from": [
+    5,
+    10.5,
+    -4
+   ],
+   "to": [
+    11,
+    11.5,
+    -3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimBottom0",
+   "from": [
+    5,
+    4.5,
+    -4
+   ],
+   "to": [
+    11,
+    5.5,
+    -3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimLeft0",
+   "from": [
+    4.5,
+    5,
+    -4
+   ],
+   "to": [
+    5.5,
+    11,
+    -3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimRight0",
+   "from": [
+    10.5,
+    5,
+    -4
+   ],
+   "to": [
+    11.5,
+    11,
+    -3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "Spoke0",
+   "from": [
+    7.5,
+    5,
+    -3.8
+   ],
+   "to": [
+    8.5,
+    11,
+    -3.2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpokeH0",
+   "from": [
+    5,
+    7.5,
+    -3.8
+   ],
+   "to": [
+    11,
+    8.5,
+    -3.2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "Stem1",
+   "from": [
+    16,
+    7.5,
+    7.5
+   ],
+   "to": [
+    19,
+    8.5,
+    8.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimTop1",
+   "from": [
+    19,
+    10.5,
+    5
+   ],
+   "to": [
+    20,
+    11.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimBottom1",
+   "from": [
+    19,
+    4.5,
+    5
+   ],
+   "to": [
+    20,
+    5.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimLeft1",
+   "from": [
+    19,
+    5,
+    4.5
+   ],
+   "to": [
+    20,
+    11,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimRight1",
+   "from": [
+    19,
+    5,
+    10.5
+   ],
+   "to": [
+    20,
+    11,
+    11.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "Spoke1",
+   "from": [
+    19.2,
+    5,
+    7.5
+   ],
+   "to": [
+    19.8,
+    11,
+    8.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpokeH1",
+   "from": [
+    19.2,
+    7.5,
+    5
+   ],
+   "to": [
+    19.8,
+    8.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "Stem2",
+   "from": [
+    7.5,
+    7.5,
+    16
+   ],
+   "to": [
+    8.5,
+    8.5,
+    19
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimTop2",
+   "from": [
+    5,
+    10.5,
+    19
+   ],
+   "to": [
+    11,
+    11.5,
+    20
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimBottom2",
+   "from": [
+    5,
+    4.5,
+    19
+   ],
+   "to": [
+    11,
+    5.5,
+    20
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimLeft2",
+   "from": [
+    10.5,
+    5,
+    19
+   ],
+   "to": [
+    11.5,
+    11,
+    20
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimRight2",
+   "from": [
+    4.5,
+    5,
+    19
+   ],
+   "to": [
+    5.5,
+    11,
+    20
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "Spoke2",
+   "from": [
+    7.5,
+    5,
+    19.2
+   ],
+   "to": [
+    8.5,
+    11,
+    19.8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpokeH2",
+   "from": [
+    5,
+    7.5,
+    19.2
+   ],
+   "to": [
+    11,
+    8.5,
+    19.8
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "Stem3",
+   "from": [
+    -3,
+    7.5,
+    7.5
+   ],
+   "to": [
+    0,
+    8.5,
+    8.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimTop3",
+   "from": [
+    -4,
+    10.5,
+    5
+   ],
+   "to": [
+    -3,
+    11.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimBottom3",
+   "from": [
+    -4,
+    4.5,
+    5
+   ],
+   "to": [
+    -3,
+    5.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimLeft3",
+   "from": [
+    -4,
+    5,
+    10.5
+   ],
+   "to": [
+    -3,
+    11,
+    11.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "RimRight3",
+   "from": [
+    -4,
+    5,
+    4.5
+   ],
+   "to": [
+    -3,
+    11,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "Spoke3",
+   "from": [
+    -3.8000000000000007,
+    5,
+    7.5
+   ],
+   "to": [
+    -3.1999999999999993,
+    11,
+    8.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      6
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5999999999999996
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpokeH3",
+   "from": [
+    -3.8000000000000007,
+    7.5,
+    5
+   ],
+   "to": [
+    -3.1999999999999993,
+    8.5,
+    11
+   ],
+   "faces": {
+    "east": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      0.5999999999999996,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#valve",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5999999999999996
+     ]
+    }
+   }
+  }
+ ]
+}

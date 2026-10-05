@@ -1,0 +1,147 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "concrete": "backrooms:block/level1/concretefloor-plain"
+ },
+ "elements": [
+  {
+   "name": "Lower",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    8,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "east": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "south": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "west": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "up": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Upper",
+   "from": [
+    0,
+    8,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    8
+   ],
+   "faces": {
+    "north": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "east": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "south": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "west": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "up": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "down": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    }
+   }
+  }
+ ]
+}

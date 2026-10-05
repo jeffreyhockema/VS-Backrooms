@@ -1,0 +1,36 @@
+// Low-pile office carpet; 'ghost' has the darker mark of furniture that once stood there
+{
+	"code": "officecarpet",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"plain",
+				"ghost"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level4/officecarpet-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

@@ -1,0 +1,445 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade"
+ },
+ "elements": [
+  {
+   "name": "Pot",
+   "from": [
+    4,
+    0,
+    4
+   ],
+   "to": [
+    12,
+    8,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "east": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "south": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "west": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "up": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    },
+    "down": {
+     "texture": "#pot",
+     "uv": [
+      0,
+      0,
+      8,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "name": "Trunk",
+   "from": [
+    7,
+    8,
+    7
+   ],
+   "to": [
+    9,
+    20,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Frond0",
+   "from": [
+    8,
+    18,
+    6
+   ],
+   "to": [
+    17,
+    19,
+    10
+   ],
+   "faces": {
+    "north": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      4
+     ]
+    }
+   }
+  },
+  {
+   "name": "Frond1",
+   "from": [
+    -1,
+    18,
+    6
+   ],
+   "to": [
+    8,
+    19,
+    10
+   ],
+   "faces": {
+    "north": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      4
+     ]
+    }
+   }
+  },
+  {
+   "name": "Frond2",
+   "from": [
+    6,
+    18,
+    8
+   ],
+   "to": [
+    10,
+    19,
+    17
+   ],
+   "faces": {
+    "north": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      9
+     ]
+    },
+    "down": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      9
+     ]
+    }
+   }
+  },
+  {
+   "name": "Frond3",
+   "from": [
+    6,
+    18,
+    -1
+   ],
+   "to": [
+    10,
+    19,
+    8
+   ],
+   "faces": {
+    "north": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      9,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      9
+     ]
+    },
+    "down": {
+     "texture": "#leaf",
+     "uv": [
+      0,
+      0,
+      4,
+      9
+     ]
+    }
+   }
+  }
+ ]
+}

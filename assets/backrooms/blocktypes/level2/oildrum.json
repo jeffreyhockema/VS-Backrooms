@@ -1,0 +1,16 @@
+{
+	code: "oildrum",
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shape: { base: "block/oildrum" },
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0.125, y1: 0, z1: 0.125, x2: 0.875, y2: 0.9375, z2: 0.875 },
+	selectionbox: { x1: 0.125, y1: 0, z1: 0.125, x2: 0.875, y2: 0.9375, z2: 0.875 },
+	lightAbsorption: 0,
+	resistance: 2,
+	// Some drums still hold drinkable Almond Water
+	drops: [{ type: "item", code: "almondwater", quantity: { avg: 0.35, var: 0.35 } }],
+	sounds: { walk: "game:walk/stone", place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit" }
+}

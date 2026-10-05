@@ -1,0 +1,28 @@
+{
+ "ingredientPattern": "ABC",
+ "ingredients": {
+  "A": {
+   "type": "item",
+   "code": "glassshard",
+   "quantity": 1
+  },
+  "B": {
+   "type": "item",
+   "code": "wallpaperstrip",
+   "quantity": 1
+  },
+  "C": {
+   "type": "item",
+   "code": "carpetfibre",
+   "quantity": 1
+  }
+ },
+ "width": 3,
+ "height": 1,
+ "shapeless": true,
+ "output": {
+  "type": "item",
+  "code": "glassshiv",
+  "quantity": 1
+ }
+}

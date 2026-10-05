@@ -1,0 +1,52 @@
+// Great chandelier in the grand rooms
+{
+	"code": "chandelier",
+	"shape": {
+		"base": "block/chandelier"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	},
+	"lightHsv": [
+		6,
+		4,
+		18
+	]
+}

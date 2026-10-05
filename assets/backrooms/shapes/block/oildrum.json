@@ -1,0 +1,32 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"side": "backrooms:block/level2/oildrum-side",
+		"top": "backrooms:block/level2/oildrum-top"
+	},
+	"elements": [
+		{
+			"name": "Drum",
+			"from": [2, 0, 2], "to": [14, 15, 14],
+			"faces": {
+				"north": { "texture": "#side", "uv": [2, 1, 14, 16] },
+				"east": { "texture": "#side", "uv": [2, 1, 14, 16] },
+				"south": { "texture": "#side", "uv": [2, 1, 14, 16] },
+				"west": { "texture": "#side", "uv": [2, 1, 14, 16] },
+				"up": { "texture": "#top", "uv": [2, 2, 14, 14] },
+				"down": { "texture": "#top", "uv": [2, 2, 14, 14] }
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [1.5, 14, 1.5], "to": [14.5, 15, 14.5],
+			"faces": {
+				"north": { "texture": "#side", "uv": [0, 7, 13, 8] },
+				"east": { "texture": "#side", "uv": [0, 7, 13, 8] },
+				"south": { "texture": "#side", "uv": [0, 7, 13, 8] },
+				"west": { "texture": "#side", "uv": [0, 7, 13, 8] }
+			}
+		}
+	]
+}

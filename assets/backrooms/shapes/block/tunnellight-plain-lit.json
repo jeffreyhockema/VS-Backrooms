@@ -1,0 +1,149 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lagging": "backrooms:block/level2/pipe-lagging",
+  "red": "backrooms:block/level2/pipe-red",
+  "metal": "backrooms:block/props/metal",
+  "dark": "backrooms:block/props/metal-dark",
+  "tube": "backrooms:block/props/tube-white",
+  "tubeoff": "backrooms:block/props/tube-off"
+ },
+ "elements": [
+  {
+   "name": "Housing",
+   "from": [
+    1,
+    14,
+    6.5
+   ],
+   "to": [
+    15,
+    16,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      14,
+      2
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      14,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      14,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      14,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Tube",
+   "from": [
+    1,
+    13.3,
+    7
+   ],
+   "to": [
+    15,
+    14,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#tube",
+     "uv": [
+      0,
+      0,
+      14,
+      0.6999999999999993
+     ],
+     "glow": 255
+    },
+    "south": {
+     "texture": "#tube",
+     "uv": [
+      0,
+      0,
+      14,
+      0.6999999999999993
+     ],
+     "glow": 255
+    },
+    "down": {
+     "texture": "#tube",
+     "uv": [
+      0,
+      0,
+      14,
+      2
+     ],
+     "glow": 255
+    },
+    "east": {
+     "texture": "#tube",
+     "uv": [
+      0,
+      0,
+      2,
+      0.6999999999999993
+     ],
+     "glow": 255
+    },
+    "west": {
+     "texture": "#tube",
+     "uv": [
+      0,
+      0,
+      2,
+      0.6999999999999993
+     ],
+     "glow": 255
+    }
+   }
+  }
+ ]
+}

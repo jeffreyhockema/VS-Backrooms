@@ -1,0 +1,37 @@
+// Red and gold damask, near-black ballroom maroon, and tan lobby carpet
+{
+	"code": "hotelcarpet",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"damask",
+				"maroon",
+				"lobby"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelcarpet-{type}"
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

@@ -1,0 +1,58 @@
+{
+	code: "pipes",
+	// Overhead pipe bundles in the top block of a tunnel: straight runs, junction boxes, and hissing leaks
+	variantgroups: [{ code: "type", states: ["run-we", "run-ns", "hub", "leak-we", "leak-ns"] }],
+	creativeinventory: { "general": ["*-run-we", "*-hub", "*-leak-we"], "decorative": ["*-run-we", "*-hub", "*-leak-we"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shapeByType: {
+		"*-hub": { base: "block/pipes-hub" },
+		"*-we": { base: "block/pipes-run", rotateY: 0 },
+		"*-ns": { base: "block/pipes-run", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0, y1: 0.55, z1: 0, x2: 1, y2: 1, z2: 1 },
+	selectionbox: { x1: 0, y1: 0.55, z1: 0, x2: 1, y2: 1, z2: 1 },
+	collisionboxByType: { "*-hub": { x1: 0, y1: 0.5, z1: 0, x2: 1, y2: 1, z2: 1 } },
+	selectionboxByType: { "*-hub": { x1: 0, y1: 0.5, z1: 0, x2: 1, y2: 1, z2: 1 } },
+	lightAbsorption: 0,
+	resistance: 3,
+	soundsByType: {
+		"*-leak-*": {
+			place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit",
+			ambient: "backrooms:ambient/steam",
+			ambientBlockCount: 2
+		},
+		"*": { place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit" }
+	},
+	// Steam jets from a cracked joint in the rusty pipe. Particle positions are relative to the top centre of the block.
+	particlePropertiesByType: {
+		"*-leak-we": [{
+			hsvaColor: [{ avg: 0, var: 0 }, { avg: 0, var: 0 }, { avg: 220, var: 20 }, { avg: 160, var: 40 }],
+			opacityEvolve: { transform: "quadratic", factor: -16 },
+			gravityEffect: { avg: -0.02, var: 0 },
+			posOffset: [{ avg: 0, var: 0.1 }, { avg: -0.25, var: 0 }, { avg: 0.22, var: 0.05 }],
+			velocity: [{ avg: 0, var: 0.3 }, { avg: -0.4, var: 0.15 }, { avg: 0, var: 0.3 }],
+			quantity: { avg: 1.5 },
+			size: { avg: 0.4, var: 0.15 },
+			sizeEvolve: { transform: "linear", factor: 1.5 },
+			particleModel: "Quad",
+			lifeLength: { avg: 1.6, var: 0.4 },
+			selfPropelled: true
+		}],
+		"*-leak-ns": [{
+			hsvaColor: [{ avg: 0, var: 0 }, { avg: 0, var: 0 }, { avg: 220, var: 20 }, { avg: 160, var: 40 }],
+			opacityEvolve: { transform: "quadratic", factor: -16 },
+			gravityEffect: { avg: -0.02, var: 0 },
+			posOffset: [{ avg: -0.22, var: 0.05 }, { avg: -0.25, var: 0 }, { avg: 0, var: 0.1 }],
+			velocity: [{ avg: 0, var: 0.3 }, { avg: -0.4, var: 0.15 }, { avg: 0, var: 0.3 }],
+			quantity: { avg: 1.5 },
+			size: { avg: 0.4, var: 0.15 },
+			sizeEvolve: { transform: "linear", factor: 1.5 },
+			particleModel: "Quad",
+			lifeLength: { avg: 1.6, var: 0.4 },
+			selfPropelled: true
+		}]
+	}
+}

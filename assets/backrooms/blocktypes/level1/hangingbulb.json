@@ -1,0 +1,21 @@
+{
+	code: "hangingbulb",
+	// A bare bulb on a cord, lighting a small side room
+	variantgroups: [{ code: "state", states: ["on", "off"] }],
+	creativeinventory: { "general": ["*"], "decorative": ["*"] },
+	blockmaterial: "Glass",
+	drawtype: "json",
+	shapeByType: {
+		"*-on": { base: "block/hangingbulb-lit" },
+		"*-off": { base: "block/hangingbulb-off" }
+	},
+	lightHsvByType: { "*-on": [6, 5, 13] },
+	dropsByType: { "*-off": [{ type: "item", code: "glassshard", quantity: { avg: 1, var: 0 } }, { type: "item", code: "scrapwire", quantity: { avg: 0.5, var: 0 } }] },
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0.375, y1: 0.2, z1: 0.375, x2: 0.625, y2: 1, z2: 0.625 },
+	selectionbox: { x1: 0.375, y1: 0.2, z1: 0.375, x2: 0.625, y2: 1, z2: 0.625 },
+	lightAbsorption: 0,
+	resistance: 0.5,
+	sounds: { place: "game:block/glass", break: "game:block/glass", hit: "game:block/glass" }
+}
