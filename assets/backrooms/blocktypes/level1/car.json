@@ -2,16 +2,20 @@
 	code: "car",
 	// An abandoned car, 2 blocks wide and 4 long. This corner block draws the whole model;
 	// the rest of the footprint is carcollider blocks. "north" cars face north, "south" cars are turned around.
+	// East- and west-facing cars (parked along Level 11's streets) are drawn from the corner the turned model needs:
+	// an east-facing car from its east end on its north side, a west-facing one from its west end on its south side.
 	variantgroups: [
 		{ code: "colour", states: ["red", "blue", "white", "black"] },
-		{ code: "side", states: ["north", "south"] }
+		{ code: "side", states: ["north", "south", "east", "west"] }
 	],
 	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },
 	blockmaterial: "Metal",
 	drawtype: "json",
 	shapeByType: {
 		"*-north": { base: "block/car-{colour}", rotateY: 0 },
-		"*-south": { base: "block/car-{colour}", rotateY: 180 }
+		"*-south": { base: "block/car-{colour}", rotateY: 180 },
+		"*-east": { base: "block/car-{colour}", rotateY: 270 },
+		"*-west": { base: "block/car-{colour}", rotateY: 90 }
 	},
 	sidesolid: { all: false },
 	sideopaque: { all: false },

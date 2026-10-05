@@ -1,0 +1,445 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"copper": "backrooms:block/detail/copper",
+		"gearflat": "backrooms:block/detail/gearflat",
+		"rust": "backrooms:block/level2/pipe-rust",
+		"steel": "backrooms:block/detail/steel",
+		"steeldark": "backrooms:block/detail/steeldark"
+	},
+	"elements": [
+		{
+			"name": "Gear",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				9,
+				1.2,
+				10
+			],
+			"faces": {
+				"up": {
+					"texture": "#gearflat",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "GearEdge",
+			"from": [
+				2.5,
+				0,
+				3.5
+			],
+			"to": [
+				7.5,
+				1.1,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe",
+			"from": [
+				9,
+				0,
+				3
+			],
+			"to": [
+				11.5,
+				2.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2.5,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				10,
+				1,
+				8
+			],
+			"rotationY": 25
+		},
+		{
+			"name": "Plate",
+			"from": [
+				3,
+				0,
+				10.5
+			],
+			"to": [
+				10,
+				0.6,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						7,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						7,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						7,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						7,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.5,
+				0,
+				12.5
+			],
+			"rotationY": -12
+		},
+		{
+			"name": "Coil",
+			"from": [
+				12,
+				0,
+				10
+			],
+			"to": [
+				15,
+				2,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt1",
+			"from": [
+				12.5,
+				0,
+				4
+			],
+			"to": [
+				13.5,
+				1,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt2",
+			"from": [
+				5,
+				0,
+				0.8
+			],
+			"to": [
+				6,
+				1,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

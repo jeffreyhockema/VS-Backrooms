@@ -1,0 +1,85 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"toolwall": "backrooms:block/detail/toolwall"
+	},
+	"elements": [
+		{
+			"name": "Tools",
+			"from": [
+				1,
+				0,
+				9
+			],
+			"to": [
+				15,
+				28,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolwall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				0.5,
+				0,
+				8.5
+			],
+			"to": [
+				15.5,
+				28,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						7.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						7.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				}
+			}
+		}
+	]
+}

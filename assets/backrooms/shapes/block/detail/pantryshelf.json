@@ -1,0 +1,85 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pantry": "backrooms:block/detail/pantry",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Stock",
+			"from": [
+				1,
+				0,
+				8
+			],
+			"to": [
+				15,
+				28,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#pantry",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				0.5,
+				0,
+				7.5
+			],
+			"to": [
+				15.5,
+				28,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				}
+			}
+		}
+	]
+}

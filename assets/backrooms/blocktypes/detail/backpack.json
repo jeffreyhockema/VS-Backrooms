@@ -1,0 +1,197 @@
+// Lost Backpack
+{
+	"code": "backpack",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/backpack",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/backpack",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/backpack",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/backpack",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75
+		},
+		"*-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75
+		},
+		"*-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.62,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "almondwater",
+			"quantity": {
+				"avg": 1,
+				"var": 0.8
+			}
+		},
+		{
+			"type": "item",
+			"code": "crackers",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:candle",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:rope",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:knife-generic-copper",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:bandage-clean",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "chalk",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:fishingbait-dough",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.3
+			}
+		}
+	]
+}

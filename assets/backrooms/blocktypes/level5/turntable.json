@@ -45,5 +45,23 @@
 		"x2": 0.875,
 		"y2": 0.65,
 		"z2": 0.875
-	}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
 }

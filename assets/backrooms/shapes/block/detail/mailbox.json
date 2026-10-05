@@ -1,0 +1,218 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mailbox": "backrooms:block/detail/mailbox",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				7.5,
+				0,
+				7.5
+			],
+			"to": [
+				8.5,
+				12,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Box",
+			"from": [
+				5,
+				12,
+				4
+			],
+			"to": [
+				11,
+				17,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"east": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						9,
+						5
+					]
+				},
+				"south": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"west": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						9,
+						5
+					]
+				},
+				"up": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				},
+				"down": {
+					"texture": "#mailbox",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Flag",
+			"from": [
+				11,
+				14,
+				9
+			],
+			"to": [
+				11.5,
+				19,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					]
+				},
+				"south": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				}
+			}
+		}
+	]
+}

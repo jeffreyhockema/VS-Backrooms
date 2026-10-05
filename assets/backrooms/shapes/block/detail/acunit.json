@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"acgrey": "backrooms:block/detail/acgrey",
+		"acgrille": "backrooms:block/detail/acgrille",
+		"steel": "backrooms:block/detail/steel"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				13,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#acgrey",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"east": {
+					"texture": "#acgrey",
+					"uv": [
+						0,
+						0,
+						12,
+						13
+					]
+				},
+				"west": {
+					"texture": "#acgrey",
+					"uv": [
+						0,
+						0,
+						12,
+						13
+					]
+				},
+				"south": {
+					"texture": "#acgrey",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"down": {
+					"texture": "#acgrey",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				13,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#acgrille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Duct",
+			"from": [
+				6,
+				3,
+				14
+			],
+			"to": [
+				10,
+				7,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		}
+	]
+}

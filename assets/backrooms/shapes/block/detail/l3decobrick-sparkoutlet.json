@@ -1,0 +1,295 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brick": "backrooms:block/level3/l3wall-brick",
+		"cable": "backrooms:block/level3/cable",
+		"copper": "backrooms:block/detail/copper",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"outletburnt": "backrooms:block/detail/outletburnt"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Outlet",
+			"from": [
+				5.5,
+				4,
+				-0.5
+			],
+			"to": [
+				10.5,
+				10,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#outletburnt",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "OutletSides",
+			"from": [
+				5.5,
+				4,
+				-0.5
+			],
+			"to": [
+				10.5,
+				10,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wire",
+			"from": [
+				8,
+				0,
+				-1
+			],
+			"to": [
+				8.6,
+				4,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						4
+					]
+				},
+				"east": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						4
+					]
+				},
+				"west": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Tip",
+			"from": [
+				7.9,
+				-0.3,
+				-1.1
+			],
+			"to": [
+				8.7,
+				0.3,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

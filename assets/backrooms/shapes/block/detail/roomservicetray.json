@@ -1,0 +1,287 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"china": "backrooms:block/detail/china",
+		"lanternglass": "backrooms:block/detail/lanternglass",
+		"silver": "backrooms:block/detail/silver"
+	},
+	"elements": [
+		{
+			"name": "Tray",
+			"from": [
+				3,
+				0,
+				4
+			],
+			"to": [
+				13,
+				0.6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				5,
+				0.6,
+				5.5
+			],
+			"to": [
+				10,
+				1,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						5,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Cloche",
+			"from": [
+				5.5,
+				1,
+				6
+			],
+			"to": [
+				9.5,
+				4,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				11,
+				0.6,
+				5
+			],
+			"to": [
+				12,
+				3,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#lanternglass",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		}
+	]
+}

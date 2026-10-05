@@ -1,0 +1,103 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"graffiti": "backrooms:block/detail/graffiti",
+		"whiteblock": "backrooms:block/detail/whiteblock"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Paint",
+			"from": [
+				0,
+				1,
+				-0.1
+			],
+			"to": [
+				16,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#graffiti",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

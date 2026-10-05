@@ -1,0 +1,268 @@
+// Modern elevator doors, two blocks wide. Use them: each elevator leads to one fixed place
+{
+	"code": "liftdoor",
+	"variantgroups": [
+		{
+			"code": "wall",
+			"states": [
+				"drywall",
+				"hotel"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"header"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-l-north"
+		],
+		"decorative": [
+			"*-lower-l-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-drywall-lower-l-north": {
+			"base": "block/detail/liftdoor-drywall-lower-l",
+			"rotateY": 0
+		},
+		"*-drywall-lower-l-east": {
+			"base": "block/detail/liftdoor-drywall-lower-l",
+			"rotateY": 270
+		},
+		"*-drywall-lower-l-south": {
+			"base": "block/detail/liftdoor-drywall-lower-l",
+			"rotateY": 180
+		},
+		"*-drywall-lower-l-west": {
+			"base": "block/detail/liftdoor-drywall-lower-l",
+			"rotateY": 90
+		},
+		"*-drywall-lower-r-north": {
+			"base": "block/detail/liftdoor-drywall-lower-r",
+			"rotateY": 0
+		},
+		"*-drywall-lower-r-east": {
+			"base": "block/detail/liftdoor-drywall-lower-r",
+			"rotateY": 270
+		},
+		"*-drywall-lower-r-south": {
+			"base": "block/detail/liftdoor-drywall-lower-r",
+			"rotateY": 180
+		},
+		"*-drywall-lower-r-west": {
+			"base": "block/detail/liftdoor-drywall-lower-r",
+			"rotateY": 90
+		},
+		"*-drywall-upper-l-north": {
+			"base": "block/detail/liftdoor-drywall-upper-l",
+			"rotateY": 0
+		},
+		"*-drywall-upper-l-east": {
+			"base": "block/detail/liftdoor-drywall-upper-l",
+			"rotateY": 270
+		},
+		"*-drywall-upper-l-south": {
+			"base": "block/detail/liftdoor-drywall-upper-l",
+			"rotateY": 180
+		},
+		"*-drywall-upper-l-west": {
+			"base": "block/detail/liftdoor-drywall-upper-l",
+			"rotateY": 90
+		},
+		"*-drywall-upper-r-north": {
+			"base": "block/detail/liftdoor-drywall-upper-r",
+			"rotateY": 0
+		},
+		"*-drywall-upper-r-east": {
+			"base": "block/detail/liftdoor-drywall-upper-r",
+			"rotateY": 270
+		},
+		"*-drywall-upper-r-south": {
+			"base": "block/detail/liftdoor-drywall-upper-r",
+			"rotateY": 180
+		},
+		"*-drywall-upper-r-west": {
+			"base": "block/detail/liftdoor-drywall-upper-r",
+			"rotateY": 90
+		},
+		"*-drywall-header-l-north": {
+			"base": "block/detail/liftdoor-drywall-header-l",
+			"rotateY": 0
+		},
+		"*-drywall-header-l-east": {
+			"base": "block/detail/liftdoor-drywall-header-l",
+			"rotateY": 270
+		},
+		"*-drywall-header-l-south": {
+			"base": "block/detail/liftdoor-drywall-header-l",
+			"rotateY": 180
+		},
+		"*-drywall-header-l-west": {
+			"base": "block/detail/liftdoor-drywall-header-l",
+			"rotateY": 90
+		},
+		"*-drywall-header-r-north": {
+			"base": "block/detail/liftdoor-drywall-header-r",
+			"rotateY": 0
+		},
+		"*-drywall-header-r-east": {
+			"base": "block/detail/liftdoor-drywall-header-r",
+			"rotateY": 270
+		},
+		"*-drywall-header-r-south": {
+			"base": "block/detail/liftdoor-drywall-header-r",
+			"rotateY": 180
+		},
+		"*-drywall-header-r-west": {
+			"base": "block/detail/liftdoor-drywall-header-r",
+			"rotateY": 90
+		},
+		"*-hotel-lower-l-north": {
+			"base": "block/detail/liftdoor-hotel-lower-l",
+			"rotateY": 0
+		},
+		"*-hotel-lower-l-east": {
+			"base": "block/detail/liftdoor-hotel-lower-l",
+			"rotateY": 270
+		},
+		"*-hotel-lower-l-south": {
+			"base": "block/detail/liftdoor-hotel-lower-l",
+			"rotateY": 180
+		},
+		"*-hotel-lower-l-west": {
+			"base": "block/detail/liftdoor-hotel-lower-l",
+			"rotateY": 90
+		},
+		"*-hotel-lower-r-north": {
+			"base": "block/detail/liftdoor-hotel-lower-r",
+			"rotateY": 0
+		},
+		"*-hotel-lower-r-east": {
+			"base": "block/detail/liftdoor-hotel-lower-r",
+			"rotateY": 270
+		},
+		"*-hotel-lower-r-south": {
+			"base": "block/detail/liftdoor-hotel-lower-r",
+			"rotateY": 180
+		},
+		"*-hotel-lower-r-west": {
+			"base": "block/detail/liftdoor-hotel-lower-r",
+			"rotateY": 90
+		},
+		"*-hotel-upper-l-north": {
+			"base": "block/detail/liftdoor-hotel-upper-l",
+			"rotateY": 0
+		},
+		"*-hotel-upper-l-east": {
+			"base": "block/detail/liftdoor-hotel-upper-l",
+			"rotateY": 270
+		},
+		"*-hotel-upper-l-south": {
+			"base": "block/detail/liftdoor-hotel-upper-l",
+			"rotateY": 180
+		},
+		"*-hotel-upper-l-west": {
+			"base": "block/detail/liftdoor-hotel-upper-l",
+			"rotateY": 90
+		},
+		"*-hotel-upper-r-north": {
+			"base": "block/detail/liftdoor-hotel-upper-r",
+			"rotateY": 0
+		},
+		"*-hotel-upper-r-east": {
+			"base": "block/detail/liftdoor-hotel-upper-r",
+			"rotateY": 270
+		},
+		"*-hotel-upper-r-south": {
+			"base": "block/detail/liftdoor-hotel-upper-r",
+			"rotateY": 180
+		},
+		"*-hotel-upper-r-west": {
+			"base": "block/detail/liftdoor-hotel-upper-r",
+			"rotateY": 90
+		},
+		"*-hotel-header-l-north": {
+			"base": "block/detail/liftdoor-hotel-header-l",
+			"rotateY": 0
+		},
+		"*-hotel-header-l-east": {
+			"base": "block/detail/liftdoor-hotel-header-l",
+			"rotateY": 270
+		},
+		"*-hotel-header-l-south": {
+			"base": "block/detail/liftdoor-hotel-header-l",
+			"rotateY": 180
+		},
+		"*-hotel-header-l-west": {
+			"base": "block/detail/liftdoor-hotel-header-l",
+			"rotateY": 90
+		},
+		"*-hotel-header-r-north": {
+			"base": "block/detail/liftdoor-hotel-header-r",
+			"rotateY": 0
+		},
+		"*-hotel-header-r-east": {
+			"base": "block/detail/liftdoor-hotel-header-r",
+			"rotateY": 270
+		},
+		"*-hotel-header-r-south": {
+			"base": "block/detail/liftdoor-hotel-header-r",
+			"rotateY": 180
+		},
+		"*-hotel-header-r-west": {
+			"base": "block/detail/liftdoor-hotel-header-r",
+			"rotateY": 90
+		}
+	},
+	"behaviorsByType": {
+		"*-lower-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "elevator"
+				}
+			}
+		],
+		"*-upper-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "elevator"
+				}
+			}
+		]
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

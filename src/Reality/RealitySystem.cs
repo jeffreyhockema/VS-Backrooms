@@ -87,7 +87,7 @@ public class RealitySystem : ModSystem
     public void ForceShift(double hours)
     {
         if (api is not ICoreServerAPI sapi) return;
-        forcedUntilHours = hours <= 0 ? 0 : sapi.World.Calendar.TotalHours + hours;
+        forcedUntilHours = hours <= 0 ? 0 : sapi.World.Calendar.ElapsedHours + hours;
         foreach (IPlayer player in sapi.World.AllOnlinePlayers)
         {
             player.Entity.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
@@ -105,6 +105,7 @@ public class RealitySystem : ModSystem
 /// <summary>Almond Water steadies the mind: drinking it restores some of the drinker's stability.</summary>
 public class ItemAlmondWater : Item
 {
+    /// <summary>How much stability a drink restores, unless its <c>stabilityRestored</c> attribute says otherwise.</summary>
     private const double StabilityRestored = 0.15;
 
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
@@ -114,6 +115,7 @@ public class ItemAlmondWater : Item
         if (byEntity.World.Side != EnumAppSide.Server || slot.StackSize >= before) return;
 
         double stability = byEntity.WatchedAttributes.GetDouble("temporalStability", 1);
-        byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + StabilityRestored));
+        double restored = Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
+        byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + restored));
     }
 }

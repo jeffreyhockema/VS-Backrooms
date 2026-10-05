@@ -1,0 +1,445 @@
+// House walls: siding outside, plaster inside
+{
+	"code": "housewall",
+	"variantgroups": [
+		{
+			"code": "siding",
+			"states": [
+				"white",
+				"blue",
+				"yellow",
+				"green",
+				"brick"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"construction": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-white-north": {
+			"north": {
+				"base": "block/detail/siding-white"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-white-east": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/siding-white"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-white-south": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/siding-white"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-white-west": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/siding-white"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-blue-north": {
+			"north": {
+				"base": "block/detail/siding-blue"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-blue-east": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/siding-blue"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-blue-south": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/siding-blue"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-blue-west": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/siding-blue"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-yellow-north": {
+			"north": {
+				"base": "block/detail/siding-yellow"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-yellow-east": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/siding-yellow"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-yellow-south": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/siding-yellow"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-yellow-west": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/siding-yellow"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-green-north": {
+			"north": {
+				"base": "block/detail/siding-green"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-green-east": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/siding-green"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-green-south": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/siding-green"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-green-west": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/siding-green"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-brick-north": {
+			"north": {
+				"base": "block/detail/siding-brick"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-brick-east": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/siding-brick"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-brick-south": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/siding-brick"
+			},
+			"west": {
+				"base": "block/detail/plaster-interior"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		},
+		"*-brick-west": {
+			"north": {
+				"base": "block/detail/plaster-interior"
+			},
+			"east": {
+				"base": "block/detail/plaster-interior"
+			},
+			"south": {
+				"base": "block/detail/plaster-interior"
+			},
+			"west": {
+				"base": "block/detail/siding-brick"
+			},
+			"up": {
+				"base": "block/detail/plaster-interior"
+			},
+			"down": {
+				"base": "block/detail/plaster-interior"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

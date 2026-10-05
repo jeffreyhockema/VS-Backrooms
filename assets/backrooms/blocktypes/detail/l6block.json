@@ -1,0 +1,83 @@
+// The smooth, cold material of Level 6's hallways
+{
+	"code": "l6block",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wall",
+				"floor",
+				"ceiling",
+				"wet"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-wall": {
+			"all": {
+				"base": "block/detail/l6wall"
+			}
+		},
+		"*-floor": {
+			"all": {
+				"base": "block/detail/l6floor",
+				"alternates": [
+					{
+						"base": "block/detail/l6floor",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-ceiling": {
+			"all": {
+				"base": "block/detail/l6ceiling"
+			}
+		},
+		"*-wet": {
+			"all": {
+				"base": "block/detail/l6floor-wet",
+				"alternates": [
+					{
+						"base": "block/detail/l6floor-wet",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor-wet",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor-wet",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

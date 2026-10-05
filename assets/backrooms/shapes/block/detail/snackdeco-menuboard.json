@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"menuboard": "backrooms:block/detail/menuboard",
+		"snackwall-mall": "backrooms:block/detail/snackwall-mall",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				1,
+				2,
+				-0.6
+			],
+			"to": [
+				15,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#menuboard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "BoardSides",
+			"from": [
+				1,
+				2,
+				-0.6
+			],
+			"to": [
+				15,
+				14,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						12
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						12
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

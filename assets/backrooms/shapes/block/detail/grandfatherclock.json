@@ -1,0 +1,336 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"clockface-old": "backrooms:block/detail/clockface-old",
+		"clockpendulum": "backrooms:block/detail/clockpendulum",
+		"mahogany": "backrooms:block/level5/mahogany"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				3,
+				0,
+				6
+			],
+			"to": [
+				13,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Trunk",
+			"from": [
+				4,
+				10,
+				6.5
+			],
+			"to": [
+				12,
+				24,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						14
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						14
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						14
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Window",
+			"from": [
+				5,
+				12,
+				6.3
+			],
+			"to": [
+				11,
+				22,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#clockpendulum",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Hood",
+			"from": [
+				3,
+				24,
+				6
+			],
+			"to": [
+				13,
+				32,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				4.5,
+				25,
+				5.8
+			],
+			"to": [
+				11.5,
+				31,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#clockface-old",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Finial",
+			"from": [
+				7.5,
+				32,
+				9.5
+			],
+			"to": [
+				8.5,
+				34,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -14,6 +14,10 @@ public class FlickerSystem : ModSystem
     private readonly HashSet<BlockEntityFlickerLight> lights = new();
     private readonly List<BlockEntityFlickerLight> scratch = new();
     private ICoreClientAPI capi;
+    private Backrooms.Reality.RealitySystem reality;
+
+    /// <summary>The dead look of each kind of failing light, tesselated once per world.</summary>
+    internal readonly Dictionary<int, MeshData> OffMeshes = new();
 
     public override void Start(ICoreAPI api)
     {
@@ -28,6 +32,13 @@ public class FlickerSystem : ModSystem
 
     public void Register(BlockEntityFlickerLight light) => lights.Add(light);
 
+    public override void Dispose()
+    {
+        lock (OffMeshes) OffMeshes.Clear();
+        lights.Clear();
+        base.Dispose();
+    }
+
     public void Unregister(BlockEntityFlickerLight light) => lights.Remove(light);
 
     private void OnTick(float dt)
@@ -35,7 +46,8 @@ public class FlickerSystem : ModSystem
         EntityPos pos = capi.World.Player?.Entity?.Pos;
         if (pos == null || lights.Count == 0) return;
 
-        bool realityShift = capi.ModLoader.GetModSystem<Backrooms.Reality.RealitySystem>()?.ShiftStrength > 0.3;
+        reality ??= capi.ModLoader.GetModSystem<Backrooms.Reality.RealitySystem>();
+        bool realityShift = reality?.ShiftStrength > 0.3;
         scratch.Clear();
         scratch.AddRange(lights);
         foreach (BlockEntityFlickerLight light in scratch)

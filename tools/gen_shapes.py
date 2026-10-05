@@ -33,6 +33,17 @@ def box(name, frm, to, tex, glow=0, faces=DIRS):
     return {"name": name, "from": [x1, y1, z1], "to": [x2, y2, z2], "faces": out}
 
 
+def pipe(name, frm, to, tex, faces=("north", "south", "up", "down")):
+    """A horizontal pipe along X: its side faces stretch one shaded band of the pipe texture (8 units) over its
+    height, whatever that is, so it reads as round; its top shows the highlight and its underside the shadow."""
+    b = box(name, frm, to, tex, faces=faces)
+    w = abs(to[0] - frm[0])
+    for f, uv in (("north", [0, 0, w, 8]), ("south", [0, 0, w, 8]), ("up", [0, 1.5, w, 3.5]), ("down", [0, 6.5, w, 8])):
+        if f in b["faces"]:
+            b["faces"][f]["uv"] = uv
+    return b
+
+
 def rot(b, times):
     """Rotates a box 90 degrees clockwise (seen from above) around the block centre, `times` times."""
     b = json.loads(json.dumps(b))
@@ -60,7 +71,7 @@ def all_sides(boxes):
 def save(name, textures, elements):
     os.makedirs(OUT, exist_ok=True)
     shape = {"textureWidth": 16, "textureHeight": 16, "textures": textures, "elements": elements}
-    with open(os.path.join(OUT, name + ".json"), "w") as f:
+    with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8") as f:
         json.dump(shape, f, indent=1)
 
 
@@ -79,9 +90,9 @@ PIPE_TEX = {
 
 def bundle_x():
     return [
-        box("Lagged", (0, 10, 1), (16, 15, 6), "lagging", faces=("north", "south", "up", "down")),
-        box("Rusty", (0, 11, 10), (16, 14, 13), "rust", faces=("north", "south", "up", "down")),
-        box("FireLine", (0, 13.5, 13.5), (16, 15.5, 15.5), "red", faces=("north", "south", "up", "down")),
+        pipe("Lagged", (0, 10, 1), (16, 15, 6), "lagging"),
+        pipe("Rusty", (0, 11, 10), (16, 14, 13), "rust"),
+        pipe("FireLine", (0, 13.5, 13.5), (16, 15.5, 15.5), "red"),
         box("Strap", (7.5, 15, 0.5), (8.5, 16, 15.5), "metal"),
         box("Hanger1", (7.5, 9.5, 0.5), (8.5, 15, 1), "metal"),
         box("Hanger2", (7.5, 10.5, 13), (8.5, 14, 13.5), "metal"),
@@ -101,8 +112,8 @@ def fixture_x(tube_tex):
 
 # Horizontal pipes bolted to a wall, sticking out a few pixels into the tunnel
 WALL_PIPES = [
-    box("PipeA", (0, 9, -3), (16, 13, 0), "rust", faces=("north", "up", "down")),
-    box("PipeB", (0, 3, -2.5), (16, 6.5, 0), "lagging", faces=("north", "up", "down")),
+    pipe("PipeA", (0, 9, -3), (16, 13, 0), "rust", faces=("north", "up", "down")),
+    pipe("PipeB", (0, 3, -2.5), (16, 6.5, 0), "lagging", faces=("north", "up", "down")),
     box("Bracket", (7, 2, -3.5), (9, 14, 0), "metal", faces=("north", "east", "west", "up", "down")),
 ]
 
@@ -397,7 +408,7 @@ def level5():
          "pot": "backrooms:block/level5/pot", "felt": "backrooms:block/level5/felt", "tile": "backrooms:block/level5/mahjong",
          "record": "backrooms:block/props/metal-dark", "boiler": "backrooms:block/level5/boiler",
          "iron": "backrooms:block/props/metal-dark", "fire": "backrooms:block/level5/fire", "rust": PIPE_TEX["rust"],
-         "lampshade": "backrooms:block/level5/lampshade"}
+         "lampshade": "backrooms:block/level5/lampshade", "bottle": "backrooms:block/detail/bankergreen"}
 
     save("hotelfixture-sconce", t, [CUBE("panel")] + all_sides([
         box("Plate", (6.5, 4, -0.5), (9.5, 10, 0), "brass", faces=("north", "east", "west", "up", "down")),
@@ -485,7 +496,11 @@ def level5():
         box("Rim", (-0.5, 11, -0.5), (16.5, 12, 16.5), "wood", faces=("north", "south", "east", "west", "down")),
         box("Leg", (6, 0, 6), (10, 11, 10), "wood"),
     ] + [box(f"Tiles{i}", (x, 12.5, z), (x + w, 13.5, z + d), "tile") for i, (x, z, w, d) in
-         enumerate(((2, 2, 12, 1.5), (2, 12.5, 12, 1.5), (2, 4, 1.5, 8), (12.5, 4, 1.5, 8), (6, 7, 4, 2)))])
+         enumerate(((2, 2, 12, 1.5), (2, 12.5, 12, 1.5), (2, 4, 1.5, 8), (12.5, 4, 1.5, 8), (6, 7, 4, 2)))] + [
+        # Drinks nobody has touched: a bottle and glasses at the corners
+        box("Bottle", (13.5, 12.5, 13.5), (15, 17, 15), "bottle"), box("Neck", (13.9, 17, 13.9), (14.6, 19, 14.6), "bottle"),
+        box("Glass1", (0.8, 12.5, 0.8), (2, 14.5, 2), "crystal"), box("Glass2", (14, 12.5, 0.8), (15.2, 14.5, 2), "crystal"),
+        box("Glass3", (0.8, 12.5, 14), (2, 14.5, 15.2), "crystal"), box("Ashtray", (7, 12.5, 14.2), (9, 13, 15.6), "crystal")])
     save("turntable", t, [
         box("Base", (2, 0, 2), (14, 10, 14), "wood"),
         box("Platter", (3.5, 10, 3.5), (12.5, 10.6, 12.5), "record"),

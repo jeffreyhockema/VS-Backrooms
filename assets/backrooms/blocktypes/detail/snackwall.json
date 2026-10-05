@@ -1,0 +1,71 @@
+// Level 6.1's walls; its windows glow orange-white, like daylight
+{
+	"code": "snackwall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"mall",
+				"panel",
+				"tile",
+				"window"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-mall": {
+			"all": {
+				"base": "block/detail/snackwall-mall"
+			}
+		},
+		"*-panel": {
+			"all": {
+				"base": "block/detail/snackwall-panel"
+			}
+		},
+		"*-tile": {
+			"all": {
+				"base": "block/detail/snackwall-tile"
+			}
+		},
+		"*-window": {
+			"all": {
+				"base": "block/detail/snackwall-window"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-window": [
+			6,
+			3,
+			12
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-window": 0,
+		"*": 99
+	},
+	"vertexFlagsByType": {
+		"*-window": {
+			"glowLevel": 200
+		}
+	}
+}

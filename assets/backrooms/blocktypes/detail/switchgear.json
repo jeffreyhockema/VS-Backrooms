@@ -1,0 +1,131 @@
+// Switchgear Cabinet
+{
+	"code": "switchgear",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/switchgear",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/switchgear",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/switchgear",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/switchgear",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.97,
+			"y2": 1.9,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	}
+}

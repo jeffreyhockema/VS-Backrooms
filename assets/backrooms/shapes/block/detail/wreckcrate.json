@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"wetwood": "backrooms:block/detail/wetwood"
+	},
+	"elements": [
+		{
+			"name": "Crate",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				13,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"east": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"south": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"west": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"up": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		}
+	]
+}

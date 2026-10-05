@@ -3,14 +3,23 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Ceramic",
 	drawtype: "cube",
+	// Every tile a little different, and now and then one stained by water from above
 	textures: {
-		all: { base: "block/ceilingtile" }
+		all: { base: "block/ceilingtile", alternates: [
+			{ base: "block/ceilingtile2" },
+			{ base: "block/ceilingtile3" },
+			{ base: "block/ceilingtile" },
+			{ base: "block/ceilingtile2" },
+			{ base: "block/ceilingtile-stain" }
+		] }
 	},
 	// Mostly nothing, but ceiling voids hide wire, brackets and rotten battens
 	drops: [
 		{ type: "item", code: "scrapwire", quantity: { avg: 0.12, var: 0 } },
 		{ type: "item", code: "metalbracket", quantity: { avg: 0.08, var: 0 } },
-		{ type: "item", code: "rottenwood", quantity: { avg: 0.1, var: 0 } }
+		{ type: "item", code: "rottenwood", quantity: { avg: 0.1, var: 0 } },
+		// Crumbled gypsum: enough to mark a wall or two
+		{ type: "item", code: "chalk", quantity: { avg: 0.12, var: 0 } }
 	],
 	resistance: 1,
 	lightAbsorption: 99,

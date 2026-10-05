@@ -1,0 +1,10 @@
+// Two salvaged brackets, bent and hammered flat by hand against the floor: fastenings for a chest, a gate or a door
+{
+	ingredientPattern: "BB",
+	ingredients: {
+		"B": { type: "item", code: "metalbracket", quantity: 1 }
+	},
+	width: 2,
+	height: 1,
+	output: { type: "item", code: "game:metalnailsandstrips-iron", quantity: 1 }
+}

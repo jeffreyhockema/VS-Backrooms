@@ -1,0 +1,120 @@
+{
+	"code": "housefloor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wood",
+				"carpet",
+				"tile",
+				"lino",
+				"garage",
+				"porch",
+				"driveway",
+				"rug"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-wood": {
+			"all": {
+				"base": "block/detail/housefloor-wood"
+			}
+		},
+		"*-carpet": {
+			"all": {
+				"base": "block/detail/housefloor-carpet",
+				"alternates": [
+					{
+						"base": "block/detail/housefloor-carpet",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/housefloor-carpet",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/housefloor-carpet",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-tile": {
+			"all": {
+				"base": "block/detail/housefloor-tile"
+			}
+		},
+		"*-lino": {
+			"all": {
+				"base": "block/detail/housefloor-lino"
+			}
+		},
+		"*-garage": {
+			"all": {
+				"base": "block/detail/housefloor-garage",
+				"alternates": [
+					{
+						"base": "block/detail/housefloor-garage",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/housefloor-garage",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/housefloor-garage",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-porch": {
+			"all": {
+				"base": "block/detail/housefloor-porch"
+			}
+		},
+		"*-driveway": {
+			"all": {
+				"base": "block/detail/housefloor-driveway",
+				"alternates": [
+					{
+						"base": "block/detail/housefloor-driveway",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/housefloor-driveway",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/housefloor-driveway",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-rug": {
+			"all": {
+				"base": "block/detail/housefloor-rug"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

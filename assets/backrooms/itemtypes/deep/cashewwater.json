@@ -1,0 +1,65 @@
+// Cashew Water
+{
+	"code": "cashewwater",
+	"maxstacksize": 8,
+	"texture": {
+		"base": "item/cashewwater"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"nutritionProps": {
+		"satiety": 140,
+		"foodcategory": "NoNutrition",
+		"health": 1
+	},
+	"materialDensity": 600,
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	},
+	"class": "BackroomsAlmondWater",
+	"attributes": {
+		"stabilityRestored": 0.08
+	}
+}

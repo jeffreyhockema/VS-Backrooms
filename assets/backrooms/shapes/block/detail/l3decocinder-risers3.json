@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cinder": "backrooms:block/level3/l3wall-cinder",
+		"lagging": "backrooms:block/level2/pipe-lagging",
+		"rust": "backrooms:block/level2/pipe-rust"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Hot",
+			"from": [
+				4,
+				0,
+				-4
+			],
+			"to": [
+				8,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rusty",
+			"from": [
+				10,
+				0,
+				-3
+			],
+			"to": [
+				12.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				}
+			}
+		}
+	]
+}

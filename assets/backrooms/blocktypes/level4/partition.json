@@ -79,5 +79,23 @@
 		"place": "game:block/cloth",
 		"break": "game:block/cloth",
 		"hit": "game:block/cloth"
-	}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
 }

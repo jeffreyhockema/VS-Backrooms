@@ -69,5 +69,55 @@
 		"x2": 0.94,
 		"y2": 1,
 		"z2": 1
-	}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 3,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-upperbody-linen-tunic",
+			"quantity": {
+				"avg": 0.25,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-upperbody-woolen-shirt",
+			"quantity": {
+				"avg": 0.15,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-lowerbody-commoner-trousers",
+			"quantity": {
+				"avg": 0.25,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-foot-commoner-boots",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		}
+	]
 }

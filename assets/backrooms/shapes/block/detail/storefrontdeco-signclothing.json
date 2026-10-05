@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"cityfascia": "backrooms:block/detail/cityfascia",
+		"signclothing": "backrooms:block/detail/signclothing"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cityfascia",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sign",
+			"from": [
+				0.5,
+				2.5,
+				-1
+			],
+			"to": [
+				15.5,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#signclothing",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "SignSides",
+			"from": [
+				0.5,
+				2.5,
+				-1
+			],
+			"to": [
+				15.5,
+				13.5,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						11.0
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						11.0
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,517 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Rose",
+			"from": [
+				6,
+				15,
+				6
+			],
+			"to": [
+				10,
+				16,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Rod",
+			"from": [
+				7.4,
+				10,
+				7.4
+			],
+			"to": [
+				8.6,
+				15,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Hub",
+			"from": [
+				5.8,
+				7.6,
+				5.8
+			],
+			"to": [
+				10.2,
+				10,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						2.4000000000000004
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						2.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						2.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						2.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						4.3999999999999995
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						4.3999999999999995
+					]
+				}
+			}
+		},
+		{
+			"name": "Blade0",
+			"from": [
+				10,
+				8.4,
+				6.6
+			],
+			"to": [
+				23,
+				8.9,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						2.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						2.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.6,
+				8
+			],
+			"rotationY": 24
+		},
+		{
+			"name": "Blade1",
+			"from": [
+				-7,
+				8.4,
+				6.6
+			],
+			"to": [
+				6,
+				8.9,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						2.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						2.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.6,
+				8
+			],
+			"rotationY": 24
+		},
+		{
+			"name": "Blade2",
+			"from": [
+				6.6,
+				8.4,
+				10
+			],
+			"to": [
+				9.4,
+				8.9,
+				23
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						13
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						13
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.6,
+				8
+			],
+			"rotationY": 24
+		},
+		{
+			"name": "Blade3",
+			"from": [
+				6.6,
+				8.4,
+				-7
+			],
+			"to": [
+				9.4,
+				8.9,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						13,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						13
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						13
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.6,
+				8
+			],
+			"rotationY": 24
+		}
+	]
+}

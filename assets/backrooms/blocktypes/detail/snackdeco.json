@@ -1,0 +1,171 @@
+// Mall Wall with decorations on one face
+{
+	"code": "snackdeco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"signburger",
+				"signpizza",
+				"signtaco",
+				"signdonut",
+				"menuboard",
+				"mallmap"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-signburger-north": {
+			"base": "block/detail/snackdeco-signburger",
+			"rotateY": 0
+		},
+		"*-signburger-east": {
+			"base": "block/detail/snackdeco-signburger",
+			"rotateY": 270
+		},
+		"*-signburger-south": {
+			"base": "block/detail/snackdeco-signburger",
+			"rotateY": 180
+		},
+		"*-signburger-west": {
+			"base": "block/detail/snackdeco-signburger",
+			"rotateY": 90
+		},
+		"*-signpizza-north": {
+			"base": "block/detail/snackdeco-signpizza",
+			"rotateY": 0
+		},
+		"*-signpizza-east": {
+			"base": "block/detail/snackdeco-signpizza",
+			"rotateY": 270
+		},
+		"*-signpizza-south": {
+			"base": "block/detail/snackdeco-signpizza",
+			"rotateY": 180
+		},
+		"*-signpizza-west": {
+			"base": "block/detail/snackdeco-signpizza",
+			"rotateY": 90
+		},
+		"*-signtaco-north": {
+			"base": "block/detail/snackdeco-signtaco",
+			"rotateY": 0
+		},
+		"*-signtaco-east": {
+			"base": "block/detail/snackdeco-signtaco",
+			"rotateY": 270
+		},
+		"*-signtaco-south": {
+			"base": "block/detail/snackdeco-signtaco",
+			"rotateY": 180
+		},
+		"*-signtaco-west": {
+			"base": "block/detail/snackdeco-signtaco",
+			"rotateY": 90
+		},
+		"*-signdonut-north": {
+			"base": "block/detail/snackdeco-signdonut",
+			"rotateY": 0
+		},
+		"*-signdonut-east": {
+			"base": "block/detail/snackdeco-signdonut",
+			"rotateY": 270
+		},
+		"*-signdonut-south": {
+			"base": "block/detail/snackdeco-signdonut",
+			"rotateY": 180
+		},
+		"*-signdonut-west": {
+			"base": "block/detail/snackdeco-signdonut",
+			"rotateY": 90
+		},
+		"*-menuboard-north": {
+			"base": "block/detail/snackdeco-menuboard",
+			"rotateY": 0
+		},
+		"*-menuboard-east": {
+			"base": "block/detail/snackdeco-menuboard",
+			"rotateY": 270
+		},
+		"*-menuboard-south": {
+			"base": "block/detail/snackdeco-menuboard",
+			"rotateY": 180
+		},
+		"*-menuboard-west": {
+			"base": "block/detail/snackdeco-menuboard",
+			"rotateY": 90
+		},
+		"*-mallmap-north": {
+			"base": "block/detail/snackdeco-mallmap",
+			"rotateY": 0
+		},
+		"*-mallmap-east": {
+			"base": "block/detail/snackdeco-mallmap",
+			"rotateY": 270
+		},
+		"*-mallmap-south": {
+			"base": "block/detail/snackdeco-mallmap",
+			"rotateY": 180
+		},
+		"*-mallmap-west": {
+			"base": "block/detail/snackdeco-mallmap",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-signburger-*": [
+			0,
+			4,
+			8
+		],
+		"*-signpizza-*": [
+			0,
+			4,
+			8
+		],
+		"*-signtaco-*": [
+			0,
+			4,
+			8
+		],
+		"*-signdonut-*": [
+			0,
+			4,
+			8
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-signburger-*": 0,
+		"*-signpizza-*": 0,
+		"*-signtaco-*": 0,
+		"*-signdonut-*": 0,
+		"*": 99
+	}
+}

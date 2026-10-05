@@ -1,0 +1,108 @@
+// Wallpaper with decorations on one face
+{
+	"code": "housedeco-green",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"familyphoto",
+				"housepainting",
+				"houseclock",
+				"housemirror"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-familyphoto-north": {
+			"base": "block/detail/housedeco-green-familyphoto",
+			"rotateY": 0
+		},
+		"*-familyphoto-east": {
+			"base": "block/detail/housedeco-green-familyphoto",
+			"rotateY": 270
+		},
+		"*-familyphoto-south": {
+			"base": "block/detail/housedeco-green-familyphoto",
+			"rotateY": 180
+		},
+		"*-familyphoto-west": {
+			"base": "block/detail/housedeco-green-familyphoto",
+			"rotateY": 90
+		},
+		"*-housepainting-north": {
+			"base": "block/detail/housedeco-green-housepainting",
+			"rotateY": 0
+		},
+		"*-housepainting-east": {
+			"base": "block/detail/housedeco-green-housepainting",
+			"rotateY": 270
+		},
+		"*-housepainting-south": {
+			"base": "block/detail/housedeco-green-housepainting",
+			"rotateY": 180
+		},
+		"*-housepainting-west": {
+			"base": "block/detail/housedeco-green-housepainting",
+			"rotateY": 90
+		},
+		"*-houseclock-north": {
+			"base": "block/detail/housedeco-green-houseclock",
+			"rotateY": 0
+		},
+		"*-houseclock-east": {
+			"base": "block/detail/housedeco-green-houseclock",
+			"rotateY": 270
+		},
+		"*-houseclock-south": {
+			"base": "block/detail/housedeco-green-houseclock",
+			"rotateY": 180
+		},
+		"*-houseclock-west": {
+			"base": "block/detail/housedeco-green-houseclock",
+			"rotateY": 90
+		},
+		"*-housemirror-north": {
+			"base": "block/detail/housedeco-green-housemirror",
+			"rotateY": 0
+		},
+		"*-housemirror-east": {
+			"base": "block/detail/housedeco-green-housemirror",
+			"rotateY": 270
+		},
+		"*-housemirror-south": {
+			"base": "block/detail/housedeco-green-housemirror",
+			"rotateY": 180
+		},
+		"*-housemirror-west": {
+			"base": "block/detail/housedeco-green-housemirror",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

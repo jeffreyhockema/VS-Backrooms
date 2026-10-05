@@ -179,3 +179,123 @@ path = os.path.join(ROOT, "assets", "backrooms", "sounds", "effect", "powerdown.
 out = np.tanh(1.4 * whine / np.max(np.abs(whine))) + clicks
 sf.write(path, (0.6 * out / np.max(np.abs(out))).astype(np.float32), RATE, format="OGG", subtype="VORBIS")
 print("wrote", os.path.relpath(path, ROOT))
+
+
+# ---------------- Levels 6 to 10 ----------------
+
+def save_effect(name, signal, peak):
+    path = os.path.join(ROOT, "assets", "backrooms", "sounds", "effect", name + ".ogg")
+    signal = peak * signal / np.max(np.abs(signal))
+    sf.write(path, signal.astype(np.float32), RATE, format="OGG", subtype="VORBIS")
+    print("wrote", os.path.relpath(path, ROOT))
+
+
+def band(signal, lo, hi):
+    spectrum = np.fft.rfft(signal)
+    f = np.fft.rfftfreq(len(signal), 1 / RATE)
+    spectrum *= (f >= lo) & (f <= hi)
+    return np.fft.irfft(spectrum, n=len(signal))
+
+
+# Waves: slow swells of surf breaking somewhere below, heard up the stairs from Level 6 and over Level 7's sea.
+# The swell period divides the loop, so it loops seamlessly.
+rng = np.random.default_rng(91)
+n = RATE * 12
+tt = np.arange(n) / RATE
+surf = loop_noise(n, rng, lambda f: np.exp(-((f - 500) / 900) ** 2) + 0.25 * np.exp(-((f - 3000) / 2500) ** 2))
+swell = 0.25 + 0.75 * np.maximum(0, np.sin(2 * np.pi * tt / 6)) ** 3 + 0.2 * np.maximum(0, np.sin(2 * np.pi * tt / 4 + 1)) ** 4
+rumble = loop_noise(n, rng, lambda f: np.exp(-(f / 120) ** 2))
+save_ogg("waves", surf * swell + 0.6 * rumble, 0.35)
+
+# Squelch: something wet and many-bodied bursting out of the soil
+rng = np.random.default_rng(92)
+n = int(RATE * 1.2)
+tt = np.arange(n) / RATE
+wet = band(rng.normal(size=n), 150, 1800) * np.exp(-tt * 4)
+pops = np.zeros(n)
+for start in rng.integers(0, n - 3000, 40):
+    length = int(rng.integers(600, 2500))
+    f0 = rng.uniform(180, 600)
+    local = np.arange(length) / RATE
+    pops[start:start + length] += np.sin(2 * np.pi * f0 * local * (1 - local * 3)) * np.exp(-local * 30) * rng.uniform(0.3, 1)
+save_effect("squelch", np.tanh(2 * (0.7 * wet / np.max(np.abs(wet)) + pops / np.max(np.abs(pops)))), 0.8)
+
+# Scuttle: many small hard feet across concrete, off in the dark
+rng = np.random.default_rng(93)
+n = int(RATE * 1.6)
+tt = np.arange(n) / RATE
+taps = np.zeros(n)
+t0 = 0.0
+while t0 < 1.45:
+    i0 = int(t0 * RATE)
+    length = int(0.006 * RATE)
+    taps[i0:i0 + length] += band(rng.normal(size=length), 1500, 7000) * rng.uniform(0.4, 1)
+    t0 += rng.uniform(0.012, 0.045)
+envelope = np.sin(np.pi * np.clip(tt / 1.5, 0, 1)) ** 0.7
+save_effect("scuttle", band(taps, 800, 6000) * envelope, 0.5)
+
+# Breath: one slow, heavy exhalation, too close
+rng = np.random.default_rng(94)
+n = int(RATE * 2.6)
+tt = np.arange(n) / RATE
+breath = band(rng.normal(size=n), 200, 2200)
+breath *= np.exp(-((tt - 0.9) / 0.55) ** 2) + 0.6 * np.exp(-((tt - 1.9) / 0.35) ** 2)
+save_effect("breath", breath, 0.5)
+
+# Whisper: voiceless, almost-words, breathy noise shaped by shifting formants
+rng = np.random.default_rng(95)
+n = int(RATE * 2.2)
+tt = np.arange(n) / RATE
+whisper = np.zeros(n)
+for k in range(9):
+    s, length = int(rng.uniform(0, 1.9) * RATE), int(rng.uniform(0.12, 0.35) * RATE)
+    length = min(length, n - s)
+    f1, f2 = rng.uniform(500, 900), rng.uniform(1200, 2600)
+    seg = band(rng.normal(size=length), f1 - 150, f1 + 150) + 0.7 * band(rng.normal(size=length), f2 - 250, f2 + 250)
+    seg += 0.4 * band(rng.normal(size=length), 4000, 8000) * (k % 3 == 0)
+    whisper[s:s + length] += seg * np.sin(np.pi * np.arange(length) / length)
+save_effect("whisper", whisper, 0.4)
+
+# Chalk: a short dry scrape on a wall
+rng = np.random.default_rng(96)
+n = int(RATE * 0.45)
+tt = np.arange(n) / RATE
+scrape = band(rng.normal(size=n), 1200, 9000) * (0.6 + 0.4 * np.sin(2 * np.pi * 37 * tt) ** 2)
+scrape *= np.minimum(1, tt * 60) * np.exp(-tt * 3)
+save_effect("chalk", scrape, 0.45)
+
+# Clock: the slow tick-tock of a grandfather clock, one second per beat, loops seamlessly over two beats
+rng = np.random.default_rng(97)
+n = RATE * 2
+tt = np.arange(n) / RATE
+clock = np.zeros(n)
+for beat, pitch in ((0.0, 2400), (1.0, 2000)):
+    i0 = int(beat * RATE)
+    length = int(0.05 * RATE)
+    local = np.arange(length) / RATE
+    clock[i0:i0 + length] += (np.sin(2 * np.pi * pitch * local) + 0.6 * band(rng.normal(size=length), 1500, 6000)) * np.exp(-local * 120)
+save_ogg("clock", clock, 0.25)
+
+# City: the hum of distant traffic that isn't there, under a faint electrical buzz. Slow swells as if from cars
+# passing a few streets away; every component loops seamlessly over 16 seconds
+rng = np.random.default_rng(98)
+n = RATE * 16
+tt = np.arange(n) / RATE
+traffic = loop_noise(n, rng, lambda f: np.exp(-(f / 260) ** 2) + 0.15 * np.exp(-((f - 900) / 700) ** 2))
+swells = 0.55 + 0.3 * np.sin(2 * np.pi * tt / 8 + 0.5) ** 2 + 0.25 * np.maximum(0, np.sin(2 * np.pi * tt / 16 * 3)) ** 6
+buzz = sum(a * np.sin(2 * np.pi * 60 * k * tt + rng.uniform(0, 6)) for k, a in ((2, 1.0), (4, 0.4), (6, 0.2)))
+save_ogg("cityhum", traffic * swells + 0.05 * buzz / np.max(np.abs(buzz)), 0.3)
+
+# Subway: the deep rumble of the tunnels, and once a loop a train that never comes, passing somewhere further on
+rng = np.random.default_rng(99)
+n = RATE * 24
+tt = np.arange(n) / RATE
+rumble = loop_noise(n, rng, lambda f: np.exp(-(f / 90) ** 2))
+roar = loop_noise(n, rng, lambda f: np.exp(-((f - 300) / 500) ** 2) + 0.3 * np.exp(-((f - 2500) / 1500) ** 2))
+passing = np.exp(-((tt - 12) / 3.5) ** 2)
+clatter = np.zeros(n)
+for k in range(40):
+    i0 = int((9 + k * 0.15) * RATE)
+    length = int(0.03 * RATE)
+    clatter[i0:i0 + length] += band(rng.normal(size=length), 400, 3000) * np.exp(-np.arange(length) / (0.008 * RATE))
+save_ogg("subway", 0.8 * rumble + roar * passing + 0.4 * clatter * passing / max(1e-9, np.max(np.abs(clatter))), 0.35)

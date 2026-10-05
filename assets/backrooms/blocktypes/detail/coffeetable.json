@@ -1,0 +1,57 @@
+// Coffee Table
+{
+	"code": "coffeetable",
+	"shape": {
+		"base": "block/detail/coffeetable"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.94,
+		"y2": 0.5,
+		"z2": 0.82
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.94,
+		"y2": 0.5,
+		"z2": 0.82
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	]
+}

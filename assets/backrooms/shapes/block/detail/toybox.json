@@ -1,0 +1,154 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"toybox": "backrooms:block/detail/toybox",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				8,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#toybox",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				},
+				"south": {
+					"texture": "#toybox",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Sides",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				8,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Lid",
+			"from": [
+				1.5,
+				8,
+				3.5
+			],
+			"to": [
+				14.5,
+				9,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.0
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.0
+					]
+				}
+			}
+		}
+	]
+}

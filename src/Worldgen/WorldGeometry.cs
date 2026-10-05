@@ -23,11 +23,28 @@ public readonly struct WorldGeometry
 
     private const int SlabThickness = 4;
 
+    /// <summary>
+    /// How far below the other levels Level 11's streets lie: the city needs the height for its towers, which rise
+    /// almost to the top of the world.
+    /// </summary>
+    public const int CityDrop = 48;
+
     public readonly int FloorY;
     /// <summary>Ceiling of Level 0 and Level 2.</summary>
     public readonly int CeilingY;
     public readonly int Level1CeilingY;
     public readonly int CapY;
+    /// <summary>The highest block of the world.</summary>
+    public readonly int TopY;
+
+    /// <summary>The street level of Level 11.</summary>
+    public int CityFloorY => FloorY - CityDrop;
+
+    /// <summary>The floor of a level: the street for Level 11, the shared floor for every other.</summary>
+    public int FloorFor(int level) => level == 11 ? CityFloorY : FloorY;
+
+    /// <summary>The band Level 11 is lit in: its subway up to just over the street lamps.</summary>
+    public int CityBandBottom => CityFloorY - ShaftDepth;
 
     /// <summary>Lowest block that can differ from solid concrete (the bottom of the pit shafts).</summary>
     public int BandBottom => FloorY - ShaftDepth;
@@ -45,6 +62,7 @@ public readonly struct WorldGeometry
         CeilingY = FloorY + RoomHeight + 1;
         Level1CeilingY = FloorY + Level1RoomHeight + 1;
         CapY = CeilingY + CrawlspaceHeight + SlabThickness + 1;
+        TopY = mapSizeY - 1;
     }
 
     /// <summary>Whether a height is inside the walkable space of any level.</summary>

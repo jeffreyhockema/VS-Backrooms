@@ -1,0 +1,448 @@
+// Painted Block Wall with decorations on one face
+{
+	"code": "l1deco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"powerbox2",
+				"powerbox3",
+				"breaker",
+				"outlet",
+				"extinguisher",
+				"alarm",
+				"hosecab",
+				"levelsign",
+				"stairsign",
+				"note",
+				"graffiti",
+				"pipes",
+				"standpipe1",
+				"standpipe2",
+				"standpipe3",
+				"standpipe4",
+				"painting0",
+				"painting1",
+				"painting2",
+				"painting3",
+				"banner0",
+				"banner1",
+				"banner2",
+				"banner3"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-powerbox2-north": {
+			"base": "block/detail/l1deco-powerbox2",
+			"rotateY": 0
+		},
+		"*-powerbox2-east": {
+			"base": "block/detail/l1deco-powerbox2",
+			"rotateY": 270
+		},
+		"*-powerbox2-south": {
+			"base": "block/detail/l1deco-powerbox2",
+			"rotateY": 180
+		},
+		"*-powerbox2-west": {
+			"base": "block/detail/l1deco-powerbox2",
+			"rotateY": 90
+		},
+		"*-powerbox3-north": {
+			"base": "block/detail/l1deco-powerbox3",
+			"rotateY": 0
+		},
+		"*-powerbox3-east": {
+			"base": "block/detail/l1deco-powerbox3",
+			"rotateY": 270
+		},
+		"*-powerbox3-south": {
+			"base": "block/detail/l1deco-powerbox3",
+			"rotateY": 180
+		},
+		"*-powerbox3-west": {
+			"base": "block/detail/l1deco-powerbox3",
+			"rotateY": 90
+		},
+		"*-breaker-north": {
+			"base": "block/detail/l1deco-breaker",
+			"rotateY": 0
+		},
+		"*-breaker-east": {
+			"base": "block/detail/l1deco-breaker",
+			"rotateY": 270
+		},
+		"*-breaker-south": {
+			"base": "block/detail/l1deco-breaker",
+			"rotateY": 180
+		},
+		"*-breaker-west": {
+			"base": "block/detail/l1deco-breaker",
+			"rotateY": 90
+		},
+		"*-outlet-north": {
+			"base": "block/detail/l1deco-outlet",
+			"rotateY": 0
+		},
+		"*-outlet-east": {
+			"base": "block/detail/l1deco-outlet",
+			"rotateY": 270
+		},
+		"*-outlet-south": {
+			"base": "block/detail/l1deco-outlet",
+			"rotateY": 180
+		},
+		"*-outlet-west": {
+			"base": "block/detail/l1deco-outlet",
+			"rotateY": 90
+		},
+		"*-extinguisher-north": {
+			"base": "block/detail/l1deco-extinguisher",
+			"rotateY": 0
+		},
+		"*-extinguisher-east": {
+			"base": "block/detail/l1deco-extinguisher",
+			"rotateY": 270
+		},
+		"*-extinguisher-south": {
+			"base": "block/detail/l1deco-extinguisher",
+			"rotateY": 180
+		},
+		"*-extinguisher-west": {
+			"base": "block/detail/l1deco-extinguisher",
+			"rotateY": 90
+		},
+		"*-alarm-north": {
+			"base": "block/detail/l1deco-alarm",
+			"rotateY": 0
+		},
+		"*-alarm-east": {
+			"base": "block/detail/l1deco-alarm",
+			"rotateY": 270
+		},
+		"*-alarm-south": {
+			"base": "block/detail/l1deco-alarm",
+			"rotateY": 180
+		},
+		"*-alarm-west": {
+			"base": "block/detail/l1deco-alarm",
+			"rotateY": 90
+		},
+		"*-hosecab-north": {
+			"base": "block/detail/l1deco-hosecab",
+			"rotateY": 0
+		},
+		"*-hosecab-east": {
+			"base": "block/detail/l1deco-hosecab",
+			"rotateY": 270
+		},
+		"*-hosecab-south": {
+			"base": "block/detail/l1deco-hosecab",
+			"rotateY": 180
+		},
+		"*-hosecab-west": {
+			"base": "block/detail/l1deco-hosecab",
+			"rotateY": 90
+		},
+		"*-levelsign-north": {
+			"base": "block/detail/l1deco-levelsign",
+			"rotateY": 0
+		},
+		"*-levelsign-east": {
+			"base": "block/detail/l1deco-levelsign",
+			"rotateY": 270
+		},
+		"*-levelsign-south": {
+			"base": "block/detail/l1deco-levelsign",
+			"rotateY": 180
+		},
+		"*-levelsign-west": {
+			"base": "block/detail/l1deco-levelsign",
+			"rotateY": 90
+		},
+		"*-stairsign-north": {
+			"base": "block/detail/l1deco-stairsign",
+			"rotateY": 0
+		},
+		"*-stairsign-east": {
+			"base": "block/detail/l1deco-stairsign",
+			"rotateY": 270
+		},
+		"*-stairsign-south": {
+			"base": "block/detail/l1deco-stairsign",
+			"rotateY": 180
+		},
+		"*-stairsign-west": {
+			"base": "block/detail/l1deco-stairsign",
+			"rotateY": 90
+		},
+		"*-note-north": {
+			"base": "block/detail/l1deco-note",
+			"rotateY": 0
+		},
+		"*-note-east": {
+			"base": "block/detail/l1deco-note",
+			"rotateY": 270
+		},
+		"*-note-south": {
+			"base": "block/detail/l1deco-note",
+			"rotateY": 180
+		},
+		"*-note-west": {
+			"base": "block/detail/l1deco-note",
+			"rotateY": 90
+		},
+		"*-graffiti-north": {
+			"base": "block/detail/l1deco-graffiti",
+			"rotateY": 0
+		},
+		"*-graffiti-east": {
+			"base": "block/detail/l1deco-graffiti",
+			"rotateY": 270
+		},
+		"*-graffiti-south": {
+			"base": "block/detail/l1deco-graffiti",
+			"rotateY": 180
+		},
+		"*-graffiti-west": {
+			"base": "block/detail/l1deco-graffiti",
+			"rotateY": 90
+		},
+		"*-pipes-north": {
+			"base": "block/detail/l1deco-pipes",
+			"rotateY": 0
+		},
+		"*-pipes-east": {
+			"base": "block/detail/l1deco-pipes",
+			"rotateY": 270
+		},
+		"*-pipes-south": {
+			"base": "block/detail/l1deco-pipes",
+			"rotateY": 180
+		},
+		"*-pipes-west": {
+			"base": "block/detail/l1deco-pipes",
+			"rotateY": 90
+		},
+		"*-standpipe1-north": {
+			"base": "block/detail/l1deco-standpipe1",
+			"rotateY": 0
+		},
+		"*-standpipe1-east": {
+			"base": "block/detail/l1deco-standpipe1",
+			"rotateY": 270
+		},
+		"*-standpipe1-south": {
+			"base": "block/detail/l1deco-standpipe1",
+			"rotateY": 180
+		},
+		"*-standpipe1-west": {
+			"base": "block/detail/l1deco-standpipe1",
+			"rotateY": 90
+		},
+		"*-standpipe2-north": {
+			"base": "block/detail/l1deco-standpipe2",
+			"rotateY": 0
+		},
+		"*-standpipe2-east": {
+			"base": "block/detail/l1deco-standpipe2",
+			"rotateY": 270
+		},
+		"*-standpipe2-south": {
+			"base": "block/detail/l1deco-standpipe2",
+			"rotateY": 180
+		},
+		"*-standpipe2-west": {
+			"base": "block/detail/l1deco-standpipe2",
+			"rotateY": 90
+		},
+		"*-standpipe3-north": {
+			"base": "block/detail/l1deco-standpipe3",
+			"rotateY": 0
+		},
+		"*-standpipe3-east": {
+			"base": "block/detail/l1deco-standpipe3",
+			"rotateY": 270
+		},
+		"*-standpipe3-south": {
+			"base": "block/detail/l1deco-standpipe3",
+			"rotateY": 180
+		},
+		"*-standpipe3-west": {
+			"base": "block/detail/l1deco-standpipe3",
+			"rotateY": 90
+		},
+		"*-standpipe4-north": {
+			"base": "block/detail/l1deco-standpipe4",
+			"rotateY": 0
+		},
+		"*-standpipe4-east": {
+			"base": "block/detail/l1deco-standpipe4",
+			"rotateY": 270
+		},
+		"*-standpipe4-south": {
+			"base": "block/detail/l1deco-standpipe4",
+			"rotateY": 180
+		},
+		"*-standpipe4-west": {
+			"base": "block/detail/l1deco-standpipe4",
+			"rotateY": 90
+		},
+		"*-painting0-north": {
+			"base": "block/detail/l1deco-painting0",
+			"rotateY": 0
+		},
+		"*-painting0-east": {
+			"base": "block/detail/l1deco-painting0",
+			"rotateY": 270
+		},
+		"*-painting0-south": {
+			"base": "block/detail/l1deco-painting0",
+			"rotateY": 180
+		},
+		"*-painting0-west": {
+			"base": "block/detail/l1deco-painting0",
+			"rotateY": 90
+		},
+		"*-painting1-north": {
+			"base": "block/detail/l1deco-painting1",
+			"rotateY": 0
+		},
+		"*-painting1-east": {
+			"base": "block/detail/l1deco-painting1",
+			"rotateY": 270
+		},
+		"*-painting1-south": {
+			"base": "block/detail/l1deco-painting1",
+			"rotateY": 180
+		},
+		"*-painting1-west": {
+			"base": "block/detail/l1deco-painting1",
+			"rotateY": 90
+		},
+		"*-painting2-north": {
+			"base": "block/detail/l1deco-painting2",
+			"rotateY": 0
+		},
+		"*-painting2-east": {
+			"base": "block/detail/l1deco-painting2",
+			"rotateY": 270
+		},
+		"*-painting2-south": {
+			"base": "block/detail/l1deco-painting2",
+			"rotateY": 180
+		},
+		"*-painting2-west": {
+			"base": "block/detail/l1deco-painting2",
+			"rotateY": 90
+		},
+		"*-painting3-north": {
+			"base": "block/detail/l1deco-painting3",
+			"rotateY": 0
+		},
+		"*-painting3-east": {
+			"base": "block/detail/l1deco-painting3",
+			"rotateY": 270
+		},
+		"*-painting3-south": {
+			"base": "block/detail/l1deco-painting3",
+			"rotateY": 180
+		},
+		"*-painting3-west": {
+			"base": "block/detail/l1deco-painting3",
+			"rotateY": 90
+		},
+		"*-banner0-north": {
+			"base": "block/detail/l1deco-banner0",
+			"rotateY": 0
+		},
+		"*-banner0-east": {
+			"base": "block/detail/l1deco-banner0",
+			"rotateY": 270
+		},
+		"*-banner0-south": {
+			"base": "block/detail/l1deco-banner0",
+			"rotateY": 180
+		},
+		"*-banner0-west": {
+			"base": "block/detail/l1deco-banner0",
+			"rotateY": 90
+		},
+		"*-banner1-north": {
+			"base": "block/detail/l1deco-banner1",
+			"rotateY": 0
+		},
+		"*-banner1-east": {
+			"base": "block/detail/l1deco-banner1",
+			"rotateY": 270
+		},
+		"*-banner1-south": {
+			"base": "block/detail/l1deco-banner1",
+			"rotateY": 180
+		},
+		"*-banner1-west": {
+			"base": "block/detail/l1deco-banner1",
+			"rotateY": 90
+		},
+		"*-banner2-north": {
+			"base": "block/detail/l1deco-banner2",
+			"rotateY": 0
+		},
+		"*-banner2-east": {
+			"base": "block/detail/l1deco-banner2",
+			"rotateY": 270
+		},
+		"*-banner2-south": {
+			"base": "block/detail/l1deco-banner2",
+			"rotateY": 180
+		},
+		"*-banner2-west": {
+			"base": "block/detail/l1deco-banner2",
+			"rotateY": 90
+		},
+		"*-banner3-north": {
+			"base": "block/detail/l1deco-banner3",
+			"rotateY": 0
+		},
+		"*-banner3-east": {
+			"base": "block/detail/l1deco-banner3",
+			"rotateY": 270
+		},
+		"*-banner3-south": {
+			"base": "block/detail/l1deco-banner3",
+			"rotateY": 180
+		},
+		"*-banner3-west": {
+			"base": "block/detail/l1deco-banner3",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

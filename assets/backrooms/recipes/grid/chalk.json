@@ -1,0 +1,17 @@
+{
+	"ingredientPattern": "T",
+	"ingredients": {
+		"T": {
+			"type": "item",
+			"code": "game:stone-chalk",
+			"quantity": 1
+		}
+	},
+	"width": 1,
+	"height": 1,
+	"output": {
+		"type": "item",
+		"code": "chalk",
+		"quantity": 1
+	}
+}

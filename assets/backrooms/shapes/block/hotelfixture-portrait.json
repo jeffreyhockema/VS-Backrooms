@@ -24,7 +24,8 @@
   "iron": "backrooms:block/props/metal-dark",
   "fire": "backrooms:block/level5/fire",
   "rust": "backrooms:block/level2/pipe-rust",
-  "lampshade": "backrooms:block/level5/lampshade"
+  "lampshade": "backrooms:block/level5/lampshade",
+  "bottle": "backrooms:block/detail/bankergreen"
  },
  "elements": [
   {

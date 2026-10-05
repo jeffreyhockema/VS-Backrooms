@@ -1,7 +1,7 @@
 {
 	code: "fluorescentlight",
 	variantgroups: [
-		{ code: "state", states: ["on", "lit", "flicker", "off", "dim"] }
+		{ code: "state", states: ["on", "lit", "flicker", "off", "dim", "red"] }
 	],
 	creativeinventory: { "general": ["*"], "decorative": ["*"] },
 	blockmaterial: "Glass",
@@ -14,14 +14,17 @@
 	},
 	lightHsvByType: {
 		"*-on": [10, 2, 21],
-		// The Manila Room's single dim, orange-tinted lamp
-		"*-dim": [5, 6, 9]
+		// The Manila Room's dim, orange-tinted lamp (before it had a chandelier)
+		"*-dim": [5, 6, 9],
+		// The Red Rooms' lamps: all the light there is in them
+		"*-red": [0, 7, 11]
 	},
 	vertexFlagsByType: {
 		"*-on": { glowLevel: 160 },
 		"*-lit": { glowLevel: 160 },
 		"*-flicker": { glowLevel: 160 },
-		"*-dim": { glowLevel: 80 }
+		"*-dim": { glowLevel: 80 },
+		"*-red": { glowLevel: 110 }
 	},
 	// A failing panel: animated on the client by its block entity, swapping to the dead panel's look
 	entityClassByType: {

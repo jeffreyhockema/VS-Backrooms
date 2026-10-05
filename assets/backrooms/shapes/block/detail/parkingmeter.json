@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"meterface": "backrooms:block/detail/meterface",
+		"steeldark": "backrooms:block/detail/steeldark"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				7.5,
+				0,
+				7.5
+			],
+			"to": [
+				8.5,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				5.5,
+				16,
+				6
+			],
+			"to": [
+				10.5,
+				25,
+				10
+			],
+			"faces": {
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						9
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				5.5,
+				16,
+				6
+			],
+			"to": [
+				10.5,
+				25,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#meterface",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

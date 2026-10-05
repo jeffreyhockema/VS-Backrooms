@@ -1,0 +1,57 @@
+// A plaque beside one of Level 3's barred ways
+{
+	"code": "l3plaquebrick",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"plaque"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-plaque-north": {
+			"base": "block/detail/l3plaquebrick-plaque",
+			"rotateY": 0
+		},
+		"*-plaque-east": {
+			"base": "block/detail/l3plaquebrick-plaque",
+			"rotateY": 270
+		},
+		"*-plaque-south": {
+			"base": "block/detail/l3plaquebrick-plaque",
+			"rotateY": 180
+		},
+		"*-plaque-west": {
+			"base": "block/detail/l3plaquebrick-plaque",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

@@ -1,0 +1,195 @@
+// Street Light
+{
+	"code": "streetlight",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"on",
+				"off",
+				"flicker"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-on-north": {
+			"base": "block/detail/streetlight-on",
+			"rotateY": 0
+		},
+		"*-on-east": {
+			"base": "block/detail/streetlight-on",
+			"rotateY": 270
+		},
+		"*-on-south": {
+			"base": "block/detail/streetlight-on",
+			"rotateY": 180
+		},
+		"*-on-west": {
+			"base": "block/detail/streetlight-on",
+			"rotateY": 90
+		},
+		"*-off-north": {
+			"base": "block/detail/streetlight-off",
+			"rotateY": 0
+		},
+		"*-off-east": {
+			"base": "block/detail/streetlight-off",
+			"rotateY": 270
+		},
+		"*-off-south": {
+			"base": "block/detail/streetlight-off",
+			"rotateY": 180
+		},
+		"*-off-west": {
+			"base": "block/detail/streetlight-off",
+			"rotateY": 90
+		},
+		"*-flicker-north": {
+			"base": "block/detail/streetlight-flicker",
+			"rotateY": 0
+		},
+		"*-flicker-east": {
+			"base": "block/detail/streetlight-flicker",
+			"rotateY": 270
+		},
+		"*-flicker-south": {
+			"base": "block/detail/streetlight-flicker",
+			"rotateY": 180
+		},
+		"*-flicker-west": {
+			"base": "block/detail/streetlight-flicker",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-on-north"
+		],
+		"decorative": [
+			"*-on-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 2,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-on-*": [
+			6,
+			3,
+			15
+		]
+	},
+	"entityClassByType": {
+		"*-flicker-*": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker-north": {
+			"offBlock": "backrooms:streetlight-off-north"
+		},
+		"*-flicker-east": {
+			"offBlock": "backrooms:streetlight-off-east"
+		},
+		"*-flicker-south": {
+			"offBlock": "backrooms:streetlight-off-south"
+		},
+		"*-flicker-west": {
+			"offBlock": "backrooms:streetlight-off-west"
+		}
+	}
+}

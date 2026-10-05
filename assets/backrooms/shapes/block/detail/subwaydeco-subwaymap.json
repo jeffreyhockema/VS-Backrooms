@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"steel": "backrooms:block/detail/steel",
+		"subwaymap": "backrooms:block/detail/subwaymap",
+		"subwaywall-tile": "backrooms:block/detail/subwaywall-tile"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Map",
+			"from": [
+				2,
+				1,
+				-0.8
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwaymap",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "MapSides",
+			"from": [
+				2,
+				1,
+				-0.8
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

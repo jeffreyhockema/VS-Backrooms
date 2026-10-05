@@ -1,0 +1,361 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cabinetwhite": "backrooms:block/detail/cabinetwhite",
+		"countertop": "backrooms:block/detail/countertop",
+		"microwave": "backrooms:block/detail/microwave",
+		"rubber": "backrooms:block/detail/rubber",
+		"white": "backrooms:block/detail/white"
+	},
+	"elements": [
+		{
+			"name": "Cabinet",
+			"from": [
+				0,
+				1,
+				4
+			],
+			"to": [
+				16,
+				13,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cabinetwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CabinetSides",
+			"from": [
+				0,
+				1,
+				4
+			],
+			"to": [
+				16,
+				13,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0,
+				0,
+				4.3
+			],
+			"to": [
+				16,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						11.7,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						11.7,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						11.7
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						11.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				13,
+				3.5
+			],
+			"to": [
+				16,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						12.5
+					]
+				},
+				"down": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						12.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Splash",
+			"from": [
+				0,
+				14.5,
+				15
+			],
+			"to": [
+				16,
+				18,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						1,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						1,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Microwave",
+			"from": [
+				2,
+				14.5,
+				7
+			],
+			"to": [
+				13,
+				21,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						8,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						8,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						11,
+						8
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						11,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				2,
+				14.5,
+				7
+			],
+			"to": [
+				13,
+				21,
+				7.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#microwave",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

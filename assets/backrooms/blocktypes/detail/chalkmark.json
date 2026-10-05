@@ -1,0 +1,151 @@
+// A chalk mark on a wall, left by someone finding their way
+{
+	"code": "chalkmark",
+	"variantgroups": [
+		{
+			"code": "symbol",
+			"states": [
+				"left",
+				"right",
+				"cross",
+				"circle"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-left-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-left-north": {
+			"base": "block/detail/chalkmark-left",
+			"rotateY": 0
+		},
+		"*-left-east": {
+			"base": "block/detail/chalkmark-left",
+			"rotateY": 270
+		},
+		"*-left-south": {
+			"base": "block/detail/chalkmark-left",
+			"rotateY": 180
+		},
+		"*-left-west": {
+			"base": "block/detail/chalkmark-left",
+			"rotateY": 90
+		},
+		"*-right-north": {
+			"base": "block/detail/chalkmark-right",
+			"rotateY": 0
+		},
+		"*-right-east": {
+			"base": "block/detail/chalkmark-right",
+			"rotateY": 270
+		},
+		"*-right-south": {
+			"base": "block/detail/chalkmark-right",
+			"rotateY": 180
+		},
+		"*-right-west": {
+			"base": "block/detail/chalkmark-right",
+			"rotateY": 90
+		},
+		"*-cross-north": {
+			"base": "block/detail/chalkmark-cross",
+			"rotateY": 0
+		},
+		"*-cross-east": {
+			"base": "block/detail/chalkmark-cross",
+			"rotateY": 270
+		},
+		"*-cross-south": {
+			"base": "block/detail/chalkmark-cross",
+			"rotateY": 180
+		},
+		"*-cross-west": {
+			"base": "block/detail/chalkmark-cross",
+			"rotateY": 90
+		},
+		"*-circle-north": {
+			"base": "block/detail/chalkmark-circle",
+			"rotateY": 0
+		},
+		"*-circle-east": {
+			"base": "block/detail/chalkmark-circle",
+			"rotateY": 270
+		},
+		"*-circle-south": {
+			"base": "block/detail/chalkmark-circle",
+			"rotateY": 180
+		},
+		"*-circle-west": {
+			"base": "block/detail/chalkmark-circle",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.9,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.9,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.9,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.9,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"drops": [],
+	"replaceable": 5000,
+	"sounds": {
+		"place": "game:block/loosestone",
+		"break": "game:block/loosestone",
+		"hit": "game:block/loosestone"
+	}
+}

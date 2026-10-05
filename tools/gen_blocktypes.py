@@ -28,6 +28,8 @@ CEILING_DROPS = [
     {"type": "item", "code": "scrapwire", "quantity": {"avg": 0.12, "var": 0}},
     {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.08, "var": 0}},
     {"type": "item", "code": "rottenwood", "quantity": {"avg": 0.1, "var": 0}},
+    # Crumbled gypsum: enough to mark a wall or two
+    {"type": "item", "code": "chalk", "quantity": {"avg": 0.12, "var": 0}},
 ]
 
 
@@ -314,4 +316,6 @@ if __name__ == "__main__":
     level4()
     level5()
     fix_ambients()
+    import salvage
+    salvage.apply()
     print("block types written")

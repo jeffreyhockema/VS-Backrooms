@@ -1,0 +1,354 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pewwood": "backrooms:block/detail/pewwood"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				7,
+				3
+			],
+			"to": [
+				16,
+				8.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				8.5,
+				10.5
+			],
+			"to": [
+				16,
+				21,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						12.5
+					]
+				},
+				"east": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12.5
+					]
+				},
+				"south": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						12.5
+					]
+				},
+				"west": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12.5
+					]
+				},
+				"up": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "EndL",
+			"from": [
+				0,
+				0,
+				2.5
+			],
+			"to": [
+				1,
+				19,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						9.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						9.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						9.5
+					]
+				},
+				"down": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "EndR",
+			"from": [
+				15,
+				0,
+				2.5
+			],
+			"to": [
+				16,
+				19,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						9.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						9.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						9.5
+					]
+				},
+				"down": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						1,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kneeler",
+			"from": [
+				0,
+				2,
+				-1
+			],
+			"to": [
+				16,
+				3.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						3,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						3,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#pewwood",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cinder": "backrooms:block/level3/l3wall-cinder",
+		"roomsign5": "backrooms:block/level3/roomsign-5",
+		"white": "backrooms:block/detail/white"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sign",
+			"from": [
+				3,
+				4,
+				-0.3
+			],
+			"to": [
+				13,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#roomsign5",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignSides",
+			"from": [
+				3,
+				4,
+				-0.3
+			],
+			"to": [
+				13,
+				13,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

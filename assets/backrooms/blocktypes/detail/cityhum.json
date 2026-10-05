@@ -1,0 +1,22 @@
+// Invisible: sound of traffic
+{
+	"code": "cityhum",
+	"blockmaterial": "Stone",
+	"drawtype": "Empty",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": null,
+	"lightAbsorption": 0,
+	"resistance": 999,
+	"drops": [],
+	"replaceable": 9000,
+	"sounds": {
+		"ambient": "backrooms:ambient/cityhum",
+		"ambientBlockCount": 3
+	}
+}

@@ -22,6 +22,25 @@ public class SalvageSystem : ModSystem
         "ceilingtile", "officeceiling",
         "desk", "officechair", "filingcabinet", "partition", "conferencetable",
         "bed", "nightstand", "wardrobe", "wingchair", "sofa", "pottedpalm", "mahjongtable", "turntable",
+        // Loose things left lying about: crates and boxes, tools, camp gear, furniture
+        "cardboardboxes", "workbench", "toolbox", "plywood", "tent", "bedroll", "camplantern", "hospitalbed",
+        "foldingtable", "foldingchair", "medcabinet", "trafficcone", "wetfloorsign", "pallet", "trashcan", "burnbarrel",
+        "cablespool", "floorfan", "pipestack", "candelabra",
+        "ficus", "chairstack", "copier", "officebookshelf", "roundtable", "receptiondesk", "wastebasket", "coatstand",
+        "officechairtipped", "bench",
+        "consoletable", "hotelbookshelf", "curiocabinet", "luggagecart", "servicetrolley", "writingdesk", "hotelchair",
+        "floorlamp", "suitcase", "coffeetable", "ashtraystand", "diningtable", "coalpile",
+        // Levels 6 to 10: what can be raided, salvaged, dug or wiped away
+        "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer",
+        "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock",
+        "tv", "toilet", "dresser", "mailbox", "seedsacks", "toolshelf", "pantryshelf", "kitchencabinet",
+        "feedtrough", "toolrack", "nailbarrel", "wormmass", "farmland",
+        "driftwood", "buoy", "flashlight", "grill", "hayroll", "icemachine", "laundry", "laundrycart", "plough",
+        "roomservicetray", "scarecrow", "toybox", "tractor", "wheeliebin", "officeceilingalt", "fridge",
+        // Level 11: what the city leaves lying about
+        "newsbox", "parkingmeter", "phonebooth", "clothesrack", "shoppingcart", "pew", "dumpster", "trashbags", "postbox",
+        // Lore details
+        "trolley", "machineparts", "trafficsign",
     };
 
     /// <summary>Light fixtures: only the dead ones can be pulled down.</summary>
@@ -129,6 +148,8 @@ public class BlockBehaviorStrippable : BlockBehavior
 
         handling = EnumHandling.PreventDefault;
         if (world.Side != EnumAppSide.Server) return true;
+        // Not in somebody else's claim
+        if (!world.Claims.TryAccess(byPlayer, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak)) return true;
 
         Block bare = BareBlock(world);
         Item stripped = world.GetItem(item);
@@ -163,11 +184,11 @@ public class BlockBehaviorStrippable : BlockBehavior
 
     public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
     {
-        if (!CanStrip) return null;
+        if (!CanStrip) return System.Array.Empty<WorldInteraction>();
         if (help == null)
         {
             var blades = new List<ItemStack>();
-            foreach (string code in new[] { "backrooms:glassshard", "backrooms:glassshiv", "backrooms:scraper" })
+            foreach (string code in new[] { "backrooms:glassshard", "backrooms:glassshiv", "backrooms:scraper", "game:knife-generic-flint" })
             {
                 Item blade = world.GetItem(new AssetLocation(code));
                 if (blade != null) blades.Add(new ItemStack(blade));

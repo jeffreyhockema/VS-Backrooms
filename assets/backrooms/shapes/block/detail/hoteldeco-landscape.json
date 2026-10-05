@@ -1,0 +1,380 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"gilt": "backrooms:block/level5/gilt",
+		"hotelpanel": "backrooms:block/level5/hotelwall-panel",
+		"landscape": "backrooms:block/detail/landscape"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Canvas",
+			"from": [
+				3,
+				3,
+				-0.6
+			],
+			"to": [
+				13,
+				13,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#landscape",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				2,
+				13,
+				-1.2
+			],
+			"to": [
+				14,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				2,
+				2,
+				-1.2
+			],
+			"to": [
+				14,
+				3,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						12,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameL",
+			"from": [
+				2,
+				3,
+				-1.2
+			],
+			"to": [
+				3,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				13,
+				3,
+				-1.2
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

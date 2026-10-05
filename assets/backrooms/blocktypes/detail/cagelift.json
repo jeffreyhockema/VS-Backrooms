@@ -1,0 +1,268 @@
+// Antique copper-cage elevator, two blocks wide, with a floor dial above. Use it to ride
+{
+	"code": "cagelift",
+	"variantgroups": [
+		{
+			"code": "wall",
+			"states": [
+				"hotel",
+				"plaster"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"dial"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-l-north"
+		],
+		"decorative": [
+			"*-lower-l-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-hotel-lower-l-north": {
+			"base": "block/detail/cagelift-hotel-lower-l",
+			"rotateY": 0
+		},
+		"*-hotel-lower-l-east": {
+			"base": "block/detail/cagelift-hotel-lower-l",
+			"rotateY": 270
+		},
+		"*-hotel-lower-l-south": {
+			"base": "block/detail/cagelift-hotel-lower-l",
+			"rotateY": 180
+		},
+		"*-hotel-lower-l-west": {
+			"base": "block/detail/cagelift-hotel-lower-l",
+			"rotateY": 90
+		},
+		"*-hotel-lower-r-north": {
+			"base": "block/detail/cagelift-hotel-lower-r",
+			"rotateY": 0
+		},
+		"*-hotel-lower-r-east": {
+			"base": "block/detail/cagelift-hotel-lower-r",
+			"rotateY": 270
+		},
+		"*-hotel-lower-r-south": {
+			"base": "block/detail/cagelift-hotel-lower-r",
+			"rotateY": 180
+		},
+		"*-hotel-lower-r-west": {
+			"base": "block/detail/cagelift-hotel-lower-r",
+			"rotateY": 90
+		},
+		"*-hotel-upper-l-north": {
+			"base": "block/detail/cagelift-hotel-upper-l",
+			"rotateY": 0
+		},
+		"*-hotel-upper-l-east": {
+			"base": "block/detail/cagelift-hotel-upper-l",
+			"rotateY": 270
+		},
+		"*-hotel-upper-l-south": {
+			"base": "block/detail/cagelift-hotel-upper-l",
+			"rotateY": 180
+		},
+		"*-hotel-upper-l-west": {
+			"base": "block/detail/cagelift-hotel-upper-l",
+			"rotateY": 90
+		},
+		"*-hotel-upper-r-north": {
+			"base": "block/detail/cagelift-hotel-upper-r",
+			"rotateY": 0
+		},
+		"*-hotel-upper-r-east": {
+			"base": "block/detail/cagelift-hotel-upper-r",
+			"rotateY": 270
+		},
+		"*-hotel-upper-r-south": {
+			"base": "block/detail/cagelift-hotel-upper-r",
+			"rotateY": 180
+		},
+		"*-hotel-upper-r-west": {
+			"base": "block/detail/cagelift-hotel-upper-r",
+			"rotateY": 90
+		},
+		"*-hotel-dial-l-north": {
+			"base": "block/detail/cagelift-hotel-dial-l",
+			"rotateY": 0
+		},
+		"*-hotel-dial-l-east": {
+			"base": "block/detail/cagelift-hotel-dial-l",
+			"rotateY": 270
+		},
+		"*-hotel-dial-l-south": {
+			"base": "block/detail/cagelift-hotel-dial-l",
+			"rotateY": 180
+		},
+		"*-hotel-dial-l-west": {
+			"base": "block/detail/cagelift-hotel-dial-l",
+			"rotateY": 90
+		},
+		"*-hotel-dial-r-north": {
+			"base": "block/detail/cagelift-hotel-dial-r",
+			"rotateY": 0
+		},
+		"*-hotel-dial-r-east": {
+			"base": "block/detail/cagelift-hotel-dial-r",
+			"rotateY": 270
+		},
+		"*-hotel-dial-r-south": {
+			"base": "block/detail/cagelift-hotel-dial-r",
+			"rotateY": 180
+		},
+		"*-hotel-dial-r-west": {
+			"base": "block/detail/cagelift-hotel-dial-r",
+			"rotateY": 90
+		},
+		"*-plaster-lower-l-north": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 0
+		},
+		"*-plaster-lower-l-east": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 270
+		},
+		"*-plaster-lower-l-south": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 180
+		},
+		"*-plaster-lower-l-west": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 90
+		},
+		"*-plaster-lower-r-north": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 0
+		},
+		"*-plaster-lower-r-east": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 270
+		},
+		"*-plaster-lower-r-south": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 180
+		},
+		"*-plaster-lower-r-west": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 90
+		},
+		"*-plaster-upper-l-north": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 0
+		},
+		"*-plaster-upper-l-east": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 270
+		},
+		"*-plaster-upper-l-south": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 180
+		},
+		"*-plaster-upper-l-west": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 90
+		},
+		"*-plaster-upper-r-north": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 0
+		},
+		"*-plaster-upper-r-east": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 270
+		},
+		"*-plaster-upper-r-south": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 180
+		},
+		"*-plaster-upper-r-west": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 90
+		},
+		"*-plaster-dial-l-north": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 0
+		},
+		"*-plaster-dial-l-east": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 270
+		},
+		"*-plaster-dial-l-south": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 180
+		},
+		"*-plaster-dial-l-west": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 90
+		},
+		"*-plaster-dial-r-north": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 0
+		},
+		"*-plaster-dial-r-east": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 270
+		},
+		"*-plaster-dial-r-south": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 180
+		},
+		"*-plaster-dial-r-west": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 90
+		}
+	},
+	"behaviorsByType": {
+		"*-lower-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "elevator"
+				}
+			}
+		],
+		"*-upper-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "elevator"
+				}
+			}
+		]
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

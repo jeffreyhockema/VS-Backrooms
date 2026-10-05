@@ -69,5 +69,15 @@
 		"x2": 1,
 		"y2": 0.6,
 		"z2": 1
-	}
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:linen-normal-down",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	]
 }

@@ -1,0 +1,171 @@
+// Kitchen Counter
+{
+	"code": "kitchencounter",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"sink",
+				"micro"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-plain-north": {
+			"base": "block/detail/kitchencounter-plain",
+			"rotateY": 0
+		},
+		"*-plain-east": {
+			"base": "block/detail/kitchencounter-plain",
+			"rotateY": 270
+		},
+		"*-plain-south": {
+			"base": "block/detail/kitchencounter-plain",
+			"rotateY": 180
+		},
+		"*-plain-west": {
+			"base": "block/detail/kitchencounter-plain",
+			"rotateY": 90
+		},
+		"*-sink-north": {
+			"base": "block/detail/kitchencounter-sink",
+			"rotateY": 0
+		},
+		"*-sink-east": {
+			"base": "block/detail/kitchencounter-sink",
+			"rotateY": 270
+		},
+		"*-sink-south": {
+			"base": "block/detail/kitchencounter-sink",
+			"rotateY": 180
+		},
+		"*-sink-west": {
+			"base": "block/detail/kitchencounter-sink",
+			"rotateY": 90
+		},
+		"*-micro-north": {
+			"base": "block/detail/kitchencounter-micro",
+			"rotateY": 0
+		},
+		"*-micro-east": {
+			"base": "block/detail/kitchencounter-micro",
+			"rotateY": 270
+		},
+		"*-micro-south": {
+			"base": "block/detail/kitchencounter-micro",
+			"rotateY": 180
+		},
+		"*-micro-west": {
+			"base": "block/detail/kitchencounter-micro",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-plain-north"
+		],
+		"decorative": [
+			"*-plain-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

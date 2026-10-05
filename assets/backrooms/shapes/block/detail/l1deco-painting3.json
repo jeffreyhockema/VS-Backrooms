@@ -1,0 +1,312 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"painting3": "backrooms:block/detail/painting3",
+		"string": "backrooms:block/detail/string",
+		"whiteblock": "backrooms:block/detail/whiteblock"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Paper",
+			"from": [
+				3,
+				2,
+				-0.3
+			],
+			"to": [
+				13,
+				13,
+				-0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#painting3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StringL",
+			"from": [
+				4.5,
+				13,
+				-0.25
+			],
+			"to": [
+				7.8,
+				13.6,
+				-0.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StringR",
+			"from": [
+				8.2,
+				13,
+				-0.25
+			],
+			"to": [
+				11.5,
+				13.6,
+				-0.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3000000000000007,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3000000000000007,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3000000000000007,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						3.3000000000000007,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Nail",
+			"from": [
+				7.6,
+				13.4,
+				-0.9
+			],
+			"to": [
+				8.4,
+				14.2,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.7999999999999989
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.7999999999999989
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.7999999999999989
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.7999999999999989
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.9
+					]
+				}
+			}
+		}
+	]
+}

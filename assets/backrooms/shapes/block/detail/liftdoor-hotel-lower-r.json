@@ -1,0 +1,173 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"liftdoor-lower-r": "backrooms:block/detail/liftdoor-lower-r",
+		"liftframe": "backrooms:block/detail/liftframe",
+		"wainscot": "backrooms:block/level5/hotelwall-wainscot"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wainscot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftdoor-lower-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Jamb",
+			"from": [
+				0,
+				0,
+				-1.2
+			],
+			"to": [
+				1.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

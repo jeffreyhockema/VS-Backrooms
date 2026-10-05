@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"mailboxes": "backrooms:block/detail/mailboxes"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Boxes",
+			"from": [
+				1,
+				1,
+				-1.5
+			],
+			"to": [
+				15,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#mailboxes",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BoxesSides",
+			"from": [
+				1,
+				1,
+				-1.5
+			],
+			"to": [
+				15,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.5,
+						14
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.5,
+						14
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

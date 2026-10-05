@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"breaker": "backrooms:block/detail/breaker",
+		"steeldark": "backrooms:block/detail/steeldark",
+		"whiteblock": "backrooms:block/detail/whiteblock"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				0,
+				-2
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#breaker",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelSides",
+			"from": [
+				2,
+				0,
+				-2
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				}
+			}
+		}
+	]
+}

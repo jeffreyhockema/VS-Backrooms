@@ -1,0 +1,97 @@
+// Scalding, steadily bubbling tar
+{
+	"code": "tar",
+	"class": "BackroomsTar",
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/detail/tar"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:effect/squish*",
+		"break": "game:effect/squish*",
+		"hit": "game:effect/squish*"
+	},
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 0,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0
+				},
+				{
+					"avg": 30,
+					"var": 10
+				},
+				{
+					"avg": 200,
+					"var": 40
+				}
+			],
+			"gravityEffect": {
+				"avg": -0.02,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.4
+				},
+				{
+					"avg": 0.05,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0.4
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.02
+				},
+				{
+					"avg": 0.05,
+					"var": 0.02
+				},
+				{
+					"avg": 0,
+					"var": 0.02
+				}
+			],
+			"quantity": {
+				"avg": 0.05
+			},
+			"size": {
+				"avg": 0.2,
+				"var": 0.1
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 0.5
+			},
+			"particleModel": "Cube",
+			"lifeLength": {
+				"avg": 0.8,
+				"var": 0.3
+			},
+			"selfPropelled": true
+		}
+	]
+}

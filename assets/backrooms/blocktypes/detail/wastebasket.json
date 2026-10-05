@@ -1,0 +1,66 @@
+// Wastebasket
+{
+	"code": "wastebasket",
+	"shape": {
+		"base": "block/detail/wastebasket"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 0.4,
+		"z2": 0.7
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "rottenwood",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0.2
+			}
+		}
+	]
+}

@@ -1,0 +1,37 @@
+// Barn Roof
+{
+	"code": "barnroof",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"dark"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-dark": {
+			"all": {
+				"base": "block/detail/barnroof"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

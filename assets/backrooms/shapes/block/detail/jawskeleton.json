@@ -1,0 +1,768 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bone": "backrooms:block/detail/bone"
+	},
+	"elements": [
+		{
+			"name": "Spine",
+			"from": [
+				7.5,
+				0.5,
+				2
+			],
+			"to": [
+				8.5,
+				1.5,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Ribs1",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				12,
+				2.5,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Ribs2",
+			"from": [
+				4,
+				0,
+				7
+			],
+			"to": [
+				12,
+				2.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Ribs3",
+			"from": [
+				4.5,
+				0,
+				9
+			],
+			"to": [
+				11.5,
+				2.2,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Skull",
+			"from": [
+				5.5,
+				0,
+				-2
+			],
+			"to": [
+				10.5,
+				4,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Jaw",
+			"from": [
+				4.5,
+				0,
+				-6
+			],
+			"to": [
+				11.5,
+				1.5,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Teeth",
+			"from": [
+				5,
+				1.5,
+				-6
+			],
+			"to": [
+				11,
+				2.3,
+				-4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						0.7999999999999998
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						0.7999999999999998
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						0.7999999999999998
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						0.7999999999999998
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				3,
+				1,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				13,
+				0,
+				4
+			],
+			"to": [
+				14,
+				1,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				6,
+				0,
+				14
+			],
+			"to": [
+				7,
+				1,
+				24
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				9,
+				0,
+				14
+			],
+			"to": [
+				10,
+				1,
+				24
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				}
+			}
+		}
+	]
+}

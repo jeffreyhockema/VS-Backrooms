@@ -1,0 +1,52 @@
+// Camping Lantern
+{
+	"code": "camplantern",
+	"shape": {
+		"base": "block/detail/camplantern"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.36,
+		"y1": 0,
+		"z1": 0.36,
+		"x2": 0.64,
+		"y2": 0.45,
+		"z2": 0.64
+	},
+	"selectionbox": {
+		"x1": 0.36,
+		"y1": 0,
+		"z1": 0.36,
+		"x2": 0.64,
+		"y2": 0.45,
+		"z2": 0.64
+	},
+	"lightHsv": [
+		8,
+		5,
+		11
+	]
+}

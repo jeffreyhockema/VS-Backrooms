@@ -1,0 +1,172 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"lampglass": "backrooms:block/detail/lampglass"
+	},
+	"elements": [
+		{
+			"name": "Barrel",
+			"from": [
+				6.5,
+				0,
+				5
+			],
+			"to": [
+				9.5,
+				2.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3.0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3.0,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				6,
+				0,
+				3
+			],
+			"to": [
+				10,
+				3.2,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Lens",
+			"from": [
+				6.5,
+				0.3,
+				2.8
+			],
+			"to": [
+				9.5,
+				2.9,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.6
+					]
+				}
+			}
+		}
+	]
+}

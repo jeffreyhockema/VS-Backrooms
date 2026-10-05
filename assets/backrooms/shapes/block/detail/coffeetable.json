@@ -1,0 +1,449 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"crystal": "backrooms:block/level5/crystal",
+		"mahogany": "backrooms:block/level5/mahogany",
+		"marbletop": "backrooms:block/detail/marbletop"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				1,
+				7,
+				3
+			],
+			"to": [
+				15,
+				8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						10
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Inlay",
+			"from": [
+				3,
+				8,
+				5
+			],
+			"to": [
+				13,
+				8.05,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						10,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				3,
+				7,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				13,
+				0,
+				4
+			],
+			"to": [
+				14,
+				7,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				2,
+				0,
+				11
+			],
+			"to": [
+				3,
+				7,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				13,
+				0,
+				11
+			],
+			"to": [
+				14,
+				7,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Ashtray",
+			"from": [
+				9,
+				8,
+				6
+			],
+			"to": [
+				11,
+				8.6,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

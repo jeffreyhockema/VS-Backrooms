@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"callplate": "backrooms:block/detail/callplate",
+		"hotelpanel": "backrooms:block/level5/hotelwall-panel"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				6,
+				3,
+				-0.6
+			],
+			"to": [
+				10,
+				11,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#callplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateSides",
+			"from": [
+				6,
+				3,
+				-0.6
+			],
+			"to": [
+				10,
+				11,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

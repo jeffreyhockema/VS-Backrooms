@@ -98,7 +98,7 @@ public sealed partial class WorldLayout
         return RegionAt(mx, mz).Zone;
     }
 
-    /// <summary>The Manila Room: a very rare, quiet 8x8 room with wooden floors and a single dim lamp.</summary>
+    /// <summary>The Manila Room: a very rare, quiet 8x8 room with wooden floors, and a table under a chandelier.</summary>
     public bool IsManilaMacro(int mx, int mz)
     {
         if (Math.Abs(mx - spawnMacroX) < 3 && Math.Abs(mz - spawnMacroZ) < 3) return false;
@@ -108,11 +108,33 @@ public sealed partial class WorldLayout
         return Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltManila)) < 0.0015;
     }
 
+    private const ulong SaltRedRoom = 0x3A72;
+
+    /// <summary>
+    /// A Red Room: a rare cell of Level 0 papered in red and lit by a few dim red lamps, walled off from the rooms
+    /// round it but for one gap in each side. Nothing holds here; whatever was left inside is still there.
+    /// </summary>
+    public bool IsRedRoom(int mx, int mz)
+    {
+        if (Math.Abs(mx - spawnMacroX) < 6 && Math.Abs(mz - spawnMacroZ) < 6) return false;
+        if (Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltRedRoom)) >= 0.004) return false;
+        return LevelAt(mx, mz) == 0 && RegionAt(mx, mz).Zone == ZoneKind.Lobby && !IsManilaMacro(mx, mz);
+    }
+
     // ================= Edges =================
 
     /// <summary>An edge between two Level 0 cells: walls with gaps, sometimes fully open.</summary>
     private Edge Level0Edge(ref Rng rng, int mx, int mz, int nx, int nz)
     {
+        if (IsRedRoom(mx, mz) || IsRedRoom(nx, nz))
+        {
+            // Cut off from the rest: one narrow way through each side
+            var red = new Edge { Pattern = WallPattern.RedRoom, Base = BaseStyle.Baseboard };
+            for (int i = 1; i < MacroSize; i++) red.Tiles[i] = EdgeTile.Wall;
+            int gap = rng.Range(4, MacroSize - 6);
+            red.Tiles[gap] = red.Tiles[gap + 1] = EdgeTile.Open;
+            return red;
+        }
         ZoneKind a = ZoneAt(mx, mz), b = ZoneAt(nx, nz);
         bool sameRegion = RegionAt(mx, mz).SameAs(RegionAt(nx, nz));
         WallPattern pattern = a == ZoneKind.Arches || b == ZoneKind.Arches ? WallPattern.Cream : RollPattern(ref rng, RegionAt(mx, mz).PrimaryPattern);
@@ -159,6 +181,20 @@ public sealed partial class WorldLayout
         }
 
         if (b.Zone == ZoneKind.Blackout) SoakCarpet(b);
+        if (IsRedRoom(mx, mz))
+        {
+            // Every wall red, the carpet stained dark, no light but the red lamps; and what others left behind
+            for (int i = 0; i < b.Tiles.Length; i++)
+            {
+                ref Tile t = ref b.Tiles[i];
+                b.Mood[i] = LightMood.Red;
+                if (t.IsWallLike && t.Pattern <= WallPattern.Manila) { t.Pattern = WallPattern.RedRoom; t.Base = BaseStyle.Baseboard; }
+                if (t.Kind == TileKind.Pit) t.Kind = TileKind.Floor;
+                if (t.Kind == TileKind.Floor) t.Floor = FloorKind.Stained;
+            }
+            PlaceBoxNearWall(b);
+            PlaceBoxNearWall(b);
+        }
         PlaceLights(b, region, mx, mz);
         PlaceOutlets(b, mx, mz);
         if (b.IsSpawn) PlaceSpawnBox(b);
@@ -461,7 +497,9 @@ public sealed partial class WorldLayout
             b.At(x, z).Kind = TileKind.Doorway;
         }
 
-        b.At(mid, mid).Ceiling = CeilingKind.LampDim;
+        // A table in the middle of the room, under a chandelier
+        b.At(mid, mid).Ceiling = CeilingKind.Chandelier;
+        b.At(mid, mid).Variant = Props.RoundTable;
         b.At(outer0 + 2, outer0 + 2).SupplyBox = true;
     }
 
@@ -507,6 +545,7 @@ public sealed partial class WorldLayout
                     LightMood.Dim => r < 0.6 ? CeilingKind.LightOff : r < 0.85 ? CeilingKind.LightFlicker : working,
                     LightMood.Failing => r < 0.25 ? CeilingKind.LightOff : CeilingKind.LightFlicker,
                     LightMood.Dark => CeilingKind.LightOff,
+                    LightMood.Red => r < 0.3 ? CeilingKind.LampRed : CeilingKind.Tile,
                     // Blackout zones: dead fixtures, and now and then one that still sputters
                     _ => r < 0.05 ? CeilingKind.LightOff : r < 0.08 ? CeilingKind.LightFlicker : CeilingKind.Tile,
                 };

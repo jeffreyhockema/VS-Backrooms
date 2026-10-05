@@ -11,8 +11,13 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Cloth",
 	drawtype: "cube",
+	// Turned at random, so the pile does not line up into a grid
 	textures: {
-		all: { base: "block/carpet-{type}" }
+		all: { base: "block/carpet-{type}", alternates: [
+			{ base: "block/carpet-{type}", rotation: 90 },
+			{ base: "block/carpet-{type}", rotation: 180 },
+			{ base: "block/carpet-{type}", rotation: 270 }
+		] }
 	},
 	resistance: 1.5,
 	lightAbsorption: 99,

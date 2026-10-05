@@ -1,0 +1,362 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bulkheadglass": "backrooms:block/detail/bulkheadglass",
+		"cinder": "backrooms:block/level3/l3wall-cinder",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cinder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				5,
+				4,
+				-1
+			],
+			"to": [
+				11,
+				11,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				5.5,
+				4.5,
+				-3
+			],
+			"to": [
+				10.5,
+				10.5,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6.0
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						2,
+						6.0
+					],
+					"glow": 220
+				},
+				"south": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6.0
+					],
+					"glow": 220
+				},
+				"west": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						2,
+						6.0
+					],
+					"glow": 220
+				},
+				"up": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2
+					],
+					"glow": 220
+				},
+				"down": {
+					"texture": "#bulkheadglass",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "CageH",
+			"from": [
+				5.2,
+				7.3,
+				-3.3
+			],
+			"to": [
+				10.8,
+				7.7,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.6000000000000005,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.6000000000000005,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.6000000000000005,
+						2.3
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.6000000000000005,
+						2.3
+					]
+				}
+			}
+		},
+		{
+			"name": "CageV",
+			"from": [
+				7.8,
+				4.2,
+				-3.3
+			],
+			"to": [
+				8.2,
+				10.8,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.6000000000000005
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.3,
+						6.6000000000000005
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.6000000000000005
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.3,
+						6.6000000000000005
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.3
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.3
+					]
+				}
+			}
+		}
+	]
+}

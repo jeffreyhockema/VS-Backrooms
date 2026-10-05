@@ -1,0 +1,35 @@
+// The mass of worms writhing a metre under Level 10. Digging into it is a mistake
+{
+	"code": "wormmass",
+	"class": "BackroomsWorms",
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/detail/wormmass"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1.2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:creature-earthworm",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:effect/squish*",
+		"break": "game:effect/squish*",
+		"hit": "game:effect/squish*"
+	}
+}

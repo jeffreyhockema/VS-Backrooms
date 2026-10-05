@@ -1,0 +1,51 @@
+// Jetty Boards
+{
+	"code": "jetty",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"planks"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-planks": {
+			"all": {
+				"base": "block/detail/jetty",
+				"alternates": [
+					{
+						"base": "block/detail/jetty",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/jetty",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/jetty",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

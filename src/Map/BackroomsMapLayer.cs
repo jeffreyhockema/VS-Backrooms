@@ -24,6 +24,8 @@ public class BackroomsMapLayer : MapLayer
     /// <summary>In darkness the player only makes out their immediate surroundings.</summary>
     private const int DarkRevealRadius = 4;
     private const int DarkLightLevel = 5;
+    /// <summary>In Level 6 maps fail: only what is within reach is remembered, lit or not.</summary>
+    private const int Level6RevealRadius = 2;
 
     private const float RevealInterval = 0.25f;
     private const float TextureInterval = 0.5f;
@@ -32,6 +34,8 @@ public class BackroomsMapLayer : MapLayer
     private readonly ICoreClientAPI capi;
     private readonly ExploredMapStore store;
     private readonly WorldGeometry geometry;
+    private readonly WorldLayout layout;
+    private double revealLimit = RevealRadius;
 
     private readonly Dictionary<FastVec2i, MultiChunkMapComponent> components = new();
     private readonly HashSet<FastVec2i> visibleChunks = new();
@@ -48,7 +52,7 @@ public class BackroomsMapLayer : MapLayer
     private float textureAccum;
     private float saveAccum;
 
-    public override string Title => "Explored";
+    public override string Title => Lang.Get("backrooms:maplayer-explored");
     public override string LayerGroupCode => "terrain";
     public override EnumMapAppSide DataSide => EnumMapAppSide.Client;
 
@@ -58,6 +62,7 @@ public class BackroomsMapLayer : MapLayer
         if (capi == null) return;
 
         geometry = new WorldGeometry(capi.World.BlockAccessor.MapSizeY);
+        layout = BackroomsWorld.CreateLayout(capi.World);
         string path = Path.Combine(GamePaths.DataPath, "ModData", "backrooms", $"explored-{capi.World.SavegameIdentifier}.bin");
         store = new ExploredMapStore(path, capi.Logger);
         store.Load();
@@ -103,7 +108,7 @@ public class BackroomsMapLayer : MapLayer
 
     public override void OnShutDown()
     {
-        store?.Save();
+        store?.Save(wait: true);
     }
 
     public override void Dispose()
@@ -117,12 +122,16 @@ public class BackroomsMapLayer : MapLayer
     private void RevealAroundPlayer()
     {
         EntityPlayer player = capi.World.Player?.Entity;
-        if (player == null || !geometry.Contains(player.Pos.Y)) return;
+        if (player == null) return;
 
         double originX = player.Pos.X;
         double originZ = player.Pos.Z;
         int centerX = (int)Math.Floor(originX);
         int centerZ = (int)Math.Floor(originZ);
+        int mx = WorldLayout.MacroOf(centerX), mz = WorldLayout.MacroOf(centerZ);
+        int level = layout.LevelAt(mx, mz);
+        if (!SampleHeights(level, player.Pos.Y)) return;
+        revealLimit = level == 6 && !layout.IsSnackrooms(mx, mz) ? Level6RevealRadius : RevealRadius;
 
         Array.Clear(sightGrid);
         pass++;
@@ -133,7 +142,7 @@ public class BackroomsMapLayer : MapLayer
             double dx = Math.Cos(angle);
             double dz = Math.Sin(angle);
 
-            for (double t = 0; t <= RevealRadius; t += 0.4)
+            for (double t = 0; t <= revealLimit; t += 0.4)
             {
                 int x = (int)Math.Floor(originX + dx * t);
                 int z = (int)Math.Floor(originZ + dz * t);
@@ -152,6 +161,34 @@ public class BackroomsMapLayer : MapLayer
         }
     }
 
+    /// <summary>The floor the current pass maps (the floor under the player's feet, in the sea and the caves).</summary>
+    private int floorY;
+
+    /// <summary>
+    /// Decides which floor to map from where the player is: the level's own floor on most levels; the surface of
+    /// Level 7's sea, even while diving; and in Level 8's caves, whatever floor the player stands on.
+    /// </summary>
+    private bool SampleHeights(int level, double y)
+    {
+        floorY = geometry.FloorY;
+        switch (level)
+        {
+            case 7:
+                return y > geometry.FloorY - 70 && y < geometry.FloorY + WorldGeometry.MaxRoomHeight + 1;
+            case 8:
+                if (y < geometry.FloorY - 62 || y > geometry.FloorY + 9) return false;
+                floorY = (int)Math.Floor(y) - 1;
+                return true;
+            case 11:
+                // The city's streets, or the subway platforms seven blocks under the avenues
+                if (y < geometry.CityFloorY - 9 || y > geometry.CityFloorY + 6) return false;
+                floorY = y < geometry.CityFloorY - 1 ? geometry.CityFloorY - 6 : geometry.CityFloorY;
+                return true;
+            default:
+                return geometry.Contains(y);
+        }
+    }
+
     private const sbyte SightOpen = 1;
     private const sbyte SightBlocked = 2;
     private const sbyte SightUnloaded = 3;
@@ -163,8 +200,8 @@ public class BackroomsMapLayer : MapLayer
 
         IBlockAccessor blockAccessor = capi.World.BlockAccessor;
         sbyte sight;
-        if (blockAccessor.GetChunkAtBlockPos(x, geometry.EyeY, z) == null) sight = SightUnloaded;
-        else sight = IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, geometry.EyeY, z))) ? SightBlocked : SightOpen;
+        if (blockAccessor.GetChunkAtBlockPos(x, floorY + 2, z) == null) sight = SightUnloaded;
+        else sight = IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, floorY + 2, z))) ? SightBlocked : SightOpen;
 
         sightGrid[index] = sight;
         return sight;
@@ -173,10 +210,10 @@ public class BackroomsMapLayer : MapLayer
     private void RevealColumn(int x, int z, double distance)
     {
         IBlockAccessor blockAccessor = capi.World.BlockAccessor;
-        int light = blockAccessor.GetLightLevel(tmpPos.Set(x, geometry.FloorY + 1, z), EnumLightLevelType.MaxLight);
+        int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floorY + 1, z), EnumLightLevelType.MaxLight);
         if (light < DarkLightLevel && distance > DarkRevealRadius) return;
 
-        int color = MapColors.Classify(blockAccessor, geometry, tmpPos, x, z, light);
+        int color = MapColors.Classify(blockAccessor, floorY, floorY + geometry.CeilingY - 1 - geometry.FloorY, tmpPos, x, z, light);
         if (store.SetPixel(x, z, color))
         {
             dirtyChunks.Add(new FastVec2i(x / ExploredMapStore.ChunkSize, z / ExploredMapStore.ChunkSize));

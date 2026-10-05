@@ -1,0 +1,195 @@
+// Traffic lights on a corner: dead, stuck on red, or blinking amber over the empty junction
+{
+	"code": "trafficlight",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"dead",
+				"red",
+				"amber"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-dead-north": {
+			"base": "block/detail/trafficlight-dead",
+			"rotateY": 0
+		},
+		"*-dead-east": {
+			"base": "block/detail/trafficlight-dead",
+			"rotateY": 270
+		},
+		"*-dead-south": {
+			"base": "block/detail/trafficlight-dead",
+			"rotateY": 180
+		},
+		"*-dead-west": {
+			"base": "block/detail/trafficlight-dead",
+			"rotateY": 90
+		},
+		"*-red-north": {
+			"base": "block/detail/trafficlight-red",
+			"rotateY": 0
+		},
+		"*-red-east": {
+			"base": "block/detail/trafficlight-red",
+			"rotateY": 270
+		},
+		"*-red-south": {
+			"base": "block/detail/trafficlight-red",
+			"rotateY": 180
+		},
+		"*-red-west": {
+			"base": "block/detail/trafficlight-red",
+			"rotateY": 90
+		},
+		"*-amber-north": {
+			"base": "block/detail/trafficlight-amber",
+			"rotateY": 0
+		},
+		"*-amber-east": {
+			"base": "block/detail/trafficlight-amber",
+			"rotateY": 270
+		},
+		"*-amber-south": {
+			"base": "block/detail/trafficlight-amber",
+			"rotateY": 180
+		},
+		"*-amber-west": {
+			"base": "block/detail/trafficlight-amber",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-dead-north"
+		],
+		"decorative": [
+			"*-dead-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62
+		},
+		"*-east": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62
+		},
+		"*-east": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 0.62,
+			"y2": 2,
+			"z2": 0.62,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-red-*": [
+			0,
+			7,
+			6
+		]
+	},
+	"entityClassByType": {
+		"*-amber-*": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-amber-north": {
+			"offBlock": "backrooms:trafficlight-dead-north"
+		},
+		"*-amber-east": {
+			"offBlock": "backrooms:trafficlight-dead-east"
+		},
+		"*-amber-south": {
+			"offBlock": "backrooms:trafficlight-dead-south"
+		},
+		"*-amber-west": {
+			"offBlock": "backrooms:trafficlight-dead-west"
+		}
+	}
+}

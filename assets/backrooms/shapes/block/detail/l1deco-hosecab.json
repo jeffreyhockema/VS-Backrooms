@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hosecab": "backrooms:block/detail/hosecab",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"whiteblock": "backrooms:block/detail/whiteblock"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#whiteblock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cabinet",
+			"from": [
+				2,
+				0,
+				-3
+			],
+			"to": [
+				14,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#hosecab",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CabinetSides",
+			"from": [
+				2,
+				0,
+				-3
+			],
+			"to": [
+				14,
+				14,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						14
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						14
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				}
+			}
+		}
+	]
+}

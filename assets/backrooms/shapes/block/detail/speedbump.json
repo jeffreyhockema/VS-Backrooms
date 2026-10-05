@@ -1,0 +1,147 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"speedbump": "backrooms:block/detail/speedbump"
+	},
+	"elements": [
+		{
+			"name": "Hump",
+			"from": [
+				0,
+				0,
+				5
+			],
+			"to": [
+				16,
+				1.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"down": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Crown",
+			"from": [
+				0,
+				1.5,
+				6.5
+			],
+			"to": [
+				16,
+				2.2,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#speedbump",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

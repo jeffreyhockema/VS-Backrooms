@@ -1,0 +1,69 @@
+// Level 3 floors: steel grating, hazard-striped concrete, and the flagstones and carpet of a Sanctum
+{
+	"code": "l3floor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"grate",
+				"hazard",
+				"stone",
+				"carpet"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-grate": {
+			"all": {
+				"base": "block/detail/grate"
+			}
+		},
+		"*-hazard": {
+			"all": {
+				"base": "block/detail/l3hazard"
+			}
+		},
+		"*-stone": {
+			"all": {
+				"base": "block/detail/l3stone",
+				"alternates": [
+					{
+						"base": "block/detail/l3stone",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l3stone",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l3stone",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-carpet": {
+			"all": {
+				"base": "block/detail/sanctumcarpet"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

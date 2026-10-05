@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"frieze": "backrooms:block/level5/hotelwall-frieze",
+		"gilt": "backrooms:block/level5/gilt",
+		"ornateclock": "backrooms:block/detail/ornateclock"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Clock",
+			"from": [
+				4,
+				1,
+				-1.5
+			],
+			"to": [
+				12,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#ornateclock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ClockSides",
+			"from": [
+				4,
+				1,
+				-1.5
+			],
+			"to": [
+				12,
+				12,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

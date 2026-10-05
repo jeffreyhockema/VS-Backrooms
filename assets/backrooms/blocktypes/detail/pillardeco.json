@@ -1,0 +1,108 @@
+// Concrete Pillar with decorations on one face
+{
+	"code": "pillardeco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"banner0",
+				"banner1",
+				"banner2",
+				"banner3"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-banner0-north": {
+			"base": "block/detail/pillardeco-banner0",
+			"rotateY": 0
+		},
+		"*-banner0-east": {
+			"base": "block/detail/pillardeco-banner0",
+			"rotateY": 270
+		},
+		"*-banner0-south": {
+			"base": "block/detail/pillardeco-banner0",
+			"rotateY": 180
+		},
+		"*-banner0-west": {
+			"base": "block/detail/pillardeco-banner0",
+			"rotateY": 90
+		},
+		"*-banner1-north": {
+			"base": "block/detail/pillardeco-banner1",
+			"rotateY": 0
+		},
+		"*-banner1-east": {
+			"base": "block/detail/pillardeco-banner1",
+			"rotateY": 270
+		},
+		"*-banner1-south": {
+			"base": "block/detail/pillardeco-banner1",
+			"rotateY": 180
+		},
+		"*-banner1-west": {
+			"base": "block/detail/pillardeco-banner1",
+			"rotateY": 90
+		},
+		"*-banner2-north": {
+			"base": "block/detail/pillardeco-banner2",
+			"rotateY": 0
+		},
+		"*-banner2-east": {
+			"base": "block/detail/pillardeco-banner2",
+			"rotateY": 270
+		},
+		"*-banner2-south": {
+			"base": "block/detail/pillardeco-banner2",
+			"rotateY": 180
+		},
+		"*-banner2-west": {
+			"base": "block/detail/pillardeco-banner2",
+			"rotateY": 90
+		},
+		"*-banner3-north": {
+			"base": "block/detail/pillardeco-banner3",
+			"rotateY": 0
+		},
+		"*-banner3-east": {
+			"base": "block/detail/pillardeco-banner3",
+			"rotateY": 270
+		},
+		"*-banner3-south": {
+			"base": "block/detail/pillardeco-banner3",
+			"rotateY": 180
+		},
+		"*-banner3-west": {
+			"base": "block/detail/pillardeco-banner3",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

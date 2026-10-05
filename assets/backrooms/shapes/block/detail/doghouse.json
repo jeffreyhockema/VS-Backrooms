@@ -1,0 +1,324 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"barnroof": "backrooms:block/detail/barnroof",
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				6,
+				0,
+				1.8
+			],
+			"to": [
+				10,
+				7,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "RoofW",
+			"from": [
+				1,
+				9,
+				1
+			],
+			"to": [
+				8.5,
+				10.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						14
+					]
+				},
+				"down": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				10,
+				8
+			],
+			"rotationZ": 30
+		},
+		{
+			"name": "RoofE",
+			"from": [
+				7.5,
+				9,
+				1
+			],
+			"to": [
+				15,
+				10.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						14
+					]
+				},
+				"down": {
+					"texture": "#barnroof",
+					"uv": [
+						0,
+						0,
+						7.5,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				10,
+				8
+			],
+			"rotationZ": -30
+		},
+		{
+			"name": "Bowl",
+			"from": [
+				11,
+				0,
+				-1
+			],
+			"to": [
+				14,
+				1,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						1
+					]
+				},
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						1
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				}
+			}
+		}
+	]
+}

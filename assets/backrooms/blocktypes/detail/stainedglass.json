@@ -1,0 +1,40 @@
+// Stained Glass
+{
+	"code": "stainedglass",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/detail/stainedglass"
+			}
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"vertexFlags": {
+		"glowLevel": 110
+	}
+}

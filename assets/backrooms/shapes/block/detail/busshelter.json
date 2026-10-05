@@ -1,0 +1,474 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"shelterad": "backrooms:block/detail/shelterad",
+		"shelterglass": "backrooms:block/detail/shelterglass",
+		"steel": "backrooms:block/detail/steel",
+		"steeldark": "backrooms:block/detail/steeldark"
+	},
+	"elements": [
+		{
+			"name": "Roof",
+			"from": [
+				-16,
+				38,
+				-2
+			],
+			"to": [
+				32,
+				40,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				-16,
+				2,
+				16.5
+			],
+			"to": [
+				32,
+				36,
+				17.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelterglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#shelterglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				-16,
+				0,
+				16
+			],
+			"to": [
+				32,
+				38,
+				18
+			],
+			"faces": {
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PostL",
+			"from": [
+				-16,
+				0,
+				15.5
+			],
+			"to": [
+				-14.5,
+				38,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				30.5,
+				0,
+				15.5
+			],
+			"to": [
+				32,
+				38,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Side",
+			"from": [
+				-16,
+				2,
+				2
+			],
+			"to": [
+				-15,
+				36,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#shelterad",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#shelterad",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				-10,
+				7,
+				11
+			],
+			"to": [
+				26,
+				8.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "SeatLegs",
+			"from": [
+				-8,
+				0,
+				13
+			],
+			"to": [
+				24,
+				7,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		}
+	]
+}

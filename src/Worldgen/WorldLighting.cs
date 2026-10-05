@@ -26,7 +26,9 @@ public sealed class WorldLighting
     private readonly int chunkSize;
     private readonly int width;
     private readonly int height;
-    private readonly int bandBottom;
+    /// <summary>The bottom of the band being lit: the usual one, or (for Level 11, whose streets lie lower) the city's.</summary>
+    private int bandBottom;
+    private readonly int defaultBottom, cityBottom;
 
     private readonly byte[] absorption;
     private readonly byte[] level;
@@ -42,7 +44,8 @@ public sealed class WorldLighting
         this.chunkSize = chunkSize;
         blocks = api.World.Blocks;
         width = chunkSize + 2 * Margin;
-        bandBottom = generator.Geometry.BandBottom;
+        bandBottom = defaultBottom = generator.Geometry.BandBottom;
+        cityBottom = generator.Geometry.CityBandBottom;
         height = generator.Geometry.BandTop - bandBottom + 1;
 
         int cells = width * width * height;
@@ -58,13 +61,14 @@ public sealed class WorldLighting
     {
         Array.Clear(level);
         foreach (List<int> bucket in buckets) bucket.Clear();
+        bandBottom = generator.Macro(chunkX, chunkZ)[0].Level == 11 ? cityBottom : defaultBottom;
 
         // Absorption and light sources for this column and its eight neighbours
         for (int mz = -1; mz <= 1; mz++)
         {
             for (int mx = -1; mx <= 1; mx++)
             {
-                Tile[] tiles = generator.Layout.BuildMacro(chunkX + mx, chunkZ + mz);
+                Tile[] tiles = generator.Macro(chunkX + mx, chunkZ + mz);
                 for (int lz = 0; lz < chunkSize; lz++)
                 {
                     for (int lx = 0; lx < chunkSize; lx++)
@@ -74,7 +78,7 @@ public sealed class WorldLighting
                         int gz = (mz + 1) * chunkSize + lz;
                         for (int y = 0; y < height; y++)
                         {
-                            int block = generator.ColumnBlock(t, bandBottom + y, out int fluid);
+                            int block = generator.ColumnBlock(t, (chunkX + mx) * chunkSize + lx, (chunkZ + mz) * chunkSize + lz, bandBottom + y, out int fluid);
                             int absorb = Math.Max(blocks[block].LightAbsorption, fluid != 0 ? blocks[fluid].LightAbsorption : 0);
                             int index = Index(gx, y, gz);
                             absorption[index] = (byte)Math.Min(255, absorb);

@@ -1,0 +1,49 @@
+// Conductor Coil
+{
+	"code": "coilunit",
+	"shape": {
+		"base": "block/detail/coilunit"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit",
+		"ambient": "backrooms:ambient/transformer",
+		"ambientBlockCount": 6
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 1.35,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 1.35,
+		"z2": 0.88
+	}
+}

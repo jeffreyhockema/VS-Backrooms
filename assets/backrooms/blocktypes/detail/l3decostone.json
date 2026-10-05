@@ -1,0 +1,68 @@
+// Ashlar Stone with decorations on one face
+{
+	"code": "l3decostone",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"bulkhead"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-bulkhead-north": {
+			"base": "block/detail/l3decostone-bulkhead",
+			"rotateY": 0
+		},
+		"*-bulkhead-east": {
+			"base": "block/detail/l3decostone-bulkhead",
+			"rotateY": 270
+		},
+		"*-bulkhead-south": {
+			"base": "block/detail/l3decostone-bulkhead",
+			"rotateY": 180
+		},
+		"*-bulkhead-west": {
+			"base": "block/detail/l3decostone-bulkhead",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-bulkhead-*": [
+			6,
+			5,
+			9
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-bulkhead-*": 0,
+		"*": 99
+	}
+}

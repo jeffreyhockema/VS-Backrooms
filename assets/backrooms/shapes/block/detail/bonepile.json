@@ -1,0 +1,423 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bone": "backrooms:block/detail/bone"
+	},
+	"elements": [
+		{
+			"name": "Bone0",
+			"from": [
+				2,
+				0,
+				3
+			],
+			"to": [
+				11,
+				1.5,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bone1",
+			"from": [
+				5,
+				0,
+				8
+			],
+			"to": [
+				6.5,
+				1.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "Bone2",
+			"from": [
+				9,
+				0,
+				6
+			],
+			"to": [
+				15,
+				1.5,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bone3",
+			"from": [
+				3,
+				0,
+				11
+			],
+			"to": [
+				10,
+				1.5,
+				12.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						7,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Bone4",
+			"from": [
+				11,
+				0,
+				10
+			],
+			"to": [
+				12.4,
+				1.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Skull",
+			"from": [
+				10,
+				0,
+				2
+			],
+			"to": [
+				14,
+				4,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		}
+	]
+}

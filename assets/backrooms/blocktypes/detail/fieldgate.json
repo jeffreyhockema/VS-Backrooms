@@ -1,0 +1,131 @@
+// A gate left open onto the fields. Walk through it and you'll be in Level 10
+{
+	"code": "fieldgate",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/fieldgate",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/fieldgate",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/fieldgate",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/fieldgate",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.13,
+			"y2": 1.1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	}
+}

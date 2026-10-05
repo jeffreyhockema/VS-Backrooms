@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"houseinterior-beige": "backrooms:block/detail/houseinterior-beige",
+		"landscape": "backrooms:block/detail/landscape",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#houseinterior-beige",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Picture",
+			"from": [
+				2,
+				3,
+				-0.6
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#landscape",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PictureSides",
+			"from": [
+				2,
+				3,
+				-0.6
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

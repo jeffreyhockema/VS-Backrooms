@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"canvas": "backrooms:block/detail/canvas",
+		"rubber": "backrooms:block/detail/rubber"
+	},
+	"elements": [
+		{
+			"name": "Bag",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				12,
+				9,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						9
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						9
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Flap",
+			"from": [
+				4,
+				7,
+				4.5
+			],
+			"to": [
+				12,
+				10,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						6.5
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						8,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pocket",
+			"from": [
+				5,
+				1,
+				4
+			],
+			"to": [
+				11,
+				5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapL",
+			"from": [
+				5,
+				0,
+				11
+			],
+			"to": [
+				6,
+				8,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapR",
+			"from": [
+				10,
+				0,
+				11
+			],
+			"to": [
+				11,
+				8,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		}
+	]
+}

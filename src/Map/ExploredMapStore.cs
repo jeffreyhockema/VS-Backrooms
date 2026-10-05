@@ -75,31 +75,54 @@ public sealed class ExploredMapStore
         }
     }
 
-    public void Save()
+    private System.Threading.Tasks.Task pendingSave;
+    private readonly object fileLock = new();
+
+    /// <summary>
+    /// Saves the explored map if anything changed. The pixels are copied at once; compressing and writing them
+    /// happens on a background thread unless <paramref name="wait"/> (when the world is closing).
+    /// </summary>
+    public void Save(bool wait = false)
     {
-        if (!IsDirty) return;
-        try
+        if (!IsDirty)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            string tmpPath = filePath + ".tmp";
-            using (var file = File.Create(tmpPath))
-            using (var deflate = new DeflateStream(file, CompressionLevel.Fastest))
-            using (var writer = new BinaryWriter(deflate))
-            {
-                writer.Write(FileVersion);
-                writer.Write(chunks.Count);
-                foreach (var (key, pixels) in chunks)
-                {
-                    writer.Write(key);
-                    foreach (int pixel in pixels) writer.Write(pixel);
-                }
-            }
-            File.Move(tmpPath, filePath, overwrite: true);
-            IsDirty = false;
+            if (wait) pendingSave?.Wait();
+            return;
         }
-        catch (Exception e)
+        var snapshot = new List<(long Key, int[] Pixels)>(chunks.Count);
+        foreach (var (key, pixels) in chunks) snapshot.Add((key, (int[])pixels.Clone()));
+        IsDirty = false;
+
+        pendingSave = (pendingSave ?? System.Threading.Tasks.Task.CompletedTask).ContinueWith(_ => Write(snapshot));
+        if (wait) pendingSave.Wait();
+    }
+
+    private void Write(List<(long Key, int[] Pixels)> snapshot)
+    {
+        lock (fileLock)
         {
-            logger.Error("[backrooms] Could not save explored map to {0}: {1}", filePath, e.Message);
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                string tmpPath = filePath + ".tmp";
+                using (var file = File.Create(tmpPath))
+                using (var deflate = new DeflateStream(file, CompressionLevel.Fastest))
+                using (var writer = new BinaryWriter(deflate))
+                {
+                    writer.Write(FileVersion);
+                    writer.Write(snapshot.Count);
+                    foreach (var (key, pixels) in snapshot)
+                    {
+                        writer.Write(key);
+                        writer.Write(System.Runtime.InteropServices.MemoryMarshal.AsBytes(pixels.AsSpan()));
+                    }
+                }
+                File.Move(tmpPath, filePath, overwrite: true);
+            }
+            catch (Exception e)
+            {
+                logger.Error("[backrooms] Could not save explored map to {0}: {1}", filePath, e.Message);
+            }
         }
     }
 }

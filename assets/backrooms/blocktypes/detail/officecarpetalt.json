@@ -1,0 +1,42 @@
+{
+	"code": "officecarpetalt",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"papers",
+				"stain"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-papers": {
+			"all": {
+				"base": "block/detail/officecarpet-papers"
+			}
+		},
+		"*-stain": {
+			"all": {
+				"base": "block/detail/officecarpet-stain"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

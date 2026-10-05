@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"barrelwood": "backrooms:block/detail/barrelwood",
+		"nails": "backrooms:block/detail/nails"
+	},
+	"elements": [
+		{
+			"name": "Barrel",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				14,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#barrelwood",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#barrelwood",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"south": {
+					"texture": "#barrelwood",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#barrelwood",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"down": {
+					"texture": "#barrelwood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Nails",
+			"from": [
+				2.5,
+				12,
+				2.5
+			],
+			"to": [
+				13.5,
+				13,
+				13.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#nails",
+					"uv": [
+						0,
+						0,
+						11.0,
+						11.0
+					]
+				}
+			}
+		}
+	]
+}

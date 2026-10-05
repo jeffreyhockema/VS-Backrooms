@@ -1,0 +1,442 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"tubewarm": "backrooms:block/props/tube-warm"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				6,
+				0,
+				6
+			],
+			"to": [
+				10,
+				1,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				7.5,
+				1,
+				7.5
+			],
+			"to": [
+				8.5,
+				14,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Arms",
+			"from": [
+				3,
+				13,
+				7.5
+			],
+			"to": [
+				13,
+				14,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						10,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						10,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CandleL",
+			"from": [
+				3,
+				14,
+				7.5
+			],
+			"to": [
+				4,
+				18,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "CandleM",
+			"from": [
+				7.5,
+				15,
+				7.5
+			],
+			"to": [
+				8.5,
+				19,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "CandleR",
+			"from": [
+				12,
+				14,
+				7.5
+			],
+			"to": [
+				13,
+				18,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					],
+					"glow": 180
+				}
+			}
+		}
+	]
+}

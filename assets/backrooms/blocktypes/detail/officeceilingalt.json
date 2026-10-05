@@ -1,0 +1,75 @@
+// Drop-ceiling tiles with air diffusers, sprinkler heads and water stains
+{
+	"code": "officeceilingalt",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"vent",
+				"sprinkler",
+				"stain"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-vent": {
+			"all": {
+				"base": "block/detail/officeceiling-vent"
+			}
+		},
+		"*-sprinkler": {
+			"all": {
+				"base": "block/detail/officeceiling-sprinkler"
+			}
+		},
+		"*-stain": {
+			"all": {
+				"base": "block/detail/officeceiling-stain"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.12,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "rottenwood",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0
+			}
+		}
+	]
+}

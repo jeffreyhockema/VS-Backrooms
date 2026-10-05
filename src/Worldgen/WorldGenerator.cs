@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
@@ -11,9 +12,12 @@ namespace Backrooms.Worldgen;
 /// mantle, concrete, the floor, the walkable space of the level (3 blocks on Levels 0 and 2, 4 on Level 1), its
 /// ceiling, then concrete (with a dusty crawlspace above the Level 0 tiles) up to a mantle cap.
 /// </summary>
-public sealed class WorldGenerator
+public sealed partial class WorldGenerator
 {
-    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila" };
+    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila", "red" };
+
+    /// <summary>Level 0's papered walls: the index of a pattern's blocks, or -1 for any other wall.</summary>
+    private static int Paper(WallPattern pattern) => pattern <= WallPattern.Manila ? (int)pattern : pattern == WallPattern.RedRoom ? 4 : -1;
     private static readonly string[] PierCodes = { "west", "east", "north", "south" };
     private static readonly string[] Sides = { "north", "east", "south", "west" };
     private static readonly string[] Letters = { "a", "b", "c", "d", "e", "f" };
@@ -21,53 +25,279 @@ public sealed class WorldGenerator
     private const int PartUpper = 0, PartPlain = 1, PartBaseboard = 2, PartRail = 3, PartOutlet = 4;
     private static readonly string[] PartCodes = { "upper", "plain", "baseboard", "rail", "outlet" };
 
+    /// <summary>
+    /// The detail props: which block draws each value of <see cref="Tile.Variant"/>. Oriented props come in four
+    /// variants by facing; props with kinds pick theirs from <see cref="Tile.Stack"/>. HeadFirst props (beds) are
+    /// modelled head to the north, so they turn to face away from their <see cref="Tile.Pier"/>.
+    /// </summary>
+    private static readonly (byte Prop, string Code, bool Oriented, string[] Kinds, bool HeadFirst)[] PropTable =
+    {
+        (Props.CardboardBoxes, "cardboardboxes", false, null, false),
+        (Props.Workbench, "workbench", true, null, false),
+        (Props.Toolbox, "toolbox", true, null, false),
+        (Props.Plywood, "plywood", true, null, false),
+        (Props.Tent, "tent", true, null, false),
+        (Props.Bedroll, "bedroll", true, null, false),
+        (Props.Lantern, "camplantern", false, null, false),
+        (Props.HospitalBed, "hospitalbed", true, new[] { "head", "foot" }, true),
+        (Props.FoldingTable, "foldingtable", false, null, false),
+        (Props.FoldingChair, "foldingchair", true, null, false),
+        (Props.MedCabinet, "medcabinet", true, null, false),
+        (Props.TrafficCone, "trafficcone", false, null, false),
+        (Props.WetFloorSign, "wetfloorsign", true, null, false),
+        (Props.Pallet, "pallet", false, null, false),
+        (Props.TrashCan, "trashcan", false, null, false),
+        (Props.PayStation, "paystation", true, null, false),
+        (Props.SpeedBump, "speedbump", true, null, false),
+        (Props.BurnBarrel, "burnbarrel", false, null, false),
+        (Props.Coil, "coilunit", false, null, false),
+        (Props.Switchgear, "switchgear", true, null, false),
+        (Props.FloorFan, "floorfan", true, null, false),
+        (Props.Generator, "generator", true, null, false),
+        (Props.CableSpool, "cablespool", false, null, false),
+        (Props.ControlDesk, "controldesk", true, null, false),
+        (Props.Conveyor, "conveyor", true, new[] { "empty", "box" }, false),
+        (Props.Candelabra, "candelabra", false, null, false),
+        (Props.AngelStatue, "angelstatue", true, null, false),
+        (Props.FloorCable, "floorcable", true, null, false),
+        (Props.PipeStack, "pipestack", true, null, false),
+        (Props.Ficus, "ficus", false, null, false),
+        (Props.ChairStack, "chairstack", false, null, false),
+        (Props.Copier, "copier", true, null, false),
+        (Props.OfficeBookshelf, "officebookshelf", true, null, false),
+        (Props.ServerRack, "serverrack", true, null, false),
+        (Props.KitchenCounter, "kitchencounter", true, new[] { "plain", "sink", "micro" }, false),
+        (Props.Fridge, "fridge", true, null, false),
+        (Props.RoundTable, "roundtable", false, null, false),
+        (Props.ReceptionDesk, "receptiondesk", true, null, false),
+        (Props.Wastebasket, "wastebasket", false, null, false),
+        (Props.CoatStand, "coatstand", false, null, false),
+        (Props.TippedChair, "officechairtipped", true, null, false),
+        (Props.Bench, "bench", true, null, false),
+        (Props.ConsoleTable, "consoletable", true, null, false),
+        (Props.HotelBookshelf, "hotelbookshelf", true, null, false),
+        (Props.CurioCabinet, "curiocabinet", true, null, false),
+        (Props.LuggageCart, "luggagecart", false, null, false),
+        (Props.ServiceTrolley, "servicetrolley", true, null, false),
+        (Props.Radiator, "radiator", true, null, false),
+        (Props.WritingDesk, "writingdesk", true, null, false),
+        (Props.HotelChair, "hotelchair", true, null, false),
+        (Props.FloorLamp, "floorlamp", false, null, false),
+        (Props.Suitcase, "suitcase", true, null, false),
+        (Props.CoffeeTable, "coffeetable", false, null, false),
+        (Props.GrandfatherClock, "grandfatherclock", true, null, false),
+        (Props.FrontDesk, "hotelreception", true, null, false),
+        (Props.AshtrayStand, "ashtraystand", false, null, false),
+        (Props.DiningTable, "diningtable", false, null, false),
+        (Props.GrandPiano, "grandpiano", true, null, false),
+        (Props.CoalPile, "coalpile", false, null, false),
+        (Props.Tripwire, "tripwire", true, null, false),
+        (Props.CafeTable, "cafetable", false, null, false),
+        (Props.CafeChair, "cafechair", true, null, false),
+        (Props.SnackCounter, "snackcounter", true, new[] { "plain", "register", "display" }, false),
+        (Props.Stove, "stove", true, null, false),
+        (Props.Fryer, "fryer", true, null, false),
+        (Props.SnackShelf, "snackshelf", true, null, false),
+        (Props.SnackVending, "snackvending", true, null, false),
+        (Props.DrinkFridge, "drinkfridge", true, null, false),
+        (Props.BonePile, "bonepile", false, null, false),
+        (Props.ScrapMetal, "scrapmetal", false, null, false),
+        (Props.JawSkeleton, "jawskeleton", true, null, false),
+        (Props.Ribcage, "ribcage", true, null, false),
+        (Props.Backpack, "backpack", true, null, false),
+        (Props.WreckCrate, "wreckcrate", false, null, false),
+        (Props.MegMarker, "megmarker", true, null, false),
+        (Props.RoadLamp, "roadlamp", false, null, false),
+        (Props.StoneHand, "stonehand", true, null, false),
+        (Props.StoneStapler, "stonestapler", false, null, false),
+        (Props.Tv, "tv", true, null, false),
+        (Props.Bathtub, "bathtub", true, new[] { "head", "foot" }, true),
+        (Props.Toilet, "toilet", true, null, false),
+        (Props.Dresser, "dresser", true, null, false),
+        (Props.Streetlight, "streetlight", true, new[] { "on", "off", "flicker" }, false),
+        (Props.Mailbox, "mailbox", true, null, false),
+        (Props.SeedSacks, "seedsacks", false, null, false),
+        (Props.ToolShelf, "toolshelf", true, null, false),
+        (Props.PantryShelf, "pantryshelf", true, null, false),
+        (Props.KitchenCabinet, "kitchencabinet", true, null, false),
+        (Props.FieldGate, "fieldgate", true, null, false),
+        (Props.FeedTrough, "feedtrough", true, null, false),
+        (Props.ToolRack, "toolrack", true, null, false),
+        (Props.NailBarrel, "nailbarrel", false, null, false),
+        (Props.FireHydrant, "firehydrant", true, null, false),
+        (Props.StopSign, "stopsign", true, null, false),
+        (Props.WheelieBin, "wheeliebin", true, null, false),
+        (Props.BasketballHoop, "basketballhoop", true, null, false),
+        (Props.SwingSet, "swingset", true, null, false),
+        (Props.Grill, "grill", true, null, false),
+        (Props.Laundry, "laundry", true, new[] { "washer", "dryer" }, false),
+        (Props.ToyBox, "toybox", true, null, false),
+        (Props.Doghouse, "doghouse", true, null, false),
+        (Props.PatioChair, "patiochair", true, null, false),
+        (Props.Scarecrow, "scarecrow", true, null, false),
+        (Props.PowerPole, "powerpole", true, null, false),
+        (Props.Plough, "plough", true, null, false),
+        (Props.WaterPump, "waterpump", false, null, false),
+        (Props.Tractor, "tractor", false, null, false),
+        (Props.HayRoll, "hayroll", true, null, false),
+        (Props.IceMachine, "icemachine", true, null, false),
+        (Props.RoomServiceTray, "roomservicetray", true, null, false),
+        (Props.LaundryCart, "laundrycart", true, null, false),
+        (Props.Flashlight, "flashlight", true, null, false),
+        (Props.Driftwood, "driftwood", true, null, false),
+        (Props.Buoy, "buoy", false, null, false),
+        (Props.TrafficLight, "trafficlight", true, new[] { "dead", "red", "amber" }, false),
+        (Props.BusShelter, "busshelter", true, null, false),
+        (Props.NewsBox, "newsbox", true, null, false),
+        (Props.StreetSign, "streetsign", true, null, false),
+        (Props.ParkingMeter, "parkingmeter", true, null, false),
+        (Props.PhoneBooth, "phonebooth", true, null, false),
+        (Props.VendorCart, "vendorcart", true, null, false),
+        (Props.ClothesRack, "clothesrack", true, null, false),
+        (Props.ShoppingCart, "shoppingcart", true, null, false),
+        (Props.Pew, "pew", true, null, false),
+        (Props.Dumpster, "dumpster", true, null, false),
+        (Props.TrashBags, "trashbags", false, null, false),
+        (Props.AcUnit, "acunit", true, null, false),
+        (Props.WaterTank, "watertank", false, null, false),
+        (Props.Antenna, "antenna", false, null, false),
+        (Props.Postbox, "postbox", true, null, false),
+        (Props.Trolley, "trolley", true, null, false),
+        (Props.MachineParts, "machineparts", true, null, false),
+        (Props.TrafficSign, "trafficsign", true, new[] { "oneway", "noentry", "exit" }, false),
+    };
+
+    /// <summary>Wall decoration families: one block type per wall material.</summary>
+    private static readonly Dictionary<string, WallPattern> DecorFamilies = new()
+    {
+        ["l1deco"] = WallPattern.WhiteBlock, ["concretedeco"] = WallPattern.Concrete, ["pillardeco"] = WallPattern.Pillar,
+        ["l3decoglazed"] = WallPattern.GlazedTile, ["l3decobrick"] = WallPattern.RedBrick, ["l3decocinder"] = WallPattern.Cinder,
+        ["l3decostone"] = WallPattern.Stone, ["officedeco"] = WallPattern.Drywall, ["hoteldeco"] = WallPattern.Hotel,
+        ["plasterdeco"] = WallPattern.Plaster, ["l6deco"] = WallPattern.L6Wall, ["snackdeco"] = WallPattern.SnackMall,
+        ["housedeco-floral"] = WallPattern.InteriorFloral, ["housedeco-stripe"] = WallPattern.InteriorStripe,
+        ["housedeco-beige"] = WallPattern.InteriorBeige, ["housedeco-green"] = WallPattern.InteriorGreen,
+        ["storefrontdeco"] = WallPattern.CityStorefront, ["citydeco"] = WallPattern.CityPlaster, ["subwaydeco"] = WallPattern.SubwayTile,
+        ["concretecam"] = WallPattern.Concrete, ["whitecam"] = WallPattern.WhiteBlock,
+        ["l3plaqueglazed"] = WallPattern.GlazedTile, ["l3plaquebrick"] = WallPattern.RedBrick, ["l3plaquecinder"] = WallPattern.Cinder,
+    };
+
+    private static readonly Dictionary<string, byte> DecorCodes = BuildDecorCodes();
+
+    private static Dictionary<string, byte> BuildDecorCodes()
+    {
+        var codes = new Dictionary<string, byte>
+        {
+            ["powerbox"] = Decor.PowerBox, ["breaker"] = Decor.Breaker, ["outlet"] = Decor.Outlet, ["extinguisher"] = Decor.Extinguisher,
+            ["alarm"] = Decor.Alarm, ["hosecab"] = Decor.HoseCabinet, ["levelsign"] = Decor.LevelSign, ["stairsign"] = Decor.StairSign,
+            ["note"] = Decor.Note, ["graffiti"] = Decor.Graffiti, ["pipes"] = Decor.Pipes, ["standpipe"] = Decor.Standpipe,
+            ["dangersign"] = Decor.DangerSign, ["gauges"] = Decor.Gauges, ["knifeswitch"] = Decor.KnifeSwitch,
+            ["junctionbox"] = Decor.JunctionBox, ["sparkoutlet"] = Decor.SparkOutlet, ["bulkhead"] = Decor.Bulkhead,
+            ["alarmbell"] = Decor.AlarmBell, ["wallcables"] = Decor.WallCables, ["risers"] = Decor.Risers,
+            ["fountain"] = Decor.Fountain, ["clock"] = Decor.Clock, ["whiteboard"] = Decor.Whiteboard, ["corkboard"] = Decor.Corkboard,
+            ["evacmap"] = Decor.EvacMap, ["switch"] = Decor.LightSwitch, ["frameghost"] = Decor.FrameGhost, ["phone"] = Decor.Phone,
+            ["callbutton"] = Decor.CallButton, ["mirror"] = Decor.Mirror, ["speaker"] = Decor.Speaker, ["housephone"] = Decor.HousePhone,
+            ["firehose"] = Decor.FireHose, ["keyrack"] = Decor.KeyRack, ["callplate"] = Decor.CallPlate, ["landscape"] = Decor.Landscape,
+            ["pipesv"] = Decor.PipesV, ["valve"] = Decor.Valve, ["pipecluster"] = Decor.PipeCluster,
+            ["megexit"] = Decor.MegExit, ["megcross"] = Decor.MegCross, ["meglogo"] = Decor.MegLogo, ["handprints"] = Decor.Handprints,
+            ["scratches"] = Decor.Scratches, ["signburger"] = Decor.SignBurger, ["signpizza"] = Decor.SignPizza, ["signtaco"] = Decor.SignTaco,
+            ["signdonut"] = Decor.SignDonut, ["menuboard"] = Decor.MenuBoard, ["mallmap"] = Decor.MallMap,
+            ["familyphoto"] = Decor.FamilyPhoto, ["housepainting"] = Decor.HousePainting, ["houseclock"] = Decor.HouseClock,
+            ["housemirror"] = Decor.HouseMirror,
+            ["signdiner"] = Decor.SignDiner, ["signgrocery"] = Decor.SignGrocery, ["signpharmacy"] = Decor.SignPharmacy,
+            ["signhardware"] = Decor.SignHardware, ["signlaundry"] = Decor.SignLaundry, ["signclothing"] = Decor.SignClothing,
+            ["signhotel"] = Decor.SignHotel, ["signoffices"] = Decor.SignOffices, ["signapartments"] = Decor.SignApartments,
+            ["signparking"] = Decor.SignParking, ["signmuseum"] = Decor.SignMuseum, ["signfarmacia"] = Decor.SignFarmacia,
+            ["signlavanderia"] = Decor.SignLavanderia, ["signbodega"] = Decor.SignBodega,
+            ["mailboxes"] = Decor.Mailboxes, ["directory"] = Decor.Directory, ["missingposter"] = Decor.MissingPoster,
+            ["camera"] = Decor.Camera, ["deadswitch"] = Decor.DeadSwitch, ["plaque"] = Decor.Plaque,
+            ["stationsign"] = Decor.StationSign, ["subwaymap"] = Decor.SubwayMap, ["subwaylamp"] = Decor.SubwayLamp, ["subwayad"] = Decor.SubwayAd,
+        };
+        for (int i = 0; i < 4; i++)
+        {
+            codes[$"painting{i}"] = (byte)(Decor.Painting + i);
+            codes[$"banner{i}"] = (byte)(Decor.Banner + i);
+        }
+        for (int i = 0; i < 8; i++) codes[$"roomsign{i}"] = (byte)(Decor.RoomSign + i);
+        for (int i = 0; i < 3; i++) codes[$"poster{i}"] = (byte)(Decor.Poster + i);
+        for (int i = 0; i < 8; i++) codes[$"gallery{i}"] = (byte)(Decor.Gallery + i);
+        return codes;
+    }
+
+    /// <summary>Decorations whose code is shared by several families but means something different in each.</summary>
+    private static byte DecorFor(string family, string code) => (family, code) switch
+    {
+        ("officedeco", "extinguisher") => Decor.ExtCabinet,
+        ("officedeco", "alarm") => Decor.FireAlarm,
+        ("officedeco", "stairsign") => Decor.OfficeStairSign,
+        ("hoteldeco", "clock") => Decor.HotelClock,
+        ("plasterdeco", "gauges") => Decor.PlasterGauges,
+        _ => DecorCodes.TryGetValue(code, out byte d) ? d : (byte)0,
+    };
+
     private readonly ICoreServerAPI api;
     private readonly int chunkSize;
     private readonly WorldLayout layout;
     private readonly WorldLighting lighting;
     public readonly WorldGeometry Geometry;
 
+    /// <summary>Every block of this mod by code path, for the many detail blocks looked up by name.</summary>
+    private readonly Dictionary<string, int> modBlocks = new();
+
     // Shared
     private readonly int mantleId, concreteId, waterId, boxId;
-    private readonly int[] floorIds = new int[17];
+    private readonly int[] floorIds = new int[128];
+    private readonly int[] overheadIds = new int[32];
+    private readonly int[,,] propIds = new int[256, 3, 4];
+    /// <summary>How many kinds each prop comes in, and whether it is modelled head to the north (beds, baths).</summary>
+    private readonly byte[] propKinds = new byte[256];
+    private readonly bool[] propHeadFirst = new bool[256];
+    private readonly int[,,,] decorIds = new int[64, 256, 6, 4];
+    private readonly int[,] exitLintelIds = new int[3, 2]; // concrete, white block, drywall x axis (we, ns)
     private readonly HashSet<int> flickerIds = new();
 
     // Level 0
     private readonly int ceilingTileId, lightOnId, lightLitId, lightOffId, lampDimId, lightFlickerId;
-    private readonly int[,] wallIds = new int[4, 5];
+    private readonly int[,] wallIds = new int[5, 5];
     private readonly int[] archIds = new int[4];
 
     // Level 1
-    private readonly int concreteWallId, concreteWallDamagedId, pillarId, pillarLightId, concreteCeilingId, exitSignId, crateId;
+    private readonly int concreteWallId, concreteWallDamagedId, pillarId, pillarBaseId, pillarLightId, concreteCeilingId, crateId;
+    private readonly int whiteUpperId, whiteBaseId, whiteLintelId, metalDoorLowerId, metalDoorUpperId;
     private readonly int[] pillarLetterIds = new int[6];
     private readonly int[,] hangingLightIds = new int[3, 2]; // state (on, off, flicker) x axis (we, ns)
-    private readonly int bulbOnId, conduitXId, conduitZId;
+    private readonly int[,] fireDoorIds = new int[2, 4]; // leaf (left, right) x facing
+    private readonly int bulbOnId, conduitXId, conduitZId, dripXId, dripZId;
     private readonly int[] shelfIds = new int[4];
     private readonly int[] stairIds = new int[4];
     private readonly int wheelStopId, carColliderId;
-    private readonly int[,] carIds = new int[4, 2]; // colour x facing (north, south)
+    private readonly int[,] carIds = new int[4, 4]; // colour x facing (north, south, east, west)
 
     // Level 2
     private readonly int tunnelFloorId, tunnelCeilingId, drumId;
+    private int tunnelDoorLowerId, tunnelDoorUpperId, lampRedId, ceilingFanId, almondSeepId;
     private readonly int pipeRunXId, pipeRunZId, pipeHubId, pipeLeakXId, pipeLeakZId;
     private readonly int[,] tunnelLightIds = new int[4, 4]; // state (white, warm, off, flicker) x pipes alongside (we, ns, hub, none)
     private readonly int[] cabinetIds = new int[4];
     private readonly Dictionary<string, int> tunnelWallIds = new();
 
     // Level 3
-    private readonly int dustyFloorId, plasterCeilingId, transformerId, windowGlowId, manholeId, rungsId;
+    private readonly int dustyFloorId, plasterCeilingId, transformerId, windowGlowId, manholeId, rungsId, sanctumStoneId;
     private readonly Dictionary<WallPattern, int> l3WallIds = new();
     private readonly Dictionary<(WallPattern, byte), int> l3FixtureIds = new();
-    private readonly int cableXId, cableZId, cableHubId;
+    private readonly int cableXId, cableZId, cableHubId, cableDroopXId, cableDroopZId;
     private readonly int[,] cableLightIds = new int[3, 2]; // state (warm, off, flicker) x axis (we, ns)
     private readonly int[] roomSignIds = new int[8];
     private readonly int barsWeId, barsNsId;
 
     // Level 4
-    private readonly int officeWallId, officeWindowId, officeGlassId, officeCeilingId, confTableId, elevatorLowerId, elevatorUpperId;
+    private readonly int officeWallId, officeWallBaseId, officeWindowId, officeGlassId, officeCeilingId, confTableId, elevatorLowerId, elevatorUpperId;
+    private readonly int officeDoorLowerId, officeDoorUpperId;
+    private readonly int[] officeWindowIds = new int[3]; // open, blacked out, blinds
     private readonly int[] officeLightIds = new int[4]; // on, lit, off, flicker
     private readonly int partitionWeId, partitionNsId;
     private readonly int[] deskIds = new int[4], chairIds = new int[4], filingIds = new int[4], vendingIds = new int[4], coolerIds = new int[4];
+    /// <summary>Two-wide elevators: [wall (drywall, hotel / cage: hotel, plaster), part (lower, upper, header), leaf (left, right), facing].</summary>
+    private readonly int[,,,] liftIds = new int[2, 3, 2, 4], cageIds = new int[2, 3, 2, 4];
 
     // Level 5
     private readonly int wainscotId, panelId, friezeId, marbleId, plasterId, beamCeilingId, creamCeilingId, chandelierId;
@@ -85,8 +315,14 @@ public sealed class WorldGenerator
     {
         this.api = api;
         this.layout = layout;
+        seed = (ulong)api.World.Seed;
         chunkSize = api.WorldManager.ChunkSize;
         Geometry = new WorldGeometry(api.WorldManager.MapSizeY);
+
+        foreach (Block block in api.World.Blocks)
+        {
+            if (block?.Code != null && block.Code.Domain == "backrooms") modBlocks[block.Code.Path] = block.BlockId;
+        }
 
         mantleId = BlockId("game:mantle");
         concreteId = BlockId("backrooms:concrete");
@@ -110,6 +346,68 @@ public sealed class WorldGenerator
         floorIds[(int)FloorKind.HotelMaroon] = BlockId("backrooms:hotelcarpet-maroon");
         floorIds[(int)FloorKind.HotelLobby] = BlockId("backrooms:hotelcarpet-lobby");
         floorIds[(int)FloorKind.HotelWood] = BlockId("backrooms:hotelwood");
+        floorIds[(int)FloorKind.L1Hall] = Id("l1hallfloor-plain");
+        floorIds[(int)FloorKind.ParkArrowN] = Id("parkfloor-arrown");
+        floorIds[(int)FloorKind.ParkArrowE] = Id("parkfloor-arrowe");
+        floorIds[(int)FloorKind.ParkArrowS] = Id("parkfloor-arrows");
+        floorIds[(int)FloorKind.ParkArrowW] = Id("parkfloor-arroww");
+        floorIds[(int)FloorKind.ParkOil] = Id("parkfloor-oil");
+        floorIds[(int)FloorKind.ParkDrain] = Id("parkfloor-drain");
+        floorIds[(int)FloorKind.Grate] = Id("l3floor-grate");
+        floorIds[(int)FloorKind.L3Hazard] = Id("l3floor-hazard");
+        floorIds[(int)FloorKind.L3Stone] = Id("l3floor-stone");
+        floorIds[(int)FloorKind.SanctumCarpet] = Id("l3floor-carpet");
+        floorIds[(int)FloorKind.OfficePapers] = Id("officecarpetalt-papers");
+        floorIds[(int)FloorKind.OfficeStain] = Id("officecarpetalt-stain");
+        floorIds[(int)FloorKind.HotelMarble] = Id("hotelfloor-marble");
+        floorIds[(int)FloorKind.HotelRunnerNS] = Id("hotelfloor-runnerns");
+        floorIds[(int)FloorKind.HotelRunnerWE] = Id("hotelfloor-runnerwe");
+        floorIds[(int)FloorKind.HotelRug] = Id("hotelfloor-rug");
+        InitDeep();
+
+        overheadIds[Overheads.ExitSignWE] = Id("exithanging-we");
+        overheadIds[Overheads.ExitSignNS] = Id("exithanging-ns");
+        overheadIds[Overheads.ClearanceWE] = Id("clearancebar-north");
+        overheadIds[Overheads.ClearanceNS] = Id("clearancebar-east");
+        overheadIds[Overheads.SprinklerWE] = Id("sprinkler-north");
+        overheadIds[Overheads.SprinklerNS] = Id("sprinkler-east");
+        overheadIds[Overheads.WireDroop] = Id("wiredroop");
+        overheadIds[Overheads.CeilingVent] = Id("officeceilingalt-vent");
+        overheadIds[Overheads.CeilingSprinkler] = Id("officeceilingalt-sprinkler");
+        overheadIds[Overheads.CeilingStain] = Id("officeceilingalt-stain");
+
+        foreach (var (prop, code, oriented, kinds, headFirst) in PropTable)
+        {
+            propKinds[prop] = (byte)(kinds?.Length ?? 1);
+            propHeadFirst[prop] = headFirst;
+            for (int k = 0; k < (kinds?.Length ?? 1); k++)
+            {
+                string kind = kinds != null ? "-" + kinds[k] : "";
+                for (int f = 0; f < 4; f++) propIds[prop, k, f] = Id(oriented ? $"{code}{kind}-{Sides[f]}" : $"{code}{kind}");
+            }
+        }
+        foreach (var (family, decor, rel, state) in DetailBlocks.Decorations)
+        {
+            byte d = DecorFor(family, decor);
+            if (d == 0 || !DecorFamilies.TryGetValue(family, out WallPattern pattern)) continue;
+            for (int f = 0; f < 4; f++) decorIds[(int)pattern, d, rel, f] = Id($"{family}-{state}-{Sides[f]}");
+        }
+        string[] exitMaterials = { "concrete", "whiteblock", "drywall" };
+        for (int m = 0; m < 3; m++)
+        {
+            exitLintelIds[m, 0] = Id($"exitlintel-{exitMaterials[m]}-we");
+            exitLintelIds[m, 1] = Id($"exitlintel-{exitMaterials[m]}-ns");
+        }
+        string[] lifts = { "lower", "upper", "header" }, cages = { "lower", "upper", "dial" }, leaves = { "l", "r" };
+        for (int part = 0; part < 3; part++)
+            for (int leaf = 0; leaf < 2; leaf++)
+                for (int f = 0; f < 4; f++)
+                {
+                    liftIds[0, part, leaf, f] = Id($"liftdoor-drywall-{lifts[part]}-{leaves[leaf]}-{Sides[f]}");
+                    liftIds[1, part, leaf, f] = Id($"liftdoor-hotel-{lifts[part]}-{leaves[leaf]}-{Sides[f]}");
+                    cageIds[0, part, leaf, f] = Id($"cagelift-hotel-{cages[part]}-{leaves[leaf]}-{Sides[f]}");
+                    cageIds[1, part, leaf, f] = Id($"cagelift-plaster-{cages[part]}-{leaves[leaf]}-{Sides[f]}");
+                }
 
         ceilingTileId = BlockId("backrooms:ceilingtile");
         lightOnId = BlockId("backrooms:fluorescentlight-on");
@@ -125,11 +423,21 @@ public sealed class WorldGenerator
         concreteWallId = BlockId("backrooms:concretewall-plain");
         concreteWallDamagedId = BlockId("backrooms:concretewall-damaged");
         pillarId = BlockId("backrooms:concretepillar-plain");
+        pillarBaseId = Id("pillarbase-plain");
         for (int i = 0; i < Letters.Length; i++) pillarLetterIds[i] = BlockId($"backrooms:concretepillar-{Letters[i]}");
         pillarLightId = BlockId("backrooms:pillarlight");
         concreteCeilingId = BlockId("backrooms:concreteceiling");
-        exitSignId = BlockId("backrooms:exitsign");
         crateId = BlockId("backrooms:crate");
+        whiteUpperId = Id("whiteblock-upper");
+        whiteBaseId = Id("whiteblock-base");
+        whiteLintelId = Id("whiteblock-lintel");
+        metalDoorLowerId = Id("metaldoor-lower");
+        metalDoorUpperId = Id("metaldoor-upper");
+        for (int f = 0; f < 4; f++)
+        {
+            fireDoorIds[0, f] = Id($"firedoor-l-{Sides[f]}");
+            fireDoorIds[1, f] = Id($"firedoor-r-{Sides[f]}");
+        }
         string[] lightStates = { "on", "off", "flicker" }, axes = { "we", "ns" };
         for (int st = 0; st < 3; st++)
             for (int a = 0; a < 2; a++)
@@ -137,6 +445,8 @@ public sealed class WorldGenerator
         bulbOnId = BlockId("backrooms:hangingbulb-on");
         conduitXId = BlockId("backrooms:conduit-we");
         conduitZId = BlockId("backrooms:conduit-ns");
+        dripXId = Id("drippipe-we");
+        dripZId = Id("drippipe-ns");
         wheelStopId = BlockId("backrooms:wheelstop");
         carColliderId = BlockId("backrooms:carcollider");
         string[] colours = { "red", "blue", "white", "black" };
@@ -144,6 +454,8 @@ public sealed class WorldGenerator
         {
             carIds[c, 0] = BlockId($"backrooms:car-{colours[c]}-north");
             carIds[c, 1] = BlockId($"backrooms:car-{colours[c]}-south");
+            carIds[c, 2] = BlockId($"backrooms:car-{colours[c]}-east");
+            carIds[c, 3] = BlockId($"backrooms:car-{colours[c]}-west");
         }
         for (int i = 0; i < Sides.Length; i++)
         {
@@ -174,6 +486,7 @@ public sealed class WorldGenerator
         windowGlowId = BlockId("backrooms:windowglow");
         manholeId = BlockId("backrooms:manhole");
         rungsId = BlockId("backrooms:rungs");
+        sanctumStoneId = Id("sanctumstone-plain");
         foreach ((WallPattern pattern, string code) in new[] { (WallPattern.GlazedTile, "glazed"), (WallPattern.RedBrick, "brick"), (WallPattern.Cinder, "cinder") })
         {
             l3WallIds[pattern] = BlockId($"backrooms:l3wall-{code}");
@@ -181,9 +494,13 @@ public sealed class WorldGenerator
             l3FixtureIds[(pattern, Props.WallPanel)] = BlockId($"backrooms:l3wallfixture-{code}-panel");
             l3FixtureIds[(pattern, Props.WallFan)] = BlockId($"backrooms:l3wallfixture-{code}-fan");
         }
+        l3WallIds[WallPattern.Stone] = sanctumStoneId;
+        InitCity();
         cableXId = BlockId("backrooms:cables-run-we");
         cableZId = BlockId("backrooms:cables-run-ns");
         cableHubId = BlockId("backrooms:cables-hub");
+        cableDroopXId = Id("cabledroop-plain-north");
+        cableDroopZId = Id("cabledroop-plain-east");
         string[] cableStates = { "warm", "off", "flicker" };
         for (int st = 0; st < 3; st++)
             for (int a = 0; a < 2; a++)
@@ -194,12 +511,18 @@ public sealed class WorldGenerator
 
         // Level 4
         officeWallId = BlockId("backrooms:officewall");
+        officeWallBaseId = Id("drywallbase-plain");
         officeWindowId = BlockId("backrooms:officewindow");
+        officeWindowIds[0] = officeWindowId;
+        officeWindowIds[1] = Id("officewindowalt-blackout");
+        officeWindowIds[2] = Id("officewindowalt-blinds");
         officeGlassId = BlockId("backrooms:officeglass");
         officeCeilingId = BlockId("backrooms:officeceiling");
         confTableId = BlockId("backrooms:conferencetable");
         elevatorLowerId = BlockId("backrooms:elevatordoor-lower");
         elevatorUpperId = BlockId("backrooms:elevatordoor-upper");
+        officeDoorLowerId = Id("officedoor-lower");
+        officeDoorUpperId = Id("officedoor-upper");
         string[] officeLightStates = { "on", "lit", "off", "flicker" };
         for (int st = 0; st < 4; st++) officeLightIds[st] = BlockId($"backrooms:officelight-{officeLightStates[st]}");
         partitionWeId = BlockId("backrooms:partition-we");
@@ -256,42 +579,79 @@ public sealed class WorldGenerator
 
     public WorldLayout Layout => layout;
 
+    // Recently built cells: lighting a chunk needs its eight neighbours, so each cell is wanted about ten times
+    private const int MacroCacheSize = 96;
+    private readonly Dictionary<(int, int), Tile[]> macroCache = new();
+    private readonly Queue<(int, int)> macroOrder = new();
+
+    /// <summary>The layout of a cell, from a small cache. The array is shared: read it, never change it.</summary>
+    public Tile[] Macro(int mx, int mz)
+    {
+        lock (macroCache)
+        {
+            if (macroCache.TryGetValue((mx, mz), out Tile[] cached)) return cached;
+        }
+        Tile[] tiles = layout.BuildMacro(mx, mz);
+        lock (macroCache)
+        {
+            if (macroCache.TryAdd((mx, mz), tiles))
+            {
+                macroOrder.Enqueue((mx, mz));
+                if (macroOrder.Count > MacroCacheSize) macroCache.Remove(macroOrder.Dequeue());
+            }
+        }
+        return tiles;
+    }
+
     public void Generate(IChunkColumnGenerateRequest request)
     {
         IServerChunk[] chunks = request.Chunks;
         foreach (IServerChunk chunk in chunks) chunk.Data.ClearBlocksAndPrepare();
 
         WorldGeometry g = Geometry;
+        Tile[] tiles = Macro(request.ChunkX, request.ChunkZ);
+        int level = tiles[0].Level;
+        bool openSky = WorldLayout.IsOpenSky(level);
+
         FillLayer(chunks, 0, mantleId);
         for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
-        FillLayer(chunks, g.CapY, mantleId);
+        if (!openSky) FillLayer(chunks, g.CapY, mantleId);
+        // The sea runs far deeper than the usual band, and Level 8's rock goes down further to be mined; the city's
+        // streets lie lower than every other level's floor and its towers rise to the top of the world
+        int bottom = level switch { 7 => Math.Max(2, g.FloorY - 125), 8 => g.BandBottom - 40, 11 => g.CityBandBottom, _ => g.BandBottom };
+        int bandTop = level == 11 ? g.TopY : g.BandTop;
 
-        Tile[] tiles = layout.BuildMacro(request.ChunkX, request.ChunkZ);
         IMapChunk mapChunk = chunks[0].MapChunk;
         var entities = new List<(BlockPos, string)>();
+        int yMax = 0;
 
         for (int lz = 0; lz < chunkSize; lz++)
         {
             for (int lx = 0; lx < chunkSize; lx++)
             {
                 Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
-                for (int y = g.BandBottom; y <= g.BandTop; y++)
+                int gx = request.ChunkX * chunkSize + lx, gz = request.ChunkZ * chunkSize + lz;
+                int top = 0;
+                for (int y = bottom; y <= bandTop; y++)
                 {
-                    int block = ColumnBlock(t, y, out int fluid);
-                    if (block != 0) SetBlock(chunks, lx, y, lz, block);
+                    int block = ColumnBlock(t, gx, gz, y, out int fluid);
+                    if (block != 0 || y < g.BandBottom) SetBlock(chunks, lx, y, lz, block);
                     if (fluid != 0) SetFluid(chunks, lx, y, lz, fluid);
+                    if (block != 0 || fluid != 0) top = y;
                     string entityClass = block != 0 ? api.World.Blocks[block].EntityClass : null;
-                    if (entityClass != null) entities.Add((new BlockPos(request.ChunkX * chunkSize + lx, y, request.ChunkZ * chunkSize + lz), entityClass));
+                    if (entityClass != null) entities.Add((new BlockPos(gx, y, gz), entityClass));
                 }
-                if (t.Kind == TileKind.Pit) LineShaft(chunks, tiles, lx, lz);
+                if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
                 int column = lz * chunkSize + lx;
-                mapChunk.RainHeightMap[column] = (ushort)g.CapY;
-                mapChunk.WorldGenTerrainHeightMap[column] = (ushort)g.FloorY;
+                int rainHeight = openSky ? top : g.CapY;
+                mapChunk.RainHeightMap[column] = (ushort)rainHeight;
+                mapChunk.WorldGenTerrainHeightMap[column] = (ushort)(openSky ? Math.Max(g.FloorFor(level), top) : g.FloorY);
+                yMax = Math.Max(yMax, rainHeight);
             }
         }
 
-        mapChunk.YMax = (ushort)g.CapY;
+        mapChunk.YMax = (ushort)yMax;
         lighting.Light(chunks, request.ChunkX, request.ChunkZ);
         if (entities.Count > 0) pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities;
     }
@@ -310,10 +670,18 @@ public sealed class WorldGenerator
     /// [<see cref="WorldGeometry.BandBottom"/>, <see cref="WorldGeometry.BandTop"/>]. Shaft lining, which
     /// depends on neighbouring columns, is left out; it absorbs light exactly like the concrete it replaces.
     /// </summary>
-    public int ColumnBlock(in Tile t, int y, out int fluid)
+    public int ColumnBlock(in Tile t, int gx, int gz, int y, out int fluid)
     {
         fluid = 0;
         int rel = y - Geometry.FloorY;
+        switch (t.Level)
+        {
+            case 7: return Level7Block(t, gx, gz, rel, out fluid);
+            case 8: return Level8Block(t, gx, gz, y, rel, out fluid);
+            case 9: return Level9Block(t, gx, gz, rel);
+            case 10: return Level10Block(t, gx, gz, rel, out fluid);
+            case 11: return Level11Block(t, gx, gz, y - Geometry.CityFloorY, out fluid);
+        }
         if (rel < 0) return BelowFloor(t, rel, out fluid);
 
         // Walls between levels (or around grand rooms) run solid up to the top of the tallest space next to them
@@ -323,21 +691,24 @@ public sealed class WorldGenerator
         return t.Level switch
         {
             0 => Level0Block(t, rel, out fluid),
-            1 => Level1Block(t, rel),
+            1 => Level1Block(t, rel, gx, gz),
             2 => Level2Block(t, rel),
             3 => Level3Block(t, rel),
             4 => Level4Block(t, rel),
-            _ => Level5Block(t, rel),
+            5 => Level5Block(t, rel),
+            _ => Level6Block(t, rel),
         };
     }
 
     private int BelowFloor(in Tile t, int rel, out int fluid)
     {
         fluid = 0;
-        if (t.Under > 0 && rel >= -5)
+        if (t.Level == 6 && t.Under is >= Unders.Descent1 and <= Unders.Descent3) return DescentBlock(t, rel);
+        if (t.Level == 3 && t.Under > 0 && rel >= -5)
         {
-            // Level 3's flooded utility tunnel: 3 high, knee-deep freezing water, reached down a manhole shaft
-            if (rel == -5) return concreteId;
+            // Level 3's flooded utility tunnel: 3 high, knee-deep freezing water, reached down a manhole shaft, its
+            // floor deep in the clay silt the water has carried in
+            if (rel == -5) return clayId != 0 ? clayId : concreteId;
             if (rel == -4) fluid = waterId;
             if (rel == -1) return t.Under == 2 ? rungsId : concreteId;
             return t.Under == 2 ? rungsId : 0;
@@ -350,6 +721,38 @@ public sealed class WorldGenerator
         if (t.Kind == TileKind.Water && rel == -1) return floorIds[(int)FloorKind.Soaked];
         return concreteId;
     }
+
+    // ---- Shared detail ----
+
+    /// <summary>The decoration block for a wall tile at this height, or 0 if it has none there.</summary>
+    private int Decorated(in Tile t, int rel)
+    {
+        if (t.Variant < Decor.First || rel < 0 || rel > 5) return 0;
+        return decorIds[(int)t.Pattern, t.Variant, rel, Facing(t.Pier)];
+    }
+
+    /// <summary>The block for a detail prop, or 0 if the tile holds none.</summary>
+    private int PropBlock(in Tile t)
+    {
+        if (t.Variant < 40) return 0;
+        int kind = Math.Min(t.Stack, propKinds[t.Variant] - 1);
+        return propIds[t.Variant, Math.Max(0, kind), Facing(propHeadFirst[t.Variant] ? Opposite(t.Pier) : t.Pier)];
+    }
+
+    /// <summary>An EXIT sign over a doorway; its faces look along the doorway (Pier north or south: across a west-east wall).</summary>
+    private int ExitLintel(in Tile t)
+    {
+        int material = t.Pattern switch
+        {
+            WallPattern.WhiteBlock => 1,
+            WallPattern.Drywall or WallPattern.OfficeGlass => 2,
+            _ => 0,
+        };
+        return exitLintelIds[material, t.Pier is ArchPier.North or ArchPier.South ? 0 : 1];
+    }
+
+    /// <summary>A part of a two-wide elevator door. Stack says which leaf (0 left, 1 right) as seen from in front.</summary>
+    private int LiftPart(int[,,,] ids, int wall, int part, in Tile t) => ids[wall, part, t.Stack & 1, Facing(t.Pier)];
 
     // ---- Level 0: wallpaper, carpet, drop ceiling ----
 
@@ -375,20 +778,22 @@ public sealed class WorldGenerator
         }
 
         bool bottom = rel == 1, top = rel == room;
-        int pattern = (int)t.Pattern;
+        int pattern = Paper(t.Pattern);
         switch (t.Kind)
         {
             case TileKind.Wall:
-                if (t.Pattern > WallPattern.Manila) return concreteId;
+                if (pattern < 0) return concreteId;
                 return wallIds[pattern, bottom ? (t.Outlet ? PartOutlet : BasePart(t.Base)) : PartUpper];
             case TileKind.Doorway:
-                return top ? (t.Pattern > WallPattern.Manila ? concreteId : wallIds[pattern, PartUpper]) : 0;
+                return top ? (pattern < 0 ? concreteId : wallIds[pattern, PartUpper]) : 0;
             case TileKind.ArchWindow:
-                return bottom ? wallIds[pattern, BasePart(t.Base)] : top ? archIds[(int)t.Pier] : 0;
+                return bottom ? wallIds[Math.Max(pattern, 0), BasePart(t.Base)] : top ? archIds[(int)t.Pier] : 0;
             case TileKind.ArchDoor:
                 return top ? archIds[(int)t.Pier] : 0;
             default:
-                return bottom && t.SupplyBox ? boxId : 0;
+                if (bottom) return t.SupplyBox ? boxId : t.Variant >= 40 ? PropBlock(t) : 0;
+                // The Manila Room's chandelier hangs under its ceiling
+                return top && t.Ceiling == CeilingKind.Chandelier ? chandelierId : 0;
         }
     }
 
@@ -398,13 +803,14 @@ public sealed class WorldGenerator
         CeilingKind.LightLit => lightLitId,
         CeilingKind.LightOff => lightOffId,
         CeilingKind.LampDim => lampDimId,
+        CeilingKind.LampRed => lampRedId,
         CeilingKind.LightFlicker => lightFlickerId,
         _ => ceilingTileId,
     };
 
-    // ---- Level 1: concrete car park ----
+    // ---- Level 1: concrete car park and maintenance halls ----
 
-    private int Level1Block(in Tile t, int rel)
+    private int Level1Block(in Tile t, int rel, int gx, int gz)
     {
         const int room = WorldGeometry.Level1RoomHeight;
         if (rel > room + 1) return concreteId;
@@ -416,15 +822,32 @@ public sealed class WorldGenerator
             case TileKind.Wall:
                 if (t.Pattern == WallPattern.Pillar)
                 {
+                    if (rel == 1) return pillarBaseId;
                     if (rel == 2) return pillarLetterIds[(t.Variant & 7) % pillarLetterIds.Length];
                     if (rel == 3 && (t.Variant & 8) != 0) return pillarLightId;
+                    // A coloured cloth landmark tied round the column
+                    if (rel == 3 && t.Variant >= 16)
+                    {
+                        int banner = decorIds[(int)WallPattern.Pillar, Decor.Banner + ((t.Variant >> 4) - 1) % 4, 3, Facing(t.Pier)];
+                        if (banner != 0) return banner;
+                    }
                     return pillarId;
                 }
+                int decor = Decorated(t, rel);
+                if (decor != 0) return decor;
+                if (t.Pattern == WallPattern.WhiteBlock) return rel == 1 ? whiteBaseId : whiteUpperId;
                 if (t.Pattern <= WallPattern.Manila && rel <= WorldGeometry.RoomHeight) return wallIds[(int)t.Pattern, rel == 1 ? BasePart(t.Base) : PartUpper];
                 return t.Variant == 1 ? concreteWallDamagedId : concreteWallId;
             case TileKind.Doorway:
+                if (rel == 1 && t.Variant == Props.FireDoor) return fireDoorIds[t.Stack & 1, Facing(t.Pier)];
                 if (rel <= 2) return 0;
-                return rel == 3 && t.ExitSign ? exitSignId : concreteWallId;
+                if (rel == 3 && t.ExitSign) return ExitLintel(t);
+                if (t.Pattern == WallPattern.WhiteBlock) return rel == 3 ? whiteLintelId : whiteUpperId;
+                return concreteWallId;
+            case TileKind.Door:
+                if (rel == 1) return metalDoorLowerId;
+                if (rel == 2) return metalDoorUpperId;
+                return t.Pattern == WallPattern.WhiteBlock ? whiteUpperId : concreteWallId;
         }
 
         // Stairs to nowhere: solid under the step, then the step itself
@@ -442,10 +865,14 @@ public sealed class WorldGenerator
                 case CeilingKind.LightFlicker: return hangingLightIds[2, axis];
                 case CeilingKind.LightWarm: return bulbOnId;
             }
+            if (t.Overhead != 0) return overheadIds[t.Overhead];
             return t.Pipe switch
             {
                 Pipes.RunX => pipeRunXId,
                 Pipes.RunZ => pipeRunZId,
+                Pipes.Hub => pipeHubId,
+                Pipes.DripX => dripXId,
+                Pipes.DripZ => dripZId,
                 Pipes.ConduitX => conduitXId,
                 Pipes.ConduitZ => conduitZId,
                 _ => 0,
@@ -453,11 +880,30 @@ public sealed class WorldGenerator
         }
 
         if (t.Variant == Props.Shelf && rel <= 2) return shelfIds[Facing(Opposite(t.Pier))];
-        if (t.Variant == Props.Car) return rel == 1 ? carIds[t.Stack % 4, t.Pier == ArchPier.North ? 0 : 1] : 0;
+        if (t.Variant == Props.Car) return rel == 1 ? carIds[t.Stack % 4, CarFacing(t.Pier)] : 0;
         if (t.Variant == Props.CarPart) return rel == 1 ? carColliderId : 0;
         if (t.Variant == Props.WheelStop && rel == 1) return wheelStopId;
-        if (rel <= t.Stack) return crateId;
+        if (rel == 1)
+        {
+            if (t.Variant == Props.Drum) return drumId;
+            if (t.Variant == Props.Cooler) return coolerIds[Facing(t.Pier)];
+            if (t.Variant == Props.FilingCabinet) return filingIds[Facing(t.Pier)];
+            int prop = PropBlock(t);
+            if (prop != 0) return prop;
+        }
+        if (t.Variant == 0 && rel <= t.Stack) return crateId;
         if (rel == 1 && t.SupplyBox) return boxId;
+        // The concrete is crumbling: its aggregate lies about as loose stones and the odd flint nodule
+        if (rel == 1 && t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && t.Stair == 0) return Rubble(gx, gz);
+        return 0;
+    }
+
+    /// <summary>Loose stones and flints on a Level 1 floor, now and then.</summary>
+    private int Rubble(int gx, int gz)
+    {
+        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, 0x1D01));
+        if (r < 0.005 && looseStoneL1Ids.Length > 0) return looseStoneL1Ids[(int)(r * 10000) % looseStoneL1Ids.Length];
+        if (r < 0.0065) return looseFlintId;
         return 0;
     }
 
@@ -476,6 +922,8 @@ public sealed class WorldGenerator
                 return TunnelWall(t.Pattern == WallPattern.Tunnel ? t.Variant : Props.WallPlain, rel);
             case TileKind.Doorway:
                 return rel <= 2 ? 0 : tunnelWallIds["plain"];
+            case TileKind.Door:
+                return rel == 1 ? tunnelDoorLowerId : rel == 2 ? tunnelDoorUpperId : tunnelWallIds["plain"];
         }
 
         if (rel == room)
@@ -504,6 +952,10 @@ public sealed class WorldGenerator
         {
             if (t.Variant == Props.Drum) return drumId;
             if (t.Variant == Props.Cabinet) return cabinetIds[Facing(Opposite(t.Pier))];
+            if (t.Variant == Props.Shelf) return shelfIds[Facing(Opposite(t.Pier))];
+            if (t.Variant == Props.Desk) return deskIds[Facing(t.Pier)];
+            if (t.Variant >= 40) return PropBlock(t);
+            if (t.Variant == 0 && t.Stack > 0) return crateId;
             if (t.SupplyBox) return boxId;
         }
         return 0;
@@ -544,13 +996,15 @@ public sealed class WorldGenerator
     {
         const int room = WorldGeometry.RoomHeight;
         if (rel > room + 1) return concreteId;
-        if (rel == 0) return t.Under == 2 ? manholeId : dustyFloorId;
+        if (rel == 0) return t.Under == 2 ? manholeId : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
         if (rel == room + 1) return t.IsWallLike ? concreteId : plasterCeilingId;
 
         int wall = l3WallIds.TryGetValue(t.Pattern, out int id) ? id : l3WallIds[WallPattern.GlazedTile];
         switch (t.Kind)
         {
             case TileKind.Wall:
+                int decor = Decorated(t, rel);
+                if (decor != 0) return decor;
                 if (rel == 2 && l3FixtureIds.TryGetValue((l3WallIds.ContainsKey(t.Pattern) ? t.Pattern : WallPattern.GlazedTile, t.Variant), out int fixture)) return fixture;
                 return wall;
             case TileKind.Doorway:
@@ -565,7 +1019,7 @@ public sealed class WorldGenerator
         if (t.Variant == Props.WindowGlow) return windowGlowId;
         if (rel == room)
         {
-            int axis = t.Pipe is Pipes.RunX or Pipes.CableX ? 0 : 1;
+            int axis = t.Pipe is Pipes.RunX or Pipes.CableX or Pipes.CableDroopX ? 0 : 1;
             switch (t.Ceiling)
             {
                 case CeilingKind.LightWarm or CeilingKind.LightOn: return cableLightIds[0, axis];
@@ -580,15 +1034,24 @@ public sealed class WorldGenerator
                 Pipes.CableX => cableXId,
                 Pipes.CableZ => cableZId,
                 Pipes.CableHub => cableHubId,
+                Pipes.CableDroopX => cableDroopXId,
+                Pipes.CableDroopZ => cableDroopZId,
                 _ => 0,
             };
         }
         if (rel == 1)
         {
             if (t.Variant == Props.Transformer) return transformerId;
+            if (t.Variant == Props.Drum) return drumId;
+            if (t.Variant == Props.Boiler) return boilerIds[Facing(t.Pier)];
+            if (t.Variant == Props.Shelf) return shelfIds[Facing(Opposite(t.Pier))];
+            if (t.Variant == Props.OfficeChair) return chairIds[Facing(t.Pier)];
+            int prop = PropBlock(t);
+            if (prop != 0) return prop;
             if (t.SupplyBox) return boxId;
         }
-        if (rel <= t.Stack) return crateId;
+        if (t.Variant == Props.Shelf && rel == 2) return shelfIds[Facing(Opposite(t.Pier))];
+        if (t.Variant == 0 && rel <= t.Stack) return crateId;
         return 0;
     }
 
@@ -612,25 +1075,28 @@ public sealed class WorldGenerator
                 CeilingKind.LightLit => officeLightIds[1],
                 CeilingKind.LightOff => officeLightIds[2],
                 CeilingKind.LightFlicker => officeLightIds[3],
-                _ => officeCeilingId,
+                _ => t.Overhead is >= Overheads.CeilingVent and <= Overheads.CeilingStain ? overheadIds[t.Overhead] : officeCeilingId,
             };
         }
 
         switch (t.Kind)
         {
             case TileKind.Wall:
+                int decor = Decorated(t, rel);
+                if (decor != 0) return decor;
                 return t.Pattern switch
                 {
-                    WallPattern.OfficeWindow => rel == 1 ? officeWallId : officeWindowId,
+                    WallPattern.OfficeWindow => rel == 1 ? officeWallBaseId : officeWindowIds[t.Variant % 3],
                     WallPattern.OfficeGlass => officeGlassId,
-                    WallPattern.Hotel => rel == 1 ? wainscotId : rel == 2 ? panelId : friezeId,
-                    _ => officeWallId,
+                    WallPattern.Hotel => HotelWall(rel),
+                    _ => rel == 1 ? officeWallBaseId : officeWallId,
                 };
             case TileKind.Door:
-                return rel == 1 ? elevatorLowerId : rel == 2 ? elevatorUpperId : officeWallId;
+                if (t.Pattern == WallPattern.Elevator) return LiftPart(liftIds, 0, Math.Min(rel - 1, 2), t);
+                return rel == 1 ? officeDoorLowerId : rel == 2 ? officeDoorUpperId : officeWallId;
             case TileKind.Doorway:
                 if (rel <= 2) return 0;
-                return t.ExitSign ? exitSignId : t.Pattern == WallPattern.OfficeGlass ? officeGlassId : officeWallId;
+                return t.ExitSign ? ExitLintel(t) : t.Pattern == WallPattern.OfficeGlass ? officeGlassId : officeWallId;
         }
 
         if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? officeWallId : stairIds[Facing(t.Pier)];
@@ -645,6 +1111,8 @@ public sealed class WorldGenerator
             Props.Cooler => coolerIds[facing],
             Props.ConferenceTable => confTableId,
             Props.Partition => t.Pier is ArchPier.North or ArchPier.South ? partitionNsId : partitionWeId,
+            Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
+            >= 40 => PropBlock(t),
             _ => t.SupplyBox ? boxId : 0,
         };
     }
@@ -657,6 +1125,8 @@ public sealed class WorldGenerator
         bool boiler = t.Floor == FloorKind.Dusty;
         if (rel > room + 1) return concreteId;
         if (rel == 0) return boiler ? dustyFloorId : floorIds[(int)t.Floor];
+        // The staff stairs, climbing into the ceiling
+        if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? plasterId : stairIds[Facing(t.Pier)];
         if (rel == room + 1)
         {
             if (t.IsWallLike) return concreteId;
@@ -676,6 +1146,8 @@ public sealed class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                int decor = Decorated(t, rel);
+                if (decor != 0) return decor;
                 if (t.Pattern == WallPattern.Marble) return marbleId;
                 if (t.Pattern == WallPattern.Plaster) return plasterId;
                 if (rel == 2)
@@ -686,7 +1158,12 @@ public sealed class WorldGenerator
                 }
                 return HotelWall(rel);
             case TileKind.Door:
-                if (t.Pattern == WallPattern.Elevator) return rel == 1 ? cageLowerId : rel == 2 ? cageUpperId : HotelWall(rel);
+                if (t.Pattern == WallPattern.Elevator)
+                {
+                    // Antique copper cage (Variant 0) or a modern lift (1), with a dial or indicator above
+                    if (rel > 3) return t.Floor == FloorKind.Dusty ? plasterId : HotelWall(rel);
+                    return t.Variant == 1 ? LiftPart(liftIds, 1, rel - 1, t) : LiftPart(cageIds, t.Floor == FloorKind.Dusty ? 1 : 0, rel - 1, t);
+                }
                 return rel == 1 ? doorLowerId : rel == 2 ? doorUpperIds[t.Variant % 8] : HotelWall(rel);
             case TileKind.Doorway:
                 if (rel <= 2) return 0;
@@ -699,6 +1176,7 @@ public sealed class WorldGenerator
         if (rel == room)
         {
             if (t.Ceiling == CeilingKind.Chandelier) return chandelierId;
+            if (t.Overhead == Overheads.CeilingFan) return ceilingFanId;
             if (boiler && t.Ceiling == CeilingKind.LightWarm) return bulbOnId;
             if (boiler && t.Ceiling == CeilingKind.LightOff) return bulbOffId;
             return t.Pipe switch
@@ -714,7 +1192,8 @@ public sealed class WorldGenerator
         int facing = Facing(t.Pier);
         return t.Variant switch
         {
-            Props.Bed => t.Stack == 0 ? bedHeadIds[facing] : bedFootIds[facing],
+            // Beds are modelled head to the north; Pier points from the head toward the foot
+            Props.Bed => t.Stack == 0 ? bedHeadIds[Facing(Opposite(t.Pier))] : bedFootIds[Facing(Opposite(t.Pier))],
             Props.Nightstand => nightstandIds[facing],
             Props.Wardrobe => wardrobeIds[facing],
             Props.WingChair => wingChairIds[facing],
@@ -724,6 +1203,7 @@ public sealed class WorldGenerator
             Props.Turntable => turntableId,
             Props.Boiler => boilerIds[facing],
             Props.Furnace => furnaceIds[facing],
+            >= 40 => PropBlock(t),
             _ => t.SupplyBox ? boxId : 0,
         };
     }
@@ -777,5 +1257,13 @@ public sealed class WorldGenerator
             return 0;
         }
         return block.BlockId;
+    }
+
+    /// <summary>A block of this mod by code path.</summary>
+    private int Id(string path)
+    {
+        if (modBlocks.TryGetValue(path, out int id)) return id;
+        api.Logger.Error("[backrooms] Missing block backrooms:{0}, the Backrooms will have holes", path);
+        return 0;
     }
 }

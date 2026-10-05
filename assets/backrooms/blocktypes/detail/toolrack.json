@@ -1,0 +1,165 @@
+// Tool Rack
+{
+	"code": "toolrack",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/toolrack",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/toolrack",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/toolrack",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/toolrack",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:hoe-copper",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:scythe-copper",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:shovel-copper",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:rope",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	]
+}

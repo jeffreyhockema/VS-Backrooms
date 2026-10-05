@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"hotelhosecab": "backrooms:block/detail/hotelhosecab",
+		"hotelpanel": "backrooms:block/level5/hotelwall-panel"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cabinet",
+			"from": [
+				2,
+				0,
+				-2
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelhosecab",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CabinetSides",
+			"from": [
+				2,
+				0,
+				-2
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				}
+			}
+		}
+	]
+}

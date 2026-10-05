@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"newsfront": "backrooms:block/detail/newsfront",
+		"postblue": "backrooms:block/detail/postblue"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				3,
+				6,
+				4
+			],
+			"to": [
+				13,
+				20,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#postblue",
+					"uv": [
+						0,
+						0,
+						8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#postblue",
+					"uv": [
+						0,
+						0,
+						8,
+						14
+					]
+				},
+				"south": {
+					"texture": "#postblue",
+					"uv": [
+						0,
+						0,
+						10,
+						14
+					]
+				},
+				"up": {
+					"texture": "#postblue",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#postblue",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				3,
+				6,
+				4
+			],
+			"to": [
+				13,
+				20,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#newsfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Legs",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				12,
+				6,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				}
+			}
+		}
+	]
+}

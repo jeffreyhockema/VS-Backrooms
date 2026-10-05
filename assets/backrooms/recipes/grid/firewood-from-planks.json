@@ -1,0 +1,11 @@
+// Salvaged boards split with an axe: firewood for a firepit or a charcoal pit, before there are any logs to fell
+{
+	ingredientPattern: "PA",
+	ingredients: {
+		"P": { type: "item", code: "game:plank-*", quantity: 3 },
+		"A": { type: "item", tags: ["tool-axe"], isTool: true }
+	},
+	width: 2,
+	height: 1,
+	output: { type: "item", code: "game:firewood", quantity: 1 }
+}

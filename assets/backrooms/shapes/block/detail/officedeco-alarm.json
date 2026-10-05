@@ -1,0 +1,232 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"drywall": "backrooms:block/level4/officewall",
+		"firealarm": "backrooms:block/detail/firealarm",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"strobe": "backrooms:block/detail/strobe",
+		"white": "backrooms:block/detail/white"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull",
+			"from": [
+				6,
+				2,
+				-1.5
+			],
+			"to": [
+				10,
+				7,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#firealarm",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PullSides",
+			"from": [
+				6,
+				2,
+				-1.5
+			],
+			"to": [
+				10,
+				7,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Strobe",
+			"from": [
+				5.5,
+				9,
+				-1.5
+			],
+			"to": [
+				10.5,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#strobe",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StrobeSides",
+			"from": [
+				5.5,
+				9,
+				-1.5
+			],
+			"to": [
+				10.5,
+				13,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,313 @@
+// Storefront Fascia with decorations on one face
+{
+	"code": "storefrontdeco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"signdiner",
+				"signgrocery",
+				"signbodega",
+				"signpharmacy",
+				"signfarmacia",
+				"signhardware",
+				"signlaundry",
+				"signlavanderia",
+				"signclothing",
+				"signhotel",
+				"signoffices",
+				"signapartments",
+				"signparking",
+				"signmuseum"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-signdiner-north": {
+			"base": "block/detail/storefrontdeco-signdiner",
+			"rotateY": 0
+		},
+		"*-signdiner-east": {
+			"base": "block/detail/storefrontdeco-signdiner",
+			"rotateY": 270
+		},
+		"*-signdiner-south": {
+			"base": "block/detail/storefrontdeco-signdiner",
+			"rotateY": 180
+		},
+		"*-signdiner-west": {
+			"base": "block/detail/storefrontdeco-signdiner",
+			"rotateY": 90
+		},
+		"*-signgrocery-north": {
+			"base": "block/detail/storefrontdeco-signgrocery",
+			"rotateY": 0
+		},
+		"*-signgrocery-east": {
+			"base": "block/detail/storefrontdeco-signgrocery",
+			"rotateY": 270
+		},
+		"*-signgrocery-south": {
+			"base": "block/detail/storefrontdeco-signgrocery",
+			"rotateY": 180
+		},
+		"*-signgrocery-west": {
+			"base": "block/detail/storefrontdeco-signgrocery",
+			"rotateY": 90
+		},
+		"*-signbodega-north": {
+			"base": "block/detail/storefrontdeco-signbodega",
+			"rotateY": 0
+		},
+		"*-signbodega-east": {
+			"base": "block/detail/storefrontdeco-signbodega",
+			"rotateY": 270
+		},
+		"*-signbodega-south": {
+			"base": "block/detail/storefrontdeco-signbodega",
+			"rotateY": 180
+		},
+		"*-signbodega-west": {
+			"base": "block/detail/storefrontdeco-signbodega",
+			"rotateY": 90
+		},
+		"*-signpharmacy-north": {
+			"base": "block/detail/storefrontdeco-signpharmacy",
+			"rotateY": 0
+		},
+		"*-signpharmacy-east": {
+			"base": "block/detail/storefrontdeco-signpharmacy",
+			"rotateY": 270
+		},
+		"*-signpharmacy-south": {
+			"base": "block/detail/storefrontdeco-signpharmacy",
+			"rotateY": 180
+		},
+		"*-signpharmacy-west": {
+			"base": "block/detail/storefrontdeco-signpharmacy",
+			"rotateY": 90
+		},
+		"*-signfarmacia-north": {
+			"base": "block/detail/storefrontdeco-signfarmacia",
+			"rotateY": 0
+		},
+		"*-signfarmacia-east": {
+			"base": "block/detail/storefrontdeco-signfarmacia",
+			"rotateY": 270
+		},
+		"*-signfarmacia-south": {
+			"base": "block/detail/storefrontdeco-signfarmacia",
+			"rotateY": 180
+		},
+		"*-signfarmacia-west": {
+			"base": "block/detail/storefrontdeco-signfarmacia",
+			"rotateY": 90
+		},
+		"*-signhardware-north": {
+			"base": "block/detail/storefrontdeco-signhardware",
+			"rotateY": 0
+		},
+		"*-signhardware-east": {
+			"base": "block/detail/storefrontdeco-signhardware",
+			"rotateY": 270
+		},
+		"*-signhardware-south": {
+			"base": "block/detail/storefrontdeco-signhardware",
+			"rotateY": 180
+		},
+		"*-signhardware-west": {
+			"base": "block/detail/storefrontdeco-signhardware",
+			"rotateY": 90
+		},
+		"*-signlaundry-north": {
+			"base": "block/detail/storefrontdeco-signlaundry",
+			"rotateY": 0
+		},
+		"*-signlaundry-east": {
+			"base": "block/detail/storefrontdeco-signlaundry",
+			"rotateY": 270
+		},
+		"*-signlaundry-south": {
+			"base": "block/detail/storefrontdeco-signlaundry",
+			"rotateY": 180
+		},
+		"*-signlaundry-west": {
+			"base": "block/detail/storefrontdeco-signlaundry",
+			"rotateY": 90
+		},
+		"*-signlavanderia-north": {
+			"base": "block/detail/storefrontdeco-signlavanderia",
+			"rotateY": 0
+		},
+		"*-signlavanderia-east": {
+			"base": "block/detail/storefrontdeco-signlavanderia",
+			"rotateY": 270
+		},
+		"*-signlavanderia-south": {
+			"base": "block/detail/storefrontdeco-signlavanderia",
+			"rotateY": 180
+		},
+		"*-signlavanderia-west": {
+			"base": "block/detail/storefrontdeco-signlavanderia",
+			"rotateY": 90
+		},
+		"*-signclothing-north": {
+			"base": "block/detail/storefrontdeco-signclothing",
+			"rotateY": 0
+		},
+		"*-signclothing-east": {
+			"base": "block/detail/storefrontdeco-signclothing",
+			"rotateY": 270
+		},
+		"*-signclothing-south": {
+			"base": "block/detail/storefrontdeco-signclothing",
+			"rotateY": 180
+		},
+		"*-signclothing-west": {
+			"base": "block/detail/storefrontdeco-signclothing",
+			"rotateY": 90
+		},
+		"*-signhotel-north": {
+			"base": "block/detail/storefrontdeco-signhotel",
+			"rotateY": 0
+		},
+		"*-signhotel-east": {
+			"base": "block/detail/storefrontdeco-signhotel",
+			"rotateY": 270
+		},
+		"*-signhotel-south": {
+			"base": "block/detail/storefrontdeco-signhotel",
+			"rotateY": 180
+		},
+		"*-signhotel-west": {
+			"base": "block/detail/storefrontdeco-signhotel",
+			"rotateY": 90
+		},
+		"*-signoffices-north": {
+			"base": "block/detail/storefrontdeco-signoffices",
+			"rotateY": 0
+		},
+		"*-signoffices-east": {
+			"base": "block/detail/storefrontdeco-signoffices",
+			"rotateY": 270
+		},
+		"*-signoffices-south": {
+			"base": "block/detail/storefrontdeco-signoffices",
+			"rotateY": 180
+		},
+		"*-signoffices-west": {
+			"base": "block/detail/storefrontdeco-signoffices",
+			"rotateY": 90
+		},
+		"*-signapartments-north": {
+			"base": "block/detail/storefrontdeco-signapartments",
+			"rotateY": 0
+		},
+		"*-signapartments-east": {
+			"base": "block/detail/storefrontdeco-signapartments",
+			"rotateY": 270
+		},
+		"*-signapartments-south": {
+			"base": "block/detail/storefrontdeco-signapartments",
+			"rotateY": 180
+		},
+		"*-signapartments-west": {
+			"base": "block/detail/storefrontdeco-signapartments",
+			"rotateY": 90
+		},
+		"*-signparking-north": {
+			"base": "block/detail/storefrontdeco-signparking",
+			"rotateY": 0
+		},
+		"*-signparking-east": {
+			"base": "block/detail/storefrontdeco-signparking",
+			"rotateY": 270
+		},
+		"*-signparking-south": {
+			"base": "block/detail/storefrontdeco-signparking",
+			"rotateY": 180
+		},
+		"*-signparking-west": {
+			"base": "block/detail/storefrontdeco-signparking",
+			"rotateY": 90
+		},
+		"*-signmuseum-north": {
+			"base": "block/detail/storefrontdeco-signmuseum",
+			"rotateY": 0
+		},
+		"*-signmuseum-east": {
+			"base": "block/detail/storefrontdeco-signmuseum",
+			"rotateY": 270
+		},
+		"*-signmuseum-south": {
+			"base": "block/detail/storefrontdeco-signmuseum",
+			"rotateY": 180
+		},
+		"*-signmuseum-west": {
+			"base": "block/detail/storefrontdeco-signmuseum",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"lightHsvByType": {
+		"*-signdiner-*": [
+			0,
+			3,
+			7
+		],
+		"*-signbodega-*": [
+			0,
+			3,
+			7
+		],
+		"*-signlaundry-*": [
+			0,
+			3,
+			7
+		],
+		"*-signlavanderia-*": [
+			0,
+			3,
+			7
+		],
+		"*-signhotel-*": [
+			0,
+			3,
+			7
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-signdiner-*": 0,
+		"*-signbodega-*": 0,
+		"*-signlaundry-*": 0,
+		"*-signlavanderia-*": 0,
+		"*-signhotel-*": 0,
+		"*": 99
+	}
+}

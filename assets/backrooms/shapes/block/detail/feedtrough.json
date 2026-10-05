@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"feed": "backrooms:block/detail/feed",
+		"wood": "backrooms:block/detail/wood",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				7,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Feed",
+			"from": [
+				1,
+				5,
+				5
+			],
+			"to": [
+				15,
+				6,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#feed",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Legs",
+			"from": [
+				1,
+				0,
+				5
+			],
+			"to": [
+				15,
+				2,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				}
+			}
+		}
+	]
+}

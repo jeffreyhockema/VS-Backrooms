@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"benchwood": "backrooms:block/detail/benchwood",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				6,
+				5
+			],
+			"to": [
+				16,
+				7.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"down": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				1,
+				0,
+				5.5
+			],
+			"to": [
+				2.5,
+				6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				13.5,
+				0,
+				5.5
+			],
+			"to": [
+				15,
+				6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.0
+					]
+				}
+			}
+		}
+	]
+}

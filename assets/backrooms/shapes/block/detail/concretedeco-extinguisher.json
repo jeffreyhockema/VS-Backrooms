@@ -1,0 +1,503 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"concretewall": "backrooms:block/level1/concretewall-plain",
+		"extinguisher": "backrooms:block/detail/extinguisher",
+		"extsign": "backrooms:block/detail/extsign",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"rubber": "backrooms:block/detail/rubber"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				6,
+				0,
+				-3.9
+			],
+			"to": [
+				10,
+				10,
+				-1.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						10
+					]
+				},
+				"east": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8,
+						10
+					]
+				},
+				"south": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						10
+					]
+				},
+				"west": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8,
+						10
+					]
+				},
+				"up": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						2.8
+					]
+				},
+				"down": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bodyb",
+			"from": [
+				6.6,
+				0,
+				-4.5
+			],
+			"to": [
+				9.4,
+				10,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						10
+					]
+				},
+				"east": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4.0,
+						10
+					]
+				},
+				"south": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						10
+					]
+				},
+				"west": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4.0,
+						10
+					]
+				},
+				"up": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				7,
+				10,
+				-3.5
+			],
+			"to": [
+				9,
+				12,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Hose",
+			"from": [
+				9.8,
+				4,
+				-2.2
+			],
+			"to": [
+				10.6,
+				10.5,
+				-1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						6.5
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.8000000000000003
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				6.5,
+				3,
+				-0.6
+			],
+			"to": [
+				9.5,
+				4,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Sign",
+			"from": [
+				5.5,
+				12.5,
+				-0.2
+			],
+			"to": [
+				10.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#extsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignSides",
+			"from": [
+				5.5,
+				12.5,
+				-0.2
+			],
+			"to": [
+				10.5,
+				16,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

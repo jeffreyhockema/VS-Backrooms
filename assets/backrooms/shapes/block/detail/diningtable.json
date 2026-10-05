@@ -1,0 +1,830 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"china": "backrooms:block/detail/china",
+		"crystal": "backrooms:block/level5/crystal",
+		"mahogany": "backrooms:block/level5/mahogany",
+		"silver": "backrooms:block/detail/silver",
+		"tablecloth": "backrooms:block/detail/tablecloth",
+		"tubewarm": "backrooms:block/props/tube-warm"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				0.5,
+				11,
+				0.5
+			],
+			"to": [
+				15.5,
+				12,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt",
+			"from": [
+				0.5,
+				7,
+				0.5
+			],
+			"to": [
+				15.5,
+				11,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						4
+					]
+				},
+				"south": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						15.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				7,
+				0,
+				7
+			],
+			"to": [
+				9,
+				7,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Foot",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				12,
+				1,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateN",
+			"from": [
+				6.5,
+				12,
+				1.5
+			],
+			"to": [
+				9.5,
+				12.3,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateS",
+			"from": [
+				6.5,
+				12,
+				11.5
+			],
+			"to": [
+				9.5,
+				12.3,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateW",
+			"from": [
+				1.5,
+				12,
+				6.5
+			],
+			"to": [
+				4.5,
+				12.3,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateE",
+			"from": [
+				11.5,
+				12,
+				6.5
+			],
+			"to": [
+				14.5,
+				12.3,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass1",
+			"from": [
+				10,
+				12,
+				3
+			],
+			"to": [
+				11,
+				14,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"east": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"south": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"up": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass2",
+			"from": [
+				5,
+				12,
+				12
+			],
+			"to": [
+				6,
+				14,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"east": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"south": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"up": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#crystal",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Candle",
+			"from": [
+				7.5,
+				12,
+				7.5
+			],
+			"to": [
+				8.5,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#tubewarm",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Holder",
+			"from": [
+				7,
+				12,
+				7
+			],
+			"to": [
+				9,
+				12.8,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#silver",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

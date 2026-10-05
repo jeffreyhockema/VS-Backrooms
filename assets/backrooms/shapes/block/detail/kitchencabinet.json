@@ -1,0 +1,146 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cabinetfront": "backrooms:block/detail/cabinetfront",
+		"dresserwood": "backrooms:block/detail/dresserwood",
+		"formica": "backrooms:block/detail/formica"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cabinetfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sides",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				14,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						13,
+						14
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						13,
+						14
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				14,
+				2
+			],
+			"to": [
+				16,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"south": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"up": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#formica",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		}
+	]
+}

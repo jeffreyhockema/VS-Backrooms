@@ -1,0 +1,396 @@
+{
+ "l1deco": {
+  "powerbox": {
+   "2": "powerbox2",
+   "3": "powerbox3"
+  },
+  "breaker": {
+   "2": "breaker"
+  },
+  "outlet": {
+   "1": "outlet"
+  },
+  "extinguisher": {
+   "2": "extinguisher"
+  },
+  "alarm": {
+   "2": "alarm"
+  },
+  "hosecab": {
+   "2": "hosecab"
+  },
+  "levelsign": {
+   "2": "levelsign"
+  },
+  "stairsign": {
+   "2": "stairsign"
+  },
+  "note": {
+   "2": "note"
+  },
+  "graffiti": {
+   "2": "graffiti"
+  },
+  "pipes": {
+   "3": "pipes"
+  },
+  "standpipe": {
+   "1": "standpipe1",
+   "2": "standpipe2",
+   "3": "standpipe3",
+   "4": "standpipe4"
+  },
+  "painting0": {
+   "2": "painting0"
+  },
+  "painting1": {
+   "2": "painting1"
+  },
+  "painting2": {
+   "2": "painting2"
+  },
+  "painting3": {
+   "2": "painting3"
+  },
+  "banner0": {
+   "2": "banner0"
+  },
+  "banner1": {
+   "2": "banner1"
+  },
+  "banner2": {
+   "2": "banner2"
+  },
+  "banner3": {
+   "2": "banner3"
+  }
+ },
+ "concretedeco": {
+  "powerbox": {
+   "2": "powerbox2",
+   "3": "powerbox3"
+  },
+  "breaker": {
+   "2": "breaker"
+  },
+  "outlet": {
+   "1": "outlet"
+  },
+  "extinguisher": {
+   "2": "extinguisher"
+  },
+  "alarm": {
+   "2": "alarm"
+  },
+  "hosecab": {
+   "2": "hosecab"
+  },
+  "levelsign": {
+   "2": "levelsign"
+  },
+  "stairsign": {
+   "2": "stairsign"
+  },
+  "note": {
+   "2": "note"
+  },
+  "graffiti": {
+   "2": "graffiti"
+  },
+  "pipes": {
+   "3": "pipes"
+  },
+  "standpipe": {
+   "1": "standpipe1",
+   "2": "standpipe2",
+   "3": "standpipe3",
+   "4": "standpipe4"
+  },
+  "banner0": {
+   "2": "banner0"
+  },
+  "banner1": {
+   "2": "banner1"
+  },
+  "banner2": {
+   "2": "banner2"
+  },
+  "banner3": {
+   "2": "banner3"
+  }
+ },
+ "pillardeco": {
+  "banner0": {
+   "3": "banner0"
+  },
+  "banner1": {
+   "3": "banner1"
+  },
+  "banner2": {
+   "3": "banner2"
+  },
+  "banner3": {
+   "3": "banner3"
+  }
+ },
+ "l3decoglazed": {
+  "dangersign": {
+   "2": "dangersign"
+  },
+  "gauges": {
+   "2": "gauges"
+  },
+  "knifeswitch": {
+   "2": "knifeswitch"
+  },
+  "junctionbox": {
+   "2": "junctionbox2",
+   "3": "junctionbox3"
+  },
+  "sparkoutlet": {
+   "1": "sparkoutlet"
+  },
+  "bulkhead": {
+   "2": "bulkhead"
+  },
+  "alarmbell": {
+   "3": "alarmbell"
+  },
+  "wallcables": {
+   "3": "wallcables"
+  },
+  "risers": {
+   "2": "risers2",
+   "3": "risers3"
+  },
+  "roomsign0": {
+   "2": "roomsign0"
+  },
+  "roomsign1": {
+   "2": "roomsign1"
+  },
+  "roomsign2": {
+   "2": "roomsign2"
+  },
+  "roomsign3": {
+   "2": "roomsign3"
+  },
+  "roomsign4": {
+   "2": "roomsign4"
+  },
+  "roomsign5": {
+   "2": "roomsign5"
+  },
+  "roomsign6": {
+   "2": "roomsign6"
+  },
+  "roomsign7": {
+   "2": "roomsign7"
+  }
+ },
+ "l3decobrick": {
+  "dangersign": {
+   "2": "dangersign"
+  },
+  "gauges": {
+   "2": "gauges"
+  },
+  "knifeswitch": {
+   "2": "knifeswitch"
+  },
+  "junctionbox": {
+   "2": "junctionbox2",
+   "3": "junctionbox3"
+  },
+  "sparkoutlet": {
+   "1": "sparkoutlet"
+  },
+  "bulkhead": {
+   "2": "bulkhead"
+  },
+  "alarmbell": {
+   "3": "alarmbell"
+  },
+  "wallcables": {
+   "3": "wallcables"
+  },
+  "risers": {
+   "2": "risers2",
+   "3": "risers3"
+  },
+  "roomsign0": {
+   "2": "roomsign0"
+  },
+  "roomsign1": {
+   "2": "roomsign1"
+  },
+  "roomsign2": {
+   "2": "roomsign2"
+  },
+  "roomsign3": {
+   "2": "roomsign3"
+  },
+  "roomsign4": {
+   "2": "roomsign4"
+  },
+  "roomsign5": {
+   "2": "roomsign5"
+  },
+  "roomsign6": {
+   "2": "roomsign6"
+  },
+  "roomsign7": {
+   "2": "roomsign7"
+  }
+ },
+ "l3decocinder": {
+  "dangersign": {
+   "2": "dangersign"
+  },
+  "gauges": {
+   "2": "gauges"
+  },
+  "knifeswitch": {
+   "2": "knifeswitch"
+  },
+  "junctionbox": {
+   "2": "junctionbox2",
+   "3": "junctionbox3"
+  },
+  "sparkoutlet": {
+   "1": "sparkoutlet"
+  },
+  "bulkhead": {
+   "2": "bulkhead"
+  },
+  "alarmbell": {
+   "3": "alarmbell"
+  },
+  "wallcables": {
+   "3": "wallcables"
+  },
+  "risers": {
+   "2": "risers2",
+   "3": "risers3"
+  },
+  "roomsign0": {
+   "2": "roomsign0"
+  },
+  "roomsign1": {
+   "2": "roomsign1"
+  },
+  "roomsign2": {
+   "2": "roomsign2"
+  },
+  "roomsign3": {
+   "2": "roomsign3"
+  },
+  "roomsign4": {
+   "2": "roomsign4"
+  },
+  "roomsign5": {
+   "2": "roomsign5"
+  },
+  "roomsign6": {
+   "2": "roomsign6"
+  },
+  "roomsign7": {
+   "2": "roomsign7"
+  }
+ },
+ "l3decostone": {
+  "bulkhead": {
+   "2": "bulkhead"
+  }
+ },
+ "officedeco": {
+  "fountain": {
+   "1": "fountain"
+  },
+  "clock": {
+   "3": "clock"
+  },
+  "whiteboard": {
+   "2": "whiteboard"
+  },
+  "corkboard": {
+   "2": "corkboard"
+  },
+  "evacmap": {
+   "2": "evacmap"
+  },
+  "extinguisher": {
+   "2": "extinguisher"
+  },
+  "alarm": {
+   "2": "alarm"
+  },
+  "switch": {
+   "2": "switch"
+  },
+  "frameghost": {
+   "2": "frameghost"
+  },
+  "phone": {
+   "2": "phone"
+  },
+  "callbutton": {
+   "2": "callbutton"
+  },
+  "stairsign": {
+   "2": "stairsign"
+  },
+  "poster0": {
+   "2": "poster0"
+  },
+  "poster1": {
+   "2": "poster1"
+  },
+  "poster2": {
+   "2": "poster2"
+  }
+ },
+ "hoteldeco": {
+  "mirror": {
+   "2": "mirror"
+  },
+  "speaker": {
+   "3": "speaker"
+  },
+  "housephone": {
+   "2": "housephone"
+  },
+  "firehose": {
+   "2": "firehose"
+  },
+  "clock": {
+   "3": "clock"
+  },
+  "keyrack": {
+   "2": "keyrack"
+  },
+  "callplate": {
+   "2": "callplate"
+  },
+  "landscape": {
+   "2": "landscape"
+  }
+ },
+ "plasterdeco": {
+  "pipesv": {
+   "1": "pipesv1",
+   "2": "pipesv2",
+   "3": "pipesv3",
+   "4": "pipesv4"
+  },
+  "valve": {
+   "1": "valve"
+  },
+  "gauges": {
+   "2": "gauges"
+  },
+  "pipecluster": {
+   "3": "pipecluster"
+  }
+ }
+}

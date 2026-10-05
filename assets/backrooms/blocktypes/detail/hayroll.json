@@ -1,0 +1,141 @@
+// Round Bale
+{
+	"code": "hayroll",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/hayroll",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/hayroll",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/hayroll",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/hayroll",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.97,
+			"y2": 0.88,
+			"z2": 0.91,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:hay-normal-ud",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	]
+}

@@ -21,7 +21,14 @@
 		{ type: "item", code: "glassshard", quantity: { avg: 0.5, var: 0.5 } },
 		{ type: "item", code: "metalbracket", quantity: { avg: 0.3, var: 0.3 } },
 		{ type: "item", code: "glassshiv", quantity: { avg: 0.08, var: 0 } },
-		{ type: "item", code: "game:candle", quantity: { avg: 0.15, var: 0.15 } }
+		{ type: "item", code: "game:candle", quantity: { avg: 0.15, var: 0.15 } },
+		// A wanderer's kit: flint to knap, sticks and tinder for a fire, and now and then something worth keeping
+		{ type: "item", code: "game:flint", quantity: { avg: 0.6, var: 0.6 } },
+		{ type: "item", code: "game:stick", quantity: { avg: 1, var: 1 } },
+		{ type: "item", code: "game:drygrass", quantity: { avg: 0.6, var: 0.6 } },
+		{ type: "item", code: "game:gear-rusty", quantity: { avg: 0.06, var: 0 } },
+		// Very rarely, a temporal gear someone died before they could use
+		{ type: "item", code: "game:gear-temporal", quantity: { avg: 0.01, var: 0 } }
 	],
 	sounds: {
 		place: "game:block/cloth",

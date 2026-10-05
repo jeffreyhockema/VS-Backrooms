@@ -11,12 +11,17 @@ namespace Backrooms.Worldgen;
 /// Each cell starts solid. Corridors are carved from every passage in the cell's edges (its own west/north
 /// edges and its neighbours' east/south ones) to one or two hubs, running straight in multiples of 5 blocks
 /// before turning, so all tunnels connect.
+///
+/// Now and then a steel door is set in a tunnel wall. Most are locked, or open onto a small storeroom of shelves
+/// and a dead computer; a few, which look no different, open onto another level. Trolleys, toolboxes, wooden boxes
+/// and the pieces of dismantled machines lie about the tunnels without much rhyme or reason.
 /// </summary>
 public sealed partial class WorldLayout
 {
     private const ulong SaltL2Section = 0x2B01;
     private const ulong SaltL2Light = 0x2B02;
     private const ulong SaltL2Wall = 0x2B03;
+    private const ulong SaltL2Door = 0x2B04;
 
     private static Edge Level2Edge(ref Rng rng)
     {
@@ -38,6 +43,7 @@ public sealed partial class WorldLayout
         ref Rng rng = ref b.Rng;
         var open = new bool[MacroSize * MacroSize];
         var machineRoom = new bool[MacroSize * MacroSize];
+        var storeroom = new bool[MacroSize * MacroSize];
 
         // Entry points just inside each passage, with the direction pointing into the cell
         var portals = new List<(int X, int Z, int Dx, int Dz)>();
@@ -98,7 +104,73 @@ public sealed partial class WorldLayout
             }
         }
 
-        DecorateTunnels(b, mx, mz, machineRoom);
+        AddTunnelDoors(b, open, storeroom);
+        DecorateTunnels(b, mx, mz, machineRoom, storeroom);
+    }
+
+    /// <summary>
+    /// Steel doors in the tunnel walls. Each needs solid concrete behind it; where there is room for one, some open
+    /// (a doorway) onto a storeroom three blocks square.
+    /// </summary>
+    private static void AddTunnelDoors(Builder b, bool[] open, bool[] storeroom)
+    {
+        ref Rng rng = ref b.Rng;
+        bool Solid(int x, int z) => x >= 1 && z >= 1 && x < MacroSize - 1 && z < MacroSize - 1 && !open[TileIndex(x, z)] && b.At(x, z).Kind == TileKind.Wall;
+        bool Tunnel(int x, int z) => x >= 1 && z >= 1 && x < MacroSize && z < MacroSize && open[TileIndex(x, z)] && b.At(x, z).Kind == TileKind.Floor;
+
+        // Wall tiles with a tunnel on exactly one side, and what lies behind them
+        var sites = new List<(int X, int Z, int Dx, int Dz, bool Room)>();
+        for (int z = 3; z < MacroSize - 3; z++)
+        {
+            for (int x = 3; x < MacroSize - 3; x++)
+            {
+                if (!Solid(x, z)) continue;
+                int sides = 0, dx = 0, dz = 0;
+                foreach ((int sx, int sz) in Steps)
+                {
+                    if (!Tunnel(x + sx, z + sz)) continue;
+                    sides++;
+                    (dx, dz) = (-sx, -sz); // the way in, away from the tunnel
+                }
+                if (sides != 1 || !Solid(x + dx, z + dz) || !Solid(x - dz, z + dx) || !Solid(x + dz, z - dx)) continue;
+                // Room for a storeroom: a 5x5 block of solid concrete behind the door (the room and its walls)
+                bool room = true;
+                for (int depth = 1; depth <= 5 && room; depth++)
+                    for (int side = -2; side <= 2; side++)
+                        if (!Solid(x + dx * depth + dz * side, z + dz * depth + dx * side)) { room = false; break; }
+                sites.Add((x, z, dx, dz, room));
+            }
+        }
+
+        var placed = new List<(int X, int Z)>();
+        for (int n = rng.Range(0, 3); n > 0 && sites.Count > 0; n--)
+        {
+            var site = sites[rng.Range(0, sites.Count - 1)];
+            bool crowded = false;
+            foreach ((int px, int pz) in placed) crowded |= Math.Abs(px - site.X) + Math.Abs(pz - site.Z) < 8;
+            if (crowded) continue;
+            placed.Add((site.X, site.Z));
+
+            ref Tile door = ref b.At(site.X, site.Z);
+            door.Variant = 0;
+            door.Pier = site.Dx > 0 ? ArchPier.West : site.Dx < 0 ? ArchPier.East : site.Dz > 0 ? ArchPier.North : ArchPier.South; // faces the tunnel
+            if (site.Room && rng.Chance(0.45))
+            {
+                door.Kind = TileKind.Doorway;
+                for (int depth = 1; depth <= 3; depth++)
+                    for (int side = -1; side <= 1; side++)
+                    {
+                        int x = site.X + site.Dx * depth + site.Dz * side, z = site.Z + site.Dz * depth + site.Dx * side;
+                        open[TileIndex(x, z)] = storeroom[TileIndex(x, z)] = true;
+                        ref Tile t = ref b.At(x, z);
+                        t.Kind = TileKind.Floor;
+                        t.Variant = 0;
+                        // One caged bulb in the middle; half of them are dead
+                        if (depth == 2 && side == 0) t.Ceiling = rng.Chance(0.5) ? CeilingKind.LightWarm : CeilingKind.LightOff;
+                    }
+            }
+            else door.Kind = TileKind.Door;
+        }
     }
 
     private static bool InCarveArea(int x, int z) => x >= 1 && z >= 1 && x < MacroSize && z < MacroSize;
@@ -127,7 +199,7 @@ public sealed partial class WorldLayout
         }
     }
 
-    private void DecorateTunnels(Builder b, int mx, int mz, bool[] machineRoom)
+    private void DecorateTunnels(Builder b, int mx, int mz, bool[] machineRoom, bool[] storeroom)
     {
         bool InCell(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize;
         bool IsOpen(int x, int z) => InCell(x, z) && b.At(x, z).Kind != TileKind.Wall;
@@ -156,6 +228,19 @@ public sealed partial class WorldLayout
                     continue;
                 }
                 if (tile.Kind != TileKind.Floor) continue;
+
+                if (storeroom[TileIndex(lx, lz)])
+                {
+                    // A storeroom: shelving along the walls, boxes and a toolbox, a desk with a computer nobody
+                    // has switched on in years
+                    if (!TryWallSide(IsWall, lx, lz, out ArchPier side)) continue;
+                    if (r < 0.42) { tile.Variant = Props.Shelf; tile.Pier = side; }
+                    else if (r < 0.54) { tile.Variant = Props.Desk; tile.Pier = OppositeSide(side); }
+                    else if (r < 0.66) tile.Variant = Props.CardboardBoxes;
+                    else if (r < 0.74) { tile.Variant = Props.Toolbox; tile.Pier = OppositeSide(side); }
+                    else if (r < 0.8) tile.Stack = 1; // a wooden crate
+                    continue;
+                }
 
                 int neighbours = (e ? 1 : 0) + (w ? 1 : 0) + (s ? 1 : 0) + (n ? 1 : 0);
                 // Direction of the tunnel; in a 2-wide tunnel the other lane counts as a side, not a branch
@@ -196,16 +281,38 @@ public sealed partial class WorldLayout
                 }
 
                 // Machine rooms are lined with cabinets; elsewhere drums in wider spots and forgotten supplies in dead ends
-                if (machineRoom[index] && r > 0.35 && TryWallSide(IsWall, lx, lz, out ArchPier wall))
+                if (machineRoom[index] && r > 0.35 && TryWallSide(IsWall, lx, lz, out ArchPier wall)
+                    && SafeToBlock((x, z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z)), lx, lz))
                 {
                     tile.Variant = Props.Cabinet;
                     tile.Pier = wall;
                 }
-                else if (neighbours >= 3 && r > 0.975) tile.Variant = Props.Drum;
-                else if (neighbours == 1 && r > 0.86) tile.SupplyBox = true;
+                // (Only where it leaves the way past open, counting what already stands on the tiles round it)
+                else if (neighbours >= 3 && r > 0.94 && SafeToBlock((x, z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z)), lx, lz))
+                {
+                    // Where a tunnel widens: an oil drum, a trolley, a toolbox, a wooden box, cardboard boxes
+                    tile.Pier = (ArchPier)((int)(r2 * 4) & 3);
+                    if (r > 0.975) tile.Variant = Props.Drum;
+                    else if (r > 0.966) tile.Variant = Props.Trolley;
+                    else if (r > 0.957) tile.Variant = Props.Toolbox;
+                    else if (r > 0.949) tile.Stack = 1;
+                    else tile.Variant = Props.CardboardBoxes;
+                }
+                // Pieces of a dismantled machine, kicked against the wall: nothing to stop anyone walking on
+                else if (r2 > 0.985 && !machineRoom[index]) { tile.Variant = Props.MachineParts; tile.Pier = (ArchPier)((int)(r * 4) & 3); }
+                // (Not on the cell's own edge rows, where the tunnel may run on into the next cell)
+                else if (neighbours == 1 && r > 0.86 && lx > 0 && lz > 0 && lx < MacroSize - 1 && lz < MacroSize - 1) tile.SupplyBox = true;
             }
         }
     }
+
+    private static ArchPier OppositeSide(ArchPier side) => side switch
+    {
+        ArchPier.North => ArchPier.South,
+        ArchPier.South => ArchPier.North,
+        ArchPier.East => ArchPier.West,
+        _ => ArchPier.East,
+    };
 
     /// <summary>Finds a wall next to a tile, so props can stand against it.</summary>
     private static bool TryWallSide(Func<int, int, bool> isWall, int x, int z, out ArchPier side)

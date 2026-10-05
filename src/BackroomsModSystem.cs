@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using Vintagestory.API.Client;
@@ -21,6 +22,8 @@ public class BackroomsModSystem : ModSystem
 {
     /// <summary>Level 0's temperature, used for the climate maps and on the client (which only needs it for visuals).</summary>
     private const float LobbyTemperature = 22f;
+    private const float TintTemperature = 15f;
+    private const int TintRainfall = 190;
 
     private ICoreServerAPI sapi;
     private IWorldGenBlockAccessor worldgenBlockAccessor;
@@ -56,7 +59,7 @@ public class BackroomsModSystem : ModSystem
                 .HandleWith(OnColumnCommand)
             .EndSubCommand()
             .BeginSubCommand("goto")
-                .WithDescription("Teleports you into a level (0-5)")
+                .WithDescription("Teleports you into a level (0-11)")
                 .RequiresPlayer()
                 .WithArgs(api.ChatCommands.Parsers.IntRange("level", 0, WorldLayout.LevelCount - 1))
                 .HandleWith(OnGotoCommand)
@@ -70,6 +73,11 @@ public class BackroomsModSystem : ModSystem
                 .WithDescription("Shows which Level 0 zone you are in")
                 .RequiresPlayer()
                 .HandleWith(OnWhereCommand)
+            .EndSubCommand()
+            .BeginSubCommand("dump")
+                .WithDescription("Writes the blocks and light of a square of the world round x, z to a file, for rendering previews outside the game")
+                .WithArgs(api.ChatCommands.Parsers.Int("x"), api.ChatCommands.Parsers.Int("z"), api.ChatCommands.Parsers.OptionalInt("radius", 24))
+                .HandleWith(OnDumpCommand)
             .EndSubCommand();
     }
 
@@ -87,6 +95,13 @@ public class BackroomsModSystem : ModSystem
 
         // The only creatures in the Backrooms will be ones this mod spawns
         save.EntitySpawning = false;
+        // Clients tell a Backrooms world by its climate setting (they are not sent the world type). It is offered in
+        // the world settings as a choice, so make sure it was not changed
+        if (sapi.World.Config.GetString("worldClimate") != BackroomsWorld.ClimateCode)
+        {
+            sapi.World.Config.SetString("worldClimate", BackroomsWorld.ClimateCode);
+            sapi.Logger.Notification("[backrooms] worldClimate was changed; set back to {0}", BackroomsWorld.ClimateCode);
+        }
 
         // Anchor the maze to the map centre rather than the current spawn point, so moving the spawn later
         // (e.g. /setspawn) can never change the layout of chunks that are not generated yet
@@ -108,7 +123,9 @@ public class BackroomsModSystem : ModSystem
     private void OnMapRegionGen(IMapRegion mapRegion, int regionX, int regionZ, ITreeAttribute chunkGenParams)
     {
         // Vanilla code expects these maps to exist. Fill them with a constant mild climate and no vegetation.
-        int climate = (Climate.DescaleTemperature(LobbyTemperature) << 16) | (0 << 8) | 0;
+        // The climate map only tints grass and leaves here (rain and temperature come from OnGetClimate): mild and
+        // moist, so the Suburbs' lawns and Level 10's meadows and hedges are green rather than parched
+        int climate = (Climate.DescaleTemperature(TintTemperature) << 16) | (TintRainfall << 8) | 0;
         mapRegion.ClimateMap = ConstantMap(climate);
         mapRegion.ForestMap = ConstantMap(0);
         mapRegion.ShrubMap = ConstantMap(0);
@@ -181,7 +198,8 @@ public class BackroomsModSystem : ModSystem
         // Ask the game's own stability system, which shows whether our Reality Stability hook is in effect
         float stability = sapi.ModLoader.GetModSystem<SystemTemporalStability>().GetTemporalStability(x + 0.5, g.FloorY + 1, z + 0.5);
         sb.AppendLine($"Column {x}, {z} (y relative to the Level 0 floor), Level {level}, stability {stability:0.00}:");
-        for (int y = g.FloorY + WorldGeometry.MaxRoomHeight + 2; y >= g.FloorY - 6; y--)
+        int floorY = g.FloorFor(level);
+        for (int y = floorY + WorldGeometry.MaxRoomHeight + 2; y >= floorY - 8; y--)
         {
             var pos = new BlockPos(x, y, z);
             Block block = blockAccessor.GetBlock(pos);
@@ -189,7 +207,7 @@ public class BackroomsModSystem : ModSystem
             int light = blockAccessor.GetLightLevel(pos, EnumLightLevelType.MaxLight);
             string fluidText = fluid.BlockId != 0 ? $" + {fluid.Code}" : "";
             string entityText = blockAccessor.GetBlockEntity(pos) is BlockEntity be ? $" [{be.GetType().Name}]" : "";
-            sb.AppendLine($"  {y - g.FloorY,3}: {block.Code}{fluidText}{entityText} (light {light})");
+            sb.AppendLine($"  {y - floorY,3}: {block.Code}{fluidText}{entityText} (light {light})");
         }
         return TextCommandResult.Success(sb.ToString());
     }
@@ -211,6 +229,61 @@ public class BackroomsModSystem : ModSystem
         double hours = args.Parsers[0].IsMissing ? 2 : (double)args[0];
         sapi.ModLoader.GetModSystem<Reality.RealitySystem>().ForceShift(hours);
         return TextCommandResult.Success(hours > 0 ? $"Reality Shift started for {hours:0.#} in-game hours" : "Reality Shift ended");
+    }
+
+    /// <summary>
+    /// Dumps a region (2r+1 square, from 10 below the floor to the top of the band) as a palette of block codes
+    /// ("block|fluid") and, per block, a palette index and a light level. Chunks that are not loaded are queued
+    /// to load; run it again once they are.
+    /// </summary>
+    private TextCommandResult OnDumpCommand(TextCommandCallingArgs args)
+    {
+        if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
+        int cx = (int)args[0], cz = (int)args[1], r = Math.Clamp((int)args[2], 1, 64);
+        WorldGeometry g = generator.Geometry;
+        IBlockAccessor ba = sapi.World.BlockAccessor;
+        int missing = 0;
+        for (int x = cx - r; x <= cx + r; x += GlobalConstants.ChunkSize)
+            for (int z = cz - r; z <= cz + r; z += GlobalConstants.ChunkSize)
+                foreach ((int qx, int qz) in new[] { (x, z), (Math.Min(x + GlobalConstants.ChunkSize, cx + r), z), (x, Math.Min(z + GlobalConstants.ChunkSize, cz + r)) })
+                    if (ba.GetChunkAtBlockPos(qx, g.FloorY, qz) == null)
+                    {
+                        missing++;
+                        sapi.WorldManager.LoadChunkColumnPriority(qx / GlobalConstants.ChunkSize, qz / GlobalConstants.ChunkSize, new ChunkLoadOptions { KeepLoaded = true });
+                    }
+        if (ba.GetChunkAtBlockPos(cx + r, g.FloorY, cz + r) == null) { missing++; sapi.WorldManager.LoadChunkColumnPriority((cx + r) / GlobalConstants.ChunkSize, (cz + r) / GlobalConstants.ChunkSize, new ChunkLoadOptions { KeepLoaded = true }); }
+        if (missing > 0) return TextCommandResult.Success($"{missing} chunk columns are not loaded yet. Loading them; run the command again in a moment.");
+
+        // The city lies lower than the other levels, and its towers rise much higher
+        int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
+        int y0 = floor - 10, y1 = dumpLevel == 11 ? Math.Min(g.TopY, floor + 90) : g.BandTop, size = 2 * r + 1, height = y1 - y0 + 1;
+        var palette = new System.Collections.Generic.Dictionary<string, int>();
+        var cells = new int[size * size * height];
+        var light = new byte[cells.Length];
+        var pos = new BlockPos(0, 0, 0);
+        for (int y = 0; y < height; y++)
+            for (int z = 0; z < size; z++)
+                for (int x = 0; x < size; x++)
+                {
+                    pos.Set(cx - r + x, y0 + y, cz - r + z);
+                    Block block = ba.GetBlock(pos), fluid = ba.GetBlock(pos, BlockLayersAccess.Fluid);
+                    string key = block.Code + "|" + (fluid.BlockId != 0 ? fluid.Code.ToString() : "");
+                    if (!palette.TryGetValue(key, out int index)) palette[key] = index = palette.Count;
+                    int i = (y * size + z) * size + x;
+                    cells[i] = index;
+                    light[i] = (byte)ba.GetLightLevel(pos, EnumLightLevelType.MaxLight);
+                }
+        string path = System.IO.Path.Combine(GamePaths.DataPath, "ModData", "backrooms", $"dump-{cx}-{cz}.bin");
+        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+        using (var w = new System.IO.BinaryWriter(System.IO.File.Create(path)))
+        {
+            w.Write(cx - r); w.Write(y0); w.Write(cz - r); w.Write(size); w.Write(height); w.Write(floor);
+            w.Write(palette.Count);
+            foreach (string key in palette.OrderBy(p => p.Value).Select(p => p.Key)) w.Write(key);
+            foreach (int c in cells) w.Write((ushort)c);
+            w.Write(light);
+        }
+        return TextCommandResult.Success($"Dumped {size}x{height}x{size} blocks ({palette.Count} kinds) to {path}");
     }
 
     private TextCommandResult OnWhereCommand(TextCommandCallingArgs args)

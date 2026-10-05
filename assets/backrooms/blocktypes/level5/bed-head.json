@@ -69,5 +69,15 @@
 		"x2": 1,
 		"y2": 0.6,
 		"z2": 1
-	}
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:bed-woodaged-head-north",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
 }

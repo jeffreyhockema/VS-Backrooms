@@ -1,0 +1,362 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"coal": "backrooms:block/detail/coal",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Heap1",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"east": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"south": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"west": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"up": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Heap2",
+			"from": [
+				3,
+				3,
+				3
+			],
+			"to": [
+				13,
+				6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"east": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						9,
+						3
+					]
+				},
+				"south": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"west": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						9,
+						3
+					]
+				},
+				"up": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"down": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Heap3",
+			"from": [
+				5,
+				6,
+				5
+			],
+			"to": [
+				10,
+				8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"east": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					]
+				},
+				"down": {
+					"texture": "#coal",
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				11,
+				4,
+				10
+			],
+			"to": [
+				12,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				4,
+				10.5
+			],
+			"rotationZ": 15
+		},
+		{
+			"name": "Blade",
+			"from": [
+				10,
+				2,
+				9.5
+			],
+			"to": [
+				13,
+				6,
+				10.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						4
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						4
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						4
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						4
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

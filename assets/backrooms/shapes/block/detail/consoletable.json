@@ -1,0 +1,848 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"driedflowers": "backrooms:block/detail/driedflowers",
+		"lampshade": "backrooms:block/level5/lampshade",
+		"mahogany": "backrooms:block/level5/mahogany",
+		"marbletop": "backrooms:block/detail/marbletop",
+		"vase": "backrooms:block/detail/vase"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				1,
+				12,
+				9
+			],
+			"to": [
+				15,
+				13,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"east": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"west": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				},
+				"down": {
+					"texture": "#marbletop",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Apron",
+			"from": [
+				1.5,
+				10,
+				9.5
+			],
+			"to": [
+				14.5,
+				12,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				2,
+				0,
+				10
+			],
+			"to": [
+				3,
+				10,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				13,
+				0,
+				10
+			],
+			"to": [
+				14,
+				10,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				2,
+				0,
+				13
+			],
+			"to": [
+				3,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				13,
+				0,
+				13
+			],
+			"to": [
+				14,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf",
+			"from": [
+				2,
+				2,
+				10
+			],
+			"to": [
+				14,
+				2.8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						12,
+						0.7999999999999998
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						4,
+						0.7999999999999998
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						12,
+						0.7999999999999998
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						4,
+						0.7999999999999998
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Vase",
+			"from": [
+				10,
+				13,
+				11
+			],
+			"to": [
+				13,
+				18,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"east": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"south": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"west": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"up": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"down": {
+					"texture": "#vase",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Flowers",
+			"from": [
+				10.3,
+				18,
+				11.3
+			],
+			"to": [
+				12.7,
+				22,
+				13.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						4
+					]
+				},
+				"east": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						4
+					]
+				},
+				"south": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						4
+					]
+				},
+				"west": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						4
+					]
+				},
+				"up": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						2.3999999999999986
+					]
+				},
+				"down": {
+					"texture": "#driedflowers",
+					"uv": [
+						0,
+						0,
+						2.3999999999999986,
+						2.3999999999999986
+					]
+				}
+			}
+		},
+		{
+			"name": "LampBase",
+			"from": [
+				3,
+				13,
+				11
+			],
+			"to": [
+				5,
+				14,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "LampStem",
+			"from": [
+				3.6,
+				14,
+				11.6
+			],
+			"to": [
+				4.4,
+				18,
+				12.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Shade",
+			"from": [
+				2,
+				17,
+				10.5
+			],
+			"to": [
+				6,
+				21,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					],
+					"glow": 90
+				},
+				"east": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					],
+					"glow": 90
+				},
+				"south": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					],
+					"glow": 90
+				},
+				"west": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					],
+					"glow": 90
+				},
+				"up": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					],
+					"glow": 90
+				},
+				"down": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					],
+					"glow": 90
+				}
+			}
+		}
+	]
+}

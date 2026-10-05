@@ -1,0 +1,127 @@
+// Burn Barrel
+{
+	"code": "burnbarrel",
+	"shape": {
+		"base": "block/detail/burnbarrel"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.18,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.82,
+		"y2": 0.84,
+		"z2": 0.82
+	},
+	"selectionbox": {
+		"x1": 0.18,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.82,
+		"y2": 0.84,
+		"z2": 0.82
+	},
+	"lightHsv": [
+		3,
+		7,
+		12
+	],
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 0,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0
+				},
+				{
+					"avg": 70,
+					"var": 20
+				},
+				{
+					"avg": 120,
+					"var": 30
+				}
+			],
+			"opacityEvolve": {
+				"transform": "linear",
+				"factor": -100
+			},
+			"gravityEffect": {
+				"avg": -0.01,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.25
+				},
+				{
+					"avg": -0.15,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0.25
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.05
+				},
+				{
+					"avg": 0.25,
+					"var": 0.05
+				},
+				{
+					"avg": 0,
+					"var": 0.05
+				}
+			],
+			"quantity": {
+				"avg": 0.15
+			},
+			"size": {
+				"avg": 0.35,
+				"var": 0.1
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 1
+			},
+			"particleModel": "Quad",
+			"lifeLength": {
+				"avg": 3,
+				"var": 0.5
+			},
+			"selfPropelled": true
+		}
+	]
+}

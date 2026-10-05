@@ -1,0 +1,406 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fancage": "backrooms:block/detail/fancage",
+		"generator": "backrooms:block/detail/generator",
+		"generatorpanel": "backrooms:block/detail/generatorpanel",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"rust": "backrooms:block/level2/pipe-rust"
+	},
+	"elements": [
+		{
+			"name": "Skid",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				1,
+				2,
+				2
+			],
+			"to": [
+				15,
+				12,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						14,
+						10
+					]
+				},
+				"east": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"south": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						14,
+						10
+					]
+				},
+				"west": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"up": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#generator",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				4,
+				4,
+				1.6
+			],
+			"to": [
+				12,
+				10,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#generatorpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Exhaust",
+			"from": [
+				12,
+				12,
+				10
+			],
+			"to": [
+				14,
+				18,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				11.5,
+				18,
+				9.5
+			],
+			"to": [
+				14.5,
+				18.6,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6000000000000014
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6000000000000014
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6000000000000014
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6000000000000014
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Filler",
+			"from": [
+				3,
+				12,
+				9
+			],
+			"to": [
+				5,
+				13.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				14.9,
+				4,
+				4
+			],
+			"to": [
+				15.2,
+				11,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#fancage",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

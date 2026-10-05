@@ -1,0 +1,180 @@
+// Washing Machine
+{
+	"code": "laundry",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"washer",
+				"dryer"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-washer-north": {
+			"base": "block/detail/laundry-washer",
+			"rotateY": 0
+		},
+		"*-washer-east": {
+			"base": "block/detail/laundry-washer",
+			"rotateY": 270
+		},
+		"*-washer-south": {
+			"base": "block/detail/laundry-washer",
+			"rotateY": 180
+		},
+		"*-washer-west": {
+			"base": "block/detail/laundry-washer",
+			"rotateY": 90
+		},
+		"*-dryer-north": {
+			"base": "block/detail/laundry-dryer",
+			"rotateY": 0
+		},
+		"*-dryer-east": {
+			"base": "block/detail/laundry-dryer",
+			"rotateY": 270
+		},
+		"*-dryer-south": {
+			"base": "block/detail/laundry-dryer",
+			"rotateY": 180
+		},
+		"*-dryer-west": {
+			"base": "block/detail/laundry-dryer",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-washer-north"
+		],
+		"decorative": [
+			"*-washer-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	]
+}

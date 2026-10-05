@@ -1,0 +1,108 @@
+// Wallpaper with decorations on one face
+{
+	"code": "housedeco-beige",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"familyphoto",
+				"housepainting",
+				"houseclock",
+				"housemirror"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-familyphoto-north": {
+			"base": "block/detail/housedeco-beige-familyphoto",
+			"rotateY": 0
+		},
+		"*-familyphoto-east": {
+			"base": "block/detail/housedeco-beige-familyphoto",
+			"rotateY": 270
+		},
+		"*-familyphoto-south": {
+			"base": "block/detail/housedeco-beige-familyphoto",
+			"rotateY": 180
+		},
+		"*-familyphoto-west": {
+			"base": "block/detail/housedeco-beige-familyphoto",
+			"rotateY": 90
+		},
+		"*-housepainting-north": {
+			"base": "block/detail/housedeco-beige-housepainting",
+			"rotateY": 0
+		},
+		"*-housepainting-east": {
+			"base": "block/detail/housedeco-beige-housepainting",
+			"rotateY": 270
+		},
+		"*-housepainting-south": {
+			"base": "block/detail/housedeco-beige-housepainting",
+			"rotateY": 180
+		},
+		"*-housepainting-west": {
+			"base": "block/detail/housedeco-beige-housepainting",
+			"rotateY": 90
+		},
+		"*-houseclock-north": {
+			"base": "block/detail/housedeco-beige-houseclock",
+			"rotateY": 0
+		},
+		"*-houseclock-east": {
+			"base": "block/detail/housedeco-beige-houseclock",
+			"rotateY": 270
+		},
+		"*-houseclock-south": {
+			"base": "block/detail/housedeco-beige-houseclock",
+			"rotateY": 180
+		},
+		"*-houseclock-west": {
+			"base": "block/detail/housedeco-beige-houseclock",
+			"rotateY": 90
+		},
+		"*-housemirror-north": {
+			"base": "block/detail/housedeco-beige-housemirror",
+			"rotateY": 0
+		},
+		"*-housemirror-east": {
+			"base": "block/detail/housedeco-beige-housemirror",
+			"rotateY": 270
+		},
+		"*-housemirror-south": {
+			"base": "block/detail/housedeco-beige-housemirror",
+			"rotateY": 180
+		},
+		"*-housemirror-west": {
+			"base": "block/detail/housedeco-beige-housemirror",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

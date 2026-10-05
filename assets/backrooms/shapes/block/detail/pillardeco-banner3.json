@@ -1,0 +1,182 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"banner3": "backrooms:block/detail/banner3",
+		"pillar": "backrooms:block/level1/concretepillar-plain",
+		"string": "backrooms:block/detail/string"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pillar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cloth",
+			"from": [
+				2,
+				-8,
+				-0.6
+			],
+			"to": [
+				14,
+				15,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#banner3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#banner3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cord",
+			"from": [
+				1,
+				15,
+				-0.8
+			],
+			"to": [
+				15,
+				15.6,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#string",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

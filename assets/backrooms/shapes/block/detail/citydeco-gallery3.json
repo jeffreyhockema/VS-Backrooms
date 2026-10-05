@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"gallery3": "backrooms:block/detail/gallery3",
+		"gilt": "backrooms:block/level5/gilt"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Picture",
+			"from": [
+				1,
+				1,
+				-0.8
+			],
+			"to": [
+				15,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gallery3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PictureSides",
+			"from": [
+				1,
+				1,
+				-0.8
+			],
+			"to": [
+				15,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

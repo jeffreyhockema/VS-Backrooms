@@ -1,0 +1,223 @@
+// Pitched roofs over the Suburbs' houses and the farm buildings
+{
+	"code": "roofslope",
+	"variantgroups": [
+		{
+			"code": "material",
+			"states": [
+				"grey",
+				"brown",
+				"red",
+				"barn"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-north",
+			"*-upper-north"
+		],
+		"construction": [
+			"*-lower-north",
+			"*-upper-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-grey-lower-north": {
+			"base": "block/detail/roofslope-grey-lower",
+			"rotateY": 0
+		},
+		"*-grey-lower-east": {
+			"base": "block/detail/roofslope-grey-lower",
+			"rotateY": 270
+		},
+		"*-grey-lower-south": {
+			"base": "block/detail/roofslope-grey-lower",
+			"rotateY": 180
+		},
+		"*-grey-lower-west": {
+			"base": "block/detail/roofslope-grey-lower",
+			"rotateY": 90
+		},
+		"*-grey-upper-north": {
+			"base": "block/detail/roofslope-grey-upper",
+			"rotateY": 0
+		},
+		"*-grey-upper-east": {
+			"base": "block/detail/roofslope-grey-upper",
+			"rotateY": 270
+		},
+		"*-grey-upper-south": {
+			"base": "block/detail/roofslope-grey-upper",
+			"rotateY": 180
+		},
+		"*-grey-upper-west": {
+			"base": "block/detail/roofslope-grey-upper",
+			"rotateY": 90
+		},
+		"*-brown-lower-north": {
+			"base": "block/detail/roofslope-brown-lower",
+			"rotateY": 0
+		},
+		"*-brown-lower-east": {
+			"base": "block/detail/roofslope-brown-lower",
+			"rotateY": 270
+		},
+		"*-brown-lower-south": {
+			"base": "block/detail/roofslope-brown-lower",
+			"rotateY": 180
+		},
+		"*-brown-lower-west": {
+			"base": "block/detail/roofslope-brown-lower",
+			"rotateY": 90
+		},
+		"*-brown-upper-north": {
+			"base": "block/detail/roofslope-brown-upper",
+			"rotateY": 0
+		},
+		"*-brown-upper-east": {
+			"base": "block/detail/roofslope-brown-upper",
+			"rotateY": 270
+		},
+		"*-brown-upper-south": {
+			"base": "block/detail/roofslope-brown-upper",
+			"rotateY": 180
+		},
+		"*-brown-upper-west": {
+			"base": "block/detail/roofslope-brown-upper",
+			"rotateY": 90
+		},
+		"*-red-lower-north": {
+			"base": "block/detail/roofslope-red-lower",
+			"rotateY": 0
+		},
+		"*-red-lower-east": {
+			"base": "block/detail/roofslope-red-lower",
+			"rotateY": 270
+		},
+		"*-red-lower-south": {
+			"base": "block/detail/roofslope-red-lower",
+			"rotateY": 180
+		},
+		"*-red-lower-west": {
+			"base": "block/detail/roofslope-red-lower",
+			"rotateY": 90
+		},
+		"*-red-upper-north": {
+			"base": "block/detail/roofslope-red-upper",
+			"rotateY": 0
+		},
+		"*-red-upper-east": {
+			"base": "block/detail/roofslope-red-upper",
+			"rotateY": 270
+		},
+		"*-red-upper-south": {
+			"base": "block/detail/roofslope-red-upper",
+			"rotateY": 180
+		},
+		"*-red-upper-west": {
+			"base": "block/detail/roofslope-red-upper",
+			"rotateY": 90
+		},
+		"*-barn-lower-north": {
+			"base": "block/detail/roofslope-barn-lower",
+			"rotateY": 0
+		},
+		"*-barn-lower-east": {
+			"base": "block/detail/roofslope-barn-lower",
+			"rotateY": 270
+		},
+		"*-barn-lower-south": {
+			"base": "block/detail/roofslope-barn-lower",
+			"rotateY": 180
+		},
+		"*-barn-lower-west": {
+			"base": "block/detail/roofslope-barn-lower",
+			"rotateY": 90
+		},
+		"*-barn-upper-north": {
+			"base": "block/detail/roofslope-barn-upper",
+			"rotateY": 0
+		},
+		"*-barn-upper-east": {
+			"base": "block/detail/roofslope-barn-upper",
+			"rotateY": 270
+		},
+		"*-barn-upper-south": {
+			"base": "block/detail/roofslope-barn-upper",
+			"rotateY": 180
+		},
+		"*-barn-upper-west": {
+			"base": "block/detail/roofslope-barn-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 2,
+	"collisionboxByType": {
+		"*-lower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

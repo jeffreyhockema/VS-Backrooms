@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"stationsign": "backrooms:block/detail/stationsign",
+		"subwaywall-tile": "backrooms:block/detail/subwaywall-tile"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sign",
+			"from": [
+				0,
+				3,
+				-0.6
+			],
+			"to": [
+				16,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stationsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignSides",
+			"from": [
+				0,
+				3,
+				-0.6
+			],
+			"to": [
+				16,
+				13,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,181 @@
+// Refrigerator
+{
+	"code": "fridge",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/detail/fridge",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/detail/fridge",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/detail/fridge",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/detail/fridge",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "crackers",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "cannedbeans",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:fruit-redapple",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cheese-cheddar-1slice",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0.2
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

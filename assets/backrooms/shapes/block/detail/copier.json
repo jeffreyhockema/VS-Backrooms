@@ -1,0 +1,459 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"copier": "backrooms:block/detail/copier",
+		"copierpanel": "backrooms:block/detail/copierpanel",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"paper": "backrooms:block/detail/paper"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				14,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"east": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"south": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"west": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Lid",
+			"from": [
+				1,
+				14,
+				3
+			],
+			"to": [
+				15,
+				15,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				14,
+				3
+			],
+			"to": [
+				8,
+				15.5,
+				5.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#copierpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#copierpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tray",
+			"from": [
+				15,
+				8,
+				6
+			],
+			"to": [
+				17,
+				9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"down": {
+					"texture": "#copier",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Paper",
+			"from": [
+				15.2,
+				9,
+				6.5
+			],
+			"to": [
+				16.8,
+				9.4,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						1.6000000000000014,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						1.6000000000000014,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						1.6000000000000014,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						1.6000000000000014,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer",
+			"from": [
+				2,
+				2,
+				2.7
+			],
+			"to": [
+				14,
+				6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer2",
+			"from": [
+				2,
+				7,
+				2.7
+			],
+			"to": [
+				14,
+				11,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

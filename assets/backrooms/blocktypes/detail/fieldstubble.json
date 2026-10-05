@@ -1,0 +1,51 @@
+// Stubble
+{
+	"code": "fieldstubble",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/detail/stubble",
+				"alternates": [
+					{
+						"base": "block/detail/stubble",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/stubble",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/stubble",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/grass",
+		"place": "game:block/dirt",
+		"break": "game:block/dirt",
+		"hit": "game:block/dirt"
+	}
+}

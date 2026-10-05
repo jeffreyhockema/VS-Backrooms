@@ -48,6 +48,14 @@
 				"avg": 0.1,
 				"var": 0
 			}
+		},
+		{
+			"type": "item",
+			"code": "chalk",
+			"quantity": {
+				"avg": 0.12,
+				"var": 0
+			}
 		}
 	]
 }

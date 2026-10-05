@@ -13,8 +13,6 @@ namespace Backrooms.Lights;
 /// </summary>
 public class BlockEntityFlickerLight : BlockEntity
 {
-    private static readonly Dictionary<int, MeshData> OffMeshes = new();
-
     private enum Mode { Stutter, Dying, Buzzing }
 
     private Mode mode;
@@ -79,9 +77,9 @@ public class BlockEntityFlickerLight : BlockEntity
                 break;
 
             default:
-                // Erratic buzzing
+                // Erratic buzzing (each change redraws the chunk, so not too erratic)
                 SetLit(rand.NextDouble() < 0.7);
-                timer = Range(0.03f, 0.25f);
+                timer = Range(0.12f, 0.45f);
                 break;
         }
     }
@@ -110,12 +108,14 @@ public class BlockEntityFlickerLight : BlockEntity
     {
         string offCode = Block.Attributes?["offBlock"].AsString();
         Block offBlock = offCode == null ? Block : Api.World.GetBlock(new AssetLocation(offCode)) ?? Block;
-        lock (OffMeshes)
+        // The meshes are cached per world (block ids and the texture atlas differ from one world to the next)
+        Dictionary<int, MeshData> cache = Api.ModLoader.GetModSystem<FlickerSystem>().OffMeshes;
+        lock (cache)
         {
-            if (!OffMeshes.TryGetValue(offBlock.BlockId, out MeshData mesh))
+            if (!cache.TryGetValue(offBlock.BlockId, out MeshData mesh))
             {
                 tesselator.TesselateBlock(offBlock, out mesh);
-                OffMeshes[offBlock.BlockId] = mesh;
+                cache[offBlock.BlockId] = mesh;
             }
             return mesh;
         }

@@ -46,7 +46,9 @@ public static class RealityShift
     /// <summary>Strength of the shift for the given side of the game right now.</summary>
     public static double CurrentStrength(ICoreAPI api, double forcedUntilHours)
     {
-        return Strength(api.World.Seed, api.World.Calendar.TotalHours, forcedUntilHours);
+        // Hours since this world began (the calendar's total hours start hundreds of hours in, which would skip the
+        // quiet first period and shift the whole schedule)
+        return Strength(api.World.Seed, api.World.Calendar.ElapsedHours, forcedUntilHours);
     }
 
     private static double Ramp(double sinceStart, double duration)

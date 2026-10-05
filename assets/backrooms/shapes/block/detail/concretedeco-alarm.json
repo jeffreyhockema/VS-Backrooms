@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"concretewall": "backrooms:block/level1/concretewall-plain",
+		"firealarm": "backrooms:block/detail/firealarm",
+		"redmetal": "backrooms:block/detail/redmetal"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull",
+			"from": [
+				6,
+				4,
+				-1.5
+			],
+			"to": [
+				10,
+				9,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#firealarm",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PullSides",
+			"from": [
+				6,
+				4,
+				-1.5
+			],
+			"to": [
+				10,
+				9,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

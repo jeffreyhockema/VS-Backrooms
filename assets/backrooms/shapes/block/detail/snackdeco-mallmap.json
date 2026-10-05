@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/detail/chrome",
+		"mallmap": "backrooms:block/detail/mallmap",
+		"snackwall-mall": "backrooms:block/detail/snackwall-mall"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#snackwall-mall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Map",
+			"from": [
+				2,
+				1,
+				-1
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#mallmap",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "MapSides",
+			"from": [
+				2,
+				1,
+				-1
+			],
+			"to": [
+				14,
+				15,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
+		}
+	]
+}

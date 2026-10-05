@@ -1,0 +1,42 @@
+{
+	code: "carpetbag",
+	// Level 0's carpet, stitched into a bag with its own fibres: the first way to carry more. As big as a hand basket
+	// (cattails, which those need, only grow in Level 10)
+	maxstacksize: 1,
+	shape: { base: "game:item/bag/linensack" },
+	behaviors: [
+		{ name: "GroundStorable", properties: { layout: "SingleCenter", collisionBox: { x1: 0.25, y1: 0, z1: 0.25, x2: 0.75, y2: 0.375, z2: 0.75 }}},
+		{ name: "HeldBag" },
+		{ name: "GroundStoredHeldBag", properties: { dialogTitleLangCode: "sackcontents" } }
+	],
+	textures: {
+		"linen": { base: "block/carpet-normal" },
+		"top": { base: "game:item/bag/linensack/top" }
+	},
+	storageFlags: 2,
+	creativeinventory: { "general": ["*"], "items": ["*"] },
+	materialDensity: 450,
+	guiTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: -25, y: 23, z: 180 },
+		origin: { x: 0.5299, y: 0.23, z: 0.5 },
+		scale: 2.7,
+		rotate: true
+	},
+	tpHandTransform: {
+		translation: { x: -0.7, y: -0.5, z: -0.6 },
+		rotation: { x: -4, y: 47, z: -17 },
+		scale: 0.81
+	},
+	groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 180, y: 33, z: -180 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 4
+	},
+	attributes: {
+		backpack: {
+			quantitySlots: 3
+		}
+	}
+}

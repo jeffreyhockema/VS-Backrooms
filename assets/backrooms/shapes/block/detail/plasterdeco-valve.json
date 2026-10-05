@@ -1,0 +1,606 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"plaster": "backrooms:block/level5/plaster",
+		"rust": "backrooms:block/level2/pipe-rust",
+		"valve": "backrooms:block/props/valve"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe",
+			"from": [
+				0,
+				8,
+				-3
+			],
+			"to": [
+				16,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				7.5,
+				9.5,
+				-5
+			],
+			"to": [
+				8.5,
+				10.5,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "RimT",
+			"from": [
+				5,
+				12.5,
+				-6
+			],
+			"to": [
+				11,
+				13.5,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "RimB",
+			"from": [
+				5,
+				6.5,
+				-6
+			],
+			"to": [
+				11,
+				7.5,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "RimL",
+			"from": [
+				4.5,
+				7,
+				-6
+			],
+			"to": [
+				5.5,
+				13,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "RimR",
+			"from": [
+				10.5,
+				7,
+				-6
+			],
+			"to": [
+				11.5,
+				13,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Spoke",
+			"from": [
+				7.5,
+				7,
+				-5.8
+			],
+			"to": [
+				8.5,
+				13,
+				-5.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "SpokeH",
+			"from": [
+				5,
+				9.5,
+				-5.8
+			],
+			"to": [
+				11,
+				10.5,
+				-5.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#valve",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

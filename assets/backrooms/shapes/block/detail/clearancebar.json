@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hazard": "backrooms:block/detail/hazard",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "ChainL",
+			"from": [
+				3.5,
+				5,
+				7.7
+			],
+			"to": [
+				4.1,
+				16,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						11
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6000000000000005,
+						11
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						11
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6000000000000005,
+						11
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "ChainR",
+			"from": [
+				11.9,
+				5,
+				7.7
+			],
+			"to": [
+				12.5,
+				16,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						11
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6000000000000005,
+						11
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						11
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6000000000000005,
+						11
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar",
+			"from": [
+				0,
+				2.5,
+				7
+			],
+			"to": [
+				16,
+				5,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						2,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						2,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hazard",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		}
+	]
+}

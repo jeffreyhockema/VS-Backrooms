@@ -1,0 +1,52 @@
+// Floor Lamp
+{
+	"code": "floorlamp",
+	"shape": {
+		"base": "block/detail/floorlamp"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1.8,
+		"z2": 0.75
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1.8,
+		"z2": 0.75
+	},
+	"lightHsv": [
+		6,
+		5,
+		10
+	]
+}

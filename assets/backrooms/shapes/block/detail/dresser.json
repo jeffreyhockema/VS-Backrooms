@@ -1,0 +1,85 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dresserfront": "backrooms:block/detail/dresserfront",
+		"dresserwood": "backrooms:block/detail/dresserwood"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				4
+			],
+			"to": [
+				15,
+				15,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						11,
+						15
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						11,
+						15
+					]
+				},
+				"up": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						14,
+						11
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				1,
+				0,
+				4
+			],
+			"to": [
+				15,
+				15,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#dresserfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,236 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"tvscreen": "backrooms:block/detail/tvscreen",
+		"tvwood": "backrooms:block/detail/tvwood"
+	},
+	"elements": [
+		{
+			"name": "Cabinet",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				12,
+				14
+			],
+			"faces": {
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						12
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						12
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Screen",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				12,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvscreen",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "AntennaL",
+			"from": [
+				5,
+				12,
+				9
+			],
+			"to": [
+				5.6,
+				18,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.3,
+				12,
+				9.3
+			],
+			"rotationZ": 20
+		},
+		{
+			"name": "AntennaR",
+			"from": [
+				10.4,
+				12,
+				9
+			],
+			"to": [
+				11,
+				18,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.7,
+				12,
+				9.3
+			],
+			"rotationZ": -20
+		}
+	]
+}

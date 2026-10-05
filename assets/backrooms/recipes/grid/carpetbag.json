@@ -1,0 +1,11 @@
+// A bag of Level 0's carpet, sewn shut round the sides with twine
+{
+	ingredientPattern: "FTF,FFF",
+	ingredients: {
+		"F": { type: "item", code: "carpetfibre", quantity: 1 },
+		"T": { type: "item", code: "game:flaxtwine", quantity: 1 }
+	},
+	width: 3,
+	height: 2,
+	output: { type: "item", code: "carpetbag", quantity: 1 }
+}

@@ -1,0 +1,198 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"burnbarrel": "backrooms:block/detail/burnbarrel",
+		"embers": "backrooms:block/detail/embers",
+		"rust": "backrooms:block/level2/pipe-rust"
+	},
+	"elements": [
+		{
+			"name": "Drum",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				13,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#burnbarrel",
+					"uv": [
+						0,
+						0,
+						10,
+						13
+					]
+				},
+				"east": {
+					"texture": "#burnbarrel",
+					"uv": [
+						0,
+						0,
+						10,
+						13
+					]
+				},
+				"south": {
+					"texture": "#burnbarrel",
+					"uv": [
+						0,
+						0,
+						10,
+						13
+					]
+				},
+				"west": {
+					"texture": "#burnbarrel",
+					"uv": [
+						0,
+						0,
+						10,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				2.8,
+				12.5,
+				2.8
+			],
+			"to": [
+				13.2,
+				13.5,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						10.399999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Hoop",
+			"from": [
+				2.8,
+				1,
+				2.8
+			],
+			"to": [
+				13.2,
+				2,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						10.399999999999999,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Embers",
+			"from": [
+				3.3,
+				12.6,
+				3.3
+			],
+			"to": [
+				12.7,
+				13,
+				12.7
+			],
+			"faces": {
+				"up": {
+					"texture": "#embers",
+					"uv": [
+						0,
+						0,
+						9.399999999999999,
+						9.399999999999999
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,41 @@
+// A ceiling fan in one of the hotel's guest rooms. It turns, and cannot be switched off
+{
+	"code": "ceilingfan",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/detail/ceilingfan"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0.45,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

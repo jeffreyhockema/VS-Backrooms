@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paper": "backrooms:block/detail/paper",
+		"wastebin": "backrooms:block/detail/wastebin"
+	},
+	"elements": [
+		{
+			"name": "Bin",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				6,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"south": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#wastebin",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Ball",
+			"from": [
+				6,
+				5,
+				6
+			],
+			"to": [
+				8,
+				7,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#paper",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

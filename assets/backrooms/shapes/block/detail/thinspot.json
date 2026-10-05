@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"thinspot": "backrooms:block/detail/thinspot"
+	},
+	"elements": [
+		{
+			"name": "SeamA",
+			"from": [
+				1,
+				0,
+				7.95
+			],
+			"to": [
+				15,
+				30,
+				8.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#thinspot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#thinspot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 150
+				}
+			}
+		},
+		{
+			"name": "SeamB",
+			"from": [
+				7.95,
+				0,
+				1
+			],
+			"to": [
+				8.05,
+				30,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#thinspot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#thinspot",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 150
+				}
+			}
+		}
+	]
+}

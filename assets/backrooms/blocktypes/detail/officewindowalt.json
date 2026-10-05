@@ -1,0 +1,55 @@
+// Windows papered over or shut behind blinds. Most of Level 4's windows are
+{
+	"code": "officewindowalt",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"blackout",
+				"blinds"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-blackout": {
+			"all": {
+				"base": "block/detail/officewindow-blackout"
+			}
+		},
+		"*-blinds": {
+			"all": {
+				"base": "block/detail/officewindow-blinds"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-blinds": [
+			36,
+			1,
+			4
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-blinds": 0,
+		"*": 99
+	}
+}

@@ -1,0 +1,215 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"subwaylampglass": "backrooms:block/detail/subwaylampglass",
+		"subwaywall-tile": "backrooms:block/detail/subwaywall-tile"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#subwaywall-tile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cage",
+			"from": [
+				5,
+				3,
+				-4
+			],
+			"to": [
+				11,
+				11,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						6,
+						8
+					],
+					"glow": 230
+				},
+				"east": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					],
+					"glow": 230
+				},
+				"south": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						6,
+						8
+					],
+					"glow": 230
+				},
+				"west": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					],
+					"glow": 230
+				},
+				"up": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					],
+					"glow": 230
+				},
+				"down": {
+					"texture": "#subwaylampglass",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					],
+					"glow": 230
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				4,
+				2,
+				-1
+			],
+			"to": [
+				12,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				}
+			}
+		}
+	]
+}

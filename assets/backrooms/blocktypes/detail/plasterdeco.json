@@ -1,0 +1,159 @@
+// Plaster Wall with decorations on one face
+{
+	"code": "plasterdeco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"pipesv1",
+				"pipesv2",
+				"pipesv3",
+				"pipesv4",
+				"valve",
+				"gauges",
+				"pipecluster"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-pipesv1-north": {
+			"base": "block/detail/plasterdeco-pipesv1",
+			"rotateY": 0
+		},
+		"*-pipesv1-east": {
+			"base": "block/detail/plasterdeco-pipesv1",
+			"rotateY": 270
+		},
+		"*-pipesv1-south": {
+			"base": "block/detail/plasterdeco-pipesv1",
+			"rotateY": 180
+		},
+		"*-pipesv1-west": {
+			"base": "block/detail/plasterdeco-pipesv1",
+			"rotateY": 90
+		},
+		"*-pipesv2-north": {
+			"base": "block/detail/plasterdeco-pipesv2",
+			"rotateY": 0
+		},
+		"*-pipesv2-east": {
+			"base": "block/detail/plasterdeco-pipesv2",
+			"rotateY": 270
+		},
+		"*-pipesv2-south": {
+			"base": "block/detail/plasterdeco-pipesv2",
+			"rotateY": 180
+		},
+		"*-pipesv2-west": {
+			"base": "block/detail/plasterdeco-pipesv2",
+			"rotateY": 90
+		},
+		"*-pipesv3-north": {
+			"base": "block/detail/plasterdeco-pipesv3",
+			"rotateY": 0
+		},
+		"*-pipesv3-east": {
+			"base": "block/detail/plasterdeco-pipesv3",
+			"rotateY": 270
+		},
+		"*-pipesv3-south": {
+			"base": "block/detail/plasterdeco-pipesv3",
+			"rotateY": 180
+		},
+		"*-pipesv3-west": {
+			"base": "block/detail/plasterdeco-pipesv3",
+			"rotateY": 90
+		},
+		"*-pipesv4-north": {
+			"base": "block/detail/plasterdeco-pipesv4",
+			"rotateY": 0
+		},
+		"*-pipesv4-east": {
+			"base": "block/detail/plasterdeco-pipesv4",
+			"rotateY": 270
+		},
+		"*-pipesv4-south": {
+			"base": "block/detail/plasterdeco-pipesv4",
+			"rotateY": 180
+		},
+		"*-pipesv4-west": {
+			"base": "block/detail/plasterdeco-pipesv4",
+			"rotateY": 90
+		},
+		"*-valve-north": {
+			"base": "block/detail/plasterdeco-valve",
+			"rotateY": 0
+		},
+		"*-valve-east": {
+			"base": "block/detail/plasterdeco-valve",
+			"rotateY": 270
+		},
+		"*-valve-south": {
+			"base": "block/detail/plasterdeco-valve",
+			"rotateY": 180
+		},
+		"*-valve-west": {
+			"base": "block/detail/plasterdeco-valve",
+			"rotateY": 90
+		},
+		"*-gauges-north": {
+			"base": "block/detail/plasterdeco-gauges",
+			"rotateY": 0
+		},
+		"*-gauges-east": {
+			"base": "block/detail/plasterdeco-gauges",
+			"rotateY": 270
+		},
+		"*-gauges-south": {
+			"base": "block/detail/plasterdeco-gauges",
+			"rotateY": 180
+		},
+		"*-gauges-west": {
+			"base": "block/detail/plasterdeco-gauges",
+			"rotateY": 90
+		},
+		"*-pipecluster-north": {
+			"base": "block/detail/plasterdeco-pipecluster",
+			"rotateY": 0
+		},
+		"*-pipecluster-east": {
+			"base": "block/detail/plasterdeco-pipecluster",
+			"rotateY": 270
+		},
+		"*-pipecluster-south": {
+			"base": "block/detail/plasterdeco-pipecluster",
+			"rotateY": 180
+		},
+		"*-pipecluster-west": {
+			"base": "block/detail/plasterdeco-pipecluster",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

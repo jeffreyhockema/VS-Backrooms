@@ -1,0 +1,173 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"gilt": "backrooms:block/level5/gilt",
+		"hotelpanel": "backrooms:block/level5/hotelwall-panel",
+		"mirrorglass": "backrooms:block/detail/mirrorglass"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				3,
+				0,
+				-1
+			],
+			"to": [
+				13,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				3.8,
+				0.8,
+				-1.1
+			],
+			"to": [
+				12.2,
+				15.2,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirrorglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

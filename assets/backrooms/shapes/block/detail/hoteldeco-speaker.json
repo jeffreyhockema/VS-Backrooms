@@ -1,0 +1,173 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"frieze": "backrooms:block/level5/hotelwall-frieze",
+		"mahogany": "backrooms:block/level5/mahogany",
+		"speakergrille": "backrooms:block/detail/speakergrille"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Box",
+			"from": [
+				4,
+				3,
+				-1.5
+			],
+			"to": [
+				12,
+				11,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				4.5,
+				3.5,
+				-1.6
+			],
+			"to": [
+				11.5,
+				10.5,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakergrille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

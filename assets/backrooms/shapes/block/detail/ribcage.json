@@ -1,0 +1,678 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bone": "backrooms:block/detail/bone"
+	},
+	"elements": [
+		{
+			"name": "RibL0",
+			"from": [
+				-2,
+				0,
+				2
+			],
+			"to": [
+				0,
+				28,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				-1,
+				0,
+				2
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "RibR0",
+			"from": [
+				16,
+				0,
+				2
+			],
+			"to": [
+				18,
+				28,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				17,
+				0,
+				2
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "RibL1",
+			"from": [
+				-2,
+				0,
+				6
+			],
+			"to": [
+				0,
+				28,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				-1,
+				0,
+				6
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "RibR1",
+			"from": [
+				16,
+				0,
+				6
+			],
+			"to": [
+				18,
+				28,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				17,
+				0,
+				6
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "RibL2",
+			"from": [
+				-2,
+				0,
+				10
+			],
+			"to": [
+				0,
+				28,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				-1,
+				0,
+				10
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "RibR2",
+			"from": [
+				16,
+				0,
+				10
+			],
+			"to": [
+				18,
+				28,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				17,
+				0,
+				10
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "RibL3",
+			"from": [
+				-2,
+				0,
+				14
+			],
+			"to": [
+				0,
+				28,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				-1,
+				0,
+				14
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "RibR3",
+			"from": [
+				16,
+				0,
+				14
+			],
+			"to": [
+				18,
+				28,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				17,
+				0,
+				14
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "Spine",
+			"from": [
+				4,
+				28,
+				0
+			],
+			"to": [
+				12,
+				31,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				}
+			}
+		}
+	]
+}

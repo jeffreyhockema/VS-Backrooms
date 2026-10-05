@@ -1,0 +1,60 @@
+{
+	"code": "houseinterior",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"floral",
+				"stripe",
+				"beige",
+				"green",
+				"tile"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-floral": {
+			"all": {
+				"base": "block/detail/houseinterior-floral"
+			}
+		},
+		"*-stripe": {
+			"all": {
+				"base": "block/detail/houseinterior-stripe"
+			}
+		},
+		"*-beige": {
+			"all": {
+				"base": "block/detail/houseinterior-beige"
+			}
+		},
+		"*-green": {
+			"all": {
+				"base": "block/detail/houseinterior-green"
+			}
+		},
+		"*-tile": {
+			"all": {
+				"base": "block/detail/houseinterior-tile"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

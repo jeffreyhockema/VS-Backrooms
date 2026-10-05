@@ -1,0 +1,104 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"serverfront": "backrooms:block/detail/serverfront"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				30,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						13
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				2.5,
+				1,
+				1.6
+			],
+			"to": [
+				13.5,
+				29,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#serverfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 80
+				}
+			}
+		}
+	]
+}

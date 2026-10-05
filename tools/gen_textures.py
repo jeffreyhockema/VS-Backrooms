@@ -10,6 +10,8 @@ Re-running overwrites the PNGs, so once a texture has been hand-painted, remove 
 import os
 import random
 
+import texlib
+
 from PIL import Image, ImageDraw
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -124,7 +126,26 @@ def pattern_stripped(seed):
     return img
 
 
-PATTERNS = {"stripped": pattern_stripped, "chevron": pattern_chevron, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila}
+def pattern_red(seed):
+    """The Red Rooms: the same beaded lines and chevrons as the yellow paper, in dried-blood red."""
+    ground, chevron, bead = hexrgb(0x8A2A22), hexrgb(0x5A1412), hexrgb(0xB45C4A)
+    img = noise_fill(ground, 4, seed)
+    px = img.load()
+    for col in range(S // 8):
+        x0 = col * 8
+        offset = (col % 2) * 4
+        for y in range(S):
+            if (y // 2) % 2 == 0:
+                px[x0, y] = bead + (255,)
+            row = (y + offset) % 8
+            for dx, r in ((4, 0), (3, 1), (5, 1), (2, 2), (6, 2)):
+                if row == r:
+                    px[x0 + dx, y] = chevron + (255,)
+    return img
+
+
+PATTERNS = {"stripped": pattern_stripped, "chevron": pattern_chevron, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
+            "red": pattern_red}
 
 
 def add_baseboard(img):
@@ -156,13 +177,29 @@ def add_outlet(img, name):
     return img
 
 
+def damp(img, seed):
+    """The same wall, older: a faint water stain run down from the ceiling, and a tide mark of yellowed paste."""
+    img = img.copy()
+    rng = random.Random(seed)
+    px = img.load()
+    x0, w = rng.randrange(2, S - 10), rng.randint(5, 10)
+    for y in range(S):
+        for x in range(x0, min(S, x0 + w)):
+            t = 0.16 * (1 - abs((x - x0 - w / 2) / (w / 2))) * (1 - y / (S * 1.8))
+            r, g, b, a = px[x, y]
+            px[x, y] = (clamp(r * (1 - t) + 118 * t), clamp(g * (1 - t) + 102 * t), clamp(b * (1 - t) + 58 * t), a)
+    blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (160, 148, 92), 0.22, seed + 1)
+    return img
+
+
 def wallpapers():
     for i, (name, fn) in enumerate(PATTERNS.items()):
-        save(fn(100 + i), f"block/wallpaper/{name}-upper.png")
-        save(fn(110 + i), f"block/wallpaper/{name}-plain.png")
-        save(add_baseboard(fn(120 + i)), f"block/wallpaper/{name}-baseboard.png")
-        save(add_rail(fn(130 + i)), f"block/wallpaper/{name}-rail.png")
-        save(add_outlet(fn(140 + i), name), f"block/wallpaper/{name}-outlet.png")
+        parts = {"upper": fn(100 + i), "plain": fn(110 + i), "baseboard": add_baseboard(fn(120 + i)),
+                 "rail": add_rail(fn(130 + i)), "outlet": add_outlet(fn(140 + i), name)}
+        for part, img in parts.items():
+            save(img, f"block/wallpaper/{name}-{part}.png")
+            # An older, damp-stained stretch of the same wall, mixed in at random
+            save(damp(img, 300 + i * 10 + len(part)), f"block/wallpaper/{name}-{part}-damp.png")
 
 
 # ---------------- Floor, ceiling, lights ----------------
@@ -276,9 +313,40 @@ def salvage_items():
     save(img, "item/salvage/rottenwood.png")
 
 
-def ceiling_tile():
-    img = noise_fill(hexrgb(0xD6CFA6), 4, 6)
-    rng = random.Random(7)
+def portrait(seed):
+    """A dark, unsettling oil portrait: a figure in black against murky brown, the face lit from one side, the eyes
+    lost in shadow, the varnish gone yellow."""
+    img = texlib.vertical_gradient((52, 40, 28), (28, 22, 16))
+    px = img.load()
+    rng = random.Random(seed)
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            n = rng.uniform(-6, 6)
+            # shoulders and a dark coat
+            if y > 20 and abs(x - 16) < 6 + (y - 20) * 0.9:
+                r, g, b = 22, 18, 20
+                if abs(x - 16) < 2 and y < 26:
+                    r, g, b = 150, 140, 120  # a white collar
+            # the face: an oval, lit from the left, shadowed on the right
+            dx, dy = (x - 16) / 5.0, (y - 13) / 6.5
+            if dx * dx + dy * dy < 1:
+                light = 0.55 + 0.45 * max(0.0, -dx)
+                r, g, b = int(176 * light), int(142 * light), int(110 * light)
+                if 10 <= y <= 12 and (13 <= x <= 14 or 18 <= x <= 19):
+                    r, g, b = 40, 30, 24  # eyes in shadow
+            # hair, dark and close
+            if 0.75 < dx * dx + dy * dy < 1.25 and y < 12:
+                r, g, b = 34, 26, 20
+            px[x, y] = (clamp(r + n), clamp(g + n), clamp(b + n), 255)
+    # the varnish, yellowed toward the middle
+    blotch(img, (16, 14), 14, (120, 96, 40), 0.18, seed + 1)
+    return img
+
+
+def ceiling_tile(seed=6, stain=False):
+    img = noise_fill(hexrgb(0xD6CFA6), 4, seed)
+    rng = random.Random(seed + 1)
     px = img.load()
     # Fissured mineral fibre: short dark worm-like marks
     for _ in range(26):
@@ -291,11 +359,15 @@ def ceiling_tile():
     d.rectangle([0, 0, S - 1, S - 1], outline=(150, 144, 118, 255))  # grid T-bar
     d.line([1, S - 2, S - 2, S - 2], fill=(184, 177, 146, 255))  # tegular edge shadow
     d.line([S - 2, 1, S - 2, S - 2], fill=(184, 177, 146, 255))
+    if stain:
+        # A brown ring where water came through from above, and the paler tile inside it
+        blotch(img, (12 + seed % 9, 13 + seed % 7), 10, (186, 160, 104), 0.35, seed + 2)
+        blotch(img, (12 + seed % 9, 13 + seed % 7), 6, (214, 206, 168), 0.4, seed + 3)
     return img
 
 
 def troffer(state):
-    lens = {"on": (255, 253, 240), "off": (168, 166, 152), "dim": (246, 196, 128)}[state]
+    lens = {"on": (255, 253, 240), "off": (168, 166, 152), "dim": (246, 196, 128), "red": (236, 58, 40)}[state]
     img = Image.new("RGBA", (S, S), (204, 200, 184, 255))
     d = ImageDraw.Draw(img)
     d.rectangle([2, 2, S - 3, S - 3], fill=lens + (255,))
@@ -511,24 +583,47 @@ def cage_light(state):
 
 
 def pipe_tex(kind):
-    if kind in ("rust", "red"):
-        # Bright enough to stand out against grimy concrete, with a highlight and shadow band so it reads as round
-        img = noise_fill(hexrgb(0xA5582E if kind == "rust" else 0xA8302A), 12, 380 if kind == "rust" else 382)
-        px = img.load()
+    """A pipe's skin, shaded like a cylinder lit from above in two 16-pixel bands: a highlight a third of the way
+    down each band, falling to shadow at its bottom. Pipe models stretch one band over the pipe's height, so a
+    square pipe reads as round."""
+    import math
+    base = {"rust": 0xA5582E, "red": 0xA8302A, "lagging": 0xE2E1D7}[kind]
+    img = noise_fill(hexrgb(base), 10 if kind != "lagging" else 5, {"rust": 380, "red": 382, "lagging": 381}[kind])
+    px = img.load()
+    rng = random.Random({"rust": 21, "red": 22, "lagging": 23}[kind])
+    for y in range(S):
+        p = (y % 16 + 0.5) / 16
+        light = 0.66 + 0.52 * math.exp(-((p - 0.3) / 0.2) ** 2) - 0.22 * max(0.0, (p - 0.6) / 0.4) ** 1.5
         for x in range(S):
-            for y in range(S):
-                band = y % 16
-                if band in (3, 4):
-                    px[x, y] = shade(px[x, y], 1.25)
-                elif band in (12, 13, 14):
-                    px[x, y] = shade(px[x, y], 0.7)
-        if kind == "rust":
-            blotch(img, (10, 20), 6, (110, 60, 30), 0.5, 21)
-        return img
-    img = noise_fill(hexrgb(0xE2E1D7), 6, 381)
+            px[x, y] = shade(px[x, y], light)
     d = ImageDraw.Draw(img)
-    for x in range(0, S, 8):  # lagging bands
-        d.line([x, 0, x, S - 1], fill=(190, 188, 176, 255))
+    if kind == "lagging":
+        # Insulation wrapped in cloth: a strap every quarter, a seam along the top, a brown water stain
+        for x in range(3, S, 8):
+            for y in range(S):
+                px[x, y] = shade(px[x, y], 0.72)
+                px[x + 1, y] = shade(px[x + 1, y], 1.06)
+        blotch(img, (22, 13), 5, (150, 120, 70), 0.35, 24)
+        blotch(img, (9, 29), 4, (150, 120, 70), 0.3, 25)
+    else:
+        # A flanged joint with its bolts, and for the bare pipe, pits and streaks of rust
+        for x in (14, 17):
+            for y in range(S):
+                px[x, y] = shade(px[x, y], 0.6)
+        for x in (15, 16):
+            for y in range(S):
+                px[x, y] = shade(px[x, y], 1.15)
+        for y in (2, 7, 12, 18, 23, 28):
+            d.point((15, y), fill=(40, 34, 30, 255))
+        if kind == "rust":
+            for _ in range(26):
+                x, y = rng.randrange(S), rng.randrange(S)
+                px[x, y] = shade(px[x, y], rng.choice((0.55, 0.65, 1.3)))
+            for _ in range(5):
+                x, y = rng.randrange(S), rng.randrange(0, S, 16) + rng.randint(4, 9)
+                for k in range(rng.randint(3, 6)):
+                    if y + k < S:
+                        px[x, y + k] = shade(px[x, y + k], 0.72)
     return img
 
 
@@ -819,13 +914,8 @@ def level5_textures():
     for x in range(4, S, 8):
         d.rectangle([x, 10, x + 3, 20], fill=(180, 60, 30, 255))
     save(img, "block/level5/hotelceiling-beams.png")
-    img = noise_fill(hexrgb(0xB54A28), 10, 549)
-    rng = random.Random(550)
-    d = ImageDraw.Draw(img)
-    for _ in range(6):  # marble veining
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-10, 10), y + rng.randint(6, 16)], fill=(220, 160, 120, 255))
-    save(img, "block/level5/marble.png")
+    # Red faux marble (the lobby columns): deep oxblood with pale, wandering veins
+    save(texlib.marble((150, 52, 34), (214, 150, 118), 549, mottle=0.12), "block/level5/marble.png")
     img = noise_fill(hexrgb(0x8C6E48), 9, 551)
     blotch(img, (16, 28), 12, (60, 44, 26), 0.5, 552)
     save(img, "block/level5/plaster.png")
@@ -861,14 +951,7 @@ def level5_textures():
     text_img(img, "BEVERLY", (0, 10, S, 21), (40, 30, 20, 255), 7)
     text_img(img, "ROOM", (0, 20, S, 31), (40, 30, 20, 255), 7)
     save(img, "block/level5/beverly.png")
-    img = noise_fill(hexrgb(0x3A2A20), 6, 557)  # a dark, unsettling portrait
-    d = ImageDraw.Draw(img)
-    d.ellipse([9, 5, 22, 22], fill=(180, 150, 120, 255))
-    d.ellipse([12, 11, 14, 13], fill=(10, 10, 10, 255))
-    d.ellipse([17, 11, 19, 13], fill=(10, 10, 10, 255))
-    d.line([13, 18, 18, 18], fill=(90, 30, 20, 255))
-    d.rectangle([7, 22, 24, 31], fill=(40, 30, 50, 255))
-    save(img, "block/level5/portrait.png")
+    save(portrait(557), "block/level5/portrait.png")
     save(noise_fill(hexrgb(0xC9A040), 8, 558), "block/level5/gilt.png")
     save(noise_fill(hexrgb(0xB08A3C), 6, 559), "block/level5/brass.png")
     save(noise_fill(hexrgb(0xFFF0C8), 3, 560), "block/level5/domeglass.png")
@@ -982,7 +1065,10 @@ if __name__ == "__main__":
     save(carpet_threadbare(), "block/carpet-threadbare.png")
     salvage_items()
     save(ceiling_tile(), "block/ceilingtile.png")
-    for st in ("on", "off", "dim"):
+    save(ceiling_tile(8), "block/ceilingtile2.png")
+    save(ceiling_tile(9), "block/ceilingtile3.png")
+    save(ceiling_tile(11, stain=True), "block/ceilingtile-stain.png")
+    for st in ("on", "off", "dim", "red"):
         save(troffer(st), f"block/fluorescentlight-{st}.png")
     save(concrete(), "block/concrete.png")
     save(box(True), "block/supplybox-top.png")

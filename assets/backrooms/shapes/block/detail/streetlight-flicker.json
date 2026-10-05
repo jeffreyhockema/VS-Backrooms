@@ -1,0 +1,361 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"streetlamp": "backrooms:block/detail/streetlamp"
+	},
+	"elements": [
+		{
+			"name": "Pole",
+			"from": [
+				7,
+				0,
+				7
+			],
+			"to": [
+				9,
+				62,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				6,
+				0,
+				6
+			],
+			"to": [
+				10,
+				3,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm",
+			"from": [
+				7.5,
+				60,
+				-2
+			],
+			"to": [
+				8.5,
+				61.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				5.5,
+				58,
+				-6
+			],
+			"to": [
+				10.5,
+				60.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						7,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						7,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "Lens",
+			"from": [
+				6,
+				57.6,
+				-5.5
+			],
+			"to": [
+				10,
+				58,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					],
+					"glow": 240
+				},
+				"east": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					],
+					"glow": 240
+				},
+				"south": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					],
+					"glow": 240
+				},
+				"west": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					],
+					"glow": 240
+				},
+				"up": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						4,
+						6.0
+					],
+					"glow": 240
+				},
+				"down": {
+					"texture": "#streetlamp",
+					"uv": [
+						0,
+						0,
+						4,
+						6.0
+					],
+					"glow": 240
+				}
+			}
+		}
+	]
+}

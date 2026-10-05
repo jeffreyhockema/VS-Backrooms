@@ -1,0 +1,225 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"concretewall": "backrooms:block/level1/concretewall-plain",
+		"lagging": "backrooms:block/level2/pipe-lagging",
+		"metal": "backrooms:block/props/metal",
+		"rust": "backrooms:block/level2/pipe-rust"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#concretewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PipeA",
+			"from": [
+				0,
+				9,
+				-3
+			],
+			"to": [
+				16,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "PipeB",
+			"from": [
+				0,
+				3,
+				-2.5
+			],
+			"to": [
+				16,
+				6.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						16,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				7,
+				2,
+				-3.5
+			],
+			"to": [
+				9,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						12
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.5,
+						12
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				}
+			}
+		}
+	]
+}

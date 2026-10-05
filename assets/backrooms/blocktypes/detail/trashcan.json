@@ -1,0 +1,81 @@
+// Trash Can
+{
+	"code": "trashcan",
+	"shape": {
+		"base": "block/detail/trashcan"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.22,
+		"y1": 0,
+		"z1": 0.22,
+		"x2": 0.78,
+		"y2": 0.85,
+		"z2": 0.78
+	},
+	"selectionbox": {
+		"x1": 0.22,
+		"y1": 0,
+		"z1": 0.22,
+		"x2": 0.78,
+		"y2": 0.85,
+		"z2": 0.78
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "rottenwood",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:gear-rusty",
+			"quantity": {
+				"avg": 0.05,
+				"var": 0
+			}
+		}
+	]
+}

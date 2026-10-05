@@ -1,0 +1,42 @@
+{
+	"code": "silo",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wall",
+				"top"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-wall": {
+			"all": {
+				"base": "block/detail/silo"
+			}
+		},
+		"*-top": {
+			"all": {
+				"base": "block/detail/silotop"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

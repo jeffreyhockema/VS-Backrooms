@@ -1,0 +1,186 @@
+// Hotel Wall with decorations on one face
+{
+	"code": "hoteldeco",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"mirror",
+				"speaker",
+				"housephone",
+				"firehose",
+				"clock",
+				"keyrack",
+				"callplate",
+				"landscape"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-mirror-north": {
+			"base": "block/detail/hoteldeco-mirror",
+			"rotateY": 0
+		},
+		"*-mirror-east": {
+			"base": "block/detail/hoteldeco-mirror",
+			"rotateY": 270
+		},
+		"*-mirror-south": {
+			"base": "block/detail/hoteldeco-mirror",
+			"rotateY": 180
+		},
+		"*-mirror-west": {
+			"base": "block/detail/hoteldeco-mirror",
+			"rotateY": 90
+		},
+		"*-speaker-north": {
+			"base": "block/detail/hoteldeco-speaker",
+			"rotateY": 0
+		},
+		"*-speaker-east": {
+			"base": "block/detail/hoteldeco-speaker",
+			"rotateY": 270
+		},
+		"*-speaker-south": {
+			"base": "block/detail/hoteldeco-speaker",
+			"rotateY": 180
+		},
+		"*-speaker-west": {
+			"base": "block/detail/hoteldeco-speaker",
+			"rotateY": 90
+		},
+		"*-housephone-north": {
+			"base": "block/detail/hoteldeco-housephone",
+			"rotateY": 0
+		},
+		"*-housephone-east": {
+			"base": "block/detail/hoteldeco-housephone",
+			"rotateY": 270
+		},
+		"*-housephone-south": {
+			"base": "block/detail/hoteldeco-housephone",
+			"rotateY": 180
+		},
+		"*-housephone-west": {
+			"base": "block/detail/hoteldeco-housephone",
+			"rotateY": 90
+		},
+		"*-firehose-north": {
+			"base": "block/detail/hoteldeco-firehose",
+			"rotateY": 0
+		},
+		"*-firehose-east": {
+			"base": "block/detail/hoteldeco-firehose",
+			"rotateY": 270
+		},
+		"*-firehose-south": {
+			"base": "block/detail/hoteldeco-firehose",
+			"rotateY": 180
+		},
+		"*-firehose-west": {
+			"base": "block/detail/hoteldeco-firehose",
+			"rotateY": 90
+		},
+		"*-clock-north": {
+			"base": "block/detail/hoteldeco-clock",
+			"rotateY": 0
+		},
+		"*-clock-east": {
+			"base": "block/detail/hoteldeco-clock",
+			"rotateY": 270
+		},
+		"*-clock-south": {
+			"base": "block/detail/hoteldeco-clock",
+			"rotateY": 180
+		},
+		"*-clock-west": {
+			"base": "block/detail/hoteldeco-clock",
+			"rotateY": 90
+		},
+		"*-keyrack-north": {
+			"base": "block/detail/hoteldeco-keyrack",
+			"rotateY": 0
+		},
+		"*-keyrack-east": {
+			"base": "block/detail/hoteldeco-keyrack",
+			"rotateY": 270
+		},
+		"*-keyrack-south": {
+			"base": "block/detail/hoteldeco-keyrack",
+			"rotateY": 180
+		},
+		"*-keyrack-west": {
+			"base": "block/detail/hoteldeco-keyrack",
+			"rotateY": 90
+		},
+		"*-callplate-north": {
+			"base": "block/detail/hoteldeco-callplate",
+			"rotateY": 0
+		},
+		"*-callplate-east": {
+			"base": "block/detail/hoteldeco-callplate",
+			"rotateY": 270
+		},
+		"*-callplate-south": {
+			"base": "block/detail/hoteldeco-callplate",
+			"rotateY": 180
+		},
+		"*-callplate-west": {
+			"base": "block/detail/hoteldeco-callplate",
+			"rotateY": 90
+		},
+		"*-landscape-north": {
+			"base": "block/detail/hoteldeco-landscape",
+			"rotateY": 0
+		},
+		"*-landscape-east": {
+			"base": "block/detail/hoteldeco-landscape",
+			"rotateY": 270
+		},
+		"*-landscape-south": {
+			"base": "block/detail/hoteldeco-landscape",
+			"rotateY": 180
+		},
+		"*-landscape-west": {
+			"base": "block/detail/hoteldeco-landscape",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"soundsByType": {
+		"*-speaker-*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks",
+			"ambient": "backrooms:ambient/jazz",
+			"ambientBlockCount": 3
+		},
+		"*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		}
+	}
+}

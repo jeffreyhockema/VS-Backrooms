@@ -1,0 +1,112 @@
+// The painted fascia over a storefront
+{
+	"code": "cityfascia",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"north": {
+				"base": "block/detail/cityfascia"
+			},
+			"east": {
+				"base": "block/detail/cityplaster"
+			},
+			"south": {
+				"base": "block/detail/cityplaster"
+			},
+			"west": {
+				"base": "block/detail/cityplaster"
+			},
+			"up": {
+				"base": "block/detail/cityplaster"
+			},
+			"down": {
+				"base": "block/detail/cityplaster"
+			}
+		},
+		"*-east": {
+			"north": {
+				"base": "block/detail/cityplaster"
+			},
+			"east": {
+				"base": "block/detail/cityfascia"
+			},
+			"south": {
+				"base": "block/detail/cityplaster"
+			},
+			"west": {
+				"base": "block/detail/cityplaster"
+			},
+			"up": {
+				"base": "block/detail/cityplaster"
+			},
+			"down": {
+				"base": "block/detail/cityplaster"
+			}
+		},
+		"*-south": {
+			"north": {
+				"base": "block/detail/cityplaster"
+			},
+			"east": {
+				"base": "block/detail/cityplaster"
+			},
+			"south": {
+				"base": "block/detail/cityfascia"
+			},
+			"west": {
+				"base": "block/detail/cityplaster"
+			},
+			"up": {
+				"base": "block/detail/cityplaster"
+			},
+			"down": {
+				"base": "block/detail/cityplaster"
+			}
+		},
+		"*-west": {
+			"north": {
+				"base": "block/detail/cityplaster"
+			},
+			"east": {
+				"base": "block/detail/cityplaster"
+			},
+			"south": {
+				"base": "block/detail/cityplaster"
+			},
+			"west": {
+				"base": "block/detail/cityfascia"
+			},
+			"up": {
+				"base": "block/detail/cityplaster"
+			},
+			"down": {
+				"base": "block/detail/cityplaster"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

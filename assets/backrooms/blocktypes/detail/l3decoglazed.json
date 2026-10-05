@@ -1,0 +1,652 @@
+// Level 3 Wall with decorations on one face
+{
+	"code": "l3decoglazed",
+	"variantgroups": [
+		{
+			"code": "decor",
+			"states": [
+				"dangersign",
+				"gauges",
+				"knifeswitch",
+				"junctionbox2",
+				"junctionbox3",
+				"sparkoutlet",
+				"bulkhead",
+				"alarmbell",
+				"wallcables",
+				"risers2",
+				"risers3",
+				"roomsign0",
+				"roomsign1",
+				"roomsign2",
+				"roomsign3",
+				"roomsign4",
+				"roomsign5",
+				"roomsign6",
+				"roomsign7"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-dangersign-north": {
+			"base": "block/detail/l3decoglazed-dangersign",
+			"rotateY": 0
+		},
+		"*-dangersign-east": {
+			"base": "block/detail/l3decoglazed-dangersign",
+			"rotateY": 270
+		},
+		"*-dangersign-south": {
+			"base": "block/detail/l3decoglazed-dangersign",
+			"rotateY": 180
+		},
+		"*-dangersign-west": {
+			"base": "block/detail/l3decoglazed-dangersign",
+			"rotateY": 90
+		},
+		"*-gauges-north": {
+			"base": "block/detail/l3decoglazed-gauges",
+			"rotateY": 0
+		},
+		"*-gauges-east": {
+			"base": "block/detail/l3decoglazed-gauges",
+			"rotateY": 270
+		},
+		"*-gauges-south": {
+			"base": "block/detail/l3decoglazed-gauges",
+			"rotateY": 180
+		},
+		"*-gauges-west": {
+			"base": "block/detail/l3decoglazed-gauges",
+			"rotateY": 90
+		},
+		"*-knifeswitch-north": {
+			"base": "block/detail/l3decoglazed-knifeswitch",
+			"rotateY": 0
+		},
+		"*-knifeswitch-east": {
+			"base": "block/detail/l3decoglazed-knifeswitch",
+			"rotateY": 270
+		},
+		"*-knifeswitch-south": {
+			"base": "block/detail/l3decoglazed-knifeswitch",
+			"rotateY": 180
+		},
+		"*-knifeswitch-west": {
+			"base": "block/detail/l3decoglazed-knifeswitch",
+			"rotateY": 90
+		},
+		"*-junctionbox2-north": {
+			"base": "block/detail/l3decoglazed-junctionbox2",
+			"rotateY": 0
+		},
+		"*-junctionbox2-east": {
+			"base": "block/detail/l3decoglazed-junctionbox2",
+			"rotateY": 270
+		},
+		"*-junctionbox2-south": {
+			"base": "block/detail/l3decoglazed-junctionbox2",
+			"rotateY": 180
+		},
+		"*-junctionbox2-west": {
+			"base": "block/detail/l3decoglazed-junctionbox2",
+			"rotateY": 90
+		},
+		"*-junctionbox3-north": {
+			"base": "block/detail/l3decoglazed-junctionbox3",
+			"rotateY": 0
+		},
+		"*-junctionbox3-east": {
+			"base": "block/detail/l3decoglazed-junctionbox3",
+			"rotateY": 270
+		},
+		"*-junctionbox3-south": {
+			"base": "block/detail/l3decoglazed-junctionbox3",
+			"rotateY": 180
+		},
+		"*-junctionbox3-west": {
+			"base": "block/detail/l3decoglazed-junctionbox3",
+			"rotateY": 90
+		},
+		"*-sparkoutlet-north": {
+			"base": "block/detail/l3decoglazed-sparkoutlet",
+			"rotateY": 0
+		},
+		"*-sparkoutlet-east": {
+			"base": "block/detail/l3decoglazed-sparkoutlet",
+			"rotateY": 270
+		},
+		"*-sparkoutlet-south": {
+			"base": "block/detail/l3decoglazed-sparkoutlet",
+			"rotateY": 180
+		},
+		"*-sparkoutlet-west": {
+			"base": "block/detail/l3decoglazed-sparkoutlet",
+			"rotateY": 90
+		},
+		"*-bulkhead-north": {
+			"base": "block/detail/l3decoglazed-bulkhead",
+			"rotateY": 0
+		},
+		"*-bulkhead-east": {
+			"base": "block/detail/l3decoglazed-bulkhead",
+			"rotateY": 270
+		},
+		"*-bulkhead-south": {
+			"base": "block/detail/l3decoglazed-bulkhead",
+			"rotateY": 180
+		},
+		"*-bulkhead-west": {
+			"base": "block/detail/l3decoglazed-bulkhead",
+			"rotateY": 90
+		},
+		"*-alarmbell-north": {
+			"base": "block/detail/l3decoglazed-alarmbell",
+			"rotateY": 0
+		},
+		"*-alarmbell-east": {
+			"base": "block/detail/l3decoglazed-alarmbell",
+			"rotateY": 270
+		},
+		"*-alarmbell-south": {
+			"base": "block/detail/l3decoglazed-alarmbell",
+			"rotateY": 180
+		},
+		"*-alarmbell-west": {
+			"base": "block/detail/l3decoglazed-alarmbell",
+			"rotateY": 90
+		},
+		"*-wallcables-north": {
+			"base": "block/detail/l3decoglazed-wallcables",
+			"rotateY": 0
+		},
+		"*-wallcables-east": {
+			"base": "block/detail/l3decoglazed-wallcables",
+			"rotateY": 270
+		},
+		"*-wallcables-south": {
+			"base": "block/detail/l3decoglazed-wallcables",
+			"rotateY": 180
+		},
+		"*-wallcables-west": {
+			"base": "block/detail/l3decoglazed-wallcables",
+			"rotateY": 90
+		},
+		"*-risers2-north": {
+			"base": "block/detail/l3decoglazed-risers2",
+			"rotateY": 0
+		},
+		"*-risers2-east": {
+			"base": "block/detail/l3decoglazed-risers2",
+			"rotateY": 270
+		},
+		"*-risers2-south": {
+			"base": "block/detail/l3decoglazed-risers2",
+			"rotateY": 180
+		},
+		"*-risers2-west": {
+			"base": "block/detail/l3decoglazed-risers2",
+			"rotateY": 90
+		},
+		"*-risers3-north": {
+			"base": "block/detail/l3decoglazed-risers3",
+			"rotateY": 0
+		},
+		"*-risers3-east": {
+			"base": "block/detail/l3decoglazed-risers3",
+			"rotateY": 270
+		},
+		"*-risers3-south": {
+			"base": "block/detail/l3decoglazed-risers3",
+			"rotateY": 180
+		},
+		"*-risers3-west": {
+			"base": "block/detail/l3decoglazed-risers3",
+			"rotateY": 90
+		},
+		"*-roomsign0-north": {
+			"base": "block/detail/l3decoglazed-roomsign0",
+			"rotateY": 0
+		},
+		"*-roomsign0-east": {
+			"base": "block/detail/l3decoglazed-roomsign0",
+			"rotateY": 270
+		},
+		"*-roomsign0-south": {
+			"base": "block/detail/l3decoglazed-roomsign0",
+			"rotateY": 180
+		},
+		"*-roomsign0-west": {
+			"base": "block/detail/l3decoglazed-roomsign0",
+			"rotateY": 90
+		},
+		"*-roomsign1-north": {
+			"base": "block/detail/l3decoglazed-roomsign1",
+			"rotateY": 0
+		},
+		"*-roomsign1-east": {
+			"base": "block/detail/l3decoglazed-roomsign1",
+			"rotateY": 270
+		},
+		"*-roomsign1-south": {
+			"base": "block/detail/l3decoglazed-roomsign1",
+			"rotateY": 180
+		},
+		"*-roomsign1-west": {
+			"base": "block/detail/l3decoglazed-roomsign1",
+			"rotateY": 90
+		},
+		"*-roomsign2-north": {
+			"base": "block/detail/l3decoglazed-roomsign2",
+			"rotateY": 0
+		},
+		"*-roomsign2-east": {
+			"base": "block/detail/l3decoglazed-roomsign2",
+			"rotateY": 270
+		},
+		"*-roomsign2-south": {
+			"base": "block/detail/l3decoglazed-roomsign2",
+			"rotateY": 180
+		},
+		"*-roomsign2-west": {
+			"base": "block/detail/l3decoglazed-roomsign2",
+			"rotateY": 90
+		},
+		"*-roomsign3-north": {
+			"base": "block/detail/l3decoglazed-roomsign3",
+			"rotateY": 0
+		},
+		"*-roomsign3-east": {
+			"base": "block/detail/l3decoglazed-roomsign3",
+			"rotateY": 270
+		},
+		"*-roomsign3-south": {
+			"base": "block/detail/l3decoglazed-roomsign3",
+			"rotateY": 180
+		},
+		"*-roomsign3-west": {
+			"base": "block/detail/l3decoglazed-roomsign3",
+			"rotateY": 90
+		},
+		"*-roomsign4-north": {
+			"base": "block/detail/l3decoglazed-roomsign4",
+			"rotateY": 0
+		},
+		"*-roomsign4-east": {
+			"base": "block/detail/l3decoglazed-roomsign4",
+			"rotateY": 270
+		},
+		"*-roomsign4-south": {
+			"base": "block/detail/l3decoglazed-roomsign4",
+			"rotateY": 180
+		},
+		"*-roomsign4-west": {
+			"base": "block/detail/l3decoglazed-roomsign4",
+			"rotateY": 90
+		},
+		"*-roomsign5-north": {
+			"base": "block/detail/l3decoglazed-roomsign5",
+			"rotateY": 0
+		},
+		"*-roomsign5-east": {
+			"base": "block/detail/l3decoglazed-roomsign5",
+			"rotateY": 270
+		},
+		"*-roomsign5-south": {
+			"base": "block/detail/l3decoglazed-roomsign5",
+			"rotateY": 180
+		},
+		"*-roomsign5-west": {
+			"base": "block/detail/l3decoglazed-roomsign5",
+			"rotateY": 90
+		},
+		"*-roomsign6-north": {
+			"base": "block/detail/l3decoglazed-roomsign6",
+			"rotateY": 0
+		},
+		"*-roomsign6-east": {
+			"base": "block/detail/l3decoglazed-roomsign6",
+			"rotateY": 270
+		},
+		"*-roomsign6-south": {
+			"base": "block/detail/l3decoglazed-roomsign6",
+			"rotateY": 180
+		},
+		"*-roomsign6-west": {
+			"base": "block/detail/l3decoglazed-roomsign6",
+			"rotateY": 90
+		},
+		"*-roomsign7-north": {
+			"base": "block/detail/l3decoglazed-roomsign7",
+			"rotateY": 0
+		},
+		"*-roomsign7-east": {
+			"base": "block/detail/l3decoglazed-roomsign7",
+			"rotateY": 270
+		},
+		"*-roomsign7-south": {
+			"base": "block/detail/l3decoglazed-roomsign7",
+			"rotateY": 180
+		},
+		"*-roomsign7-west": {
+			"base": "block/detail/l3decoglazed-roomsign7",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-bulkhead-*": [
+			6,
+			5,
+			9
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-bulkhead-*": 0,
+		"*": 99
+	},
+	"particlePropertiesByType": {
+		"*-sparkoutlet-north": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 30,
+						"var": 10
+					},
+					{
+						"avg": 160,
+						"var": 40
+					},
+					{
+						"avg": 255,
+						"var": 0
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"gravityEffect": {
+					"avg": 0.6,
+					"var": 0.2
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.05
+					},
+					{
+						"avg": -0.55,
+						"var": 0.05
+					},
+					{
+						"avg": -0.55,
+						"var": 0.05
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.6
+					},
+					{
+						"avg": 0.5,
+						"var": 0.5
+					},
+					{
+						"avg": -0.6,
+						"var": 0.6
+					}
+				],
+				"quantity": {
+					"avg": 0.05,
+					"var": 0.05
+				},
+				"size": {
+					"avg": 0.08,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0.2
+				},
+				"vertexFlags": 255,
+				"selfPropelled": false
+			}
+		],
+		"*-sparkoutlet-east": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 30,
+						"var": 10
+					},
+					{
+						"avg": 160,
+						"var": 40
+					},
+					{
+						"avg": 255,
+						"var": 0
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"gravityEffect": {
+					"avg": 0.6,
+					"var": 0.2
+				},
+				"posOffset": [
+					{
+						"avg": 0.55,
+						"var": 0.05
+					},
+					{
+						"avg": -0.55,
+						"var": 0.05
+					},
+					{
+						"avg": 0,
+						"var": 0.05
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0.6,
+						"var": 0.6
+					},
+					{
+						"avg": 0.5,
+						"var": 0.5
+					},
+					{
+						"avg": 0,
+						"var": 0.6
+					}
+				],
+				"quantity": {
+					"avg": 0.05,
+					"var": 0.05
+				},
+				"size": {
+					"avg": 0.08,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0.2
+				},
+				"vertexFlags": 255,
+				"selfPropelled": false
+			}
+		],
+		"*-sparkoutlet-south": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 30,
+						"var": 10
+					},
+					{
+						"avg": 160,
+						"var": 40
+					},
+					{
+						"avg": 255,
+						"var": 0
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"gravityEffect": {
+					"avg": 0.6,
+					"var": 0.2
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.05
+					},
+					{
+						"avg": -0.55,
+						"var": 0.05
+					},
+					{
+						"avg": 0.55,
+						"var": 0.05
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.6
+					},
+					{
+						"avg": 0.5,
+						"var": 0.5
+					},
+					{
+						"avg": 0.6,
+						"var": 0.6
+					}
+				],
+				"quantity": {
+					"avg": 0.05,
+					"var": 0.05
+				},
+				"size": {
+					"avg": 0.08,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0.2
+				},
+				"vertexFlags": 255,
+				"selfPropelled": false
+			}
+		],
+		"*-sparkoutlet-west": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 30,
+						"var": 10
+					},
+					{
+						"avg": 160,
+						"var": 40
+					},
+					{
+						"avg": 255,
+						"var": 0
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"gravityEffect": {
+					"avg": 0.6,
+					"var": 0.2
+				},
+				"posOffset": [
+					{
+						"avg": -0.55,
+						"var": 0.05
+					},
+					{
+						"avg": -0.55,
+						"var": 0.05
+					},
+					{
+						"avg": 0,
+						"var": 0.05
+					}
+				],
+				"velocity": [
+					{
+						"avg": -0.6,
+						"var": 0.6
+					},
+					{
+						"avg": 0.5,
+						"var": 0.5
+					},
+					{
+						"avg": 0,
+						"var": 0.6
+					}
+				],
+				"quantity": {
+					"avg": 0.05,
+					"var": 0.05
+				},
+				"size": {
+					"avg": 0.08,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0.2
+				},
+				"vertexFlags": 255,
+				"selfPropelled": false
+			}
+		]
+	}
+}

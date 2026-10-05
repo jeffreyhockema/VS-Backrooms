@@ -24,7 +24,8 @@
   "iron": "backrooms:block/props/metal-dark",
   "fire": "backrooms:block/level5/fire",
   "rust": "backrooms:block/level2/pipe-rust",
-  "lampshade": "backrooms:block/level5/lampshade"
+  "lampshade": "backrooms:block/level5/lampshade",
+  "bottle": "backrooms:block/detail/bankergreen"
  },
  "elements": [
   {
@@ -566,6 +567,420 @@
       0,
       4,
       2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bottle",
+   "from": [
+    13.5,
+    12.5,
+    13.5
+   ],
+   "to": [
+    15,
+    17,
+    15
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      4.5
+     ]
+    },
+    "east": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      4.5
+     ]
+    },
+    "south": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      4.5
+     ]
+    },
+    "west": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      4.5
+     ]
+    },
+    "up": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Neck",
+   "from": [
+    13.9,
+    17,
+    13.9
+   ],
+   "to": [
+    14.6,
+    19,
+    14.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      2
+     ]
+    },
+    "east": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      2
+     ]
+    },
+    "up": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      0.6999999999999993
+     ]
+    },
+    "down": {
+     "texture": "#bottle",
+     "uv": [
+      0,
+      0,
+      0.6999999999999993,
+      0.6999999999999993
+     ]
+    }
+   }
+  },
+  {
+   "name": "Glass1",
+   "from": [
+    0.8,
+    12.5,
+    0.8
+   ],
+   "to": [
+    2,
+    14.5,
+    2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Glass2",
+   "from": [
+    14,
+    12.5,
+    0.8
+   ],
+   "to": [
+    15.2,
+    14.5,
+    2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Glass3",
+   "from": [
+    0.8,
+    12.5,
+    14
+   ],
+   "to": [
+    2,
+    14.5,
+    15.2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.1999999999999993,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.1999999999999993
+     ]
+    },
+    "down": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.1999999999999993
+     ]
+    }
+   }
+  },
+  {
+   "name": "Ashtray",
+   "from": [
+    7,
+    12.5,
+    14.2
+   ],
+   "to": [
+    9,
+    13,
+    15.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.4000000000000004,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      1.4000000000000004,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      2,
+      1.4000000000000004
+     ]
+    },
+    "down": {
+     "texture": "#crystal",
+     "uv": [
+      0,
+      0,
+      2,
+      1.4000000000000004
      ]
     }
    }

@@ -1,0 +1,520 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dryleaf": "backrooms:block/detail/dryleaf",
+		"ficusleaves": "backrooms:block/detail/ficusleaves",
+		"planter": "backrooms:block/detail/planter",
+		"wood": "backrooms:block/detail/wood",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Pot",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				7,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"east": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"south": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"west": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"up": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#planter",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Soil",
+			"from": [
+				5.5,
+				6.9,
+				5.5
+			],
+			"to": [
+				10.5,
+				7,
+				10.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Trunk",
+			"from": [
+				7.5,
+				7,
+				7.5
+			],
+			"to": [
+				8.5,
+				18,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaves1",
+			"from": [
+				3,
+				15,
+				4
+			],
+			"to": [
+				12,
+				22,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						9,
+						7
+					]
+				},
+				"east": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				},
+				"south": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						9,
+						7
+					]
+				},
+				"west": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				},
+				"up": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						9,
+						8
+					]
+				},
+				"down": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						9,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaves2",
+			"from": [
+				5,
+				20,
+				3
+			],
+			"to": [
+				13,
+				26,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"south": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaves3",
+			"from": [
+				4,
+				24,
+				6
+			],
+			"to": [
+				10,
+				29,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"east": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"south": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"west": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"up": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#ficusleaves",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fallen1",
+			"from": [
+				2,
+				0,
+				10
+			],
+			"to": [
+				4,
+				0.2,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Fallen2",
+			"from": [
+				11,
+				0,
+				3
+			],
+			"to": [
+				13,
+				0.2,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#dryleaf",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,42 @@
+{
+	"code": "barnwall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"red",
+				"grey"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-red": {
+			"all": {
+				"base": "block/detail/barnwall-red"
+			}
+		},
+		"*-grey": {
+			"all": {
+				"base": "block/detail/barnwall-grey"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

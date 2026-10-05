@@ -1,0 +1,242 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hotelpanel": "backrooms:block/level5/hotelwall-panel",
+		"liftdoor-upper-l": "backrooms:block/detail/liftdoor-upper-l",
+		"liftframe": "backrooms:block/detail/liftframe"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftdoor-upper-l",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Jamb",
+			"from": [
+				14.5,
+				0,
+				-1.2
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				0,
+				14.5,
+				-1.2
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

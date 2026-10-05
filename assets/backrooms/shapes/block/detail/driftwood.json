@@ -1,0 +1,153 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"wetwood": "backrooms:block/detail/wetwood"
+	},
+	"elements": [
+		{
+			"name": "Log",
+			"from": [
+				1,
+				0,
+				6
+			],
+			"to": [
+				15,
+				3,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"east": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"west": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				},
+				"down": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Branch",
+			"from": [
+				5,
+				0,
+				9
+			],
+			"to": [
+				7,
+				2,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"down": {
+					"texture": "#wetwood",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				}
+			},
+			"rotationOrigin": [
+				6,
+				1,
+				10
+			],
+			"rotationY": 30
+		}
+	]
+}

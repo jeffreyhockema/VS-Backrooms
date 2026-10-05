@@ -1,0 +1,498 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cavestone": "backrooms:block/detail/cavestone"
+	},
+	"elements": [
+		{
+			"name": "Wrist",
+			"from": [
+				6,
+				0,
+				6
+			],
+			"to": [
+				10,
+				8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Palm",
+			"from": [
+				5,
+				8,
+				6.5
+			],
+			"to": [
+				11,
+				15,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "F1",
+			"from": [
+				5,
+				15,
+				7
+			],
+			"to": [
+				6.4,
+				21,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						6
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						6
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						6
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						6
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "F2",
+			"from": [
+				6.7,
+				15,
+				7
+			],
+			"to": [
+				8.1,
+				22.5,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						7.5
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						7.5
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "F3",
+			"from": [
+				8.4,
+				15,
+				7
+			],
+			"to": [
+				9.8,
+				22,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						7
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						7
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						7
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						7
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "F4",
+			"from": [
+				10.1,
+				15,
+				7
+			],
+			"to": [
+				11.3,
+				20,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						5
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						5
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						5
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						5
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Thumb",
+			"from": [
+				3,
+				10,
+				7
+			],
+			"to": [
+				5,
+				15,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"east": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						5
+					]
+				},
+				"south": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"west": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						5
+					]
+				},
+				"up": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cavestone",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				10,
+				8
+			],
+			"rotationZ": 25
+		}
+	]
+}

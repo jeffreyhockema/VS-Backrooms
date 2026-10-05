@@ -1,0 +1,58 @@
+{
+	"code": "housewindow",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"dark",
+				"lit"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-dark": {
+			"all": {
+				"base": "block/detail/housewindow-dark"
+			}
+		},
+		"*-lit": {
+			"all": {
+				"base": "block/detail/housewindow-lit"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"lightHsvByType": {
+		"*-lit": [
+			6,
+			4,
+			9
+		]
+	},
+	"lightAbsorptionByType": {
+		"*": 0
+	},
+	"vertexFlagsByType": {
+		"*-lit": {
+			"glowLevel": 160
+		}
+	},
+	"drops": []
+}

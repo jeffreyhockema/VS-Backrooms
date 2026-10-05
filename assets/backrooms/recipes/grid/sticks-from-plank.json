@@ -1,0 +1,11 @@
+// A board whittled down with a knife: sticks for handles, torches and kindling
+{
+	ingredientPattern: "PK",
+	ingredients: {
+		"P": { type: "item", code: "game:plank-*", quantity: 1 },
+		"K": { type: "item", tags: ["tool-knife"], isTool: true }
+	},
+	width: 2,
+	height: 1,
+	output: { type: "item", code: "game:stick", quantity: 2 }
+}

@@ -1,0 +1,47 @@
+// Traffic Cone
+{
+	"code": "trafficcone",
+	"shape": {
+		"base": "block/detail/trafficcone"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.8,
+		"z2": 0.85
+	},
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.8,
+		"z2": 0.85
+	}
+}

@@ -1,0 +1,60 @@
+{
+	"code": "houseceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"lightoff",
+				"lighton"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/detail/houseceiling"
+			}
+		},
+		"*-lightoff": {
+			"all": {
+				"base": "block/detail/houseceiling-lightoff"
+			}
+		},
+		"*-lighton": {
+			"all": {
+				"base": "block/detail/houseceiling-lighton"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"lightHsvByType": {
+		"*-lighton": [
+			6,
+			3,
+			12
+		]
+	},
+	"vertexFlagsByType": {
+		"*-lighton": {
+			"glowLevel": 120
+		}
+	}
+}

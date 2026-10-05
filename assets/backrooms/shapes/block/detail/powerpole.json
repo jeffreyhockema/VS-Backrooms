@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"china": "backrooms:block/detail/china",
+		"wooddark": "backrooms:block/detail/wooddark"
+	},
+	"elements": [
+		{
+			"name": "Pole",
+			"from": [
+				7,
+				0,
+				7
+			],
+			"to": [
+				9,
+				96,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm",
+			"from": [
+				0,
+				88,
+				7.5
+			],
+			"to": [
+				16,
+				89.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#wooddark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "InsL",
+			"from": [
+				1.5,
+				89.5,
+				7.6
+			],
+			"to": [
+				2.5,
+				91.5,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "InsM",
+			"from": [
+				7.6,
+				96,
+				7.6
+			],
+			"to": [
+				8.4,
+				98,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "InsR",
+			"from": [
+				13.5,
+				89.5,
+				7.6
+			],
+			"to": [
+				14.5,
+				91.5,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,800 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cable": "backrooms:block/level3/cable",
+		"copper": "backrooms:block/detail/copper",
+		"metal": "backrooms:block/props/metal"
+	},
+	"elements": [
+		{
+			"name": "Tray",
+			"from": [
+				0,
+				11.5,
+				1
+			],
+			"to": [
+				16,
+				12,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable0",
+			"from": [
+				0,
+				12.5,
+				2
+			],
+			"to": [
+				16,
+				14.0,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable1",
+			"from": [
+				0,
+				13,
+				5
+			],
+			"to": [
+				16,
+				14,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable2",
+			"from": [
+				0,
+				12,
+				8
+			],
+			"to": [
+				16,
+				14,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable3",
+			"from": [
+				0,
+				13.5,
+				11.5
+			],
+			"to": [
+				16,
+				14.5,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable4",
+			"from": [
+				0,
+				12.5,
+				13.5
+			],
+			"to": [
+				16,
+				14.0,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hanger",
+			"from": [
+				7.5,
+				12,
+				0.5
+			],
+			"to": [
+				8.5,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hanger2",
+			"from": [
+				7.5,
+				12,
+				15.5
+			],
+			"to": [
+				8.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LoopL",
+			"from": [
+				3,
+				5,
+				4
+			],
+			"to": [
+				4,
+				11.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "LoopB",
+			"from": [
+				3,
+				5,
+				4
+			],
+			"to": [
+				10,
+				6,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						7,
+						1
+					]
+				},
+				"east": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						7,
+						1
+					]
+				},
+				"west": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						7,
+						1
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						7,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "LoopR",
+			"from": [
+				9,
+				5,
+				4
+			],
+			"to": [
+				10,
+				11.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Dangle",
+			"from": [
+				12,
+				2,
+				10
+			],
+			"to": [
+				12.8,
+				11.5,
+				10.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9.5
+					]
+				},
+				"east": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9.5
+					]
+				},
+				"south": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9.5
+					]
+				},
+				"west": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9.5
+					]
+				},
+				"up": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#cable",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Tip",
+			"from": [
+				12,
+				1.4,
+				10
+			],
+			"to": [
+				12.8,
+				2,
+				10.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

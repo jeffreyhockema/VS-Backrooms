@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"frieze": "backrooms:block/level5/hotelwall-frieze",
+		"liftframe": "backrooms:block/detail/liftframe",
+		"liftheader-l": "backrooms:block/detail/liftheader-l"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Indicator",
+			"from": [
+				2,
+				3,
+				-1
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftheader-l",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "IndicatorSides",
+			"from": [
+				2,
+				3,
+				-1
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
+		}
+	]
+}

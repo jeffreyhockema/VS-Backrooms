@@ -1,0 +1,564 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"coil": "backrooms:block/detail/coil",
+		"copper": "backrooms:block/detail/copper",
+		"insulator": "backrooms:block/level3/insulator",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				3,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Coil",
+			"from": [
+				3.5,
+				3,
+				4.85
+			],
+			"to": [
+				12.5,
+				14,
+				11.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						11
+					]
+				},
+				"east": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						11
+					]
+				},
+				"south": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						11
+					]
+				},
+				"west": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						11
+					]
+				},
+				"up": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						6.300000000000001
+					]
+				},
+				"down": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						6.300000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Coilb",
+			"from": [
+				4.85,
+				3,
+				3.5
+			],
+			"to": [
+				11.15,
+				14,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						11
+					]
+				},
+				"east": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						11
+					]
+				},
+				"south": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						11
+					]
+				},
+				"west": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						9.0,
+						11
+					]
+				},
+				"up": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						9.0
+					]
+				},
+				"down": {
+					"texture": "#coil",
+					"uv": [
+						0,
+						0,
+						6.300000000000001,
+						9.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				3,
+				14,
+				3
+			],
+			"to": [
+				13,
+				15,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"east": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"west": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Insulator",
+			"from": [
+				7,
+				15,
+				7
+			],
+			"to": [
+				9,
+				20,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"east": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"south": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"west": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"up": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring1",
+			"from": [
+				6.5,
+				16,
+				6.5
+			],
+			"to": [
+				9.5,
+				16.8,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring2",
+			"from": [
+				6.5,
+				18,
+				6.5
+			],
+			"to": [
+				9.5,
+				18.8,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#insulator",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Terminal",
+			"from": [
+				7.5,
+				20,
+				7.5
+			],
+			"to": [
+				8.5,
+				22,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

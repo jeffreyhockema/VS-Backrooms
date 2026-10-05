@@ -1,0 +1,231 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rust": "backrooms:block/level2/pipe-rust",
+		"scrap": "backrooms:block/detail/scrap"
+	},
+	"elements": [
+		{
+			"name": "Plate1",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				12,
+				1,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						11,
+						1
+					]
+				},
+				"east": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						11,
+						1
+					]
+				},
+				"west": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						11,
+						8
+					]
+				},
+				"down": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						11,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.5,
+				0.5,
+				6.0
+			],
+			"rotationY": 20,
+			"rotationZ": 8
+		},
+		{
+			"name": "Plate2",
+			"from": [
+				5,
+				0,
+				7
+			],
+			"to": [
+				15,
+				2,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"east": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"south": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"west": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"up": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				},
+				"down": {
+					"texture": "#scrap",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.0,
+				1.0,
+				10.5
+			],
+			"rotationX": 6,
+			"rotationY": -15
+		},
+		{
+			"name": "Rod",
+			"from": [
+				2,
+				0.5,
+				12
+			],
+			"to": [
+				14,
+				1.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,268 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"exitface": "backrooms:block/detail/exitface",
+		"exithousing": "backrooms:block/detail/exithousing",
+		"metal": "backrooms:block/props/metal"
+	},
+	"elements": [
+		{
+			"name": "RodL",
+			"from": [
+				3.6,
+				8,
+				7.6
+			],
+			"to": [
+				4.4,
+				16,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						8
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						8
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "RodR",
+			"from": [
+				11.6,
+				8,
+				7.6
+			],
+			"to": [
+				12.4,
+				16,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						8
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Housing",
+			"from": [
+				1.5,
+				1,
+				6.6
+			],
+			"to": [
+				14.5,
+				8,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						13.0,
+						7
+					]
+				},
+				"east": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						7
+					]
+				},
+				"south": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						13.0,
+						7
+					]
+				},
+				"west": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						7
+					]
+				},
+				"up": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "FaceN",
+			"from": [
+				1.9,
+				1.4,
+				6.5
+			],
+			"to": [
+				14.1,
+				7.6,
+				6.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitface",
+					"uv": [
+						0,
+						4,
+						16,
+						12
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "FaceS",
+			"from": [
+				1.9,
+				1.4,
+				9.4
+			],
+			"to": [
+				14.1,
+				7.6,
+				9.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitface",
+					"uv": [
+						0,
+						4,
+						16,
+						12
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

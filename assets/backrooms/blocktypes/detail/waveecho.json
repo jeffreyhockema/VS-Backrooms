@@ -1,0 +1,22 @@
+// Invisible: the faint sound of waves from below, the way down to Level 7
+{
+	"code": "waveecho",
+	"blockmaterial": "Stone",
+	"drawtype": "Empty",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": null,
+	"lightAbsorption": 0,
+	"resistance": 999,
+	"drops": [],
+	"replaceable": 9000,
+	"sounds": {
+		"ambient": "backrooms:ambient/waves",
+		"ambientBlockCount": 1
+	}
+}

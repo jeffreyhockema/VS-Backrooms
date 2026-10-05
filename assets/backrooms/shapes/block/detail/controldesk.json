@@ -1,0 +1,243 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"controlpanel": "backrooms:block/detail/controlpanel",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"switchgear": "backrooms:block/detail/switchgear",
+		"switchgearfront": "backrooms:block/detail/switchgearfront"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						11
+					]
+				},
+				"east": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"south": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						11
+					]
+				},
+				"west": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"up": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				11,
+				4
+			],
+			"to": [
+				16,
+				12,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#controlpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				11,
+				4
+			],
+			"rotationX": -20
+		},
+		{
+			"name": "PanelSides",
+			"from": [
+				0,
+				11,
+				4
+			],
+			"to": [
+				16,
+				12,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				11,
+				4
+			],
+			"rotationX": -20
+		},
+		{
+			"name": "Backboard",
+			"from": [
+				0,
+				11,
+				14
+			],
+			"to": [
+				16,
+				22,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						2,
+						11
+					]
+				},
+				"west": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						2,
+						11
+					]
+				},
+				"up": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#switchgear",
+					"uv": [
+						0,
+						0,
+						16,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Meters",
+			"from": [
+				0,
+				11,
+				14
+			],
+			"to": [
+				16,
+				22,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#switchgearfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

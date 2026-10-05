@@ -1,5 +1,5 @@
 {
- "ingredientPattern": "ABCC",
+ "ingredientPattern": "AB,CC",
  "ingredients": {
   "A": {
    "type": "item",
@@ -17,8 +17,8 @@
    "quantity": 1
   }
  },
- "width": 4,
- "height": 1,
+ "width": 2,
+ "height": 2,
  "shapeless": true,
  "output": {
   "type": "item",
