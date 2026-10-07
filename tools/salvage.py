@@ -33,11 +33,11 @@ CLOTH, LINEN, PAPER, CANDLE = "game:cloth-plain", "block:game:linen-normal-down"
 
 SALVAGE = {
     # Level 4: the office
-    "desk": d((PLANK, 2, 1), ("scrapwire", 1, 0.5), ("glassshard", 0.5, 0.5), (PAPER, 0.6, 0.6)),
+    "desk": d((PLANK, 2, 1), ("scrapwire", 1, 0.5), ("glassshard", 0.5, 0.5), (PAPER, 0.6, 0.6), ("wanderernote-way", 0.04, 0)),
     "conferencetable": d((PLANK, 4, 1), (NAILS, 0.5, 0.5)),
     "officechair": d(("metalbracket", 1, 0.5), (CLOTH, 0.3, 0.3)),
     "officechairtipped": d(("metalbracket", 1, 0.5), (CLOTH, 0.3, 0.3)),
-    "filingcabinet": d(("metalbracket", 2, 1), (PAPER, 1, 1)),
+    "filingcabinet": d(("metalbracket", 2, 1), (PAPER, 1, 1), ("wanderernote-door", 0.05, 0)),
     "partition": d((CLOTH, 0.6, 0.4), ("metalbracket", 0.5, 0.5)),
     "copier": d(("glassshard", 1, 0.5), ("scrapwire", 2, 1), (PAPER, 1, 1)),
     "officebookshelf": d((PLANK, 3, 1), (PAPER, 1, 1)),
@@ -48,19 +48,24 @@ SALVAGE = {
     "wastebasket": d((PAPER, 0.6, 0.4), ("rottenwood", 0.3, 0.3), ("glassshard", 0.2, 0.2)),
     "ficus": d((STICK, 2, 1), ("game:drygrass", 1, 0.5), ("block:game:soil-low-none", 1, 0)),
     # Level 1 and 3: maintenance, storage, camps
-    "cardboardboxes": d((PAPER, 1, 1), ("crackers", 0.3, 0.3), (CANDLE, 0.2, 0.2), ("game:drygrass", 0.5, 0.5)),
-    "workbench": d((PLANK, 3, 1), (NAILS, 0.6, 0.4)),
+    "cardboardboxes": d((PAPER, 1, 1), ("crackers", 0.15, 0.15), (CANDLE, 0.2, 0.2), ("game:drygrass", 0.5, 0.5)),
+    "workbench": d((PLANK, 3, 1), (NAILS, 0.6, 0.4), ("prybar", 0.03, 0)),
     "toolbox": d((NAILS, 1, 0.5), ("scrapwire", 0.5, 0.5), ("game:rope", 0.3, 0.3), ("game:hammer-copper", 0.06, 0),
-                 ("game:chisel-copper", 0.04, 0), ("game:saw-copper", 0.04, 0), ("game:knife-generic-copper", 0.08, 0)),
+                 ("game:chisel-copper", 0.04, 0), ("game:saw-copper", 0.04, 0), ("game:knife-generic-copper", 0.08, 0),
+                 ("prybar", 0.04, 0)),
     "plywood": d((PLANK, 2, 1)),
     "pallet": d((PLANK, 3, 1), (NAILS, 0.5, 0.5)),
-    "tent": d((LINEN, 1, 0.5), (STICK, 3, 1), ("game:rope", 0.5, 0.5)),
-    "bedroll": d((CLOTH, 1, 0.5), ("game:drygrass", 2, 1)),
+    "tent": d((LINEN, 1, 0.5), (STICK, 3, 1), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.3, 0), ("wanderernote-door", 0.2, 0)),
+    "bedroll": d((CLOTH, 1, 0.5), ("game:drygrass", 2, 1), ("wanderernote-door", 0.12, 0)),
+    # What the lost left at Level 6's dead ends and on Level 7's seabed: their kit, and where they were trying to go
+    "backpack": d(("almondwater", 0.8, 0.6), ("crackers", 0.4, 0.4), (CANDLE, 0.4, 0.4), ("game:rope", 0.3, 0.3),
+                  ("game:knife-generic-copper", 0.1, 0), ("game:bandage-clean", 0.4, 0.4), ("chalk", 0.2, 0),
+                  ("game:fishingbait-dough", 0.5, 0.5), ("wanderernote-door", 0.3, 0), ("wanderernote-way", 0.2, 0)),
     "hospitalbed": d(("metalbracket", 2, 1), (CLOTH, 1, 0.5), ("game:bandage-clean", 0.3, 0.3)),
     "foldingtable": d(("metalbracket", 1, 0.5)),
     "foldingchair": d(("metalbracket", 0.6, 0.4)),
     "medcabinet": d(("game:bandage-clean", 1, 1), ("glassshard", 0.3, 0.3)),
-    "fridge": d(("crackers", 0.4, 0.4), ("cannedbeans", 0.3, 0.3), ("game:fruit-redapple", 0.4, 0.4), ("game:cheese-cheddar-1slice", 0.2, 0.2),
+    "fridge": d(("crackers", 0.25, 0.25), ("cannedbeans", 0.2, 0.2), ("game:fruit-redapple", 0.35, 0.35), ("game:cheese-cheddar-1slice", 0.2, 0.2),
                 ("metalbracket", 1, 0.5), ("scrapwire", 0.5, 0.5)),
     "trashcan": d((PAPER, 0.5, 0.5), ("rottenwood", 0.4, 0.4), ("glassshard", 0.3, 0.3), ("game:gear-rusty", 0.05, 0)),
     # Copper cable on wooden drums, motor windings, old pipe: copper (and lead) for the crucible
@@ -83,22 +88,29 @@ SALVAGE = {
     "hotelbookshelf": d((PLANK, 3, 1), (PAPER, 1, 1)),
     "curiocabinet": d((PLANK, 2, 1), ("glassshard", 1, 0.5), ("game:metalbit-silver", 0.5, 0.5), ("game:gear-rusty", 0.1, 0)),
     "luggagecart": d(("game:metalbit-brass", 2, 1), ("metalbracket", 1, 0.5)),
-    "servicetrolley": d(("metalbracket", 1, 0.5), ("game:metalbit-silver", 0.5, 0.5), ("crackers", 0.3, 0.3)),
-    "writingdesk": d((PLANK, 2, 1), (PAPER, 1, 0.5), (CANDLE, 0.3, 0.3)),
+    "servicetrolley": d(("metalbracket", 1, 0.5), ("game:metalbit-silver", 0.5, 0.5), ("crackers", 0.15, 0.15)),
+    "writingdesk": d((PLANK, 2, 1), (PAPER, 1, 0.5), (CANDLE, 0.3, 0.3), ("wanderernote-refuge", 0.05, 0)),
     "hotelchair": d((PLANK, 1, 0.5), (STICK, 1, 0.5), (CLOTH, 0.3, 0.3)),
     "suitcase": d((CLOTH, 1, 0.5), ("game:clothes-upperbody-tattered-linen-shirt", 0.2, 0),
-                  ("game:clothes-lowerbody-dirty-linen-trousers", 0.2, 0), (CANDLE, 0.2, 0.2), ("crackers", 0.3, 0.3)),
+                  ("game:clothes-lowerbody-dirty-linen-trousers", 0.2, 0), (CANDLE, 0.2, 0.2), ("crackers", 0.15, 0.15)),
     "coffeetable": d((PLANK, 2, 1)),
     "ashtraystand": d(("game:metalbit-brass", 1, 0.5)),
     "diningtable": d((PLANK, 4, 1), (LINEN, 0.5, 0.5), ("game:metalbit-silver", 1, 0.5)),
     "candelabra": d((CANDLE, 2, 1), ("game:metalbit-brass", 2, 1)),
-    "coalpile": d(("game:ore-bituminouscoal", 6, 2)),
+    # The coal heaped by the generators and boilers, with the Firesalt that turns up in it
+    "coalpile": d(("game:ore-bituminouscoal", 6, 2), ("block:firesalt", 1, 1)),
     # Level 9: the houses
     "dresser": d((CLOTH, 0.8, 0.5), ("game:flaxtwine", 0.6, 0.5), (CANDLE, 0.2, 0.2), ("game:clothes-upperbody-commoner-shirt", 0.25, 0),
                  ("game:clothes-lowerbody-homespun-pants", 0.2, 0), ("game:clothes-foot-commoner-boots", 0.15, 0)),
     "toybox": d((CLOTH, 0.5, 0.4), (CANDLE, 0.2, 0.2), ("game:gear-rusty", 0.1, 0)),
     "wheeliebin": d((PAPER, 0.5, 0.5), ("rottenwood", 0.5, 0.5), ("glassshard", 0.3, 0.3), ("game:bone", 0.3, 0.3)),
     "grill": d(("metalbracket", 1, 0.5), ("game:charcoal", 2, 1)),
+    # Garden sheds and kitchen drawers: the seeds for a farm at home, and a pry bar for the houses that are locked
+    "toolshelf": d(("game:hammer-copper", 0.15, 0), ("game:saw-copper", 0.1, 0), ("game:shovel-copper", 0.12, 0), (NAILS, 0.8, 0.6),
+                   ("game:rope", 0.5, 0.4), ("scrapwire", 0.6, 0.5), ("prybar", 0.08, 0), ("seedpacket-turnip", 0.12, 0),
+                   ("seedpacket-carrot", 0.1, 0), ("seedpacket-onion", 0.08, 0), ("seedpacket-flax", 0.06, 0)),
+    "kitchencabinet": d(("game:salt", 0.5, 0.5), ("game:flour-spelt", 0.5, 0.5), ("cannedbeans", 0.6, 0.5), ("game:knife-generic-copper", 0.12, 0),
+                        ("game:fat", 0.3, 0.3), ("crackers", 0.4, 0.4), (CANDLE, 0.2, 0.2), ("seedpacket-onion", 0.05, 0)),
 }
 
 # The leading part of a block's code that the salvage system checks (bed-head and bed-foot are both "bed")

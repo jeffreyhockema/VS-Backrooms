@@ -1,0 +1,293 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cardboard": "backrooms:block/supplybox-side",
+		"fabric3": "backrooms:block/detail/fabric3",
+		"tvwood": "backrooms:block/detail/tvwood"
+	},
+	"elements": [
+		{
+			"name": "Sofa",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				7,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"east": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						7,
+						7
+					]
+				},
+				"south": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"west": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						7,
+						7
+					]
+				},
+				"up": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"down": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				7,
+				2
+			],
+			"to": [
+				16,
+				13,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"east": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"south": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"west": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"up": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#fabric3",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Tv",
+			"from": [
+				4,
+				7,
+				6
+			],
+			"to": [
+				11,
+				13,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.5,
+				10.0,
+				9.0
+			],
+			"rotationZ": 40
+		},
+		{
+			"name": "Box",
+			"from": [
+				10,
+				0,
+				10
+			],
+			"to": [
+				16,
+				5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"east": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"south": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"west": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"up": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		}
+	]
+}

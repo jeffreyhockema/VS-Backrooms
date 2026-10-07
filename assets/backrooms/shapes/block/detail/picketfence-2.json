@@ -1,0 +1,699 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"picket": "backrooms:block/detail/picket"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.5,
+				0,
+				6.5
+			],
+			"to": [
+				9.5,
+				15,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostCap",
+			"from": [
+				7,
+				15,
+				7
+			],
+			"to": [
+				9,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "RailLow2",
+			"from": [
+				9.5,
+				4,
+				7.25
+			],
+			"to": [
+				16,
+				5,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailHigh2",
+			"from": [
+				9.5,
+				10,
+				7.25
+			],
+			"to": [
+				16,
+				11,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "P20",
+			"from": [
+				10.0,
+				1,
+				7.5
+			],
+			"to": [
+				11.5,
+				13,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "T20",
+			"from": [
+				10.25,
+				13,
+				7.6
+			],
+			"to": [
+				11.25,
+				14,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "P21",
+			"from": [
+				12.5,
+				1,
+				7.5
+			],
+			"to": [
+				14.0,
+				13,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "T21",
+			"from": [
+				12.75,
+				13,
+				7.6
+			],
+			"to": [
+				13.75,
+				14,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "P22",
+			"from": [
+				15.0,
+				1,
+				7.5
+			],
+			"to": [
+				16.5,
+				13,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "T22",
+			"from": [
+				15.25,
+				13,
+				7.6
+			],
+			"to": [
+				16.25,
+				14,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

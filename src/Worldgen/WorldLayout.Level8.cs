@@ -12,11 +12,19 @@ namespace Backrooms.Worldgen;
 /// The caves themselves are carved in 3D by <see cref="WorldGenerator"/>. The layout only holds what is fixed in
 /// the plane: the 9th Road, a marked way through islands of stability with M.E.G. markers and lamps along it, the
 /// settlements where it crosses itself, and vents in its walls. Everything else is rock to be hollowed out.
+///
+/// <para>The road runs on a meandering lattice <see cref="RoadGrid"/> blocks apart, but most of the lattice is not
+/// there. Every <see cref="L8MainEvery"/>th road runs on unbroken, the long marked ways through; between them the
+/// side roads are a tree with a few loops (see <see cref="PlanLatticeTree"/>), so most turnings off the main road
+/// end in a blind cave wall. Only where a road reaches the edge of the level is there a way out.</para>
 /// </summary>
 public sealed partial class WorldLayout
 {
     private const int RoadGrid = 48;
+    /// <summary>Every this many roads of the lattice is a main road, never broken.</summary>
+    private const int L8MainEvery = 4;
     private const ulong SaltL8Road = 0x8C01;
+    private const ulong SaltL8Tree = 0x8C04;
     private const ulong SaltL8Camp = 0x8C02;
     private const ulong SaltL8Detail = 0x8C03;
 
@@ -24,8 +32,44 @@ public sealed partial class WorldLayout
     private int RoadOffsetX(int gx, int gz) => Hashing.Mod(gz - (int)Math.Round(6 * Noise(gx / 40.0, 0.5, SaltL8Road)), RoadGrid);
     private int RoadOffsetZ(int gx, int gz) => Hashing.Mod(gx - (int)Math.Round(6 * Noise(gz / 40.0, 0.5, SaltL8Road + 1)), RoadGrid);
 
+    /// <summary>Which road of the lattice a block's offsets put it beside: the west-east road and the north-south one.</summary>
+    private (int Kz, int Kx) RoadLines(int gx, int gz) =>
+        (Hashing.FloorDiv(gz - (int)Math.Round(6 * Noise(gx / 40.0, 0.5, SaltL8Road)), RoadGrid),
+         Hashing.FloorDiv(gx - (int)Math.Round(6 * Noise(gz / 40.0, 0.5, SaltL8Road + 1)), RoadGrid));
+
+    private PlanCache<System.Collections.Generic.HashSet<(int, int, int)>> l8Trees;
+
+    /// <summary>Whether a stretch of the road lattice is there (see <see cref="PlanLatticeTree"/> for how stretches are named).</summary>
+    private bool L8Stretch(int axis, int line, int index)
+    {
+        if (Hashing.Mod(line, L8MainEvery) == 0) return true;
+        int mcx = Hashing.FloorDiv(axis == 0 ? line : index, L8MainEvery), mcz = Hashing.FloorDiv(axis == 0 ? index : line, L8MainEvery);
+        // (Near the edge of the level, where the way into the side roads might lie beyond it, every road is there)
+        var tree = (l8Trees ??= new PlanCache<System.Collections.Generic.HashSet<(int, int, int)>>(128, PlanL8Tree)).Get(mcx, mcz);
+        return tree.Count == 0 || tree.Contains((axis, line, index));
+    }
+
+    /// <summary>The side roads between four main ones; empty (meaning all of them) where the block is not wholly Level 8.</summary>
+    private System.Collections.Generic.HashSet<(int, int, int)> PlanL8Tree(int mcx, int mcz)
+    {
+        int span = RoadGrid * L8MainEvery, x0 = mcx * span - RoadGrid, z0 = mcz * span - RoadGrid;
+        for (int z = MacroOf(z0); z <= MacroOf(z0 + span + 2 * RoadGrid); z++)
+            for (int x = MacroOf(x0); x <= MacroOf(x0 + span + 2 * RoadGrid); x++)
+                if (LevelAt(x, z) != 8) return new System.Collections.Generic.HashSet<(int, int, int)>();
+        return PlanLatticeTree(mcx, mcz, L8MainEvery, SaltL8Tree, 0.6, 0.15, 0.15);
+    }
+
+    private bool L8Crossing(int kx, int kz) => L8Stretch(0, kx, kz) || L8Stretch(0, kx, kz - 1) || L8Stretch(1, kz, kx) || L8Stretch(1, kz, kx - 1);
+
     /// <summary>Whether a block lies on the 9th Road (in Level 8).</summary>
-    public bool IsNinthRoad(int gx, int gz) => RoadOffsetX(gx, gz) < 3 || RoadOffsetZ(gx, gz) < 3;
+    public bool IsNinthRoad(int gx, int gz)
+    {
+        bool alongX = RoadOffsetX(gx, gz) < 3, alongZ = RoadOffsetZ(gx, gz) < 3;
+        if (!alongX && !alongZ) return false;
+        var (kz, kx) = RoadLines(gx, gz);
+        if (alongX && alongZ) return L8Crossing(kx, kz);
+        return alongX ? L8Stretch(1, kz, kx) : L8Stretch(0, kx, kz);
+    }
 
     private Edge Level8Edge(int mx, int mz, bool west)
     {
@@ -49,7 +93,7 @@ public sealed partial class WorldLayout
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
                 if (t.Kind != TileKind.Floor) continue;
                 int ox = RoadOffsetX(gx, gz), oz = RoadOffsetZ(gx, gz);
-                bool road = ox < 3 || oz < 3;
+                bool road = IsNinthRoad(gx, gz);
                 // Settlements where roads cross: a clearing round the crossing
                 bool camp = IsCampClearing(gx, gz);
                 if (!road && !camp)
@@ -109,8 +153,8 @@ public sealed partial class WorldLayout
         int ox = Hashing.Mod(RoadOffsetX(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         int oz = Hashing.Mod(RoadOffsetZ(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         if (Math.Abs(ox - 1) > 8 || Math.Abs(oz - 1) > 8) return false;
-        // The crossing's road lines, numbered along the grid
+        // The crossing's road lines, numbered along the grid; a settlement only where roads still meet
         int lineX = Hashing.FloorDiv(gx - oz + RoadGrid / 2, RoadGrid), lineZ = Hashing.FloorDiv(gz - ox + RoadGrid / 2, RoadGrid);
-        return Hashing.Unit(Hashing.Hash(seed, lineX, lineZ, SaltL8Camp)) < 0.35;
+        return Hashing.Unit(Hashing.Hash(seed, lineX, lineZ, SaltL8Camp)) < 0.35 && L8Crossing(lineX, lineZ);
     }
 }

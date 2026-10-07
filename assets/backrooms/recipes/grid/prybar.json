@@ -1,0 +1,20 @@
+{
+	"ingredientPattern": "BBN",
+	"ingredients": {
+		"B": {
+			"type": "item",
+			"code": "backrooms:metalbracket"
+		},
+		"N": {
+			"type": "item",
+			"code": "game:metalnailsandstrips-iron"
+		}
+	},
+	"width": 3,
+	"height": 1,
+	"shapeless": true,
+	"output": {
+		"type": "item",
+		"code": "backrooms:prybar"
+	}
+}

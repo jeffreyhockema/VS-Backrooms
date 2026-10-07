@@ -1,0 +1,16 @@
+{
+	"ingredientPattern": "RR,RR",
+	"ingredients": {
+		"R": {
+			"type": "item",
+			"code": "rubble"
+		}
+	},
+	"width": 2,
+	"height": 2,
+	"output": {
+		"type": "block",
+		"code": "rubblemasonry",
+		"quantity": 1
+	}
+}

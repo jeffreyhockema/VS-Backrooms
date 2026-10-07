@@ -37,14 +37,51 @@ public readonly struct WorldGeometry
     /// <summary>The highest block of the world.</summary>
     public readonly int TopY;
 
+    /// <summary>
+    /// How far below the other levels the Poolrooms' water lies: room for domes fifteen blocks high over it, and for
+    /// pits more than twenty deep under it, within the band that is lit.
+    /// </summary>
+    public const int PoolDrop = 14;
+
+    /// <summary>How deep the Poolrooms' pits go at most, below the water's surface.</summary>
+    public const int PoolPitDepth = 22;
+
+    /// <summary>
+    /// How far below the other levels Motion's valley floors lie: room for its hills, and for the glass mountain and
+    /// the castle on it to rise far above them.
+    /// </summary>
+    public const int MotionDrop = 30;
+
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;
 
-    /// <summary>The floor of a level: the street for Level 11, the shared floor for every other.</summary>
-    public int FloorFor(int level) => level == 11 ? CityFloorY : FloorY;
+    /// <summary>
+    /// The floor of a level: the street for Level 11, the water's surface for the Poolrooms, the valley floor for
+    /// Motion, and the shared floor for every other.
+    /// </summary>
+    public int FloorFor(int level) => level switch
+    {
+        11 => CityFloorY,
+        12 => FloorY - PoolDrop,
+        13 => FloorY - MotionDrop,
+        _ => FloorY,
+    };
 
     /// <summary>The band Level 11 is lit in: its subway up to just over the street lamps.</summary>
     public int CityBandBottom => CityFloorY - ShaftDepth;
+
+    /// <summary>
+    /// The bottom of the band of heights a level's block light is worked out over (the band is always as tall as the
+    /// usual one): the city's subway; the Poolrooms' deepest pits; Motion's castle on its mountain, the only place
+    /// there with lamps.
+    /// </summary>
+    public int BandBottomFor(int level) => level switch
+    {
+        11 => CityBandBottom,
+        12 => FloorFor(12) - PoolPitDepth - 2,
+        13 => FloorFor(13) + 14,
+        _ => BandBottom,
+    };
 
     /// <summary>Lowest block that can differ from solid concrete (the bottom of the pit shafts).</summary>
     public int BandBottom => FloorY - ShaftDepth;

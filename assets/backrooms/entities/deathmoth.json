@@ -1,0 +1,184 @@
+{
+	"code": "deathmoth",
+	"class": "EntityDeathmoth",
+	"variantgroups": [
+		{
+			"code": "gender",
+			"states": [
+				"male",
+				"female"
+			]
+		}
+	],
+	"tags": [
+		"backrooms-entity",
+		"animal",
+		"habitat-air"
+	],
+	"habitat": "Air",
+	"weight": 0.2,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 0.4
+	},
+	"eyeHeight": 0.2,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-deathmoth"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shapeByType": {
+			"*-male": {
+				"base": "backrooms:entity/deathmoth-male"
+			},
+			"*-female": {
+				"base": "backrooms:entity/deathmoth-female"
+			}
+		},
+		"textureByType": {
+			"*-male": {
+				"base": "backrooms:entity/deathmoth-male"
+			},
+			"*-female": {
+				"base": "backrooms:entity/deathmoth-female"
+			}
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.0001
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animationsByType": {
+			"*-female": [
+				{
+					"code": "fly",
+					"animation": "fly",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "glide",
+					"animation": "glide",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "rest",
+					"animation": "rest",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "feed",
+					"animation": "feed",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "bite",
+					"animation": "bite",
+					"animationSpeed": 1.0,
+					"blendMode": "AddAverage",
+					"weight": 10
+				},
+				{
+					"code": "threat",
+					"animation": "threat",
+					"animationSpeed": 1.0,
+					"blendMode": "Average",
+					"weight": 5
+				}
+			],
+			"*": [
+				{
+					"code": "fly",
+					"animation": "fly",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "glide",
+					"animation": "glide",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "rest",
+					"animation": "rest",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				},
+				{
+					"code": "feed",
+					"animation": "feed",
+					"animationSpeed": 1.0,
+					"blendMode": "Average"
+				}
+			]
+		}
+	},
+	"server": {
+		"attributes": {
+			"pathfinder": {
+				"minTurnAnglePerSec": 900,
+				"maxTurnAnglePerSec": 1800
+			}
+		},
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.0001
+			},
+			{
+				"code": "health",
+				"currenthealthByType": {
+					"*-female": 3,
+					"*": 2
+				},
+				"maxhealthByType": {
+					"*-female": 3,
+					"*": 2
+				}
+			},
+			{
+				"code": "backrooms-menace",
+				"glimpseSeconds": 60,
+				"stalkSeconds": 150
+			},
+			{
+				"code": "taskai",
+				"aitasksByType": {
+					"*-female": [
+						{
+							"code": "backrooms-moth",
+							"priority": 1.5,
+							"speed": 0.04,
+							"damage": 1.5,
+							"bites": true,
+							"orbitRadius": 1.3,
+							"biteSound": "game:creature/beesting"
+						}
+					],
+					"*": [
+						{
+							"code": "backrooms-moth",
+							"priority": 1.5,
+							"speed": 0.03,
+							"bites": false,
+							"orbitRadius": 1.8
+						}
+					]
+				}
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {}
+}

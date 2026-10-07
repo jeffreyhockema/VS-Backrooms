@@ -1,0 +1,220 @@
+{
+	"code": "skinstealer",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 90,
+	"canClimb": true,
+	"hitboxSize": {
+		"x": 0.8,
+		"y": 1.95
+	},
+	"deadHitboxSize": {
+		"x": 0.8,
+		"y": 0.6
+	},
+	"eyeHeight": 2.05,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-skinstealer"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/skinstealer"
+		},
+		"texture": {
+			"base": "backrooms:entity/skinstealer"
+		},
+		"size": 0.92,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "skinadjust",
+				"animation": "skinadjust",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 34,
+				"maxhealth": 34
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24,
+				"decayedBlock": "game:carcass-medium"
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "harvestable",
+				"drops": [
+					{
+						"type": "item",
+						"code": "game:hide-raw-large",
+						"quantity": {
+							"avg": 1,
+							"var": 0
+						}
+					}
+				]
+			},
+			{
+				"code": "backrooms-menace",
+				"stalkSeconds": 180
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.034,
+						"stalkMin": 10,
+						"stalkMax": 16,
+						"glimpseFleeDistance": 12,
+						"damage": 7,
+						"damageTier": 2,
+						"damageType": "BluntAttack",
+						"knockback": 0.5,
+						"attackRange": 1.2,
+						"attackDurationMs": 1100,
+						"damageAtMs": 650,
+						"attackCooldownMs": 2000,
+						"attackAnimation": "attack",
+						"fearsFire": true,
+						"prefersHidden": true,
+						"retreatBelow": 0.25,
+						"voices": [
+							"backrooms:entity/cough",
+							"game:player/hurt*",
+							"backrooms:effect/whisper",
+							"backrooms:entity/hello"
+						],
+						"soundRange": 28
+					},
+					{
+						"code": "idle",
+						"priority": 1.15,
+						"priorityForCancel": 1.35,
+						"animation": "skinadjust",
+						"minduration": 4000,
+						"maxduration": 8000,
+						"mincooldown": 30000,
+						"maxcooldown": 90000
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"priorityForCancel": 1.35,
+						"movespeed": 0.006,
+						"animation": "walk",
+						"animationSpeed": 1.0,
+						"maxDistanceToSpawn": 24
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:creature/drifter-hurt",
+		"death": "game:creature/drifter-death"
+	}
+}

@@ -57,8 +57,13 @@ public sealed partial class WorldGenerator
     private static readonly string[] FenceTypes =
         { "empty", "n", "e", "ne", "s", "ns", "es", "nes", "w", "nw", "ew", "new", "sw", "nsw", "esw", "nesw" };
 
+    /// <summary>Level 8's noise, per column (see <see cref="CaveColumn"/>).</summary>
+    private CaveColumns caveColumns;
+
     private void InitDeep()
     {
+        caveColumns = new CaveColumns((gx, gz) => new CaveColumn(seed, gx, gz, Geometry.FloorY, Geometry.BandBottom - 41, Geometry.BandTop + 1, Noise2,
+            SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool));
         l6WallId = Id("l6block-wall");
         l6FloorId = Id("l6block-floor");
         l6CeilingId = Id("l6block-ceiling");
@@ -363,9 +368,9 @@ public sealed partial class WorldGenerator
         {
             if (t.Variant == Props.StoneStapler && rel <= bed + 4) return islandRockId; // a standing stone
             fluid = waterId;
-            return rel == bed + 1 && t.Variant != 0 && t.Variant != Props.Kelp ? AnyProp(t, 1) : rel == bed + 1 && t.SupplyBox ? boxId : 0;
+            return rel == bed + 1 && t.Variant != 0 && t.Variant != Props.Kelp ? AnyProp(t, 1) : rel == bed + 1 && t.SupplyBox ? BoxOf(t) : 0;
         }
-        if (rel == bed) return t.Floor == FloorKind.Tar ? tarId : seabedId;
+        if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : seabedId;
         return concreteId;
     }
 
@@ -378,7 +383,7 @@ public sealed partial class WorldGenerator
         bool open = !t.IsWallLike || t.Kind == TileKind.Doorway;
         if (open && rel >= 1 && rel <= 4)
         {
-            if (t.Variant == 0 && !t.SupplyBox && rel <= t.Stack) return crateId; // a camp's stacked crates
+            if (t.Variant == 0 && !t.SupplyBox && rel <= t.Stack) return CrateOf(t); // a camp's stacked crates
             return rel == 1 ? AnyProp(t, rel) : 0;
         }
         // Gravel would fall into a cave opening under the road; rock holds it up
@@ -406,7 +411,7 @@ public sealed partial class WorldGenerator
             return spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
         }
         // A pool of scalding tar on some cave floors
-        if (Noise2(gx / 25.0, gz / 25.0, SaltPool + 3) > 0.62 && IsCave(gx, y + 1, gz)) return tarId;
+        if (caveColumns.Get(gx, gz).Tar && IsCave(gx, y + 1, gz)) return tarId;
         return RockAt(gx, y, gz);
     }
 
@@ -437,7 +442,7 @@ public sealed partial class WorldGenerator
         return 0;
     }
 
-    private bool IsPool(int gx, int gz) => Noise2(gx / 30.0, gz / 30.0, SaltPool) > 0.2;
+    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool;
 
     /// <summary>
     /// Whether water here would stay put: every open cave beside it is flooded too (and so, a step further, is
@@ -460,20 +465,11 @@ public sealed partial class WorldGenerator
     private readonly ulong seed;
 
     /// <summary>Caves: big chambers where two noises agree, and long winding tubes along a third's zero.</summary>
-    private bool IsCave(int gx, int y, int gz)
-    {
-        int rel = y - Geometry.FloorY;
-        if (rel > 8 || rel < -62) return false;
-        double fade = rel > 4 ? (rel - 4) * 0.08 : rel < -50 ? (-50 - rel) * 0.05 : 0;
-        double chamber = Noise3(gx / 26.0, y / 11.0, gz / 26.0, SaltCave) + 0.45 * Noise3(gx / 10.0, y / 6.0, gz / 10.0, SaltCave + 1);
-        if (chamber - fade > 0.42) return true;
-        double tube = Math.Abs(Noise3(gx / 38.0, y / 14.0, gz / 38.0, SaltCaveTube));
-        return tube + fade < 0.055;
-    }
+    private bool IsCave(int gx, int y, int gz) => caveColumns.Get(gx, gz).IsCave(y);
 
     private string StrataName(int gx, int y, int gz)
     {
-        int layer = Hashing.FloorDiv(y + (int)(9 * Noise2(gx / 70.0, gz / 70.0, SaltStrata)), 7);
+        int layer = Hashing.FloorDiv(y + caveColumns.Get(gx, gz).StrataShift, 7);
         int region = Hashing.FloorDiv(gx, 160) * 7 + Hashing.FloorDiv(gz, 160) * 3; // the order shifts from place to place
         return strata[Hashing.Mod(layer + region, strata.Length)];
     }
@@ -481,22 +477,23 @@ public sealed partial class WorldGenerator
     /// <summary>The rock (or ore, or something that should never be found in rock) at a point of Level 8.</summary>
     private int RockAt(int gx, int y, int gz)
     {
-        int layer = Hashing.FloorDiv(y + (int)(9 * Noise2(gx / 70.0, gz / 70.0, SaltStrata)), 7);
+        CaveColumn column = caveColumns.Get(gx, gz);
+        int layer = Hashing.FloorDiv(y + column.StrataShift, 7);
         int region = Hashing.FloorDiv(gx, 160) * 7 + Hashing.FloorDiv(gz, 160) * 3;
         int index = Hashing.Mod(layer + region, strata.Length);
         string rock = strata[index];
         // Strata that should not be: a seam of office carpet, a band of yellow wallpaper
         ulong lh = Hashing.Hash(seed, layer, region, SaltStrata + 1);
-        if (Hashing.Unit(lh) < 0.04 && Hashing.Mod(y + (int)(9 * Noise2(gx / 70.0, gz / 70.0, SaltStrata)), 7) == 3)
+        if (Hashing.Unit(lh) < 0.04 && Hashing.Mod(y + column.StrataShift, 7) == 3)
             return Hashing.Unit(lh << 20) < 0.7 ? carpetSeamId : wallpaperSeamId;
         // A coal seam that runs straight up, cutting through everything
-        if (Hashing.Mod(gx + 3 * gz, 197) == 0 && Noise2(gx / 50.0, gz / 50.0, SaltOre + 9) > 0.2)
+        if (column.CoalSeam)
         {
             int coal = oreIds.TryGetValue(("bituminouscoal", rock, 0), out int c) ? c : 0;
             if (coal != 0) return coal;
         }
 
-        double n = Noise3(gx / 6.0, y / 4.0, gz / 6.0, SaltOre);
+        double n = column.Ore(y);
         if (n > 0.5)
         {
             ulong h = Hashing.Hash(seed, Hashing.FloorDiv(gx, 12), Hashing.FloorDiv(gz, 12), SaltOre + (ulong)Hashing.FloorDiv(y, 8));
@@ -519,17 +516,18 @@ public sealed partial class WorldGenerator
 
     // ---- Level 9: the suburbs under the night sky ----
 
-    private int Level9Block(in Tile t, int gx, int gz, int rel)
+    /// <param name="roofMaterial">The shingles (0 grey, 1 brown, 2 red), where the house says; otherwise one per Suburbs lot.</param>
+    private int Level9Block(in Tile t, int gx, int gz, int rel, int roofMaterial = -1)
     {
         // A drained pool, two blocks deep, tiled down its sides
-        if (t.Floor == FloorKind.PoolDeep && rel is >= -2 and <= 0) return rel == -2 ? poolFloorId : 0;
+        if (t.Floor == FloorKind.PoolDeep && rel is >= -2 and <= 0) return rel == -2 ? (t.Under == Unders.FullPool ? poolSunlitId : poolFloorId) : 0;
         if (t.Floor == FloorKind.PoolEdge && rel is -1 or -2) return poolFloorId;
         if (rel < 0) return concreteId;
         if (rel == 0) return t.Kind == TileKind.Water ? lakeBedId : floorIds[(int)t.Floor];
         bool barn = t.Pattern is WallPattern.BarnRed or WallPattern.BarnGrey;
         int barnWall = barn ? barnWallIds[t.Pattern == WallPattern.BarnRed ? 0 : 1] : 0;
         var (lotX, lotZ) = layout.LotKeyAt(gx, gz);
-        int material = barn ? 3 : (int)(Hashing.Hash(seed, lotX, lotZ, 0x9D09) % 3); // one colour of shingles per house
+        int material = barn ? 3 : roofMaterial >= 0 ? roofMaterial : (int)(Hashing.Hash(seed, lotX, lotZ, 0x9D09) % 3); // one colour of shingles per house
         switch (t.Kind)
         {
             case TileKind.Wall:
@@ -562,6 +560,8 @@ public sealed partial class WorldGenerator
                 int roof = RoofAt(t, rel, material, 0);
                 if (roof >= 0) return roof;
                 if (rel > 4) return 0;
+                // A doll's house's door, onto Level 94
+                if (t.Under == Unders.DollHouse && rel <= 2) return rel == 1 ? dollDoorLowerId : dollDoorUpperId;
                 // Over the door, the house's own siding (a garage door keeps its colour in Stack)
                 if (t.Pattern == WallPattern.GarageDoor)
                     return rel == 1 ? garageLowerId : rel == 2 ? garageUpperId : sidingIds[Math.Min((int)t.Stack, sidingIds.GetLength(0) - 1), Facing(t.Pier)];
@@ -700,7 +700,7 @@ public sealed partial class WorldGenerator
         int facing = Facing(t.Pier);
         switch (t.Variant)
         {
-            case 0: return t.SupplyBox ? boxId : 0;
+            case 0: return t.SupplyBox ? BoxOf(t) : 0;
             case Props.Drum: return drumId;
             case Props.Shelf: return shelfIds[Facing(Opposite(t.Pier))];
             case Props.Car: return carIds[t.Stack % 4, CarFacing(t.Pier)];
@@ -744,23 +744,6 @@ public sealed partial class WorldGenerator
     }
 
     private double Corner2(int x, int z, ulong salt) => Hashing.Unit(Hashing.Hash(seed, x, z, salt)) * 2 - 1;
-
-    /// <summary>Smooth 3D value noise in roughly [-1, 1].</summary>
-    private double Noise3(double x, double y, double z, ulong salt)
-    {
-        int x0 = (int)Math.Floor(x), y0 = (int)Math.Floor(y), z0 = (int)Math.Floor(z);
-        double fx = x - x0, fy = y - y0, fz = z - z0;
-        double sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy), sz = fz * fz * (3 - 2 * fz);
-        double Layer(int yy)
-        {
-            ulong s = salt + (ulong)(yy * 0x9E3779B1L);
-            double c00 = Corner2(x0, z0, s), c10 = Corner2(x0 + 1, z0, s), c01 = Corner2(x0, z0 + 1, s), c11 = Corner2(x0 + 1, z0 + 1, s);
-            double top = c00 + (c10 - c00) * sx, bottom = c01 + (c11 - c01) * sx;
-            return top + (bottom - top) * sz;
-        }
-        double a = Layer(y0), b = Layer(y0 + 1);
-        return a + (b - a) * sy;
-    }
 
     // ---- Block lookup ----
 

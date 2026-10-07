@@ -1,0 +1,43 @@
+// Level 94: the painted backdrop at the edge of the set
+{
+	"code": "backdrop",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"hills",
+				"sky"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-hills": {
+			"all": {
+				"base": "block/detail/backdrop-hills"
+			}
+		},
+		"*-sky": {
+			"all": {
+				"base": "block/detail/backdrop-sky"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

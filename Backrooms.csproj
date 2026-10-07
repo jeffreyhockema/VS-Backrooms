@@ -27,6 +27,14 @@
       <HintPath>$(VintageStory)\Mods\VSEssentials.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>$(VintageStory)\Lib\protobuf-net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VintageStory)\Lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>$(VintageStory)\Mods\VSSurvivalMod.dll</HintPath>
       <Private>false</Private>
@@ -46,7 +54,7 @@
   </Target>
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.3.0</Version>
   </PropertyGroup>
 
 </Project>

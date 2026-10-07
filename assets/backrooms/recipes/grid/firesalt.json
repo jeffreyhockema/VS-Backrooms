@@ -1,0 +1,21 @@
+{
+	"ingredientPattern": "SP",
+	"ingredients": {
+		"S": {
+			"type": "item",
+			"code": "game:salt"
+		},
+		"P": {
+			"type": "item",
+			"code": "game:powder-sulfur"
+		}
+	},
+	"width": 2,
+	"height": 1,
+	"shapeless": true,
+	"output": {
+		"type": "block",
+		"code": "backrooms:firesalt",
+		"stacksize": 2
+	}
+}

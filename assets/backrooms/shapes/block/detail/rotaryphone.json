@@ -1,0 +1,518 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bakelite": "backrooms:block/detail/bakelite",
+		"phonedial": "backrooms:block/detail/phonedial",
+		"tvwood": "backrooms:block/detail/tvwood"
+	},
+	"elements": [
+		{
+			"name": "Table",
+			"from": [
+				3,
+				10,
+				3
+			],
+			"to": [
+				13,
+				11,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				5,
+				10,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				11,
+				0,
+				4
+			],
+			"to": [
+				12,
+				10,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				4,
+				0,
+				11
+			],
+			"to": [
+				5,
+				10,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				11,
+				0,
+				11
+			],
+			"to": [
+				12,
+				10,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Phone",
+			"from": [
+				5,
+				11,
+				5
+			],
+			"to": [
+				11,
+				14,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Dial",
+			"from": [
+				6,
+				14,
+				6
+			],
+			"to": [
+				10,
+				14.2,
+				10
+			],
+			"faces": {
+				"up": {
+					"texture": "#phonedial",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Handset",
+			"from": [
+				4.5,
+				14,
+				6.5
+			],
+			"to": [
+				11.5,
+				15.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,104 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pooltile": "backrooms:block/detail/pooltile",
+		"slitglow": "backrooms:block/detail/slitglow"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slit",
+			"from": [
+				5,
+				0,
+				-0.02
+			],
+			"to": [
+				11,
+				16,
+				0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#slitglow",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

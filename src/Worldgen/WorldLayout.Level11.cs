@@ -148,26 +148,9 @@ public sealed partial class WorldLayout
 
     // ---- Block plans, cached: a cell covers parts of up to four blocks, and neighbouring cells share them ----
 
-    private readonly Dictionary<(int, int), Tile[]> blockPlans = new();
-    private readonly Queue<(int, int)> blockOrder = new();
+    private PlanCache<Tile[]> blockPlans;
 
-    private Tile[] BlockPlan(int bi, int bj)
-    {
-        lock (blockPlans)
-        {
-            if (blockPlans.TryGetValue((bi, bj), out Tile[] cached)) return cached;
-        }
-        Tile[] plan = PlanBlock(bi, bj);
-        lock (blockPlans)
-        {
-            if (blockPlans.TryAdd((bi, bj), plan))
-            {
-                blockOrder.Enqueue((bi, bj));
-                if (blockOrder.Count > 64) blockPlans.Remove(blockOrder.Dequeue());
-            }
-        }
-        return plan;
-    }
+    private Tile[] BlockPlan(int bi, int bj) => (blockPlans ??= new PlanCache<Tile[]>(64, PlanBlock)).Get(bi, bj);
 
     private Tile[] PlanBlock(int bi, int bj)
     {
@@ -186,7 +169,7 @@ public sealed partial class WorldLayout
                              new Spec(CityKind.Museum, 24, 0, WallPattern.CityStone), ref rng);
                 PlazaDressing(tiles, ref rng);
                 break;
-            default: PlanLots(tiles, district, ref rng); break;
+            default: PlanLots(tiles, district, bi, bj, ref rng); break;
         }
         return tiles;
     }
@@ -217,7 +200,7 @@ public sealed partial class WorldLayout
     /// An ordinary block: an alley down the middle, and on either side of it a row of lots fronting the street,
     /// each with its own building. The lots at the ends front the avenues too.
     /// </summary>
-    private void PlanLots(Tile[] tiles, District district, ref Rng rng)
+    private void PlanLots(Tile[] tiles, District district, int bi, int bj, ref Rng rng)
     {
         for (int half = 0; half < 2; half++)
         {
@@ -235,6 +218,13 @@ public sealed partial class WorldLayout
                 if (BlockW - (x + w) < min) w = BlockW - x;
                 Spec spec = ChooseSpec(district, w, ref rng);
                 PlanBuilding(tiles, x, x + w - 1, z0, z1, half == 0, x == 0, x + w == BlockW, true, spec, ref rng);
+                // A few lots are something else: planned again over the top, on their own, so the lots after them
+                // come out as they always have
+                if (OddLot(district, spec, w, bi, bj, x, half) is { } odd)
+                {
+                    var own = new Rng(Hashing.Hash(seed, bi * 128 + x, bj * 2 + half, SaltCityBlock + 37));
+                    PlanBuilding(tiles, x, x + w - 1, z0, z1, half == 0, x == 0, x + w == BlockW, true, odd, ref own);
+                }
                 x += w;
             }
         }
@@ -290,6 +280,20 @@ public sealed partial class WorldLayout
         return new Spec(kind, height, setback, style);
     }
 
+    /// <summary>
+    /// The odd lot: now and then an apartment block in midtown is a cinema showing a stop-motion picture, and a
+    /// substation is public baths with a door marked POOL. Null for an ordinary lot.
+    /// </summary>
+    private Spec? OddLot(District district, Spec spec, int w, int bi, int bj, int x, int half)
+    {
+        double r = Hashing.Unit(Hashing.Hash(seed, bi * 128 + x, bj * 2 + half, SaltCityBlock + 38));
+        if (district == District.Midtown && spec.Kind == CityKind.Apartment && w >= 12 && r < 0.07)
+            return new Spec(CityKind.Cinema, Math.Min(spec.Height, 12), 0, WallPattern.CityBrick);
+        if (spec.Kind == CityKind.Substation && r < 0.4)
+            return new Spec(CityKind.Baths, 8, 0, WallPattern.CityStone);
+        return null;
+    }
+
     private static CityKind Shop(ref Rng rng, int w)
     {
         double r = rng.NextDouble();
@@ -297,7 +301,7 @@ public sealed partial class WorldLayout
             : r < 0.72 ? CityKind.Hardware : r < 0.86 ? CityKind.Clothing : CityKind.Laundromat;
     }
 
-    public static bool CityEnterable(CityKind kind) => kind is not (CityKind.Sealed or CityKind.Rowhouse or CityKind.Substation or CityKind.Rim or CityKind.None);
+    public static bool CityEnterable(CityKind kind) => kind is not (CityKind.Sealed or CityKind.Rowhouse or CityKind.Substation or CityKind.Rim or CityKind.None or CityKind.Baths);
 
     /// <summary>
     /// A lot's frame, turned so that its street front is always at v = 0 ("north") whichever side it really faces,
@@ -436,6 +440,7 @@ public sealed partial class WorldLayout
                 return;
             }
             case CityKind.Substation:
+            case CityKind.Baths:
             {
                 ref Tile door = ref f.At(f.W / 2, 0);
                 door.Kind = TileKind.Door;
@@ -491,6 +496,7 @@ public sealed partial class WorldLayout
             case CityKind.Hardware: HardwareStore(f, ref rng); break;
             case CityKind.Clothing: ClothingStore(f, ref rng); break;
             case CityKind.Laundromat: Laundromat(f, ref rng); break;
+            case CityKind.Cinema: Cinema(f); break;
             case CityKind.Church: Church(f, ref rng); break;
             case CityKind.Garage: Garage(f, ref rng); break;
             case CityKind.Museum: Museum(f, ref rng); break;
@@ -780,6 +786,30 @@ public sealed partial class WorldLayout
         f.Prop(mid + 1, last, Props.LaundryCart, ArchPier.North);
         f.Prop(mid - 1, 1, Props.Wastebasket, ArchPier.North);
         if (rng.Chance(0.4)) WallDecor(f, mid, last + 1, Decor.MissingPoster);
+    }
+
+    /// <summary>
+    /// A cinema: rows of seats facing a screen across the back wall, the picture still running, a stop-motion picture
+    /// of round green hills. Walk up to the screen and on into it, and you are in Level 94.
+    /// </summary>
+    private static void Cinema(Frame f)
+    {
+        int mid = f.W / 2, back = f.D - 2;
+        for (int v = 1; v <= back; v++)
+            for (int u = 1; u < f.W - 1; u++) f.At(u, v).Floor = FloorKind.HotelMaroon;
+        // The screen across the back wall, and the floor right in front of it
+        for (int u = 2; u < f.W - 2; u++)
+        {
+            ref Tile screen = ref f.At(u, back + 1);
+            if (screen.Kind == TileKind.Wall) screen.Under = Unders.CinemaScreen;
+            f.At(u, back).Under = Unders.CinemaScreen;
+        }
+        // Rows of seats, an aisle down the middle
+        for (int v = 3; v < back - 3; v += 2)
+            for (int u = 1; u < f.W - 1; u++)
+                if (Math.Abs(u - mid) >= 1) f.Prop(u, v, Props.HotelChair, ArchPier.South);
+        f.Prop(1, 1, Props.Vending, ArchPier.East);
+        f.Prop(f.W - 2, 1, Props.Wastebasket, ArchPier.North);
     }
 
     /// <summary>A church: one tall nave, pews in rows either side of a red-carpeted aisle, an altar with candles at the far end.</summary>
@@ -1405,7 +1435,8 @@ public sealed partial class WorldLayout
         ArchPier away = s.Roadward switch { ArchPier.North => ArchPier.South, ArchPier.South => ArchPier.North, ArchPier.East => ArchPier.West, _ => ArchPier.East };
         if (s.Curb)
         {
-            if (a % 20 == 10) { t.Variant = Props.Streetlight; t.Pier = s.Roadward; t.Stack = (byte)(r < 0.12 ? 0 : r < 0.27 ? 2 : 1); }
+            // The city that never sleeps: most of the street lights still burn
+            if (a % 20 == 10) { t.Variant = Props.Streetlight; t.Pier = s.Roadward; t.Stack = (byte)(r < 0.55 ? 0 : r < 0.65 ? 2 : 1); }
             else if (a == 8) { t.Variant = Props.FireHydrant; t.Pier = s.Roadward; }
             else if (a == 3 || a == s.Length - 4) { t.Variant = Props.TrashCan; }
             else if (IsStreetTree(s)) { t.Variant = Props.Tree; }

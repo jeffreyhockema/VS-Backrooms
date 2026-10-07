@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Offline layout harness: compiles the mod's worldgen sources directly, with no game dependencies.
+       Build:  dotnet build tools/mapgen -c Release -o tools/mapgen/out
+       Run:    tools/mapgen/out/mapgen <seed> <cells> [mode ...]   (see Program.cs; report.sh for the level table) -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\Worldgen\Tiles.cs" />
+    <Compile Include="..\..\src\Worldgen\Hashing.cs" />
+    <Compile Include="..\..\src\Worldgen\WorldGeometry.cs" />
+    <Compile Include="..\..\src\Worldgen\CaveColumn.cs" />
+    <Compile Include="..\..\src\Worldgen\WorldLayout*.cs" />
+    <Compile Include="..\..\src\Thresholds\ThresholdNetwork.cs" />
+  </ItemGroup>
+</Project>

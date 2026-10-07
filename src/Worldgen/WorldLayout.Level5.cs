@@ -19,21 +19,27 @@ namespace Backrooms.Worldgen;
 /// Wings follow one global grid, so corridors line up across cells. Along Z it repeats every
 /// <see cref="HallPeriod"/> blocks:
 /// <code>
-///   z % 12 == 0        back wall between two rows of rooms
-///   z % 12 in 1..3     guest rooms (5 wide along X, five of them between each pair of cross corridors)
-///   z % 12 == 4        corridor wall with room doors
-///   z % 12 in 5..7     corridor, 3 wide, with furniture along its walls
-///   z % 12 == 8        corridor wall with room doors
-///   z % 12 in 9..11    guest rooms
+///   z % 16 == 0        back wall between two rows of rooms
+///   z % 16 in 1..5     guest rooms (5 by 5, five of them between each pair of cross corridors)
+///   z % 16 == 6        corridor wall with room doors, odd numbers
+///   z % 16 in 7..9     corridor, 3 wide, with furniture along its walls
+///   z % 16 == 10       corridor wall with room doors, even numbers
+///   z % 16 in 11..15   guest rooms
 /// </code>
-/// A 2-wide cross corridor runs north-south every <see cref="CrossPeriod"/> blocks.
+/// A 2-wide cross corridor runs north-south every <see cref="CrossPeriod"/> blocks. Now and then a corridor does not
+/// go on across one, but ends against a wall with a tall mirror at the end of it. The door numbers count up along a
+/// corridor, 201, 203, 205, 207, and then, a few doors on, 201 again.
 /// </summary>
 public sealed partial class WorldLayout
 {
-    private const int HallPeriod = 12;
+    private const int HallPeriod = 16;
+    /// <summary>The rows of a hall (z modulo <see cref="HallPeriod"/>): the doors of the first row of rooms, the corridor, the doors of the second.</summary>
+    private const int DoorRowA = 6, CorridorRow0 = 7, CorridorMid = 8, CorridorRow1 = 9, DoorRowB = 10;
     /// <summary>Along a row of rooms: five blocks of room, then the wall to the next.</summary>
     private const int RoomPitch = 6;
     private const int CrossPeriod = 33;
+    /// <summary>Lobby columns stand this far apart each way, a chandelier between every four.</summary>
+    private const int LobbyBay = 8;
 
     private const ulong SaltL5Zone = 0x5E01;
     private const ulong SaltL5Boiler = 0x5E02;
@@ -43,6 +49,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL5Prop = 0x5E06;
     private const ulong SaltL5Wood = 0x5E07;
     private const ulong SaltL5Lift = 0x5E08;
+    private const ulong SaltL5End = 0x5E09;
+    private const ulong SaltL5Dining = 0x5E0A;
 
     private enum HotelZone { Wing, Lobby, Boiler, Beverly, Dining }
 
@@ -52,20 +60,45 @@ public sealed partial class WorldLayout
     {
         if (Noise(mx / 3.0, mz / 3.0, SaltL5Boiler) > 0.5) return HotelZone.Boiler;
         if (Noise(mx / 3.0, mz / 3.0, SaltL5Zone) > 0.48) return HotelZone.Lobby;
-        double r = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL5Beverly));
-        if (r < 0.05) return HotelZone.Beverly;
-        if (r < 0.11) return HotelZone.Dining;
+        // There is one Beverly Room in a stretch of hotel, and a dining hall every so often
+        if (RegionPick(mx, mz, 6, SaltL5Beverly, 0.8)) return HotelZone.Beverly;
+        if (RegionPick(mx, mz, 4, SaltL5Dining, 0.9)) return HotelZone.Dining;
         return HotelZone.Wing;
     }
 
-    private static HotelCell HotelCellAt(int gx, int gz)
+    /// <summary>Whether a cell is the one picked (with a chance) in its region of <paramref name="size"/> cells each way.</summary>
+    private bool RegionPick(int mx, int mz, int size, ulong salt, double chance)
+    {
+        int rx = Hashing.FloorDiv(mx, size), rz = Hashing.FloorDiv(mz, size);
+        ulong h = Hashing.Hash(seed, rx, rz, salt);
+        return Hashing.Unit(h) < chance && mx == rx * size + (int)((h >> 8) % (ulong)size) && mz == rz * size + (int)((h >> 24) % (ulong)size);
+    }
+
+    private HotelCell HotelCellAt(int gx, int gz)
     {
         int row = Hashing.Mod(gz, HallPeriod), xc = Hashing.Mod(gx, CrossPeriod);
-        if (row is 5 or 6 or 7 || xc == 16 || xc == 17) return HotelCell.Corridor;
+        bool corridorRow = row is CorridorRow0 or CorridorMid or CorridorRow1;
+        if (corridorRow && xc == 18 && CorridorEnds(gx, gz)) return HotelCell.Wall;
+        if (corridorRow || xc == 16 || xc == 17) return HotelCell.Corridor;
         if (xc == 15 || xc == 18 || row == 0) return HotelCell.Wall;
         int inRoom = RoomU(gx) % RoomPitch;
-        if (row == 4 || row == 8) return inRoom == 2 ? HotelCell.Door : HotelCell.Wall;
+        if (row == DoorRowA || row == DoorRowB) return inRoom == 2 ? HotelCell.Door : HotelCell.Wall;
         return inRoom == 5 ? HotelCell.Wall : HotelCell.Room;
+    }
+
+    /// <summary>
+    /// Whether the corridor running east from a cross corridor is walled off there, ending (at its west end) in a
+    /// tall mirror: about one stretch of corridor in eight.
+    /// </summary>
+    private bool CorridorEnds(int gx, int gz)
+    {
+        int span = Hashing.FloorDiv(gx, CrossPeriod);
+        if (Hashing.Unit(Hashing.Hash(seed, span, Hashing.FloorDiv(gz, HallPeriod), SaltL5End)) >= 0.12) return false;
+        // Not where the Beverly Room stands across the far end: the stretch would have no way out at all
+        int mz = MacroOf(gz);
+        for (int x = span * CrossPeriod + 18; x <= (span + 1) * CrossPeriod + 18; x += MacroSize / 2)
+            if (HotelZoneAt(MacroOf(x), mz) == HotelZone.Beverly) return false;
+        return HotelZoneAt(MacroOf((span + 1) * CrossPeriod + 18), mz) != HotelZone.Beverly;
     }
 
     /// <summary>
@@ -96,17 +129,18 @@ public sealed partial class WorldLayout
         if (a == b) return edge; // lobby into lobby, boiler hall into boiler hall: one big space
 
         // A wall between a wing and a grand room, or between two kinds of grand room, with doorways where the
-        // wing's corridors arrive (staff-only doors into the boiler halls)
+        // wing's corridors cross it (staff-only doors into the boiler halls): the west-east corridors cross a wall
+        // running north-south, the cross corridors one running west-east. (A wall that happens to run down the
+        // length of a corridor is not crossed by it.)
         edge.Tall = true;
         edge.ExitSigns = a == HotelZone.Boiler || b == HotelZone.Boiler;
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
-        int doors = 0;
         for (int i = 2; i < MacroSize - 2; i++)
         {
-            HotelCell cell = west ? HotelCellAt(gx0, gz0 + i) : HotelCellAt(gx0 + i, gz0);
-            if (cell == HotelCell.Corridor) { edge.Tiles[i] = EdgeTile.Doorway; doors++; }
+            int gx = west ? gx0 : gx0 + i, gz = west ? gz0 + i : gz0;
+            bool crossing = west ? Hashing.Mod(gz, HallPeriod) is CorridorRow0 or CorridorMid or CorridorRow1 : Hashing.Mod(gx, CrossPeriod) is 16 or 17;
+            if (crossing && HotelCellAt(gx, gz) == HotelCell.Corridor) edge.Tiles[i] = EdgeTile.Doorway;
         }
-        if (doors == 0) edge.Tiles[15] = edge.Tiles[16] = EdgeTile.Doorway;
         return edge;
     }
 
@@ -138,10 +172,13 @@ public sealed partial class WorldLayout
                 if (tile.Kind != TileKind.Floor) continue;
 
                 int row = Hashing.Mod(gz, HallPeriod), xc = Hashing.Mod(gx, CrossPeriod);
-                bool rowA = row <= 4;
+                bool rowA = row <= DoorRowA;
                 int u = RoomU(gx);
                 int roomX = Hashing.FloorDiv(gx - 19, CrossPeriod) * 8 + u / RoomPitch, roomZ = Hashing.FloorDiv(gz, HallPeriod) * 2 + (rowA ? 0 : 1);
                 ulong h = Hashing.Hash(seed, roomX, roomZ, SaltL5Room);
+                // Doors are numbered along the corridor, odd on its north side and even on its south
+                int doorIndex = Hashing.FloorDiv(gx - 19, CrossPeriod) * 5 + u / RoomPitch;
+                byte plaque = (byte)Hashing.Mod(2 * doorIndex + (rowA ? 0 : 1), 8);
                 bool locked = Hashing.Unit(h) < 0.6;
                 bool staffStairs = !locked && IsStaffStairs(h);
                 ulong ph = Hashing.Hash(seed, gx, gz, SaltL5Prop);
@@ -151,20 +188,23 @@ public sealed partial class WorldLayout
                 {
                     case HotelCell.Corridor:
                         bool crossCorridor = xc == 16 || xc == 17;
-                        if (walnut) tile.Floor = crossCorridor ? (row is 5 or 6 or 7 ? FloorKind.HotelWood : FloorKind.HotelRunnerNS)
-                                                              : row == 6 ? FloorKind.HotelRunnerWE : FloorKind.HotelWood;
+                        bool inCorridorRow = row is CorridorRow0 or CorridorMid or CorridorRow1;
+                        if (walnut) tile.Floor = crossCorridor ? (inCorridorRow ? FloorKind.HotelWood : FloorKind.HotelRunnerNS)
+                                                              : row == CorridorMid ? FloorKind.HotelRunnerWE : FloorKind.HotelWood;
                         // Dome lights every 4 blocks down the middle
-                        if (crossCorridor ? xc == 16 && Hashing.Mod(gz, 4) == 0 && row is not (5 or 6 or 7) : row == 6 && Hashing.Mod(gx, 4) == 0)
+                        if (crossCorridor ? xc == 16 && Hashing.Mod(gz, 4) == 0 && !inCorridorRow : row == CorridorMid && Hashing.Mod(gx, 4) == 0)
                             tile.Ceiling = HotelLightState(gx, gz);
-                        else if (!crossCorridor && (row == 5 || row == 7)) FurnishCorridor(ref tile, row, u, r, ph);
+                        else if (!crossCorridor && (row == CorridorRow0 || row == CorridorRow1)) FurnishCorridor(ref tile, row, u, r, ph);
                         break;
 
                     case HotelCell.Wall:
                         SetWall(ref tile, WallPattern.Hotel, BaseStyle.Plain);
+                        // The end of a corridor that goes no further: a tall mirror, looking back down it
+                        if (row == CorridorMid && xc == 18) { tile.Variant = Decor.Mirror; tile.Pier = ArchPier.East; }
                         // Corridor walls: sconces between doors, portraits and mirrors, the odd speaker or phone
-                        if ((row == 4 || row == 8) && xc != 15 && xc != 18)
+                        if ((row == DoorRowA || row == DoorRowB) && xc != 15 && xc != 18)
                         {
-                            tile.Pier = row == 4 ? ArchPier.South : ArchPier.North;
+                            tile.Pier = row == DoorRowA ? ArchPier.South : ArchPier.North;
                             if (u % RoomPitch == 5) tile.Variant = Props.WallSconce;
                             else if (u % RoomPitch == 0 && u / RoomPitch % 2 == 0) tile.Variant = Props.WallPortrait;
                             else if (r < 0.06) tile.Variant = Decor.Mirror;
@@ -179,8 +219,10 @@ public sealed partial class WorldLayout
                     case HotelCell.Door:
                         SetWall(ref tile, WallPattern.Hotel, BaseStyle.Plain);
                         tile.Kind = locked ? TileKind.Door : TileKind.Doorway;
-                        tile.Variant = (byte)((h >> 12) % 8); // room number plaque
+                        tile.Variant = plaque; // room number plaque
                         tile.ExitSign = staffStairs;
+                        // Now and then a locked door is not a guest room's at all: a cyan door marked POOL, onto the Poolrooms
+                        if (locked && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltL5Room + 37)) < 1 / 120.0) tile.Pattern = WallPattern.PoolDoor;
                         break;
 
                     case HotelCell.Room:
@@ -189,6 +231,14 @@ public sealed partial class WorldLayout
                         if (locked) tile.Sealed = true;
                         else if (staffStairs) PlanStaffStairs(ref tile, u % RoomPitch, row, rowA);
                         else FurnishGuestRoom(ref tile, u % RoomPitch, row, rowA, h, wood);
+                        // A cramped bathroom in the corner by the door, behind a partition (locked rooms too)
+                        if (!staffStairs && Hashing.Unit(h << 52) < 0.7)
+                        {
+                            int x = u % RoomPitch, byDoor = rowA ? 5 : 11, inside = rowA ? 4 : 12, before = rowA ? 3 : 13;
+                            if (x == 3 && (row == byDoor || row == inside)) SetWall(ref tile, WallPattern.Hotel, BaseStyle.Plain);
+                            else if (x == 4 && row == byDoor) { tile.Variant = Props.Toilet; tile.Pier = rowA ? ArchPier.North : ArchPier.South; }
+                            else if (x == 4 && (row == inside || row == before)) tile.Variant = 0; // the way into it
+                        }
                         break;
                 }
             }
@@ -205,7 +255,7 @@ public sealed partial class WorldLayout
     private static void PlanStaffStairs(ref Tile tile, int x, int row, bool rowA)
     {
         tile.Floor = FloorKind.Dusty;
-        if (row != (rowA ? 1 : 11) || x < 1 || x > 3) return;
+        if (row != (rowA ? 1 : 15) || x < 1 || x > 3) return;
         tile.Stair = (byte)x;
         tile.Pier = ArchPier.East;
     }
@@ -213,8 +263,8 @@ public sealed partial class WorldLayout
     /// <summary>Furniture along a corridor wall, under the sconces: console tables, bookcases, cabinets, sofas.</summary>
     private static void FurnishCorridor(ref Tile tile, int row, int u, double r, ulong ph)
     {
-        // Against the wall row 4 (north) or row 8 (south), facing into the corridor
-        ArchPier facing = row == 5 ? ArchPier.South : ArchPier.North;
+        // Against the north or south wall of the corridor, facing into it
+        ArchPier facing = row == CorridorRow0 ? ArchPier.South : ArchPier.North;
         int slot = u % RoomPitch;
         // A room-service tray left on the carpet outside a door, the plates still covered
         if (slot == 2 && r > 0.93) { tile.Variant = Props.RoomServiceTray; tile.Pier = facing; return; }
@@ -234,7 +284,8 @@ public sealed partial class WorldLayout
     /// </summary>
     private static void FurnishGuestRoom(ref Tile tile, int x, int row, bool rowA, ulong h, bool wood)
     {
-        int back = rowA ? 1 : 11, middle = rowA ? 2 : 10, front = rowA ? 3 : 9;
+        // Rooms are five deep: the furniture stands in the back three rows, leaving the way in by the door clear
+        int back = rowA ? 1 : 15, middle = rowA ? 2 : 14, front = rowA ? 3 : 13;
         if (wood && x >= 1 && x <= 3) tile.Floor = FloorKind.HotelRug;
         if (Hashing.Unit(h << 24) > 0.65) return; // empty room
         ArchPier into = rowA ? ArchPier.South : ArchPier.North; // away from the back wall
@@ -265,7 +316,7 @@ public sealed partial class WorldLayout
             {
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
                 int xc = Hashing.Mod(gx, CrossPeriod), row = Hashing.Mod(gz, HallPeriod);
-                if (xc != 15 && xc != 18 || row != 2 && row != 9) continue;
+                if (xc != 15 && xc != 18 || row != 2 && row != 13) continue;
                 // The doors must open onto the cross corridor inside this cell
                 int front = xc == 15 ? lx + 1 : lx - 1;
                 if (front < 1 || front >= MacroSize || b.At(front, lz).Kind != TileKind.Floor || b.At(front, lz + 1).Kind != TileKind.Floor) continue;
@@ -315,26 +366,26 @@ public sealed partial class WorldLayout
                 tile.Floor = FloorKind.HotelMarble;
                 if (tile.Kind != TileKind.Floor) continue;
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
-                int cx = Hashing.Mod(gx, 6), cz = Hashing.Mod(gz, 6);
-                if (cx == 2 && cz == 2)
+                int cx = Hashing.Mod(gx, LobbyBay), cz = Hashing.Mod(gz, LobbyBay);
+                if (cx == 3 && cz == 3)
                 {
                     SetWall(ref tile, WallPattern.Marble, BaseStyle.Plain);
                     continue;
                 }
                 // A red carpet border around each column bay, a chandelier at each crossing
-                if (cx == 5 || cz == 5) tile.Floor = FloorKind.HotelCarpet;
-                if (cx == 5 && cz == 5) tile.Ceiling = CeilingKind.Chandelier;
+                if (cx == LobbyBay - 1 || cz == LobbyBay - 1) tile.Floor = FloorKind.HotelCarpet;
+                if (cx == LobbyBay - 1 && cz == LobbyBay - 1) tile.Ceiling = CeilingKind.Chandelier;
             }
         }
 
         // Each bay between columns is furnished as something: a seating group, the front desk, a quiet corner
-        int bx0 = Hashing.FloorDiv(mx * MacroSize, 6), bz0 = Hashing.FloorDiv(mz * MacroSize, 6);
-        for (int bz = bz0; bz <= bz0 + 6; bz++)
+        int bx0 = Hashing.FloorDiv(mx * MacroSize, LobbyBay), bz0 = Hashing.FloorDiv(mz * MacroSize, LobbyBay);
+        for (int bz = bz0; bz <= bz0 + MacroSize / LobbyBay; bz++)
         {
-            for (int bx = bx0; bx <= bx0 + 6; bx++)
+            for (int bx = bx0; bx <= bx0 + MacroSize / LobbyBay; bx++)
             {
                 double r = Hashing.Unit(Hashing.Hash(seed, bx, bz, SaltL5Prop + 1));
-                int x0 = bx * 6 - mx * MacroSize, z0 = bz * 6 - mz * MacroSize; // bay tiles 0..4 hold furniture, column at (2,2)
+                int x0 = bx * LobbyBay - mx * MacroSize, z0 = bz * LobbyBay - mz * MacroSize; // bay tiles 0..6 hold furniture, column at (3,3)
                 void Put(int dx, int dz, byte prop, ArchPier facing)
                 {
                     int x = x0 + dx, z = z0 + dz;
@@ -344,34 +395,32 @@ public sealed partial class WorldLayout
                     t.Variant = prop;
                     t.Pier = facing;
                 }
-                if (r < 0.32)
+                if (r < 0.3)
                 {
                     // Sofa and armchairs round a coffee table
                     Put(0, 1, Props.Sofa, ArchPier.East);
                     Put(1, 0, Props.WingChair, ArchPier.South);
-                    Put(1, 3, Props.WingChair, ArchPier.North);
+                    Put(1, 2, Props.WingChair, ArchPier.North);
                     Put(1, 1, Props.CoffeeTable, ArchPier.North);
-                    Put(0, 3, Props.AshtrayStand, ArchPier.North);
-                    Put(4, 4, Props.FloorLamp, ArchPier.North);
+                    Put(0, 2, Props.AshtrayStand, ArchPier.North);
+                    Put(6, 6, Props.FloorLamp, ArchPier.North);
                 }
-                else if (r < 0.4)
+                else if (r < 0.33)
                 {
-                    // The front desk, guest book and bell, a clock behind
-                    Put(1, 4, Props.FrontDesk, ArchPier.North);
-                    Put(2, 4, Props.FrontDesk, ArchPier.North);
-                    Put(3, 4, Props.FrontDesk, ArchPier.North);
-                    Put(4, 3, Props.GrandfatherClock, ArchPier.West);
-                    Put(0, 3, Props.LuggageCart, ArchPier.North);
+                    // The front desk, guest book and bell, a clock behind (a lobby has one, or near enough)
+                    for (int k = 1; k <= 5; k++) Put(k, 6, Props.FrontDesk, ArchPier.North);
+                    Put(6, 5, Props.GrandfatherClock, ArchPier.West);
+                    Put(0, 5, Props.LuggageCart, ArchPier.North);
                 }
-                else if (r < 0.5)
+                else if (r < 0.45)
                 {
-                    Put(3, 2, Props.Palm, ArchPier.North);
-                    Put(1, 2, Props.Palm, ArchPier.North);
-                    Put(4, 1, Props.HotelBookshelf, ArchPier.West);
+                    // Palms either side of the column, a bookcase against it
+                    Put(2, 3, Props.Palm, ArchPier.North);
+                    Put(4, 3, Props.Palm, ArchPier.North);
+                    Put(3, 4, Props.HotelBookshelf, ArchPier.South);
                 }
-                else if (r < 0.56) Put(3, 2, Props.Turntable, ArchPier.North);
-                else if (r < 0.62) Put(rng.Range(0, 4), rng.Range(0, 1), Props.LuggageCart, ArchPier.North);
-                else if (r < 0.72) Put(3, 2, Props.Palm, ArchPier.North);
+                else if (r < 0.5) Put(5, 2, Props.Turntable, ArchPier.North);
+                else if (r < 0.56) Put(rng.Range(0, 6), rng.Range(0, 1), Props.LuggageCart, ArchPier.North);
             }
         }
     }
@@ -411,19 +460,31 @@ public sealed partial class WorldLayout
             }
         }
         // A grand piano and a speaker in one corner, palms in the others
-        ref Tile piano = ref b.At(4, 3);
-        if (piano.Kind == TileKind.Floor) { piano.Variant = Props.GrandPiano; piano.Pier = ArchPier.South; }
-        foreach ((int x, int z) in new[] { (MacroSize - 3, 2), (2, MacroSize - 3), (MacroSize - 3, MacroSize - 3) })
-            if (b.At(x, z).Kind == TileKind.Floor) b.At(x, z).Variant = Props.Palm;
-        b.At(8, 2).Variant = Props.Turntable;
+        (int X, int Z)[] corners = { (4, 3), (MacroSize - 5, 3), (4, MacroSize - 4), (MacroSize - 5, MacroSize - 4) };
+        int pianoCorner = rng.Range(0, 3);
+        for (int k = 0; k < 4; k++)
+        {
+            ref Tile t = ref b.At(corners[k].X, corners[k].Z);
+            if (t.Kind != TileKind.Floor) continue;
+            t.Variant = k == pianoCorner ? Props.GrandPiano : Props.Palm;
+            t.Pier = corners[k].Z < 16 ? ArchPier.South : ArchPier.North;
+        }
+        ref Tile music = ref b.At(corners[pianoCorner].X + (corners[pianoCorner].X < 16 ? 4 : -4), corners[pianoCorner].Z);
+        if (music.Kind == TileKind.Floor) music.Variant = Props.Turntable;
     }
 
     // ================= The Beverly Room =================
 
-    /// <summary>A grand ballroom in the middle of a wing cell, reached from the corridors around it.</summary>
+    /// <summary>
+    /// A grand ballroom set into a wing in place of the rooms between two of its corridors, which run on along its
+    /// north and south walls; it opens straight onto both. (Every cell has the same rows of the hall grid, since a
+    /// cell is two halls deep.)
+    /// </summary>
+    private const int BeverlyX0 = 3, BeverlyX1 = 28, BeverlyZ0 = DoorRowB, BeverlyZ1 = HallPeriod + DoorRowA;
+
     private void BuildBeverlyRoom(Builder b, int mz)
     {
-        const int x0 = 6, x1 = 25, z0 = 6, z1 = 25;
+        const int x0 = BeverlyX0, x1 = BeverlyX1, z0 = BeverlyZ0, z1 = BeverlyZ1;
         for (int z = z0; z <= z1; z++)
         {
             for (int x = x0; x <= x1; x++)
@@ -437,38 +498,32 @@ public sealed partial class WorldLayout
                     SetWall(ref tile, WallPattern.Hotel, BaseStyle.Plain);
                     // Doors on every side: most locked, a few open onto somewhere else entirely
                     bool corner = (x == x0 || x == x1) && (z == z0 || z == z1);
-                    int along = x == x0 || x == x1 ? z : x;
-                    if (!corner && along % 2 == 1 && along > x0 + 1 && along < x1 - 1)
+                    int along = x == x0 || x == x1 ? z - z0 : x - x0;
+                    int length = x == x0 || x == x1 ? z1 - z0 : x1 - x0;
+                    if (!corner && along % 2 == 1 && along > 1 && along < length - 1)
                     {
                         tile.Kind = TileKind.Door;
                         tile.Variant = (byte)(along % 8);
                     }
-                    else if (!corner && z != z0 && z != z1 && along % 4 == 0) tile.Variant = Props.WallSconce;
+                    else if (!corner && (x == x0 || x == x1) && along % 4 == 0) tile.Variant = Props.WallSconce;
                 }
             }
         }
 
-        // Two real doorways on the east wall and two on the west, each with a placard beside it
-        foreach (int z in new[] { 11, 20 })
+        // Two real doorways onto each of the corridors, each with a placard beside it
+        foreach (int z in new[] { z0, z1 })
         {
-            foreach (int x in new[] { x0, x1 })
+            foreach (int x in new[] { x0 + 6, x1 - 6 })
             {
                 b.At(x, z).Kind = TileKind.Doorway;
                 b.At(x, z).Variant = 0;
-                b.At(x, z + 1).Kind = TileKind.Wall;
-                b.At(x, z + 1).Variant = Props.WallBeverly;
-                // Clear a way out: straight to the side of the cell, then along it to the nearest corridor row
-                int dir = x == x0 ? -1 : 1, edgeX = x == x0 ? 1 : MacroSize - 2;
-                for (int k = x + dir; k != edgeX + dir; k += dir) ClearForWalking(ref b.At(k, z));
-                for (int zz = z; zz >= 1 && zz <= MacroSize - 2; zz += z < 16 ? -1 : 1)
-                {
-                    ClearForWalking(ref b.At(edgeX, zz));
-                    if (Hashing.Mod(mz * MacroSize + zz, HallPeriod) is 5 or 6 or 7) break;
-                }
+                b.At(x + 1, z).Kind = TileKind.Wall;
+                b.At(x + 1, z).Variant = Props.WallBeverly;
+                b.At(x + 1, z).Pier = z == z0 ? ArchPier.North : ArchPier.South;
             }
         }
 
-        // The corridors squeezed round the room are kept clear
+        // The corridors along it are kept clear
         for (int z = z0 - 1; z <= z1 + 1; z++)
             for (int x = x0 - 1; x <= x1 + 1; x++)
             {
@@ -480,7 +535,7 @@ public sealed partial class WorldLayout
         // The small Art Deco table with the unfinished game and its drinks, under the great chandelier
         int cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
         b.At(cx, cz).Variant = Props.MahjongTable;
-        foreach ((int x, int z) in new[] { (cx, cz - 1), (cx - 5, cz - 5), (cx + 5, cz - 5), (cx - 5, cz + 5), (cx + 5, cz + 5) })
+        foreach ((int x, int z) in new[] { (cx, cz - 1), (cx - 8, cz - 3), (cx + 8, cz - 3), (cx - 8, cz + 3), (cx + 8, cz + 3) })
             b.At(x, z).Ceiling = CeilingKind.Chandelier;
         foreach ((int x, int z, ArchPier f) in new[] { (x0 + 1, cz - 3, ArchPier.East), (x0 + 1, cz + 3, ArchPier.East), (x1 - 1, cz - 3, ArchPier.West), (x1 - 1, cz + 3, ArchPier.West) })
         {
@@ -581,18 +636,25 @@ public sealed partial class WorldLayout
             int target = z < aisle0 ? aisle0 : z > aisle1 ? aisle1 : z;
             for (int zz = Math.Min(z, target); zz <= Math.Max(z, target); zz++) Clear(x, zz);
         }
-        foreach (int i in Passages(west))
-        {
-            for (int x = 1; x <= 3; x++) Clear(x, i);
-            ToAisle(3, i);
-        }
-        foreach (int i in Passages(GetEdge(mx + 1, mz, west: true)))
-        {
-            for (int x = MacroSize - 4; x < MacroSize; x++) Clear(x, i);
-            ToAisle(MacroSize - 4, i);
-        }
-        foreach (int i in Passages(north)) ToAisle(i, 1);
-        foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ToAisle(i, MacroSize - 1);
+        // A boiler hall beside another is one space with it: the aisles run straight on east and west, and to the
+        // north and south a service passage at the same place in both joins them
+        bool Boiler(int x, int z) => HotelZoneAt(x, z) == HotelZone.Boiler;
+        if (!Boiler(mx - 1, mz))
+            foreach (int i in Passages(west))
+            {
+                for (int x = 1; x <= 3; x++) Clear(x, i);
+                ToAisle(3, i);
+            }
+        if (!Boiler(mx + 1, mz))
+            foreach (int i in Passages(GetEdge(mx + 1, mz, west: true)))
+            {
+                for (int x = MacroSize - 4; x < MacroSize; x++) Clear(x, i);
+                ToAisle(MacroSize - 4, i);
+            }
+        if (Boiler(mx, mz - 1)) { ToAisle(15, 1); ToAisle(16, 1); }
+        else foreach (int i in Passages(north)) ToAisle(i, 1);
+        if (Boiler(mx, mz + 1)) { ToAisle(15, MacroSize - 1); ToAisle(16, MacroSize - 1); }
+        else foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ToAisle(i, MacroSize - 1);
     }
 
     private static void ClearForWalking(ref Tile tile)

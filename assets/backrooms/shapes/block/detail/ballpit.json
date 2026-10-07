@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ballpit": "backrooms:block/detail/ballpit"
+	},
+	"elements": [
+		{
+			"name": "Balls",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"east": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"south": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"west": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"up": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ballpit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

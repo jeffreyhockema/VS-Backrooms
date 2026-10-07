@@ -1,0 +1,152 @@
+{
+	"code": "firesalt",
+	"class": "BackroomsFiresalt",
+	"entityClass": "BackroomsFiresalt",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"shape": {
+		"base": "backrooms:block/firesalt"
+	},
+	"textures": {
+		"salt": {
+			"base": "backrooms:block/firesalt"
+		}
+	},
+	"drawtype": "json",
+	"renderpass": "OpaqueNoCull",
+	"lightAbsorption": 0,
+	"lightHsv": [
+		2,
+		6,
+		17
+	],
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"replaceable": 5000,
+	"resistance": 0.1,
+	"maxStackSize": 32,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.3,
+		"z2": 0.8
+	},
+	"drops": [],
+	"materialDensity": 600,
+	"sounds": {
+		"place": "game:block/sand",
+		"break": "game:block/sand",
+		"hit": "game:block/sand",
+		"ambient": "game:effect/embers",
+		"ambientBlockCount": 1
+	},
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 10,
+					"var": 10
+				},
+				{
+					"avg": 255,
+					"var": 30
+				},
+				{
+					"avg": 255,
+					"var": 30
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"gravityEffect": {
+				"dist": "invexp",
+				"avg": -0.05,
+				"var": 0.2
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.15
+				},
+				{
+					"avg": 0.1,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0.15
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.03
+				},
+				{
+					"avg": 0.12,
+					"var": 0.04
+				},
+				{
+					"avg": 0,
+					"var": 0.03
+				}
+			],
+			"quantity": {
+				"avg": 0.06
+			},
+			"size": {
+				"avg": 0.3,
+				"var": 0.1
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": -0.6
+			},
+			"lifeLength": {
+				"avg": 0.6,
+				"var": 0.3
+			},
+			"vertexFlags": 255,
+			"particleModel": "Quad"
+		}
+	],
+	"guiTransform": {
+		"rotation": {
+			"x": -30,
+			"y": 45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.1,
+			"z": 0.5
+		},
+		"scale": 2.6
+	},
+	"groundTransform": {
+		"scale": 2.5
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.9,
+			"y": -0.3,
+			"z": -0.6
+		},
+		"scale": 0.8
+	}
+}

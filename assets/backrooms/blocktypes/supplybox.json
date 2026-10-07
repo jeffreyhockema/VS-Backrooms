@@ -11,22 +11,31 @@
 	lightAbsorption: 0,
 	resistance: 0.6,
 	// Breaking a box rolls each entry independently. A quantity like avg 0.5 means a 50% chance of one.
+	// Only the sealed boxes still hold food: most are found torn open already (supplybox-torn).
 	drops: [
-		{ type: "item", code: "almondwater", quantity: { avg: 1.2, var: 0.8 } },
-		{ type: "item", code: "crackers", quantity: { avg: 0.6, var: 0.4 } },
-		{ type: "item", code: "cannedbeans", quantity: { avg: 0.3, var: 0.3 } },
+		{ type: "item", code: "almondwater", quantity: { avg: 0.6, var: 0.5 } },
+		{ type: "item", code: "crackers", quantity: { avg: 0.4, var: 0.4 } },
+		{ type: "item", code: "cannedbeans", quantity: { avg: 0.25, var: 0.25 } },
 		// What a wanderer before you scraped together
 		{ type: "item", code: "carpetfibre", quantity: { avg: 1.2, var: 1.2 } },
 		{ type: "item", code: "wallpaperstrip", quantity: { avg: 0.8, var: 0.8 } },
 		{ type: "item", code: "glassshard", quantity: { avg: 0.5, var: 0.5 } },
 		{ type: "item", code: "metalbracket", quantity: { avg: 0.3, var: 0.3 } },
 		{ type: "item", code: "glassshiv", quantity: { avg: 0.08, var: 0 } },
-		{ type: "item", code: "game:candle", quantity: { avg: 0.15, var: 0.15 } },
+		{ type: "item", code: "game:candle", quantity: { avg: 0.1, var: 0.1 } },
 		// A wanderer's kit: flint to knap, sticks and tinder for a fire, and now and then something worth keeping
-		{ type: "item", code: "game:flint", quantity: { avg: 0.6, var: 0.6 } },
+		{ type: "item", code: "game:flint", quantity: { avg: 0.4, var: 0.4 } },
 		{ type: "item", code: "game:stick", quantity: { avg: 1, var: 1 } },
 		{ type: "item", code: "game:drygrass", quantity: { avg: 0.6, var: 0.6 } },
 		{ type: "item", code: "game:gear-rusty", quantity: { avg: 0.06, var: 0 } },
+		// Directions someone wrote down (read one to have it marked on your map)
+		{ type: "item", code: "wanderernote-door", quantity: { avg: 0.04, var: 0 } },
+		{ type: "item", code: "wanderernote-way", quantity: { avg: 0.04, var: 0 } },
+		{ type: "item", code: "wanderernote-cache", quantity: { avg: 0.04, var: 0 } },
+		{ type: "item", code: "wanderernote-refuge", quantity: { avg: 0.03, var: 0 } },
+		// Now and then someone was planning to stay
+		{ type: "item", code: "seedpacket-turnip", quantity: { avg: 0.02, var: 0 } },
+		{ type: "item", code: "seedpacket-carrot", quantity: { avg: 0.02, var: 0 } },
 		// Very rarely, a temporal gear someone died before they could use
 		{ type: "item", code: "game:gear-temporal", quantity: { avg: 0.01, var: 0 } }
 	],

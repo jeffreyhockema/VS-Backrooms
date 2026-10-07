@@ -1,0 +1,177 @@
+{
+	"code": "clump",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-land"
+	],
+	"weight": 80,
+	"hitboxSize": {
+		"x": 1.0,
+		"y": 0.8
+	},
+	"deadHitboxSize": {
+		"x": 1.0,
+		"y": 0.5
+	},
+	"eyeHeight": 0.5,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-clump"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/clump"
+		},
+		"texture": {
+			"base": "backrooms:entity/clump",
+			"alternates": [
+				{
+					"base": "backrooms:entity/clump-blind"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "stir",
+				"animation": "stir",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "grab",
+				"animation": "grab",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "feed",
+				"animation": "feed",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "crawl",
+				"animation": "crawl",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "dormant",
+				"animation": "dormant",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 20
+			},
+			{
+				"code": "emerge",
+				"animation": "emerge",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 20
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 20,
+				"maxhealth": 20
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24,
+				"decayedBlock": "game:carcass-medium"
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"stalkSeconds": 180
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-clump",
+						"priority": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"reach": 1.3,
+						"damage": 5,
+						"cooldownMs": 3000,
+						"grabsBeforeLeaving": 2,
+						"crawlSpeed": 0.028,
+						"hearing": 14,
+						"grabSound": "backrooms:entity/grab",
+						"stirSound": "backrooms:effect/squelch"
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:effect/squish*",
+		"death": "backrooms:effect/squelch"
+	}
+}

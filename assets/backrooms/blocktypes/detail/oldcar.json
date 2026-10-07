@@ -1,0 +1,197 @@
+// A 1930s car, parked in the middle of nowhere
+{
+	"code": "oldcar",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"black",
+				"green",
+				"maroon"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-black-north": {
+			"base": "block/detail/oldcar-black",
+			"rotateY": 0
+		},
+		"*-black-east": {
+			"base": "block/detail/oldcar-black",
+			"rotateY": 270
+		},
+		"*-black-south": {
+			"base": "block/detail/oldcar-black",
+			"rotateY": 180
+		},
+		"*-black-west": {
+			"base": "block/detail/oldcar-black",
+			"rotateY": 90
+		},
+		"*-green-north": {
+			"base": "block/detail/oldcar-green",
+			"rotateY": 0
+		},
+		"*-green-east": {
+			"base": "block/detail/oldcar-green",
+			"rotateY": 270
+		},
+		"*-green-south": {
+			"base": "block/detail/oldcar-green",
+			"rotateY": 180
+		},
+		"*-green-west": {
+			"base": "block/detail/oldcar-green",
+			"rotateY": 90
+		},
+		"*-maroon-north": {
+			"base": "block/detail/oldcar-maroon",
+			"rotateY": 0
+		},
+		"*-maroon-east": {
+			"base": "block/detail/oldcar-maroon",
+			"rotateY": 270
+		},
+		"*-maroon-south": {
+			"base": "block/detail/oldcar-maroon",
+			"rotateY": 180
+		},
+		"*-maroon-west": {
+			"base": "block/detail/oldcar-maroon",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-black-north"
+		],
+		"decorative": [
+			"*-black-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

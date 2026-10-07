@@ -102,6 +102,14 @@
 				"avg": 0.6,
 				"var": 0.6
 			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-way",
+			"quantity": {
+				"avg": 0.04,
+				"var": 0
+			}
 		}
 	]
 }

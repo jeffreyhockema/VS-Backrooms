@@ -101,6 +101,7 @@ public sealed partial class WorldGenerator
         (Props.SnackVending, "snackvending", true, null, false),
         (Props.DrinkFridge, "drinkfridge", true, null, false),
         (Props.BonePile, "bonepile", false, null, false),
+        (Props.MothHive, "mothhive", false, null, false),
         (Props.ScrapMetal, "scrapmetal", false, null, false),
         (Props.JawSkeleton, "jawskeleton", true, null, false),
         (Props.Ribcage, "ribcage", true, null, false),
@@ -165,6 +166,31 @@ public sealed partial class WorldGenerator
         (Props.Trolley, "trolley", true, null, false),
         (Props.MachineParts, "machineparts", true, null, false),
         (Props.TrafficSign, "trafficsign", true, new[] { "oneway", "noentry", "exit" }, false),
+        // Level 37
+        (Props.PoolLadder, "poolladder", true, null, false),
+        (Props.EpsomCrust, "epsomcrust", false, null, false),
+        (Props.LostThing, "lostthing", true, new[] { "towel", "flipflop", "noodle" }, false),
+        (Props.RedSprout, "redsprout", false, null, false),
+        // Level 94
+        (Props.SirenPole, "sirenpole", false, null, false),
+        (Props.MilkVan, "milkvan", true, null, false),
+        (Props.OldCar, "oldcar", true, new[] { "black", "green", "maroon" }, false),
+        (Props.NoOutletSign, "nooutletsign", true, null, false),
+        (Props.Icebox, "icebox", true, null, false),
+        (Props.RadioCabinet, "radiocabinet", true, null, false),
+        (Props.RotaryPhone, "rotaryphone", true, null, false),
+        (Props.FurniturePile, "furniturepile", true, new[] { "chairs", "tables", "drawers", "mixed" }, false),
+        (Props.TwilightGate, "twilightgate", true, null, false),
+        (Props.BallPit, "ballpit", false, null, false),
+        (Props.Arcade, "arcade", true, null, false),
+        (Props.Diorama, "diorama", false, null, false),
+        (Props.StudioCamera, "studiocamera", true, null, false),
+        (Props.Easel, "easel", true, null, false),
+        (Props.ThroneTable, "thronetable", false, null, false),
+        (Props.TrialChair, "trialchair", true, null, false),
+        (Props.KingStatue, "kingstatue", true, null, false),
+        (Props.Slide, "slide", true, null, false),
+        (Props.TippedCar, "tippedcar", true, new[] { "black", "green" }, false),
     };
 
     /// <summary>Wall decoration families: one block type per wall material.</summary>
@@ -244,10 +270,12 @@ public sealed partial class WorldGenerator
     private readonly Dictionary<string, int> modBlocks = new();
 
     // Shared
-    private readonly int mantleId, concreteId, waterId, boxId;
+    private readonly int mantleId, concreteId, waterId, boxId, boxTornId, crateOpenId, groundFallbackId;
+    /// <summary>Chalk marks by symbol (left, right, cross, circle) and by the side of the wall they are on (north, east, south, west).</summary>
+    private readonly int[,] chalkIds = new int[4, 4];
     private readonly int[] floorIds = new int[128];
     private readonly int[] overheadIds = new int[32];
-    private readonly int[,,] propIds = new int[256, 3, 4];
+    private readonly int[,,] propIds = new int[256, 4, 4];
     /// <summary>How many kinds each prop comes in, and whether it is modelled head to the north (beds, baths).</summary>
     private readonly byte[] propKinds = new byte[256];
     private readonly bool[] propHeadFirst = new bool[256];
@@ -325,9 +353,15 @@ public sealed partial class WorldGenerator
         }
 
         mantleId = BlockId("game:mantle");
+        groundFallbackId = BlockId("game:rock-granite");
         concreteId = BlockId("backrooms:concrete");
         waterId = BlockId("game:water-still-7");
         boxId = BlockId("backrooms:supplybox");
+        boxTornId = BlockId("backrooms:supplybox-torn");
+        crateOpenId = BlockId("backrooms:crate-open");
+        string[] sides = { "north", "east", "south", "west" };
+        for (int symbol = 0; symbol < 4; symbol++)
+            for (int side = 0; side < 4; side++) chalkIds[symbol, side] = BlockId($"backrooms:chalkmark-{ChalkBits.Symbols[symbol]}-{sides[side]}");
 
         floorIds[(int)FloorKind.Carpet] = BlockId("backrooms:carpet-normal");
         floorIds[(int)FloorKind.Stained] = BlockId("backrooms:carpet-stained");
@@ -496,6 +530,8 @@ public sealed partial class WorldGenerator
         }
         l3WallIds[WallPattern.Stone] = sanctumStoneId;
         InitCity();
+        InitPool();
+        InitMotion();
         cableXId = BlockId("backrooms:cables-run-we");
         cableZId = BlockId("backrooms:cables-run-ns");
         cableHubId = BlockId("backrooms:cables-hub");
@@ -606,24 +642,47 @@ public sealed partial class WorldGenerator
     public void Generate(IChunkColumnGenerateRequest request)
     {
         IServerChunk[] chunks = request.Chunks;
-        foreach (IServerChunk chunk in chunks) chunk.Data.ClearBlocksAndPrepare();
+        // Vanilla has laid the ground down already (UndergroundSystem): build on top of it
+        bool ground = UndergroundSystem.Active;
+        if (!ground) foreach (IServerChunk chunk in chunks) chunk.Data.ClearBlocksAndPrepare();
 
         WorldGeometry g = Geometry;
         Tile[] tiles = Macro(request.ChunkX, request.ChunkZ);
         int level = tiles[0].Level;
         bool openSky = WorldLayout.IsOpenSky(level);
-
-        FillLayer(chunks, 0, mantleId);
-        for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
-        if (!openSky) FillLayer(chunks, g.CapY, mantleId);
+        // Plain concrete deeper than the foundations is left to the ground
+        int groundBelow = g.FloorFor(level) - FoundationDepth;
         // The sea runs far deeper than the usual band, and Level 8's rock goes down further to be mined; the city's
         // streets lie lower than every other level's floor and its towers rise to the top of the world
-        int bottom = level switch { 7 => Math.Max(2, g.FloorY - 125), 8 => g.BandBottom - 40, 11 => g.CityBandBottom, _ => g.BandBottom };
-        int bandTop = level == 11 ? g.TopY : g.BandTop;
+        int bottom = level switch
+        {
+            7 => Math.Max(2, g.FloorY - 125),
+            8 => g.BandBottom - 40,
+            11 => g.CityBandBottom,
+            WorldLayout.Poolrooms => g.FloorFor(level) - WorldGeometry.PoolPitDepth - 2,
+            WorldLayout.Motion => g.FloorFor(level) - 6,
+            _ => g.BandBottom,
+        };
+        int bandTop = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
+
+        if (ground)
+        {
+            // Whatever the land raised above the band (hills over the roof, peaks in the open levels' sky) is not there
+            for (int y = bandTop + 1; y <= g.TopY; y++) FillLayer(chunks, y, 0);
+        }
+        else
+        {
+            for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
+        }
+        FillLayer(chunks, 0, mantleId);
+        if (!openSky) FillLayer(chunks, g.CapY, mantleId);
 
         IMapChunk mapChunk = chunks[0].MapChunk;
         var entities = new List<(BlockPos, string)>();
         int yMax = 0;
+        // What the lighting pass needs of this cell, gathered as the blocks go down rather than computed twice
+        int lightBottom = lighting.BandBottomFor(request.ChunkX, request.ChunkZ);
+        var cellLight = new WorldLighting.CellLight(chunkSize, lighting.Height);
 
         for (int lz = 0; lz < chunkSize; lz++)
         {
@@ -632,18 +691,36 @@ public sealed partial class WorldGenerator
                 Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
                 int gx = request.ChunkX * chunkSize + lx, gz = request.ChunkZ * chunkSize + lz;
                 int top = 0;
+                int column = lz * chunkSize + lx;
+                // Where vanilla's land ends, and the rock to fill on up to the foundations with where it lay lower
+                int land = 0, fill = 0;
+                if (ground)
+                {
+                    land = Math.Min(mapChunk.WorldGenTerrainHeightMap[column], groundBelow - 1);
+                    fill = GroundFill(chunks, lx, lz, land);
+                    for (int y = land + 1; y < Math.Min(bottom, groundBelow); y++) Petrify(chunks, lx, y, lz, fill);
+                }
                 for (int y = bottom; y <= bandTop; y++)
                 {
                     int block = ColumnBlock(t, gx, gz, y, out int fluid);
-                    if (block != 0 || y < g.BandBottom) SetBlock(chunks, lx, y, lz, block);
-                    if (fluid != 0) SetFluid(chunks, lx, y, lz, fluid);
+                    if (ground && block == concreteId && fluid == 0 && y < groundBelow)
+                    {
+                        // Under the foundations: the ground as vanilla laid it, filled up with its own rock
+                        if (y > land) Petrify(chunks, lx, y, lz, fill);
+                        block = GetBlock(chunks, lx, y, lz);
+                        lighting.Note(cellLight, lx, y, lz, lightBottom, block, 0);
+                        if (block != 0) top = y;
+                        continue;
+                    }
+                    lighting.Note(cellLight, lx, y, lz, lightBottom, block, fluid);
+                    if (block != 0 || y < g.BandBottom || ground) SetBlock(chunks, lx, y, lz, block);
+                    if (fluid != 0 || ground) SetFluid(chunks, lx, y, lz, fluid);
                     if (block != 0 || fluid != 0) top = y;
                     string entityClass = block != 0 ? api.World.Blocks[block].EntityClass : null;
                     if (entityClass != null) entities.Add((new BlockPos(gx, y, gz), entityClass));
                 }
                 if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
-                int column = lz * chunkSize + lx;
                 int rainHeight = openSky ? top : g.CapY;
                 mapChunk.RainHeightMap[column] = (ushort)rainHeight;
                 mapChunk.WorldGenTerrainHeightMap[column] = (ushort)(openSky ? Math.Max(g.FloorFor(level), top) : g.FloorY);
@@ -652,6 +729,7 @@ public sealed partial class WorldGenerator
         }
 
         mapChunk.YMax = (ushort)yMax;
+        lighting.Offer(request.ChunkX, request.ChunkZ, lightBottom, cellLight);
         lighting.Light(chunks, request.ChunkX, request.ChunkZ);
         if (entities.Count > 0) pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities;
     }
@@ -678,9 +756,13 @@ public sealed partial class WorldGenerator
         {
             case 7: return Level7Block(t, gx, gz, rel, out fluid);
             case 8: return Level8Block(t, gx, gz, y, rel, out fluid);
-            case 9: return Level9Block(t, gx, gz, rel);
+            case 9:
+                if (t.Under == Unders.FullPool && t.Floor == FloorKind.PoolDeep && rel is -1 or 0) { fluid = waterId; return 0; }
+                return Level9Block(t, gx, gz, rel);
             case 10: return Level10Block(t, gx, gz, rel, out fluid);
             case 11: return Level11Block(t, gx, gz, y - Geometry.CityFloorY, out fluid);
+            case WorldLayout.Poolrooms: return Level37Block(t, y - Geometry.FloorFor(WorldLayout.Poolrooms), out fluid);
+            case WorldLayout.Motion: return Level94Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Motion), out fluid);
         }
         if (rel < 0) return BelowFloor(t, rel, out fluid);
 
@@ -688,7 +770,7 @@ public sealed partial class WorldGenerator
         int room = t.Level == 1 || t.Grand ? WorldGeometry.MaxRoomHeight : WorldGeometry.RoomHeight;
         if (t.Tall && t.IsWallLike && rel > room && rel <= WorldGeometry.MaxRoomHeight + 1 && t.Level != 0) return concreteId;
 
-        return t.Level switch
+        int block = t.Level switch
         {
             0 => Level0Block(t, rel, out fluid),
             1 => Level1Block(t, rel, gx, gz),
@@ -698,6 +780,19 @@ public sealed partial class WorldGenerator
             5 => Level5Block(t, rel),
             _ => Level6Block(t, rel),
         };
+        // A chalk mark at eye height on the wall beside the tile, left by someone before
+        if (block == 0 && fluid == 0 && rel == 2 && t.Chalk != 0) return ChalkMark(t.Chalk);
+        return block;
+    }
+
+    /// <summary>
+    /// The chalk mark block for a tile's <see cref="Tile.Chalk"/>. A mark is named for the face of the wall it is drawn
+    /// on, which is the face looking back at the tile: a wall to the north has the mark on its south face.
+    /// </summary>
+    private int ChalkMark(byte chalk)
+    {
+        int face = ChalkBits.Wall(chalk) switch { ArchPier.North => 2, ArchPier.East => 3, ArchPier.South => 0, _ => 1 };
+        return chalkIds[Math.Clamp(ChalkBits.Symbol(chalk), 0, 3), face];
     }
 
     private int BelowFloor(in Tile t, int rel, out int fluid)
@@ -791,7 +886,7 @@ public sealed partial class WorldGenerator
             case TileKind.ArchDoor:
                 return top ? archIds[(int)t.Pier] : 0;
             default:
-                if (bottom) return t.SupplyBox ? boxId : t.Variant >= 40 ? PropBlock(t) : 0;
+                if (bottom) return t.SupplyBox ? BoxOf(t) : t.Variant >= 40 ? PropBlock(t) : 0;
                 // The Manila Room's chandelier hangs under its ceiling
                 return top && t.Ceiling == CeilingKind.Chandelier ? chandelierId : 0;
         }
@@ -891,8 +986,8 @@ public sealed partial class WorldGenerator
             int prop = PropBlock(t);
             if (prop != 0) return prop;
         }
-        if (t.Variant == 0 && rel <= t.Stack) return crateId;
-        if (rel == 1 && t.SupplyBox) return boxId;
+        if (t.Variant == 0 && rel <= t.Stack) return CrateOf(t);
+        if (rel == 1 && t.SupplyBox) return BoxOf(t);
         // The concrete is crumbling: its aggregate lies about as loose stones and the odd flint nodule
         if (rel == 1 && t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && t.Stair == 0) return Rubble(gx, gz);
         return 0;
@@ -955,8 +1050,8 @@ public sealed partial class WorldGenerator
             if (t.Variant == Props.Shelf) return shelfIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Desk) return deskIds[Facing(t.Pier)];
             if (t.Variant >= 40) return PropBlock(t);
-            if (t.Variant == 0 && t.Stack > 0) return crateId;
-            if (t.SupplyBox) return boxId;
+            if (t.Variant == 0 && t.Stack > 0) return CrateOf(t);
+            if (t.SupplyBox) return BoxOf(t);
         }
         return 0;
     }
@@ -994,8 +1089,10 @@ public sealed partial class WorldGenerator
 
     private int Level3Block(in Tile t, int rel)
     {
-        const int room = WorldGeometry.RoomHeight;
+        // Galleries and halls are a block taller, squeezes a block lower
+        int room = t.Grand ? WorldGeometry.MaxRoomHeight : t.Low ? WorldGeometry.RoomHeight - 1 : WorldGeometry.RoomHeight;
         if (rel > room + 1) return concreteId;
+        if (t.Low && rel == room && !t.IsWallLike && t.Kind != TileKind.Bars) return 0; // nothing hangs where there is barely room to pass
         if (rel == 0) return t.Under == 2 ? manholeId : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
         if (rel == room + 1) return t.IsWallLike ? concreteId : plasterCeilingId;
 
@@ -1048,10 +1145,10 @@ public sealed partial class WorldGenerator
             if (t.Variant == Props.OfficeChair) return chairIds[Facing(t.Pier)];
             int prop = PropBlock(t);
             if (prop != 0) return prop;
-            if (t.SupplyBox) return boxId;
+            if (t.SupplyBox) return BoxOf(t);
         }
         if (t.Variant == Props.Shelf && rel == 2) return shelfIds[Facing(Opposite(t.Pier))];
-        if (t.Variant == 0 && rel <= t.Stack) return crateId;
+        if (t.Variant == 0 && rel <= t.Stack) return CrateOf(t);
         return 0;
     }
 
@@ -1100,6 +1197,8 @@ public sealed partial class WorldGenerator
         }
 
         if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? officeWallId : stairIds[Facing(t.Pier)];
+        // A cable hanging down out of a gap in the ceiling
+        if (rel == room && t.Worn && t.Pipe is Pipes.CableDroopX or Pipes.CableDroopZ) return t.Pipe == Pipes.CableDroopX ? cableDroopXId : cableDroopZId;
         if (rel != 1) return 0;
         int facing = Facing(t.Pier);
         return t.Variant switch
@@ -1113,7 +1212,7 @@ public sealed partial class WorldGenerator
             Props.Partition => t.Pier is ArchPier.North or ArchPier.South ? partitionNsId : partitionWeId,
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 => PropBlock(t),
-            _ => t.SupplyBox ? boxId : 0,
+            _ => t.SupplyBox ? BoxOf(t) : 0,
         };
     }
 
@@ -1164,6 +1263,7 @@ public sealed partial class WorldGenerator
                     if (rel > 3) return t.Floor == FloorKind.Dusty ? plasterId : HotelWall(rel);
                     return t.Variant == 1 ? LiftPart(liftIds, 1, rel - 1, t) : LiftPart(cageIds, t.Floor == FloorKind.Dusty ? 1 : 0, rel - 1, t);
                 }
+                if (t.Pattern == WallPattern.PoolDoor) return rel == 1 ? poolDoorLowerId : rel == 2 ? poolDoorUpperId : HotelWall(rel);
                 return rel == 1 ? doorLowerId : rel == 2 ? doorUpperIds[t.Variant % 8] : HotelWall(rel);
             case TileKind.Doorway:
                 if (rel <= 2) return 0;
@@ -1204,7 +1304,7 @@ public sealed partial class WorldGenerator
             Props.Boiler => boilerIds[facing],
             Props.Furnace => furnaceIds[facing],
             >= 40 => PropBlock(t),
-            _ => t.SupplyBox ? boxId : 0,
+            _ => t.SupplyBox ? BoxOf(t) : 0,
         };
     }
 
@@ -1247,6 +1347,39 @@ public sealed partial class WorldGenerator
     {
         chunks[y / chunkSize].Data.SetFluid(Index3d(lx, y, lz), blockId);
     }
+
+    private int GetBlock(IServerChunk[] chunks, int lx, int y, int lz) => chunks[y / chunkSize].Data.GetBlockIdUnsafe(Index3d(lx, y, lz));
+
+    /// <summary>
+    /// How many blocks of concrete lie under every floor before the ground begins (UndergroundSystem): what you need
+    /// to break through to mine, and deep enough to hold everything the levels dig below their floors (Level 3's
+    /// flooded tunnel, the fields' worms, the city's subway).
+    /// </summary>
+    public const int FoundationDepth = 8;
+
+    /// <summary>The rock vanilla's land is made of at its top (what to fill on up with), or granite if none is found.</summary>
+    private int GroundFill(IServerChunk[] chunks, int lx, int lz, int land)
+    {
+        for (int y = land; y > Math.Max(0, land - 48); y--)
+        {
+            int id = GetBlock(chunks, lx, y, lz);
+            if (id != 0 && api.World.Blocks[id].BlockMaterial == EnumBlockMaterial.Stone) return id;
+        }
+        return groundFallbackId;
+    }
+
+    /// <summary>Fills a place above where vanilla's land ended (air, or sea) with rock.</summary>
+    private void Petrify(IServerChunk[] chunks, int lx, int y, int lz, int rock)
+    {
+        SetBlock(chunks, lx, y, lz, rock);
+        SetFluid(chunks, lx, y, lz, 0);
+    }
+
+    /// <summary>A supply box, or (picked over long ago) one torn open with nothing worth eating left in it.</summary>
+    private int BoxOf(in Tile t) => t.Looted ? boxTornId : boxId;
+
+    /// <summary>A crate, or one already prised open and emptied.</summary>
+    private int CrateOf(in Tile t) => t.Looted ? crateOpenId : crateId;
 
     private int BlockId(string code)
     {

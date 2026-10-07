@@ -8,10 +8,11 @@ using Vintagestory.API.Server;
 namespace Backrooms.Salvage;
 
 /// <summary>
-/// The Backrooms is something you occupy, not something you own. Its structure (walls, floors, ceilings slabs,
-/// pipes, doors) cannot be broken. What can be taken is salvage: loose objects such as boxes, crates, furniture,
-/// ceiling tiles and dead light fixtures break as normal, and wallpaper and carpet can be stripped with a blade,
-/// which leaves the wall or floor in place but visibly bare.
+/// Salvage: what the Backrooms leaves lying about to be taken. Loose objects (boxes, crates, furniture, ceiling tiles,
+/// dead light fixtures) break as normal and give what is in them (<c>tools/salvage.py</c>), and wallpaper and carpet
+/// can be stripped with a blade, which leaves the wall or floor in place but visibly bare. The building itself breaks
+/// too, but only down to rubble and parts (<see cref="Breakdown"/>), and not where it holds a level up
+/// (<see cref="ProtectionSystem"/>).
 /// </summary>
 public class SalvageSystem : ModSystem
 {
@@ -41,51 +42,37 @@ public class SalvageSystem : ModSystem
         "newsbox", "parkingmeter", "phonebooth", "clothesrack", "shoppingcart", "pew", "dumpster", "trashbags", "postbox",
         // Lore details
         "trolley", "machineparts", "trafficsign",
+        // The survival loop: what is left of a hive
+        "mothhive",
+        // Level 37: what the pool leaves on its rims; Level 94: the 1950s, and what heaps up on the hills
+        "epsomcrust", "lostthing",
+        "icebox", "radiocabinet", "rotaryphone", "furniturepile", "oldcar", "tippedcar", "arcade", "easel", "studiocamera",
+        // Level 94 is made of clay: its turf and the clay under it can be dug (not its roads, paths or anything built)
+        "clayturf", "claysoil",
     };
 
-    /// <summary>Light fixtures: only the dead ones can be pulled down.</summary>
+    /// <summary>Light fixtures: dead or lit, they come down for their glass and fittings.</summary>
     private static readonly HashSet<string> Lights = new()
     {
         "fluorescentlight", "hanginglight", "hangingbulb", "tunnellight", "cablelight", "officelight", "domelight",
     };
-
-    private readonly HashSet<int> structuralIds = new();
 
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsStrippable", typeof(BlockBehaviorStrippable));
     }
 
-    public static bool IsStructural(Block block)
+    /// <summary>Whether a block of ours is salvage: taken whole, wherever it is, with what it holds.</summary>
+    public static bool IsSalvage(Block block)
     {
         if (block?.Code == null || block.Code.Domain != "backrooms") return false;
         string first = block.FirstCodePart();
-        if (Salvageable.Contains(first)) return false;
-        if (Lights.Contains(first)) return block.Variant["state"] != "off";
-        return true;
+        return Salvageable.Contains(first) || Lights.Contains(first);
     }
 
-    public override void AssetsFinalize(ICoreAPI api)
-    {
-        foreach (Block block in api.World.Blocks)
-        {
-            if (!IsStructural(block)) continue;
-            structuralIds.Add(block.BlockId);
-            // No tool gets through this in any reasonable time; the server refuses the break outright as well
-            block.Resistance = 1_000_000f;
-            block.RequiredMiningTier = 0;
-        }
-        api.Logger.Notification("[backrooms] {0} structural block types cannot be broken", structuralIds.Count);
-    }
-
-    public override void StartServerSide(ICoreServerAPI api)
-    {
-        api.Event.BreakBlock += (IServerPlayer player, BlockSelection selection, ref float dropMultiplier, ref EnumHandling handling) =>
-        {
-            if (player?.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
-            if (structuralIds.Contains(api.World.BlockAccessor.GetBlock(selection.Position).BlockId)) handling = EnumHandling.PreventDefault;
-        };
-    }
+    /// <summary>A light fixture of ours that is still lit (or flickering).</summary>
+    public static bool IsLiveLight(Block block) =>
+        block?.Code?.Domain == "backrooms" && Lights.Contains(block.FirstCodePart()) && block.Variant["state"] != "off";
 }
 
 /// <summary>

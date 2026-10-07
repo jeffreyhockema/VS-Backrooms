@@ -925,7 +925,9 @@ def level5_textures():
     d.rectangle([4, 3, 27, 28], outline=(115, 74, 48, 255), width=2)
     d.rectangle([24, 10, 27, 13], fill=(196, 160, 72, 255))  # knob
     save(img, "block/level5/hoteldoor-lower.png")
-    for i, number in enumerate(("214", "308", "117", "421", "236", "509", "382", "113")):
+    # Consecutive numbers: odd doors down one side of a corridor, even down the other, counting up and then,
+    # every few doors, starting again
+    for i, number in enumerate(("201", "202", "203", "204", "205", "206", "207", "208")):
         img = noise_fill(hexrgb(0x452518), 5, 554)
         d = ImageDraw.Draw(img)
         d.rectangle([4, 3, 27, 31], outline=(115, 74, 48, 255), width=2)

@@ -1,0 +1,47 @@
+// A siren pole on a corner of the town, playing the same happy tune all day
+{
+	"code": "sirenpole",
+	"shape": {
+		"base": "block/detail/sirenpole"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 2,
+		"z2": 0.6
+	},
+	"selectionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 2,
+		"z2": 0.6
+	}
+}

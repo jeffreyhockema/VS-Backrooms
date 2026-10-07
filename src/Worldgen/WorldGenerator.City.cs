@@ -183,6 +183,8 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
         }
+        // A cinema's screen across its back wall, the picture still running
+        if (t.Under == Unders.CinemaScreen && t.Kind == TileKind.Wall && rel is >= 1 and <= 4) return cinemaScreenIds[Facing(Opposite(t.Pier))];
         if (edge) return Facade(t, gx, gz, rel, t.Pier, kind);
         if (tower && rel > t.Roof) return Facade(t, gx, gz, rel, (ArchPier)(t.Detail & CityDetail.FacingMask), kind);
         if (rel == top) return kind == CityKind.Garage ? floorIds[(int)FloorKind.CityGarage] : cityRoofId;
@@ -208,6 +210,7 @@ public sealed partial class WorldGenerator
                 return kind switch
                 {
                     CityKind.Substation => rel == 1 ? substationDoorLowerId : substationDoorUpperId,
+                    CityKind.Baths => rel == 1 ? poolDoorLowerId : poolDoorUpperId,
                     _ => rel == 1 ? rowhouseDoorLowerId : rowhouseDoorUpperId,
                 };
             }

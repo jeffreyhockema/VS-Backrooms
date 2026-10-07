@@ -133,16 +133,16 @@
 			"type": "item",
 			"code": "almondwater",
 			"quantity": {
-				"avg": 1,
-				"var": 0.8
+				"avg": 0.8,
+				"var": 0.6
 			}
 		},
 		{
 			"type": "item",
 			"code": "crackers",
 			"quantity": {
-				"avg": 0.6,
-				"var": 0.5
+				"avg": 0.4,
+				"var": 0.4
 			}
 		},
 		{
@@ -190,7 +190,23 @@
 			"code": "game:fishingbait-dough",
 			"quantity": {
 				"avg": 0.5,
-				"var": 0.3
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-door",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-way",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
 			}
 		}
 	]

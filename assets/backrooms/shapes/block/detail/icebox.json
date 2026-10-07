@@ -1,0 +1,85 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fridgewhite": "backrooms:block/detail/fridgewhite",
+		"icebox-front": "backrooms:block/detail/icebox-front"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				26,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						11,
+						16
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						11,
+						16
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				26,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#icebox-front",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -2,3 +2,6 @@ bin/
 obj/
 .vs/
 *.user
+tools/mapgen/out/
+tools/mapgen/*.bin
+tools/mapgen/*.png

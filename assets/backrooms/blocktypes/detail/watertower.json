@@ -1,0 +1,120 @@
+// Level 94: a white water tower on a hilltop, full of Almond Water
+{
+	"code": "watertower",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"leg",
+				"tank",
+				"roof",
+				"tap"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtypeByType": {
+		"*-leg": "json",
+		"*-tap": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-leg": {
+			"base": "block/detail/watertower-leg"
+		},
+		"*-tap": {
+			"base": "block/detail/watertower-tap"
+		}
+	},
+	"texturesByType": {
+		"*-tank": {
+			"all": {
+				"base": "block/detail/towertank"
+			}
+		},
+		"*-roof": {
+			"all": {
+				"base": "block/detail/towersteel"
+			}
+		}
+	},
+	"sideopaqueByType": {
+		"*-leg": {
+			"all": false
+		},
+		"*-tap": {
+			"all": false
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"lightAbsorptionByType": {
+		"*-leg": 0,
+		"*-tap": 0,
+		"*": 99
+	},
+	"collisionboxByType": {
+		"*-leg": {
+			"x1": 0.37,
+			"y1": 0,
+			"z1": 0.37,
+			"x2": 0.63,
+			"y2": 1,
+			"z2": 0.63
+		},
+		"*-tap": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 0.9,
+			"z2": 0.6
+		}
+	},
+	"selectionboxByType": {
+		"*-leg": {
+			"x1": 0.37,
+			"y1": 0,
+			"z1": 0.37,
+			"x2": 0.63,
+			"y2": 1,
+			"z2": 0.63
+		},
+		"*-tap": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.65,
+			"y2": 0.9,
+			"z2": 0.65
+		}
+	},
+	"classByType": {
+		"*-tap": "BackroomsDispenser"
+	},
+	"entityClassByType": {
+		"*-tap": "BackroomsDispenser"
+	},
+	"attributesByType": {
+		"*-tap": {
+			"dispenses": [
+				"backrooms:almondwater"
+			],
+			"restock": true
+		}
+	},
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

@@ -13,8 +13,9 @@ namespace Backrooms.Worldgen;
 /// The world is divided into 32x32 "macro cells", exactly one per chunk column, each belonging to one level.
 /// Each macro cell owns the wall line on its west and north edge; whether those edges are walls, and where
 /// their gaps are, is a pure function of the edge, so both neighbours agree. Where two levels meet, the edge
-/// is a full-height wall with a few doorways through it. Every edge has at least one passage, so everything is
-/// connected. Each level lays out the interior of its cells in its own partial class file.
+/// is a full-height wall, unbroken except at the few gates (see WorldLayout.Gates.cs). Within a level every edge
+/// has at least one passage, so each level is connected. Each level lays out the interior of its cells in its own
+/// partial class file.
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -30,11 +31,13 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The average width of each level's ring, in 32-block macro cells (Level 0's is its radius); the last level
-    /// goes on forever. Level 0 alone averages over a kilometre from spawn to its edge, and reaching Level 10 is a
-    /// journey of many kilometres. No ring is a circle: each is stretched by its own <see cref="RingShape"/>, so in
+    /// goes on forever. Level 0 alone averages some 770 blocks from spawn to its edge, and reaching Level 10 is a
+    /// journey of several kilometres. No ring is a circle: each is stretched by its own <see cref="RingShape"/>, so in
     /// one direction a level may end after a few hundred blocks and in another go on for several times that.
+    /// (Smaller than they once were: with the walls between levels unbroken but for a few gates, it is finding the way
+    /// through rather than the distance that takes time.)
     /// </summary>
-    private static readonly double[] RingWidths = { 36, 28, 20, 24, 30, 30, 24, 30, 24, 30 };
+    private static readonly double[] RingWidths = { 24, 18, 14, 16, 20, 20, 16, 22, 18, 24 };
 
     /// <summary>How strongly the rings are stretched: each ring's width varies by about e^±Stretch with direction.</summary>
     private const double Stretch = 1.45;
@@ -42,8 +45,31 @@ public sealed partial class WorldLayout
     /// <summary>Waves round the circle that shape each ring: the first few stretch it, the rest make it lumpy.</summary>
     private const int ShapeHarmonics = 7;
 
-    /// <summary>Number of levels, from Level 0 to the outermost ring and Level 11, the city beyond it.</summary>
-    public static int LevelCount => RingWidths.Length + 2;
+    /// <summary>
+    /// Number of levels: Level 0 to the outermost ring, Level 11 (the city beyond it), and the two other places no ring
+    /// reaches, Level 37 (kept as <see cref="Poolrooms"/>) and Level 94 (<see cref="Motion"/>).
+    /// </summary>
+    public static int LevelCount => RingWidths.Length + 4;
+
+    /// <summary>Level 37, "Sublimity", the Poolrooms: kept as level 12, shown as 37.</summary>
+    public const int Poolrooms = 12;
+
+    /// <summary>Level 94, "Motion": kept as level 13, shown as 94.</summary>
+    public const int Motion = 13;
+
+    /// <summary>The number a level goes by: its own for the rings and the city, 37 and 94 for the two kept past them.</summary>
+    public static string DisplayNumber(int level) => level switch { Poolrooms => "37", Motion => "94", _ => level.ToString() };
+
+    /// <summary>The level kept for a number a player would use ("37" is the Poolrooms), or -1 if there is none.</summary>
+    public static int FromDisplayNumber(int number) => number switch
+    {
+        37 => Poolrooms,
+        94 => Motion,
+        _ => number >= 0 && number <= 11 ? number : -1,
+    };
+
+    /// <summary>The places no ring reaches, which you can only noclip into: the city, the Poolrooms and Motion.</summary>
+    public static bool IsNoclipRegion(int level) => level >= 11;
 
     private readonly ulong seed;
     private readonly int spawnMacroX;
@@ -106,8 +132,12 @@ public sealed partial class WorldLayout
             edge += RingWidths[ring] * RingShape(ring, angle);
             if (d < edge) return ring;
         }
-        // Far out in the fields lies the city, which no ring reaches
-        return InCity(mx, mz) ? 11 : RingWidths.Length;
+        // Far out in the fields lie the places no ring reaches: the city to the east, the Poolrooms to the west, and
+        // Motion to the north
+        if (InCity(mx, mz)) return 11;
+        if (InPoolrooms(mx, mz)) return Poolrooms;
+        if (InMotion(mx, mz)) return Motion;
+        return RingWidths.Length;
     }
 
     /// <summary>
@@ -155,8 +185,8 @@ public sealed partial class WorldLayout
         return Math.Clamp((RingDistance(mx, mz) - inner) / (outer - inner), 0, 1);
     }
 
-    /// <summary>Levels under the open sky rather than a ceiling.</summary>
-    public static bool IsOpenSky(int level) => level >= 9;
+    /// <summary>Levels under the open sky rather than a ceiling: the Suburbs, the fields, the city and Motion.</summary>
+    public static bool IsOpenSky(int level) => level is 9 or 10 or 11 or Motion;
 
     /// <summary>Smooth value noise in roughly [-1, 1].</summary>
     private double Noise(double x, double z, ulong salt)
@@ -189,6 +219,8 @@ public sealed partial class WorldLayout
         public bool Tall;
         /// <summary>Doorways get a glowing EXIT sign above them.</summary>
         public bool ExitSigns;
+        /// <summary>Level 0: the line follows the hallway plan, and the cell copies the plan's tiles onto it as they are.</summary>
+        public bool Planned;
     }
 
     /// <summary>
@@ -209,15 +241,16 @@ public sealed partial class WorldLayout
         }
         return level switch
         {
-            0 => Level0Edge(ref rng, mx, mz, nx, nz),
+            0 => Level0Edge(ref rng, mx, mz, nx, nz, west),
             1 => Level1Edge(ref rng, mx, mz, nx, nz),
-            2 => Level2Edge(ref rng),
-            3 => Level3Edge(ref rng, mx, mz),
+            2 => Level2Edge(mx, mz, west),
+            3 => Level3Edge(ref rng, mx, mz, nx, nz),
             4 => Level4Edge(ref rng, mx, mz, nx, nz),
             5 => Level5Edge(ref rng, mx, mz, nx, nz, west),
-            6 => Level6Edge(ref rng, mx, mz, nx, nz),
+            6 => Level6Edge(mx, mz, nx, nz, west),
             7 => new Edge { Pattern = WallPattern.Concrete },
             8 => Level8Edge(mx, mz, west),
+            Poolrooms => new Edge { Pattern = WallPattern.PoolTile }, // the plans are laid over the edges
             _ => new Edge { Pattern = WallPattern.Rock }, // the suburbs and the fields run straight on
         };
     }
@@ -234,10 +267,11 @@ public sealed partial class WorldLayout
             1 => halls ? WallPattern.WhiteBlock : WallPattern.Concrete,
             2 => WallPattern.Tunnel,
             3 => Level3Material(mx, mz),
-            4 => WallPattern.Drywall,
+            4 => WallPattern.OfficeWindow, // where the office floor ends: windows onto the rain
             5 => WallPattern.Hotel,
             6 => WallPattern.L6Wall,
             7 => WallPattern.Concrete,
+            Poolrooms => WallPattern.PoolTile,
             _ => WallPattern.Rock, // the caves; and the cliffs the open levels meet the rest at
         };
         // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
@@ -245,7 +279,7 @@ public sealed partial class WorldLayout
         var edge = new Edge { Pattern = pattern, Base = BaseFor(pattern), Tall = true, ExitSigns = level == 1 };
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
 
-        if (halls)
+        if (halls && IsGate(mx, mz, west))
         {
             // Into Level 1's maintenance halls: doorways where its corridors meet the wall
             foreach (int start in HallCrossings) edge.Tiles[start] = edge.Tiles[start + 1] = EdgeTile.Doorway;
@@ -262,6 +296,8 @@ public sealed partial class WorldLayout
             }
             return edge;
         }
+        // Most of the wall is unbroken: only a gate has a way through
+        if (!IsGate(mx, mz, west)) return edge;
         int doors = rng.Range(2, 3);
 
         // Next to an office block or a hotel wing, the doorways open where its corridors meet the wall, not into
@@ -271,19 +307,25 @@ public sealed partial class WorldLayout
         bool hotelGrid = level == 5 && HotelZoneAt(mx, mz) == HotelZone.Wing || otherLevel == 5 && HotelZoneAt(nx, nz) == HotelZone.Wing;
         if (officeGrid || hotelGrid)
         {
-            bool Aligned(int i)
+            // Where an office block meets a hotel wing, a doorway must line up with corridors on both sides, or it
+            // would open into the back of a locked room; failing that, with either
+            bool OfficeAligned(int gx, int gz) => Hashing.Mod(west ? gz : gx, L4OfficeGrid) < 2;
+            bool HotelAligned(int gx, int gz) => HotelCellAt(gx, gz) == HotelCell.Corridor;
+            bool Aligned(int i, bool both)
             {
                 int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
-                return officeGrid && Hashing.Mod(west ? gz : gx, L4OfficeGrid) < 2 || hotelGrid && HotelCellAt(gx, gz) == HotelCell.Corridor;
+                bool office = officeGrid && OfficeAligned(gx, gz), hotel = hotelGrid && HotelAligned(gx, gz);
+                return both && officeGrid && hotelGrid ? office && hotel : office || hotel;
             }
             var runs = new List<(int Start, int Length)>();
-            for (int i = 2; i < MacroSize - 1; i++)
-            {
-                if (!Aligned(i)) continue;
-                int first = i;
-                while (i + 1 < MacroSize - 1 && Aligned(i + 1)) i++;
-                runs.Add((first, Math.Min(i - first + 1, 3)));
-            }
+            for (int pass = 0; pass < 2 && runs.Count == 0; pass++)
+                for (int i = 2; i < MacroSize - 1; i++)
+                {
+                    if (!Aligned(i, pass == 0)) continue;
+                    int first = i;
+                    while (i + 1 < MacroSize - 1 && Aligned(i + 1, pass == 0)) i++;
+                    runs.Add((first, Math.Min(i - first + 1, 3)));
+                }
             if (runs.Count > 0)
             {
                 for (int n = Math.Min(doors, runs.Count); n > 0; n--)
@@ -308,20 +350,23 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Ambient temperature at a position: each level has its own, Level 3's flooded tunnels are freezing and
-    /// Level 5's boiler halls are scorching.
+    /// Level 5's boiler halls are scorching. Level 0's blackout zones are cold and damp, cool enough that food
+    /// keeps there; the dark of Level 6 and the caves of Level 8 are cold enough to want clothes.
     /// </summary>
     public float TemperatureAt(int x, int y, int z, int floorY)
     {
         int mx = MacroOf(x), mz = MacroOf(z);
         int level = LevelAt(mx, mz);
         if (level == 3 && y < floorY) return -4f;
+        if (level == 0 && Level0ZoneAt(x, z) == ZoneKind.Blackout) return 10f;
         if (level == 5 && HotelZoneAt(mx, mz) == HotelZone.Boiler) return 42f;
         if (level == 6 && IsSnackrooms(mx, mz)) return 21f;
         if (level == 7 && y <= floorY) return 6f; // the cold sea
+        if (level == Poolrooms) return y <= floorY - WorldGeometry.PoolDrop ? 31f : IsReservoir(mx, mz) ? 24f : 29f; // lukewarm, everywhere
         return LevelTemperatures[Math.Min(level, LevelTemperatures.Length - 1)];
     }
 
-    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 16f, 12f, 12f, 14f, 18f, 17f };
+    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 8f, 12f, 9f, 14f, 18f, 17f, 29f, 21f };
 
     /// <summary>Indices along an edge that can be walked through.</summary>
     private static List<int> Passages(Edge edge)
@@ -365,7 +410,7 @@ public sealed partial class WorldLayout
 
         switch (b.Level)
         {
-            case 0: BuildLevel0(b, mx, mz); break;
+            case 0: BuildLevel0(b, mx, mz, west, north); break;
             case 1: BuildLevel1(b, mx, mz); break;
             case 2: BuildLevel2(b, mx, mz, west, north); break;
             case 3: BuildLevel3(b, mx, mz, west, north); break;
@@ -376,6 +421,8 @@ public sealed partial class WorldLayout
             case 8: BuildLevel8(b, mx, mz); break;
             case 9: BuildLevel9(b, mx, mz); break;
             case 11: BuildLevel11(b, mx, mz); break;
+            case Poolrooms: BuildLevel37(b, mx, mz); break;
+            case Motion: BuildLevel94(b, mx, mz); break;
             default: BuildLevel10(b, mx, mz); break;
         }
 
@@ -385,23 +432,14 @@ public sealed partial class WorldLayout
         // The Snackrooms are sealed on purpose, and their whole shop fronts are doorways
         if (!(b.Level == 6 && IsSnackrooms(mx, mz)))
         {
-            if (b.Level == 6)
-            {
-                // The maze is carved from the west and north; it must meet the passages east and south too
-                foreach (int i in Passages(east)) OpenMazeTile(ref b.At(MacroSize - 1, i));
-                foreach (int i in Passages(south)) OpenMazeTile(ref b.At(i, MacroSize - 1));
-            }
             ClearDoorways(b, east, south);
             SealPockets(b, east, south);
+            OpenGates(b, mx, mz, west, north, east, south);
         }
+        MarkPickedOver(b, mx, mz);
+        PlaceDen(b, mx, mz);
+        MarkWayToGates(b, mx, mz);
         return b.Tiles;
-    }
-
-    private static void OpenMazeTile(ref Tile t)
-    {
-        if (t.Kind != TileKind.Wall) return;
-        t.Kind = TileKind.Floor;
-        t.Variant = 0;
     }
 
     private void BuildEdges(Builder b, int mx, int mz, Edge west, Edge north)
@@ -594,7 +632,7 @@ public sealed partial class WorldLayout
         return (c, c);
     }
 
-    /// <summary>One supply box a couple of steps from the spawn point, so the first minutes are survivable.</summary>
+    /// <summary>A supply box a couple of steps from the spawn point (one more each call), so the first minutes are survivable.</summary>
     private static void PlaceSpawnBox(Builder b)
     {
         (int sx, int sz) = FindSpawnTile(b.Tiles);
@@ -603,7 +641,7 @@ public sealed partial class WorldLayout
             int x = sx + dx, z = sz + dz;
             if (!InInterior(x, z)) continue;
             ref Tile tile = ref b.At(x, z);
-            if (tile.Kind != TileKind.Floor) continue;
+            if (tile.Kind != TileKind.Floor || tile.SupplyBox) continue;
             tile.SupplyBox = true;
             return;
         }

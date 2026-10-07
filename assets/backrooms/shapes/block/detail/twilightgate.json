@@ -1,0 +1,429 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rust": "backrooms:block/level2/pipe-rust"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				0,
+				0,
+				7
+			],
+			"to": [
+				2,
+				20,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				14,
+				0,
+				7
+			],
+			"to": [
+				16,
+				20,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar1",
+			"from": [
+				2,
+				3,
+				7.5
+			],
+			"to": [
+				14,
+				4,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar2",
+			"from": [
+				2,
+				9,
+				7.5
+			],
+			"to": [
+				14,
+				10,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar3",
+			"from": [
+				2,
+				15,
+				7.5
+			],
+			"to": [
+				14,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Brace",
+			"from": [
+				2,
+				3,
+				7.6
+			],
+			"to": [
+				14,
+				4,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						12,
+						0.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				9.5,
+				8
+			],
+			"rotationZ": 40
+		}
+	]
+}

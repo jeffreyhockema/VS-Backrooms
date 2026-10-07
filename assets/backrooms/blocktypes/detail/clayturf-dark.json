@@ -1,0 +1,42 @@
+// Level 94: clay turf, mown in stripes. Dug up, it gives a poor sort of soil
+{
+	"code": "clayturf-dark",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"up": {
+			"base": "block/detail/clayturf-dark"
+		},
+		"down": {
+			"base": "block/detail/claysoil"
+		},
+		"horizontals": {
+			"base": "block/detail/clayturf-side-dark"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/grass",
+		"place": "game:block/dirt",
+		"break": "game:block/dirt",
+		"hit": "game:block/dirt"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:soil-low-none",
+			"quantity": {
+				"avg": 1
+			}
+		}
+	]
+}

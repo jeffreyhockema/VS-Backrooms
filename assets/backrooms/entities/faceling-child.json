@@ -1,0 +1,324 @@
+{
+	"code": "faceling-child",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 30,
+	"hitboxSize": {
+		"x": 0.45,
+		"y": 1.25
+	},
+	"deadHitboxSize": {
+		"x": 0.5,
+		"y": 0.35
+	},
+	"eyeHeight": 1.15,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-faceling"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/faceling-child"
+		},
+		"texture": {
+			"base": "backrooms:entity/faceling-child-stripes",
+			"alternates": [
+				{
+					"base": "backrooms:entity/faceling-child-hoodie"
+				},
+				{
+					"base": "backrooms:entity/faceling-child-dress"
+				},
+				{
+					"base": "backrooms:entity/faceling-child-overalls"
+				},
+				{
+					"base": "backrooms:entity/faceling-child-sweater"
+				},
+				{
+					"base": "backrooms:entity/faceling-child-school"
+				}
+			]
+		},
+		"size": 0.68,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			},
+			{
+				"code": "backrooms-faceling"
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.5,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle1",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "sprint",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "hit",
+				"animationSpeed": 1.2,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "sit",
+				"animation": "sitflooridle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "lookaround",
+				"animation": "lookaround",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "headscratch",
+				"animation": "headscratch",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "wave",
+				"animation": "wave",
+				"animationSpeed": 0.8,
+				"blendMode": "Average"
+			},
+			{
+				"code": "nod",
+				"animation": "nod",
+				"animationSpeed": 0.9,
+				"blendMode": "Average"
+			},
+			{
+				"code": "shrug",
+				"animation": "shrug",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "stretch",
+				"animation": "stretch",
+				"animationSpeed": 0.9,
+				"blendMode": "Average"
+			},
+			{
+				"code": "yawn",
+				"animation": "yawn",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "facewipe",
+				"animation": "facepalm",
+				"animationSpeed": 0.7,
+				"blendMode": "Average"
+			},
+			{
+				"code": "point",
+				"animation": "point",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "tantrum",
+				"animation": "rage",
+				"animationSpeed": 1.3,
+				"blendMode": "Average"
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "health",
+				"currenthealth": 5,
+				"maxhealth": 5
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24,
+				"decayedBlock": "game:carcass-medium"
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-faceling"
+			},
+			{
+				"code": "backrooms-menace",
+				"huntSeconds": 15
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.04,
+						"stalkMin": 6,
+						"stalkMax": 10,
+						"damage": 0.8,
+						"damageTier": 0,
+						"damageType": "BluntAttack",
+						"knockback": 0.2,
+						"attackRange": 0.8,
+						"attackDurationMs": 800,
+						"damageAtMs": 400,
+						"attackCooldownMs": 1500,
+						"walkAnimation": "walk",
+						"runAnimation": "run",
+						"attackAnimation": "tantrum",
+						"retaliates": true
+					},
+					{
+						"code": "fleeentity",
+						"entityCodes": [
+							"hound"
+						],
+						"priority": 1.55,
+						"movespeed": 0.03,
+						"seekingRange": 16,
+						"animation": "run",
+						"fleeingDistance": 24,
+						"fleeDurationMs": 9000
+					},
+					{
+						"code": "backrooms-curious",
+						"priority": 1.3,
+						"priorityForCancel": 1.35,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.04,
+						"seekingRange": 14,
+						"keepAway": 3.5,
+						"fleeDistance": 2.2,
+						"mincooldown": 8000,
+						"maxcooldown": 30000
+					},
+					{
+						"code": "idle",
+						"priority": 1.25,
+						"priorityForCancel": 1.35,
+						"animation": "sit",
+						"minduration": 8000,
+						"maxduration": 20000,
+						"mincooldown": 20000,
+						"maxcooldown": 60000
+					},
+					{
+						"code": "idle",
+						"priority": 1.2,
+						"priorityForCancel": 1.35,
+						"animation": "lookaround",
+						"minduration": 3000,
+						"maxduration": 5000,
+						"mincooldown": 6000,
+						"maxcooldown": 20000
+					},
+					{
+						"code": "idle",
+						"priority": 1.16,
+						"priorityForCancel": 1.35,
+						"animation": "wave",
+						"minduration": 3500,
+						"maxduration": 3500,
+						"mincooldown": 30000,
+						"maxcooldown": 90000
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"priorityForCancel": 1.35,
+						"movespeed": 0.014,
+						"animation": "walk",
+						"animationSpeed": 1.0,
+						"maxDistanceToSpawn": 24
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:player/hurt*",
+		"death": "game:player/death*"
+	}
+}

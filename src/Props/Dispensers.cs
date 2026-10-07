@@ -56,7 +56,7 @@ public class BlockEntityDispenser : BlockEntity
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        if (api.Side == EnumAppSide.Server && stock < 0) stock = api.World.Rand.Next(Restocks ? 4 : 2, Restocks ? 9 : 6);
+        if (api.Side == EnumAppSide.Server && stock < 0) stock = api.World.Rand.Next(Restocks ? 4 : 1, Restocks ? 9 : 4);
     }
 
     public void Dispense(IPlayer player)

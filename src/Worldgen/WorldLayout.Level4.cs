@@ -9,24 +9,56 @@ namespace Backrooms.Worldgen;
 /// papered over or shut behind blinds; the few left clear look out onto rain and fog that never ends. Safe and
 /// cool: drinking fountains, water coolers and vending machines still give Almond Water.
 ///
-/// Cells are either open-plan floors (columns, cubicle farms, break nooks, the occasional reception) or office
-/// blocks: a 2-wide corridor grid with small rooms between: offices (mostly emptied out, some locked), glass
-/// conference rooms, break rooms, copy rooms, server rooms, storerooms, a manager's office, stairwells and
-/// elevator lobbies. Corridors carry evacuation maps, fire alarms, clocks and the pale marks of pictures long
-/// taken down.
+/// Cells are either open-plan floors or office blocks. Open floors have columns on a regular grid, troffer rows,
+/// and in places the cubicle farms that once filled them, row after row continuing from one cell to the next, nearly
+/// all cleared out now: partitions round pale squares of carpet. Office blocks are a 2-wide corridor grid with small
+/// rooms between (offices, mostly emptied out, some locked; glass conference rooms, break rooms, copy rooms, server
+/// rooms, storerooms, a manager's office, restrooms), crossed every <see cref="L4ConcourseEvery"/> rooms by a
+/// broad, bright concourse. Stairs and elevators are found together, with restrooms, in building cores, about one in
+/// each region of two cells by two that is offices. Corridors carry evacuation maps, fire alarms, clocks and the pale marks of
+/// pictures long taken down. The windows are where the floor ends: the wall round the level, looking out on rain.
 /// </summary>
 public sealed partial class WorldLayout
 {
-    private const int L4ColumnGrid = 7;
+    private const int L4ColumnGrid = 8;
     private const int L4OfficeGrid = 8;
+    /// <summary>Every this many rooms of the office grid, each way, the rooms give way to a concourse.</summary>
+    private const int L4ConcourseEvery = 6;
+    /// <summary>Building cores: one per region of this many cells each way (where that cell is an office block).</summary>
+    private const int L4CoreRegion = 2;
 
     private const ulong SaltL4Zone = 0x4D01;
     private const ulong SaltL4Room = 0x4D02;
     private const ulong SaltL4Light = 0x4D03;
     private const ulong SaltL4Section = 0x4D04;
     private const ulong SaltL4Detail = 0x4D05;
+    private const ulong SaltL4Core = 0x4D06;
+    private const ulong SaltL4Farm = 0x4D07;
 
-    private enum L4Room { Office, Conference, Break, Copy, Server, Storage, Manager, Stairwell, Elevators }
+    private enum L4Room { Office, Conference, Break, Copy, Server, Storage, Manager, Stairwell, Elevators, Restroom }
+
+    /// <summary>Whether a position in an office block is part of a concourse rather than the grid of rooms.</summary>
+    private static bool L4Concourse(int gx, int gz) =>
+        Hashing.Mod(Hashing.FloorDiv(gx, L4OfficeGrid), L4ConcourseEvery) == 3 || Hashing.Mod(Hashing.FloorDiv(gz, L4OfficeGrid), L4ConcourseEvery) == 3;
+
+    /// <summary>Whether a position in an office block is out in a corridor or a concourse.</summary>
+    private static bool L4Corridor(int gx, int gz) =>
+        Hashing.Mod(gx, L4OfficeGrid) < 2 || Hashing.Mod(gz, L4OfficeGrid) < 2 || L4Concourse(gx, gz);
+
+    /// <summary>
+    /// The building core of a region, if the cell picked for it is an office block: four rooms of the office grid
+    /// in the middle of the cell, two elevator lobbies, a signed stairwell and a restroom, all round one crossing.
+    /// Returns the grid position of the core's first room.
+    /// </summary>
+    private (int RoomX, int RoomZ)? L4Core(int mx, int mz)
+    {
+        if (!RegionPick(mx, mz, L4CoreRegion, SaltL4Core, 0.95) || !IsOfficeBlock(mx, mz)) return null;
+        // The four rooms of the cell (it holds four by four) that no concourse runs through
+        bool Rooms(int i) => Hashing.Mod(i, L4ConcourseEvery) != 3 && Hashing.Mod(i + 1, L4ConcourseEvery) != 3;
+        int x0 = mx * MacroSize / L4OfficeGrid, z0 = mz * MacroSize / L4OfficeGrid;
+        int rx = Rooms(x0 + 1) ? x0 + 1 : Rooms(x0) ? x0 : x0 + 2, rz = Rooms(z0 + 1) ? z0 + 1 : Rooms(z0) ? z0 : z0 + 2;
+        return Rooms(rx) && Rooms(rz) ? (rx, rz) : null;
+    }
 
     private bool IsOfficeBlock(int mx, int mz) => Noise(mx / 3.0, mz / 3.0, SaltL4Zone) > 0.2;
 
@@ -38,23 +70,22 @@ public sealed partial class WorldLayout
         // Office corridor grids run straight across
         if (block && otherBlock) return edge;
 
-        if (!block && !otherBlock)
-        {
-            if (!rng.Chance(0.3)) return edge;
-            // A wall of windows onto the storm, with a way through somewhere along it
-            edge.Pattern = WallPattern.OfficeWindow;
-            for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
-            int gap = rng.Range(3, MacroSize - 6);
-            for (int k = gap; k < gap + 3; k++) edge.Tiles[k] = EdgeTile.Open;
-            return edge;
-        }
+        if (!block && !otherBlock) return edge; // one open floor
 
-        // Between an open floor and an office block: drywall with doorways, at the block's corridors
+        // Between an open floor and an office block: drywall with doorways at the block's corridors, and wide open
+        // where a concourse meets it
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
+        bool west = nx != mx;
         foreach (int at in new[] { rng.Range(0, 1) * L4OfficeGrid, 2 * L4OfficeGrid + rng.Range(0, 1) * L4OfficeGrid })
         {
             int start = Math.Max(1, at);
             edge.Tiles[start] = edge.Tiles[start + 1] = EdgeTile.Doorway;
+        }
+        for (int i = 1; i < MacroSize; i++)
+        {
+            int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
+            // Along the edge, not down it (a concourse running the length of the wall is not crossing it)
+            if (L4Concourse(west ? gx + 4 : gx, west ? gz : gz + 4) && L4Concourse(west ? gx - 4 : gx, west ? gz : gz - 4)) edge.Tiles[i] = EdgeTile.Open;
         }
         return edge;
     }
@@ -85,7 +116,12 @@ public sealed partial class WorldLayout
                 if (t.Ceiling == CeilingKind.Tile)
                 {
                     double c = Hashing.Unit(h << 20);
-                    if (c < 0.05) t.Worn = true;
+                    if (c < 0.05)
+                    {
+                        t.Worn = true;
+                        // Half the gaps have a cable hanging out of them
+                        if (c < 0.025) t.Pipe = c < 0.0125 ? Pipes.CableDroopX : Pipes.CableDroopZ;
+                    }
                     else if (c < 0.12) t.Overhead = Overheads.CeilingVent;
                     else if (c < 0.2) t.Overhead = Overheads.CeilingSprinkler;
                     else if (c < 0.24) t.Overhead = Overheads.CeilingStain;
@@ -124,15 +160,15 @@ public sealed partial class WorldLayout
             }
         }
 
-        // Darker rectangles where desks and cabinets once stood
-        int ghosts = rng.Range(4, 8);
-        for (int n = 0; n < ghosts; n++)
-        {
-            int x0 = rng.Range(2, MacroSize - 5), z0 = rng.Range(2, MacroSize - 4), w = rng.Range(2, 3), h = rng.Range(1, 2);
-            for (int z = z0; z <= z0 + h; z++)
-                for (int x = x0; x <= x0 + w; x++)
-                    if (b.At(x, z).Kind == TileKind.Floor) b.At(x, z).Floor = FloorKind.OfficeCarpetGhost;
-        }
+        // Darker rectangles where rows of desks once stood, in the same rows as the cubicles elsewhere
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
+                if (Noise(gx / 30.0, gz / 30.0, SaltL4Farm + 1) < 0.2) continue;
+                if (Hashing.Mod(gz, 9) is 3 or 4 or 6 && Hashing.Mod(gx, 4) is 1 or 2 && b.At(lx, lz).Kind == TileKind.Floor)
+                    b.At(lx, lz).Floor = FloorKind.OfficeCarpetGhost;
+            }
 
         // What little was left behind: a stack of chairs, boxes, a dead plant by a column, a lone chair
         for (int n = rng.Range(2, 5); n > 0; n--)
@@ -149,32 +185,33 @@ public sealed partial class WorldLayout
                 if (b.At(lx, lz).Kind == TileKind.Wall && b.At(lx + 1, lz).Kind == TileKind.Floor && b.At(lx + 1, lz).Variant == 0 && rng.Chance(0.15))
                     b.At(lx + 1, lz).Variant = Props.Ficus;
 
-        double feature = rng.NextDouble();
-        if (feature < 0.35) AddCubicleFarm(b, mx, mz);
-        else if (feature < 0.47) AddReception(b);
+        AddCubicleFarm(b, mx, mz);
+        if (rng.Chance(0.12)) AddReception(b);
         if (rng.Chance(0.3)) AddBreakNook(b);
     }
 
     /// <summary>
-    /// Rows of 3x3 cubicles back to back, each with a desk, a chair and an old computer, under full lights. Pattern
-    /// along Z repeats every 9: a 2-wide aisle, a row of cubicles opening onto it, a shared back partition, and a
-    /// row opening onto the next aisle. A few cubicles were cleared out.
+    /// Cubicle farms: rows of 3x3 cubicles back to back, laid out from block positions, so a farm runs on across
+    /// cells for as far as it goes. Along Z the pattern repeats every 9: a 2-wide aisle, a row of cubicles opening
+    /// onto it, a shared back partition, and a row opening onto the next aisle. Nearly all were cleared out long ago,
+    /// leaving the partitions round a pale square of carpet; here and there a whole patch is still as it was left,
+    /// each desk with its chair and its old computer.
     /// </summary>
     private void AddCubicleFarm(Builder b, int mx, int mz)
     {
         ref Rng rng = ref b.Rng;
-        int x0 = rng.Range(2, 8), z0 = rng.Range(2, 6);
-        int x1 = Math.Min(MacroSize - 2, x0 + rng.Range(14, 22)), z1 = Math.Min(MacroSize - 2, z0 + 18);
-        for (int z = z0; z <= z1; z++)
+        for (int z = 1; z < MacroSize - 1; z++)
         {
-            for (int x = x0; x <= x1; x++)
+            for (int x = 1; x < MacroSize - 1; x++)
             {
                 ref Tile tile = ref b.At(x, z);
-                if (tile.Kind != TileKind.Floor) continue;
-                int row = (z - z0) % 9, col = (x - x0) % 4;
-                tile.Floor = FloorKind.OfficeCarpet;
-                tile.Variant = 0;
+                if (tile.Kind != TileKind.Floor || tile.Variant != 0) continue;
                 int gx = mx * MacroSize + x, gz = mz * MacroSize + z;
+                // A farm, and a margin round the columns so they stand in the aisles
+                if (Noise(gx / 48.0, gz / 48.0, SaltL4Farm) < 0.25) continue;
+                int row = Hashing.Mod(gz, 9), col = Hashing.Mod(gx, 4);
+                tile.Floor = FloorKind.OfficeCarpet;
+                if (Hashing.Mod(gx, 24) < 2) row = 0; // a cross aisle every few cubicles
                 if (row <= 1)
                 {
                     if (Hashing.Mod(gx, 3) == 1 && row == 0) tile.Ceiling = Level4LightState(gx, gz, 0.15);
@@ -183,8 +220,9 @@ public sealed partial class WorldLayout
                 if (row == 5) { tile.Variant = Props.Partition; tile.Pier = ArchPier.West; continue; }
                 if (col == 0) { tile.Variant = Props.Partition; tile.Pier = ArchPier.North; continue; }
                 bool rowA = row < 5;
-                // Keyed on the whole cubicle (its first column, its band of rows in this floor), so it is cleared all at once
-                bool cleared = Hashing.Unit(Hashing.Hash(seed, gx - col, mz * 64 + (z - z0) / 9 * 2 + (rowA ? 0 : 1), SaltL4Room + 9)) < 0.3;
+                // Keyed on the whole cubicle, so it is cleared all at once; only in a few patches is anything left
+                bool intact = Noise(gx / 20.0, gz / 20.0, SaltL4Farm + 2) > 0.5;
+                bool cleared = Hashing.Unit(Hashing.Hash(seed, gx - col, Hashing.FloorDiv(gz, 9) * 2 + (rowA ? 0 : 1), SaltL4Room + 9)) < (intact ? 0.2 : 0.9);
                 if (col == 2 && (row == 3 || row == 7)) tile.Ceiling = Level4LightState(gx, gz, 0.15);
                 if (cleared)
                 {
@@ -239,6 +277,7 @@ public sealed partial class WorldLayout
     /// <summary>A grid of 2-wide corridors every 8 blocks with a 4x4 room in each block between.</summary>
     private void BuildOfficeBlock(Builder b, int mx, int mz)
     {
+        var core = L4Core(mx, mz);
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
@@ -247,6 +286,12 @@ public sealed partial class WorldLayout
                 if (tile.Kind != TileKind.Floor) continue;
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
                 int ix = Hashing.Mod(gx, L4OfficeGrid), iz = Hashing.Mod(gz, L4OfficeGrid);
+                if (L4Concourse(gx, gz))
+                {
+                    // A concourse: broad, bright, troffers in rows
+                    if (Hashing.Mod(gx, 3) == 1 && Hashing.Mod(gz, 4) == 2) tile.Ceiling = Level4LightState(gx, gz, 0.12);
+                    continue;
+                }
                 if (ix < 2 || iz < 2)
                 {
                     // Corridors: dim, a troffer at every crossing
@@ -258,10 +303,17 @@ public sealed partial class WorldLayout
                 ulong h = Hashing.Hash(seed, roomX, roomZ, SaltL4Room);
                 double kind = Hashing.Unit(h);
                 bool perimeter = ix == 2 || ix == 7 || iz == 2 || iz == 7;
-                L4Room room = kind < 0.42 ? L4Room.Office : kind < 0.53 ? L4Room.Conference : kind < 0.62 ? L4Room.Break
-                    : kind < 0.68 ? L4Room.Copy : kind < 0.73 ? L4Room.Server : kind < 0.78 ? L4Room.Storage
-                    : kind < 0.83 ? L4Room.Manager : kind < 0.92 ? L4Room.Stairwell : L4Room.Elevators;
+                L4Room room = kind < 0.47 ? L4Room.Office : kind < 0.58 ? L4Room.Conference : kind < 0.68 ? L4Room.Break
+                    : kind < 0.74 ? L4Room.Copy : kind < 0.79 ? L4Room.Server : kind < 0.86 ? L4Room.Storage
+                    : kind < 0.93 ? L4Room.Manager : L4Room.Restroom;
                 bool doorNorth = (int)((h >> 8) % 2) == 0;
+                // The building core: elevators, stairs and a restroom round one crossing, every door toward it
+                if (core is { } c && roomX - c.RoomX is 0 or 1 && roomZ - c.RoomZ is 0 or 1)
+                {
+                    int cdx = roomX - c.RoomX, cdz = roomZ - c.RoomZ;
+                    room = cdz == 0 ? L4Room.Elevators : cdx == 0 ? L4Room.Stairwell : L4Room.Restroom;
+                    doorNorth = cdz == 1;
+                }
                 // Some offices were locked when everyone left
                 bool locked = room == L4Room.Office && Hashing.Unit(h << 40) < 0.2;
 
@@ -391,6 +443,12 @@ public sealed partial class WorldLayout
                 if (iz == 3 && (ix == 4 || ix == 5)) Put(ref tile, Props.Bench, ArchPier.South);
                 else if (iz == 3 && (ix == 3 || ix == 6)) Put(ref tile, Props.Ficus, ArchPier.North);
                 break;
+            case L4Room.Restroom:
+                // Two stalls along the back wall, a row of basins on the side wall
+                if (iz == 6 && (ix == 3 || ix == 5)) Put(ref tile, Props.Toilet, ArchPier.North);
+                else if (ix == 4 && iz >= 5) Put(ref tile, Props.Partition, ArchPier.North);
+                else if (ix == 6 && iz is 3 or 4) Put(ref tile, Props.KitchenCounter, ArchPier.West, 1);
+                break;
         }
     }
 
@@ -418,7 +476,7 @@ public sealed partial class WorldLayout
                 double r = Hashing.Unit(h);
                 // In the office blocks, which side of this wall is a corridor?
                 var (fx, fz) = Step(gx, gz, face.Value);
-                bool corridor = office && (Hashing.Mod(fx, L4OfficeGrid) < 2 || Hashing.Mod(fz, L4OfficeGrid) < 2);
+                bool corridor = office && L4Corridor(fx, fz);
                 // Light switches beside doorways, on the inside
                 bool besideDoor = IsDoorAt(b, lx + 1, lz) || IsDoorAt(b, lx - 1, lz) || IsDoorAt(b, lx, lz + 1) || IsDoorAt(b, lx, lz - 1);
                 byte decor;

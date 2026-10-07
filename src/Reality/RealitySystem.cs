@@ -117,5 +117,7 @@ public class ItemAlmondWater : Item
         double stability = byEntity.WatchedAttributes.GetDouble("temporalStability", 1);
         double restored = Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
         byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + restored));
+        // ...and keeps the Dullers off for a while
+        Backrooms.Entities.AlmondWater.Drank(byEntity);
     }
 }

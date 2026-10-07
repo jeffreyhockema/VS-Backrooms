@@ -1,0 +1,285 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"flipflop": "backrooms:block/detail/flipflop"
+	},
+	"elements": [
+		{
+			"name": "Left",
+			"from": [
+				3,
+				0,
+				4
+			],
+			"to": [
+				7,
+				0.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"down": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Right",
+			"from": [
+				9,
+				0,
+				3
+			],
+			"to": [
+				13,
+				0.8,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"down": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapL",
+			"from": [
+				4.5,
+				0.8,
+				6
+			],
+			"to": [
+				5.5,
+				1.6,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapR",
+			"from": [
+				10.5,
+				0.8,
+				5
+			],
+			"to": [
+				11.5,
+				1.6,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#flipflop",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		}
+	]
+}

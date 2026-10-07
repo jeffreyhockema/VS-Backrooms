@@ -4,17 +4,19 @@ using System.Collections.Generic;
 namespace Backrooms.Worldgen;
 
 /// <summary>
-/// Level 2, "Pipe Dreams": narrow, dark concrete maintenance tunnels, 1-2 blocks wide, with pipes running along
-/// the ceiling and walls covered in pipework and machinery. Sparse caged lights in white or orange are wired in
-/// series, so whole sections are dark at once. It is hot, and food is scarce.
+/// Level 2, "Pipe Dreams": long, dark concrete maintenance tunnels stretching for miles, lined with pipes along the
+/// walls and the ceiling. Sparse caged lights in white or orange are wired in series, so a whole stretch of tunnel
+/// is dark at once. It is hot, and food is scarce.
 ///
-/// Each cell starts solid. Corridors are carved from every passage in the cell's edges (its own west/north
-/// edges and its neighbours' east/south ones) to one or two hubs, running straight in multiples of 5 blocks
-/// before turning, so all tunnels connect.
+/// <para>The tunnels run on a lattice. Every <see cref="L2Pitch"/> * <see cref="L2MainEvery"/> blocks is a main
+/// tunnel, three wide and unbroken, running straight on as far as anyone has followed it. Between the mains, one- and
+/// two-wide service tunnels every <see cref="L2Pitch"/> blocks form a maze of their own: a tree with a few loops,
+/// grown in from the mains, so many of them end blind. Where two mains cross there is sometimes a pump gallery, a
+/// wider hall with machinery along its walls.</para>
 ///
-/// Now and then a steel door is set in a tunnel wall. Most are locked, or open onto a small storeroom of shelves
-/// and a dead computer; a few, which look no different, open onto another level. Trolleys, toolboxes, wooden boxes
-/// and the pieces of dismantled machines lie about the tunnels without much rhyme or reason.
+/// <para>Now and then a steel door is set in a tunnel wall. Most are locked, or open onto a small storeroom of
+/// shelves and a dead computer; a few, which look no different, open onto another level. Trolleys, toolboxes, wooden
+/// boxes and the pieces of dismantled machines lie about the tunnels without much rhyme or reason.</para>
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -22,90 +24,158 @@ public sealed partial class WorldLayout
     private const ulong SaltL2Light = 0x2B02;
     private const ulong SaltL2Wall = 0x2B03;
     private const ulong SaltL2Door = 0x2B04;
+    private const ulong SaltL2Line = 0x2B05;
+    private const ulong SaltL2Tree = 0x2B06;
+    private const ulong SaltL2Gallery = 0x2B07;
 
-    private static Edge Level2Edge(ref Rng rng)
+    /// <summary>Distance between neighbouring tunnels of the lattice, each way.</summary>
+    private const int L2Pitch = 16;
+    /// <summary>Every this many tunnels is a main one.</summary>
+    private const int L2MainEvery = 4;
+
+    private int L2Line(int axis, int k) => k * L2Pitch + (int)(Hashing.Hash(seed, k, axis, SaltL2Line) % 5) - 2;
+
+    private static bool L2Main(int k) => Hashing.Mod(k, L2MainEvery) == 0;
+
+    private int L2Width(int axis, int k) => L2Main(k) ? 3 : Hashing.Unit(Hashing.Hash(seed, k, axis, SaltL2Line + 1)) < 0.4 ? 2 : 1;
+
+    /// <summary>Which unit (the block between tunnels, with the tunnels on its low sides) a coordinate lies in, along an axis.</summary>
+    private int L2UnitOf(int axis, int g)
     {
-        var edge = new Edge { Pattern = WallPattern.Tunnel };
-        for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
-        int passages = rng.Range(1, 3);
-        int spacing = (MacroSize - 4) / passages;
-        for (int n = 0; n < passages; n++)
+        int k = Hashing.FloorDiv(g, L2Pitch);
+        while (g < L2Line(axis, k)) k--;
+        while (g >= L2Line(axis, k + 1)) k++;
+        return k;
+    }
+
+    private PlanCache<HashSet<(int, int, int)>> l2Trees;
+
+    /// <summary>Whether a stretch of tunnel is there (see <see cref="PlanLatticeTree"/> for how stretches are named).</summary>
+    private bool L2Stretch(int axis, int line, int index)
+    {
+        if (L2Main(line)) return true;
+        int mcx = Hashing.FloorDiv(axis == 0 ? line : index, L2MainEvery), mcz = Hashing.FloorDiv(axis == 0 ? index : line, L2MainEvery);
+        return (l2Trees ??= new PlanCache<HashSet<(int, int, int)>>(256, (x, z) => PlanLatticeTree(x, z, L2MainEvery, SaltL2Tree, 0.5, 0.25, 0.2)))
+            .Get(mcx, mcz).Contains((axis, line, index));
+    }
+
+    /// <summary>What a block position is in the tunnels: rock, a tunnel running along an axis (with its stretch), a crossing, or a gallery.</summary>
+    private enum L2Part : byte { Rock, AlongX, AlongZ, Crossing, Gallery }
+
+    /// <summary>
+    /// The tunnel plan at a block position: what it is, the stretch of tunnel it belongs to (as a hash, for the lights
+    /// and leaks that go with the stretch), and where across the tunnel it lies (0 at the low side) of how wide.
+    /// </summary>
+    private (L2Part Part, ulong Stretch, int Across, int Width) L2At(int gx, int gz)
+    {
+        int kx = L2UnitOf(0, gx), kz = L2UnitOf(1, gz);
+        int wx = L2Width(0, kx), wz = L2Width(1, kz);
+        int ax = gx - L2Line(0, kx), az = gz - L2Line(1, kz);
+        bool inX = ax < wx, inZ = az < wz; // in the band of the north-south tunnel kx, of the west-east tunnel kz
+        if (L2InGallery(gx, gz)) return (L2Part.Gallery, Hashing.Hash(seed, kx, kz, SaltL2Gallery), 0, 0);
+        if (inX && inZ)
         {
-            int start = 2 + n * spacing + rng.Range(0, spacing - 3);
-            edge.Tiles[start] = EdgeTile.Open;
-            if (rng.Chance(0.6)) edge.Tiles[start + 1] = EdgeTile.Open;
+            bool open = L2Stretch(0, kx, kz) || L2Stretch(0, kx, kz - 1) || L2Stretch(1, kz, kx) || L2Stretch(1, kz, kx - 1);
+            return open ? (L2Part.Crossing, Hashing.Hash(seed, kx, kz, SaltL2Section), 0, 0) : default;
+        }
+        if (inX && L2Stretch(0, kx, kz)) return (L2Part.AlongZ, Hashing.Hash(seed, kx * 2, kz, SaltL2Section), ax, wx);
+        if (inZ && L2Stretch(1, kz, kx)) return (L2Part.AlongX, Hashing.Hash(seed, kz * 2 + 1, kx, SaltL2Section), az, wz);
+        return default;
+    }
+
+    /// <summary>
+    /// A pump gallery: at about one crossing of two mains in three, the main tunnel widens to seven blocks for
+    /// sixteen either side of the crossing, along one of the two.
+    /// </summary>
+    private bool L2InGallery(int gx, int gz)
+    {
+        const int span = L2Pitch * L2MainEvery;
+        int mx0 = Hashing.FloorDiv(gx + span / 2, span), mz0 = Hashing.FloorDiv(gz + span / 2, span); // nearest crossing of mains
+        int kx = mx0 * L2MainEvery, kz = mz0 * L2MainEvery;
+        ulong h = Hashing.Hash(seed, kx, kz, SaltL2Gallery);
+        if (Hashing.Unit(h) >= 0.33) return false;
+        int cx = L2Line(0, kx) + 1, cz = L2Line(1, kz) + 1; // middle of the crossing
+        bool alongX = (h >> 32 & 1) == 0;
+        int along = alongX ? gx - cx : gz - cz, across = alongX ? gz - cz : gx - cx;
+        return Math.Abs(along) <= 16 && Math.Abs(across) <= 3;
+    }
+
+    private Edge Level2Edge(int mx, int mz, bool west)
+    {
+        var edge = new Edge { Pattern = WallPattern.Tunnel, Planned = true };
+        bool[] walled = WalledNeighbours(2, mx, mz);
+        for (int i = 1; i < MacroSize; i++)
+        {
+            int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
+            bool open = L2At(gx, gz).Part != L2Part.Rock || (west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0));
+            edge.Tiles[i] = open ? EdgeTile.Open : EdgeTile.Wall;
         }
         return edge;
     }
 
     private void BuildLevel2(Builder b, int mx, int mz, Edge west, Edge north)
     {
-        ref Rng rng = ref b.Rng;
         var open = new bool[MacroSize * MacroSize];
         var machineRoom = new bool[MacroSize * MacroSize];
         var storeroom = new bool[MacroSize * MacroSize];
 
-        // Entry points just inside each passage, with the direction pointing into the cell
-        var portals = new List<(int X, int Z, int Dx, int Dz)>();
-        foreach (int i in Passages(west)) { open[TileIndex(0, i)] = true; portals.Add((1, i, 1, 0)); }
-        foreach (int i in Passages(north)) { open[TileIndex(i, 0)] = true; portals.Add((i, 1, 0, 1)); }
-        foreach (int i in Passages(GetEdge(mx + 1, mz, west: true))) portals.Add((MacroSize - 1, i, -1, 0));
-        foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) portals.Add((i, MacroSize - 1, 0, -1));
-
-        var hub = (X: rng.Range(8, 23), Z: rng.Range(8, 23));
-        int wide = rng.Chance(0.5) ? 2 : 1;
-        foreach (var p in portals)
-        {
-            int run = 5 * rng.Range(1, 3);
-            int x = p.X, z = p.Z;
-            for (int k = 0; k < run && InCarveArea(x + p.Dx, z + p.Dz); k++)
-            {
-                Carve(open, x, z, 1);
-                x += p.Dx;
-                z += p.Dz;
-            }
-            CarvePath(open, ref rng, x, z, hub.X, hub.Z, wide);
-        }
-
-        if (rng.Chance(0.4))
-        {
-            // A second hub, and dead-end branches for good measure
-            var hub2 = (X: rng.Range(4, 27), Z: rng.Range(4, 27));
-            CarvePath(open, ref rng, hub.X, hub.Z, hub2.X, hub2.Z, wide);
-        }
-        int branches = rng.Range(0, 2);
-        for (int n = 0; n < branches; n++)
-        {
-            int len = 5 * rng.Range(1, 3);
-            int dx = rng.Chance(0.5) ? 1 : 0, dz = 1 - dx, sign = rng.Chance(0.5) ? 1 : -1;
-            int x = hub.X, z = hub.Z;
-            for (int k = 0; k < len && InCarveArea(x + dx * sign, z + dz * sign); k++) { x += dx * sign; z += dz * sign; Carve(open, x, z, 1); }
-        }
-
-        if (rng.Chance(0.2))
-        {
-            // A cramped machine room off the hub
-            int w = rng.Range(4, 6), h = rng.Range(4, 7);
-            int x0 = Math.Clamp(hub.X - w / 2, 2, MacroSize - 2 - w), z0 = Math.Clamp(hub.Z - h / 2, 2, MacroSize - 2 - h);
-            for (int z = z0; z < z0 + h; z++)
-                for (int x = x0; x < x0 + w; x++)
-                    open[TileIndex(x, z)] = machineRoom[TileIndex(x, z)] = true;
-        }
-
-        // Turn the carved plan into tiles
+        // Lay the tunnels down from the plan, with their pipes and their lights
         for (int lz = 0; lz < MacroSize; lz++)
-        {
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile tile = ref b.At(lx, lz);
                 tile.Floor = FloorKind.Concrete;
-                if (tile.Kind != TileKind.Floor) continue; // edge walls and doorways
-                if (!open[TileIndex(lx, lz)]) SetWall(ref tile, WallPattern.Tunnel, BaseStyle.Plain);
+                if (lx == 0 && !west.Planned || lz == 0 && !north.Planned || tile.Tall) continue; // a wall between levels
+                int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz, index = TileIndex(lx, lz);
+                var at = L2At(gx, gz);
+                if (at.Part == L2Part.Rock)
+                {
+                    if (tile.Kind == TileKind.Floor || lx == 0 || lz == 0) SetWall(ref tile, WallPattern.Tunnel, BaseStyle.Plain);
+                    continue;
+                }
+                tile.Kind = TileKind.Floor;
+                open[index] = true;
+                if (at.Part == L2Part.Gallery) { machineRoom[index] = true; continue; }
+                PipeAndLight(ref tile, at, gx, gz);
             }
-        }
+        CarveEdgeHall(b, mx, mz, west, north);
+        for (int i = 0; i < open.Length; i++) open[i] |= b.Tiles[i].Kind == TileKind.Floor;
 
         AddTunnelDoors(b, open, storeroom);
         DecorateTunnels(b, mx, mz, machineRoom, storeroom);
+    }
+
+    /// <summary>
+    /// The pipes over a tunnel and its lights. Pipe bundles run the length of every tunnel, three side by side over a
+    /// main, meeting at junction boxes over the crossings; some stretches leak. Caged fixtures hang down the middle,
+    /// every eight blocks along a main and six along the rest; each stretch is one circuit wired in series, so it is
+    /// all lit, all dead, or all failing, and all white or all orange.
+    /// </summary>
+    private void PipeAndLight(ref Tile tile, (L2Part Part, ulong Stretch, int Across, int Width) at, int gx, int gz)
+    {
+        double circuit = Hashing.Unit(at.Stretch), leaks = Hashing.Unit(at.Stretch << 20);
+        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL2Light));
+        bool fixture;
+        if (at.Part == L2Part.Crossing)
+        {
+            tile.Pipe = Pipes.Hub;
+            fixture = false;
+        }
+        else
+        {
+            bool alongX = at.Part == L2Part.AlongX;
+            bool leak = leaks < 0.15 && r < 0.3;
+            tile.Pipe = alongX ? (leak ? Pipes.LeakX : Pipes.RunX) : (leak ? Pipes.LeakZ : Pipes.RunZ);
+            int spacing = at.Width == 3 ? 8 : 6;
+            fixture = at.Across == (at.Width - 1) / 2 && Hashing.Mod(alongX ? gx : gz, spacing) == 0;
+        }
+        if (!fixture) return;
+        if (tile.Pipe == Pipes.LeakX) tile.Pipe = Pipes.RunX;
+        if (tile.Pipe == Pipes.LeakZ) tile.Pipe = Pipes.RunZ;
+        tile.Ceiling = circuit < 0.3 ? CeilingKind.LightOff
+            : circuit < 0.4 ? (r < 0.7 ? CeilingKind.LightFlicker : CeilingKind.LightOff)
+            : r < 0.05 ? CeilingKind.LightOff
+            : ((at.Stretch >> 40) & 1) == 0 ? CeilingKind.LightWarm : CeilingKind.LightOn;
     }
 
     /// <summary>
@@ -173,32 +243,6 @@ public sealed partial class WorldLayout
         }
     }
 
-    private static bool InCarveArea(int x, int z) => x >= 1 && z >= 1 && x < MacroSize && z < MacroSize;
-
-    private static void Carve(bool[] open, int x, int z, int width)
-    {
-        for (int dz = 0; dz < width; dz++)
-            for (int dx = 0; dx < width; dx++)
-                if (InCarveArea(x + dx, z + dz)) open[TileIndex(x + dx, z + dz)] = true;
-    }
-
-    /// <summary>An L-shaped tunnel between two points, choosing at random which leg comes first.</summary>
-    private static void CarvePath(bool[] open, ref Rng rng, int x0, int z0, int x1, int z1, int width)
-    {
-        bool xFirst = rng.Chance(0.5);
-        int x = x0, z = z0;
-        Carve(open, x, z, width);
-        for (int leg = 0; leg < 2; leg++)
-        {
-            bool alongX = xFirst == (leg == 0);
-            while (alongX ? x != x1 : z != z1)
-            {
-                if (alongX) x += Math.Sign(x1 - x); else z += Math.Sign(z1 - z);
-                Carve(open, x, z, width);
-            }
-        }
-    }
-
     private void DecorateTunnels(Builder b, int mx, int mz, bool[] machineRoom, bool[] storeroom)
     {
         bool InCell(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize;
@@ -249,11 +293,16 @@ public sealed partial class WorldLayout
                 int index = TileIndex(lx, lz);
 
                 // Overhead pipe bundles follow every tunnel, meeting at junction boxes where tunnels turn or branch
+                // (the tunnels of the plan have theirs already; this is for the galleries and the hallway round the edge)
+                bool planned = tile.Pipe != 0;
                 if (machineRoom[index])
                 {
                     // Pipes only run along the walls of machine rooms
                     if (IsWall(lx, lz - 1) || IsWall(lx, lz + 1)) tile.Pipe = Pipes.RunX;
                     else if (IsWall(lx - 1, lz) || IsWall(lx + 1, lz)) tile.Pipe = Pipes.RunZ;
+                }
+                else if (planned)
+                {
                 }
                 else if (alongX || alongZ)
                 {
@@ -266,7 +315,7 @@ public sealed partial class WorldLayout
                 }
 
                 // Fluorescent fixtures every 6 blocks along a tunnel, on circuits that fail by section
-                bool fixture = alongX ? Hashing.Mod(gx, 6) == 0
+                bool fixture = planned ? false : alongX ? Hashing.Mod(gx, 6) == 0
                     : alongZ ? Hashing.Mod(gz, 6) == 0
                     : Hashing.Mod(gx, 6) == 0 && Hashing.Mod(gz, 6) == 0;
                 if (fixture)

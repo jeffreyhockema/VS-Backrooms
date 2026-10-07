@@ -176,6 +176,46 @@
 				"avg": 0.6,
 				"var": 0.5
 			}
+		},
+		{
+			"type": "item",
+			"code": "prybar",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "seedpacket-turnip",
+			"quantity": {
+				"avg": 0.12,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "seedpacket-carrot",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "seedpacket-onion",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "seedpacket-flax",
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			}
 		}
 	]
 }

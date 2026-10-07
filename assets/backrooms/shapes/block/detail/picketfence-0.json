@@ -1,0 +1,147 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"picket": "backrooms:block/detail/picket"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.5,
+				0,
+				6.5
+			],
+			"to": [
+				9.5,
+				15,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						15
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostCap",
+			"from": [
+				7,
+				15,
+				7
+			],
+			"to": [
+				9,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#picket",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

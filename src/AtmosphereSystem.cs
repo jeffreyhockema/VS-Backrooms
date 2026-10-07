@@ -21,9 +21,9 @@ namespace Backrooms;
 /// while something scuttles, breathes or whispers out in it. Level 7 darkens as you dive.
 ///
 /// It also darkens the world during a Reality Shift (the lights fail: everything beyond a few steps is lost in
-/// black, with the odd flash as the power fights back), blinks to black for a moment when the player is carried
-/// somewhere else by an elevator, a pit or a door that opens onto the wrong place, and names each level as the
-/// player enters it.
+/// black, with the odd flash as the power fights back) and a Level 1 Flickering (the same, round the player only),
+/// blinks to black for a moment when the player is carried somewhere else by an elevator, a pit or a door that opens
+/// onto the wrong place, and names each level as the player enters it.
 /// </summary>
 public class AtmosphereSystem : ModSystem
 {
@@ -69,7 +69,28 @@ public class AtmosphereSystem : ModSystem
         new(0.006f, 0.62f, 0.64f, 0.66f, -0.14f, scene: 0.6f, sceneWeight: 0.35f, clouds: 0.95f, openSky: true),
         // Level 11: the city's own day and night, under a thin haze that softens the towers at a distance
         new(0.0045f, 0.70f, 0.72f, 0.76f, 0f, sceneWeight: 0f, openSky: true),
+        // Level 37: clear, pale and faintly teal, the white tile showing a long way off
+        new(0.0035f, 0.86f, 0.93f, 0.91f, 0f),
+        // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop
+        new(0.0022f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, openSky: true),
     };
+
+    /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
+    private static readonly Atmosphere Reservoir = new(0.03f, 0.18f, 0.02f, 0.03f, 0f);
+
+    /// <summary>Level 94's castle: nothing in here is animated, and the air is plain; its blinding halls are white.</summary>
+    private static readonly Atmosphere Castle = new(0.004f, 0.90f, 0.88f, 0.86f, 0f);
+    private static readonly Atmosphere Blinding = new(0.07f, 1f, 1f, 1f, 0f, scene: 1.3f);
+
+    /// <summary>Title keys for the Reservoir (level-371) and the castle (level-941) in the lang file.</summary>
+    private const int ReservoirKey = 371, CastleKey = 941;
+
+    /// <summary>How far off the Reservoir's chanting is heard, and a siren pole's tune.</summary>
+    private const int ChantHeard = 160, TuneHeard = 72;
+
+    private ILoadedSound poolTone, sirenTune;
+    private string sirenPlaying;
+    private float nextChant = 6, nextPoolSound = 8;
 
     /// <summary>Level 6.1: bright, warm and clean, the food court lights all on.</summary>
     private static readonly Atmosphere Snackrooms = new(0.002f, 0.95f, 0.85f, 0.68f, 0f);
@@ -98,11 +119,16 @@ public class AtmosphereSystem : ModSystem
 
     private static readonly string[] DarkSounds = { "scuttle", "breath", "whisper" };
 
+    /// <summary>How far off, in Level 6, the stairs down can be heard: the faint sound of waves from below.</summary>
+    private const int WavesHeard = 160;
+
     private ICoreClientAPI capi;
     private WorldLayout layout;
     private WorldGeometry geometry;
     private RealitySystem reality;
     private AmbientModifier fog;
+    private float mangledFog;
+    private static readonly float[] MangledGrey = { 0.36f, 0.38f, 0.41f };
     private readonly Random rand = new();
 
     // The level's own atmosphere, eased towards as the player moves; darkness is laid over it
@@ -116,6 +142,8 @@ public class AtmosphereSystem : ModSystem
     private float flash;
     private float reveal;
     private float nextDarkSound = 20;
+    private float nextWaves = 4;
+    private float flicker;
     private bool shiftWasActive, shiftSeen;
 
     // Which level the player was last in, and when each level's name was last shown
@@ -165,8 +193,13 @@ public class AtmosphereSystem : ModSystem
         bool spectator = capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Spectator;
         bool dark = level == 6 && !snack && !spectator;
         bool red = level == 0 && layout.IsRedRoom(mx, mz);
-        Atmosphere target = snack ? Snackrooms : red ? RedRooms : Levels[level];
-        AnnounceLevel(snack ? 61 : red ? RedRoomsKey : level);
+        bool reservoir = level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz);
+        int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
+        bool castle = level == WorldLayout.Motion && layout.InCastle(bx, bz) && pos.Y > geometry.FloorFor(level) + WorldLayout.MountainHeight - 1;
+        bool blinding = castle && layout.TileAt(bx, bz).Zone == 4;
+        Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle : Levels[level];
+        AnnounceLevel(snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level);
+        LevelSounds(dt, pos, level, reservoir, castle);
 
         // A sudden jump means the player was carried somewhere else: blink to black, and arrive in the new
         // level's own air rather than easing into it
@@ -179,8 +212,13 @@ public class AtmosphereSystem : ModSystem
         lastPos.Set(pos.X, pos.Y, pos.Z);
         blink = Math.Max(0f, blink - dt / 1.5f);
 
-        // Reality Shift: the lights fail, with the odd flash as they fight back
-        float shift = (float)(reality?.ShiftStrength ?? 0);
+        // Reality Shift: the lights fail, with the odd flash as they fight back. A Level 1 Flickering does the same to
+        // the player's own stretch of the Habitable Zone for a minute or two (the server sets when it ends)
+        double flickerUntil = entity.WatchedAttributes.GetDouble(Entities.MenaceSystem.FlickerKey, -1);
+        float flickerTarget = level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil ? 0.85f : 0f;
+        flicker += (flickerTarget - flicker) * Math.Min(1f, dt * (flickerTarget > flicker ? 6f : 1.5f));
+        if (flicker < 0.01f) flicker = 0f;
+        float shift = Math.Max((float)(reality?.ShiftStrength ?? 0), flicker);
         // (A shift already under way when the player joins makes no sound)
         if (!shiftSeen) { shiftWasActive = shift > 0; shiftSeen = true; }
         if (shift > 0 && !shiftWasActive)
@@ -213,10 +251,30 @@ public class AtmosphereSystem : ModSystem
             groundFog = 0f;
             for (int i = 0; i < 3; i++) targetColor[i] = GameMath.Lerp(targetColor[i], 0.003f, deep);
         }
+        else if (level == WorldLayout.Poolrooms && entity.IsEyesSubmerged())
+        {
+            // Under the Poolrooms' water: clear teal, darker the deeper you go; in the Reservoir, red and close
+            float deep = GameMath.Clamp((float)(geometry.FloorFor(level) - pos.Y) / 20f, 0f, 1f);
+            density = reservoir ? 0.09f : GameMath.Lerp(0.035f, 0.09f, deep);
+            groundFog = 0f;
+            targetColor[0] = reservoir ? 0.14f : GameMath.Lerp(0.30f, 0.03f, deep);
+            targetColor[1] = reservoir ? 0.01f : GameMath.Lerp(0.62f, 0.10f, deep);
+            targetColor[2] = reservoir ? 0.02f : GameMath.Lerp(0.56f, 0.12f, deep);
+        }
+        // The Mangled's weather: a cold grey fog closing in round the player (the server says how thick)
+        float mangled = entity.WatchedAttributes.GetFloat(Entities.MangledEvent.FogKey, 0f);
+        mangledFog += (mangled - mangledFog) * Math.Min(1f, dt * 0.8f);
+        if (mangledFog > 0.01f)
+        {
+            density = GameMath.Lerp(density, 0.075f, mangledFog);
+            fogMin = Math.Max(fogMin, 0.3f * mangledFog);
+            groundFog = GameMath.Lerp(groundFog, -0.2f, mangledFog);
+            for (int i = 0; i < 3; i++) targetColor[i] = GameMath.Lerp(targetColor[i], MangledGrey[i], mangledFog);
+        }
         reveal = Math.Max(0f, reveal - dt * 5f);
 
         // Under water anywhere else, let the game's own water fog through
-        float ownTarget = level != 7 && entity.IsEyesSubmerged() ? 0f : 1f;
+        float ownTarget = level is not (7 or WorldLayout.Poolrooms) && entity.IsEyesSubmerged() ? 0f : 1f;
 
         // Ease towards the level's own atmosphere over a couple of seconds (faster in and out of the dark);
         // darkness is applied on top at once
@@ -253,6 +311,87 @@ public class AtmosphereSystem : ModSystem
         fog.FlatFogYPos.Value = geometry.FloorY + GroundFogHeight - capi.World.SeaLevel;
     }
 
+    /// <summary>
+    /// The sounds of Levels 37 and 94. In the Poolrooms: the soft wash of the water everywhere, a drip or a lap now and
+    /// then, and from the way the nearest Reservoir lies, a chanting that grows as you near it. In Motion: by day the
+    /// nearest siren pole's tune (slowed and gone flat in the last hours of the afternoon); at dusk it stops.
+    /// </summary>
+    private void LevelSounds(float dt, EntityPos pos, int level, bool reservoir, bool castle)
+    {
+        // The Poolrooms' room tone
+        bool pool = level == WorldLayout.Poolrooms;
+        if (pool && poolTone == null)
+        {
+            poolTone = capi.World.LoadSound(new SoundParams
+            {
+                Location = new AssetLocation("backrooms:sounds/ambient/poolroom"), ShouldLoop = true, RelativePosition = true,
+                DisposeOnFinish = false, Volume = 0.45f, SoundType = EnumSoundType.Ambient,
+            });
+            poolTone?.Start();
+        }
+        else if (!pool && poolTone != null)
+        {
+            poolTone.Stop();
+            poolTone.Dispose();
+            poolTone = null;
+        }
+        if (pool)
+        {
+            nextPoolSound -= dt;
+            if (nextPoolSound <= 0)
+            {
+                nextPoolSound = 7 + (float)rand.NextDouble() * 14;
+                double yaw = rand.NextDouble() * Math.PI * 2, dist = 5 + rand.NextDouble() * 12;
+                string what = rand.NextDouble() < 0.6 ? "pooldrip" : "poollap";
+                // Now and then, in the dark, the water swells until it drowns out everything else
+                bool swell = layout.TileAt((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z)).Detail == WorldLayout.PoolDark && rand.NextDouble() < 0.2;
+                capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/" + (swell ? "poollap" : what)), pos.X + Math.Sin(yaw) * dist,
+                    pos.Y + 0.5, pos.Z + Math.Cos(yaw) * dist, null, randomizePitch: true, range: 32, volume: swell ? 1f : 0.45f);
+            }
+            nextChant -= dt;
+            if (nextChant <= 0)
+            {
+                nextChant = 10 + (float)rand.NextDouble() * 6; // the chant runs nine seconds
+                if (layout.NearestReservoir((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z), ChantHeard) is { } far)
+                {
+                    double dx = far.X + 0.5 - pos.X, dz = far.Z + 0.5 - pos.Z, away = Math.Max(0.5, Math.Sqrt(dx * dx + dz * dz));
+                    double at = Math.Min(away, 8);
+                    float closeness = reservoir ? 1f : (float)Math.Max(0, 1 - away / ChantHeard);
+                    capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/chant"), pos.X + dx / away * at, pos.Y + 0.5, pos.Z + dz / away * at,
+                        null, randomizePitch: false, range: 24, volume: 0.05f + 0.45f * closeness * closeness);
+                }
+            }
+        }
+
+        // Motion's siren poles, by day
+        string tune = null;
+        (int X, int Z)? pole = null;
+        if (level == WorldLayout.Motion && !castle && !Regions.MotionSystem.IsNight(capi.World.Calendar))
+        {
+            pole = layout.NearestSirenPole((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z), TuneHeard);
+            if (pole != null) tune = Regions.MotionSystem.IsDusk(capi.World.Calendar) ? "sirentune-dusk" : "sirentune";
+        }
+        if (tune != sirenPlaying || tune != null && sirenTune != null && sirenTune.Params.Position is { } at0
+            && (Math.Abs(at0.X - (pole.Value.X + 0.5)) > 1 || Math.Abs(at0.Z - (pole.Value.Z + 0.5)) > 1))
+        {
+            sirenTune?.Stop();
+            sirenTune?.Dispose();
+            sirenTune = null;
+            sirenPlaying = tune;
+            if (tune != null)
+            {
+                int ground = geometry.FloorFor(level) + layout.TileAt(pole.Value.X, pole.Value.Z).Height;
+                sirenTune = capi.World.LoadSound(new SoundParams
+                {
+                    Location = new AssetLocation("backrooms:sounds/ambient/" + tune), ShouldLoop = true, DisposeOnFinish = false,
+                    Position = new Vec3f(pole.Value.X + 0.5f, ground + 3.5f, pole.Value.Z + 0.5f), Range = TuneHeard, Volume = 0.9f,
+                    SoundType = EnumSoundType.Ambient,
+                });
+                sirenTune?.Start();
+            }
+        }
+    }
+
     /// <summary>Names the level the player has just walked or fallen into, with a word of advice for the worst.</summary>
     private void AnnounceLevel(int key)
     {
@@ -273,10 +412,28 @@ public class AtmosphereSystem : ModSystem
         }, first ? 3000 : 400);
     }
 
-    /// <summary>In Level 6's dark: the odd flash of the real place around you, and things heard but never seen.</summary>
+    /// <summary>
+    /// In Level 6's dark: the odd flash of the real place around you, things heard but never seen, and, if there are
+    /// stairs down anywhere near, the faint sound of waves from the way they lie, louder the nearer you come.
+    /// </summary>
     private void DarkEvents(float dt, EntityPos pos)
     {
         if (rand.NextDouble() < dt / 75.0) reveal = 1f;
+
+        nextWaves -= dt;
+        if (nextWaves <= 0)
+        {
+            nextWaves = 13 + (float)rand.NextDouble() * 8; // the sound runs twelve seconds
+            if (layout.NearestDescent((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z), WavesHeard) is { } stairs)
+            {
+                double dx = stairs.X + 0.5 - pos.X, dz = stairs.Z + 0.5 - pos.Z, away = Math.Max(0.5, Math.Sqrt(dx * dx + dz * dz));
+                // Played a little way off toward the stairs, so it has a direction even when they are far out of range
+                double at = Math.Min(away, 8);
+                float closeness = (float)Math.Max(0, 1 - away / WavesHeard);
+                capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/waves"),
+                    pos.X + dx / away * at, pos.Y + 0.5, pos.Z + dz / away * at, null, randomizePitch: false, range: 24, volume: 0.06f + 0.5f * closeness * closeness);
+            }
+        }
 
         nextDarkSound -= dt;
         if (nextDarkSound > 0) return;

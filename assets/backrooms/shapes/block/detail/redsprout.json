@@ -1,0 +1,384 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"redsprout": "backrooms:block/detail/redsprout"
+	},
+	"elements": [
+		{
+			"name": "Stem1",
+			"from": [
+				5,
+				0,
+				6
+			],
+			"to": [
+				6,
+				7,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Stem2",
+			"from": [
+				9,
+				0,
+				9
+			],
+			"to": [
+				10,
+				9,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Stem3",
+			"from": [
+				7,
+				0,
+				4
+			],
+			"to": [
+				8,
+				5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Bud1",
+			"from": [
+				4.5,
+				7,
+				5.5
+			],
+			"to": [
+				6.5,
+				8.5,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Bud2",
+			"from": [
+				8.5,
+				9,
+				8.5
+			],
+			"to": [
+				10.5,
+				10.5,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#redsprout",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

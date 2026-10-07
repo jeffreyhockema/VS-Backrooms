@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Backrooms.Map;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -59,6 +60,8 @@ public class ThresholdSystem : ModSystem
 
     // Per-player cache of the cell they are standing in, so the tick does not rebuild it every time
     private readonly Dictionary<string, (int Mx, int Mz, Tile[] Tiles)> cellCache = new();
+    // Where each player was at the last tick, to notice them walking through a gate into another level
+    private readonly Dictionary<string, (int Level, double X, double Z)> lastSpot = new();
 
     public override void Start(ICoreAPI api)
     {
@@ -93,12 +96,16 @@ public class ThresholdSystem : ModSystem
                 cellCache.Remove(player.PlayerUID);
                 preloadedPit.Remove(player.PlayerUID);
                 inThinSpot.Remove(player.PlayerUID);
+                lastSpot.Remove(player.PlayerUID);
             };
         });
     }
 
     /// <summary>The level at a block position.</summary>
     public int LevelAt(BlockPos pos) => layout?.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z)) ?? -1;
+
+    /// <summary>Whether using the threshold block at a position would take someone somewhere (rather than being locked, out of order or nowhere).</summary>
+    public bool LeadsSomewhere(BlockPos pos, string kind) => network != null && network.Used(pos.X, pos.Z, kind, out _) != null;
 
     /// <summary>How many thresholds have had their destination (or their way back) written down so far.</summary>
     public int LinkCount => network?.Count ?? 0;
@@ -109,6 +116,13 @@ public class ThresholdSystem : ModSystem
     public void Use(IServerPlayer player, BlockPos pos, string kind)
     {
         if (network == null || IsBusy(player) || !CanTravel(player)) return;
+        // The throne room's doors are no part of the network: only one opens, and a different one each day
+        if (kind == "thronedoor")
+        {
+            busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + 1500;
+            sapi.ModLoader.GetModSystem<Regions.MotionSystem>()?.UseThroneDoor(player, pos);
+            return;
+        }
         Passage passage = network.Used(pos.X, pos.Z, kind, out string refusal);
         if (passage == null)
         {
@@ -161,10 +175,21 @@ public class ThresholdSystem : ModSystem
                     busyUntilMs.Remove(rider.PlayerUID);
                     continue;
                 }
+                Remember(rider, boarded[rider.PlayerUID], arrival, twoWay: true);
                 Arrive(rider, arrival);
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
         }, ElevatorRideMs);
+    }
+
+    /// <summary>Carries whoever has just won the King's trial out of the throne room, where his table sends them.</summary>
+    public void CarryFromTrial(IServerPlayer player)
+    {
+        if (network == null || !CanTravel(player)) return;
+        // The second chair, at the foot of the King's table
+        (int X, int Z) chair = (layout.MotionOriginX - WorldLayout.CastleSize / 2 + 27, layout.MotionOriginZ - WorldLayout.CastleSize / 2 + 31);
+        Passage passage = network.Trial(chair);
+        Go(player, passage, network.Take(passage, null));
     }
 
     /// <summary>
@@ -210,6 +235,7 @@ public class ThresholdSystem : ModSystem
 
             int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
             int level = layout.LevelAt(mx, mz);
+            NoticeGate(player, level, pos);
             if (level is 2 or 3 or 8) continue;
 
             Tile tile = CellOf(player, mx, mz)[WorldLayout.TileIndex(x - mx * WorldLayout.MacroSize, z - mz * WorldLayout.MacroSize)];
@@ -219,6 +245,8 @@ public class ThresholdSystem : ModSystem
 
             Passage passage = network.Walked(x, z, tile, rel);
             if (passage == null) continue;
+            // Level 94's rusted gates open only at twilight; at any other hour they are only a gate
+            if (passage.Twilight && !Regions.MotionSystem.IsTwilight(sapi.World.Calendar)) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeBeside(passage.Source) : null));
         }
     }
@@ -255,9 +283,37 @@ public class ThresholdSystem : ModSystem
 
     private bool Go(IServerPlayer player, Passage passage, Link? destination)
     {
+        if (destination is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay);
         if (!Arrive(player, destination)) return false;
         if (passage.Message != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(passage.Message), EnumChatType.Notification);
         return true;
+    }
+
+    /// <summary>
+    /// Marks on the player's map the way they just took (where they left from, and where it goes), and if they can come
+    /// back the same way, the way back where they arrive. Each is marked once.
+    /// </summary>
+    private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay)
+    {
+        string there = MapMarks.LevelName(layout, to.X, to.Z), here = MapMarks.LevelName(layout, from.X, from.Z);
+        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), "spiral", MapMarks.WayColor, 6);
+        if (twoWay) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), "spiral", MapMarks.WayColor, 6);
+    }
+
+    /// <summary>
+    /// Walking (not being taken) from one level into the next means going through a gate in the wall between them:
+    /// it is marked on the map the first time.
+    /// </summary>
+    private void NoticeGate(IServerPlayer player, int level, EntityPos pos)
+    {
+        bool known = lastSpot.TryGetValue(player.PlayerUID, out var last);
+        lastSpot[player.PlayerUID] = (level, pos.X, pos.Z);
+        if (!known || last.Level == level) return;
+        double dx = pos.X - last.X, dz = pos.Z - last.Z;
+        if (dx * dx + dz * dz > 6 * 6) return; // taken, not walked
+        if (WorldLayout.IsOpenSky(level) && WorldLayout.IsOpenSky(last.Level)) return; // no wall there to have a gate in
+        string a = MapMarks.LevelName(layout, last.X, last.Z), b = MapMarks.LevelName(layout, pos.X, pos.Z);
+        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColor, 16);
     }
 
     /// <summary>
@@ -271,7 +327,7 @@ public class ThresholdSystem : ModSystem
         (int X, int Z)? arrival = null;
         for (int attempt = 0; attempt < 4 && arrival == null; attempt++, key = Hashing.Mix(key)) arrival = layout.FindArrival(level, key, anchor);
         if (arrival is not { } a) return Arrive(player, null);
-        return Arrive(player, new Link(a.X + 0.5, geometry.FloorFor(level) + ThresholdNetwork.StandHeight, a.Z + 0.5, false));
+        return Arrive(player, new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false));
     }
 
     private bool Arrive(IServerPlayer player, Link? destination)
@@ -284,9 +340,18 @@ public class ThresholdSystem : ModSystem
         }
         if (link.Marker) inThinSpot[player.PlayerUID] = true; // they arrive standing in it
         busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + CooldownMs;
+        // Nobody walks into Level 94: you fall into it, out of a rectangle of black in the sky, and land softly on the
+        // grass. (The thin spot back is on the ground; the fall is over before anyone could step back into it.)
+        double drop = 0;
+        if (layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(link.X)), WorldLayout.MacroOf((int)Math.Floor(link.Z))) == WorldLayout.Motion)
+        {
+            drop = Regions.MotionSystem.SkyDrop;
+            busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + CooldownMs + 6000;
+            Regions.MotionSystem.LandSoftly(player.Entity, sapi.World);
+        }
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is
-        player.Entity.TeleportToDouble(link.X, link.Y, link.Z, link.Marker ? () => LeaveThinSpot(link) : null);
+        player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, link.Marker ? () => LeaveThinSpot(link) : null);
         return true;
     }
 
@@ -342,6 +407,9 @@ public class ThresholdSystem : ModSystem
 public class BlockBehaviorThreshold : BlockBehavior
 {
     private string kind = "door";
+
+    /// <summary>What kind of threshold this is (door, elevator, thinspot, ...).</summary>
+    public string Kind => kind;
     private WorldInteraction[] help;
 
     public BlockBehaviorThreshold(Block block) : base(block)

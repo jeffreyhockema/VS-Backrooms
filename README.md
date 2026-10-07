@@ -1,8 +1,8 @@
 # The Backrooms (Vintage Story mod)
 
-Wake up in the Backrooms with nothing. You start in Level 0, an endless, procedurally generated expanse of mono-yellow rooms under buzzing fluorescent lights. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office and the Terror Hotel. Beyond them are the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs of Level 9 and the farmland of Level 10. Further still, reached only by noclipping, lies Level 11, the Endless City. Scavenge supply boxes and crates for Almond Water, food and basic materials.
+Wake up in the Backrooms with nothing. You start in Level 0, an endless, procedurally generated expanse of mono-yellow rooms under buzzing fluorescent lights. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office and the Terror Hotel. Beyond them are the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs of Level 9 and the farmland of Level 10. Further still, reached only by noclipping, lies Level 11, the Endless City; and two more places no ring reaches, Level 37, the white-tiled Poolrooms, and Level 94, a stop-motion world of round green hills. Scavenge supply boxes and crates for Almond Water, food and basic materials.
 
-Each deeper level opens up a different way to survive: darkness and navigation in Level 6, water in Level 7, geology and mining in Level 8, scavenging in Level 9 and farming in Level 10.
+Each deeper level opens up a different way to survive: darkness and navigation in Level 6, water in Level 7, geology and mining in Level 8, scavenging in Level 9 and farming in Level 10. Level 37 is where to recover (and where people drown), Level 94 where to stock up (if you are indoors by nightfall).
 
 Targets Vintage Story 1.22 (.NET 10).
 
@@ -15,18 +15,51 @@ Targets Vintage Story 1.22 (.NET 10).
 Create a new world and pick the **The Backrooms** playstyle. It only affects worlds created with that playstyle. Normal worlds are untouched.
 
 - **Map (M / F6):** the map only shows what you have actually seen. It reveals the area around you along your line of sight, so walls block it. Explored areas are remembered between sessions, so you can find your way back.
-- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages, and three reference pages are added: Salvage and Recipes, The Levels, and Ways Between Levels. Other worlds keep the vanilla handbook.
+- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages, and six pages are added: Making a Home, Finding the Way, Salvage and Recipes, The Levels, Ways Between Levels, and What Lives Here. Other worlds keep the vanilla handbook.
 - **Starting waypoint:** "Where I woke up" marks your starting point.
 - **Your own waypoints:** right-click the map to add one.
+- **Waypoints made for you:** every gate you walk through, and every elevator, stairwell, door or pit you take (with the way back, where there is one), is marked on your map the first time. Reading a wanderer's note marks the place it tells of.
 - **Dark areas** are easier to explore with a candle.
 - **Arriving in a level** shows its name, with a word of advice for the dangerous ones.
 - **Surveyor's chalk** (sometimes found in crumbled ceiling tiles, or crafted from a vanilla chalk stone) marks walls with an arrow, a cross or a circle. Choose the mark with the tool mode key (F), and click a mark again to change it. Chalk marks show bright white on the map.
 
 ## Surviving
 
+### Home and expeditions
+
+The Backrooms are survived from a home, in expeditions; the design is in `docs/survival-loop-plan.md`.
+
+- **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby, and what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0; elsewhere it will not take hold and is not used up (`src/Reality/AnchorSystem.cs`). Everything a home needs (a door, a chest, fire, seeds, soil) has to be brought back from deeper levels.
+- **The walls between levels are solid, but for gates.** A gate (a doorway through) comes every few hundred blocks along a boundary. Chalk arrows on the walls nearby point the way to one, and wanderers' notes tell of them. Walking the wall looking for one is walking the most dangerous ground of a level.
+- **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and never holds food. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in nine (one in four or five in the blackouts), plus the caches at the hearts of dens. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
+- **Heat and cold.** From 30 °C up you go hungry faster, up to half again as fast (Levels 2 and 3, the boiler halls). Levels 6 and 8 are cold enough to want clothes. Level 0's blackout zones are cold and damp, so food keeps there.
+- **Farming at home.** Crops grow in Level 0 under the ceiling lights (light 15 under a working troffer gives about 60% of daylight growth) on soil from potted plants, watered from a flooded room or a bucket. Seed packets come from Level 9's sheds and kitchens and, rarely, supply boxes.
+
+| New | What it is | Where |
+|---|---|---|
+| Wanderer's note | Right-click to read: marks the nearest gate, way out, sealed cache or refuge on your map | Supply boxes, torn boxes, desks, filing cabinets, writing desks, tents, bedrolls, lost backpacks |
+| Pry bar (24 uses) | Hold right-click on a locked door for 4 s: it gives for good if there is a room behind it, and everything near hears | 2 metal brackets + iron nails and strips; tool shelves, toolboxes, workbenches |
+| Seed packet | 4 vanilla seeds, opened in the crafting grid | Tool shelves, kitchen cupboards, now and then a supply box |
+| Torn supply box, emptied crate | Picked over: scraps and boards, no food | Three in four boxes and crates in Levels 0 and 1, fewer deeper |
+
 ### You are a scavenger
 
-The Backrooms itself cannot be broken: walls, floors, slabs, pipes and doors are permanent. What you can take is salvage.
+What you take is mostly salvage. The building itself can be broken (to shape a home, or to cut a way through), but it breaks *down*, never into blocks you can set up again; and where it holds the levels apart it does not break at all.
+
+- **The building breaks with the tool its material calls for, into scraps** (`src/Salvage/Breakdown.cs`):
+  - Drywall, plaster and wallpaper (Levels 0, 4, 5, the houses): any tool, an axe best; bare hands at a seventh of the pace. Mostly dust; now and then a stick or a wallpaper strip.
+  - Boards, panelling, floorboards and roofs: the same. Sticks, a little firewood, rarely a plank.
+  - Concrete, brick, tile, marble and every floor slab: a copper pickaxe, like rock. **Rubble**; carpeted floors a few carpet fibres. Four rubble make a block of **rubble masonry** to build with.
+  - Pipes, railings, poles and machinery: a copper pickaxe. Metal brackets, a little scrap wire from anything wired, now and then a copper or lead bit from pipes.
+  - Glass: anything. Glass shards.
+  - Vanilla rock and ore (Level 8, the cliffs) and soil break as in any world.
+- The walls between levels break like any other wall of their material: the gates are the easy way through, not the only one.
+- **Never broken** (`src/Salvage/Protection.cs`; the block info says so):
+  - Each level's roof: from its ordinary ceiling height up to the mantle cap, the blocks with nothing open above them. Level 0's ceiling tiles and crawlspace can come down; the slab over the crawlspace cannot. On a level with one plain ceiling, that ceiling is the roof. None under the open sky.
+  - The wall between two levels from the lower of their roof heights up (below that it breaks like any wall of its kind, so it can be broken through or tunnelled under).
+  - Doors, elevators, vents, thin spots, vending machines, fountains and other dispensers, and landmarks.
+- Lights, lit or dead, break for glass shards, a bracket and some wire. Wrecked cars break with a copper pickaxe, the whole car at once, for brackets, wire, glass and a little copper.
+- **The ground is vanilla's** (`src/Worldgen/UndergroundSystem.cs`): under every floor are 8 blocks of concrete (`WorldGenerator.FoundationDepth`), then the ground Vintage Story lays down in any world, from its own generators: the shape of the land (with its sea level put at the floor), rock strata, caves, and ore, coal, minerals and gems. Where the land lay lower than the foundations it is filled up with its own rock; where it rose higher the levels replace it. Nothing of the surface is borrowed (no soil, plants, trees, ruins or story structures), nor the soil deposits (clay, peat, gravel), which would break out in the open levels' lawns and fields. `/backrooms ground x z` counts what lies under a chunk. Worlds started before this change keep plain concrete in the chunks already generated.
 
 - **Loose objects break as normal:** supply boxes, crates, furniture, ceiling tiles and dead light fixtures.
   - Dead fixtures give glass shards, and sometimes a bracket or wire.
@@ -62,6 +95,8 @@ Breaking things down feeds Vintage Story's own progression, so the usual path fr
 - **Level 8:** real ore veins (copper, tin, iron, gold, silver, coal…) run through the strata, with loose ores and stones on the cave floors and clay in places. Limestone and chalk grind to lime, and halite grinds to salt.
 - **Level 9:** houses to strip, wardrobes and dressers of clothes, berry bushes gone wild in the gardens, and wildlife: hares, foxes, raccoons, and now and then a wolf.
 - **Level 10:** crops ready to harvest, livestock in the paddocks, cattails at the ponds and clay in their beds, bee skeps for honey and wax, and an old quern in the barns.
+- **Level 37:** Epsom salt for poultices; somewhere to heal.
+- **Level 94:** the ground can be dug: its turf gives poor soil, the modelling clay under it gives red clay (with a layer of blue clay a little way down), enough for all the pottery you want. Iceboxes, Almond Milk and fountains of Almond Water feed you while you are there.
 
 Some limits:
 
@@ -77,6 +112,39 @@ The gear on the HUD shows how firmly you are anchored. It is Vintage Story's tem
   - Bad places: Level 0's blackout zones and above all its Red Rooms, Level 2, Level 3 (worst in its flooded tunnels), the hotel corridors and above all the boiler halls.
 - **Almond Water** restores some stability when you drink it.
 - **Reality Shifts:** about once every 30 in-game hours the lights fail for a few hours. Everything beyond a few steps is lost in black, and stability drains everywhere.
+
+### Things that live here
+
+The Backrooms are not empty, but what lives in them is there to be heard and glimpsed far more than fought. The full player-facing guide is the handbook page *What Lives Here*; the design is in `docs/entity-plan.md`.
+
+- **Danger rises towards the edge of each level.** In the heart of a level you hear things down the hall and see things far off that leave when you come near. Further out, things follow at a distance. Near the edge into the next level, and near its elevators, stairs, pits and noclip walls, they hunt.
+- **They come bolder** when you stand in the dark, when your Reality Stability is low, when you run, and during a Reality Shift. After a close call you are left alone for a minute and a half.
+- **Exposure:** the longer you are out without resting, the bolder they come (up to +0.3 menace after ten in-game hours). Resting is a minute by a lit firepit or burning Firesalt, beside a wanderer, in a safe place, asleep in a bed, or at home (within 48 blocks of where you wake, in Level 0).
+- **Noise:** breaking something open, forcing a door and running all carry. Noise adds to the menace and dies away over half a minute.
+- **Dens:** about one cell in seventeen on the dangerous levels (one in four of Level 0's blackout cells) is a den: a Hound pack over a pile of bones, a Deathmoth hive, a rat warren, a Skin-Stealer's lair, or a Smiler's dark. Within 18 blocks of its heart a den is as dangerous as a level's edge, and what lives there is what comes. Chalk crosses on the walls round it warn you off; two or three sealed boxes sit at its heart.
+- **At the edge**, hunters are put down between you and the gate you are heading for, and anything stalking you gives chase once you run.
+- **Level 0** stays empty but in a Reality Shift, when Smilers watch even its heart from the dark.
+- **Safe places:** the Manila Room, Level 3's Sanctums, the Beverly Room, the Snackrooms, the 9th Road and its camps. Level 4's heart and Level 10's fields are calm. In Level 11 nothing attacks unless provoked.
+- **Every entity has a counter you earn as you go:**
+
+| Entity | Where | What it does | What keeps it back |
+| --- | --- | --- | --- |
+| Smiler | Dark places: Level 0's blackouts and Red Rooms, Levels 1–3, 6, 8, 9 | Eyes and a grin in the dark; cannot be killed | Light of 8 or more (a torch, not a candle); holding its gaze without running |
+| Hound | Levels 0 (edge), 1–5, 8–10; passive in the city | Packs of 2–3, heard before seen; some starved, a rare old one tougher | Fire (lit firepits, Firesalt); light slows them; a steady stare holds one back for a few seconds before it breaks and comes on; weapons and armour |
+| Faceling | Levels 1, 3, 4, 5, 9, 11, the Snackrooms; children in 5, 9, 11 | Seldom met. Wanders, sits, its blank face turning to follow you; right-click one and it waves, then points toward the nearest way out | Harmless unless hurt, and then every Faceling near turns on you. Hurrying away means Hounds are near |
+| Deathmoth | Levels 1, 5, 9 | Circles open flame; settles on floors and tables; males drink at puddles and bodies; females bite near the edge | Candle draws few, a closed lantern none; smoke scatters them. Don't go at a settled female: she rears, and calls every female near |
+| Skin-Stealer | Levels 1–3, 5, 9 | Slow and strong; coughs and calls out from out of sight | Distance, doors, fire |
+| Duller | Levels 3, 4, 6, 8, the subway | Scrapes inside the walls; reaches through them at people passing close by, sometimes taking something from your hotbar (it is dropped wherever the Duller goes) | Almond Water (5 minutes after a drink, or standing near a fountain or seep), facing it, keeping off the walls |
+| Death Rat | Levels 1, 2, 8, 9, the city's alleys | Packs that nip at your legs; horn tips glow faintly red in the dark; hairless in Level 2. Rarely, the Screaming: the lights fail and a pack goes past at a run | A carried torch, fire. Edible |
+| Clump | Levels 2, 3, by Level 10's noclip barns | Buried with one arm out of the floor; wakes when you come close, or crawls after noise; grabs, feeds, buries itself again | Watching the floor; walking round; staying quiet |
+| The Thing | Level 7, below the twilight zone | Circles divers far out; strikes once at one who stays deep too long with low stability, or anyone in the abyss | Surfacing |
+| The Mangled | Level 9, rarely (far likelier in a Reality Shift) | An event: the air goes cold and a grey fog rolls in, voices call out of it, then a pillar of faces three times your height walks the streets; its tendrils lift you into the dark and drop you. Cannot be killed; striking it makes it stay longer | Indoors (it is too big for doors), waiting the three minutes out (`/backrooms mangled` brings it on, for testing) |
+
+- **Flickerings:** out towards the edge of Level 1 the lights of a section sometimes fail for a minute or two, and a pack of Hounds hunts you until they return (`/backrooms flicker` starts one).
+- **Wanderers** who trade keep to camps in Level 1, outposts in Level 4, the 9th Road and the city, about one every kilometre or two of travel: the vanilla trader (right-click to talk, then ask to trade), who never fights back, with a Backrooms trade list (salvage and hides bought; Almond Water, Firesalt, candles, bandages, seeds sold, for rusty gears). Nothing hostile closes in on someone beside one.
+- **Firesalt** is found in the coal heaped by Level 3's generators and Level 5's boilers, and from Level 8 can be made (salt + powdered sulfur = 2). Set down, it burns for half a day and nothing hostile comes within about 8 blocks.
+- **Entities are never kept with the world.** They are put down out of sight for one player and despawn once they leave.
+- **World settings** under Survival challenges when creating a world: *Backrooms entities* (Off: sounds only, Low, Normal, High) and *Backrooms scarcity* (Plentiful: twice the food, Normal, Sparse: 0.6 times the food in every box, crate, cupboard and fridge).
 
 ### The topology lies
 
@@ -108,6 +176,14 @@ This is how Vintage Story's own translocators behave: a repaired one picks its e
 | Level 11 | A diner's kitchen door | Level 6.1 | The kitchen door you arrive beside in the food court |
 | Level 11 | An apartment block's basement door / a substation's steel door / a subway maintenance door | Level 0 / Level 3 / Level 2 | Thin spot |
 | Level 11 | A parking garage's ramp down / a dark doorway off an alley / standing in a patch of wheat in a park | Level 1 / Level 6 / Level 10 | Thin spot |
+| Level 5, Level 11 | A cyan door marked POOL (now and then one of the hotel's locked doors; the city's public baths) | Level 37, out of one of its own POOL doors | The POOL door you arrive beside |
+| Level 37 | A POOL door | A corridor of Level 5, beside a locked guest door | That hotel door, which now opens |
+| Level 37 | Walking on along a dry corridor whose tile gives way to office carpet | Level 4 | Thin spot |
+| Level 37 | Walking into the black round mouth at the end of a tunnel of tiled arches | Level 7, on a ledge over the sea | Thin spot |
+| Level 11 | Walking into the screen of a cinema (midtown) | Level 94: you fall out of the sky over the hills and land softly | Thin spot |
+| Level 9 | The front door of a doll's house (one in a hundred and fifty, too cream and too clean) | A house's front door on the hills of Level 94 | That door |
+| Level 94 | The front door of one house in forty | Level 9, out of a locked front door | That door, which now opens |
+| Level 94 | A rusted gate with no sign on a hilltop, at twilight (dusk and dawn) only | Level 10 | Thin spot |
 | Level 0 | Falling into a pit | Level 2 | None |
 | Level 4 | Pressing the buttons of one of the few hungry vending machines (it takes you every time) | Level 6.1, the Snackrooms | None |
 | Level 6 | A wire strung low across a corridor | Level 6.1 | None |
@@ -117,19 +193,26 @@ This is how Vintage Story's own translocators behave: a repaired one picks its e
 | Level 10 | Diving to the bottom of a lake | Level 7 | None |
 | Level 11 | Falling into an open manhole / a street that has caved in | Level 2 / Level 8 | None |
 | Level 11 | Diving into the deep middle of a park fountain | Level 7 | None |
+| Level 7 | Diving to a patch of white tile on the seabed in the twilight zone, faintly lit | Level 37 | None |
+| Level 9 | Diving to the bottom of the one backyard pool in a few dozen that is still full, lit teal | Level 37 | None |
+| Level 37 | Sinking to the bottom of a pit nobody has found the bottom of | A backyard pool in Level 9 | None |
+| Level 94 | Opening the door of a house full of water | Level 7 | None |
+| Level 94 | Winning the King's trial | Level 1, Level 4, or back to a town in Level 94 (fixed by the King's table) | None |
 
 Two things to know:
 
 - A threshold that has become someone's way back no longer leads where it would have. An unused elevator in Level 4 that a city elevator arrived beside now goes to the city.
-- Using a temporal gear sets your respawn point, as in any Vintage Story world. Set it near a thin spot or an elevator you know, and dying no longer sends you back to the Lobby.
+- A temporal gear sets your respawn point only within Level 0: you always wake up in the Lobby. A two-way way that comes out in Level 0 (a Level 4 stairwell, a hotel door, a city basement) is a good place for a home.
 
 ## How the levels fit together
 
-The levels nest like blobs within blobs around the spawn point, and they are vast. Level 0 alone runs somewhere between about 650 and 4,000 blocks from spawn to its edge, depending on the direction you walk. Each later ring is roughly 600 to 1,000 blocks across on average, so Level 10 lies something like 7 to 15 km out, and then goes on forever.
+The levels nest like blobs within blobs around the spawn point. Level 0 runs somewhere between about 450 and 3,000 blocks from spawn to its edge, depending on the direction you walk. Each later ring is roughly 400 to 700 blocks across on average, so Level 10 lies something like 4 to 9 km out, and then goes on forever.
+
+Where two levels meet the wall is solid but for **gates**: within each 320-block square of the world, each stretch of boundary between the same two levels has exactly one (`WorldLayout.Gates.cs`), so an island of one level inside another always has a way in. If a gate's doorway would open onto the back wall of a room or a locked room, a short way is broken through to open floor. Level 8 still opens only where the 9th Road runs through, and the open-sky levels have no wall between them.
 
 No ring is a circle. Each one is stretched and lopsided in its own way: a level may end after a few hundred blocks in one direction and go on for several times that in another, and the short way through one level need not line up with the short way through the next. Finding the way on is a matter of mapping, supplies, and luck.
 
-Level 6.1 is not a ring: it is rare sealed cells scattered through Level 6. Where two levels meet there is a full-height wall with a few doorways through it, lined up with the corridors on either side where there are any.
+Level 6.1 is not a ring: it is rare sealed cells scattered through Level 6. Where two levels meet there is a full-height wall; its gates are lined up with the corridors on either side where there are any.
 
 Some areas next to a boundary blend, as the wikis describe the transitions:
 
@@ -155,7 +238,12 @@ The rules come from the original 2002 photos behind the 2019 creepypasta, the Ba
   - Most rooms are bright and even.
   - Some are dim, some have failing lights that stutter, buzz or die and flash back on (with a crackle), and a few have gone dark.
   - The hum fades where the lights are dead.
-- **Layout:** large carpeted rooms broken up by partition walls that stop abruptly, connected by doorless gaps.
+- **Layout:** a labyrinth of rooms and hallways, after Kane Pixels' footage and the 2026 film ("one long corridor that turns into a never-ending labyrinth") (`WorldLayout.Level0.cs`).
+  - The level is laid out in districts of about 44 blocks, staggered like brickwork so no wall lines up with the next. Walls between districts are gapped every dozen blocks or so.
+  - In each district, rooms are split off by straight walls (some stop short or have a wide break, so rooms run into each other round corners). Then two- or three-wide hallways wind in from the gaps: they run 6–16 blocks (now and then up to ~26), turn hard, zigzag on, and open into a big room, join another hallway or end blind (with a chalked cross).
+  - Every room and hallway is joined to the rest by doorless openings, many more than needed, so rooms open into rooms. No straight hallway runs much past 25 blocks; only pillar halls give long views.
+  - Set pieces among the rooms: a big empty room with free-standing partitions like the photo, rows of identical small rooms off a corridor, a room of pits. Whole districts can be pillar halls (whose pillars run on into the next pillar hall), arched rooms, open offices of big rooms, or blackout.
+  - A two-wide hallway runs along the inside of the wall where the level ends (and round the Red Rooms), so nothing the wall cuts through is left cut off.
 - **Zones:**
   - Lobby;
   - open office, like the famous photo;
@@ -166,6 +254,7 @@ The rules come from the original 2002 photos behind the 2019 creepypasta, the Ba
   - pit rooms, a grid of 2×2 shafts 30 blocks deep (falling in lands you in Level 2);
   - the Manila Room: 8×8, wooden floor, a door on each side, and a table under a chandelier;
   - the Red Rooms: a block of rooms papered in red and lit by a few dim red lamps, walled off but for one narrow gap in each side. Stability drains there faster than almost anywhere, and the supply boxes inside are untouched.
+- **Supplies:** two sealed supply boxes beside where you wake; elsewhere stashes of two or three boxes in the corners of rooms, about one cell in nine (one in four or five in the blackout zones), and the caches at the hearts of dens. Most are torn open already. Blackout zones are cold (10 °C).
 
 ## Level 1: the Habitable Zone
 
@@ -177,6 +266,7 @@ An endless cross between an underground car park and an abandoned warehouse.
   - 6-wide two-way aisles with dashed yellow centre lines, lane arrows, floor drains and speed bumps. Cross aisles every five bays pass under striped clearance bars.
   - A few abandoned cars (red, blue, white or black), crates and pallets left in stalls, shear walls carrying fire hose cabinets and power boxes, puddles with wet-floor signs and cones.
   - Traffic signs (ONE WAY, no entry, EXIT) stand about, pointing at walls and dead ends, and dead security cameras look down from the walls.
+  - Concrete fire walls, scarred here and there to the rebar, divide the car park into districts 3 cells (96 blocks) square. They are open where every other driving aisle and every cross aisle runs through. The maintenance halls fill whole districts.
   - **Stair cores** stand at regular intervals: white-painted boxes with black fire doors propped open under lit EXIT signs. Inside are a fire standpipe, a painted "P2" and a flight of stairs that climbs into the ceiling.
   - **Landmarks:** wanderer groups tie coloured cloths with their emblem round columns and leave supplies at the foot.
 - **Overhead:** twin-tube fluorescents on chains (whole sections dead or failing together), tube lights on columns, white conduit and red sprinkler mains under the slab.
@@ -190,7 +280,7 @@ An endless cross between an underground car park and an abandoned warehouse.
 
 ## Level 2: Pipe Dreams
 
-Narrow, dark concrete utility tunnels, 1–2 blocks wide, with straight runs in multiples of 5 blocks. Every tunnel connects; hubs, dead ends and cramped machine rooms branch off.
+Dark concrete utility tunnels on a lattice. Three-wide main tunnels every 64 blocks run straight on for miles; between them, 1–2-wide service tunnels every 16 blocks form a maze with one way in from the mains and many dead ends. Some crossings of two mains widen into a pump gallery. Each stretch of tunnel is one lighting circuit: all lit, all dead or all failing.
 
 - **3D pipework:**
   - Bundles of cream lagged, rusty and red fire-line pipes run along the top of every tunnel and meet at junction boxes where tunnels turn or branch. They sit above head height, so they never block the way.
@@ -205,8 +295,10 @@ Narrow, dark concrete utility tunnels, 1–2 blocks wide, with straight runs in 
 
 A hot (35 °C), cramped maze of derelict brick and two-tone glazed-tile maintenance halls fitted with electrical machinery.
 
-- **Layout:** 2-wide corridors on a lattice, joined into one connected maze.
-  - Some links are 1-wide squeezes. Some stretches are floored with steel grating.
+- **Layout:** corridors on a lattice, joined into one connected maze, deliberately inconsistent in size.
+  - Tight districts have 2-wide lanes every 8 blocks; wide districts have galleries 4 wide and 4 high every 16.
+  - Some links are 1-wide squeezes, half of them only two blocks high. Some stretches are floored with steel grating.
+  - In each region of 5×5 cells, a 2×2-cell hall four blocks high may stand: a transformer hall or an assembly line. A Sanctum is one per 8×8 region.
   - Many side routes are blocked by indestructible white bars, so the way on is visible but out of reach. Some have a plaque beside them: OUT OF BOUNDS, DO NOT ENTER.
 - **Machinery:** transformers, conductor coils, switchgear cabinets, industrial fans, generators and cable spools stand in niches lining the corridors, on hazard-striped floors.
   - The walls carry pipe runs, cable bundles, pressure gauges, knife switches, junction boxes, DANGER HIGH VOLTAGE signs, alarm bells, caged bulkhead lamps and the odd sparking outlet.
@@ -223,10 +315,11 @@ One endless, quiet, cool (15 °C) office floor, almost completely devoid of furn
 
 - **Feel:** grey carpet with darker marks where desks once stood, scattered papers and coffee stains, drywall with a dark skirting.
   - The drop ceiling has fluorescent troffers (about half dead), air diffusers, sprinkler heads and water-stained tiles, and the odd tile is missing.
-- **Windows:** most are papered over or shut behind blinds. The few left clear look out on rain and fog that never end; their grey storm light is often the main light, and you can hear the rain.
+- **Windows:** only in the wall where the office floor ends (the edge of the level). Most are papered over or shut behind blinds. The few left clear look out on rain and fog that never end; their grey storm light is often the main light, and you can hear the rain.
 - **Walls:** evacuation maps, fire alarms with strobes, extinguisher cabinets, stopped clocks, light switches by the doors, wall phones, framed motivational posters, and the pale marks of pictures long taken down.
-- **Open-plan floors:** columns with dead plants beside them, chairs and boxes left behind, cubicle farms (some cubicles cleared out), and now and then a deserted reception.
-- **Office blocks:** a corridor grid of small rooms. Most offices are emptied out and some are locked. There are also glass conference rooms, break rooms (counter, sink, microwave, fridge), copy rooms, humming server rooms, storerooms, a manager's office, stairwells under EXIT signs whose stairs climb into the ceiling, and elevator lobbies with two-wide lift doors.
+- **Open-plan floors:** columns on an 8-block grid with dead plants beside them, chairs and boxes left behind, pale rows where desks stood, and cubicle farms that run on from cell to cell, nearly all cleared out to bare partitions (a few patches untouched). Now and then a deserted reception.
+- **Office blocks:** a corridor grid of small rooms, crossed every 48 blocks by a broad, bright concourse. Most offices are emptied out and some are locked. There are also glass conference rooms, break rooms (counter, sink, microwave, fridge), copy rooms, humming server rooms, storerooms, a manager's office and restrooms.
+- **Building cores:** stairwells under EXIT signs (whose stairs climb into the ceiling) and elevator lobbies with two-wide lift doors stand together with a restroom round one crossing, about one core per 2×2 cells of offices.
 - **Almond Water:** drinking fountains, water coolers and vending machines still give it. Use them to take a bottle; each has a few left.
   - A few vending machines give nothing. They take whoever presses their buttons to the Snackrooms, every time, and always to the same food court.
 
@@ -234,14 +327,14 @@ One endless, quiet, cool (15 °C) office floor, almost completely devoid of furn
 
 A 1930s grand hotel that never ends (20 °C), oddly clean and well kept.
 
-- **Corridors:** long, 3-wide, double-loaded corridors (rooms on both sides).
+- **Corridors:** long, 3-wide, double-loaded corridors (rooms on both sides), every 16 blocks. Now and then one does not carry on across a cross corridor but ends in a tall mirror.
   - Red-and-gold damask carpet, or walnut boards under a runner.
   - Mahogany wainscot under red panels in gilt frames, candle sconces and dome lights.
   - On the walls: portraits, gilt mirrors, landscapes, house phones, fire hose cabinets, clocks, and brass speakers playing jazz from nowhere.
   - Along the walls: console tables with lamps and dried flowers, bookshelves, curio cabinets, sofas and armchairs, radiators, luggage carts, room-service trolleys, laundry carts and ice machines.
   - Room-service trays left on the carpet outside doors, the plates still covered.
 - **Elevators** are rare. Each is two blocks wide in a cross-corridor wall, with a call plate beside it. Most are antique copper cages under a floor dial; a few are modern lifts.
-- **Guest rooms:** numbered doors with gold plaques, more than half locked. A ceiling fan turns over each furnished room. Open rooms are often fully furnished: the bed's head against the back wall, nightstands with lamps, a wardrobe, a writing desk with a green banker's lamp, an armchair or floor lamp, a suitcase, and a rug on bare boards. Now and then a turntable plays jazz.
+- **Guest rooms:** five blocks square, most with a toilet in an alcove by the door. Numbered doors with gold plaques, odd on one side of the corridor and even on the other, counting up 201, 203, 205, 207 and then, a few doors on, starting again; more than half locked. A ceiling fan turns over each furnished room. Open rooms are often fully furnished: the bed's head against the back wall, nightstands with lamps, a wardrobe, a writing desk with a green banker's lamp, an armchair or floor lamp, a suitcase, and a rug on bare boards. Now and then a turntable plays jazz.
 - **Grand lobbies:** a taller ceiling, red faux-marble columns over white marble, and chandeliers.
   - Seating groups round coffee tables, a front desk with a guest book and bell, a grandfather clock, palms, luggage carts and bookshelves.
 - **Dining halls:** round tables laid with china and candles for a dinner nobody comes to, chairs drawn up, chandeliers, a grand piano.
@@ -250,8 +343,10 @@ A 1930s grand hotel that never ends (20 °C), oddly clean and well kept.
 
 ## Level 6: Lights Out
 
-A maze of grey concrete corridors (16 °C) in darkness that light barely reaches: a candle shows the floor at your feet, a torch a few steps, a lantern a stretch of corridor. Now and then the dark lifts for a heartbeat. Things scuttle, breathe and whisper out of sight. Stability is low and drifts.
+Long grey concrete corridors (16 °C) in darkness that light barely reaches: a candle shows the floor at your feet, a torch a few steps, a lantern a stretch of corridor. Now and then the dark lifts for a heartbeat. Things scuttle, breathe and whisper out of sight. Stability is low and drifts.
 
+- **Layout:** trunk corridors on a 64-block lattice, two wide; every fourth is a main trunk, three wide and never broken. Between the mains the minor trunks are a maze with one way in, so most wrong turns end blind a hundred blocks on. Narrow side passages, wet underfoot, wind a little way into the rock off every trunk and stop. Some crossings open into a chamber, deeper in often with stairs down.
+- **Finding the stairs:** the faint sound of waves comes from the way the nearest stairs lie (within 160 blocks), louder as you close in, and chalk arrows on the trunk walls point toward them.
 - **Navigation fails:** the map only records what is within arm's reach. Chalk marks are the one thing that stays where you left it.
 - **M.E.G. markings:** earlier explorers left arrows to the exits, crosses at dead ends, handprints and scratches on the walls.
 - **A light switch** turns up on a wall now and then. It does nothing.
@@ -283,7 +378,7 @@ A dark, endless sea under a concrete ceiling (12 °C, 6 °C below the surface). 
 Real Vintage Story geology (12 °C): strata of real rock with ores, flooded pockets, stalactites, tar pools, and strata that are wrong, such as office carpet layers and vertical coal seams. Drifters roam the dark.
 
 - **Almond Water** seeps out of the rock beside the road in places. Use a seep to fill a bottle; it comes back.
-- **The 9th Road:** a gravel road through the caves, lit by lamps and marked by M.E.G. waypoints, with camps at its crossings. Stability is high on the road and lower off it. Where it reaches another level, it runs on through the wall.
+- **The 9th Road:** a gravel road through the caves, lit by lamps and marked by M.E.G. waypoints, with camps at its crossings. Its main roads (every 192 blocks) run unbroken; the side roads between them are a maze of dead ends, except near the level's edge. Stability is high on the road and lower off it. Where it reaches another level, it runs on through the wall.
 - **In the caves:** cobwebs under the ceilings, quartz and amethyst growing from the rock, mushrooms and loose stones, and now and then the remains of somebody who went off the road.
 
 ## Level 9: the Suburbs
@@ -343,6 +438,43 @@ A Western metropolis that goes on forever (17 °C), with its own day and night u
   - Parking meters give copper and silver bits.
 - **The ways out are as many as they are hard to notice:** see the table above.
 
+## Level 37: Sublimity, the Poolrooms
+
+An expansive complex of rooms and corridors of white ceramic tile, flooded with lukewarm water (29 °C). It is not a ring: it lies far out to the west, and you get there through water or a door marked POOL. The design, and the lore it follows (the Wikidot page by egglord, with Fandom and Miraheze as second opinions), is in `docs/level-37-94-plan.md`.
+
+- **The tile** is a mosaic of small white squares (about 12 cm), glazed, on every surface; the edge of a deck where it drops into deep water is laid with coping. Rooms are rounded at their corners, as in the renders that defined the place.
+- **Strict in design, senseless in purpose:** wandering flooded galleries every 96 blocks, with far too many pillars down their middles and a handrail along one wall; between them, a grid of rooms, all different, joined by halls on a lattice and by openings that make no sense:
+  - domed rotundas round a circular pool, ringed by arched openings glowing white, with pool ladders;
+  - natatoriums far too big to be pools: a shallow end, steps, and a deep end with no ledge to climb out onto;
+  - wading halls in a forest of pillars; pools with a deck round them; basins stepping down to a deep middle; halls of water too deep to wade;
+  - tunnels of tiled arch rings over shallow water, a step running along one side, ending in a black round mouth or in deep water going nowhere;
+  - stair pits: broad steps going straight down into water too deep and dark to see the bottom of;
+  - serpentine halls, a channel of water winding through in long curves, slits down the outside of each bend;
+  - halls with a whole wall of slits; now and then a long dry corridor whose tile gives way, at its far end, to office carpet;
+  - here and there a swim through a hole under a wall, surfacing through a sump in a gallery's floor.
+- **Light:** no lamps. Tall slits in the walls glow with glare from somewhere you can never see, laying warm stripes across the tile; about a third of the floor is out of their reach, in the dark.
+- **The water heals:** standing in it in the light mends 0.5 HP every 4 seconds, steadies you and counts as rest. Nothing hostile ever comes (a sanctuary everywhere but the Reservoir). There is no food at all.
+- **Stability:** 1.35 in the light, 0.6 in the dark corners, 0.15 in the Reservoir.
+- **What there is:** crusts of Epsom salt on the rims in the dark (2 Epsom salt above 1 linen = 3 of the best poultice); lost towels, flip-flops and pool noodles; at the bottom of the stair pits, what the drowned left.
+- **Sound:** the soft wash of water, a drip or a lap now and then, and in the dark corners the water swelling until it drowns everything out.
+
+### Level 37.1: the Sanguine Reservoir
+
+One block in twenty, far out in the Poolrooms: the slits stop, the water stands deeper and red and holds on to whoever wades in it (half pace), and bright red sprouts on the pool floors are all the light there is. A chanting is heard from the way the nearest Reservoir lies, up to 160 blocks off. Smilers are the only thing ever seen there. On the bottom lie the people who stayed, and their gear, untouched. A sprout's red water heals every wound, and lowers for good how steady you can ever be (5% each drink, never below half).
+
+## Level 94: Motion
+
+A stop-motion picture of the 1930s to 50s that never stops being made: round green hills mown in stripes, each with one cream house on top; winding roads in the valleys with a STOP sign at the junctions and a NO OUTLET sign at roads that go on forever; white picket fences, white water towers full of Almond Water, old cars parked in the middle of nowhere. It lies far out to the north, and everyone who comes falls into it out of the sky and lands softly. Its edge is the painted backdrop of the set.
+
+- **The hills** are domes on a jittered lattice 56 blocks apart, mown in stripes, never steeper than a block a block. Each house stands level on its hilltop, its yard falling away to the hill, a path (in steps) down to the nearest road. The houses are two storeys of cream or white clapboard under red or brown shingles, with flower beds and white picket fences; inside they are furnished in the 1950s: iceboxes, radio cabinets, telephones on little tables.
+- **The ground is clay:** the turf can be dug (poor soil), and the red modelling clay under it (clay for the potter); roads, paths and anything built only break down to rubble, with a pickaxe. The edge of the set is sealed underground.
+- **Towns** in some valleys: eight houses round a paved plaza with a fountain of Almond Water, siren poles at its corners, milk vans full of Almond Milk at the kerb.
+- **The gradient:** the nearer the middle, the more the houses come apart: a kitchen alone on a hill, then a bedroom that is one wall and a floor, then a living room with no room, then heaps of furniture, a car tipped on its side, a staircase climbing to nothing. Follow it to the glass mountain.
+- **Day and night:** by day the siren poles play the same happy tune and nothing hunts. In the last hours of the afternoon the tune slows and goes flat; at dusk it stops, laughter comes from over the hills, and the Animations come out. Indoors (under a roof) is safe; out of doors, whoever stands quite still for four seconds is taken for a doll.
+- **Plenty to eat:** iceboxes in every house, Almond Milk in the milk vans (restocked weekly), Almond Water from the fountains and the towers, real clay a block under the turf.
+- **The glass mountain and the castle:** a cone of glass 40 blocks high in the middle, a white castle with red-roofed towers on its flat top. Inside nothing is animated: a funhouse of checkerboard floors and striped walls with porthole rings, a ball pit sunk into the floor (you wade through it), two blinding halls all in white, the animation studio (the model of the town on its table), an arcade, slides. Robo-Men stand guard: touch, use or break anything in the castle and they come for a minute and a half.
+- **The King:** the throne room, a dim old dining hall of dark panelling and deep red carpet under two chandeliers, has a door on each side; only one opens, a different one each day. Sit in the second chair at his table and he raises your nightmare (the kind of thing that has killed you most often) to fight you, at one and a half times its health; its blows are a quarter as strong when your stability is full and twice as strong when it is gone. Win, and he bursts into light: the first time you get a shard of his crown (while you carry it the Animations take you for one of their own), and you are carried to Level 1, Level 4 or back to a town.
+
 ## Building and running
 
 - **Build:** `dotnet build` (needs the .NET 10 SDK). The mod is output to `bin/Debug/Mods/backrooms/`.
@@ -362,32 +494,54 @@ If the game isn't installed at `G:\Games\Vintagestory`, set the `VINTAGE_STORY` 
   - per-position temperature.
 - **`WorldLayout.Level0.cs` … `.Level11.cs`:** how each level lays out a cell. Level 6.1 is in `.Level6.cs`.
   - Level 11 is a separate region rather than a ring (`InCity`), planned a whole city block at a time (`BlockPlan`).
+  - Levels 37 and 94 are regions too, kept as levels 12 and 13 (`WorldLayout.Poolrooms`, `.Motion`; `DisplayNumber` gives the number players see). `.Level37.cs` plans 96-block blocks (`PoolPlan`); `.Level94.cs` works out its hills, roads and towns from coordinates and plans each hilltop (`HillPlan`), each town and the castle. Their floors lie lower than the others' (`WorldGeometry.PoolDrop`, `MotionDrop`).
 - **`WorldGenerator.cs`:** turns layout tiles into blocks, with one block rule per level. Levels 6 to 10 are in `WorldGenerator.Deep.cs`, including Level 8's 3D caves and geology and Level 7's sea.
   - Level 11 is in `WorldGenerator.City.cs`: façades storey by storey, ground floors, roofs and the subway. Its streets lie `WorldGeometry.CityDrop` blocks lower, so its columns are generated (and lit) over a band of their own.
+  - Levels 37 and 94 are in `WorldGenerator.Pool.cs` and `WorldGenerator.Motion.cs`; each is lit over its own band (`WorldGeometry.BandBottomFor`).
 - **`WorldLighting.cs`:** computes block light directly with a flood fill over the column and its neighbours' light sources.
   - Vintage Story's engine is far slower with this many lights.
   - Light sources are registered with each chunk, so relighting after block changes still works.
+  - What lighting needs of a cell (absorption and light sources) is kept in a small cache: each cell is wanted by nine chunks, and the generator hands over the cell it has just built rather than having it recomputed.
+- **`CaveColumn.cs`:** Level 8's cave and ore noise worked out once per column (the few lattice layers a column crosses) instead of once per block, which made Level 8 generate nine times faster.
 - **`src/Lights/`:** failing lights.
   - A block entity swaps the panel's look on the client.
   - Only lights near the player are animated.
-- **`src/Salvage/`:** makes structural blocks unbreakable, and the behaviour that strips wallpaper and carpet.
-- **`src/Reality/`:** Reality Stability per area, Reality Shifts (scheduled from the seed and calendar, so nothing needs syncing), and Almond Water's effect.
+- **`src/Salvage/`:** salvage and the behaviour that strips wallpaper and carpet; `Breakdown.cs` (what the building breaks down to, with which tool) and `Protection.cs` (the roofs, the tops of the walls between levels and the fixed blocks that never break: a Harmony postfix on the required tool tier, so the client never starts cracking what it cannot break). `/backrooms canbreak x z [y]` lists a column with each block's tier and drops. Assets for rubble from `tools/gen_breakdown.py`.
+- **`src/Reality/`:** Reality Stability per area, Reality Shifts (scheduled from the seed and calendar, so nothing needs syncing), and Almond Water's effect. `AnchorSystem` keeps waking up to Level 0 (the temporal gear is swapped for a subclass by `patches/temporalgear.json`); `HeatSystem` raises the `hungerrate` stat in hot places.
+- **`WorldLayout.Gates.cs`, `.Loot.cs`, `.Dens.cs`, `.Notes.cs`:** gates and the chalk arrows to them; which boxes and crates were picked over, and Level 0's stashes; dens; what wanderers' notes find.
+- **`src/Map/MapMarks.cs`, `WandererNote.cs`:** waypoints made for the player, and wanderers' notes.
+- **`src/Salvage/PryBar.cs`, `ScarcitySystem.cs`:** the pry bar (a behaviour put ahead of every locked door's own), and the *Backrooms scarcity* setting.
 - **`src/Thresholds/`:** the ways between the levels, with arrival points checked to be walkable away from.
   - `ThresholdNetwork.cs` has no game dependencies: what each threshold is, where it leads, which are two-way, and the links written down so far (saved with the world as `backrooms-thresholds`).
   - `ThresholdSystem.cs` notices players going through thresholds, moves them and leaves thin spots.
 - **`src/Props/`:** vending machines, water coolers and Snackrooms shelves that dispense items and restock.
 - **`src/Deep/`:** surveyor's chalk, the worm mass under Level 10, scalding tar, and the creature spawner (fish, drifters, wildlife and livestock, each only on its own level).
+- **`src/Entities/`:** the Backrooms' own entities.
+  - `MenaceSystem.cs` is the director: every two seconds it rates each player's danger (band and menace) and plays a distant sound or puts down an entity for a glimpse, a stalk or a hunt. `Roster.cs` says which entities and sounds each level has.
+  - `AiTaskMenace.cs` is what an entity does about its player; `AiTaskMoth.cs` is the Deathmoths' flight. Each entity's counters (light, fire, Almond Water...) are switched on in its task config.
+  - `EntityBehaviorMenace.cs` ends encounters and despawns entities out of sight; `Senses.cs` has light, sight and the wards (fires, Firesalt, angel statues).
+  - `WorldLayout.Entities.cs` (in Worldgen) gives the director depth into a level, distance to the next, sanctuaries and nearby thresholds.
 - **`src/AtmosphereSystem.cs`:** per-level fog and sky on the client, blended as you cross between levels: Level 6's darkness, Level 7's depth, the Suburbs' night and Level 10's overcast.
 - **`src/Map/`:** the explored-areas map layer, which replaces the vanilla terrain map in Backrooms worlds.
 - **`src/GuideSystem.cs`:** swaps the Backrooms pages into the handbook's Guides tab, in Backrooms worlds only.
+- **`src/Regions/`:** what Levels 37 and 94 do. `PoolSystem.cs`: the water's relief, the Reservoir's viscous water, red water's mark. `MotionSystem.cs`: day and night, playing doll, the castle's alarm, the throne room's doors, the soft landing, and the King's trial.
 - **`src/BackroomsModSystem.cs`:** world type registration, climate, spawn, the starting waypoint and debug commands.
 
 ## Debugging
 
+- **Cheat menu:** press **F7** (rebindable under Controls, "Backrooms: cheat menu") or type `.cheats`. The Travel, Creatures, Events and Player tabs are buttons for the commands below plus `/time` and `/gm`; they go through the server like typed commands, so you need the controlserver privilege, and the replies show in chat. The View tab acts on your client only: a **debug HUD** (level, depth through it, blocks to the next, cell and tile under your feet, Level 0 zone, dens, sanctuaries, stability, temperature), **fog off**, and **reveal map** (maps every loaded column round you). Code in `src/Cheats/`.
+- `/backrooms find <elevator|stairs|pit|descent|snackrooms|entryroom> [level]` teleports you beside that feature, in its usual level unless you name one.
+- `/backrooms nearest <gate|threshold|cache|refuge|den|redroom> [radius]` teleports you to the nearest one in the level you're in (threshold = any non-gate way out; cache = an unopened box or crate).
+- `/backrooms home` takes you back to where you wake up; `/backrooms heal` restores health, food, body temperature and stability and resets your time out; `/backrooms kit` gives light, food, a pry bar, chalk, a shiv and Firesalt; `/backrooms clear [radius]` removes Backrooms creatures round you (default 64); `/backrooms die` kills you, to test waking up.
+- `/backrooms director [on|off]` pauses or resumes the entity director (no new encounters or distant sounds; what is already out stays).
+- `/backrooms stat <health|food|stability> <0-1>`, `/backrooms exposure <hours>` (your time out since resting, which raises menace) and `/backrooms noise` (as loud as you can be) set up survival and menace situations.
 - `/backrooms column [x z]` (admin) prints the block stack, block entities and light levels of a column, from the ceiling of a grand room down into Level 3's tunnels. If the chunk isn't loaded, it loads it.
 - `/backrooms where` names the level and zone you're in, and its stability.
-- `/backrooms goto <0-10>` teleports you into a level.
+- `/backrooms goto <0-11, 37 or 94>` teleports you into a level.
 - `/backrooms shift [hours]` starts a Reality Shift (default 2 in-game hours; 0 ends it).
+- `/backrooms menace` shows your danger band and menace value, and the entities around you.
+- `/backrooms encounter <entity> [ambient|glimpse|stalk|hunt] [x z]` puts an entity down for you. From the server console, give x and z: it targets a straw dummy put down there and keeps the area loaded, so the AI can be watched without a client.
+- `/backrooms entitylog [on|off]` logs what the director and the entities decide to the server log.
 - `/backrooms dump x z [radius]` (admin) writes the blocks and light of a square of the world to `ModData/backrooms/dump-x-z.bin`, for rendering previews outside the game. Run it twice: the first time loads the chunks.
 - `.tfedit` in-game lets you tweak how held and dropped items are positioned.
 
@@ -399,11 +553,18 @@ Textures, 3D models, block definitions and sounds are generated by scripts:
 - `tools/gen_shapes.py`: block models such as pipes, fixtures, furniture and machinery, built from boxes
 - `tools/gen_blocktypes.py`: block definitions for Levels 3–5
 - `tools/gen_sounds.py` (needs numpy and soundfile): hum, flicker crackle, steam, transformer, rain, jazz, waves, and the squelch, scuttle, breath, whisper and chalk effects
+- `tools/gen_loop.py`: the survival loop's assets (torn boxes, emptied crates, the moth hive, wanderers' notes, the pry bar, seed packets, and their text).
 - `tools/gen_lore.py`: details added to match the lore more closely (Level 2's doors and clutter, cameras, traffic signs, plaques, ceiling fans, Almond Water seeps).
 - `tools/gen_guide.py`: the text of the handbook pages, in a light markup, written into the lang file. Its numbers (uses, recipe amounts, where things are found) come from the block types, recipes and code, so update it when those change.
 - `tools/gen_detail.py`: the detail props, wall decorations, signs, doors, elevators and floor variants of Levels 1 and 3–5. Each item is defined once (textures in `detail_textures.py`, helpers in `detail_kit.py`) and gets its texture, model, block definition and English name. It also writes `src/Worldgen/DetailBlocks.g.cs`, the table the world generator uses to find the wall decorations. It calls `tools/gen_deep.py` (textures in `deep_textures.py`) for everything in Levels 6 to 10, including the Snackrooms food and the chalk.
+- `tools/gen_models.py`: the entities' own animated models, built from the lore's descriptions (Smiler, Hound, Skin-Stealer, Duller, Death Rat, Deathmoths, Clump, the Mangled, The Thing), with their textures painted per face. `tools/rig.py` is the small rigging kit it uses: parts as boxes in model space, an automatic texture atlas, keyframed animations (models face -X, left is +Z).
+- `tools/gen_entities.py`: runs gen_models.py, then writes the entity types, the Facelings (the game's faceless body with a wardrobe of hair, clothing and accessory boxes, each of 14 looks painting the ones it wears), Firesalt, and their names.
+- `tools/gen_entity_sounds.py`: the entities' sounds and the noises heard down the hall (footsteps, scratching, a murmur of voices, a cough, a mimic's "hello?", knocks, a phone, a Smiler's ringing, a Duller's grab...).
 - `tools/preview_shapes.py out.png shapes/block/detail/*.json`: renders rough isometric previews of models, to check them without starting the game.
+- `tools/entrender.py shape.json texture.png out.png [anims=walk,idle] [frames=8] [views=side,34,front,back] [scale=70]`: renders an entity model in its animations the way the game composes them, a sheet of frames per animation, to check models and animations without starting the game.
 
+- `tools/gen_pool.py` and `tools/gen_motion.py`: Level 37's tile, slits, POOL doors, ladders, Epsom salt and red water; Level 94's turf, roads, backdrop, glass mountain, castle, water towers, fountains, doors, 1950s furniture, milk vans and Almond Milk. Both are run by gen_detail.py.
+- `tools/gen_level_sounds.py`: Level 37's drips, lapping, room tone and the Reservoir's chanting; Level 94's siren-pole tune (and its flat dusk version), laughter, "All glory to the King!" and the Robo-Men's wind-up.
 - `tools/texlib.py`: shared texture helpers (tileable veined marble, gradients).
 
 Large surfaces vary from block to block so they do not tile visibly: floors and carpets are turned at random, ceiling tiles come in several versions (one in a while water-stained) and one stretch of wallpaper in three is older and damp-stained. These use Vintage Story's texture `alternates`.

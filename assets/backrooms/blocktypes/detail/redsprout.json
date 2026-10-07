@@ -1,0 +1,55 @@
+// A bright red sprout on the bottom of a pool in the Sanguine Reservoir: all the light there is
+{
+	"code": "redsprout",
+	"shape": {
+		"base": "block/detail/redsprout"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.6,
+		"z2": 0.75
+	},
+	"lightHsv": [
+		0,
+		7,
+		6
+	],
+	"drops": [
+		{
+			"type": "item",
+			"code": "redwater",
+			"quantity": {
+				"avg": 0.15,
+				"var": 0
+			}
+		}
+	]
+}

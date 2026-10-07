@@ -1,0 +1,91 @@
+{
+	"code": "thething",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-water"
+	],
+	"habitat": "Underwater",
+	"weight": 4000,
+	"hitboxSize": {
+		"x": 3.6,
+		"y": 1.2
+	},
+	"eyeHeight": 0.6,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-thething"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/thething"
+		},
+		"texture": {
+			"base": "backrooms:entity/thething"
+		},
+		"size": 1,
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 0
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "swim",
+				"animation": "swim",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 0
+			},
+			{
+				"code": "backrooms-menace",
+				"immortal": true,
+				"stalkSeconds": 240,
+				"huntSeconds": 240
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "Default",
+				"aitasks": [
+					{
+						"code": "backrooms-thething",
+						"priority": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"speed": 0.035,
+						"rushSpeed": 0.14,
+						"orbitRadius": 18,
+						"damage": 8,
+						"patienceSeconds": 40,
+						"groanSound": "backrooms:entity/groan"
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {}
+}

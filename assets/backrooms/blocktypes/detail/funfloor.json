@@ -1,0 +1,49 @@
+// Level 94: the funhouse's floors
+{
+	"code": "funfloor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"checker",
+				"carpet",
+				"star"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-checker": {
+			"all": {
+				"base": "block/detail/funfloor-checker"
+			}
+		},
+		"*-carpet": {
+			"all": {
+				"base": "block/detail/funfloor-carpet"
+			}
+		},
+		"*-star": {
+			"all": {
+				"base": "block/detail/funfloor-star"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

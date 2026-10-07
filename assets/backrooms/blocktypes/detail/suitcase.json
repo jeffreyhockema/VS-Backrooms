@@ -165,8 +165,8 @@
 			"type": "item",
 			"code": "crackers",
 			"quantity": {
-				"avg": 0.3,
-				"var": 0.3
+				"avg": 0.15,
+				"var": 0.15
 			}
 		}
 	]

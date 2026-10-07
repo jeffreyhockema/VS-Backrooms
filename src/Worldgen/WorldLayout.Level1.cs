@@ -53,8 +53,16 @@ public sealed partial class WorldLayout
     private const ulong SaltL1Detail = 0x1A08;
     private const ulong SaltL1Core = 0x1A09;
 
-    /// <summary>Maintenance hall sectors.</summary>
-    private bool IsLevel1Corridors(int mx, int mz) => Noise(mx / 4.0, mz / 4.0, SaltL1Sector) > 0.42;
+    /// <summary>
+    /// The level is divided into districts of this many cells each way. Between two districts of car park stands a
+    /// fire wall, open where the aisles run through it; a whole district may be maintenance halls instead.
+    /// </summary>
+    private const int L1District = 3;
+
+    private static int L1DistrictOf(int m) => Hashing.FloorDiv(m, L1District);
+
+    /// <summary>Maintenance hall sectors: whole districts, in patches.</summary>
+    private bool IsLevel1Corridors(int mx, int mz) => Noise(L1DistrictOf(mx) / 1.35, L1DistrictOf(mz) / 1.35, SaltL1Sector) > 0.42;
 
     private bool IsHallAt(int gx, int gz)
     {
@@ -72,8 +80,21 @@ public sealed partial class WorldLayout
         var edge = new Edge { Pattern = WallPattern.Concrete };
         bool corridors = IsLevel1Corridors(mx, mz), otherCorridors = IsLevel1Corridors(nx, nz);
 
-        // Corridor grids continue straight across, and the car park flows on without walls
-        if (corridors == otherCorridors) return edge;
+        // Corridor grids continue straight across, and the car park flows on without walls within a district
+        if (corridors == otherCorridors)
+        {
+            if (corridors || L1DistrictOf(mx) == L1DistrictOf(nx) && L1DistrictOf(mz) == L1DistrictOf(nz)) return edge;
+            // A fire wall between two districts of the car park: open where every other driving aisle runs through it
+            // (a wall running north-south) or where the cross aisles do (a wall running west-east)
+            bool west = nx != mx;
+            for (int i = 1; i < MacroSize; i++)
+            {
+                int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
+                bool gap = west ? Hashing.Mod(gz, Module) is >= 7 and <= 10 && Hashing.Mod(Hashing.FloorDiv(gz, Module), 2) == 0 : InCrossAisle(gx);
+                edge.Tiles[i] = gap ? EdgeTile.Open : EdgeTile.Wall;
+            }
+            return edge;
+        }
 
         // Into the maintenance halls: a white wall with fire doors where the corridors arrive
         edge.Pattern = WallPattern.WhiteBlock;
@@ -113,6 +134,15 @@ public sealed partial class WorldLayout
                 else if (r < 0.62) { mid.Variant = Props.TrafficSign; mid.Stack = (byte)rng.Range(0, 2); mid.Pier = (ArchPier)rng.Range(0, 3); }
             }
         }
+
+        // The fire walls between districts are scarred: here and there the concrete has spalled to rusty rebar
+        for (int i = 1; i < MacroSize; i++)
+            foreach ((int x, int z) in new[] { (0, i), (i, 0) })
+            {
+                ref Tile t = ref b.At(x, z);
+                if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.Concrete && t.Variant == 0
+                    && Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + x, mz * MacroSize + z, SaltL1Detail + 3)) < 0.08) t.Variant = 1;
+            }
 
         // Near Level 2, pipes start to appear along the ceiling
         if (TouchesLevel(mx, mz, 2)) AddCeilingPipes(b, mx, mz);
@@ -181,11 +211,12 @@ public sealed partial class WorldLayout
         return LevelAt(mx, mz) == 1 && !IsLevel1Corridors(mx, mz);
     }
 
-    /// <summary>Whether the whole core, and the aisle in front of its doors, lie in the car park.</summary>
+    /// <summary>Whether the whole core, and the aisle in front of its doors, lie in the car park, in one district.</summary>
     private bool StairCoreFits(int gx, int gz)
     {
         int x0 = gx - Hashing.Mod(gx, BayWidth), z0 = gz - Hashing.Mod(gz, Module);
-        return IsCarParkAt(x0, z0) && IsCarParkAt(x0 + BayWidth, z0) && IsCarParkAt(x0, z0 + 7) && IsCarParkAt(x0 + BayWidth, z0 + 7);
+        return IsCarParkAt(x0, z0) && IsCarParkAt(x0 + BayWidth, z0) && IsCarParkAt(x0, z0 + 7) && IsCarParkAt(x0 + BayWidth, z0 + 7)
+            && L1DistrictOf(MacroOf(x0)) == L1DistrictOf(MacroOf(x0 + BayWidth)) && L1DistrictOf(MacroOf(z0)) == L1DistrictOf(MacroOf(z0 + 7));
     }
 
     private void BuildCarPark(Builder b, int mx, int mz)

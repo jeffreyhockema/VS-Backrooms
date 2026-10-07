@@ -1,0 +1,33 @@
+// Level 94: the funhouse's ball pit, full to the brim
+{
+	"code": "ballpitfill",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/detail/ballpit"
+		}
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"collisionbox": null,
+	"walkspeedmultiplier": 0.5,
+	"resistance": 1,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

@@ -1,0 +1,55 @@
+// Level 94: the funhouse's lights, warm, and in the blinding halls blinding
+{
+	"code": "funlight",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"warm",
+				"blinding"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-warm": {
+			"all": {
+				"base": "block/detail/funlight-warm"
+			}
+		},
+		"*-blinding": {
+			"all": {
+				"base": "block/detail/funlight-blinding"
+			}
+		}
+	},
+	"lightHsvByType": {
+		"*-warm": [
+			7,
+			3,
+			16
+		],
+		"*-blinding": [
+			0,
+			0,
+			22
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

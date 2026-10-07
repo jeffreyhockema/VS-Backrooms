@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towel": "backrooms:block/detail/towel"
+	},
+	"elements": [
+		{
+			"name": "Towel",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				1.4,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				},
+				"down": {
+					"texture": "#towel",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				}
+			}
+		}
+	]
+}

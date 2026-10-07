@@ -1,4 +1,15 @@
 {
 	"playstyle-backrooms": "The Backrooms",
-	"playstyle-desc-backrooms": "You noclipped out of reality.\n\nWake up in an endless maze of yellow rooms with nothing but the clothes on your back. Scavenge supply boxes for food and Almond Water, and find a way to survive."
+	"playstyle-desc-backrooms": "You noclipped out of reality.\n\nWake up in an endless maze of yellow rooms with nothing but the clothes on your back. Scavenge supply boxes for food and Almond Water, and find a way to survive.",
+	"worldattribute-backroomsMenace": "Backrooms entities",
+	"worldattribute-backroomsMenace-desc": "How much the things that live in the Backrooms trouble you. Off leaves only their sounds.",
+	"worldconfig-backroomsMenace-Off": "Off (sounds only)",
+	"worldconfig-backroomsMenace-Low": "Low (rarer, half damage)",
+	"worldconfig-backroomsMenace-Normal": "Normal",
+	"worldconfig-backroomsMenace-High": "High (more often, harder hits)",
+	"worldattribute-backroomsScarcity": "Backrooms scarcity",
+	"worldattribute-backroomsScarcity-desc": "How much food and Almond Water is left in the boxes, crates and cupboards of the Backrooms. Normal is scarce enough that scavenging matters.",
+	"worldconfig-backroomsScarcity-Plentiful": "Plentiful (twice the food)",
+	"worldconfig-backroomsScarcity-Normal": "Normal",
+	"worldconfig-backroomsScarcity-Sparse": "Sparse (about half the food)"
 }

@@ -1,14 +1,21 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Backrooms.Worldgen;
 
 /// <summary>
 /// Level 6, "Lights Out": an endless series of tight hallways of a smooth, cold material, in total darkness. No
-/// light permeates it and light brought in barely works. It is unnaturally silent. The hallways are a maze of
-/// one-wide passages with the odd small chamber, dead ends everywhere, and chalk left on the walls by those who
-/// came before. Deeper in, stairs lead down toward the faint sound of waves (Level 7), and a wire strung across a
-/// passage here and there trips the unwary straight into Level 6.1.
+/// light permeates it and light brought in barely works. It is unnaturally silent.
+///
+/// <para>The hallways are laid out so they can be walked by touch. Long, straight trunk corridors run on a lattice
+/// about <see cref="L6Pitch"/> blocks apart; every fourth is a main trunk, three wide and never broken, and between
+/// the mains the minor trunks (two wide) form a maze of their own: a tree grown in from one side, so most wrong turns
+/// end, a hundred blocks and more on, against a blank wall. Off the trunks, narrow side passages, wet underfoot, wind a
+/// little way into the rock and stop. At some crossings the trunks open into a chamber; deeper into the level, the
+/// likelier a chamber is to hold stairs going down toward the faint sound of waves (Level 7). Chalk on the walls,
+/// left by those who came before, marks the dead ends and points along the trunks toward the stairs, and a wire
+/// strung across a side passage here and there trips the unwary straight into Level 6.1.</para>
 ///
 /// <para><b>Level 6.1, the Snackrooms</b>, is hidden in rare cells of the same ring, walled off from the maze: an
 /// endless 1980s mall food court, bright as day, with snack bars and convenience stores whose vending machines,
@@ -17,19 +24,55 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldLayout
 {
-    private const ulong SaltL6Edge = 0x6A01;
     private const ulong SaltL6Snack = 0x6A02;
     private const ulong SaltL6Detail = 0x6A03;
     private const ulong SaltL6Unit = 0x6A04;
+    private const ulong SaltL6Line = 0x6A10;
+    private const ulong SaltL6Tree = 0x6A11;
+    private const ulong SaltL6Plan = 0x6A13;
+    private const ulong SaltL6Chamber = 0x6A14;
 
-    private const double SnackroomsChance = 0.05;
+    /// <summary>Average distance between neighbouring trunk corridors, each way.</summary>
+    private const int L6Pitch = 64;
+    private const int L6Jitter = 7;
+    /// <summary>Every this many trunks is a main one: three wide and never broken.</summary>
+    private const int L6MainEvery = 4;
 
-    /// <summary>The Snackrooms: rare cells of Level 6 wholly surrounded by Level 6.</summary>
+    private const double SnackroomsChance = 0.35;
+
+    private readonly ConcurrentDictionary<long, bool> snackCache = new();
+
+    /// <summary>
+    /// The Snackrooms: rare cells of Level 6 wholly surrounded by Level 6, at least four cells from another, and clear of
+    /// the trunks (a food court set down across a trunk would cut it).
+    /// </summary>
     public bool IsSnackrooms(int mx, int mz)
     {
-        if (Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL6Snack)) > SnackroomsChance) return false;
-        return SurroundedByLevel6(mx, mz);
+        long key = ((long)mx << 32) | (uint)mz;
+        if (snackCache.TryGetValue(key, out bool cached)) return cached;
+        bool snack = ComputeSnackrooms(mx, mz);
+        snackCache.TryAdd(key, snack);
+        return snack;
     }
+
+    private bool ComputeSnackrooms(int mx, int mz)
+    {
+        double h = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL6Snack));
+        if (!SnackroomsSite(mx, mz, h)) return false;
+        // Of two sites close together, only the likelier is a food court
+        for (int dz = -3; dz <= 3; dz++)
+            for (int dx = -3; dx <= 3; dx++)
+            {
+                if (dx == 0 && dz == 0) continue;
+                double other = Hashing.Unit(Hashing.Hash(seed, mx + dx, mz + dz, SaltL6Snack));
+                if (other < h && SnackroomsSite(mx + dx, mz + dz, other)) return false;
+            }
+        return true;
+    }
+
+    /// <summary>Whether a cell could hold the Snackrooms: picked by its hash, clear of the trunks, inside Level 6.</summary>
+    private bool SnackroomsSite(int mx, int mz, double hash) =>
+        hash <= SnackroomsChance && !L6LineNear(0, mx * MacroSize) && !L6LineNear(1, mz * MacroSize) && SurroundedByLevel6(mx, mz);
 
     private bool SurroundedByLevel6(int mx, int mz)
     {
@@ -37,6 +80,18 @@ public sealed partial class WorldLayout
             for (int dx = -1; dx <= 1; dx++)
                 if (LevelAt(mx + dx, mz + dz) != 6) return false;
         return true;
+    }
+
+    /// <summary>Whether a trunk of an axis runs within a few blocks of the cell starting at <paramref name="start"/>.</summary>
+    private bool L6LineNear(int axis, int start)
+    {
+        int k = L6UnitOf(axis, start - 4);
+        for (int n = 0; n <= 2; n++)
+        {
+            int line = L6Line(axis, k + n);
+            if (line >= start - 4 && line <= start + MacroSize + 3) return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -57,15 +112,264 @@ public sealed partial class WorldLayout
         return null;
     }
 
-    private Edge Level6Edge(ref Rng rng, int mx, int mz, int nx, int nz)
+    // ================= The trunks =================
+
+    /// <summary>Where trunk <paramref name="k"/> of an axis runs: the x of a north-south trunk (axis 0), the z of a west-east one.</summary>
+    private int L6Line(int axis, int k) => k * L6Pitch + (int)(Hashing.Hash(seed, k, axis, SaltL6Line) % (2 * L6Jitter + 1)) - L6Jitter;
+
+    private static bool L6Main(int k) => Hashing.Mod(k, L6MainEvery) == 0;
+
+    private static int L6Width(int k) => L6Main(k) ? 3 : 2;
+
+    /// <summary>Which unit (the rock between trunks, with the trunks on its west and north sides) a coordinate lies in.</summary>
+    private int L6UnitOf(int axis, int g)
+    {
+        int k = Hashing.FloorDiv(g, L6Pitch);
+        while (g < L6Line(axis, k)) k--;
+        while (g >= L6Line(axis, k + 1)) k++;
+        return k;
+    }
+
+    /// <summary>
+    /// Whether a stretch of trunk is there: the part of trunk <paramref name="line"/> of an axis between two crossings,
+    /// beside unit <paramref name="index"/>. Main trunks always are; the minor ones are the maze between them.
+    /// </summary>
+    private bool L6Stretch(int axis, int line, int index)
+    {
+        if (L6Main(line)) return true;
+        int mcx = Hashing.FloorDiv(axis == 0 ? line : index, L6MainEvery), mcz = Hashing.FloorDiv(axis == 0 ? index : line, L6MainEvery);
+        return L6Tree(mcx, mcz).Contains((axis, line, index));
+    }
+
+    private PlanCache<HashSet<(int, int, int)>> l6Trees;
+
+    private HashSet<(int, int, int)> L6Tree(int mcx, int mcz) => (l6Trees ??= new PlanCache<HashSet<(int, int, int)>>(64, PlanL6Tree)).Get(mcx, mcz);
+
+    /// <summary>The minor trunks between four main ones: a maze with one way in (see <see cref="PlanLatticeTree"/>).</summary>
+    private HashSet<(int, int, int)> PlanL6Tree(int mcx, int mcz) => PlanLatticeTree(mcx, mcz, L6MainEvery, SaltL6Tree, 0.6, 0.08, 0.1);
+
+    /// <summary>
+    /// The chamber some crossings open into, in the corner of the unit beside them, and whether it holds stairs down:
+    /// the deeper into the level, the likelier.
+    /// </summary>
+    private (bool Chamber, int Size, bool Stairs, bool East) L6Chamber(int bx, int bz)
+    {
+        ulong h = Hashing.Hash(seed, bx, bz, SaltL6Chamber);
+        if (Hashing.Unit(h) >= 0.5) return default;
+        int x0 = L6Line(0, bx), z0 = L6Line(1, bz);
+        int size = Hashing.Unit(h << 8) < 0.5 ? 7 : 9;
+        double depth = RingFraction(x0 + size, z0 + size, 6);
+        bool stairs = Hashing.Unit(h << 16) < 0.2 + 0.6 * depth && LevelAt(MacroOf(x0 + size), MacroOf(z0 + size)) == 6;
+        return (true, size, stairs, Hashing.Unit(h << 24) < 0.5);
+    }
+
+    /// <summary>The middle of the nearest stairs down to Level 7 within a radius, if any (for the sound of the waves).</summary>
+    public (int X, int Z)? NearestDescent(int gx, int gz, int radius)
+    {
+        (int, int)? best = null;
+        long bestD = long.MaxValue;
+        for (int bz = L6UnitOf(1, gz - radius); bz <= L6UnitOf(1, gz + radius); bz++)
+            for (int bx = L6UnitOf(0, gx - radius); bx <= L6UnitOf(0, gx + radius); bx++)
+            {
+                var c = L6Chamber(bx, bz);
+                if (!c.Stairs || !L6CrossingOpen(bx, bz)) continue;
+                int x = L6Line(0, bx) + L6Width(bx) + c.Size / 2, z = L6Line(1, bz) + L6Width(bz) + c.Size / 2;
+                if (IsSnackrooms(MacroOf(x), MacroOf(z))) continue;
+                long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
+                if (d < bestD && d <= (long)radius * radius) { bestD = d; best = (x, z); }
+            }
+        return best;
+    }
+
+    private bool L6CrossingOpen(int bx, int bz) =>
+        L6Stretch(0, bx, bz) || L6Stretch(1, bz, bx) || L6Stretch(0, bx, bz - 1) || L6Stretch(1, bz, bx - 1);
+
+    // ================= Units: the rock between the trunks =================
+
+    private sealed class L6Unit
+    {
+        public int X0, Z0, W, H;
+        public Tile[] Tiles;
+        public ref Tile At(int u, int v) => ref Tiles[v * W + u];
+    }
+
+    private PlanCache<L6Unit> l6Units;
+
+    private L6Unit L6UnitAt(int bx, int bz) => (l6Units ??= new PlanCache<L6Unit>(64, PlanL6Unit)).Get(bx, bz);
+
+    private Tile L6TileAt(int gx, int gz)
+    {
+        L6Unit u = L6UnitAt(L6UnitOf(0, gx), L6UnitOf(1, gz));
+        return u.At(gx - u.X0, gz - u.Z0);
+    }
+
+    private L6Unit PlanL6Unit(int bx, int bz)
+    {
+        int x0 = L6Line(0, bx), z0 = L6Line(1, bz);
+        var u = new L6Unit { X0 = x0, Z0 = z0, W = L6Line(0, bx + 1) - x0, H = L6Line(1, bz + 1) - z0 };
+        u.Tiles = new Tile[u.W * u.H];
+        for (int i = 0; i < u.Tiles.Length; i++)
+        {
+            ref Tile t = ref u.Tiles[i];
+            SetWall(ref t, WallPattern.L6Wall, BaseStyle.Plain);
+            t.Floor = FloorKind.L6Floor;
+        }
+        var rng = new Rng(Hashing.Hash(seed, bx, bz, SaltL6Plan));
+        int hw = L6Width(bx), hh = L6Width(bz);
+
+        // No passage is cut into a food court, nor into the wall round one
+        var snack = new Dictionary<(int, int), bool>();
+        bool Snack(int gx, int gz)
+        {
+            foreach ((int cx, int cz) in new[] { (MacroOf(gx), MacroOf(gz)), (MacroOf(gx - 1), MacroOf(gz)), (MacroOf(gx), MacroOf(gz - 1)) })
+            {
+                if (!snack.TryGetValue((cx, cz), out bool s)) snack[(cx, cz)] = s = IsSnackrooms(cx, cz);
+                if (s) return true;
+            }
+            return false;
+        }
+        bool Carve(int x, int v, bool wet)
+        {
+            if (x < 0 || v < 0 || x >= u.W || v >= u.H || Snack(x0 + x, z0 + v)) return false;
+            ref Tile t = ref u.At(x, v);
+            if (t.Kind != TileKind.Floor) t = new Tile { Floor = wet ? FloorKind.L6Wet : FloorKind.L6Floor };
+            return true;
+        }
+
+        // The trunks along the west and north sides, and the crossing between them
+        bool west = L6Stretch(0, bx, bz), north = L6Stretch(1, bz, bx);
+        bool crossing = L6CrossingOpen(bx, bz);
+        for (int v = 0; v < u.H; v++)
+            for (int x = 0; x < u.W; x++)
+            {
+                bool inW = x < hw, inN = v < hh;
+                if (inW && inN ? crossing : inW ? west : inN && north) Carve(x, v, false);
+            }
+
+        // A chamber in the corner by the crossing, opening onto the trunks there; perhaps with stairs going down
+        var chamber = L6Chamber(bx, bz);
+        if (chamber.Chamber && crossing && (west || north))
+        {
+            for (int v = hh; v < hh + chamber.Size; v++)
+                for (int x = hw; x < hw + chamber.Size; x++)
+                    Carve(x, v, false);
+            if (chamber.Stairs && !Snack(x0 + hw + chamber.Size / 2, z0 + hh + chamber.Size / 2))
+            {
+                ArchPier dir = chamber.East ? ArchPier.East : ArchPier.West;
+                int sv = hh + chamber.Size / 2, sx = hw + chamber.Size / 2 - 1;
+                for (int k = 0; k < 3; k++)
+                {
+                    ref Tile step = ref u.At(dir == ArchPier.East ? sx + k : sx + 2 - k, sv);
+                    step.Under = (byte)(Unders.Descent1 + k);
+                    step.Pier = dir;
+                    step.Sealed = true; // nobody is put down on a staircase
+                }
+            }
+        }
+
+        // Side passages off every trunk round the unit, a little way into the rock, wet underfoot
+        bool east = L6Stretch(0, bx + 1, bz), south = L6Stretch(1, bz + 1, bx);
+        var sides = new (bool Open, int U0, int V0, (int X, int Z) Along, (int X, int Z) In, int Len)[]
+        {
+            (west, hw, hh, (0, 1), (1, 0), u.H - hh),
+            (north, hw, hh, (1, 0), (0, 1), u.W - hw),
+            (east, u.W - 1, hh, (0, 1), (-1, 0), u.H - hh),
+            (south, hw, u.H - 1, (1, 0), (0, -1), u.W - hw),
+        };
+        foreach (var s in sides)
+        {
+            if (!s.Open) continue;
+            for (int a = 12 + rng.Range(0, 8); a < s.Len - 14; a += 20 + rng.Range(0, 10))
+                if (rng.Chance(0.75)) SidePassage(s.U0 + s.Along.X * a, s.V0 + s.Along.Z * a, s.Along, s.In, ref rng, Carve);
+        }
+
+        // Chalk on the trunk walls, pointing the way toward the nearest stairs down
+        if (NearestDescent(x0 + u.W / 2, z0 + u.H / 2, 220) is { } target)
+        {
+            void Arrow(int x, int v, ArchPier wall)
+            {
+                if (rng.Chance(0.4) || x < 0 || v < 0 || x >= u.W || v >= u.H) return;
+                (int wx, int wz) = wall switch { ArchPier.North => (0, -1), ArchPier.East => (1, 0), ArchPier.South => (0, 1), _ => (-1, 0) };
+                if (x + wx < 0 || v + wz < 0 || x + wx >= u.W || v + wz >= u.H || u.At(x + wx, v + wz).Kind != TileKind.Wall) return;
+                ref Tile t = ref u.At(x, v);
+                if (t.Kind != TileKind.Floor || t.Under != 0) return;
+                // Facing the wall, which way are the stairs? (Facing north, left is west; facing east, left is north)
+                double toX = target.X - (x0 + x), toZ = target.Z - (z0 + v);
+                if (toX * toX + toZ * toZ < 100) return;
+                t.Chalk = ChalkBits.Make(wall, toX * wz - toZ * wx > 0 ? 0 : 1);
+            }
+            if (west) Arrow(hw - 1, hh + (u.H - hh) / 2, ArchPier.East);
+            if (north) Arrow(hw + (u.W - hw) / 2, hh - 1, ArchPier.South);
+        }
+        return u;
+    }
+
+    /// <summary>
+    /// A narrow passage from a trunk into the rock, branching a few times on a six-block lattice and ending blind: a
+    /// tree of four to eight turnings at most four deep, all within thirty blocks of the trunk.
+    /// </summary>
+    private delegate bool Carver(int x, int v, bool wet);
+
+    private static void SidePassage(int u0, int v0, (int X, int Z) along, (int X, int Z) inward, ref Rng rng, Carver carve)
+    {
+        (int, int) At(int p, int d) => (u0 + along.X * p + inward.X * d, v0 + along.Z * p + inward.Z * d);
+        bool Line(int p0, int d0, int p1, int d1)
+        {
+            int steps = Math.Abs(p1 - p0) + Math.Abs(d1 - d0);
+            for (int k = 0; k <= steps; k++)
+            {
+                int p = p0 + Math.Sign(p1 - p0) * Math.Min(k, Math.Abs(p1 - p0)), d = d0 + Math.Sign(d1 - d0) * Math.Min(k, Math.Abs(d1 - d0));
+                (int x, int v) = At(p, d);
+                if (!carve(x, v, true)) return false;
+            }
+            return true;
+        }
+        // Into the rock from the trunk to the first turning
+        if (!Line(0, 0, 0, 5)) return;
+        // Turnings at p in -12..12 and d in 5..29, six apart; grown as a tree that tends to run straight on
+        const int span = 2, rows = 5;
+        var visited = new bool[2 * span + 1, rows];
+        visited[span, 0] = true;
+        int budget = rng.Range(3, 8);
+        var stack = new Stack<(int I, int J, int Dir, int Depth)>();
+        stack.Push((span, 0, 2, 0));
+        (int, int)[] steps = { (1, 0), (-1, 0), (0, 1), (0, -1) };
+        var options = new List<int>(4);
+        while (stack.Count > 0 && budget > 0)
+        {
+            var (i, j, dir, depth) = stack.Peek();
+            options.Clear();
+            if (depth < 4)
+                for (int d = 0; d < 4; d++)
+                {
+                    int ni = i + steps[d].Item1, nj = j + steps[d].Item2;
+                    if (ni >= 0 && nj >= 0 && ni <= 2 * span && nj < rows && !visited[ni, nj]) options.Add(d);
+                }
+            if (options.Count == 0 || rng.Chance(0.25)) { stack.Pop(); continue; }
+            int pick = options.Contains(dir) && rng.Chance(0.6) ? dir : options[rng.Range(0, options.Count - 1)];
+            int ti = i + steps[pick].Item1, tj = j + steps[pick].Item2;
+            visited[ti, tj] = true;
+            if (!Line((i - span) * 6, 5 + j * 6, (ti - span) * 6, 5 + tj * 6)) continue;
+            budget--;
+            stack.Push((ti, tj, pick, depth + 1));
+        }
+    }
+
+    // ================= Cells =================
+
+    private Edge Level6Edge(int mx, int mz, int nx, int nz, bool west)
     {
         var edge = new Edge { Pattern = WallPattern.L6Wall };
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
         if (IsSnackrooms(mx, mz) || IsSnackrooms(nx, nz)) return edge; // sealed
-
-        // The maze crosses the edge at a few of its odd positions
-        int openings = rng.Range(3, 5);
-        for (int n = 0; n < openings; n++) edge.Tiles[1 + 2 * rng.Range(0, 15)] = EdgeTile.Open;
+        edge.Planned = true;
+        bool[] walled = WalledNeighbours(6, mx, mz);
+        for (int i = 1; i < MacroSize; i++)
+        {
+            Tile t = west ? L6TileAt(mx * MacroSize, mz * MacroSize + i) : L6TileAt(mx * MacroSize + i, mz * MacroSize);
+            bool edgeHall = west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0);
+            if (IsWalkable(t) || edgeHall) edge.Tiles[i] = EdgeTile.Open;
+        }
         return edge;
     }
 
@@ -77,93 +381,12 @@ public sealed partial class WorldLayout
             BuildSnackrooms(b, mx, mz);
             return;
         }
-
-        ref Rng rng = ref b.Rng;
-        var open = new bool[MacroSize * MacroSize];
-        void Carve(int x, int z) { if (x >= 1 && z >= 1 && x < MacroSize && z < MacroSize) open[TileIndex(x, z)] = true; }
-
-        // A perfect maze over the odd positions: one-wide passages with one-wide walls between
-        const int nodes = MacroSize / 2;
-        var visited = new bool[nodes * nodes];
-        var stack = new Stack<int>();
-        int start = rng.Range(0, nodes * nodes - 1);
-        visited[start] = true;
-        stack.Push(start);
-        Carve(1 + 2 * (start % nodes), 1 + 2 * (start / nodes));
-        var options = new List<int>(4);
-        while (stack.Count > 0)
-        {
-            int node = stack.Peek();
-            int nx = node % nodes, nz = node / nodes;
-            options.Clear();
-            if (nx > 0 && !visited[node - 1]) options.Add(node - 1);
-            if (nx < nodes - 1 && !visited[node + 1]) options.Add(node + 1);
-            if (nz > 0 && !visited[node - nodes]) options.Add(node - nodes);
-            if (nz < nodes - 1 && !visited[node + nodes]) options.Add(node + nodes);
-            if (options.Count == 0) { stack.Pop(); continue; }
-            int next = options[rng.Range(0, options.Count - 1)];
-            visited[next] = true;
-            int ax = 1 + 2 * nx, az = 1 + 2 * nz, bx = 1 + 2 * (next % nodes), bz = 1 + 2 * (next / nodes);
-            Carve((ax + bx) / 2, (az + bz) / 2);
-            Carve(bx, bz);
-            stack.Push(next);
-        }
-        // A few loops, so not every wrong turn is a dead end
-        for (int n = rng.Range(4, 9); n > 0; n--)
-        {
-            int x = 1 + 2 * rng.Range(0, nodes - 2) + 1, z = 1 + 2 * rng.Range(0, nodes - 1);
-            if (rng.Chance(0.5)) (x, z) = (z, x);
-            Carve(x, z);
-        }
-
-        // A couple of small chambers; the deeper into the level, the likelier one holds stairs going down
-        double depth = RingFraction(mx * MacroSize + 16, mz * MacroSize + 16, 6);
-        var chambers = new List<(int X, int Z, int Size)>();
-        for (int n = rng.Range(1, 2); n > 0; n--)
-        {
-            int size = rng.Chance(0.5) ? 5 : 3;
-            int x0 = 1 + 2 * rng.Range(1, nodes - 1 - size / 2 - 1), z0 = 1 + 2 * rng.Range(1, nodes - 1 - size / 2 - 1);
-            for (int z = z0; z < z0 + size; z++)
-                for (int x = x0; x < x0 + size; x++)
-                    Carve(x, z);
-            chambers.Add((x0, z0, size));
-        }
-
-        // Edge openings join the maze at the node beside them
-        foreach (int i in Passages(west)) { open[TileIndex(0, i)] = true; Carve(1, i); }
-        foreach (int i in Passages(north)) { open[TileIndex(i, 0)] = true; Carve(i, 1); }
-
-        for (int lz = 0; lz < MacroSize; lz++)
-        {
-            for (int lx = 0; lx < MacroSize; lx++)
-            {
-                ref Tile tile = ref b.At(lx, lz);
-                if (tile.Kind == TileKind.Floor && !open[TileIndex(lx, lz)]) SetWall(ref tile, WallPattern.L6Wall, BaseStyle.Plain);
-            }
-        }
-
-        foreach (var c in chambers)
-        {
-            if (c.Size == 5 && rng.Chance(0.06 + 0.3 * depth))
-            {
-                // Stairs down along the middle of the chamber, toward the faint sound of waves
-                ArchPier dir = rng.Chance(0.5) ? ArchPier.East : ArchPier.West;
-                int z = c.Z + 2;
-                for (int k = 0; k < 3; k++)
-                {
-                    int x = dir == ArchPier.East ? c.X + 1 + k : c.X + 3 - k;
-                    ref Tile step = ref b.At(x, z);
-                    step.Under = (byte)(Unders.Descent1 + k);
-                    step.Pier = dir;
-                    step.Sealed = true; // nobody is put down on a staircase
-                }
-            }
-        }
-
+        CopyPlan(b, mx, mz, west, north, (gx, gz, index) => b.Tiles[index] = L6TileAt(gx, gz));
+        CarveEdgeHall(b, mx, mz, west, north);
         DecorateLevel6(b, mx, mz);
     }
 
-    /// <summary>Chalk on the walls, and wires across the passages.</summary>
+    /// <summary>Marks on the walls at the dead ends, what was left there, and wires across the side passages.</summary>
     private void DecorateLevel6(Builder b, int mx, int mz)
     {
         bool Open(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && b.At(x, z).Kind == TileKind.Floor;
@@ -181,7 +404,7 @@ public sealed partial class WorldLayout
                 {
                     if (tile.Under != 0) continue;
                     // A dead end: someone has chalked an X on the wall facing you
-                    if (ways == 1 && r < 0.35)
+                    if (ways == 1 && r < 0.6)
                     {
                         ArchPier toOpen = e ? ArchPier.East : w ? ArchPier.West : s ? ArchPier.South : ArchPier.North;
                         var (fx, fz) = Step(lx, lz, Opposite(toOpen));
@@ -193,11 +416,8 @@ public sealed partial class WorldLayout
                         else if (left < 0.18) { tile.Variant = Props.Backpack; tile.Pier = toOpen; }
                         else if (left < 0.22) { tile.Variant = Props.Bedroll; tile.Pier = toOpen; }
                     }
-                    // Water stands in places, slick and black
-                    else if (Noise((mx * MacroSize + lx) / 6.0, (mz * MacroSize + lz) / 6.0, SaltL6Detail + 5) > 0.55)
-                        tile.Floor = FloorKind.L6Wet;
-                    // A wire strung low across a straight passage
-                    else if (ways == 2 && (e && w || s && n) && r > 0.993)
+                    // A wire strung low across a straight, narrow passage
+                    else if (ways == 2 && (e && w || s && n) && r > 0.985)
                     {
                         tile.Variant = Props.Tripwire;
                         tile.Pier = e && w ? ArchPier.East : ArchPier.North;

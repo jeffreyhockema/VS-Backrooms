@@ -1,0 +1,222 @@
+// Furniture heaped on a hill, with no house anywhere
+{
+	"code": "furniturepile",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"chairs",
+				"tables",
+				"drawers",
+				"mixed"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-chairs-north": {
+			"base": "block/detail/furniturepile-chairs",
+			"rotateY": 0
+		},
+		"*-chairs-east": {
+			"base": "block/detail/furniturepile-chairs",
+			"rotateY": 270
+		},
+		"*-chairs-south": {
+			"base": "block/detail/furniturepile-chairs",
+			"rotateY": 180
+		},
+		"*-chairs-west": {
+			"base": "block/detail/furniturepile-chairs",
+			"rotateY": 90
+		},
+		"*-tables-north": {
+			"base": "block/detail/furniturepile-tables",
+			"rotateY": 0
+		},
+		"*-tables-east": {
+			"base": "block/detail/furniturepile-tables",
+			"rotateY": 270
+		},
+		"*-tables-south": {
+			"base": "block/detail/furniturepile-tables",
+			"rotateY": 180
+		},
+		"*-tables-west": {
+			"base": "block/detail/furniturepile-tables",
+			"rotateY": 90
+		},
+		"*-drawers-north": {
+			"base": "block/detail/furniturepile-drawers",
+			"rotateY": 0
+		},
+		"*-drawers-east": {
+			"base": "block/detail/furniturepile-drawers",
+			"rotateY": 270
+		},
+		"*-drawers-south": {
+			"base": "block/detail/furniturepile-drawers",
+			"rotateY": 180
+		},
+		"*-drawers-west": {
+			"base": "block/detail/furniturepile-drawers",
+			"rotateY": 90
+		},
+		"*-mixed-north": {
+			"base": "block/detail/furniturepile-mixed",
+			"rotateY": 0
+		},
+		"*-mixed-east": {
+			"base": "block/detail/furniturepile-mixed",
+			"rotateY": 270
+		},
+		"*-mixed-south": {
+			"base": "block/detail/furniturepile-mixed",
+			"rotateY": 180
+		},
+		"*-mixed-west": {
+			"base": "block/detail/furniturepile-mixed",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-chairs-north"
+		],
+		"decorative": [
+			"*-chairs-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 3,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:metalnailsandstrips-iron",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	]
+}

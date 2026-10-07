@@ -1,0 +1,55 @@
+// Level 94: paths, roads and kerbs
+{
+	"code": "motionground",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"path",
+				"concrete",
+				"asphalt",
+				"kerb"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-path": {
+			"all": {
+				"base": "block/detail/motionpath"
+			}
+		},
+		"*-concrete": {
+			"all": {
+				"base": "block/detail/motionconcrete"
+			}
+		},
+		"*-asphalt": {
+			"all": {
+				"base": "block/detail/motionasphalt"
+			}
+		},
+		"*-kerb": {
+			"all": {
+				"base": "block/detail/motionkerb"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

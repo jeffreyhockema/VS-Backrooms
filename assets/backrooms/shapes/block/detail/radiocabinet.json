@@ -1,0 +1,85 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"radio-front": "backrooms:block/detail/radio-front",
+		"tvwood": "backrooms:block/detail/tvwood"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				5
+			],
+			"to": [
+				15,
+				15,
+				14
+			],
+			"faces": {
+				"east": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						9,
+						15
+					]
+				},
+				"west": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						9,
+						15
+					]
+				},
+				"up": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"south": {
+					"texture": "#tvwood",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				1,
+				0,
+				5
+			],
+			"to": [
+				15,
+				15,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#radio-front",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

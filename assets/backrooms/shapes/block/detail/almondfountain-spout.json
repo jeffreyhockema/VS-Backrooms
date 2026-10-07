@@ -1,0 +1,216 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fountainstone": "backrooms:block/detail/fountainstone"
+	},
+	"elements": [
+		{
+			"name": "Column",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				14,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"east": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"south": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"west": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"up": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Bowl",
+			"from": [
+				2,
+				14,
+				2
+			],
+			"to": [
+				14,
+				17,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"east": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"south": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"west": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"up": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Jet",
+			"from": [
+				7,
+				17,
+				7
+			],
+			"to": [
+				9,
+				21,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"east": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"south": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"west": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"up": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

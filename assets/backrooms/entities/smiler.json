@@ -1,0 +1,137 @@
+{
+	"code": "smiler",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-land"
+	],
+	"weight": 60,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 1.9
+	},
+	"eyeHeight": 1.7,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-smiler"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/smiler"
+		},
+		"texture": {
+			"base": "backrooms:entity/smiler"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "walk",
+				"animationSpeed": 2.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"immortal": true,
+				"glimpseSeconds": 25,
+				"stalkSeconds": 120
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.05,
+						"stalkMin": 10,
+						"stalkMax": 18,
+						"glimpseFleeDistance": 14,
+						"damage": 6,
+						"damageTier": 3,
+						"damageType": "PiercingAttack",
+						"knockback": 0.3,
+						"attackRange": 0.9,
+						"attackDurationMs": 700,
+						"damageAtMs": 300,
+						"attackCooldownMs": 1800,
+						"walkAnimation": "walk",
+						"runAnimation": "run",
+						"attackAnimation": "attack",
+						"lightBound": true,
+						"stalkSound": "backrooms:entity/smiler",
+						"huntSound": "backrooms:entity/smiler",
+						"soundRange": 20
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {}
+}

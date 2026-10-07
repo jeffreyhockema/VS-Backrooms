@@ -52,7 +52,7 @@ public sealed partial class WorldLayout
                 if (depth == 0)
                 {
                     t.Floor = FloorKind.Seabed; // an island of strange rock; stand on it
-                    if (Hashing.Mod(gx * 7 + gz * 13, 11) == 0) t.Stack = 1; // a boulder of it
+                    if (Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL7Island + 3)) < 0.09) t.Stack = 1; // a boulder of it
                     // Some islands were camped on, in the manner of Fort Surrender: tents, bedrolls, a lantern, what
                     // the researchers could not carry when they left
                     else if (Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 24), Hashing.FloorDiv(gz, 24), SaltL7Island + 1)) < 0.3)
@@ -136,9 +136,11 @@ public sealed partial class WorldLayout
 
         double feature = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL7Feature));
         int cx = 16, cz = 16, centreDepth = OceanDepth(mx * MacroSize + cx, mz * MacroSize + cz);
-        if (feature < 0.14 && centreDepth > 0 && centreDepth < TwilightDepth + 6) AddEntryRoom(b, cx, cz);
-        else if (feature < 0.2 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
-        else if (feature < 0.3 && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
+        // The entry room is one of a kind in its stretch of sea
+        if (RegionPick(mx, mz, 4, SaltL7Feature + 1, 0.9) && centreDepth > 0 && centreDepth < TwilightDepth + 6) AddEntryRoom(b, cx, cz);
+        else if (feature < 0.06 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
+        else if (feature < 0.16 && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
+        else if (feature is >= 0.06 and < 0.1 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddTiledSeabed(b, cx, cz);
     }
 
     /// <summary>
@@ -207,6 +209,22 @@ public sealed partial class WorldLayout
                 t.Variant = 0;
                 if (d2 >= 16 && d2 <= 25 && (x + z) % 2 == 0) t.Variant = Props.StoneStapler; // a standing stone, oddly shaped
                 else if (d2 <= 4) t.Under = Unders.Circle;
+            }
+    }
+
+    /// <summary>
+    /// A patch of white pool tile on the seabed in the twilight zone, faintly lit from nowhere; dive to it (Under =
+    /// TiledSeabed) and you surface in the Poolrooms, Level 37.
+    /// </summary>
+    private static void AddTiledSeabed(Builder b, int cx, int cz)
+    {
+        for (int z = cz - 3; z <= cz + 3; z++)
+            for (int x = cx - 3; x <= cx + 3; x++)
+            {
+                ref Tile t = ref b.At(x, z);
+                if (t.Kind != TileKind.Water || (x - cx) * (x - cx) + (z - cz) * (z - cz) > 10) continue;
+                t.Variant = 0;
+                t.Under = Unders.TiledSeabed;
             }
     }
 

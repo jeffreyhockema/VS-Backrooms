@@ -1,0 +1,378 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hive": "backrooms:block/detail/mothhive"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				2,
+				0,
+				3
+			],
+			"to": [
+				14,
+				5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mid",
+			"from": [
+				3,
+				5,
+				4
+			],
+			"to": [
+				13,
+				10,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				5,
+				8.0
+			],
+			"rotationY": 20
+		},
+		{
+			"name": "Top",
+			"from": [
+				5,
+				10,
+				5
+			],
+			"to": [
+				11,
+				13,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				10,
+				7.5
+			],
+			"rotationY": 40
+		},
+		{
+			"name": "Bud",
+			"from": [
+				10,
+				0,
+				11
+			],
+			"to": [
+				15,
+				6,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				0,
+				13.0
+			],
+			"rotationY": 15
+		},
+		{
+			"name": "Bud2",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				6,
+				4,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hive",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				0,
+				3.5
+			],
+			"rotationY": 30
+		}
+	]
+}

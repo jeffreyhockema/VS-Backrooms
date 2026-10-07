@@ -140,11 +140,11 @@ public sealed partial class WorldLayout
                 double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL10Detail));
                 t.Floor = FloorKind.Grass;
 
-                // Farm roads, four wide and rutted, with telegraph poles along one side
+                // Farm roads, four wide: two strips of tire tracks with grass between, telegraph poles along one side
                 int road = FarmRoadAt(gx, gz);
                 if (road >= 0)
                 {
-                    t.Floor = road is 1 or 2 ? FloorKind.DirtRoad : FloorKind.DirtTracks;
+                    t.Floor = road is 1 or 2 ? FloorKind.Grass : FloorKind.DirtTracks;
                     continue;
                 }
                 if (FarmRoadOffsetX(gx, gz) == 5 && Hashing.Mod(gx, 32) == 0 || FarmRoadOffsetZ(gx, gz) == 5 && Hashing.Mod(gz, 32) == 0)
@@ -163,7 +163,8 @@ public sealed partial class WorldLayout
                 // The edge between two fields: a hedgerow (with gaps to walk through) or a strip of rough grass
                 if (f.EdgeGap < 2.2)
                 {
-                    bool gap = Hashing.Mod(gx + gz, 70) < 3;
+                    // Gaps to walk through here and there along every hedge, whichever way it runs
+                    bool gap = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 4), Hashing.FloorDiv(gz, 4), SaltL10Detail + 5)) < 0.12;
                     if (IsHedgeEdge(f.I, f.J, f.OtherI, f.OtherJ) && !gap) SetWall(ref t, WallPattern.Hedge, BaseStyle.Plain);
                     else if (r < 0.5) t.Variant = Props.TallGrass;
                     continue;

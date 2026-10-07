@@ -1,0 +1,108 @@
+// Level 37: tile walls with a slit of glare, a glowing arch, or a handrail, on one face
+{
+	"code": "poolwall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"slit",
+				"arch",
+				"rail"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"construction": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-slit-north": {
+			"base": "block/detail/poolwall-slit",
+			"rotateY": 0
+		},
+		"*-slit-east": {
+			"base": "block/detail/poolwall-slit",
+			"rotateY": 270
+		},
+		"*-slit-south": {
+			"base": "block/detail/poolwall-slit",
+			"rotateY": 180
+		},
+		"*-slit-west": {
+			"base": "block/detail/poolwall-slit",
+			"rotateY": 90
+		},
+		"*-arch-north": {
+			"base": "block/detail/poolwall-arch",
+			"rotateY": 0
+		},
+		"*-arch-east": {
+			"base": "block/detail/poolwall-arch",
+			"rotateY": 270
+		},
+		"*-arch-south": {
+			"base": "block/detail/poolwall-arch",
+			"rotateY": 180
+		},
+		"*-arch-west": {
+			"base": "block/detail/poolwall-arch",
+			"rotateY": 90
+		},
+		"*-rail-north": {
+			"base": "block/detail/poolwall-rail",
+			"rotateY": 0
+		},
+		"*-rail-east": {
+			"base": "block/detail/poolwall-rail",
+			"rotateY": 270
+		},
+		"*-rail-south": {
+			"base": "block/detail/poolwall-rail",
+			"rotateY": 180
+		},
+		"*-rail-west": {
+			"base": "block/detail/poolwall-rail",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-slit-*": [
+			8,
+			2,
+			18
+		],
+		"*-arch-*": [
+			8,
+			1,
+			17
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-slit-*": 0,
+		"*-arch-*": 0,
+		"*": 99
+	}
+}

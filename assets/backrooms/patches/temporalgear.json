@@ -1,0 +1,5 @@
+[
+	// The temporal gear only sets a spawn point in Level 0 of a Backrooms world (src/Reality/AnchorSystem.cs).
+	// Elsewhere it behaves exactly as the vanilla gear.
+	{ op: "replace", path: "/classByType/gear-temporal", value: "BackroomsTemporalGear", file: "game:itemtypes/resource/gear.json" }
+]

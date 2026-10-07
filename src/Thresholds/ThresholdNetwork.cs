@@ -22,6 +22,8 @@ public sealed class Passage
     public bool TwoWay;
     /// <summary>A sound to play at the threshold and a message to show on arriving, if any.</summary>
     public string Sound, Message;
+    /// <summary>Only open at twilight (dusk and dawn): Level 94's rusted gates.</summary>
+    public bool Twilight;
 }
 
 /// <summary>
@@ -59,6 +61,10 @@ public sealed class ThresholdNetwork
     public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0;
     public static readonly Func<Tile, bool> Door = t => t.Kind == TileKind.Door && t.Pattern is not (WallPattern.Elevator or WallPattern.GarageDoor);
     public static readonly Func<Tile, bool> KitchenDoor = t => t.Kind == TileKind.Door && t.Level == 6 && t.Zone == 1 && t.Variant == 3;
+    /// <summary>The cyan doors marked POOL: the Poolrooms' own, the hotel's few, and the city's baths'.</summary>
+    public static readonly Func<Tile, bool> PoolDoor = t => t.Kind == TileKind.Door && (t.Pattern == WallPattern.PoolDoor || t.Level == 11 && t.Zone == (byte)CityKind.Baths);
+    /// <summary>A front door between Level 94 and the Suburbs.</summary>
+    public static readonly Func<Tile, bool> DollDoor = t => t.Kind == TileKind.Door && t.Under == Unders.DollHouse;
 
     private readonly WorldLayout layout;
     private readonly WorldGeometry geometry;
@@ -84,7 +90,15 @@ public sealed class ThresholdNetwork
     private ulong KeyOf((int X, int Z) source, ulong salt) => Hashing.Hash(seed, source.X, source.Z, salt);
 
     private Func<ulong, (int X, int Z, double Height)?> In(int level, Func<Tile, bool> beside = null) => key =>
-        layout.FindArrival(level, key, beside) is { } a ? (a.X, a.Z, StandHeight) : null;
+        layout.FindArrival(level, key, beside) is { } a ? (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z)) : null;
+
+    /// <summary>Surfacing in a Suburbs backyard pool that was never drained (or, if none is near, anywhere in the Suburbs).</summary>
+    private Func<ulong, (int X, int Z, double Height)?> InFullPool() => key =>
+    {
+        if (layout.FindArrival(9, key, spot: t => t.Under == Unders.FullPool && t.Floor == FloorKind.PoolDeep && !t.Sealed, checkEscape: false) is { } pool)
+            return (pool.X, pool.Z, 0.1);
+        return layout.FindArrival(9, key) is { } a ? (a.X, a.Z, StandHeight) : null;
+    };
 
     private Passage OneWay((int X, int Z) source, ulong key, int level) =>
         new Passage { Source = source, Key = key, Find = In(level) };
@@ -209,6 +223,61 @@ public sealed class ThresholdNetwork
             }
             case 11 when tile.Under == Unders.WheatPatch && rel < 1.6:
                 return BothWays((x, z), KeyOf((x, z), SaltDeep + 17), 10);
+            case 11 when tile.Under == Unders.CinemaScreen && tile.Kind == TileKind.Floor && rel < 2.5:
+            {
+                // Walk up to the screen and on into the picture: you fall out of the sky over the hills of Level 94
+                var screen = Whole(t => t.Under == Unders.CinemaScreen && t.Kind == TileKind.Floor);
+                Passage film = BothWays(screen, KeyOf(screen, SaltDeep + 94), WorldLayout.Motion);
+                film.Message = "backrooms:cinemascreen";
+                return film;
+            }
+            case 7 when tile.Under == Unders.TiledSeabed && rel < -tile.Depth + 2:
+            {
+                // Down to the white tile on the seabed, and up into the Poolrooms
+                var tiled = Whole(t => t.Under == Unders.TiledSeabed);
+                Passage dive = OneWay(tiled, KeyOf(tiled, SaltDeep + 37), WorldLayout.Poolrooms);
+                dive.Message = "backrooms:surface37";
+                return dive;
+            }
+            case 9 when tile.Under == Unders.FullPool && tile.Floor == FloorKind.PoolDeep && rel < -0.7:
+            {
+                // The bottom of the pool is not the bottom
+                var pool = Whole(t => t.Under == Unders.FullPool);
+                Passage dive = OneWay(pool, KeyOf(pool, SaltDeep + 38), WorldLayout.Poolrooms);
+                dive.Message = "backrooms:surface37";
+                return dive;
+            }
+            case WorldLayout.Poolrooms when tile.Under == Unders.TunnelMouth && rel < 2:
+            {
+                // Into the black of a tunnel mouth, and out over the sea
+                var mouth = Whole(t => t.Under == Unders.TunnelMouth);
+                Passage tunnel = BothWays(mouth, KeyOf(mouth, SaltDeep + 39), 7);
+                tunnel.Message = "backrooms:tunnelmouth";
+                return tunnel;
+            }
+            case WorldLayout.Poolrooms when tile.Under == Unders.PoolCarpet && rel < 2:
+            {
+                // Where the tile gives way to office carpet: on into the Abandoned Office
+                var carpet = Whole(t => t.Under == Unders.PoolCarpet);
+                Passage office = BothWays(carpet, KeyOf(carpet, SaltDeep + 40), 4);
+                office.Message = "backrooms:poolcarpet";
+                return office;
+            }
+            case WorldLayout.Poolrooms when tile.Under == Unders.PitBottom && rel < -tile.Depth + 2.5:
+            {
+                // The bottom of a pit no one has found the bottom of: you come up in a backyard pool in the Suburbs
+                var pit = Whole(t => t.Under == Unders.PitBottom);
+                return new Passage { Source = pit, Key = KeyOf(pit, SaltDeep + 41), Find = InFullPool(), Message = "backrooms:pitbottom" };
+            }
+            case WorldLayout.Motion when tile.Kind == TileKind.Floor && tile.Variant == Worldgen.Props.TwilightGate && rel - tile.Height < 2:
+            {
+                // Through a rusted gate at twilight, into the fields
+                var gate = Whole(t => t.Kind == TileKind.Floor && t.Variant == Worldgen.Props.TwilightGate);
+                Passage fields = BothWays(gate, KeyOf(gate, SaltDeep + 42), 10);
+                fields.Twilight = true;
+                fields.Message = "backrooms:twilightgate";
+                return fields;
+            }
         }
         return null;
     }
@@ -278,6 +347,31 @@ public sealed class ThresholdNetwork
             case "rowhouse":
                 // A rowhouse's front door opens into the Suburbs: where it can, out of a house's locked front door
                 return WithSound(BothWays(at, here, 9, Door), "game:sounds/block/door");
+            case "pooldoor":
+            {
+                // A door marked POOL: from the hotel or the city's baths into the Poolrooms, out of one of its own POOL
+                // doors; and from the Poolrooms out into a corridor of the hotel, beside a locked guest door
+                var door = layout.FeatureOrigin(x, z, PoolDoor);
+                ulong key = KeyOf(door, SaltDoor + 37);
+                return WithSound(level == WorldLayout.Poolrooms ? BothWays(door, key, 5, Door) : BothWays(door, key, WorldLayout.Poolrooms, PoolDoor),
+                    "game:sounds/block/door");
+            }
+            case "dollhouse":
+            {
+                // A doll's house in the Suburbs opens onto a house on the hills of Level 94, and one house in forty there
+                // opens back onto the Suburbs, out of a locked front door
+                var door = layout.FeatureOrigin(x, z, DollDoor);
+                ulong key = KeyOf(door, SaltDoor + 94);
+                Passage house = level == WorldLayout.Motion ? BothWays(door, key, 9, Door) : BothWays(door, key, WorldLayout.Motion, DollDoor);
+                house.Message = level == WorldLayout.Motion ? null : "backrooms:dollhouse";
+                return WithSound(house, "game:sounds/block/door");
+            }
+            case "floodedhouse":
+            {
+                // A house full of water to its ceiling: open the door and it takes you, out into the sea
+                ulong key = KeyOf(at, SaltDoor + 95);
+                return new Passage { Source = at, Key = key, Find = In(7), Message = "backrooms:floodedhouse", Sound = "game:sounds/environment/largesplash1" };
+            }
             case "basement":
                 return WithSound(BothWays(at, here, 0), "game:sounds/block/door");
             case "substation":
@@ -350,6 +444,23 @@ public sealed class ThresholdNetwork
         return new Passage { Source = (x, z), Key = Hashing.Mix(key), Find = InSnackrooms(), Message = "backrooms:vending-snackrooms", Sound = "game:sounds/block/vesselopen" };
     }
 
+    /// <summary>
+    /// Where the King sends whoever wins his trial, one way, from his table (so it is the same for everyone): the
+    /// Habitable Zone, the Abandoned Office, or back to a town in Level 94.
+    /// </summary>
+    public Passage Trial((int X, int Z) chair)
+    {
+        ulong key = KeyOf(chair, SaltDeep + 96);
+        double r = Hashing.Unit(key);
+        if (r < 0.8) return new Passage { Source = chair, Key = key, Find = In(r < 0.4 ? 1 : 4), Message = "backrooms:trial-carried" };
+        return new Passage
+        {
+            Source = chair, Key = key, Message = "backrooms:trial-carried",
+            Find = k => layout.FindArrival(WorldLayout.Motion, k, spot: t => t.Floor == FloorKind.MotionConcrete && t.Variant == 0 && !t.Sealed) is { } a
+                ? (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z)) : null,
+        };
+    }
+
     private static int ElevatorTarget(int level, double r) => level switch
     {
         3 => r < 0.6 ? 4 : r < 0.9 ? 5 : 3,
@@ -367,7 +478,8 @@ public sealed class ThresholdNetwork
     {
         if (layout.StandingSpotNear(source.X, source.Z) is not { } spot) return null;
         int level = layout.LevelAt(WorldLayout.MacroOf(spot.X), WorldLayout.MacroOf(spot.Z));
-        return new Link(spot.X + 0.5, geometry.FloorFor(level) + StandHeight, spot.Z + 0.5, false);
+        // (On the hills of Level 94 the ground is not the level's floor, and in the Poolrooms the floor may be under water)
+        return new Link(spot.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(spot.X, spot.Z), spot.Z + 0.5, false);
     }
 
     /// <summary>

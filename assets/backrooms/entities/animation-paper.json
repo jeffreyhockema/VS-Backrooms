@@ -1,0 +1,198 @@
+{
+	"code": "animation-paper",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 5,
+	"hitboxSize": {
+		"x": 0.5,
+		"y": 1.45
+	},
+	"deadHitboxSize": {
+		"x": 0.5,
+		"y": 0.4
+	},
+	"eyeHeight": 1.3,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-animation-paper"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/animation-paper"
+		},
+		"texture": {
+			"base": "backrooms:entity/animation-paper"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "slap",
+				"animation": "slap",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 5,
+				"maxhealth": 5
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"stalkSeconds": 150
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.014,
+						"runSpeed": 0.026,
+						"stalkMin": 6,
+						"stalkMax": 10,
+						"glimpseFleeDistance": 10,
+						"damage": 1.5,
+						"damageTier": 0,
+						"damageType": "SlashingAttack",
+						"knockback": 0.1,
+						"attackRange": 0.9,
+						"attackDurationMs": 600,
+						"damageAtMs": 330,
+						"attackCooldownMs": 1100,
+						"walkAnimation": "walk",
+						"runAnimation": "run",
+						"attackAnimation": "slap",
+						"fearsFire": true,
+						"retreatBelow": 0.3,
+						"stalkSound": "game:effect/writing",
+						"attackSound": "game:effect/swoosh",
+						"voices": [
+							"backrooms:entity/laughter"
+						],
+						"soundRange": 20
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"priorityForCancel": 1.35,
+						"movespeed": 0.006,
+						"animation": "walk",
+						"animationSpeed": 1.0,
+						"maxDistanceToSpawn": 24
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:effect/clothrip",
+		"death": "game:effect/clothrip"
+	}
+}

@@ -1,0 +1,154 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"archglow": "backrooms:block/detail/archglow",
+		"pooltile": "backrooms:block/detail/pooltile"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Arch",
+			"from": [
+				3,
+				0,
+				-0.02
+			],
+			"to": [
+				13,
+				12,
+				0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						10,
+						12
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "ArchTop",
+			"from": [
+				4.5,
+				12,
+				-0.02
+			],
+			"to": [
+				11.5,
+				14,
+				0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "ArchCrown",
+			"from": [
+				6.5,
+				14,
+				-0.02
+			],
+			"to": [
+				9.5,
+				15,
+				0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,399 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"salt": "backrooms:block/firesalt"
+	},
+	"elements": [
+		{
+			"name": "Crystal0",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				2,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						5,
+						5,
+						11,
+						7
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						5,
+						5,
+						11,
+						7
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						5,
+						5,
+						11,
+						7
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						5,
+						5,
+						11,
+						7
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						5,
+						5,
+						11,
+						11
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Crystal1",
+			"from": [
+				4,
+				0,
+				7
+			],
+			"to": [
+				7,
+				1.5,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						4,
+						7,
+						7,
+						8.5
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						4,
+						7,
+						7,
+						8.5
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						4,
+						7,
+						7,
+						8.5
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						4,
+						7,
+						7,
+						8.5
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						4,
+						7,
+						7,
+						10
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Crystal2",
+			"from": [
+				9,
+				0,
+				4
+			],
+			"to": [
+				12,
+				1.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						9,
+						4,
+						12,
+						5.5
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						9,
+						4,
+						12,
+						5.5
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						9,
+						4,
+						12,
+						5.5
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						9,
+						4,
+						12,
+						5.5
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						9,
+						4,
+						12,
+						7
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Crystal3",
+			"from": [
+				7,
+				0,
+				9
+			],
+			"to": [
+				10,
+				1.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						7,
+						9,
+						10,
+						10.5
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						7,
+						9,
+						10,
+						10.5
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						7,
+						9,
+						10,
+						10.5
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						7,
+						9,
+						10,
+						10.5
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						7,
+						9,
+						10,
+						12
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Crystal4",
+			"from": [
+				6.5,
+				0,
+				6.5
+			],
+			"to": [
+				9.5,
+				3.2,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.7
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.7
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.7
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.7
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.5
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Crystal5",
+			"from": [
+				8,
+				0,
+				7
+			],
+			"to": [
+				9.5,
+				4,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#salt",
+					"uv": [
+						8,
+						7,
+						9.5,
+						11
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#salt",
+					"uv": [
+						8,
+						7,
+						9.5,
+						11
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#salt",
+					"uv": [
+						8,
+						7,
+						9.5,
+						11
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#salt",
+					"uv": [
+						8,
+						7,
+						9.5,
+						11
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#salt",
+					"uv": [
+						8,
+						7,
+						9.5,
+						8.5
+					],
+					"glow": 120
+				}
+			}
+		}
+	]
+}

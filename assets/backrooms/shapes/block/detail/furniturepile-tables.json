@@ -1,0 +1,293 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dresserwood": "backrooms:block/detail/dresserwood",
+		"tabletop": "backrooms:block/detail/tabletop",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				0,
+				8,
+				1
+			],
+			"to": [
+				16,
+				9.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#tabletop",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.75,
+				8.0
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "Leg",
+			"from": [
+				2,
+				0,
+				3
+			],
+			"to": [
+				3.5,
+				9,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				13,
+				0,
+				12
+			],
+			"to": [
+				14.5,
+				7,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				12,
+				6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"up": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						7
+					]
+				},
+				"down": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						7,
+						7
+					]
+				}
+			}
+		}
+	]
+}

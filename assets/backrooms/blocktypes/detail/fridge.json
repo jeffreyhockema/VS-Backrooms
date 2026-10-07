@@ -133,24 +133,24 @@
 			"type": "item",
 			"code": "crackers",
 			"quantity": {
-				"avg": 0.4,
-				"var": 0.4
+				"avg": 0.25,
+				"var": 0.25
 			}
 		},
 		{
 			"type": "item",
 			"code": "cannedbeans",
 			"quantity": {
-				"avg": 0.3,
-				"var": 0.3
+				"avg": 0.2,
+				"var": 0.2
 			}
 		},
 		{
 			"type": "item",
 			"code": "game:fruit-redapple",
 			"quantity": {
-				"avg": 0.4,
-				"var": 0.4
+				"avg": 0.35,
+				"var": 0.35
 			}
 		},
 		{

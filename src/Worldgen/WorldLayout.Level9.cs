@@ -124,17 +124,16 @@ public sealed partial class WorldLayout
             t.Floor = wet > 0.48 ? FloorKind.AsphaltWet : leaves > 0.5 ? FloorKind.AsphaltLeaves : FloorKind.Asphalt;
             if (roadX && roadZ) return; // the junction itself
             int along = roadX ? sx : sz, across = roadX ? sz : sx, run = roadX ? gx : gz, block = roadX ? TownBlockX : TownBlockZ;
-            // Zebra crossings where the street meets a junction; a dashed line down the middle; the odd manhole
-            if (along is 8 or 9 || along >= block - 2) t.Floor = roadX ? FloorKind.AsphaltCrossing : FloorKind.AsphaltCrossingNS;
-            else if (across == 3 && Hashing.Mod(run, 6) < 3) t.Floor = roadX ? FloorKind.AsphaltLine : FloorKind.AsphaltLineNS;
-            else if (across == 5 && Hashing.Mod(run, 52) == 26) t.Floor = FloorKind.Manhole;
+            // The roads were never painted: wet asphalt, leaves, and the odd manhole
+            if (across == 5 && Hashing.Mod(run, 52) == 26 && along is > 9 && along < block - 2) t.Floor = FloorKind.Manhole;
             return;
         }
 
         t.Floor = FloorKind.Sidewalk;
-        // Stop signs on the corners of every junction, facing the traffic coming into it
-        if (sx == 7 && sz == 7) { t.Variant = Props.StopSign; t.Pier = ArchPier.South; return; }
-        if (sx == 0 && sz == 0) { t.Variant = Props.StopSign; t.Pier = ArchPier.North; return; }
+        // Stop signs on the corners of a few junctions, facing the traffic coming into them
+        bool signed = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx + 8, TownBlockX), Hashing.FloorDiv(gz + 8, TownBlockZ), SaltL9Street + 3)) < 0.2;
+        if (signed && sx == 7 && sz == 7) { t.Variant = Props.StopSign; t.Pier = ArchPier.South; return; }
+        if (signed && sx == 0 && sz == 0) { t.Variant = Props.StopSign; t.Pier = ArchPier.North; return; }
         // Street lamps along the pavements on the lot side, every 16 blocks; most are dead
         bool lampX = sz == 7 && sx >= 8 && Hashing.Mod(gx, 16) == 12;
         bool lampZ = sx == 7 && sz >= 8 && Hashing.Mod(gz, 16) == 4;
@@ -184,7 +183,10 @@ public sealed partial class WorldLayout
         for (int i = 0; i < tiles.Length; i++) tiles[i].Floor = FloorKind.Lawn;
 
         double r = rng.NextDouble();
-        LotKind kind = r < 0.88 ? LotKind.House : r < 0.94 ? LotKind.Field : LotKind.Empty;
+        // Now and then, in the far suburbs, a lot is a grass field with a path running off between the houses
+        // toward Level 10
+        bool farOut = RingFraction(lotX + w / 2, lotZ + d / 2, 9) > 0.66;
+        LotKind kind = r < 0.88 ? LotKind.House : r < 0.89 && farOut ? LotKind.Field : LotKind.Empty;
 
         // A wooden fence round the backyard (connections: N1 E2 S4 W8)
         void Fence(int u, int v, byte mask)
@@ -218,6 +220,21 @@ public sealed partial class WorldLayout
                 var house = PlanHouse(tiles, w, ref rng, farmhouse: false);
                 PlanFrontYard(tiles, w, house, ref rng);
                 PlanBackyard(tiles, w, d, house, ref rng);
+                // One backyard pool in a few dozen was never drained: lit teal at midnight, and its bottom is not the
+                // bottom (Level 37). One house in a hundred and fifty is a doll's house, too clean and too cream, and
+                // its front door opens onto Level 94
+                ulong odd = Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 37);
+                if (Hashing.Unit(odd) < 0.06)
+                    for (int i = 0; i < tiles.Length; i++)
+                        if (tiles[i].Floor == FloorKind.PoolDeep) tiles[i].Under = Unders.FullPool;
+                if (Hashing.Unit(Hashing.Mix(odd)) < 1 / 150.0)
+                {
+                    for (int i = 0; i < tiles.Length; i++)
+                        if (tiles[i].Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick) tiles[i].Pattern = WallPattern.SidingYellow;
+                    ref Tile front = ref At(house.DoorU, house.V0);
+                    front.Kind = TileKind.Door;
+                    front.Under = Unders.DollHouse;
+                }
                 if (rng.Chance(0.55)) Tree(rng.Chance(0.5) ? 2 : w - 3, 2);
                 // Some lots are mirrored, so the garages and porches are not all on one side
                 if (rng.Chance(0.5)) FlipU(tiles, w, d);

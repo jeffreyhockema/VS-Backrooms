@@ -1,0 +1,149 @@
+// Something someone lost at the pool: a towel, a flip-flop, a pool noodle
+{
+	"code": "lostthing",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"towel",
+				"flipflop",
+				"noodle"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-towel-north": {
+			"base": "block/detail/lostthing-towel",
+			"rotateY": 0
+		},
+		"*-towel-east": {
+			"base": "block/detail/lostthing-towel",
+			"rotateY": 270
+		},
+		"*-towel-south": {
+			"base": "block/detail/lostthing-towel",
+			"rotateY": 180
+		},
+		"*-towel-west": {
+			"base": "block/detail/lostthing-towel",
+			"rotateY": 90
+		},
+		"*-flipflop-north": {
+			"base": "block/detail/lostthing-flipflop",
+			"rotateY": 0
+		},
+		"*-flipflop-east": {
+			"base": "block/detail/lostthing-flipflop",
+			"rotateY": 270
+		},
+		"*-flipflop-south": {
+			"base": "block/detail/lostthing-flipflop",
+			"rotateY": 180
+		},
+		"*-flipflop-west": {
+			"base": "block/detail/lostthing-flipflop",
+			"rotateY": 90
+		},
+		"*-noodle-north": {
+			"base": "block/detail/lostthing-noodle",
+			"rotateY": 0
+		},
+		"*-noodle-east": {
+			"base": "block/detail/lostthing-noodle",
+			"rotateY": 270
+		},
+		"*-noodle-south": {
+			"base": "block/detail/lostthing-noodle",
+			"rotateY": 180
+		},
+		"*-noodle-west": {
+			"base": "block/detail/lostthing-noodle",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-towel-north"
+		],
+		"decorative": [
+			"*-towel-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.2,
+			"z2": 0.82
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.2,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.2,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.2,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"dropsByType": {
+		"*-towel-*": [
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-flipflop-*": [],
+		"*-noodle-*": []
+	}
+}

@@ -1,0 +1,493 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"gilt": "backrooms:block/level5/gilt",
+		"velvet": "backrooms:block/level5/velvet"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				2,
+				8,
+				2
+			],
+			"to": [
+				14,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				2,
+				10,
+				12
+			],
+			"to": [
+				14,
+				30,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				4,
+				8,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				12,
+				0,
+				2
+			],
+			"to": [
+				14,
+				8,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				2,
+				0,
+				12
+			],
+			"to": [
+				4,
+				8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				12,
+				0,
+				12
+			],
+			"to": [
+				14,
+				8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Crest",
+			"from": [
+				5,
+				30,
+				12
+			],
+			"to": [
+				11,
+				33,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				}
+			}
+		}
+	]
+}

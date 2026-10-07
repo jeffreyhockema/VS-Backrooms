@@ -59,9 +59,9 @@ public class BackroomsModSystem : ModSystem
                 .HandleWith(OnColumnCommand)
             .EndSubCommand()
             .BeginSubCommand("goto")
-                .WithDescription("Teleports you into a level (0-11)")
+                .WithDescription("Teleports you into a level (0-11, 37 or 94)")
                 .RequiresPlayer()
-                .WithArgs(api.ChatCommands.Parsers.IntRange("level", 0, WorldLayout.LevelCount - 1))
+                .WithArgs(api.ChatCommands.Parsers.IntRange("level", 0, 94))
                 .HandleWith(OnGotoCommand)
             .EndSubCommand()
             .BeginSubCommand("shift")
@@ -126,6 +126,10 @@ public class BackroomsModSystem : ModSystem
         // The climate map only tints grass and leaves here (rain and temperature come from OnGetClimate): mild and
         // moist, so the Suburbs' lawns and Level 10's meadows and hedges are green rather than parched
         int climate = (Climate.DescaleTemperature(TintTemperature) << 16) | (TintRainfall << 8) | 0;
+        // The Poolrooms' water is the blue-green of a pool: the corner of the water tint map that is that colour
+        int size = sapi.WorldManager.RegionSize;
+        if (layout != null && layout.MayReachPoolrooms(regionX * size, regionZ * size, size))
+            climate = (Climate.DescaleTemperature(-20f) << 16) | (255 << 8);
         mapRegion.ClimateMap = ConstantMap(climate);
         mapRegion.ForestMap = ConstantMap(0);
         mapRegion.ShrubMap = ConstantMap(0);
@@ -215,12 +219,13 @@ public class BackroomsModSystem : ModSystem
     private TextCommandResult OnGotoCommand(TextCommandCallingArgs args)
     {
         if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
-        int level = (int)args[0];
+        int number = (int)args[0], level = WorldLayout.FromDisplayNumber(number);
+        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37 or 94)");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
         return thresholds.Send((IServerPlayer)args.Caller.Player, level, key, null)
-            ? TextCommandResult.Success($"Sent to Level {level}")
-            : TextCommandResult.Error($"Found nowhere to arrive in Level {level}");
+            ? TextCommandResult.Success($"Sent to Level {number}")
+            : TextCommandResult.Error($"Found nowhere to arrive in Level {number}");
     }
 
     private TextCommandResult OnShiftCommand(TextCommandCallingArgs args)
@@ -254,9 +259,18 @@ public class BackroomsModSystem : ModSystem
         if (ba.GetChunkAtBlockPos(cx + r, g.FloorY, cz + r) == null) { missing++; sapi.WorldManager.LoadChunkColumnPriority((cx + r) / GlobalConstants.ChunkSize, (cz + r) / GlobalConstants.ChunkSize, new ChunkLoadOptions { KeepLoaded = true }); }
         if (missing > 0) return TextCommandResult.Success($"{missing} chunk columns are not loaded yet. Loading them; run the command again in a moment.");
 
-        // The city lies lower than the other levels, and its towers rise much higher
+        // The city lies lower than the other levels, and its towers rise much higher; the Poolrooms' pits go deep, and
+        // Motion's hills and mountain rise far above its valleys
         int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
-        int y0 = floor - 10, y1 = dumpLevel == 11 ? Math.Min(g.TopY, floor + 90) : g.BandTop, size = 2 * r + 1, height = y1 - y0 + 1;
+        int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 4, _ => floor - 10 };
+        int y1 = dumpLevel switch
+        {
+            11 => Math.Min(g.TopY, floor + 90),
+            WorldLayout.Poolrooms => floor + 16,
+            WorldLayout.Motion => Math.Min(g.TopY, floor + 66),
+            _ => g.BandTop,
+        };
+        int size = 2 * r + 1, height = y1 - y0 + 1;
         var palette = new System.Collections.Generic.Dictionary<string, int>();
         var cells = new int[size * size * height];
         var light = new byte[cells.Length];
@@ -293,7 +307,7 @@ public class BackroomsModSystem : ModSystem
         int mx = WorldLayout.MacroOf(pos.X), mz = WorldLayout.MacroOf(pos.Z);
         int level = layout.LevelAt(mx, mz);
         float stability = layout.StabilityAt(pos.X, pos.Y, pos.Z, generator.Geometry.FloorY);
-        if (level != 0) return TextCommandResult.Success($"Level {level}, stability {stability:0.00}");
+        if (level != 0) return TextCommandResult.Success($"Level {WorldLayout.DisplayNumber(level)}, stability {stability:0.00}");
         string zone = layout.IsManilaMacro(mx, mz) ? "Manila Room" : layout.ZoneAt(mx, mz).ToString();
         return TextCommandResult.Success($"Level 0, zone: {zone}, stability {stability:0.00}");
     }
@@ -320,7 +334,8 @@ public class BackroomsModSystem : ModSystem
     private void OnGetClimateServer(ref ClimateCondition climate, BlockPos pos, EnumGetClimateMode mode, double totalDays)
     {
         if (!isBackroomsWorld) return;
-        ApplyIndoorClimate(climate, layout.TemperatureAt(pos.X, pos.Y, pos.Z, generator.Geometry.FloorY));
+        // (The Mangled's weather: the air goes cold round it)
+        ApplyIndoorClimate(climate, layout.TemperatureAt(pos.X, pos.Y, pos.Z, generator.Geometry.FloorY) - Entities.MangledEvent.ColdDegrees * Entities.MangledEvent.ColdAt(pos));
     }
 
     private void OnGetClimateClient(ref ClimateCondition climate, BlockPos pos, EnumGetClimateMode mode, double totalDays)
@@ -333,7 +348,11 @@ public class BackroomsModSystem : ModSystem
             clientIsBackroomsWorld = worldClimate == BackroomsWorld.ClimateCode;
         }
         // The client only uses climate for visuals; body temperature is worked out on the server
-        if (clientIsBackroomsWorld == true) ApplyIndoorClimate(climate, LobbyTemperature);
+        if (clientIsBackroomsWorld == true)
+        {
+            float fog = capi.World.Player?.Entity?.WatchedAttributes.GetFloat(Entities.MangledEvent.FogKey) ?? 0f;
+            ApplyIndoorClimate(climate, LobbyTemperature - Entities.MangledEvent.ColdDegrees * fog);
+        }
     }
 
     private static void ApplyIndoorClimate(ClimateCondition climate, float temperature)

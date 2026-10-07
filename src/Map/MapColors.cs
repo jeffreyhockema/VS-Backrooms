@@ -26,6 +26,12 @@ public static class MapColors
     private static readonly int HouseFloor = Rgb(0xA88A64);
     private static readonly int CaveFloor = Rgb(0x6E6A66);
     private static readonly int Tar = Rgb(0x1E1A16);
+    private static readonly int PoolTile = Rgb(0xE8EAE4);
+    private static readonly int PoolRed = Rgb(0x8A2A2E);
+    private static readonly int Turf = Rgb(0x58B23C);
+    private static readonly int Clay = Rgb(0xA8683E);
+    private static readonly int Glass = Rgb(0xC6E2F0);
+    private static readonly int Funhouse = Rgb(0xE8A0C8);
 
     /// <summary>
     /// Classifies the column at x, z, standing on the floor block at <paramref name="floorY"/>. A doorway (open at
@@ -71,6 +77,13 @@ public static class MapColors
         if (path.StartsWith("housefloor")) return HouseFloor;
         if (path.StartsWith("rock-") || path.StartsWith("ore-")) return CaveFloor;
         if (path.StartsWith("tar")) return Tar;
+        if (path.StartsWith("pooltile")) return path.EndsWith("red") ? PoolRed : PoolTile;
+        if (path.StartsWith("clayturf")) return Turf;
+        if (path.StartsWith("claysoil") || path.StartsWith("motionground-path")) return Clay;
+        if (path.StartsWith("motionground-asphalt")) return Asphalt;
+        if (path.StartsWith("motionground")) return Pavement;
+        if (path.StartsWith("glassmountain")) return Glass;
+        if (path.StartsWith("funfloor")) return Funhouse;
         return OtherFloor;
     }
 

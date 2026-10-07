@@ -86,6 +86,14 @@
 				"avg": 1,
 				"var": 1
 			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-door",
+			"quantity": {
+				"avg": 0.05,
+				"var": 0
+			}
 		}
 	]
 }

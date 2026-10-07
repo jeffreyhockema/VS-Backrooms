@@ -1,0 +1,515 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"chrome": "backrooms:block/detail/chrome",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "LegA",
+			"from": [
+				7,
+				0,
+				2
+			],
+			"to": [
+				8,
+				18,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.5,
+				18,
+				8
+			],
+			"rotationX": -15
+		},
+		{
+			"name": "LegB",
+			"from": [
+				2,
+				0,
+				12
+			],
+			"to": [
+				3,
+				18,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				18,
+				8
+			],
+			"rotationX": 10,
+			"rotationZ": 12
+		},
+		{
+			"name": "LegC",
+			"from": [
+				13,
+				0,
+				12
+			],
+			"to": [
+				14,
+				18,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				18,
+				8
+			],
+			"rotationX": 10,
+			"rotationZ": -12
+		},
+		{
+			"name": "Body",
+			"from": [
+				4,
+				18,
+				4
+			],
+			"to": [
+				12,
+				26,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Lens",
+			"from": [
+				6,
+				20,
+				0
+			],
+			"to": [
+				10,
+				24,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "ReelA",
+			"from": [
+				4,
+				26,
+				4
+			],
+			"to": [
+				12,
+				32,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "ReelB",
+			"from": [
+				4,
+				26,
+				12
+			],
+			"to": [
+				12,
+				32,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				}
+			}
+		}
+	]
+}

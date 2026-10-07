@@ -1,0 +1,32 @@
+// Level 94: the glass of the transparent mountain
+{
+	"code": "glassmountain",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"renderpass": "Transparent",
+	"faceCullMode": "MergeMaterial",
+	"sideopaque": {
+		"all": false
+	},
+	"textures": {
+		"all": {
+			"base": "block/detail/glassmountain"
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

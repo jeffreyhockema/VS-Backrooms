@@ -9,14 +9,18 @@ namespace Backrooms.Worldgen;
 /// corridors in niches, long cables sprawl along the walls and droop from the trays, outlets spark, and sparse
 /// amber fixtures leave long stretches dark.
 ///
-/// Corridors follow a lattice: 2-wide lanes every 8 blocks, joined by a random spanning tree (so the whole cell
-/// is connected) plus a few extra loops. Some links are 1-wide squeezes; many loops are blocked by indestructible
-/// white bars, so the way on is visible but out of reach. The solid blocks between lanes hold electrical rooms,
-/// each with a small sign beside its door bearing a number and jumbled text: machine rooms, generator rooms,
-/// control rooms, assembly lines, caged transformers behind bars, barred window rooms glowing with daylight,
-/// supply caches and freight elevators. Rarely a whole cell is a vast transformer hall, and more rarely still a
-/// Sanctum: a hushed gothic hall of pale masonry with a statue of an angel at its heart. Manholes drop into
-/// flooded utility tunnels below the corridors, where it is freezing.
+/// The hallways are "extremely inconsistent in their dimensions". Corridors follow a lattice, joined by a random
+/// spanning tree that tends to run straight on (so the whole cell is connected) plus a few extra loops. In the tight
+/// districts lanes are 2 wide every 8 blocks; in the wide districts, patches of cells a few across, they are galleries
+/// 4 wide and 4 high every 16. Some links are 1-wide squeezes, half of them so low (two blocks) the ceiling all but
+/// touches your head; many loops are blocked by indestructible white bars, so the way on is visible but out of reach.
+/// The solid blocks between lanes hold electrical rooms, each with a small sign beside its door bearing a number and
+/// jumbled text: machine rooms, generator rooms, control rooms, assembly lines, boiler rooms, supply caches and
+/// freight elevators; behind bars, caged transformers, windows glowing with daylight, a worn statue among candles, a
+/// pool of black sludge. In each region of five cells by five, two by two of them may be one vast hall, four high: a
+/// transformer hall or an assembly line. Rarer still (one per eight by eight) is a Sanctum: a hushed gothic hall of
+/// pale masonry with a statue of an angel at its heart. Manholes drop into flooded utility tunnels below the
+/// corridors, where it is freezing.
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -28,21 +32,82 @@ public sealed partial class WorldLayout
     private const ulong SaltL3Light = 0x3C03;
     private const ulong SaltL3Section = 0x3C04;
     private const ulong SaltL3Niche = 0x3C05;
-    private const ulong SaltL3Cell = 0x3C06;
 
-    private enum L3Room { Machine, Window, Cache, Elevator, Generator, Control, Assembly, Cage, Boiler }
+    private const ulong SaltL3District = 0x3C07;
+    private const ulong SaltL3Hall = 0x3C08;
+    private const ulong SaltL3Sanctum = 0x3C09;
 
-    private Edge Level3Edge(ref Rng rng, int mx, int mz)
+    /// <summary>Halls: one site per this many cells each way.</summary>
+    private const int L3HallRegion = 5;
+    /// <summary>Sanctums: one per this many cells each way.</summary>
+    private const int L3SanctumRegion = 8;
+
+    private enum L3Room { Machine, Window, Cache, Elevator, Generator, Control, Assembly, Cage, Boiler, Shrine, Sludge }
+
+    /// <summary>What a Level 3 cell is: a cramped tangle, a district of wide galleries, part of a hall, or a Sanctum.</summary>
+    private enum L3Kind { Tight, Wide, TransformerHall, AssemblyHall, Sanctum }
+
+    /// <summary>
+    /// The lattice a cell's corridors follow: lanes every <paramref name="Pitch"/> blocks starting at offset 3, so
+    /// lanes of tight and wide districts meet where they share a position.
+    /// </summary>
+    private static (int Nodes, int Pitch, int Width) L3Lattice(L3Kind kind) => kind == L3Kind.Wide ? (2, 16, 4) : (4, 8, 2);
+
+    private L3Kind L3KindAt(int mx, int mz)
+    {
+        if (L3HallAt(mx, mz) is { } hall) return hall.Kind;
+        if (IsL3Sanctum(mx, mz)) return L3Kind.Sanctum;
+        // Districts come in patches a few cells across
+        return Noise(mx / 5.0, mz / 5.0, SaltL3District) > 0.12 ? L3Kind.Wide : L3Kind.Tight;
+    }
+
+    /// <summary>
+    /// The hall a cell is part of, if any: in each region of <see cref="L3HallRegion"/> cells each way, two cells by two
+    /// at a place picked from the region, a vast room four blocks high (when all four cells are Level 3).
+    /// </summary>
+    private (L3Kind Kind, int X0, int Z0)? L3HallAt(int mx, int mz)
+    {
+        int rx = Hashing.FloorDiv(mx, L3HallRegion), rz = Hashing.FloorDiv(mz, L3HallRegion);
+        ulong h = Hashing.Hash(seed, rx, rz, SaltL3Hall);
+        if (Hashing.Unit(h) >= 0.75) return null;
+        int x0 = rx * L3HallRegion + (int)((h >> 8) % (L3HallRegion - 1)), z0 = rz * L3HallRegion + (int)((h >> 16) % (L3HallRegion - 1));
+        if (mx < x0 || mz < z0 || mx > x0 + 1 || mz > z0 + 1) return null;
+        for (int dz = 0; dz <= 1; dz++)
+            for (int dx = 0; dx <= 1; dx++)
+                if (LevelAt(x0 + dx, z0 + dz) != 3) return null;
+        return (Hashing.Unit(h << 24) < 0.6 ? L3Kind.TransformerHall : L3Kind.AssemblyHall, x0, z0);
+    }
+
+    /// <summary>A Sanctum: at most one cell in each region of <see cref="L3SanctumRegion"/> cells each way.</summary>
+    private bool IsL3Sanctum(int mx, int mz)
+    {
+        int rx = Hashing.FloorDiv(mx, L3SanctumRegion), rz = Hashing.FloorDiv(mz, L3SanctumRegion);
+        ulong h = Hashing.Hash(seed, rx, rz, SaltL3Sanctum);
+        if (Hashing.Unit(h) >= 0.7) return false;
+        if (mx != rx * L3SanctumRegion + (int)((h >> 8) % L3SanctumRegion) || mz != rz * L3SanctumRegion + (int)((h >> 16) % L3SanctumRegion)) return false;
+        return LevelAt(mx, mz) == 3 && L3HallAt(mx, mz) == null;
+    }
+
+    private Edge Level3Edge(ref Rng rng, int mx, int mz, int nx, int nz)
     {
         var edge = new Edge { Pattern = Level3Material(mx, mz) };
+        L3Kind a = L3KindAt(mx, mz), b = L3KindAt(nx, nz);
+        // Within a hall there is no wall at all
+        if (L3HallAt(mx, mz) is { } ha && L3HallAt(nx, nz) is { } hb && ha.X0 == hb.X0 && ha.Z0 == hb.Z0) return edge;
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
 
-        // Lanes cross the edge at lattice positions; at least one always does
-        int forced = rng.Range(0, 3);
-        for (int k = 0; k < 4; k++)
+        // Lanes cross the edge where both sides have one: every 8 blocks between tight districts, every 16 where a
+        // wide one is involved, and the full width of a gallery between two wide ones. Halls and Sanctums are open
+        // inside, so they take whatever the other side has. At least one always crosses.
+        bool OpenInside(L3Kind k) => k is L3Kind.TransformerHall or L3Kind.AssemblyHall or L3Kind.Sanctum;
+        L3Kind lattice = OpenInside(a) ? (OpenInside(b) ? L3Kind.Tight : b) : OpenInside(b) || a == b ? a : L3Kind.Wide;
+        var (nodes, pitch, _) = L3Lattice(lattice);
+        int width = a == L3Kind.Wide && b == L3Kind.Wide ? 4 : 2;
+        int forced = rng.Range(0, nodes - 1);
+        for (int k = 0; k < nodes; k++)
         {
             if (k != forced && !rng.Chance(0.55)) continue;
-            edge.Tiles[k * L3Grid + L3Lane] = edge.Tiles[k * L3Grid + L3Lane + 1] = EdgeTile.Open;
+            for (int j = 0; j < width; j++) edge.Tiles[k * pitch + L3Lane + j] = EdgeTile.Open;
         }
         return edge;
     }
@@ -68,107 +133,117 @@ public sealed partial class WorldLayout
                     if (x >= 1 && z >= 1 && x < MacroSize && z < MacroSize) open[TileIndex(x, z)] = true;
         }
 
-        static int Lane(int i) => i * L3Grid + L3Lane;
-
-        double cellKind = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL3Cell));
-        bool sanctum = cellKind < 0.025;
-        bool transformerHall = !sanctum && cellKind < 0.065;
-        if (sanctum)
+        L3Kind kind = L3KindAt(mx, mz);
+        if (kind == L3Kind.Sanctum)
         {
             BuildSanctum(b, mx, mz);
             return;
         }
-        if (transformerHall)
+        var (nodes, pitch, laneWidth) = L3Lattice(kind);
+        int Lane(int i) => i * pitch + L3Lane;
+        var low = new List<(int X0, int Z0, int X1, int Z1)>();
+
+        if (kind is L3Kind.TransformerHall or L3Kind.AssemblyHall)
         {
-            // A vast transformer hall: rows of transformers and coils on striped floors
-            Carve(2, 2, MacroSize - 2, MacroSize - 2);
-            for (int z = 5; z < MacroSize - 4; z += 5)
-                for (int x = 5; x < MacroSize - 4; x += 3)
-                {
-                    if (!rng.Chance(0.75)) continue;
-                    b.At(x, z).Variant = rng.Chance(0.3) ? Props.Coil : Props.Transformer;
-                    for (int dz = -1; dz <= 1; dz++)
-                        for (int dx = -1; dx <= 1; dx++)
-                            b.At(x + dx, z + dz).Floor = FloorKind.L3Hazard;
-                }
+            BuildL3Hall(b, mx, mz, kind, Carve);
         }
         else
         {
-            // Spanning tree over the 4x4 lattice nodes, by randomised depth-first search
-            var visited = new bool[16];
-            var stack = new Stack<int>();
+            // Spanning tree over the lattice nodes, by randomised depth-first search that tends to run straight on
+            var visited = new bool[nodes * nodes];
+            var stack = new Stack<(int Node, int Dir)>();
             var tree = new HashSet<(int, int)>();
-            int start = rng.Range(0, 15);
+            int start = rng.Range(0, nodes * nodes - 1);
             visited[start] = true;
-            stack.Push(start);
+            stack.Push((start, -1));
+            var options = new List<(int Next, int Dir)>(4);
             while (stack.Count > 0)
             {
-                int node = stack.Peek();
-                int nx = node % 4, nz = node / 4;
-                var options = new List<int>();
-                if (nx > 0 && !visited[node - 1]) options.Add(node - 1);
-                if (nx < 3 && !visited[node + 1]) options.Add(node + 1);
-                if (nz > 0 && !visited[node - 4]) options.Add(node - 4);
-                if (nz < 3 && !visited[node + 4]) options.Add(node + 4);
+                var (node, dir) = stack.Peek();
+                int nx = node % nodes, nz = node / nodes;
+                options.Clear();
+                if (nx > 0 && !visited[node - 1]) options.Add((node - 1, 0));
+                if (nx < nodes - 1 && !visited[node + 1]) options.Add((node + 1, 1));
+                if (nz > 0 && !visited[node - nodes]) options.Add((node - nodes, 2));
+                if (nz < nodes - 1 && !visited[node + nodes]) options.Add((node + nodes, 3));
                 if (options.Count == 0) { stack.Pop(); continue; }
-                int next = options[rng.Range(0, options.Count - 1)];
-                visited[next] = true;
-                tree.Add((Math.Min(node, next), Math.Max(node, next)));
-                stack.Push(next);
+                int straight = options.FindIndex(o => o.Dir == dir);
+                var pick = straight >= 0 && rng.Chance(0.7) ? options[straight] : options[rng.Range(0, options.Count - 1)];
+                visited[pick.Next] = true;
+                tree.Add((Math.Min(node, pick.Next), Math.Max(node, pick.Next)));
+                stack.Push((pick.Next, pick.Dir));
             }
 
-            for (int node = 0; node < 16; node++)
+            for (int node = 0; node < nodes * nodes; node++)
             {
-                int ix = node % 4, iz = node / 4;
-                Carve(Lane(ix), Lane(iz), Lane(ix) + 1, Lane(iz) + 1);
-                foreach (int other in new[] { ix < 3 ? node + 1 : -1, iz < 3 ? node + 4 : -1 })
+                int ix = node % nodes, iz = node / nodes;
+                Carve(Lane(ix), Lane(iz), Lane(ix) + laneWidth - 1, Lane(iz) + laneWidth - 1);
+                foreach (int other in new[] { ix < nodes - 1 ? node + 1 : -1, iz < nodes - 1 ? node + nodes : -1 })
                 {
                     if (other < 0) continue;
                     bool inTree = tree.Contains((node, other));
                     if (!inTree && !rng.Chance(0.25)) continue;
-                    int ox = other % 4, oz = other / 4;
-                    // Tree links are sometimes 1-wide squeezes; extra loops are often barred off
+                    int ox = other % nodes, oz = other / nodes;
+                    // Tree links are sometimes one-wide squeezes, and half of those so low you must stoop through;
+                    // extra loops are often barred off
                     bool squeeze = inTree && rng.Chance(0.15);
-                    int width = squeeze ? 0 : 1;
+                    int width = squeeze ? 0 : laneWidth - 1;
                     Carve(Lane(ix), Lane(iz), Lane(ox) + width, Lane(oz) + width);
+                    if (squeeze && rng.Chance(0.5))
+                        low.Add(ox != ix ? (Lane(ix) + laneWidth, Lane(iz), Lane(ox) - 1, Lane(iz)) : (Lane(ix), Lane(iz) + laneWidth, Lane(ix), Lane(oz) - 1));
                     if (!inTree && rng.Chance(0.5))
                     {
                         int midX = (Lane(ix) + Lane(ox)) / 2 + 1, midZ = (Lane(iz) + Lane(oz)) / 2 + 1;
                         // Bars stand across the corridor: a north-south plane across a west-east corridor and vice versa
-                        if (ox != ix) { bars.Add((midX, Lane(iz), ArchPier.North)); bars.Add((midX, Lane(iz) + 1, ArchPier.North)); }
-                        else { bars.Add((Lane(ix), midZ, ArchPier.West)); bars.Add((Lane(ix) + 1, midZ, ArchPier.West)); }
+                        for (int j = 0; j < laneWidth; j++)
+                        {
+                            if (ox != ix) bars.Add((midX, Lane(iz) + j, ArchPier.North));
+                            else bars.Add((Lane(ix) + j, midZ, ArchPier.West));
+                        }
                     }
                 }
             }
 
-            // Electrical rooms in the solid cells between lanes
-            for (int cz = 0; cz < 3; cz++)
+            // Electrical rooms in the solid blocks between lanes: one between each pair of tight lanes, four in each
+            // wide block
+            var sites = new List<(int, int)>();
+            if (kind == L3Kind.Wide)
             {
-                for (int cx = 0; cx < 3; cx++)
-                {
-                    if (!rng.Chance(0.42)) continue;
-                    int x0 = Lane(cx) + 3, z0 = Lane(cz) + 3; // 4x4 interior inside a 6x6 solid cell
-                    double kind = rng.NextDouble();
-                    L3Room roomKind = kind < 0.3 ? L3Room.Machine : kind < 0.39 ? L3Room.Window : kind < 0.5 ? L3Room.Cache
-                        : kind < 0.58 ? L3Room.Elevator : kind < 0.67 ? L3Room.Generator : kind < 0.76 ? L3Room.Control
-                        : kind < 0.85 ? L3Room.Assembly : kind < 0.92 ? L3Room.Boiler : L3Room.Cage;
-                    // The door faces whichever neighbouring lane exists
-                    (int dx, int dz) door = open[TileIndex(x0 + 1, z0 - 2)] ? (x0 + 1, z0 - 1)
-                        : open[TileIndex(x0 + 2, z0 + 5)] ? (x0 + 2, z0 + 4)
-                        : open[TileIndex(x0 - 2, z0 + 1)] ? (x0 - 1, z0 + 1)
-                        : open[TileIndex(x0 + 5, z0 + 2)] ? (x0 + 4, z0 + 2) : (-1, -1);
-                    if (door.dx < 0) continue;
-                    if (roomKind != L3Room.Elevator) Carve(x0, z0, x0 + 3, z0 + 3);
-                    rooms.Add((x0, z0, roomKind, door.dx, door.dz));
-                }
+                foreach (int z0 in new[] { 8, 14 })
+                    foreach (int x0 in new[] { 8, 14 })
+                        sites.Add((x0, z0));
+            }
+            else
+            {
+                for (int cz = 0; cz < nodes - 1; cz++)
+                    for (int cx = 0; cx < nodes - 1; cx++)
+                        sites.Add((Lane(cx) + 3, Lane(cz) + 3)); // 4x4 interior inside a 6x6 solid block
+            }
+            foreach ((int x0, int z0) in sites)
+            {
+                if (!rng.Chance(kind == L3Kind.Wide ? 0.55 : 0.42)) continue;
+                double r = rng.NextDouble();
+                L3Room roomKind = r < 0.27 ? L3Room.Machine : r < 0.35 ? L3Room.Window : r < 0.45 ? L3Room.Cache
+                    : r < 0.52 ? L3Room.Elevator : r < 0.60 ? L3Room.Generator : r < 0.68 ? L3Room.Control
+                    : r < 0.76 ? L3Room.Assembly : r < 0.83 ? L3Room.Boiler : r < 0.88 ? L3Room.Cage
+                    : r < 0.94 ? L3Room.Shrine : L3Room.Sludge;
+                // The door faces whichever neighbouring lane exists
+                bool Lit(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && open[TileIndex(x, z)];
+                (int dx, int dz) door = Lit(x0 + 1, z0 - 2) ? (x0 + 1, z0 - 1)
+                    : Lit(x0 + 2, z0 + 5) ? (x0 + 2, z0 + 4)
+                    : Lit(x0 - 2, z0 + 1) ? (x0 - 1, z0 + 1)
+                    : Lit(x0 + 5, z0 + 2) ? (x0 + 4, z0 + 2) : (-1, -1);
+                if (door.dx < 0) continue;
+                if (roomKind != L3Room.Elevator) Carve(x0, z0, x0 + 3, z0 + 3);
+                rooms.Add((x0, z0, roomKind, door.dx, door.dz));
             }
         }
 
         // Every passage in the edges connects inward to the nearest lattice node
         void ConnectPassage(int x, int z, int dx, int dz)
         {
-            int nodeX = Math.Clamp((int)Math.Round((x - L3Lane) / (double)L3Grid), 0, 3);
-            int nodeZ = Math.Clamp((int)Math.Round((z - L3Lane) / (double)L3Grid), 0, 3);
+            int nodeX = Math.Clamp((int)Math.Round((x - L3Lane) / (double)pitch), 0, nodes - 1);
+            int nodeZ = Math.Clamp((int)Math.Round((z - L3Lane) / (double)pitch), 0, nodes - 1);
             int tx = Lane(nodeX), tz = Lane(nodeZ);
             if (dx != 0) { Carve(x, z, tx, z); Carve(tx, z, tx, tz); }
             else { Carve(x, z, x, tz); Carve(x, tz, tx, tz); }
@@ -178,7 +253,8 @@ public sealed partial class WorldLayout
         foreach (int i in Passages(GetEdge(mx + 1, mz, west: true))) ConnectPassage(MacroSize - 1, i, -1, 0);
         foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ConnectPassage(i, MacroSize - 1, 0, -1);
 
-        // Solidify; some stretches of corridor are floored with steel grating
+        // Solidify; some stretches of corridor are floored with steel grating. Galleries and halls are four high.
+        bool tall = kind != L3Kind.Tight;
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
@@ -192,8 +268,13 @@ public sealed partial class WorldLayout
                 }
                 if (tile.Kind != TileKind.Floor) continue;
                 if (!open[TileIndex(lx, lz)]) SetWall(ref tile, material, BaseStyle.Plain);
+                else if (tall) tile.Grand = true;
             }
         }
+        foreach ((int x0, int z0, int x1, int z1) in low)
+            for (int z = z0; z <= z1; z++)
+                for (int x = x0; x <= x1; x++)
+                    if (InInterior(x, z) && b.At(x, z).Kind == TileKind.Floor) { b.At(x, z).Low = true; b.At(x, z).Grand = false; }
         foreach ((int x, int z, ArchPier plane) in bars)
         {
             if (!InInterior(x, z) || b.At(x, z).Kind != TileKind.Floor) continue;
@@ -218,7 +299,59 @@ public sealed partial class WorldLayout
 
         CarveMachineNiches(b, mx, mz);
         DecorateLevel3(b, mx, mz);
-        if (rng.Chance(0.3)) AddFloodedTunnel(b);
+        if (kind is L3Kind.Tight or L3Kind.Wide && rng.Chance(0.3)) AddFloodedTunnel(b);
+    }
+
+    /// <summary>
+    /// A quarter of a hall, two cells by two and four blocks high: a transformer hall, rows of transformers and coils
+    /// on striped floors; or an assembly line, long conveyors running the length of the hall with parcels on them.
+    /// The rows are laid out from block positions, so they run on unbroken from one cell of the hall to the next.
+    /// </summary>
+    private void BuildL3Hall(Builder b, int mx, int mz, L3Kind kind, Action<int, int, int, int> carve)
+    {
+        ref Rng rng = ref b.Rng;
+        carve(1, 1, MacroSize - 1, MacroSize - 1);
+        // Within the hall the cell lines are open; keep a walkway clear along the hall's own outer walls
+        var (_, hx0, hz0) = L3HallAt(mx, mz).Value;
+        int ox = hx0 * MacroSize, oz = hz0 * MacroSize;
+        bool Margin(int gx, int gz) => gx - ox < 3 || gz - oz < 3 || ox + 2 * MacroSize - 1 - gx < 3 || oz + 2 * MacroSize - 1 - gz < 3;
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz, ux = gx - ox, uz = gz - oz;
+                if (Margin(gx, gz)) continue;
+                ref Tile t = ref b.At(lx, lz);
+                if (kind == L3Kind.TransformerHall)
+                {
+                    // Machines on a 6 x 5 grid, each on its own patch of hazard stripes
+                    if (Hashing.Mod(ux, 6) == 4 && Hashing.Mod(uz, 5) == 3)
+                    {
+                        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL3Hall + 1));
+                        if (r >= 0.8) continue;
+                        t.Variant = r < 0.25 ? Props.Coil : Props.Transformer;
+                        for (int dz = -1; dz <= 1; dz++)
+                            for (int dx = -1; dx <= 1; dx++)
+                                if (InCell(lx + dx, lz + dz)) b.At(lx + dx, lz + dz).Floor = FloorKind.L3Hazard;
+                    }
+                }
+                else
+                {
+                    // Conveyor lines along the hall, a gap every twelve blocks to cross them; switchgear at the ends
+                    int row = Hashing.Mod(uz, 7);
+                    if (row is 3 or 4 && Hashing.Mod(ux, 12) is not (0 or 1))
+                    {
+                        t.Variant = Props.Conveyor;
+                        t.Pier = ArchPier.East;
+                        t.Stack = (byte)(Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL3Hall + 2)) < 0.35 ? 1 : 0);
+                    }
+                    else if (row == 6 && Hashing.Mod(ux, 12) == 6 && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL3Hall + 3)) < 0.5)
+                    {
+                        t.Variant = Props.CardboardBoxes;
+                        t.Pier = ArchPier.North;
+                    }
+                }
+            }
+        static bool InCell(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize;
     }
 
     private static void FurnishLevel3Room(Builder b, int x0, int z0, L3Room kind, int doorX, int doorZ)
@@ -258,7 +391,7 @@ public sealed partial class WorldLayout
         ref Tile At((int X, int Z) p) => ref b.At(p.X, p.Z);
 
         ref Tile door = ref b.At(doorX, doorZ);
-        if (kind is L3Room.Window or L3Room.Cage)
+        if (kind is L3Room.Window or L3Room.Cage or L3Room.Shrine or L3Room.Sludge)
         {
             // Barred off: daylight from a far window, or a transformer kept in a cage
             door.Kind = TileKind.Bars;
@@ -269,6 +402,27 @@ public sealed partial class WorldLayout
             if (kind == L3Room.Window)
             {
                 for (int k = 0; k < 4; k++) At(Spot(3, k)).Variant = Props.WindowGlow;
+            }
+            else if (kind == L3Room.Shrine)
+            {
+                // A worn statue, out of reach, with candles still burning either side of it
+                At(Spot(2, 1)).Variant = Props.AngelStatue;
+                At(Spot(2, 1)).Pier = outward;
+                At(Spot(3, 0)).Variant = Props.Candelabra;
+                At(Spot(3, 3)).Variant = Props.Candelabra;
+                for (int d = 0; d <= 3; d++)
+                    for (int k = 0; k < 4; k++)
+                        At(Spot(d, k)).Floor = FloorKind.L3Stone;
+            }
+            else if (kind == L3Room.Sludge)
+            {
+                // A pool of the black sludge, fed from a pipe, filling the room
+                for (int d = 1; d <= 3; d++)
+                    for (int k = 0; k < 4; k++)
+                        At(Spot(d, k)).Floor = FloorKind.Tar;
+                At(Spot(3, 0)).Variant = Props.PipeStack;
+                At(Spot(3, 0)).Pier = outward;
+                PlaceNumberSign(b, doorX, doorZ, outward, ref rng);
             }
             else
             {
@@ -458,19 +612,36 @@ public sealed partial class WorldLayout
 
                 bool alongX = e && w && !(s && n) || (e ^ w) && !s && !n;
                 bool alongZ = s && n && !(e && w) || (s ^ n) && !e && !w;
-                if (tile.Pipe == 0)
+                bool fixture;
+                if (tile.Grand)
                 {
-                    bool droop = Hashing.Unit(h << 16) < 0.07;
-                    tile.Pipe = pipes
-                        ? (alongX ? Pipes.RunX : alongZ ? Pipes.RunZ : Pipes.Hub)
-                        : (alongX ? (droop ? Pipes.CableDroopX : Pipes.CableX) : alongZ ? (droop ? Pipes.CableDroopZ : Pipes.CableZ) : Pipes.CableHub);
+                    // Galleries and halls: cable runs along the walls, lights down the middle
+                    bool wallX = !n || !s, wallZ = !e || !w;
+                    alongX = wallX && !wallZ;
+                    alongZ = wallZ && !wallX;
+                    if (tile.Pipe == 0 && (alongX || alongZ))
+                        tile.Pipe = pipes ? (alongX ? Pipes.RunX : Pipes.RunZ) : alongX ? Pipes.CableX : Pipes.CableZ;
+                    fixture = !wallX && !wallZ && Hashing.Mod(gx, 6) == 0 && Hashing.Mod(gz, 6) == 0;
+                }
+                else
+                {
+                    if (tile.Pipe == 0 && !tile.Low)
+                    {
+                        bool droop = Hashing.Unit(h << 16) < 0.07;
+                        tile.Pipe = pipes
+                            ? (alongX ? Pipes.RunX : alongZ ? Pipes.RunZ : Pipes.Hub)
+                            : (alongX ? (droop ? Pipes.CableDroopX : Pipes.CableX) : alongZ ? (droop ? Pipes.CableDroopZ : Pipes.CableZ) : Pipes.CableHub);
+                    }
+                    fixture = !tile.Low && (alongX ? Hashing.Mod(gx, 7) == 0 : alongZ && Hashing.Mod(gz, 7) == 0);
                 }
 
-                // Sparse amber fixtures on straight runs; about half are dead, whole sections out at once
-                bool fixture = alongX ? Hashing.Mod(gx, 7) == 0 : alongZ && Hashing.Mod(gz, 7) == 0;
+                // Sparse amber fixtures; about half are dead, and a whole stretch of corridor goes out at once
                 if (fixture && tile.Pipe is not (Pipes.CableDroopX or Pipes.CableDroopZ))
                 {
-                    double section = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 20), Hashing.FloorDiv(gz, 20), SaltL3Section));
+                    double section = tile.Grand
+                        ? Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 24), Hashing.FloorDiv(gz, 24), SaltL3Section))
+                        : alongX ? Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gz, 8), Hashing.FloorDiv(gx, 24), SaltL3Section + 1))
+                        : Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 8), Hashing.FloorDiv(gz, 24), SaltL3Section + 2));
                     double light = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL3Light));
                     tile.Ceiling = section < 0.35 ? CeilingKind.LightOff
                         : light < 0.3 ? CeilingKind.LightOff : light < 0.42 ? CeilingKind.LightFlicker : CeilingKind.LightWarm;

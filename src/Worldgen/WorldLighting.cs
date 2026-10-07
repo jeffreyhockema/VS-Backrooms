@@ -16,19 +16,36 @@ namespace Backrooms.Worldgen;
 ///
 /// Light sources are also registered in each chunk's LightPositions, so the engine relights correctly when
 /// players later break or place blocks.
+///
+/// What lighting needs of a cell (how much each block absorbs, and where its lights are) is worked out once and
+/// kept: every cell is wanted by the chunk it is in and by its eight neighbours, and the generator hands over what
+/// it has just built rather than having it computed again.
 /// </summary>
 public sealed class WorldLighting
 {
     private const int Margin = WorldLayout.MacroSize;
+
+    /// <summary>A cell's absorption per block and its light sources, over one band of heights.</summary>
+    public sealed class CellLight
+    {
+        public readonly byte[] Absorption;
+        public readonly List<(int Lx, int Y, int Lz, int BlockId)> Sources = new();
+
+        public CellLight(int chunkSize, int height) => Absorption = new byte[chunkSize * chunkSize * height];
+    }
+
+    /// <summary>Cells wanted lately, by position and band (a city cell is lit over a lower band than its neighbours, and so on).</summary>
+    private const int CellCacheSize = 256;
+    private readonly Dictionary<(int, int, int), CellLight> cellCache = new();
+    private readonly Queue<(int, int, int)> cellOrder = new();
 
     private readonly ICoreServerAPI api;
     private readonly WorldGenerator generator;
     private readonly int chunkSize;
     private readonly int width;
     private readonly int height;
-    /// <summary>The bottom of the band being lit: the usual one, or (for Level 11, whose streets lie lower) the city's.</summary>
+    /// <summary>The bottom of the band being lit: the usual one, or the one of a level that lies lower (see <see cref="WorldGeometry.BandBottomFor"/>).</summary>
     private int bandBottom;
-    private readonly int defaultBottom, cityBottom;
 
     private readonly byte[] absorption;
     private readonly byte[] level;
@@ -44,8 +61,7 @@ public sealed class WorldLighting
         this.chunkSize = chunkSize;
         blocks = api.World.Blocks;
         width = chunkSize + 2 * Margin;
-        bandBottom = defaultBottom = generator.Geometry.BandBottom;
-        cityBottom = generator.Geometry.CityBandBottom;
+        bandBottom = generator.Geometry.BandBottom;
         height = generator.Geometry.BandTop - bandBottom + 1;
 
         int cells = width * width * height;
@@ -57,39 +73,85 @@ public sealed class WorldLighting
 
     private int Index(int x, int y, int z) => (y * width + z) * width + x;
 
+    /// <summary>The band of heights a cell is lit over: the usual one, or its own level's (the city, the Poolrooms, Motion).</summary>
+    public int BandBottomFor(int chunkX, int chunkZ) => generator.Geometry.BandBottomFor(generator.Macro(chunkX, chunkZ)[0].Level);
+
+    public int Height => height;
+
+    /// <summary>What the generator records about a block it has just placed, for the cell's lighting data.</summary>
+    public void Note(CellLight cell, int lx, int y, int lz, int bandBottomUsed, int block, int fluid)
+    {
+        int yy = y - bandBottomUsed;
+        if (yy < 0 || yy >= height) return;
+        int absorb = Math.Max(blocks[block].LightAbsorption, fluid != 0 ? blocks[fluid].LightAbsorption : 0);
+        cell.Absorption[(yy * chunkSize + lz) * chunkSize + lx] = (byte)Math.Min(255, absorb);
+        if (blocks[block].LightHsv[2] > 0) cell.Sources.Add((lx, yy, lz, block));
+    }
+
+    /// <summary>Keeps a cell's lighting data the generator has just built.</summary>
+    public void Offer(int chunkX, int chunkZ, int bandBottomUsed, CellLight cell) => Remember((chunkX, chunkZ, bandBottomUsed), cell);
+
+    private void Remember((int, int, int) key, CellLight cell)
+    {
+        lock (cellCache)
+        {
+            if (!cellCache.TryAdd(key, cell)) return;
+            cellOrder.Enqueue(key);
+            if (cellOrder.Count > CellCacheSize) cellCache.Remove(cellOrder.Dequeue());
+        }
+    }
+
+    /// <summary>A cell's lighting data over a band, from the cache or computed now.</summary>
+    private CellLight Cell(int chunkX, int chunkZ, int bandBottomUsed)
+    {
+        var key = (chunkX, chunkZ, bandBottomUsed);
+        lock (cellCache)
+        {
+            if (cellCache.TryGetValue(key, out CellLight cached)) return cached;
+        }
+        var cell = new CellLight(chunkSize, height);
+        Tile[] tiles = generator.Macro(chunkX, chunkZ);
+        for (int lz = 0; lz < chunkSize; lz++)
+        {
+            for (int lx = 0; lx < chunkSize; lx++)
+            {
+                Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
+                int gx = chunkX * chunkSize + lx, gz = chunkZ * chunkSize + lz;
+                for (int y = 0; y < height; y++)
+                {
+                    int block = generator.ColumnBlock(t, gx, gz, bandBottomUsed + y, out int fluid);
+                    Note(cell, lx, bandBottomUsed + y, lz, bandBottomUsed, block, fluid);
+                }
+            }
+        }
+        Remember(key, cell);
+        return cell;
+    }
+
     public void Light(IServerChunk[] chunks, int chunkX, int chunkZ)
     {
         Array.Clear(level);
         foreach (List<int> bucket in buckets) bucket.Clear();
-        bandBottom = generator.Macro(chunkX, chunkZ)[0].Level == 11 ? cityBottom : defaultBottom;
+        bandBottom = BandBottomFor(chunkX, chunkZ);
 
         // Absorption and light sources for this column and its eight neighbours
         for (int mz = -1; mz <= 1; mz++)
         {
             for (int mx = -1; mx <= 1; mx++)
             {
-                Tile[] tiles = generator.Macro(chunkX + mx, chunkZ + mz);
-                for (int lz = 0; lz < chunkSize; lz++)
+                CellLight cell = Cell(chunkX + mx, chunkZ + mz, bandBottom);
+                int ox = (mx + 1) * chunkSize, oz = (mz + 1) * chunkSize;
+                for (int y = 0; y < height; y++)
                 {
-                    for (int lx = 0; lx < chunkSize; lx++)
+                    for (int lz = 0; lz < chunkSize; lz++)
                     {
-                        Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
-                        int gx = (mx + 1) * chunkSize + lx;
-                        int gz = (mz + 1) * chunkSize + lz;
-                        for (int y = 0; y < height; y++)
-                        {
-                            int block = generator.ColumnBlock(t, (chunkX + mx) * chunkSize + lx, (chunkZ + mz) * chunkSize + lz, bandBottom + y, out int fluid);
-                            int absorb = Math.Max(blocks[block].LightAbsorption, fluid != 0 ? blocks[fluid].LightAbsorption : 0);
-                            int index = Index(gx, y, gz);
-                            absorption[index] = (byte)Math.Min(255, absorb);
-
-                            if (blocks[block].LightHsv[2] > 0)
-                            {
-                                Seed(index, block);
-                                if (mx == 0 && mz == 0) RegisterLightPosition(chunks, lx, bandBottom + y, lz);
-                            }
-                        }
+                        Array.Copy(cell.Absorption, (y * chunkSize + lz) * chunkSize, absorption, Index(ox, y, oz + lz), chunkSize);
                     }
+                }
+                foreach ((int lx, int y, int lz, int block) in cell.Sources)
+                {
+                    Seed(Index(ox + lx, y, oz + lz), block);
+                    if (mx == 0 && mz == 0) RegisterLightPosition(chunks, lx, bandBottom + y, lz);
                 }
             }
         }

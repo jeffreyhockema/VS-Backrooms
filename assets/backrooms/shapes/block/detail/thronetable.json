@@ -1,0 +1,251 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"china": "backrooms:block/detail/china",
+		"tablecloth": "backrooms:block/detail/tablecloth",
+		"white": "backrooms:block/detail/white"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				0,
+				12,
+				0
+			],
+			"to": [
+				16,
+				13,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				16,
+				12,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#tablecloth",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				4,
+				13,
+				4
+			],
+			"to": [
+				12,
+				13.4,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Candle",
+			"from": [
+				7.5,
+				13,
+				1
+			],
+			"to": [
+				8.5,
+				18,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1,
+						5
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		}
+	]
+}

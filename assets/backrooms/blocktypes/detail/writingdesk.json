@@ -157,6 +157,14 @@
 				"avg": 0.3,
 				"var": 0.3
 			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-refuge",
+			"quantity": {
+				"avg": 0.05,
+				"var": 0
+			}
 		}
 	]
 }

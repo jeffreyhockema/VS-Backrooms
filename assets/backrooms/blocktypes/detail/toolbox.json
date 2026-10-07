@@ -184,6 +184,14 @@
 				"avg": 0.08,
 				"var": 0
 			}
+		},
+		{
+			"type": "item",
+			"code": "prybar",
+			"quantity": {
+				"avg": 0.04,
+				"var": 0
+			}
 		}
 	]
 }

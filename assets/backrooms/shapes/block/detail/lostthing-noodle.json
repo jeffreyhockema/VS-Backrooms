@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"noodle": "backrooms:block/detail/noodle"
+	},
+	"elements": [
+		{
+			"name": "Noodle",
+			"from": [
+				1,
+				0,
+				6.5
+			],
+			"to": [
+				15,
+				3,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"east": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"west": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						14,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#noodle",
+					"uv": [
+						0,
+						0,
+						14,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

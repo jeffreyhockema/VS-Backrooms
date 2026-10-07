@@ -1,0 +1,154 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"arcade-front": "backrooms:block/detail/arcade-front",
+		"blackmetal": "backrooms:block/detail/blackmetal"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				28,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						11,
+						16
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						11,
+						16
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				14,
+				28,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#arcade-front",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				14,
+				1
+			],
+			"to": [
+				14,
+				15,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						1
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						1
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				}
+			}
+		}
+	]
+}

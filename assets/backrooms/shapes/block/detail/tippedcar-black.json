@@ -1,0 +1,386 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"lampglass": "backrooms:block/detail/lampglass",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"oldcar-black": "backrooms:block/detail/oldcar-black",
+		"rubber": "backrooms:block/detail/rubber"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				12,
+				30,
+				60
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.0,
+				15.0,
+				32.0
+			]
+		},
+		{
+			"name": "Roof",
+			"from": [
+				12,
+				3,
+				26
+			],
+			"to": [
+				22,
+				27,
+				50
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"down": {
+					"texture": "#oldcar-black",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Under",
+			"from": [
+				-0.5,
+				1,
+				6
+			],
+			"to": [
+				0,
+				29,
+				58
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelA",
+			"from": [
+				2,
+				26,
+				8
+			],
+			"to": [
+				10,
+				32,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelB",
+			"from": [
+				2,
+				26,
+				46
+			],
+			"to": [
+				10,
+				32,
+				54
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				12.2,
+				6,
+				27
+			],
+			"to": [
+				22.2,
+				24,
+				49
+			],
+			"faces": {
+				"east": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

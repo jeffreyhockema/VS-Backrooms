@@ -21,9 +21,29 @@
         "deathPunishment": "drop",
         "surfaceCopperDeposits": "0",
         "surfaceTinDeposits": "0",
-        "allowUndergroundFarming": "true"
+        "allowUndergroundFarming": "true",
+        "playerHungerSpeed": "1.25",
+        "backroomsMenace": "normal",
+        "backroomsScarcity": "normal"
       }
     }
   ],
-  "worldConfigAttributes": []
+  "worldConfigAttributes": [
+    {
+      "code": "backroomsMenace",
+      "dataType": "dropdown",
+      "category": "survivalchallenges",
+      "values": ["off", "low", "normal", "high"],
+      "names": ["Off", "Low", "Normal", "High"],
+      "default": "normal"
+    },
+    {
+      "code": "backroomsScarcity",
+      "dataType": "dropdown",
+      "category": "survivalchallenges",
+      "values": ["plentiful", "normal", "sparse"],
+      "names": ["Plentiful", "Normal", "Sparse"],
+      "default": "normal"
+    }
+  ]
 }

@@ -161,8 +161,41 @@ public class BackroomsMapLayer : MapLayer
         }
     }
 
+    /// <summary>
+    /// Maps every loaded column within <paramref name="radius"/> of the player, seen or not, dark or lit (the cheat
+    /// menu's "reveal map"). Returns how many columns were mapped.
+    /// </summary>
+    public int RevealLoadedAround(int radius)
+    {
+        EntityPlayer player = capi?.World.Player?.Entity;
+        if (player == null) return 0;
+        int centerX = (int)Math.Floor(player.Pos.X), centerZ = (int)Math.Floor(player.Pos.Z);
+        if (!SampleHeights(layout.LevelAt(WorldLayout.MacroOf(centerX), WorldLayout.MacroOf(centerZ)), player.Pos.Y)) return 0;
+
+        IBlockAccessor blockAccessor = capi.World.BlockAccessor;
+        int mapped = 0;
+        for (int z = centerZ - radius; z <= centerZ + radius; z++)
+        {
+            for (int x = centerX - radius; x <= centerX + radius; x++)
+            {
+                int floor = FloorAt(x, z);
+                if (blockAccessor.GetChunkAtBlockPos(x, floor + 2, z) == null) continue;
+                int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floor + 1, z), EnumLightLevelType.MaxLight);
+                int color = MapColors.Classify(blockAccessor, floor, floor + geometry.CeilingY - 1 - geometry.FloorY, tmpPos, x, z, light);
+                if (store.SetPixel(x, z, color)) dirtyChunks.Add(new FastVec2i(x / ExploredMapStore.ChunkSize, z / ExploredMapStore.ChunkSize));
+                mapped++;
+            }
+        }
+        return mapped;
+    }
+
     /// <summary>The floor the current pass maps (the floor under the player's feet, in the sea and the caves).</summary>
     private int floorY;
+
+    /// <summary>Level 94: each column is mapped on its own ground, which rises and falls with the hills.</summary>
+    private bool groundFollows;
+
+    private int FloorAt(int x, int z) => groundFollows ? floorY + layout.TileAt(x, z).Height : floorY;
 
     /// <summary>
     /// Decides which floor to map from where the player is: the level's own floor on most levels; the surface of
@@ -171,8 +204,18 @@ public class BackroomsMapLayer : MapLayer
     private bool SampleHeights(int level, double y)
     {
         floorY = geometry.FloorY;
+        groundFollows = false;
         switch (level)
         {
+            case WorldLayout.Poolrooms:
+                // The surface of the water: decks are floor, everything lower is water
+                floorY = geometry.FloorFor(level);
+                return y > floorY - WorldGeometry.PoolPitDepth - 2 && y < floorY + 16;
+            case WorldLayout.Motion:
+                // Each column on the ground of its own hill (or the mountain, or the castle on it)
+                floorY = geometry.FloorFor(level);
+                groundFollows = true;
+                return y > floorY - 4 && y < geometry.TopY;
             case 7:
                 return y > geometry.FloorY - 70 && y < geometry.FloorY + WorldGeometry.MaxRoomHeight + 1;
             case 8:
@@ -200,8 +243,9 @@ public class BackroomsMapLayer : MapLayer
 
         IBlockAccessor blockAccessor = capi.World.BlockAccessor;
         sbyte sight;
-        if (blockAccessor.GetChunkAtBlockPos(x, floorY + 2, z) == null) sight = SightUnloaded;
-        else sight = IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, floorY + 2, z))) ? SightBlocked : SightOpen;
+        int floor = FloorAt(x, z);
+        if (blockAccessor.GetChunkAtBlockPos(x, floor + 2, z) == null) sight = SightUnloaded;
+        else sight = IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, floor + 2, z))) ? SightBlocked : SightOpen;
 
         sightGrid[index] = sight;
         return sight;
@@ -210,10 +254,11 @@ public class BackroomsMapLayer : MapLayer
     private void RevealColumn(int x, int z, double distance)
     {
         IBlockAccessor blockAccessor = capi.World.BlockAccessor;
-        int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floorY + 1, z), EnumLightLevelType.MaxLight);
+        int floor = FloorAt(x, z);
+        int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floor + 1, z), EnumLightLevelType.MaxLight);
         if (light < DarkLightLevel && distance > DarkRevealRadius) return;
 
-        int color = MapColors.Classify(blockAccessor, floorY, floorY + geometry.CeilingY - 1 - geometry.FloorY, tmpPos, x, z, light);
+        int color = MapColors.Classify(blockAccessor, floor, floor + geometry.CeilingY - 1 - geometry.FloorY, tmpPos, x, z, light);
         if (store.SetPixel(x, z, color))
         {
             dirtyChunks.Add(new FastVec2i(x / ExploredMapStore.ChunkSize, z / ExploredMapStore.ChunkSize));

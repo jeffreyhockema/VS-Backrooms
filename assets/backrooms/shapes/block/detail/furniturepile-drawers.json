@@ -1,0 +1,236 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dresserwood": "backrooms:block/detail/dresserwood",
+		"gilt": "backrooms:block/level5/gilt",
+		"lampshade": "backrooms:block/level5/lampshade"
+	},
+	"elements": [
+		{
+			"name": "Chest",
+			"from": [
+				2,
+				0,
+				3
+			],
+			"to": [
+				14,
+				12,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						10,
+						12
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						10,
+						12
+					]
+				},
+				"up": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"down": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				6.0,
+				8.0
+			],
+			"rotationY": 15
+		},
+		{
+			"name": "Lamp",
+			"from": [
+				6,
+				12,
+				6
+			],
+			"to": [
+				10,
+				18,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"east": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"south": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"west": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"up": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#lampshade",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				15.0,
+				8.0
+			],
+			"rotationZ": 30
+		},
+		{
+			"name": "Frame",
+			"from": [
+				9,
+				0,
+				0
+			],
+			"to": [
+				16,
+				10,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						7,
+						10
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						7,
+						10
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				5.0,
+				1.0
+			],
+			"rotationX": -15
+		}
+	]
+}

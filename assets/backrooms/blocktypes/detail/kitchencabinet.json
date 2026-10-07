@@ -184,6 +184,14 @@
 				"avg": 0.2,
 				"var": 0.2
 			}
+		},
+		{
+			"type": "item",
+			"code": "seedpacket-onion",
+			"quantity": {
+				"avg": 0.05,
+				"var": 0
+			}
 		}
 	]
 }

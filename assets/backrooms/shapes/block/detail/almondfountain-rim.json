@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fountainstone": "backrooms:block/detail/fountainstone"
+	},
+	"elements": [
+		{
+			"name": "Rim",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				7,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"east": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"south": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"west": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"up": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,218 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "Pipe",
+			"from": [
+				6.5,
+				0,
+				6.5
+			],
+			"to": [
+				9.5,
+				14,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						14
+					]
+				},
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						14
+					]
+				},
+				"south": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						14
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						14
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Spout",
+			"from": [
+				7,
+				9,
+				2
+			],
+			"to": [
+				9,
+				11,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						4.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wheel",
+			"from": [
+				6,
+				12,
+				6
+			],
+			"to": [
+				10,
+				12.6,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		}
+	]
+}

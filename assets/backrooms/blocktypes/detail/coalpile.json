@@ -52,6 +52,14 @@
 				"avg": 6,
 				"var": 2
 			}
+		},
+		{
+			"type": "block",
+			"code": "firesalt",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
 		}
 	]
 }

@@ -152,6 +152,22 @@
 				"avg": 0.5,
 				"var": 0.5
 			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-cache",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-door",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
 		}
 	]
 }

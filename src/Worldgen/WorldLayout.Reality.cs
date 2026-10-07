@@ -59,6 +59,15 @@ public sealed partial class WorldLayout
                 // The safest place in the Backrooms; only the subway, and the dark alleys, are less kind
                 // (floorY is the other levels' floor; the city's streets lie lower)
                 return y < floorY - WorldGeometry.CityDrop ? 0.9f + 0.1f * drift : 1.3f + 0.05f * drift;
+            case Poolrooms:
+            {
+                // Calm in the light, dread in the dark corners, and in the Reservoir nothing holds at all
+                if (IsReservoir(mx, mz)) return 0.15f;
+                return TileAt((int)Math.Floor(x), (int)Math.Floor(z)).Detail == PoolDark ? 0.6f + 0.1f * drift : 1.35f;
+            }
+            case Motion:
+                // The hills are kind enough by day; the castle is not ("bring some Almond Water")
+                return InCastle((int)Math.Floor(x), (int)Math.Floor(z)) ? 0.7f + 0.1f * drift : 1.05f + 0.05f * drift;
             case 5:
                 return HotelZoneAt(mx, mz) switch
                 {
@@ -181,6 +190,18 @@ public sealed partial class WorldLayout
             (cx, cz) = CityArrivalCell(h);
             spot ??= IsCityArrivalSpot;
         }
+        else if (level == Poolrooms)
+        {
+            // Nor are the Poolrooms: somewhere toward the middle, on a deck or in the shallows, in the light
+            (cx, cz) = PoolArrivalCell(h);
+            spot ??= IsPoolArrivalSpot;
+        }
+        else if (level == Motion)
+        {
+            // Nor is Motion: out on the grass of the hills, near enough that the houses come apart
+            (cx, cz) = MotionArrivalCell(h);
+            spot ??= IsMotionArrivalSpot;
+        }
         int reach = cellFilter != null ? 16 : 6;
         if (near != null) (cx, cz, reach) = (near.Value.Mx, near.Value.Mz, Math.Min(reach, 5));
 
@@ -220,6 +241,23 @@ public sealed partial class WorldLayout
             }
         }
         return fallback;
+    }
+
+    /// <summary>
+    /// How high above its level's floor to put someone down on a tile found by <see cref="FindArrival"/>: standing,
+    /// on most levels; in the Poolrooms, wading in the shallows or afloat in the deep; in Motion, on the ground of the
+    /// hills, which is <see cref="Tile.Height"/> above the valleys.
+    /// </summary>
+    public double ArrivalHeight(int x, int z)
+    {
+        Tile t = TileAt(x, z);
+        const double stand = 1.05;
+        return t.Level switch
+        {
+            Poolrooms => t.Depth == 0 ? stand : t.Depth == 1 ? stand - 1 : 0.2,
+            Motion => t.Height + stand,
+            _ => stand,
+        };
     }
 
     private static (int, int)? PickAny(List<int> candidates, int mx, int mz, ulong h)

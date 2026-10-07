@@ -11,8 +11,9 @@ namespace Backrooms.Deep;
 
 /// <summary>
 /// Living things, only where they belong: fish in Level 7's sea, drifters in the dark of Level 8's caves (never on
-/// the lit road), raccoons, foxes and hares (and the odd wolf) in the Suburbs' night, and livestock in Level 10's
-/// pastures. Levels 0 to 6 stay empty of animals. Spawning is kept to a small number around each player.
+/// the lit road), raccoons, foxes and hares in the Suburbs' night, and livestock in Level 10's pastures. Levels 0 to 6
+/// have no animals. Spawning is kept to a small number around each player. The Backrooms' own entities (Smilers,
+/// Hounds and the rest) are put down by <see cref="Backrooms.Entities.MenaceSystem"/>.
 /// </summary>
 public class CreatureSystem : ModSystem
 {
@@ -37,7 +38,8 @@ public class CreatureSystem : ModSystem
         [9] = new Spawns
         {
             Cap = 4,
-            Kinds = new[] { ("raccoon-common-adult-", 0.4), ("fox-red-adult-", 0.25), ("hare-european-adult-", 0.3), ("wolf-eurasian-adult-", 0.05) },
+            // (No wolves: the Suburbs' Hounds are the Backrooms' own, see src/Entities)
+            Kinds = new[] { ("raccoon-common-adult-", 0.4), ("fox-red-adult-", 0.25), ("hare-european-adult-", 0.3) },
         },
         [10] = new Spawns
         {

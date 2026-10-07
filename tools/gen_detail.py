@@ -865,6 +865,10 @@ if __name__ == "__main__":
     gen_city.generate()
     import gen_lore
     gen_lore.generate()
+    import gen_pool
+    gen_pool.generate()
+    import gen_motion
+    gen_motion.generate()
     import gen_guide
     gen_guide.fill()
     merge_lang()

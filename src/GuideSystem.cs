@@ -24,7 +24,7 @@ public class GuideSystem : ModSystem
     };
 
     /// <summary>Pages of our own, in the order they follow the Progression Guide.</summary>
-    private static readonly string[] Added = { "salvage", "levels", "thresholds" };
+    private static readonly string[] Added = { "home", "finding", "salvage", "levels", "thresholds", "entities" };
 
     private ICoreClientAPI capi;
 

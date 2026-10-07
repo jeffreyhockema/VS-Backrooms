@@ -1,0 +1,37 @@
+// Level 94: the modelling clay everything is made of. Dug up, it is clay for the potter's wheel
+{
+	"code": "claysoil",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/detail/claysoil"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:block/dirt",
+		"break": "game:block/dirt",
+		"hit": "game:block/dirt"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:clay-red",
+			"quantity": {
+				"avg": 3,
+				"var": 1
+			}
+		}
+	]
+}

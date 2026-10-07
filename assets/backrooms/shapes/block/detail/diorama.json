@@ -1,0 +1,510 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"diorama-top": "backrooms:block/detail/diorama-top",
+		"glassmountain": "backrooms:block/detail/glassmountain",
+		"white": "backrooms:block/detail/white",
+		"wood": "backrooms:block/detail/wood"
+	},
+	"elements": [
+		{
+			"name": "Table",
+			"from": [
+				-8,
+				10,
+				-8
+			],
+			"to": [
+				24,
+				12,
+				24
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Town",
+			"from": [
+				-8,
+				10,
+				-8
+			],
+			"to": [
+				24,
+				12,
+				24
+			],
+			"faces": {
+				"up": {
+					"texture": "#diorama-top",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				-7,
+				0,
+				-7
+			],
+			"to": [
+				-5,
+				10,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				21,
+				0,
+				-7
+			],
+			"to": [
+				23,
+				10,
+				-5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				-7,
+				0,
+				21
+			],
+			"to": [
+				-5,
+				10,
+				23
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				21,
+				0,
+				21
+			],
+			"to": [
+				23,
+				10,
+				23
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Mountain",
+			"from": [
+				5,
+				12,
+				5
+			],
+			"to": [
+				11,
+				17,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"east": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"south": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"west": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"up": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#glassmountain",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Castle",
+			"from": [
+				6.5,
+				17,
+				6.5
+			],
+			"to": [
+				9.5,
+				19,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -113,6 +113,24 @@ public enum WallPattern : byte
     CityStorefront,
     /// <summary>Level 0's Red Rooms: the same paper, in red.</summary>
     RedRoom,
+    /// <summary>
+    /// Level 37: white ceramic tile, every surface (Variant on a wall: see <see cref="PoolWalls"/>). In the
+    /// Sanguine Reservoir (<see cref="Tile.Zone"/> 1) a red film lies in the grout.
+    /// </summary>
+    PoolTile,
+    /// <summary>Level 37: a cyan door marked POOL (on <see cref="TileKind.Door"/> tiles); in Level 5, the one in the hotel.</summary>
+    PoolDoor,
+    /// <summary>Level 37: the black of a round tunnel mouth, the way out into the sea.</summary>
+    PoolVoid,
+    /// <summary>Level 94: the painted backdrop at the edge of the set, more hills under more sky.</summary>
+    Backdrop,
+    /// <summary>Level 94: the glass of the transparent mountain.</summary>
+    GlassMountain,
+    /// <summary>Level 94: the castle's white walls outside, and its funhouse walls inside (striped, with porthole rings).</summary>
+    CastleWall,
+    Funhouse,
+    /// <summary>Level 94's castle: one of the throne room's doors (on <see cref="TileKind.Door"/> tiles). Only one opens, and a different one each day.</summary>
+    ThroneDoor,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -239,6 +257,24 @@ public enum FloorKind : byte
     SubwayRailR,
     SubwayPlatform,
     SubwayEdge,
+    /// <summary>Level 37: white tile underfoot; tile lit warm where light falls through a slit; red-filmed tile in the Reservoir.</summary>
+    PoolTile,
+    PoolSunlit,
+    PoolRed,
+    /// <summary>Level 37: the rounded coping tile along the edge of a deck, where it drops into deep water.</summary>
+    PoolCoping,
+    /// <summary>Level 94: clay turf mown in stripes (light and dark), clay soil, a dirt path, a concrete path, asphalt and its kerb.</summary>
+    TurfLight,
+    TurfDark,
+    ClaySoil,
+    MotionPath,
+    MotionConcrete,
+    MotionAsphalt,
+    MotionKerb,
+    /// <summary>Level 94's castle: a blue-and-yellow checkerboard, the red-and-white striped carpet, a star medallion.</summary>
+    Checker,
+    FunCarpet,
+    StarFloor,
 }
 
 public enum CeilingKind : byte
@@ -258,6 +294,19 @@ public enum CeilingKind : byte
     Chandelier,
     /// <summary>A dim red lamp: all the light there is in Level 0's Red Rooms.</summary>
     LampRed,
+}
+
+/// <summary>
+/// A chalk mark beside a floor tile, packed in <see cref="Tile.Chalk"/>: which neighbour is the wall it is drawn on, and
+/// the symbol (as the chalk item draws them: left, right, cross, circle). Left and right are as seen facing the wall.
+/// </summary>
+public static class ChalkBits
+{
+    public static readonly string[] Symbols = { "left", "right", "cross", "circle" };
+
+    public static byte Make(ArchPier wall, int symbol) => (byte)(((symbol + 1) << 2) | ((int)wall & 3));
+    public static ArchPier Wall(byte chalk) => (ArchPier)(chalk & 3);
+    public static int Symbol(byte chalk) => (chalk >> 2) - 1;
 }
 
 /// <summary>Which side of an arch header block is attached to its pier (the thick, low end of the curve).</summary>
@@ -298,6 +347,8 @@ public struct Tile
     public ArchPier Pier;
     public bool Outlet;
     public bool SupplyBox;
+    /// <summary>The supply box or crate here was picked over long ago: torn or prised open, the food gone.</summary>
+    public bool Looted;
     /// <summary>Which level this column belongs to.</summary>
     public byte Level;
     /// <summary>Wall between two levels: solid up to the top of the taller level.</summary>
@@ -316,8 +367,10 @@ public struct Tile
     public bool ExitSign;
     /// <summary>Level 0 next to Level 1: the ceiling tile is missing, showing bare concrete.</summary>
     public bool Worn;
-    /// <summary>Level 5 grand rooms: four blocks of air instead of three.</summary>
+    /// <summary>Level 5 grand rooms, Level 3 galleries and halls: four blocks of air instead of three.</summary>
     public bool Grand;
+    /// <summary>Level 3 squeezes: the ceiling comes down to two blocks of air.</summary>
+    public bool Low;
     /// <summary>Inside a space with no way out (locked rooms, barred bays): nobody may be teleported here.</summary>
     public bool Sealed;
     /// <summary>Level 3 below the floor: 1 = flooded utility tunnel, 2 = manhole shaft down into one.</summary>
@@ -332,6 +385,13 @@ public struct Tile
     public byte Zone;
     /// <summary>Level 11: flags on a building tile (see <see cref="CityDetail"/>).</summary>
     public byte Detail;
+    /// <summary>
+    /// Level 37: the height above the water's surface of the ceiling over a floor tile (of the top of a slit, on a
+    /// wall). Level 94: the height of the ground above the valley floor.
+    /// </summary>
+    public byte Height;
+    /// <summary>A chalk mark at eye height on the wall beside this floor tile, left by someone before (see <see cref="ChalkBits"/>), or 0.</summary>
+    public byte Chalk;
 
     public readonly bool IsWallLike => Kind is TileKind.Wall or TileKind.ArchWindow or TileKind.ArchDoor or TileKind.Doorway or TileKind.Door;
 }
@@ -424,6 +484,40 @@ public static class Unders
     /// </summary>
     public const byte Subway = 17;
     public const byte Station = 18;
+    /// <summary>Level 37: an opening under the water, three blocks down: the way on is a swim.</summary>
+    public const byte PoolHole = 19;
+    /// <summary>Level 37: the dark end of an arch-ring tunnel. Walk into it and you come out over the sea of Level 7.</summary>
+    public const byte TunnelMouth = 20;
+    /// <summary>Level 37: the far end of a dry corridor, where the tile gives way to office carpet. Level 4.</summary>
+    public const byte PoolCarpet = 21;
+    /// <summary>Level 37: the bottom of a pit too deep to see. Sink to it and you surface in a pool in Level 9.</summary>
+    public const byte PitBottom = 22;
+    /// <summary>Level 7: a patch of white tile on the seabed. Dive to it and you surface in Level 37.</summary>
+    public const byte TiledSeabed = 23;
+    /// <summary>Level 9: the one backyard pool in a hundred that is still full. Dive to its bottom: Level 37.</summary>
+    public const byte FullPool = 24;
+    /// <summary>Level 11: the screen of a cinema showing a stop-motion picture. Walk into it: Level 94.</summary>
+    public const byte CinemaScreen = 25;
+    /// <summary>Level 94: a house flooded to its ceiling (its floor, and its front door). Open the door: Level 7.</summary>
+    public const byte FloodedHouse = 26;
+    /// <summary>
+    /// A front door between Level 94 and Level 9 (on a house's <see cref="TileKind.Door"/> tile, which keeps its siding):
+    /// the door of a doll's house in the Suburbs, or of one house in forty on the hills.
+    /// </summary>
+    public const byte DollHouse = 27;
+    /// <summary>Level 94: a flight of steps on a hill that climbs to nothing (each step's height in <see cref="Tile.Stair"/>).</summary>
+    public const byte Nowhere = 28;
+}
+
+/// <summary>Level 37: what a tile wall carries, in <see cref="Tile.Variant"/>, facing <see cref="Tile.Pier"/>.</summary>
+public static class PoolWalls
+{
+    /// <summary>A tall slit of glare: light from somewhere you can never see, up to <see cref="Tile.Height"/>.</summary>
+    public const byte Slit = 1;
+    /// <summary>A stainless handrail along the wall at the height of a wader's hand.</summary>
+    public const byte Rail = 2;
+    /// <summary>A glowing arched opening in a rotunda's wall, onto light.</summary>
+    public const byte Arch = 3;
 }
 
 /// <summary>
@@ -450,6 +544,10 @@ public enum CityKind : byte
     Museum,
     /// <summary>The black glass wall at the city's edge, past which no one has been.</summary>
     Rim,
+    /// <summary>Public baths: a stone building with a cyan door marked POOL, onto the Poolrooms.</summary>
+    Baths,
+    /// <summary>A cinema showing a stop-motion picture; walk into the screen and you are in Level 94.</summary>
+    Cinema,
 }
 
 /// <summary>Level 11: flags on a building tile, in <see cref="Tile.Detail"/>.</summary>
@@ -609,6 +707,8 @@ public static class Props
     public const byte RoadLamp = 141;
     public const byte StoneHand = 142;
     public const byte StoneStapler = 143;
+    /// <summary>A Deathmoth hive: grey papery cocoons heaped against a wall (a den's tell).</summary>
+    public const byte MothHive = 230;
     /// <summary>On a rock tile beside the 9th Road: a vent grate in the cave wall.</summary>
     public const byte CaveVent = 144;
     /// <summary>On a rock tile beside the 9th Road: Almond Water seeping out of the rock.</summary>
@@ -716,6 +816,53 @@ public static class Props
     public const byte MachineParts = 227;
     /// <summary>Level 1: a traffic sign on a post, pointing nowhere useful. Stack picks the kind.</summary>
     public const byte TrafficSign = 228;
+    // Level 37
+    /// <summary>A stainless pool ladder against the edge of a pool, climbing toward <see cref="Tile.Pier"/>.</summary>
+    public const byte PoolLadder = 231;
+    /// <summary>A crust of Epsom salt dried on a rim in the dark.</summary>
+    public const byte EpsomCrust = 232;
+    /// <summary>What someone lost: a towel (Stack 0), a flip-flop (1), a pool noodle (2).</summary>
+    public const byte LostThing = 233;
+    /// <summary>The Reservoir: a bright red sprout on the bottom of a pool, all the light there is.</summary>
+    public const byte RedSprout = 234;
+    // Level 94
+    /// <summary>A siren pole on a street corner that plays the same happy tune all day.</summary>
+    public const byte SirenPole = 236;
+    /// <summary>A white water tower on a hilltop, full of Almond Water: the anchor tile draws it.</summary>
+    public const byte WaterTower = 237;
+    /// <summary>The town's fountain, running with Almond Water: the anchor tile draws it.</summary>
+    public const byte AlmondFountain = 238;
+    /// <summary>A 1930s milk van: the anchor tile draws it, 2 by 3, the rest are <see cref="CarPart"/> colliders.</summary>
+    public const byte MilkVan = 239;
+    /// <summary>An old 1930s car: the anchor tile draws it, the rest are <see cref="CarPart"/> colliders.</summary>
+    public const byte OldCar = 240;
+    /// <summary>A NO OUTLET sign at a road that goes on forever.</summary>
+    public const byte NoOutletSign = 241;
+    /// <summary>A 1950s icebox, a radio cabinet, a rotary telephone on a stand.</summary>
+    public const byte Icebox = 242;
+    public const byte RadioCabinet = 243;
+    public const byte RotaryPhone = 244;
+    /// <summary>A heap of furniture with no house: Stack picks which.</summary>
+    public const byte FurniturePile = 245;
+    /// <summary>A rusted field gate with no sign: at twilight it opens onto Level 10.</summary>
+    public const byte TwilightGate = 246;
+    // The castle
+    /// <summary>A pit of coloured balls: you sink in to the waist.</summary>
+    public const byte BallPit = 247;
+    /// <summary>An arcade cabinet, dark.</summary>
+    public const byte Arcade = 248;
+    /// <summary>The animation studio: the table-sized model of a town, a camera on its tripod, an easel of sketches.</summary>
+    public const byte Diorama = 249;
+    public const byte StudioCamera = 250;
+    public const byte Easel = 251;
+    /// <summary>The throne room: the long table set for two, the second chair (sit in it for the trial), the King.</summary>
+    public const byte ThroneTable = 252;
+    public const byte TrialChair = 253;
+    public const byte KingStatue = 254;
+    /// <summary>A car tipped on its side among the heaps of furniture (Stack picks the colour).</summary>
+    public const byte TippedCar = 235;
+    /// <summary>A slide between floors of the funhouse: slick, and it carries you down toward <see cref="Tile.Pier"/>.</summary>
+    public const byte Slide = 255;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>

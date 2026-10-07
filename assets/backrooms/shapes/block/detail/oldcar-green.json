@@ -1,0 +1,1122 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/detail/chrome",
+		"lampglass": "backrooms:block/detail/lampglass",
+		"oldcar-green": "backrooms:block/detail/oldcar-green",
+		"rubber": "backrooms:block/detail/rubber"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				3,
+				4
+			],
+			"to": [
+				31,
+				12,
+				60
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Hood",
+			"from": [
+				6,
+				12,
+				4
+			],
+			"to": [
+				26,
+				15,
+				22
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cabin",
+			"from": [
+				3,
+				12,
+				26
+			],
+			"to": [
+				29,
+				24,
+				50
+			],
+			"faces": {
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Windscreen",
+			"from": [
+				4,
+				15,
+				25.8
+			],
+			"to": [
+				28,
+				23,
+				26
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "FenderFL",
+			"from": [
+				-1,
+				3,
+				6
+			],
+			"to": [
+				5,
+				9,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "FenderFR",
+			"from": [
+				27,
+				3,
+				6
+			],
+			"to": [
+				33,
+				9,
+				18
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "FenderRL",
+			"from": [
+				-1,
+				3,
+				44
+			],
+			"to": [
+				5,
+				9,
+				56
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "FenderRR",
+			"from": [
+				27,
+				3,
+				44
+			],
+			"to": [
+				33,
+				9,
+				56
+			],
+			"faces": {
+				"north": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"south": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"down": {
+					"texture": "#oldcar-green",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				9,
+				4,
+				3.6
+			],
+			"to": [
+				23,
+				13,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BumperF",
+			"from": [
+				1,
+				3,
+				2.6
+			],
+			"to": [
+				31,
+				5,
+				3.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BumperR",
+			"from": [
+				1,
+				3,
+				60
+			],
+			"to": [
+				31,
+				5,
+				61
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelFL",
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				4,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelFR",
+			"from": [
+				28,
+				0,
+				8
+			],
+			"to": [
+				32,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelRL",
+			"from": [
+				0,
+				0,
+				46
+			],
+			"to": [
+				4,
+				8,
+				54
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "WheelRR",
+			"from": [
+				28,
+				0,
+				46
+			],
+			"to": [
+				32,
+				8,
+				54
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "LampL",
+			"from": [
+				2,
+				10,
+				3
+			],
+			"to": [
+				6,
+				14,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "LampR",
+			"from": [
+				26,
+				10,
+				3
+			],
+			"to": [
+				30,
+				14,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#lampglass",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		}
+	]
+}
