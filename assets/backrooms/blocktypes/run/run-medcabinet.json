@@ -1,0 +1,67 @@
+// Level !: a wall block (rel 2) with a medicine cabinet on face <side>; breaks in a second for a clean bandage
+{
+	"code": "run-medcabinet",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/run/run-medcabinet",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/run/run-medcabinet",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/run/run-medcabinet",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/run/run-medcabinet",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 1,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:bandage-clean",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

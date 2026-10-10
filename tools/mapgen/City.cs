@@ -61,7 +61,7 @@ static class CityMap {
     for (int mz = 0; mz < n; mz++) for (int mx = 0; mx < n; mx++) { var t = layout.BuildMacro(m0x + mx, m0z + mz); for (int i = 0; i < 1024; i++) all[mx * 32 + i % 32, mz * 32 + i / 32] = t[i]; }
     using var w = new BinaryWriter(File.Create("city.bin")); w.Write(size);
     for (int z = 0; z < size; z++) for (int x = 0; x < size; x++) { var t = all[x, z];
-      w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Pattern); w.Write(t.Variant); w.Write(t.Depth); w.Write(t.Zone); w.Write(t.Under); w.Write(t.Detail); w.Write(t.Overhead); w.Write(t.Roof); }
+      w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Pattern); w.Write((byte)Math.Min((int)t.Variant, 255)); w.Write(t.Depth); w.Write(t.Zone); w.Write(t.Under); w.Write(t.Detail); w.Write(t.Overhead); w.Write(t.Roof); }
     Console.WriteLine($"city map {size}x{size} from blocks {m0x*32},{m0z*32}");
   }
 }

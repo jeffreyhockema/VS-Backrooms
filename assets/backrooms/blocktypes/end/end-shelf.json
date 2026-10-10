@@ -1,0 +1,288 @@
+// The End: double-faced gondola shelving, 2 tall (lower, upper), the run going east-west for side north; endpanel: the row's end, its slatwall panel facing the side named; leaning: tipped 8 degrees, it falls at a touch
+{
+	"code": "end-shelf",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"empty",
+				"books",
+				"dusty",
+				"endpanel",
+				"leaning"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-empty-lower-north"
+		],
+		"decorative": [
+			"*-empty-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-empty-lower-north": {
+			"base": "block/end/end-shelf-empty-lower",
+			"rotateY": 0
+		},
+		"*-empty-lower-east": {
+			"base": "block/end/end-shelf-empty-lower",
+			"rotateY": 270
+		},
+		"*-empty-lower-south": {
+			"base": "block/end/end-shelf-empty-lower",
+			"rotateY": 180
+		},
+		"*-empty-lower-west": {
+			"base": "block/end/end-shelf-empty-lower",
+			"rotateY": 90
+		},
+		"*-empty-upper-north": {
+			"base": "block/end/end-shelf-empty-upper",
+			"rotateY": 0
+		},
+		"*-empty-upper-east": {
+			"base": "block/end/end-shelf-empty-upper",
+			"rotateY": 270
+		},
+		"*-empty-upper-south": {
+			"base": "block/end/end-shelf-empty-upper",
+			"rotateY": 180
+		},
+		"*-empty-upper-west": {
+			"base": "block/end/end-shelf-empty-upper",
+			"rotateY": 90
+		},
+		"*-books-lower-north": {
+			"base": "block/end/end-shelf-books-lower",
+			"rotateY": 0
+		},
+		"*-books-lower-east": {
+			"base": "block/end/end-shelf-books-lower",
+			"rotateY": 270
+		},
+		"*-books-lower-south": {
+			"base": "block/end/end-shelf-books-lower",
+			"rotateY": 180
+		},
+		"*-books-lower-west": {
+			"base": "block/end/end-shelf-books-lower",
+			"rotateY": 90
+		},
+		"*-books-upper-north": {
+			"base": "block/end/end-shelf-books-upper",
+			"rotateY": 0
+		},
+		"*-books-upper-east": {
+			"base": "block/end/end-shelf-books-upper",
+			"rotateY": 270
+		},
+		"*-books-upper-south": {
+			"base": "block/end/end-shelf-books-upper",
+			"rotateY": 180
+		},
+		"*-books-upper-west": {
+			"base": "block/end/end-shelf-books-upper",
+			"rotateY": 90
+		},
+		"*-dusty-lower-north": {
+			"base": "block/end/end-shelf-dusty-lower",
+			"rotateY": 0
+		},
+		"*-dusty-lower-east": {
+			"base": "block/end/end-shelf-dusty-lower",
+			"rotateY": 270
+		},
+		"*-dusty-lower-south": {
+			"base": "block/end/end-shelf-dusty-lower",
+			"rotateY": 180
+		},
+		"*-dusty-lower-west": {
+			"base": "block/end/end-shelf-dusty-lower",
+			"rotateY": 90
+		},
+		"*-dusty-upper-north": {
+			"base": "block/end/end-shelf-dusty-upper",
+			"rotateY": 0
+		},
+		"*-dusty-upper-east": {
+			"base": "block/end/end-shelf-dusty-upper",
+			"rotateY": 270
+		},
+		"*-dusty-upper-south": {
+			"base": "block/end/end-shelf-dusty-upper",
+			"rotateY": 180
+		},
+		"*-dusty-upper-west": {
+			"base": "block/end/end-shelf-dusty-upper",
+			"rotateY": 90
+		},
+		"*-endpanel-lower-north": {
+			"base": "block/end/end-shelf-endpanel-lower",
+			"rotateY": 0
+		},
+		"*-endpanel-lower-east": {
+			"base": "block/end/end-shelf-endpanel-lower",
+			"rotateY": 270
+		},
+		"*-endpanel-lower-south": {
+			"base": "block/end/end-shelf-endpanel-lower",
+			"rotateY": 180
+		},
+		"*-endpanel-lower-west": {
+			"base": "block/end/end-shelf-endpanel-lower",
+			"rotateY": 90
+		},
+		"*-endpanel-upper-north": {
+			"base": "block/end/end-shelf-endpanel-upper",
+			"rotateY": 0
+		},
+		"*-endpanel-upper-east": {
+			"base": "block/end/end-shelf-endpanel-upper",
+			"rotateY": 270
+		},
+		"*-endpanel-upper-south": {
+			"base": "block/end/end-shelf-endpanel-upper",
+			"rotateY": 180
+		},
+		"*-endpanel-upper-west": {
+			"base": "block/end/end-shelf-endpanel-upper",
+			"rotateY": 90
+		},
+		"*-leaning-lower-north": {
+			"base": "block/end/end-shelf-leaning-lower",
+			"rotateY": 0
+		},
+		"*-leaning-lower-east": {
+			"base": "block/end/end-shelf-leaning-lower",
+			"rotateY": 270
+		},
+		"*-leaning-lower-south": {
+			"base": "block/end/end-shelf-leaning-lower",
+			"rotateY": 180
+		},
+		"*-leaning-lower-west": {
+			"base": "block/end/end-shelf-leaning-lower",
+			"rotateY": 90
+		},
+		"*-leaning-upper-north": {
+			"base": "block/end/end-shelf-leaning-upper",
+			"rotateY": 0
+		},
+		"*-leaning-upper-east": {
+			"base": "block/end/end-shelf-leaning-upper",
+			"rotateY": 270
+		},
+		"*-leaning-upper-south": {
+			"base": "block/end/end-shelf-leaning-upper",
+			"rotateY": 180
+		},
+		"*-leaning-upper-west": {
+			"base": "block/end/end-shelf-leaning-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"classByType": {
+		"*-leaning-*": "BackroomsFragileShelf"
+	},
+	"resistanceByType": {
+		"*-leaning-*": 0.3,
+		"*": 1.5
+	},
+	"dropsByType": {
+		"*-books-*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:book-normal-darkgreen",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:book-aged-brickred",
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:paper-parchment",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.3
+				}
+			}
+		],
+		"*-leaning-*": [],
+		"*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			}
+		]
+	}
+}

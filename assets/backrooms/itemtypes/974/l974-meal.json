@@ -1,0 +1,91 @@
+// A Remembered Meal: pancakes, chicken soup, macaroni and cheese, from Kitty's kitchen table
+{
+	"code": "l974-meal",
+	"variantgroups": [
+		{
+			"code": "meal",
+			"states": [
+				"pancakes",
+				"soup",
+				"macaroni"
+			]
+		}
+	],
+	"maxstacksize": 4,
+	"textureByType": {
+		"l974-meal-pancakes": {
+			"base": "item/974/meal-pancakes"
+		},
+		"l974-meal-soup": {
+			"base": "item/974/meal-soup"
+		},
+		"l974-meal-macaroni": {
+			"base": "item/974/meal-macaroni"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"nutritionPropsByType": {
+		"l974-meal-pancakes": {
+			"satiety": 520,
+			"foodcategory": "Grain"
+		},
+		"l974-meal-soup": {
+			"satiety": 480,
+			"foodcategory": "Vegetable"
+		},
+		"l974-meal-macaroni": {
+			"satiety": 480,
+			"foodcategory": "Dairy"
+		}
+	},
+	"materialDensity": 600,
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

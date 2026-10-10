@@ -1,0 +1,361 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"neon-orange": "backrooms:block/3999/neon-orange"
+	},
+	"elements": [
+		{
+			"name": "Tube",
+			"from": [
+				7,
+				13,
+				0
+			],
+			"to": [
+				9,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Clip3",
+			"from": [
+				7.5,
+				15,
+				3
+			],
+			"to": [
+				8.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Band3",
+			"from": [
+				6.6,
+				12.6,
+				3.5
+			],
+			"to": [
+				9.4,
+				15.2,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Clip11",
+			"from": [
+				7.5,
+				15,
+				11
+			],
+			"to": [
+				8.5,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Band11",
+			"from": [
+				6.6,
+				12.6,
+				11.5
+			],
+			"to": [
+				9.4,
+				15.2,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

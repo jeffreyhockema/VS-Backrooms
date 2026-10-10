@@ -1,0 +1,259 @@
+{
+	"code": "partygoer",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land",
+		"partygoer"
+	],
+	"weight": 90,
+	"hitboxSize": {
+		"x": 0.8,
+		"y": 2.2
+	},
+	"deadHitboxSize": {
+		"x": 0.8,
+		"y": 0.6
+	},
+	"eyeHeight": 2.0,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-partygoer",
+		"fireDamageClosed": 0.25,
+		"fireDamageOpen": 3.0,
+		"headDamageOpen": 2.0
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "fun-partyhat-stripes",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "fun-partyhat-dots",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:gear-rusty",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/fun-partygoer"
+		},
+		"texture": {
+			"base": "backrooms:entity/fun-partygoer",
+			"alternates": [
+				{
+					"base": "backrooms:entity/fun-partygoer-red"
+				},
+				{
+					"base": "backrooms:entity/fun-partygoer-blue"
+				},
+				{
+					"base": "backrooms:entity/fun-partygoer-green"
+				},
+				{
+					"base": "backrooms:entity/fun-partygoer-white"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "gaze",
+				"animation": "gaze",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "latch",
+				"animation": "latch",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "berserk",
+				"animation": "berserk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 8
+			},
+			{
+				"code": "berserkidle",
+				"animation": "berserkidle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 3
+			},
+			{
+				"code": "claw",
+				"animation": "claw",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "attack",
+				"animation": "latch",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "backrooms-partygoer"
+			},
+			{
+				"code": "health",
+				"currenthealth": 30,
+				"maxhealth": 30
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"huntSeconds": 90
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-partygoer",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.031,
+						"sightLit": 12,
+						"sightDim": 7,
+						"sightDark": 4,
+						"latchDamage": 2.5,
+						"clawDamage": 4.0,
+						"attackRange": 1.6,
+						"gazeSound": "backrooms:entity/partygoer/gaze",
+						"latchSound": "backrooms:entity/partygoer/latch",
+						"carapaceSound": "backrooms:entity/partygoer/carapace",
+						"clawSound": "backrooms:entity/partygoer/claw"
+					},
+					{
+						"code": "idle",
+						"priority": 1.1,
+						"priorityForCancel": 1.35,
+						"animation": "idle",
+						"minduration": 4000,
+						"maxduration": 12000,
+						"mincooldown": 4000,
+						"maxcooldown": 12000
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:creature/drifter-hurt",
+		"death": "backrooms:entity/partygoer/die",
+		"idle": "backrooms:entity/partygoer/step*"
+	},
+	"idleSoundChance": 0.05,
+	"idleSoundRange": 6
+}

@@ -1,0 +1,120 @@
+// Camp Amber's chalk arrows on the wall to the south, pointing to the viewer's left (l) or right (r): to the camp, or in Level 1 to the door into the Hub
+{
+	"code": "hub-amberarrow",
+	"variantgroups": [
+		{
+			"code": "dir",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/hub/amberarrow-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/hub/amberarrow-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/hub/amberarrow-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/hub/amberarrow-l",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/hub/amberarrow-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/hub/amberarrow-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/hub/amberarrow-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/hub/amberarrow-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"decorative": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0.2,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0.2,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0.2,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0.2,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [],
+	"replaceable": 5000
+}

@@ -1,0 +1,46 @@
+// Level 188: corridor carpet
+{
+	"code": "l188-carpet-corridor",
+	"textures": {
+		"up": {
+			"base": "block/188/carpet-corridor"
+		},
+		"down": {
+			"base": "block/188/concrete"
+		},
+		"north": {
+			"base": "block/188/concrete"
+		},
+		"east": {
+			"base": "block/188/concrete"
+		},
+		"south": {
+			"base": "block/188/concrete"
+		},
+		"west": {
+			"base": "block/188/concrete"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-carpet-corridor"
+		],
+		"backrooms": [
+			"l188-carpet-corridor"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

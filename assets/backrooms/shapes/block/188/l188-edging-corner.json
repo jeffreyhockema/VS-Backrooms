@@ -1,0 +1,241 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"timber": "backrooms:block/188/timber",
+		"timber-end": "backrooms:block/188/timber-end"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				0.2,
+				0,
+				0.2
+			],
+			"to": [
+				16,
+				3,
+				1.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						15.8,
+						3
+					]
+				},
+				"south": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						15.8,
+						3
+					]
+				},
+				"up": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						15.8,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "BoardE",
+			"from": [
+				14.3,
+				0,
+				1.7
+			],
+			"to": [
+				15.8,
+				3,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						14.3,
+						3
+					]
+				},
+				"west": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						14.3,
+						3
+					]
+				},
+				"up": {
+					"texture": "#timber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						14.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Peg1",
+			"from": [
+				4,
+				0,
+				1.7
+			],
+			"to": [
+				5,
+				2,
+				2.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"east": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2
+					]
+				},
+				"south": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2
+					]
+				},
+				"up": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Peg2",
+			"from": [
+				13.6,
+				0,
+				11
+			],
+			"to": [
+				14.3,
+				2,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7000000000000011,
+						2
+					]
+				},
+				"east": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"south": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7000000000000011,
+						2
+					]
+				},
+				"west": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"up": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7000000000000011,
+						1
+					]
+				},
+				"down": {
+					"texture": "#timber-end",
+					"uv": [
+						0,
+						0,
+						0.7000000000000011,
+						1
+					]
+				}
+			}
+		}
+	]
+}

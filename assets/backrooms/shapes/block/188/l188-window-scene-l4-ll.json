@@ -1,0 +1,375 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"sc-desk": "backrooms:block/188/sc-desk",
+		"sc-office": "backrooms:block/188/sc-office",
+		"sc-officecarpet": "backrooms:block/188/sc-officecarpet",
+		"scene-l4-ll": "backrooms:block/188/scene-l4-ll"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				14.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						11,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				14.5,
+				1.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						14.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						14.5,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						14.5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						14.5,
+						5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						11,
+						14.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				1.5,
+				1
+			],
+			"to": [
+				0.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						0,
+						16,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						11,
+						0.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				15.5,
+				1
+			],
+			"to": [
+				14.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						11,
+						14.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scene-l4-ll",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "BoxFloor",
+			"from": [
+				0,
+				0,
+				5
+			],
+			"to": [
+				16,
+				1.5,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#sc-officecarpet",
+					"uv": [
+						0,
+						5,
+						16,
+						15
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "BoxL",
+			"from": [
+				14.5,
+				0,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"west": {
+					"texture": "#sc-office",
+					"uv": [
+						5,
+						0,
+						15,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "DeskTop",
+			"from": [
+				0,
+				8,
+				7
+			],
+			"to": [
+				2,
+				9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#sc-desk",
+					"uv": [
+						14,
+						7,
+						16,
+						8
+					],
+					"glow": 50
+				},
+				"east": {
+					"texture": "#sc-desk",
+					"uv": [
+						4,
+						7,
+						9,
+						8
+					],
+					"glow": 50
+				},
+				"south": {
+					"texture": "#sc-desk",
+					"uv": [
+						0,
+						7,
+						2,
+						8
+					],
+					"glow": 50
+				},
+				"up": {
+					"texture": "#sc-desk",
+					"uv": [
+						0,
+						7,
+						2,
+						12
+					],
+					"glow": 50
+				},
+				"down": {
+					"texture": "#sc-desk",
+					"uv": [
+						0,
+						4,
+						2,
+						9
+					],
+					"glow": 50
+				}
+			}
+		}
+	]
+}

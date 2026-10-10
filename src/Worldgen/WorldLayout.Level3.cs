@@ -36,6 +36,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL3District = 0x3C07;
     private const ulong SaltL3Hall = 0x3C08;
     private const ulong SaltL3Sanctum = 0x3C09;
+    /// <summary>Vanilla machinery in the corridor niches (pressure tanks, old pumps) instead of the electrical gear.</summary>
+    private const ulong SaltL3Fitting = 0x1E02;
 
     /// <summary>Halls: one site per this many cells each way.</summary>
     private const int L3HallRegion = 5;
@@ -476,6 +478,15 @@ public sealed partial class WorldLayout
                 for (int d = 1; d <= 3; d++) At(Spot(d, 3)).Floor = FloorKind.Tar;
                 Face(1, 0, Props.PipeStack, outward);
                 if (rng.Chance(0.5)) Face(3, 0, Props.Drum, outward);
+                // Their gauges and valves on the side wall, and a pressure tank in the corner the drum left empty
+                // (chosen from the room's position, not the shared random sequence, so nothing else moves)
+                Face(2, 0, Props.GaugeFrame, Toward(Spot(2, 0), Spot(2, 1)));
+                At(Spot(2, 0)).Stack = (byte)Hashing.Mod(x0 * 7 + z0 * 13, 4);
+                if (At(Spot(3, 0)).Variant == 0)
+                {
+                    Face(3, 0, Props.PressureTank, outward);
+                    At(Spot(3, 0)).Stack = (byte)Hashing.Mod(x0 + z0, 2);
+                }
                 break;
             case L3Room.Generator:
                 Face(2, 1, Props.Generator, outward);
@@ -494,6 +505,12 @@ public sealed partial class WorldLayout
                 Face(2, 1, Props.OfficeChair, inward);
                 Face(3, 0, Props.Switchgear, outward);
                 Face(3, 3, Props.Switchgear, outward);
+                // The levers that worked whatever the meters measured, and gauges on the side wall (both in corners
+                // nothing passes through)
+                Face(2, 3, Props.FloorLever, outward);
+                At(Spot(2, 3)).Stack = (byte)Hashing.Mod(x0 + z0, 2);
+                Face(2, 0, Props.GaugeFrame, Toward(Spot(2, 0), Spot(2, 1)));
+                At(Spot(2, 0)).Stack = (byte)Hashing.Mod(x0 * 5 + z0 * 3, 4);
                 break;
             case L3Room.Assembly:
                 // Two conveyor lines crossing the room, still carrying parcels to nowhere
@@ -511,6 +528,10 @@ public sealed partial class WorldLayout
                 break;
         }
     }
+
+    /// <summary>The direction from one tile to its neighbour.</summary>
+    private static ArchPier Toward((int X, int Z) from, (int X, int Z) to) =>
+        to.X > from.X ? ArchPier.East : to.X < from.X ? ArchPier.West : to.Z > from.Z ? ArchPier.South : ArchPier.North;
 
     /// <summary>The small sign beside an electrical room's door: a number and a line of jumbled text.</summary>
     private static void PlaceNumberSign(Builder b, int doorX, int doorZ, ArchPier outward, ref Rng rng)
@@ -562,6 +583,13 @@ public sealed partial class WorldLayout
                     double m = r / 0.12;
                     tile.Variant = m < 0.3 ? Props.Coil : m < 0.55 ? Props.Switchgear : m < 0.72 ? Props.Transformer
                         : m < 0.82 ? Props.FloorFan : m < 0.92 ? Props.Generator : Props.CableSpool;
+                    // One niche in four holds older plant: a rusted pressure tank or the remains of a pump
+                    ulong fit = Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltL3Fitting);
+                    if (Hashing.Unit(fit) < 0.25)
+                    {
+                        tile.Variant = ((fit >> 20) & 1) == 0 ? Props.PressureTank : Props.RustMachine;
+                        tile.Stack = (byte)((fit >> 28) & 1);
+                    }
                     tile.Sealed = true;
                     break;
                 }

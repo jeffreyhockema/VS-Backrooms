@@ -1,0 +1,139 @@
+// Level 3999: a moving walkway's balustrade, standing on the edge of its block named by the suffix: a glass panel, a black rubber handrail, a steel skirt with a cyan neon strip on its inner face (light 5)
+{
+	"code": "l3999-walkwayrail",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-walkwayrail-north": {
+			"base": "backrooms:block/3999/l3999-walkwayrail"
+		},
+		"l3999-walkwayrail-east": {
+			"base": "backrooms:block/3999/l3999-walkwayrail",
+			"rotateY": 270
+		},
+		"l3999-walkwayrail-south": {
+			"base": "backrooms:block/3999/l3999-walkwayrail",
+			"rotateY": 180
+		},
+		"l3999-walkwayrail-west": {
+			"base": "backrooms:block/3999/l3999-walkwayrail",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-walkwayrail-north"
+		],
+		"backrooms": [
+			"l3999-walkwayrail-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-walkwayrail-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125
+		},
+		"l3999-walkwayrail-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 270
+		},
+		"l3999-walkwayrail-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 180
+		},
+		"l3999-walkwayrail-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-walkwayrail-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125
+		},
+		"l3999-walkwayrail-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 270
+		},
+		"l3999-walkwayrail-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 180
+		},
+		"l3999-walkwayrail-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		33,
+		6,
+		5
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

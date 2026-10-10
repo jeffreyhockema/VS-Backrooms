@@ -1,0 +1,152 @@
+// The End: grey-green low-pile carpet; dusty, worn flat, stained, or half under the Snowfield's powder snow
+{
+	"code": "end-carpet",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"dusty",
+				"worn",
+				"stained",
+				"snowy"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/end/carpet-plain",
+				"alternates": [
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-dusty": {
+			"all": {
+				"base": "block/end/carpet-dusty",
+				"alternates": [
+					{
+						"base": "block/end/carpet-dusty",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-dusty",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-dusty",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-worn": {
+			"all": {
+				"base": "block/end/carpet-worn",
+				"alternates": [
+					{
+						"base": "block/end/carpet-worn",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-worn",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-worn",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/end/carpet-stained",
+				"alternates": [
+					{
+						"base": "block/end/carpet-stained",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-stained",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-stained",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-snowy": {
+			"up": {
+				"base": "block/end/carpet-snowy",
+				"alternates": [
+					{
+						"base": "block/end/carpet-snowy",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-snowy",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-snowy",
+						"rotation": 270
+					}
+				]
+			},
+			"horizontals": {
+				"base": "block/end/carpet-snowyside"
+			},
+			"down": {
+				"base": "block/end/carpet-plain"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsStrippable",
+			"properties": {
+				"result": "end-carpet-worn",
+				"item": "carpetfibre",
+				"variant": "kind",
+				"allowed": [
+					"plain",
+					"dusty",
+					"stained"
+				]
+			}
+		}
+	]
+}

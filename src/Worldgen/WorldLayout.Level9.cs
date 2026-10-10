@@ -40,6 +40,22 @@ public sealed partial class WorldLayout
                 Hashing.FloorDiv(gz, TownBlockZ) * 2 + (sz >= 8 + LotDepth ? 1 : 0));
     }
 
+    /// <summary>
+    /// For the grass: how far back from the pavement a block lies in its Suburbs lot (0 at the front, LotDepth - 1 at
+    /// the back fence; -1 on the streets), and whether the lot was planned with a house (the same first draw as
+    /// <see cref="LotPlan"/>, so nothing about the plan changes).
+    /// </summary>
+    public (int V, bool House) SuburbLotDepth(int gx, int gz)
+    {
+        int sx = Hashing.Mod(gx, TownBlockX), sz = Hashing.Mod(gz, TownBlockZ);
+        if (sx < 8 || sz < 8) return (-1, false);
+        bool south = sz >= 8 + LotDepth;
+        int lotX = Hashing.FloorDiv(gx, TownBlockX) * TownBlockX + 8 + Math.Clamp((sx - 8) / LotWidth, 0, 2) * LotWidth;
+        int lotZ = Hashing.FloorDiv(gz, TownBlockZ) * TownBlockZ + 8 + (south ? LotDepth : 0);
+        var rng = new Rng(Hashing.Hash(seed, lotX, lotZ, SaltL9Lot));
+        return (south ? TownBlockZ - 1 - sz : sz - 8, rng.NextDouble() < 0.88);
+    }
+
     private void BuildLevel9(Builder b, int mx, int mz)
     {
         int x0 = mx * MacroSize, z0 = mz * MacroSize;

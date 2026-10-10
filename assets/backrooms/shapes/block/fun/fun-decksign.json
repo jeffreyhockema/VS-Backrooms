@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/fun/brass",
+		"decksign": "backrooms:block/fun/decksign"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				5,
+				15.4
+			],
+			"to": [
+				14,
+				11,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#decksign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateEdge",
+			"from": [
+				2,
+				5,
+				15.4
+			],
+			"to": [
+				14,
+				11,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				}
+			}
+		}
+	]
+}

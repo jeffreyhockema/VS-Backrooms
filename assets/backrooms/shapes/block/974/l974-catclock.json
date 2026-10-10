@@ -1,0 +1,532 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"catclock": "backrooms:block/974/catclock",
+		"catclock-face": "backrooms:block/974/catclock-face",
+		"clockface": "backrooms:block/974/clockface",
+		"knob-pink": "backrooms:block/974/knob-pink",
+		"knob-white": "backrooms:block/974/knob-white"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				5.5,
+				1,
+				14.6
+			],
+			"to": [
+				10.5,
+				9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						5.0,
+						8
+					]
+				},
+				"east": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.4,
+						8
+					]
+				},
+				"south": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						5.0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.4,
+						8
+					]
+				},
+				"up": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				4.8,
+				9,
+				14.4
+			],
+			"to": [
+				11.2,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#catclock-face",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.6,
+						5
+					]
+				},
+				"south": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						6.3999999999999995,
+						5
+					]
+				},
+				"west": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.6,
+						5
+					]
+				},
+				"up": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						6.3999999999999995,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						6.3999999999999995,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Dial",
+			"from": [
+				6,
+				2.4,
+				14.3
+			],
+			"to": [
+				10,
+				6.8,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#clockface",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EarL",
+			"from": [
+				5.0,
+				14,
+				14.8
+			],
+			"to": [
+				6.8,
+				15.6,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.7999999999999998,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.7999999999999998,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.7999999999999998,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.7999999999999998,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "EarR",
+			"from": [
+				9.2,
+				14,
+				14.8
+			],
+			"to": [
+				11.0,
+				15.6,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bow",
+			"from": [
+				7.2,
+				8.6,
+				14.1
+			],
+			"to": [
+				8.8,
+				9.6,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tail",
+			"from": [
+				7.4,
+				-4,
+				15.0
+			],
+			"to": [
+				8.6,
+				1.2,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5.2
+					]
+				},
+				"east": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						0.6,
+						5.2
+					]
+				},
+				"south": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						5.2
+					]
+				},
+				"west": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						0.6,
+						5.2
+					]
+				},
+				"up": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#catclock",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				1.2,
+				15.3
+			],
+			"rotationZ": 10
+		},
+		{
+			"name": "TailTip",
+			"from": [
+				7.2,
+				-5.2,
+				14.9
+			],
+			"to": [
+				8.8,
+				-3.8,
+				15.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.4000000000000004
+					]
+				},
+				"east": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				1.2,
+				15.3
+			],
+			"rotationZ": 10
+		}
+	]
+}

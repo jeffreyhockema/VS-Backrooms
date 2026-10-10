@@ -1,0 +1,65 @@
+{
+	"code": "partyhost",
+	"class": "BackroomsPartyHost",
+	"tags": [
+		"backrooms-entity"
+	],
+	"weight": 2000,
+	"hitboxSize": {
+		"x": 3.0,
+		"y": 0.8
+	},
+	"eyeHeight": 0.3,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-partyhost",
+		"invulnerable": true
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/fun-partyhost"
+		},
+		"texture": {
+			"base": "backrooms:entity/fun-partyhost"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "weep",
+				"animation": "weep",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "upset",
+				"animation": "upset",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {}
+}

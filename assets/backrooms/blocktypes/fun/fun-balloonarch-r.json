@@ -1,0 +1,96 @@
+// Level Fun: half of a balloon arch over a doorway; an arch means guests inside
+{
+	"code": "fun-balloonarch-r",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/fun/fun-balloonarch-r",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/fun/fun-balloonarch-r",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/fun/fun-balloonarch-r",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/fun/fun-balloonarch-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "backrooms:ambient/fun/balloonpop",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.6,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.6,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.6,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.6,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": []
+}

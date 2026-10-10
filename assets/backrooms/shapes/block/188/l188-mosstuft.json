@@ -1,0 +1,405 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mosstuft": "backrooms:block/188/mosstuft"
+	},
+	"elements": [
+		{
+			"name": "Tuft0a",
+			"from": [
+				1.0,
+				0,
+				4
+			],
+			"to": [
+				5.0,
+				5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft0b",
+			"from": [
+				3,
+				0,
+				2.0
+			],
+			"to": [
+				3,
+				5,
+				6.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft1a",
+			"from": [
+				6.6,
+				0,
+				2.5
+			],
+			"to": [
+				9.4,
+				3.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft1b",
+			"from": [
+				8,
+				0,
+				1.0999999999999999
+			],
+			"to": [
+				8,
+				3.5,
+				3.9000000000000004
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft2a",
+			"from": [
+				10.1,
+				0,
+				5
+			],
+			"to": [
+				14.9,
+				6,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft2b",
+			"from": [
+				12.5,
+				0,
+				2.5999999999999996
+			],
+			"to": [
+				12.5,
+				6,
+				7.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft3a",
+			"from": [
+				3.4,
+				0,
+				11
+			],
+			"to": [
+				6.6,
+				4,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft3b",
+			"from": [
+				5,
+				0,
+				9.4
+			],
+			"to": [
+				5,
+				4,
+				12.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft4a",
+			"from": [
+				7.8,
+				0,
+				12.5
+			],
+			"to": [
+				12.2,
+				5.5,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft4b",
+			"from": [
+				10,
+				0,
+				10.3
+			],
+			"to": [
+				10,
+				5.5,
+				14.7
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft5a",
+			"from": [
+				12.3,
+				0,
+				10
+			],
+			"to": [
+				14.7,
+				3,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tuft5b",
+			"from": [
+				13.5,
+				0,
+				8.8
+			],
+			"to": [
+				13.5,
+				3,
+				11.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mosstuft",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

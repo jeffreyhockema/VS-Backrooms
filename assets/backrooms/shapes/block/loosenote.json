@@ -1,0 +1,48 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paper": "backrooms:item/wanderernote"
+	},
+	"elements": [
+		{
+			"name": "Sheet",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				12,
+				0.12,
+				12
+			],
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 17,
+			"faces": {
+				"up": {
+					"texture": "#paper",
+					"uv": [
+						4,
+						4,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#paper",
+					"uv": [
+						4,
+						4,
+						12,
+						12
+					]
+				}
+			}
+		}
+	]
+}

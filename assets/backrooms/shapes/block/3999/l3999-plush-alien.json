@@ -1,0 +1,701 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"face-alien": "backrooms:block/3999/face-alien",
+		"fur-alien": "backrooms:block/3999/fur-alien",
+		"neon-magenta": "backrooms:block/3999/neon-magenta"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				6.0,
+				0.0,
+				6.4
+			],
+			"to": [
+				10.0,
+				3.6,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						4.0,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						3.4,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						4.0,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						3.4,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						4.0,
+						3.4
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						4.0,
+						3.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				4.6,
+				3.4,
+				5.4
+			],
+			"to": [
+				11.4,
+				9.0,
+				10.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#face-alien",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						5.2,
+						5.6
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						6.8,
+						5.6
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						5.2,
+						5.6
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						6.8,
+						5.2
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						6.8,
+						5.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Antenna1",
+			"from": [
+				9.4,
+				9.0,
+				7.7
+			],
+			"to": [
+				9.9,
+				11.4,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Antenna2",
+			"from": [
+				6.1,
+				9.0,
+				7.7
+			],
+			"to": [
+				6.6,
+				11.4,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bobble1",
+			"from": [
+				9.1,
+				11.4,
+				7.4
+			],
+			"to": [
+				10.2,
+				12.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bobble2",
+			"from": [
+				5.8,
+				11.4,
+				7.4
+			],
+			"to": [
+				6.9,
+				12.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0.5,
+						0.5,
+						1.1,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				10.0,
+				1.2,
+				7.4
+			],
+			"to": [
+				11.6,
+				2.2,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				4.4,
+				1.2,
+				7.4
+			],
+			"to": [
+				6.0,
+				2.2,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "FootL",
+			"from": [
+				8.4,
+				0.0,
+				5.6
+			],
+			"to": [
+				9.8,
+				0.9,
+				6.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "FootR",
+			"from": [
+				6.2,
+				0.0,
+				5.6
+			],
+			"to": [
+				7.6,
+				0.9,
+				6.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-alien",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

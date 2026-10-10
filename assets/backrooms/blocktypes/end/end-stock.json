@@ -1,0 +1,548 @@
+// The End: back-of-house stock: a shrink-wrapped pallet of boxes, a book trolley, a step ladder still in its plastic leaning on the wall behind, flat-pack shelving on a pallet
+{
+	"code": "end-stock",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"pallet",
+				"trolley",
+				"ladderwrapped",
+				"kit"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-pallet-north"
+		],
+		"decorative": [
+			"*-pallet-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-pallet-north": {
+			"base": "block/end/end-stock-pallet",
+			"rotateY": 0
+		},
+		"*-pallet-east": {
+			"base": "block/end/end-stock-pallet",
+			"rotateY": 270
+		},
+		"*-pallet-south": {
+			"base": "block/end/end-stock-pallet",
+			"rotateY": 180
+		},
+		"*-pallet-west": {
+			"base": "block/end/end-stock-pallet",
+			"rotateY": 90
+		},
+		"*-trolley-north": {
+			"base": "block/end/end-stock-trolley",
+			"rotateY": 0
+		},
+		"*-trolley-east": {
+			"base": "block/end/end-stock-trolley",
+			"rotateY": 270
+		},
+		"*-trolley-south": {
+			"base": "block/end/end-stock-trolley",
+			"rotateY": 180
+		},
+		"*-trolley-west": {
+			"base": "block/end/end-stock-trolley",
+			"rotateY": 90
+		},
+		"*-ladderwrapped-north": {
+			"base": "block/end/end-stock-ladderwrapped",
+			"rotateY": 0
+		},
+		"*-ladderwrapped-east": {
+			"base": "block/end/end-stock-ladderwrapped",
+			"rotateY": 270
+		},
+		"*-ladderwrapped-south": {
+			"base": "block/end/end-stock-ladderwrapped",
+			"rotateY": 180
+		},
+		"*-ladderwrapped-west": {
+			"base": "block/end/end-stock-ladderwrapped",
+			"rotateY": 90
+		},
+		"*-kit-north": {
+			"base": "block/end/end-stock-kit",
+			"rotateY": 0
+		},
+		"*-kit-east": {
+			"base": "block/end/end-stock-kit",
+			"rotateY": 270
+		},
+		"*-kit-south": {
+			"base": "block/end/end-stock-kit",
+			"rotateY": 180
+		},
+		"*-kit-west": {
+			"base": "block/end/end-stock-kit",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"*-pallet-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1
+			}
+		],
+		"*-pallet-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-pallet-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-pallet-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-trolley-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94
+			}
+		],
+		"*-trolley-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-trolley-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-trolley-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-ladderwrapped-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1
+			}
+		],
+		"*-ladderwrapped-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-ladderwrapped-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-ladderwrapped-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-kit-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1
+			}
+		],
+		"*-kit-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-kit-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-kit-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"*-pallet-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1
+			}
+		],
+		"*-pallet-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-pallet-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-pallet-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.27,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-trolley-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94
+			}
+		],
+		"*-trolley-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-trolley-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-trolley-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 1.3,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-ladderwrapped-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1
+			}
+		],
+		"*-ladderwrapped-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-ladderwrapped-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-ladderwrapped-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.88,
+				"y2": 1.9,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-kit-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1
+			}
+		],
+		"*-kit-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-kit-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-kit-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.8,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"renderpassByType": {
+		"*-pallet-*": "Transparent",
+		"*-ladderwrapped-*": "Transparent"
+	},
+	"dropsByType": {
+		"*-pallet-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 3,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "block",
+				"code": "supplybox",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-trolley-*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		],
+		"*-ladderwrapped-*": [
+			{
+				"type": "block",
+				"code": "game:ladder-wood-oak-north",
+				"quantity": {
+					"avg": 2,
+					"var": 0
+				}
+			}
+		],
+		"*-kit-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 4,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		]
+	}
+}

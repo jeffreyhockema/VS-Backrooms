@@ -1,0 +1,101 @@
+// A glow bracelet (a prize): a dim coloured light while held, dimmer than a candle
+{
+	"code": "l3999-glowband",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"magenta",
+				"cyan",
+				"lilac"
+			]
+		}
+	],
+	"maxstacksize": 16,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 300,
+	"textureByType": {
+		"l3999-glowband-magenta": {
+			"base": "item/3999/glowband-magenta"
+		},
+		"l3999-glowband-cyan": {
+			"base": "item/3999/glowband-cyan"
+		},
+		"l3999-glowband-lilac": {
+			"base": "item/3999/glowband-lilac"
+		}
+	},
+	"lightHsvByType": {
+		"l3999-glowband-magenta": [
+			51,
+			7,
+			6
+		],
+		"l3999-glowband-cyan": [
+			33,
+			6,
+			6
+		],
+		"l3999-glowband-lilac": [
+			53,
+			3,
+			6
+		]
+	},
+	"attributes": {
+		"handbook": {
+			"groupBy": [
+				"l3999-glowband-*"
+			]
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

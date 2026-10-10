@@ -1,9 +1,11 @@
 using Backrooms.Worldgen;
 
 /// <summary>
-/// Levels 37 and 94, the noclip regions past the rings:
+/// The noclip regions past the rings, Levels 37 and 94 and the five kept as 14-18 (each of those has its own modes too,
+/// see LevelModes.cs):
 ///   regions                       where they lie, arrivals (found, wrong level, trapped), time per cell
-///   regionmap &lt;37|94&gt; [dx dz]     writes region.bin round the region's middle (offset in cells) for render_region.py
+///   regionmap &lt;37|94|!|fun|end|hub|974|3999|188&gt; [dx dz]   writes region.bin round the region's middle (offset in cells)
+///                                 for render_region.py (Variant is clamped to a byte there)
 ///   poolstats [blocks]            Level 37: dry, shallow, deep and lit shares, rooms by kind, thresholds
 ///   motionstats [cells]           Level 94: what stands on the hills, roads, towns, thresholds, steepest step
 /// </summary>
@@ -46,10 +48,14 @@ static class Regions
         return seen.Count;
     }
 
+    /// <summary>The regions past the rings that are checked: Levels 37 and 94, then the five kept as 14-18.</summary>
+    static readonly int[] Checked = { WorldLayout.Poolrooms, WorldLayout.Motion, WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd,
+        WorldLayout.Hub, WorldLayout.Level974, WorldLayout.Level3999, WorldLayout.Level188 };
+
     public static void Run(WorldLayout l, int smx, int smz)
     {
         layout = l;
-        foreach (int level in new[] { WorldLayout.Poolrooms, WorldLayout.Motion })
+        foreach (int level in Checked)
         {
             string name = WorldLayout.DisplayNumber(level);
             // Where is it, and does any ring reach it?
@@ -57,14 +63,17 @@ static class Regions
             for (int a = 0; a < 360; a += 2)
             {
                 double ang = a * Math.PI / 180;
-                for (int r = 0; r < 6000; r += 4)
+                for (int r = 0; r < 7200; r += 4)
                 {
                     int lv = l.LevelAt(smx + (int)(Math.Cos(ang) * r), smz + (int)(Math.Sin(ang) * r));
                     if (lv == level) { nearest = Math.Min(nearest, r); cells++; break; }
                     if (lv < 10 && r > 1000) break;
                 }
             }
-            Console.WriteLine($"Level {name}: nearest {nearest} cells ({nearest * 32 / 1000.0:0.0} km) from spawn, seen in {cells}/180 directions");
+            // (A region as thin as Level ! slips between the rays: the first arrival says where it is)
+            var first = l.FindArrival(level, 7919UL + 13);
+            string arrivalAt = first is { } f0 ? $"; an arrival {Math.Sqrt(Math.Pow(f0.X / 32.0 - smx, 2) + Math.Pow(f0.Z / 32.0 - smz, 2)):0} cells out at {f0.X},{f0.Z}" : "";
+            Console.WriteLine($"Level {name}: nearest {(nearest == int.MaxValue ? "-" : nearest.ToString())} cells ({(nearest == int.MaxValue ? 0 : nearest * 32 / 1000.0):0.0} km) from spawn, seen in {cells}/180 directions{arrivalAt}");
             var sw = System.Diagnostics.Stopwatch.StartNew();
             int found = 0, wrong = 0, small = 0;
             const int N = 60;
@@ -79,15 +88,21 @@ static class Regions
             }
             Console.WriteLine($"  arrivals: found {found}/{N}, wrong level {wrong}, in pockets under 3000 tiles {small}  ({sw.ElapsedMilliseconds} ms)");
         }
-        // Time to build cells, cold
-        foreach (int level in new[] { WorldLayout.Poolrooms, WorldLayout.Motion })
+        // Time to build cells of the level, cold (cells near an arrival not built yet)
+        foreach (int level in Checked)
         {
             var a = l.FindArrival(level, 99991UL);
             if (a == null) continue;
             int mx = WorldLayout.MacroOf(a.Value.X), mz = WorldLayout.MacroOf(a.Value.Z);
             var sw = System.Diagnostics.Stopwatch.StartNew();
             int n = 0;
-            for (int dz = 10; dz < 18; dz++) for (int dx = 10; dx < 18; dx++) { l.BuildMacro(mx + dx, mz + dz); n++; }
+            for (int dz = -12; dz <= 12; dz++) for (int dx = -12; dx <= 12; dx++)
+                {
+                    if (n >= 64 || cache.ContainsKey((mx + dx, mz + dz)) || l.LevelAt(mx + dx, mz + dz) != level) continue;
+                    l.BuildMacro(mx + dx, mz + dz);
+                    n++;
+                }
+            if (n == 0) continue;
             Console.WriteLine($"Level {WorldLayout.DisplayNumber(level)}: {sw.Elapsed.TotalMilliseconds / n:0.00} ms per cell (cold)");
         }
     }
@@ -105,7 +120,7 @@ static class Regions
             for (int x = 0; x < size; x++)
             {
                 Tile t = At(m0x * 32 + x, m0z * 32 + z);
-                w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Pattern); w.Write(t.Variant); w.Write(t.Depth);
+                w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Pattern); w.Write((byte)Math.Min((int)t.Variant, 255)); w.Write(t.Depth);
                 w.Write(t.Height); w.Write(t.Zone); w.Write(t.Under); w.Write(t.Roof); w.Write((byte)t.Pier); w.Write(t.Stair); w.Write(t.Level);
             }
         Console.WriteLine($"region map of level {WorldLayout.DisplayNumber(level)}: {size}x{size} from blocks {m0x * 32},{m0z * 32}");
@@ -223,7 +238,7 @@ static class Regions
 /// <summary>What the harness needs of the layout's internal rules.</summary>
 static class RegionAccess
 {
-    public static bool WalkThrough(byte variant) => variant is Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.Crop
+    public static bool WalkThrough(ushort variant) => variant is Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.Crop
         or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.TwilightGate or Props.EpsomCrust or Props.LostThing;
 }
 

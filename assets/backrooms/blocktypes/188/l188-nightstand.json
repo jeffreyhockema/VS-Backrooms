@@ -1,0 +1,250 @@
+// Level 188: a grey-oak nightstand with a drawer and a bedside lamp (on: light 10, warm)
+{
+	"code": "l188-nightstand",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-nightstand-on-north": {
+			"base": "backrooms:block/188/l188-nightstand-on"
+		},
+		"l188-nightstand-on-east": {
+			"base": "backrooms:block/188/l188-nightstand-on",
+			"rotateY": 270
+		},
+		"l188-nightstand-on-south": {
+			"base": "backrooms:block/188/l188-nightstand-on",
+			"rotateY": 180
+		},
+		"l188-nightstand-on-west": {
+			"base": "backrooms:block/188/l188-nightstand-on",
+			"rotateY": 90
+		},
+		"l188-nightstand-off-north": {
+			"base": "backrooms:block/188/l188-nightstand-off"
+		},
+		"l188-nightstand-off-east": {
+			"base": "backrooms:block/188/l188-nightstand-off",
+			"rotateY": 270
+		},
+		"l188-nightstand-off-south": {
+			"base": "backrooms:block/188/l188-nightstand-off",
+			"rotateY": 180
+		},
+		"l188-nightstand-off-west": {
+			"base": "backrooms:block/188/l188-nightstand-off",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-nightstand-on-north"
+		],
+		"backrooms": [
+			"l188-nightstand-on-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-nightstand-on-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-nightstand-on-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-nightstand-on-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-nightstand-on-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-nightstand-off-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-nightstand-off-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-nightstand-off-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-nightstand-off-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-nightstand-on-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-nightstand-on-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-nightstand-on-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-nightstand-on-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-nightstand-off-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-nightstand-off-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-nightstand-off-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-nightstand-off-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"lightHsvByType": {
+		"*-on-*": [
+			7,
+			3,
+			10
+		]
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "block",
+			"code": "game:candle",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		}
+	]
+}

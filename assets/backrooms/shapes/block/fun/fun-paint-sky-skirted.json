@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paint-sky-low": "backrooms:block/fun/paint-sky-low",
+		"skirting": "backrooms:block/fun/skirting"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#paint-sky-low",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirting",
+			"from": [
+				0,
+				0,
+				-1
+			],
+			"to": [
+				16,
+				3,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"south": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"up": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "SkirtingCap",
+			"from": [
+				0,
+				3,
+				-0.6
+			],
+			"to": [
+				16,
+				3.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

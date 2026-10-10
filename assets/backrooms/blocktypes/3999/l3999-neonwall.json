@@ -1,0 +1,391 @@
+// Level 3999: a vertical neon tube 1 px off the wall behind it (the suffix is the way it faces), full height, stacked into arches
+{
+	"code": "l3999-neonwall",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"magenta",
+				"cyan",
+				"blue",
+				"pink",
+				"orange",
+				"lilac"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-neonwall-magenta-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-magenta"
+		},
+		"l3999-neonwall-magenta-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-magenta",
+			"rotateY": 270
+		},
+		"l3999-neonwall-magenta-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-magenta",
+			"rotateY": 180
+		},
+		"l3999-neonwall-magenta-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-magenta",
+			"rotateY": 90
+		},
+		"l3999-neonwall-cyan-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-cyan"
+		},
+		"l3999-neonwall-cyan-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-cyan",
+			"rotateY": 270
+		},
+		"l3999-neonwall-cyan-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-cyan",
+			"rotateY": 180
+		},
+		"l3999-neonwall-cyan-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-cyan",
+			"rotateY": 90
+		},
+		"l3999-neonwall-blue-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-blue"
+		},
+		"l3999-neonwall-blue-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-blue",
+			"rotateY": 270
+		},
+		"l3999-neonwall-blue-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-blue",
+			"rotateY": 180
+		},
+		"l3999-neonwall-blue-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-blue",
+			"rotateY": 90
+		},
+		"l3999-neonwall-pink-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-pink"
+		},
+		"l3999-neonwall-pink-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-pink",
+			"rotateY": 270
+		},
+		"l3999-neonwall-pink-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-pink",
+			"rotateY": 180
+		},
+		"l3999-neonwall-pink-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-pink",
+			"rotateY": 90
+		},
+		"l3999-neonwall-orange-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-orange"
+		},
+		"l3999-neonwall-orange-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-orange",
+			"rotateY": 270
+		},
+		"l3999-neonwall-orange-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-orange",
+			"rotateY": 180
+		},
+		"l3999-neonwall-orange-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-orange",
+			"rotateY": 90
+		},
+		"l3999-neonwall-lilac-north": {
+			"base": "backrooms:block/3999/l3999-neonwall-lilac"
+		},
+		"l3999-neonwall-lilac-east": {
+			"base": "backrooms:block/3999/l3999-neonwall-lilac",
+			"rotateY": 270
+		},
+		"l3999-neonwall-lilac-south": {
+			"base": "backrooms:block/3999/l3999-neonwall-lilac",
+			"rotateY": 180
+		},
+		"l3999-neonwall-lilac-west": {
+			"base": "backrooms:block/3999/l3999-neonwall-lilac",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-neonwall-magenta-north"
+		],
+		"backrooms": [
+			"l3999-neonwall-magenta-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-neonwall-magenta-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-magenta-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-magenta-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-magenta-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonwall-cyan-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-cyan-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-cyan-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-cyan-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonwall-blue-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-blue-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-blue-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-blue-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonwall-pink-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-pink-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-pink-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-pink-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonwall-orange-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-orange-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-orange-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-orange-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonwall-lilac-north": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonwall-lilac-east": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonwall-lilac-south": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonwall-lilac-west": {
+			"x1": 0.35,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-magenta-*": [
+			51,
+			7,
+			13
+		],
+		"*-cyan-*": [
+			33,
+			6,
+			13
+		],
+		"*-blue-*": [
+			40,
+			7,
+			13
+		],
+		"*-pink-*": [
+			62,
+			7,
+			13
+		],
+		"*-orange-*": [
+			3,
+			7,
+			13
+		],
+		"*-lilac-*": [
+			53,
+			3,
+			13
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

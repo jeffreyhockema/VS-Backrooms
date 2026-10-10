@@ -1,0 +1,91 @@
+// The road through the Hub: dry asphalt; worn smooth in the lanes; patched with tar
+{
+	"code": "hub-asphalt",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"worn",
+				"patch"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/hub/asphalt-plain",
+				"alternates": [
+					{
+						"base": "block/hub/asphalt-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-plain",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-worn": {
+			"all": {
+				"base": "block/hub/asphalt-worn",
+				"alternates": [
+					{
+						"base": "block/hub/asphalt-worn",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-worn",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-worn",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-patch": {
+			"all": {
+				"base": "block/hub/asphalt-patch",
+				"alternates": [
+					{
+						"base": "block/hub/asphalt-patch",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-patch",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-patch",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

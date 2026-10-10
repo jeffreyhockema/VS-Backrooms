@@ -1,0 +1,200 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cladding-plain": "backrooms:block/188/cladding-plain",
+		"sillstone": "backrooms:block/188/sillstone",
+		"wall-room": "backrooms:block/188/wall-room"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cladding-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cladding-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-room",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cladding-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cladding-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cladding-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				-0.2,
+				14.6,
+				-2
+			],
+			"to": [
+				16.2,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						3,
+						1.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						3,
+						1.4000000000000004
+					]
+				}
+			}
+		},
+		{
+			"name": "Drip",
+			"from": [
+				-0.2,
+				14,
+				-2
+			],
+			"to": [
+				16.2,
+				14.6,
+				-1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

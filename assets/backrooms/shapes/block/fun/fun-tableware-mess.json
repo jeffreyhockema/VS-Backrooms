@@ -1,0 +1,249 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"confetti": "backrooms:block/fun/confetti",
+		"cup-orange": "backrooms:block/fun/cup-orange",
+		"plate-blue": "backrooms:block/fun/plate-blue",
+		"stain": "backrooms:block/fun/stain"
+	},
+	"elements": [
+		{
+			"name": "Cup1",
+			"from": [
+				3,
+				-2.75,
+				4
+			],
+			"to": [
+				6,
+				-0.75,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"down": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				-1.75,
+				5.0
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "Cup2",
+			"from": [
+				10,
+				-2.75,
+				9
+			],
+			"to": [
+				12,
+				-0.75,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"down": {
+					"texture": "#cup-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.0,
+				-1.75,
+				10.5
+			],
+			"rotationY": -60
+		},
+		{
+			"name": "Plate",
+			"from": [
+				6,
+				-2.75,
+				2
+			],
+			"to": [
+				11,
+				-2.5,
+				7
+			],
+			"faces": {
+				"up": {
+					"texture": "#plate-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plate-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.5,
+				-2.625,
+				4.5
+			],
+			"rotationY": 20
+		},
+		{
+			"name": "Stain",
+			"from": [
+				2,
+				-2.73,
+				7
+			],
+			"to": [
+				10,
+				-2.7,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#stain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Confetti",
+			"from": [
+				1,
+				-2.72,
+				1
+			],
+			"to": [
+				15,
+				-2.69,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#confetti",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,884 @@
+// Level 188: the glazed aluminium double door from the stair hall onto the courtyard (side = the courtyard face; l/r leaves seen from it; open leaves swing inward)
+{
+	"code": "l188-courtyarddoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open"
+			]
+		},
+		{
+			"code": "lr",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-courtyarddoor-closed-l-lower-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-lower"
+		},
+		"l188-courtyarddoor-closed-l-lower-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-lower",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-closed-l-lower-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-lower",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-closed-l-lower-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-lower",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-closed-l-upper-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-upper"
+		},
+		"l188-courtyarddoor-closed-l-upper-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-upper",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-closed-l-upper-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-upper",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-closed-l-upper-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-l-upper",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-closed-r-lower-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-lower"
+		},
+		"l188-courtyarddoor-closed-r-lower-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-lower",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-closed-r-lower-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-lower",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-closed-r-lower-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-lower",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-closed-r-upper-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-upper"
+		},
+		"l188-courtyarddoor-closed-r-upper-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-upper",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-closed-r-upper-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-upper",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-closed-r-upper-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-closed-r-upper",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-open-l-lower-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-lower"
+		},
+		"l188-courtyarddoor-open-l-lower-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-lower",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-open-l-lower-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-lower",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-open-l-lower-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-lower",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-open-l-upper-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-upper"
+		},
+		"l188-courtyarddoor-open-l-upper-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-upper",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-open-l-upper-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-upper",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-open-l-upper-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-l-upper",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-open-r-lower-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-lower"
+		},
+		"l188-courtyarddoor-open-r-lower-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-lower",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-open-r-lower-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-lower",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-open-r-lower-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-lower",
+			"rotateY": 90
+		},
+		"l188-courtyarddoor-open-r-upper-north": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-upper"
+		},
+		"l188-courtyarddoor-open-r-upper-east": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-upper",
+			"rotateY": 270
+		},
+		"l188-courtyarddoor-open-r-upper-south": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-upper",
+			"rotateY": 180
+		},
+		"l188-courtyarddoor-open-r-upper-west": {
+			"base": "backrooms:block/188/l188-courtyarddoor-open-r-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-courtyarddoor-closed-l-lower-north"
+		],
+		"backrooms": [
+			"l188-courtyarddoor-closed-l-lower-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 999,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxesByType": {
+		"l188-courtyarddoor-closed-l-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-north": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-east": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-south": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-west": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-north": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-east": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-south": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-west": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l188-courtyarddoor-closed-l-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-l-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-l-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-r-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-closed-r-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.625,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-north": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-east": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-south": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-l-lower-west": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-north": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-east": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-south": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-l-upper-west": [
+			{
+				"x1": 0.8125,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-r-lower-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l188-courtyarddoor-open-r-upper-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5625,
+				"x2": 0.1875,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"renderpass": "Transparent",
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsL188Door"
+		}
+	]
+}

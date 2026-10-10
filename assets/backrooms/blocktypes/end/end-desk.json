@@ -1,0 +1,578 @@
+// The End: the curved maple service desk, 1 tall, its front (the customer's side) facing the side named. The band runs z 3-13 of the north-facing model. curveout: convex corner, in at the west edge, out at the south edge facing east; curvein: concave, in at the west edge, out at the north edge facing west; end: rounded end (in at the west); gate: the flap up and the half door open, walk-through
+{
+	"code": "end-desk",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"straight",
+				"curveout",
+				"curvein",
+				"end",
+				"gate"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-straight-north"
+		],
+		"decorative": [
+			"*-straight-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-straight-north": {
+			"base": "block/end/end-desk-straight",
+			"rotateY": 0
+		},
+		"*-straight-east": {
+			"base": "block/end/end-desk-straight",
+			"rotateY": 270
+		},
+		"*-straight-south": {
+			"base": "block/end/end-desk-straight",
+			"rotateY": 180
+		},
+		"*-straight-west": {
+			"base": "block/end/end-desk-straight",
+			"rotateY": 90
+		},
+		"*-curveout-north": {
+			"base": "block/end/end-desk-curveout",
+			"rotateY": 0
+		},
+		"*-curveout-east": {
+			"base": "block/end/end-desk-curveout",
+			"rotateY": 270
+		},
+		"*-curveout-south": {
+			"base": "block/end/end-desk-curveout",
+			"rotateY": 180
+		},
+		"*-curveout-west": {
+			"base": "block/end/end-desk-curveout",
+			"rotateY": 90
+		},
+		"*-curvein-north": {
+			"base": "block/end/end-desk-curvein",
+			"rotateY": 0
+		},
+		"*-curvein-east": {
+			"base": "block/end/end-desk-curvein",
+			"rotateY": 270
+		},
+		"*-curvein-south": {
+			"base": "block/end/end-desk-curvein",
+			"rotateY": 180
+		},
+		"*-curvein-west": {
+			"base": "block/end/end-desk-curvein",
+			"rotateY": 90
+		},
+		"*-end-north": {
+			"base": "block/end/end-desk-end",
+			"rotateY": 0
+		},
+		"*-end-east": {
+			"base": "block/end/end-desk-end",
+			"rotateY": 270
+		},
+		"*-end-south": {
+			"base": "block/end/end-desk-end",
+			"rotateY": 180
+		},
+		"*-end-west": {
+			"base": "block/end/end-desk-end",
+			"rotateY": 90
+		},
+		"*-gate-north": {
+			"base": "block/end/end-desk-gate",
+			"rotateY": 0
+		},
+		"*-gate-east": {
+			"base": "block/end/end-desk-gate",
+			"rotateY": 270
+		},
+		"*-gate-south": {
+			"base": "block/end/end-desk-gate",
+			"rotateY": 180
+		},
+		"*-gate-west": {
+			"base": "block/end/end-desk-gate",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"*-straight-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97
+			}
+		],
+		"*-straight-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 270
+			}
+		],
+		"*-straight-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 180
+			}
+		],
+		"*-straight-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 90
+			}
+		],
+		"*-curveout-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-curveout-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-curveout-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-curveout-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-curvein-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85
+			}
+		],
+		"*-curvein-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 270
+			}
+		],
+		"*-curvein-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 180
+			}
+		],
+		"*-curvein-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 90
+			}
+		],
+		"*-end-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85
+			}
+		],
+		"*-end-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 270
+			}
+		],
+		"*-end-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 180
+			}
+		],
+		"*-end-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 90
+			}
+		],
+		"*-gate-*": []
+	},
+	"selectionboxesByType": {
+		"*-straight-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97
+			}
+		],
+		"*-straight-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 270
+			}
+		],
+		"*-straight-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 180
+			}
+		],
+		"*-straight-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97,
+				"rotateY": 90
+			}
+		],
+		"*-curveout-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-curveout-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-curveout-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-curveout-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.5,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.5,
+				"y1": 0,
+				"z1": 0.4,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-curvein-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85
+			}
+		],
+		"*-curvein-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 270
+			}
+		],
+		"*-curvein-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 180
+			}
+		],
+		"*-curvein-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 90
+			}
+		],
+		"*-end-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85
+			}
+		],
+		"*-end-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 270
+			}
+		],
+		"*-end-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 180
+			}
+		],
+		"*-end-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.85,
+				"rotateY": 90
+			}
+		],
+		"*-gate-*": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.85
+			}
+		]
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	]
+}

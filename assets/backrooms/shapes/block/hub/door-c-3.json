@@ -1,0 +1,138 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"doorleaf": "backrooms:block/hub/doorleaf"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				2.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#doorleaf",
+					"uv": [
+						2.5,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						2.5,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailHigh",
+			"from": [
+				0,
+				15,
+				2.0
+			],
+			"to": [
+				16,
+				16,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#doorleaf",
+					"uv": [
+						13.5,
+						0,
+						14.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#doorleaf",
+					"uv": [
+						2.0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						2.0,
+						16,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#doorleaf",
+					"uv": [
+						0,
+						13.5,
+						16,
+						14.0
+					]
+				}
+			}
+		}
+	]
+}

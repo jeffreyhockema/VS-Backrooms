@@ -1,0 +1,55 @@
+// Level Fun: vinyl floor tiles in every party colour (promenades, halls, party rooms)
+{
+	"code": "fun-vinyl",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b",
+				"c",
+				"d"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"texturesByType": {
+		"*-a": {
+			"all": {
+				"base": "block/fun/vinyl-a"
+			}
+		},
+		"*-b": {
+			"all": {
+				"base": "block/fun/vinyl-b"
+			}
+		},
+		"*-c": {
+			"all": {
+				"base": "block/fun/vinyl-c"
+			}
+		},
+		"*-d": {
+			"all": {
+				"base": "block/fun/vinyl-d"
+			}
+		}
+	}
+}

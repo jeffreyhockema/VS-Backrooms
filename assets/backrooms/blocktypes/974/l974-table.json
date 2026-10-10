@@ -1,0 +1,60 @@
+// Level 974: a square white dining table with a heart placemat and a little vase of pink flowers (remembered meals appear here)
+{
+	"code": "l974-table",
+	"shape": {
+		"base": "backrooms:block/974/l974-table"
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-table"
+		],
+		"backrooms": [
+			"l974-table"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.78,
+		"z2": 0.94
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.78,
+		"z2": 0.94
+	},
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 3,
+				"var": 1
+			}
+		}
+	]
+}

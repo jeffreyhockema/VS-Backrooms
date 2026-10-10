@@ -1,0 +1,98 @@
+// Paradise Pop: a can of neon soda from the vending machines (cherry, lime, grape)
+{
+	"code": "l3999-soda",
+	"variantgroups": [
+		{
+			"code": "flavour",
+			"states": [
+				"cherry",
+				"lime",
+				"grape"
+			]
+		}
+	],
+	"maxstacksize": 8,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 600,
+	"textureByType": {
+		"l3999-soda-cherry": {
+			"base": "item/3999/soda-cherry"
+		},
+		"l3999-soda-lime": {
+			"base": "item/3999/soda-lime"
+		},
+		"l3999-soda-grape": {
+			"base": "item/3999/soda-grape"
+		}
+	},
+	"nutritionPropsByType": {
+		"l3999-soda-cherry": {
+			"satiety": 100,
+			"foodcategory": "Fruit"
+		},
+		"l3999-soda-lime": {
+			"satiety": 100,
+			"foodcategory": "NoNutrition"
+		},
+		"l3999-soda-grape": {
+			"satiety": 100,
+			"foodcategory": "NoNutrition"
+		}
+	},
+	"attributes": {
+		"handbook": {
+			"groupBy": [
+				"l3999-soda-*"
+			]
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

@@ -1,0 +1,54 @@
+// Level Fun: the waiting room's plain white exit door. Two-way, to a parking garage in Level 11
+{
+	"code": "fun-door-exit",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/fun/fun-door-exit-lower"
+		},
+		"*-upper": {
+			"base": "block/fun/fun-door-exit-upper"
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "funlobbydoor"
+			}
+		}
+	]
+}

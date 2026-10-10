@@ -1,0 +1,1027 @@
+// The End: reading-room furniture, facing the side named (a chair's sitter faces it): study table, table with a banker's lamp, library chair, a chair still in its plastic, armchair, study carrel, display table, magazine rack
+{
+	"code": "end-furniture",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"table",
+				"lamptable",
+				"chair",
+				"wrapped",
+				"armchair",
+				"carrel",
+				"displaytable",
+				"magrack"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-table-north"
+		],
+		"decorative": [
+			"*-table-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-table-north": {
+			"base": "block/end/end-furniture-table",
+			"rotateY": 0
+		},
+		"*-table-east": {
+			"base": "block/end/end-furniture-table",
+			"rotateY": 270
+		},
+		"*-table-south": {
+			"base": "block/end/end-furniture-table",
+			"rotateY": 180
+		},
+		"*-table-west": {
+			"base": "block/end/end-furniture-table",
+			"rotateY": 90
+		},
+		"*-lamptable-north": {
+			"base": "block/end/end-furniture-lamptable",
+			"rotateY": 0
+		},
+		"*-lamptable-east": {
+			"base": "block/end/end-furniture-lamptable",
+			"rotateY": 270
+		},
+		"*-lamptable-south": {
+			"base": "block/end/end-furniture-lamptable",
+			"rotateY": 180
+		},
+		"*-lamptable-west": {
+			"base": "block/end/end-furniture-lamptable",
+			"rotateY": 90
+		},
+		"*-chair-north": {
+			"base": "block/end/end-furniture-chair",
+			"rotateY": 0
+		},
+		"*-chair-east": {
+			"base": "block/end/end-furniture-chair",
+			"rotateY": 270
+		},
+		"*-chair-south": {
+			"base": "block/end/end-furniture-chair",
+			"rotateY": 180
+		},
+		"*-chair-west": {
+			"base": "block/end/end-furniture-chair",
+			"rotateY": 90
+		},
+		"*-wrapped-north": {
+			"base": "block/end/end-furniture-wrapped",
+			"rotateY": 0
+		},
+		"*-wrapped-east": {
+			"base": "block/end/end-furniture-wrapped",
+			"rotateY": 270
+		},
+		"*-wrapped-south": {
+			"base": "block/end/end-furniture-wrapped",
+			"rotateY": 180
+		},
+		"*-wrapped-west": {
+			"base": "block/end/end-furniture-wrapped",
+			"rotateY": 90
+		},
+		"*-armchair-north": {
+			"base": "block/end/end-furniture-armchair",
+			"rotateY": 0
+		},
+		"*-armchair-east": {
+			"base": "block/end/end-furniture-armchair",
+			"rotateY": 270
+		},
+		"*-armchair-south": {
+			"base": "block/end/end-furniture-armchair",
+			"rotateY": 180
+		},
+		"*-armchair-west": {
+			"base": "block/end/end-furniture-armchair",
+			"rotateY": 90
+		},
+		"*-carrel-north": {
+			"base": "block/end/end-furniture-carrel",
+			"rotateY": 0
+		},
+		"*-carrel-east": {
+			"base": "block/end/end-furniture-carrel",
+			"rotateY": 270
+		},
+		"*-carrel-south": {
+			"base": "block/end/end-furniture-carrel",
+			"rotateY": 180
+		},
+		"*-carrel-west": {
+			"base": "block/end/end-furniture-carrel",
+			"rotateY": 90
+		},
+		"*-displaytable-north": {
+			"base": "block/end/end-furniture-displaytable",
+			"rotateY": 0
+		},
+		"*-displaytable-east": {
+			"base": "block/end/end-furniture-displaytable",
+			"rotateY": 270
+		},
+		"*-displaytable-south": {
+			"base": "block/end/end-furniture-displaytable",
+			"rotateY": 180
+		},
+		"*-displaytable-west": {
+			"base": "block/end/end-furniture-displaytable",
+			"rotateY": 90
+		},
+		"*-magrack-north": {
+			"base": "block/end/end-furniture-magrack",
+			"rotateY": 0
+		},
+		"*-magrack-east": {
+			"base": "block/end/end-furniture-magrack",
+			"rotateY": 270
+		},
+		"*-magrack-south": {
+			"base": "block/end/end-furniture-magrack",
+			"rotateY": 180
+		},
+		"*-magrack-west": {
+			"base": "block/end/end-furniture-magrack",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"*-table-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1
+			}
+		],
+		"*-table-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-table-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-table-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-lamptable-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1
+			}
+		],
+		"*-lamptable-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-lamptable-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-lamptable-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-chair-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88
+			}
+		],
+		"*-chair-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 270
+			}
+		],
+		"*-chair-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 180
+			}
+		],
+		"*-chair-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 90
+			}
+		],
+		"*-wrapped-north": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91
+			}
+		],
+		"*-wrapped-east": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 270
+			}
+		],
+		"*-wrapped-south": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 180
+			}
+		],
+		"*-wrapped-west": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 90
+			}
+		],
+		"*-armchair-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94
+			}
+		],
+		"*-armchair-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-armchair-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-armchair-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-carrel-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-carrel-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-carrel-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-carrel-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-displaytable-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94
+			}
+		],
+		"*-displaytable-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-displaytable-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-displaytable-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-magrack-north": [],
+		"*-magrack-east": [],
+		"*-magrack-south": [],
+		"*-magrack-west": []
+	},
+	"selectionboxesByType": {
+		"*-table-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1
+			}
+		],
+		"*-table-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-table-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-table-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-lamptable-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1
+			}
+		],
+		"*-lamptable-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-lamptable-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-lamptable-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.875,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-chair-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88
+			}
+		],
+		"*-chair-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 270
+			}
+		],
+		"*-chair-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 180
+			}
+		],
+		"*-chair-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 0.88,
+				"y2": 0.6,
+				"z2": 0.88,
+				"rotateY": 90
+			}
+		],
+		"*-wrapped-north": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91
+			}
+		],
+		"*-wrapped-east": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 270
+			}
+		],
+		"*-wrapped-south": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 180
+			}
+		],
+		"*-wrapped-west": [
+			{
+				"x1": 0.09,
+				"y1": 0,
+				"z1": 0.09,
+				"x2": 0.91,
+				"y2": 1.1,
+				"z2": 0.91,
+				"rotateY": 90
+			}
+		],
+		"*-armchair-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94
+			}
+		],
+		"*-armchair-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-armchair-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-armchair-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.65,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-carrel-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-carrel-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-carrel-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-carrel-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.12,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-displaytable-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94
+			}
+		],
+		"*-displaytable-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 270
+			}
+		],
+		"*-displaytable-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 180
+			}
+		],
+		"*-displaytable-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.55,
+				"z2": 0.94,
+				"rotateY": 90
+			}
+		],
+		"*-magrack-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 1,
+				"y2": 1.4,
+				"z2": 1
+			}
+		],
+		"*-magrack-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 1,
+				"y2": 1.4,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-magrack-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 1,
+				"y2": 1.4,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-magrack-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 1,
+				"y2": 1.4,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"renderpassByType": {
+		"*-wrapped-*": "Transparent"
+	},
+	"lightHsvByType": {
+		"*-lamptable-*": [
+			8,
+			4,
+			10
+		]
+	},
+	"soundsByType": {
+		"*-armchair-*": {
+			"walk": "game:walk/cloth",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"*-wrapped-*": {
+			"walk": "game:walk/cloth",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		}
+	},
+	"dropsByType": {
+		"*-table-*": [
+			{
+				"type": "block",
+				"code": "game:table-normal",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*-lamptable-*": [
+			{
+				"type": "block",
+				"code": "game:table-normal",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalbit-brass",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*-chair-*": [
+			{
+				"type": "block",
+				"code": "game:chair-plain",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*-wrapped-*": [
+			{
+				"type": "block",
+				"code": "game:chair-plain",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-armchair-*": [
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		],
+		"*-carrel-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 3,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			}
+		],
+		"*-displaytable-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 2,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			}
+		],
+		"*-magrack-*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		]
+	}
+}

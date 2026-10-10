@@ -1,0 +1,188 @@
+// Level 3999's receptions: a blue LOST & FOUND bin, clothes spilling out. Salvage: 1-2 vanilla clothes, now and then a backpack
+{
+	"code": "l3999-lostfound",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-lostfound-north": {
+			"base": "backrooms:block/3999/l3999-lostfound"
+		},
+		"l3999-lostfound-east": {
+			"base": "backrooms:block/3999/l3999-lostfound",
+			"rotateY": 270
+		},
+		"l3999-lostfound-south": {
+			"base": "backrooms:block/3999/l3999-lostfound",
+			"rotateY": 180
+		},
+		"l3999-lostfound-west": {
+			"base": "backrooms:block/3999/l3999-lostfound",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-lostfound-north"
+		],
+		"backrooms": [
+			"l3999-lostfound-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-lostfound-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82
+		},
+		"l3999-lostfound-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l3999-lostfound-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l3999-lostfound-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-lostfound-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82
+		},
+		"l3999-lostfound-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l3999-lostfound-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l3999-lostfound-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:clothes-upperbody-linen-tunic",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-lowerbody-commoner-trousers",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-foot-commoner-boots",
+			"quantity": {
+				"avg": 0.25,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-upperbody-woolen-shirt",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:clothes-head-straw-hat",
+			"quantity": {
+				"avg": 0.15,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:backpack-normal",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

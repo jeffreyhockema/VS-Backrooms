@@ -1,0 +1,587 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"face-bear": "backrooms:block/974/face-bear",
+		"fur-bear": "backrooms:block/974/fur-bear",
+		"fur-muzzle": "backrooms:block/974/fur-muzzle"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				6.0,
+				0.0,
+				6.4
+			],
+			"to": [
+				10.0,
+				3.04,
+				9.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						3.04
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.36,
+						3.04
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						3.04
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.36,
+						3.04
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						3.36
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						3.36
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				5.76,
+				2.72,
+				6.08
+			],
+			"to": [
+				10.24,
+				6.56,
+				9.92
+			],
+			"faces": {
+				"north": {
+					"texture": "#face-bear",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.84,
+						3.84
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.48,
+						3.84
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.84,
+						3.84
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.48,
+						3.84
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						4.48,
+						3.84
+					]
+				}
+			}
+		},
+		{
+			"name": "EarL",
+			"from": [
+				5.6,
+				5.920000000000001,
+				7.52
+			],
+			"to": [
+				6.8,
+				7.2,
+				8.48
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						1.28
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.28
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						1.28
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.28
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						0.96
+					]
+				}
+			}
+		},
+		{
+			"name": "EarR",
+			"from": [
+				9.2,
+				5.920000000000001,
+				7.52
+			],
+			"to": [
+				10.4,
+				7.2,
+				8.48
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						1.28
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.28
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						1.28
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.28
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.2,
+						0.96
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				5.279999999999999,
+				0.8,
+				7.2
+			],
+			"to": [
+				6.08,
+				2.72,
+				8.48
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.92
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.92
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.92
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.92
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.28
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.28
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				9.92,
+				0.8,
+				7.2
+			],
+			"to": [
+				10.72,
+				2.72,
+				8.48
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.92
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.92
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.92
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.92
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.28
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.8,
+						1.28
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				6.08,
+				0.0,
+				5.6
+			],
+			"to": [
+				7.359999999999999,
+				1.1199999999999999,
+				6.56
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.12
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.12
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.12
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.12
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						0.96
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				8.64,
+				0.0,
+				5.6
+			],
+			"to": [
+				9.92,
+				1.1199999999999999,
+				6.56
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.12
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.12
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						1.12
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.12
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						1.28,
+						0.96
+					]
+				}
+			}
+		},
+		{
+			"name": "Tummy",
+			"from": [
+				6.88,
+				0.6400000000000001,
+				6.24
+			],
+			"to": [
+				9.12,
+				2.4000000000000004,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-muzzle",
+					"uv": [
+						0.0,
+						0.0,
+						2.24,
+						1.76
+					]
+				}
+			}
+		}
+	]
+}

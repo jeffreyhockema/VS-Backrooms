@@ -1,0 +1,190 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"backrooms:block/level1/concretewall-plain": "backrooms:block/level1/concretewall-plain",
+		"sillstone": "backrooms:block/188/sillstone"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#backrooms:block/level1/concretewall-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				-0.4,
+				14,
+				-2.4
+			],
+			"to": [
+				16.4,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2
+					]
+				},
+				"west": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Apron",
+			"from": [
+				0,
+				12.4,
+				-1
+			],
+			"to": [
+				16,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sillstone",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

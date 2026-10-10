@@ -72,6 +72,13 @@
 				"animationSpeed": 1.0,
 				"blendMode": "Average",
 				"weight": 10
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.5,
+				"blendMode": "AddAverage",
+				"weight": 10
 			}
 		]
 	},

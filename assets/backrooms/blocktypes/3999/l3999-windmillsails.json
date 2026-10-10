@@ -1,0 +1,134 @@
+// Level 10's windmills: four lattice sails in an X, each 4 blocks long, canvas strips on a frame, on a hub drawn from one block (oversized; static at 45 degrees); the sails face the way named, the shaft runs back into the cap
+{
+	"code": "l3999-windmillsails",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-windmillsails-north": {
+			"base": "backrooms:block/3999/l3999-windmillsails"
+		},
+		"l3999-windmillsails-east": {
+			"base": "backrooms:block/3999/l3999-windmillsails",
+			"rotateY": 270
+		},
+		"l3999-windmillsails-south": {
+			"base": "backrooms:block/3999/l3999-windmillsails",
+			"rotateY": 180
+		},
+		"l3999-windmillsails-west": {
+			"base": "backrooms:block/3999/l3999-windmillsails",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-windmillsails-north"
+		],
+		"backrooms": [
+			"l3999-windmillsails-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-windmillsails-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l3999-windmillsails-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-windmillsails-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-windmillsails-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-windmillsails-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l3999-windmillsails-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-windmillsails-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-windmillsails-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

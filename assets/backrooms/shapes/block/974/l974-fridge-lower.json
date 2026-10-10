@@ -1,0 +1,406 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/974/chrome",
+		"enamel": "backrooms:block/974/enamel"
+	},
+	"elements": [
+		{
+			"name": "Kick",
+			"from": [
+				2,
+				0,
+				1.6
+			],
+			"to": [
+				14,
+				1.5,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12.4,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12.4,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						12.4
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						12,
+						12.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				1.6,
+				1.5,
+				1.2
+			],
+			"to": [
+				14.4,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.8,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						13.8,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.8,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						13.8,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.8,
+						13.8
+					]
+				},
+				"down": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.8,
+						13.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BodyR",
+			"from": [
+				1,
+				1.5,
+				1.8
+			],
+			"to": [
+				15,
+				16,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						14,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.6,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						14,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.6,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						14,
+						12.6
+					]
+				},
+				"down": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						14,
+						12.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				1.8,
+				2,
+				0.8
+			],
+			"to": [
+				14.2,
+				16,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						14
+					]
+				},
+				"east": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					]
+				},
+				"west": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					]
+				},
+				"down": {
+					"texture": "#enamel",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				12.1,
+				12,
+				-0.6
+			],
+			"to": [
+				13.1,
+				16,
+				0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Standoff",
+			"from": [
+				12.2,
+				12.4,
+				0.2
+			],
+			"to": [
+				13.0,
+				13.2,
+				0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.7999999999999989
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.7999999999999989
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.7999999999999989
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.7999999999999989
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,154 @@
+// Level Fun: the lowest block of a painted wall, with white tile skirting on its north (room) face
+{
+	"code": "fun-paint",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"orange",
+				"sky",
+				"lime",
+				"pink",
+				"yellow",
+				"lilac"
+			]
+		},
+		{
+			"code": "trim",
+			"states": [
+				"skirted"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"construction": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"fun-paint-orange-skirted-north": {
+			"base": "block/fun/fun-paint-orange-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-orange-skirted-east": {
+			"base": "block/fun/fun-paint-orange-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-orange-skirted-south": {
+			"base": "block/fun/fun-paint-orange-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-orange-skirted-west": {
+			"base": "block/fun/fun-paint-orange-skirted",
+			"rotateY": 90
+		},
+		"fun-paint-sky-skirted-north": {
+			"base": "block/fun/fun-paint-sky-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-sky-skirted-east": {
+			"base": "block/fun/fun-paint-sky-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-sky-skirted-south": {
+			"base": "block/fun/fun-paint-sky-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-sky-skirted-west": {
+			"base": "block/fun/fun-paint-sky-skirted",
+			"rotateY": 90
+		},
+		"fun-paint-lime-skirted-north": {
+			"base": "block/fun/fun-paint-lime-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-lime-skirted-east": {
+			"base": "block/fun/fun-paint-lime-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-lime-skirted-south": {
+			"base": "block/fun/fun-paint-lime-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-lime-skirted-west": {
+			"base": "block/fun/fun-paint-lime-skirted",
+			"rotateY": 90
+		},
+		"fun-paint-pink-skirted-north": {
+			"base": "block/fun/fun-paint-pink-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-pink-skirted-east": {
+			"base": "block/fun/fun-paint-pink-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-pink-skirted-south": {
+			"base": "block/fun/fun-paint-pink-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-pink-skirted-west": {
+			"base": "block/fun/fun-paint-pink-skirted",
+			"rotateY": 90
+		},
+		"fun-paint-yellow-skirted-north": {
+			"base": "block/fun/fun-paint-yellow-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-yellow-skirted-east": {
+			"base": "block/fun/fun-paint-yellow-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-yellow-skirted-south": {
+			"base": "block/fun/fun-paint-yellow-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-yellow-skirted-west": {
+			"base": "block/fun/fun-paint-yellow-skirted",
+			"rotateY": 90
+		},
+		"fun-paint-lilac-skirted-north": {
+			"base": "block/fun/fun-paint-lilac-skirted",
+			"rotateY": 0
+		},
+		"fun-paint-lilac-skirted-east": {
+			"base": "block/fun/fun-paint-lilac-skirted",
+			"rotateY": 270
+		},
+		"fun-paint-lilac-skirted-south": {
+			"base": "block/fun/fun-paint-lilac-skirted",
+			"rotateY": 180
+		},
+		"fun-paint-lilac-skirted-west": {
+			"base": "block/fun/fun-paint-lilac-skirted",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

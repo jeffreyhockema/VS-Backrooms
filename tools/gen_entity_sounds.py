@@ -316,7 +316,52 @@ def chorus():
     write("chorus", reverb(band(out, 80, 3800), decay=0.65), 0.55)
 
 
+def howl():
+    """The Bacteria: a long, inhuman howl, a voice and something electrical in the same throat, wavering and breaking
+    up as if the line were bad, and cut off short."""
+    rng = np.random.default_rng(314)
+    t = seconds(2.6)
+    f0 = 210 + 260 * np.clip(t / 0.5, 0, 1) - 90 * np.clip((t - 1.4) / 1.0, 0, 1) + 18 * np.sin(2 * np.pi * 6.5 * t)
+    voice = vowel(t, f0, ((650, 90, 1.0), (1100, 120, 0.7), (2600, 200, 0.35)), breath=0.25, rng=rng)
+    # The same pitch a fifth up and detuned, so it never quite sounds like one throat
+    whine = np.sin(2 * np.pi * np.cumsum(f0 * 1.51) / RATE) * 0.25
+    out = voice / max(1e-9, np.max(np.abs(voice))) + whine
+    # Crushed and gated in ragged stretches, as through a dying speaker
+    crushed = np.round(out * 6) / 6
+    gate = np.repeat(rng.uniform(0, 1, len(t) // 1500 + 1) > 0.12, 1500)[: len(t)]
+    out = np.where(gate, 0.6 * out + 0.4 * crushed, 0.15 * out)
+    out *= np.clip(t / 0.08, 0, 1) * np.clip((2.45 - t) / 0.05, 0, 1)
+    write("howl", reverb(band(out, 120, 6000), decay=0.6), 0.7)
+
+
+def gurgle():
+    """A Wretch close by: a wet, slow gurgle in a throat with no lips to shape it, and a click of teeth."""
+    rng = np.random.default_rng(315)
+    t = seconds(1.8)
+    f0 = 85 + 20 * np.sin(2 * np.pi * 0.7 * t) + 10 * rng.normal(size=len(t)).cumsum() / np.sqrt(len(t))
+    voice = vowel(t, f0, ((400, 120, 1.0), (850, 160, 0.6), (2300, 300, 0.2)), breath=0.5, rng=rng)
+    # Bubbling: the voice choked off and let go a dozen times a second
+    bubbles = 0.35 + 0.65 * np.abs(np.sin(2 * np.pi * (9 + 3 * np.sin(2 * np.pi * 0.9 * t)) * t)) ** 3
+    out = voice * bubbles * np.sin(np.pi * t / t[-1]) ** 0.5
+    place(out, band(rng.normal(size=int(0.03 * RATE)), 2000, 7000) * np.exp(-seconds(0.03) * 150) * 2, 1.45)
+    write("gurgle", band(out, 60, 5000), 0.6)
+
+
+def snarl():
+    """A Wretch turning on you: a rasping, rising snarl through bare teeth."""
+    rng = np.random.default_rng(316)
+    t = seconds(1.2)
+    f0 = 140 + 160 * np.clip(t / 0.35, 0, 1) + 25 * np.sin(2 * np.pi * 31 * t)
+    voice = vowel(t, f0, ((800, 150, 1.0), (1500, 200, 0.8), (3000, 400, 0.4)), breath=1.2, rng=rng)
+    rasp = band(rng.normal(size=len(t)), 1500, 6000) * (0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 31 * t)))
+    out = (voice / max(1e-9, np.max(np.abs(voice))) + 0.5 * rasp) * np.clip(t / 0.05, 0, 1) * np.clip((1.15 - t) / 0.3, 0, 1)
+    write("snarl", reverb(out, decay=0.3), 0.75)
+
+
 def main():
+    howl()
+    gurgle()
+    snarl()
     ratscream()
     rumble()
     chorus()

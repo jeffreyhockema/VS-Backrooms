@@ -1,0 +1,1171 @@
+// Level 3999: a themed cabinet whose marquee names another level and whose screen shows it (CUBICLE CHAOS 4, CHECK OUT 5, LIGHTS OUT 6, DEEP BLUE 7, CUL-DE-SAC 9, HARVEST 10, METROPOLIS 11, POOL PARTY 37, CLAYMATION 94, RUN! !, =) Fun, KITTY 974). Played to the end (20 s), the game takes you there (threshold kind l3999-cabinet; light 7)
+{
+	"code": "l3999-themed",
+	"variantgroups": [
+		{
+			"code": "level",
+			"states": [
+				"l4",
+				"l5",
+				"l6",
+				"l7",
+				"l9",
+				"l10",
+				"l11",
+				"l37",
+				"l94",
+				"run",
+				"fun",
+				"kitty"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-themed-l4-north": {
+			"base": "backrooms:block/3999/l3999-themed-l4"
+		},
+		"l3999-themed-l4-east": {
+			"base": "backrooms:block/3999/l3999-themed-l4",
+			"rotateY": 270
+		},
+		"l3999-themed-l4-south": {
+			"base": "backrooms:block/3999/l3999-themed-l4",
+			"rotateY": 180
+		},
+		"l3999-themed-l4-west": {
+			"base": "backrooms:block/3999/l3999-themed-l4",
+			"rotateY": 90
+		},
+		"l3999-themed-l5-north": {
+			"base": "backrooms:block/3999/l3999-themed-l5"
+		},
+		"l3999-themed-l5-east": {
+			"base": "backrooms:block/3999/l3999-themed-l5",
+			"rotateY": 270
+		},
+		"l3999-themed-l5-south": {
+			"base": "backrooms:block/3999/l3999-themed-l5",
+			"rotateY": 180
+		},
+		"l3999-themed-l5-west": {
+			"base": "backrooms:block/3999/l3999-themed-l5",
+			"rotateY": 90
+		},
+		"l3999-themed-l6-north": {
+			"base": "backrooms:block/3999/l3999-themed-l6"
+		},
+		"l3999-themed-l6-east": {
+			"base": "backrooms:block/3999/l3999-themed-l6",
+			"rotateY": 270
+		},
+		"l3999-themed-l6-south": {
+			"base": "backrooms:block/3999/l3999-themed-l6",
+			"rotateY": 180
+		},
+		"l3999-themed-l6-west": {
+			"base": "backrooms:block/3999/l3999-themed-l6",
+			"rotateY": 90
+		},
+		"l3999-themed-l7-north": {
+			"base": "backrooms:block/3999/l3999-themed-l7"
+		},
+		"l3999-themed-l7-east": {
+			"base": "backrooms:block/3999/l3999-themed-l7",
+			"rotateY": 270
+		},
+		"l3999-themed-l7-south": {
+			"base": "backrooms:block/3999/l3999-themed-l7",
+			"rotateY": 180
+		},
+		"l3999-themed-l7-west": {
+			"base": "backrooms:block/3999/l3999-themed-l7",
+			"rotateY": 90
+		},
+		"l3999-themed-l9-north": {
+			"base": "backrooms:block/3999/l3999-themed-l9"
+		},
+		"l3999-themed-l9-east": {
+			"base": "backrooms:block/3999/l3999-themed-l9",
+			"rotateY": 270
+		},
+		"l3999-themed-l9-south": {
+			"base": "backrooms:block/3999/l3999-themed-l9",
+			"rotateY": 180
+		},
+		"l3999-themed-l9-west": {
+			"base": "backrooms:block/3999/l3999-themed-l9",
+			"rotateY": 90
+		},
+		"l3999-themed-l10-north": {
+			"base": "backrooms:block/3999/l3999-themed-l10"
+		},
+		"l3999-themed-l10-east": {
+			"base": "backrooms:block/3999/l3999-themed-l10",
+			"rotateY": 270
+		},
+		"l3999-themed-l10-south": {
+			"base": "backrooms:block/3999/l3999-themed-l10",
+			"rotateY": 180
+		},
+		"l3999-themed-l10-west": {
+			"base": "backrooms:block/3999/l3999-themed-l10",
+			"rotateY": 90
+		},
+		"l3999-themed-l11-north": {
+			"base": "backrooms:block/3999/l3999-themed-l11"
+		},
+		"l3999-themed-l11-east": {
+			"base": "backrooms:block/3999/l3999-themed-l11",
+			"rotateY": 270
+		},
+		"l3999-themed-l11-south": {
+			"base": "backrooms:block/3999/l3999-themed-l11",
+			"rotateY": 180
+		},
+		"l3999-themed-l11-west": {
+			"base": "backrooms:block/3999/l3999-themed-l11",
+			"rotateY": 90
+		},
+		"l3999-themed-l37-north": {
+			"base": "backrooms:block/3999/l3999-themed-l37"
+		},
+		"l3999-themed-l37-east": {
+			"base": "backrooms:block/3999/l3999-themed-l37",
+			"rotateY": 270
+		},
+		"l3999-themed-l37-south": {
+			"base": "backrooms:block/3999/l3999-themed-l37",
+			"rotateY": 180
+		},
+		"l3999-themed-l37-west": {
+			"base": "backrooms:block/3999/l3999-themed-l37",
+			"rotateY": 90
+		},
+		"l3999-themed-l94-north": {
+			"base": "backrooms:block/3999/l3999-themed-l94"
+		},
+		"l3999-themed-l94-east": {
+			"base": "backrooms:block/3999/l3999-themed-l94",
+			"rotateY": 270
+		},
+		"l3999-themed-l94-south": {
+			"base": "backrooms:block/3999/l3999-themed-l94",
+			"rotateY": 180
+		},
+		"l3999-themed-l94-west": {
+			"base": "backrooms:block/3999/l3999-themed-l94",
+			"rotateY": 90
+		},
+		"l3999-themed-run-north": {
+			"base": "backrooms:block/3999/l3999-themed-run"
+		},
+		"l3999-themed-run-east": {
+			"base": "backrooms:block/3999/l3999-themed-run",
+			"rotateY": 270
+		},
+		"l3999-themed-run-south": {
+			"base": "backrooms:block/3999/l3999-themed-run",
+			"rotateY": 180
+		},
+		"l3999-themed-run-west": {
+			"base": "backrooms:block/3999/l3999-themed-run",
+			"rotateY": 90
+		},
+		"l3999-themed-fun-north": {
+			"base": "backrooms:block/3999/l3999-themed-fun"
+		},
+		"l3999-themed-fun-east": {
+			"base": "backrooms:block/3999/l3999-themed-fun",
+			"rotateY": 270
+		},
+		"l3999-themed-fun-south": {
+			"base": "backrooms:block/3999/l3999-themed-fun",
+			"rotateY": 180
+		},
+		"l3999-themed-fun-west": {
+			"base": "backrooms:block/3999/l3999-themed-fun",
+			"rotateY": 90
+		},
+		"l3999-themed-kitty-north": {
+			"base": "backrooms:block/3999/l3999-themed-kitty"
+		},
+		"l3999-themed-kitty-east": {
+			"base": "backrooms:block/3999/l3999-themed-kitty",
+			"rotateY": 270
+		},
+		"l3999-themed-kitty-south": {
+			"base": "backrooms:block/3999/l3999-themed-kitty",
+			"rotateY": 180
+		},
+		"l3999-themed-kitty-west": {
+			"base": "backrooms:block/3999/l3999-themed-kitty",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-themed-l4-north"
+		],
+		"backrooms": [
+			"l3999-themed-l4-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-themed-l4-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l4-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l4-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l4-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l5-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l5-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l5-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l5-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l6-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l6-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l6-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l6-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l7-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l7-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l7-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l7-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l9-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l9-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l9-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l9-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l10-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l10-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l10-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l10-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l11-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l11-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l11-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l11-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l37-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l37-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l37-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l37-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l94-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l94-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l94-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l94-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-run-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-run-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-run-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-run-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-fun-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-fun-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-fun-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-fun-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-kitty-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-kitty-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-kitty-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-kitty-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-themed-l4-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l4-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l4-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l4-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l5-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l5-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l5-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l5-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l6-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l6-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l6-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l6-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l7-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l7-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l7-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l7-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l9-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l9-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l9-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l9-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l10-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l10-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l10-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l10-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l11-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l11-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l11-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l11-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l37-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l37-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l37-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l37-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-l94-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-l94-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-l94-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-l94-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-run-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-run-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-run-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-run-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-fun-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-fun-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-fun-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-fun-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-themed-kitty-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-themed-kitty-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-themed-kitty-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-themed-kitty-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l3999-cabinet"
+			}
+		}
+	],
+	"lightHsvByType": {
+		"*-l4-*": [
+			40,
+			7,
+			7
+		],
+		"*-l5-*": [
+			62,
+			7,
+			7
+		],
+		"*-l6-*": [
+			53,
+			3,
+			7
+		],
+		"*-l7-*": [
+			40,
+			7,
+			7
+		],
+		"*-l9-*": [
+			3,
+			7,
+			7
+		],
+		"*-l10-*": [
+			3,
+			7,
+			7
+		],
+		"*-l11-*": [
+			33,
+			6,
+			7
+		],
+		"*-l37-*": [
+			33,
+			6,
+			7
+		],
+		"*-l94-*": [
+			53,
+			3,
+			7
+		],
+		"*-run-*": [
+			62,
+			7,
+			7
+		],
+		"*-fun-*": [
+			51,
+			7,
+			7
+		],
+		"*-kitty-*": [
+			53,
+			3,
+			7
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999themed": {
+			"l4": "4",
+			"l5": "5",
+			"l6": "6",
+			"l7": "7",
+			"l9": "9",
+			"l10": "10",
+			"l11": "11",
+			"l37": "37",
+			"l94": "94",
+			"run": "!",
+			"fun": "Fun",
+			"kitty": "974"
+		},
+		"l3999playSeconds": 20
+	}
+}

@@ -1,0 +1,150 @@
+// Level Fun: a movie night's popcorn cart
+{
+	"code": "fun-popcorncart",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/fun/fun-popcorncart",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/fun/fun-popcorncart",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/fun/fun-popcorncart",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/fun/fun-popcorncart",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 1.45,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"renderpass": "Transparent",
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

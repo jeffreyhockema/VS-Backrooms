@@ -1,0 +1,95 @@
+// Level 3999: black-light carpet (cosmic: 90s neon squiggles on black; galaxy: stars and ringed planets; rotten: the cosmic carpet faded and damp, toward 3999.1). The floor over concrete
+{
+	"code": "l3999-carpet",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"cosmic",
+				"galaxy",
+				"rotten"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"l3999-carpet-cosmic": {
+			"all": {
+				"base": "block/3999/carpet-cosmic",
+				"alternates": [
+					{
+						"base": "block/3999/carpet-cosmic",
+						"rotation": 90
+					},
+					{
+						"base": "block/3999/carpet-cosmic",
+						"rotation": 180
+					},
+					{
+						"base": "block/3999/carpet-cosmic",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"l3999-carpet-galaxy": {
+			"all": {
+				"base": "block/3999/carpet-galaxy",
+				"alternates": [
+					{
+						"base": "block/3999/carpet-galaxy",
+						"rotation": 90
+					},
+					{
+						"base": "block/3999/carpet-galaxy",
+						"rotation": 180
+					},
+					{
+						"base": "block/3999/carpet-galaxy",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"l3999-carpet-rotten": {
+			"all": {
+				"base": "block/3999/carpet-rotten",
+				"alternates": [
+					{
+						"base": "block/3999/carpet-rotten",
+						"rotation": 90
+					},
+					{
+						"base": "block/3999/carpet-rotten",
+						"rotation": 180
+					},
+					{
+						"base": "block/3999/carpet-rotten",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"attributes": {
+		"l3999structure": true
+	}
+}

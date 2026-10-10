@@ -41,13 +41,15 @@ public static class MapMarks
         return true;
     }
 
-    /// <summary>A level's name as the waypoints give it: "Level 3", "Level 6.1" for the Snackrooms, "Level 37" for the Poolrooms.</summary>
+    /// <summary>A level's name as the waypoints give it: "Level 3", "Level 6.1" for the Snackrooms, "Level 37" for the Poolrooms, "The Hub".</summary>
     public static string LevelName(WorldLayout layout, double x, double z)
     {
         int mx = WorldLayout.MacroOf((int)System.Math.Floor(x)), mz = WorldLayout.MacroOf((int)System.Math.Floor(z));
         int level = layout.LevelAt(mx, mz);
         if (level == 6 && layout.IsSnackrooms(mx, mz)) return Lang.Get("backrooms:levelname-6.1");
         if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return Lang.Get("backrooms:levelname-37.1");
+        // The five kept as 14-18 have names of their own ("The End", "The Hub"): levelname-14 to levelname-18
+        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level188) return Lang.Get("backrooms:levelname-" + level);
         return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level));
     }
 }

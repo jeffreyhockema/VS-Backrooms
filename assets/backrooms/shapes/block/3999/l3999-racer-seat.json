@@ -1,0 +1,814 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/3999/black",
+		"darksteel": "backrooms:block/3999/darksteel",
+		"neon-pink": "backrooms:block/3999/neon-pink",
+		"racer-body": "backrooms:block/3999/racer-body",
+		"vinyl-black": "backrooms:block/3999/vinyl-black"
+	},
+	"elements": [
+		{
+			"name": "Frame",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				3,
+				2,
+				5
+			],
+			"to": [
+				13,
+				6,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"east": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						9,
+						4
+					]
+				},
+				"south": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"west": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						9,
+						4
+					]
+				},
+				"up": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"down": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				3.5,
+				6,
+				5
+			],
+			"to": [
+				12.5,
+				8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"up": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				3.5,
+				7,
+				12
+			],
+			"to": [
+				12.5,
+				20,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						13
+					]
+				},
+				"east": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.5,
+						13
+					]
+				},
+				"south": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						13
+					]
+				},
+				"west": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.5,
+						13
+					]
+				},
+				"up": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				7,
+				13
+			],
+			"rotationX": 12
+		},
+		{
+			"name": "BolsterL",
+			"from": [
+				11.5,
+				7,
+				6
+			],
+			"to": [
+				13.5,
+				10,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"south": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"up": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				7,
+				9
+			],
+			"rotationZ": -8
+		},
+		{
+			"name": "BolsterR",
+			"from": [
+				2.5,
+				7,
+				6
+			],
+			"to": [
+				4.5,
+				10,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"south": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"up": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#vinyl-black",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				7,
+				9
+			],
+			"rotationZ": 8
+		},
+		{
+			"name": "PedalBox",
+			"from": [
+				4,
+				2,
+				1
+			],
+			"to": [
+				12,
+				5,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"east": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"west": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#racer-body",
+					"uv": [
+						0,
+						0,
+						8,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Gas",
+			"from": [
+				5,
+				4,
+				1.5
+			],
+			"to": [
+				7.5,
+				4.6,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				6,
+				4,
+				3
+			],
+			"rotationX": -30
+		},
+		{
+			"name": "Brake",
+			"from": [
+				8.5,
+				4,
+				1.5
+			],
+			"to": [
+				11,
+				4.6,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				10,
+				4,
+				3
+			],
+			"rotationX": -30
+		},
+		{
+			"name": "NeonL",
+			"from": [
+				14.9,
+				0.5,
+				1
+			],
+			"to": [
+				15.2,
+				1.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "NeonR",
+			"from": [
+				0.8,
+				0.5,
+				1
+			],
+			"to": [
+				1.1,
+				1.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

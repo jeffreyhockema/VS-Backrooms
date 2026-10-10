@@ -1,0 +1,431 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"blind-glow-ur": "backrooms:block/188/blind-glow-ur",
+		"glass": "backrooms:block/188/glass",
+		"roll": "backrooms:block/188/roll"
+	},
+	"elements": [
+		{
+			"name": "FrameR",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				1.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						1.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				1.5,
+				14.5,
+				1
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						1,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						11,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				15.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				14.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1.5,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						1.5,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				1.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				0.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						15.5,
+						14.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						15.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						15.5,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll",
+			"from": [
+				1,
+				13,
+				12.5
+			],
+			"to": [
+				16,
+				15.2,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#roll",
+					"uv": [
+						0,
+						0.8,
+						15,
+						3
+					]
+				},
+				"south": {
+					"texture": "#roll",
+					"uv": [
+						1,
+						0.8,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#roll",
+					"uv": [
+						12.5,
+						0.8,
+						14.6,
+						3
+					]
+				},
+				"up": {
+					"texture": "#roll",
+					"uv": [
+						1,
+						12.5,
+						16,
+						14.6
+					]
+				},
+				"down": {
+					"texture": "#roll",
+					"uv": [
+						1,
+						1.4,
+						16,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RollCapR",
+			"from": [
+				0.6,
+				12.600000000000001,
+				12.3
+			],
+			"to": [
+				1.4,
+				15.399999999999999,
+				14.799999999999999
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						14.6,
+						0.6,
+						15.4,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						1.2,
+						0.6,
+						3.7,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0.6,
+						0.6,
+						1.4,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						12.3,
+						0.6,
+						14.8,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0.6,
+						12.3,
+						1.4,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0.6,
+						1.2,
+						1.4,
+						3.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Blind",
+			"from": [
+				1.5,
+				0,
+				13.5
+			],
+			"to": [
+				16,
+				13,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#blind-glow-ur",
+					"uv": [
+						0,
+						3,
+						14.5,
+						16
+					],
+					"glow": 170
+				},
+				"south": {
+					"texture": "#blind-glow-ur",
+					"uv": [
+						1.5,
+						3,
+						16,
+						16
+					],
+					"glow": 170
+				}
+			}
+		}
+	]
+}

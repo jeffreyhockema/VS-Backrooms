@@ -1,0 +1,146 @@
+// Level 3999: COMET, a pinball table on four legs, a glass top over the playfield, the backbox at the rear (the player stands on the side named). Hold to play (6 s, pays 0-4; light 5)
+{
+	"code": "l3999-pinball",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-pinball-north": {
+			"base": "backrooms:block/3999/l3999-pinball"
+		},
+		"l3999-pinball-east": {
+			"base": "backrooms:block/3999/l3999-pinball",
+			"rotateY": 270
+		},
+		"l3999-pinball-south": {
+			"base": "backrooms:block/3999/l3999-pinball",
+			"rotateY": 180
+		},
+		"l3999-pinball-west": {
+			"base": "backrooms:block/3999/l3999-pinball",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-pinball-north"
+		],
+		"backrooms": [
+			"l3999-pinball-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-pinball-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l3999-pinball-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-pinball-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-pinball-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-pinball-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l3999-pinball-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-pinball-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-pinball-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		33,
+		6,
+		5
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999cabinet": {
+			"seconds": 6,
+			"min": 0,
+			"max": 4,
+			"jackpot": 12,
+			"jackpotChance": 0.03
+		}
+	}
+}

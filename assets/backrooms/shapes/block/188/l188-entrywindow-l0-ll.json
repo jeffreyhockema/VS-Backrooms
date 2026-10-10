@@ -1,0 +1,309 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"courtview-ll": "backrooms:block/188/courtview-ll",
+		"sc-courtnight": "backrooms:block/188/sc-courtnight",
+		"sc-grassnight": "backrooms:block/188/sc-grassnight",
+		"woodwhite": "backrooms:block/188/woodwhite"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				14.5,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#woodwhite",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#woodwhite",
+					"uv": [
+						13,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#woodwhite",
+					"uv": [
+						14.5,
+						13,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				14.5,
+				1.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#woodwhite",
+					"uv": [
+						1.5,
+						14.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						14.5,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#woodwhite",
+					"uv": [
+						13,
+						14.5,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						0,
+						14.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						13,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				1.5,
+				0
+			],
+			"to": [
+				0.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#woodwhite",
+					"uv": [
+						15.5,
+						0,
+						16,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#woodwhite",
+					"uv": [
+						13,
+						0,
+						16,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						13,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				15.5,
+				0
+			],
+			"to": [
+				14.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#woodwhite",
+					"uv": [
+						1.5,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#woodwhite",
+					"uv": [
+						13,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#woodwhite",
+					"uv": [
+						0,
+						13,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#courtview-ll",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Floor",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				1.5,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#sc-grassnight",
+					"uv": [
+						0,
+						3,
+						16,
+						15
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "SideL",
+			"from": [
+				14.5,
+				0,
+				3
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"west": {
+					"texture": "#sc-courtnight",
+					"uv": [
+						3,
+						0,
+						15,
+						16
+					],
+					"glow": 30
+				}
+			}
+		}
+	]
+}

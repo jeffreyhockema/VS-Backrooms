@@ -1,0 +1,190 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"runbox": "backrooms:block/run/runbox",
+		"runboxtop": "backrooms:block/run/runboxtop"
+	},
+	"elements": [
+		{
+			"name": "Big",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				7,
+				4,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"down": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "BigTop",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				7,
+				4,
+				9
+			],
+			"faces": {
+				"up": {
+					"texture": "#runboxtop",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Small",
+			"from": [
+				9,
+				0,
+				8
+			],
+			"to": [
+				13,
+				3,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"east": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"west": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"down": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.0,
+				1.5,
+				10.0
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "SmallTop",
+			"from": [
+				9,
+				0,
+				8
+			],
+			"to": [
+				13,
+				3,
+				12
+			],
+			"faces": {
+				"up": {
+					"texture": "#runboxtop",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.0,
+				1.5,
+				10.0
+			],
+			"rotationY": 30
+		}
+	]
+}

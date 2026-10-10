@@ -14,6 +14,8 @@
     <Compile Include="..\..\src\Worldgen\WorldGeometry.cs" />
     <Compile Include="..\..\src\Worldgen\CaveColumn.cs" />
     <Compile Include="..\..\src\Worldgen\WorldLayout*.cs" />
-    <Compile Include="..\..\src\Thresholds\ThresholdNetwork.cs" />
+    <Compile Include="..\..\src\Thresholds\ThresholdNetwork*.cs" />
+    <Compile Include="..\..\src\Notes\NoteCatalog.cs" />
+    <Compile Include="..\..\src\Notes\NoteSequencer.cs" />
   </ItemGroup>
 </Project>

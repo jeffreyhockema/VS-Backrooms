@@ -304,6 +304,8 @@ public class AiTaskTheThing : AiTaskBase
             goal = target.Pos.XYZ.Add(0, 0.5, 0);
             if (distance < 3.5 + entity.SelectionBox.XSize / 2)
             {
+                entity.AnimManager.StopAnimation("rush");
+                entity.AnimManager.StartAnimation("attack");
                 Strike.Hit(entity, target, damage, EnumDamageType.BluntAttack, 3, 1.5f);
                 rushing = false;
                 menace.Kind = Encounter.Leave;
@@ -327,6 +329,7 @@ public class AiTaskTheThing : AiTaskBase
         if (strike && !Strike.IsCreative(target))
         {
             rushing = true;
+            entity.AnimManager.StartAnimation("rush");
             menace.Kind = Encounter.Hunt;
             Strike.Log(entity, "rushes {0} from {1:0} blocks", target.Code, distance);
             if (groanSound != null) entity.World.PlaySoundAt(groanSound, entity.Pos.X, entity.Pos.Y, entity.Pos.Z, null, 0.45f, 64, 1f);
@@ -354,6 +357,7 @@ public class AiTaskTheThing : AiTaskBase
     public override void FinishExecute(bool cancelled)
     {
         base.FinishExecute(cancelled);
+        entity.AnimManager.StopAnimation("rush");
         entity.Controls.FlyVector.Set(0, 0, 0);
         entity.Controls.WalkVector.Set(0, 0, 0);
     }

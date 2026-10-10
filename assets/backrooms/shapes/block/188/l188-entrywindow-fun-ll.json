@@ -1,0 +1,509 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"balloon-red": "backrooms:block/188/balloon-red",
+		"courtview-ll": "backrooms:block/188/courtview-ll",
+		"sash": "backrooms:block/188/sash",
+		"sc-courtnight": "backrooms:block/188/sc-courtnight",
+		"sc-grassnight": "backrooms:block/188/sc-grassnight",
+		"string": "backrooms:block/188/string"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				14.5,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						13,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						14.5,
+						13,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				14.5,
+				1.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						14.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						14.5,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						13,
+						14.5,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						14.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						13,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				1.5,
+				0
+			],
+			"to": [
+				0.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						15.5,
+						0,
+						16,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						13,
+						0,
+						16,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						13,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				15.5,
+				0
+			],
+			"to": [
+				14.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						13,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						13,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#courtview-ll",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Floor",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				1.5,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#sc-grassnight",
+					"uv": [
+						0,
+						3,
+						16,
+						15
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "SideL",
+			"from": [
+				14.5,
+				0,
+				3
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"west": {
+					"texture": "#sc-courtnight",
+					"uv": [
+						3,
+						0,
+						15,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Balloon",
+			"from": [
+				8,
+				12.6,
+				6
+			],
+			"to": [
+				12.600000000000001,
+				16,
+				10.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloon-red",
+					"uv": [
+						3.4,
+						0,
+						8,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#balloon-red",
+					"uv": [
+						5.4,
+						0,
+						10,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#balloon-red",
+					"uv": [
+						8,
+						0,
+						12.6,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#balloon-red",
+					"uv": [
+						6,
+						0,
+						10.6,
+						3.4
+					]
+				},
+				"down": {
+					"texture": "#balloon-red",
+					"uv": [
+						8,
+						5.4,
+						12.6,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Knot",
+			"from": [
+				9.899999999999999,
+				11.8,
+				7.9
+			],
+			"to": [
+				10.7,
+				12.6,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloon-red",
+					"uv": [
+						5.3,
+						3.4,
+						6.1,
+						4.2
+					]
+				},
+				"east": {
+					"texture": "#balloon-red",
+					"uv": [
+						7.3,
+						3.4,
+						8.1,
+						4.2
+					]
+				},
+				"south": {
+					"texture": "#balloon-red",
+					"uv": [
+						9.9,
+						3.4,
+						10.7,
+						4.2
+					]
+				},
+				"west": {
+					"texture": "#balloon-red",
+					"uv": [
+						7.9,
+						3.4,
+						8.7,
+						4.2
+					]
+				},
+				"up": {
+					"texture": "#balloon-red",
+					"uv": [
+						9.9,
+						7.9,
+						10.7,
+						8.7
+					]
+				},
+				"down": {
+					"texture": "#balloon-red",
+					"uv": [
+						9.9,
+						7.3,
+						10.7,
+						8.1
+					]
+				}
+			}
+		},
+		{
+			"name": "String",
+			"from": [
+				10.2,
+				1.5,
+				8.2
+			],
+			"to": [
+				10.399999999999999,
+				11.8,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#string",
+					"uv": [
+						5.6,
+						4.2,
+						5.8,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#string",
+					"uv": [
+						7.6,
+						4.2,
+						7.8,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#string",
+					"uv": [
+						10.2,
+						4.2,
+						10.4,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#string",
+					"uv": [
+						8.2,
+						4.2,
+						8.4,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#string",
+					"uv": [
+						10.2,
+						8.2,
+						10.4,
+						8.4
+					]
+				},
+				"down": {
+					"texture": "#string",
+					"uv": [
+						10.2,
+						7.6,
+						10.4,
+						7.8
+					]
+				}
+			}
+		}
+	]
+}

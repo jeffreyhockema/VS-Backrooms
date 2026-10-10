@@ -1,0 +1,98 @@
+// Level 3999: a rusted cabinet, the screen dark but for dead pixels, the marquee peeling. It looks solid but is not: walk into it and you fall through into Level 3999.1
+{
+	"code": "l3999-cabinet-rusted",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-cabinet-rusted-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-rusted"
+		},
+		"l3999-cabinet-rusted-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-rusted",
+			"rotateY": 270
+		},
+		"l3999-cabinet-rusted-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-rusted",
+			"rotateY": 180
+		},
+		"l3999-cabinet-rusted-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-rusted",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-cabinet-rusted-north"
+		],
+		"backrooms": [
+			"l3999-cabinet-rusted-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-cabinet-rusted-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-rusted-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-rusted-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-rusted-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

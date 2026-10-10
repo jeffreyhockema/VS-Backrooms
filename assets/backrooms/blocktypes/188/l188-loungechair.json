@@ -1,0 +1,143 @@
+// Level 188: a low grey lounge chair in the lobby (the sitter faces the side)
+{
+	"code": "l188-loungechair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-loungechair-north": {
+			"base": "backrooms:block/188/l188-loungechair"
+		},
+		"l188-loungechair-east": {
+			"base": "backrooms:block/188/l188-loungechair",
+			"rotateY": 270
+		},
+		"l188-loungechair-south": {
+			"base": "backrooms:block/188/l188-loungechair",
+			"rotateY": 180
+		},
+		"l188-loungechair-west": {
+			"base": "backrooms:block/188/l188-loungechair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-loungechair-north"
+		],
+		"backrooms": [
+			"l188-loungechair-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-loungechair-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9
+		},
+		"l188-loungechair-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l188-loungechair-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l188-loungechair-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-loungechair-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9
+		},
+		"l188-loungechair-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l188-loungechair-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l188-loungechair-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.5,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

@@ -1,0 +1,133 @@
+// Level !: the start room's door to the hallway, which sticks; open, it lies flat against the wall. Also the Safe Zone's side-room doors (open)
+{
+	"code": "run-halldoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-closed-lower-north"
+		],
+		"construction": [
+			"*-closed-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-closed-lower-north": {
+			"base": "block/run/run-halldoor-closed-lower",
+			"rotateY": 0
+		},
+		"*-closed-lower-east": {
+			"base": "block/run/run-halldoor-closed-lower",
+			"rotateY": 270
+		},
+		"*-closed-lower-south": {
+			"base": "block/run/run-halldoor-closed-lower",
+			"rotateY": 180
+		},
+		"*-closed-lower-west": {
+			"base": "block/run/run-halldoor-closed-lower",
+			"rotateY": 90
+		},
+		"*-closed-upper-north": {
+			"base": "block/run/run-halldoor-closed-upper",
+			"rotateY": 0
+		},
+		"*-closed-upper-east": {
+			"base": "block/run/run-halldoor-closed-upper",
+			"rotateY": 270
+		},
+		"*-closed-upper-south": {
+			"base": "block/run/run-halldoor-closed-upper",
+			"rotateY": 180
+		},
+		"*-closed-upper-west": {
+			"base": "block/run/run-halldoor-closed-upper",
+			"rotateY": 90
+		},
+		"*-open-lower-north": {
+			"base": "block/run/run-halldoor-open-lower",
+			"rotateY": 0
+		},
+		"*-open-lower-east": {
+			"base": "block/run/run-halldoor-open-lower",
+			"rotateY": 270
+		},
+		"*-open-lower-south": {
+			"base": "block/run/run-halldoor-open-lower",
+			"rotateY": 180
+		},
+		"*-open-lower-west": {
+			"base": "block/run/run-halldoor-open-lower",
+			"rotateY": 90
+		},
+		"*-open-upper-north": {
+			"base": "block/run/run-halldoor-open-upper",
+			"rotateY": 0
+		},
+		"*-open-upper-east": {
+			"base": "block/run/run-halldoor-open-upper",
+			"rotateY": 270
+		},
+		"*-open-upper-south": {
+			"base": "block/run/run-halldoor-open-upper",
+			"rotateY": 180
+		},
+		"*-open-upper-west": {
+			"base": "block/run/run-halldoor-open-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"behaviorsByType": {
+		"*-closed-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "runhall"
+				}
+			}
+		]
+	},
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-open-*": null
+	}
+}

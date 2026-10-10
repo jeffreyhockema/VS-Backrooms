@@ -27,6 +27,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL2Line = 0x2B05;
     private const ulong SaltL2Tree = 0x2B06;
     private const ulong SaltL2Gallery = 0x2B07;
+    /// <summary>The pump galleries' and tunnels' gauges, valves, tanks and old pumps (vanilla machinery).</summary>
+    private const ulong SaltL2Fitting = 0x1E01;
 
     /// <summary>Distance between neighbouring tunnels of the lattice, each way.</summary>
     private const int L2Pitch = 16;
@@ -143,6 +145,10 @@ public sealed partial class WorldLayout
 
         AddTunnelDoors(b, open, storeroom);
         DecorateTunnels(b, mx, mz, machineRoom, storeroom);
+        // One locked steel door in forty is a door into the Hub (its own salt: nothing else moves)
+        MarkHubDoorsInLevel2(b, mx, mz);
+        // Now and then a tunnel ends in a wall that wasn't there a moment ago: Level ! (its own salt: nothing else moves)
+        MarkRunFalseWall(b, mx, mz);
     }
 
     /// <summary>
@@ -351,6 +357,20 @@ public sealed partial class WorldLayout
                 else if (r2 > 0.985 && !machineRoom[index]) { tile.Variant = Props.MachineParts; tile.Pier = (ArchPier)((int)(r * 4) & 3); }
                 // (Not on the cell's own edge rows, where the tunnel may run on into the next cell)
                 else if (neighbours == 1 && r > 0.86 && lx > 0 && lz > 0 && lx < MacroSize - 1 && lz < MacroSize - 1) tile.SupplyBox = true;
+                // Against the walls of a pump gallery, between its cabinets: gauge boards and valve manifolds on their
+                // pipes, rusted pressure tanks, what is left of an old pump; and now and then a gauge board on a wall
+                // of a wider tunnel (only its back third is solid, so the way past stays open)
+                else if (tile.Variant == 0 && tile.Stack == 0 && !tile.SupplyBox && TryWallSide(IsWall, lx, lz, out ArchPier back))
+                {
+                    ulong h = Hashing.Hash(seed, gx, gz, SaltL2Fitting);
+                    double fit = Hashing.Unit(h);
+                    bool place = machineRoom[index] ? fit < 0.5 : neighbours >= 3 && fit < 0.02;
+                    if (!place || !SafeToBlock((x, z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z)), lx, lz)) continue;
+                    double kind = machineRoom[index] ? fit / 0.5 : 0;
+                    tile.Pier = OppositeSide(back);
+                    tile.Variant = kind < 0.55 ? Props.GaugeFrame : kind < 0.8 ? Props.PressureTank : Props.RustMachine;
+                    tile.Stack = (byte)((h >> 24) % (tile.Variant == Props.GaugeFrame ? 4ul : 2ul));
+                }
             }
         }
     }

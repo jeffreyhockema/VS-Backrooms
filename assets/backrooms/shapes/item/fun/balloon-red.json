@@ -1,0 +1,424 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"latex-red": "backrooms:block/fun/latex-red",
+		"balloonstring": "backrooms:block/fun/balloonstring"
+	},
+	"elements": [
+		{
+			"name": "BA",
+			"from": [
+				5.0,
+				27.8,
+				5.9
+			],
+			"to": [
+				11.0,
+				32.8,
+				10.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BB",
+			"from": [
+				5.9,
+				27.8,
+				5.0
+			],
+			"to": [
+				10.1,
+				32.8,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BCore",
+			"from": [
+				5.8,
+				26.5,
+				5.8
+			],
+			"to": [
+				10.2,
+				33.5,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BNeck",
+			"from": [
+				6.7,
+				25.3,
+				6.7
+			],
+			"to": [
+				9.3,
+				26.5,
+				9.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "S",
+			"from": [
+				7.88,
+				0.3999999999999986,
+				7.88
+			],
+			"to": [
+				8.12,
+				25.4,
+				8.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Loop",
+			"from": [
+				7.2,
+				0,
+				7.6
+			],
+			"to": [
+				8.8,
+				1.2,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						0.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

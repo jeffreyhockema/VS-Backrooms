@@ -1,0 +1,43 @@
+// Level Fun: jigsaw foam mats in the play rooms
+{
+	"code": "fun-checkermat",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"texturesByType": {
+		"*-a": {
+			"all": {
+				"base": "block/fun/checkermat-a"
+			}
+		},
+		"*-b": {
+			"all": {
+				"base": "block/fun/checkermat-b"
+			}
+		}
+	}
+}

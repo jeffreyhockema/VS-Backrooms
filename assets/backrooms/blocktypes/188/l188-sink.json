@@ -1,0 +1,194 @@
+// Level 188: the bathroom pod's basin, hung on the inside of the frosted panel along its front edge, a mirror above
+{
+	"code": "l188-sink",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-sink-north": {
+			"base": "backrooms:block/188/l188-sink"
+		},
+		"l188-sink-east": {
+			"base": "backrooms:block/188/l188-sink",
+			"rotateY": 270
+		},
+		"l188-sink-south": {
+			"base": "backrooms:block/188/l188-sink",
+			"rotateY": 180
+		},
+		"l188-sink-west": {
+			"base": "backrooms:block/188/l188-sink",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-sink-north"
+		],
+		"backrooms": [
+			"l188-sink-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxesByType": {
+		"l188-sink-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 0.0625
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.7,
+				"z1": 0,
+				"x2": 0.8125,
+				"y2": 0.95,
+				"z2": 0.5
+			}
+		],
+		"l188-sink-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 0.0625,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.7,
+				"z1": 0,
+				"x2": 0.8125,
+				"y2": 0.95,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"l188-sink-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 0.0625,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.7,
+				"z1": 0,
+				"x2": 0.8125,
+				"y2": 0.95,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"l188-sink-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 0.0625,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.1875,
+				"y1": 0.7,
+				"z1": 0,
+				"x2": 0.8125,
+				"y2": 0.95,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l188-sink-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"l188-sink-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"l188-sink-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"l188-sink-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		]
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

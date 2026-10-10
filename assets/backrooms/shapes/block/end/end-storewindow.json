@@ -1,0 +1,256 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"aluminium": "backrooms:block/end/aluminium",
+		"pallet": "backrooms:block/end/pallet",
+		"poster-closing": "backrooms:block/end/poster-closing",
+		"poster-fixtures": "backrooms:block/end/poster-fixtures",
+		"storeglass": "backrooms:block/end/storeglass"
+	},
+	"elements": [
+		{
+			"name": "Glass",
+			"from": [
+				0,
+				0,
+				7.8
+			],
+			"to": [
+				16,
+				16,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#storeglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#storeglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				6.5
+			],
+			"to": [
+				16,
+				1.5,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				0,
+				15,
+				7
+			],
+			"to": [
+				16,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Poster",
+			"from": [
+				1.5,
+				3,
+				8.25
+			],
+			"to": [
+				9.5,
+				12,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#poster-fixtures",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pallet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Poster2",
+			"from": [
+				10.5,
+				4,
+				8.25
+			],
+			"to": [
+				15,
+				10,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#poster-closing",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pallet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.75,
+				7.0,
+				8.275
+			],
+			"rotationZ": -3
+		}
+	]
+}

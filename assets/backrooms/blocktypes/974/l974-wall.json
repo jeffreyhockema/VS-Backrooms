@@ -1,0 +1,87 @@
+// Level 974: Baker-Miller pink walls, with white baseboards and crown moulding, a subway-tile backsplash, mint bath tile with a pink rail
+{
+	"code": "l974-wall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"base",
+				"crown",
+				"backsplash",
+				"bathtile",
+				"bathtilecap"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-wall-plain": {
+			"base": "backrooms:block/974/l974-wall-plain"
+		},
+		"l974-wall-base": {
+			"base": "backrooms:block/974/l974-wall-base"
+		},
+		"l974-wall-crown": {
+			"base": "backrooms:block/974/l974-wall-crown"
+		},
+		"l974-wall-backsplash": {
+			"base": "backrooms:block/974/l974-wall-backsplash"
+		},
+		"l974-wall-bathtile": {
+			"base": "backrooms:block/974/l974-wall-bathtile"
+		},
+		"l974-wall-bathtilecap": {
+			"base": "backrooms:block/974/l974-wall-bathtilecap"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-wall-plain"
+		],
+		"backrooms": [
+			"l974-wall-plain"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drops": [],
+	"drawtypeByType": {
+		"l974-wall-plain": "cube",
+		"l974-wall-bathtile": "cube",
+		"*": "json"
+	},
+	"texturesByType": {
+		"l974-wall-plain": {
+			"all": {
+				"base": "block/974/paint-1",
+				"alternates": [
+					{
+						"base": "block/974/paint-2"
+					}
+				]
+			}
+		},
+		"l974-wall-bathtile": {
+			"all": {
+				"base": "block/974/bathtile"
+			}
+		}
+	},
+	"attributes": {
+		"l974structure": true
+	}
+}

@@ -1,0 +1,372 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pushplate": "backrooms:block/run/pushplate",
+		"sidedoor-back": "backrooms:block/run/sidedoor-back",
+		"sidedoor-upper": "backrooms:block/run/sidedoor-upper",
+		"steelframe": "backrooms:block/run/steelframe"
+	},
+	"elements": [
+		{
+			"name": "JambL",
+			"from": [
+				-1.5,
+				0,
+				-1
+			],
+			"to": [
+				0,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "JambR",
+			"from": [
+				16,
+				0,
+				-1
+			],
+			"to": [
+				17.5,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				-1.5,
+				16,
+				-1
+			],
+			"to": [
+				17.5,
+				17.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sidedoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBack",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "PushPlate",
+			"from": [
+				11.5,
+				0.5,
+				0.5
+			],
+			"to": [
+				15.5,
+				6.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

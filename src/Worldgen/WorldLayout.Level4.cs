@@ -138,6 +138,38 @@ public sealed partial class WorldLayout
 
         // Approaching the Terror Hotel the carpet warms to red and wood panelling creeps in
         if (TouchesLevel(mx, mz, 5)) WarmTowardsHotel(b, mx, mz);
+
+        // The End's way in (end-plan.md): now and then a lone wooden doorway stands on an open-plan floor
+        if (EndEntrances && !IsOfficeBlock(mx, mz)) PlaceEndDoorframe(b, mx, mz);
+    }
+
+    /// <summary>
+    /// The End's lone wooden doorway, in about one open-plan cell in sixty: on the open floor tile nearest the cell's
+    /// middle with open floor all round it, so it can be walked through either way. Its own salt, so nothing else moves.
+    /// </summary>
+    private void PlaceEndDoorframe(Builder b, int mx, int mz)
+    {
+        ulong h = Hashing.Hash(seed, mx, mz, 0x1611);
+        if (Hashing.Unit(h) >= 1 / 60.0) return;
+        static bool Open(in Tile t) => t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && t.Stack == 0 && t.Under == 0;
+        for (int r = 0; r < 12; r++)
+            for (int dz = -r; dz <= r; dz++)
+                for (int dx = -r; dx <= r; dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
+                    int x = 16 + dx, z = 16 + dz;
+                    if (x < 2 || z < 2 || x > MacroSize - 3 || z > MacroSize - 3) continue;
+                    bool clear = true;
+                    for (int ez = -1; ez <= 1 && clear; ez++)
+                        for (int ex = -1; ex <= 1; ex++)
+                            if (!Open(b.At(x + ex, z + ez))) { clear = false; break; }
+                    if (!clear) continue;
+                    ref Tile t = ref b.At(x, z);
+                    t.Variant = Props.EndFrame;
+                    t.Under = Unders.EndFrame;
+                    t.Pier = (Hashing.Mix(h) & 1) == 0 ? ArchPier.North : ArchPier.East;
+                    return;
+                }
     }
 
     private void BuildOpenPlan(Builder b, int mx, int mz)

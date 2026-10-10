@@ -1,0 +1,451 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blower": "backrooms:block/fun/blower",
+		"blowertube": "backrooms:block/fun/blowertube",
+		"grille": "backrooms:block/fun/grille",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"plastic-red": "backrooms:block/fun/plastic-red"
+	},
+	"elements": [
+		{
+			"name": "HousingA",
+			"from": [
+				4,
+				3,
+				2
+			],
+			"to": [
+				12,
+				11,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"south": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"west": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"up": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "HousingB",
+			"from": [
+				3,
+				4,
+				2
+			],
+			"to": [
+				13,
+				10,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						6
+					]
+				},
+				"east": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						6
+					]
+				},
+				"south": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						6
+					]
+				},
+				"west": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						6
+					]
+				},
+				"up": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blower",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Intake",
+			"from": [
+				4.5,
+				3.5,
+				1.8
+			],
+			"to": [
+				11.5,
+				10.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				5,
+				3,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				11,
+				0,
+				5
+			],
+			"to": [
+				12,
+				3,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Tube",
+			"from": [
+				6,
+				5,
+				12
+			],
+			"to": [
+				10,
+				9,
+				24
+			],
+			"faces": {
+				"north": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"south": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"up": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"down": {
+					"texture": "#blowertube",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Switch",
+			"from": [
+				12.9,
+				7,
+				6
+			],
+			"to": [
+				13.4,
+				8.5,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#plastic-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

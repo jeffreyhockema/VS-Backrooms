@@ -1,0 +1,243 @@
+// Level 974: a pink swivel chair, a white dining chair with a pink cushion (the sitter faces the side)
+{
+	"code": "l974-chair",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"desk",
+				"dining"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-chair-desk-north": {
+			"base": "backrooms:block/974/l974-chair-desk"
+		},
+		"l974-chair-desk-east": {
+			"base": "backrooms:block/974/l974-chair-desk",
+			"rotateY": 270
+		},
+		"l974-chair-desk-south": {
+			"base": "backrooms:block/974/l974-chair-desk",
+			"rotateY": 180
+		},
+		"l974-chair-desk-west": {
+			"base": "backrooms:block/974/l974-chair-desk",
+			"rotateY": 90
+		},
+		"l974-chair-dining-north": {
+			"base": "backrooms:block/974/l974-chair-dining"
+		},
+		"l974-chair-dining-east": {
+			"base": "backrooms:block/974/l974-chair-dining",
+			"rotateY": 270
+		},
+		"l974-chair-dining-south": {
+			"base": "backrooms:block/974/l974-chair-dining",
+			"rotateY": 180
+		},
+		"l974-chair-dining-west": {
+			"base": "backrooms:block/974/l974-chair-dining",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-chair-desk-north"
+		],
+		"backrooms": [
+			"l974-chair-desk-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l974-chair-desk-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82
+		},
+		"l974-chair-desk-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l974-chair-desk-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l974-chair-desk-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 90
+		},
+		"l974-chair-dining-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82
+		},
+		"l974-chair-dining-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l974-chair-dining-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l974-chair-dining-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l974-chair-desk-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82
+		},
+		"l974-chair-desk-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l974-chair-desk-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l974-chair-desk-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 90
+		},
+		"l974-chair-dining-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82
+		},
+		"l974-chair-dining-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l974-chair-dining-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l974-chair-dining-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}

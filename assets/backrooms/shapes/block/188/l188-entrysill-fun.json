@@ -1,0 +1,215 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"backrooms:block/fun/paint-orange": "backrooms:block/fun/paint-orange",
+		"confetti": "backrooms:block/188/confetti",
+		"sash": "backrooms:block/188/sash"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#backrooms:block/fun/paint-orange",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				-0.4,
+				14,
+				-2.4
+			],
+			"to": [
+				16.4,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Apron",
+			"from": [
+				0,
+				12.4,
+				-1
+			],
+			"to": [
+				16,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Confetti",
+			"from": [
+				0,
+				16.02,
+				-2.2
+			],
+			"to": [
+				16,
+				16.08,
+				2
+			],
+			"faces": {
+				"up": {
+					"texture": "#confetti",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

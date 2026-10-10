@@ -1,0 +1,514 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"glasspane": "backrooms:block/3999/glasspane",
+		"neon-cyan": "backrooms:block/3999/neon-cyan",
+		"tape": "backrooms:block/3999/tape",
+		"vending-snack": "backrooms:block/3999/vending-snack",
+		"vendingbody-snack": "backrooms:block/3999/vendingbody-snack"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				31,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"down": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				1.5,
+				1,
+				1.4
+			],
+			"to": [
+				14.5,
+				31,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#vending-snack",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 90
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				2.2,
+				7.5,
+				0.6
+			],
+			"to": [
+				12,
+				29.5,
+				0.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						9.8,
+						16
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "Keypad",
+			"from": [
+				12.4,
+				16,
+				0.6
+			],
+			"to": [
+				14.2,
+				22,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.799999999999999,
+						6
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						6
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.799999999999999,
+						6
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						6
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.799999999999999,
+						0.7999999999999999
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.799999999999999,
+						0.7999999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape",
+			"from": [
+				12.6,
+				12.5,
+				0.4
+			],
+			"to": [
+				14.2,
+				14.5,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Flap",
+			"from": [
+				2.5,
+				1.8,
+				0.8
+			],
+			"to": [
+				11.5,
+				5,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.5999999999999999
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.5999999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0.8,
+				31,
+				1.8
+			],
+			"to": [
+				15.2,
+				32,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14.399999999999999,
+						1
+					]
+				},
+				"east": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						13.399999999999999,
+						1
+					]
+				},
+				"south": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14.399999999999999,
+						1
+					]
+				},
+				"west": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						13.399999999999999,
+						1
+					]
+				},
+				"up": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14.399999999999999,
+						13.399999999999999
+					]
+				},
+				"down": {
+					"texture": "#vendingbody-snack",
+					"uv": [
+						0,
+						0,
+						14.399999999999999,
+						13.399999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeL",
+			"from": [
+				14.6,
+				1,
+				1.2
+			],
+			"to": [
+				15.2,
+				31,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000001
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "EdgeR",
+			"from": [
+				0.8,
+				1,
+				1.2
+			],
+			"to": [
+				1.4,
+				31,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						0.6000000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						0.6000000000000001
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

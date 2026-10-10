@@ -1,0 +1,82 @@
+// A note someone left lying here (gen_notes.py). Right-click or break to pick it up.
+{
+	"code": "loosenote",
+	"class": "BackroomsLooseNote",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"door",
+				"way",
+				"cache",
+				"refuge",
+				"folded"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"drawtype": "json",
+	"shape": {
+		"base": "block/loosenote"
+	},
+	"texturesByType": {
+		"*-folded": {
+			"paper": {
+				"base": "item/wanderernote-folded"
+			}
+		},
+		"*": {
+			"paper": {
+				"base": "item/wanderernote"
+			}
+		}
+	},
+	"blockmaterial": "Cloth",
+	"replaceable": 5000,
+	"resistance": 0.1,
+	"lightAbsorption": 0,
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.06,
+		"z2": 0.8
+	},
+	"dropsByType": {
+		"*-folded": [
+			{
+				"type": "item",
+				"code": "wanderernote-folded",
+				"quantity": {
+					"avg": 1
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "wanderernote-{kind}",
+				"quantity": {
+					"avg": 1
+				}
+			}
+		]
+	},
+	"sounds": {
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

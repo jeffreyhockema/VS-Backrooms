@@ -1,0 +1,270 @@
+// The Tower's ornate double doors, 2 wide x 3 high (part l1-l3, r1-r3, rows from the bottom, l = the viewer's left), face to the north, no sill (they stand on marble). entrance: threshold kind towerdoor (the ten ways in); forbidden: kind locked, never linked (the rows of doors up the stair)
+{
+	"code": "hub-ornatedoor",
+	"variantgroups": [
+		{
+			"code": "use",
+			"states": [
+				"entrance",
+				"forbidden"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"l1",
+				"l2",
+				"l3",
+				"r1",
+				"r2",
+				"r3"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-entrance-l1-north"
+		],
+		"decorative": [
+			"*-entrance-l1-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-entrance-l1-north": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 0
+		},
+		"*-entrance-l1-east": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 270
+		},
+		"*-entrance-l1-south": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 180
+		},
+		"*-entrance-l1-west": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 90
+		},
+		"*-entrance-r1-north": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 0
+		},
+		"*-entrance-r1-east": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 270
+		},
+		"*-entrance-r1-south": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 180
+		},
+		"*-entrance-r1-west": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 90
+		},
+		"*-entrance-l2-north": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 0
+		},
+		"*-entrance-l2-east": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 270
+		},
+		"*-entrance-l2-south": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 180
+		},
+		"*-entrance-l2-west": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 90
+		},
+		"*-entrance-r2-north": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 0
+		},
+		"*-entrance-r2-east": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 270
+		},
+		"*-entrance-r2-south": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 180
+		},
+		"*-entrance-r2-west": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 90
+		},
+		"*-entrance-l3-north": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 0
+		},
+		"*-entrance-l3-east": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 270
+		},
+		"*-entrance-l3-south": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 180
+		},
+		"*-entrance-l3-west": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 90
+		},
+		"*-entrance-r3-north": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 0
+		},
+		"*-entrance-r3-east": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 270
+		},
+		"*-entrance-r3-south": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 180
+		},
+		"*-entrance-r3-west": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 90
+		},
+		"*-forbidden-l1-north": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 0
+		},
+		"*-forbidden-l1-east": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 270
+		},
+		"*-forbidden-l1-south": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 180
+		},
+		"*-forbidden-l1-west": {
+			"base": "block/hub/ornatedoor-l1",
+			"rotateY": 90
+		},
+		"*-forbidden-r1-north": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 0
+		},
+		"*-forbidden-r1-east": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 270
+		},
+		"*-forbidden-r1-south": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 180
+		},
+		"*-forbidden-r1-west": {
+			"base": "block/hub/ornatedoor-r1",
+			"rotateY": 90
+		},
+		"*-forbidden-l2-north": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 0
+		},
+		"*-forbidden-l2-east": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 270
+		},
+		"*-forbidden-l2-south": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 180
+		},
+		"*-forbidden-l2-west": {
+			"base": "block/hub/ornatedoor-l2",
+			"rotateY": 90
+		},
+		"*-forbidden-r2-north": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 0
+		},
+		"*-forbidden-r2-east": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 270
+		},
+		"*-forbidden-r2-south": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 180
+		},
+		"*-forbidden-r2-west": {
+			"base": "block/hub/ornatedoor-r2",
+			"rotateY": 90
+		},
+		"*-forbidden-l3-north": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 0
+		},
+		"*-forbidden-l3-east": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 270
+		},
+		"*-forbidden-l3-south": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 180
+		},
+		"*-forbidden-l3-west": {
+			"base": "block/hub/ornatedoor-l3",
+			"rotateY": 90
+		},
+		"*-forbidden-r3-north": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 0
+		},
+		"*-forbidden-r3-east": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 270
+		},
+		"*-forbidden-r3-south": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 180
+		},
+		"*-forbidden-r3-west": {
+			"base": "block/hub/ornatedoor-r3",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"behaviorsByType": {
+		"*-entrance-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "towerdoor"
+				}
+			}
+		],
+		"*-forbidden-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "locked"
+				}
+			}
+		]
+	}
+}

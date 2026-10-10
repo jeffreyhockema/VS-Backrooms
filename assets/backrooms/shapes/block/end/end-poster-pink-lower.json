@@ -1,0 +1,161 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cleartape": "backrooms:block/end/cleartape",
+		"poster-pink": "backrooms:block/end/poster-pink",
+		"wall-lower": "backrooms:block/end/wall-lower"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Card",
+			"from": [
+				5,
+				4,
+				-0.3
+			],
+			"to": [
+				11,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poster-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poster-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poster-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poster-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				-0.15
+			],
+			"rotationZ": 5
+		},
+		{
+			"name": "Tape0",
+			"from": [
+				7.2,
+				11,
+				-0.36
+			],
+			"to": [
+				8.4,
+				12.2,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cleartape",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						1.1999999999999993
+					]
+				}
+			}
+		}
+	]
+}

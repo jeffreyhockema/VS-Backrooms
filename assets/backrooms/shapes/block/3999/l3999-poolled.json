@@ -1,0 +1,190 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/3999/black",
+		"led-violet": "backrooms:block/3999/led-violet",
+		"pooltile-edge": "backrooms:block/3999/pooltile-edge",
+		"pooltile-violet": "backrooms:block/3999/pooltile-violet",
+		"white": "backrooms:block/3999/white"
+	},
+	"elements": [
+		{
+			"name": "Edge",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooltile-violet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooltile-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Lower",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				10,
+				0.01
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Upper",
+			"from": [
+				0,
+				13,
+				0
+			],
+			"to": [
+				16,
+				16,
+				0.01
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Groove",
+			"from": [
+				0,
+				10,
+				1
+			],
+			"to": [
+				16,
+				13,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip",
+			"from": [
+				0,
+				10.8,
+				0.6
+			],
+			"to": [
+				16,
+				12.2,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#led-violet",
+					"uv": [
+						0,
+						0,
+						16,
+						1.3999999999999986
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#led-violet",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#led-violet",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

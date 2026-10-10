@@ -20,6 +20,8 @@
 		] }
 	},
 	resistance: 1.5,
+	// Level 7's seabed: waterweed and kelp take root in the rotting pile (vanilla water plants need fertile ground)
+	fertilityByType: { "*-soaked": 10, "*": 0 },
 	lightAbsorption: 99,
 	sounds: {
 		walk: "game:walk/cloth",

@@ -1,0 +1,127 @@
+// The Keymaster: the Hub's overseer (hub-plan.md 2.6, 4.7). No health behaviour (he cannot be hurt), no physics (he floats; HubSystem moves him: descend, escort). Class EntityAgent until the code's own class exists
+{
+	"code": "hub-keymaster",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity"
+	],
+	"weight": 90,
+	"hitboxSize": {
+		"x": 0.8,
+		"y": 2.7
+	},
+	"eyeHeight": 2.35,
+	"attributes": {
+		"keymaster": true,
+		"invulnerable": true
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/hub-keymaster"
+		},
+		"texture": {
+			"base": "backrooms:entity/hub-keymaster"
+		},
+		"size": 1,
+		"behaviors": [
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "descend",
+				"animation": "descend",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 4
+			},
+			{
+				"code": "point",
+				"animation": "point",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "shove",
+				"animation": "shove",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 8
+			},
+			{
+				"code": "turn",
+				"animation": "turn",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 8
+			},
+			{
+				"code": "jingle",
+				"animation": "jingle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "dismiss",
+				"animation": "dismiss",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "stride",
+				"animation": "stride",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 4
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "taskai",
+				"aiCreatureType": "Default",
+				"aitasks": [
+					{
+						"code": "lookatentity",
+						"priority": 1.5,
+						"maxTurnAngleDeg": 60,
+						"entityCodes": [
+							"player"
+						]
+					},
+					{
+						"code": "idle",
+						"priority": 1.0,
+						"minduration": 4000,
+						"maxduration": 8000,
+						"mincooldown": 2000,
+						"maxcooldown": 6000,
+						"animation": "jingle",
+						"animationSpeed": 1.0,
+						"sound": "backrooms:effect/hub/keyjingle",
+						"soundRange": 16
+					}
+				]
+			}
+		]
+	},
+	"sounds": {
+		"idle": "backrooms:effect/hub/keyjingle"
+	},
+	"idleSoundChance": 0.02
+}

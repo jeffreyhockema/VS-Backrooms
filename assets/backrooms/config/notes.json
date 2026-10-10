@@ -1,0 +1,1447 @@
+{
+ "version": 1,
+ "rareChapter": "rare",
+ "tracks": [
+  {
+   "id": "main",
+   "cls": "common",
+   "level": -1,
+   "chapter": "main",
+   "entries": [
+    {
+     "key": "m01",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m02",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m03",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m04",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m05",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m06",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m07",
+     "gate": [],
+     "mark": "door"
+    },
+    {
+     "key": "m08",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m09",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "m10",
+     "gate": [
+      1
+     ],
+     "mark": "way"
+    },
+    {
+     "key": "m11",
+     "gate": [
+      1
+     ],
+     "mark": null
+    },
+    {
+     "key": "m12",
+     "gate": [
+      1
+     ],
+     "mark": null
+    },
+    {
+     "key": "m13",
+     "gate": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "mark": null
+    },
+    {
+     "key": "m14",
+     "gate": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "mark": null
+    },
+    {
+     "key": "m15",
+     "gate": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "mark": null
+    },
+    {
+     "key": "m16",
+     "gate": [
+      3,
+      4,
+      5
+     ],
+     "mark": null
+    },
+    {
+     "key": "m17",
+     "gate": [
+      1
+     ],
+     "mark": null
+    },
+    {
+     "key": "m18",
+     "gate": [
+      5,
+      6
+     ],
+     "mark": null
+    },
+    {
+     "key": "m19",
+     "gate": [
+      6,
+      7
+     ],
+     "mark": null
+    },
+    {
+     "key": "m20",
+     "gate": [
+      7,
+      8
+     ],
+     "mark": null
+    },
+    {
+     "key": "m21",
+     "gate": [
+      7,
+      8,
+      9
+     ],
+     "mark": null
+    },
+    {
+     "key": "m22",
+     "gate": [
+      9,
+      10
+     ],
+     "mark": null
+    },
+    {
+     "key": "m23",
+     "gate": [
+      5,
+      9,
+      11
+     ],
+     "mark": null
+    },
+    {
+     "key": "m24",
+     "gate": [
+      1,
+      2
+     ],
+     "mark": "hubdoor"
+    },
+    {
+     "key": "m25",
+     "gate": [
+      10,
+      11
+     ],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l0",
+   "cls": "common",
+   "level": 0,
+   "chapter": "l0",
+   "entries": [
+    {
+     "key": "l0-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l0-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l0-3",
+     "gate": [],
+     "mark": "manila"
+    },
+    {
+     "key": "l0-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l0-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l0-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l0-7",
+     "gate": [],
+     "mark": "den"
+    },
+    {
+     "key": "l0-8",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l0-9",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l1",
+   "cls": "common",
+   "level": 1,
+   "chapter": "l1",
+   "entries": [
+    {
+     "key": "l1-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l1-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l1-3",
+     "gate": [],
+     "mark": "refuge"
+    },
+    {
+     "key": "l1-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l1-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l1-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l1-7",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l1-8",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l1-9",
+     "gate": [
+      2,
+      3
+     ],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l2",
+   "cls": "common",
+   "level": 2,
+   "chapter": "l2",
+   "entries": [
+    {
+     "key": "l2-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l2-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l2-3",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l2-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l2-5",
+     "gate": [],
+     "mark": "hubdoor"
+    },
+    {
+     "key": "l2-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l3",
+   "cls": "common",
+   "level": 3,
+   "chapter": "l3",
+   "entries": [
+    {
+     "key": "l3-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3-2",
+     "gate": [],
+     "mark": "manhole"
+    },
+    {
+     "key": "l3-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3-4",
+     "gate": [],
+     "mark": "refuge"
+    },
+    {
+     "key": "l3-5",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l3-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3-7",
+     "gate": [],
+     "mark": "cache"
+    }
+   ]
+  },
+  {
+   "id": "l4",
+   "cls": "common",
+   "level": 4,
+   "chapter": "l4",
+   "entries": [
+    {
+     "key": "l4-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l4-2",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l4-3",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l4-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l4-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l4-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l5",
+   "cls": "common",
+   "level": 5,
+   "chapter": "l5",
+   "entries": [
+    {
+     "key": "l5-1",
+     "gate": [],
+     "mark": "refuge"
+    },
+    {
+     "key": "l5-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l5-3",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l5-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l5-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l5-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l5-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l6",
+   "cls": "common",
+   "level": 6,
+   "chapter": "l6",
+   "entries": [
+    {
+     "key": "l6-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l6-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l6-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l6-4",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l6-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l6-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l61",
+   "cls": "common",
+   "level": 61,
+   "chapter": "l61",
+   "entries": [
+    {
+     "key": "l61-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l61-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l61-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l61-4",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l7",
+   "cls": "common",
+   "level": 7,
+   "chapter": "l7",
+   "entries": [
+    {
+     "key": "l7-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l7-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l7-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l7-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l7-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l7-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l8",
+   "cls": "common",
+   "level": 8,
+   "chapter": "l8",
+   "entries": [
+    {
+     "key": "l8-1",
+     "gate": [],
+     "mark": "door"
+    },
+    {
+     "key": "l8-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l8-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l8-4",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l8-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l8-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l9",
+   "cls": "common",
+   "level": 9,
+   "chapter": "l9",
+   "entries": [
+    {
+     "key": "l9-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l9-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l9-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l9-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l9-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l9-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l10",
+   "cls": "common",
+   "level": 10,
+   "chapter": "l10",
+   "entries": [
+    {
+     "key": "l10-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l10-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l10-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l10-4",
+     "gate": [],
+     "mark": "barnwall"
+    },
+    {
+     "key": "l10-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l10-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l11",
+   "cls": "common",
+   "level": 11,
+   "chapter": "l11",
+   "entries": [
+    {
+     "key": "l11-1",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l11-2",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l11-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l11-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l11-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l11-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l11-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l37",
+   "cls": "common",
+   "level": 12,
+   "chapter": "l37",
+   "entries": [
+    {
+     "key": "l37-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l37-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l37-3",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l37-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l37-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l37-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l94",
+   "cls": "common",
+   "level": 13,
+   "chapter": "l94",
+   "entries": [
+    {
+     "key": "l94-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l94-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l94-3",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "l94-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l94-5",
+     "gate": [],
+     "mark": "way"
+    },
+    {
+     "key": "l94-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l94-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "run",
+   "cls": "common",
+   "level": 14,
+   "chapter": "run",
+   "entries": [
+    {
+     "key": "run-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "run-2",
+     "gate": [],
+     "mark": "door"
+    },
+    {
+     "key": "run-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "run-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "run-5",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "fun",
+   "cls": "common",
+   "level": 15,
+   "chapter": "fun",
+   "entries": [
+    {
+     "key": "fun-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "fun-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "fun-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "fun-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "fun-5",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "fun-altered",
+   "cls": "special",
+   "level": 15,
+   "chapter": "fun",
+   "entries": [
+    {
+     "key": "fun-lie",
+     "gate": [],
+     "mark": "party"
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "cls": "common",
+   "level": 16,
+   "chapter": "end",
+   "entries": [
+    {
+     "key": "end-1",
+     "gate": [],
+     "mark": "endexit"
+    },
+    {
+     "key": "end-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "end-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "end-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "end-5",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "hub",
+   "cls": "common",
+   "level": 17,
+   "chapter": "hub",
+   "entries": [
+    {
+     "key": "hub-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "hub-2",
+     "gate": [],
+     "mark": "door"
+    },
+    {
+     "key": "hub-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "hub-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "hub-5",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "l974",
+   "cls": "common",
+   "level": 18,
+   "chapter": "l974",
+   "entries": [
+    {
+     "key": "l974-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l974-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l974-3",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l3999",
+   "cls": "common",
+   "level": 19,
+   "chapter": "l3999",
+   "entries": [
+    {
+     "key": "l3999-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l3999-7",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "l188",
+   "cls": "common",
+   "level": 20,
+   "chapter": "l188",
+   "entries": [
+    {
+     "key": "l188-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l188-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l0",
+   "cls": "rare",
+   "level": 0,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l0-1",
+     "gate": [],
+     "mark": "redroom"
+    },
+    {
+     "key": "r-l0-2",
+     "gate": [],
+     "mark": "manila"
+    }
+   ]
+  },
+  {
+   "id": "rare-l1",
+   "cls": "rare",
+   "level": 1,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l1-1",
+     "gate": [],
+     "mark": "hubdoor"
+    }
+   ]
+  },
+  {
+   "id": "rare-l3",
+   "cls": "rare",
+   "level": 3,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l3-1",
+     "gate": [],
+     "mark": "manhole"
+    }
+   ]
+  },
+  {
+   "id": "rare-l4",
+   "cls": "rare",
+   "level": 4,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l4-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l5",
+   "cls": "rare",
+   "level": 5,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l5-1",
+     "gate": [],
+     "mark": "refuge"
+    }
+   ]
+  },
+  {
+   "id": "rare-l6",
+   "cls": "rare",
+   "level": 6,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l6-1",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "rare-l7",
+   "cls": "rare",
+   "level": 7,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l7-1",
+     "gate": [],
+     "mark": "cache"
+    }
+   ]
+  },
+  {
+   "id": "rare-l8",
+   "cls": "rare",
+   "level": 8,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l8-1",
+     "gate": [],
+     "mark": "refuge"
+    }
+   ]
+  },
+  {
+   "id": "rare-l9",
+   "cls": "rare",
+   "level": 9,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l9-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l10",
+   "cls": "rare",
+   "level": 10,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l10-1",
+     "gate": [],
+     "mark": "barnwall"
+    }
+   ]
+  },
+  {
+   "id": "rare-l11",
+   "cls": "rare",
+   "level": 11,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l11-1",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "rare-l37",
+   "cls": "rare",
+   "level": 12,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l37-1",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "rare-l94",
+   "cls": "rare",
+   "level": 13,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l94-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-end",
+   "cls": "rare",
+   "level": 16,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-end-1",
+     "gate": [],
+     "mark": "endexit"
+    }
+   ]
+  },
+  {
+   "id": "rare-hub",
+   "cls": "rare",
+   "level": 17,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-hub-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-run",
+   "cls": "rare",
+   "level": 14,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-run-1",
+     "gate": [],
+     "mark": "door"
+    }
+   ]
+  },
+  {
+   "id": "rare-fun",
+   "cls": "rare",
+   "level": 15,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-fun-1",
+     "gate": [],
+     "mark": "way"
+    }
+   ]
+  },
+  {
+   "id": "rare-l3999",
+   "cls": "rare",
+   "level": 19,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l3999-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "r-l3999-2",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l188",
+   "cls": "rare",
+   "level": 20,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l188-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "r-l188-2",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-any",
+   "cls": "rare",
+   "level": -1,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "ra01",
+     "gate": [],
+     "mark": "hubdoor"
+    },
+    {
+     "key": "ra02",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra03",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra04",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra05",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra06",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra07",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra08",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra09",
+     "gate": [],
+     "mark": "barnwall"
+    },
+    {
+     "key": "ra10",
+     "gate": [],
+     "mark": "cache"
+    },
+    {
+     "key": "ra11",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "ra12",
+     "gate": [],
+     "mark": "manila"
+    }
+   ]
+  },
+  {
+   "id": "scraps",
+   "cls": "scrap",
+   "level": -1,
+   "chapter": "scraps",
+   "entries": [
+    {
+     "key": "s01",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s02",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s03",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s04",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s05",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s06",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s07",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s08",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s09",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "s10",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  }
+ ]
+}

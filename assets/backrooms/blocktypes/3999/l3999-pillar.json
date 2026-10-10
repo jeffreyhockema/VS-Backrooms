@@ -1,0 +1,113 @@
+// Level 3999: a mirror-steel octagonal column 12 px across with two neon rings (stack one per block of height; light 13)
+{
+	"code": "l3999-pillar",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"magenta",
+				"cyan",
+				"blue",
+				"pink",
+				"orange",
+				"lilac"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-pillar-magenta": {
+			"base": "backrooms:block/3999/l3999-pillar-magenta"
+		},
+		"l3999-pillar-cyan": {
+			"base": "backrooms:block/3999/l3999-pillar-cyan"
+		},
+		"l3999-pillar-blue": {
+			"base": "backrooms:block/3999/l3999-pillar-blue"
+		},
+		"l3999-pillar-pink": {
+			"base": "backrooms:block/3999/l3999-pillar-pink"
+		},
+		"l3999-pillar-orange": {
+			"base": "backrooms:block/3999/l3999-pillar-orange"
+		},
+		"l3999-pillar-lilac": {
+			"base": "backrooms:block/3999/l3999-pillar-lilac"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-pillar-magenta"
+		],
+		"backrooms": [
+			"l3999-pillar-magenta"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 1,
+		"z2": 0.875
+	},
+	"collisionbox": {
+		"x1": 0.125,
+		"y1": 0,
+		"z1": 0.125,
+		"x2": 0.875,
+		"y2": 1,
+		"z2": 0.875
+	},
+	"lightHsvByType": {
+		"*-magenta": [
+			51,
+			7,
+			13
+		],
+		"*-cyan": [
+			33,
+			6,
+			13
+		],
+		"*-blue": [
+			40,
+			7,
+			13
+		],
+		"*-pink": [
+			62,
+			7,
+			13
+		],
+		"*-orange": [
+			3,
+			7,
+			13
+		],
+		"*-lilac": [
+			53,
+			3,
+			13
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

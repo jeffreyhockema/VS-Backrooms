@@ -152,6 +152,38 @@
 				"avg": 0.1,
 				"var": 0
 			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-cat",
+			"quantity": {
+				"avg": 0.09,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-bunny",
+			"quantity": {
+				"avg": 0.09,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-bear",
+			"quantity": {
+				"avg": 0.09,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-star",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
 		}
 	]
 }

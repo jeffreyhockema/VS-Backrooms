@@ -1,0 +1,291 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"figbox-0": "backrooms:block/974/figbox-0",
+		"figbox-1": "backrooms:block/974/figbox-1",
+		"figbox-2": "backrooms:block/974/figbox-2",
+		"figbox-side-0": "backrooms:block/974/figbox-side-0",
+		"figbox-side-1": "backrooms:block/974/figbox-side-1",
+		"figbox-side-2": "backrooms:block/974/figbox-side-2",
+		"trim": "backrooms:block/974/trim"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				0,
+				4,
+				11
+			],
+			"to": [
+				16,
+				5.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Box0",
+			"from": [
+				1.6,
+				5.5,
+				12.2
+			],
+			"to": [
+				4.6,
+				10.4,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#figbox-0",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#figbox-side-0",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"south": {
+					"texture": "#figbox-side-0",
+					"uv": [
+						0,
+						0,
+						2.9999999999999996,
+						4.9
+					]
+				},
+				"west": {
+					"texture": "#figbox-side-0",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"up": {
+					"texture": "#figbox-side-0",
+					"uv": [
+						0,
+						0,
+						2.9999999999999996,
+						1.9999999999999998
+					]
+				},
+				"down": {
+					"texture": "#figbox-side-0",
+					"uv": [
+						0,
+						0,
+						2.9999999999999996,
+						1.9999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "Box1",
+			"from": [
+				6.5,
+				5.5,
+				12.2
+			],
+			"to": [
+				9.5,
+				10.4,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#figbox-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#figbox-side-1",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"south": {
+					"texture": "#figbox-side-1",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4.9
+					]
+				},
+				"west": {
+					"texture": "#figbox-side-1",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"up": {
+					"texture": "#figbox-side-1",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.9999999999999998
+					]
+				},
+				"down": {
+					"texture": "#figbox-side-1",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.9999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "Box2",
+			"from": [
+				11.4,
+				5.5,
+				12.2
+			],
+			"to": [
+				14.4,
+				10.4,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#figbox-2",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#figbox-side-2",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"south": {
+					"texture": "#figbox-side-2",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4.9
+					]
+				},
+				"west": {
+					"texture": "#figbox-side-2",
+					"uv": [
+						0,
+						0,
+						1.9999999999999998,
+						4.9
+					]
+				},
+				"up": {
+					"texture": "#figbox-side-2",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.9999999999999998
+					]
+				},
+				"down": {
+					"texture": "#figbox-side-2",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.9999999999999998
+					]
+				}
+			}
+		}
+	]
+}

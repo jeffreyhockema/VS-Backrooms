@@ -1,0 +1,730 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ashlar-plain": "backrooms:block/hub/ashlar-plain",
+		"flute": "backrooms:block/hub/flute"
+	},
+	"elements": [
+		{
+			"name": "Core",
+			"from": [
+				3.5,
+				0,
+				11.5
+			],
+			"to": [
+				12.5,
+				7,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#flute",
+					"uv": [
+						3.5,
+						9,
+						12.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flute",
+					"uv": [
+						0,
+						9,
+						4.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flute",
+					"uv": [
+						11.5,
+						9,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet0",
+			"from": [
+				3.15,
+				0,
+				11
+			],
+			"to": [
+				3.85,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						12.15,
+						9,
+						12.85,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet1",
+			"from": [
+				4.95,
+				0,
+				11
+			],
+			"to": [
+				5.65,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						10.35,
+						9,
+						11.05,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet2",
+			"from": [
+				6.75,
+				0,
+				11
+			],
+			"to": [
+				7.45,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						8.55,
+						9,
+						9.25,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet3",
+			"from": [
+				8.55,
+				0,
+				11
+			],
+			"to": [
+				9.25,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						6.75,
+						9,
+						7.45,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet4",
+			"from": [
+				10.35,
+				0,
+				11
+			],
+			"to": [
+				11.05,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.95,
+						9,
+						5.65,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet5",
+			"from": [
+				12.15,
+				0,
+				11
+			],
+			"to": [
+				12.85,
+				7,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						3.15,
+						9,
+						3.85,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						4.5,
+						9,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						11,
+						9,
+						11.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeL",
+			"from": [
+				3,
+				0,
+				12
+			],
+			"to": [
+				3.5,
+				7,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						12.5,
+						9,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						12,
+						9,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeR",
+			"from": [
+				12.5,
+				0,
+				12
+			],
+			"to": [
+				13,
+				7,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						3,
+						9,
+						3.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						9,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Necking",
+			"from": [
+				2.6,
+				7,
+				10.6
+			],
+			"to": [
+				13.4,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.6,
+						8,
+						13.4,
+						9
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						8,
+						5.4,
+						9
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						10.6,
+						8,
+						16,
+						9
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.6,
+						10.6,
+						13.4,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.6,
+						0,
+						13.4,
+						5.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Echinus1",
+			"from": [
+				2.2,
+				8,
+				10.2
+			],
+			"to": [
+				13.8,
+				9.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.2,
+						6.5,
+						13.8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						6.5,
+						5.8,
+						8
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						10.2,
+						6.5,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.2,
+						10.2,
+						13.8,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						2.2,
+						0,
+						13.8,
+						5.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Echinus2",
+			"from": [
+				1.6,
+				9.5,
+				9.6
+			],
+			"to": [
+				14.4,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.6,
+						5,
+						14.4,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						5,
+						6.4,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						9.6,
+						5,
+						16,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.6,
+						9.6,
+						14.4,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.6,
+						0,
+						14.4,
+						6.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Echinus3",
+			"from": [
+				1.2,
+				11,
+				9.2
+			],
+			"to": [
+				14.8,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.2,
+						4,
+						14.8,
+						5
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						4,
+						6.8,
+						5
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						9.2,
+						4,
+						16,
+						5
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.2,
+						9.2,
+						14.8,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						1.2,
+						0,
+						14.8,
+						6.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Abacus",
+			"from": [
+				0.6,
+				12,
+				8.6
+			],
+			"to": [
+				15.4,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.6,
+						1,
+						15.4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						1,
+						7.4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						8.6,
+						1,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.6,
+						8.6,
+						15.4,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.6,
+						0,
+						15.4,
+						7.4
+					]
+				}
+			}
+		},
+		{
+			"name": "AbacusLip",
+			"from": [
+				0.4,
+				15,
+				8.4
+			],
+			"to": [
+				15.6,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.4,
+						0,
+						15.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0,
+						0,
+						7.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						8.4,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.4,
+						8.4,
+						15.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ashlar-plain",
+					"uv": [
+						0.4,
+						0,
+						15.6,
+						7.6
+					]
+				}
+			}
+		}
+	]
+}

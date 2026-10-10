@@ -1,0 +1,330 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"aluminium": "backrooms:block/end/aluminium",
+		"galvanised": "backrooms:block/end/galvanised",
+		"glass": "backrooms:block/end/glass",
+		"maple": "backrooms:block/end/maple"
+	},
+	"elements": [
+		{
+			"name": "Shoe",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				1.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#aluminium",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				0,
+				1.5,
+				1
+			],
+			"to": [
+				16,
+				14.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						16,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						16,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Post0",
+			"from": [
+				0.25,
+				0,
+				0.5
+			],
+			"to": [
+				1.75,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"up": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Post1",
+			"from": [
+				8.25,
+				0,
+				0.5
+			],
+			"to": [
+				9.75,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"up": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#galvanised",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Handrail",
+			"from": [
+				0,
+				15,
+				0.25
+			],
+			"to": [
+				16,
+				16.5,
+				2.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

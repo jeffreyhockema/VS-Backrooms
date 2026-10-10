@@ -1,0 +1,319 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bathtile": "backrooms:block/974/bathtile",
+		"knob-pink": "backrooms:block/974/knob-pink"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bathtile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail0",
+			"from": [
+				0,
+				7.4,
+				-0.8
+			],
+			"to": [
+				16,
+				9,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail1",
+			"from": [
+				16,
+				7.4,
+				0
+			],
+			"to": [
+				16.8,
+				9,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"north": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail2",
+			"from": [
+				0,
+				7.4,
+				16
+			],
+			"to": [
+				16,
+				9,
+				16.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail3",
+			"from": [
+				-0.8000000000000007,
+				7.4,
+				0
+			],
+			"to": [
+				0,
+				9,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"north": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#knob-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

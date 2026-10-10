@@ -1,0 +1,579 @@
+// Level 974: a narrow white bed heaped with plushies, a real bed (vanilla BlockBed: -{head|feet}-{side}, side = head toward foot)
+{
+	"code": "l974-bed",
+	"variantgroups": [
+		{
+			"code": "bedding",
+			"states": [
+				"hearts",
+				"strawberries",
+				"stars"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"feet"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-bed-hearts-head-north": {
+			"base": "backrooms:block/974/l974-bed-hearts-head"
+		},
+		"l974-bed-hearts-head-east": {
+			"base": "backrooms:block/974/l974-bed-hearts-head",
+			"rotateY": 270
+		},
+		"l974-bed-hearts-head-south": {
+			"base": "backrooms:block/974/l974-bed-hearts-head",
+			"rotateY": 180
+		},
+		"l974-bed-hearts-head-west": {
+			"base": "backrooms:block/974/l974-bed-hearts-head",
+			"rotateY": 90
+		},
+		"l974-bed-hearts-feet-north": {
+			"base": "backrooms:block/974/l974-bed-hearts-feet"
+		},
+		"l974-bed-hearts-feet-east": {
+			"base": "backrooms:block/974/l974-bed-hearts-feet",
+			"rotateY": 270
+		},
+		"l974-bed-hearts-feet-south": {
+			"base": "backrooms:block/974/l974-bed-hearts-feet",
+			"rotateY": 180
+		},
+		"l974-bed-hearts-feet-west": {
+			"base": "backrooms:block/974/l974-bed-hearts-feet",
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-head-north": {
+			"base": "backrooms:block/974/l974-bed-strawberries-head"
+		},
+		"l974-bed-strawberries-head-east": {
+			"base": "backrooms:block/974/l974-bed-strawberries-head",
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-head-south": {
+			"base": "backrooms:block/974/l974-bed-strawberries-head",
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-head-west": {
+			"base": "backrooms:block/974/l974-bed-strawberries-head",
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-feet-north": {
+			"base": "backrooms:block/974/l974-bed-strawberries-feet"
+		},
+		"l974-bed-strawberries-feet-east": {
+			"base": "backrooms:block/974/l974-bed-strawberries-feet",
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-feet-south": {
+			"base": "backrooms:block/974/l974-bed-strawberries-feet",
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-feet-west": {
+			"base": "backrooms:block/974/l974-bed-strawberries-feet",
+			"rotateY": 90
+		},
+		"l974-bed-stars-head-north": {
+			"base": "backrooms:block/974/l974-bed-stars-head"
+		},
+		"l974-bed-stars-head-east": {
+			"base": "backrooms:block/974/l974-bed-stars-head",
+			"rotateY": 270
+		},
+		"l974-bed-stars-head-south": {
+			"base": "backrooms:block/974/l974-bed-stars-head",
+			"rotateY": 180
+		},
+		"l974-bed-stars-head-west": {
+			"base": "backrooms:block/974/l974-bed-stars-head",
+			"rotateY": 90
+		},
+		"l974-bed-stars-feet-north": {
+			"base": "backrooms:block/974/l974-bed-stars-feet"
+		},
+		"l974-bed-stars-feet-east": {
+			"base": "backrooms:block/974/l974-bed-stars-feet",
+			"rotateY": 270
+		},
+		"l974-bed-stars-feet-south": {
+			"base": "backrooms:block/974/l974-bed-stars-feet",
+			"rotateY": 180
+		},
+		"l974-bed-stars-feet-west": {
+			"base": "backrooms:block/974/l974-bed-stars-feet",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-bed-hearts-head-north"
+		],
+		"backrooms": [
+			"l974-bed-hearts-head-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"l974-bed-hearts-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-hearts-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-hearts-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-hearts-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-hearts-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-hearts-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-hearts-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-hearts-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-strawberries-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-strawberries-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-stars-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-stars-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-stars-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-stars-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-stars-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-stars-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-stars-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-stars-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l974-bed-hearts-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-hearts-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-hearts-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-hearts-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-hearts-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-hearts-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-hearts-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-hearts-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-strawberries-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-strawberries-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-strawberries-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-strawberries-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-strawberries-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-stars-head-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-stars-head-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-stars-head-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-stars-head-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bed-stars-feet-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1
+		},
+		"l974-bed-stars-feet-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bed-stars-feet-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bed-stars-feet-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5625,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"class": "BlockBed",
+	"entityClassByType": {
+		"*-head-*": "Bed"
+	},
+	"attributes": {
+		"l974furniture": true,
+		"sleepEfficiency": 0.85
+	},
+	"maxStackSize": 1
+}

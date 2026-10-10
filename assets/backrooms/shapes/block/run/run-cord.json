@@ -1,0 +1,701 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/run/chrome",
+		"cord": "backrooms:block/run/cord",
+		"plug": "backrooms:block/run/plug"
+	},
+	"elements": [
+		{
+			"name": "Cord0",
+			"from": [
+				7.0,
+				0,
+				0
+			],
+			"to": [
+				8.0,
+				0.8,
+				4.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.2
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cord1",
+			"from": [
+				8.5,
+				0,
+				4
+			],
+			"to": [
+				9.5,
+				0.8,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Bend1",
+			"from": [
+				7,
+				0,
+				3.5
+			],
+			"to": [
+				9.5,
+				0.8,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Cord2",
+			"from": [
+				7.0,
+				0,
+				8
+			],
+			"to": [
+				8.0,
+				0.8,
+				12.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Bend2",
+			"from": [
+				7,
+				0,
+				7.5
+			],
+			"to": [
+				9.5,
+				0.8,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Cord3",
+			"from": [
+				8.5,
+				0,
+				12
+			],
+			"to": [
+				9.5,
+				0.8,
+				16.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						4.199999999999999,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.199999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Bend3",
+			"from": [
+				7,
+				0,
+				11.5
+			],
+			"to": [
+				9.5,
+				0.8,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Plug",
+			"from": [
+				6.5,
+				0,
+				13.5
+			],
+			"to": [
+				8.5,
+				2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Prong1",
+			"from": [
+				6.9,
+				0.5,
+				16
+			],
+			"to": [
+				7.3,
+				1.5,
+				17
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Prong2",
+			"from": [
+				7.7,
+				0.5,
+				16
+			],
+			"to": [
+				8.1,
+				1.5,
+				17
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				}
+			}
+		}
+	]
+}

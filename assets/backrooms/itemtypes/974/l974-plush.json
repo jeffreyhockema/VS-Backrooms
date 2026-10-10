@@ -1,0 +1,103 @@
+// Plush toys: a round grey cat, a bunny holding a strawberry, a teddy bear, a smiling star. Cute (backroomsCute)
+{
+	"code": "l974-plush",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"cat",
+				"bunny",
+				"bear",
+				"star"
+			]
+		}
+	],
+	"maxstacksize": 4,
+	"shapeByType": {
+		"l974-plush-cat": {
+			"base": "backrooms:item/974/plush-cat"
+		},
+		"l974-plush-bunny": {
+			"base": "backrooms:item/974/plush-bunny"
+		},
+		"l974-plush-bear": {
+			"base": "backrooms:item/974/plush-bear"
+		},
+		"l974-plush-star": {
+			"base": "backrooms:item/974/plush-star"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsCute": true,
+		"handbook": {
+			"groupBy": [
+				"l974-plush-*"
+			]
+		}
+	},
+	"materialDensity": 200,
+	"heldTpIdleAnimation": "holdbothhandslarge",
+	"guiTransform": {
+		"rotation": {
+			"x": -20,
+			"y": -140,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.28,
+			"z": 0.5
+		},
+		"scale": 2.6
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0.05,
+			"y": 0.1,
+			"z": 0.3
+		},
+		"rotation": {
+			"x": 0,
+			"y": 140,
+			"z": 0
+		},
+		"scale": 1.9
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": 135,
+			"z": 0
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.6
+	}
+}

@@ -1,0 +1,250 @@
+// Level 3999: NEON STEP, a dance machine. pad: a platform with four glowing arrow panels and a safety bar behind (the dancer looks the way named); screen: a tall tower with speakers, its front facing the way named. Hold the screen to play (10 s, pays 1-5)
+{
+	"code": "l3999-dance",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"pad",
+				"screen"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-dance-pad-north": {
+			"base": "backrooms:block/3999/l3999-dance-pad"
+		},
+		"l3999-dance-pad-east": {
+			"base": "backrooms:block/3999/l3999-dance-pad",
+			"rotateY": 270
+		},
+		"l3999-dance-pad-south": {
+			"base": "backrooms:block/3999/l3999-dance-pad",
+			"rotateY": 180
+		},
+		"l3999-dance-pad-west": {
+			"base": "backrooms:block/3999/l3999-dance-pad",
+			"rotateY": 90
+		},
+		"l3999-dance-screen-north": {
+			"base": "backrooms:block/3999/l3999-dance-screen"
+		},
+		"l3999-dance-screen-east": {
+			"base": "backrooms:block/3999/l3999-dance-screen",
+			"rotateY": 270
+		},
+		"l3999-dance-screen-south": {
+			"base": "backrooms:block/3999/l3999-dance-screen",
+			"rotateY": 180
+		},
+		"l3999-dance-screen-west": {
+			"base": "backrooms:block/3999/l3999-dance-screen",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-dance-pad-north"
+		],
+		"backrooms": [
+			"l3999-dance-pad-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-dance-pad-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1
+		},
+		"l3999-dance-pad-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-dance-pad-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-dance-pad-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-dance-screen-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1
+		},
+		"l3999-dance-screen-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-dance-screen-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-dance-screen-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-dance-pad-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1
+		},
+		"l3999-dance-pad-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-dance-pad-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-dance-pad-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.125,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-dance-screen-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1
+		},
+		"l3999-dance-screen-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-dance-screen-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-dance-screen-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-pad-*": [
+			51,
+			6,
+			4
+		],
+		"*-screen-*": [
+			62,
+			7,
+			7
+		]
+	},
+	"drops": [],
+	"attributesByType": {
+		"*-screen-*": {
+			"l3999structure": true,
+			"l3999cabinet": {
+				"seconds": 10,
+				"min": 1,
+				"max": 5,
+				"jackpot": 12,
+				"jackpotChance": 0.03
+			}
+		},
+		"*": {
+			"l3999structure": true
+		}
+	}
+}

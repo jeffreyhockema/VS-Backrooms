@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pushplate": "backrooms:block/run/pushplate",
+		"sidedoor-back": "backrooms:block/run/sidedoor-back",
+		"sidedoor-upper": "backrooms:block/run/sidedoor-upper"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0.2,
+				0,
+				0
+			],
+			"to": [
+				2.2,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#sidedoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBack",
+			"from": [
+				0.2,
+				0,
+				0
+			],
+			"to": [
+				2.2,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PushPlate",
+			"from": [
+				2.2,
+				0.5,
+				0.5
+			],
+			"to": [
+				2.7,
+				6.5,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			}
+		}
+	]
+}

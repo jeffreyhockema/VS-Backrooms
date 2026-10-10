@@ -25,7 +25,6 @@ public sealed partial class WorldGenerator
     private string[] strata;
     private int[] strataIds;
     private readonly Dictionary<(string Ore, string Rock, int Grade), int> oreIds = new();
-    private readonly Dictionary<string, int> spikeIds = new();
     private int gravelId, clayId, carpetSeamId, wallpaperSeamId;
 
     // Levels 9 and 10
@@ -109,13 +108,13 @@ public sealed partial class WorldGenerator
                     oreIds[(ore, rock, g)] = OptionalId($"game:ore-{grades[g]}-{ore}-{rock}");
             foreach (string ore in new[] { "bituminouscoal", "lignite", "anthracite", "sulfur", "quartz", "lapislazuli", "olivine", "fluorite", "graphite", "cinnabar" })
                 oreIds[(ore, rock, 0)] = OptionalId($"game:ore-{ore}-{rock}");
-            spikeIds[rock] = OptionalId($"game:stalagsection-{rock}-08");
         }
         gravelId = GameId("game:gravel-granite", "game:gravel-andesite");
         floorIds[(int)FloorKind.Gravel] = gravelId;
         clayId = GameId("game:rawclay-blue-none", "game:rawclay-red-none");
         carpetSeamId = BlockId("backrooms:carpet-normal");
         wallpaperSeamId = BlockId("backrooms:wallpaper-chevron-upper");
+        InitCaves(); // the living detail of Levels 7 and 8 (WorldGenerator.Caves.cs)
 
         // Levels 9 and 10
         asphaltId = Id("asphalt-plain");
@@ -333,6 +332,7 @@ public sealed partial class WorldGenerator
         if (t.Kind == TileKind.Floor)
         {
             // An island of unknown rock, or a concrete ledge along a wall
+            if (rel == 1 && t.Floor == FloorKind.Seabed && IslandRim(t, gx, gz) is int shell and >= 0) return shell; // shells along the rim
             if (rel > 0) return rel == 1 && t.Floor == FloorKind.Seabed && t.Stack == 1 ? islandRockId : rel == 1 ? AnyProp(t, rel) : 0;
             return t.Floor == FloorKind.Concrete ? floorIds[(int)FloorKind.Concrete] : islandRockId;
         }
@@ -368,6 +368,8 @@ public sealed partial class WorldGenerator
         {
             if (t.Variant == Props.StoneStapler && rel <= bed + 4) return islandRockId; // a standing stone
             fluid = waterId;
+            // Waterweed in the shallows, dead coral in the twilight zone (WorldGenerator.Caves.cs)
+            if (rel <= bed + 4 && SeabedGrowth(t, gx, gz, rel, bed) is int growth and >= 0) return growth;
             return rel == bed + 1 && t.Variant != 0 && t.Variant != Props.Kelp ? AnyProp(t, 1) : rel == bed + 1 && t.SupplyBox ? BoxOf(t) : 0;
         }
         if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : seabedId;
@@ -402,12 +404,10 @@ public sealed partial class WorldGenerator
                 fluid = waterId;
                 return 0;
             }
+            // Tapering speleothems, glowworms, lichen, bracket fungi and cave-ins (WorldGenerator.Caves.cs); never
+            // over the road, whose air the cave noise knows nothing of
+            if (!open && CaveFeature(gx, y, gz, rel) is int feature and >= 0) return feature;
             double spikeRoll = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltSpike + (ulong)(y & 255)));
-            if (spikeRoll < 0.08 && (!IsCave(gx, y + 1, gz) || !IsCave(gx, y - 1, gz)))
-            {
-                int spike = spikeIds.TryGetValue(StrataName(gx, y, gz), out int s) ? s : 0;
-                if (spike != 0) return spike;
-            }
             return spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
         }
         // A pool of scalding tar on some cave floors
@@ -426,6 +426,7 @@ public sealed partial class WorldGenerator
         {
             if (roll < 0.25) return webId;
             if (roll < 0.33 && rel < -12) return crystalDownId;
+            if (roll < 0.37 && rel < -24) return BigCrystal(gx, gz, up: false);
             return 0;
         }
         if (!floorBelow) return 0;
@@ -439,6 +440,8 @@ public sealed partial class WorldGenerator
             string ore = LooseOres[(int)((roll - 0.705) * 1000) % LooseOres.Length];
             return looseOreIds.TryGetValue((ore, StrataName(gx, y - 1, gz)), out int loose) ? loose : 0;
         }
+        // Deep down, crystals grown large: amethyst, smoky, milky or rose quartz, one kind to a stretch of cave
+        if (roll < 0.84 && rel < -24) return BigCrystal(gx, gz, up: true);
         return 0;
     }
 
@@ -582,7 +585,7 @@ public sealed partial class WorldGenerator
                 // A fence, or a porch railing under the porch roof
                 if (rel == 1) return t.Pattern == WallPattern.Fence ? fenceIds[t.Stack & 15] : 0;
                 int roof = RoofAt(t, rel, material, 0);
-                return roof > 0 ? roof : 0;
+                return roof > 0 ? roof : CrownOver(t, gx, gz, rel); // (a tree's crown carries on over the fence)
             }
         }
         // Inside a house: a ceiling (with a light fitting in the middle of each room), the attic and the roof over it
@@ -593,7 +596,7 @@ public sealed partial class WorldGenerator
             int roof = RoofAt(t, rel, material, 0);
             if (roof >= 0) return roof;
         }
-        return TreeOrProp(t, rel, trunk: 4);
+        return TreeOrProp(t, gx, gz, rel, trunk: 4);
     }
 
     /// <summary>
@@ -626,6 +629,8 @@ public sealed partial class WorldGenerator
         if (t.Zone == 9 && rel >= 0) return Level9Block(t, gx, gz, rel);
         if (t.Kind == TileKind.Water)
         {
+            // Reeds in the shallows round the edge, lilies on the open water (WorldGenerator.Vegetation.cs)
+            if (PondVegetation(t, gx, gz, rel, out fluid) is int plant and >= 0) return plant;
             if (rel > 0) return 0;
             if (rel > -t.Depth) { fluid = waterId; return 0; }
             // The pond bed: mud, with banks of clay in places; the worms keep clear of the water
@@ -639,7 +644,7 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
-                if (t.Pattern == WallPattern.Hedge) return rel <= 2 ? leavesId : 0;
+                if (t.Pattern == WallPattern.Hedge) return rel <= 2 ? leavesId : CrownOver(t, gx, gz, rel);
                 if (t.Pattern == WallPattern.Silo) return rel <= 8 ? siloId : rel == 9 ? siloTopId : 0;
                 if (barn)
                 {
@@ -666,13 +671,15 @@ public sealed partial class WorldGenerator
             int roof = RoofAt(t, rel, 3, 0);
             if (roof >= 0) return roof;
         }
-        if (t.Kind == TileKind.Bars) return 0;
-        return TreeOrProp(t, rel, trunk: 4);
+        if (t.Kind == TileKind.Bars) return CrownOver(t, gx, gz, rel);
+        return TreeOrProp(t, gx, gz, rel, trunk: 4);
     }
 
     /// <summary>A tree's trunk and crown, the crown of a neighbouring tree, or whatever stands on the tile.</summary>
-    private int TreeOrProp(in Tile t, int rel, int trunk)
+    private int TreeOrProp(in Tile t, int gx, int gz, int rel, int trunk)
     {
+        // Under the open sky: vanilla trees, grass, ferns and flowers (WorldGenerator.Vegetation.cs)
+        if (rel >= 1 && rel <= 24 && IsVegetationLevel(t.Level) && Vegetation(t, gx, gz, rel) is int plant and >= 0) return plant;
         if (t.Variant == Props.Tree) return rel <= trunk ? logId : rel <= trunk + 2 ? leavesId : 0;
         if (t.Overhead == Overheads.Leaves && rel >= trunk && rel <= trunk + 2) return leavesId;
         if (t.Variant == Props.HayBale) return rel <= Math.Max((int)t.Stack, 1) ? hayId : 0;

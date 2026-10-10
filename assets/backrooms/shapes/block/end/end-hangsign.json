@@ -1,0 +1,161 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackcase": "backrooms:block/end/blackcase",
+		"chain": "backrooms:block/end/chain",
+		"infosign": "backrooms:block/end/infosign"
+	},
+	"elements": [
+		{
+			"name": "Sign",
+			"from": [
+				1,
+				4,
+				7.5
+			],
+			"to": [
+				15,
+				9,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#infosign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#infosign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				1,
+				4,
+				7.5
+			],
+			"to": [
+				15,
+				9,
+				8.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#blackcase",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#blackcase",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"up": {
+					"texture": "#blackcase",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#blackcase",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ChainW",
+			"from": [
+				3,
+				9,
+				8
+			],
+			"to": [
+				3.8,
+				16,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						7
+					]
+				},
+				"south": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "ChainE",
+			"from": [
+				12.2,
+				9,
+				8
+			],
+			"to": [
+				13,
+				16,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						7
+					]
+				},
+				"south": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						7
+					]
+				}
+			}
+		}
+	]
+}

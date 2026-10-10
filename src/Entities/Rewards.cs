@@ -31,6 +31,10 @@ public class Rewards : ModSystem
         ["duller"] = (0.5, 2.0),
         ["clump"] = (0.5, 2.0),
         ["deathmoth-female"] = (0.05, 0.2),
+        ["wretch"] = (0.3, 0.8),
+        ["bacteria"] = (1.0, 2.0),
+        ["partygoer"] = (1.0, 2.5),
+        ["partygoer-intern"] = (1.0, 2.5),
     };
 
     /// <summary>What a Skin-Stealer was carrying: the belongings of someone it wore.</summary>
@@ -140,6 +144,8 @@ public class Rewards : ModSystem
     public static void Bounty(Entity dead, EntityPlayer killer)
     {
         if (sapi == null || !Bounties.TryGetValue(dead.Code.Path, out var bounty)) return;
+        // Level !'s horde is endless: killing one of it is worth nothing
+        if (dead.Attributes.GetBool(Regions.RunSystem.HordeKey)) return;
         Random rand = dead.World.Rand;
         double d = Danger.Of(dead);
         double expected = bounty.Base + bounty.PerDanger * d;
@@ -148,7 +154,8 @@ public class Rewards : ModSystem
         int gears = (int)Math.Floor(expected) + (rand.NextDouble() < expected - Math.Floor(expected) ? 1 : 0);
         Vec3d at = dead.Pos.XYZ.Add(0, 0.4, 0);
         if (gears > 0 && Make(Gear, gears) is { } stack) dead.World.SpawnItemEntity(stack, at);
-        if (dead.Code.Path == "skinstealer")
+        // What it carried when it was a wanderer, or what it took from the last one it wore
+        if (dead.Code.Path is "skinstealer" or "wretch")
         {
             int things = 1 + rand.Next(2);
             for (int i = 0; i < things; i++)

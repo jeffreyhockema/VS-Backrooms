@@ -1,0 +1,1079 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"beads-pink": "backrooms:block/fun/beads-pink",
+		"cakeboard": "backrooms:block/fun/cakeboard",
+		"candle-green": "backrooms:block/fun/candle-green",
+		"candle-yellow": "backrooms:block/fun/candle-yellow",
+		"flame": "backrooms:block/fun/flame",
+		"frosting": "backrooms:block/fun/frosting",
+		"frosting-side": "backrooms:block/fun/frosting-side",
+		"sponge": "backrooms:block/fun/sponge",
+		"steeltube": "backrooms:block/fun/steeltube"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				1.75,
+				-2.75,
+				1.75
+			],
+			"to": [
+				14.25,
+				-2.25,
+				14.25
+			],
+			"faces": {
+				"up": {
+					"texture": "#cakeboard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cakeboard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BoardEdge",
+			"from": [
+				2.6,
+				-2.75,
+				2.6
+			],
+			"to": [
+				13.4,
+				-2.3,
+				13.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2A",
+			"from": [
+				8,
+				-2.25,
+				8
+			],
+			"to": [
+				13.5,
+				3.75,
+				11.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"east": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"south": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"west": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						4.479999999999999
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						4.479999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2B",
+			"from": [
+				8,
+				-2.25,
+				8
+			],
+			"to": [
+				11.2,
+				3.75,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"east": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"south": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"west": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						7.699999999999999
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						7.699999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2Bead0",
+			"from": [
+				11.540678269379406,
+				3.75,
+				8.970686616300375
+			],
+			"to": [
+				12.540678269379406,
+				4.45,
+				9.970686616300375
+			],
+			"faces": {
+				"north": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2Bead1",
+			"from": [
+				8.970686616300377,
+				3.75,
+				11.540678269379406
+			],
+			"to": [
+				9.970686616300377,
+				4.45,
+				12.540678269379406
+			],
+			"faces": {
+				"north": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2Drip",
+			"from": [
+				9.1,
+				1.5499999999999998,
+				13.5
+			],
+			"to": [
+				10.1,
+				3.75,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2Candle",
+			"from": [
+				10.1,
+				3.75,
+				10.1
+			],
+			"to": [
+				10.700000000000001,
+				6.25,
+				10.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#candle-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Q2Flame",
+			"from": [
+				10.1,
+				6.35,
+				10.1
+			],
+			"to": [
+				10.700000000000001,
+				7.15,
+				10.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Q3A",
+			"from": [
+				2.5,
+				-2.25,
+				8
+			],
+			"to": [
+				8,
+				3.75,
+				11.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"east": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"south": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"west": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						4.479999999999999,
+						8.399999999999999
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						4.479999999999999
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						4.479999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3B",
+			"from": [
+				4.8,
+				-2.25,
+				8
+			],
+			"to": [
+				8,
+				3.75,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						4.4799999999999995,
+						8.399999999999999
+					]
+				},
+				"east": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"south": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						4.4799999999999995,
+						8.399999999999999
+					]
+				},
+				"west": {
+					"texture": "#frosting-side",
+					"uv": [
+						0,
+						0,
+						7.699999999999999,
+						8.399999999999999
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						4.4799999999999995,
+						7.699999999999999
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						4.4799999999999995,
+						7.699999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3Bead0",
+			"from": [
+				3.4593217306205943,
+				3.75,
+				8.970686616300375
+			],
+			"to": [
+				4.459321730620594,
+				4.45,
+				9.970686616300375
+			],
+			"faces": {
+				"north": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3Bead1",
+			"from": [
+				6.029313383699624,
+				3.75,
+				11.540678269379406
+			],
+			"to": [
+				7.029313383699624,
+				4.45,
+				12.540678269379406
+			],
+			"faces": {
+				"north": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#beads-pink",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3Drip",
+			"from": [
+				5.9,
+				1.5499999999999998,
+				13.5
+			],
+			"to": [
+				6.9,
+				3.75,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3Candle",
+			"from": [
+				5.3,
+				3.75,
+				10.1
+			],
+			"to": [
+				5.8999999999999995,
+				6.25,
+				10.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#candle-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Q3Flame",
+			"from": [
+				5.3,
+				6.35,
+				10.1
+			],
+			"to": [
+				5.8999999999999995,
+				7.15,
+				10.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#flame",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

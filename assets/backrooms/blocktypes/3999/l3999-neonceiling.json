@@ -1,0 +1,235 @@
+// Level 3999: a glowing 2 x 2 neon tube 1 px under the ceiling (ns: running north-south), on two clips (light 16)
+{
+	"code": "l3999-neonceiling",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"magenta",
+				"cyan",
+				"blue",
+				"pink",
+				"orange",
+				"lilac"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-neonceiling-magenta-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-magenta"
+		},
+		"l3999-neonceiling-magenta-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-magenta",
+			"rotateY": 90
+		},
+		"l3999-neonceiling-cyan-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-cyan"
+		},
+		"l3999-neonceiling-cyan-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-cyan",
+			"rotateY": 90
+		},
+		"l3999-neonceiling-blue-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-blue"
+		},
+		"l3999-neonceiling-blue-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-blue",
+			"rotateY": 90
+		},
+		"l3999-neonceiling-pink-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-pink"
+		},
+		"l3999-neonceiling-pink-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-pink",
+			"rotateY": 90
+		},
+		"l3999-neonceiling-orange-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-orange"
+		},
+		"l3999-neonceiling-orange-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-orange",
+			"rotateY": 90
+		},
+		"l3999-neonceiling-lilac-ns": {
+			"base": "backrooms:block/3999/l3999-neonceiling-lilac"
+		},
+		"l3999-neonceiling-lilac-we": {
+			"base": "backrooms:block/3999/l3999-neonceiling-lilac",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-neonceiling-magenta-ns"
+		],
+		"backrooms": [
+			"l3999-neonceiling-magenta-ns"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass",
+		"ambient": "backrooms:ambient/3999/neonhum",
+		"ambientBlockCount": 12
+	},
+	"selectionboxByType": {
+		"l3999-neonceiling-magenta-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-magenta-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonceiling-cyan-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-cyan-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonceiling-blue-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-blue-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonceiling-pink-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-pink-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonceiling-orange-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-orange-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonceiling-lilac-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neonceiling-lilac-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-magenta-*": [
+			51,
+			7,
+			16
+		],
+		"*-cyan-*": [
+			33,
+			6,
+			16
+		],
+		"*-blue-*": [
+			40,
+			7,
+			16
+		],
+		"*-pink-*": [
+			62,
+			7,
+			16
+		],
+		"*-orange-*": [
+			3,
+			7,
+			16
+		],
+		"*-lilac-*": [
+			53,
+			3,
+			16
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

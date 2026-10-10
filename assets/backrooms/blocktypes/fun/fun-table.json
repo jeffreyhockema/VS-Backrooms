@@ -1,0 +1,308 @@
+// Level Fun: a folding party table in a plastic tablecloth, two blocks long
+{
+	"code": "fun-table",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"blue-a",
+				"blue-b",
+				"greenstripe-a",
+				"greenstripe-b",
+				"pink-a",
+				"pink-b",
+				"yellow-a",
+				"yellow-b",
+				"redcheck-a",
+				"redcheck-b"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-blue-a-north": {
+			"base": "block/fun/fun-table-blue-a",
+			"rotateY": 0
+		},
+		"*-blue-a-east": {
+			"base": "block/fun/fun-table-blue-a",
+			"rotateY": 270
+		},
+		"*-blue-a-south": {
+			"base": "block/fun/fun-table-blue-a",
+			"rotateY": 180
+		},
+		"*-blue-a-west": {
+			"base": "block/fun/fun-table-blue-a",
+			"rotateY": 90
+		},
+		"*-blue-b-north": {
+			"base": "block/fun/fun-table-blue-b",
+			"rotateY": 0
+		},
+		"*-blue-b-east": {
+			"base": "block/fun/fun-table-blue-b",
+			"rotateY": 270
+		},
+		"*-blue-b-south": {
+			"base": "block/fun/fun-table-blue-b",
+			"rotateY": 180
+		},
+		"*-blue-b-west": {
+			"base": "block/fun/fun-table-blue-b",
+			"rotateY": 90
+		},
+		"*-greenstripe-a-north": {
+			"base": "block/fun/fun-table-greenstripe-a",
+			"rotateY": 0
+		},
+		"*-greenstripe-a-east": {
+			"base": "block/fun/fun-table-greenstripe-a",
+			"rotateY": 270
+		},
+		"*-greenstripe-a-south": {
+			"base": "block/fun/fun-table-greenstripe-a",
+			"rotateY": 180
+		},
+		"*-greenstripe-a-west": {
+			"base": "block/fun/fun-table-greenstripe-a",
+			"rotateY": 90
+		},
+		"*-greenstripe-b-north": {
+			"base": "block/fun/fun-table-greenstripe-b",
+			"rotateY": 0
+		},
+		"*-greenstripe-b-east": {
+			"base": "block/fun/fun-table-greenstripe-b",
+			"rotateY": 270
+		},
+		"*-greenstripe-b-south": {
+			"base": "block/fun/fun-table-greenstripe-b",
+			"rotateY": 180
+		},
+		"*-greenstripe-b-west": {
+			"base": "block/fun/fun-table-greenstripe-b",
+			"rotateY": 90
+		},
+		"*-pink-a-north": {
+			"base": "block/fun/fun-table-pink-a",
+			"rotateY": 0
+		},
+		"*-pink-a-east": {
+			"base": "block/fun/fun-table-pink-a",
+			"rotateY": 270
+		},
+		"*-pink-a-south": {
+			"base": "block/fun/fun-table-pink-a",
+			"rotateY": 180
+		},
+		"*-pink-a-west": {
+			"base": "block/fun/fun-table-pink-a",
+			"rotateY": 90
+		},
+		"*-pink-b-north": {
+			"base": "block/fun/fun-table-pink-b",
+			"rotateY": 0
+		},
+		"*-pink-b-east": {
+			"base": "block/fun/fun-table-pink-b",
+			"rotateY": 270
+		},
+		"*-pink-b-south": {
+			"base": "block/fun/fun-table-pink-b",
+			"rotateY": 180
+		},
+		"*-pink-b-west": {
+			"base": "block/fun/fun-table-pink-b",
+			"rotateY": 90
+		},
+		"*-yellow-a-north": {
+			"base": "block/fun/fun-table-yellow-a",
+			"rotateY": 0
+		},
+		"*-yellow-a-east": {
+			"base": "block/fun/fun-table-yellow-a",
+			"rotateY": 270
+		},
+		"*-yellow-a-south": {
+			"base": "block/fun/fun-table-yellow-a",
+			"rotateY": 180
+		},
+		"*-yellow-a-west": {
+			"base": "block/fun/fun-table-yellow-a",
+			"rotateY": 90
+		},
+		"*-yellow-b-north": {
+			"base": "block/fun/fun-table-yellow-b",
+			"rotateY": 0
+		},
+		"*-yellow-b-east": {
+			"base": "block/fun/fun-table-yellow-b",
+			"rotateY": 270
+		},
+		"*-yellow-b-south": {
+			"base": "block/fun/fun-table-yellow-b",
+			"rotateY": 180
+		},
+		"*-yellow-b-west": {
+			"base": "block/fun/fun-table-yellow-b",
+			"rotateY": 90
+		},
+		"*-redcheck-a-north": {
+			"base": "block/fun/fun-table-redcheck-a",
+			"rotateY": 0
+		},
+		"*-redcheck-a-east": {
+			"base": "block/fun/fun-table-redcheck-a",
+			"rotateY": 270
+		},
+		"*-redcheck-a-south": {
+			"base": "block/fun/fun-table-redcheck-a",
+			"rotateY": 180
+		},
+		"*-redcheck-a-west": {
+			"base": "block/fun/fun-table-redcheck-a",
+			"rotateY": 90
+		},
+		"*-redcheck-b-north": {
+			"base": "block/fun/fun-table-redcheck-b",
+			"rotateY": 0
+		},
+		"*-redcheck-b-east": {
+			"base": "block/fun/fun-table-redcheck-b",
+			"rotateY": 270
+		},
+		"*-redcheck-b-south": {
+			"base": "block/fun/fun-table-redcheck-b",
+			"rotateY": 180
+		},
+		"*-redcheck-b-west": {
+			"base": "block/fun/fun-table-redcheck-b",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-blue-a-north"
+		],
+		"decorative": [
+			"*-blue-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.83,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:linen-normal-down",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.3
+			}
+		}
+	]
+}

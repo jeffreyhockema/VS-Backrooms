@@ -1,0 +1,546 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/188/black",
+		"duvet": "backrooms:block/188/duvet",
+		"pillow": "backrooms:block/188/pillow",
+		"upholstery": "backrooms:block/188/upholstery"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				0.4,
+				1.2,
+				0
+			],
+			"to": [
+				16,
+				6,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.6,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.4,
+						4.8
+					]
+				},
+				"south": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.6,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.4,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.6,
+						15.4
+					]
+				},
+				"down": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						15.6,
+						15.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Mattress",
+			"from": [
+				0.8,
+				6,
+				0
+			],
+			"to": [
+				16,
+				10,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.2,
+						4
+					]
+				},
+				"east": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15,
+						4
+					]
+				},
+				"south": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.2,
+						4
+					]
+				},
+				"west": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15,
+						4
+					]
+				},
+				"up": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.2,
+						15
+					]
+				},
+				"down": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.2,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg",
+			"from": [
+				1,
+				0,
+				13.4
+			],
+			"to": [
+				2.6,
+				1.2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Duvet",
+			"from": [
+				0.4,
+				10,
+				0
+			],
+			"to": [
+				16,
+				11,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						8.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						8.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						8.6
+					]
+				},
+				"down": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						8.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold",
+			"from": [
+				0.4,
+				10.4,
+				7.4
+			],
+			"to": [
+				16,
+				11.8,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1.4000000000000004
+					]
+				},
+				"east": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						1.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						1.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Drape",
+			"from": [
+				0.1,
+				6.4,
+				0
+			],
+			"to": [
+				0.4,
+				11,
+				8.6
+			],
+			"faces": {
+				"west": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						8.6,
+						4.6
+					]
+				},
+				"up": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.6
+					]
+				},
+				"north": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.6
+					]
+				},
+				"south": {
+					"texture": "#duvet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Pillow",
+			"from": [
+				2.2,
+				10,
+				10.2
+			],
+			"to": [
+				14.6,
+				12.6,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						2.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						2.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						12.399999999999999,
+						4.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Pillow2",
+			"from": [
+				3,
+				12.6,
+				11
+			],
+			"to": [
+				13.8,
+				13.4,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						10.8,
+						2.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#pillow",
+					"uv": [
+						0,
+						0,
+						10.8,
+						2.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

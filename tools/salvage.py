@@ -60,7 +60,8 @@ SALVAGE = {
     # What the lost left at Level 6's dead ends and on Level 7's seabed: their kit, and where they were trying to go
     "backpack": d(("almondwater", 0.8, 0.6), ("crackers", 0.4, 0.4), (CANDLE, 0.4, 0.4), ("game:rope", 0.3, 0.3),
                   ("game:knife-generic-copper", 0.1, 0), ("game:bandage-clean", 0.4, 0.4), ("chalk", 0.2, 0),
-                  ("game:fishingbait-dough", 0.5, 0.5), ("wanderernote-door", 0.3, 0), ("wanderernote-way", 0.2, 0)),
+                  ("game:fishingbait-dough", 0.5, 0.5), ("wanderernote-door", 0.3, 0), ("wanderernote-way", 0.2, 0),
+                  ("l974-plush-cat", 0.02, 0)),  # (Level 974: kept for luck, or for Kitty)
     "hospitalbed": d(("metalbracket", 2, 1), (CLOTH, 1, 0.5), ("game:bandage-clean", 0.3, 0.3)),
     "foldingtable": d(("metalbracket", 1, 0.5)),
     "foldingchair": d(("metalbracket", 0.6, 0.4)),
@@ -92,7 +93,8 @@ SALVAGE = {
     "writingdesk": d((PLANK, 2, 1), (PAPER, 1, 0.5), (CANDLE, 0.3, 0.3), ("wanderernote-refuge", 0.05, 0)),
     "hotelchair": d((PLANK, 1, 0.5), (STICK, 1, 0.5), (CLOTH, 0.3, 0.3)),
     "suitcase": d((CLOTH, 1, 0.5), ("game:clothes-upperbody-tattered-linen-shirt", 0.2, 0),
-                  ("game:clothes-lowerbody-dirty-linen-trousers", 0.2, 0), (CANDLE, 0.2, 0.2), ("crackers", 0.15, 0.15)),
+                  ("game:clothes-lowerbody-dirty-linen-trousers", 0.2, 0), (CANDLE, 0.2, 0.2), ("crackers", 0.15, 0.15),
+                  ("l974-plush-bear", 0.015, 0), ("l974-plush-bunny", 0.015, 0)),  # (Level 974: a child's plush, now and then)
     "coffeetable": d((PLANK, 2, 1)),
     "ashtraystand": d(("game:metalbit-brass", 1, 0.5)),
     "diningtable": d((PLANK, 4, 1), (LINEN, 0.5, 0.5), ("game:metalbit-silver", 1, 0.5)),
@@ -102,7 +104,9 @@ SALVAGE = {
     # Level 9: the houses
     "dresser": d((CLOTH, 0.8, 0.5), ("game:flaxtwine", 0.6, 0.5), (CANDLE, 0.2, 0.2), ("game:clothes-upperbody-commoner-shirt", 0.25, 0),
                  ("game:clothes-lowerbody-homespun-pants", 0.2, 0), ("game:clothes-foot-commoner-boots", 0.15, 0)),
-    "toybox": d((CLOTH, 0.5, 0.4), (CANDLE, 0.2, 0.2), ("game:gear-rusty", 0.1, 0)),
+    # (Level 974: a plush toy is cute, and something in the Backrooms likes cute things: about one toy box in three)
+    "toybox": d((CLOTH, 0.5, 0.4), (CANDLE, 0.2, 0.2), ("game:gear-rusty", 0.1, 0), ("l974-plush-cat", 0.09, 0),
+                ("l974-plush-bunny", 0.09, 0), ("l974-plush-bear", 0.09, 0), ("l974-plush-star", 0.08, 0)),
     "wheeliebin": d((PAPER, 0.5, 0.5), ("rottenwood", 0.5, 0.5), ("glassshard", 0.3, 0.3), ("game:bone", 0.3, 0.3)),
     "grill": d(("metalbracket", 1, 0.5), ("game:charcoal", 2, 1)),
     # Garden sheds and kitchen drawers: the seeds for a farm at home, and a pry bar for the houses that are locked

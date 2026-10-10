@@ -1,0 +1,1853 @@
+"""Level ! "Run For Your Life!": every asset in docs/new-levels/run-plan.md section 7 (and its "Manifest changes").
+
+One long hospital hallway lit only by red EXIT signs: pale institutional walls with a wooden crash rail, white
+speckled vinyl, white acoustic ceiling tiles, grey steel doors on both sides, red fire doors at the ends, a chained
+door at the start, the furniture a hospital leaves in its corridors, and a blue Safe Zone. Plus the Energy Bar, the
+sounds (the alarm, the horde, the doors) and the English names.
+
+Run from the repo root, under the asset lock (it rewrites lang/en.json):
+    bash tools/locked.sh run python tools/gen_run.py
+Everything is written to the level's own folders (block/run/, blocktypes/run/, item/run/, sounds/*/run/).
+"""
+import json
+import math
+import os
+import random
+import sys
+
+sys.path.insert(0, os.path.dirname(__file__))
+
+import numpy as np
+from PIL import Image, ImageDraw
+
+import detail_kit as K
+from detail_kit import ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, T, bx, seed_of, turn, write_json
+from gen_deep import TRANSFORMS, drops, threshold
+import gen_detail
+from gen_entity_sounds import RATE, band, place, seconds, thud, vowel
+from gen_level_sounds import write as write_sound
+
+S = 32
+TAG = "run"
+MINE = set()  # texture keys made here (block/run/<key>)
+
+
+# ======================= Plumbing: our own folders =======================
+
+def tpath(key):
+    if key in MINE:
+        return f"backrooms:block/{TAG}/{key}"
+    if key in K.EXT:
+        return K.EXT[key]
+    return f"backrooms:block/detail/{key}"
+
+
+def shape(name, elements):
+    keys = set()
+    for e in elements:
+        for face in e["faces"].values():
+            keys.add(face["texture"][1:])
+    data = {"textureWidth": 16, "textureHeight": 16, "textures": {k: tpath(k) for k in sorted(keys)}, "elements": elements}
+    write_json(os.path.join(ASSETS, "shapes", "block", TAG, name + ".json"), data)
+    return f"block/{TAG}/{name}"
+
+
+def block(code, data, comment=None):
+    data = dict({"code": code}, **data)
+    write_json(os.path.join(ASSETS, "blocktypes", TAG, code + ".json"), data, comment)
+
+
+# detail_kit's prop() looks these up at call time: point it at our folders
+K.shape = shape
+K.block = block
+prop = K.prop
+name = K.name
+
+
+def save(img, key):
+    T.save(img, f"block/{TAG}/{key}.png")
+    MINE.add(key)
+
+
+def tex(key):
+    """The path of one of our textures, for a cube block."""
+    return f"block/{TAG}/{key}"
+
+
+def rgb(h, a=255):
+    return ((h >> 16) & 255, (h >> 8) & 255, h & 255, a)
+
+
+def clamp(v):
+    return max(0, min(255, int(v)))
+
+
+def noise(color, n, key, size=S):
+    return T.noise_fill(rgb(color)[:3], n, seed_of(key), size)
+
+
+def shade(c, f):
+    return tuple(clamp(v * f) for v in c[:3]) + (c[3] if len(c) > 3 else 255,)
+
+
+def mix(c1, c2, t):
+    return tuple(clamp(c1[k] + (c2[k] - c1[k]) * t) for k in range(3)) + (255,)
+
+
+def tint(img, color, t, box=None):
+    """Blends a rectangle of the image toward a colour."""
+    px = img.load()
+    x0, y0, x1, y1 = box or (0, 0, img.width, img.height)
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            px[x, y] = mix(px[x, y], color, t)
+
+
+def grain(img, key, amount=3, vertical=True, streak=0.35):
+    """Brushed metal or wood grain: per-row (or per-column) offsets with a little noise."""
+    rng = random.Random(seed_of(key))
+    px = img.load()
+    w, h = img.size
+    lines = [rng.uniform(-amount, amount) for _ in range(w if vertical else h)]
+    for y in range(h):
+        for x in range(w):
+            d = lines[x if vertical else y] * streak + rng.uniform(-amount, amount) * (1 - streak)
+            r, g, b, a = px[x, y]
+            px[x, y] = (clamp(r + d), clamp(g + d), clamp(b + d), a)
+    return img
+
+
+def speckle(img, key, share, color, size=1):
+    rng = random.Random(seed_of(key))
+    px = img.load()
+    w, h = img.size
+    for _ in range(int(w * h * share)):
+        x, y = rng.randrange(w), rng.randrange(h)
+        for dy in range(size):
+            for dx in range(size):
+                px[(x + dx) % w, (y + dy) % h] = color
+    return img
+
+
+# ======================= Textures =======================
+
+WALL = 0xD8DDD3
+SAFEWALL = 0xC4D6E8
+
+
+def paint(color, key):
+    """Institutional wall paint: flat, with the fine stipple a roller leaves and the faintest mottling."""
+    img = noise(color, 2, key)
+    rng = random.Random(seed_of(key + "s"))
+    px = img.load()
+    for _ in range(90):
+        x, y = rng.randrange(S), rng.randrange(S)
+        d = rng.choice((-3, -2, 3))
+        r, g, b, a = px[x, y]
+        px[x, y] = (clamp(r + d), clamp(g + d), clamp(b + d), a)
+    T.blotch(img, (rng.randrange(S), rng.randrange(S)), 12, shade(rgb(color), 0.97)[:3], 0.5, seed_of(key + "m"))
+    return img
+
+
+def cove(img, color, key, scuffs=True):
+    """A vinyl cove base 2 px high at the foot of the wall, and the scuffs of trolleys and shoes above it."""
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, S - 2, S - 1, S - 1], fill=rgb(color))
+    d.line([0, S - 3, S - 1, S - 3], fill=shade(rgb(color), 1.25))
+    if scuffs:
+        rng = random.Random(seed_of(key))
+        for _ in range(5):
+            x, y = rng.randrange(S), rng.randint(17, 26)
+            n = rng.randint(2, 5)
+            for k in range(n):
+                xx = (x + k) % S
+                img.putpixel((xx, y + (k // 3)), shade(img.getpixel((xx, y)), 0.86))
+        for _ in range(3):  # a dark trolley rub low on the wall
+            x = rng.randrange(S)
+            for k in range(rng.randint(4, 9)):
+                img.putpixel(((x + k) % S, 24 + rng.randint(0, 1)), (96, 96, 92, 255))
+    return img
+
+
+def vinyl(color, key, seam=True):
+    """Speckled hospital sheet vinyl: 3 % dark chips, 2 % light ones, a faint seam where two sheets meet."""
+    img = noise(color, 3, key)
+    speckle(img, key + "d", 0.03, rgb(0x6E6E6A))
+    speckle(img, key + "l", 0.02, rgb(0xF0F0EA))
+    speckle(img, key + "c", 0.004, shade(rgb(color), 0.7), 2)
+    if seam:
+        d = ImageDraw.Draw(img)
+        d.line([0, 0, 0, S - 1], fill=shade(rgb(color), 0.9))
+    return img
+
+
+GLYPHS = {
+    "E": ["1111", "1000", "1000", "1110", "1000", "1000", "1111"],
+    "X": ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+    "I": ["111", "010", "010", "010", "010", "010", "111"],
+    "T": ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+}
+# 3 x 5 capitals for the Energy Bar's wrapper
+SMALL = {"E": ["111", "100", "110", "100", "111"], "N": ["101", "111", "111", "111", "101"], "R": ["110", "101", "110", "101", "101"],
+         "G": ["011", "100", "101", "101", "011"], "Y": ["101", "101", "010", "010", "010"]}
+CHEVRON_R = ["100", "110", "011", "001", "011", "110", "100"]
+CHEVRON_L = [r[::-1] for r in CHEVRON_R]
+
+
+def glyphs(img, rows_list, x, y, color, gap=1):
+    px = img.load()
+    for rows in rows_list:
+        for j, row in enumerate(rows):
+            for i, c in enumerate(row):
+                if c == "1":
+                    px[x + i, y + j] = color
+        x += len(rows[0]) + gap
+    return x
+
+
+def exit_face(state):
+    """The face of a lit EXIT sign: red letters on near-black, a chevron either side. Drawn in rows 9-22 (the face's
+    UV band), letters 7 px high."""
+    bg = {"lit": 0x1C0605, "dim": 0x160504, "bright": 0x260807, "off": 0x120707, "dead": 0x0C0B0A}[state]
+    fg = {"lit": 0xFF2A1E, "dim": 0xB01810, "bright": 0xFF5A48, "off": 0x4A1612, "dead": 0x2E1A16}[state]
+    img = noise(bg, 2, "exitface" + state)
+    x = glyphs(img, [CHEVRON_L], 2, 12, rgb(fg))
+    x = glyphs(img, [GLYPHS[c] for c in "EXIT"], x, 12, rgb(fg))
+    glyphs(img, [CHEVRON_R], x, 12, rgb(fg))
+    px = img.load()
+    if state in ("lit", "bright"):
+        # A glow bleeding round the letters
+        halo = shade(rgb(fg), 0.35)
+        for y in range(10, 22):
+            for x in range(3, 29):
+                if px[x, y][0] < 80 and any(px[x + dx, y + dy][0] > 200 for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                    px[x, y] = mix(px[x, y], halo, 0.8)
+    if state == "dead":
+        # Soot and a cracked lens
+        rng = random.Random(seed_of("exitdead"))
+        T.blotch(img, (16, 12), 10, (8, 8, 8), 0.7, seed_of("soot"))
+        x, y = 9, 9
+        for _ in range(14):
+            px[x, y] = (150, 146, 140, 255)
+            x += rng.choice((0, 1, 1))
+            y += 1
+        x, y = 22, 22
+        for _ in range(9):
+            px[x, y] = (120, 116, 110, 255)
+            x -= rng.choice((0, 1))
+            y -= 1
+    return img
+
+
+def door_leaf(color, key, n=4, vertical=True):
+    img = noise(color, 2, key)
+    return grain(img, key + "g", n, vertical)
+
+
+def split_tall(img):
+    """A 32x64 picture of a two-block door into its lower and upper halves."""
+    return img.crop((0, S, S, 2 * S)), img.crop((0, 0, S, S))
+
+
+def textures():
+    # ---- Walls ----
+    wall = paint(WALL, "runwall")
+    save(wall, "wall")
+    save(cove(paint(WALL, "runwall"), 0x5E6A62, "runwallbase"), "wallbase")
+    img = noise(0x1A1714, 6, "runvoid")
+    T.blotch(img, (10, 22), 12, (40, 30, 24), 0.4, seed_of("runvoidb"))
+    save(img, "void")
+    # The crash rail: warm oak along the grain, a rounded highlight on top
+    img = grain(noise(0x8A5A32, 4, "rail"), "railg", 5, vertical=False)
+    save(img, "railwood")
+    img = noise(0xA87442, 3, "railtop")
+    save(grain(img, "railtopg", 4, vertical=False), "railtop")
+    save(grain(noise(0x8E9396, 3, "steel"), "steelg", 4), "steel")
+    save(noise(0x5C6164, 3, "steelframe"), "steelframe")
+    save(grain(noise(0xB8BCC0, 3, "chrome"), "chromeg", 6, streak=0.6), "chrome")
+    save(noise(0x1E1E1E, 3, "rubber"), "rubber")
+    # Emergency beacons
+    for state, c, hot in (("lit", 0xC81010, 0xFF6A50), ("dark", 0x3A0A0A, 0x4A1210)):
+        img = noise(c, 3, "beacon" + state)
+        T.blotch(img, (16, 10), 10, rgb(hot)[:3], 0.8, seed_of("beaconhot" + state))
+        save(img, "beacon" + state)
+    save(noise(0x2A2A2A, 3, "beaconbase"), "beaconbase")
+    save(noise(0x4A4A4A, 4, "wire"), "wire")
+
+    # ---- Floor ----
+    save(vinyl(0xD4D4CC, "vinyl"), "vinyl")
+    for side, box in (("north", (0, 0, S - 1, 7)), ("east", (S - 8, 0, S - 1, S - 1)),
+                      ("south", (0, S - 8, S - 1, S - 1)), ("west", (0, 0, 7, S - 1))):
+        img = vinyl(0xD4D4CC, "vinyl")
+        band_ = vinyl(0x3E4A55, "border", seam=False)
+        mask = Image.new("L", (S, S), 0)
+        ImageDraw.Draw(mask).rectangle(box, fill=255)
+        img.paste(band_, (0, 0), mask)
+        # A darker line where the band meets the field
+        d = ImageDraw.Draw(img)
+        x0, y0, x1, y1 = box
+        line = {"north": [0, 8, S - 1, 8], "south": [0, S - 9, S - 1, S - 9],
+                "east": [S - 9, 0, S - 9, S - 1], "west": [8, 0, 8, S - 1]}[side]
+        d.line(line, fill=rgb(0x2C343C))
+        save(img, f"border-{side}")
+    # Scuffed: heel marks, two drag smears, three claw scratches
+    img = vinyl(0xD4D4CC, "vinyl")
+    rng = random.Random(seed_of("scuffed"))
+    px = img.load()
+    for _ in range(9):
+        x, y = rng.randrange(S), rng.randrange(S)
+        for k in range(rng.randint(2, 5)):
+            px[(x + k) % S, (y + (k * k) // 6) % S] = (28, 28, 28, 255)
+    for x0 in (7, 20):
+        for y in range(S):
+            for dx in range(-2, 3):
+                x = (x0 + dx + y // 8) % S
+                if rng.random() < 0.75 - abs(dx) * 0.2:
+                    px[x, y] = mix(px[x, y], rgb(0x4A2A20), 0.6)
+    for k in range(3):
+        for t in range(18):
+            x, y = 4 + k * 3 + t, 6 + t
+            if 0 <= x < S and 0 <= y < S:
+                px[x, y] = (246, 244, 238, 255)
+                if x + 1 < S:
+                    px[x + 1, y] = (120, 118, 112, 255)
+    save(img, "scuffed")
+    # Cracked: a dark branching crack with chipped edges, the warning before a hole
+    img = vinyl(0xD4D4CC, "vinyl")
+    rng = random.Random(seed_of("cracked"))
+    px = img.load()
+
+    def crack(x, y, dx, n, width):
+        for _ in range(n):
+            for w in range(width):
+                xx, yy = int(x) % S, (int(y) + w) % S
+                px[xx, yy] = (34, 32, 30, 255)
+                for cx, cy in ((xx + 1, yy - 1), (xx - 1, yy + 1)):
+                    if rng.random() < 0.3:
+                        px[cx % S, cy % S] = (150, 148, 140, 255)
+            x += 1
+            y += dx + rng.uniform(-0.9, 0.9)
+    crack(0, 14, 0.1, S, 2)
+    crack(10, 15, -0.7, 12, 1)
+    crack(20, 15, 0.8, 12, 1)
+    crack(16, 14, -0.2, 8, 1)
+    save(img, "cracked")
+    save(vinyl(0xB4C2D2, "safefloor"), "safefloor")
+
+    # ---- Ceiling: 2 x 2 white acoustic tiles to a block, a T-bar grid ----
+    img = noise(0xE8E8E2, 3, "ceiltile")
+    rng = random.Random(seed_of("ceilfiss"))
+    px = img.load()
+    for _ in range(46):
+        x, y = rng.randrange(S), rng.randrange(S)
+        for _ in range(rng.randint(1, 3)):
+            px[x % S, y % S] = (206, 206, 198, 255)
+            x += rng.choice((-1, 0, 1))
+            y += rng.choice((0, 1))
+    d = ImageDraw.Draw(img)
+    for k in (0, 16):
+        d.line([k, 0, k, S - 1], fill=rgb(0xCFCFC8))
+        d.line([0, k, S - 1, k], fill=rgb(0xCFCFC8))
+        d.line([k + 1, 1, k + 1, S - 1], fill=rgb(0xDADAD4))
+    save(img, "ceiltile")
+    img = noise(0x9A9C9A, 2, "diffuser")
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 3 == 0:
+                px[x, y] = shade(px[x, y], 0.93)
+    save(img, "diffuser")
+    save(noise(0xDCDCD6, 2, "trofferframe"), "trofferframe")
+    save(grain(noise(0x8C8F8C, 3, "ventmetal"), "ventg", 3, vertical=False), "ventmetal")
+    save(noise(0x111111, 3, "duct"), "duct")
+    save(noise(0xCFCFC8, 2, "tbar"), "tbar")
+
+    # ---- EXIT signs ----
+    save(noise(0x1A1A1A, 3, "exithousing"), "exithousing")
+    for state in ("lit", "dim", "bright", "off", "dead"):
+        save(exit_face(state), "exitface-" + state)
+
+    # ---- Safe Zone ----
+    img = Image.new("RGBA", (S, S))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            dd = ((x - 15.5) ** 2 + (y - 15.5) ** 2) ** 0.5 / 22
+            px[x, y] = mix(rgb(0xEEF6FF), rgb(0xC8DCF8), dd)
+    save(img, "safelight")
+    save(noise(0xE6EAEE, 2, "safepanelrim"), "safepanelrim")
+    save(paint(SAFEWALL, "safewall"), "safewall")
+    save(cove(paint(SAFEWALL, "safewall"), 0x5A6E86, "safewallbase", scuffs=False), "safewallbase")
+    safe_sign()
+
+    # ---- Doors ----
+    for part in ("lower", "upper"):
+        img = door_leaf(0x8E9396, "sidedoor" + part)
+        d = ImageDraw.Draw(img)
+        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x777C80))
+        if part == "upper":
+            d.rectangle([11, 5, 20, 18], fill=rgb(0x3A3F42))
+            d.rectangle([12, 6, 19, 17], fill=rgb(0x1C2226))
+            for k in range(12, 20, 3):
+                d.line([k, 6, k, 17], fill=rgb(0x5A6368))
+            for k in range(7, 18, 3):
+                d.line([12, k, 19, k], fill=rgb(0x5A6368))
+            d.line([13, 7, 15, 9], fill=rgb(0x4A565C))  # a glint
+        else:
+            d.rectangle([1, 24, S - 2, S - 2], fill=rgb(0xA7ABAE))
+            for x in (3, S - 4):
+                d.point([(x, 26), (x, S - 3)], fill=rgb(0x5C6164))
+        save(img, f"sidedoor-{part}")
+        dented = img.copy()
+        rng = random.Random(seed_of("dent" + part))
+        px = dented.load()
+        if part == "lower":
+            # The dents of blows from the other side: dark crescents, bright ridges, paint gone in scratches
+            for cx, cy, r in ((16, 8, 7), (10, 14, 4), (21, 15, 5)):
+                for y in range(S):
+                    for x in range(S):
+                        dd = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5
+                        if r - 1.5 < dd < r:
+                            px[x, y] = shade(px[x, y], 0.7 if y > cy else 1.15)
+        for _ in range(7):
+            x, y = rng.randrange(4, S - 4), rng.randrange(2, S - 6)
+            for k in range(rng.randint(4, 9)):
+                if 0 <= x + k < S and 0 <= y + k // 2 < S:
+                    px[x + k, y + k // 2] = (196, 198, 196, 255)
+        T.blotch(dented, (rng.randrange(S), rng.randrange(S)), 7, (106, 58, 32), 0.35, seed_of("dentrust" + part))
+        save(dented, f"sidedoor-dented-{part}")
+    save(door_leaf(0x878C8F, "sidedoorback"), "sidedoor-back")
+    save(noise(0xA7ABAE, 2, "pushplate"), "pushplate")
+    save(noise(0x0A0A0A, 2, "doorway"), "doorway")
+
+    # Fire doors: red, scuffed to the primer, a stencilled EXIT
+    big = Image.new("RGBA", (S, 2 * S))
+    big.paste(door_leaf(0x9E1C18, "exitdoorhi", 3), (0, 0))
+    big.paste(door_leaf(0x9E1C18, "exitdoorlo", 3), (0, S))
+    rng = random.Random(seed_of("exitchips"))
+    px = big.load()
+    for _ in range(30):
+        x, y = rng.randrange(S), rng.randrange(2 * S)
+        for k in range(rng.randint(1, 3)):
+            px[(x + k) % S, y] = (138, 132, 124, 255)
+    d = ImageDraw.Draw(big)
+    d.rectangle([0, 0, S - 1, 2 * S - 1], outline=rgb(0x7A1412))
+    glyphs(big, [GLYPHS[c] for c in "EXIT"], 6, 10, (236, 230, 220, 255))
+    d.rectangle([1, 2 * S - 8, S - 2, 2 * S - 2], fill=rgb(0x9C9FA2))  # kick plate
+    lower, upper = split_tall(big)
+    save(lower, "exitdoor-lower")
+    save(upper, "exitdoor-upper")
+    save(door_leaf(0x8E1814, "exitdoorback", 3), "exitdoor-back")
+    # The inside of the door you came in by: pale, with a huge red "!" painted across it, running
+    big = Image.new("RGBA", (S, 2 * S))
+    big.paste(door_leaf(0xD8D6CE, "markedhi", 2), (0, 0))
+    big.paste(door_leaf(0xD8D6CE, "markedlo", 2), (0, S))
+    T.blotch(big, (16, 50), 14, (180, 170, 150), 0.25, seed_of("markedgrime"))
+    d = ImageDraw.Draw(big)
+    red = rgb(0xE01810)
+    d.polygon([(9, 4), (23, 4), (20, 38), (12, 38)], fill=red)
+    d.ellipse([10, 44, 22, 56], fill=red)
+    rng = random.Random(seed_of("drips"))
+    for x0, y0 in ((13, 38), (17, 38), (19, 36), (14, 55), (19, 54), (10, 20), (22, 12)):
+        n = rng.randint(3, 9)
+        d.line([x0, y0, x0, min(2 * S - 2, y0 + n)], fill=red, width=1)
+        d.point([(x0, min(2 * S - 2, y0 + n + 1))], fill=shade(red, 0.8))
+    px = big.load()
+    for _ in range(80):  # brush texture in the paint
+        x, y = rng.randrange(S), rng.randrange(2 * S)
+        if px[x, y][0] > 200 and px[x, y][1] < 60:
+            px[x, y] = shade(px[x, y], rng.uniform(0.82, 1.08))
+    d.rectangle([0, 0, S - 1, 2 * S - 1], outline=rgb(0x9A9890))
+    lower, upper = split_tall(big)
+    save(lower, "markeddoor-lower")
+    save(upper, "markeddoor-upper")
+    save(grain(noise(0xB4B8BC, 2, "panicbar"), "panicbarg", 5, vertical=False), "panicbar")
+
+    # The chained door: steel run with rust from the top, battered
+    big = Image.new("RGBA", (S, 2 * S))
+    big.paste(door_leaf(0x8A8E90, "chainhi"), (0, 0))
+    big.paste(door_leaf(0x8A8E90, "chainlo"), (0, S))
+    rng = random.Random(seed_of("rust"))
+    px = big.load()
+    for _ in range(9):
+        x, y, n = rng.randrange(S), rng.randrange(0, 20), rng.randint(10, 40)
+        for k in range(n):
+            if y + k < 2 * S:
+                px[x, y + k] = mix(px[x, y + k], rgb(0x6A3A20), 0.7 * (1 - k / n))
+    T.blotch(big, (8, 50), 9, (106, 58, 32), 0.4, seed_of("rustb"))
+    d = ImageDraw.Draw(big)
+    d.rectangle([0, 0, S - 1, 2 * S - 1], outline=rgb(0x5C6164))
+    lower, upper = split_tall(big)
+    save(lower, "chaindoor-lower")
+    save(upper, "chaindoor-upper")
+    img = noise(0x4A4A4A, 6, "chain")
+    save(grain(img, "chaing", 5), "chain")
+    save(noise(0x6E6A62, 4, "padlock"), "padlock")
+    save(noise(0xB0A060, 3, "shackle"), "shackle")
+
+    # The hallway door: pale wood laminate, a narrow vision panel, a steel kick plate
+    for part in ("lower", "upper"):
+        img = door_leaf(0xC9B48E, "halldoor" + part, 4)
+        d = ImageDraw.Draw(img)
+        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xA8946E))
+        if part == "upper":
+            d.rectangle([20, 3, 25, 26], fill=rgb(0x6E7476))
+            d.rectangle([21, 4, 24, 25], fill=rgb(0x1E2428))
+            d.line([21, 5, 22, 7], fill=rgb(0x3E484E))
+        else:
+            d.rectangle([1, 23, S - 2, S - 2], fill=rgb(0xA4A8AA))
+        save(img, f"halldoor-{part}")
+    save(door_leaf(0xC2AE88, "halldoorback", 4), "halldoor-back")
+    save(noise(0x7E8486, 3, "hallframe"), "hallframe")
+
+    # Medicine cabinet: white enamel, a mirror front with a streak, a small red cross
+    img = noise(0xECECE6, 2, "cabinet")
+    save(img, "cabinet")
+    img = noise(0xECECE6, 2, "cabinetfront")
+    d = ImageDraw.Draw(img)
+    d.rectangle([3, 9, S - 4, S - 3], fill=rgb(0xA8B4B8))
+    for k in range(10):
+        d.point([(8 + k, 26 - k), (9 + k, 26 - k)], fill=rgb(0xD0DADC))
+    d.rectangle([14, 2, 17, 7], fill=rgb(0xD01818))
+    d.rectangle([13, 3, 18, 6], fill=rgb(0xD01818))
+    d.rectangle([3, 9, S - 4, S - 3], outline=rgb(0xC8C8C2))
+    save(img, "cabinetfront")
+
+    # ---- Props ----
+    img = noise(0xE6E6E0, 2, "sheet")
+    rng = random.Random(seed_of("sheetfold"))
+    px = img.load()
+    for _ in range(6):
+        y = rng.randrange(S)
+        for x in range(S):
+            yy = (y + int(2 * math.sin(x / 5 + y))) % S
+            px[x, yy] = shade(px[x, yy], 0.9)
+    save(img, "sheet")
+    save(noise(0x6E7276, 3, "gurneyframe"), "gurneyframe")
+    save(grain(noise(0x202022, 3, "seatvinyl"), "seatv", 3, vertical=False), "seatvinyl")
+    save(noise(0x4A4A4A, 4, "tyre"), "tyre")
+    img = noise(0xDDEEEE, 3, "ivbag")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, S - 1, 9], fill=rgb(0xF0F6F6))
+    d.rectangle([6, 14, 25, 24], fill=rgb(0xFFFFFF))
+    d.line([8, 17, 22, 17], fill=rgb(0x3060A0))
+    d.line([8, 20, 18, 20], fill=rgb(0x8A8A8A))
+    save(img, "ivbag")
+    img = noise(0x5E8C8A, 3, "chairplastic")
+    T.blotch(img, (12, 10), 12, (120, 168, 164), 0.3, seed_of("chairhi"))
+    save(img, "chairplastic")
+    save(noise(0x3A3E42, 3, "beamsteel"), "beamsteel")
+    # Crash cart: red drawers with yellow labels; its side; the defibrillator
+    img = noise(0xB82820, 3, "cartfront")
+    d = ImageDraw.Draw(img)
+    for y in (6, 11, 16, 21, 26):
+        d.line([1, y, S - 2, y], fill=rgb(0x7A1612))
+        d.rectangle([3, y + 1, 8, y + 2], fill=rgb(0xF0C838))
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8C1C16))
+    save(img, "cartfront")
+    save(noise(0xB82820, 3, "cartside"), "cartside")
+    img = noise(0x3A3A3A, 3, "defib")
+    d = ImageDraw.Draw(img)
+    d.rectangle([6, 6, 17, 14], fill=rgb(0x1A2A1E))
+    d.line([7, 11, 9, 11, 10, 8, 11, 13, 12, 10, 16, 10], fill=rgb(0x40E060))
+    d.rectangle([20, 7, 25, 12], fill=rgb(0xE0B020))
+    save(img, "defib")
+    # Steel shelving: blue powder coat with slotted uprights
+    img = noise(0x2E5C9A, 3, "shelfblue")
+    px = img.load()
+    for y in range(1, S, 4):
+        for x in range(S):
+            if x % 8 in (3, 4):
+                px[x, y] = shade(px[x, y], 0.6)
+    save(img, "shelfblue")
+    save(noise(0xA07A4A, 5, "runbox"), "runbox")
+    img = noise(0xA07A4A, 5, "runboxtop")
+    ImageDraw.Draw(img).rectangle([13, 0, 18, S - 1], fill=rgb(0xC8B080))
+    save(img, "runboxtop")
+    save(noise(0xC8201C, 3, "toyred"), "toyred")
+    save(noise(0xF0C020, 3, "toyyellow"), "toyyellow")
+    save(noise(0xE07020, 4, "cord"), "cord")
+    save(noise(0x1A1A1A, 3, "plug"), "plug")
+    # A runner's remains: a torn khaki pack, one sneaker, a smear on the floor
+    img = noise(0x7A7048, 5, "pack")
+    d = ImageDraw.Draw(img)
+    d.line([5, 0, 5, S - 1], fill=rgb(0x4E4630), width=2)
+    d.line([24, 0, 24, S - 1], fill=rgb(0x4E4630), width=2)
+    d.polygon([(10, 14), (20, 12), (17, 22), (12, 20)], fill=rgb(0x2A2418))  # the tear
+    save(img, "pack")
+    save(noise(0x5A6A7E, 4, "sneaker"), "sneaker")
+    save(noise(0xF0EEE8, 2, "sole"), "sole")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    rng = random.Random(seed_of("smear"))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            # A long dark drag mark, ragged at its edges, darker where it starts
+            w = 7 + 3 * math.sin(y / 4.0) + rng.uniform(-2, 2)
+            cx = 14 + 4 * math.sin(y / 9.0)
+            if abs(x - cx) < w * (0.5 + 0.5 * (1 - y / S)) and rng.random() < 0.9:
+                t = 1 - y / S
+                px[x, y] = (clamp(58 + 30 * (1 - t)), clamp(22 + 12 * (1 - t)), 18, 255)
+    for k in range(4):  # finger streaks trailing off
+        x = 8 + k * 5
+        for y in range(22, S):
+            if rng.random() < 0.8:
+                px[x, y] = (70, 30, 22, 255)
+    save(img, "smear")
+    save(noise(0xC4C8CA, 3, "dish"), "dish")
+    save(noise(0x2A2A2C, 3, "stoolseat"), "stoolseat")
+    img = noise(0xD8CDB4, 3, "bedside")
+    save(grain(img, "bedsideg", 3, vertical=False), "bedside")
+    img = noise(0xD8CDB4, 3, "bedsidefront")
+    d = ImageDraw.Draw(img)
+    d.rectangle([1, 1, S - 2, S - 2], outline=rgb(0xB4A88E))
+    save(img, "bedsidefront")
+    # The privacy curtain: pale green, pleated; above it the open mesh band
+    img = noise(0x9CC2A8, 3, "curtain")
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            px[x, y] = shade(px[x, y], 0.9 + 0.12 * math.sin(x / S * 2 * math.pi * 2))
+    save(img, "curtain")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for k in range(0, S, 4):
+        d.line([k, 0, k, S - 1], fill=rgb(0xE8ECE8))
+        d.line([0, k, S - 1, k], fill=rgb(0xE8ECE8))
+    save(img, "curtainmesh")
+    # Wire shelving (white), and what is on it
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for k in range(0, S, 3):
+        d.line([k, 0, k, S - 1], fill=rgb(0xE4E4E0))
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xF0F0EC))
+    save(img, "wireshelf")
+    save(noise(0xE8E8E4, 2, "wirepost"), "wirepost")
+    img = noise(0xE8DCC0, 3, "almondbottle")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 10, S - 1, 22], fill=rgb(0xF4F0E6))
+    d.rectangle([0, 14, S - 1, 17], fill=rgb(0x6A8A3A))
+    save(img, "almondbottle")
+    save(noise(0x3A6AB8, 3, "bottlecap"), "bottlecap")
+    img = noise(0x9AAAC0, 4, "foil")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 12, S - 1, 19], fill=rgb(0xE07A20))
+    save(grain(img, "foilg", 5, vertical=False, streak=0.6), "foil")
+    save(noise(0x7A7E80, 4, "cotblanket"), "cotblanket")
+    img = noise(0xEDE9DC, 2, "pillow")
+    save(img, "pillow")
+
+    # ---- Level 2's wall that wasn't there: smooth new concrete, a thread of red light at its foot ----
+    img = noise(0xB8B6B0, 2, "falsewall")
+    save(img, "falsewall")
+    img = Image.new("RGBA", (S, S), (255, 40, 24, 255))
+    save(img, "redline")
+
+
+def safe_sign():
+    """WELCOME / to the safe zone. / Please take a break before / you continue running. White plate, blue letters,
+    drawn at 4 px a voxel (the one place text has to be read) and cut in two for the two wall blocks."""
+    W, H = 112, 48
+    img = Image.new("RGBA", (W, H), (250, 252, 255, 255))
+    d = ImageDraw.Draw(img)
+    blue = (30, 74, 150, 255)
+    d.rectangle([0, 0, W - 1, H - 1], outline=blue, width=2)
+    d.rectangle([3, 3, W - 4, 15], fill=blue)
+    T.text_img(img, "WELCOME", (3, 3, W - 3, 16), (255, 255, 255, 255), 11)
+    T.text_img(img, "to the safe zone.", (3, 17, W - 3, 27), blue, 8)
+    T.text_img(img, "Please take a break before", (3, 27, W - 3, 37), blue, 7)
+    T.text_img(img, "you continue running.", (3, 36, W - 3, 46), blue, 7)
+    for half, x0 in (("l", 0), ("r", W // 2)):
+        out = Image.new("RGBA", (64, 64), (250, 252, 255, 255))
+        out.paste(img.crop((x0, 0, x0 + W // 2, H)), (0, 0))
+        save(out, f"safesign-{half}")
+
+
+def item_textures():
+    # The Energy Bar's wrapper: silver-blue foil, an orange stripe, ENERGY in small caps, crimped ends
+    img = noise(0x9AAAC0, 4, "barfoil")
+    grain(img, "barfoilg", 6, vertical=False, streak=0.6)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 7, S - 1, 9], fill=rgb(0xE07A20))
+    glyphs(img, [SMALL[c] for c in "ENERGY"], 4, 1, rgb(0x1E2846))
+    for x in range(0, S, 2):  # the crimp band at the bottom of the sheet
+        d.line([x, 12, x, 15], fill=rgb(0xC0CCDA))
+    d.rectangle([0, 16, S - 1, S - 1], fill=rgb(0x8A9AB0))
+    T.save(img, f"item/{TAG}/energybar.png")
+
+
+# ======================= Blocks: structure =======================
+
+def cube_type(code, english, states, textures_by_state, comment, material="Stone", sounds=STONE, json_states=None, extra=None):
+    """A block whose plain states are cubes and whose other states are json shapes (shapes: {state: path})."""
+    data = {"variantgroups": [{"code": "kind", "states": states}],
+            "creativeinventory": {"general": ["*"], "construction": ["*"]},
+            "blockmaterial": material, "drawtype": "cube", "texturesByType": {}, "lightAbsorption": 99,
+            "resistance": 99999, "drops": [], "sounds": sounds}
+    for st, t in textures_by_state.items():
+        data["texturesByType"][f"*-{st}"] = t
+    if json_states:
+        data["drawtypeByType"] = dict({f"*-{st}": "json" for st in json_states}, **{"*": "cube"})
+        data["shapeByType"] = {f"*-{st}": v for st, v in json_states.items()}
+        data["sidesolidByType"] = dict({f"*-{st}": {"all": False} for st in json_states}, **{"*": {"all": True}})
+        data["sideopaqueByType"] = dict({f"*-{st}": {"all": False} for st in json_states}, **{"*": {"all": True}})
+    if extra:
+        data.update(extra)
+    block(code, data, comment)
+
+
+def all6(t):
+    return {"all": {"base": tex(t)}}
+
+
+def sides6(side_tex, cap_tex):
+    return {f: {"base": tex(side_tex)} for f in ("north", "east", "south", "west")} | {"up": {"base": tex(cap_tex)}, "down": {"base": tex(cap_tex)}}
+
+
+def rail(x0=0, x1=16):
+    """The crash rail on a wall's north face: a rounded oak bar at hip height on two steel brackets."""
+    return [bx("Rail", (x0, 12, -3), (x1, 14, -1), "railwood"),
+            bx("RailTop", (x0, 14, -2.7), (x1, 14.5, -1.3), "railtop", faces=("north", "south", "up", "east", "west")),
+            bx("RailBottom", (x0, 11.6, -2.7), (x1, 12, -1.3), "railwood", faces=("north", "south", "down", "east", "west")),
+            bx("Bracket1", (3, 11, -2), (4, 14, 0), "steelframe"), bx("Bracket2", (12, 11, -2), (13, 14, 0), "steelframe")]
+
+
+def walls():
+    wall = bx("Wall", (0, 0, 0), (16, 16, 16), "wallbase")
+    shapes = {}
+    path = shape("run-wall-rail", [wall] + rail())
+    for s in SIDES:
+        shapes[f"rail-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    # An outside corner: rails on the north and east faces, meeting round the corner
+    corner = [wall] + rail(0, 19) + [turn(e, 1) for e in rail(0, 16)]
+    path = shape("run-wall-railcorner", corner)
+    for s in SIDES:
+        shapes[f"railcorner-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    cube_type("run-wall", "Hospital Wall", ["plain", "base", "void"] + list(shapes),
+              {"plain": all6("wall"), "base": sides6("wallbase", "wall"), "void": all6("void")},
+              "Level !: the hallway's walls. plain above, base (cove base) at the floor, rail-<side> with the crash rail on "
+              "that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), void (matte black: "
+              "the antechamber behind the chained door, the fake exits' closets)",
+              json_states=shapes)
+    name("run-wall-plain", "Hospital Wall")
+    name("run-wall-base", "Hospital Wall")
+    name("run-wall-rail-*", "Hospital Wall with Crash Rail")
+    name("run-wall-railcorner-*", "Hospital Wall with Crash Rail")
+    name("run-wall-void", "Dark Wall")
+
+    # Emergency beacons: a red dome on a bracket high on the wall, with a wire guard. They flash (glow only) while
+    # the alarm sounds: the block entity swaps the lit and dark meshes
+    def beacon(lit):
+        g = 220 if lit else 0
+        return [bx("Wall", (0, 0, 0), (16, 16, 16), "wall"),
+                bx("Plate", (5.5, 10, -0.5), (10.5, 15, 0), "beaconbase"),
+                bx("Base", (5.5, 10.5, -3.5), (10.5, 11.5, -0.5), "beaconbase"),
+                bx("Dome", (6, 11.5, -3.2), (10, 14.5, -0.8), "beaconlit" if lit else "beacondark", glow=g),
+                bx("Cap", (6.5, 14.5, -2.7), (9.5, 15.5, -1.3), "beaconlit" if lit else "beacondark", glow=g),
+                bx("GuardX", (5.6, 15.5, -2.25), (10.4, 16, -1.75), "wire"),
+                bx("GuardZ", (7.75, 15.5, -3.6), (8.25, 16, -0.5), "wire"),
+                bx("GuardL", (5.6, 11.5, -2.25), (6.1, 15.5, -1.75), "wire"),
+                bx("GuardR", (9.9, 11.5, -2.25), (10.4, 15.5, -1.75), "wire")]
+    by_type = {}
+    for state in ("lit", "dark"):
+        path = shape(f"run-wall-beacon-{state}", beacon(state == "lit"))
+        for s in SIDES:
+            by_type[f"*-{state}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    block("run-wall-beacon", {
+        "variantgroups": [{"code": "state", "states": ["lit", "dark"]}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-lit-north"], "decorative": ["*-lit-north"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+        "entityClassByType": {"*-lit-*": "BackroomsRunBeacon"},
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightAbsorption": 99, "resistance": 99999, "drops": [], "sounds": STONE,
+    }, "Level !: a wall block (rel 3) with an emergency beacon on face <side>. lit is placed; its block entity draws the "
+       "dark mesh except during the quarter second of each flash. No block light: the flashing is glow only")
+    name("run-wall-beacon-*", "Emergency Beacon")
+
+    # The floor
+    states = ["vinyl", "border-north", "border-east", "border-south", "border-west", "scuffed", "cracked", "safe"]
+    texs = {"vinyl": {"all": {"base": tex("vinyl")}}, "safe": {"all": {"base": tex("safefloor")}}}
+    for s in SIDES:
+        texs[f"border-{s}"] = {"all": {"base": tex("vinyl")}, "up": {"base": tex(f"border-{s}")}}
+    for k in ("scuffed", "cracked"):
+        texs[k] = {"all": {"base": tex("vinyl")},
+                   "up": {"base": tex(k), "alternates": [{"base": tex(k), "rotation": r} for r in (90, 180, 270)]}}
+    cube_type("run-floor", "Vinyl Floor", states, texs,
+              "Level !: speckled hospital vinyl; border-<side> has the dark band along that edge; scuffed, cracked (before a "
+              "hole), safe (the Safe Zone's blue-grey)", material="Stone")
+    name("run-floor-*", "Vinyl Floor")
+    name("run-floor-safe", "Safe Zone Floor")
+
+    # The ceiling
+    tile = "ceiltile"
+    body = lambda y0: bx("Body", (0, y0, 0), (16, 16, 16), tile, faces=("north", "east", "south", "west", "up"))
+    rim = lambda h, t: [bx("RimN", (0, 0, 0), (16, h, 1), t), bx("RimS", (0, 0, 15), (16, h, 16), t),
+                        bx("RimW", (0, 0, 1), (1, h, 15), t), bx("RimE", (15, 0, 1), (16, h, 15), t)]
+    dead = [body(2), bx("Diffuser", (1, 2, 1), (15, 2.01, 15), "diffuser", faces=("down",))] + rim(2, "trofferframe") + [
+        bx("LouvreA", (1, 0.3, 5.2), (15, 2, 5.6), "trofferframe"), bx("LouvreB", (1, 0.3, 10.4), (15, 2, 10.8), "trofferframe"),
+        bx("LouvreC", (7.8, 0.3, 1), (8.2, 2, 15), "trofferframe")]
+    slats = [bx(f"Slat{k}", (1, 1, 1.6 + k * 2.3), (15, 2, 3.4 + k * 2.3), "ventmetal", rot=(30, 0, 0)) for k in range(6)]
+    duct = [body(3), bx("Duct", (1, 3, 1), (15, 3.01, 15), "duct", faces=("down",))] + rim(3, "ventmetal")
+    vent = duct + slats
+    grille = [bx("Grille", (1, 1.5, 1), (15, 2.3, 15), "ventmetal", rot=(-70, 0, 0), origin=(8, 2, 15)),
+              bx("GrilleSlats", (1.5, 1.2, 1.5), (14.5, 1.5, 14.5), "duct", rot=(-70, 0, 0), origin=(8, 2, 15))]
+    shapes = {"panel-dead": {"base": shape("run-ceiling-panel-dead", dead)},
+              "vent": {"base": shape("run-ceiling-vent", vent)},
+              "vent-burst": {"base": shape("run-ceiling-vent-burst", duct + grille)}}
+    cube_type("run-ceiling", "Ceiling Tile", ["tile"] + list(shapes),
+              {"tile": {"all": {"base": tex(tile)}, "down": {"base": tex(tile), "alternates": [{"base": tex(tile), "rotation": 90}]}}},
+              "Level !: white acoustic ceiling tiles in a T-bar grid; a dead troffer; a louvred air vent and one burst open",
+              json_states=shapes)
+    name("run-ceiling-tile", "Ceiling Tile")
+    name("run-ceiling-panel-dead", "Dead Light Panel")
+    name("run-ceiling-vent", "Air Vent")
+    name("run-ceiling-vent-burst", "Air Vent")
+
+    # Level 2's wall that wasn't there: smooth new concrete across the end of a tunnel, a thread of red light at its foot.
+    # It has no substance
+    by_type = {}
+    for part in ("lower", "upper"):
+        els = [bx("Wall", (0, 0, 0), (16, 16, 16), "falsewall")]
+        if part == "lower":
+            els += [bx("LineN", (0, 0, -0.15), (16, 0.6, 0), "redline", glow=255, faces=("north", "up")),
+                    bx("LineS", (0, 0, 16), (16, 0.6, 16.15), "redline", glow=255, faces=("south", "up")),
+                    bx("LineW", (-0.15, 0, 0), (0, 0.6, 16), "redline", glow=255, faces=("west", "up")),
+                    bx("LineE", (16, 0, 0), (16.15, 0.6, 16), "redline", glow=255, faces=("east", "up"))]
+        by_type[f"*-{part}"] = {"base": shape(f"run-falsewall-{part}", els)}
+    block("run-falsewall", {
+        "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*-lower"], "construction": ["*-lower"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+        "collisionbox": None, "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "lightHsvByType": {"*-lower": [0, 7, 3]}, "lightAbsorption": 0, "resistance": 99999, "drops": [], "sounds": STONE,
+    }, "Level 2: a smooth new concrete wall where a tunnel used to go on (Unders.RunFalseWall): lower at rel 1, a thread of "
+       "red light round its foot; upper above. It has no substance: walk into it")
+    name("run-falsewall-*", "Concrete Wall")
+
+
+def signs():
+    # Hanging double-sided EXIT signs, in the top block of air. Modelled across x (axis we: faces north and south)
+    def hanging(state):
+        g = {"lit": 255, "flicker": 255, "dim": 150, "bright": 255}.get(state, 0)
+        face = "exitface-" + ("lit" if state == "flicker" else state)
+        return [bx("RodL", (3.5, 14, 7.5), (4.5, 16, 8.5), "steelframe"), bx("RodR", (11.5, 14, 7.5), (12.5, 16, 8.5), "steelframe"),
+                bx("Housing", (1, 7, 7), (15, 14, 9), "exithousing"),
+                bx("FaceN", (1.3, 7.3, 6.9), (14.7, 13.7, 7), face, glow=g, faces=("north",), uv=[1, 4.5, 15, 11.5]),
+                bx("FaceS", (1.3, 7.3, 9), (14.7, 13.7, 9.1), face, glow=g, faces=("south",), uv=[1, 4.5, 15, 11.5])]
+    states = ["lit", "dim", "bright", "flicker", "off", "dead"]
+    by_type, attrs = {}, {}
+    for st in states:
+        path = shape(f"run-exitsign-{st}", hanging(st))
+        by_type[f"*-{st}-ns"] = {"base": path, "rotateY": 0}
+        by_type[f"*-{st}-we"] = {"base": path, "rotateY": 90}
+    block("run-exitsign", {
+        "variantgroups": [{"code": "state", "states": states}, {"code": "axis", "states": ["ns", "we"]}],
+        "creativeinventory": {"general": ["*-lit-ns"], "decorative": ["*-lit-ns"]},
+        "blockmaterial": "Glass", "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "collisionbox": None,
+        "selectionboxByType": {"*-ns": {"x1": 0.05, "y1": 0.42, "z1": 0.4, "x2": 0.95, "y2": 1, "z2": 0.6},
+                               "*-we": {"x1": 0.4, "y1": 0.42, "z1": 0.05, "x2": 0.6, "y2": 1, "z2": 0.95}},
+        "lightHsvByType": {"*-lit-*": [0, 7, 9], "*-flicker-*": [0, 7, 9], "*-dim-*": [0, 7, 5], "*-bright-*": [0, 7, 12]},
+        "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
+        "attributesByType": {"*-flicker-we": {"offBlock": "backrooms:run-exitsign-off-we"},
+                             "*-flicker-ns": {"offBlock": "backrooms:run-exitsign-off-ns"}},
+        "lightAbsorption": 0, "resistance": 1, "drops": [], "sounds": GLASS,
+    }, "Level !: hanging EXIT signs, the hallway's only light. Axis ns: its faces look north and south (the board spans "
+       "west-east); we: west and east. "
+       "lit, dim (over a fake exit), bright (over the true exit), flicker (telegraphs a burst; glow only), off (its dark "
+       "mesh), dead (burst)")
+    name("run-exitsign-lit-*", "EXIT Sign")
+    for st in states[1:]:
+        name(f"run-exitsign-{st}-*", "EXIT Sign")
+
+    # Wall EXIT signs over a door: the wall block above it (rel 3), the sign on face <side>. "concrete" is the bright
+    # sign in Level 1's concrete wall, over the door that shouldn't be there
+    def wallsign(state):
+        g = {"dim": 150, "bright": 255, "lit": 255, "concrete": 255}[state]
+        face = "exitface-" + ("bright" if state == "concrete" else state)
+        return [bx("Wall", (0, 0, 0), (16, 16, 16), "concretewall" if state == "concrete" else "wall"),
+                bx("BracketL", (2, 9, -1), (3, 13, 0), "steelframe"), bx("BracketR", (13, 9, -1), (14, 13, 0), "steelframe"),
+                bx("Housing", (1, 8, -3), (15, 14, -1), "exithousing"),
+                bx("Face", (1.3, 8.3, -3.1), (14.7, 13.7, -3), face, glow=g, faces=("north",), uv=[1, 5, 15, 11])]
+    by_type = {}
+    for st in ("dim", "lit", "bright", "concrete"):
+        path = shape(f"run-exitsign-wall-{st}", wallsign(st))
+        for s in SIDES:
+            by_type[f"*-{st}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    block("run-exitsign-wall", {
+        "variantgroups": [{"code": "state", "states": ["dim", "lit", "bright", "concrete"]}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-lit-north"], "decorative": ["*-lit-north"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightHsvByType": {"*-dim-*": [0, 7, 5], "*-lit-*": [0, 7, 9], "*-bright-*": [0, 7, 12], "*-concrete-*": [0, 7, 12]},
+        "lightAbsorption": 0, "resistance": 99999, "drops": [], "sounds": STONE,
+    }, "An EXIT sign on a wall block above a door (rel 3), on face <side>. dim over a fake exit, bright over the true one "
+       "and the hospital-walled entrances, concrete (bright, in a Level 1 concrete wall) over the Level 1 entrance")
+    name("run-exitsign-wall-*", "EXIT Sign")
+
+    # The Safe Zone's light: an opal panel, the only blue light in the level
+    els = [bx("Body", (0, 0, 0), (16, 16, 16), "ceiltile", faces=("north", "east", "south", "west", "up", "down")),
+           bx("Rim", (0.5, -0.8, 0.5), (15.5, 0, 15.5), "safepanelrim", faces=("north", "east", "south", "west")),
+           bx("Panel", (1, -0.8, 1), (15, -0.79, 15), "safelight", glow=160, faces=("down",))]
+    block("run-safelight", {
+        "creativeinventory": {"general": ["*"], "decorative": ["*"]},
+        "blockmaterial": "Glass", "drawtype": "json", "shape": {"base": shape("run-safelight", els)},
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightHsv": [42, 4, 14], "lightAbsorption": 0, "resistance": 99999, "drops": [], "sounds": GLASS,
+    }, "Level !: a ceiling tile with the Safe Zone's blue-white light panel")
+    name("run-safelight", "Ceiling Light")
+
+    # Safe Zone walls, and the sign: WELCOME to the safe zone (two blocks: l on the viewer's left)
+    shapes = {}
+    for half in ("l", "r"):
+        x0, x1 = (0, 14) if half == "l" else (2, 16)
+        els = [bx("Wall", (0, 0, 0), (16, 16, 16), "safewall"),
+               bx("Plate", (x0, 2, -0.8), (x1, 14, 0), f"safesign-{half}", faces=("north",), uv=[0, 0, 14, 12]),
+               bx("PlateEdge", (x0, 2, -0.8), (x1, 14, 0), "safepanelrim", faces=("east", "west", "up", "down"))]
+        path = shape(f"run-safewall-sign-{half}", els)
+        for s in SIDES:
+            shapes[f"sign-{s}-{half}"] = {"base": path, "rotateY": ROTATE[s]}
+    cube_type("run-safewall", "Safe Zone Wall", ["plain", "base"] + list(shapes),
+              {"plain": all6("safewall"), "base": sides6("safewallbase", "safewall")},
+              "Level !: the Safe Zone's pale blue walls; sign-<side>-<l|r> carries half of the welcome sign at eye height "
+              "(l is on the left as you face it)", json_states=shapes)
+    name("run-safewall-*", "Safe Zone Wall")
+
+
+# ======================= Doors =======================
+
+def frame(tex_, upper=True, z0=-1, z1=1):
+    """A door frame standing proud of the wall, on the neighbouring wall blocks either side and above."""
+    els = [bx("JambL", (-1.5, 0, z0), (0, 16, z1), tex_), bx("JambR", (16, 0, z0), (17.5, 16, z1), tex_)]
+    if upper:
+        els.append(bx("Head", (-1.5, 16, z0), (17.5, 17.5, z1), tex_))
+    return els
+
+
+def leaf(front, back, z0=1, z1=3, x0=0, x1=16):
+    return [bx("Leaf", (x0, 0, z0), (x1, 16, z1), front, faces=("north",), full=True),
+            bx("LeafBack", (x0, 0, z0), (x1, 16, z1), back, faces=("south", "east", "west", "up", "down"))]
+
+
+def behaviour(kind):
+    """Every door kind is a BackroomsThreshold: ThresholdSystem hands those that lead nowhere (runside, runhall,
+    runchained, runmarked, runfake) to RunSystem.UseDoor, and runentry / runexit to the network."""
+    return threshold(kind)
+
+
+def door_type(code, english, states, build, kind_by_state, comment, material="Metal", sounds=METAL,
+              passable=(), selection=None, light=None):
+    by_type = {}
+    for st in states:
+        for part in ("lower", "upper"):
+            path = shape(f"{code}-{st}-{part}", build(st, part))
+            for s in SIDES:
+                by_type[f"*-{st}-{part}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    data = {
+        "variantgroups": [{"code": "state", "states": states}, {"code": "part", "states": ["lower", "upper"]},
+                          {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": [f"*-{states[0]}-lower-north"], "construction": [f"*-{states[0]}-lower-north"]},
+        "blockmaterial": material, "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "behaviorsByType": {f"*-{st}-*": behaviour(k) for st, k in kind_by_state.items()},
+        "lightAbsorption": 99, "resistance": 99999, "drops": [], "sounds": sounds,
+    }
+    coll = {}
+    for st in passable:
+        coll[f"*-{st}-*"] = None
+    if selection:
+        coll.update(selection)
+    if coll:
+        data["collisionboxByType"] = coll
+    if light:
+        data.update(light)
+    block(code, data, comment)
+    name(f"{code}-*", english)
+
+
+def side_doors():
+    def build(st, part):
+        els = frame("steelframe", upper=part == "upper")
+        if st in ("closed", "dented"):
+            els += leaf(f"sidedoor-{'dented-' if st == 'dented' else ''}{part}", "sidedoor-back")
+            if part == "lower":
+                els += [bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"),
+                        bx("Lever", (10, 13.8, -0.6), (14, 14.8, 0.4), "chrome")]
+                if st == "dented":
+                    # The leaf bulges out where something hit it from the other side
+                    els += [bx("Bulge1", (3, 4, 0), (13, 16, 1), "sidedoor-dented-lower", faces=("north", "east", "west", "up", "down")),
+                            bx("Bulge2", (5, 6, -1), (11, 14, 0), "sidedoor-dented-lower", faces=("north", "east", "west", "up", "down"))]
+            else:
+                els += [bx("PushPlate", (11.5, 0.5, 0.5), (15.5, 6.5, 1), "pushplate")]
+        elif st == "open":
+            els += [bx("Dark", (0, 0, 15.9), (16, 16, 16), "doorway", faces=("north",))]
+            els += [bx("Hinge1" if part == "lower" else "Hinge2", (-0.3, 3, 0), (0.6, 6, 1.2), "steelframe")]
+        else:  # leaf: flung open, standing in the hall tile in front of the door (same side as the door)
+            els = [bx("Leaf", (0.2, 0, 0), (2.2, 16, 16), f"sidedoor-{part}", faces=("east",), full=True),
+                   bx("LeafBack", (0.2, 0, 0), (2.2, 16, 16), "sidedoor-back", faces=("west", "north", "south", "up", "down"))]
+            if part == "lower":
+                els += [bx("Lever", (2.2, 13.8, 2), (3.2, 14.8, 6), "chrome")]
+            else:
+                els += [bx("PushPlate", (2.2, 0.5, 0.5), (2.7, 6.5, 4.5), "pushplate")]
+        return els
+    leafbox = {f"*-leaf-*-{sd}": K.cuboid((0, 0, 0, 0.15, 1, 1), sd) for sd in SIDES}
+    door_type("run-sidedoor", "Steel Door", ["closed", "dented", "open", "leaf"], build, {"closed": "runside", "dented": "runside"},
+              "Level !: the locked steel doors down both sides of the hall (runside). dented (something behind it, about to "
+              "burst), open (burst or flung open: an empty frame, black beyond), leaf (the flung-open leaf, placed in the hall "
+              "tile in front of the door with the door's own side; collision on the leaf only)",
+              passable=("open",), selection=leafbox)
+    path = os.path.join(ASSETS, "blocktypes", TAG, "run-sidedoor.json")
+    with open(path, encoding="utf-8") as f:
+        head, _, body = f.read().partition("\n")
+    data = json.loads(body)
+    data["selectionboxByType"] = leafbox
+    write_json(path, data, head[3:])
+
+
+def exit_doors():
+    def panic(dz=0):
+        return [bx("CaseL", (1.5, 12.5, -2 + dz), (3.5, 15.5, 1 + dz), "steelframe"),
+                bx("CaseR", (12.5, 12.5, -2 + dz), (14.5, 15.5, 1 + dz), "steelframe"),
+                bx("Bar", (3.5, 13, -1.8 + dz), (12.5, 15, -0.3 + dz), "panicbar")]
+
+    def build(st, part):
+        if st == "arrival":
+            # Flush on the surface of a wall, in the air block in front of it, its back against the wall
+            els = frame("steelframe", upper=part == "upper", z0=12, z1=16)
+            els += leaf("markeddoor-" + part, "exitdoor-back", 13, 15)
+            if part == "lower":
+                els += panic(13)
+            return els
+        els = frame("steelframe", upper=part == "upper")
+        if st == "fake-open":
+            # Swung inward: the closet behind it is all there is
+            els += [bx("Leaf", (0.2, 0, 3), (2.2, 16, 19), "exitdoor-back"),
+                    bx("Hinge", (-0.3, 4, 1), (0.6, 7, 3), "steelframe")]
+            return els
+        front = "markeddoor-" + part if st == "marked" else "exitdoor-" + part
+        els += leaf(front, "exitdoor-back")
+        if part == "lower":
+            els += panic() + [bx("Kick", (1, 0.5, 0.5), (15, 3.5, 1), "panicbar", faces=("north", "up", "east", "west"))]
+        return els
+    states = ["true", "fake", "fake-open", "marked", "entry", "arrival"]
+    kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry"}
+    sel = {f"*-arrival-*-{sd}": K.cuboid((0, 0, 0.75, 1, 1, 1), sd) for sd in SIDES}
+    door_type("run-exitdoor", "Exit Door", states, build, kinds,
+              "Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); "
+              "fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside "
+              "(runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an "
+              "escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry)",
+              passable=("fake-open",), selection=sel)
+
+
+def chained_door():
+    def chain_run(p0, p1, zc, part):
+        """Links along a line from p0 to p1 in the door's 16 x 32 face; each link is drawn in the half it falls in."""
+        (x0, y0), (x1, y1) = p0, p1
+        length = math.hypot(x1 - x0, y1 - y0)
+        ang = math.degrees(math.atan2(y1 - y0, x1 - x0))
+        n = int(length / 1.9)
+        els = []
+        for k in range(n):
+            t = (k + 0.5) / n
+            cx, cy = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t
+            if (cy < 16) != (part == "lower"):
+                continue
+            cy -= 0 if part == "lower" else 16
+            if k % 2 == 0:
+                lo, hi = (cx - 1.2, cy - 0.5, zc - 0.25), (cx + 1.2, cy + 0.5, zc + 0.25)
+            else:
+                lo, hi = (cx - 1.2, cy - 0.25, zc - 0.5), (cx + 1.2, cy + 0.25, zc + 0.5)
+            els.append(bx(f"Link{k}", lo, hi, "chain", rot=(0, 0, ang), origin=(cx, cy, zc)))
+        return els
+
+    def build(st, part):
+        els = frame("steelframe", upper=part == "upper")
+        bolt_y = (1, 2.5) if part == "lower" else (13.5, 15)
+        els += [bx("BoltL", (-1.2, bolt_y[0], -1.8), (0.3, bolt_y[1], -0.6), "chain"),
+                bx("BoltR", (15.7, bolt_y[0], -1.8), (17.2, bolt_y[1], -0.6), "chain")]
+        if st == "broken":
+            # Torn out: chain ends hanging from the bolts, the leaf flat on the floor in front of the doorway
+            if part == "upper":
+                for side_x, sgn in ((0, 1), (16, -1)):
+                    els += chain_run((side_x, 30), (side_x + sgn * 2, 22), -1.2, "upper")
+            else:
+                els += [bx("Leaf", (0.5, 0, -29), (15.5, 2, 0), "chaindoor-lower", faces=("up",), uv=[0, 0, 16, 16]),
+                        bx("LeafEdge", (0.5, 0, -29), (15.5, 2, 0), "steel", faces=("north", "south", "east", "west"))]
+                els[-2]["rotationX"] = -8
+                els[-2]["rotationOrigin"] = [8, 0, -29]
+                els[-1]["rotationX"] = -8
+                els[-1]["rotationOrigin"] = [8, 0, -29]
+                els += chain_run((1, 4), (4, 1), -1.2, "lower") + [bx("Padlock", (5, 0, -6), (8, 2, -2), "padlock")]
+            return els
+        z = -0.4 if st == "intact" else -2.6
+        els += leaf("chaindoor-" + part, "steel")
+        if st == "bulging":
+            # Bowed into the room: the middle of the leaf pushed out, the chains drawn taut over it
+            if part == "lower":
+                els += [bx("Bow1", (1.5, 2, -0.5), (14.5, 16, 1), "chaindoor-lower", faces=("north", "east", "west", "down")),
+                        bx("Bow2", (4, 6, -2), (12, 16, -0.5), "chaindoor-lower", faces=("north", "east", "west", "down"))]
+            else:
+                els += [bx("Bow1", (1.5, 0, -0.5), (14.5, 14, 1), "chaindoor-upper", faces=("north", "east", "west", "up")),
+                        bx("Bow2", (4, 0, -2), (12, 10, -0.5), "chaindoor-upper", faces=("north", "east", "west", "up"))]
+        els += chain_run((0, 30), (16, 2), z, part) + chain_run((16, 30), (0, 2), z, part)
+        if part == "lower":
+            els += [bx("Padlock", (6.5, 11, z - 1.5), (9.5, 14.5, z + 0.5), "padlock"),
+                    bx("Shackle", (7, 14.5, z - 1), (9, 16, z), "shackle")]
+        return els
+    door_type("run-chaineddoor", "Chained Door", ["intact", "bulging", "broken"], build,
+              {"intact": "runchained", "bulging": "runchained"},
+              "Level !: the start room's chained door, the horde behind it. intact, bulging (bowed into the room), broken "
+              "(torn out, the leaf lying in front of the doorway)", passable=("broken",))
+
+
+def hall_door():
+    def build(st, part):
+        els = frame("hallframe", upper=part == "upper")
+        if st == "closed":
+            els += leaf("halldoor-" + part, "halldoor-back")
+            if part == "lower":
+                els += [bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"), bx("Lever", (10, 13.8, -0.6), (14, 14.8, 0.4), "chrome")]
+        else:
+            # Swung right round and flat against the wall beside the doorway
+            els += [bx("Leaf", (17.5, 0, -2.2), (33.5, 16, -0.2), "halldoor-back"),
+                    bx("Hinge", (16, 4 if part == "lower" else 10, -2.2), (17.5, 7 if part == "lower" else 13, -0.2), "steelframe")]
+        return els
+    door_type("run-halldoor", "Hospital Door", ["closed", "open"], build, {"closed": "runhall"},
+              "Level !: the start room's door to the hallway, which sticks; open, it lies flat against the wall. Also the "
+              "Safe Zone's side-room doors (open)", material="Wood", sounds=WOOD, passable=("open",))
+
+
+# ======================= Props =======================
+
+def octagon(name_, axis, c, r, half, t, glow=0):
+    """A wheel or disc: a square and the same square turned 45 degrees, about an axis through c."""
+    cx, cy, cz = c
+    if axis == "x":
+        a = bx(name_, (cx - half, cy - r, cz - r), (cx + half, cy + r, cz + r), t, glow)
+        b = bx(name_ + "45", (cx - half, cy - r, cz - r), (cx + half, cy + r, cz + r), t, glow, rot=(45, 0, 0), origin=c)
+    else:
+        a = bx(name_, (cx - r, cy - r, cz - half), (cx + r, cy + r, cz + half), t, glow)
+        b = bx(name_ + "45", (cx - r, cy - r, cz - half), (cx + r, cy + r, cz + half), t, glow, rot=(0, 0, 45), origin=c)
+    return [a, b]
+
+
+def castor(n, x, z):
+    return [bx(f"Fork{n}", (x - 0.5, 1.5, z - 0.5), (x + 0.5, 3, z + 0.5), "chrome"),
+            bx(f"Castor{n}", (x - 0.75, 0, z - 1.2), (x + 0.75, 1.8, z + 1.2), "rubber")]
+
+
+def clip(els, axis, lo, hi, shift_by):
+    """Keeps the parts of boxes between lo and hi on an axis, moved by shift_by (for props spanning two blocks)."""
+    out = []
+    i = "xyz".index(axis)
+    for e in els:
+        e = json.loads(json.dumps(e))
+        a, b = e["from"][i], e["to"][i]
+        if b <= lo or a >= hi:
+            continue
+        if "rotationOrigin" not in e:
+            e["from"][i], e["to"][i] = max(a, lo), min(b, hi)
+        e["from"][i] += shift_by
+        e["to"][i] += shift_by
+        if "rotationOrigin" in e:
+            e["rotationOrigin"][i] += shift_by
+        # Faces keep their texture scale: recompute plain UVs from the new size
+        sizes = _sizes(e)
+        for f, face in e["faces"].items():
+            if face["uv"][0] == 0 and face["uv"][1] == 0:
+                a2, b2 = sizes[f]
+                face["uv"] = [0, 0, min(16, max(a2, 0.5)), min(16, max(b2, 0.5))]
+        out.append(e)
+    return out
+
+
+def _sizes(e):
+    (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+    w, h, d = abs(x2 - x1), abs(y2 - y1), abs(z2 - z1)
+    return {"north": (w, h), "south": (w, h), "east": (d, h), "west": (d, h), "up": (w, d), "down": (w, d)}
+
+
+def props():
+    # Gurney: modelled head to the north across two blocks (head, foot), like the hospital bed
+    gurney = [bx("Mattress", (1, 9, 1), (15, 12, 31), "sheet"),
+              bx("Pillow", (3, 12, 1.8), (13, 13.5, 6), "pillow"),
+              bx("Fold", (1.2, 12, 22), (14.8, 13, 30), "sheet"),
+              bx("Deck", (0.8, 8, 0.6), (15.2, 9, 31.4), "gurneyframe"),
+              bx("RailUpper", (0.2, 15, 3), (1.2, 16, 29), "chrome"),
+              bx("PostA", (0.2, 12, 4), (1.2, 15, 5), "chrome"), bx("PostB", (0.2, 12, 27), (1.2, 15, 28), "chrome"),
+              bx("RailLowered", (15, 9.5, 3), (16, 10.5, 29), "chrome"),
+              bx("PushBar", (2, 13, 0), (14, 14, 1), "chrome"), bx("PushPostL", (2, 9, 0), (3, 13, 1), "chrome"),
+              bx("PushPostR", (13, 9, 0), (14, 13, 1), "chrome")]
+    for n, (x, z) in enumerate(((2, 3), (14, 3), (2, 29), (14, 29))):
+        gurney += [bx(f"Leg{n}", (x - 0.5, 3, z - 0.5), (x + 0.5, 8, z + 0.5), "chrome")] + castor(n, x, z)
+    prop("run-gurney", "Gurney", {"head": clip(gurney, "z", 0, 16, 0), "foot": clip(gurney, "z", 16, 32, -16)},
+         box=(0, 0, 0, 1, 0.8, 1), material="Metal", sounds=METAL,
+         comment="A hospital gurney left in the hall, two blocks long (head, foot; head to the north). 0.8 high",
+         extra={"drops": drops(("metalbracket", 1, 0.5), ("game:cloth-plain", 0.5, 0.5))})
+
+    # Wheelchair, footplates to the north
+    chair = [bx("Seat", (2.5, 7, 3), (13.5, 8, 13), "seatvinyl"),
+             bx("Back", (2.5, 8, 13), (13.5, 16, 14), "seatvinyl"),
+             bx("ArmL", (1.8, 11, 4), (2.6, 11.8, 13), "chrome"), bx("ArmR", (13.4, 11, 4), (14.2, 11.8, 13), "chrome"),
+             bx("ArmPostL", (1.8, 7, 4.5), (2.6, 11, 5.3), "chrome"), bx("ArmPostR", (13.4, 7, 4.5), (14.2, 11, 5.3), "chrome"),
+             bx("FrameL", (1.8, 6.2, 2), (2.6, 7, 14), "chrome"), bx("FrameR", (13.4, 6.2, 2), (14.2, 7, 14), "chrome"),
+             bx("UprightL", (2, 7, 13.8), (2.8, 17, 14.6), "chrome"), bx("UprightR", (13.2, 7, 13.8), (14, 17, 14.6), "chrome"),
+             bx("HandleL", (2, 16.2, 14.6), (2.8, 17, 16.6), "rubber"), bx("HandleR", (13.2, 16.2, 14.6), (14, 17, 16.6), "rubber"),
+             bx("LegL", (3, 3, 1.8), (3.8, 7, 2.6), "chrome"), bx("LegR", (12.2, 3, 1.8), (13, 7, 2.6), "chrome"),
+             bx("FootL", (3, 2.6, 0.2), (7.2, 3.2, 3), "beamsteel"), bx("FootR", (8.8, 2.6, 0.2), (13, 3.2, 3), "beamsteel")]
+    chair += octagon("WheelL", "x", (1, 6.5, 10), 6.5, 0.6, "tyre") + octagon("WheelR", "x", (15, 6.5, 10), 6.5, 0.6, "tyre")
+    chair += [bx("HubL", (0.2, 5.5, 9), (2, 7.5, 11), "chrome"), bx("HubR", (14, 5.5, 9), (15.8, 7.5, 11), "chrome")]
+    chair += castor(0, 3.4, 3) + castor(1, 12.6, 3)
+    prop("run-wheelchair", "Wheelchair", chair, box=(0, 0, 0, 1, 0.9, 1), material="Metal", sounds=METAL,
+         comment="An empty wheelchair, footplates to the north. 0.9 high",
+         extra={"drops": drops(("metalbracket", 1.5, 0.5), ("game:cloth-plain", 0.3, 0.3))})
+
+    # IV stand: a tall chrome pole on a five-arm base, a bag on a hook
+    iv = [bx("Pole", (7.5, 1, 7.5), (8.5, 28, 8.5), "chrome"),
+          bx("HookBar", (5, 27, 7.6), (11, 27.7, 8.4), "chrome"),
+          bx("Bag", (8.7, 19, 7.4), (11.7, 25, 8.6), "ivbag"),
+          bx("Port", (9.9, 18, 7.8), (10.5, 19, 8.2), "ivbag"),
+          bx("Line", (10, 4, 7.9), (10.4, 18, 8.3), "ivbag"),
+          bx("Hub", (7, 0.5, 7), (9, 2, 9), "chrome")]
+    for k in range(5):
+        iv.append(bx(f"Arm{k}", (8, 0.6, 7.6), (14, 1.4, 8.4), "chrome", rot=(0, k * 72, 0), origin=(8, 1, 8)))
+    prop("run-ivstand", "IV Stand", iv, box=(0.35, 0, 0.35, 0.65, 1, 0.65), material="Metal", sounds=METAL,
+         comment="An IV stand with a bag still hanging", extra={"drops": drops(("metalbracket", 0.6, 0.4), ("scrapwire", 0.3, 0.3))})
+
+    # Waiting room chairs: two moulded seats on one steel beam, facing north
+    wc = [bx("Beam", (1, 5.5, 7), (15, 6.5, 9), "beamsteel")]
+    for n, x in enumerate((1.2, 8.8)):
+        wc += [bx(f"Seat{n}", (x, 6.5, 4.5), (x + 6, 7.5, 10.5), "chairplastic"),
+               bx(f"Back{n}", (x, 7.5, 10.5), (x + 6, 13.5, 11.5), "chairplastic", rot=(-8, 0, 0), origin=(x + 3, 7.5, 11)),
+               bx(f"Lip{n}", (x, 6, 4.2), (x + 6, 7.2, 4.8), "chairplastic")]
+    wc += [bx("ArmMid", (7.5, 6.5, 6), (8.5, 10, 10), "beamsteel"), bx("ArmTop", (7.4, 10, 5.5), (8.6, 10.6, 10.5), "rubber")]
+    for n, x in enumerate((2.5, 13.5)):
+        wc += [bx(f"Leg{n}", (x - 0.5, 0.8, 7.5), (x + 0.5, 5.5, 8.5), "beamsteel"),
+               bx(f"Foot{n}", (x - 0.6, 0, 4), (x + 0.6, 0.8, 12), "beamsteel")]
+    prop("run-chairs", "Waiting Room Chairs", wc, box=(0.05, 0, 0.2, 0.95, 0.9, 0.8), material="Metal", sounds=METAL,
+         comment="Two moulded seats on a steel beam, facing north", extra={"drops": drops(("metalbracket", 1, 0.5))})
+
+    # Crash cart: red drawers to the north, a defibrillator on top
+    cart = [bx("Body", (2, 2.5, 3), (14, 15, 13), "cartside", faces=("east", "south", "west", "up", "down")),
+            bx("Front", (2, 2.5, 3), (14, 15, 13), "cartfront", faces=("north",), full=True),
+            bx("Defib", (4, 15, 5), (12, 18, 11), "defib", faces=("up",), uv=[0, 0, 16, 16]),
+            bx("DefibSides", (4, 15, 5), (12, 18, 11), "rubber", faces=("north", "east", "south", "west")),
+            bx("RailN", (1.5, 15, 2.5), (14.5, 16, 3.3), "chrome"), bx("RailS", (1.5, 15, 12.7), (14.5, 16, 13.5), "chrome"),
+            bx("Handle", (14, 12, 4), (15, 13, 12), "chrome"), bx("HandlePostA", (14, 12, 4), (15.2, 13, 5), "chrome"),
+            bx("Bin", (0.6, 9, 6), (2, 13, 10), "cartside")]
+    for k, y in enumerate((4.2, 6.6, 9, 11.4, 13.8)):
+        cart.append(bx(f"Pull{k}", (5, y, 2.2), (11, y + 0.8, 3), "chrome"))
+    for n, (x, z) in enumerate(((3, 4), (13, 4), (3, 12), (13, 12))):
+        cart += castor(n, x, z)
+    prop("run-crashcart", "Crash Cart", cart, box=(0.06, 0, 0.12, 0.94, 1, 0.88), material="Metal", sounds=METAL,
+         comment="A red crash cart with a defibrillator on top, drawers to the north",
+         extra={"drops": drops(("game:bandage-clean", 0.5, 0.5), ("scrapwire", 1, 0.5), ("metalbracket", 1, 0.5))})
+
+    # Steel shelving: standing in a door recess (two blocks), and toppled across the hall (two blocks along X)
+    st = []
+    for n, (x, z) in enumerate(((1, 10), (14, 10), (1, 15), (14, 15))):
+        st.append(bx(f"Upright{n}", (x, 0, z), (x + 1, 32, z + 1), "shelfblue"))
+    for n, y in enumerate((1, 11, 21, 30.5)):
+        st.append(bx(f"Shelf{n}", (1, y, 10), (15, y + 1, 16), "shelfblue"))
+    boxes = [bx("BoxA", (2, 2, 10.5), (7, 6.5, 15.5), "runbox"), bx("BoxB", (8, 2, 11), (13.5, 5, 15.5), "runbox"),
+             bx("BoxC", (3, 12, 11), (8, 16.5, 15.5), "runbox"), bx("BoxD", (9.5, 12, 10.5), (13.5, 15, 15), "runbox"),
+             bx("BoxE", (2.5, 22, 11), (6.5, 25, 15), "runbox")]
+    standing = st + boxes
+    # Toppled forward on its side, two blocks long: fallen-a where it stood and fallen-b one tile further on toward
+    # <side>. Modelled for side north, so b lies north of a: the shelf's base at a's south edge, its top at b's north
+    fallen = []
+    for e in st:
+        (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+        fallen.append(bx(e["name"], (z1 - 5, x1 - 1, -y2), (z2 - 5, x2 - 1, -y1), "shelfblue"))
+    spilled = [bx("SpillA", (0.5, 0, -4.5), (4.5, 3, -0.5), "runbox", rot=(0, 20, 0)), bx("SpillB", (12, 0, -13), (16, 3, -9), "runbox", rot=(0, -15, 0)),
+               bx("SpillC", (0.8, 0, -23), (4.8, 3, -19), "runbox", rot=(0, 35, 0)), bx("SpillD", (11.5, 0, -30), (15.5, 2.5, -26), "runbox")]
+    fallen += spilled
+    shelf = {"standing-lower": clip(standing, "y", 0, 16, 0), "standing-upper": clip(standing, "y", 16, 32, -16),
+             "fallen-a": clip(fallen, "z", -16, 0, 16), "fallen-b": clip(fallen, "z", -32, -16, 32)}
+    prop("run-shelf", "Steel Shelving", shelf, box=(0.05, 0, 0.6, 0.95, 1, 1), material="Metal", sounds=METAL,
+         comment="Blue steel shelving. standing-lower/upper: in a door recess, back to the wall, front to <side> (the way it "
+                 "will fall). fallen-a/b: toppled on its side across the hall, 0.875 high (jump it); a where it stood, b the "
+                 "next tile toward <side>",
+         extra={"drops": drops(("metalbracket", 2, 1), ("game:paper-parchment", 0.5, 0.5))})
+    data_path = os.path.join(ASSETS, "blocktypes", TAG, "run-shelf.json")
+    with open(data_path, encoding="utf-8") as f:
+        head, _, body = f.read().partition("\n")
+    data = json.loads(body)
+    coll = {f"*-standing-*-{sd}": K.cuboid((0.05, 0, 0.6, 0.95, 1, 1), sd) for sd in SIDES}
+    coll.update({f"*-fallen-*-{sd}": K.cuboid((0.3, 0, 0, 0.7, 0.875, 1), sd) for sd in SIDES})
+    data["collisionboxByType"] = coll
+    data["selectionboxByType"] = coll
+    write_json(data_path, data, head[3:])
+
+    # What trips a runner in the dark: a toy car, two boxes, an extension cord
+    car = [bx("Body", (5, 0.8, 6), (11, 2.6, 10), "toyred"), bx("Cab", (6, 2.6, 6.8), (9.5, 3.8, 9.2), "toyyellow"),
+           bx("Bumper", (4.6, 0.8, 6.5), (5, 1.8, 9.5), "toyyellow")]
+    for n, (x, z) in enumerate(((6, 5.6), (10, 5.6), (6, 10.4), (10, 10.4))):
+        car.append(bx(f"Wheel{n}", (x - 0.8, 0, z - 0.6), (x + 0.8, 1.6, z + 0.6), "rubber"))
+    car = [dict(e, rotationY=25, rotationOrigin=[8, 0, 8]) for e in car]
+    prop("run-toycar", "Toy Car", car, box=(0.25, 0, 0.3, 0.75, 0.25, 0.7), collide=False, material="Wood", sounds=WOOD,
+         comment="A child's toy car on the floor, hard to see in the dark (trips a sprinter)", extra={"drops": []})
+    bxs = [bx("Big", (2, 0, 4), (7, 4, 9), "runbox", faces=("north", "east", "south", "west", "down")),
+           bx("BigTop", (2, 0, 4), (7, 4, 9), "runboxtop", faces=("up",), uv=[0, 0, 16, 16]),
+           bx("Small", (9, 0, 8), (13, 3, 12), "runbox", faces=("north", "east", "south", "west", "down"), rot=(0, 30, 0)),
+           bx("SmallTop", (9, 0, 8), (13, 3, 12), "runboxtop", faces=("up",), uv=[0, 0, 16, 16], rot=(0, 30, 0))]
+    prop("run-boxes", "Boxes", bxs, box=(0.1, 0, 0.2, 0.85, 0.25, 0.8), collide=False, material="Wood", sounds=CLOTH,
+         comment="Two small cardboard boxes dropped in the hall (trip a sprinter)",
+         extra={"drops": drops(("game:paper-parchment", 0.5, 0.5))})
+    cord = []
+    for k in range(4):
+        x = 7.5 + (1 if k % 2 else -0.5)
+        cord.append(bx(f"Cord{k}", (x, 0, k * 4), (x + 1, 0.8, k * 4 + 4.2), "cord"))
+        if k:
+            cord.append(bx(f"Bend{k}", (7, 0, k * 4 - 0.5), (9.5, 0.8, k * 4 + 0.5), "cord"))
+    cord += [bx("Plug", (6.5, 0, 13.5), (8.5, 2, 16), "plug"), bx("Prong1", (6.9, 0.5, 16), (7.3, 1.5, 17), "chrome"),
+             bx("Prong2", (7.7, 0.5, 16), (8.1, 1.5, 17), "chrome")]
+    prop("run-cord", "Extension Cord", cord, box=(0.4, 0, 0, 0.6, 0.1, 1), collide=False, material="Cloth", sounds=CLOTH,
+         comment="An orange extension cord stretched across the hall, along the model's Z (north-south when facing north)",
+         extra={"drops": drops(("scrapwire", 1, 0.5))})
+    sheets = [bx("Sheet", (1, 0, 1), (15, 0.6, 15), "sheet"), bx("Fold1", (2, 0.6, 2.5), (13, 1.5, 5), "sheet"),
+              bx("Fold2", (3, 0.6, 6.5), (15, 1.9, 9.5), "sheet"), bx("Fold3", (1.5, 0.6, 10.5), (10, 1.3, 14), "sheet"),
+              bx("Fold4", (5, 1.5, 7.2), (12, 2.4, 8.8), "sheet")]
+    prop("run-sheets", "Bedsheets", sheets, box=(0.06, 0, 0.06, 0.94, 0.15, 0.94), collide=False, material="Cloth", sounds=CLOTH,
+         comment="Rumpled bedsheets on the floor (fuel for a sign burst's fire)", extra={"drops": drops(("game:cloth-plain", 1, 0.5))})
+    remains = [bx("Smear", (1, 0, 3), (15, 0.2, 15), "smear", faces=("up",), uv=[0, 0, 16, 16]),
+               bx("Pack", (3, 0, 2), (9, 6, 6), "pack", rot=(0, 0, -12), origin=(3, 0, 4)),
+               bx("PackFlap", (3.5, 5.5, 2.5), (8.5, 6.5, 6.5), "pack", rot=(-20, 0, -12), origin=(3, 0, 4)),
+               bx("Strap", (4, 0.5, 6), (5, 4, 7.5), "pack"),
+               bx("Sole", (10, 0, 9), (13, 0.8, 15), "sole", rot=(0, 25, 0), origin=(11.5, 0, 12)), bx("Shoe", (10.2, 0.8, 9.5), (12.8, 2.4, 14), "sneaker", rot=(0, 25, 0), origin=(11.5, 0, 12)),
+               bx("Heel", (10.2, 0.8, 13), (12.8, 3, 14.6), "sneaker", rot=(0, 25, 0), origin=(11.5, 0, 12))]
+    prop("run-remains", "A Runner's Remains", remains, box=(0.06, 0, 0.12, 0.94, 0.4, 0.94), collide=False, material="Cloth", sounds=CLOTH,
+         comment="What is left of someone who didn't make it: a torn pack, one sneaker, a dark smear",
+         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("almondwater", 0.2, 0), ("hub-key-run", 0.15, 0))})
+
+    # Supply tray on a stool in a door recess, with an Energy Bar or a bottle of Almond Water on it
+    stool = [bx("Seat", (4.5, 7, 4.5), (11.5, 8, 11.5), "stoolseat")] + [
+        bx(f"Leg{n}", (x, 0, z), (x + 0.8, 7, z + 0.8), "chrome") for n, (x, z) in enumerate(((5, 5), (10.2, 5), (5, 10.2), (10.2, 10.2)))]
+    stool += [bx("Dish", (4.8, 8, 6.4), (11.2, 9, 9.6), "dish"), bx("DishEndL", (4.2, 8, 7), (4.8, 9, 9), "dish"),
+              bx("DishEndR", (11.2, 8, 7), (11.8, 9, 9), "dish")]
+    tray = {"bar": stool + [bx("Bar", (6, 9, 7.2), (10, 9.9, 8.8), "foil", rot=(0, 15, 0))],
+            "water": stool + [bx("Bottle", (7.2, 9, 7.2), (8.8, 13, 8.8), "almondbottle"),
+                              bx("Neck", (7.6, 13, 7.6), (8.4, 14, 8.4), "almondbottle"),
+                              bx("Cap", (7.5, 14, 7.5), (8.5, 14.7, 8.5), "bottlecap")]}
+    prop("run-tray", "Supply Tray", tray, box=(0.25, 0, 0.25, 0.75, 0.6, 0.75), material="Metal", sounds=METAL,
+         comment="A kidney dish on a stool in a door recess: an Energy Bar (bar) or Almond Water (water)",
+         extra={"resistance": 0.2, "dropsByType": {"*-bar-*": drops(("run-energybar", 1, 0)), "*-water-*": drops(("almondwater", 1, 0))}})
+    name("run-tray-*", "Supply Tray")
+
+    bedside = [bx("Body", (2, 0.5, 2), (14, 14, 14), "bedside"),
+               bx("Top", (1.5, 14, 1.5), (14.5, 15, 14.5), "bedside"),
+               bx("Drawer", (2.5, 10, 1.4), (13.5, 13.5, 2), "bedsidefront", faces=("north",), full=True),
+               bx("DrawerSides", (2.5, 10, 1.4), (13.5, 13.5, 2), "bedside", faces=("east", "west", "up", "down")),
+               bx("Handle", (6, 11.3, 0.6), (10, 12.3, 1.4), "chrome"),
+               bx("Door", (2.5, 1.5, 1.4), (13.5, 9.5, 2), "bedsidefront", faces=("north",), full=True),
+               bx("DoorSides", (2.5, 1.5, 1.4), (13.5, 9.5, 2), "bedside", faces=("east", "west", "up", "down")),
+               bx("Knob", (11, 5, 0.8), (12, 6, 1.4), "chrome"),
+               bx("Plinth", (2.4, 0, 2.4), (13.6, 0.5, 13.6), "rubber"),
+               bx("Cup", (9.5, 15, 9), (11.5, 17.5, 11), "dish")]
+    prop("run-bedside", "Bedside Table", bedside, box=(0.125, 0, 0.125, 0.875, 0.94, 0.875), material="Wood", sounds=WOOD,
+         comment="The start room's bedside table: 1 Almond Water and 1-2 Energy Bars inside",
+         extra={"resistance": 1, "drops": drops(("almondwater", 1, 0), ("run-energybar", 1.5, 0.5))})
+
+    # Medicine cabinet: a wall block (rel 2) with the cabinet on face <side>, at eye height
+    cab = [bx("Wall", (0, 0, 0), (16, 16, 16), "wall"),
+           bx("Box", (2, 0, -4), (14, 12, 0), "cabinet"),
+           bx("Front", (2.2, 0.2, -4.4), (13.8, 11.8, -4), "cabinetfront", faces=("north",), full=True),
+           bx("FrontSides", (2.2, 0.2, -4.4), (13.8, 11.8, -4), "cabinet", faces=("east", "west", "up", "down")),
+           bx("Pin1", (1.6, 2, -4.4), (2.2, 3.5, -3.6), "chrome"), bx("Pin2", (1.6, 8.5, -4.4), (2.2, 10, -3.6), "chrome"),
+           bx("Catch", (12.8, 5, -4.8), (13.6, 7, -4.4), "chrome")]
+    by_type = {f"*-{sd}": {"base": shape("run-medcabinet", cab), "rotateY": ROTATE[sd]} for sd in SIDES}
+    block("run-medcabinet", {
+        "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightAbsorption": 99, "resistance": 1, "drops": drops(("game:bandage-clean", 1, 0)), "sounds": METAL,
+    }, "Level !: a wall block (rel 2) with a medicine cabinet on face <side>; breaks in a second for a clean bandage")
+    name("run-medcabinet-*", "Medicine Cabinet")
+
+    # The privacy curtain on its ceiling track: pleats from the floor up, an open mesh band and the track at the top
+    def pleats(y0, y1):
+        out = []
+        for k in range(8):
+            z = 7 if k % 2 == 0 else 8
+            out.append(bx(f"Pleat{k}", (2 * k, y0, z), (2 * k + 2, y1, z + 1), "curtain"))
+        return out
+    curtain = {"lower": pleats(1.5, 16), "middle": pleats(0, 16), "upper": pleats(0, 16),
+               "top": [bx("Mesh", (0, 0, 7.6), (16, 13, 8.4), "curtainmesh", faces=("north", "south")),
+                       bx("Track", (0, 15, 7), (16, 16, 9), "steelframe")] +
+                      [bx(f"Hook{k}", (2 * k + 0.6, 13, 7.6), (2 * k + 1.4, 15, 8.4), "chrome") for k in range(0, 8, 2)]}
+    by_type = {}
+    for part, els in curtain.items():
+        path = shape(f"run-curtain-{part}", els)
+        by_type[f"*-{part}-we"] = {"base": path, "rotateY": 0}
+        by_type[f"*-{part}-ns"] = {"base": path, "rotateY": 90}
+    block("run-curtain", {
+        "variantgroups": [{"code": "part", "states": list(curtain)}, {"code": "axis", "states": ["we", "ns"]}],
+        "creativeinventory": {"general": ["*-lower-we"], "decorative": ["*-lower-we"]},
+        "blockmaterial": "Cloth", "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "collisionbox": None,
+        "selectionboxByType": {"*-we": {"x1": 0, "y1": 0, "z1": 0.4, "x2": 1, "y2": 1, "z2": 0.6},
+                               "*-ns": {"x1": 0.4, "y1": 0, "z1": 0, "x2": 0.6, "y2": 1, "z2": 1}},
+        "lightAbsorption": 0, "resistance": 0.5, "drops": drops(("game:cloth-plain", 0.5, 0.5)), "sounds": CLOTH,
+    }, "Level !: a pale green privacy curtain, walk-through. Stacked rel 1-4: lower, middle, upper, top (the mesh band and "
+       "the ceiling track). Axis we: the curtain runs west-east (its faces look north and south)")
+    name("run-curtain-*", "Privacy Curtain")
+
+    # The Safe Zone: wire shelving with supplies (back to the wall), a cot (two blocks)
+    ws = [bx(f"Post{n}", (x, 0, z), (x + 0.6, 16, z + 0.6), "wirepost") for n, (x, z) in enumerate(((1, 11), (14.4, 11), (1, 15.4), (14.4, 15.4)))]
+    for n, y in enumerate((1.5, 7, 12.5)):
+        ws.append(bx(f"Wire{n}", (1, y, 11), (15, y + 0.4, 16), "wireshelf", faces=("up", "down")))
+        ws.append(bx(f"Lip{n}", (1, y + 0.4, 11), (15, y + 1, 11.4), "wirepost"))
+    for n, x in enumerate((2.5, 5, 7.5)):
+        ws += [bx(f"Bottle{n}", (x, 7.4, 12.5), (x + 1.6, 11.4, 14.1), "almondbottle"), bx(f"Cap{n}", (x + 0.4, 11.4, 12.9), (x + 1.2, 12, 13.7), "bottlecap")]
+    for n, y in enumerate((1.9, 2.8, 13.0)):
+        ws.append(bx(f"Bar{n}", (9.5 if n < 2 else 4, y, 12), (13.5 if n < 2 else 8, y + 0.9, 13.8), "foil", rot=(0, (-8, 12, 5)[n], 0)))
+    prop("run-safeshelf", "Shelf", ws, box=(0.06, 0, 0.68, 0.94, 1, 1), material="Metal", sounds=METAL,
+         comment="White wire shelving in a Safe Zone side room, back to the south wall: Almond Water and Energy Bars",
+         extra={"resistance": 1, "drops": drops(("almondwater", 1, 0), ("run-energybar", 1.5, 0.5))})
+    cot = [bx("Blanket", (1.2, 6, 1), (14.8, 8, 31), "cotblanket"), bx("Pillow", (3, 8, 1.6), (13, 9.3, 6), "pillow"),
+           bx("RailL", (0.8, 5, 0.6), (1.6, 6, 31.4), "chrome"), bx("RailR", (14.4, 5, 0.6), (15.2, 6, 31.4), "chrome"),
+           bx("EndN", (0.8, 5, 0.6), (15.2, 6, 1.4), "chrome"), bx("EndS", (0.8, 5, 30.6), (15.2, 6, 31.4), "chrome")]
+    for n, z in enumerate((2, 16, 30)):
+        cot += [bx(f"LegL{n}", (1, 0, z - 0.4), (1.8, 5, z + 0.4), "chrome"), bx(f"LegR{n}", (14.2, 0, z - 0.4), (15, 5, z + 0.4), "chrome"),
+                bx(f"Brace{n}", (1.8, 0.4, z - 0.3), (14.2, 1, z + 0.3), "chrome")]
+    prop("run-safecot", "Cot", {"head": clip(cot, "z", 0, 16, 0), "foot": clip(cot, "z", 16, 32, -16)},
+         box=(0, 0, 0, 1, 0.5, 1), material="Cloth", sounds=CLOTH,
+         comment="A cot in a Safe Zone side room, two blocks (head, foot; head to the north). Decor, not a bed",
+         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("metalbracket", 1, 0.5))})
+
+    # Fallen ceiling: shards of tile and a bent T-bar
+    debris = [bx("Shard1", (2, 0, 2), (8, 0.6, 7), "ceiltile", rot=(0, 20, 6), origin=(5, 0, 4.5)),
+              bx("Shard2", (9, 0, 3), (13, 0.6, 7), "ceiltile", rot=(0, -35, 0)),
+              bx("Shard3", (4, 0, 9), (9, 0.6, 13), "ceiltile", rot=(8, 50, 0), origin=(6.5, 0, 11)),
+              bx("Shard4", (11, 0, 10), (14, 0.6, 13), "ceiltile", rot=(0, 10, 0)),
+              bx("Chip1", (7.5, 0, 7.5), (9, 0.5, 9), "ceiltile"), bx("Chip2", (3, 0, 13.5), (4.2, 0.4, 14.7), "ceiltile"),
+              bx("TbarA", (1, 0, 8), (9, 0.8, 8.6), "tbar", rot=(0, 30, 0), origin=(9, 0, 8.3)),
+              bx("TbarB", (9, 0, 8), (15, 0.8, 8.6), "tbar", rot=(0, -20, 10), origin=(9, 0, 8.3)),
+              bx("Dust", (3, 0, 3), (13, 0.1, 13), "ceiltile", faces=("up",))]
+    prop("run-debris", "Fallen Ceiling", debris, box=(0.06, 0, 0.06, 0.94, 0.1, 0.94), collide=False, material="Stone", sounds=STONE,
+         comment="Broken ceiling tiles and a bent T-bar on the floor (trips a sprinter)", extra={"drops": []})
+
+
+# ======================= Item: the Energy Bar =======================
+
+def items():
+    item_textures()
+    els = [bx("Bar", (3, 0, 6), (13, 2, 10), "foil", faces=("north", "south", "down"), uv=[0, 8, 16, 11]),
+           bx("Top", (3, 0, 6), (13, 2, 10), "foil", faces=("up",), uv=[0, 0, 16, 6]),
+           bx("CrimpL", (2, 0.3, 6.2), (3, 1.7, 9.8), "foil", uv=[0, 6, 2, 8]),
+           bx("CrimpR", (13, 0.3, 6.2), (14, 1.7, 9.8), "foil", uv=[0, 6, 2, 8]),
+           bx("CrimpLTip", (1.5, 0.6, 6.4), (2, 1.4, 9.6), "foil", uv=[0, 6, 2, 8]),
+           bx("CrimpRTip", (14, 0.6, 6.4), (14.5, 1.4, 9.6), "foil", uv=[0, 6, 2, 8])]
+    data = {"textureWidth": 16, "textureHeight": 16, "textures": {"foil": f"backrooms:item/{TAG}/energybar"}, "elements": els}
+    write_json(os.path.join(ASSETS, "shapes", "item", TAG, "energybar.json"), data)
+    data = {"code": "run-energybar", "class": "BackroomsEnergyBar", "maxstacksize": 16,
+            "shape": {"base": f"item/{TAG}/energybar"}, "textures": {"foil": {"base": f"item/{TAG}/energybar"}},
+            "creativeinventory": {"general": ["*"], "items": ["*"]},
+            "nutritionProps": {"satiety": 160, "foodcategory": "Grain"}, "materialDensity": 600,
+            "attributes": {"handbook": {"groupBy": ["run-energybar"]}}}
+    data.update(TRANSFORMS)
+    data["guiTransform"] = {"rotation": {"x": -30, "y": 40, "z": 0}, "origin": {"x": 0.5, "y": 0.1, "z": 0.5}, "scale": 2.6}
+    data["fpHandTransform"] = {"translation": {"x": 0, "y": 0.1, "z": 0.3}, "rotation": {"x": 0, "y": 80, "z": 10}, "scale": 1.8}
+    data["tpHandTransform"] = {"translation": {"x": -0.8, "y": -0.1, "z": -0.6}, "rotation": {"x": 0, "y": 0, "z": -10}, "scale": 0.8}
+    data["groundTransform"] = {"translation": {"x": 0, "y": 0, "z": 0}, "rotation": {"x": 0, "y": 0, "z": 0},
+                               "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2.5}
+    write_json(os.path.join(ASSETS, "itemtypes", TAG, "energybar.json"), data,
+               "Level !'s Energy Bar: food (satiety 160, Grain), and a second wind when eaten (BackroomsEnergyBar)")
+
+
+# ======================= Sounds =======================
+
+def fftconv(signal, kernel):
+    n = len(signal) + len(kernel)
+    m = 1 << (n - 1).bit_length()
+    return np.fft.irfft(np.fft.rfft(signal, m) * np.fft.rfft(kernel, m), m)[: len(signal)]
+
+
+def corridor(signal, rt60=1.4, slap=0.06, wet=0.35, seed=1):
+    """A long hard corridor: a slap echo off the far wall and a bright, long tail."""
+    rng = np.random.default_rng(seed)
+    out = np.copy(signal)
+    d = int(slap * RATE)
+    out[d:] += 0.45 * signal[:-d]
+    out[2 * d:] += 0.2 * signal[:-2 * d]
+    n = int(rt60 * RATE)
+    t = np.arange(n) / RATE
+    kernel = rng.normal(size=n) * np.exp(-6.9 * t / rt60)
+    kernel = band(kernel, 200, 5000)
+    kernel *= wet / np.sqrt(np.sum(kernel ** 2))
+    return out + fftconv(signal, kernel) * 1.5
+
+
+def periodic(make, period):
+    """Builds a seamless loop: renders three periods of a periodic source, processes them, keeps the middle one."""
+    full = make(3 * period)
+    n = int(period * RATE)
+    return full[n:2 * n]
+
+
+def wrap_place(out, sound, at):
+    i = int(at * RATE) % len(out)
+    n = len(sound)
+    end = i + n
+    if end <= len(out):
+        out[i:end] += sound
+    else:
+        k = len(out) - i
+        out[i:] += sound[:k]
+        out[: n - k] += sound[k:]
+
+
+def alarm_tone(length):
+    t = np.arange(int(length * RATE)) / RATE
+    hi = (np.floor(t / 0.5) % 2) == 0
+    f = np.where(hi, 880.0, 659.25)
+    phase = 2 * np.pi * np.cumsum(f) / RATE
+    # Square-ish: odd harmonics, then clipped hard through a cheap ceiling speaker
+    tone = sum(np.sin(k * phase) / k for k in (1, 3, 5, 7, 9))
+    tone = np.tanh(2.2 * tone)
+    # Each tone starts with a click of the relay
+    edge = (t % 0.5) < 0.004
+    tone += 0.3 * edge * np.sign(np.sin(phase))
+    tone = band(tone, 400, 3500)
+    tone += 0.12 * np.sin(2 * np.pi * 120 * t) * band(tone, 400, 3500)  # the speaker buzzing on mains
+    return tone
+
+
+def alarm_signals():
+    loud = periodic(lambda L: corridor(alarm_tone(L), 1.4, 0.06, 0.35, 11), 8.0)
+    # Muffled in the walls: the highs gone, a boom of the wall resonating with it
+    far = periodic(lambda L: band(corridor(alarm_tone(L), 1.8, 0.09, 0.5, 12), 120, 700), 8.0)
+    return loud, far
+
+
+def horde():
+    rng = np.random.default_rng(1401)
+    L = 6.0
+    n = int(L * RATE)
+    out = np.zeros(n)
+    # Feet and claws on vinyl, 20-30 a second
+    at = 0.0
+    while at < L:
+        if rng.random() < 0.6:
+            s = thud(0.08, rng.uniform(90, 160), rng, 0.9) * rng.uniform(0.3, 0.8)
+        else:
+            tt = seconds(0.03)
+            s = band(rng.normal(size=len(tt)), 2000, 7000) * np.exp(-tt * 160) * rng.uniform(0.2, 0.5)
+        wrap_place(out, s, at)
+        at += rng.uniform(0.025, 0.05)
+    # The growl bed: many low throats on an "oo"
+    t = np.arange(n) / RATE
+    bed = np.zeros(n)
+    for k in range(5):
+        f0 = rng.uniform(60, 120) * (1 + 0.04 * np.sin(2 * np.pi * (k + 1) / L * t + rng.uniform(0, 6)))
+        bed += vowel(t, f0, ((300, 90, 1), (870, 120, 0.4)), 0.5, rng) * (0.6 + 0.4 * np.sin(2 * np.pi * (k % 3 + 1) / L * t) ** 2)
+    out += 0.35 * bed / np.max(np.abs(bed))
+    # Barks
+    for b in range(3):
+        tt = seconds(0.22)
+        f0 = rng.uniform(320, 480) * (1 - 0.3 * tt / 0.22)
+        bark = vowel(tt, f0, ((700, 150, 1), (1200, 200, 0.7)), 0.6, rng) * np.exp(-tt * 12) * np.minimum(1, tt / 0.01)
+        wrap_place(out, 0.8 * bark / np.max(np.abs(bark)), rng.uniform(0, L))
+    # Shrieks
+    for s in range(2):
+        tt = seconds(0.6)
+        f = rng.uniform(2200, 3000) + 1200 * np.sin(np.pi * tt / 0.6)
+        sh = np.sin(2 * np.pi * np.cumsum(f) / RATE) + 0.4 * band(rng.normal(size=len(tt)), 2000, 4500)
+        wrap_place(out, 0.35 * sh * np.sin(np.pi * tt / 0.6) ** 2, rng.uniform(0, L))
+    # Moth wings overhead: noise beating at 25 Hz
+    flutter = band(rng.normal(size=n), 150, 1200) * (0.5 + 0.5 * np.sin(2 * np.pi * 25 * t)) ** 3
+    out += 0.12 * flutter / np.max(np.abs(flutter))
+    out = periodic_reverb(out, 0.8)
+    return out
+
+
+def periodic_reverb(loop, rt60):
+    tiled = np.concatenate([loop, loop, loop])
+    wet = corridor(tiled, rt60, 0.05, 0.25, 13)
+    n = len(loop)
+    return wet[n:2 * n]
+
+
+def safezone(far):
+    rng = np.random.default_rng(1402)
+    L = 10.0
+    n = int(L * RATE)
+    t = np.arange(n) / RATE
+    vent = band(rng.normal(size=n), 200, 2200) * 0.5 + 0.6 * np.sin(2 * np.pi * 120 * t) + 0.2 * np.sin(2 * np.pi * 240 * t)
+    vent *= 0.85 + 0.15 * np.sin(2 * np.pi * t / 5) ** 2
+    vent = periodic_reverb(vent, 0.3)
+    vent /= np.max(np.abs(vent))
+    ghost = np.tile(far, 2)[:n]  # the alarm is periodic in 1 s, so 10 s of it loops
+    ghost /= np.max(np.abs(ghost))
+    return 0.9 * vent + 0.1 * ghost
+
+
+def metal_ring(length, partials, rng, decay=6):
+    t = seconds(length)
+    out = np.zeros(len(t))
+    for f, a in partials:
+        out += a * np.sin(2 * np.pi * f * rng.uniform(0.98, 1.02) * t + rng.uniform(0, 6)) * np.exp(-t * decay * (f / 400) ** 0.5)
+    return out
+
+
+def rattle_tail(length, rng, rate=40, lo=2000, hi=6000):
+    t = seconds(length)
+    out = np.zeros(len(t))
+    at = 0.0
+    while at < length:
+        tt = seconds(0.012)
+        click = band(rng.normal(size=len(tt)), lo, hi) * np.exp(-tt * 300)
+        place(out, click * (1 - at / length) * rng.uniform(0.3, 1), at)
+        at += rng.exponential(1 / rate)
+    return out
+
+
+def bang(k):
+    rng = np.random.default_rng(1410 + k)
+    out = np.zeros(int(0.9 * RATE))
+    place(out, thud(0.5, rng.uniform(55, 75), rng, 1.2), 0.0)
+    place(out, 0.5 * metal_ring(0.8, [(180 + 20 * k, 1), (410 + 15 * k, 0.6), (730, 0.4), (1180, 0.25)], rng, 7), 0.0)
+    place(out, 0.35 * rattle_tail(0.65, rng), 0.05)
+    return corridor(out, 0.5, 0.03, 0.15, 20 + k)
+
+
+def doorbreak():
+    rng = np.random.default_rng(1420)
+    L = 2.2
+    n = int(L * RATE)
+    out = np.zeros(n)
+    # Tearing metal: a screech sweeping up through noise, juddering
+    tt = seconds(0.7)
+    f = 700 + 1300 * tt / 0.7
+    screech = np.sin(2 * np.pi * np.cumsum(f) / RATE) * (0.6 + 0.4 * np.sign(np.sin(2 * np.pi * 37 * tt)))
+    screech += 0.6 * band(rng.normal(size=len(tt)), 900, 3500)
+    place(out, 0.5 * screech * np.minimum(1, tt / 0.05), 0.0)
+    # A chain snapping: a ping, the links rattling away
+    place(out, 0.6 * metal_ring(0.6, [(2500, 1), (3900, 0.5)], rng, 4), 0.5)
+    place(out, 0.4 * rattle_tail(0.7, rng, 60), 0.52)
+    # The door slamming down onto the floor
+    place(out, 1.4 * thud(0.7, 48, rng, 1.4), 0.9)
+    place(out, 0.6 * metal_ring(1.0, [(140, 1), (330, 0.7), (610, 0.4)], rng, 4), 0.9)
+    # And the roar, swelling
+    t = seconds(1.4)
+    f0 = 85 * (1 + 0.1 * np.sin(2 * np.pi * 3 * t))
+    roar = vowel(t, f0, ((500, 200, 1), (900, 250, 0.6)), 0.9, rng) + 0.6 * band(rng.normal(size=len(t)), 200, 2500)
+    place(out, 0.7 * roar / np.max(np.abs(roar)) * np.minimum(1, t / 1.2) ** 2, 0.8)
+    return corridor(out, 0.9, 0.05, 0.2, 21)
+
+
+def slam():
+    rng = np.random.default_rng(1430)
+    out = np.zeros(int(1.2 * RATE))
+    place(out, 1.2 * thud(0.6, 52, rng, 1.2), 0.0)
+    place(out, 0.4 * metal_ring(0.6, [(160, 1), (390, 0.5)], rng, 8), 0.0)
+    tt = seconds(0.05)
+    place(out, 0.5 * band(rng.normal(size=len(tt)), 1500, 6000) * np.exp(-tt * 120), 0.13)  # the latch
+    return corridor(out, 0.8, 0.05, 0.2, 22)
+
+
+def rattle():
+    rng = np.random.default_rng(1440)
+    out = np.zeros(int(0.7 * RATE))
+    for at in (0.0, 0.18, 0.33):
+        place(out, 0.6 * metal_ring(0.15, [(1400, 1), (2300, 0.6)], rng, 25), at)
+        place(out, 0.5 * thud(0.1, 140, rng, 1.5), at + 0.01)
+        place(out, 0.3 * rattle_tail(0.12, rng, 120), at + 0.02)
+    return corridor(out, 0.4, 0.03, 0.1, 23)
+
+
+def swing():
+    rng = np.random.default_rng(1450)
+    out = np.zeros(int(0.8 * RATE))
+    tt = seconds(0.25)
+    whoosh = band(rng.normal(size=len(tt)), 200, 1500) * np.sin(np.pi * tt / 0.25) ** 2
+    place(out, 0.4 * whoosh, 0.0)
+    place(out, 1.1 * thud(0.35, 70, rng, 1.2), 0.24)
+    place(out, 0.5 * metal_ring(0.5, [(210, 1), (520, 0.5), (900, 0.3)], rng, 9), 0.24)
+    return corridor(out, 0.6, 0.04, 0.15, 24)
+
+
+def topple():
+    rng = np.random.default_rng(1460)
+    out = np.zeros(int(1.4 * RATE))
+    tt = seconds(0.35)  # a groan of steel as it goes over
+    groan = np.sin(2 * np.pi * np.cumsum(180 - 60 * tt / 0.35) / RATE) * band(rng.normal(size=len(tt)), 100, 800) * 2
+    place(out, 0.3 * groan * np.sin(np.pi * tt / 0.35), 0.0)
+    place(out, 1.3 * thud(0.5, 60, rng, 1.4), 0.38)
+    for k in range(5):
+        place(out, rng.uniform(0.3, 0.6) * metal_ring(0.5, [(rng.uniform(250, 700), 1), (rng.uniform(900, 1800), 0.5)], rng, 10), 0.38 + rng.uniform(0, 0.2))
+    for k in range(6):  # boxes tumbling
+        place(out, rng.uniform(0.2, 0.5) * band(thud(0.15, rng.uniform(90, 140), rng, 0.4), 60, 900), 0.5 + rng.uniform(0, 0.6))
+    return corridor(out, 0.7, 0.04, 0.18, 25)
+
+
+def signhiss():
+    rng = np.random.default_rng(1470)
+    L = 3.0
+    n = int(L * RATE)
+    t = np.arange(n) / RATE
+    saw = sum(np.sin(2 * np.pi * 120 * k * t) / k for k in range(1, 30))
+    buzz = np.tanh(3 * saw) * (0.6 + 0.4 * (rng.random(n) < 0.5))
+    buzz = band(buzz, 100, 6000)
+    out = 0.35 * buzz
+    for _ in range(26):  # crackles of arcing
+        tt = seconds(rng.uniform(0.005, 0.03))
+        wrap_place(out, rng.uniform(0.3, 1.0) * band(rng.normal(size=len(tt)), 2000, 9000) * np.exp(-tt * 200), rng.uniform(0, L))
+    # A whine rising and falling back, so the loop has no seam
+    f = 2600 + 1800 * np.sin(np.pi * t / L) ** 2
+    out += 0.12 * np.sin(2 * np.pi * np.cumsum(f) / RATE) * np.sin(np.pi * t / L) ** 2
+    return out
+
+
+def signburst():
+    rng = np.random.default_rng(1480)
+    out = np.zeros(int(1.6 * RATE))
+    tt = seconds(0.02)
+    place(out, 1.5 * rng.normal(size=len(tt)) * np.exp(-tt * 200), 0.0)  # pop
+    place(out, 1.0 * thud(0.25, 70, rng, 1.0), 0.0)
+    for _ in range(40):  # glass
+        tt = seconds(rng.uniform(0.05, 0.25))
+        f = rng.uniform(3000, 9000)
+        place(out, rng.uniform(0.1, 0.35) * np.sin(2 * np.pi * f * tt) * np.exp(-tt * rng.uniform(20, 50)), rng.uniform(0.02, 0.6))
+    t = seconds(1.3)  # whoosh of flame, crackling
+    flame = band(rng.normal(size=len(t)), 80, 1800) * np.minimum(1, t / 0.25) * np.exp(-np.maximum(0, t - 0.6) * 2)
+    flame += 0.5 * rattle_tail(1.3, rng, 30, 1500, 5000)
+    place(out, 0.6 * flame, 0.25)
+    return corridor(out, 0.6, 0.04, 0.15, 26)
+
+
+def ventburst():
+    rng = np.random.default_rng(1490)
+    out = np.zeros(int(1.0 * RATE))
+    place(out, 0.8 * metal_ring(0.6, [(520, 1), (1250, 0.7), (2100, 0.4)], rng, 10), 0.0)
+    place(out, 0.4 * rattle_tail(0.25, rng, 80), 0.02)
+    place(out, 1.2 * thud(0.4, 58, rng, 0.8), 0.32)
+    tt = seconds(0.25)
+    place(out, 0.25 * band(rng.normal(size=len(tt)), 600, 4000) * np.sin(np.pi * tt / 0.25), 0.45)  # claws scrabbling
+    return corridor(out, 0.6, 0.04, 0.15, 27)
+
+
+def heartbeat():
+    rng = np.random.default_rng(1500)
+    L = 2.0
+    out = np.zeros(int(L * RATE))
+    for k in range(4):
+        at = k * 0.5
+        lub = seconds(0.14)
+        place(out, np.sin(2 * np.pi * 50 * lub) * np.exp(-lub * 30) * np.minimum(1, lub / 0.01), at)
+        dub = seconds(0.12)
+        place(out, 0.65 * np.sin(2 * np.pi * 62 * dub) * np.exp(-dub * 34) * np.minimum(1, dub / 0.01), at + 0.14)
+    out += 0.02 * band(rng.normal(size=len(out)), 40, 200)
+    return band(out, 30, 400)
+
+
+def trip():
+    rng = np.random.default_rng(1510)
+    out = np.zeros(int(0.5 * RATE))
+    tt = seconds(0.09)
+    place(out, 0.5 * band(rng.normal(size=len(tt)), 900, 4500) * np.sin(np.pi * tt / 0.09), 0.0)  # scuff
+    place(out, 1.0 * thud(0.25, 85, rng, 0.7), 0.12)
+    place(out, 0.6 * thud(0.2, 110, rng, 0.5), 0.27)
+    return out
+
+
+def sounds():
+    loud, far = alarm_signals()
+    write_sound("ambient/run", "alarm", loud, 0.55, fade=False)
+    write_sound("ambient/run", "alarm-far", far, 0.3, fade=False)
+    write_sound("ambient/run", "horde", horde(), 0.6, fade=False)
+    write_sound("ambient/run", "safezone", safezone(far), 0.16, fade=False)
+    for k in (1, 2, 3):
+        write_sound("effect/run", f"bang{k}", bang(k), 0.7)
+    write_sound("effect/run", "doorbreak", doorbreak(), 0.75)
+    write_sound("effect/run", "slam", slam(), 0.75)
+    write_sound("effect/run", "rattle", rattle(), 0.55)
+    write_sound("effect/run", "swing", swing(), 0.65)
+    write_sound("effect/run", "topple", topple(), 0.7)
+    write_sound("effect/run", "signhiss", signhiss(), 0.4, fade=False)
+    write_sound("effect/run", "signburst", signburst(), 0.7)
+    write_sound("effect/run", "ventburst", ventburst(), 0.65)
+    write_sound("effect/run", "heartbeat", heartbeat(), 0.6, fade=False)
+    write_sound("effect/run", "trip", trip(), 0.55)
+
+
+# ======================= Words =======================
+
+def lang():
+    LANG.update({
+        "level-14": "Level !: Run For Your Life!",
+        "levelhint-14": "Run. Don't stop. A door with a turn beside it is not the way out.",
+        "levelname-14": "Level !",
+        "level-1401": "The Safe Zone",
+        "levelhint-1401": "Please take a break before you continue running.",
+        "run-arrive": "The door slams behind you. On its inside, a huge red exclamation mark.",
+        "run-stuck": "The door is stuck!",
+        "run-locked": "Locked.",
+        "run-marked": "It won't budge.",
+        "run-chained": "Something on the other side wants in.",
+        "run-fake": "An empty room. This isn't the way out.",
+        "run-escaped": "No turn either side. This was the real exit. The Backrooms will never send you there again.",
+        "run-ranout": "You have run this hall before. The door lets you out somewhere else.",
+        "run-full": "The door won't open. Someone else is running.",
+        "run-rumble": "The walls shudder. You can't stay here much longer.",
+        "run-fell": "The cracked floor gives way. You fall a long way, into rock and rubble.",
+        "run-caught": "was caught by the horde",
+        "waypoint-runexit": "The way out of Level !",
+        "note-run": "Don't take the door if the hall turns beside it. The real one is at a dead end. Don't stop. They're still there.",
+        "item-run-energybar": "Energy Bar",
+        "itemdesc-run-energybar": "Dense, sweet, and gone in three bites. Keeps you running a little longer.",
+    })
+
+
+def clean():
+    """Removes what an earlier run of this script wrote (only this level's own folders), so renamed blocks leave nothing behind."""
+    import shutil
+    for rel in (("shapes", "block", TAG), ("blocktypes", TAG), ("textures", "block", TAG)):
+        shutil.rmtree(os.path.join(ASSETS, *rel), ignore_errors=True)
+
+
+def prune_lang():
+    """Drops block names of ours that this script no longer makes (block-run-*), keeping the file's layout."""
+    import re
+    path = os.path.join(ASSETS, "lang", "en.json")
+    with open(path, encoding="utf-8") as f:
+        lines = f.read().split(NL)
+    keep = []
+    for line in lines:
+        m = re.match(r'^\t"(block-run-[^"]*|level-141|levelhint-141)":', line)
+        if m and m.group(1) not in LANG:
+            continue
+        keep.append(line)
+    text = NL.join(keep)
+    text = re.sub(r",(\s*)\}\s*$", r"\1}" + NL, text)  # no trailing comma before the closing brace
+    json.loads(text)
+    with open(path, "w", encoding="utf-8", newline=NL) as f:
+        f.write(text)
+
+
+NL = "\n"
+
+
+def generate():
+    clean()
+    textures()
+    walls()
+    signs()
+    side_doors()
+    exit_doors()
+    chained_door()
+    hall_door()
+    props()
+    items()
+    lang()
+    gen_detail.merge_lang()
+    prune_lang()
+    print(f"run: {len(MINE)} textures, {len(LANG)} names")
+    if "--no-sounds" not in sys.argv:
+        sounds()
+
+
+if __name__ == "__main__":
+    generate()

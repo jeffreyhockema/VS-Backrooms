@@ -1,0 +1,225 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"trim": "backrooms:block/974/trim"
+	},
+	"elements": [
+		{
+			"name": "Liner",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.75,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchN",
+			"from": [
+				-2.5,
+				0,
+				-1.7
+			],
+			"to": [
+				1.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						4.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchS",
+			"from": [
+				-2.5,
+				0,
+				16
+			],
+			"to": [
+				1.5,
+				16,
+				17.7
+			],
+			"faces": {
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						4.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Liner",
+			"from": [
+				15.25,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchN",
+			"from": [
+				14.5,
+				0,
+				-1.7
+			],
+			"to": [
+				18.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						4.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchS",
+			"from": [
+				14.5,
+				0,
+				16
+			],
+			"to": [
+				18.5,
+				16,
+				17.7
+			],
+			"faces": {
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						4.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,172 @@
+// A hospital gurney left in the hall, two blocks long (head, foot; head to the north). 0.8 high
+{
+	"code": "run-gurney",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-head-north": {
+			"base": "block/run/run-gurney-head",
+			"rotateY": 0
+		},
+		"*-head-east": {
+			"base": "block/run/run-gurney-head",
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"base": "block/run/run-gurney-head",
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"base": "block/run/run-gurney-head",
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"base": "block/run/run-gurney-foot",
+			"rotateY": 0
+		},
+		"*-foot-east": {
+			"base": "block/run/run-gurney-foot",
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"base": "block/run/run-gurney-foot",
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"base": "block/run/run-gurney-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-north"
+		],
+		"decorative": [
+			"*-head-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

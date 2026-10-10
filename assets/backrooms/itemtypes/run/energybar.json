@@ -1,0 +1,91 @@
+// Level !'s Energy Bar: food (satiety 160, Grain), and a second wind when eaten (BackroomsEnergyBar)
+{
+	"code": "run-energybar",
+	"class": "BackroomsEnergyBar",
+	"maxstacksize": 16,
+	"shape": {
+		"base": "item/run/energybar"
+	},
+	"textures": {
+		"foil": {
+			"base": "item/run/energybar"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"nutritionProps": {
+		"satiety": 160,
+		"foodcategory": "Grain"
+	},
+	"materialDensity": 600,
+	"attributes": {
+		"handbook": {
+			"groupBy": [
+				"run-energybar"
+			]
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": -30,
+			"y": 40,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.1,
+			"z": 0.5
+		},
+		"scale": 2.6
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.1,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": -10
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.5
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.1,
+			"z": 0.3
+		},
+		"rotation": {
+			"x": 0,
+			"y": 80,
+			"z": 10
+		},
+		"scale": 1.8
+	}
+}

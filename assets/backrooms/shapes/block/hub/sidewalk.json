@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"kerb": "backrooms:block/hub/kerb",
+		"sidewalk": "backrooms:block/hub/sidewalk"
+	},
+	"elements": [
+		{
+			"name": "Slab",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#sidewalk",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#sidewalk",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SlabSides",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#kerb",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#kerb",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#kerb",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#kerb",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

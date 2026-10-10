@@ -1,0 +1,447 @@
+// Level 3999: a neon sign three blocks wide, drawn centred on its block, against the wall behind it (the suffix is the way it faces): ARCADE magenta, PRIZES cyan, FOOD COURT orange, LOBBY lilac, OPEN pink, PARADISE magenta in a cyan frame, EXIT pink (light 12)
+{
+	"code": "l3999-neonsign",
+	"variantgroups": [
+		{
+			"code": "sign",
+			"states": [
+				"arcade",
+				"prizes",
+				"foodcourt",
+				"lobby",
+				"open",
+				"paradise",
+				"exit"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-neonsign-arcade-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-arcade"
+		},
+		"l3999-neonsign-arcade-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-arcade",
+			"rotateY": 270
+		},
+		"l3999-neonsign-arcade-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-arcade",
+			"rotateY": 180
+		},
+		"l3999-neonsign-arcade-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-arcade",
+			"rotateY": 90
+		},
+		"l3999-neonsign-prizes-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-prizes"
+		},
+		"l3999-neonsign-prizes-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-prizes",
+			"rotateY": 270
+		},
+		"l3999-neonsign-prizes-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-prizes",
+			"rotateY": 180
+		},
+		"l3999-neonsign-prizes-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-prizes",
+			"rotateY": 90
+		},
+		"l3999-neonsign-foodcourt-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-foodcourt"
+		},
+		"l3999-neonsign-foodcourt-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-foodcourt",
+			"rotateY": 270
+		},
+		"l3999-neonsign-foodcourt-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-foodcourt",
+			"rotateY": 180
+		},
+		"l3999-neonsign-foodcourt-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-foodcourt",
+			"rotateY": 90
+		},
+		"l3999-neonsign-lobby-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-lobby"
+		},
+		"l3999-neonsign-lobby-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-lobby",
+			"rotateY": 270
+		},
+		"l3999-neonsign-lobby-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-lobby",
+			"rotateY": 180
+		},
+		"l3999-neonsign-lobby-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-lobby",
+			"rotateY": 90
+		},
+		"l3999-neonsign-open-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-open"
+		},
+		"l3999-neonsign-open-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-open",
+			"rotateY": 270
+		},
+		"l3999-neonsign-open-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-open",
+			"rotateY": 180
+		},
+		"l3999-neonsign-open-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-open",
+			"rotateY": 90
+		},
+		"l3999-neonsign-paradise-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-paradise"
+		},
+		"l3999-neonsign-paradise-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-paradise",
+			"rotateY": 270
+		},
+		"l3999-neonsign-paradise-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-paradise",
+			"rotateY": 180
+		},
+		"l3999-neonsign-paradise-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-paradise",
+			"rotateY": 90
+		},
+		"l3999-neonsign-exit-north": {
+			"base": "backrooms:block/3999/l3999-neonsign-exit"
+		},
+		"l3999-neonsign-exit-east": {
+			"base": "backrooms:block/3999/l3999-neonsign-exit",
+			"rotateY": 270
+		},
+		"l3999-neonsign-exit-south": {
+			"base": "backrooms:block/3999/l3999-neonsign-exit",
+			"rotateY": 180
+		},
+		"l3999-neonsign-exit-west": {
+			"base": "backrooms:block/3999/l3999-neonsign-exit",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-neonsign-arcade-north"
+		],
+		"backrooms": [
+			"l3999-neonsign-arcade-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-neonsign-arcade-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-arcade-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-arcade-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-arcade-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-prizes-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-prizes-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-prizes-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-prizes-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-foodcourt-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-foodcourt-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-foodcourt-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-foodcourt-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-lobby-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-lobby-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-lobby-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-lobby-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-open-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-open-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-open-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-open-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-paradise-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-paradise-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-paradise-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-paradise-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonsign-exit-north": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l3999-neonsign-exit-east": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonsign-exit-south": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonsign-exit-west": {
+			"x1": -0.9,
+			"y1": 0.06,
+			"z1": 0.85,
+			"x2": 1.9,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-arcade-*": [
+			51,
+			7,
+			12
+		],
+		"*-prizes-*": [
+			33,
+			6,
+			12
+		],
+		"*-foodcourt-*": [
+			3,
+			7,
+			12
+		],
+		"*-lobby-*": [
+			53,
+			3,
+			12
+		],
+		"*-open-*": [
+			62,
+			7,
+			12
+		],
+		"*-paradise-*": [
+			51,
+			7,
+			12
+		],
+		"*-exit-*": [
+			62,
+			7,
+			12
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

@@ -1,0 +1,49 @@
+// Level 11: the glass door of a closed-down bookstore, dark inside, a THE END IS NEAR poster taped behind the glass, a pull handle (on every face, so it fits a wall either way). Kind endbookstore; indestructible
+{
+	"code": "end-storedoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/end/end-storedoor-lower"
+		},
+		"*-upper": {
+			"base": "block/end/end-storedoor-upper"
+		}
+	},
+	"lightAbsorption": 99,
+	"renderpass": "Transparent",
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "endbookstore"
+			}
+		}
+	]
+}

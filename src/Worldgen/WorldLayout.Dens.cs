@@ -46,6 +46,14 @@ public sealed partial class WorldLayout
             5 => HotelZoneAt(mx, mz) == HotelZone.Beverly ? null : new[] { DenKind.Hive, DenKind.Pack, DenKind.Lair },
             8 => new[] { DenKind.Warren, DenKind.Dark },
             9 => new[] { DenKind.Pack, DenKind.Warren, DenKind.Lair, DenKind.Hive },
+            // The five kept as 14-18 (each level's own line): none yet
+            RunLevel => null,
+            FunLevel => null,
+            TheEnd => null,
+            Hub => null,
+            Level974 => null,
+            Level3999 => null,
+            Level188 => null,
             _ => null,
         };
         if (kinds == null) return DenKind.None;

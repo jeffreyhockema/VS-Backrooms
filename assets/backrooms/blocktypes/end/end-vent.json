@@ -1,0 +1,60 @@
+// The End: a louvred vent grille in the side-named face of a painted block wall (rel 3), at the top of a steel ladder: the way to Level 94. Kind endvent; indestructible
+{
+	"code": "end-vent",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/end/end-vent",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/end/end-vent",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/end/end-vent",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/end/end-vent",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "endvent"
+			}
+		}
+	]
+}

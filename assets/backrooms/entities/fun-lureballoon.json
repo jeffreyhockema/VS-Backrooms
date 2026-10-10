@@ -1,0 +1,66 @@
+{
+	"code": "lureballoon",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-air"
+	],
+	"habitat": "Air",
+	"weight": 0.1,
+	"hitboxSize": {
+		"x": 0.5,
+		"y": 1.8
+	},
+	"eyeHeight": 0.6,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-lureballoon"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/fun-lureballoon"
+		},
+		"texture": {
+			"base": "backrooms:entity/fun-lureballoon"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "drift",
+				"animation": "drift",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "health",
+				"currenthealth": 1,
+				"maxhealth": 1
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:ambient/fun/balloonpop",
+		"death": "backrooms:ambient/fun/balloonpop"
+	}
+}

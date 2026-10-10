@@ -1,0 +1,251 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"concrete": "backrooms:block/188/concrete",
+		"concrete-stair": "backrooms:block/188/concrete-stair",
+		"steel": "backrooms:block/188/steel"
+	},
+	"elements": [
+		{
+			"name": "Low",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#concrete-stair",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "High",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				16,
+				16,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#concrete-stair",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "NoseLow",
+			"from": [
+				0,
+				7.4,
+				15.4
+			],
+			"to": [
+				16,
+				8.2,
+				16.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7999999999999989
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7999999999999989
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.7999999999999989
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.7999999999999989
+					]
+				}
+			}
+		},
+		{
+			"name": "NoseHigh",
+			"from": [
+				0,
+				15.4,
+				7.4
+			],
+			"to": [
+				16,
+				16.2,
+				8.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7999999999999989
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7999999999999989
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.7999999999999989
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999989,
+						0.7999999999999989
+					]
+				}
+			}
+		}
+	]
+}

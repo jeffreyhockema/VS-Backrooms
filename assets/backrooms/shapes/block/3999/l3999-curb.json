@@ -1,0 +1,216 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"curb": "backrooms:block/3999/curb"
+	},
+	"elements": [
+		{
+			"name": "Kerb",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				},
+				"south": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				},
+				"up": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				3,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Round",
+			"from": [
+				0,
+				3,
+				1
+			],
+			"to": [
+				16,
+				3.6,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						1,
+						0.6000000000000001
+					]
+				},
+				"south": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						1,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#curb",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		}
+	]
+}

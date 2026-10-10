@@ -1,7 +1,8 @@
 using Backrooms.Worldgen;
 long seed = args.Length > 0 ? long.Parse(args[0]) : 12345;
 int n = args.Length > 1 ? int.Parse(args[1]) : 14;
-int smx = 16000, smz = 16000;
+// SPAWN=<cells> sets the spawn macro cell (half the map's size in cells; 16000 is a full-size world)
+int smx = int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int spawnCells) ? spawnCells : 16000, smz = smx;
 var layout = new WorldLayout(seed, smx, smz);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }
@@ -19,6 +20,7 @@ if (args.Length > 3 && args[2] == "region") {
 
 // L0HALL=1: also write hall.bin (Level 0 hallway tiles, one byte per tile) for hallview.py
 if (Environment.GetEnvironmentVariable("L0HALL") == "1") { var hb = new byte[size * size]; for (int z = 0; z < size; z++) for (int x = 0; x < size; x++) hb[z * size + x] = layout.LevelAt(WorldLayout.MacroOf(m0x * 32 + x), WorldLayout.MacroOf(m0z * 32 + z)) == 0 ? layout.Level0HallAt(m0x * 32 + x, m0z * 32 + z) : (byte)0; File.WriteAllBytes("hall.bin", hb); }
+if (args.Length > 2 && args[2] == "notes") { NotesSim.Run(args, layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "timing") { Timing.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 3 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
 if (args.Length > 2 && args[2] == "probe") { Probe.Run(layout, m0x, m0z, args); return; }
@@ -32,7 +34,7 @@ if (args.Length > 2 && args[2] == "boiler") { Boiler.Run(layout, m0x, m0z, n); r
 if (args.Length > 2 && args[2] == "cubes") { Cubes.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "stairs") { StairCheck.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "posts") { Posts.Run(layout, m0x, m0z, n); return; }
-if (args.Length > 2 && args[2] == "overview") { Overview.Run(layout, smx, smz, int.Parse(args[1]), "overview.bin"); return; }
+if (args.Length > 2 && args[2] == "overview") { Overview.Run(layout, smx, smz, int.Parse(args[1]), "overview.bin", args.Length > 3 ? int.Parse(args[3]) : 1); return; }
 if (args.Length > 2 && args[2] == "citymap") { CityMap.Run(layout, n, args.Length > 3 ? int.Parse(args[3]) : 0, args.Length > 4 ? int.Parse(args[4]) : 0); return; }
 if (args.Length > 2 && args[2] == "noclip") { NoclipFind.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "links") { Links.Run(layout, seed, smx, smz); return; }
@@ -55,8 +57,11 @@ if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return; }
+if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
+// Each of the levels kept as 14-20 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats), in its own file
+if (args.Length > 2 && LevelModes.Run(layout, args)) return;
 if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); return; }
-if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayNumber(int.Parse(args[3])), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }
+if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayName(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }
 if (args.Length > 2 && args[2] == "poolstats") { Regions.PoolStats(layout, args.Length > 3 ? int.Parse(args[3]) : 4); return; }
 if (args.Length > 2 && args[2] == "motionstats") { Regions.MotionStats(layout, n); return; }
 if (args.Length > 2 && args[2] == "deep") { Deep.Run(layout, m0x, m0z, n); return; }
@@ -71,7 +76,7 @@ using var w = new BinaryWriter(File.Create("tiles.bin"));
 w.Write(size);
 for (int mz = 0; mz < n; mz++) for (int mx = 0; mx < n; mx++) {
   var tiles = layout.BuildMacro(m0x + mx, m0z + mz);
-  foreach (var t in tiles) { w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Ceiling); w.Write((byte)((t.SupplyBox ? 1 : 0) | (t.Stack > 0 ? 2 : 0) | (t.Pipe > 0 ? 4 : 0) | (t.ExitSign ? 8 : 0) | (t.Worn ? 16 : 0) | (t.Under > 0 ? 32 : 0) | (t.Grand ? 64 : 0))); w.Write(t.Level); w.Write((byte)t.Pattern); w.Write(t.Variant); }
+  foreach (var t in tiles) { w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Ceiling); w.Write((byte)((t.SupplyBox ? 1 : 0) | (t.Stack > 0 ? 2 : 0) | (t.Pipe > 0 ? 4 : 0) | (t.ExitSign ? 8 : 0) | (t.Worn ? 16 : 0) | (t.Under > 0 ? 32 : 0) | (t.Grand ? 64 : 0))); w.Write(t.Level); w.Write((byte)t.Pattern); w.Write((byte)Math.Min((int)t.Variant, 255)); }
 }
 var (sx, sz) = layout.FindSpawn();
 w.Write(sx - m0x * 32); w.Write(sz - m0z * 32);

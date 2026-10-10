@@ -1,0 +1,74 @@
+// Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency
+{
+	"code": "end-memoryjuice",
+	"class": "BackroomsMemoryJuice",
+	"maxstacksize": 8,
+	"shape": {
+		"base": "item/end/memoryjuice"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"nutritionProps": {
+		"satiety": 20,
+		"foodcategory": "NoNutrition"
+	},
+	"materialDensity": 1000,
+	"guiTransform": {
+		"rotation": {
+			"x": -22.6,
+			"y": -45.3,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.3,
+			"z": 0.5
+		},
+		"scale": 2.4
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.1,
+			"z": 0.4
+		},
+		"rotation": {
+			"x": 0,
+			"y": -30,
+			"z": 0
+		},
+		"scale": 2
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.85,
+			"y": -0.5,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.8
+	}
+}

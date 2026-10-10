@@ -1,0 +1,33 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"amberarrow-r": "backrooms:block/hub/amberarrow-r"
+	},
+	"elements": [
+		{
+			"name": "Chalk",
+			"from": [
+				0,
+				0,
+				15.9
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#amberarrow-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

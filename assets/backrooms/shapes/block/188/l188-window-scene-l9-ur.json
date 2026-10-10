@@ -1,0 +1,384 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"sc-night": "backrooms:block/188/sc-night",
+		"sc-porchlamp": "backrooms:block/188/sc-porchlamp",
+		"scene-l9-ur": "backrooms:block/188/scene-l9-ur"
+	},
+	"elements": [
+		{
+			"name": "FrameR",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				1.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						1.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				1.5,
+				14.5,
+				1
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						1,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						11,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				15.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				14.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1.5,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						1.5,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				1.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				0.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						15.5,
+						14.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						15.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						15.5,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scene-l9-ur",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "BoxCeil",
+			"from": [
+				0,
+				14.5,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sc-night",
+					"uv": [
+						0,
+						1,
+						16,
+						11
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "BoxR",
+			"from": [
+				0,
+				0,
+				5
+			],
+			"to": [
+				1.5,
+				16,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#sc-night",
+					"uv": [
+						1,
+						0,
+						11,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Lamp",
+			"from": [
+				9,
+				5.5,
+				13
+			],
+			"to": [
+				12,
+				9,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						4,
+						7,
+						7,
+						10.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						1,
+						7,
+						3,
+						10.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						9,
+						7,
+						12,
+						10.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						13,
+						7,
+						15,
+						10.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						9,
+						13,
+						12,
+						15
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#sc-porchlamp",
+					"uv": [
+						9,
+						1,
+						12,
+						3
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

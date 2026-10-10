@@ -1,0 +1,34 @@
+// Two neon lamps from salvaged tubing, a circuit board and plastic; the glow bracelet's gas decides their colour
+{
+	"ingredientPattern": "TGT,PCP",
+	"width": 3,
+	"height": 2,
+	"ingredients": {
+		"T": {
+			"type": "item",
+			"code": "l3999-neontubing",
+			"quantity": 1
+		},
+		"G": {
+			"type": "item",
+			"code": "l3999-glowband-*",
+			"name": "colour",
+			"quantity": 1
+		},
+		"P": {
+			"type": "item",
+			"code": "l3999-plastic",
+			"quantity": 1
+		},
+		"C": {
+			"type": "item",
+			"code": "l3999-circuitboard",
+			"quantity": 1
+		}
+	},
+	"output": {
+		"type": "block",
+		"code": "l3999-neonlamp-{colour}-north",
+		"quantity": 2
+	}
+}

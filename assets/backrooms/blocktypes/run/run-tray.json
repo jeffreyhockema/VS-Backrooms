@@ -1,0 +1,176 @@
+// A kidney dish on a stool in a door recess: an Energy Bar (bar) or Almond Water (water)
+{
+	"code": "run-tray",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"bar",
+				"water"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-bar-north": {
+			"base": "block/run/run-tray-bar",
+			"rotateY": 0
+		},
+		"*-bar-east": {
+			"base": "block/run/run-tray-bar",
+			"rotateY": 270
+		},
+		"*-bar-south": {
+			"base": "block/run/run-tray-bar",
+			"rotateY": 180
+		},
+		"*-bar-west": {
+			"base": "block/run/run-tray-bar",
+			"rotateY": 90
+		},
+		"*-water-north": {
+			"base": "block/run/run-tray-water",
+			"rotateY": 0
+		},
+		"*-water-east": {
+			"base": "block/run/run-tray-water",
+			"rotateY": 270
+		},
+		"*-water-south": {
+			"base": "block/run/run-tray-water",
+			"rotateY": 180
+		},
+		"*-water-west": {
+			"base": "block/run/run-tray-water",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-bar-north"
+		],
+		"decorative": [
+			"*-bar-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75
+		},
+		"*-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75
+		},
+		"*-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.6,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"dropsByType": {
+		"*-bar-*": [
+			{
+				"type": "item",
+				"code": "run-energybar",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-water-*": [
+			{
+				"type": "item",
+				"code": "almondwater",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		]
+	}
+}

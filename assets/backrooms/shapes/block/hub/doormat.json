@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"coir": "backrooms:block/hub/coir",
+		"doormat": "backrooms:block/hub/doormat"
+	},
+	"elements": [
+		{
+			"name": "Mat",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				0.8,
+				13
+			],
+			"faces": {
+				"up": {
+					"texture": "#doormat",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "MatSides",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				0.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#coir",
+					"uv": [
+						1,
+						15.2,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#coir",
+					"uv": [
+						3,
+						15.2,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#coir",
+					"uv": [
+						1,
+						15.2,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#coir",
+					"uv": [
+						3,
+						15.2,
+						13,
+						16
+					]
+				},
+				"down": {
+					"texture": "#coir",
+					"uv": [
+						1,
+						3,
+						15,
+						13
+					]
+				}
+			}
+		}
+	]
+}

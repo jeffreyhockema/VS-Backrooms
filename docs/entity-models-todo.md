@@ -83,3 +83,56 @@ entity without errors; movement and anything seen on screen still need a client.
   `rest` or `feed` is playing.
 - Head turning: only players get a head controller from the engine, and `HeadYaw` is not synced. Facelings set their
   own client-side controller.
+
+## 6. Second lore pass (2026-10-10): the entities that had none
+
+Every entity without a lore-and-model review got one, each by an agent that researched the wikis (briefs with
+sources in `docs/entity-briefs/`) and built in a sandbox; integrated through `tools/locked.sh`. Review sheets in
+`docs/entity-review/`. Codes, texture codes, animation codes and C#-referenced element names are unchanged throughout.
+
+| Entity | Was | Now |
+| --- | --- | --- |
+| Smiler | stick figure, 17 parts | 92 parts: in the dark only a 33-tooth grin and slit eyes glow; in light a thin black body with backward-bent elbows and knees, black-fire tatters. Added `hurt` (registered) |
+| The Thing (Level 7) | black slab, 15 parts | 135 parts: an 11-block eel-like leviathan, undershot jaw of needle teeth, mismatched milky eyes, glowing photophores and barbels. Added `rush`; its AI now plays `rush` and `attack`; selection box 7.5 x 2 so it is not culled |
+| Kitty (974) | | sloped shoulders and egg head after the Wikidot photo; kneel fixed (was floating); richer idle, ask, glide, take |
+| Window arm (188) | pencil, 18 parts | 26 parts: tapering, knuckled, four-joint fingers and thumb, a stump into the glass; reach unfolds the wrong way and ends closed; pull 12 / recoil 60 weights |
+| Keymaster (Hub) | 89 parts | 117: real cowl with glowing eyes, robe and capelet, boots (canon: he lands and strides), 15 mixed keys; `descend`'s cloak now moves; new `dismiss` and `stride` (the Hub's session wires them) |
+| Attendant (3999) | egg head with a grille | a faceless shop mannequin in a tailored cabin-crew uniform (canon: Fandom Level 399), ear-grille speakers |
+| Partygoer and intern (Fun) | | canon proportions, hook-lined chest doors over the centipede, which reaches out in berserk; the carved "=)" kept exactly; the intern's balloon stays upright |
+| Lure balloon, Party Host (Fun) | | a glossy balloon on a swaying string; the Host as canon Level 26's single eye-and-mouth organ in a golden dome |
+
+Check in game: the Smiler's glow at full 255; The Thing's jaw direction and its size against shallow seabeds; the
+arm's semi-transparent edges and whether it blocks the view up close; the Keymaster's dark face under the Tower's
+light. Suggested to the owning sessions, not applied: lure balloon hitbox ~1.8 tall, Party Host immortal, attendant
+eyeHeight 1.38 and "mannequin" wording, the arm's selection box ~1.4 x 1.2.
+
+## 7. The Mangled again, and two new entities (2026-10-10)
+
+Briefs: `docs/entity-briefs/mangled.md`, `bacteria.md`, `wretch.md`; sheets: `docs/entity-review/mangled.png`,
+`bacteria.png`, `wretch.png`. Full rows in `docs/entity-plan.md`.
+
+- **The Mangled, second pass**: rebuilt to the Wikidot article and its own sketch as a harvestman the size of a house
+  (314 parts, 11.7 blocks drawn), with a hanging knot of fourteen modelled faces, seven tendrils and frost. Speeds cut
+  to 0.01 walking and 0.024 running (the animations played 1.4x and 1.7x) so the legs do not skate; eye height 6.5.
+- **Bacteria** (`backrooms:bacteria`): Level 0's dark figures, as the found footage's Howler. Rare (weight 0.6 in
+  the approach band), glimpse and stalk only; hunts only someone running near the way out (`huntsInLobby`). Rises out
+  of the mould when it appears (`emergeAnimation`, 2.5 s) and howls before the chase (`huntAnimation`, 1.5 s).
+- **Wretches** (`backrooms:wretch`): Entity 15. Levels 1, 3, 5, 9, 11's subway, and in packs in Level 8 instead of
+  the drifters; three times the weight against a starving player; look by depth (`MenaceSystem.ChooseLook`); drop
+  belongings like a Skin-Stealer.
+- **New in `AiTaskMenace`**: one hold (`Hold`) that stands it still and plays an animation through, used for
+  `emergeAnimation` (once, on appearing) and `huntAnimation`/`huntAnimationMs` (as it turns to the hunt).
+- **New sounds** (`tools/gen_entity_sounds.py`): `entity/howl`, `entity/gurgle`, `entity/snarl`.
+
+Check in game:
+- The Mangled's 2.35 MB shape (the old was 1 MB): load time, and the frame rate with it on screen.
+- Its stride at the new speeds: whether the feet still skate.
+- The Bacteria's head above its 1.95 hitbox clipping through door lintels; its fingertips dipping into the carpet in
+  walk and run; its arms in the attack passing through the walls of narrow halls.
+- How rare the Bacteria feels in practice.
+- Wretch packs in Level 8: three biting at once may be too much at danger 0.74.
+
+Open:
+- A mould stain left where a Bacteria dies.
+- The Wretches' rare mutated forms (misplaced eyes, extra limbs, flesh "wings") as further looks.
+- Handbook entries for both, for the guide's owner.

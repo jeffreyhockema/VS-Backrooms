@@ -1,0 +1,127 @@
+// A paper party hat with an elastic and a pompom: head-slot clothing
+{
+	"code": "fun-partyhat",
+	"variantgroups": [
+		{
+			"code": "pattern",
+			"states": [
+				"stripes",
+				"dots"
+			]
+		}
+	],
+	"maxstacksize": 1,
+	"storageFlags": 128,
+	"behaviors": [
+		{
+			"name": "Wearable"
+		}
+	],
+	"shape": {
+		"base": "backrooms:item/fun/partyhat"
+	},
+	"texturesByType": {
+		"*-stripes": {
+			"hat": {
+				"base": "backrooms:item/fun/partyhat-stripes"
+			},
+			"pompom": {
+				"base": "backrooms:item/fun/pompom"
+			},
+			"elastic": {
+				"base": "backrooms:item/fun/elastic"
+			}
+		},
+		"*-dots": {
+			"hat": {
+				"base": "backrooms:item/fun/partyhat-dots"
+			},
+			"pompom": {
+				"base": "backrooms:item/fun/pompom"
+			},
+			"elastic": {
+				"base": "backrooms:item/fun/elastic"
+			}
+		}
+	},
+	"attributes": {
+		"clothescategory": "head",
+		"wearableAttachment": true,
+		"funDisguise": "hat",
+		"disableElements": [
+			"ponytailhigh",
+			"sidehigh",
+			"hoodshoulder",
+			"hoodupperover"
+		],
+		"keepElements": [
+			"hair-covered",
+			"hoodtight"
+		]
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"clothing": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.97,
+			"y": -3,
+			"z": -1
+		},
+		"rotation": {
+			"x": -13,
+			"y": -80,
+			"z": 12
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 1.5,
+			"z": 0.5
+		},
+		"scale": 0.55
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 19
+		},
+		"rotation": {
+			"x": 174,
+			"y": -45,
+			"z": 23
+		},
+		"origin": {
+			"x": 0.52,
+			"y": 1.6,
+			"z": 0.5
+		},
+		"scale": 1.99
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0.05,
+			"y": -1.1,
+			"z": 0
+		},
+		"rotation": {
+			"x": -2,
+			"y": 0,
+			"z": -4
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.53
+		},
+		"scale": 4
+	}
+}

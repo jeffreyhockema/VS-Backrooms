@@ -1,0 +1,57 @@
+// Level 3999's mini arcades: a heap of red tickets on a tray (on a table). Salvage: 3-6 tickets
+{
+	"code": "l3999-ticketpile",
+	"shape": {
+		"base": "backrooms:block/3999/l3999-ticketpile"
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-ticketpile"
+		],
+		"backrooms": [
+			"l3999-ticketpile"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.3,
+		"z2": 0.94
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.3,
+		"z2": 0.94
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "l3999-ticket",
+			"quantity": {
+				"avg": 4.5,
+				"var": 1.5
+			}
+		}
+	]
+}

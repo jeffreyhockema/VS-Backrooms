@@ -1,0 +1,1110 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"kick": "backrooms:block/end/kick",
+		"maple": "backrooms:block/end/maple",
+		"pricechannel": "backrooms:block/end/pricechannel",
+		"slatwall": "backrooms:block/end/slatwall"
+	},
+	"elements": [
+		{
+			"name": "SideW",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "SideE",
+			"from": [
+				14.5,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "Kick",
+			"from": [
+				1.5,
+				0,
+				1
+			],
+			"to": [
+				14.5,
+				2.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						14,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						14,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						14
+					]
+				},
+				"down": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "Deck",
+			"from": [
+				1.5,
+				2.5,
+				0.5
+			],
+			"to": [
+				14.5,
+				3.5,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "Spine",
+			"from": [
+				1.5,
+				3.5,
+				7
+			],
+			"to": [
+				14.5,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#slatwall",
+					"uv": [
+						0,
+						0,
+						13.0,
+						12.5
+					]
+				},
+				"south": {
+					"texture": "#slatwall",
+					"uv": [
+						0,
+						0,
+						13.0,
+						12.5
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "ShelfN0",
+			"from": [
+				1.5,
+				8,
+				1.5
+			],
+			"to": [
+				14.5,
+				9,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipN0",
+			"from": [
+				1.5,
+				7.7,
+				1.2
+			],
+			"to": [
+				14.5,
+				9.2,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4999999999999991
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4999999999999991
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4999999999999991
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4999999999999991
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "ShelfS0",
+			"from": [
+				1.5,
+				8,
+				9
+			],
+			"to": [
+				14.5,
+				9,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipS0",
+			"from": [
+				1.5,
+				7.7,
+				14.5
+			],
+			"to": [
+				14.5,
+				9.2,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4999999999999991
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4999999999999991
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4999999999999991
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4999999999999991
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "ShelfN1",
+			"from": [
+				1.5,
+				13.5,
+				1.5
+			],
+			"to": [
+				14.5,
+				14.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipN1",
+			"from": [
+				1.5,
+				13.2,
+				1.2
+			],
+			"to": [
+				14.5,
+				14.7,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "ShelfS1",
+			"from": [
+				1.5,
+				13.5,
+				9
+			],
+			"to": [
+				14.5,
+				14.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipS1",
+			"from": [
+				1.5,
+				13.2,
+				14.5
+			],
+			"to": [
+				14.5,
+				14.7,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipDN",
+			"from": [
+				1.5,
+				2.2,
+				0.2
+			],
+			"to": [
+				14.5,
+				3.7,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LipDS",
+			"from": [
+				1.5,
+				2.2,
+				15.5
+			],
+			"to": [
+				14.5,
+				3.7,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				0
+			],
+			"rotationX": -8
+		}
+	]
+}

@@ -1,0 +1,61 @@
+// A rare note (gen_notes.py): read it for one of the folded notes.
+{
+	"code": "wanderernote-folded",
+	"class": "BackroomsWandererNote",
+	"maxstacksize": 16,
+	"texture": {
+		"base": "item/wanderernote-folded"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	},
+	"materialDensity": 300,
+	"combustibleProps": {
+		"burnTemperature": 600,
+		"burnDuration": 3
+	}
+}

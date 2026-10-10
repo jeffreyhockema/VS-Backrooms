@@ -1,0 +1,500 @@
+// The End: a stopped escalator, 1 wide, rising toward the side named one block per block (step); bottom is the landing before the first step, top the last step with the comb plate at its head. Climbs like stairs. Indestructible
+{
+	"code": "end-escalator",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"step",
+				"top",
+				"bottom"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-step-north"
+		],
+		"decorative": [
+			"*-step-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-step-north": {
+			"base": "block/end/end-escalator-step",
+			"rotateY": 0
+		},
+		"*-step-east": {
+			"base": "block/end/end-escalator-step",
+			"rotateY": 270
+		},
+		"*-step-south": {
+			"base": "block/end/end-escalator-step",
+			"rotateY": 180
+		},
+		"*-step-west": {
+			"base": "block/end/end-escalator-step",
+			"rotateY": 90
+		},
+		"*-top-north": {
+			"base": "block/end/end-escalator-top",
+			"rotateY": 0
+		},
+		"*-top-east": {
+			"base": "block/end/end-escalator-top",
+			"rotateY": 270
+		},
+		"*-top-south": {
+			"base": "block/end/end-escalator-top",
+			"rotateY": 180
+		},
+		"*-top-west": {
+			"base": "block/end/end-escalator-top",
+			"rotateY": 90
+		},
+		"*-bottom-north": {
+			"base": "block/end/end-escalator-bottom",
+			"rotateY": 0
+		},
+		"*-bottom-east": {
+			"base": "block/end/end-escalator-bottom",
+			"rotateY": 270
+		},
+		"*-bottom-south": {
+			"base": "block/end/end-escalator-bottom",
+			"rotateY": 180
+		},
+		"*-bottom-west": {
+			"base": "block/end/end-escalator-bottom",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxesByType": {
+		"*-step-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-step-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-step-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-step-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-top-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-top-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-top-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-top-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-bottom-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1
+			}
+		],
+		"*-bottom-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-bottom-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-bottom-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"*-step-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-step-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-step-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-step-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-top-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-top-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-top-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-top-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-bottom-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1
+			}
+		],
+		"*-bottom-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-bottom-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-bottom-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.05,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	}
+}

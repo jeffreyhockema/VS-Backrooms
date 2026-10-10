@@ -1,0 +1,23 @@
+// Two lilac glow bracelets: a scrap of plastic and a length of tubing, bent round and sealed
+{
+	"ingredientPattern": "PT",
+	"width": 2,
+	"height": 1,
+	"ingredients": {
+		"P": {
+			"type": "item",
+			"code": "l3999-plastic",
+			"quantity": 1
+		},
+		"T": {
+			"type": "item",
+			"code": "l3999-neontubing",
+			"quantity": 1
+		}
+	},
+	"output": {
+		"type": "item",
+		"code": "l3999-glowband-lilac",
+		"quantity": 2
+	}
+}

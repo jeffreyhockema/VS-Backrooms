@@ -1,0 +1,424 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"benchwood": "backrooms:block/188/benchwood",
+		"concrete-leg": "backrooms:block/188/concrete-leg"
+	},
+	"elements": [
+		{
+			"name": "LegL",
+			"from": [
+				12,
+				0,
+				4
+			],
+			"to": [
+				14,
+				6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"east": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"south": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"west": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				2,
+				0,
+				4
+			],
+			"to": [
+				4,
+				6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"east": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"south": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"west": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#concrete-leg",
+					"uv": [
+						0,
+						0,
+						2,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Slat0",
+			"from": [
+				0,
+				6,
+				3.6
+			],
+			"to": [
+				16,
+				7.2,
+				5.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						1.9999999999999996,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						1.9999999999999996,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.9999999999999996
+					]
+				},
+				"down": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.9999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Slat1",
+			"from": [
+				0,
+				6,
+				6.0
+			],
+			"to": [
+				16,
+				7.2,
+				8.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slat2",
+			"from": [
+				0,
+				6,
+				8.4
+			],
+			"to": [
+				16,
+				7.2,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slat3",
+			"from": [
+				0,
+				6,
+				10.8
+			],
+			"to": [
+				16,
+				7.2,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#benchwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

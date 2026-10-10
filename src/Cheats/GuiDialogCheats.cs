@@ -16,7 +16,10 @@ public class GuiDialogCheats : GuiDialog
     private const double Width = 600, ButtonHeight = 26, Gap = 6, RowGap = 10;
 
     private static readonly string[] Tabs = { "Travel", "Creatures", "Events", "Player", "View" };
-    private static readonly string[] LevelNumbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "37", "94" };
+    private static readonly string[] LevelNumbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "37", "94", "!", "Fun", "End", "Hub", "974", "3999", "188" };
+
+    /// <summary>A level's name on a button: "Level 37", "Level !", but "The End" and "The Hub".</summary>
+    private static string LevelLabel(string number) => number is "End" or "Hub" ? "The " + number : "Level " + number;
     private static readonly string[] EncounterKinds = { "hunt", "stalk", "glimpse", "ambient" };
     private static readonly string[] Distances = { "auto", "4", "8", "14", "24", "40" };
 
@@ -80,12 +83,12 @@ public class GuiDialogCheats : GuiDialog
     private double ComposeTravel(GuiComposer c, double y)
     {
         y = Heading(c, "Go to a level", y);
-        y = ButtonGrid(c, y, LevelNumbers.Select(n => ("Level " + n, Cmd($"/backrooms goto {n}"))).ToArray(), 7);
+        y = ButtonGrid(c, y, LevelNumbers.Select(n => (LevelLabel(n), Cmd($"/backrooms goto {n}"))).ToArray(), 7);
 
         y = Heading(c, "Go beside a feature", y + RowGap);
         c.AddStaticText("in level", CairoFont.WhiteSmallText(), ElementBounds.Fixed(0, y + 4, 70, ButtonHeight));
         string[] levelValues = LevelNumbers.Prepend("").ToArray();
-        string[] levelNames = LevelNumbers.Select(n => "Level " + n).Prepend("its usual level").ToArray();
+        string[] levelNames = LevelNumbers.Select(LevelLabel).Prepend("its usual level").ToArray();
         c.AddDropDown(levelValues, levelNames, Math.Max(0, Array.IndexOf(levelValues, findLevel)), (code, _) => findLevel = code,
             ElementBounds.Fixed(70, y, 180, ButtonHeight), "findlevel");
         y += ButtonHeight + Gap;
@@ -202,12 +205,23 @@ public class GuiDialogCheats : GuiDialog
         }, 4);
 
         y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);
-        return ButtonGrid(c, y, new[]
+        y = ButtonGrid(c, y, new[]
         {
             ("Rested", Cmd("/backrooms exposure 0")),
             ("Out 6 h", Cmd("/backrooms exposure 6")),
             ("Out 24 h", Cmd("/backrooms exposure 24")),
             ("Out 72 h", Cmd("/backrooms exposure 72")),
+        }, 4);
+
+        y = Heading(c, "Wanderers' notes (J opens the journal)", y + RowGap);
+        return ButtonGrid(c, y, new[]
+        {
+            ("Read a note here", Cmd("/backrooms note read door")),
+            ("Read a folded note", Cmd("/backrooms note read folded")),
+            ("Give 4 notes", Cmd("/backrooms note give door 4")),
+            ("Give 2 folded", Cmd("/backrooms note give folded 2")),
+            ("Note status", Cmd("/backrooms note status")),
+            ("Forget all notes", Cmd("/backrooms note reset")),
         }, 4);
     }
 

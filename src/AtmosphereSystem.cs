@@ -25,7 +25,7 @@ namespace Backrooms;
 /// blinks to black for a moment when the player is carried somewhere else by an elevator, a pit or a door that opens
 /// onto the wrong place, and names each level as the player enters it.
 /// </summary>
-public class AtmosphereSystem : ModSystem
+public partial class AtmosphereSystem : ModSystem
 {
     private readonly struct Atmosphere
     {
@@ -73,6 +73,24 @@ public class AtmosphereSystem : ModSystem
         new(0.0035f, 0.86f, 0.93f, 0.91f, 0f),
         // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop
         new(0.0022f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, openSky: true),
+        // The five kept as 14-18, each level's own line (placeholders: a faint neutral haze). Parts of a level with air of
+        // their own are swapped in by its AtmosphereSystem.<level>.cs
+        // Level !: a close red murk, the EXIT signs repeating into it (it pulses with the alarm: AtmosphereSystem.Run.cs)
+        new(0.022f, 0.30f, 0.04f, 0.04f, 0f),
+        // Level Fun: warm and a little dusty, like any party venue (its open decks: AtmosphereSystem.Fun.cs)
+        new(0.004f, 0.96f, 0.90f, 0.74f, 0f),
+        // The End: still, cool and dry, a thin warm-cream haze like the photographs' (its fake realities, distortions and
+        // lights-out: AtmosphereSystem.End.cs)
+        new(0.004f, 0.84f, 0.80f, 0.64f, 0f),
+        // The Hub: the orange haze of a road tunnel under sodium lamps (its Far Tunnels and Tower: AtmosphereSystem.Hub.cs)
+        new(0.010f, 0.32f, 0.21f, 0.09f, 0f),
+        // Level 974: clear, with the faintest warm pink to the air
+        new(0.0015f, 0.98f, 0.88f, 0.92f, 0f),
+        // Level 3999: thin, dark violet black-light air; a concourse fades to purple, never grey (its Natatorium and its
+        // Blackout: AtmosphereSystem.L3999.cs)
+        new(0.0035f, 0.20f, 0.10f, 0.30f, 0f),
+        // Level 188: the hotel's faint grey air (its courtyard's black night and its roof: AtmosphereSystem.L188.cs)
+        new(0.005f, 0.60f, 0.58f, 0.55f, 0f),
     };
 
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
@@ -198,7 +216,19 @@ public class AtmosphereSystem : ModSystem
         bool castle = level == WorldLayout.Motion && layout.InCastle(bx, bz) && pos.Y > geometry.FloorFor(level) + WorldLayout.MountainHeight - 1;
         bool blinding = castle && layout.TileAt(bx, bz).Zone == 4;
         Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle : Levels[level];
-        AnnounceLevel(snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level);
+        int titleKey = snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level;
+        // The five kept as 14-18 tune their own air, and name their own parts, in their own files
+        switch (level)
+        {
+            case WorldLayout.RunLevel: RunAir(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.FunLevel: FunAir(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.TheEnd: EndAir(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Hub: HubAir(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level974: L974Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level3999: L3999Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level188: L188Air(dt, pos, ref target, ref titleKey); break;
+        }
+        AnnounceLevel(titleKey);
         LevelSounds(dt, pos, level, reservoir, castle);
 
         // A sudden jump means the player was carried somewhere else: blink to black, and arrive in the new
@@ -318,6 +348,15 @@ public class AtmosphereSystem : ModSystem
     /// </summary>
     private void LevelSounds(float dt, EntityPos pos, int level, bool reservoir, bool castle)
     {
+        // The five kept as 14-18 start and stop their own (every tick, so they can stop when the player leaves)
+        RunSounds(dt, pos, level == WorldLayout.RunLevel);
+        FunSounds(dt, pos, level == WorldLayout.FunLevel);
+        EndSounds(dt, pos, level == WorldLayout.TheEnd);
+        HubSounds(dt, pos, level == WorldLayout.Hub);
+        L974Sounds(dt, pos, level == WorldLayout.Level974);
+        L3999Sounds(dt, pos, level == WorldLayout.Level3999);
+        L188Sounds(dt, pos, level == WorldLayout.Level188);
+
         // The Poolrooms' room tone
         bool pool = level == WorldLayout.Poolrooms;
         if (pool && poolTone == null)

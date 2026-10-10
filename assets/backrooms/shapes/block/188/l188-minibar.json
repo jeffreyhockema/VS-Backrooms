@@ -1,0 +1,198 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/188/black",
+		"chrome": "backrooms:block/188/chrome",
+		"fridge": "backrooms:block/188/fridge",
+		"minibar-door": "backrooms:block/188/minibar-door"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				3,
+				0,
+				5
+			],
+			"to": [
+				13,
+				9,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"east": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"south": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"west": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						9
+					]
+				},
+				"up": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#fridge",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				3.2,
+				0.4,
+				4.7
+			],
+			"to": [
+				12.8,
+				8.6,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#minibar-door",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				11.4,
+				2,
+				4.2
+			],
+			"to": [
+				12,
+				7,
+				4.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Vent",
+			"from": [
+				4,
+				0.2,
+				4.8
+			],
+			"to": [
+				12,
+				0.8,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6000000000000001
+					]
+				}
+			}
+		}
+	]
+}

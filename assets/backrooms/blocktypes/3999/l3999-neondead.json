@@ -1,0 +1,92 @@
+// Level 3999.1: a dead neon tube, dark grey glass, cracked and broken off. Salvage: glass, wire, neon tubing
+{
+	"code": "l3999-neondead",
+	"variantgroups": [
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-neondead-ns": {
+			"base": "backrooms:block/3999/l3999-neondead"
+		},
+		"l3999-neondead-we": {
+			"base": "backrooms:block/3999/l3999-neondead",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-neondead-ns"
+		],
+		"backrooms": [
+			"l3999-neondead-ns"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-neondead-ns": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-neondead-we": {
+			"x1": 0.4,
+			"y1": 0.75,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-neontubing",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.3
+			}
+		}
+	]
+}

@@ -1,0 +1,28 @@
+// Invisible: the perpetual dusk that lights the Tower from behind its cornice
+{
+	"code": "hub-dusklight",
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "Empty",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": null,
+	"lightAbsorption": 0,
+	"lightHsv": [
+		2,
+		4,
+		13
+	],
+	"resistance": 999,
+	"drops": [],
+	"replaceable": 10
+}

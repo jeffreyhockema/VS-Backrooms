@@ -1,0 +1,304 @@
+// The End: a single-faced library stack 4 tall (base, mid1, mid2, crown), its shelves facing the side named; rail: a brass rail along the crown for the rolling ladders. Also the Turnaround's wall
+{
+	"code": "end-tallshelf",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"empty",
+				"books",
+				"rail"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"mid1",
+				"mid2",
+				"crown"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-empty-base-north"
+		],
+		"decorative": [
+			"*-empty-base-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-empty-base-north": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 0
+		},
+		"*-empty-base-east": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 270
+		},
+		"*-empty-base-south": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 180
+		},
+		"*-empty-base-west": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 90
+		},
+		"*-empty-mid1-north": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 0
+		},
+		"*-empty-mid1-east": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 270
+		},
+		"*-empty-mid1-south": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 180
+		},
+		"*-empty-mid1-west": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 90
+		},
+		"*-empty-mid2-north": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 0
+		},
+		"*-empty-mid2-east": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 270
+		},
+		"*-empty-mid2-south": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 180
+		},
+		"*-empty-mid2-west": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 90
+		},
+		"*-empty-crown-north": {
+			"base": "block/end/end-tallshelf-empty-crown",
+			"rotateY": 0
+		},
+		"*-empty-crown-east": {
+			"base": "block/end/end-tallshelf-empty-crown",
+			"rotateY": 270
+		},
+		"*-empty-crown-south": {
+			"base": "block/end/end-tallshelf-empty-crown",
+			"rotateY": 180
+		},
+		"*-empty-crown-west": {
+			"base": "block/end/end-tallshelf-empty-crown",
+			"rotateY": 90
+		},
+		"*-books-base-north": {
+			"base": "block/end/end-tallshelf-books-base",
+			"rotateY": 0
+		},
+		"*-books-base-east": {
+			"base": "block/end/end-tallshelf-books-base",
+			"rotateY": 270
+		},
+		"*-books-base-south": {
+			"base": "block/end/end-tallshelf-books-base",
+			"rotateY": 180
+		},
+		"*-books-base-west": {
+			"base": "block/end/end-tallshelf-books-base",
+			"rotateY": 90
+		},
+		"*-books-mid1-north": {
+			"base": "block/end/end-tallshelf-books-mid1",
+			"rotateY": 0
+		},
+		"*-books-mid1-east": {
+			"base": "block/end/end-tallshelf-books-mid1",
+			"rotateY": 270
+		},
+		"*-books-mid1-south": {
+			"base": "block/end/end-tallshelf-books-mid1",
+			"rotateY": 180
+		},
+		"*-books-mid1-west": {
+			"base": "block/end/end-tallshelf-books-mid1",
+			"rotateY": 90
+		},
+		"*-books-mid2-north": {
+			"base": "block/end/end-tallshelf-books-mid2",
+			"rotateY": 0
+		},
+		"*-books-mid2-east": {
+			"base": "block/end/end-tallshelf-books-mid2",
+			"rotateY": 270
+		},
+		"*-books-mid2-south": {
+			"base": "block/end/end-tallshelf-books-mid2",
+			"rotateY": 180
+		},
+		"*-books-mid2-west": {
+			"base": "block/end/end-tallshelf-books-mid2",
+			"rotateY": 90
+		},
+		"*-books-crown-north": {
+			"base": "block/end/end-tallshelf-books-crown",
+			"rotateY": 0
+		},
+		"*-books-crown-east": {
+			"base": "block/end/end-tallshelf-books-crown",
+			"rotateY": 270
+		},
+		"*-books-crown-south": {
+			"base": "block/end/end-tallshelf-books-crown",
+			"rotateY": 180
+		},
+		"*-books-crown-west": {
+			"base": "block/end/end-tallshelf-books-crown",
+			"rotateY": 90
+		},
+		"*-rail-base-north": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 0
+		},
+		"*-rail-base-east": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 270
+		},
+		"*-rail-base-south": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 180
+		},
+		"*-rail-base-west": {
+			"base": "block/end/end-tallshelf-empty-base",
+			"rotateY": 90
+		},
+		"*-rail-mid1-north": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 0
+		},
+		"*-rail-mid1-east": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 270
+		},
+		"*-rail-mid1-south": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 180
+		},
+		"*-rail-mid1-west": {
+			"base": "block/end/end-tallshelf-empty-mid1",
+			"rotateY": 90
+		},
+		"*-rail-mid2-north": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 0
+		},
+		"*-rail-mid2-east": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 270
+		},
+		"*-rail-mid2-south": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 180
+		},
+		"*-rail-mid2-west": {
+			"base": "block/end/end-tallshelf-empty-mid2",
+			"rotateY": 90
+		},
+		"*-rail-crown-north": {
+			"base": "block/end/end-tallshelf-rail-crown",
+			"rotateY": 0
+		},
+		"*-rail-crown-east": {
+			"base": "block/end/end-tallshelf-rail-crown",
+			"rotateY": 270
+		},
+		"*-rail-crown-south": {
+			"base": "block/end/end-tallshelf-rail-crown",
+			"rotateY": 180
+		},
+		"*-rail-crown-west": {
+			"base": "block/end/end-tallshelf-rail-crown",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"dropsByType": {
+		"*-books-*": [
+			{
+				"type": "block",
+				"code": "game:shelf-normal-north",
+				"quantity": {
+					"avg": 0.2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1.2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:book-normal-darkolive",
+				"quantity": {
+					"avg": 0.35,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:book-aged-darkbeige",
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "block",
+				"code": "game:shelf-normal-north",
+				"quantity": {
+					"avg": 0.2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1.2,
+					"var": 0.5
+				}
+			}
+		]
+	}
+}

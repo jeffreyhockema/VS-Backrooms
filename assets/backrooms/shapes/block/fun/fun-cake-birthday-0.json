@@ -1,0 +1,258 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cakeboard": "backrooms:block/fun/cakeboard",
+		"frosting": "backrooms:block/fun/frosting",
+		"sponge": "backrooms:block/fun/sponge",
+		"steeltube": "backrooms:block/fun/steeltube"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				1.75,
+				-2.75,
+				1.75
+			],
+			"to": [
+				14.25,
+				-2.25,
+				14.25
+			],
+			"faces": {
+				"up": {
+					"texture": "#cakeboard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cakeboard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BoardEdge",
+			"from": [
+				2.6,
+				-2.75,
+				2.6
+			],
+			"to": [
+				13.4,
+				-2.3,
+				13.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Crumb1",
+			"from": [
+				5,
+				-2.25,
+				6
+			],
+			"to": [
+				6,
+				-1.75,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Crumb2",
+			"from": [
+				9,
+				-2.25,
+				8
+			],
+			"to": [
+				9.8,
+				-1.85,
+				8.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#sponge",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Smear",
+			"from": [
+				6,
+				-2.24,
+				9
+			],
+			"to": [
+				10,
+				-2.2,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#frosting",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				}
+			}
+		}
+	]
+}

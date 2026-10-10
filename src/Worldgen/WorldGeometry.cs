@@ -52,18 +52,48 @@ public readonly struct WorldGeometry
     /// </summary>
     public const int MotionDrop = 30;
 
+    /// <summary>
+    /// How far below the other levels the floors of the five kept as 14-18 lie (Level !, Fun, the End, the Hub,
+    /// 974): each level's own, changed here and nowhere else. The End's atrium is two storeys.
+    /// </summary>
+    public const int RunDrop = 0, FunDrop = 0, EndDrop = 6, HubDrop = 28, L974Drop = 0;
+
+    /// <summary>The same for Levels 3999 and 188 (19, 20). Level 3999's atria are 18 high (its plan: 20 down).</summary>
+    public const int L3999Drop = 20, L188Drop = 0;
+
+    /// <summary>
+    /// How far below its own floor the band each of the five is generated and lit over begins (<see cref="ShaftDepth"/> is
+    /// the usual). The band is always as tall as the usual one, so a shallower start reaches higher (see
+    /// <see cref="BandTopFor"/>); the End's starts 24 down, for its two-storey atrium six below the shared floor.
+    /// </summary>
+    public const int RunBandDepth = ShaftDepth, FunBandDepth = 12, EndBandDepth = 24, HubBandDepth = 4,
+        L974BandDepth = ShaftDepth;
+
+    /// <summary>
+    /// The same for Levels 3999 and 188: Level 3999's starts only 4 down, so its band reaches its 18-high atria; Level
+    /// 188's 6 down (the hatch's shaft), so its band reaches rel 33, over five storeys and a roof, for the black sky.
+    /// </summary>
+    public const int L3999BandDepth = 4, L188BandDepth = 6;
+
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;
 
     /// <summary>
     /// The floor of a level: the street for Level 11, the water's surface for the Poolrooms, the valley floor for
-    /// Motion, and the shared floor for every other.
+    /// Motion, its own drop below the shared floor for each of the five kept as 14-18, and the shared floor for every other.
     /// </summary>
     public int FloorFor(int level) => level switch
     {
         11 => CityFloorY,
         12 => FloorY - PoolDrop,
         13 => FloorY - MotionDrop,
+        WorldLayout.RunLevel => FloorY - RunDrop,
+        WorldLayout.FunLevel => FloorY - FunDrop,
+        WorldLayout.TheEnd => FloorY - EndDrop,
+        WorldLayout.Hub => FloorY - HubDrop,
+        WorldLayout.Level974 => FloorY - L974Drop,
+        WorldLayout.Level3999 => FloorY - L3999Drop,
+        WorldLayout.Level188 => FloorY - L188Drop,
         _ => FloorY,
     };
 
@@ -80,8 +110,23 @@ public readonly struct WorldGeometry
         11 => CityBandBottom,
         12 => FloorFor(12) - PoolPitDepth - 2,
         13 => FloorFor(13) + 14,
+        // The five kept as 14-18: from their own depth below their own floor
+        WorldLayout.RunLevel => FloorFor(WorldLayout.RunLevel) - RunBandDepth,
+        WorldLayout.FunLevel => FloorFor(WorldLayout.FunLevel) - FunBandDepth,
+        WorldLayout.TheEnd => FloorFor(WorldLayout.TheEnd) - EndBandDepth,
+        WorldLayout.Hub => FloorFor(WorldLayout.Hub) - HubBandDepth,
+        WorldLayout.Level974 => FloorFor(WorldLayout.Level974) - L974BandDepth,
+        WorldLayout.Level3999 => FloorFor(WorldLayout.Level3999) - L3999BandDepth,
+        WorldLayout.Level188 => FloorFor(WorldLayout.Level188) - L188BandDepth,
         _ => BandBottom,
     };
+
+    /// <summary>
+    /// The top of the band a level is lit over, as tall as the usual one from <see cref="BandBottomFor"/>. The five kept as
+    /// 14-18 are generated up to it and sealed with mantle just above it (the usual <see cref="CapY"/> for a level with
+    /// the usual band); it is never above <see cref="TopY"/> - 1.
+    /// </summary>
+    public int BandTopFor(int level) => System.Math.Min(TopY - 1, BandBottomFor(level) + BandTop - BandBottom);
 
     /// <summary>Lowest block that can differ from solid concrete (the bottom of the pit shafts).</summary>
     public int BandBottom => FloorY - ShaftDepth;

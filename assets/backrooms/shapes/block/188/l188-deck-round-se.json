@@ -1,0 +1,562 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deck": "backrooms:block/188/deck",
+		"deck-side": "backrooms:block/188/deck-side"
+	},
+	"elements": [
+		{
+			"name": "Strip0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				2,
+				3,
+				15.968719422671311
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						14,
+						13,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						0.0313,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						15.9687,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0,
+						2,
+						15.9687
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0.0313,
+						2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip1",
+			"from": [
+				2,
+				0,
+				0
+			],
+			"to": [
+				4,
+				3,
+				15.716233645501712
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						12,
+						13,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						0.2838,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						2,
+						13,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						15.7162,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						2,
+						0,
+						4,
+						15.7162
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						2,
+						0.2838,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip2",
+			"from": [
+				4,
+				0,
+				0
+			],
+			"to": [
+				6,
+				3,
+				15.198684153570664
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						10,
+						13,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						0.8013,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						4,
+						13,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						15.1987,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						4,
+						0,
+						6,
+						15.1987
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						4,
+						0.8013,
+						6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip3",
+			"from": [
+				6,
+				0,
+				0
+			],
+			"to": [
+				8,
+				3,
+				14.38749456993816
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						8,
+						13,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						1.6125,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						6,
+						13,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						14.3875,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						6,
+						0,
+						8,
+						14.3875
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						6,
+						1.6125,
+						8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip4",
+			"from": [
+				8,
+				0,
+				0
+			],
+			"to": [
+				10,
+				3,
+				13.228756555322953
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						6,
+						13,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						2.7712,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						8,
+						13,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						13.2288,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						8,
+						0,
+						10,
+						13.2288
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						8,
+						2.7712,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip5",
+			"from": [
+				10,
+				0,
+				0
+			],
+			"to": [
+				12,
+				3,
+				11.61895003862225
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						4,
+						13,
+						6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						4.381,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						10,
+						13,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						11.619,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						10,
+						0,
+						12,
+						11.619
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						10,
+						4.381,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip6",
+			"from": [
+				12,
+				0,
+				0
+			],
+			"to": [
+				14,
+				3,
+				9.327379053088816
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						2,
+						13,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						6.6726,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						12,
+						13,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						9.3274,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						12,
+						0,
+						14,
+						9.3274
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						12,
+						6.6726,
+						14,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip7",
+			"from": [
+				14,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				5.5677643628300215
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						10.4322,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						14,
+						13,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						13,
+						5.5678,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						14,
+						0,
+						16,
+						5.5678
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						14,
+						10.4322,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -412,7 +412,7 @@ def level10():
     block("farmland", {"variantgroups": [{"code": "state", "states": ["old"]}], "creativeinventory": {"general": ["*"]},
                        "blockmaterial": "Soil", "drawtype": "cube",
                        "textures": {"all": {"base": "game:block/soil/fertmedium"}, "up": {"base": "game:block/soil/farmland/fertmedium-dry"}},
-                       "lightAbsorption": 99, "resistance": 1,
+                       "lightAbsorption": 99, "resistance": 1, "fertility": 60,  # (or the flowers in the beds pop off)
                        "drops": [{"type": "block", "code": "game:soil-medium-none", "quantity": {"avg": 1, "var": 0}}],
                        "sounds": {"walk": "game:walk/grass", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"}},
           "Old ploughed soil under the crops of Level 10")

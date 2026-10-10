@@ -1,0 +1,451 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"giftwrap-red": "backrooms:block/fun/giftwrap-red",
+		"ribbon-gold": "backrooms:block/fun/ribbon-gold"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				3.0,
+				0,
+				3.0
+			],
+			"to": [
+				13.0,
+				6.4,
+				13.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						6.4
+					]
+				},
+				"east": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						6.4
+					]
+				},
+				"south": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						6.4
+					]
+				},
+				"west": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						6.4
+					]
+				},
+				"up": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						10.0
+					]
+				},
+				"down": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.0,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Lid",
+			"from": [
+				2.7,
+				6,
+				2.7
+			],
+			"to": [
+				13.3,
+				8,
+				13.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						2
+					]
+				},
+				"east": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						2
+					]
+				},
+				"south": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						2
+					]
+				},
+				"west": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						2
+					]
+				},
+				"up": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						10.600000000000001
+					]
+				},
+				"down": {
+					"texture": "#giftwrap-red",
+					"uv": [
+						0,
+						0,
+						10.600000000000001,
+						10.600000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "RibbonX",
+			"from": [
+				7.25,
+				-0.01,
+				2.5
+			],
+			"to": [
+				8.75,
+				8.2,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8.209999999999999
+					]
+				},
+				"south": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8.209999999999999
+					]
+				},
+				"up": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "RibbonZ",
+			"from": [
+				2.5,
+				-0.01,
+				7.25
+			],
+			"to": [
+				13.5,
+				8.2,
+				8.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8.209999999999999
+					]
+				},
+				"west": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.5,
+						8.209999999999999
+					]
+				},
+				"up": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LoopA",
+			"from": [
+				5.2,
+				8.2,
+				7.5
+			],
+			"to": [
+				8.2,
+				10.2,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						2.999999999999999,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						2.999999999999999,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						2.999999999999999,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						2.999999999999999,
+						1.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "LoopB",
+			"from": [
+				7.8,
+				8.2,
+				7.5
+			],
+			"to": [
+				10.8,
+				10.2,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						3.000000000000001,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						3.000000000000001,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						3.000000000000001,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						3.000000000000001,
+						1.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "Knot",
+			"from": [
+				7.4,
+				8.2,
+				7.4
+			],
+			"to": [
+				8.6,
+				9.4,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				},
+				"east": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				},
+				"south": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				},
+				"west": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				},
+				"up": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#ribbon-gold",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					]
+				}
+			}
+		}
+	]
+}

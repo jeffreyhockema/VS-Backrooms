@@ -1,0 +1,47 @@
+// Level 10's windmills (the way to 3999): white-washed weatherboard walls; a dark shingled cap
+{
+	"code": "l3999-windmill",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"attributes": {
+		"l3999structure": true
+	},
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wall",
+				"cap"
+			]
+		}
+	],
+	"texturesByType": {
+		"l3999-windmill-wall": {
+			"all": {
+				"base": "block/3999/weatherboard"
+			}
+		},
+		"l3999-windmill-cap": {
+			"all": {
+				"base": "block/3999/shingle"
+			}
+		}
+	}
+}

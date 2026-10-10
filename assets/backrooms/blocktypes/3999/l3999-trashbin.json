@@ -1,0 +1,89 @@
+// Level 3999: a chrome bin with a black lid. Salvage: plastic, paper, a dropped ticket or two
+{
+	"code": "l3999-trashbin",
+	"shape": {
+		"base": "backrooms:block/3999/l3999-trashbin"
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-trashbin"
+		],
+		"backrooms": [
+			"l3999-trashbin"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.9,
+		"z2": 0.8
+	},
+	"collisionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.9,
+		"z2": 0.8
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "l3999-plastic",
+			"quantity": {
+				"avg": 0.8,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-ticket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-popcorn",
+			"quantity": {
+				"avg": 0.08,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.2
+			}
+		}
+	]
+}

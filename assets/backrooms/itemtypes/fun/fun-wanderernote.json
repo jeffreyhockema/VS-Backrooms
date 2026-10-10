@@ -1,0 +1,64 @@
+// A wanderer's note found in Level Fun's gifts: altered. Its kind is 'altered' (Variant["kind"])
+{
+	"code": "fun-wanderernote",
+	"class": "BackroomsWandererNote",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"altered"
+			]
+		}
+	],
+	"maxstacksize": 16,
+	"texture": {
+		"base": "item/wanderernote"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

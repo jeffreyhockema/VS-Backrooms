@@ -9,7 +9,9 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private int turfLightId, turfDarkId, claySoilId, backdropHillsId, backdropSkyId, glassMountainId;
+    private int turfLightId, turfDarkId, claySoilId, fireClayId, backdropHillsId, backdropSkyId, glassMountainId;
+    /// <summary>Seams of fire clay under the hills: the Backrooms' only fire clay, so the bloomery and the kilns are possible.</summary>
+    private const ulong SaltFireClay = 0x9431;
     private int castleWallId, castleRoofId, funWallId, castleCeilingId, funLightId, funBrightId;
     private int towerLegId, towerTankId, towerRoofId, towerTapId, almondRimId, almondSpoutId;
     private readonly int[] cinemaScreenIds = new int[4], picketIds = new int[16];
@@ -21,6 +23,7 @@ public sealed partial class WorldGenerator
         turfLightId = Id("clayturf-light");
         turfDarkId = Id("clayturf-dark");
         claySoilId = Id("claysoil");
+        fireClayId = GameId("game:rawclay-fire-none");
         backdropHillsId = Id("backdrop-hills");
         backdropSkyId = Id("backdrop-sky");
         glassMountainId = Id("glassmountain");
@@ -77,8 +80,13 @@ public sealed partial class WorldGenerator
         }
         if (t.Zone is 3 or 4) return CastleBlock(t, gx, gz, rel, ground);
 
-        // The ground: clay, with a layer of real clay a little way down, under the turf, the road or the floor
-        if (rel < ground - 2) return claySoilId;
+        // The ground: clay, with a layer of real clay a little way down, under the turf, the road or the floor, and
+        // seams of fire clay three blocks thick (5 to 7 under the surface) over about half the hills (measured 57%)
+        if (rel < ground - 2)
+        {
+            if (fireClayId != 0 && rel >= ground - 7 && Noise2(gx / 20.0, gz / 20.0, SaltFireClay) > 0.15) return fireClayId;
+            return claySoilId;
+        }
         if (rel == ground - 2) return clayId != 0 ? clayId : claySoilId;
         if (rel == ground - 1) return claySoilId;
         if (rel == ground) return floorIds[(int)t.Floor] != 0 ? floorIds[(int)t.Floor] : turfLightId;
@@ -90,7 +98,9 @@ public sealed partial class WorldGenerator
         if (t.Stair > 0) return c == 1 ? stairIds[Facing(t.Pier)] : 0;
         switch (t.Variant)
         {
-            case Props.WaterTower: return WaterTowerBlock(t.Stack, c);
+            case Props.WaterTower:
+                int tower = WaterTowerBlock(t.Stack, c);
+                return tower == 0 && c == 1 ? UnderTowerGrass(t, gx, gz) : tower; // long grass round its legs
             case Props.AlmondFountain: return FountainBlock(t.Stack, c, out fluid);
         }
         // The doors that lead elsewhere: a doll's house's, and a flooded house's (held shut on the water)

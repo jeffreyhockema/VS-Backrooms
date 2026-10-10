@@ -1,0 +1,145 @@
+// Level Fun: a blank pull-down screen, three blocks wide (l, m, r as seen facing it), hung from under the ceiling
+{
+	"code": "fun-screen",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/fun/fun-screen-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/fun/fun-screen-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/fun/fun-screen-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/fun/fun-screen-l",
+			"rotateY": 90
+		},
+		"*-m-north": {
+			"base": "block/fun/fun-screen-m",
+			"rotateY": 0
+		},
+		"*-m-east": {
+			"base": "block/fun/fun-screen-m",
+			"rotateY": 270
+		},
+		"*-m-south": {
+			"base": "block/fun/fun-screen-m",
+			"rotateY": 180
+		},
+		"*-m-west": {
+			"base": "block/fun/fun-screen-m",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/fun/fun-screen-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/fun/fun-screen-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/fun/fun-screen-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/fun/fun-screen-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"decorative": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": -0.9,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": -0.9,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": -0.9,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": -0.9,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.3
+			}
+		}
+	]
+}

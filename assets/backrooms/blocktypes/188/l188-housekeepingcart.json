@@ -1,0 +1,159 @@
+// Level 188: a grey housekeeping cart, folded towels, a linen bag, bottles and a mop. Breaks into cloth, candles and now and then the housekeeping keycard
+{
+	"code": "l188-housekeepingcart",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-housekeepingcart-north": {
+			"base": "backrooms:block/188/l188-housekeepingcart"
+		},
+		"l188-housekeepingcart-east": {
+			"base": "backrooms:block/188/l188-housekeepingcart",
+			"rotateY": 270
+		},
+		"l188-housekeepingcart-south": {
+			"base": "backrooms:block/188/l188-housekeepingcart",
+			"rotateY": 180
+		},
+		"l188-housekeepingcart-west": {
+			"base": "backrooms:block/188/l188-housekeepingcart",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-housekeepingcart-north"
+		],
+		"backrooms": [
+			"l188-housekeepingcart-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l188-housekeepingcart-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78
+		},
+		"l188-housekeepingcart-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"l188-housekeepingcart-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"l188-housekeepingcart-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-housekeepingcart-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78
+		},
+		"l188-housekeepingcart-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"l188-housekeepingcart-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"l188-housekeepingcart-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 1,
+			"y2": 0.92,
+			"z2": 0.78,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 3,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "l188-keycard",
+			"quantity": {
+				"avg": 0.25,
+				"var": 0
+			}
+		},
+		{
+			"type": "block",
+			"code": "game:candle",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	]
+}

@@ -1,0 +1,313 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"exitface-lit": "backrooms:block/run/exitface-lit",
+		"exithousing": "backrooms:block/run/exithousing",
+		"steelframe": "backrooms:block/run/steelframe",
+		"wall": "backrooms:block/run/wall"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BracketL",
+			"from": [
+				2,
+				9,
+				-1
+			],
+			"to": [
+				3,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "BracketR",
+			"from": [
+				13,
+				9,
+				-1
+			],
+			"to": [
+				14,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Housing",
+			"from": [
+				1,
+				8,
+				-3
+			],
+			"to": [
+				15,
+				14,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				},
+				"east": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"south": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						14,
+						6
+					]
+				},
+				"west": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"up": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				},
+				"down": {
+					"texture": "#exithousing",
+					"uv": [
+						0,
+						0,
+						14,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				1.3,
+				8.3,
+				-3.1
+			],
+			"to": [
+				14.7,
+				13.7,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitface-lit",
+					"uv": [
+						1,
+						5,
+						15,
+						11
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

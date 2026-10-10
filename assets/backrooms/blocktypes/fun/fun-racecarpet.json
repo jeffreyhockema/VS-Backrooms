@@ -1,0 +1,27 @@
+// Level Fun: the mural room's red play carpet with race-track lanes and toy cars
+{
+	"code": "fun-racecarpet",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/racecarpet"
+		}
+	}
+}

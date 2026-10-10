@@ -1,0 +1,27 @@
+// Level Fun: the crew's grey riveted steel in the service corridors
+{
+	"code": "fun-steel",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/steel"
+		}
+	}
+}

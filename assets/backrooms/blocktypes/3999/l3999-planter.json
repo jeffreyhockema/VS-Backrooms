@@ -1,0 +1,51 @@
+// Level 3999: a white box planter with a fake palm, fronds fanning out
+{
+	"code": "l3999-planter",
+	"shape": {
+		"base": "backrooms:block/3999/l3999-planter"
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-planter"
+		],
+		"backrooms": [
+			"l3999-planter"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.62,
+		"z2": 0.88
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.62,
+		"z2": 0.88
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

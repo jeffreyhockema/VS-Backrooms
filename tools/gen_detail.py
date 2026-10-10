@@ -8,6 +8,7 @@ import json
 import os
 
 import detail_textures
+import fire_fx
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
                         STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, shape, shift, turn, wall_family)
 
@@ -61,6 +62,16 @@ def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, c
     block(code, data, comment or (english if isinstance(english, str) else None))
     for k in kinds:
         name(f"{code}-{k}", english if isinstance(english, str) else english[k])
+
+
+# Flames, fire and embers on the props that burn (offsets from the top middle of each prop's collision box)
+# Burn barrel: licking flames and sparks over the embers (13/16 up; the box tops out at 0.84)
+BURNBARREL_FIRE = [fire_fx.fire(0, -0.03, 0, spread=(0.22, 0, 0.22), quantity=0.5, size=0.25),
+                   fire_fx.embers(0, -0.03, 0, spread=(0.2, 0, 0.2), quantity=0.012)]
+# Candelabra: a flame on each of its three candles (tops 18/16, 19/16 and 18/16 up; the box tops out at 1.1)
+CANDELABRA_FLAMES = [fire_fx.flame(-0.28125, 0.025, 0), fire_fx.flame(0, 0.0875, 0), fire_fx.flame(0.28125, 0.025, 0)]
+# Dining table: the candle in the middle (its top 16/16 up; the box tops out at 0.78)
+DININGTABLE_FLAMES = [fire_fx.flame(0, 0.22, 0)]
 
 
 # ======================= Signs and doors =======================
@@ -303,7 +314,7 @@ def level1():
         bx("Hoop", (2.8, 1, 2.8), (13.2, 2, 13.2), "rust", faces=("north", "east", "south", "west")),
         bx("Embers", (3.3, 12.6, 3.3), (12.7, 13, 12.7), "embers", glow=255, faces=("up",))],
          box=(0.18, 0, 0.18, 0.82, 0.84, 0.82), oriented=False, material="Metal", sounds=METAL, light=[3, 7, 12],
-         extra={"particleProperties": smoke})
+         extra={"particleProperties": smoke + BURNBARREL_FIRE, "behaviors": [fire_fx.heat(7)]})
     hospital = {
         "head": [bx("Frame", (1, 6, 0), (15, 8, 16), "hospitalframe"),
                  bx("Mattress", (1.5, 8, 0.5), (14.5, 11, 16), "white"), bx("Pillow", (3, 11, 1.5), (13, 12.5, 5), "white"),
@@ -496,7 +507,8 @@ def level3():
         bx("Arms", (3, 13, 7.5), (13, 14, 8.5), "brass"),
         bx("CandleL", (3, 14, 7.5), (4, 18, 8.5), "tubewarm", glow=180), bx("CandleM", (7.5, 15, 7.5), (8.5, 19, 8.5), "tubewarm", glow=180),
         bx("CandleR", (12, 14, 7.5), (13, 18, 8.5), "tubewarm", glow=180)],
-         box=(0.3, 0, 0.3, 0.7, 1.1, 0.7), oriented=False, material="Metal", sounds=METAL, light=[6, 5, 10])
+         box=(0.3, 0, 0.3, 0.7, 1.1, 0.7), oriented=False, material="Metal", sounds=METAL, light=[6, 5, 10],
+         extra={"particleProperties": CANDELABRA_FLAMES})
     prop("angelstatue", "Statue", [
         bx("Pedestal", (1, 0, 1), (15, 8, 15), "stone"), bx("Plinth", (0.5, 8, 0.5), (15.5, 9, 15.5), "stone"),
         bx("Robe", (4, 9, 5), (12, 25, 11), "stone"), bx("Hem", (3.5, 9, 4.5), (12.5, 12, 11.5), "stone"),
@@ -784,7 +796,7 @@ def level5():
         bx("PlateW", (1.5, 12, 6.5), (4.5, 12.3, 9.5), "china"), bx("PlateE", (11.5, 12, 6.5), (14.5, 12.3, 9.5), "china"),
         bx("Glass1", (10, 12, 3), (11, 14, 4), "crystal"), bx("Glass2", (5, 12, 12), (6, 14, 13), "crystal"),
         bx("Candle", (7.5, 12, 7.5), (8.5, 16, 8.5), "tubewarm", glow=180), bx("Holder", (7, 12, 7), (9, 12.8, 9), "silver")],
-         box=(0.03, 0, 0.03, 0.97, 0.78, 0.97), oriented=False, light=[6, 5, 7])
+         box=(0.03, 0, 0.03, 0.97, 0.78, 0.97), oriented=False, light=[6, 5, 7], extra={"particleProperties": DININGTABLE_FLAMES})
     prop("grandpiano", "Grand Piano", [
         bx("Body", (0, 9, 1), (16, 13, 22), "pianoblack"), bx("Tail", (2, 9, 22), (13, 13, 28), "pianoblack"),
         bx("Lid", (0, 13, 4), (16, 13.6, 22), "pianoblack", rot=(-25, 0, 0), origin=(8, 13, 22)),
@@ -800,6 +812,89 @@ def level5():
         bx("Heap1", (1, 0, 1), (15, 3, 15), "coal"), bx("Heap2", (3, 3, 3), (13, 6, 12), "coal"), bx("Heap3", (5, 6, 5), (10, 8, 10), "coal"),
         bx("Handle", (11, 4, 10), (12, 16, 11), "wood", rot=(0, 0, 15), origin=(11.5, 4, 10.5)),
         bx("Blade", (10, 2, 9.5), (13, 6, 10.1), "metaldark")], box=(0.06, 0, 0.06, 0.94, 0.5, 0.94), oriented=False, sounds=STONE)
+
+
+# ======================= Vanilla machinery =======================
+
+# Vintage Story's own machinery and clutter shapes, wrapped as our props so they break down like the rest of the
+# building (Breakdown.cs: metal, a bracket now and then) and need no block entity. Every texture is named with its
+# game: path; the bright tin bronze and the temporal glow of the ruins are swapped for tarnished metal and smoky glass.
+GAME_TEX = {
+    "tinbronze": "block/metal/tarnished/tarnished-bronze", "bituminous": "block/coal/bituminous", "quartz": "block/glass/quartz",
+    "copper1": "block/metal/tarnished/tarnished-copper", "plainoak": "block/wood/debarked/oak", "tempglow": "block/glass/smoky",
+    "anthracite": "block/coal/anthracite", "iron1": "block/metal/sheet/iron1", "aged": "block/wood/debarked/oak",
+    "copper5": "block/metal/tarnished/rusty-iron1", "device-plate": "block/machine/device-plate", "smoky": "block/glass/smoky",
+    "rusty-iron": "block/metal/tarnished/rusty-iron", "brass": "block/metal/tarnished/brass", "silver": "block/metal/tarnished/silver",
+}
+VANILLA_TEX_KEYS = {
+    "devastation/machinery/gauge3": ["bituminous", "tinbronze"],
+    "devastation/machinery/gauge4": ["bituminous", "quartz", "tinbronze"],
+    "devastation/machinery/valve2": ["copper1", "plainoak", "tinbronze"],
+    "devastation/machinery/sightglass2": ["tempglow", "tinbronze"],
+    "devastation/machinery/lever1": ["aged", "anthracite", "iron1", "tinbronze"],
+    "devastation/machinery/lever2": ["aged", "anthracite", "iron1", "tinbronze"],
+    "clutter/tank-metal1": ["copper5"],
+    "clutter/tank-metal2": ["copper5"],
+    "clutter/machine6": ["brass", "device-plate", "rusty-iron", "smoky"],
+    "clutter/machine7": ["brass", "device-plate", "rusty-iron", "silver", "smoky"],
+}
+# Which way, in a north-facing frame, each side pushes a model: toward the wall behind it (south once turned)
+_BACK = {"north": (0, 1), "east": (-1, 0), "south": (0, -1), "west": (1, 0)}
+
+
+def vanilla_prop(code, english, kinds, box, back=0.0, turn=0, material="Metal", sounds=METAL, comment=None, extra=None):
+    """A prop drawn with vanilla shapes: `kinds` maps a kind to a shape under game:shapes/block/. Like our own props it
+    faces north (Tile.Pier) and turns with its side; `turn` first turns the vanilla model (180 for the wall pieces,
+    which vanilla models with their back to the north), and `back` pushes it that far toward the wall behind it."""
+    by_type, textures = {}, {}
+    for k, sp in kinds.items():
+        for key in VANILLA_TEX_KEYS[sp]:
+            textures[key] = {"base": "game:" + GAME_TEX[key]}
+        for s in SIDES:
+            shp = {"base": "game:block/" + sp, "rotateY": (ROTATE[s] + turn) % 360}
+            if back:
+                dx, dz = _BACK[s]
+                if dx:
+                    shp["offsetX"] = dx * back
+                if dz:
+                    shp["offsetZ"] = dz * back
+            by_type[f"*-{k}-{s}"] = shp
+    first = next(iter(kinds))
+    block(code, {
+        "variantgroups": [{"code": "kind", "states": list(kinds)}, {"code": "side", "states": SIDES}],
+        "shapeByType": by_type,
+        "textures": dict(sorted(textures.items())),
+        "creativeinventory": {"general": [f"*-{first}-north"], "decorative": [f"*-{first}-north"]},
+        "blockmaterial": material, "drawtype": "json", "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "lightAbsorption": 0, "resistance": 3, "sounds": sounds,
+        "collisionboxByType": {f"*-{s}": cuboid(box, s) for s in SIDES},
+        "selectionboxByType": {f"*-{s}": cuboid(box, s) for s in SIDES},
+        **(extra or {}),
+    }, comment or english)
+    for k in kinds:
+        name(f"{code}-{k}-*", english if isinstance(english, str) else english[k])
+
+
+def machinery():
+    # Gauge boards, a valve manifold and a sight glass on their pipes, standing against a wall (only their back third
+    # is solid, so a tunnel stays as wide as it was)
+    vanilla_prop("gaugeframe", {"gauges": "Pressure Gauges", "manifold": "Pressure Gauges", "valve": "Valve Manifold",
+                                "sightglass": "Sight Glass"}, {
+        "gauges": "devastation/machinery/gauge3", "manifold": "devastation/machinery/gauge4",
+        "valve": "devastation/machinery/valve2", "sightglass": "devastation/machinery/sightglass2"},
+        box=(0.05, 0, 0.62, 0.95, 1, 1), back=0.4, turn=180, comment="Gauges, valves and sight glasses on their pipework, against a wall",
+        # The valve's packing has given: a thin hiss of steam from round its spindle (the wheel stands 0.3 below the
+        # top middle of the solid back third, right over it)
+        extra={"particlePropertiesByType": {"*-valve-*": [fire_fx.steam(0, -0.3, 0, quantity=0.04, velocity=(0, 0.25, 0))]}})
+    # Rusted pressure vessels, plain and with their outlets
+    vanilla_prop("pressuretank", "Pressure Tank", {"plain": "clutter/tank-metal1", "valved": "clutter/tank-metal2"},
+                 box=(0.19, 0, 0.19, 0.81, 1, 0.95), comment="Rusted pressure vessels")
+    # What is left of the pumps and governors of some long-stopped machine
+    vanilla_prop("rustmachine", "Old Machinery", {"pump": "clutter/machine6", "governor": "clutter/machine7"},
+                 box=(0.1, 0, 0.1, 0.9, 0.85, 0.9), comment="Rusted pumps and governors of some long-stopped machine")
+    # Floor levers for a boiler's dampers and feed, one handle or two
+    vanilla_prop("floorlever", "Floor Lever", {"single": "devastation/machinery/lever1", "double": "devastation/machinery/lever2"},
+                 box=(0.2, 0, 0.12, 0.8, 1, 0.9), comment="Floor levers, one handle or two")
 
 
 def merge_lang():
@@ -859,6 +954,7 @@ if __name__ == "__main__":
     level3()
     level4()
     level5()
+    machinery()
     import gen_deep
     gen_deep.generate()
     import gen_city

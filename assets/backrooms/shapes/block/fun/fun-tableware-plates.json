@@ -1,0 +1,324 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/fun/chrome",
+		"napkin": "backrooms:block/fun/napkin",
+		"plate-blue": "backrooms:block/fun/plate-blue",
+		"plate-yellow": "backrooms:block/fun/plate-yellow"
+	},
+	"elements": [
+		{
+			"name": "Plate1",
+			"from": [
+				1.5,
+				-2.75,
+				2
+			],
+			"to": [
+				6.5,
+				-2.5,
+				7
+			],
+			"faces": {
+				"up": {
+					"texture": "#plate-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plate-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate2",
+			"from": [
+				9,
+				-2.75,
+				1.5
+			],
+			"to": [
+				14,
+				-2.5,
+				6.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#plate-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plate-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate3",
+			"from": [
+				5,
+				-2.75,
+				9.5
+			],
+			"to": [
+				10,
+				-2.5,
+				14.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#plate-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plate-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Napkin1",
+			"from": [
+				6.8,
+				-2.75,
+				3
+			],
+			"to": [
+				8.8,
+				-2.45,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.000000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.000000000000001,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.000000000000001,
+						3
+					]
+				},
+				"down": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.000000000000001,
+						3
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.800000000000001,
+				-2.6,
+				4.5
+			],
+			"rotationY": 15
+		},
+		{
+			"name": "Napkin2",
+			"from": [
+				10.5,
+				-2.75,
+				10
+			],
+			"to": [
+				13,
+				-2.45,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#napkin",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Fork",
+			"from": [
+				0.8,
+				-2.5,
+				3
+			],
+			"to": [
+				1.2,
+				-2.35,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				}
+			}
+		}
+	]
+}

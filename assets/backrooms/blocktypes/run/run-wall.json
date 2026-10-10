@@ -1,0 +1,176 @@
+// Level !: the hallway's walls. plain above, base (cove base) at the floor, rail-<side> with the crash rail on that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), void (matte black: the antechamber behind the chained door, the fake exits' closets)
+{
+	"code": "run-wall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"base",
+				"void",
+				"rail-north",
+				"rail-east",
+				"rail-south",
+				"rail-west",
+				"railcorner-north",
+				"railcorner-east",
+				"railcorner-south",
+				"railcorner-west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/run/wall"
+			}
+		},
+		"*-base": {
+			"north": {
+				"base": "block/run/wallbase"
+			},
+			"east": {
+				"base": "block/run/wallbase"
+			},
+			"south": {
+				"base": "block/run/wallbase"
+			},
+			"west": {
+				"base": "block/run/wallbase"
+			},
+			"up": {
+				"base": "block/run/wall"
+			},
+			"down": {
+				"base": "block/run/wall"
+			}
+		},
+		"*-void": {
+			"all": {
+				"base": "block/run/void"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drawtypeByType": {
+		"*-rail-north": "json",
+		"*-rail-east": "json",
+		"*-rail-south": "json",
+		"*-rail-west": "json",
+		"*-railcorner-north": "json",
+		"*-railcorner-east": "json",
+		"*-railcorner-south": "json",
+		"*-railcorner-west": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-rail-north": {
+			"base": "block/run/run-wall-rail",
+			"rotateY": 0
+		},
+		"*-rail-east": {
+			"base": "block/run/run-wall-rail",
+			"rotateY": 270
+		},
+		"*-rail-south": {
+			"base": "block/run/run-wall-rail",
+			"rotateY": 180
+		},
+		"*-rail-west": {
+			"base": "block/run/run-wall-rail",
+			"rotateY": 90
+		},
+		"*-railcorner-north": {
+			"base": "block/run/run-wall-railcorner",
+			"rotateY": 0
+		},
+		"*-railcorner-east": {
+			"base": "block/run/run-wall-railcorner",
+			"rotateY": 270
+		},
+		"*-railcorner-south": {
+			"base": "block/run/run-wall-railcorner",
+			"rotateY": 180
+		},
+		"*-railcorner-west": {
+			"base": "block/run/run-wall-railcorner",
+			"rotateY": 90
+		}
+	},
+	"sidesolidByType": {
+		"*-rail-north": {
+			"all": false
+		},
+		"*-rail-east": {
+			"all": false
+		},
+		"*-rail-south": {
+			"all": false
+		},
+		"*-rail-west": {
+			"all": false
+		},
+		"*-railcorner-north": {
+			"all": false
+		},
+		"*-railcorner-east": {
+			"all": false
+		},
+		"*-railcorner-south": {
+			"all": false
+		},
+		"*-railcorner-west": {
+			"all": false
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"sideopaqueByType": {
+		"*-rail-north": {
+			"all": false
+		},
+		"*-rail-east": {
+			"all": false
+		},
+		"*-rail-south": {
+			"all": false
+		},
+		"*-rail-west": {
+			"all": false
+		},
+		"*-railcorner-north": {
+			"all": false
+		},
+		"*-railcorner-east": {
+			"all": false
+		},
+		"*-railcorner-south": {
+			"all": false
+		},
+		"*-railcorner-west": {
+			"all": false
+		},
+		"*": {
+			"all": true
+		}
+	}
+}

@@ -1,0 +1,68 @@
+// Coin Mechanism
+{
+	"code": "l3999-coinmech",
+	"maxstacksize": 16,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 400,
+	"texture": {
+		"base": "item/3999/coinmech"
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	},
+	"combustibleProps": {
+		"meltingPoint": 920,
+		"meltingDuration": 30,
+		"smeltedRatio": 5,
+		"smeltedStack": {
+			"type": "item",
+			"code": "game:ingot-brass"
+		}
+	}
+}

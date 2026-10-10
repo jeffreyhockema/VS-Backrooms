@@ -1,0 +1,48 @@
+// The End: a maple-veneer staff door marked EMPLOYEES ONLY (on every face). Locked; indestructible
+{
+	"code": "end-staffdoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/end/end-staffdoor-lower"
+		},
+		"*-upper": {
+			"base": "block/end/end-staffdoor-upper"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "locked"
+			}
+		}
+	]
+}

@@ -1,0 +1,275 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"neon-pink": "backrooms:block/3999/neon-pink",
+		"skee-body": "backrooms:block/3999/skee-body",
+		"skee-score": "backrooms:block/3999/skee-score",
+		"skee-target": "backrooms:block/3999/skee-target"
+	},
+	"elements": [
+		{
+			"name": "Target",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				22,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#skee-target",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 90
+				},
+				"east": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				2
+			],
+			"rotationX": 12
+		},
+		{
+			"name": "Score",
+			"from": [
+				1,
+				22,
+				2
+			],
+			"to": [
+				15,
+				27,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#skee-score",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"east": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"west": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "ScoreBack",
+			"from": [
+				1,
+				22,
+				5
+			],
+			"to": [
+				15,
+				27,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				},
+				"east": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						11,
+						5
+					]
+				},
+				"south": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				},
+				"west": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						11,
+						5
+					]
+				},
+				"up": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						11
+					]
+				},
+				"down": {
+					"texture": "#skee-body",
+					"uv": [
+						0,
+						0,
+						14,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "NeonT",
+			"from": [
+				0.6,
+				26.6,
+				1.6
+			],
+			"to": [
+				15.4,
+				27.2,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.5999999999999979
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.5999999999999979
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.5999999999999979
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.5999999999999979
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.6000000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.6000000000000001
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

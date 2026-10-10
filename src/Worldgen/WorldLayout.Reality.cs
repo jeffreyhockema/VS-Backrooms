@@ -68,6 +68,14 @@ public sealed partial class WorldLayout
             case Motion:
                 // The hills are kind enough by day; the castle is not ("bring some Almond Water")
                 return InCastle((int)Math.Floor(x), (int)Math.Floor(z)) ? 0.7f + 0.1f * drift : 1.05f + 0.05f * drift;
+            // The five kept as 14-18 work theirs out in their own files
+            case RunLevel: return RunStability(x, y, z, floorY, drift);
+            case FunLevel: return FunStability(x, y, z, floorY, drift);
+            case TheEnd: return EndStability(x, y, z, floorY, drift);
+            case Hub: return HubStability(x, y, z, floorY, drift);
+            case Level974: return L974Stability(x, y, z, floorY, drift);
+            case Level3999: return L3999Stability(x, y, z, floorY, drift);
+            case Level188: return L188Stability(x, y, z, floorY, drift);
             case 5:
                 return HotelZoneAt(mx, mz) switch
                 {
@@ -202,6 +210,43 @@ public sealed partial class WorldLayout
             (cx, cz) = MotionArrivalCell(h);
             spot ??= IsMotionArrivalSpot;
         }
+        // Nor are the five kept as 14-18: each picks its own cell and its own kind of spot
+        else if (level == RunLevel)
+        {
+            (cx, cz) = RunArrivalCell(h);
+            spot ??= IsRunArrivalSpot;
+        }
+        else if (level == FunLevel)
+        {
+            (cx, cz) = FunArrivalCell(h);
+            spot ??= IsFunArrivalSpot;
+        }
+        else if (level == TheEnd)
+        {
+            (cx, cz) = EndArrivalCell(h);
+            spot ??= IsEndArrivalSpot;
+        }
+        else if (level == Hub)
+        {
+            (cx, cz) = HubArrivalCell(h);
+            spot ??= IsHubArrivalSpot;
+        }
+        else if (level == Level974)
+        {
+            (cx, cz) = L974ArrivalCell(h);
+            spot ??= IsL974ArrivalSpot;
+            checkEscape = false; // a house with no way out is the point
+        }
+        else if (level == Level3999)
+        {
+            (cx, cz) = L3999ArrivalCell(h);
+            spot ??= IsL3999ArrivalSpot;
+        }
+        else if (level == Level188)
+        {
+            (cx, cz) = L188ArrivalCell(h);
+            spot ??= IsL188ArrivalSpot;
+        }
         int reach = cellFilter != null ? 16 : 6;
         if (near != null) (cx, cz, reach) = (near.Value.Mx, near.Value.Mz, Math.Min(reach, 5));
 
@@ -256,6 +301,13 @@ public sealed partial class WorldLayout
         {
             Poolrooms => t.Depth == 0 ? stand : t.Depth == 1 ? stand - 1 : 0.2,
             Motion => t.Height + stand,
+            RunLevel => RunArrivalHeight(t, stand),
+            FunLevel => FunArrivalHeight(t, stand),
+            TheEnd => EndArrivalHeight(t, stand),
+            Hub => HubArrivalHeight(t, stand),
+            Level974 => L974ArrivalHeight(t, stand),
+            Level3999 => L3999ArrivalHeight(t, stand),
+            Level188 => L188ArrivalHeight(t, stand),
             _ => stand,
         };
     }

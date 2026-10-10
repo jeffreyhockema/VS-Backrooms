@@ -1,0 +1,245 @@
+// Level 3999: NEON RALLY, a sit-down racer. seat: a bucket seat with pedals, the player looking the way named; screen: a hooded screen with a steering wheel and a gear lever, its front facing the way named (put it in front of the seat, facing it). Hold the screen to play (10 s, pays 1-5)
+{
+	"code": "l3999-racer",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"seat",
+				"screen"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-racer-seat-north": {
+			"base": "backrooms:block/3999/l3999-racer-seat"
+		},
+		"l3999-racer-seat-east": {
+			"base": "backrooms:block/3999/l3999-racer-seat",
+			"rotateY": 270
+		},
+		"l3999-racer-seat-south": {
+			"base": "backrooms:block/3999/l3999-racer-seat",
+			"rotateY": 180
+		},
+		"l3999-racer-seat-west": {
+			"base": "backrooms:block/3999/l3999-racer-seat",
+			"rotateY": 90
+		},
+		"l3999-racer-screen-north": {
+			"base": "backrooms:block/3999/l3999-racer-screen"
+		},
+		"l3999-racer-screen-east": {
+			"base": "backrooms:block/3999/l3999-racer-screen",
+			"rotateY": 270
+		},
+		"l3999-racer-screen-south": {
+			"base": "backrooms:block/3999/l3999-racer-screen",
+			"rotateY": 180
+		},
+		"l3999-racer-screen-west": {
+			"base": "backrooms:block/3999/l3999-racer-screen",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-racer-seat-north"
+		],
+		"backrooms": [
+			"l3999-racer-seat-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-racer-seat-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94
+		},
+		"l3999-racer-seat-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-racer-seat-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-racer-seat-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-racer-screen-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1
+		},
+		"l3999-racer-screen-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-racer-screen-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-racer-screen-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-racer-seat-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94
+		},
+		"l3999-racer-seat-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-racer-seat-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-racer-seat-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-racer-screen-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1
+		},
+		"l3999-racer-screen-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-racer-screen-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-racer-screen-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-screen-*": [
+			3,
+			7,
+			7
+		]
+	},
+	"drops": [],
+	"attributesByType": {
+		"*-screen-*": {
+			"l3999structure": true,
+			"l3999cabinet": {
+				"seconds": 10,
+				"min": 1,
+				"max": 5,
+				"jackpot": 12,
+				"jackpotChance": 0.03
+			}
+		},
+		"*": {
+			"l3999structure": true
+		}
+	}
+}

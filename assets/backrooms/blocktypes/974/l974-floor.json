@@ -1,0 +1,75 @@
+// Level 974: blush carpet, the kitchen's pink-and-white checker, white hexagon bath tile
+{
+	"code": "l974-floor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"carpet",
+				"checker",
+				"bathhex"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"texturesByType": {
+		"l974-floor-carpet": {
+			"all": {
+				"base": "block/974/carpet",
+				"alternates": [
+					{
+						"base": "block/974/carpet",
+						"rotation": 90
+					},
+					{
+						"base": "block/974/carpet",
+						"rotation": 180
+					},
+					{
+						"base": "block/974/carpet",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"l974-floor-checker": {
+			"all": {
+				"base": "block/974/checker"
+			}
+		},
+		"l974-floor-bathhex": {
+			"all": {
+				"base": "block/974/bathhex"
+			}
+		}
+	},
+	"soundsByType": {
+		"l974-floor-carpet": {
+			"walk": "game:walk/cloth",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	},
+	"attributes": {
+		"l974structure": true
+	}
+}

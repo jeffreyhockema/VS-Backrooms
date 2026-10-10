@@ -1,0 +1,287 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/fun/chrome",
+		"cord": "backrooms:block/fun/cord",
+		"plug": "backrooms:block/fun/plug"
+	},
+	"elements": [
+		{
+			"name": "Cord",
+			"from": [
+				7.6,
+				0,
+				0
+			],
+			"to": [
+				8.4,
+				0.8,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						9,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Plug",
+			"from": [
+				7,
+				0,
+				9
+			],
+			"to": [
+				9,
+				1.5,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#plug",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pin1",
+			"from": [
+				7.4,
+				0.4,
+				10.5
+			],
+			"to": [
+				7.7,
+				0.8,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0999999999999996
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Pin2",
+			"from": [
+				8.3,
+				0.4,
+				10.5
+			],
+			"to": [
+				8.6,
+				0.8,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0999999999999996
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0999999999999996
+					]
+				}
+			}
+		}
+	]
+}

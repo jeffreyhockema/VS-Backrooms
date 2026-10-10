@@ -122,6 +122,160 @@
 				"var": 0.5
 			},
 			"selfPropelled": true
+		},
+		{
+			"hsvaColor": [
+				{
+					"avg": 20,
+					"var": 20
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"opacityEvolve": {
+				"transform": "quadratic",
+				"factor": -16
+			},
+			"gravityEffect": {
+				"avg": 0,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.22
+				},
+				{
+					"avg": -0.03,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0.22
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.05
+				},
+				{
+					"avg": 0.125,
+					"var": 0.05
+				},
+				{
+					"avg": 0,
+					"var": 0.05
+				}
+			],
+			"quantity": {
+				"avg": 0.5,
+				"var": 0
+			},
+			"size": {
+				"avg": 0.25,
+				"var": 0.041666666666666664
+			},
+			"lifeLength": {
+				"avg": 0.25,
+				"var": 0
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 0.25
+			},
+			"particleModel": "Quad",
+			"vertexFlags": 128,
+			"windAffectednes": 0.2
+		},
+		{
+			"hsvaColor": [
+				{
+					"avg": 30,
+					"var": 20
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"gravityEffect": {
+				"dist": "invexp",
+				"avg": -0.1,
+				"var": 0.4
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.2
+				},
+				{
+					"avg": -0.03,
+					"var": 0
+				},
+				{
+					"avg": 0,
+					"var": 0.2
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.15
+				},
+				{
+					"avg": 0.5,
+					"var": 0.1
+				},
+				{
+					"avg": 0,
+					"var": 0.15
+				}
+			],
+			"quantity": {
+				"avg": 0.012,
+				"var": 0
+			},
+			"size": {
+				"avg": 0.4,
+				"var": 0
+			},
+			"sizeEvolve": {
+				"transform": "quadratic",
+				"factor": -0.7
+			},
+			"lifeLength": {
+				"avg": 1.5,
+				"var": 0
+			},
+			"vertexFlags": 128,
+			"windAffectednes": 0.2
+		}
+	],
+	"behaviors": [
+		{
+			"name": "HeatSource",
+			"properties": {
+				"heatStrength": 7
+			}
 		}
 	]
 }

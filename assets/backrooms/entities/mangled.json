@@ -6,7 +6,7 @@
 		"humanoid",
 		"habitat-land"
 	],
-	"weight": 90,
+	"weight": 400,
 	"canClimb": true,
 	"hitboxSize": {
 		"x": 2.0,
@@ -16,7 +16,7 @@
 		"x": 2.0,
 		"y": 0.6
 	},
-	"eyeHeight": 8.5,
+	"eyeHeight": 6.5,
 	"attributes": {
 		"killedByInfoText": "backrooms:deadcreature-mangled"
 	},
@@ -83,13 +83,13 @@
 			{
 				"code": "walk",
 				"animation": "walk",
-				"animationSpeed": 1.0,
+				"animationSpeed": 1.4,
 				"blendMode": "Average"
 			},
 			{
 				"code": "run",
 				"animation": "run",
-				"animationSpeed": 1.0,
+				"animationSpeed": 1.7,
 				"blendMode": "Average"
 			},
 			{
@@ -147,8 +147,8 @@
 						"priorityForCancel": 1.6,
 						"mincooldown": 0,
 						"maxcooldown": 0,
-						"walkSpeed": 0.02,
-						"runSpeed": 0.034,
+						"walkSpeed": 0.01,
+						"runSpeed": 0.024,
 						"stalkMin": 8,
 						"stalkMax": 14,
 						"glimpseFleeDistance": 10,

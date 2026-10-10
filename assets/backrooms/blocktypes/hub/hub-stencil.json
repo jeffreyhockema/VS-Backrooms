@@ -1,0 +1,307 @@
+// The M.E.G.'s spray-stencilled tunnel numbers (1-10) and the arrow to the Tower (tower points straight on, towerl to the viewer's left, towerr right), painted on the wall to the south
+{
+	"code": "hub-stencil",
+	"variantgroups": [
+		{
+			"code": "n",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"10",
+				"tower",
+				"towerl",
+				"towerr"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-1-north": {
+			"base": "block/hub/stencil-1",
+			"rotateY": 0
+		},
+		"*-1-east": {
+			"base": "block/hub/stencil-1",
+			"rotateY": 270
+		},
+		"*-1-south": {
+			"base": "block/hub/stencil-1",
+			"rotateY": 180
+		},
+		"*-1-west": {
+			"base": "block/hub/stencil-1",
+			"rotateY": 90
+		},
+		"*-2-north": {
+			"base": "block/hub/stencil-2",
+			"rotateY": 0
+		},
+		"*-2-east": {
+			"base": "block/hub/stencil-2",
+			"rotateY": 270
+		},
+		"*-2-south": {
+			"base": "block/hub/stencil-2",
+			"rotateY": 180
+		},
+		"*-2-west": {
+			"base": "block/hub/stencil-2",
+			"rotateY": 90
+		},
+		"*-3-north": {
+			"base": "block/hub/stencil-3",
+			"rotateY": 0
+		},
+		"*-3-east": {
+			"base": "block/hub/stencil-3",
+			"rotateY": 270
+		},
+		"*-3-south": {
+			"base": "block/hub/stencil-3",
+			"rotateY": 180
+		},
+		"*-3-west": {
+			"base": "block/hub/stencil-3",
+			"rotateY": 90
+		},
+		"*-4-north": {
+			"base": "block/hub/stencil-4",
+			"rotateY": 0
+		},
+		"*-4-east": {
+			"base": "block/hub/stencil-4",
+			"rotateY": 270
+		},
+		"*-4-south": {
+			"base": "block/hub/stencil-4",
+			"rotateY": 180
+		},
+		"*-4-west": {
+			"base": "block/hub/stencil-4",
+			"rotateY": 90
+		},
+		"*-5-north": {
+			"base": "block/hub/stencil-5",
+			"rotateY": 0
+		},
+		"*-5-east": {
+			"base": "block/hub/stencil-5",
+			"rotateY": 270
+		},
+		"*-5-south": {
+			"base": "block/hub/stencil-5",
+			"rotateY": 180
+		},
+		"*-5-west": {
+			"base": "block/hub/stencil-5",
+			"rotateY": 90
+		},
+		"*-6-north": {
+			"base": "block/hub/stencil-6",
+			"rotateY": 0
+		},
+		"*-6-east": {
+			"base": "block/hub/stencil-6",
+			"rotateY": 270
+		},
+		"*-6-south": {
+			"base": "block/hub/stencil-6",
+			"rotateY": 180
+		},
+		"*-6-west": {
+			"base": "block/hub/stencil-6",
+			"rotateY": 90
+		},
+		"*-7-north": {
+			"base": "block/hub/stencil-7",
+			"rotateY": 0
+		},
+		"*-7-east": {
+			"base": "block/hub/stencil-7",
+			"rotateY": 270
+		},
+		"*-7-south": {
+			"base": "block/hub/stencil-7",
+			"rotateY": 180
+		},
+		"*-7-west": {
+			"base": "block/hub/stencil-7",
+			"rotateY": 90
+		},
+		"*-8-north": {
+			"base": "block/hub/stencil-8",
+			"rotateY": 0
+		},
+		"*-8-east": {
+			"base": "block/hub/stencil-8",
+			"rotateY": 270
+		},
+		"*-8-south": {
+			"base": "block/hub/stencil-8",
+			"rotateY": 180
+		},
+		"*-8-west": {
+			"base": "block/hub/stencil-8",
+			"rotateY": 90
+		},
+		"*-9-north": {
+			"base": "block/hub/stencil-9",
+			"rotateY": 0
+		},
+		"*-9-east": {
+			"base": "block/hub/stencil-9",
+			"rotateY": 270
+		},
+		"*-9-south": {
+			"base": "block/hub/stencil-9",
+			"rotateY": 180
+		},
+		"*-9-west": {
+			"base": "block/hub/stencil-9",
+			"rotateY": 90
+		},
+		"*-10-north": {
+			"base": "block/hub/stencil-10",
+			"rotateY": 0
+		},
+		"*-10-east": {
+			"base": "block/hub/stencil-10",
+			"rotateY": 270
+		},
+		"*-10-south": {
+			"base": "block/hub/stencil-10",
+			"rotateY": 180
+		},
+		"*-10-west": {
+			"base": "block/hub/stencil-10",
+			"rotateY": 90
+		},
+		"*-tower-north": {
+			"base": "block/hub/stencil-tower",
+			"rotateY": 0
+		},
+		"*-tower-east": {
+			"base": "block/hub/stencil-tower",
+			"rotateY": 270
+		},
+		"*-tower-south": {
+			"base": "block/hub/stencil-tower",
+			"rotateY": 180
+		},
+		"*-tower-west": {
+			"base": "block/hub/stencil-tower",
+			"rotateY": 90
+		},
+		"*-towerl-north": {
+			"base": "block/hub/stencil-towerl",
+			"rotateY": 0
+		},
+		"*-towerl-east": {
+			"base": "block/hub/stencil-towerl",
+			"rotateY": 270
+		},
+		"*-towerl-south": {
+			"base": "block/hub/stencil-towerl",
+			"rotateY": 180
+		},
+		"*-towerl-west": {
+			"base": "block/hub/stencil-towerl",
+			"rotateY": 90
+		},
+		"*-towerr-north": {
+			"base": "block/hub/stencil-towerr",
+			"rotateY": 0
+		},
+		"*-towerr-east": {
+			"base": "block/hub/stencil-towerr",
+			"rotateY": 270
+		},
+		"*-towerr-south": {
+			"base": "block/hub/stencil-towerr",
+			"rotateY": 180
+		},
+		"*-towerr-west": {
+			"base": "block/hub/stencil-towerr",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-1-north"
+		],
+		"decorative": [
+			"*-1-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0.05,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.95,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0.05,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0.05,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0.05,
+			"z1": 0.94,
+			"x2": 0.95,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [],
+	"replaceable": 5000
+}

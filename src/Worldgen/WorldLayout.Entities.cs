@@ -55,6 +55,14 @@ public sealed partial class WorldLayout
             8 => NinthRoadDistance(gx, gz) <= 6 || IsCampClearing(gx, gz),
             // The Poolrooms: nothing has ever been met there, but in the dark of the Reservoir
             Poolrooms => !IsReservoirAt(gx, gz),
+            // The five kept as 14-18 (each level's own line)
+            RunLevel => false,
+            FunLevel => false,
+            TheEnd => TileAt(gx, gz) is { Zone: 1 } or { Zone: 5, Detail: (byte)EndFake.Home }, // the central hall; the Junkies' Home
+            Hub => true, // the Hub knows the intent of all who enter: nothing hostile is ever found in it
+            Level974 => true, // Kitty's House: nothing that harms anyone ever comes
+            Level3999 => !L3999DarkAt(gx, gz), // the Neon Paradise is safe; its Blackout (3999.1) is not
+            Level188 => false,
             _ => false,
         };
     }
@@ -168,6 +176,12 @@ public sealed partial class WorldLayout
     /// </summary>
     public (int X, int Z)? WandererSite(int mx, int mz)
     {
+        // The End: the Junkies, in its Home fake realities (WorldLayout.LevelEnd.cs)
+        if (LevelAt(mx, mz) == TheEnd) return EndWandererSite(mx, mz);
+        // The Hub's outposts: the M.E.G.'s by the Level 11 door, Camp Amber's by the Level 1 door
+        if (LevelAt(mx, mz) == Hub) return HubWandererSite(mx, mz);
+        // Level 3999: a camp in one lobby in four, the Megacolony (WorldLayout.Level3999.cs)
+        if (LevelAt(mx, mz) == Level3999) return L3999WandererSite(mx, mz);
         int dx0 = Hashing.FloorDiv(mx, WandererDistrict), dz0 = Hashing.FloorDiv(mz, WandererDistrict);
         ulong h = Hashing.Hash(seed, dx0, dz0, SaltWanderer);
         // The district's one candidate, 1 to 6 cells in from its corner

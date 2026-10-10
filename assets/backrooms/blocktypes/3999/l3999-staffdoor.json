@@ -1,0 +1,234 @@
+// Level 3999's service corridors: a grey steel door with a push plate, STAFF ONLY on the upper block (the face named). Most are locked; some lead to the Hub (threshold kind l3999-staff)
+{
+	"code": "l3999-staffdoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-staffdoor-lower-north": {
+			"base": "backrooms:block/3999/l3999-staffdoor-lower"
+		},
+		"l3999-staffdoor-lower-east": {
+			"base": "backrooms:block/3999/l3999-staffdoor-lower",
+			"rotateY": 270
+		},
+		"l3999-staffdoor-lower-south": {
+			"base": "backrooms:block/3999/l3999-staffdoor-lower",
+			"rotateY": 180
+		},
+		"l3999-staffdoor-lower-west": {
+			"base": "backrooms:block/3999/l3999-staffdoor-lower",
+			"rotateY": 90
+		},
+		"l3999-staffdoor-upper-north": {
+			"base": "backrooms:block/3999/l3999-staffdoor-upper"
+		},
+		"l3999-staffdoor-upper-east": {
+			"base": "backrooms:block/3999/l3999-staffdoor-upper",
+			"rotateY": 270
+		},
+		"l3999-staffdoor-upper-south": {
+			"base": "backrooms:block/3999/l3999-staffdoor-upper",
+			"rotateY": 180
+		},
+		"l3999-staffdoor-upper-west": {
+			"base": "backrooms:block/3999/l3999-staffdoor-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-staffdoor-lower-north"
+		],
+		"backrooms": [
+			"l3999-staffdoor-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-staffdoor-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-staffdoor-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-staffdoor-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-staffdoor-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l3999-staffdoor-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-staffdoor-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-staffdoor-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-staffdoor-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-staffdoor-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-staffdoor-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-staffdoor-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-staffdoor-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l3999-staffdoor-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-staffdoor-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-staffdoor-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-staffdoor-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l3999-staff"
+			}
+		}
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

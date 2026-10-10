@@ -1,0 +1,149 @@
+// The start room's bedside table: 1 Almond Water and 1-2 Energy Bars inside
+{
+	"code": "run-bedside",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/run/run-bedside",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/run/run-bedside",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/run/run-bedside",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/run/run-bedside",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875
+		},
+		"*-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875
+		},
+		"*-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 0.875,
+			"y2": 0.94,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "almondwater",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "run-energybar",
+			"quantity": {
+				"avg": 1.5,
+				"var": 0.5
+			}
+		}
+	]
+}

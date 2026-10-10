@@ -1,0 +1,51 @@
+// Level Fun: a thin layer of confetti; a handful of it places a layer (a path marker, the party's own chalk)
+{
+	"code": "fun-confetti",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/fun/fun-confetti"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.1,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"replaceable": 5000,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.05,
+		"z2": 1
+	},
+	"maxstacksize": 64,
+	"drops": [
+		{
+			"type": "block",
+			"code": "fun-confetti",
+			"quantity": {
+				"avg": 1
+			}
+		}
+	]
+}

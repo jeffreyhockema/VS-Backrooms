@@ -1,0 +1,408 @@
+// Level 188: a juice dispenser with two drums of something orange (the stage is how full they are; 0 is empty)
+{
+	"code": "l188-juicedispenser",
+	"variantgroups": [
+		{
+			"code": "stage",
+			"states": [
+				"3",
+				"2",
+				"1",
+				"0"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-juicedispenser-3-north": {
+			"base": "backrooms:block/188/l188-juicedispenser-3"
+		},
+		"l188-juicedispenser-3-east": {
+			"base": "backrooms:block/188/l188-juicedispenser-3",
+			"rotateY": 270
+		},
+		"l188-juicedispenser-3-south": {
+			"base": "backrooms:block/188/l188-juicedispenser-3",
+			"rotateY": 180
+		},
+		"l188-juicedispenser-3-west": {
+			"base": "backrooms:block/188/l188-juicedispenser-3",
+			"rotateY": 90
+		},
+		"l188-juicedispenser-2-north": {
+			"base": "backrooms:block/188/l188-juicedispenser-2"
+		},
+		"l188-juicedispenser-2-east": {
+			"base": "backrooms:block/188/l188-juicedispenser-2",
+			"rotateY": 270
+		},
+		"l188-juicedispenser-2-south": {
+			"base": "backrooms:block/188/l188-juicedispenser-2",
+			"rotateY": 180
+		},
+		"l188-juicedispenser-2-west": {
+			"base": "backrooms:block/188/l188-juicedispenser-2",
+			"rotateY": 90
+		},
+		"l188-juicedispenser-1-north": {
+			"base": "backrooms:block/188/l188-juicedispenser-1"
+		},
+		"l188-juicedispenser-1-east": {
+			"base": "backrooms:block/188/l188-juicedispenser-1",
+			"rotateY": 270
+		},
+		"l188-juicedispenser-1-south": {
+			"base": "backrooms:block/188/l188-juicedispenser-1",
+			"rotateY": 180
+		},
+		"l188-juicedispenser-1-west": {
+			"base": "backrooms:block/188/l188-juicedispenser-1",
+			"rotateY": 90
+		},
+		"l188-juicedispenser-0-north": {
+			"base": "backrooms:block/188/l188-juicedispenser-0"
+		},
+		"l188-juicedispenser-0-east": {
+			"base": "backrooms:block/188/l188-juicedispenser-0",
+			"rotateY": 270
+		},
+		"l188-juicedispenser-0-south": {
+			"base": "backrooms:block/188/l188-juicedispenser-0",
+			"rotateY": 180
+		},
+		"l188-juicedispenser-0-west": {
+			"base": "backrooms:block/188/l188-juicedispenser-0",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-juicedispenser-3-north"
+		],
+		"backrooms": [
+			"l188-juicedispenser-3-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-juicedispenser-3-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-3-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-3-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-3-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-2-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-2-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-2-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-2-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-1-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-1-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-1-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-1-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-0-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-0-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-0-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-0-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-juicedispenser-3-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-3-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-3-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-3-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-2-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-2-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-2-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-2-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-1-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-1-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-1-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-1-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l188-juicedispenser-0-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94
+		},
+		"l188-juicedispenser-0-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-juicedispenser-0-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-juicedispenser-0-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.94,
+			"y2": 0.8,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	],
+	"class": "BackroomsL188Dispenser"
+}

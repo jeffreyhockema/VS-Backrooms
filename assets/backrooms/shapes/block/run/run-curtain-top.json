@@ -1,0 +1,389 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/run/chrome",
+		"curtainmesh": "backrooms:block/run/curtainmesh",
+		"steelframe": "backrooms:block/run/steelframe"
+	},
+	"elements": [
+		{
+			"name": "Mesh",
+			"from": [
+				0,
+				0,
+				7.6
+			],
+			"to": [
+				16,
+				13,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtainmesh",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"south": {
+					"texture": "#curtainmesh",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Track",
+			"from": [
+				0,
+				15,
+				7
+			],
+			"to": [
+				16,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Hook0",
+			"from": [
+				0.6,
+				13,
+				7.6
+			],
+			"to": [
+				1.4,
+				15,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999999,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Hook2",
+			"from": [
+				4.6,
+				13,
+				7.6
+			],
+			"to": [
+				5.4,
+				15,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Hook4",
+			"from": [
+				8.6,
+				13,
+				7.6
+			],
+			"to": [
+				9.4,
+				15,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Hook6",
+			"from": [
+				12.6,
+				13,
+				7.6
+			],
+			"to": [
+				13.4,
+				15,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		}
+	]
+}

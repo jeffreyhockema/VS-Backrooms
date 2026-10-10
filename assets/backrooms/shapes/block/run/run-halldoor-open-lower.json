@@ -1,0 +1,287 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"halldoor-back": "backrooms:block/run/halldoor-back",
+		"hallframe": "backrooms:block/run/hallframe",
+		"steelframe": "backrooms:block/run/steelframe"
+	},
+	"elements": [
+		{
+			"name": "JambL",
+			"from": [
+				-1.5,
+				0,
+				-1
+			],
+			"to": [
+				0,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "JambR",
+			"from": [
+				16,
+				0,
+				-1
+			],
+			"to": [
+				17.5,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				17.5,
+				0,
+				-2.2
+			],
+			"to": [
+				33.5,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge",
+			"from": [
+				16,
+				4,
+				-2.2
+			],
+			"to": [
+				17.5,
+				7,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

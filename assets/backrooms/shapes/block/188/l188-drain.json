@@ -1,0 +1,246 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"downpipe": "backrooms:block/188/downpipe",
+		"drain": "backrooms:block/188/drain",
+		"grate": "backrooms:block/188/grate",
+		"puddle": "backrooms:block/188/puddle"
+	},
+	"elements": [
+		{
+			"name": "PipeEnd",
+			"from": [
+				6.5,
+				4,
+				1
+			],
+			"to": [
+				9.5,
+				16,
+				4
+			],
+			"faces": {
+				"south": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						12
+					]
+				},
+				"east": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3,
+						12
+					]
+				},
+				"north": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						12
+					]
+				},
+				"west": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3,
+						12
+					]
+				},
+				"up": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"down": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Shoe",
+			"from": [
+				6.5,
+				2,
+				1
+			],
+			"to": [
+				9.5,
+				4.6,
+				6.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						5.6,
+						2.5999999999999996
+					]
+				},
+				"north": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						5.6,
+						2.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.6
+					]
+				},
+				"down": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Grate",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				0.3,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#grate",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				4.6,
+				0,
+				4.6
+			],
+			"to": [
+				11.4,
+				0.2,
+				11.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#drain",
+					"uv": [
+						0,
+						0,
+						6.800000000000001,
+						6.800000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Puddle",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				0.08,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#puddle",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Puddle2",
+			"from": [
+				4,
+				0,
+				14
+			],
+			"to": [
+				12,
+				0.06,
+				15.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#puddle",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,370 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cord": "backrooms:block/188/cord",
+		"courtview-lr": "backrooms:block/188/courtview-lr",
+		"sash": "backrooms:block/188/sash",
+		"sc-courtnight": "backrooms:block/188/sc-courtnight",
+		"sc-grassnight": "backrooms:block/188/sc-grassnight"
+	},
+	"elements": [
+		{
+			"name": "FrameR",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sash",
+					"uv": [
+						13,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						13,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				1.5,
+				0,
+				0
+			],
+			"to": [
+				16,
+				1.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						14.5,
+						14.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						14.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						14.5,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						13,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				15.5,
+				1.5,
+				0
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						15.5,
+						0,
+						16,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						3,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						15.5,
+						13,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				1.5,
+				15.5,
+				0
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#sash",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#sash",
+					"uv": [
+						1.5,
+						13,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#courtview-lr",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Floor",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				1.5,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#sc-grassnight",
+					"uv": [
+						0,
+						3,
+						16,
+						15
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "SideR",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				1.5,
+				16,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#sc-courtnight",
+					"uv": [
+						1,
+						0,
+						13,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Cord",
+			"from": [
+				2.6,
+				12,
+				2.6
+			],
+			"to": [
+				2.9,
+				16,
+				2.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						13.1,
+						0,
+						13.4,
+						4
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						13.1,
+						0,
+						13.4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						2.6,
+						0,
+						2.9,
+						4
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						2.6,
+						0,
+						2.9,
+						4
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						2.6,
+						13.1,
+						2.9,
+						13.4
+					]
+				}
+			}
+		}
+	]
+}

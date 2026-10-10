@@ -1,0 +1,56 @@
+// Level 188: a squat dark bollard with a dim light band (light 7), one at each of the deck's diagonals
+{
+	"code": "l188-bollard",
+	"shape": {
+		"base": "backrooms:block/188/l188-bollard"
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-bollard"
+		],
+		"backrooms": [
+			"l188-bollard"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.36,
+		"y1": 0,
+		"z1": 0.36,
+		"x2": 0.64,
+		"y2": 0.625,
+		"z2": 0.64
+	},
+	"selectionbox": {
+		"x1": 0.36,
+		"y1": 0,
+		"z1": 0.36,
+		"x2": 0.64,
+		"y2": 0.625,
+		"z2": 0.64
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"lightHsv": [
+		8,
+		2,
+		7
+	],
+	"drops": []
+}

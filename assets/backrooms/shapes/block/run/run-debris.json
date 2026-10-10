@@ -1,0 +1,625 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiltile": "backrooms:block/run/ceiltile",
+		"tbar": "backrooms:block/run/tbar"
+	},
+	"elements": [
+		{
+			"name": "Shard1",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				8,
+				0.6,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				4.5
+			],
+			"rotationY": 20,
+			"rotationZ": 6
+		},
+		{
+			"name": "Shard2",
+			"from": [
+				9,
+				0,
+				3
+			],
+			"to": [
+				13,
+				0.6,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.0,
+				0.3,
+				5.0
+			],
+			"rotationY": -35
+		},
+		{
+			"name": "Shard3",
+			"from": [
+				4,
+				0,
+				9
+			],
+			"to": [
+				9,
+				0.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.5,
+				0,
+				11
+			],
+			"rotationX": 8,
+			"rotationY": 50
+		},
+		{
+			"name": "Shard4",
+			"from": [
+				11,
+				0,
+				10
+			],
+			"to": [
+				14,
+				0.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				0.3,
+				11.5
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Chip1",
+			"from": [
+				7.5,
+				0,
+				7.5
+			],
+			"to": [
+				9,
+				0.5,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Chip2",
+			"from": [
+				3,
+				0,
+				13.5
+			],
+			"to": [
+				4.2,
+				0.4,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						1.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "TbarA",
+			"from": [
+				1,
+				0,
+				8
+			],
+			"to": [
+				9,
+				0.8,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				9,
+				0,
+				8.3
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "TbarB",
+			"from": [
+				9,
+				0,
+				8
+			],
+			"to": [
+				15,
+				0.8,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						6,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#tbar",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				9,
+				0,
+				8.3
+			],
+			"rotationY": -20,
+			"rotationZ": 10
+		},
+		{
+			"name": "Dust",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				0.1,
+				13
+			],
+			"faces": {
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		}
+	]
+}

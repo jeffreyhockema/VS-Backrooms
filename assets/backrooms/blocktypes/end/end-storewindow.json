@@ -1,0 +1,150 @@
+// Level 11: the bookstore's front window, papered inside with yellow and pink closing-down posters (read from the side named)
+{
+	"code": "end-storewindow",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/end/end-storewindow",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/end/end-storewindow",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/end/end-storewindow",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/end/end-storewindow",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"renderpass": "Transparent",
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0
+			}
+		}
+	]
+}

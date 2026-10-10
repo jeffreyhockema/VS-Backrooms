@@ -1,0 +1,77 @@
+// Level 188: the lawns, dense moss-grass with damp patches (b a little yellower)
+{
+	"code": "l188-turf",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b"
+			]
+		}
+	],
+	"texturesByType": {
+		"l188-turf-a": {
+			"up": {
+				"base": "block/188/turf-a"
+			},
+			"down": {
+				"base": "block/188/soil"
+			},
+			"north": {
+				"base": "block/188/turf-side-a"
+			},
+			"east": {
+				"base": "block/188/turf-side-a"
+			},
+			"south": {
+				"base": "block/188/turf-side-a"
+			},
+			"west": {
+				"base": "block/188/turf-side-a"
+			}
+		},
+		"l188-turf-b": {
+			"up": {
+				"base": "block/188/turf-b"
+			},
+			"down": {
+				"base": "block/188/soil"
+			},
+			"north": {
+				"base": "block/188/turf-side-b"
+			},
+			"east": {
+				"base": "block/188/turf-side-b"
+			},
+			"south": {
+				"base": "block/188/turf-side-b"
+			},
+			"west": {
+				"base": "block/188/turf-side-b"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-turf-a"
+		],
+		"backrooms": [
+			"l188-turf-a"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

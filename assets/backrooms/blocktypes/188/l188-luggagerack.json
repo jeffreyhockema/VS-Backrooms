@@ -1,0 +1,143 @@
+// Level 188: a folding luggage rack with webbing straps
+{
+	"code": "l188-luggagerack",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-luggagerack-north": {
+			"base": "backrooms:block/188/l188-luggagerack"
+		},
+		"l188-luggagerack-east": {
+			"base": "backrooms:block/188/l188-luggagerack",
+			"rotateY": 270
+		},
+		"l188-luggagerack-south": {
+			"base": "backrooms:block/188/l188-luggagerack",
+			"rotateY": 180
+		},
+		"l188-luggagerack-west": {
+			"base": "backrooms:block/188/l188-luggagerack",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-luggagerack-north"
+		],
+		"backrooms": [
+			"l188-luggagerack-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-luggagerack-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82
+		},
+		"l188-luggagerack-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l188-luggagerack-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l188-luggagerack-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-luggagerack-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82
+		},
+		"l188-luggagerack-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l188-luggagerack-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l188-luggagerack-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.52,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	]
+}

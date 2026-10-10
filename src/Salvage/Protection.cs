@@ -169,6 +169,14 @@ public sealed class Protection
     {
         WorldLayout.Poolrooms => 16,
         1 or 7 or 8 => 5,
+        // The five kept as 14-18 (each level's own line)
+        WorldLayout.RunLevel => WorldGeometry.RoomHeight + 1,
+        WorldLayout.FunLevel => 16, // over the open decks' night sky (15); what hangs under its ceilings must still come down
+        WorldLayout.TheEnd => WorldLayout.EndCeilingHeight, // its drop ceiling; the atrium's high ceiling is roof only where nothing is open above it
+        WorldLayout.Hub => WorldLayout.HubSideHeight + 1, // the side tunnels' ceilings; the walls below (and their lamps) break
+        WorldLayout.Level974 => WorldGeometry.RoomHeight + 1,
+        WorldLayout.Level3999 => WorldGeometry.RoomHeight + 1,
+        WorldLayout.Level188 => WorldGeometry.RoomHeight + 1,
         _ when WorldLayout.IsOpenSky(level) => int.MaxValue,
         _ => WorldGeometry.RoomHeight + 1,
     };
@@ -211,6 +219,10 @@ public sealed class Protection
     public bool IsProtected(IBlockAccessor blocks, Block block, BlockPos pos)
     {
         if (block == null || block.BlockId == 0) return false;
+        // Level 974: the house is Kitty's, and nobody digs their way out of it (only its furniture breaks, and that offends)
+        if (LevelAt(pos.X, pos.Z) == WorldLayout.Level974 && Regions.L974.IsHouseFabric(block)) return true;
+        // Level 188: its building's fabric (canon: forcing its doors has always failed), wherever its blocks are
+        if (Regions.L188.IsFabric(block)) return true;
         BreakKind kind = Breakdown.KindOf(block);
         if (kind == BreakKind.Fixed) return true;
         // The roof is the building's own, or the rock over Level 8's caves; and the wall between two levels holds from

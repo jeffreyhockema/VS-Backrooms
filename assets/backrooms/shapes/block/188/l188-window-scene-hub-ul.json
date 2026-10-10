@@ -1,0 +1,458 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"sc-hubwall": "backrooms:block/188/sc-hubwall",
+		"scene-hub-ul": "backrooms:block/188/scene-hub-ul"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				14.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0,
+				14.5,
+				1
+			],
+			"to": [
+				14.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						14.5,
+						5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						11,
+						14.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				0.5,
+				14.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1.5,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						1.5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						0.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				14.5,
+				0.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						15.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						15.5,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						15.5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						14.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scene-hub-ul",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 80
+				}
+			}
+		},
+		{
+			"name": "BoxCeil",
+			"from": [
+				0,
+				14.5,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						0,
+						1,
+						16,
+						11
+					],
+					"glow": 80
+				}
+			}
+		},
+		{
+			"name": "BoxL",
+			"from": [
+				14.5,
+				0,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"west": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						5,
+						0,
+						15,
+						16
+					],
+					"glow": 80
+				}
+			}
+		},
+		{
+			"name": "CurveL1",
+			"from": [
+				11,
+				10,
+				5
+			],
+			"to": [
+				14.5,
+				14.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						1.5,
+						1.5,
+						5,
+						6
+					],
+					"glow": 70
+				},
+				"east": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						1,
+						1.5,
+						11,
+						6
+					],
+					"glow": 70
+				},
+				"south": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						11,
+						1.5,
+						14.5,
+						6
+					],
+					"glow": 70
+				},
+				"west": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						5,
+						1.5,
+						15,
+						6
+					],
+					"glow": 70
+				},
+				"up": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						11,
+						5,
+						14.5,
+						15
+					],
+					"glow": 70
+				},
+				"down": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						11,
+						1,
+						14.5,
+						11
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "CurveL2",
+			"from": [
+				13,
+				6.5,
+				5
+			],
+			"to": [
+				14.5,
+				10,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						1.5,
+						6,
+						3,
+						9.5
+					],
+					"glow": 70
+				},
+				"east": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						1,
+						6,
+						11,
+						9.5
+					],
+					"glow": 70
+				},
+				"south": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						13,
+						6,
+						14.5,
+						9.5
+					],
+					"glow": 70
+				},
+				"west": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						5,
+						6,
+						15,
+						9.5
+					],
+					"glow": 70
+				},
+				"up": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						13,
+						5,
+						14.5,
+						15
+					],
+					"glow": 70
+				},
+				"down": {
+					"texture": "#sc-hubwall",
+					"uv": [
+						13,
+						1,
+						14.5,
+						11
+					],
+					"glow": 70
+				}
+			}
+		}
+	]
+}

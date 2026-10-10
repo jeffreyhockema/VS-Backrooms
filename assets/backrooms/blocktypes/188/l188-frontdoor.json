@@ -1,0 +1,476 @@
+// Level 188: the lobby's frameless glass front doors (side = the lobby face); beyond the glass there is nothing at all. Threshold kind l188-frontdoor (it refuses)
+{
+	"code": "l188-frontdoor",
+	"variantgroups": [
+		{
+			"code": "lr",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-frontdoor-l-lower-north": {
+			"base": "backrooms:block/188/l188-frontdoor-l-lower"
+		},
+		"l188-frontdoor-l-lower-east": {
+			"base": "backrooms:block/188/l188-frontdoor-l-lower",
+			"rotateY": 270
+		},
+		"l188-frontdoor-l-lower-south": {
+			"base": "backrooms:block/188/l188-frontdoor-l-lower",
+			"rotateY": 180
+		},
+		"l188-frontdoor-l-lower-west": {
+			"base": "backrooms:block/188/l188-frontdoor-l-lower",
+			"rotateY": 90
+		},
+		"l188-frontdoor-l-upper-north": {
+			"base": "backrooms:block/188/l188-frontdoor-l-upper"
+		},
+		"l188-frontdoor-l-upper-east": {
+			"base": "backrooms:block/188/l188-frontdoor-l-upper",
+			"rotateY": 270
+		},
+		"l188-frontdoor-l-upper-south": {
+			"base": "backrooms:block/188/l188-frontdoor-l-upper",
+			"rotateY": 180
+		},
+		"l188-frontdoor-l-upper-west": {
+			"base": "backrooms:block/188/l188-frontdoor-l-upper",
+			"rotateY": 90
+		},
+		"l188-frontdoor-r-lower-north": {
+			"base": "backrooms:block/188/l188-frontdoor-r-lower"
+		},
+		"l188-frontdoor-r-lower-east": {
+			"base": "backrooms:block/188/l188-frontdoor-r-lower",
+			"rotateY": 270
+		},
+		"l188-frontdoor-r-lower-south": {
+			"base": "backrooms:block/188/l188-frontdoor-r-lower",
+			"rotateY": 180
+		},
+		"l188-frontdoor-r-lower-west": {
+			"base": "backrooms:block/188/l188-frontdoor-r-lower",
+			"rotateY": 90
+		},
+		"l188-frontdoor-r-upper-north": {
+			"base": "backrooms:block/188/l188-frontdoor-r-upper"
+		},
+		"l188-frontdoor-r-upper-east": {
+			"base": "backrooms:block/188/l188-frontdoor-r-upper",
+			"rotateY": 270
+		},
+		"l188-frontdoor-r-upper-south": {
+			"base": "backrooms:block/188/l188-frontdoor-r-upper",
+			"rotateY": 180
+		},
+		"l188-frontdoor-r-upper-west": {
+			"base": "backrooms:block/188/l188-frontdoor-r-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-frontdoor-l-lower-north"
+		],
+		"backrooms": [
+			"l188-frontdoor-l-lower-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 999,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxesByType": {
+		"l188-frontdoor-l-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-frontdoor-l-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-l-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-l-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-l-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-frontdoor-l-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-l-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-l-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-r-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-frontdoor-r-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-r-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-r-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-r-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625
+			}
+		],
+		"l188-frontdoor-r-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-r-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-r-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.4375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5625,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l188-frontdoor-l-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875
+			}
+		],
+		"l188-frontdoor-l-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-l-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-l-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-l-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875
+			}
+		],
+		"l188-frontdoor-l-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-l-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-l-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-r-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875
+			}
+		],
+		"l188-frontdoor-r-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-r-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-r-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 90
+			}
+		],
+		"l188-frontdoor-r-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875
+			}
+		],
+		"l188-frontdoor-r-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 270
+			}
+		],
+		"l188-frontdoor-r-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 180
+			}
+		],
+		"l188-frontdoor-r-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.6875,
+				"rotateY": 90
+			}
+		]
+	},
+	"renderpass": "Transparent",
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l188-frontdoor"
+			}
+		}
+	]
+}

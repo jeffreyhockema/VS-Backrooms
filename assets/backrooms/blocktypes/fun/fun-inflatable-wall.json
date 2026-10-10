@@ -1,0 +1,178 @@
+// Level Fun: the puffy wall of a bounce house
+{
+	"code": "fun-inflatable",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wall"
+			]
+		},
+		{
+			"code": "colour",
+			"states": [
+				"yellow",
+				"blue",
+				"red"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-yellow-north": {
+			"base": "block/fun/fun-inflatable-wall-yellow",
+			"rotateY": 0
+		},
+		"*-yellow-east": {
+			"base": "block/fun/fun-inflatable-wall-yellow",
+			"rotateY": 270
+		},
+		"*-yellow-south": {
+			"base": "block/fun/fun-inflatable-wall-yellow",
+			"rotateY": 180
+		},
+		"*-yellow-west": {
+			"base": "block/fun/fun-inflatable-wall-yellow",
+			"rotateY": 90
+		},
+		"*-blue-north": {
+			"base": "block/fun/fun-inflatable-wall-blue",
+			"rotateY": 0
+		},
+		"*-blue-east": {
+			"base": "block/fun/fun-inflatable-wall-blue",
+			"rotateY": 270
+		},
+		"*-blue-south": {
+			"base": "block/fun/fun-inflatable-wall-blue",
+			"rotateY": 180
+		},
+		"*-blue-west": {
+			"base": "block/fun/fun-inflatable-wall-blue",
+			"rotateY": 90
+		},
+		"*-red-north": {
+			"base": "block/fun/fun-inflatable-wall-red",
+			"rotateY": 0
+		},
+		"*-red-east": {
+			"base": "block/fun/fun-inflatable-wall-red",
+			"rotateY": 270
+		},
+		"*-red-south": {
+			"base": "block/fun/fun-inflatable-wall-red",
+			"rotateY": 180
+		},
+		"*-red-west": {
+			"base": "block/fun/fun-inflatable-wall-red",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	}
+}

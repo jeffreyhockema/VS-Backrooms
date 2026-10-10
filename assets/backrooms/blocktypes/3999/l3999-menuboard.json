@@ -1,0 +1,103 @@
+// Level 3999's food courts: a lit menu board over the stalls, prices in tickets, against the wall behind it (light 8)
+{
+	"code": "l3999-menuboard",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-menuboard-north": {
+			"base": "backrooms:block/3999/l3999-menuboard"
+		},
+		"l3999-menuboard-east": {
+			"base": "backrooms:block/3999/l3999-menuboard",
+			"rotateY": 270
+		},
+		"l3999-menuboard-south": {
+			"base": "backrooms:block/3999/l3999-menuboard",
+			"rotateY": 180
+		},
+		"l3999-menuboard-west": {
+			"base": "backrooms:block/3999/l3999-menuboard",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-menuboard-north"
+		],
+		"backrooms": [
+			"l3999-menuboard-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-menuboard-north": {
+			"x1": 0,
+			"y1": 0.09,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.91,
+			"z2": 1
+		},
+		"l3999-menuboard-east": {
+			"x1": 0,
+			"y1": 0.09,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.91,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-menuboard-south": {
+			"x1": 0,
+			"y1": 0.09,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.91,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-menuboard-west": {
+			"x1": 0,
+			"y1": 0.09,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.91,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsv": [
+		5,
+		2,
+		8
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

@@ -1,0 +1,251 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"riser": "backrooms:block/3999/riser",
+		"stairtread": "backrooms:block/3999/stairtread"
+	},
+	"elements": [
+		{
+			"name": "Step0",
+			"from": [
+				0,
+				0,
+				12
+			],
+			"to": [
+				16,
+				4,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#stairtread",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#riser",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Step1",
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				16,
+				8,
+				12
+			],
+			"faces": {
+				"up": {
+					"texture": "#stairtread",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#riser",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step2",
+			"from": [
+				0,
+				4,
+				4
+			],
+			"to": [
+				16,
+				12,
+				8
+			],
+			"faces": {
+				"up": {
+					"texture": "#stairtread",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#riser",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step3",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				16,
+				16,
+				4
+			],
+			"faces": {
+				"up": {
+					"texture": "#stairtread",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#riser",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				}
+			}
+		}
+	]
+}

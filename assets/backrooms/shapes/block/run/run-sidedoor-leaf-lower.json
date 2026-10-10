@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/run/chrome",
+		"sidedoor-back": "backrooms:block/run/sidedoor-back",
+		"sidedoor-lower": "backrooms:block/run/sidedoor-lower"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0.2,
+				0,
+				0
+			],
+			"to": [
+				2.2,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#sidedoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBack",
+			"from": [
+				0.2,
+				0,
+				0
+			],
+			"to": [
+				2.2,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Lever",
+			"from": [
+				2.2,
+				13.8,
+				2
+			],
+			"to": [
+				3.2,
+				14.8,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				}
+			}
+		}
+	]
+}

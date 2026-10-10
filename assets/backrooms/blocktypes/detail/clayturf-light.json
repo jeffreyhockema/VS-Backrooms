@@ -24,6 +24,10 @@
 	},
 	"lightAbsorption": 99,
 	"resistance": 1.5,
+	"fertility": 50,
+	"attributes": {
+		"preventsDecay": true
+	},
 	"sounds": {
 		"walk": "game:walk/grass",
 		"place": "game:block/dirt",

@@ -1,0 +1,726 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"keybutton": "backrooms:block/3999/keybutton",
+		"lcd": "backrooms:block/3999/lcd"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				5,
+				5,
+				15
+			],
+			"to": [
+				11,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						9
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "LCD",
+			"from": [
+				6,
+				11.5,
+				14.7
+			],
+			"to": [
+				10,
+				13.2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#lcd",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "Key00",
+			"from": [
+				6.0,
+				6.2,
+				14.4
+			],
+			"to": [
+				7.0,
+				7.2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key01",
+			"from": [
+				7.5,
+				6.2,
+				14.4
+			],
+			"to": [
+				8.5,
+				7.2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key02",
+			"from": [
+				9.0,
+				6.2,
+				14.4
+			],
+			"to": [
+				10.0,
+				7.2,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key10",
+			"from": [
+				6.0,
+				7.800000000000001,
+				14.4
+			],
+			"to": [
+				7.0,
+				8.8,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key11",
+			"from": [
+				7.5,
+				7.800000000000001,
+				14.4
+			],
+			"to": [
+				8.5,
+				8.8,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key12",
+			"from": [
+				9.0,
+				7.800000000000001,
+				14.4
+			],
+			"to": [
+				10.0,
+				8.8,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key20",
+			"from": [
+				6.0,
+				9.4,
+				14.4
+			],
+			"to": [
+				7.0,
+				10.4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key21",
+			"from": [
+				7.5,
+				9.4,
+				14.4
+			],
+			"to": [
+				8.5,
+				10.4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Key22",
+			"from": [
+				9.0,
+				9.4,
+				14.4
+			],
+			"to": [
+				10.0,
+				10.4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				}
+			}
+		}
+	]
+}

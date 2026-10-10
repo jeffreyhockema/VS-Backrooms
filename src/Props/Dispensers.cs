@@ -30,6 +30,12 @@ public class BlockDispenser : Block
 
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
     {
+        // Level 3999's vending machines take something for what they give, and never run out (attributes takes, stockless)
+        if (Attributes?["takes"].AsString() is string takes)
+        {
+            if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer buyer) Regions.L3999System.Vend(buyer, blockSel.Position, this, takes);
+            return true;
+        }
         if (world.BlockAccessor.GetBlockEntity(blockSel.Position) is not BlockEntityDispenser dispenser)
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
 
@@ -92,6 +98,7 @@ public class BlockEntityDispenser : BlockEntity
     public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
     {
         base.GetBlockInfo(forPlayer, dsc);
+        if (Block?.Attributes?["stockless"].AsBool(false) == true) return; // (Level 3999's: never empty)
         dsc.AppendLine(stock > 0 ? Lang.Get("backrooms:dispenser-stock", stock) : Lang.Get(Restocks ? "backrooms:dispenser-restocks" : "backrooms:dispenser-empty"));
     }
 

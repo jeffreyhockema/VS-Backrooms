@@ -11,6 +11,10 @@
 		"x": 3.6,
 		"y": 1.2
 	},
+	"selectionBoxSize": {
+		"x": 7.5,
+		"y": 2.0
+	},
 	"eyeHeight": 0.6,
 	"attributes": {
 		"killedByInfoText": "backrooms:deadcreature-thething"
@@ -42,6 +46,13 @@
 				"triggeredBy": {
 					"defaultAnim": true
 				}
+			},
+			{
+				"code": "rush",
+				"animation": "rush",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
 			},
 			{
 				"code": "attack",

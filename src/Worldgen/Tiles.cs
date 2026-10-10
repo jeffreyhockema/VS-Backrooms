@@ -131,6 +131,110 @@ public enum WallPattern : byte
     Funhouse,
     /// <summary>Level 94's castle: one of the throne room's doors (on <see cref="TileKind.Door"/> tiles). Only one opens, and a different one each day.</summary>
     ThroneDoor,
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // A level adds its members inside its own block only, with explicit values, never past the block's end; 62-63 stay free.
+
+    /// <summary>
+    /// Level ! (block 64-79): its pale hospital wall; the same with the wooden crash rail on the face toward
+    /// <see cref="Tile.Pier"/>; and on <see cref="TileKind.Door"/> tiles (or a Doorway, the hall door) its doors.
+    /// <see cref="Tile.Pier"/> on a door is the face that looks into the hall or room.
+    /// </summary>
+    RunWall = 64,
+    RunWallRail = 65,
+    RunSideDoor = 67,
+    RunDentedDoor = 68,
+    RunSwingDoor = 69,
+    RunFakeExit = 70,
+    RunTrueExit = 71,
+    RunChainedDoor = 72,
+    RunHallDoor = 73,
+    RunMarkedDoor = 74,
+    /// <summary>Level !: a wall with the start room's medicine cabinet on it (face toward Pier).</summary>
+    RunMedCabinet = 75,
+    RunSafeWall = 76,
+    RunSafeDoor = 77,
+    /// <summary>Level !: matte black, behind the chained door and the false exits.</summary>
+    RunVoid = 78,
+    /// <summary>The way into Level ! from other levels: a red EXIT door where no door should be (on Door tiles).</summary>
+    RunEntryDoor = 79,
+    /// <summary>
+    /// Level Fun (block 80-95): the ship's hull (its rim; <see cref="Tile.Variant"/> 1 a porthole), a party room's
+    /// paint (<see cref="Tile.Detail"/> the colour), the promenades' cream with its band, the mural room's yellow
+    /// (Variant 1 + 2·mural + half), grey crew steel (Variant 1 a CREW ONLY plate), a bounce house's puffy vinyl,
+    /// the night beyond an open deck, brass elevator doors (Variant 0 left, 1 right), plain concrete; and on
+    /// <see cref="TileKind.Door"/> tiles the FUN doors (Variant 0 left leaf, 1 right) and a waiting room's exit door.
+    /// <see cref="Tile.Pier"/> is the face that looks into the room or hall.
+    /// </summary>
+    FunWall = 80,
+    FunPaint = 81,
+    FunPromenade = 82,
+    FunMural = 83,
+    FunSteel = 84,
+    FunInflatable = 85,
+    FunVoid = 86,
+    FunElevator = 87,
+    FunSolid = 88,
+    FunDoor = 89,
+    FunExitDoor = 90,
+    /// <summary>
+    /// The End (block 96-111): its painted walls (off-white under a yellow band), and its rim; the columns, sage or
+    /// slate over slatwall; the stockrooms' painted block; the EXIT door, the staff door and the bookstore's door
+    /// (on <see cref="TileKind.Door"/> tiles, facing <see cref="Tile.Pier"/>).
+    /// </summary>
+    EndWall = 96,
+    EndColumn = 97,
+    EndColumnSlate = 98,
+    EndStockWall = 99,
+    EndExit = 100,
+    EndStaff = 101,
+    EndStoreDoor = 102,
+    /// <summary>The Hub (block 112-143: its many doors). Placeholder.</summary>
+    HubWall = 112,
+    /// <summary>The Hub: a great carved concrete door (on <see cref="TileKind.Door"/> tiles; Detail = its sigil, Stack = which of its three columns, Pier = the way it faces).</summary>
+    HubDoor = 113,
+    /// <summary>The Hub: a plain grey steel service door, the way back to wherever someone came in from.</summary>
+    HubServiceDoor = 114,
+    /// <summary>The Hub: an ornate door into the Tower (Stack = which of its two leaves).</summary>
+    HubOrnate = 115,
+    /// <summary>The Hub: the Tower's pale ashlar.</summary>
+    HubAshlar = 116,
+    /// <summary>Level 974 (block 144-159): the solid nothing between the houses (and the region's rim).</summary>
+    L974Wall = 144,
+    /// <summary>Level 974: a house's Baker-Miller pink walls; behind the kitchen counters, white subway tile; round a bathroom, pastel tile.</summary>
+    L974Paint = 145,
+    L974Backsplash = 146,
+    L974BathTile = 147,
+    /// <summary>Level 974: a window that is a painting (Stack 0 left, 1 right as seen from the room; Pier the way it faces; Detail the painting).</summary>
+    L974Window = 148,
+
+    // ===== Levels 3999 and 188 (19, 20): one block of values each, as for 14-18 =====
+
+    /// <summary>
+    /// Level 3999 (block 160-175): matt painted plaster (the paint by the colour in <see cref="Tile.Detail"/>), the rim
+    /// and the units' side walls; the service corridors' concrete; a glass shopfront onto a concourse (glass to rel 5,
+    /// the fascia over it); a roller shutter over a closed unit's front; on <see cref="TileKind.Door"/> tiles a revolving
+    /// door (Stack 0 left, 1 centre, 2 right, seen from the front), a STAFF ONLY door, the mini arcade's elevator; a
+    /// painted window onto the car park (Variant the column 0-3); the natatorium's pool-tile walls.
+    /// </summary>
+    L3999Wall = 160,
+    L3999Concrete = 161,
+    L3999Shopfront = 162,
+    L3999Shutter = 163,
+    L3999Revolving = 164,
+    L3999Staff = 165,
+    L3999Elevator = 166,
+    L3999Window = 167,
+    L3999PoolWall = 168,
+    /// <summary>Level 188 (block 176-191). Placeholder.</summary>
+    L188Wall = 176,
+    /// <summary>
+    /// Level 188: the courtyard façade (its windows in it), the solid nothing round the building, partitions between
+    /// rooms, corridor walls, the outer façade, the stair hall's blockwork, the lobby's front doors, and a guest door that
+    /// is sealed or locked on the ground storey.
+    /// </summary>
+    L188Facade = 177, L188Nothing = 178, L188Partition = 179, L188CorridorWall = 180, L188OuterWall = 181, L188StairWall = 182,
+    L188FrontDoor = 183, L188SealedDoor = 184, L188LockedDoor = 185,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -275,6 +379,88 @@ public enum FloorKind : byte
     Checker,
     FunCarpet,
     StarFloor,
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // A level adds its members inside its own block only, with explicit values, never past the block's end; 97-99 stay free.
+
+    /// <summary>
+    /// Level ! (block 100-115): speckled hospital vinyl; with the charcoal-blue band along the wall toward Pier; scuffed
+    /// and clawed; cracked (a hole ahead); the Safe Zone's blue-grey.
+    /// </summary>
+    RunFloor = 100,
+    RunBorder = 101,
+    RunScuffed = 102,
+    RunCracked = 103,
+    RunSafeFloor = 104,
+    /// <summary>
+    /// Level Fun (block 116-131): vinyl tiles in party colours (four arrangements), the red race-track carpet, faded
+    /// retro carpet, foam play mats, teak decking, parquet, the lobbies' red carpet, a bounce house's quilted floor.
+    /// </summary>
+    FunFloor = 116,
+    FunVinylB = 117,
+    FunVinylC = 118,
+    FunVinylD = 119,
+    FunRaceCarpet = 120,
+    FunRetroCarpet = 121,
+    FunCheckerA = 122,
+    FunCheckerB = 123,
+    FunDeck = 124,
+    FunParquet = 125,
+    FunLobbyCarpet = 126,
+    FunInflatableFloor = 127,
+    /// <summary>
+    /// The End (block 132-147): grey-green library carpet (dusty, worn, stained, under snow), the navy patterned
+    /// runway, the stockrooms' concrete and its safety line.
+    /// </summary>
+    EndFloor = 132,
+    EndCarpet = 132,
+    EndCarpetDusty = 133,
+    EndCarpetWorn = 134,
+    EndCarpetStained = 135,
+    EndCarpetSnow = 136,
+    EndRunway = 137,
+    EndConcrete = 138,
+    EndConcreteLine = 139,
+    /// <summary>The Hub (block 148-163). Placeholder.</summary>
+    HubFloor = 148,
+    /// <summary>The Hub: the asphalt road; with a yellow road stud; worn; patched.</summary>
+    HubAsphalt = 149,
+    HubStud = 150,
+    HubAsphaltWorn = 151,
+    HubAsphaltPatch = 152,
+    /// <summary>The Hub: the raised sidewalk along each wall (a half slab), where people are put down.</summary>
+    HubSidewalk = 153,
+    /// <summary>The Hub: the Tower's polished marble, plain and inlaid.</summary>
+    HubMarble = 154,
+    HubMarbleInlay = 155,
+    /// <summary>Level 974 (block 164-179): blush carpet, the kitchen's pink-and-white checker, the bathrooms' white hexagons.</summary>
+    L974Floor = 164,
+    L974Checker = 165,
+    L974BathHex = 166,
+
+    // ===== Levels 3999 and 188 (19, 20): one block of values each, as for 14-18 =====
+
+    /// <summary>
+    /// Level 3999 (block 180-195): black-light carpet (cosmic, galaxy, and rotten in the Neon Blackout), white and black
+    /// marble, the service corridors' polished concrete, bowling-lane maple, violet and lilac pool mosaic, the pools'
+    /// white edge, and (in Level 10) the arcade's car-park asphalt and its bay lines.
+    /// </summary>
+    L3999Floor = 180,
+    L3999Galaxy = 181,
+    L3999Rotten = 182,
+    L3999Marble = 183,
+    L3999MarbleBlack = 184,
+    L3999Concrete = 185,
+    L3999Lanewood = 186,
+    L3999PoolViolet = 187,
+    L3999PoolLilac = 188,
+    L3999PoolEdge = 189,
+    L3999Asphalt = 190,
+    L3999AsphaltLine = 191,
+    /// <summary>Level 188 (block 196-211). Placeholder.</summary>
+    L188Floor = 196,
+    /// <summary>Level 188: courtyard pavers, the mossy lawns, the wooden deck; corridor carpet, guest-room carpet, the lobby, the stair hall.</summary>
+    L188Paver = 197, L188Turf = 198, L188Deck = 199, L188Corridor = 200, L188Room = 201, L188Lobby = 202, L188Stair = 203,
 }
 
 public enum CeilingKind : byte
@@ -294,6 +480,44 @@ public enum CeilingKind : byte
     Chandelier,
     /// <summary>A dim red lamp: all the light there is in Level 0's Red Rooms.</summary>
     LampRed,
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // A level adds its members inside its own block only, with explicit values, never past the block's end; 9-15 stay free.
+
+    /// <summary>
+    /// Level ! (block 16-23): acoustic tile; a dead troffer; a hanging EXIT sign (its faces look along the hall: north
+    /// and south unless the tile's Detail has <c>WorldLayout.RunSignWE</c>); an air vent; the Safe Zone's blue panel.
+    /// </summary>
+    RunCeiling = 16,
+    RunPanelDead = 17,
+    RunExitSign = 18,
+    RunVent = 20,
+    RunSafeLight = 21,
+    /// <summary>
+    /// Level Fun (block 24-31): the black night over an open deck (FunCeiling), and a bounce house's puffy roof
+    /// under the hall's own ceiling (see the level's file for the heights).
+    /// </summary>
+    FunCeiling = 24,
+    FunInflatableRoof = 25,
+    /// <summary>The End (block 32-39). Placeholder.</summary>
+    EndCeiling = 32,
+    /// <summary>The Hub (block 40-47). Placeholder.</summary>
+    HubCeiling = 40,
+    /// <summary>Level 974 (block 48-55). Placeholder.</summary>
+    L974Ceiling = 48,
+
+    // ===== Levels 3999 and 188 (19, 20): one block of values each, as for 14-18 =====
+
+    /// <summary>
+    /// Level 3999 (block 56-63): the open black ceiling of the public areas; the service corridors' acoustic tile, with
+    /// a white fluorescent tube in it, or a dead one (in the Neon Blackout).
+    /// </summary>
+    L3999Ceiling = 56,
+    L3999Acoustic = 57,
+    L3999Fluoro = 58,
+    L3999FluoroOff = 59,
+    /// <summary>Level 188 (block 64-71). Placeholder.</summary>
+    L188Ceiling = 64,
 }
 
 /// <summary>
@@ -357,8 +581,12 @@ public struct Tile
     public byte Stack;
     /// <summary>Overhead pipework, one of <see cref="Pipes"/>.</summary>
     public byte Pipe;
-    /// <summary>Material or prop sub-variant: see <see cref="WallPattern"/> for walls and <see cref="Props"/> for floors.</summary>
-    public byte Variant;
+    /// <summary>
+    /// Material or prop sub-variant: see <see cref="WallPattern"/> for walls and <see cref="Props"/> for floors. Wider
+    /// than a byte so the levels kept as 14-18 have room for their props (<see cref="Props.Limit"/>); wall decorations
+    /// stay below <see cref="Decor.Limit"/>.
+    /// </summary>
+    public ushort Variant;
     /// <summary>Level 1: a concrete beam under the slab, spanning between columns.</summary>
     public bool Beam;
     /// <summary>Level 1 stairs to nowhere: the height of this step (0 = none). Climbs toward <see cref="Pier"/>.</summary>
@@ -422,6 +650,23 @@ public static class Pipes
     /// <summary>Level 3: cable bundles with loops and loose ends hanging down.</summary>
     public const byte CableDroopX = 13;
     public const byte CableDroopZ = 14;
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    public const byte RunFirst = 20, RunLast = 29;
+    public const byte FunFirst = 30, FunLast = 39;
+    /// <summary>Level Fun: not pipes but what is laid on a party table (the block above it): paper plates, cups, a mess, the cakes, cookies.</summary>
+    public const byte FunPlates = 30, FunCups = 31, FunMess = 32, FunCakeBirthday = 33, FunCakeVelvet = 34, FunCookies = 35;
+    public const byte EndFirst = 40, EndLast = 49;
+    public const byte HubFirst = 50, HubLast = 59;
+    public const byte L974First = 60, L974Last = 69;
+    // Levels 3999 and 188 (19, 20)
+    public const byte L3999First = 70, L3999Last = 79;
+    /// <summary>
+    /// Level 3999: not pipes but what stands on a mezzanine gallery over this tile (on its slab, rel 8): an arcade
+    /// cabinet facing north, east, south or west (70-73), a bench facing north, east, south or west (74-77), a planter.
+    /// </summary>
+    public const byte L3999UpperCabinet = 70, L3999UpperBench = 74, L3999UpperPlanter = 78;
+    public const byte L188First = 80, L188Last = 89;
 }
 
 /// <summary>Values of <see cref="Tile.Overhead"/>.</summary>
@@ -447,6 +692,36 @@ public static class Overheads
     public const byte Leaves = 20;
     /// <summary>Level 5: a ceiling fan in a guest room, turning.</summary>
     public const byte CeilingFan = 21;
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    public const byte RunFirst = 40, RunLast = 49;
+    public const byte FunFirst = 50, FunLast = 59;
+    /// <summary>Level Fun: a cluster of balloons against the ceiling (the room's balloon set), crepe streamers across it.</summary>
+    public const byte FunBalloons = 50, FunStreamerNS = 51, FunStreamerWE = 52;
+    public const byte EndFirst = 60, EndLast = 69;
+    /// <summary>The End: a soffit (bulkhead) at rel 4 over this tile; with a bronze letter on its <see cref="Tile.Pier"/> face (letter in <see cref="Tile.Stack"/>).</summary>
+    public const byte EndSoffit = 60, EndSoffitLetter = 61;
+    /// <summary>The End: a pendant lamp under the atrium's ceiling; an INFORMATION sign hung over a desk; a ceiling tile fallen out.</summary>
+    public const byte EndPendant = 62, EndHangSign = 63, EndMissingTile = 64;
+    /// <summary>The End: the atrium's mezzanine deck over this tile; at its edge, with a railing on the <see cref="Tile.Pier"/> side.</summary>
+    public const byte EndDeck = 65, EndDeckEdge = 66;
+    public const byte HubFirst = 70, HubLast = 79;
+    /// <summary>The Hub: a pair of jet fans hanging from the ceiling, along a north-south or a west-east tunnel.</summary>
+    public const byte HubFanNS = 70, HubFanWE = 71;
+    /// <summary>The Hub: a lane signal hanging over a lane, its face to the north or south (NS) or east or west (WE).</summary>
+    public const byte HubSignalNS = 72, HubSignalWE = 73;
+    public const byte L974First = 80, L974Last = 89;
+    /// <summary>Level 974: the closet's clothes rod, three blocks up, hung with pastel clothes (faces <see cref="Tile.Pier"/>).</summary>
+    public const byte L974ClosetRod = 80;
+    // Levels 3999 and 188 (19, 20)
+    public const byte L3999First = 90, L3999Last = 99;
+    /// <summary>
+    /// Level 3999: a neon tube just under the ceiling, along x (WE) or z (NS), in the colour in <see cref="Tile.Detail"/>;
+    /// a dead one; the junction's hanging "3999" sign; a neon sign at rel 5 over a unit's entrance, facing
+    /// <see cref="Tile.Pier"/> (its words in <see cref="Tile.Depth"/>, see <see cref="WorldLayout.L3999Signs"/>).
+    /// </summary>
+    public const byte L3999TubeWE = 90, L3999TubeNS = 91, L3999DeadWE = 92, L3999DeadNS = 93, L3999Sign3999 = 94, L3999Sign = 95;
+    public const byte L188First = 100, L188Last = 109;
 }
 
 /// <summary>Values of <see cref="Tile.Under"/> beyond Level 3's flooded tunnels: thresholds below the floor.</summary>
@@ -507,6 +782,73 @@ public static class Unders
     public const byte DollHouse = 27;
     /// <summary>Level 94: a flight of steps on a hill that climbs to nothing (each step's height in <see cref="Tile.Stair"/>).</summary>
     public const byte Nowhere = 28;
+
+    // ===== The levels kept as 14-18: one block of values each, for their thresholds below the floor and the ways into
+    // them from other levels (see docs/new-levels/CONTRACT.md). 29-39 stay free. =====
+    public const byte RunFirst = 40, RunLast = 49;
+    /// <summary>Level 2: a blind tunnel end that wasn't there a moment ago (a floor tile before it). Walk into it: Level !.</summary>
+    public const byte RunFalseWall = 40;
+    /// <summary>Level 37: a dry corridor that turns to hospital vinyl lit red, ending in an EXIT door. Level !.</summary>
+    public const byte RunRedCorridor = 41;
+    /// <summary>Level !: a hole in the floor of the dark last stretch (on Pit tiles). Fall in: Level 8.</summary>
+    public const byte RunHole = 42;
+    /// <summary>Level 1: the wall tile carrying the door that shouldn't be there (on Door tiles of pattern RunEntryDoor).</summary>
+    public const byte RunEntrance = 43;
+    public const byte FunFirst = 50, FunLast = 59;
+    /// <summary>Level Fun: the deep middle of a ball pit (dive to its bottom: the castle of Level 94).</summary>
+    public const byte FunBallPitDeep = 50;
+    /// <summary>Level Fun: the black water beyond an open deck's rail (go overboard: the sea of Level 7).</summary>
+    public const byte FunOverboard = 51;
+    /// <summary>Level 11: the gym doors painted with a tiger, a parrot and a giraffe at the back of a parking garage (Level Fun).</summary>
+    public const byte FunMascotDoor = 52;
+    public const byte EndFirst = 60, EndLast = 69;
+    /// <summary>The End: a working door in a fake reality (on a doorway tile; <see cref="Tile.Detail"/> = the fake reality's kind).</summary>
+    public const byte EndFakeDoor = 61;
+    /// <summary>Level 4: under the free-standing wooden doorway into The End.</summary>
+    public const byte EndFrame = 62;
+    /// <summary>Level 1: a locked hall door under a glowing EXIT sign, into The End (on a door tile).</summary>
+    public const byte EndExitL1 = 63;
+    /// <summary>Level 11: the closed-down bookstore's door into The End (on a door tile).</summary>
+    public const byte EndBookstore = 64;
+    /// <summary>The End: a long aisle that loops (on its three middle rows; <see cref="Tile.Pier"/> East: it runs along x, South: along z).</summary>
+    public const byte EndLoop = 65;
+    /// <summary>The End: a wall carrying a vent at rel 3, onto Level 94.</summary>
+    public const byte EndVentWall = 66;
+    /// <summary>The Hub has the most ways in and out.</summary>
+    public const byte HubFirst = 70, HubLast = 89;
+    /// <summary>Level 37: the far end of a dry corridor where the tile gives way to concrete and asphalt. The Hub.</summary>
+    public const byte PoolAsphalt = 70;
+    /// <summary>The Hub: a stretch of tunnel wall that isn't there (a floor tile). Walk into it: Level 4.</summary>
+    public const byte HubFalseWall = 71;
+    /// <summary>The Hub: a rectangular hole in the road. Fall in: the sky over Level 94.</summary>
+    public const byte HubHole = 72;
+    /// <summary>The Hub: the dead end of a side tunnel where the concrete has turned to white tile. Walk on: Level 37.</summary>
+    public const byte HubTileEnd = 73;
+    /// <summary>Levels 1 and 2: a door into the Hub (a Level 1 wall carrying the door, a Level 2 steel door).</summary>
+    public const byte HubEntrance = 74;
+    /// <summary>The Hub: the storm void beyond the Tower's balcony. Fall into it and you are cast out into the tunnels.</summary>
+    public const byte HubTowerVoid = 75;
+    /// <summary>The Hub: the one open window in a tunnel wall, into Level 188 (two wall tiles; Stack 0 left, 1 right; Pier the way it faces).</summary>
+    public const byte HubWindow188 = 76;
+    public const byte L974First = 90, L974Last = 99;
+    /// <summary>Level 974: where a wanderer wakes in a house, beside the bed (not a threshold: only an arrival spot).</summary>
+    public const byte L974Arrival = 90;
+    // Levels 3999 and 188 (19, 20)
+    public const byte L3999First = 100, L3999Last = 109;
+    /// <summary>
+    /// Level 3999's ways in, in other levels, and its own walked thresholds: Level 11's stretch of alley wall flickering
+    /// purple; Level 37's glowing magenta tiles at the bottom of a deep pool; a natatorium's floor drain (to Level 37);
+    /// in Level 10, the lone arcade (its walls and its revolving door), its car park, and the windmills that lead to it
+    /// (a windmill's tiles, and the generator in front of its door).
+    /// </summary>
+    public const byte L3999GlitchWall = 100, L3999MagentaTiles = 101, L3999Drain = 102, L3999Arcade = 103, L3999Lot = 104, L3999Windmill = 105;
+    public const byte L188First = 110, L188Last = 119;
+    /// <summary>
+    /// Level 188: a courtyard window that shows another place (<see cref="Tile.Detail"/> = the level it leads to); a
+    /// window into 188 in another level (Detail: bits 0-3 the host, 0 Level 0, 1 Level 1, 3 Level Fun; bits 4-5 the way
+    /// it faces; bit 6 set on its left half); the hatch in the courtyard deck; a fire door (Detail = its storey).
+    /// </summary>
+    public const byte L188LinkWindow = 110, L188Entrance = 111, L188Hatch = 112, L188FireDoor = 113;
 }
 
 /// <summary>Level 37: what a tile wall carries, in <see cref="Tile.Variant"/>, facing <see cref="Tile.Pier"/>.</summary>
@@ -548,6 +890,8 @@ public enum CityKind : byte
     Baths,
     /// <summary>A cinema showing a stop-motion picture; walk into the screen and you are in Level 94.</summary>
     Cinema,
+    /// <summary>The End's way in (end-plan.md): a closed-down bookstore, its windows papered over, its one door onto The End.</summary>
+    Bookstore = 40,
 }
 
 /// <summary>Level 11: flags on a building tile, in <see cref="Tile.Detail"/>.</summary>
@@ -649,6 +993,15 @@ public static class Props
     public const byte AngelStatue = 68;
     public const byte FloorCable = 69;
     public const byte PipeStack = 70;
+    /// <summary>
+    /// Levels 2, 3 and 5: vanilla machinery against a wall or on the floor (Stack picks the kind; the front faces
+    /// <see cref="Tile.Pier"/>, so a gauge frame's Pier points away from the wall behind it). Gauge frames: gauges,
+    /// manifold, valve, sight glass. Pressure tanks: plain, valved. Old machinery: pump, governor. Levers: single, double.
+    /// </summary>
+    public const byte GaugeFrame = 71;
+    public const byte PressureTank = 72;
+    public const byte RustMachine = 73;
+    public const byte FloorLever = 74;
     // Level 4
     public const byte Ficus = 80;
     public const byte ChairStack = 81;
@@ -864,6 +1217,162 @@ public static class Props
     /// <summary>A slide between floors of the funhouse: slick, and it carries you down toward <see cref="Tile.Pier"/>.</summary>
     public const byte Slide = 255;
 
+    // ===== The levels kept as 14-18: one block of values each, past the byte (Tile.Variant is a ushort; see
+    // docs/new-levels/CONTRACT.md). A level declares its props as ushort constants inside its own block only. =====
+    public const ushort RunFirst = 300, RunLast = 319;
+    // Level ! (Pier = the way the prop faces; Stack as noted)
+    /// <summary>A gurney (Stack 0 head, 1 foot; Pier the way the foot points).</summary>
+    public const ushort RunGurney = 300;
+    public const ushort RunWheelchair = 301;
+    public const ushort RunIvStand = 302;
+    public const ushort RunChairs = 303;
+    public const ushort RunCrashCart = 304;
+    /// <summary>Steel shelving lying across the hall (Stack 0 the part by the wall, 1 the other). Jumped over.</summary>
+    public const ushort RunShelfFallen = 305;
+    /// <summary>Steel shelving standing against the wall, two blocks tall, that topples as you come.</summary>
+    public const ushort RunShelfStanding = 306;
+    public const ushort RunToyCar = 307;
+    public const ushort RunBoxes = 308;
+    public const ushort RunCord = 309;
+    public const ushort RunSheets = 310;
+    public const ushort RunRemains = 311;
+    /// <summary>A supply tray (Stack 0 an Energy Bar, 1 Almond Water).</summary>
+    public const ushort RunTray = 312;
+    public const ushort RunBedside = 313;
+    public const ushort RunSafeShelf = 314;
+    /// <summary>A cot (Stack 0 head, 1 foot; Pier the way the foot points).</summary>
+    public const ushort RunSafeCot = 315;
+    public const ushort RunDebris = 316;
+    /// <summary>The start room's privacy curtain, two blocks tall, walked through.</summary>
+    public const ushort RunCurtain = 317;
+    public const ushort FunFirst = 320, FunLast = 359;
+    // Level Fun. Props that face a way face toward Tile.Pier; Stack picks the kind (see the level's prop table)
+    /// <summary>One block of a folding party table in its cloth (Stack: cloth·2 + part; part b lies toward Pier).</summary>
+    public const ushort FunTable = 320;
+    /// <summary>A plastic stacking chair facing Pier (Stack the colour); knocked over.</summary>
+    public const ushort FunChair = 321, FunChairTipped = 322;
+    /// <summary>A wrapped gift (Stack: colour·2 + tall).</summary>
+    public const ushort FunGift = 323;
+    /// <summary>Balloons on the floor; one tied to the floor on a string; the two halves of a balloon arch beside a door; confetti.</summary>
+    public const ushort FunBalloonsFloor = 324, FunBalloonTied = 325, FunArchL = 326, FunArchR = 327, FunConfetti = 328;
+    /// <summary>A bounce house's corner tower (three blocks tall), its arched way in, the blower, an extension cord.</summary>
+    public const ushort FunInflatableTower = 329, FunInflatableArch = 330, FunBlower = 331, FunCord = 332;
+    /// <summary>A soft-play foam block; a climbing net (floor to ceiling).</summary>
+    public const ushort FunFoam = 333, FunNet = 334;
+    public const ushort FunAirHockey = 335, FunPopcornCart = 336, FunCounter = 337, FunOven = 338, FunCakeTins = 339;
+    public const ushort FunWaitingChair = 340, FunReception = 341, FunMagazineTable = 342;
+    /// <summary>An open deck's white rail (solid, low enough to climb over), a slatted deck chair (two blocks).</summary>
+    public const ushort FunShipRail = 343, FunDeckChair = 344;
+    public const ushort FunLinenCart = 345, FunSupplyShelf = 346;
+    /// <summary>A Carnivorous Balloon, floating at chest height and tied to nothing (Stack the colour).</summary>
+    public const ushort FunCBalloon = 347;
+    /// <summary>A TIME 4 FUN =) poster on the wall at eye height (the trap in Level 0), and a red "=)" (Stack 0-3).</summary>
+    public const ushort FunPosterTrap = 348, FunSmiley = 349;
+    /// <summary>A vanilla pumpkin (the Halloween rooms).</summary>
+    public const ushort FunPumpkin = 350;
+    public const ushort EndFirst = 360, EndLast = 399;
+    // The End. Props that face a way face toward Tile.Pier; Stack picks the kind (and the part, for tall ones)
+    /// <summary>Double-faced gondola shelving, 2 high: Stack 0 empty, 1 a few books, 2 dusty, 3 an end panel, 4 leaning (it falls at a touch).</summary>
+    public const ushort EndShelf = 360;
+    /// <summary>A library stack 4 high: Stack 0 empty, 1 books, 2 with a ladder rail.</summary>
+    public const ushort EndTallShelf = 361;
+    /// <summary>Wall shelving, 2 high, its back to the wall behind (away from Pier): Stack 0 empty, 1 books.</summary>
+    public const ushort EndWallShelf = 362;
+    /// <summary>A tapered slatwall display tower, 2 high: Stack 0 plain, 1 with a price sticker.</summary>
+    public const ushort EndEndcap = 363;
+    /// <summary>A piece of a service desk (Stack bits 0-2: straight, curve out, curve in, end, gate; bit 3: a computer on it; bit 4: the central hall's, never "=)").</summary>
+    public const ushort EndDesk = 364;
+    /// <summary>Library furniture: Stack 0 table, 1 table with a lamp, 2 chair, 3 chair in plastic, 4 armchair, 5 carrel, 6 display table, 7 magazine rack.</summary>
+    public const ushort EndFurniture = 365;
+    /// <summary>A card catalogue: Stack 0 shut, 1 a drawer open.</summary>
+    public const ushort EndCatalogue = 366;
+    /// <summary>Stock in a stockroom: Stack 0 a wrapped pallet, 1 a book trolley, 2 a ladder in plastic, 3 a shelving kit.</summary>
+    public const ushort EndStock = 367;
+    /// <summary>A stopped escalator: the step's height is in Tile.Stair, climbing toward Pier.</summary>
+    public const ushort EndEscalator = 368;
+    /// <summary>Fallen shelving (Stack 0) or a fallen ceiling (1).</summary>
+    public const ushort EndRubble = 369;
+    /// <summary>A bare tree in the Snowfield: Stack = its height (3-5).</summary>
+    public const ushort EndTree = 370;
+    /// <summary>A ladder: Stack 0 a rolling library ladder (2 high), 1 a steel wall ladder (3 high) up to a vent; against the side Pier points to.</summary>
+    public const ushort EndLadder = 371;
+    /// <summary>Level 4: the free-standing wooden doorway into The End (2 high; Pier = the way through it).</summary>
+    public const ushort EndFrame = 372;
+    /// <summary>The Snowfield: snow lying on the carpet (walked through).</summary>
+    public const ushort EndSnow = 373;
+    public const ushort HubFirst = 400, HubLast = 439;
+    /// <summary>The Hub: the headless statue in the Tower; the M.E.G.'s door register, doorstep carpet; Camp Amber's sign.</summary>
+    public const ushort HubStatue = 400, HubRegister = 401, HubDoormat = 402, HubAmberSign = 403;
+    public const ushort L974First = 440, L974Last = 479;
+    // Level 974, Kitty's House (Pier = the way the front faces; Stack as noted)
+    /// <summary>The little bed (Stack bit 0: 0 head, 1 foot; bits 1-2: the bedding). Pier: the way the foot points.</summary>
+    public const ushort L974Bed = 440;
+    public const ushort L974Nightstand = 441;
+    /// <summary>A heap of plushies (Stack: arrangement 0 or 1).</summary>
+    public const ushort L974PlushHeap = 442;
+    /// <summary>The desk (Stack 0 plain, 1 with the old computer on it).</summary>
+    public const ushort L974Desk = 443;
+    /// <summary>A chair (Stack 0 the desk's swivel chair, 1 a dining chair).</summary>
+    public const ushort L974Chair = 444;
+    public const ushort L974Dresser = 445;
+    /// <summary>A quarter of the heart rug (Stack 0-3: NW, NE, SW, SE). Walked over.</summary>
+    public const ushort L974Rug = 446;
+    /// <summary>The pink fridge and the pantry: two blocks tall.</summary>
+    public const ushort L974Fridge = 447;
+    public const ushort L974Pantry = 448;
+    /// <summary>A kitchen counter (Stack 0 plain, 1 corner, 2 sink, 3 canisters, 4 utensils).</summary>
+    public const ushort L974Counter = 449;
+    public const ushort L974Stove = 450;
+    /// <summary>The banquette (Stack 0 straight, 1 corner: backs opposite Pier and on Pier's right).</summary>
+    public const ushort L974Banquette = 451;
+    public const ushort L974Table = 452;
+    public const ushort L974Toilet = 453;
+    public const ushort L974Basin = 454;
+    /// <summary>The bathtub (Stack 0 head, 1 foot; Pier the way the foot points).</summary>
+    public const ushort L974Bathtub = 455;
+    public const ushort L974CatBed = 456;
+
+    // Levels 3999 and 188 (19, 20), as for 14-18
+    public const ushort L3999First = 480, L3999Last = 539;
+    // Level 3999, the Neon Paradise (Pier = the way the front faces; Stack as noted)
+    /// <summary>An arcade cabinet (Stack: the game, 0-5 = a-f); a themed one (Stack: its marquee, see WorldLayout.L3999Themes); a rusted one (walked through); a dead one (3999.1).</summary>
+    public const ushort L3999Cabinet = 480, L3999Themed = 481, L3999Rusted = 482, L3999DeadCabinet = 483;
+    /// <summary>Two-part games: the racer's seat and its screen, the dance pad and its screen, the skee-ball lane and its target.</summary>
+    public const ushort L3999RacerSeat = 484, L3999RacerScreen = 485, L3999DancePad = 486, L3999DanceScreen = 487;
+    public const ushort L3999Pinball = 488, L3999Claw = 489, L3999SkeeLane = 490, L3999SkeeTarget = 491;
+    /// <summary>An air hockey table, two blocks long (Stack 0 the a half, 1 the b half).</summary>
+    public const ushort L3999AirHockey = 492;
+    /// <summary>A prize counter; the prize wall behind it (two high); 3999.1's abandoned prize case; a plush (Stack 0-3: bear, cat, alien, smiley).</summary>
+    public const ushort L3999PrizeCounter = 493, L3999PrizeWall = 494, L3999PrizeCase = 495, L3999Plush = 496;
+    /// <summary>The reception desk (Stack 0 left, 1 middle, 2 right); a couch (Stack 0 left, 1 right); a coffee table; the lost-and-found bin.</summary>
+    public const ushort L3999Reception = 497, L3999Couch = 498, L3999CoffeeTable = 499, L3999LostFound = 500;
+    public const ushort L3999Planter = 501, L3999Bench = 502, L3999TrashBin = 503, L3999Table = 504;
+    /// <summary>A moulded chair (Stack: 0 white, 1 pink, 2 cyan); a diner booth.</summary>
+    public const ushort L3999Chair = 505, L3999Booth = 506;
+    /// <summary>A food stall's counter (Stack: the food, see WorldLayout.L3999Foods); against the wall behind it, a menu board at rel 3 and the stall's neon sign at rel 5 (Stack: the food).</summary>
+    public const ushort L3999StallCounter = 507, L3999MenuBoard = 508;
+    /// <summary>A vending machine (Stack 0 snacks, 1 drinks); a mall directory.</summary>
+    public const ushort L3999Vending = 509, L3999Directory = 510;
+    /// <summary>
+    /// A moving walkway's tread (Pier: the way it moves; Stack bit 0: the combplate at an end, bit 1: a rail on its left
+    /// side, bit 2: on its right, as seen facing the way it moves; bit 3: the end it starts from). Walked over.
+    /// </summary>
+    public const ushort L3999Walkway = 511;
+    /// <summary>A step of an escalator up to a gallery (Stair: its height; Pier: the way it climbs). Walked over.</summary>
+    public const ushort L3999Escalator = 512;
+    /// <summary>A mirror-steel column ringed with neon, up to the ceiling (its colour the tile's).</summary>
+    public const ushort L3999Pillar = 513;
+    /// <summary>The elevator's keypad, at rel 2; a table with a heap of red tickets on it; a pool lounger; a heap of fallen ceiling panels.</summary>
+    public const ushort L3999Keypad = 514, L3999TicketPile = 515, L3999Lounger = 516, L3999Debris = 517;
+    /// <summary>Level 10: a lamp post in the arcade's car park; the generator on a windmill's wall (its sails above it).</summary>
+    public const ushort L3999LampPost = 518, L3999Generator = 519;
+    public const ushort L188First = 540, L188Last = 579;
+    /// <summary>Level 188's courtyard: a bench (Pier its facing), a bollard lamp, a tuft of moss (walked through), the drain under the downpipe (walked through).</summary>
+    public const ushort L188Bench = 540, L188Bollard = 541, L188MossTuft = 542, L188Drain = 543;
+
+    /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
+    public const int Limit = 580;
+
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>
     public const byte WallPipes = 1;
@@ -1003,6 +1512,27 @@ public static class Decor
     public const byte SubwayMap = 171;
     public const byte SubwayLamp = 172;
     public const byte SubwayAd = 173;
+
+    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md). Decoration codes
+    // are looked up by name across every family, so a level's codes must not reuse another's names. 174-175 stay free. =====
+    public const byte RunFirst = 176, RunLast = 183;
+    public const byte FunFirst = 184, FunLast = 195;
+    public const byte EndFirst = 196, EndLast = 207;
+    /// <summary>The End, on its walls and columns (facing Pier): THE END posters (yellow, pink, green, the notice), 196-199; a pale ghost where a sign hung; a crack.</summary>
+    public const byte EndPoster = 196, EndGhost = 200, EndCrack = 201;
+    /// <summary>The End: a bronze letter on a wall at rel 3 (the letter in Tile.Stack).</summary>
+    public const byte EndLetter = 202;
+    public const byte HubFirst = 208, HubLast = 223;
+    /// <summary>Level 1: the grey door into the Hub, with the Hub's carved sigil over it (on concrete or white block walls).</summary>
+    public const byte HubEntranceDoor = 208;
+    public const byte L974First = 224, L974Last = 235;
+    // Levels 3999 and 188 (19, 20)
+    public const byte L3999First = 236, L3999Last = 247;
+    /// <summary>Level 3999 draws its own walls; its walls' Variant is its own (a painted window's column), not a decoration.</summary>
+    public const byte L188First = 248, L188Last = 255;
+
+    /// <summary>One past the highest decoration: wall decorations stay within a byte.</summary>
+    public const int Limit = 256;
 }
 
 /// <summary>The large-scale character of an area. Zones are irregular blobs a few hundred blocks across.</summary>

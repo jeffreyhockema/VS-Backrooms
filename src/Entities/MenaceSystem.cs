@@ -264,6 +264,8 @@ public class MenaceSystem : ModSystem
             else if (a.Castle) a.Band = Regions.MotionSystem.CastleAlarmed(motionPlayer) ? MenaceBand.Threshold : MenaceBand.Safe;
             else if (a.Band != MenaceBand.Safe && Regions.MotionSystem.PlayingDoll(motionPlayer)) a.Band = MenaceBand.Safe;
         }
+        // Level 974: for a few minutes after waking from Kitty's House, nothing comes ("somewhere just as safe")
+        if (target is EntityPlayer kittyGuest && Regions.L974System.Watched(kittyGuest)) a.Band = MenaceBand.Safe;
         // Nothing hostile closes in on someone keeping company with a wanderer
         a.NearWanderer = false;
         if (a.Band != MenaceBand.Safe && sapi.World.GetNearestEntity(target.Pos.XYZ, 12, 4, e => e.Alive && e.Code.Path.StartsWith("wanderer")) != null)
@@ -347,6 +349,22 @@ public class MenaceSystem : ModSystem
             a.Band = !night || indoors ? MenaceBand.Safe
                 : here.Floor is FloorKind.MotionConcrete || fromMountain < 400 || layout.InMotionTown(gx, gz) ? MenaceBand.Threshold : MenaceBand.Approach;
             return;
+        }
+        // The five kept as 14-18 (each level's own case): calm until their plans say otherwise
+        switch (level)
+        {
+            case WorldLayout.RunLevel: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.FunLevel: a.Band = Regions.FunSystem.BandAt(layout, gx, gz); return;
+            case WorldLayout.TheEnd:
+                // Devoid of all life, but in the dark of a collapse something grins now and then
+                a.Band = layout.TileAt(gx, gz).Zone == 3 ? MenaceBand.Heartland : MenaceBand.Safe;
+                return;
+            case WorldLayout.Hub: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level974: a.Band = MenaceBand.Safe; return;
+            // Level 3999: safe, but in the dark of its Neon Blackout (3999.1), where things hunt
+            case WorldLayout.Level3999: a.Band = layout.L3999DarkAt(gx, gz) ? MenaceBand.Threshold : MenaceBand.Safe; return;
+            // Level 188: safe in a room with its door shut, the heart in the courtyard and below, the edge upstairs and by the windows out
+            case WorldLayout.Level188: a.Band = Regions.L188System.BandAt(layout, geometry, gx, y, gz); return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {
@@ -440,10 +458,21 @@ public class MenaceSystem : ModSystem
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
         RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
             && types.ContainsKey(e.Code)).ToArray();
+        // Someone starving draws the Wretches, three times over: they know what is coming for them
+        if (Starving(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
         if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < 0.75) options = new[] { dweller };
         RosterEntry entry = Pick(options);
         if (entry == null || !TrySpawn(target, a, entry, kind)) PlayDistantSound(target, a.Level);
+    }
+
+    /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
+    private static bool Starving(Entity target)
+    {
+        var hunger = target.WatchedAttributes.GetTreeAttribute("hunger");
+        if (hunger == null) return false;
+        float max = hunger.GetFloat("maxsaturation", 1500);
+        return max > 0 && hunger.GetFloat("currentsaturation", max) < 0.25f * max;
     }
 
     /// <summary>Puts a player's section of Level 1 into a Flickering, and sends a pack of Hounds to hunt them until it ends.</summary>
@@ -683,6 +712,12 @@ public class MenaceSystem : ModSystem
                 int look = r < 0.12 ? 2 : r < 0.37 ? 1 : 0;
                 entity.WatchedAttributes.SetInt("textureIndex", look);
                 return look == 2;
+            case "wretch":
+                // The further down, the longer they have been down here: still dressed near the top, all but gone deep
+                double d = Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
+                double w = rand.NextDouble();
+                entity.WatchedAttributes.SetInt("textureIndex", w < 0.5 * (1 - d) ? 1 : w > 0.9 - 0.4 * d ? 2 : 0);
+                return false;
         }
         return false;
     }

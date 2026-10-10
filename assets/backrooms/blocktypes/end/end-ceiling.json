@@ -1,0 +1,49 @@
+// The End: 2x2 acoustic ceiling tiles; stained; missing, the black plenum showing between the T-bars
+{
+	"code": "end-ceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"stained",
+				"missing"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/end/ceiling-plain"
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/end/ceiling-stained"
+			}
+		},
+		"*-missing": {
+			"all": {
+				"base": "block/end/ceiling-missing"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 0.6,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

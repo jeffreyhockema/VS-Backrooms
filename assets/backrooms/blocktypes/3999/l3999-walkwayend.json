@@ -1,0 +1,136 @@
+// Level 3999: a steel comb plate at the end of a moving walkway, ramping from the tread (15 px) up to the floor (16 px) toward the side named (its yellow teeth reach over the tread on the opposite side)
+{
+	"code": "l3999-walkwayend",
+	"variantgroups": [
+		{
+			"code": "dir",
+			"states": [
+				"n",
+				"e",
+				"s",
+				"w"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-walkwayend-n": {
+			"base": "backrooms:block/3999/l3999-walkwayend"
+		},
+		"l3999-walkwayend-e": {
+			"base": "backrooms:block/3999/l3999-walkwayend",
+			"rotateY": 270
+		},
+		"l3999-walkwayend-s": {
+			"base": "backrooms:block/3999/l3999-walkwayend",
+			"rotateY": 180
+		},
+		"l3999-walkwayend-w": {
+			"base": "backrooms:block/3999/l3999-walkwayend",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-walkwayend-n"
+		],
+		"backrooms": [
+			"l3999-walkwayend-n"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false,
+		"down": true
+	},
+	"sideopaque": {
+		"all": false,
+		"down": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-walkwayend-n": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-walkwayend-e": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-walkwayend-s": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-walkwayend-w": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-walkwayend-n": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-walkwayend-e": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-walkwayend-s": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-walkwayend-w": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

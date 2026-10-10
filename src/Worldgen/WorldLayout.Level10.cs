@@ -189,6 +189,9 @@ public sealed partial class WorldLayout
                             b.At(lx, lz).Overhead = Overheads.Leaves;
                     }
             }
+
+        // Level 3999's way in: now and then a lone arcade at the end of a chain of red-lit windmills (its own salt; WorldLayout.Level3999.Ways.cs)
+        if (L3999Entrances) L3999ArcadeOverlay(b, mx, mz);
     }
 
     /// <summary>One tile of a field, at (du, dv) from its site.</summary>

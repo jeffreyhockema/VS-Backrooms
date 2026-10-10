@@ -1,0 +1,50 @@
+// Level 11's way to 3999: a stretch of alley wall in purple static. It has no substance: walk into it
+{
+	"code": "l3999-glitchwall",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/3999/glitchwall",
+			"alternates": [
+				{
+					"base": "block/3999/glitchwall2"
+				},
+				{
+					"base": "block/3999/glitchwall3"
+				}
+			]
+		}
+	},
+	"lightHsv": [
+		51,
+		7,
+		5
+	],
+	"lightAbsorption": 0,
+	"collisionbox": null,
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"ambient": "backrooms:ambient/3999/glitch",
+		"ambientBlockCount": 3
+	},
+	"attributes": {
+		"l3999structure": true
+	}
+}

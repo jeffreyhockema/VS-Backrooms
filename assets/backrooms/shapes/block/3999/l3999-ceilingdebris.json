@@ -1,0 +1,459 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"debris": "backrooms:block/3999/debris",
+		"rubber": "backrooms:block/3999/rubber"
+	},
+	"elements": [
+		{
+			"name": "Panel0",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				8,
+				0.8,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.0,
+				0.4,
+				5.0
+			],
+			"rotationX": 8,
+			"rotationY": 10
+		},
+		{
+			"name": "Panel1",
+			"from": [
+				6,
+				1,
+				5
+			],
+			"to": [
+				14,
+				1.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.0,
+				1.4,
+				9.0
+			],
+			"rotationX": -10,
+			"rotationY": -25
+		},
+		{
+			"name": "Panel2",
+			"from": [
+				2,
+				1.5,
+				8
+			],
+			"to": [
+				10,
+				2.3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"east": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"south": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"west": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"up": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.0,
+				1.9,
+				12.0
+			],
+			"rotationX": 14,
+			"rotationY": 40
+		},
+		{
+			"name": "Panel3",
+			"from": [
+				8,
+				2.2,
+				0
+			],
+			"to": [
+				16,
+				3.0,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"east": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"south": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"west": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7999999999999998
+					]
+				},
+				"up": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#debris",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.0,
+				2.6,
+				4.0
+			],
+			"rotationX": 6,
+			"rotationY": 70
+		},
+		{
+			"name": "Wire",
+			"from": [
+				3,
+				0,
+				12
+			],
+			"to": [
+				13,
+				0.4,
+				12.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Strut",
+			"from": [
+				1,
+				0.5,
+				6
+			],
+			"to": [
+				15,
+				1.3,
+				6.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0.9,
+				6.4
+			],
+			"rotationY": 15
+		}
+	]
+}

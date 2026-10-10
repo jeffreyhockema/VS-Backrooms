@@ -1,0 +1,463 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bulb-blue": "backrooms:block/fun/bulb-blue",
+		"bulb-green": "backrooms:block/fun/bulb-green",
+		"bulb-red": "backrooms:block/fun/bulb-red",
+		"bulb-yellow": "backrooms:block/fun/bulb-yellow",
+		"wire": "backrooms:block/fun/wire"
+	},
+	"elements": [
+		{
+			"name": "Wire1",
+			"from": [
+				0,
+				14.0,
+				15.2
+			],
+			"to": [
+				8.2,
+				14.25,
+				15.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				0,
+				15,
+				15.3
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "Wire2",
+			"from": [
+				7.8,
+				14.0,
+				15.2
+			],
+			"to": [
+				16,
+				14.25,
+				15.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						8.2,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				16,
+				15,
+				15.3
+			],
+			"rotationZ": 12
+		},
+		{
+			"name": "Bulb0",
+			"from": [
+				1.5,
+				12.075,
+				14.9
+			],
+			"to": [
+				2.5,
+				13.575,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#bulb-red",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Bulb1",
+			"from": [
+				5.5,
+				11.225,
+				14.9
+			],
+			"to": [
+				6.5,
+				12.725,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Bulb2",
+			"from": [
+				9.5,
+				11.225,
+				14.9
+			],
+			"to": [
+				10.5,
+				12.725,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#bulb-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Bulb3",
+			"from": [
+				13.5,
+				12.075,
+				14.9
+			],
+			"to": [
+				14.5,
+				13.575,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#bulb-yellow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

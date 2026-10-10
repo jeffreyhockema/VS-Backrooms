@@ -1,0 +1,645 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"beaconbase": "backrooms:block/run/beaconbase",
+		"beaconlit": "backrooms:block/run/beaconlit",
+		"wall": "backrooms:block/run/wall",
+		"wire": "backrooms:block/run/wire"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				5.5,
+				10,
+				-0.5
+			],
+			"to": [
+				10.5,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5
+					]
+				},
+				"east": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"south": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				5.5,
+				10.5,
+				-3.5
+			],
+			"to": [
+				10.5,
+				11.5,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#beaconbase",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Dome",
+			"from": [
+				6,
+				11.5,
+				-3.2
+			],
+			"to": [
+				10,
+				14.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						3.0
+					],
+					"glow": 220
+				},
+				"south": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					],
+					"glow": 220
+				},
+				"west": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						3.0
+					],
+					"glow": 220
+				},
+				"up": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						4,
+						2.4000000000000004
+					],
+					"glow": 220
+				},
+				"down": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						4,
+						2.4000000000000004
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				6.5,
+				14.5,
+				-2.7
+			],
+			"to": [
+				9.5,
+				15.5,
+				-1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						1.0
+					],
+					"glow": 220
+				},
+				"south": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					],
+					"glow": 220
+				},
+				"west": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						1.0
+					],
+					"glow": 220
+				},
+				"up": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.4000000000000001
+					],
+					"glow": 220
+				},
+				"down": {
+					"texture": "#beaconlit",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.4000000000000001
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "GuardX",
+			"from": [
+				5.6,
+				15.5,
+				-2.25
+			],
+			"to": [
+				10.4,
+				16,
+				-1.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "GuardZ",
+			"from": [
+				7.75,
+				15.5,
+				-3.6
+			],
+			"to": [
+				8.25,
+				16,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						3.1,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						3.1,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.1
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.1
+					]
+				}
+			}
+		},
+		{
+			"name": "GuardL",
+			"from": [
+				5.6,
+				11.5,
+				-2.25
+			],
+			"to": [
+				6.1,
+				15.5,
+				-1.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "GuardR",
+			"from": [
+				9.9,
+				11.5,
+				-2.25
+			],
+			"to": [
+				10.4,
+				15.5,
+				-1.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#wire",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

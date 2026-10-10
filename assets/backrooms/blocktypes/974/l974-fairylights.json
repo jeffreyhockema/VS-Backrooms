@@ -1,0 +1,163 @@
+// Level 974: fairy lights strung under the crown moulding (rel 4), in the room-side block; the suffix is the way they face
+{
+	"code": "l974-fairylights",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-fairylights-on-north": {
+			"base": "backrooms:block/974/l974-fairylights-on"
+		},
+		"l974-fairylights-on-east": {
+			"base": "backrooms:block/974/l974-fairylights-on",
+			"rotateY": 270
+		},
+		"l974-fairylights-on-south": {
+			"base": "backrooms:block/974/l974-fairylights-on",
+			"rotateY": 180
+		},
+		"l974-fairylights-on-west": {
+			"base": "backrooms:block/974/l974-fairylights-on",
+			"rotateY": 90
+		},
+		"l974-fairylights-off-north": {
+			"base": "backrooms:block/974/l974-fairylights-off"
+		},
+		"l974-fairylights-off-east": {
+			"base": "backrooms:block/974/l974-fairylights-off",
+			"rotateY": 270
+		},
+		"l974-fairylights-off-south": {
+			"base": "backrooms:block/974/l974-fairylights-off",
+			"rotateY": 180
+		},
+		"l974-fairylights-off-west": {
+			"base": "backrooms:block/974/l974-fairylights-off",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-fairylights-on-north"
+		],
+		"backrooms": [
+			"l974-fairylights-on-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l974-fairylights-on-north": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l974-fairylights-on-east": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-fairylights-on-south": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-fairylights-on-west": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-fairylights-off-north": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l974-fairylights-off-east": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-fairylights-off-south": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-fairylights-off-west": {
+			"x1": 0,
+			"y1": 0.55,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [],
+	"lightHsvByType": {
+		"l974-fairylights-on-*": [
+			58,
+			3,
+			5
+		]
+	},
+	"attributes": {
+		"l974structure": true,
+		"l974light": true
+	}
+}

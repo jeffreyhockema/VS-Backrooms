@@ -1,0 +1,77 @@
+// Level 10's windmills: a glowing bulb in a cage on the cap, red until someone throws the generator's lever, then green
+{
+	"code": "l3999-beacon",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"red",
+				"green"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-beacon-red": {
+			"base": "backrooms:block/3999/l3999-beacon-red"
+		},
+		"l3999-beacon-green": {
+			"base": "backrooms:block/3999/l3999-beacon-green"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-beacon-red"
+		],
+		"backrooms": [
+			"l3999-beacon-red"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionbox": {
+		"x1": 0.19,
+		"y1": 0,
+		"z1": 0.19,
+		"x2": 0.81,
+		"y2": 0.63,
+		"z2": 0.81
+	},
+	"collisionbox": {
+		"x1": 0.19,
+		"y1": 0,
+		"z1": 0.19,
+		"x2": 0.81,
+		"y2": 0.63,
+		"z2": 0.81
+	},
+	"lightHsvByType": {
+		"*-red": [
+			0,
+			7,
+			15
+		],
+		"*-green": [
+			21,
+			7,
+			15
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

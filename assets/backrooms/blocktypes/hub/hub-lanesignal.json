@@ -1,0 +1,148 @@
+// A lane signal hung from the tunnel roof over a lane, its face to the north: a green arrow down, or a red cross over a dead-end lane
+{
+	"code": "hub-lanesignal",
+	"variantgroups": [
+		{
+			"code": "sign",
+			"states": [
+				"go",
+				"stop"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-go-north": {
+			"base": "block/hub/lanesignal-go",
+			"rotateY": 0
+		},
+		"*-go-east": {
+			"base": "block/hub/lanesignal-go",
+			"rotateY": 270
+		},
+		"*-go-south": {
+			"base": "block/hub/lanesignal-go",
+			"rotateY": 180
+		},
+		"*-go-west": {
+			"base": "block/hub/lanesignal-go",
+			"rotateY": 90
+		},
+		"*-stop-north": {
+			"base": "block/hub/lanesignal-stop",
+			"rotateY": 0
+		},
+		"*-stop-east": {
+			"base": "block/hub/lanesignal-stop",
+			"rotateY": 270
+		},
+		"*-stop-south": {
+			"base": "block/hub/lanesignal-stop",
+			"rotateY": 180
+		},
+		"*-stop-west": {
+			"base": "block/hub/lanesignal-stop",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-go-north"
+		],
+		"decorative": [
+			"*-go-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-go-*": [
+			22,
+			7,
+			4
+		],
+		"*-stop-*": [
+			0,
+			7,
+			4
+		]
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

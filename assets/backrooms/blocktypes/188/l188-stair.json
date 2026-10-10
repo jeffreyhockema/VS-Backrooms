@@ -1,0 +1,142 @@
+// Level 188: a concrete stair with steel nosings, ascending toward the side (the scissor stair's flights)
+{
+	"code": "l188-stair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-stair-north": {
+			"base": "backrooms:block/188/l188-stair"
+		},
+		"l188-stair-east": {
+			"base": "backrooms:block/188/l188-stair",
+			"rotateY": 270
+		},
+		"l188-stair-south": {
+			"base": "backrooms:block/188/l188-stair",
+			"rotateY": 180
+		},
+		"l188-stair-west": {
+			"base": "backrooms:block/188/l188-stair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-stair-north"
+		],
+		"backrooms": [
+			"l188-stair-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false,
+		"down": true
+	},
+	"sideopaque": {
+		"all": false,
+		"down": true
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"collisionboxesByType": {
+		"l188-stair-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"l188-stair-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"l188-stair-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"l188-stair-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	}
+}

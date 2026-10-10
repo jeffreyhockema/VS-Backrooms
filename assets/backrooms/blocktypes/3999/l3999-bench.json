@@ -1,0 +1,134 @@
+// Level 3999's concourses: a bench, steel frame and wooden slats
+{
+	"code": "l3999-bench",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-bench-north": {
+			"base": "backrooms:block/3999/l3999-bench"
+		},
+		"l3999-bench-east": {
+			"base": "backrooms:block/3999/l3999-bench",
+			"rotateY": 270
+		},
+		"l3999-bench-south": {
+			"base": "backrooms:block/3999/l3999-bench",
+			"rotateY": 180
+		},
+		"l3999-bench-west": {
+			"base": "backrooms:block/3999/l3999-bench",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-bench-north"
+		],
+		"backrooms": [
+			"l3999-bench-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-bench-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8
+		},
+		"l3999-bench-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"l3999-bench-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"l3999-bench-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-bench-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8
+		},
+		"l3999-bench-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"l3999-bench-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"l3999-bench-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

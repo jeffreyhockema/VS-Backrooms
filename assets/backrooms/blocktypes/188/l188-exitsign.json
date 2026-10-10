@@ -1,0 +1,103 @@
+// Level 188: a green running-man exit sign, wall-hung over fire doors and stair doors (in the air cell, its back on the wall behind it; front = side)
+{
+	"code": "l188-exitsign",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-exitsign-north": {
+			"base": "backrooms:block/188/l188-exitsign"
+		},
+		"l188-exitsign-east": {
+			"base": "backrooms:block/188/l188-exitsign",
+			"rotateY": 270
+		},
+		"l188-exitsign-south": {
+			"base": "backrooms:block/188/l188-exitsign",
+			"rotateY": 180
+		},
+		"l188-exitsign-west": {
+			"base": "backrooms:block/188/l188-exitsign",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-exitsign-north"
+		],
+		"backrooms": [
+			"l188-exitsign-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l188-exitsign-north": {
+			"x1": 0.15,
+			"y1": 0.4,
+			"z1": 0.85,
+			"x2": 0.85,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"l188-exitsign-east": {
+			"x1": 0.15,
+			"y1": 0.4,
+			"z1": 0.85,
+			"x2": 0.85,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-exitsign-south": {
+			"x1": 0.15,
+			"y1": 0.4,
+			"z1": 0.85,
+			"x2": 0.85,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-exitsign-west": {
+			"x1": 0.15,
+			"y1": 0.4,
+			"z1": 0.85,
+			"x2": 0.85,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"lightHsv": [
+		22,
+		5,
+		7
+	],
+	"attributes": {
+		"l188structure": true
+	}
+}

@@ -1,0 +1,63 @@
+// The End: square columns painted sage or slate, clad in maple slatwall to head height (slat at rel 1-2)
+{
+	"code": "end-column",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"sage",
+				"slate",
+				"slat"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-sage": {
+			"all": {
+				"base": "block/end/column-sage"
+			}
+		},
+		"*-slate": {
+			"all": {
+				"base": "block/end/column-slate"
+			}
+		},
+		"*-slat": {
+			"all": {
+				"base": "block/end/slatwall"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 8,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"soundsByType": {
+		"*-slat": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		},
+		"*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/loosestone",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}

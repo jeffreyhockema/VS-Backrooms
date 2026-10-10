@@ -1,0 +1,568 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"runbox": "backrooms:block/run/runbox",
+		"shelfblue": "backrooms:block/run/shelfblue"
+	},
+	"elements": [
+		{
+			"name": "Upright0",
+			"from": [
+				5,
+				0,
+				0
+			],
+			"to": [
+				6,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Upright1",
+			"from": [
+				5,
+				13,
+				0
+			],
+			"to": [
+				6,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Upright2",
+			"from": [
+				10,
+				0,
+				0
+			],
+			"to": [
+				11,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Upright3",
+			"from": [
+				10,
+				13,
+				0
+			],
+			"to": [
+				11,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf2",
+			"from": [
+				5,
+				0,
+				10
+			],
+			"to": [
+				11,
+				14,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf3",
+			"from": [
+				5,
+				0,
+				0.5
+			],
+			"to": [
+				11,
+				14,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"east": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						14
+					]
+				},
+				"south": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						14
+					]
+				},
+				"west": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						14
+					]
+				},
+				"up": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#shelfblue",
+					"uv": [
+						0,
+						0,
+						6,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SpillC",
+			"from": [
+				0.8,
+				0,
+				9
+			],
+			"to": [
+				4.8,
+				3,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"south": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"up": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.8,
+				1.5,
+				11.0
+			],
+			"rotationY": 35
+		},
+		{
+			"name": "SpillD",
+			"from": [
+				11.5,
+				0,
+				2
+			],
+			"to": [
+				15.5,
+				2.5,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#runbox",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				}
+			}
+		}
+	]
+}

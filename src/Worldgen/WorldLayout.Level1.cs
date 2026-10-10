@@ -115,6 +115,8 @@ public sealed partial class WorldLayout
         bool halls = IsLevel1Corridors(mx, mz);
         if (halls) BuildLevel1Corridors(b, mx, mz);
         else BuildCarPark(b, mx, mz);
+        // Now and then, a door into the Hub off a maintenance hall (its own salt: nothing else moves)
+        if (halls) MarkHubDoorInLevel1(b, mx, mz);
 
         // Puddles everywhere in the car park; the halls are warmer and drier, wet only under leaks
         ref Rng rng = ref b.Rng;
@@ -148,6 +150,10 @@ public sealed partial class WorldLayout
         if (TouchesLevel(mx, mz, 2)) AddCeilingPipes(b, mx, mz);
 
         HangFireDoors(b, mx, mz);
+        // Very rarely, a red EXIT door where no door should be: Level ! (its own salt: nothing else moves)
+        if (!halls) MarkRunEntrance(b, mx, mz);
+        // And, last of all, a window into Level 188 in a car park's concrete (its own salt: nothing else moves)
+        if (!halls && IsL188WindowCellL1(mx, mz)) MarkL188Window(b, mx, mz, 1);
     }
 
     /// <summary>
@@ -353,6 +359,12 @@ public sealed partial class WorldLayout
         else if (bay == 6)
         {
             tile.Ceiling = CeilingKind.LightWarm;
+        }
+        // One flight in twenty climbs into Level Fun: confetti trickles down to the way in, a balloon tied at the foot
+        if (row == 4 && bay is >= 4 and <= 7 && IsFunStairCore(gx - (bay - 4), gz - 2))
+        {
+            tile.Variant = bay == 7 ? Props.FunBalloonTied : Props.FunConfetti;
+            tile.Stack = 0;
         }
     }
 
@@ -723,6 +735,13 @@ public sealed partial class WorldLayout
             if (locked)
             {
                 doorTile.Kind = TileKind.Door;
+                // The End's way in (end-plan.md): one locked door in 25 has a glowing EXIT sign over it, and opens
+                // onto The End (its own salt, so nothing else moves)
+                if (EndEntrances && doorTile.Under == 0 && Hashing.Unit(Hashing.Hash(h, door.U, door.V, 0x1610)) < 0.04)
+                {
+                    doorTile.Under = Unders.EndExitL1;
+                    doorTile.Pier = door.Out;
+                }
                 MarkSealed(tiles, leaf);
                 continue;
             }

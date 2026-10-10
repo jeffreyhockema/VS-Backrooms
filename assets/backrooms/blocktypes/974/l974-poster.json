@@ -1,0 +1,368 @@
+// Level 974: a cute poster (rel 2) taped to the wall behind it (the suffix is the way it faces)
+{
+	"code": "l974-poster",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"cat",
+				"bunny",
+				"rainbow",
+				"star",
+				"toast",
+				"frog"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-poster-cat-north": {
+			"base": "backrooms:block/974/l974-poster-cat"
+		},
+		"l974-poster-cat-east": {
+			"base": "backrooms:block/974/l974-poster-cat",
+			"rotateY": 270
+		},
+		"l974-poster-cat-south": {
+			"base": "backrooms:block/974/l974-poster-cat",
+			"rotateY": 180
+		},
+		"l974-poster-cat-west": {
+			"base": "backrooms:block/974/l974-poster-cat",
+			"rotateY": 90
+		},
+		"l974-poster-bunny-north": {
+			"base": "backrooms:block/974/l974-poster-bunny"
+		},
+		"l974-poster-bunny-east": {
+			"base": "backrooms:block/974/l974-poster-bunny",
+			"rotateY": 270
+		},
+		"l974-poster-bunny-south": {
+			"base": "backrooms:block/974/l974-poster-bunny",
+			"rotateY": 180
+		},
+		"l974-poster-bunny-west": {
+			"base": "backrooms:block/974/l974-poster-bunny",
+			"rotateY": 90
+		},
+		"l974-poster-rainbow-north": {
+			"base": "backrooms:block/974/l974-poster-rainbow"
+		},
+		"l974-poster-rainbow-east": {
+			"base": "backrooms:block/974/l974-poster-rainbow",
+			"rotateY": 270
+		},
+		"l974-poster-rainbow-south": {
+			"base": "backrooms:block/974/l974-poster-rainbow",
+			"rotateY": 180
+		},
+		"l974-poster-rainbow-west": {
+			"base": "backrooms:block/974/l974-poster-rainbow",
+			"rotateY": 90
+		},
+		"l974-poster-star-north": {
+			"base": "backrooms:block/974/l974-poster-star"
+		},
+		"l974-poster-star-east": {
+			"base": "backrooms:block/974/l974-poster-star",
+			"rotateY": 270
+		},
+		"l974-poster-star-south": {
+			"base": "backrooms:block/974/l974-poster-star",
+			"rotateY": 180
+		},
+		"l974-poster-star-west": {
+			"base": "backrooms:block/974/l974-poster-star",
+			"rotateY": 90
+		},
+		"l974-poster-toast-north": {
+			"base": "backrooms:block/974/l974-poster-toast"
+		},
+		"l974-poster-toast-east": {
+			"base": "backrooms:block/974/l974-poster-toast",
+			"rotateY": 270
+		},
+		"l974-poster-toast-south": {
+			"base": "backrooms:block/974/l974-poster-toast",
+			"rotateY": 180
+		},
+		"l974-poster-toast-west": {
+			"base": "backrooms:block/974/l974-poster-toast",
+			"rotateY": 90
+		},
+		"l974-poster-frog-north": {
+			"base": "backrooms:block/974/l974-poster-frog"
+		},
+		"l974-poster-frog-east": {
+			"base": "backrooms:block/974/l974-poster-frog",
+			"rotateY": 270
+		},
+		"l974-poster-frog-south": {
+			"base": "backrooms:block/974/l974-poster-frog",
+			"rotateY": 180
+		},
+		"l974-poster-frog-west": {
+			"base": "backrooms:block/974/l974-poster-frog",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-poster-cat-north"
+		],
+		"backrooms": [
+			"l974-poster-cat-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l974-poster-cat-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-cat-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-cat-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-cat-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-poster-bunny-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-bunny-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-bunny-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-bunny-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-poster-rainbow-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-rainbow-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-rainbow-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-rainbow-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-poster-star-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-star-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-star-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-star-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-poster-toast-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-toast-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-toast-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-toast-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-poster-frog-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l974-poster-frog-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-poster-frog-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-poster-frog-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.96,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
+}

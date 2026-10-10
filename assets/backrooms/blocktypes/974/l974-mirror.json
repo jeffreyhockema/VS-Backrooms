@@ -1,0 +1,107 @@
+// Level 974: a round, pink-framed mirror (rel 2) on the wall behind it (the suffix is the way it faces)
+{
+	"code": "l974-mirror",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-mirror-north": {
+			"base": "backrooms:block/974/l974-mirror"
+		},
+		"l974-mirror-east": {
+			"base": "backrooms:block/974/l974-mirror",
+			"rotateY": 270
+		},
+		"l974-mirror-south": {
+			"base": "backrooms:block/974/l974-mirror",
+			"rotateY": 180
+		},
+		"l974-mirror-west": {
+			"base": "backrooms:block/974/l974-mirror",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-mirror-north"
+		],
+		"backrooms": [
+			"l974-mirror-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/ceramicplace",
+		"break": "game:block/ceramicbreak",
+		"hit": "game:block/ceramichit"
+	},
+	"selectionboxByType": {
+		"l974-mirror-north": {
+			"x1": 0.12,
+			"y1": 0.15,
+			"z1": 0.9,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 1
+		},
+		"l974-mirror-east": {
+			"x1": 0.12,
+			"y1": 0.15,
+			"z1": 0.9,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-mirror-south": {
+			"x1": 0.12,
+			"y1": 0.15,
+			"z1": 0.9,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-mirror-west": {
+			"x1": 0.12,
+			"y1": 0.15,
+			"z1": 0.9,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

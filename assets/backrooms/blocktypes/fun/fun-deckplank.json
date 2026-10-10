@@ -1,0 +1,27 @@
+// Level Fun: the open deck's salt-bleached teak
+{
+	"code": "fun-deckplank",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/deckplank"
+		}
+	}
+}

@@ -1,0 +1,21 @@
+// Level 974: vanilla flowers and seashells are cute (backroomsCute): carrying one may get you taken to Kitty's House
+[
+	{
+		"op": "add",
+		"path": "/attributes/backroomsCute",
+		"value": true,
+		"file": "game:blocktypes/plant/flower.json"
+	},
+	{
+		"op": "add",
+		"path": "/attributes/backroomsCute",
+		"value": true,
+		"file": "game:blocktypes/plant/flower-lupine.json"
+	},
+	{
+		"op": "add",
+		"path": "/attributes/backroomsCute",
+		"value": true,
+		"file": "game:blocktypes/aquatic/seashell.json"
+	}
+]

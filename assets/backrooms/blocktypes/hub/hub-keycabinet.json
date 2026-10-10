@@ -1,0 +1,132 @@
+// The M.E.G. outpost's locked key cabinet on the wall to the south: a mesh door, twelve keys on hooks (decor; the keys are not for the taking)
+{
+	"code": "hub-keycabinet",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/hub/keycabinet",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/hub/keycabinet",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/hub/keycabinet",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/hub/keycabinet",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 20,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0.06,
+			"z1": 0.62,
+			"x2": 0.94,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

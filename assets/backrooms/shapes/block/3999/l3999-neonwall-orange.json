@@ -1,0 +1,223 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"neon-orange": "backrooms:block/3999/neon-orange"
+	},
+	"elements": [
+		{
+			"name": "Tube",
+			"from": [
+				7,
+				0,
+				13
+			],
+			"to": [
+				9,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-orange",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "ClipB",
+			"from": [
+				6.5,
+				1,
+				12.6
+			],
+			"to": [
+				9.5,
+				2.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.4
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.4
+					]
+				}
+			}
+		},
+		{
+			"name": "ClipT",
+			"from": [
+				6.5,
+				13.5,
+				12.6
+			],
+			"to": [
+				9.5,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.4
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.4
+					]
+				}
+			}
+		}
+	]
+}

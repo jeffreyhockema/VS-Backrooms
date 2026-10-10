@@ -1,0 +1,33 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"confetti": "backrooms:block/fun/confetti"
+	},
+	"elements": [
+		{
+			"name": "Layer",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.2,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#confetti",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -225,10 +225,14 @@ public sealed partial class WorldLayout
                     var own = new Rng(Hashing.Hash(seed, bi * 128 + x, bj * 2 + half, SaltCityBlock + 37));
                     PlanBuilding(tiles, x, x + w - 1, z0, z1, half == 0, x == 0, x + w == BlockW, true, odd, ref own);
                 }
+                // A parking garage, now and then, has gym doors at its back that open onto Level Fun
+                else if (spec.Kind == CityKind.Garage && IsFunGarage(bi, bj, x, half)) PlaceFunMascotDoors(new Frame(tiles, x, x + w - 1, z0, z1, half == 0));
                 x += w;
             }
         }
         PlanAlley(tiles, ref rng);
+        // Level 3999's way in: a stretch of alley wall flickering purple (its own salt; WorldLayout.Level3999.Ways.cs)
+        if (L3999Entrances) PlaceL3999GlitchWall(tiles, bi, bj);
     }
 
     private static Spec ChooseSpec(District district, int w, ref Rng rng)
@@ -291,6 +295,11 @@ public sealed partial class WorldLayout
             return new Spec(CityKind.Cinema, Math.Min(spec.Height, 12), 0, WallPattern.CityBrick);
         if (spec.Kind == CityKind.Substation && r < 0.4)
             return new Spec(CityKind.Baths, 8, 0, WallPattern.CityStone);
+        // The End's way in (end-plan.md): now and then a midtown apartment block's ground floor is a closed-down
+        // bookstore (its own salt, so nothing else moves)
+        if (EndEntrances && district == District.Midtown && spec.Kind == CityKind.Apartment && w >= 12
+            && Hashing.Unit(Hashing.Hash(seed, bi * 128 + x, bj * 2 + half, 0x1612)) < 0.03)
+            return new Spec(CityKind.Bookstore, Math.Min(spec.Height, 8), 0, WallPattern.CityBrickDark);
         return null;
     }
 
@@ -447,6 +456,9 @@ public sealed partial class WorldLayout
                 door.Detail = 0;
                 return;
             }
+            case CityKind.Bookstore:
+                EndBookstore(f, ref rng);
+                return;
         }
 
         // The way in, and plate glass along the front of stores and lobbies
@@ -751,6 +763,32 @@ public sealed partial class WorldLayout
         f.Prop(f.W - 3, last, Props.Pallet, ArchPier.North);
         f.Prop(f.W - 2, 1, Props.NailBarrel, ArchPier.North);
         if (rng.Chance(0.5)) f.Prop(2, last, Props.Toolbox, ArchPier.North);
+    }
+
+    /// <summary>
+    /// The End's way in from the city: a closed-down bookstore. Plate glass all along the front, papered over; one glass
+    /// door in the middle, onto The End; inside, rows of empty shelving under half its lights.
+    /// </summary>
+    private void EndBookstore(Frame f, ref Rng rng)
+    {
+        for (int u = 1; u < f.W - 1; u++) f.At(u, 0).Detail |= CityDetail.Storefront;
+        ref Tile door = ref f.At(f.W / 2, 0);
+        door.Kind = TileKind.Door;
+        door.Detail = 0;
+        door.Under = Unders.EndBookstore;
+        door.Pier = f.P(ArchPier.North);
+        int last = BackWall(f, 12, WallPattern.CityPlaster);
+        Lights(f, 1, last, 3, CeilingKind.LightLit, ref rng);
+        for (int v = 3; v < last; v += 3)
+            for (int u = 2; u < f.W - 2; u++)
+            {
+                if (u == f.W / 2) continue;
+                ref Tile t = ref f.At(u, v);
+                if (t.Kind != TileKind.Floor || t.Variant != 0) continue;
+                t.Variant = Props.EndShelf;
+                t.Stack = (byte)(rng.Chance(0.1) ? 2 : 0);
+                t.Pier = f.P(ArchPier.North);
+            }
     }
 
     private void ClothingStore(Frame f, ref Rng rng)

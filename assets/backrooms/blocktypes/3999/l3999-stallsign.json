@@ -1,0 +1,391 @@
+// Level 3999's food courts: a neon sign two blocks wide over a stall, an icon and the word, against the wall behind it
+{
+	"code": "l3999-stallsign",
+	"variantgroups": [
+		{
+			"code": "stall",
+			"states": [
+				"burger",
+				"pizza",
+				"noodles",
+				"taco",
+				"icecream",
+				"pretzel"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-stallsign-burger-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-burger"
+		},
+		"l3999-stallsign-burger-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-burger",
+			"rotateY": 270
+		},
+		"l3999-stallsign-burger-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-burger",
+			"rotateY": 180
+		},
+		"l3999-stallsign-burger-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-burger",
+			"rotateY": 90
+		},
+		"l3999-stallsign-pizza-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-pizza"
+		},
+		"l3999-stallsign-pizza-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-pizza",
+			"rotateY": 270
+		},
+		"l3999-stallsign-pizza-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-pizza",
+			"rotateY": 180
+		},
+		"l3999-stallsign-pizza-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-pizza",
+			"rotateY": 90
+		},
+		"l3999-stallsign-noodles-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-noodles"
+		},
+		"l3999-stallsign-noodles-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-noodles",
+			"rotateY": 270
+		},
+		"l3999-stallsign-noodles-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-noodles",
+			"rotateY": 180
+		},
+		"l3999-stallsign-noodles-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-noodles",
+			"rotateY": 90
+		},
+		"l3999-stallsign-taco-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-taco"
+		},
+		"l3999-stallsign-taco-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-taco",
+			"rotateY": 270
+		},
+		"l3999-stallsign-taco-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-taco",
+			"rotateY": 180
+		},
+		"l3999-stallsign-taco-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-taco",
+			"rotateY": 90
+		},
+		"l3999-stallsign-icecream-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-icecream"
+		},
+		"l3999-stallsign-icecream-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-icecream",
+			"rotateY": 270
+		},
+		"l3999-stallsign-icecream-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-icecream",
+			"rotateY": 180
+		},
+		"l3999-stallsign-icecream-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-icecream",
+			"rotateY": 90
+		},
+		"l3999-stallsign-pretzel-north": {
+			"base": "backrooms:block/3999/l3999-stallsign-pretzel"
+		},
+		"l3999-stallsign-pretzel-east": {
+			"base": "backrooms:block/3999/l3999-stallsign-pretzel",
+			"rotateY": 270
+		},
+		"l3999-stallsign-pretzel-south": {
+			"base": "backrooms:block/3999/l3999-stallsign-pretzel",
+			"rotateY": 180
+		},
+		"l3999-stallsign-pretzel-west": {
+			"base": "backrooms:block/3999/l3999-stallsign-pretzel",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-stallsign-burger-north"
+		],
+		"backrooms": [
+			"l3999-stallsign-burger-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-stallsign-burger-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-burger-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-burger-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-burger-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallsign-pizza-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-pizza-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-pizza-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-pizza-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallsign-noodles-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-noodles-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-noodles-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-noodles-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallsign-taco-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-taco-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-taco-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-taco-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallsign-icecream-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-icecream-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-icecream-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-icecream-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallsign-pretzel-north": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1
+		},
+		"l3999-stallsign-pretzel-east": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallsign-pretzel-south": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallsign-pretzel-west": {
+			"x1": -0.45,
+			"y1": 0.03,
+			"z1": 0.85,
+			"x2": 1.45,
+			"y2": 0.97,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-burger-*": [
+			3,
+			7,
+			11
+		],
+		"*-pizza-*": [
+			62,
+			7,
+			11
+		],
+		"*-noodles-*": [
+			33,
+			6,
+			11
+		],
+		"*-taco-*": [
+			40,
+			7,
+			11
+		],
+		"*-icecream-*": [
+			53,
+			3,
+			11
+		],
+		"*-pretzel-*": [
+			51,
+			7,
+			11
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

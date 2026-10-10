@@ -1,0 +1,220 @@
+// Level 3999: an escalator's steps, ribbed steel with yellow nosing, four steps a block climbing toward the side named (one block up per block across); walked like stairs
+{
+	"code": "l3999-escalator",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-escalator-north": {
+			"base": "backrooms:block/3999/l3999-escalator"
+		},
+		"l3999-escalator-east": {
+			"base": "backrooms:block/3999/l3999-escalator",
+			"rotateY": 270
+		},
+		"l3999-escalator-south": {
+			"base": "backrooms:block/3999/l3999-escalator",
+			"rotateY": 180
+		},
+		"l3999-escalator-west": {
+			"base": "backrooms:block/3999/l3999-escalator",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-escalator-north"
+		],
+		"backrooms": [
+			"l3999-escalator-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxesByType": {
+		"l3999-escalator-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"l3999-escalator-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"l3999-escalator-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"l3999-escalator-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		]
+	},
+	"collisionboxesByType": {
+		"l3999-escalator-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"l3999-escalator-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"l3999-escalator-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"l3999-escalator-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

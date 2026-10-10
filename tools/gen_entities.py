@@ -794,7 +794,9 @@ def smiler():
         # (It glides more than it walks: running is the same gait, faster)
         "client": common_client("backrooms:entity/smiler", {"base": "backrooms:entity/smiler"},
                                 [anim("idle", "idle", triggeredBy={"defaultAnim": True}, blendMode="AddAverage"), anim("walk", "walk", 1.0),
-                                 anim("run", "walk", 2.0), anim("attack", "attack", 1.0, weight=10)]),
+                                 anim("run", "walk", 2.0), anim("attack", "attack", 1.0, weight=10),
+                                 # (Struck, it flinches back into the dark: the hit comes before it withdraws)
+                                 anim("hurt", "hurt", 1.5, weight=10, blendMode="AddAverage")]),
         # No health: it cannot be killed (struck, it withdraws)
         "server": server(0, tasks, menace={"immortal": True, "glimpseSeconds": 25, "stalkSeconds": 120}),
         "sounds": {},
@@ -875,21 +877,28 @@ def faceling(child=False):
         "sounds": {"hurt": "game:player/hurt*", "death": "game:player/death*"},
     }
 
-def tall_body(code, hitbox, eye, health, task, menace, drops, sounds, size=1.0, idle_anim="despair"):
-    """A tall one of ours on its own model (Skin-Stealer, Duller, the Mangled). The hitbox is kept to two blocks for
-    the ones that must pass through doorways, though the model stands taller."""
-    tasks = [task, idle(idle_anim, 1.15, 4000, 8000, 30000, 90000), dict(WANDER, movespeed=0.006), LOOKAROUND]
+def tall_body(code, hitbox, eye, health, task, menace, drops, sounds, size=1.0, idle_anim="despair", idles=None, looks=(), extra_anims=(),
+              walk=1.0, run=1.0, weight=90):
+    """A tall one of ours on its own model (Skin-Stealer, Duller, the Mangled, the Bacteria, the Wretches). The hitbox
+    is kept to two blocks for the ones that must pass through doorways, though the model stands taller."""
+    idles = idles or [idle(idle_anim, 1.15, 4000, 8000, 30000, 90000)]
+    tasks = [task] + idles + [dict(WANDER, movespeed=0.006), LOOKAROUND]
+    texture = {"base": f"backrooms:entity/{code}"}
+    if looks:
+        texture["alternates"] = [{"base": f"backrooms:entity/{code}-{look}"} for look in looks]
+    animations = model_anims(*[anim(i["animation"], i["animation"]) for i in idles], *extra_anims,
+                             walk=walk, run=run)
     return {
         "code": code,
         "class": "EntityAgent",
         "tags": ["backrooms-entity", "humanoid", "habitat-land"],
-        "weight": 90,
+        "weight": weight,
         "canClimb": True,
         "hitboxSize": {"x": hitbox[0], "y": hitbox[1]},
         "deadHitboxSize": {"x": hitbox[0], "y": 0.6},
         "eyeHeight": eye,
         "attributes": {"killedByInfoText": f"backrooms:deadcreature-{code}"},
-        "client": common_client(f"backrooms:entity/{code}", {"base": f"backrooms:entity/{code}"}, model_anims(anim(idle_anim, idle_anim)), size),
+        "client": common_client(f"backrooms:entity/{code}", texture, animations, size),
         "server": server(health, tasks, drops, menace=menace),
         "sounds": sounds,
     }
@@ -1024,14 +1033,52 @@ def clump():
 
 def mangled():
     # Only ever put down by its own event (src/Entities/MangledEvent.cs), which brings the fog and the voices
-    task = menace_task(walkSpeed=0.02, runSpeed=0.034, stalkMin=8, stalkMax=14, glimpseFleeDistance=10,
+    # (Its legs carry it about 0.007 a step at the walk's own pace: walking and running at more than that, the
+    # animations are played faster to match, so the feet don't skate. Slower than you: it is the reach that kills.)
+    task = menace_task(walkSpeed=0.01, runSpeed=0.024, stalkMin=8, stalkMax=14, glimpseFleeDistance=10,
                        damage=5, damageTier=3, damageType="BluntAttack", knockback=0, attackRange=4.5,
                        attackDurationMs=900, damageAtMs=450, attackCooldownMs=4000, attackAnimation="attack",
                        liftBlocks=7, soundRange=64)
-    # Too big for any door: it walks the streets, and a house is safer from it. The model stands 8 blocks to the top
-    # of its pillar, drawn half as big again: 12, the faces at 8 to 10, above the roofs. Nothing kills it.
-    return tall_body("mangled", (2.0, 3.8), 8.5, 40, task, {"immortal": True, "unmoved": True, "huntSeconds": 600}, None,
-                     {"hurt": "backrooms:entity/chorus", "death": "backrooms:entity/chorus"}, size=1.5, idle_anim="despair")
+    # Too big for any door: it walks the streets, and a house is safer from it. A harvestman as tall as a house: the
+    # model stands 7.8 blocks to its crown of knees, drawn half as big again, 11.7; the knot of faces hangs at 5 to 7.
+    # Nothing kills it.
+    return tall_body("mangled", (2.0, 3.8), 6.5, 40, task, {"immortal": True, "unmoved": True, "huntSeconds": 600}, None,
+                     {"hurt": "backrooms:entity/chorus", "death": "backrooms:entity/chorus"}, size=1.5, idle_anim="despair",
+                     walk=1.4, run=1.7, weight=400)
+
+
+def bacteria():
+    # Level 0's dark figures: seen far off down the halls, now and then following. It never hunts in the Lobby but
+    # for someone who runs near the way out, and then it howls first. It rises out of the black mould where it appears.
+    task = menace_task(walkSpeed=0.022, runSpeed=0.056, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
+                       damage=6, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
+                       attackDurationMs=1000, damageAtMs=440, attackCooldownMs=1800, attackAnimation="attack",
+                       prefersHidden=True, huntsInLobby=True, emergeAnimation="emerge", emergeMs=2500,
+                       huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48)
+    # The model stoops to 44 px (2.76 blocks), just under Level 0's ceiling; the hitbox is kept to a doorway's two
+    # blocks, the head above it. Its long arms reach 1.6 blocks ahead.
+    return tall_body("bacteria", (0.7, 1.95), 2.5, 30, task, {"stalkSeconds": 120}, None,
+                     {"hurt": "game:creature/drifter-hurt", "death": "backrooms:entity/howl"},
+                     idles=[idle("lurk", 1.15, 6000, 12000, 15000, 45000)],
+                     extra_anims=[anim("emerge", "emerge", weight=10), anim("howl", "howl", weight=10)], weight=80)
+
+
+def wretch():
+    # Wanderers worn down by hunger, thirst and sleeplessness: a slow shamble, a sprint past yours, a bite. In
+    # ones and twos wherever wanderers gather, and Level 8's feral dark; drawn to anyone starving.
+    task = menace_task(walkSpeed=0.018, runSpeed=0.046, stalkMin=8, stalkMax=14, glimpseFleeDistance=12,
+                       damage=3.5, damageTier=1, damageType="PiercingAttack", knockback=0.3, attackRange=0.9,
+                       attackDurationMs=1000, damageAtMs=430, attackCooldownMs=1400, attackAnimation="attack",
+                       prefersHidden=True, retreatBelow=0.2, huntAnimation="snarl", huntAnimationMs=1200,
+                       stalkSound="backrooms:entity/gurgle", huntSound="backrooms:entity/snarl",
+                       # What is left of the person: a cough, a whispered plea, a cry
+                       voices=["backrooms:entity/gurgle", "backrooms:entity/cough", "backrooms:effect/whisper", "game:player/hurt*"],
+                       soundRange=24)
+    # The model is 28.9 px hunched (1.8 blocks), the eyes at 1.6
+    return tall_body("wretch", (0.65, 1.8), 1.6, 16, task, {"stalkSeconds": 90}, None,
+                     {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
+                     idles=[idle("huddle", 1.15, 6000, 12000, 20000, 60000), idle("gnaw", 1.2, 2000, 6000, 15000, 45000)],
+                     looks=("early", "fargone"), extra_anims=[anim("snarl", "snarl", weight=10)], weight=60)
 
 
 def thething():
@@ -1044,6 +1091,8 @@ def thething():
         "habitat": "Underwater",
         "weight": 4000,
         "hitboxSize": {"x": 3.6, "y": 1.2},
+        # The model is eleven blocks long: the game culls an entity by its selection box, so give it the body's length
+        "selectionBoxSize": {"x": 7.5, "y": 2.0},
         "eyeHeight": 0.6,
         "attributes": {"killedByInfoText": "backrooms:deadcreature-thething"},
         "client": {
@@ -1052,7 +1101,8 @@ def thething():
             "texture": {"base": "backrooms:entity/thething"},
             "size": 1,
             "behaviors": [{"code": "controlledphysics", "stepHeight": 0}, {"code": "interpolateposition"}],
-            "animations": [anim("swim", "swim", 1.0, triggeredBy={"defaultAnim": True}), anim("attack", "attack", 1.0, weight=10)],
+            "animations": [anim("swim", "swim", 1.0, triggeredBy={"defaultAnim": True}), anim("rush", "rush", 1.0, weight=5),
+                           anim("attack", "attack", 1.0, weight=10)],
         },
         "server": {
             "behaviors": [
@@ -1361,6 +1411,12 @@ LANG = {
     "deadcreature-clump": "Killed by a Clump",
     "deadcreature-mangled": "Killed by the Mangled",
     "deadcreature-thething": "Killed by something in the deep",
+    "item-creature-bacteria": "Bacteria",
+    "creature-bacteria": "Bacteria",
+    "deadcreature-bacteria": "Taken by the Bacteria",
+    "item-creature-wretch": "Wretch",
+    "creature-wretch": "Wretch",
+    "deadcreature-wretch": "Killed by a Wretch",
     "item-creature-animation-clay": "Clay Animation",
     "item-creature-animation-wooden": "Wooden Animation",
     "item-creature-animation-paper": "Paper Animation",
@@ -1407,7 +1463,7 @@ def main():
     gen_models.build()
     faceling_shape()
     faceling_textures()
-    for entity in (hound(), smiler(), faceling(), faceling(child=True), skinstealer(), duller(), deathrat(), deathmoth(), wanderer(), clump(), mangled(), thething(),
+    for entity in (hound(), smiler(), faceling(), faceling(child=True), skinstealer(), duller(), deathrat(), deathmoth(), wanderer(), clump(), mangled(), thething(), bacteria(), wretch(),
                    animation_clay(), animation_wooden(), animation_paper(), roboman()):
         write_json(entity, "entities", entity["code"] + ".json")
     firesalt()

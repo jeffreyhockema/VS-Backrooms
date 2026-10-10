@@ -1,0 +1,812 @@
+// The crop-circle symbol carved over a Hub door (above c-4), face to the north. n is the sigil id (docs/new-levels/hub-plan.md 4.3, tools/gen_hub_sigils.py): 0 the Hub's own, 1-18 the levels, 20 the open door '178' (to 6.1), 21-44 dead doors; 19 is not built
+{
+	"code": "hub-sigil",
+	"variantgroups": [
+		{
+			"code": "n",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"10",
+				"11",
+				"12",
+				"13",
+				"14",
+				"15",
+				"16",
+				"17",
+				"18",
+				"19",
+				"20",
+				"21",
+				"22",
+				"23",
+				"24",
+				"25",
+				"26",
+				"27",
+				"28",
+				"29",
+				"30",
+				"31",
+				"32",
+				"33",
+				"34",
+				"35",
+				"36",
+				"37",
+				"38",
+				"39",
+				"40",
+				"41",
+				"42",
+				"43",
+				"44"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-0-north"
+		],
+		"decorative": [
+			"*-0-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-0-north": {
+			"base": "block/hub/sigil-0",
+			"rotateY": 0
+		},
+		"*-0-east": {
+			"base": "block/hub/sigil-0",
+			"rotateY": 270
+		},
+		"*-0-south": {
+			"base": "block/hub/sigil-0",
+			"rotateY": 180
+		},
+		"*-0-west": {
+			"base": "block/hub/sigil-0",
+			"rotateY": 90
+		},
+		"*-1-north": {
+			"base": "block/hub/sigil-1",
+			"rotateY": 0
+		},
+		"*-1-east": {
+			"base": "block/hub/sigil-1",
+			"rotateY": 270
+		},
+		"*-1-south": {
+			"base": "block/hub/sigil-1",
+			"rotateY": 180
+		},
+		"*-1-west": {
+			"base": "block/hub/sigil-1",
+			"rotateY": 90
+		},
+		"*-2-north": {
+			"base": "block/hub/sigil-2",
+			"rotateY": 0
+		},
+		"*-2-east": {
+			"base": "block/hub/sigil-2",
+			"rotateY": 270
+		},
+		"*-2-south": {
+			"base": "block/hub/sigil-2",
+			"rotateY": 180
+		},
+		"*-2-west": {
+			"base": "block/hub/sigil-2",
+			"rotateY": 90
+		},
+		"*-3-north": {
+			"base": "block/hub/sigil-3",
+			"rotateY": 0
+		},
+		"*-3-east": {
+			"base": "block/hub/sigil-3",
+			"rotateY": 270
+		},
+		"*-3-south": {
+			"base": "block/hub/sigil-3",
+			"rotateY": 180
+		},
+		"*-3-west": {
+			"base": "block/hub/sigil-3",
+			"rotateY": 90
+		},
+		"*-4-north": {
+			"base": "block/hub/sigil-4",
+			"rotateY": 0
+		},
+		"*-4-east": {
+			"base": "block/hub/sigil-4",
+			"rotateY": 270
+		},
+		"*-4-south": {
+			"base": "block/hub/sigil-4",
+			"rotateY": 180
+		},
+		"*-4-west": {
+			"base": "block/hub/sigil-4",
+			"rotateY": 90
+		},
+		"*-5-north": {
+			"base": "block/hub/sigil-5",
+			"rotateY": 0
+		},
+		"*-5-east": {
+			"base": "block/hub/sigil-5",
+			"rotateY": 270
+		},
+		"*-5-south": {
+			"base": "block/hub/sigil-5",
+			"rotateY": 180
+		},
+		"*-5-west": {
+			"base": "block/hub/sigil-5",
+			"rotateY": 90
+		},
+		"*-6-north": {
+			"base": "block/hub/sigil-6",
+			"rotateY": 0
+		},
+		"*-6-east": {
+			"base": "block/hub/sigil-6",
+			"rotateY": 270
+		},
+		"*-6-south": {
+			"base": "block/hub/sigil-6",
+			"rotateY": 180
+		},
+		"*-6-west": {
+			"base": "block/hub/sigil-6",
+			"rotateY": 90
+		},
+		"*-7-north": {
+			"base": "block/hub/sigil-7",
+			"rotateY": 0
+		},
+		"*-7-east": {
+			"base": "block/hub/sigil-7",
+			"rotateY": 270
+		},
+		"*-7-south": {
+			"base": "block/hub/sigil-7",
+			"rotateY": 180
+		},
+		"*-7-west": {
+			"base": "block/hub/sigil-7",
+			"rotateY": 90
+		},
+		"*-8-north": {
+			"base": "block/hub/sigil-8",
+			"rotateY": 0
+		},
+		"*-8-east": {
+			"base": "block/hub/sigil-8",
+			"rotateY": 270
+		},
+		"*-8-south": {
+			"base": "block/hub/sigil-8",
+			"rotateY": 180
+		},
+		"*-8-west": {
+			"base": "block/hub/sigil-8",
+			"rotateY": 90
+		},
+		"*-9-north": {
+			"base": "block/hub/sigil-9",
+			"rotateY": 0
+		},
+		"*-9-east": {
+			"base": "block/hub/sigil-9",
+			"rotateY": 270
+		},
+		"*-9-south": {
+			"base": "block/hub/sigil-9",
+			"rotateY": 180
+		},
+		"*-9-west": {
+			"base": "block/hub/sigil-9",
+			"rotateY": 90
+		},
+		"*-10-north": {
+			"base": "block/hub/sigil-10",
+			"rotateY": 0
+		},
+		"*-10-east": {
+			"base": "block/hub/sigil-10",
+			"rotateY": 270
+		},
+		"*-10-south": {
+			"base": "block/hub/sigil-10",
+			"rotateY": 180
+		},
+		"*-10-west": {
+			"base": "block/hub/sigil-10",
+			"rotateY": 90
+		},
+		"*-11-north": {
+			"base": "block/hub/sigil-11",
+			"rotateY": 0
+		},
+		"*-11-east": {
+			"base": "block/hub/sigil-11",
+			"rotateY": 270
+		},
+		"*-11-south": {
+			"base": "block/hub/sigil-11",
+			"rotateY": 180
+		},
+		"*-11-west": {
+			"base": "block/hub/sigil-11",
+			"rotateY": 90
+		},
+		"*-12-north": {
+			"base": "block/hub/sigil-12",
+			"rotateY": 0
+		},
+		"*-12-east": {
+			"base": "block/hub/sigil-12",
+			"rotateY": 270
+		},
+		"*-12-south": {
+			"base": "block/hub/sigil-12",
+			"rotateY": 180
+		},
+		"*-12-west": {
+			"base": "block/hub/sigil-12",
+			"rotateY": 90
+		},
+		"*-13-north": {
+			"base": "block/hub/sigil-13",
+			"rotateY": 0
+		},
+		"*-13-east": {
+			"base": "block/hub/sigil-13",
+			"rotateY": 270
+		},
+		"*-13-south": {
+			"base": "block/hub/sigil-13",
+			"rotateY": 180
+		},
+		"*-13-west": {
+			"base": "block/hub/sigil-13",
+			"rotateY": 90
+		},
+		"*-14-north": {
+			"base": "block/hub/sigil-14",
+			"rotateY": 0
+		},
+		"*-14-east": {
+			"base": "block/hub/sigil-14",
+			"rotateY": 270
+		},
+		"*-14-south": {
+			"base": "block/hub/sigil-14",
+			"rotateY": 180
+		},
+		"*-14-west": {
+			"base": "block/hub/sigil-14",
+			"rotateY": 90
+		},
+		"*-15-north": {
+			"base": "block/hub/sigil-15",
+			"rotateY": 0
+		},
+		"*-15-east": {
+			"base": "block/hub/sigil-15",
+			"rotateY": 270
+		},
+		"*-15-south": {
+			"base": "block/hub/sigil-15",
+			"rotateY": 180
+		},
+		"*-15-west": {
+			"base": "block/hub/sigil-15",
+			"rotateY": 90
+		},
+		"*-16-north": {
+			"base": "block/hub/sigil-16",
+			"rotateY": 0
+		},
+		"*-16-east": {
+			"base": "block/hub/sigil-16",
+			"rotateY": 270
+		},
+		"*-16-south": {
+			"base": "block/hub/sigil-16",
+			"rotateY": 180
+		},
+		"*-16-west": {
+			"base": "block/hub/sigil-16",
+			"rotateY": 90
+		},
+		"*-17-north": {
+			"base": "block/hub/sigil-17",
+			"rotateY": 0
+		},
+		"*-17-east": {
+			"base": "block/hub/sigil-17",
+			"rotateY": 270
+		},
+		"*-17-south": {
+			"base": "block/hub/sigil-17",
+			"rotateY": 180
+		},
+		"*-17-west": {
+			"base": "block/hub/sigil-17",
+			"rotateY": 90
+		},
+		"*-18-north": {
+			"base": "block/hub/sigil-18",
+			"rotateY": 0
+		},
+		"*-18-east": {
+			"base": "block/hub/sigil-18",
+			"rotateY": 270
+		},
+		"*-18-south": {
+			"base": "block/hub/sigil-18",
+			"rotateY": 180
+		},
+		"*-18-west": {
+			"base": "block/hub/sigil-18",
+			"rotateY": 90
+		},
+		"*-19-north": {
+			"base": "block/hub/sigil-19",
+			"rotateY": 0
+		},
+		"*-19-east": {
+			"base": "block/hub/sigil-19",
+			"rotateY": 270
+		},
+		"*-19-south": {
+			"base": "block/hub/sigil-19",
+			"rotateY": 180
+		},
+		"*-19-west": {
+			"base": "block/hub/sigil-19",
+			"rotateY": 90
+		},
+		"*-20-north": {
+			"base": "block/hub/sigil-20",
+			"rotateY": 0
+		},
+		"*-20-east": {
+			"base": "block/hub/sigil-20",
+			"rotateY": 270
+		},
+		"*-20-south": {
+			"base": "block/hub/sigil-20",
+			"rotateY": 180
+		},
+		"*-20-west": {
+			"base": "block/hub/sigil-20",
+			"rotateY": 90
+		},
+		"*-21-north": {
+			"base": "block/hub/sigil-21",
+			"rotateY": 0
+		},
+		"*-21-east": {
+			"base": "block/hub/sigil-21",
+			"rotateY": 270
+		},
+		"*-21-south": {
+			"base": "block/hub/sigil-21",
+			"rotateY": 180
+		},
+		"*-21-west": {
+			"base": "block/hub/sigil-21",
+			"rotateY": 90
+		},
+		"*-22-north": {
+			"base": "block/hub/sigil-22",
+			"rotateY": 0
+		},
+		"*-22-east": {
+			"base": "block/hub/sigil-22",
+			"rotateY": 270
+		},
+		"*-22-south": {
+			"base": "block/hub/sigil-22",
+			"rotateY": 180
+		},
+		"*-22-west": {
+			"base": "block/hub/sigil-22",
+			"rotateY": 90
+		},
+		"*-23-north": {
+			"base": "block/hub/sigil-23",
+			"rotateY": 0
+		},
+		"*-23-east": {
+			"base": "block/hub/sigil-23",
+			"rotateY": 270
+		},
+		"*-23-south": {
+			"base": "block/hub/sigil-23",
+			"rotateY": 180
+		},
+		"*-23-west": {
+			"base": "block/hub/sigil-23",
+			"rotateY": 90
+		},
+		"*-24-north": {
+			"base": "block/hub/sigil-24",
+			"rotateY": 0
+		},
+		"*-24-east": {
+			"base": "block/hub/sigil-24",
+			"rotateY": 270
+		},
+		"*-24-south": {
+			"base": "block/hub/sigil-24",
+			"rotateY": 180
+		},
+		"*-24-west": {
+			"base": "block/hub/sigil-24",
+			"rotateY": 90
+		},
+		"*-25-north": {
+			"base": "block/hub/sigil-25",
+			"rotateY": 0
+		},
+		"*-25-east": {
+			"base": "block/hub/sigil-25",
+			"rotateY": 270
+		},
+		"*-25-south": {
+			"base": "block/hub/sigil-25",
+			"rotateY": 180
+		},
+		"*-25-west": {
+			"base": "block/hub/sigil-25",
+			"rotateY": 90
+		},
+		"*-26-north": {
+			"base": "block/hub/sigil-26",
+			"rotateY": 0
+		},
+		"*-26-east": {
+			"base": "block/hub/sigil-26",
+			"rotateY": 270
+		},
+		"*-26-south": {
+			"base": "block/hub/sigil-26",
+			"rotateY": 180
+		},
+		"*-26-west": {
+			"base": "block/hub/sigil-26",
+			"rotateY": 90
+		},
+		"*-27-north": {
+			"base": "block/hub/sigil-27",
+			"rotateY": 0
+		},
+		"*-27-east": {
+			"base": "block/hub/sigil-27",
+			"rotateY": 270
+		},
+		"*-27-south": {
+			"base": "block/hub/sigil-27",
+			"rotateY": 180
+		},
+		"*-27-west": {
+			"base": "block/hub/sigil-27",
+			"rotateY": 90
+		},
+		"*-28-north": {
+			"base": "block/hub/sigil-28",
+			"rotateY": 0
+		},
+		"*-28-east": {
+			"base": "block/hub/sigil-28",
+			"rotateY": 270
+		},
+		"*-28-south": {
+			"base": "block/hub/sigil-28",
+			"rotateY": 180
+		},
+		"*-28-west": {
+			"base": "block/hub/sigil-28",
+			"rotateY": 90
+		},
+		"*-29-north": {
+			"base": "block/hub/sigil-29",
+			"rotateY": 0
+		},
+		"*-29-east": {
+			"base": "block/hub/sigil-29",
+			"rotateY": 270
+		},
+		"*-29-south": {
+			"base": "block/hub/sigil-29",
+			"rotateY": 180
+		},
+		"*-29-west": {
+			"base": "block/hub/sigil-29",
+			"rotateY": 90
+		},
+		"*-30-north": {
+			"base": "block/hub/sigil-30",
+			"rotateY": 0
+		},
+		"*-30-east": {
+			"base": "block/hub/sigil-30",
+			"rotateY": 270
+		},
+		"*-30-south": {
+			"base": "block/hub/sigil-30",
+			"rotateY": 180
+		},
+		"*-30-west": {
+			"base": "block/hub/sigil-30",
+			"rotateY": 90
+		},
+		"*-31-north": {
+			"base": "block/hub/sigil-31",
+			"rotateY": 0
+		},
+		"*-31-east": {
+			"base": "block/hub/sigil-31",
+			"rotateY": 270
+		},
+		"*-31-south": {
+			"base": "block/hub/sigil-31",
+			"rotateY": 180
+		},
+		"*-31-west": {
+			"base": "block/hub/sigil-31",
+			"rotateY": 90
+		},
+		"*-32-north": {
+			"base": "block/hub/sigil-32",
+			"rotateY": 0
+		},
+		"*-32-east": {
+			"base": "block/hub/sigil-32",
+			"rotateY": 270
+		},
+		"*-32-south": {
+			"base": "block/hub/sigil-32",
+			"rotateY": 180
+		},
+		"*-32-west": {
+			"base": "block/hub/sigil-32",
+			"rotateY": 90
+		},
+		"*-33-north": {
+			"base": "block/hub/sigil-33",
+			"rotateY": 0
+		},
+		"*-33-east": {
+			"base": "block/hub/sigil-33",
+			"rotateY": 270
+		},
+		"*-33-south": {
+			"base": "block/hub/sigil-33",
+			"rotateY": 180
+		},
+		"*-33-west": {
+			"base": "block/hub/sigil-33",
+			"rotateY": 90
+		},
+		"*-34-north": {
+			"base": "block/hub/sigil-34",
+			"rotateY": 0
+		},
+		"*-34-east": {
+			"base": "block/hub/sigil-34",
+			"rotateY": 270
+		},
+		"*-34-south": {
+			"base": "block/hub/sigil-34",
+			"rotateY": 180
+		},
+		"*-34-west": {
+			"base": "block/hub/sigil-34",
+			"rotateY": 90
+		},
+		"*-35-north": {
+			"base": "block/hub/sigil-35",
+			"rotateY": 0
+		},
+		"*-35-east": {
+			"base": "block/hub/sigil-35",
+			"rotateY": 270
+		},
+		"*-35-south": {
+			"base": "block/hub/sigil-35",
+			"rotateY": 180
+		},
+		"*-35-west": {
+			"base": "block/hub/sigil-35",
+			"rotateY": 90
+		},
+		"*-36-north": {
+			"base": "block/hub/sigil-36",
+			"rotateY": 0
+		},
+		"*-36-east": {
+			"base": "block/hub/sigil-36",
+			"rotateY": 270
+		},
+		"*-36-south": {
+			"base": "block/hub/sigil-36",
+			"rotateY": 180
+		},
+		"*-36-west": {
+			"base": "block/hub/sigil-36",
+			"rotateY": 90
+		},
+		"*-37-north": {
+			"base": "block/hub/sigil-37",
+			"rotateY": 0
+		},
+		"*-37-east": {
+			"base": "block/hub/sigil-37",
+			"rotateY": 270
+		},
+		"*-37-south": {
+			"base": "block/hub/sigil-37",
+			"rotateY": 180
+		},
+		"*-37-west": {
+			"base": "block/hub/sigil-37",
+			"rotateY": 90
+		},
+		"*-38-north": {
+			"base": "block/hub/sigil-38",
+			"rotateY": 0
+		},
+		"*-38-east": {
+			"base": "block/hub/sigil-38",
+			"rotateY": 270
+		},
+		"*-38-south": {
+			"base": "block/hub/sigil-38",
+			"rotateY": 180
+		},
+		"*-38-west": {
+			"base": "block/hub/sigil-38",
+			"rotateY": 90
+		},
+		"*-39-north": {
+			"base": "block/hub/sigil-39",
+			"rotateY": 0
+		},
+		"*-39-east": {
+			"base": "block/hub/sigil-39",
+			"rotateY": 270
+		},
+		"*-39-south": {
+			"base": "block/hub/sigil-39",
+			"rotateY": 180
+		},
+		"*-39-west": {
+			"base": "block/hub/sigil-39",
+			"rotateY": 90
+		},
+		"*-40-north": {
+			"base": "block/hub/sigil-40",
+			"rotateY": 0
+		},
+		"*-40-east": {
+			"base": "block/hub/sigil-40",
+			"rotateY": 270
+		},
+		"*-40-south": {
+			"base": "block/hub/sigil-40",
+			"rotateY": 180
+		},
+		"*-40-west": {
+			"base": "block/hub/sigil-40",
+			"rotateY": 90
+		},
+		"*-41-north": {
+			"base": "block/hub/sigil-41",
+			"rotateY": 0
+		},
+		"*-41-east": {
+			"base": "block/hub/sigil-41",
+			"rotateY": 270
+		},
+		"*-41-south": {
+			"base": "block/hub/sigil-41",
+			"rotateY": 180
+		},
+		"*-41-west": {
+			"base": "block/hub/sigil-41",
+			"rotateY": 90
+		},
+		"*-42-north": {
+			"base": "block/hub/sigil-42",
+			"rotateY": 0
+		},
+		"*-42-east": {
+			"base": "block/hub/sigil-42",
+			"rotateY": 270
+		},
+		"*-42-south": {
+			"base": "block/hub/sigil-42",
+			"rotateY": 180
+		},
+		"*-42-west": {
+			"base": "block/hub/sigil-42",
+			"rotateY": 90
+		},
+		"*-43-north": {
+			"base": "block/hub/sigil-43",
+			"rotateY": 0
+		},
+		"*-43-east": {
+			"base": "block/hub/sigil-43",
+			"rotateY": 270
+		},
+		"*-43-south": {
+			"base": "block/hub/sigil-43",
+			"rotateY": 180
+		},
+		"*-43-west": {
+			"base": "block/hub/sigil-43",
+			"rotateY": 90
+		},
+		"*-44-north": {
+			"base": "block/hub/sigil-44",
+			"rotateY": 0
+		},
+		"*-44-east": {
+			"base": "block/hub/sigil-44",
+			"rotateY": 270
+		},
+		"*-44-south": {
+			"base": "block/hub/sigil-44",
+			"rotateY": 180
+		},
+		"*-44-west": {
+			"base": "block/hub/sigil-44",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

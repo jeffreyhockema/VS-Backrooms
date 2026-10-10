@@ -1,0 +1,405 @@
+// The Level Keys: backrooms:hub-key-<tag>, one per level the Hub has a door to. attributes.hubKey: level (internal id), tag, sigil (the door's, gen_hub_sigils.py), sub (6.1 for the Snackrooms)
+{
+	"code": "hub-key",
+	"variantgroups": [
+		{
+			"code": "level",
+			"states": [
+				"l0",
+				"l1",
+				"l2",
+				"l3",
+				"l4",
+				"l5",
+				"l6",
+				"l61",
+				"l7",
+				"l8",
+				"l9",
+				"l10",
+				"l11",
+				"l37",
+				"l94",
+				"run",
+				"fun",
+				"end",
+				"l3999"
+			]
+		}
+	],
+	"maxstacksize": 1,
+	"shapeByType": {
+		"*-l0": {
+			"base": "item/hub/key-l0"
+		},
+		"*-l1": {
+			"base": "item/hub/key-l1"
+		},
+		"*-l2": {
+			"base": "item/hub/key-l2"
+		},
+		"*-l3": {
+			"base": "item/hub/key-l3"
+		},
+		"*-l4": {
+			"base": "item/hub/key-l4"
+		},
+		"*-l5": {
+			"base": "item/hub/key-l5"
+		},
+		"*-l6": {
+			"base": "item/hub/key-l6"
+		},
+		"*-l61": {
+			"base": "item/hub/key-l61"
+		},
+		"*-l7": {
+			"base": "item/hub/key-l7"
+		},
+		"*-l8": {
+			"base": "item/hub/key-l8"
+		},
+		"*-l9": {
+			"base": "item/hub/key-l9"
+		},
+		"*-l10": {
+			"base": "item/hub/key-l10"
+		},
+		"*-l11": {
+			"base": "item/hub/key-l11"
+		},
+		"*-l37": {
+			"base": "item/hub/key-l37"
+		},
+		"*-l94": {
+			"base": "item/hub/key-l94"
+		},
+		"*-run": {
+			"base": "item/hub/key-run"
+		},
+		"*-fun": {
+			"base": "item/hub/key-fun"
+		},
+		"*-end": {
+			"base": "item/hub/key-end"
+		},
+		"*-l3999": {
+			"base": "item/hub/key-l3999"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"materialDensity": 4000,
+	"attributesByType": {
+		"*-l0": {
+			"hubKey": {
+				"level": 0,
+				"tag": "l0",
+				"sigil": 1,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l1": {
+			"hubKey": {
+				"level": 1,
+				"tag": "l1",
+				"sigil": 2,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l2": {
+			"hubKey": {
+				"level": 2,
+				"tag": "l2",
+				"sigil": 3,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l3": {
+			"hubKey": {
+				"level": 3,
+				"tag": "l3",
+				"sigil": 4,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l4": {
+			"hubKey": {
+				"level": 4,
+				"tag": "l4",
+				"sigil": 5,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l5": {
+			"hubKey": {
+				"level": 5,
+				"tag": "l5",
+				"sigil": 6,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l6": {
+			"hubKey": {
+				"level": 6,
+				"tag": "l6",
+				"sigil": 7,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l61": {
+			"hubKey": {
+				"level": 6,
+				"tag": "l61",
+				"sigil": 20,
+				"sub": "6.1"
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l7": {
+			"hubKey": {
+				"level": 7,
+				"tag": "l7",
+				"sigil": 8,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l8": {
+			"hubKey": {
+				"level": 8,
+				"tag": "l8",
+				"sigil": 9,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l9": {
+			"hubKey": {
+				"level": 9,
+				"tag": "l9",
+				"sigil": 10,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l10": {
+			"hubKey": {
+				"level": 10,
+				"tag": "l10",
+				"sigil": 11,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l11": {
+			"hubKey": {
+				"level": 11,
+				"tag": "l11",
+				"sigil": 12,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l37": {
+			"hubKey": {
+				"level": 12,
+				"tag": "l37",
+				"sigil": 13,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l94": {
+			"hubKey": {
+				"level": 13,
+				"tag": "l94",
+				"sigil": 14,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-run": {
+			"hubKey": {
+				"level": 14,
+				"tag": "run",
+				"sigil": 15,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-fun": {
+			"hubKey": {
+				"level": 15,
+				"tag": "fun",
+				"sigil": 16,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-end": {
+			"hubKey": {
+				"level": 16,
+				"tag": "end",
+				"sigil": 17,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		},
+		"*-l3999": {
+			"hubKey": {
+				"level": 19,
+				"tag": "l3999",
+				"sigil": 19,
+				"sub": null
+			},
+			"handbook": {
+				"groupBy": [
+					"hub-key-*"
+				]
+			}
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": -62,
+			"y": -35,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1.7
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.2,
+			"z": 0.3
+		},
+		"rotation": {
+			"x": 60,
+			"y": 20,
+			"z": 0
+		},
+		"scale": 1.6
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.45,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.55
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.45,
+			"z": 0.5
+		},
+		"scale": 2.4
+	}
+}

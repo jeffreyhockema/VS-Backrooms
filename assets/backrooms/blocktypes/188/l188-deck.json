@@ -1,0 +1,51 @@
+// Level 188: the round wooden deck in the middle of the courtyard (rel 1), weathered boards 3 voxels high
+{
+	"code": "l188-deck",
+	"shape": {
+		"base": "backrooms:block/188/l188-deck"
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-deck"
+		],
+		"backrooms": [
+			"l188-deck"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.1875,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.1875,
+		"z2": 1
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"drops": []
+}

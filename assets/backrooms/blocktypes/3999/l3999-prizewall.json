@@ -1,0 +1,134 @@
+// Level 3999: a two-high wall of prizes behind a prize counter, against the wall behind it: plush hanging on pegs, a giant bear on the floor, boxed toys on lit shelves (drawn two blocks high from its block)
+{
+	"code": "l3999-prizewall",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-prizewall-north": {
+			"base": "backrooms:block/3999/l3999-prizewall"
+		},
+		"l3999-prizewall-east": {
+			"base": "backrooms:block/3999/l3999-prizewall",
+			"rotateY": 270
+		},
+		"l3999-prizewall-south": {
+			"base": "backrooms:block/3999/l3999-prizewall",
+			"rotateY": 180
+		},
+		"l3999-prizewall-west": {
+			"base": "backrooms:block/3999/l3999-prizewall",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-prizewall-north"
+		],
+		"backrooms": [
+			"l3999-prizewall-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-prizewall-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-prizewall-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-prizewall-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-prizewall-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-prizewall-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-prizewall-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-prizewall-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-prizewall-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

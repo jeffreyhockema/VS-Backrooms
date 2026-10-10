@@ -1,0 +1,326 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hatch-nw": "backrooms:block/188/hatch-nw",
+		"iron": "backrooms:block/188/iron",
+		"ring": "backrooms:block/188/ring"
+	},
+	"elements": [
+		{
+			"name": "Platenw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"up": {
+					"texture": "#hatch-nw",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RingN",
+			"from": [
+				14.5,
+				3,
+				13
+			],
+			"to": [
+				16,
+				3.6,
+				13.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "RingW",
+			"from": [
+				13,
+				3,
+				14.5
+			],
+			"to": [
+				13.6,
+				3.6,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Staple",
+			"from": [
+				15.2,
+				3,
+				15.2
+			],
+			"to": [
+				16,
+				3.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "RingD0",
+			"from": [
+				12.8,
+				3,
+				13.6
+			],
+			"to": [
+				15.0,
+				3.6,
+				14.200000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6000000000000014,
+						0.6000000000000001
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6000000000000014,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						0.6000000000000014
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						2.1999999999999993,
+						0.6000000000000014
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.9,
+				3.3,
+				13.9
+			],
+			"rotationY": 45
+		}
+	]
+}

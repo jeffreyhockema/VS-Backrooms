@@ -1,0 +1,105 @@
+// Two small cardboard boxes dropped in the hall (trip a sprinter)
+{
+	"code": "run-boxes",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/run/run-boxes",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/run/run-boxes",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/run/run-boxes",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/run/run-boxes",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.85,
+			"y2": 0.25,
+			"z2": 0.8
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.85,
+			"y2": 0.25,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.85,
+			"y2": 0.25,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.85,
+			"y2": 0.25,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

@@ -1,0 +1,27 @@
+// Level Fun: the Host's hall's parquet
+{
+	"code": "fun-parquet",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/parquet"
+		}
+	}
+}

@@ -1,0 +1,137 @@
+// An EXIT sign on a wall block above a door (rel 3), on face <side>. dim over a fake exit, bright over the true one and the hospital-walled entrances, concrete (bright, in a Level 1 concrete wall) over the Level 1 entrance
+{
+	"code": "run-exitsign-wall",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"dim",
+				"lit",
+				"bright",
+				"concrete"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lit-north"
+		],
+		"decorative": [
+			"*-lit-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-dim-north": {
+			"base": "block/run/run-exitsign-wall-dim",
+			"rotateY": 0
+		},
+		"*-dim-east": {
+			"base": "block/run/run-exitsign-wall-dim",
+			"rotateY": 270
+		},
+		"*-dim-south": {
+			"base": "block/run/run-exitsign-wall-dim",
+			"rotateY": 180
+		},
+		"*-dim-west": {
+			"base": "block/run/run-exitsign-wall-dim",
+			"rotateY": 90
+		},
+		"*-lit-north": {
+			"base": "block/run/run-exitsign-wall-lit",
+			"rotateY": 0
+		},
+		"*-lit-east": {
+			"base": "block/run/run-exitsign-wall-lit",
+			"rotateY": 270
+		},
+		"*-lit-south": {
+			"base": "block/run/run-exitsign-wall-lit",
+			"rotateY": 180
+		},
+		"*-lit-west": {
+			"base": "block/run/run-exitsign-wall-lit",
+			"rotateY": 90
+		},
+		"*-bright-north": {
+			"base": "block/run/run-exitsign-wall-bright",
+			"rotateY": 0
+		},
+		"*-bright-east": {
+			"base": "block/run/run-exitsign-wall-bright",
+			"rotateY": 270
+		},
+		"*-bright-south": {
+			"base": "block/run/run-exitsign-wall-bright",
+			"rotateY": 180
+		},
+		"*-bright-west": {
+			"base": "block/run/run-exitsign-wall-bright",
+			"rotateY": 90
+		},
+		"*-concrete-north": {
+			"base": "block/run/run-exitsign-wall-concrete",
+			"rotateY": 0
+		},
+		"*-concrete-east": {
+			"base": "block/run/run-exitsign-wall-concrete",
+			"rotateY": 270
+		},
+		"*-concrete-south": {
+			"base": "block/run/run-exitsign-wall-concrete",
+			"rotateY": 180
+		},
+		"*-concrete-west": {
+			"base": "block/run/run-exitsign-wall-concrete",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightHsvByType": {
+		"*-dim-*": [
+			0,
+			7,
+			5
+		],
+		"*-lit-*": [
+			0,
+			7,
+			9
+		],
+		"*-bright-*": [
+			0,
+			7,
+			12
+		],
+		"*-concrete-*": [
+			0,
+			7,
+			12
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

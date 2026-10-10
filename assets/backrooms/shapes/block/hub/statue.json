@@ -1,0 +1,2250 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"statue": "backrooms:block/hub/statue"
+	},
+	"elements": [
+		{
+			"name": "PlinthBase",
+			"from": [
+				0.5,
+				0,
+				0.5
+			],
+			"to": [
+				15.5,
+				2,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						0.5,
+						15.5,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						0.5,
+						0.5,
+						15.5,
+						15.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthDie",
+			"from": [
+				1.5,
+				2,
+				1.5
+			],
+			"to": [
+				14.5,
+				11,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						5,
+						14.5,
+						14
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						5,
+						14.5,
+						14
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						5,
+						14.5,
+						14
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						5,
+						14.5,
+						14
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						1.5,
+						14.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						1.5,
+						1.5,
+						14.5,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthCap",
+			"from": [
+				0.8,
+				11,
+				0.8
+			],
+			"to": [
+				15.2,
+				13,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						3,
+						15.2,
+						5
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						3,
+						15.2,
+						5
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						3,
+						15.2,
+						5
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						3,
+						15.2,
+						5
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						0.8,
+						15.2,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						0.8,
+						0.8,
+						15.2,
+						15.2
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthTop",
+			"from": [
+				1.2,
+				13,
+				1.2
+			],
+			"to": [
+				14.8,
+				14,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						2,
+						14.8,
+						3
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						2,
+						14.8,
+						3
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						2,
+						14.8,
+						3
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						2,
+						14.8,
+						3
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						1.2,
+						14.8,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						1.2,
+						1.2,
+						14.8,
+						14.8
+					]
+				}
+			}
+		},
+		{
+			"name": "FootL",
+			"from": [
+				8.5,
+				14,
+				3.2
+			],
+			"to": [
+				11,
+				15.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						0.5,
+						7.5,
+						2
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						9,
+						0.5,
+						12.8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						8.5,
+						0.5,
+						11,
+						2
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						3.2,
+						0.5,
+						7,
+						2
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						8.5,
+						3.2,
+						11,
+						7
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						8.5,
+						9,
+						11,
+						12.8
+					]
+				}
+			}
+		},
+		{
+			"name": "FootR",
+			"from": [
+				5,
+				14,
+				3.8
+			],
+			"to": [
+				7.5,
+				15.2,
+				7.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						8.5,
+						0.8,
+						11,
+						2
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						8.8,
+						0.8,
+						12.2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						0.8,
+						7.5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						3.8,
+						0.8,
+						7.2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						3.8,
+						7.5,
+						7.2
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						8.8,
+						7.5,
+						12.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Hem",
+			"from": [
+				3.6,
+				14,
+				5.5
+			],
+			"to": [
+				12.4,
+				17,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						3.6,
+						15,
+						12.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						15,
+						10.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						3.6,
+						15,
+						12.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.5,
+						15,
+						11.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						3.6,
+						5.5,
+						12.4,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						3.6,
+						4.5,
+						12.4,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt0",
+			"from": [
+				3.8,
+				17,
+				5.5
+			],
+			"to": [
+				12.2,
+				22,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						3.8,
+						10,
+						12.2,
+						15
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						10,
+						10.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						3.8,
+						10,
+						12.2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.5,
+						10,
+						11.5,
+						15
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						3.8,
+						5.5,
+						12.2,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						3.8,
+						4.5,
+						12.2,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt1",
+			"from": [
+				4.1,
+				22,
+				5.7
+			],
+			"to": [
+				11.9,
+				27,
+				11.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.1,
+						5,
+						11.9,
+						10
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.7,
+						5,
+						10.3,
+						10
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.1,
+						5,
+						11.9,
+						10
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.7,
+						5,
+						11.3,
+						10
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.1,
+						5.7,
+						11.9,
+						11.3
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.1,
+						4.7,
+						11.9,
+						10.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt2",
+			"from": [
+				4.4,
+				27,
+				5.9
+			],
+			"to": [
+				11.6,
+				32,
+				11.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						0,
+						11.6,
+						5
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.9,
+						0,
+						10.1,
+						5
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						0,
+						11.6,
+						5
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.9,
+						0,
+						11.1,
+						5
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						5.9,
+						11.6,
+						11.1
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						4.9,
+						11.6,
+						10.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirt3",
+			"from": [
+				4.5,
+				32,
+				5.9
+			],
+			"to": [
+				11.5,
+				36,
+				11.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						12,
+						11.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.9,
+						12,
+						10.1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						12,
+						11.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.9,
+						12,
+						11.1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						5.9,
+						11.5,
+						11.1
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.5,
+						4.9,
+						11.5,
+						10.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold0",
+			"from": [
+				4.8,
+				15,
+				5.2
+			],
+			"to": [
+				5.7,
+				33,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						10.3,
+						-17,
+						11.2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10.1,
+						-17,
+						10.8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.8,
+						-17,
+						5.7,
+						1
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						-17,
+						5.9,
+						1
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.8,
+						5.2,
+						5.7,
+						5.9
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.8,
+						10.1,
+						5.7,
+						10.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.8,
+				15,
+				5.5
+			],
+			"rotationZ": -2
+		},
+		{
+			"name": "Fold1",
+			"from": [
+				6.6,
+				15,
+				5.0
+			],
+			"to": [
+				7.5,
+				31,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						8.5,
+						1,
+						9.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10.1,
+						1,
+						11.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						1,
+						7.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.0,
+						1,
+						5.9,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						5.0,
+						7.5,
+						5.9
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						10.1,
+						7.5,
+						11.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.6,
+				15,
+				5.5
+			],
+			"rotationZ": -1
+		},
+		{
+			"name": "Fold2",
+			"from": [
+				8.4,
+				15,
+				5.2
+			],
+			"to": [
+				9.3,
+				33,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						6.7,
+						-17,
+						7.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10.1,
+						-17,
+						10.8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						8.4,
+						-17,
+						9.3,
+						1
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						-17,
+						5.9,
+						1
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						8.4,
+						5.2,
+						9.3,
+						5.9
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						8.4,
+						10.1,
+						9.3,
+						10.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.4,
+				15,
+				5.5
+			]
+		},
+		{
+			"name": "Fold3",
+			"from": [
+				10.2,
+				15,
+				5.0
+			],
+			"to": [
+				11.1,
+				31,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.9,
+						1,
+						5.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10.1,
+						1,
+						11.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						10.2,
+						1,
+						11.1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.0,
+						1,
+						5.9,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						10.2,
+						5.0,
+						11.1,
+						5.9
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						10.2,
+						10.1,
+						11.1,
+						11.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.2,
+				15,
+				5.5
+			],
+			"rotationZ": 1
+		},
+		{
+			"name": "KneeR",
+			"from": [
+				5.2,
+				24,
+				4.6
+			],
+			"to": [
+				7.6,
+				28,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						8.4,
+						4,
+						10.8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10.0,
+						4,
+						11.4,
+						8
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						4,
+						7.6,
+						8
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						4.6,
+						4,
+						6.0,
+						8
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						4.6,
+						7.6,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						10.0,
+						7.6,
+						11.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Waist",
+			"from": [
+				5,
+				36,
+				6.2
+			],
+			"to": [
+				11,
+				39,
+				10.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						9,
+						11,
+						12
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						5.2,
+						9,
+						9.8,
+						12
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						9,
+						11,
+						12
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						6.2,
+						9,
+						10.8,
+						12
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						6.2,
+						11,
+						10.8
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						5.2,
+						11,
+						9.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Chest",
+			"from": [
+				4.4,
+				39,
+				5.8
+			],
+			"to": [
+				11.6,
+				44,
+				11.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						4,
+						11.6,
+						9
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.8,
+						4,
+						10.2,
+						9
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						4,
+						11.6,
+						9
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.8,
+						4,
+						11.2,
+						9
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						5.8,
+						11.6,
+						11.2
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						4.8,
+						11.6,
+						10.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Shoulders",
+			"from": [
+				3.4,
+				43.5,
+				6.3
+			],
+			"to": [
+				12.6,
+				46,
+				10.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						3.4,
+						2,
+						12.6,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						5.3,
+						2,
+						9.7,
+						4.5
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						3.4,
+						2,
+						12.6,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						6.3,
+						2,
+						10.7,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						3.4,
+						6.3,
+						12.6,
+						10.7
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						3.4,
+						5.3,
+						12.6,
+						9.7
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Breast",
+			"from": [
+				5,
+				40,
+				5.4
+			],
+			"to": [
+				11,
+				43,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						5,
+						11,
+						8
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						10,
+						5,
+						10.6,
+						8
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						5,
+						11,
+						8
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.4,
+						5,
+						6,
+						8
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						5.4,
+						11,
+						6
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						5,
+						10,
+						11,
+						10.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Sash",
+			"from": [
+				4.2,
+				37.5,
+				5.6
+			],
+			"to": [
+				11.8,
+				39,
+				11.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						4.2,
+						9,
+						11.8,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.6,
+						9,
+						10.4,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						4.2,
+						9,
+						11.8,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						5.6,
+						9,
+						11.4,
+						10.5
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						4.2,
+						5.6,
+						11.8,
+						11.4
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						4.2,
+						4.6,
+						11.8,
+						10.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				38,
+				8.5
+			],
+			"rotationZ": 18,
+			"rotationY": 8
+		},
+		{
+			"name": "NeckStump",
+			"from": [
+				6.8,
+				46,
+				7.4
+			],
+			"to": [
+				9.2,
+				47.4,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						0.6,
+						9.2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.4,
+						0.6,
+						8.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						0.6,
+						9.2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						7.4,
+						0.6,
+						9.6,
+						2
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						7.4,
+						9.2,
+						9.6
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						6.4,
+						9.2,
+						8.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Break1",
+			"from": [
+				7.2,
+				47.4,
+				7.8
+			],
+			"to": [
+				8.6,
+				48.1,
+				9.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						7.4,
+						15.9,
+						8.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						15.9,
+						8.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						7.2,
+						15.9,
+						8.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						7.8,
+						15.9,
+						9.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						7.2,
+						7.8,
+						8.6,
+						9.2
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						7.2,
+						6.8,
+						8.6,
+						8.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "Break2",
+			"from": [
+				7.0,
+				47.4,
+				8.6
+			],
+			"to": [
+				7.8,
+				48.5,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						8.2,
+						15.5,
+						9.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						15.5,
+						7.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						7.0,
+						15.5,
+						7.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						8.6,
+						15.5,
+						9.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						7.0,
+						8.6,
+						7.8,
+						9.4
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						7.0,
+						6.6,
+						7.8,
+						7.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				36,
+				8.5
+			],
+			"rotationY": 8
+		},
+		{
+			"name": "ArmRUpper",
+			"from": [
+				11.6,
+				37,
+				7.2
+			],
+			"to": [
+				13.6,
+				45.5,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						2.4,
+						2.5,
+						4.4,
+						11
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.4,
+						2.5,
+						8.8,
+						11
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						11.6,
+						2.5,
+						13.6,
+						11
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						7.2,
+						2.5,
+						9.6,
+						11
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						11.6,
+						7.2,
+						13.6,
+						9.6
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						11.6,
+						6.4,
+						13.6,
+						8.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.6,
+				45.5,
+				8.4
+			],
+			"rotationZ": 6
+		},
+		{
+			"name": "ArmRLower",
+			"from": [
+				12.2,
+				30.5,
+				7.0
+			],
+			"to": [
+				14.0,
+				37.5,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						2.0,
+						10.5,
+						3.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						10.5,
+						9.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						12.2,
+						10.5,
+						14.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						7.0,
+						10.5,
+						9.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						12.2,
+						7.0,
+						14.0,
+						9.4
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						12.2,
+						6.6,
+						14.0,
+						9.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				13,
+				37.5,
+				8.2
+			],
+			"rotationZ": 2
+		},
+		{
+			"name": "HandR",
+			"from": [
+				12.0,
+				28.4,
+				6.8
+			],
+			"to": [
+				14.2,
+				30.8,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						1.8,
+						1.2,
+						4.0,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.6,
+						1.2,
+						9.2,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						12.0,
+						1.2,
+						14.2,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						1.2,
+						9.4,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						12.0,
+						6.8,
+						14.2,
+						9.4
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						12.0,
+						6.6,
+						14.2,
+						9.2
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmLStump",
+			"from": [
+				2.2,
+				40,
+				6.8
+			],
+			"to": [
+				4.4,
+				45.5,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						11.6,
+						2.5,
+						13.8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.2,
+						2.5,
+						9.2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						2.2,
+						2.5,
+						4.4,
+						8
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						6.8,
+						2.5,
+						9.8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						2.2,
+						6.8,
+						4.4,
+						9.8
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						2.2,
+						6.2,
+						4.4,
+						9.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				45.5,
+				8.3
+			],
+			"rotationZ": -14
+		},
+		{
+			"name": "ArmLBreak",
+			"from": [
+				1.3,
+				39.0,
+				7.3
+			],
+			"to": [
+				3.4,
+				40.5,
+				9.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						12.6,
+						7.5,
+						14.7,
+						9.0
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						6.7,
+						7.5,
+						8.7,
+						9.0
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						1.3,
+						7.5,
+						3.4,
+						9.0
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						7.3,
+						7.5,
+						9.3,
+						9.0
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						1.3,
+						7.3,
+						3.4,
+						9.3
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						1.3,
+						6.7,
+						3.4,
+						8.7
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				45.5,
+				8.3
+			],
+			"rotationZ": -14
+		},
+		{
+			"name": "Drape",
+			"from": [
+				3,
+				33,
+				9.6
+			],
+			"to": [
+				7.2,
+				46.2,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						8.8,
+						1.8,
+						13,
+						15
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.4,
+						1.8,
+						6.4,
+						15
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						3,
+						1.8,
+						7.2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						9.6,
+						1.8,
+						11.6,
+						15
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						3,
+						9.6,
+						7.2,
+						11.6
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						3,
+						4.4,
+						7.2,
+						6.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				46,
+				10.6
+			],
+			"rotationZ": -8
+		},
+		{
+			"name": "DrapeFall",
+			"from": [
+				2.6,
+				20,
+				10.2
+			],
+			"to": [
+				6,
+				33.5,
+				11.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#statue",
+					"uv": [
+						10,
+						14.5,
+						13.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#statue",
+					"uv": [
+						4.2,
+						14.5,
+						5.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#statue",
+					"uv": [
+						2.6,
+						14.5,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#statue",
+					"uv": [
+						10.2,
+						14.5,
+						11.8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#statue",
+					"uv": [
+						2.6,
+						10.2,
+						6,
+						11.8
+					]
+				},
+				"down": {
+					"texture": "#statue",
+					"uv": [
+						2.6,
+						4.2,
+						6,
+						5.8
+					]
+				}
+			}
+		}
+	]
+}

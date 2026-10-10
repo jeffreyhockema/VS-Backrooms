@@ -1,0 +1,359 @@
+// Level 188: a stencilled storey number on a grey plate, wall-hung beside the stair-landing doors (rel 4s+2)
+{
+	"code": "l188-floorsign",
+	"variantgroups": [
+		{
+			"code": "floor",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"roof"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-floorsign-1-north": {
+			"base": "backrooms:block/188/l188-floorsign-1"
+		},
+		"l188-floorsign-1-east": {
+			"base": "backrooms:block/188/l188-floorsign-1",
+			"rotateY": 270
+		},
+		"l188-floorsign-1-south": {
+			"base": "backrooms:block/188/l188-floorsign-1",
+			"rotateY": 180
+		},
+		"l188-floorsign-1-west": {
+			"base": "backrooms:block/188/l188-floorsign-1",
+			"rotateY": 90
+		},
+		"l188-floorsign-2-north": {
+			"base": "backrooms:block/188/l188-floorsign-2"
+		},
+		"l188-floorsign-2-east": {
+			"base": "backrooms:block/188/l188-floorsign-2",
+			"rotateY": 270
+		},
+		"l188-floorsign-2-south": {
+			"base": "backrooms:block/188/l188-floorsign-2",
+			"rotateY": 180
+		},
+		"l188-floorsign-2-west": {
+			"base": "backrooms:block/188/l188-floorsign-2",
+			"rotateY": 90
+		},
+		"l188-floorsign-3-north": {
+			"base": "backrooms:block/188/l188-floorsign-3"
+		},
+		"l188-floorsign-3-east": {
+			"base": "backrooms:block/188/l188-floorsign-3",
+			"rotateY": 270
+		},
+		"l188-floorsign-3-south": {
+			"base": "backrooms:block/188/l188-floorsign-3",
+			"rotateY": 180
+		},
+		"l188-floorsign-3-west": {
+			"base": "backrooms:block/188/l188-floorsign-3",
+			"rotateY": 90
+		},
+		"l188-floorsign-4-north": {
+			"base": "backrooms:block/188/l188-floorsign-4"
+		},
+		"l188-floorsign-4-east": {
+			"base": "backrooms:block/188/l188-floorsign-4",
+			"rotateY": 270
+		},
+		"l188-floorsign-4-south": {
+			"base": "backrooms:block/188/l188-floorsign-4",
+			"rotateY": 180
+		},
+		"l188-floorsign-4-west": {
+			"base": "backrooms:block/188/l188-floorsign-4",
+			"rotateY": 90
+		},
+		"l188-floorsign-5-north": {
+			"base": "backrooms:block/188/l188-floorsign-5"
+		},
+		"l188-floorsign-5-east": {
+			"base": "backrooms:block/188/l188-floorsign-5",
+			"rotateY": 270
+		},
+		"l188-floorsign-5-south": {
+			"base": "backrooms:block/188/l188-floorsign-5",
+			"rotateY": 180
+		},
+		"l188-floorsign-5-west": {
+			"base": "backrooms:block/188/l188-floorsign-5",
+			"rotateY": 90
+		},
+		"l188-floorsign-roof-north": {
+			"base": "backrooms:block/188/l188-floorsign-roof"
+		},
+		"l188-floorsign-roof-east": {
+			"base": "backrooms:block/188/l188-floorsign-roof",
+			"rotateY": 270
+		},
+		"l188-floorsign-roof-south": {
+			"base": "backrooms:block/188/l188-floorsign-roof",
+			"rotateY": 180
+		},
+		"l188-floorsign-roof-west": {
+			"base": "backrooms:block/188/l188-floorsign-roof",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-floorsign-1-north"
+		],
+		"backrooms": [
+			"l188-floorsign-1-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l188-floorsign-1-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-1-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-1-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-1-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-floorsign-2-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-2-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-2-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-2-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-floorsign-3-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-3-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-3-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-3-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-floorsign-4-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-4-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-4-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-4-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-floorsign-5-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-5-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-5-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-5-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-floorsign-roof-north": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l188-floorsign-roof-east": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-floorsign-roof-south": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-floorsign-roof-west": {
+			"x1": 0.25,
+			"y1": 0.25,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	}
+}

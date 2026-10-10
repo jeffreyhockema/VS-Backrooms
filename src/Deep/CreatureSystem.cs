@@ -34,7 +34,7 @@ public class CreatureSystem : ModSystem
     private static readonly Dictionary<int, Spawns> ByLevel = new()
     {
         [7] = new Spawns { Cap = 7, Kinds = new[] { ("fish-saltwater-", 1.0) } },
-        [8] = new Spawns { Cap = 3, Kinds = new[] { ("drifter-normal", 0.75), ("drifter-deep", 0.25) } },
+        // (Level 8's drifters are gone: its feral dark is the Wretches' now, put down by the entity director)
         [9] = new Spawns
         {
             Cap = 4,
@@ -46,6 +46,8 @@ public class CreatureSystem : ModSystem
             Cap = 6,
             Kinds = new[] { ("chicken-hen", 0.3), ("chicken-rooster", 0.05), ("pig-eurasian-adult-", 0.2), ("sheep-mouflon-adult-", 0.25), ("goat-nubian-adult-", 0.2) },
         },
+        // (The five kept as 14-18, and Levels 3999 and 188, have no animals. A level that should gives itself an entry here, keyed by its
+        // WorldLayout constant, and a case in TrySpawn saying where they stand)
     };
 
     private ICoreServerAPI sapi;

@@ -1,0 +1,188 @@
+// Level 3999.1: a dead cabinet, cracked screen, dust on the panel, a button missing, no light. Salvage: wire, glass, brackets, a circuit board, the coin mechanism, plastic, a few tickets left in the hopper
+{
+	"code": "l3999-cabinet-dead",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-cabinet-dead-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-dead"
+		},
+		"l3999-cabinet-dead-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-dead",
+			"rotateY": 270
+		},
+		"l3999-cabinet-dead-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-dead",
+			"rotateY": 180
+		},
+		"l3999-cabinet-dead-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-dead",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-cabinet-dead-north"
+		],
+		"backrooms": [
+			"l3999-cabinet-dead-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-cabinet-dead-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-dead-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-dead-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-dead-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-cabinet-dead-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-dead-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-dead-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-dead-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 2,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-circuitboard",
+			"quantity": {
+				"avg": 1,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-coinmech",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.2
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-plastic",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "l3999-ticket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

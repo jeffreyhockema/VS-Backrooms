@@ -1,0 +1,388 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"glass-dark": "backrooms:block/188/glass-dark",
+		"steel": "backrooms:block/188/steel"
+	},
+	"elements": [
+		{
+			"name": "Glass",
+			"from": [
+				0.6,
+				0,
+				7.6
+			],
+			"to": [
+				15.4,
+				16,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#glass-dark",
+					"uv": [
+						0,
+						0,
+						14.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#glass-dark",
+					"uv": [
+						0,
+						0,
+						14.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#glass-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#glass-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PatchB",
+			"from": [
+				0.6,
+				0,
+				7.4
+			],
+			"to": [
+				15.4,
+				1.6,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull",
+			"from": [
+				1.6,
+				6,
+				5
+			],
+			"to": [
+				2.6,
+				16,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "PullS1",
+			"from": [
+				1.8,
+				8,
+				6
+			],
+			"to": [
+				2.4,
+				9,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "PullIn",
+			"from": [
+				1.6,
+				6,
+				10
+			],
+			"to": [
+				2.6,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "PullIn1",
+			"from": [
+				1.8,
+				8,
+				8.4
+			],
+			"to": [
+				2.4,
+				9,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				}
+			}
+		}
+	]
+}

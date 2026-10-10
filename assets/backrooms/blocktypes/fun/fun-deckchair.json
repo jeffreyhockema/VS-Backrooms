@@ -1,0 +1,172 @@
+// Level Fun: a wooden lounger on the deck, two blocks long (a: the head end, raised)
+{
+	"code": "fun-deckchair",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-a-north": {
+			"base": "block/fun/fun-deckchair-a",
+			"rotateY": 0
+		},
+		"*-a-east": {
+			"base": "block/fun/fun-deckchair-a",
+			"rotateY": 270
+		},
+		"*-a-south": {
+			"base": "block/fun/fun-deckchair-a",
+			"rotateY": 180
+		},
+		"*-a-west": {
+			"base": "block/fun/fun-deckchair-a",
+			"rotateY": 90
+		},
+		"*-b-north": {
+			"base": "block/fun/fun-deckchair-b",
+			"rotateY": 0
+		},
+		"*-b-east": {
+			"base": "block/fun/fun-deckchair-b",
+			"rotateY": 270
+		},
+		"*-b-south": {
+			"base": "block/fun/fun-deckchair-b",
+			"rotateY": 180
+		},
+		"*-b-west": {
+			"base": "block/fun/fun-deckchair-b",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-a-north"
+		],
+		"decorative": [
+			"*-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.4,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	]
+}

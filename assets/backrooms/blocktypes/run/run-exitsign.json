@@ -1,0 +1,151 @@
+// Level !: hanging EXIT signs, the hallway's only light. Axis ns: its faces look north and south (the board spans west-east); we: west and east. lit, dim (over a fake exit), bright (over the true exit), flicker (telegraphs a burst; glow only), off (its dark mesh), dead (burst)
+{
+	"code": "run-exitsign",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"lit",
+				"dim",
+				"bright",
+				"flicker",
+				"off",
+				"dead"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lit-ns"
+		],
+		"decorative": [
+			"*-lit-ns"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lit-ns": {
+			"base": "block/run/run-exitsign-lit",
+			"rotateY": 0
+		},
+		"*-lit-we": {
+			"base": "block/run/run-exitsign-lit",
+			"rotateY": 90
+		},
+		"*-dim-ns": {
+			"base": "block/run/run-exitsign-dim",
+			"rotateY": 0
+		},
+		"*-dim-we": {
+			"base": "block/run/run-exitsign-dim",
+			"rotateY": 90
+		},
+		"*-bright-ns": {
+			"base": "block/run/run-exitsign-bright",
+			"rotateY": 0
+		},
+		"*-bright-we": {
+			"base": "block/run/run-exitsign-bright",
+			"rotateY": 90
+		},
+		"*-flicker-ns": {
+			"base": "block/run/run-exitsign-flicker",
+			"rotateY": 0
+		},
+		"*-flicker-we": {
+			"base": "block/run/run-exitsign-flicker",
+			"rotateY": 90
+		},
+		"*-off-ns": {
+			"base": "block/run/run-exitsign-off",
+			"rotateY": 0
+		},
+		"*-off-we": {
+			"base": "block/run/run-exitsign-off",
+			"rotateY": 90
+		},
+		"*-dead-ns": {
+			"base": "block/run/run-exitsign-dead",
+			"rotateY": 0
+		},
+		"*-dead-we": {
+			"base": "block/run/run-exitsign-dead",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-ns": {
+			"x1": 0.05,
+			"y1": 0.42,
+			"z1": 0.4,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"*-we": {
+			"x1": 0.4,
+			"y1": 0.42,
+			"z1": 0.05,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.95
+		}
+	},
+	"lightHsvByType": {
+		"*-lit-*": [
+			0,
+			7,
+			9
+		],
+		"*-flicker-*": [
+			0,
+			7,
+			9
+		],
+		"*-dim-*": [
+			0,
+			7,
+			5
+		],
+		"*-bright-*": [
+			0,
+			7,
+			12
+		]
+	},
+	"entityClassByType": {
+		"*-flicker-*": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker-we": {
+			"offBlock": "backrooms:run-exitsign-off-we"
+		},
+		"*-flicker-ns": {
+			"offBlock": "backrooms:run-exitsign-off-ns"
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

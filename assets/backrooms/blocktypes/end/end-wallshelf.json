@@ -1,0 +1,173 @@
+// The End: single-faced wall shelving 2 tall against the wall behind it (the shelves face the side named)
+{
+	"code": "end-wallshelf",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"empty",
+				"books"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-empty-lower-north"
+		],
+		"decorative": [
+			"*-empty-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-empty-lower-north": {
+			"base": "block/end/end-wallshelf-empty-lower",
+			"rotateY": 0
+		},
+		"*-empty-lower-east": {
+			"base": "block/end/end-wallshelf-empty-lower",
+			"rotateY": 270
+		},
+		"*-empty-lower-south": {
+			"base": "block/end/end-wallshelf-empty-lower",
+			"rotateY": 180
+		},
+		"*-empty-lower-west": {
+			"base": "block/end/end-wallshelf-empty-lower",
+			"rotateY": 90
+		},
+		"*-empty-upper-north": {
+			"base": "block/end/end-wallshelf-empty-upper",
+			"rotateY": 0
+		},
+		"*-empty-upper-east": {
+			"base": "block/end/end-wallshelf-empty-upper",
+			"rotateY": 270
+		},
+		"*-empty-upper-south": {
+			"base": "block/end/end-wallshelf-empty-upper",
+			"rotateY": 180
+		},
+		"*-empty-upper-west": {
+			"base": "block/end/end-wallshelf-empty-upper",
+			"rotateY": 90
+		},
+		"*-books-lower-north": {
+			"base": "block/end/end-wallshelf-books-lower",
+			"rotateY": 0
+		},
+		"*-books-lower-east": {
+			"base": "block/end/end-wallshelf-books-lower",
+			"rotateY": 270
+		},
+		"*-books-lower-south": {
+			"base": "block/end/end-wallshelf-books-lower",
+			"rotateY": 180
+		},
+		"*-books-lower-west": {
+			"base": "block/end/end-wallshelf-books-lower",
+			"rotateY": 90
+		},
+		"*-books-upper-north": {
+			"base": "block/end/end-wallshelf-books-upper",
+			"rotateY": 0
+		},
+		"*-books-upper-east": {
+			"base": "block/end/end-wallshelf-books-upper",
+			"rotateY": 270
+		},
+		"*-books-upper-south": {
+			"base": "block/end/end-wallshelf-books-upper",
+			"rotateY": 180
+		},
+		"*-books-upper-west": {
+			"base": "block/end/end-wallshelf-books-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"dropsByType": {
+		"*-books-*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:book-normal-teal",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:paper-parchment",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.3
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,145 @@
+// Level Fun: a party poster taped to the wall
+{
+	"code": "fun-poster",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"time4fun",
+				"happybday",
+				"comejoin"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-time4fun-north": {
+			"base": "block/fun/fun-poster-time4fun",
+			"rotateY": 0
+		},
+		"*-time4fun-east": {
+			"base": "block/fun/fun-poster-time4fun",
+			"rotateY": 270
+		},
+		"*-time4fun-south": {
+			"base": "block/fun/fun-poster-time4fun",
+			"rotateY": 180
+		},
+		"*-time4fun-west": {
+			"base": "block/fun/fun-poster-time4fun",
+			"rotateY": 90
+		},
+		"*-happybday-north": {
+			"base": "block/fun/fun-poster-happybday",
+			"rotateY": 0
+		},
+		"*-happybday-east": {
+			"base": "block/fun/fun-poster-happybday",
+			"rotateY": 270
+		},
+		"*-happybday-south": {
+			"base": "block/fun/fun-poster-happybday",
+			"rotateY": 180
+		},
+		"*-happybday-west": {
+			"base": "block/fun/fun-poster-happybday",
+			"rotateY": 90
+		},
+		"*-comejoin-north": {
+			"base": "block/fun/fun-poster-comejoin",
+			"rotateY": 0
+		},
+		"*-comejoin-east": {
+			"base": "block/fun/fun-poster-comejoin",
+			"rotateY": 270
+		},
+		"*-comejoin-south": {
+			"base": "block/fun/fun-poster-comejoin",
+			"rotateY": 180
+		},
+		"*-comejoin-west": {
+			"base": "block/fun/fun-poster-comejoin",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-time4fun-north"
+		],
+		"decorative": [
+			"*-time4fun-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0.1,
+			"z1": 0.95,
+			"x2": 0.85,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0.1,
+			"z1": 0.95,
+			"x2": 0.85,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0.1,
+			"z1": 0.95,
+			"x2": 0.85,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0.1,
+			"z1": 0.95,
+			"x2": 0.85,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
+}

@@ -82,8 +82,11 @@ Speeds are shares of a sprint; "hits" is how many land on an unarmoured player w
 | | 8 | 132 % | 5.4 (tier 2) | 3 | 31 |
 | Clump (grab; crawl) | 2 | 60 % | 6.3 | 3 | 27 |
 | Deathmoth female (bite) | 1 | | 1.7 | | 3 |
+| Wretch (bite; packs in Level 8) | 1 | 96 % | 4.0 | 4 | 19 |
+| | 8 | 112 % | 6.3 (tier 2) | 3 | 33 |
+| Bacteria (hunts only a runner near the Lobby's exits) | 0 | 112 % | 6.0 | 3 | 30 |
 
-The Mangled (5, plus being lifted 7 blocks and dropped) and The Thing are events and keep their own numbers.
+The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since 2026-10-10) and The Thing are events and keep their own numbers.
 
 ## 4. Skill: what keeps you alive now
 
@@ -109,6 +112,8 @@ The Mangled (5, plus being lifted 7 blocks and dropped) and The Thing are events
 | Clump | 0.5 | 2.0 | 1.5 |
 | Death Rat | 0.05 | 0.25 | 0.2 |
 | Deathmoth female | 0.05 | 0.2 | 0.15 |
+| Wretch (plus one or two belongings) | 0.3 | 0.8 | 0.7 |
+| Bacteria | 1.0 | 2.0 | 2.0 |
 
   Facelings carry no bounty.
 - **Caches** (`Rewards.OnBrokeBlock`): any of our blocks whose drops include food, medicine, metal, seeds or gears

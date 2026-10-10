@@ -1,0 +1,185 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"buntingstring": "backrooms:block/fun/buntingstring",
+		"pennant-green": "backrooms:block/fun/pennant-green",
+		"pennant-letter-b": "backrooms:block/fun/pennant-letter-b",
+		"pennant-purple": "backrooms:block/fun/pennant-purple"
+	},
+	"elements": [
+		{
+			"name": "String",
+			"from": [
+				0,
+				15,
+				15.3
+			],
+			"to": [
+				16,
+				15.25,
+				15.55
+			],
+			"faces": {
+				"north": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#buntingstring",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				15.125,
+				15.425
+			]
+		},
+		{
+			"name": "P0",
+			"from": [
+				0.5,
+				9.2,
+				15.35
+			],
+			"to": [
+				5.0,
+				15.1,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pennant-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pennant-green",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "P1",
+			"from": [
+				5.75,
+				9.2,
+				15.35
+			],
+			"to": [
+				10.25,
+				15.1,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pennant-letter-b",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pennant-letter-b",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "P2",
+			"from": [
+				11,
+				9.2,
+				15.35
+			],
+			"to": [
+				15.5,
+				15.1,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pennant-purple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pennant-purple",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

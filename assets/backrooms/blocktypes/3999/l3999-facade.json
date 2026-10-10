@@ -1,0 +1,53 @@
+// Level 3999 (the Level 10 arcade building): tan stucco, a red-brown brick plinth, a dark fascia band
+{
+	"code": "l3999-facade",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l3999structure": true
+	},
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"stucco",
+				"brick",
+				"band"
+			]
+		}
+	],
+	"texturesByType": {
+		"l3999-facade-stucco": {
+			"all": {
+				"base": "block/3999/facade-stucco"
+			}
+		},
+		"l3999-facade-brick": {
+			"all": {
+				"base": "block/3999/facade-brick"
+			}
+		},
+		"l3999-facade-band": {
+			"all": {
+				"base": "block/3999/facade-band"
+			}
+		}
+	}
+}

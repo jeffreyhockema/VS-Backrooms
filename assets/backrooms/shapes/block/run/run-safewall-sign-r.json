@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"safepanelrim": "backrooms:block/run/safepanelrim",
+		"safesign-r": "backrooms:block/run/safesign-r",
+		"safewall": "backrooms:block/run/safewall"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#safewall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				2,
+				-0.8
+			],
+			"to": [
+				16,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#safesign-r",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateEdge",
+			"from": [
+				2,
+				2,
+				-0.8
+			],
+			"to": [
+				16,
+				14,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						0.8,
+						12
+					]
+				},
+				"west": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						0.8,
+						12
+					]
+				},
+				"up": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,92 @@
+// A red balloon on a string: what the Partygoers' new interns carry
+{
+	"code": "fun-balloon-red",
+	"maxstacksize": 1,
+	"shape": {
+		"base": "backrooms:item/fun/balloon-red"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"materialDensity": 50,
+	"attributes": {
+		"funDisguise": "balloon"
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 0,
+			"y": -6,
+			"z": 0
+		},
+		"rotation": {
+			"x": -15,
+			"y": 30,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 1.2,
+			"z": 0.5
+		},
+		"scale": 1.1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.1,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 0.9
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0.1,
+			"y": -0.6,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 1.6
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.4
+	}
+}

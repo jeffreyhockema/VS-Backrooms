@@ -1,0 +1,1374 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"face-bear": "backrooms:block/974/face-bear",
+		"face-pink": "backrooms:block/974/face-pink",
+		"fur-bear": "backrooms:block/974/fur-bear",
+		"fur-earpink": "backrooms:block/974/fur-earpink",
+		"fur-muzzle": "backrooms:block/974/fur-muzzle",
+		"fur-pink": "backrooms:block/974/fur-pink",
+		"trim": "backrooms:block/974/trim"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				0,
+				4,
+				11
+			],
+			"to": [
+				16,
+				5.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				3.06,
+				5.5,
+				12.26
+			],
+			"to": [
+				5.9399999999999995,
+				7.66,
+				14.66
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.16
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.4,
+						2.16
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.16
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.4,
+						2.16
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.4
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Head",
+			"from": [
+				2.7,
+				7.42,
+				11.9
+			],
+			"to": [
+				6.3,
+				10.54,
+				14.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#face-pink",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						3.12
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						3.6,
+						3.12
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						3.12
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						3.6,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						3.6,
+						3.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "EarL",
+			"from": [
+				2.8200000000000003,
+				10.54,
+				13.04
+			],
+			"to": [
+				3.7800000000000002,
+				11.379999999999999,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "EarR",
+			"from": [
+				5.22,
+				10.54,
+				13.04
+			],
+			"to": [
+				6.18,
+				11.379999999999999,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "EarLin",
+			"from": [
+				3.0,
+				10.54,
+				12.95
+			],
+			"to": [
+				3.6,
+				11.14,
+				13.04
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-earpink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "EarRin",
+			"from": [
+				5.4,
+				10.54,
+				12.95
+			],
+			"to": [
+				6.0,
+				11.14,
+				13.04
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-earpink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "PawL",
+			"from": [
+				3.3,
+				5.5,
+				11.84
+			],
+			"to": [
+				4.14,
+				6.22,
+				12.44
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.72
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.72
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.72
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.72
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "PawR",
+			"from": [
+				4.86,
+				5.5,
+				11.84
+			],
+			"to": [
+				5.7,
+				6.22,
+				12.44
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.72
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.72
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.72
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.72
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.84,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Tail",
+			"from": [
+				5.82,
+				5.74,
+				14.0
+			],
+			"to": [
+				6.42,
+				7.54,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "TailTip",
+			"from": [
+				6.0600000000000005,
+				7.54,
+				14.06
+			],
+			"to": [
+				6.66,
+				8.14,
+				14.54
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.48,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.48,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.48
+					]
+				},
+				"down": {
+					"texture": "#fur-pink",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.48
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				5.5,
+				13.4
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Body",
+			"from": [
+				10.0,
+				5.5,
+				12.2
+			],
+			"to": [
+				13.0,
+				7.779999999999999,
+				14.72
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						2.28
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						2.52,
+						2.28
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						2.28
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						2.52,
+						2.28
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						2.52
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.0,
+						2.52
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "Head",
+			"from": [
+				9.82,
+				7.54,
+				11.96
+			],
+			"to": [
+				13.18,
+				10.419999999999998,
+				14.84
+			],
+			"faces": {
+				"north": {
+					"texture": "#face-bear",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.88
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.36,
+						2.88
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						2.88,
+						2.88
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.36,
+						2.88
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						3.36,
+						2.88
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "EarL",
+			"from": [
+				9.7,
+				9.940000000000001,
+				13.04
+			],
+			"to": [
+				10.6,
+				10.899999999999999,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.96
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.96
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.96
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "EarR",
+			"from": [
+				12.4,
+				9.940000000000001,
+				13.04
+			],
+			"to": [
+				13.3,
+				10.899999999999999,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.96
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.96
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.96
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.9,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				9.46,
+				6.1,
+				12.8
+			],
+			"to": [
+				10.06,
+				7.54,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.44
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.44
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.44
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.44
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.96
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				12.94,
+				6.1,
+				12.8
+			],
+			"to": [
+				13.54,
+				7.54,
+				13.76
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.44
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.44
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						1.44
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						1.44
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.96
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.6,
+						0.96
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "LegL",
+			"from": [
+				10.06,
+				5.5,
+				11.6
+			],
+			"to": [
+				11.02,
+				6.34,
+				12.32
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "LegR",
+			"from": [
+				11.98,
+				5.5,
+				11.6
+			],
+			"to": [
+				12.94,
+				6.34,
+				12.32
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"east": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"south": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.84
+					]
+				},
+				"west": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.72,
+						0.84
+					]
+				},
+				"up": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				},
+				"down": {
+					"texture": "#fur-bear",
+					"uv": [
+						0.0,
+						0.0,
+						0.96,
+						0.72
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "Tummy",
+			"from": [
+				10.66,
+				5.98,
+				12.08
+			],
+			"to": [
+				12.34,
+				7.3,
+				12.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-muzzle",
+					"uv": [
+						0.0,
+						0.0,
+						1.68,
+						1.32
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				5.5,
+				13.4
+			],
+			"rotationY": -10
+		}
+	]
+}

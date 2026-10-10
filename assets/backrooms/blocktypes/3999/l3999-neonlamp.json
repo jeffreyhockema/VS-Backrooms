@@ -1,0 +1,405 @@
+// Level 3999: a neon lamp, a short coloured tube on two brackets for a wall (light 9, the colour of its glass). A prize, or made from arcade salvage; place it against a wall, it faces you
+{
+	"code": "l3999-neonlamp",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"magenta",
+				"cyan",
+				"blue",
+				"pink",
+				"orange",
+				"lilac"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-neonlamp-magenta-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-magenta"
+		},
+		"l3999-neonlamp-magenta-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-magenta",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-magenta-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-magenta",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-magenta-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-magenta",
+			"rotateY": 90
+		},
+		"l3999-neonlamp-cyan-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-cyan"
+		},
+		"l3999-neonlamp-cyan-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-cyan",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-cyan-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-cyan",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-cyan-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-cyan",
+			"rotateY": 90
+		},
+		"l3999-neonlamp-blue-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-blue"
+		},
+		"l3999-neonlamp-blue-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-blue",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-blue-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-blue",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-blue-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-blue",
+			"rotateY": 90
+		},
+		"l3999-neonlamp-pink-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-pink"
+		},
+		"l3999-neonlamp-pink-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-pink",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-pink-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-pink",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-pink-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-pink",
+			"rotateY": 90
+		},
+		"l3999-neonlamp-orange-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-orange"
+		},
+		"l3999-neonlamp-orange-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-orange",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-orange-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-orange",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-orange-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-orange",
+			"rotateY": 90
+		},
+		"l3999-neonlamp-lilac-north": {
+			"base": "backrooms:block/3999/l3999-neonlamp-lilac"
+		},
+		"l3999-neonlamp-lilac-east": {
+			"base": "backrooms:block/3999/l3999-neonlamp-lilac",
+			"rotateY": 270
+		},
+		"l3999-neonlamp-lilac-south": {
+			"base": "backrooms:block/3999/l3999-neonlamp-lilac",
+			"rotateY": 180
+		},
+		"l3999-neonlamp-lilac-west": {
+			"base": "backrooms:block/3999/l3999-neonlamp-lilac",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-neonlamp-magenta-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-magenta-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-magenta-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-magenta-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonlamp-cyan-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-cyan-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-cyan-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-cyan-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonlamp-blue-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-blue-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-blue-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-blue-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonlamp-pink-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-pink-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-pink-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-pink-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonlamp-orange-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-orange-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-orange-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-orange-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-neonlamp-lilac-north": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1
+		},
+		"l3999-neonlamp-lilac-east": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-neonlamp-lilac-south": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-neonlamp-lilac-west": {
+			"x1": 0.05,
+			"y1": 0.35,
+			"z1": 0.72,
+			"x2": 0.95,
+			"y2": 0.62,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"behaviors": [
+		{
+			"name": "HorizontalOrientable",
+			"properties": {
+				"dropBlockFace": "north"
+			}
+		}
+	],
+	"lightHsvByType": {
+		"*-magenta-*": [
+			51,
+			7,
+			9
+		],
+		"*-cyan-*": [
+			33,
+			6,
+			9
+		],
+		"*-blue-*": [
+			40,
+			7,
+			9
+		],
+		"*-pink-*": [
+			62,
+			7,
+			9
+		],
+		"*-orange-*": [
+			3,
+			7,
+			9
+		],
+		"*-lilac-*": [
+			53,
+			3,
+			9
+		]
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "l3999-neonlamp-{colour}-north",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
+}

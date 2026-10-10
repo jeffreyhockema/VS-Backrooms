@@ -1,0 +1,139 @@
+// Level 3999's mezzanines: a railing on the gallery edge named by the suffix (the side the atrium is on): a glass panel, a chrome handrail, a base channel with a magenta neon strip (light 5)
+{
+	"code": "l3999-balustrade",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-balustrade-north": {
+			"base": "backrooms:block/3999/l3999-balustrade"
+		},
+		"l3999-balustrade-east": {
+			"base": "backrooms:block/3999/l3999-balustrade",
+			"rotateY": 270
+		},
+		"l3999-balustrade-south": {
+			"base": "backrooms:block/3999/l3999-balustrade",
+			"rotateY": 180
+		},
+		"l3999-balustrade-west": {
+			"base": "backrooms:block/3999/l3999-balustrade",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-balustrade-north"
+		],
+		"backrooms": [
+			"l3999-balustrade-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-balustrade-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125
+		},
+		"l3999-balustrade-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 270
+		},
+		"l3999-balustrade-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 180
+		},
+		"l3999-balustrade-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-balustrade-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125
+		},
+		"l3999-balustrade-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 270
+		},
+		"l3999-balustrade-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 180
+		},
+		"l3999-balustrade-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.125,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		51,
+		7,
+		5
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

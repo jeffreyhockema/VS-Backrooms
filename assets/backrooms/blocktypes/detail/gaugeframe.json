@@ -1,0 +1,302 @@
+// Gauges, valves and sight glasses on their pipework, against a wall
+{
+	"code": "gaugeframe",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"gauges",
+				"manifold",
+				"valve",
+				"sightglass"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-gauges-north": {
+			"base": "game:block/devastation/machinery/gauge3",
+			"rotateY": 180,
+			"offsetZ": 0.4
+		},
+		"*-gauges-east": {
+			"base": "game:block/devastation/machinery/gauge3",
+			"rotateY": 90,
+			"offsetX": -0.4
+		},
+		"*-gauges-south": {
+			"base": "game:block/devastation/machinery/gauge3",
+			"rotateY": 0,
+			"offsetZ": -0.4
+		},
+		"*-gauges-west": {
+			"base": "game:block/devastation/machinery/gauge3",
+			"rotateY": 270,
+			"offsetX": 0.4
+		},
+		"*-manifold-north": {
+			"base": "game:block/devastation/machinery/gauge4",
+			"rotateY": 180,
+			"offsetZ": 0.4
+		},
+		"*-manifold-east": {
+			"base": "game:block/devastation/machinery/gauge4",
+			"rotateY": 90,
+			"offsetX": -0.4
+		},
+		"*-manifold-south": {
+			"base": "game:block/devastation/machinery/gauge4",
+			"rotateY": 0,
+			"offsetZ": -0.4
+		},
+		"*-manifold-west": {
+			"base": "game:block/devastation/machinery/gauge4",
+			"rotateY": 270,
+			"offsetX": 0.4
+		},
+		"*-valve-north": {
+			"base": "game:block/devastation/machinery/valve2",
+			"rotateY": 180,
+			"offsetZ": 0.4
+		},
+		"*-valve-east": {
+			"base": "game:block/devastation/machinery/valve2",
+			"rotateY": 90,
+			"offsetX": -0.4
+		},
+		"*-valve-south": {
+			"base": "game:block/devastation/machinery/valve2",
+			"rotateY": 0,
+			"offsetZ": -0.4
+		},
+		"*-valve-west": {
+			"base": "game:block/devastation/machinery/valve2",
+			"rotateY": 270,
+			"offsetX": 0.4
+		},
+		"*-sightglass-north": {
+			"base": "game:block/devastation/machinery/sightglass2",
+			"rotateY": 180,
+			"offsetZ": 0.4
+		},
+		"*-sightglass-east": {
+			"base": "game:block/devastation/machinery/sightglass2",
+			"rotateY": 90,
+			"offsetX": -0.4
+		},
+		"*-sightglass-south": {
+			"base": "game:block/devastation/machinery/sightglass2",
+			"rotateY": 0,
+			"offsetZ": -0.4
+		},
+		"*-sightglass-west": {
+			"base": "game:block/devastation/machinery/sightglass2",
+			"rotateY": 270,
+			"offsetX": 0.4
+		}
+	},
+	"textures": {
+		"bituminous": {
+			"base": "game:block/coal/bituminous"
+		},
+		"copper1": {
+			"base": "game:block/metal/tarnished/tarnished-copper"
+		},
+		"plainoak": {
+			"base": "game:block/wood/debarked/oak"
+		},
+		"quartz": {
+			"base": "game:block/glass/quartz"
+		},
+		"tempglow": {
+			"base": "game:block/glass/smoky"
+		},
+		"tinbronze": {
+			"base": "game:block/metal/tarnished/tarnished-bronze"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-gauges-north"
+		],
+		"decorative": [
+			"*-gauges-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"particlePropertiesByType": {
+		"*-valve-*": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": 225,
+						"var": 20
+					},
+					{
+						"avg": 110,
+						"var": 30
+					}
+				],
+				"opacityEvolve": {
+					"transform": "quadratic",
+					"factor": -16
+				},
+				"gravityEffect": {
+					"avg": -0.01,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.08
+					},
+					{
+						"avg": -0.3,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0.08
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.06
+					},
+					{
+						"avg": 0.25,
+						"var": 0.08
+					},
+					{
+						"avg": 0,
+						"var": 0.06
+					}
+				],
+				"quantity": {
+					"avg": 0.04,
+					"var": 0
+				},
+				"size": {
+					"avg": 0.3,
+					"var": 0.09999999999999999
+				},
+				"sizeEvolve": {
+					"transform": "linear",
+					"factor": 1.2
+				},
+				"particleModel": "Quad",
+				"lifeLength": {
+					"avg": 1.4,
+					"var": 0.35
+				},
+				"selfPropelled": true
+			}
+		]
+	}
+}

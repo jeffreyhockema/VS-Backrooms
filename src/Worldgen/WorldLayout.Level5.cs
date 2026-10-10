@@ -51,6 +51,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL5Lift = 0x5E08;
     private const ulong SaltL5End = 0x5E09;
     private const ulong SaltL5Dining = 0x5E0A;
+    /// <summary>The boiler bays' gauges, tanks and levers, and their scalding sumps (vanilla machinery and boiling water).</summary>
+    private const ulong SaltL5Fitting = 0x1E03;
 
     private enum HotelZone { Wing, Lobby, Boiler, Beverly, Dining }
 
@@ -223,6 +225,8 @@ public sealed partial class WorldLayout
                         tile.ExitSign = staffStairs;
                         // Now and then a locked door is not a guest room's at all: a cyan door marked POOL, onto the Poolrooms
                         if (locked && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltL5Room + 37)) < 1 / 120.0) tile.Pattern = WallPattern.PoolDoor;
+                        // ...or the wooden FUN doors, onto Level Fun
+                        else if (locked && IsFunHotelDoor(roomX, roomZ)) tile.Pattern = WallPattern.FunDoor;
                         break;
 
                     case HotelCell.Room:
@@ -655,6 +659,59 @@ public sealed partial class WorldLayout
         else foreach (int i in Passages(north)) ToAisle(i, 1);
         if (Boiler(mx, mz + 1)) { ToAisle(15, MacroSize - 1); ToAisle(16, MacroSize - 1); }
         else foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ToAisle(i, MacroSize - 1);
+        FitBoilerBays(b, mx, aisle0, aisle1);
+    }
+
+    /// <summary>
+    /// The machinery of the bays, behind the bars (after the ways through are cleared, and from its own salt, so
+    /// nothing else moves): gauges and valves against the bay walls, pressure tanks, the furnaces' damper levers, and
+    /// here and there a sump of scalding water let into the floor against the back wall, steaming.
+    /// </summary>
+    private void FitBoilerBays(Builder b, int mx, int aisle0, int aisle1)
+    {
+        for (int lz = 2; lz < MacroSize - 1; lz++)
+        {
+            if (lz >= aisle0 - 1 && lz <= aisle1 + 1) continue;
+            for (int lx = 1; lx < MacroSize - 1; lx++)
+            {
+                ref Tile tile = ref b.At(lx, lz);
+                if (tile.Kind != TileKind.Floor || !tile.Sealed || tile.Variant != 0 || tile.SupplyBox) continue;
+                int gx = mx * MacroSize + lx;
+                int inBay = Hashing.Mod(gx, 6);
+                bool deep = lz <= 4 || lz >= MacroSize - 4;
+                bool backRow = lz == 2 || lz == MacroSize - 2;
+                ArchPier toAisle = lz < 16 ? ArchPier.South : ArchPier.North;
+                ulong h = Hashing.Hash(seed, gx, lz, SaltL5Fitting);
+                double r = Hashing.Unit(h);
+                if (inBay == 3 && backRow && r < 0.35)
+                {
+                    // A sump one block deep against the back wall, with floor all round it: boiling water, never
+                    // beside open air at its own level, so it stays where it is
+                    tile.Kind = TileKind.Water;
+                    continue;
+                }
+                if (inBay is 1 or 5 && r < 0.25)
+                {
+                    // Against the bay wall, facing across the bay
+                    tile.Variant = Props.GaugeFrame;
+                    tile.Pier = inBay == 1 ? ArchPier.East : ArchPier.West;
+                    tile.Stack = (byte)((h >> 24) % 4);
+                }
+                else if (inBay == 5 && deep && r < 0.75)
+                {
+                    // The furnace's damper and feed levers beside it
+                    tile.Variant = Props.FloorLever;
+                    tile.Pier = toAisle;
+                    tile.Stack = (byte)((h >> 24) & 1);
+                }
+                else if (inBay is 2 or 3 or 4 && !deep && r < 0.12)
+                {
+                    tile.Variant = Props.PressureTank;
+                    tile.Pier = toAisle;
+                    tile.Stack = (byte)((h >> 24) & 1);
+                }
+            }
+        }
     }
 
     private static void ClearForWalking(ref Tile tile)

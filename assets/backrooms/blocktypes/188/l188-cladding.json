@@ -1,0 +1,287 @@
+// Level 188: the courtyard façade, pale warm render (band: a floor line; streak: rain below a sill); the side is the courtyard face
+{
+	"code": "l188-cladding",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"band",
+				"streak"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l188-cladding-plain-north": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/wall-room"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-plain-east": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/wall-room"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-plain-south": {
+			"north": {
+				"base": "block/188/wall-room"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-plain-west": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/wall-room"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-band-north": {
+			"north": {
+				"base": "block/188/cladding-band"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/wall-room"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-band-east": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/cladding-band"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/wall-room"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-band-south": {
+			"north": {
+				"base": "block/188/wall-room"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/cladding-band"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-band-west": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/wall-room"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/cladding-band"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-streak-north": {
+			"north": {
+				"base": "block/188/cladding-streak"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/wall-room"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-streak-east": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/cladding-streak"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/wall-room"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-streak-south": {
+			"north": {
+				"base": "block/188/wall-room"
+			},
+			"east": {
+				"base": "block/188/cladding-plain"
+			},
+			"south": {
+				"base": "block/188/cladding-streak"
+			},
+			"west": {
+				"base": "block/188/cladding-plain"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		},
+		"l188-cladding-streak-west": {
+			"north": {
+				"base": "block/188/cladding-plain"
+			},
+			"east": {
+				"base": "block/188/wall-room"
+			},
+			"south": {
+				"base": "block/188/cladding-plain"
+			},
+			"west": {
+				"base": "block/188/cladding-streak"
+			},
+			"up": {
+				"base": "block/188/cladding-plain"
+			},
+			"down": {
+				"base": "block/188/cladding-plain"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-cladding-plain-north"
+		],
+		"backrooms": [
+			"l188-cladding-plain-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

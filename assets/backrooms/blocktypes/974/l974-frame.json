@@ -1,0 +1,164 @@
+// Level 974: an empty photo frame (rel 2) on the wall behind it (the suffix is the way it faces)
+{
+	"code": "l974-frame",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"white",
+				"gold"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-frame-white-north": {
+			"base": "backrooms:block/974/l974-frame-white"
+		},
+		"l974-frame-white-east": {
+			"base": "backrooms:block/974/l974-frame-white",
+			"rotateY": 270
+		},
+		"l974-frame-white-south": {
+			"base": "backrooms:block/974/l974-frame-white",
+			"rotateY": 180
+		},
+		"l974-frame-white-west": {
+			"base": "backrooms:block/974/l974-frame-white",
+			"rotateY": 90
+		},
+		"l974-frame-gold-north": {
+			"base": "backrooms:block/974/l974-frame-gold"
+		},
+		"l974-frame-gold-east": {
+			"base": "backrooms:block/974/l974-frame-gold",
+			"rotateY": 270
+		},
+		"l974-frame-gold-south": {
+			"base": "backrooms:block/974/l974-frame-gold",
+			"rotateY": 180
+		},
+		"l974-frame-gold-west": {
+			"base": "backrooms:block/974/l974-frame-gold",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-frame-white-north"
+		],
+		"backrooms": [
+			"l974-frame-white-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l974-frame-white-north": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1
+		},
+		"l974-frame-white-east": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-frame-white-south": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-frame-white-west": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-frame-gold-north": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1
+		},
+		"l974-frame-gold-east": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-frame-gold-south": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-frame-gold-west": {
+			"x1": 0.18,
+			"y1": 0.12,
+			"z1": 0.92,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
+}

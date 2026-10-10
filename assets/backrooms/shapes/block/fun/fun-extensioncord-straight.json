@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cord": "backrooms:block/fun/cord"
+	},
+	"elements": [
+		{
+			"name": "Cord",
+			"from": [
+				7.6,
+				0,
+				0
+			],
+			"to": [
+				8.4,
+				0.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cord",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						16
+					]
+				}
+			}
+		}
+	]
+}

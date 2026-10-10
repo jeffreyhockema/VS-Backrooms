@@ -1967,74 +1967,411 @@ def deathmoth(female):
 
 
 # ======================================================================== Smiler
-# "A long smile with multiple sharp teeth, and white glowing eyes"; its body, if it has one, "cannot be seen", though
-# some say "non-human, alien-like bodies, with arms and legs bent in unnatural ways".
+# Entity 3. "A long smile with multiple sharp teeth, and white glowing eyes"; "reflective eyes and teeth gleaming in the
+# dark"; whatever else it is "cannot be seen with the human eye", though some report "non-human, alien-like bodies,
+# with arms and legs bent in unnatural ways" (Wikidot). The Fandom canon calls it amorphous: a face organ (the
+# Ardenti risu, the "burning smile") over a body of Nigrum ignem, "black fire", an unidentified spectral substance.
+# Design brief: in the dark it is only a grin and two eyes floating where a head should be; the grin is the identity.
+# So the face is all that glows, and it is built to read from any angle: 33 separate teeth on a crescent that runs
+# ear to ear, twice as wide as the skull, its ends curling up level with the eyes, the rows interlocking; behind them
+# a second row that shows only when the jaw drops. The eyes are narrow white almonds, slanted down to the nose, no
+# pupils. Everything else is near-black with a cold violet sheen, so in torchlight (which it never enters) or close up
+# you see what holds the face up: a skull like a hood with black flame licking off the back, a long neck craned
+# forward, a waist too thin to hold anything, high bony shoulders, arms that hang to the ankles with the elbows bent
+# backwards, hands of three long fingers, legs whose knees bend the wrong way and end on points, and from the hips
+# down the body comes apart into tatters of black smoke. It glides: the legs trail, the face stays level as if on
+# rails. About 31 px tall (1.95 blocks), the grin 9.6 px wide at 27-29 px.
 
-def sm_eye(ctx):
-    fill(ctx, (250, 250, 246), 0.02, face_shade=False)
-    if ctx.face == "west":
-        rect(ctx, 0.0, 0.0, 1.0, 0.2, (222, 222, 216))
+SM_BLACK = (13, 11, 16)        # the body: near-black with a cold violet cast
+SM_SHEEN = (34, 30, 44)        # ... the oily sheen where light catches it
+SM_DEEP = (4, 3, 6)            # eye sockets, the throat, the deepest folds
+SM_SMOKE = (17, 15, 21)        # the tatters, a hair lighter so they part from the body in light
+SM_MAW = (30, 6, 12)           # the inside of the mouth, wet and dark red (only in light)
+SM_TOOTH = (238, 234, 218)     # the teeth: ivory at the root ...
+SM_TIP = (255, 255, 250)       # ... white at the tip
+SM_EYE = (255, 255, 252)
+SM_EYE_RIM = (214, 226, 236)   # a cold edge to the eyes
+
+GRIN_W = 4.8                   # the grin's half-width (px from the middle)
 
 
-def sm_teeth(ctx):
-    """Rows of narrow pointed teeth on black."""
-    fill(ctx, (10, 6, 8), 0.0, face_shade=False)
-    if ctx.face not in ("west", "east"):
-        return
-    px = ctx.img.load()
-    teeth = max(6, ctx.w // 2)
-    for i in range(teeth):
-        x0 = ctx.x + int(i * ctx.w / teeth)
-        width = max(1, int(ctx.w / teeth) - 0)
-        for yy in range(ctx.h):
-            # Upper teeth point down, lower teeth point up, meeting in a jagged line
-            depth = yy / max(1, ctx.h - 1)
-            for xx in range(width):
-                centre = abs((xx + 0.5) / width - 0.5) * 2
-                upper = depth < 0.55 and centre < 1 - depth / 0.55
-                lower = depth > 0.45 and centre < (depth - 0.45) / 0.55
-                if upper or lower:
-                    px[min(x0 + xx, ctx.x + ctx.w - 1), ctx.y + yy] = (246, 242, 226, 255)
+def sm_gum(z):
+    """The upper gum line: a crescent rising from 27.55 in the middle to 29.2 at the ends (level with the eyes)."""
+    return 27.55 + 0.072 * z * z
+
+
+def sm_face_x(z):
+    """How far back the grin sits: it wraps round the front of the head and on past its sides."""
+    return -2.3 + 0.062 * z * z
+
+
+def sm_upper_len(z):
+    return 1.05 - 0.55 * (abs(z) / GRIN_W) ** 1.5
+
+
+def sm_lower_len(z):
+    return 0.95 - 0.5 * (abs(z) / GRIN_W) ** 1.5
+
+
+def sm_lower_base(z):
+    """The lower teeth's roots: as far below the gum as both rows are long, less the overlap where they interlock."""
+    return sm_gum(z) - (sm_upper_len(z) + sm_lower_len(z) - 0.32)
+
+
+def sm_dark(ctx, base=SM_BLACK, var=0.1):
+    """Not skin: a matte black that drinks the light, with slow swirls of a cold sheen like oil on the surface."""
+    fill(ctx, base, var)
+    blotch(ctx, SM_SHEEN, 2, 1.0, 3.0, 0.35 if ctx.face == "up" else 0.22)
+    blotch(ctx, SM_DEEP, 1, 1.0, 3.0, 0.5)
+    speckle(ctx, mix(base, SM_SHEEN, 0.6), 0.03)
 
 
 def sm_body(ctx):
-    fill(ctx, (9, 8, 10), 0.3, face_shade=False)
+    sm_dark(ctx)
+
+
+def sm_chest(ctx):
+    """A ribcage too narrow for lungs: ribs and a spine show as faint ridges under the black."""
+    sm_dark(ctx)
+    if ctx.face in ("north", "south", "west"):
+        for v in (0.18, 0.34, 0.5, 0.66):
+            line(ctx, 0.05, v, 0.95, v + 0.06, SM_SHEEN, 0.3)
+            line(ctx, 0.05, v + 0.06, 0.95, v + 0.12, SM_DEEP, 0.45)
+    if ctx.face == "west":
+        line(ctx, 0.5, 0.0, 0.5, 0.8, SM_DEEP, 0.6)                          # the sternum's hollow
+    elif ctx.face == "east":
+        for v in (0.1, 0.3, 0.5, 0.7, 0.9):
+            rect(ctx, 0.35, v, 0.65, v + 0.08, SM_SHEEN)                      # the knuckles of the spine
+
+
+def sm_limb(ctx):
+    """Long thin limbs: a sheen down the leading edge, a dark band at each end where they bend."""
+    sm_dark(ctx)
+    if ctx.face in ("north", "south", "west", "east"):
+        texrow(ctx, 0, 0, -1, SM_DEEP, 0.7)
+        texrow(ctx, -1, 0, -1, SM_DEEP, 0.7)
+        if ctx.face == "west":
+            line(ctx, 0.5, 0.1, 0.5, 0.9, SM_SHEEN, 0.4)
+
+
+def sm_finger(ctx):
+    """A finger as long as a hand, its last joint a dull grey claw."""
+    sm_dark(ctx, SM_BLACK, 0.06)
+    if ctx.face in ("north", "south", "west", "east"):
+        texrow(ctx, ctx.h // 3, 0, -1, SM_DEEP, 0.7)                        # the knuckle
+        for ty in range(ctx.h - 2, ctx.h):
+            texrow(ctx, ty, 0, -1, (52, 48, 58))                             # the claw
+        texrow(ctx, -1, 0, -1, (72, 68, 80))
+
+
+def sm_skull(ctx):
+    """The skull: a hood of black with deep sockets under a heavy brow where the eyes sit; nothing else on the face."""
+    sm_dark(ctx, SM_BLACK, 0.06)
+    if ctx.face == "west":
+        w, h = ctx.w, ctx.h
+        for ty in range(h // 3, h * 3 // 4):                                 # the sockets, wide and deep
+            texrow(ctx, ty, 0, w // 2 - 2, SM_DEEP, 0.85)
+            texrow(ctx, ty, w // 2 + 1, w - 1, SM_DEEP, 0.85)
+        texrow(ctx, h // 3 - 1, 0, w - 1, SM_SHEEN, 0.5)                     # the brow ridge catching light
+        for ty in range(h * 3 // 4, h):
+            texrow(ctx, ty, 0, w - 1, SM_DEEP, 0.6)                          # the shadow over the grin
+    elif ctx.face == "up":
+        line(ctx, 0.2, 0.5, 1.0, 0.5, SM_SHEEN, 0.35)                         # a seam over the crown
+
+
+def sm_throat(ctx):
+    """The mouth's inside: wet, dark red going to black (in the dark, nothing at all)."""
+    if ctx.face not in ("west", "up", "down"):
+        fill(ctx, SM_DEEP, 0.1, face_shade=False)
+        return
+    fill(ctx, SM_MAW, 0.15, face_shade=False)
+    blotch(ctx, SM_DEEP, 2, 1.0, 3.0, 0.7)
+    if ctx.face == "west":
+        speckle(ctx, mix(SM_MAW, (120, 50, 60), 0.5), 0.05)                  # wet
+
+
+def sm_jaw(ctx):
+    sm_dark(ctx, SM_BLACK, 0.06)
+    if ctx.face == "up":
+        fill(ctx, SM_MAW, 0.15, face_shade=False)                             # the floor of the mouth
+        blotch(ctx, SM_DEEP, 1, 1.0, 2.5, 0.6)
+    elif ctx.face == "west":
+        texrow(ctx, 0, 0, -1, SM_DEEP)
+
+
+def sm_cheek(ctx):
+    """The face torn wide to hold the grin: a black web stretched out behind its ends, raw-dark along the seam."""
+    sm_dark(ctx, SM_BLACK, 0.06)
+    if ctx.face in ("west", "up", "down"):
+        blotch(ctx, SM_MAW, 1, 1.0, 2.0, 0.3)
+    if ctx.face in ("north", "south", "west", "east"):
+        line(ctx, 0.0, 0.5, 1.0, 0.5, SM_DEEP, 0.6)                          # the stretch line
+
+
+def sm_tooth(ctx):
+    """A narrow tooth: ivory at the root, white at the tip (the tip is at the bottom of an upper tooth, the top of a
+    lower one). It all glows, so in the dark the rows read as one jagged white crescent."""
+    up = ctx.part.tag.get("upper", True)
+    side = ctx.face in ("north", "south")
+    fill(ctx, mix(SM_TOOTH, (150, 140, 120), 0.4) if side else SM_TOOTH, 0.03, face_shade=False)  # flanks a shade darker,
+    if ctx.face in ("west", "east"):                                                              # so seen edge-on the teeth stay apart
+        texrow(ctx, ctx.h - 1 if up else 0, 0, -1, SM_TIP)
+        texrow(ctx, 0 if up else ctx.h - 1, 0, -1, mix(SM_TOOTH, (190, 180, 160), 0.6))
+    elif ctx.face == ("down" if up else "up"):
+        fill(ctx, SM_TIP, 0.0, face_shade=False)
+
+
+def sm_eye(ctx):
+    """A narrow slit of white light with no pupil; the rim a little colder."""
+    fill(ctx, SM_EYE, 0.0, face_shade=False)
+    if ctx.face in ("west", "up", "down", "north", "south", "east"):
+        texrow(ctx, -1, 0, -1, SM_EYE_RIM, 0.6)
+    if ctx.face == "west":
+        # A plain slit of light: no pupil, no iris (corners cut to shape it read as pupils at a distance). The inner
+        # end is a touch colder, so the slant reads toward the nose.
+        inner = 0 if ctx.part.tag.get("side", "L") == "L" else ctx.w - 1
+        texel(ctx, inner, 0, SM_EYE_RIM, 0.5)
+
+
+def sm_smoke(ctx, top=False):
+    """Black fire: a flat tatter of the body's substance, darker toward its end, the end cut ragged to nothing."""
+    fill(ctx, SM_SMOKE, 0.12, face_shade=False)
+    if ctx.face in ("north", "south", "west", "east"):
+        px = ctx.img.load()
+        for yy in range(ctx.h):
+            t = yy / max(1, ctx.h - 1)
+            t = 1 - t if top else t
+            for xx in range(ctx.w):
+                old = px[ctx.x + xx, ctx.y + yy]
+                px[ctx.x + xx, ctx.y + yy] = mix(old[:3], SM_DEEP, 0.6 * t) + (255,)
+        vlines(ctx, SM_SHEEN, 3, start=ctx.rng.randint(0, 2), alpha=0.18, jitter=1)
+        # The end burns away into tongues: cut deepest at the edges, unevenly, with holes burnt through above
+        half = max(1.0, (ctx.w - 1) / 2)
+        for xx in range(ctx.w):
+            edge = abs(xx - half) / half if ctx.w > 2 else ctx.rng.random()
+            cut = int(ctx.h * (0.08 + 0.4 * edge ** 1.5) + ctx.rng.uniform(0, ctx.h * 0.22))
+            for k in range(min(ctx.h - 2, cut)):
+                clear(ctx, xx, k if top else ctx.h - 1 - k)
+            for k in range(cut, int(ctx.h * 0.7)):
+                if ctx.rng.random() < 0.12 * (1 - k / ctx.h):
+                    clear(ctx, xx, k if top else ctx.h - 1 - k)
+
+
+def sm_flame(ctx):
+    sm_smoke(ctx, top=True)
 
 
 def smiler():
-    m = Model("smiler", atlas_width=48, seed=3)
-    # A body you are not meant to see: almost black, thin, its joints bent wrong
-    torso = m.part("Torso", (-1.25, 16, -2.5), (2.5, 12, 5), pivot=(0, 16, 0), rest=(0, 0, 10), paint=sm_body)
-    head = m.part("Head", (-2.5, 28, -3.5), (5, 5, 7), pivot=(0, 28, 0), parent=torso, rest=(0, 0, -8), paint=sm_body)
-    for z, side in ((0.6, "L"), (-1.6, "R")):
-        m.part("Eye" + side, (-2.7, 31.2, z), (0.4, 1.2, 1.0), pivot=(-2.5, 31.8, z + 0.5), parent=head, rest=(0, 0, 0), paint=sm_eye, glow=255)
-    # The grin: far wider than the face, curling up at the ends
-    m.part("Grin", (-2.75, 28.6, -3.0), (0.4, 1.8, 6), pivot=(-2.55, 29.5, 0), parent=head, paint=sm_teeth, glow=235)
-    m.part("GrinL", (-2.7, 29.6, 3.0), (0.4, 1.4, 1.6), pivot=(-2.5, 30, 3.0), parent=head, rest=(18, 0, 0), paint=sm_teeth, glow=235)
-    m.part("GrinR", (-2.7, 29.6, -4.6), (0.4, 1.4, 1.6), pivot=(-2.5, 30, -3.0), parent=head, rest=(-18, 0, 0), paint=sm_teeth, glow=235)
-    for z, side, sign in ((2.5, "L", 1), (-3.5, "R", -1)):
-        arm = m.part("Arm" + side, (-0.5, 15, z), (1, 12, 1), pivot=(0, 27, z + 0.5), parent=torso, rest=(sign * -35, 0, -30), paint=sm_body)
-        fore = m.part("Forearm" + side, (-0.5, 3, z), (1, 12, 1), pivot=(0, 15, z + 0.5), parent=arm, rest=(0, 0, 120), paint=sm_body)
-        m.part("Claw" + side, (-0.5, -2, z), (1, 5, 1), pivot=(0, 3, z + 0.5), parent=fore, rest=(0, 0, -60), paint=sm_body)
-        leg = m.part("Leg" + side, (-0.5, 4, z * 0.5), (1, 12, 1), pivot=(0, 16, z * 0.5 + 0.5), parent=torso, rest=(0, 0, -50), paint=sm_body)
-        m.part("Shin" + side, (-0.5, -8, z * 0.5), (1, 12, 1), pivot=(0, 4, z * 0.5 + 0.5), parent=leg, rest=(0, 0, 95), paint=sm_body)
+    m = Model("smiler", atlas_width=64, seed=3)
 
-    m.animation("idle", 120, cycle(120, 8, lambda p: {
-        "Head": pose((s(p, 10), s(p, 6, 0.3), 0)),
-        "Grin": pose(s=(1, 1, 1 + 0.06 * max(0.0, math.sin(TAU * p)))),
-        "Torso": pose((0, 0, s(p, 3)), (0, s(p, 0.6), 0)),
-    }))
-    m.animation("walk", 40, cycle(40, 8, lambda p: {
-        "Torso": pose((s(p, 6), 0, 14), (0, s(p * 2, 0.4), 0)),
-        "LegL": pose((0, 0, s(p, 25))), "LegR": pose((0, 0, -s(p, 25))),
-        "ArmL": pose((0, 0, -s(p, 20))), "ArmR": pose((0, 0, s(p, 20))),
-        "Head": pose((s(p, 8), 0, 0)),
-    }))
-    m.animation("attack", 18, {
-        0: {"Head": pose(), "Torso": pose(), "ArmL": pose(), "ArmR": pose(), "Grin": pose(s=(1, 1, 1))},
-        6: {"Head": pose((0, 0, -10)), "Torso": pose((0, 0, -12)), "ArmL": pose((0, 0, -60)), "ArmR": pose((0, 0, -60)), "Grin": pose(s=(1, 1.8, 1.1))},
-        10: {"Head": pose((0, 0, 20)), "Torso": pose((0, 0, 25), (-3, 0, 0)), "ArmL": pose((0, 0, -10)), "ArmR": pose((0, 0, -10)), "Grin": pose(s=(1, 2.2, 1.1))},
-        17: {"Head": pose(), "Torso": pose(), "ArmL": pose(), "ArmR": pose(), "Grin": pose(s=(1, 1, 1))},
+    # ---- The body: a thin black thing holding the face up ----
+    # The torso chain leans forward 4 + 8 and the neck cranes 24 further; the head takes 32 back, so the face hangs in
+    # front of the shoulders, tipped down a touch (looking up through its brow).
+    hips = m.part("Hips", (-1.1, 12.4, -1.6), (2.2, 2.2, 3.2), pivot=(0, 13.5, 0), paint=sm_body)
+    waist = m.part("Waist", (-0.6, 14.5, -0.8), (1.2, 3.3, 1.6), pivot=(0, 14.6, 0), parent=hips, rest=(0, 0, 6), paint=sm_limb)
+    chest = m.part("Chest", (-1.15, 17.6, -1.8), (2.3, 5.4, 3.6), pivot=(0, 17.8, 0), parent=waist, rest=(0, 0, 12), paint=sm_chest)
+    m.part("Collar", (-0.75, 22.4, -3.1), (1.5, 1.0, 6.2), pivot=(0, 22.9, 0), parent=chest, paint=sm_limb)
+    neck = m.part("Neck", (-0.5, 22.6, -0.5), (1.0, 3.8, 1.0), pivot=(0, 22.8, 0), parent=chest, rest=(0, 0, 30), paint=sm_limb)
+    head = m.part("Head", (-2.0, 27.3, -2.4), (4.0, 3.7, 4.8), pivot=(0, 26.4, 0), parent=neck, rest=(0, 0, -44), paint=sm_skull)
+    m.part("Cranium", (0.8, 27.9, -1.9), (3.0, 3.0, 3.8), pivot=(1.2, 29.0, 0), parent=head, rest=(0, 0, -14), paint=sm_skull)
+    m.part("Throat", (-1.15, 25.2, -2.2), (2.6, 2.2, 4.4), pivot=(0, 26.3, 0), parent=head, paint=sm_throat)
+    jaw = m.part("Jaw", (-2.05, 24.5, -1.9), (3.4, 1.35, 3.8), pivot=(1.2, 25.6, 0), parent=head, paint=sm_jaw)
+    m.part("Chin", (-1.9, 23.7, -1.0), (2.2, 0.9, 2.0), pivot=(-0.8, 24.5, 0), parent=jaw, rest=(0, 0, 6), paint=sm_jaw)
+
+    # The eyes: narrow white almonds slanted down toward the nose (the left one at +z: its outer end up is -X rotation)
+    m.part("EyeL", (-2.5, 29.2, 0.2), (0.35, 0.95, 2.4), pivot=(-2.3, 29.65, 1.4), parent=head, rest=(-19, 8, 0), paint=sm_eye,
+           glow=255, tag={"side": "L"})
+
+    # The cheeks: black webs stretched behind the grin's ends where it runs on past the sides of the skull
+    zc = (2.25 + GRIN_W + 0.3) / 2
+    m.part("CheekL", (sm_face_x(zc) + 0.25, sm_gum(zc) - 0.95, 2.1), (0.45, 1.25, 3.2), pivot=(sm_face_x(zc) + 0.45, sm_gum(zc) - 0.3, zc),
+           parent=head, rest=(-math.degrees(math.atan(0.144 * zc)), math.degrees(math.atan(0.124 * zc)), 0), paint=sm_cheek)
+    m.part("JawCheekL", (sm_face_x(zc) + 0.3, sm_lower_base(zc) - 0.55, 2.0), (0.45, 1.15, 3.2),
+           pivot=(sm_face_x(zc) + 0.5, sm_lower_base(zc), zc), parent=jaw,
+           rest=(-math.degrees(math.atan(0.16 * zc)), math.degrees(math.atan(0.124 * zc)), 0), paint=sm_cheek)
+    m.mirror("EyeL", "EyeR")
+    m.by_name["EyeR"].tag["side"] = "R"
+    m.mirror("CheekL", "CheekR")
+    m.mirror("JawCheekL", "JawCheekR")
+
+    # ---- The grin ----
+    # Every tooth its own cuboid, placed on the crescent, turned to stand square to its curve and to face out from the
+    # arc round the head. The upper teeth hang from the gum line; the lower ones, set between them, rise from the jaw
+    # (and open with it) so the rows interlock. The teeth shorten toward the ends; every fourth upper one is a fang.
+    rng = random.Random(33)
+    upper, lower, inner = [], [], []
+
+    def tooth(name, z, root, length, width, parent, up, back=0.0, depth=0.42):
+        x = sm_face_x(z) + back
+        roll = -math.degrees(math.atan(0.144 * z))
+        yaw = math.degrees(math.atan(0.124 * z))
+        frm = (x, root - length, z - width / 2) if up else (x, root - 0.15, z - width / 2)
+        m.part(name, frm, (depth, length + 0.15, width), pivot=(x + depth / 2, root, z), parent=parent, rest=(roll, yaw, 0),
+               paint=sm_tooth, glow=255 if not back else 210, tag={"upper": up})
+
+    for i in range(17):
+        z = -GRIN_W + i * 0.6
+        fang = i % 4 == 2 and abs(z) < 3.6
+        length = sm_upper_len(z) + rng.uniform(-0.1, 0.1) + (0.32 if fang else 0)
+        tooth(f"ToothU{i}", z, sm_gum(z), length, 0.5 if fang else 0.44, head, True)
+        upper.append(f"ToothU{i}")
+    for i in range(16):
+        z = -GRIN_W + 0.3 + i * 0.6
+        tooth(f"ToothD{i}", z, sm_lower_base(z), sm_lower_len(z) + rng.uniform(-0.1, 0.08), 0.44, jaw, False)
+        lower.append(f"ToothD{i}")
+    # The second rows, set back in the mouth and longer than the first: shut, each hides behind the opposite outer
+    # row; open, they are a deeper set of needles hanging and rising in the dark of the throat
+    for i in range(7):
+        z = -1.8 + i * 0.6
+        root = sm_gum(z) - 0.1
+        tip = sm_lower_base(z) + 0.05
+        tooth(f"InnerU{i}", z, root, (root - tip) * rng.uniform(0.85, 1.0), 0.36, head, True, back=0.55, depth=0.3)
+        inner.append(f"InnerU{i}")
+    for i in range(6):
+        z = -1.5 + i * 0.6
+        root = sm_lower_base(z) + 0.1
+        tip = sm_gum(z) - 0.15
+        tooth(f"InnerD{i}", z, root, (tip - root) * rng.uniform(0.75, 0.95), 0.36, jaw, False, back=0.55, depth=0.3)
+        inner.append(f"InnerD{i}")
+
+    # Black fire licking up off the back of the skull
+    flames = []
+    for i, (z, hgt, lean, spread) in enumerate(((-1.6, 3.2, -38, 14), (-0.55, 4.4, -48, 4), (0.55, 3.8, -44, -5), (1.6, 2.8, -34, -15))):
+        m.part(f"Flame{i}", (1.4, 29.6, z - 0.15), (2.2, hgt, 0.3), pivot=(2.2, 29.8, z), parent="Cranium", rest=(spread, 0, lean), paint=sm_flame)
+        flames.append(f"Flame{i}")
+
+    # ---- Arms: hanging to the ankles, the upper arm forward and the elbow bent backwards ----
+    arm = m.part("ArmL", (-0.45, 13.9, 2.6), (0.9, 9.4, 0.9), pivot=(0, 23.0, 3.05), parent=chest, rest=(-10, 0, -20), paint=sm_limb)
+    fore = m.part("ForearmL", (-0.4, 4.2, 2.65), (0.8, 9.9, 0.8), pivot=(0, 14.0, 3.05), parent=arm, rest=(4, 0, 36), paint=sm_limb)
+    hand = m.part("HandL", (-0.5, 2.6, 2.6), (1.0, 1.7, 0.9), pivot=(0, 4.3, 3.05), parent=fore, rest=(0, 0, -12), paint=sm_limb)
+    for i in range(3):
+        z = 2.62 + i * 0.3
+        length = 3.7 if i == 1 else 3.2                                          # the middle finger longest
+        m.part(f"Finger{i}L", (-0.42, 2.7 - length, z), (0.3, length, 0.26),
+               pivot=(-0.27, 2.65, z + 0.13), parent=hand, rest=((i - 1) * -7, 0, -6 + i * 4), paint=sm_finger)
+    # ---- Legs: knees bent backwards, the shins ending on points ----
+    thigh = m.part("ThighL", (-0.5, 6.6, 0.5), (1.0, 7.4, 1.0), pivot=(0, 13.8, 1.0), parent=hips, rest=(-8, 0, 32), paint=sm_limb)
+    shin = m.part("ShinL", (-0.4, 0.2, 0.6), (0.8, 6.8, 0.8), pivot=(0, 6.9, 1.0), parent=thigh, rest=(6, 0, -62), paint=sm_limb)
+    m.part("FootL", (-0.3, -1.8, 0.68), (0.6, 2.4, 0.64), pivot=(0, 0.4, 1.0), parent=shin, rest=(0, 0, 34), paint=sm_finger)
+    m.mirror("ArmL", "ArmR")
+    m.mirror("ThighL", "ThighR")
+    # Asymmetry: the right arm hangs a little further forward and its elbow bends further
+    m.by_name["ArmR"].rest = (10, 0, -26)
+    m.by_name["ForearmR"].rest = (-4, 0, 42)
+
+    # ---- The body coming apart into smoke below the hips ----
+    tatters = []
+    for i, (frm, size, rest) in enumerate((
+            ((0.8, 1.4, -1.4), (0.3, 12.2, 2.8), (0, 0, -12)),      # behind, nearly to the floor
+            ((0.5, 3.0, -2.3), (0.3, 10.6, 1.8), (-16, 0, -10)),
+            ((0.5, 2.4, 0.5), (0.3, 11.2, 1.8), (16, 0, -11)),
+            ((-0.9, 5.0, 1.4), (2.2, 8.6, 0.3), (20, 0, -4)),       # at the sides, flaring out
+            ((-0.9, 5.8, -1.7), (2.2, 7.8, 0.3), (-20, 0, -4)),
+            ((-1.2, 7.4, -1.0), (0.3, 6.2, 2.0), (0, 0, 8)),        # a short one in front
+            ((0.2, 6.6, 1.5), (1.4, 7.0, 0.3), (28, 0, -16)),       # wisps curling off the back corners
+            ((0.2, 7.2, -1.8), (1.4, 6.4, 0.3), (-28, 0, -16)),
+    )):
+        pivot = (frm[0] + size[0] / 2, 13.6, frm[2] + size[2] / 2)
+        m.part(f"Tatter{i}", frm, size, pivot=pivot, parent=hips, rest=rest, paint=sm_smoke)
+        tatters.append(f"Tatter{i}")
+
+    # ---- Animations ----
+    # A hanging limb swings backward with +Z; an upright part leans forward with +Z; +X tilts toward the left (+z).
+    # The jaw is hinged at the back: +Z drops it. The face is what is seen, so every animation keeps it steady: what
+    # the body does, the head undoes.
+    fingers = [f"Finger{i}{s_}" for i in range(3) for s_ in "LR"]
+
+    def smoke(p, trail=0.0, amp=4.0):
+        """The tatters and the flames flicker like slow black fire, and stream back as it moves."""
+        d = {}
+        for i, n in enumerate(tatters):
+            d[n] = pose((s(p * 2, amp * 0.8, i * 0.17), 0, trail + s(p * 3, amp, i * 0.23)))
+        for i, n in enumerate(flames):
+            d[n] = pose((s(p * 3, amp, i * 0.29), 0, -trail * 0.6 + s(p * 2, amp * 1.2, i * 0.21)), s=(1, 1 + 0.12 * math.sin(TAU * (p * 3 + i * 0.3)), 1))
+        return d
+
+    # Idle, which is also what it does while it is stared at: nothing. It holds still and keeps smiling. The head
+    # drifts into a slow tilt and jerks back once, a finger curls; the jaw parts a hair and closes. Only the black
+    # fire never stops.
+    def idle(p):
+        tilt = ramp(p, 0.05, 0.5, 0.62, 0.63)                   # a slow lean over ... then a twitch back upright
+        breath = math.sin(TAU * p)
+        d = {
+            "Hips": pose((0, 0, 0), (0, 0.15 * breath, 0)),
+            "Chest": pose((0, 0, 0.8 * breath)),
+            "Neck": pose((0, 0, -0.8 * breath)),
+            "Head": pose((14 * tilt, 3 * tilt, 0), (0, -0.15 * breath, 0)),
+            "Jaw": pose((0, 0, 3.5 * ramp(p, 0.68, 0.74, 0.8, 0.88))),
+            "ArmL": pose((0, 0, s(p, 1.2))), "ArmR": pose((0, 0, -s(p, 1.0, 0.2))),
+            "Finger0L": pose((0, 0, 0)), "Finger1L": pose((0, 0, -26 * ramp(p, 0.2, 0.3, 0.4, 0.5))),
+            "Finger2L": pose((0, 0, -20 * ramp(p, 0.26, 0.36, 0.42, 0.52))),
+            "Finger0R": pose((0, 0, -22 * ramp(p, 0.75, 0.82, 0.86, 0.95))), "Finger1R": pose((0, 0, 0)), "Finger2R": pose((0, 0, 0)),
+        }
+        d.update(smoke(p, 0, 4))
+        return d
+
+    m.animation("idle", 120, cycle(120, 24, idle))
+
+    # Walk (also its run, at twice the speed): it glides. The body leans in and sways, the legs trail and drift
+    # without stepping, toes dragging; the arms hang back and swing loose, late; the smoke streams behind. The head
+    # cancels all of it: the grin comes toward you level and smooth.
+    def glide(p):
+        sway = s(p, 3.5)
+        bob = 0.35 * math.sin(TAU * p * 2)
+        d = {
+            "Hips": pose((sway, s(p, 4, 0.1), 0), (0, bob, 0)),
+            "Waist": pose((0, 0, 7)), "Chest": pose((-sway * 0.4, 0, 5)),
+            "Neck": pose((0, 0, -2)),
+            "Head": pose((-sway * 0.6, -s(p, 4, 0.1), -10), (0, -bob, 0)),
+            "ThighL": pose((0, 0, 12 + s(p, 7))), "ThighR": pose((0, 0, 12 - s(p, 7))),
+            "ShinL": pose((0, 0, 10 + s(p, 6, -0.12))), "ShinR": pose((0, 0, 10 - s(p, 6, -0.12))),
+            "FootL": pose((0, 0, 14)), "FootR": pose((0, 0, 14)),
+            "ArmL": pose((-sway * 0.5, 0, 12 + s(p, 6, -0.15))), "ArmR": pose((-sway * 0.5, 0, 12 - s(p, 6, -0.15))),
+            "ForearmL": pose((0, 0, -22 + s(p, 5, -0.3))), "ForearmR": pose((0, 0, -26 - s(p, 5, -0.3))),     # hanging, the wrong bend let out
+            "HandL": pose((0, 0, 8 + s(p, 6, -0.4))), "HandR": pose((0, 0, 8 - s(p, 6, -0.4))),
+        }
+        d.update(smoke(p, 22, 6))
+        return d
+
+    m.animation("walk", 40, cycle(40, 10, glide))
+
+    # Attack (21 frames, 0.7 s; damageAtMs 300 lands on frame 9): the head draws back and the grin splits open,
+    # far wider than a mouth, the second row behind; the arms come up and out; then the whole thing lunges, the arms
+    # rake in, and the jaw slams shut on frame 9. It settles back as if nothing happened, still smiling.
+    atk = ["Hips", "Waist", "Chest", "Neck", "Head", "Jaw", "ArmL", "ArmR", "ForearmL", "ForearmR", "HandL", "HandR"] + fingers + tatters + flames
+    spread = {f: pose((0, 0, 24)) for f in fingers}
+    clutch = {f: pose((0, 0, -40)) for f in fingers}
+    m.animation("attack", 21, {
+        0: full(atk, smoke(0, 0, 4)),
+        4: full(atk, dict({"Waist": pose((0, 0, -6)), "Chest": pose((0, 0, -8)), "Neck": pose((0, 0, -12)), "Head": pose((0, 0, 4)),
+                           "Jaw": pose((0, 0, 28)), "ArmL": pose((-30, 0, -20)), "ArmR": pose((30, 0, -24)),
+                           "ForearmL": pose((0, 0, -20)), "ForearmR": pose((0, 0, -24)), "HandL": pose((0, 0, -10)), "HandR": pose((0, 0, -10))},
+                          **spread, **smoke(0.1, -8, 6))),
+        7: full(atk, dict({"Hips": pose((0, 0, 0), (-1.5, 0, 0)), "Waist": pose((0, 0, 10)), "Chest": pose((0, 0, 12)), "Neck": pose((0, 0, 10)),
+                           "Head": pose((0, 0, -14)), "Jaw": pose((0, 0, 50)),
+                           "ArmL": pose((-24, 0, -96)), "ArmR": pose((24, 0, -100)), "ForearmL": pose((0, 0, -30)), "ForearmR": pose((0, 0, -34)),
+                           "HandL": pose((0, 0, -16)), "HandR": pose((0, 0, -16))}, **spread, **smoke(0.2, 26, 6))),
+        9: full(atk, dict({"Hips": pose((0, 0, 0), (-2.5, 0, 0)), "Waist": pose((0, 0, 14)), "Chest": pose((0, 0, 16)), "Neck": pose((0, 0, 14)),
+                           "Head": pose((0, 0, -22)), "Jaw": pose((0, 0, 2)),
+                           "ArmL": pose((6, 0, -70)), "ArmR": pose((-6, 0, -74)), "ForearmL": pose((0, 0, -46)), "ForearmR": pose((0, 0, -50)),
+                           "HandL": pose((0, 0, -20)), "HandR": pose((0, 0, -20))}, **clutch, **smoke(0.3, 30, 5))),
+        13: full(atk, dict({"Hips": pose((0, 0, 0), (-2.0, 0, 0)), "Waist": pose((0, 0, 10)), "Chest": pose((0, 0, 12)), "Neck": pose((0, 0, 10)),
+                            "Head": pose((0, 0, -16)), "Jaw": pose((0, 0, 6)),
+                            "ArmL": pose((10, 0, -52)), "ArmR": pose((-10, 0, -56)), "ForearmL": pose((0, 0, -40)), "ForearmR": pose((0, 0, -42)),
+                            "HandL": pose((0, 0, -14)), "HandR": pose((0, 0, -14))}, **clutch, **smoke(0.45, 18, 5))),
+        20: full(atk, smoke(0.95, 0, 4)),
+    }, end="Stop")
+
+    # Hurt (not registered by default: it cannot be killed, struck it withdraws): the face jerks back and aside, the
+    # grin snaps shut, and the black fire flares.
+    hurt = ["Waist", "Chest", "Neck", "Head", "Jaw", "ArmL", "ArmR"] + tatters + flames
+    m.animation("hurt", 14, {
+        0: full(hurt, smoke(0, 0, 4)),
+        3: full(hurt, dict({"Waist": pose((0, 0, -8)), "Chest": pose((6, 10, -10)), "Neck": pose((0, 0, -16)), "Head": pose((18, 14, 6)),
+                            "Jaw": pose((0, 0, 0)), "ArmL": pose((-24, 0, 12)), "ArmR": pose((20, 0, 16))}, **smoke(0.2, -20, 12))),
+        8: full(hurt, dict({"Waist": pose((0, 0, -3)), "Chest": pose((2, 4, -4)), "Neck": pose((0, 0, -6)), "Head": pose((6, 4, 2)),
+                            "ArmL": pose((-8, 0, 4)), "ArmR": pose((8, 0, 6))}, **smoke(0.5, -6, 8))),
+        13: full(hurt, smoke(0.9, 0, 4)),
     }, end="Stop")
     return m
 
@@ -2441,374 +2778,1347 @@ def clump_variant_textures():
 
 
 # ======================================================================== The Mangled
-# "A spider-like creature", "a massive black pillar, reaching up far out of sight", made of "faces, merging together
-# into a singular mass"; it lifts people up on tendrils; the noises it makes are human speech. Design brief: not a
-# giant spider but an impossible piece of the landscape that moves. Six irregular pillar limbs, bark-like and
-# tapering, hold a core of merged human faces well above the rooftops, a pillar rising further from it; capture
-# tendrils of nine segments hang beneath, tapering to a few grasping strands. Most faces sleep, eyes closed and
-# slack; a few are open, one screams. Near-black leathery fibre with burnt brown-red undertones; the faces pale, so
-# they come out of the dark. 8 blocks to the top of the pillar, the core at 5 to 6.5; the legs stand within a
-# 4-block footprint so it can walk a street. Unique: there is The Mangled, not a Mangled.
+# Entity 63 (Wikidot, Spectre48 and Nikuchan; art by Poliacci). Rumoured to be "a spider-like creature roughly the size
+# of a house, with a thick smokescreen masking its presence", a "sudden temperature decrease" before it is seen. What
+# the witnesses actually see is a leg: "a massive tree ... the size of a giant redwood. Wait a minute. That isn't a
+# tree - the bark is too black, and it has no branches or leaves"; on camera "a massive black pillar, reaching up far
+# out of sight", which then lifts and is gone, "all that's left is a crater in the middle of the street"; its steps
+# are thunder. Glimpsed once without the fog, its body is "Faces. Merging together into a singular mass - a brain for
+# this unholy thing", and one face apart from the rest, screaming, calling out. It takes people with "a tendril" and
+# lifts them "up into the sky"; its roar is human speech. Fandom's Entity 163 retelling keeps it: "several black limbs
+# are walking ... the craters are just footprints", "a spider the size of a house? A giant tree?".
+#
+# Design brief, after the article's own drawing (Tournesol's sketch: thin jointed black trunks standing in a street,
+# the body lost in cloud, a knot hanging beneath it trailing curled tendrils): a harvestman, not a tarantula. Eight
+# legs rise steeply from a dark body to knees high above it, then drop almost straight to the street as long, knotted,
+# near-black trunks that taper to points (the craters). In fog you see a stand of black trees that do not belong, a
+# crown of knees, and something hanging. The body is a lumpy spider's back of black fibre with a sagging abdomen.
+# Beneath its front hangs the brain: a knot of dark flesh studded with fourteen human faces (two more in the abdomen), modelled, not painted (brows,
+# noses, cheekbones, lips, jaws that open and talk), turned every way, most asleep or moaning, some staring, one
+# looking down at the street; and one apart from the rest on its own lobe, paler, screaming. Seven tendrils hang from
+# the knot and curl outward at their ends; three are long capture tendrils ending in three hooked fingers.
+# Charcoal-black, bark-fibred legs, dull mud at the points; the flesh black with a wet maroon cast and frost-grey
+# where it faces up (the cold); the faces ashen, cold-toned, each a different person.
+#
+# Proportions (model px, drawn at size 1.5): knees at 118-122 (the top, 11.5 blocks drawn), the body 84-108, the face
+# knot 51-76 (4.8-7.1 blocks drawn), the capture tendrils' tips 1-10 px off the street. The feet stand in an ellipse
+# 59 px long by 54 wide (5 blocks wide drawn: a street is 8). Unique: there is The Mangled, not a Mangled.
 
-MG_SKIN = (30, 27, 28)
-MG_FIBRE_DARK = (16, 14, 16)
-MG_FIBRE_LIGHT = (62, 50, 46)
-MG_BURN = (74, 40, 34)
-MG_MAROON = (84, 36, 44)
-MG_FACE = (164, 148, 140)
-MG_FACE_DARK = (118, 102, 98)
-MG_IRIS = (58, 62, 70)
-MG_TEETH = (214, 204, 184)
-MG_MOUTH = (44, 14, 18)
+MG_BLACK = (14, 12, 14)           # the legs: bark too black
+MG_BARK = (24, 21, 22)
+MG_RIDGE = (50, 43, 42)           # the lighter ridges of the fibre
+MG_CRACK = (5, 4, 6)
+MG_MUD = (58, 50, 42)             # the points, from the street
+MG_FLESH = (30, 23, 25)           # the body and the knot
+MG_FLESH_HI = (66, 48, 50)
+MG_WET = (86, 30, 40)             # wet maroon where it is torn or folds
+MG_FROST = (122, 126, 134)        # rime on whatever faces up (it brings the cold)
+MG_SKIN = {"ash": (178, 166, 160), "cold": (156, 160, 170), "warm": (190, 160, 142), "sallow": (176, 166, 132),
+           "grey": (146, 140, 138), "pale": (206, 198, 194)}
+MG_LIP = (122, 86, 90)
+MG_MOUTH = (34, 8, 12)
+MG_THROAT = (12, 2, 4)
+MG_TEETH = (206, 196, 172)
+MG_EYE = (214, 208, 196)
+MG_IRIS = {"brown": (70, 46, 32), "blue": (78, 98, 120), "grey": (96, 100, 104), "green": (74, 88, 60), "milk": (176, 180, 182)}
+
+
+class MgModel(Model):
+    """Packs each part's faces at its own texel density (tag "texel"; 1.0 = the usual 2 texels a pixel): the black
+    flesh, bark and sinew are painted at 1 texel a pixel, like vanilla's creatures, so the faces can keep 2 and the
+    atlas stays 256 x 512."""
+
+    def _pack(self):
+        rects = []
+        for p in self.parts:
+            k = p.tag.get("texel", 0.5 if p.paint in (mg_flesh, mg_bark, mg_knob, mg_tendril) else 1.0)
+            for f in p.faces:
+                w, h = p.face_size(f)
+                pw, ph = max(1, math.ceil(w * rig.TEXEL * k - 1e-6)), max(1, math.ceil(h * rig.TEXEL * k - 1e-6))
+                rects.append((ph, pw, p, f))
+        rects.sort(key=lambda r: (-r[0], -r[1]))
+        width = self.atlas_width * rig.TEXEL
+        x = y = shelf = 0
+        for ph, pw, p, f in rects:
+            if x + pw + 1 > width:
+                x, y, shelf = 0, y + shelf + 1, 0
+            p.uv[f] = (x, y, pw, ph)
+            x += pw + 1
+            shelf = max(shelf, ph)
+        height = y + shelf + 1
+        h2 = 1
+        while h2 < height:
+            h2 *= 2
+        return width, h2
+
+
+def mg_side(ctx):
+    return ctx.face in ("north", "south", "east", "west")
+
+
+def mg_outer(ctx, xx):
+    """For a limb built along -X: how far along it (0 at its root, the +X end; 1 at its -X end) a texel column lies."""
+    u = (xx + 0.5) / ctx.w
+    return u if ctx.face == "north" else 1 - u
 
 
 def mg_bark(ctx):
-    """Charcoal, leathery, fibrous: dark and light fibres run along the limb; cracks across it; burnt undertones."""
-    fill(ctx, MG_SKIN, 0.12)
-    if ctx.face in ("north", "south", "east", "west"):
-        vlines(ctx, MG_FIBRE_DARK, 3, start=0, alpha=0.6, jitter=1)
-        vlines(ctx, MG_FIBRE_LIGHT, 4, start=2, alpha=0.35, jitter=1)
-        hlines(ctx, MG_FIBRE_DARK, 7, start=ctx.rng.randint(0, 6), alpha=0.35)       # ridges and cracks
-    blotch(ctx, MG_BURN, 2, 2, 6, 0.3)
-    blotch(ctx, MG_MAROON, 1, 2, 4, 0.2)
-    speckle(ctx, MG_FIBRE_LIGHT, 0.02)
-
-
-def mg_core(ctx):
-    """The mass between the faces: bark, with more faces half-sunk into it, painted, eyes shut."""
-    mg_bark(ctx)
-    if ctx.face in ("up", "down"):
-        return
-    for _ in range(max(1, ctx.w * ctx.h // 220)):
-        u, v = ctx.rng.uniform(0.0, 0.8), ctx.rng.uniform(0.0, 0.8)
-        w, h = ctx.rng.uniform(0.14, 0.22), ctx.rng.uniform(0.14, 0.22)
-        sunk = ctx.rng.uniform(0.35, 0.7)
-        c = mix(MG_FACE_DARK, MG_SKIN, sunk)
-        rect(ctx, u, v, u + w, v + h, c)
-        rect(ctx, u + w * 0.15, v + h * 0.3, u + w * 0.4, v + h * 0.38, mix(MG_FIBRE_DARK, c, 0.3))     # shut eyes
-        rect(ctx, u + w * 0.6, v + h * 0.3, u + w * 0.85, v + h * 0.38, mix(MG_FIBRE_DARK, c, 0.3))
-        rect(ctx, u + w * 0.35, v + h * 0.7, u + w * 0.65, v + h * 0.76, mix(MG_MOUTH, c, 0.4))        # a slack mouth
-
-
-def mg_face(ctx):
-    """One face of the mass, a human one: pale skin sinking into the black at its edges, eyes shut or open, a mouth
-    closed, slack, or open in a scream. Which, from the part's tags."""
+    """The legs (boxes built along -X): near-black, the fibre running along the limb in ridges and deep cracks,
+    knotted, a burnt red-brown under the black; muddier toward the point (tag "mud": (at the root, at the far end))."""
     t = ctx.part.tag
-    pale = t.get("pale", 0.8)
-    base = mix(MG_FACE_DARK, MG_FACE, pale)
-    if ctx.face != "west":
-        fill(ctx, mix(base, MG_SKIN, 0.55), 0.06)
-        blotch(ctx, MG_SKIN, 1, 2, 4, 0.5)
-        return
-    fill(ctx, base, 0.04)
-    px = ctx.img.load()
-    w, h = ctx.w, ctx.h
-    for yy in range(h):                                                        # sinking into the mass at the edges
-        for xx in range(w):
-            e = min(xx, w - 1 - xx, yy, h - 1 - yy)
-            if e < 3:
-                old = px[ctx.x + xx, ctx.y + yy]
-                px[ctx.x + xx, ctx.y + yy] = mix(old[:3], MG_SKIN, (3 - e) / 3 * 0.85) + (255,)
-    blotch(ctx, shade(base, 0.85), 1, 2, 4, 0.3)
-    ey = int(h * 0.42)
-    for cx in (int(w * 0.32), int(w * 0.68)):
-        if t.get("eyes") == "open":
-            for dx in (-1, 0, 1):
-                texel(ctx, cx + dx, ey, (236, 232, 228))
-                texel(ctx, cx + dx, ey - 1, (236, 232, 228), 0.7)
-            texel(ctx, cx + t.get("look", 0), ey, MG_IRIS)
-            texel(ctx, cx + t.get("look", 0), ey, (8, 8, 10), 0.8)
-            texrow(ctx, ey - 2, cx - 1, cx + 1, shade(base, 0.6), 0.6)              # the lid's crease
-        else:
-            texrow(ctx, ey, cx - 1, cx + 1, shade(base, 0.55), 0.8)                   # shut: a dark line
-            texrow(ctx, ey - 1, cx - 1, cx + 1, shade(base, 0.85), 0.5)
-    texel(ctx, w // 2, int(h * 0.56), shade(base, 0.75), 0.6)                         # the nose's shadow
-    texel(ctx, w // 2 - 1, int(h * 0.56), shade(base, 0.85), 0.4)
-    my = int(h * 0.74)
-    mouth = t.get("mouth", "closed")
-    if mouth == "scream":
-        for yy in range(my - 2, my + 3):
-            texrow(ctx, yy, w // 2 - 3, w // 2 + 2, MG_MOUTH)
-        for tx in range(w // 2 - 3, w // 2 + 3, 2):
-            texel(ctx, tx, my - 2, MG_TEETH)
-            texel(ctx, tx + 1, my + 2, MG_TEETH, 0.8)
-    elif mouth == "open":
-        texrow(ctx, my, w // 2 - 2, w // 2 + 1, MG_MOUTH)
-        texrow(ctx, my + 1, w // 2 - 2, w // 2 + 1, MG_MOUTH, 0.8)
-        texel(ctx, w // 2 - 1, my, MG_TEETH, 0.6)
+    fill(ctx, MG_BARK, 0.14)
+    long = ctx.face in ("north", "south", "up", "down")
+    if long:
+        hlines(ctx, MG_BLACK, 2, start=ctx.rng.randint(0, 1), alpha=0.45)
+        px = ctx.img.load()
+        for yy in range(ctx.rng.randint(0, 2), ctx.h, 3):                                  # ridges, broken
+            for xx in range(ctx.w):
+                if ctx.rng.random() < 0.7:
+                    texel(ctx, xx, yy, MG_RIDGE, 0.22)
+        for _ in range(max(1, ctx.w * ctx.h // 60)):                                      # deep cracks along it
+            x0, y0 = ctx.rng.randint(0, ctx.w - 1), ctx.rng.randint(0, ctx.h - 1)
+            for xx in range(x0, min(ctx.w, x0 + ctx.rng.randint(3, 10))):
+                texel(ctx, xx, y0, MG_CRACK, 0.9)
+                y0 = max(0, min(ctx.h - 1, y0 + ctx.rng.choice((0, 0, 0, -1, 1))))
+        for _ in range(max(0, ctx.w // 16)):                                              # knots: a ring of ridge round a pit
+            cx, cy = ctx.rng.randint(1, max(1, ctx.w - 2)), ctx.rng.randint(1, max(1, ctx.h - 2))
+            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                texel(ctx, cx + dx, cy + dy, MG_RIDGE, 0.6)
+            texel(ctx, cx, cy, MG_CRACK)
+        mud = t.get("mud")
+        if mud is not None:
+            for xx in range(ctx.w):
+                a = mud[0] + (mud[1] - mud[0]) * mg_outer(ctx, xx)
+                if a > 0:
+                    for yy in range(ctx.h):
+                        texel(ctx, xx, yy, MG_MUD, min(0.8, a) * (0.6 + 0.4 * ctx.rng.random()))
     else:
-        texrow(ctx, my, w // 2 - 2, w // 2 + 1, shade(base, 0.5), 0.8)
+        blotch(ctx, MG_CRACK, 1, 1, 2, 0.6)
+    blotch(ctx, (60, 30, 26), max(1, ctx.w * ctx.h // 160), 1.5, 4, 0.2)
+
+
+def mg_knob(ctx):
+    """The swollen joints: the same black, ringed and puckered where the segments meet."""
+    fill(ctx, MG_BARK, 0.16)
+    blotch(ctx, MG_RIDGE, 1, 1, 2.5, 0.3)
+    if mg_side(ctx):
+        for yy in (0, ctx.h - 1):
+            texrow(ctx, yy, 0, ctx.w - 1, MG_CRACK, 0.6)
+        texrow(ctx, ctx.h // 2, 0, ctx.w - 1, MG_RIDGE, 0.35)
+        blotch(ctx, MG_WET, 1, 1, 2.5, 0.35)
+
+
+def mg_flesh(ctx):
+    """The body and the knot: black fibre twisted every way, wet maroon in the folds, rime on the tops; on the big
+    surfaces, the ghosts of more faces sunk in it (tag "ghosts")."""
+    fill(ctx, MG_FLESH, 0.16)
+    w, h = ctx.w, ctx.h
+    for _ in range(max(2, w * h // 40)):                                                     # twisted fibre
+        u, v = ctx.rng.random(), ctx.rng.random()
+        ang = ctx.rng.uniform(-1.2, 1.2) + (math.pi / 2 if ctx.rng.random() < 0.5 else 0)
+        ln = ctx.rng.uniform(2, 6)
+        line(ctx, u, v, u + math.cos(ang) * ln / w, v + math.sin(ang) * ln / h, MG_FLESH_HI if ctx.rng.random() < 0.5 else MG_CRACK, 0.45)
+    blotch(ctx, MG_WET, max(1, w * h // 120), 1.5, 4, 0.35)
+    if ctx.face == "up":
+        speckle(ctx, shade(MG_FROST, 0.75), 0.08)
+        blotch(ctx, MG_FROST, max(1, w * h // 200), 2, 5, 0.18)
+    elif ctx.face == "down":
+        blotch(ctx, MG_WET, 2, 2, 5, 0.3)
+    if ctx.part.tag.get("ghosts") and mg_side(ctx) and w >= 14 and h >= 12:
+        for _ in range(max(1, w * h // 260)):                                                 # sunk faces, eyes shut
+            fw, fh = ctx.rng.randint(7, 10), ctx.rng.randint(9, 12)
+            x0, y0 = ctx.rng.randint(0, w - fw), ctx.rng.randint(0, h - fh)
+            sunk = ctx.rng.uniform(0.55, 0.8)
+            c = mix(MG_SKIN["grey"], MG_FLESH, sunk)
+            for yy in range(fh):
+                for xx in range(fw):
+                    e = math.hypot((xx + 0.5 - fw / 2) / (fw / 2), (yy + 0.5 - fh / 2) / (fh / 2))
+                    if e < 1:
+                        texel(ctx, x0 + xx, y0 + yy, c, 0.9 * (1 - e * e) + 0.1)
+            ey = y0 + int(fh * 0.42)
+            for ex in (x0 + int(fw * 0.28), x0 + int(fw * 0.62)):
+                texrow(ctx, ey, ex, ex + 1, MG_CRACK, 0.7)
+            texrow(ctx, y0 + int(fh * 0.76), x0 + int(fw * 0.38), x0 + int(fw * 0.6), mix(MG_MOUTH, c, 0.3), 0.8)
+            texel(ctx, x0 + fw // 2, y0 + int(fh * 0.6), shade(c, 0.7), 0.6)
+
+
+def mg_tone(ctx):
+    t = ctx.part.tag
+    return mix(MG_SKIN[t.get("tone", "ash")], MG_SKIN["pale"], t.get("pale", 0.0))
+
+
+def mg_skin(ctx, base=None, var=0.05):
+    """Face skin, waxy, mottled; dark flesh creeping in at the edges, more on the faces that look inward."""
+    base = base or mg_tone(ctx)
+    fill(ctx, base, var)
+    blotch(ctx, shade(base, 0.82), 1, 1.5, 3, 0.35)
+    blotch(ctx, mix(base, (150, 120, 140), 0.5), 1, 1, 2.5, 0.2)                              # bruising
+    if ctx.face == "up":
+        speckle(ctx, MG_FROST, 0.1)
+
+
+def mg_mask(ctx):
+    """The face: skin over the front, the sockets, the shadow under the nose, cheek hollows, the mouth (shut: a dark
+    line; open: dark red going black, its size from the part's "gap"), crow's feet and creases on the old ones; the
+    edges sinking into the black flesh. The other sides are the flesh it is sunk in."""
+    t = ctx.part.tag
+    if ctx.face != "west":
+        mg_flesh(ctx)
+        return
+    base = mg_tone(ctx)
+    mg_skin(ctx, base)
+    w, h = ctx.w, ctx.h
+    px = ctx.img.load()
+    H = t["h"]                                                     # the face's height in px without the dropped jaw
+    k = h / (H + t["gap"])                                         # texels per px down the mask
+    # Face-local "frac": +0.5 at the top of the face, -0.5 at its chin (before the jaw drops), in face heights
+    def row(frac):
+        return int(round((0.5 - frac) * H * k))
+    # Eye sockets: a soft shadow round each eye
+    for side in (-1, 1):
+        cx = w / 2 + side * 0.22 * w
+        cy = row(0.0) + 0.5
+        for yy in range(h):
+            for xx in range(w):
+                d = math.hypot((xx + 0.5 - cx) / (0.2 * w), (yy + 0.5 - cy) / (0.16 * H * k))
+                if d < 1:
+                    old = px[ctx.x + xx, ctx.y + yy]
+                    px[ctx.x + xx, ctx.y + yy] = mix(old[:3], shade(base, 0.45), 0.75 * (1 - d * d)) + (255,)
+    # Cheek hollows and the nasolabial folds
+    for side in (-1, 1):
+        line(ctx, 0.5 + side * 0.16, 0.5 - (-0.16) * H * k / h, 0.5 + side * 0.26, 0.5 + 0.34 * H * k / h, shade(base, 0.62), 0.55)
+        blotch_x, blotch_y = w / 2 + side * 0.36 * w, row(-0.18)
+        for yy in range(max(0, blotch_y - 2), min(h, blotch_y + 3)):
+            for xx in range(max(0, int(blotch_x) - 1), min(w, int(blotch_x) + 2)):
+                texel(ctx, xx, yy, shade(base, 0.78), 0.4)
+    # The mouth: the shadow under the upper lip and, when open, the cavity down to the dropped jaw
+    gap = t["gap"]
+    my0 = row(-0.36) - 1
+    my1 = row(-0.36) + int(round((0.8 + gap) * k))
+    mw = int(round(0.24 * w))
+    for yy in range(max(0, my0), min(h, my1 + 1)):
+        depth = (yy - my0) / max(1, my1 - my0)
+        for xx in range(int(w / 2 - mw - (1 if gap > 1 else 0)), int(w / 2 + mw + (1 if gap > 1 else 0))):
+            c = MG_THROAT if gap > 0.4 and 0.25 < depth < 0.85 and abs(xx + 0.5 - w / 2) < mw * 0.8 else MG_MOUTH
+            texel(ctx, xx, yy, c if gap > 0.4 else shade(base, 0.4), 0.95)
+    # Creases: the forehead, crow's feet on the old
+    if t.get("age", 0) > 0.3:
+        for frac in (0.4, 0.33):
+            texrow(ctx, row(frac), int(w * 0.25), int(w * 0.75), shade(base, 0.78), 0.5)
+        for side in (-1, 1):
+            texel(ctx, int(w / 2 + side * 0.42 * w), row(0.03), shade(base, 0.7), 0.6)
+            texel(ctx, int(w / 2 + side * 0.44 * w), row(-0.02), shade(base, 0.7), 0.5)
+    # Tear tracks and wet streaks on the ones awake
+    if t.get("eyes") != "shut":
+        for side in (-1, 1):
+            xx = int(w / 2 + side * 0.24 * w)
+            for yy in range(row(-0.05), row(-0.3)):
+                texel(ctx, xx, yy, shade(base, 0.72), 0.35)
+    # Sinking into the flesh at the edges, raggedly; dark fibres reaching in across the skin
+    for yy in range(h):
+        for xx in range(w):
+            e = min(xx, w - 1 - xx, yy, h - 1 - yy) + ctx.rng.uniform(-0.8, 0.8)
+            sink = t.get("sink", 2.5)
+            if e < sink:
+                old = px[ctx.x + xx, ctx.y + yy]
+                px[ctx.x + xx, ctx.y + yy] = mix(old[:3], MG_FLESH, min(1.0, (sink - e) / sink) * 0.95) + (255,)
+    for _ in range(t.get("veins", 2)):
+        side = ctx.rng.choice(((0, ctx.rng.random()), (1, ctx.rng.random()), (ctx.rng.random(), 0), (ctx.rng.random(), 1)))
+        u1, v1 = side[0] + (0.5 - side[0]) * ctx.rng.uniform(0.25, 0.45), side[1] + (0.5 - side[1]) * ctx.rng.uniform(0.25, 0.45)
+        line(ctx, side[0], side[1], u1, v1, MG_CRACK, 0.6)
+
+
+def mg_brow(ctx):
+    base = mg_tone(ctx)
+    mg_skin(ctx, base)
+    if ctx.face == "west":                                       # the eyebrow
+        hair = mix((40, 32, 30), base, ctx.part.tag.get("grey", 0.0))
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, hair, 0.8)
+        texrow(ctx, ctx.h - 2, 1, ctx.w - 2, hair, 0.4)
+    elif ctx.face == "down":
+        fill(ctx, shade(base, 0.45), 0.05, face_shade=False)
+
+
+def mg_nose(ctx):
+    base = mg_tone(ctx)
+    mg_skin(ctx, base, 0.04)
+    if ctx.face == "down":                                       # nostrils
+        fill(ctx, shade(base, 0.6), 0.05, face_shade=False)
+        texel(ctx, ctx.w // 2, ctx.h // 2 - 1, MG_THROAT)
+        texel(ctx, ctx.w // 2, -(ctx.h // 2), MG_THROAT)
+    elif ctx.face in ("north", "south"):
+        for yy in range(ctx.h):
+            texel(ctx, ctx.w - 1, yy, shade(base, 0.7), 0.5)
+    elif ctx.face == "west":
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, shade(base, 0.8), 0.6)
+        texel(ctx, ctx.w // 2, 1, shade(base, 1.08), 0.5)
+
+
+def mg_cheek(ctx):
+    base = mg_tone(ctx)
+    mg_skin(ctx, base, 0.04)
+    if ctx.face == "down":
+        fill(ctx, shade(base, 0.55), 0.05, face_shade=False)
+
+
+def mg_lid(ctx):
+    """A shut eye: the lid, bulging a little, the lashes a dark line along its foot."""
+    base = mg_tone(ctx)
+    mg_skin(ctx, shade(base, 0.92), 0.04)
+    if ctx.face == "west":
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, (30, 22, 22), 0.9)
+        texrow(ctx, 0, 0, ctx.w - 1, shade(base, 0.7), 0.5)
+
+
+def mg_eye(ctx):
+    """An open eye: a dull white, the iris and a pinprick pupil looking wherever the tag says, a wet glint; red at
+    the corners; the lid's shadow along the top."""
+    t = ctx.part.tag
+    if ctx.face != "west":
+        fill(ctx, shade(MG_EYE, 0.7), 0.05)
+        return
+    fill(ctx, MG_EYE, 0.04, face_shade=False)
+    w, h = ctx.w, ctx.h
+    texel(ctx, 0, h - 1, (170, 96, 96), 0.7)
+    texel(ctx, w - 1, h - 1, (170, 96, 96), 0.7)
+    iris = MG_IRIS[t.get("iris", "brown")]
+    cx = w // 2 + t.get("look", 0)
+    for xx in range(cx - 1, cx + 1):
+        for yy in range(h):
+            texel(ctx, xx, yy, iris)
+    if t.get("iris") != "milk":
+        texel(ctx, cx - 1 + (1 if t.get("look", 0) > 0 else 0), h // 2, (6, 4, 6))
+    texel(ctx, cx - 1, 0, (250, 250, 246), 0.8)
+    texrow(ctx, 0, 0, w - 1, (60, 44, 44), 0.45)
+
+
+def mg_lip(ctx):
+    base = mix(MG_LIP, mg_tone(ctx), 0.35)
+    fill(ctx, base, 0.05)
+    if ctx.face == "west" and ctx.part.tag.get("teeth"):
+        texrow(ctx, ctx.h - 1, 1, ctx.w - 2, MG_TEETH)
+        for xx in range(1, ctx.w - 1, 3):
+            texel(ctx, xx, ctx.h - 1, shade(MG_TEETH, 0.7))
+    if ctx.face == "down":
+        fill(ctx, MG_TEETH if ctx.part.tag.get("teeth") else MG_MOUTH, 0.05, face_shade=False)
+
+
+def mg_jaw(ctx):
+    """The chin and lower lip; teeth along its top when the mouth is open; the throat on its top face."""
+    t = ctx.part.tag
+    base = mg_tone(ctx)
+    if ctx.face == "up":
+        fill(ctx, MG_MOUTH, 0.06, face_shade=False)
+        if t.get("teeth"):
+            texrow(ctx, 0, 0, ctx.w - 1, MG_TEETH, 0.9)
+        return
+    mg_skin(ctx, base)
+    if ctx.face == "west":
+        texrow(ctx, 0, 1, ctx.w - 2, mix(MG_LIP, base, 0.3), 0.85)
+        texrow(ctx, 1, 2, ctx.w - 3, mix(MG_LIP, base, 0.55), 0.5)
+        if t.get("teeth"):
+            for xx in range(2, ctx.w - 2, 2):
+                texel(ctx, xx, 0, MG_TEETH, 0.9)
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, shade(base, 0.7), 0.5)
+        for xx in (0, ctx.w - 1):
+            for yy in range(ctx.h):
+                texel(ctx, xx, yy, MG_FLESH, 0.6)
 
 
 def mg_tendril(ctx):
-    fill(ctx, (26, 22, 24), 0.1)
-    if ctx.face in ("north", "south", "east", "west"):
-        vlines(ctx, MG_FIBRE_DARK, 2, alpha=0.5, jitter=1)                           # sinew along it
-        vlines(ctx, (54, 40, 40), 3, start=1, alpha=0.3, jitter=1)
-    blotch(ctx, MG_MAROON, 1, 1.5, 3, 0.25)
+    """Black sinew, ridged across like a trachea, wet maroon underneath; a frostless grey at the hooked tips."""
+    fill(ctx, (24, 19, 21), 0.12)
+    if mg_side(ctx):
+        hlines(ctx, MG_CRACK, 3, start=ctx.rng.randint(0, 2), alpha=0.5)
+        vlines(ctx, (52, 36, 40), 3, start=1, alpha=0.25, jitter=1)
+    blotch(ctx, MG_WET, 1, 1, 3, 0.3)
+    if ctx.part.tag.get("tip"):
+        for yy in range(ctx.h):
+            a = (yy + 0.5) / ctx.h
+            texrow(ctx, yy, 0, ctx.w - 1, (96, 86, 84), 0.55 * a)
 
 
-def mg_pad(ctx):
-    mg_bark(ctx)
-    if ctx.face == "down":
-        fill(ctx, (40, 34, 28), 0.08)
-
-
-# Faces of the mass: (position on the core's surface as (x, y, z) of the face's centre, yaw to face outward, pitch,
-# roll, size (w, h), eyes, mouth, pale)
-FACES = [
-    ((-9.2, 92, -2), 0, 0, 6, (7, 8), "closed", "closed", 0.85),
-    ((-8.8, 82, 4), 20, -10, -8, (6, 7), "open", "closed", 0.9),
-    ((-6, 98, 7.5), 55, 15, 0, (6, 7), "closed", "slack", 0.7),
-    ((2, 100, 9.4), 90, 20, 12, (7, 8), "closed", "open", 0.75),
-    ((7, 88, 7.5), 130, -5, -15, (6, 6.5), "open", "scream", 0.95),
-    ((9.4, 80, -1), 180, -20, 6, (7, 8), "closed", "closed", 0.6),
-    ((6.5, 96, -7), 230, 10, 0, (6, 7), "closed", "closed", 0.8),
-    ((0, 86, -9.2), 270, 0, -20, (7, 8), "open", "open", 0.85),
-    ((-6, 90, -7.5), 315, 25, 8, (5.5, 6.5), "closed", "closed", 0.65),
-    ((-3, 104.5, -3), 20, 70, 0, (6, 6), "closed", "slack", 0.7),      # one looking up out of the top
-    ((2, 74.2, 2), 200, -70, 0, (6, 6), "open", "scream", 0.9),       # one looking down out of the underside
+# The legs, left side front to back, then the right (mirrored, a little different each): (yaw, root radius, femur
+# length, femur angle (negative: up), tibia length, tibia angle, metatarsus angle (over 90: in under), thickness).
+# Their order of stepping (one limb at a time, never two neighbours in a row) is MG_ORDER.
+MG_LEGS = [
+    (42, 10, 36, -50, 38, 68, 96, 4.4), (78, 9, 32, -56, 37, 79, 97, 4.1), (104, 9, 33, -54, 36, 80, 97, 4.2), (140, 10, 37, -48, 39, 70, 95, 4.6),
+    (319, 10, 37, -49, 39, 68, 95, 4.2), (283, 9, 31, -58, 35, 79, 98, 4.4), (254, 9, 34, -53, 37, 81, 96, 3.9), (218, 11, 35, -50, 38, 71, 97, 5.0),
 ]
+MG_ORDER = (0, 6, 1, 7, 2, 4, 3, 5)
+TIB, META = 0.4, 0.3
+MG_ROOT_Y = 93
 
-# Support limbs: (yaw, upper length, upper pitch (negative is upward), thickness, splay of the shin from vertical)
-LEGS = [(12, 22, -14, 5.0, 7), (70, 26, -8, 4.2, 5), (118, 20, -18, 5.5, 9), (192, 24, -10, 4.6, 6), (250, 28, -6, 4.0, 4), (305, 21, -16, 5.2, 8)]
-TENDRILS = [((-5, 74, -4), 9, 2.4, True), ((5.5, 74, -3.5), 9, 2.2, True), ((0, 74, 5.5), 9, 2.3, True),
-            ((-6.5, 76, 5), 5, 1.6, False), ((7, 76, 4.5), 5, 1.4, False), ((-1, 74, -7), 6, 1.5, False)]
+# The faces of the knot: (yaw: 0 looks forward, 90 to its left; pitch: up; roll; width, height; eyes; mouth; tone;
+# pale; age; iris; look; anguish (degrees the inner brows lift); how far it stands out of the knot)
+MG_FACES = [
+    (-34, -4, 6, 8, 10, "open", "scream", "pale", 0.5, 0.1, "blue", -1, 18, 3.5),     # apart from the others: screaming, calling out
+    (6, 16, -6, 8, 10, "shut", "slack", "ash", 0.0, 0.6, "brown", 0, 6, 0.8),         # the big one in front, asleep and moaning
+    (44, -4, 4, 7, 9, "open", "closed", "warm", 0.0, 0.2, "brown", 1, 0, 0.5),
+    (92, 8, -6, 7, 8.5, "shut", "open", "cold", 0.0, 0.0, "grey", 0, 10, 0.4),
+    (-84, 10, 8, 7, 9, "open", "open", "sallow", 0.0, 0.8, "green", -1, 12, 0.4),
+    (8, -48, 0, 7, 8.5, "open", "slack", "grey", 0.1, 0.4, "milk", 0, 4, 0.6),        # looking down at the street
+    (148, 12, 10, 6.5, 8, "shut", "closed", "ash", 0.0, 0.3, "grey", 0, 0, 0.3),
+    (-142, -2, -10, 6.5, 8, "shut", "slack", "cold", 0.0, 0.9, "grey", 0, 8, 0.3),
+    (-46, 44, 4, 6, 7.5, "shut", "closed", "warm", 0.0, 0.1, "brown", 0, 0, 0.2),    # sunk where the knot meets the stalk
+    (-176, -36, 0, 6.5, 8, "open", "open", "sallow", 0.0, 0.5, "blue", 1, 14, 0.4),
+    (58, 40, -12, 6, 7.5, "open", "closed", "grey", 0.2, 0.7, "grey", -1, 6, 0.3),
+    (40, -38, 14, 6, 7.5, "shut", "slack", "warm", 0.1, 0.0, "brown", 0, 4, 0.3),     # a young one
+    (118, -30, -8, 6, 7.5, "open", "scream", "cold", 0.0, 0.3, "blue", 0, 16, 0.3),
+    (-112, -34, 6, 6, 7.5, "shut", "closed", "ash", 0.0, 0.5, "grey", 0, 0, 0.3),
+]
+# Two more, sunk in the back of the abdomen (the same fields), looking back and down at what follows it
+MG_BODY_FACES = [
+    (180, -18, 4, 7, 8.5, "open", "open", "ash", 0.1, 0.4, "brown", 0, 12, 0.3),
+    (128, -46, -8, 6.5, 8, "shut", "slack", "cold", 0.0, 0.7, "grey", 0, 6, 0.3),
+]
+MG_ABD = ((16.0, 91.0, 0.0), (10.0, 8.5, 11.5))
+MG_GAP = {"closed": 0.0, "slack": 0.7, "open": 1.4, "scream": 2.6}
+MG_KNOT = (-5.0, 63.0, 0.0)
+MG_KNOT_R = (12.0, 12.5, 12.0)
+
+# Tendrils from the underside of the knot: (root x, z, segments, thickness, capture?)
+MG_TENDRILS = [(-12, 0.5, 9, 3.0, True), (-3, 7.5, 9, 2.8, True), (-1, -8, 9, 2.8, True),
+               (-9, -6, 6, 2.0, False), (-8, 6.5, 6, 1.9, False), (4, 3, 7, 2.2, False), (5, -3, 5, 1.8, False)]
+MG_SEG = 5.3
 
 
 def mangled():
-    m = Model("mangled", atlas_width=128, seed=63)
-    # The core: a knot of dark masses from 74 to 106, the pillar above it to 130
-    core = m.part("Core", (-9, 76, -9), (18, 24, 18), pivot=(0, 88, 0), paint=mg_core)
-    m.part("CoreLobeA", (-11, 80, -4), (8, 16, 12), pivot=(-7, 88, 2), parent=core, rest=(6, 10, -8), paint=mg_core)
-    m.part("CoreLobeB", (2, 84, -12), (10, 14, 9), pivot=(7, 90, -7), parent=core, rest=(-8, -12, 10), paint=mg_core)
-    m.part("CoreLobeC", (-5, 72, -6), (12, 7, 12), pivot=(1, 75, 0), parent=core, rest=(4, 20, 6), paint=mg_core)
-    m.part("CoreLobeD", (-4, 98, -5), (11, 9, 10), pivot=(1.5, 102, 0), parent=core, rest=(-10, 30, 8), paint=mg_core)
-    pillar = m.part("Pillar", (-5, 104, -5), (10, 16, 10), pivot=(0, 104, 0), parent=core, rest=(5, 0, 7), paint=mg_core)
-    m.part("PillarTop", (-3.5, 119, -3.5), (7, 12, 7), pivot=(0, 119, 0), parent=pillar, rest=(-7, 20, -5), paint=mg_bark)
-    # The faces, set into the surface, each turned its own way
-    for i, ((x, y, z), yaw, pitch, roll, (fw, fh), eyes, mouth, pale) in enumerate(FACES):
-        m.part(f"Face{i}", (x - 1.6, y - fh / 2, z - fw / 2), (2.2, fh, fw), pivot=(x, y, z), parent=core, rest=(roll, yaw, pitch), paint=mg_face,
-               tag={"eyes": eyes, "mouth": mouth, "pale": pale, "look": (-1, 0, 1)[i % 3]})
-    # Six pillar limbs: up and out from under the core, then down in two tapering segments to a pad on the ground
-    for i, (yaw, la, pitch, thick, splay) in enumerate(LEGS):
-        root = (-7, 78, 0)
-        up = m.part(f"Leg{i}", (root[0] - la, root[1] - thick / 2, root[2] - thick / 2), (la + 4, thick, thick), pivot=root, parent=core,
-                    rest=(0, yaw, pitch), paint=mg_bark)
-        knee_y = root[1] - la * math.sin(math.radians(pitch))
-        kx = root[0] - la
-        t1 = thick * 0.95
-        l1 = 40.0
-        a1 = 90 - splay - pitch                       # the shin's own pitch: nearly vertical, splayed a little out
-        shin1 = m.part(f"Shin{i}", (kx - l1, root[1] - t1 / 2, root[2] - t1 / 2), (l1 + 1.5, t1, t1), pivot=(kx, root[1], root[2]), parent=up,
-                       rest=(0, 0, a1), paint=mg_bark)
-        y1 = knee_y - l1 * math.sin(math.radians(90 - splay))
-        b = 2 * splay + 2                             # the lower shin bends back in past vertical
-        l2 = max(4.0, (y1 - 1.0) / math.sin(math.radians(90 + splay + 2)))
-        t2 = thick * 0.7
-        shin2 = m.part(f"Shank{i}", (kx - l1 - l2, root[1] - t2 / 2, root[2] - t2 / 2), (l2 + 1.0, t2, t2), pivot=(kx - l1, root[1], root[2]), parent=shin1,
-                       rest=(0, 0, b), paint=mg_bark)
-        m.part(f"Pad{i}", (kx - l1 - l2 - 3.5, root[1] - 1.0, root[2] - 3.2), (6.0, 2.6, 6.4), pivot=(kx - l1 - l2, root[1], root[2]), parent=shin2,
-               rest=(0, 0, -(92 + splay)), paint=mg_pad)      # level on the ground
-    # Tendrils from the underside: three long capture tendrils ending in grasping strands, three shorter ones that trail
-    for i, ((x, y, z), n, thick, capture) in enumerate(TENDRILS):
-        prev, top = core, y
+    m = MgModel("mangled", atlas_width=128, seed=63)
+    rng = random.Random(6363)
+
+    # ---- The body: a lumpy spider's back, a sagging abdomen behind ----
+    body = m.part("Body", (-16, 86, -13), (30, 15, 26), pivot=(0, 93, 0), paint=mg_flesh, tag={"ghosts": True})
+    m.part("Carapace", (-12, 98, -10), (22, 8, 20), pivot=(-1, 102, 0), parent=body, rest=(3, 6, -4), paint=mg_flesh, tag={"ghosts": True})
+    m.part("Crest", (-6, 104, -5), (12, 4, 9), pivot=(0, 106, 0), parent=body, rest=(-6, -14, 5), paint=mg_flesh)
+    abd = m.part("Abdomen", (6, 82, -12), (20, 18, 24), pivot=(8, 94, 0), parent=body, rest=(0, 0, 12), paint=mg_flesh, tag={"ghosts": True})
+    m.part("AbdomenTip", (22, 80, -7), (9, 12, 14), pivot=(24, 88, 0), parent=abd, rest=(5, 8, 20), paint=mg_flesh)
+    m.part("Brisket", (-20, 84, -9), (9, 12, 18), pivot=(-14, 92, 0), parent=body, rest=(-4, 0, 10), paint=mg_flesh)
+    m.part("Belly", (-12, 82, -10), (20, 6, 20), pivot=(0, 86, 0), parent=body, rest=(0, 10, 0), paint=mg_flesh)
+
+    # Lumps of black flesh heaped over the back and sides
+    bc, be = (-1.0, 94.0, 0.0), (15.0, 9.0, 13.0)
+    for q in range(22):
+        yy = 1 - 2 * (q + 0.5) / 22
+        if yy < -0.35:
+            continue
+        rad = math.sqrt(1 - yy * yy)
+        th = q * math.pi * (3 - math.sqrt(5))
+        c = (bc[0] + rad * math.cos(th) * (be[0] - 3), bc[1] + yy * (be[1] - 2), bc[2] + rad * math.sin(th) * (be[2] - 3))
+        sz = rng.uniform(7, 11)
+        m.part(f"Lump{q}", (c[0] - sz / 2, c[1] - sz * 0.35, c[2] - sz / 2), (sz, sz * rng.uniform(0.55, 0.85), sz * rng.uniform(0.8, 1.1)), pivot=c,
+               parent=body, rest=(rng.uniform(-18, 18), rng.uniform(-45, 45), rng.uniform(-18, 18)), paint=mg_flesh, tag={"ghosts": q % 3 == 0})
+
+    # ---- The legs ----
+    legs = []
+    for i, (yaw, r0, lf, af, lt, at, am, th) in enumerate(MG_LEGS):
+        y0 = MG_ROOT_Y + (i % 3) - 1
+        m.part(f"Hip{i}", (-r0 - 4, y0 - 3.5, -3.5), (7, 7, 7), pivot=(0, y0, 0), parent=body, rest=(0, yaw, 0), paint=mg_knob)
+        # In the leg's own plane: u outward from the root, y up. Joint positions:
+        ku, ky = r0 + lf * math.cos(math.radians(af)), y0 - lf * math.sin(math.radians(af))
+        au, ay = ku + lt * math.cos(math.radians(at)), ky - lt * math.sin(math.radians(at))
+        tip_len, spur_len = 7.0, 12.0
+        # the metatarsus is as long as it must be for the point to reach the street
+        lm = (ay - 0.5 - (spur_len + tip_len) * math.sin(math.radians(am + 4))) / math.sin(math.radians(am))
+        femur = m.part(f"Femur{i}", (-r0 - lf, y0 - th * 0.45, -th * 0.45), (lf + 2, th * 0.9, th * 0.9), pivot=(-r0, y0, 0),
+                       parent=f"Hip{i}", rest=(0, 0, af), paint=mg_bark, tag={"texel": 0.5})
+        m.part(f"Knee{i}", (-r0 - lf - th * 0.7, y0 - th * 0.75, -th * 0.75), (th * 1.4, th * 1.5, th * 1.5), pivot=(-r0 - lf, y0, 0),
+               parent=femur, rest=(0, 0, 20), paint=mg_knob)
+        tib = m.part(f"Tibia{i}", (-r0 - lf - lt, y0 - th / 2, -th / 2), (lt + 1.5, th, th), pivot=(-r0 - lf, y0, 0), parent=femur,
+                     rest=(0, 0, at - af), paint=mg_bark, tag={"texel": 0.5})
+        x_a = -r0 - lf - lt
+        m.part(f"Ankle{i}", (x_a - th * 0.6, y0 - th * 0.65, -th * 0.65), (th * 1.2, th * 1.3, th * 1.3), pivot=(x_a, y0, 0), parent=tib,
+               rest=(0, 0, 35), paint=mg_knob)
+        t2 = th * 0.85
+        meta = m.part(f"Meta{i}", (x_a - lm, y0 - t2 / 2, -t2 / 2), (lm + 1.0, t2, t2), pivot=(x_a, y0, 0), parent=tib,
+                      rest=(0, 0, am - at), paint=mg_bark, tag={"texel": 0.5, "mud": (-0.6, 0.1)})
+        x_m = x_a - lm
+        t3 = th * 0.6
+        spur = m.part(f"Spur{i}", (x_m - spur_len, y0 - t3 / 2, -t3 / 2), (spur_len + 0.8, t3, t3), pivot=(x_m, y0, 0), parent=meta,
+                      rest=(0, 0, 4), paint=mg_bark, tag={"texel": 0.5, "mud": (0.1, 0.6)})
+        t4 = th * 0.32
+        m.part(f"Tip{i}", (x_m - spur_len - tip_len, y0 - t4 / 2, -t4 / 2), (tip_len + 0.6, t4, t4), pivot=(x_m - spur_len, y0, 0), parent=spur,
+               rest=(0, 0, 0), paint=mg_bark, tag={"texel": 0.5, "mud": (0.6, 1.0)})
+        legs.append(i)
+
+    # ---- The knot of faces, hanging under the front of the body ----
+    stalk = m.part("Stalk", (-11.5, 71, -4.5), (9, 16, 9), pivot=(-7, 86, 0), parent=body, rest=(4, 0, -6), paint=mg_flesh)
+    m.part("StalkSinew", (-9, 70, -6), (5, 15, 4), pivot=(-6.5, 85, -4), parent=stalk, rest=(-8, 20, 4), paint=mg_flesh)
+    kx, ky, kz = MG_KNOT
+    rx, ry, rz = MG_KNOT_R
+    knot = m.part("Knot", (kx - rx + 3, ky - ry + 3, kz - rz + 3), (2 * rx - 6, 2 * ry - 6, 2 * rz - 6), pivot=(-7, 75, 0), parent=stalk,
+                  paint=mg_flesh, tag={"ghosts": True})
+    # Lobes of flesh bulging between the faces (wherever no face is), so the knot is no box
+    face_dirs = []
+    for (yaw, pitch, *_r) in MG_FACES:
+        face_dirs.append((-math.cos(math.radians(pitch)) * math.cos(math.radians(yaw)), math.sin(math.radians(pitch)),
+                          math.cos(math.radians(pitch)) * math.sin(math.radians(yaw))))
+    lobes = 0
+    for q in range(26):
+        yy = 1 - 2 * (q + 0.5) / 26
+        rad = math.sqrt(1 - yy * yy)
+        th = q * math.pi * (3 - math.sqrt(5))
+        d = (rad * math.cos(th), yy, rad * math.sin(th))
+        if max(sum(d[k] * f[k] for k in range(3)) for f in face_dirs) > math.cos(math.radians(30)) or yy > 0.85:
+            continue
+        sz = rng.uniform(6, 9)
+        c = (kx + d[0] * (rx - 3.5), ky + d[1] * (ry - 3.5), kz + d[2] * (rz - 3.5))
+        m.part(f"KnotLobe{lobes}", (c[0] - sz / 2, c[1] - sz / 2, c[2] - sz / 2), (sz, sz * rng.uniform(0.8, 1.2), sz), pivot=c, parent=knot,
+               rest=(rng.uniform(-25, 25), rng.uniform(-40, 40), rng.uniform(-25, 25)), paint=mg_flesh)
+        lobes += 1
+
+    face_names, jaw_names = [], []
+    hosts = [(spec, knot, MG_KNOT, MG_KNOT_R) for spec in MG_FACES] + [(spec, abd, *MG_ABD) for spec in MG_BODY_FACES]
+    for i, ((yaw, pitch, roll, fw, fh, eyes, mouth, tone, pale, age, iris, look, anguish, stand), host, (kx, ky, kz), (rx, ry, rz)) in enumerate(hosts):
+        # Where its direction meets the ellipsoid of its host
+        dx = -math.cos(math.radians(pitch)) * math.cos(math.radians(yaw))
+        dz = math.cos(math.radians(pitch)) * math.sin(math.radians(yaw))
+        dy = math.sin(math.radians(pitch))
+        rr = 1 / math.sqrt((dx / rx) ** 2 + (dy / ry) ** 2 + (dz / rz) ** 2)
+        c = (kx + dx * (rr - 1.5 + stand), ky + dy * (rr - 1.5 + stand), kz + dz * (rr - 1.5 + stand))
+        gap = MG_GAP[mouth]
+        tag = {"tone": tone, "pale": pale, "age": age, "eyes": eyes, "h": fh, "gap": gap, "sink": 2.5 if stand < 1 else 1.6, "veins": 2 if stand < 1 else 1}
+        parent = host
+        if stand > 1:                                   # the one apart: on a lobe of its own, pushed out of the mass
+            parent = m.part(f"Lobe{i}", (c[0] + 0.5, c[1] - fh * 0.45, c[2] - fw * 0.45), (stand + 3, fh * 0.9, fw * 0.9), pivot=(c[0] + 1.5, c[1], c[2]),
+                            parent=host, rest=(roll, yaw, -pitch), paint=mg_flesh)
+        fx, cy, cz = c[0] - 1.5, c[1], c[2]
+        mask = m.part(f"Face{i}", (fx, cy - fh / 2 - gap, cz - fw / 2), (3, fh + gap, fw), pivot=(c[0], cy, cz), parent=parent,
+                      rest=(0, 0, 0) if stand > 1 else (roll, yaw, -pitch), paint=mg_mask, glow=18, tag=tag,
+                      faces=("north", "south", "west", "up", "down"))
+        face_names.append(mask.name)
+        sk = dict(tone=tone, pale=pale)
+        # Brows, in two halves, the inner ends lifting in anguish
+        for side, nm in ((-1, "a"), (1, "b")):
+            zc = cz + side * fw * 0.22
+            m.part(f"Brow{i}{nm}", (fx - 0.9, cy + fh * 0.1, zc - fw * 0.22), (1.1, 1.1, fw * 0.44), pivot=(fx - 0.3, cy + fh * 0.1 + 0.5, zc),
+                   parent=mask, rest=(side * anguish, 0, 0), paint=mg_brow, glow=18, tag=dict(sk, grey=age))
+        # Eyes
+        for side, nm in ((-1, "a"), (1, "b")):
+            ze = cz + side * fw * 0.22
+            ye = cy - fh * 0.02
+            if eyes == "open":
+                m.part(f"Eye{i}{nm}", (fx - 0.3, ye - 0.55, ze - 0.95), (0.5, 1.1, 1.9), pivot=(fx, ye, ze), parent=mask, paint=mg_eye, glow=60,
+                       tag={"iris": iris, "look": look})
+            else:
+                m.part(f"Lid{i}{nm}", (fx - 0.45, ye - 0.6, ze - 1.0), (0.6, 1.1, 2.0), pivot=(fx, ye, ze), parent=mask, rest=(0, 0, 8),
+                       paint=mg_lid, glow=18, tag=sk)
+        # The nose, the cheekbones
+        nh = fh * 0.32
+        m.part(f"Nose{i}", (fx - 1.4, cy - fh * 0.27, cz - 0.75), (1.6, nh, 1.5), pivot=(fx, cy - fh * 0.27 + nh, cz), parent=mask,
+               rest=(0, 0, -6), paint=mg_nose, glow=18, tag=sk)
+        if fw >= 6.5:
+            for side, nm in ((-1, "a"), (1, "b")):
+                zc = cz + side * fw * 0.34
+                m.part(f"Cheek{i}{nm}", (fx - 0.55, cy - fh * 0.2, zc - 0.9), (0.8, 1.3, 1.8), pivot=(fx, cy - fh * 0.14, zc), parent=mask,
+                       rest=(side * -10, 0, 0), paint=mg_cheek, glow=18, tag=sk)
+        # The mouth: the upper lip, and the jaw (chin and lower lip) hinged far back so it drops as it opens
+        teeth = gap > 1.0
+        ly = cy - fh * 0.36
+        m.part(f"Lip{i}", (fx - 0.6, ly - 0.3, cz - fw * 0.24), (0.8, 0.8, fw * 0.48), pivot=(fx, ly, cz), parent=mask, paint=mg_lip, glow=18,
+               tag=dict(sk, teeth=teeth))
+        jh = fh * 0.2
+        jaw = m.part(f"Jaw{i}", (fx - 0.5, ly - 0.3 - gap - jh, cz - fw * 0.3), (1.6, jh, fw * 0.6), pivot=(fx + 2.6, ly - 0.3, cz), parent=mask,
+                     paint=mg_jaw, glow=18, tag=dict(sk, teeth=teeth))
+        jaw_names.append(jaw.name)
+
+    # ---- The tendrils ----
+    tendril_names, claw_names, rest_z = [], [], {}
+    for i, (x, z, n, thick, capture) in enumerate(MG_TENDRILS):
+        out = math.atan2(z - MG_KNOT[2], x - MG_KNOT[0])                          # bend outward from under the knot, the ends hooking back in
+        ox, oz = math.cos(out), math.sin(out)
+        prev, top = knot, 54.0 if capture else 55.0
+        names = []
         for j in range(n):
-            t = thick * (1 - 0.7 * j / max(1, n - 1))
-            seg = 8.0 if capture else 7.0
-            prev = m.part(f"Tendril{i}_{j}", (x - t / 2, top - seg, z - t / 2), (t, seg, t), pivot=(x, top, z), parent=prev,
-                          rest=(((-1) ** j) * (4 + 2 * (j % 3)) * (1 if i % 2 else -1), 0, ((-1) ** (j // 2)) * (3 + j)), paint=mg_tendril)
+            t = thick * (1 - 0.62 * j / max(1, n - 1))
+            seg = MG_SEG if capture else 5.0
+            a = (9 if j == 0 else 3.5) if j < n - 4 else -9 - rng.uniform(0, 4)
+            a *= 1.0 if capture else 1.3
+            twist = rng.uniform(-4, 4)
+            prev = m.part(f"Tendril{i}_{j}", (x - t / 2, top - seg - 0.5, z - t / 2), (t, seg + 0.5, t), pivot=(x, top, z), parent=prev,
+                          rest=(-a * oz + twist * ox, 0, a * ox + twist * oz), paint=mg_tendril, tag={"tip": j == n - 1})
+            names.append(prev.name)
+            rest_z[prev.name] = a * ox + twist * oz
             top -= seg
+        tendril_names.append(names)
+        claws = []
         if capture:
             for k in range(3):
-                ang = k * TAU / 3
-                m.part(f"Strand{i}_{k}", (x - 0.3, top - 4, z - 0.3), (0.6, 4, 0.6), pivot=(x, top, z), parent=prev,
-                       rest=(math.cos(ang) * 22, 0, math.sin(ang) * 22), paint=mg_tendril)
+                ang = k * TAU / 3 + 0.4
+                cx_, cz_ = math.cos(ang), math.sin(ang)
+                cl = m.part(f"Claw{i}_{k}", (x - 0.35, top - 5, z - 0.35), (0.7, 5.2, 0.7), pivot=(x, top, z), parent=prev,
+                            rest=(-cz_ * 28, 0, cx_ * 28), paint=mg_tendril, tag={"tip": True})
+                m.part(f"Hook{i}_{k}", (x - 0.25, top - 8.2, z - 0.25), (0.5, 3.5, 0.5), pivot=(x, top - 5, z), parent=cl,
+                       rest=(cz_ * 50, 0, -cx_ * 50), paint=mg_tendril, tag={"tip": True})
+                claws.append(cl.name)
+        claw_names.append(claws)
 
-    face_names = [f"Face{i}" for i in range(len(FACES))]
-    leg_names = [f"Leg{i}" for i in range(6)]
-    shin_names = [f"Shin{i}" for i in range(6)]
-    tendril_names = [f"Tendril{i}_{j}" for i, (_, n, _, _) in enumerate(TENDRILS) for j in range(n)]
-    strand_names = [f"Strand{i}_{k}" for i in range(3) for k in range(3)]
+    all_tendrils = [nm for names in tendril_names for nm in names]
+    all_claws = [nm for cl in claw_names for nm in cl]
+    femurs = [f"Femur{i}" for i in range(8)]
+    tibias = [f"Tibia{i}" for i in range(8)]
+    metas = [f"Meta{i}" for i in range(8)]
+    leg_names = femurs + tibias + metas
+    side = [1 if yaw < 180 else -1 for (yaw, *_r) in MG_LEGS]
 
-    def tendrils(p, amp, lift=0.0, which=None):
+    def sway(p, amp, lag=0.0, which=None, speed=1.0):
+        """The tendrils swinging, a wave running down each (and their claws flexing a little)."""
         d = {}
-        for i, (_, n, _, capture) in enumerate(TENDRILS):
+        for i, names in enumerate(tendril_names):
             if which is not None and i not in which:
                 continue
-            for j in range(n):
-                d[f"Tendril{i}_{j}"] = pose((s(p, amp * 0.6, i * 0.17 + j * 0.08), 0, s(p, amp, i * 0.23 + j * 0.07) + (lift if j == 0 else lift * 0.2)))
+            for j, nm in enumerate(names):
+                d[nm] = pose((s(p * speed, amp * 0.7, i * 0.21 + j * 0.09 + lag), 0, s(p * speed, amp, i * 0.13 + j * 0.08 + lag + 0.25)))
+        for i, cl in enumerate(claw_names):
+            if which is not None and i not in which:
+                continue
+            for k, nm in enumerate(cl):
+                d[nm] = pose((0, 0, 0)) if amp == 0 else pose((s(p * speed * 2, 6, k * 0.33), 0, s(p * speed * 2, 6, k * 0.33 + 0.25)))
         return d
 
-    def faces_emerge(active, k):
-        """Faces come forward out of the mass (k px along their own outward axis) and tilt a little."""
-        return {f"Face{i}": pose((0, 0, 0), (-k, 0, 0)) if i in active else pose() for i in range(len(FACES))}
-
-    # ---- Animations ----
-    # Legs are built pointing -x and turned to their yaw: their -Z lifts, +Z presses down; Y swings them about the root.
-    def step(p, amp, lift_deg, bob, sink=0.0):
-        """One limb at a time: it lifts, hangs, swings forward and comes down; the others slide back through the stance."""
+    def talk(p, amount, speed=4, faces=None):
+        """The faces' jaws working, each at its own pace: talking, all at once."""
         d = {}
-        for i in range(6):
-            order = (0, 3, 1, 4, 2, 5).index(i)          # never two neighbours at once
-            q = (p - order / 6) % 1.0
-            lift = ramp(q, 0.0, 0.05, 0.11, 0.16)
-            yaw = -amp + 2 * amp * (q / 0.16) if q < 0.16 else amp - 2 * amp * (q - 0.16) / 0.84
-            side = 1 if (LEGS[i][0] % 360) < 180 else -1
-            d[f"Leg{i}"] = pose((0, side * yaw, -lift_deg * lift))
-            d[f"Shin{i}"] = pose((0, 0, lift_deg * 0.7 * lift))
-            d[f"Shank{i}"] = pose((0, 0, lift_deg * 0.4 * lift))
-        d["Core"] = pose((s(p * 3, 1.2), s(p, 2), s(p * 3, 1.0, 0.3)), (0, -sink + 0.8 * math.sin(TAU * p * 6), 0))
-        d["Pillar"] = pose((s(p * 3, 2, 0.1), 0, s(p * 3, 1.5, 0.4)))
-        d["PillarTop"] = pose((s(p * 3, 3, 0.2), s(p, 6), s(p * 3, 2, 0.5)))
-        d.update(tendrils(p, 10))
+        for i, nm in enumerate(jaw_names):
+            if faces is not None and i not in faces:
+                d[nm] = pose()
+                continue
+            k = max(0.0, math.sin(TAU * (p * (speed + i % 3) + i * 0.37))) * max(0.0, math.sin(TAU * (p * 2 + i * 0.19)))
+            d[nm] = pose((0, 0, -amount * k), (0, -0.6 * amount / 20 * k, 0))
         return d
 
-    m.animation("walk", 90, cycle(90, 18, lambda p: step(p, 16, 20, 0.8)))
-    m.animation("run", 48, cycle(48, 12, lambda p: step(p, 26, 24, 1.2, sink=6)))
+    def emerge(k_by_face):
+        return {f"Face{i}": pose((0, 0, 0), (-k_by_face.get(i, 0.0), 0, 0)) for i in range(len(MG_FACES))}
+
+    # ---- Walk: one leg at a time, in the order above; each lifts high, hangs, swings forward and comes down hard;
+    # the others push back through the stance; the body rolls off the lifted leg and settles on each footfall; the
+    # knot swings behind like a weight on a rope. 120 frames, 4 s: a footfall every half second.
+    def gait(p, fwd, lift_deg, roll, swing_n=1.0, pitch=0.0):
+        d = {}
+        sw = 0.125 * swing_n                                    # the share of the cycle a leg spends in the air
+        body_roll = body_dip = 0.0
+        for i in range(8):
+            q = (p - MG_ORDER.index(i) / 8) % 1.0
+            if q < sw:
+                t = q / sw
+                lift = min(1.0, math.sin(math.pi * min(1.0, t * 1.1)) ** 0.6)
+                a = -1 + 2 * (t * t * (3 - 2 * t))                  # back to front, easing
+            else:
+                t = (q - sw) / (1 - sw)
+                lift = 0.0
+                a = 1 - 2 * t
+                if t < 0.06:                                   # the slam: the body settles onto it
+                    body_dip += (1 - t / 0.06)
+            body_roll += side[i] * lift
+            d[f"Femur{i}"] = pose((0, -side[i] * fwd * a, -lift_deg * lift))
+            d[f"Tibia{i}"] = pose((0, 0, lift_deg * TIB * lift))
+            d[f"Meta{i}"] = pose((0, 0, lift_deg * META * lift))
+        d["Body"] = pose((-roll * body_roll, s(p, 1.2), pitch - 0.5 * body_dip), (0, -0.6 * body_dip, 0))
+        d["Abdomen"] = pose((s(p * 2, 2.5, 0.2), 0, s(p * 4, 2, 0.1) + 1.5 * body_dip))
+        d["Stalk"] = pose((roll * 3 * s(p * 4, 1, 0.3) + s(p, 3), 0, 6 + s(p * 8, 1.5, 0.15)))
+        d["Knot"] = pose((s(p * 4, 3, 0.45), s(p, 6), 3 + s(p * 8, 2, 0.3)))
+        d.update({k: v for k, v in sway(p, 6, lag=0.0, speed=2).items() if k.startswith("Tendril")})
+        for nm in all_tendrils:                                 # trailing behind as it goes
+            r, o = d[nm]["rot"], d[nm]["off"]
+            d[nm] = pose((r[0], r[1], r[2] + (5 if nm.endswith("_0") else 1.5)), o)
+        d.update(talk(p, 10, speed=3))
+        return d
+
+    walk_names = ["Body", "Abdomen", "Stalk", "Knot"] + leg_names + all_tendrils + jaw_names
+    m.animation("walk", 120, {f: full(walk_names, d) for f, d in cycle(120, 30, lambda p: gait(p, 18, 22, 1.0)).items()})
+    # Run: the same order, faster, the legs reaching further and two in the air at once, the body leaning in
+    m.animation("run", 64, {f: full(walk_names, d) for f, d in cycle(64, 24, lambda p: gait(p, 22, 26, 1.3, swing_n=1.9, pitch=0.5)).items()})
+
+    # ---- Idle: breathing, settling its weight, the knot turning slowly, the faces murmuring, one opening its eyes ----
+    idle_names = ["Body", "Abdomen", "Stalk", "Knot"] + all_tendrils + all_claws + jaw_names + face_names
 
     def idle(p):
-        d = {"Core": pose((s(p, 1.5), s(p, 3), s(p, 1.2, 0.3)), s=(1 + 0.012 * math.sin(TAU * p * 4), 1 + 0.012 * math.sin(TAU * p * 4), 1 + 0.012 * math.sin(TAU * p * 4))),
-             "Pillar": pose((s(p, 3, 0.1), s(p, 5, 0.2), s(p, 2))), "PillarTop": pose((s(p, 5, 0.25), s(p, 10, 0.1), s(p, 4, 0.4)))}
-        d.update(tendrils(p, 12))
-        active = set()
-        for i, (a, b_, c, e) in enumerate(((0.1, 0.16, 0.3, 0.38), (0.45, 0.5, 0.62, 0.7), (0.72, 0.76, 0.85, 0.92))):
-            k = ramp(p, a, b_, c, e)
-            face = (4, 1, 7)[i]
-            d[f"Face{face}"] = pose((0, 0, 4 * k), (-1.8 * k, 0, 0))
-        for i in range(len(FACES)):
-            d.setdefault(f"Face{i}", pose())
+        b = 0.012 * math.sin(TAU * p * 3)
+        d = {"Body": pose((s(p, 0.8), s(p, 1.0, 0.3), s(p * 3, 0.6))), "Abdomen": pose((s(p, 2, 0.2), 0, s(p * 3, 2.5)), s=(1 + b, 1 + b * 1.5, 1 + b)),
+             "Stalk": pose((s(p * 2, 2.5), 0, s(p * 3, 2, 0.2))), "Knot": pose((s(p * 2, 3, 0.3), s(p, 12), s(p * 3, 2.5, 0.5)))}
+        d.update(sway(p, 7, speed=2))
+        d.update(talk(p, 12, speed=4))
+        d.update(emerge({0: 0.6 * ramp(p, 0.1, 0.2, 0.4, 0.55), 4: 0.8 * ramp(p, 0.45, 0.55, 0.7, 0.85), 2: 0.6 * ramp(p, 0.7, 0.8, 0.9, 1.0)}))
         return d
 
-    m.animation("idle", 150, cycle(150, 25, idle))
+    m.animation("idle", 150, {f: full(idle_names, d) for f, d in cycle(150, 25, idle).items()})
 
-    # Searching: the capture tendrils rise and probe forward, the core tilts, faces come out of the mass in turn
-    search_names = ["Core", "Pillar", "PillarTop"] + face_names + tendril_names + strand_names
+    # ---- Search (the idle task's "despair"): it stoops, the knot dips toward the street and turns, the faces push out
+    # of the mass one after another, all talking; the capture tendrils lift and feel forward ----
+    search_names = ["Body", "Stalk", "Knot"] + all_tendrils + all_claws + jaw_names + face_names
+
     def search(p):
-        d = {"Core": pose((0, s(p, 8), 6 * ramp(p, 0.05, 0.2, 0.8, 0.95))), "Pillar": pose((s(p, 6), s(p, 14, 0.2), -4)), "PillarTop": pose((0, s(p, 25, 0.3), 0))}
-        r = ramp(p, 0.05, 0.25, 0.75, 0.95)
-        for i, (_, n, _, capture) in enumerate(TENDRILS):
-            for j in range(n):
-                if capture:
-                    d[f"Tendril{i}_{j}"] = pose((s(p, 10, i * 0.2 + j * 0.1) * (1 - r * 0.5), 0, (-70 * r if j == 0 else -8 * r) + s(p * 2, 6, j * 0.1)))
-                else:
-                    d[f"Tendril{i}_{j}"] = pose((s(p, 8, i * 0.2 + j * 0.1), 0, s(p, 8, j * 0.1)))
-        for i in range(3):
-            for k in range(3):
-                d[f"Strand{i}_{k}"] = pose((0, 0, 0), s=(1, 1 + 0.3 * r * abs(math.sin(TAU * (p * 3 + k * 0.3))), 1))
-        for i in range(len(FACES)):
-            k = ramp(p, 0.1 + i * 0.05, 0.16 + i * 0.05, 0.7, 0.9)
-            d[f"Face{i}"] = pose((0, 0, 0), (-1.5 * k, 0, 0))
+        r = ramp(p, 0.05, 0.22, 0.78, 0.95)
+        d = {"Body": pose((0, s(p, 3), 0), (0, -1.2 * r, 0)), "Stalk": pose((s(p, 5), 0, -16 * r + s(p * 2, 3))),
+             "Knot": pose((s(p * 2, 4), s(p, 40) * r, 10 * r))}                    # the knot swings out in front and turns
+        d.update(sway(p, 9, speed=2))
+        for i, names in enumerate(tendril_names):
+            if MG_TENDRILS[i][4]:
+                for j, nm in enumerate(names):
+                    rr, o = d[nm]["rot"], d[nm]["off"]
+                    d[nm] = pose((rr[0], rr[1], rr[2] * (1 - 0.4 * r) + (-48 * r if j == 0 else 6 * r * (1 if j > 5 else -0.3)) + s(p * 3, 5, i * 0.3 + j * 0.06)), o)
+        d.update(talk(p, 18, speed=5))
+        d.update(emerge({i: 1.6 * ramp(p, 0.08 + 0.05 * i, 0.16 + 0.05 * i, 0.7, 0.9) for i in range(len(MG_FACES))}))
         return d
 
-    m.animation("despair", 80, {f: full(search_names, search(f / 80)) for f in range(0, 80, 5)} | {79: full(search_names, search(0.99))}, end="Stop")
+    m.animation("despair", 100, {f: full(search_names, search(f / 100)) for f in range(0, 100, 5)} | {99: full(search_names, search(0.999))}, end="Stop")
 
-    # The take (27 frames, 0.9 s; the entity's damageAtMs 450 is frame 13): the front tendril draws up coiled, drops
-    # on what is below, the strands close, and it lifts away upward. The body hardly moves.
-    atk_names = ["Core"] + [f"Tendril0_{j}" for j in range(9)] + [f"Strand0_{k}" for k in range(3)] + face_names
+    # ---- Attack (27 frames, 0.9 s; the entity's damage lands at 450 ms, frame 13): the front capture tendril draws
+    # back and coils, lashes forward and down onto whoever is in front (frame 12-13), its fingers close round them, and
+    # it hauls them up and away overhead. The knot leans in, its faces screaming; the body hardly moves. ----
+    cap = tendril_names[0]
+    atk_names = ["Body", "Stalk", "Knot"] + cap + claw_names[0] + jaw_names + face_names
+    n0 = len(cap)
 
-    def coil(k_up, k_down, close, lift):
+    def lash(root, curl, close, tip_curl=0.0):
+        """The capture tendril posed absolutely (in the knot's frame): its root's angle from hanging straight down
+        (negative: forward), each further segment's bend on the one before, the last three bending more."""
         d = {}
-        for j in range(9):
-            # The root swings forward (-Z) to coil up and to strike; the segments curl back under for the drop
-            d[f"Tendril0_{j}"] = pose((0, 0, (-16 * k_up + 14 * k_down - 10 * lift) if j else (-40 * k_up - 70 * k_down - 30 * lift)))
-        for k in range(3):
-            ang = k * TAU / 3
-            d[f"Strand0_{k}"] = pose((-math.cos(ang) * 40 * close, 0, -math.sin(ang) * 40 * close))
+        for j, nm in enumerate(cap):
+            a = root if j == 0 else curl + (tip_curl if j >= n0 - 3 else 0)
+            d[nm] = pose((0, 0, a - rest_z[nm]))
+        for k, nm in enumerate(claw_names[0]):
+            ang = k * TAU / 3 + 0.4
+            d[nm] = pose((math.sin(ang) * 30 * close, 0, -math.cos(ang) * 30 * close))
+        return d
+
+    def lean(knot_pitch, stalk_pitch, body_pitch, faces_out, scream):
+        d = {"Body": pose((0, 0, body_pitch)), "Stalk": pose((0, 0, stalk_pitch)), "Knot": pose((0, 0, knot_pitch))}
+        d.update(emerge({i: faces_out for i in range(len(MG_FACES))}))
+        d.update({nm: pose((0, 0, -scream), (0, -scream / 25, 0)) for nm in jaw_names})
         return d
 
     m.animation("attack", 27, {
         0: full(atk_names, {}),
-        5: full(atk_names, dict(coil(1.0, 0.0, 0.0, 0.0), **{"Core": pose((0, 0, -3), (0, 1, 0))}, **faces_emerge({4, 7, 10}, 1.5))),
-        9: full(atk_names, dict(coil(0.7, 0.0, -0.5, 0.0), **{"Core": pose((0, 0, -3), (0, 1, 0))}, **faces_emerge({4, 7, 10}, 1.5))),
-        13: full(atk_names, dict(coil(0.0, 1.0, 0.0, 0.0), **{"Core": pose((0, 0, 6), (0, -2, 0))}, **faces_emerge({4, 7, 10, 1}, 2.0))),
-        15: full(atk_names, dict(coil(0.0, 1.0, 1.0, 0.0), **{"Core": pose((0, 0, 6), (0, -2, 0))}, **faces_emerge({4, 7, 10, 1}, 2.0))),
-        21: full(atk_names, dict(coil(0.6, 0.0, 1.0, 1.0), **{"Core": pose((0, 0, -4), (0, 4, 0))}, **faces_emerge(set(range(11)), 1.5))),
-        26: full(atk_names, {}),
+        4: full(atk_names, {**lash(30, 9, -0.6, 4), **lean(4, 4, -0.5, 0.6, 8)}),            # drawn back under it, coiling
+        8: full(atk_names, {**lash(52, 14, -0.8, 8), **lean(6, 6, -1, 1.0, 14)}),
+        11: full(atk_names, {**lash(-24, 1, -0.8, 0), **lean(-6, -6, 1, 1.6, 26)}),         # the lash
+        13: full(atk_names, {**lash(-31, 0, 0.2, 18), **lean(-8, -9, 1.5, 2.0, 30)}),       # the hit: frame 13, 450 ms
+        15: full(atk_names, {**lash(-31, 2, 1.0, 30), **lean(-8, -9, 1.5, 2.0, 30)}),       # the fingers close round them
+        19: full(atk_names, {**lash(-95, -2, 1.0, 30), **lean(-2, -4, 0, 1.6, 24)}),        # hauled up
+        23: full(atk_names, {**lash(-150, -4, 1.0, 30), **lean(4, 2, -1, 1.0, 14)}),        # overhead, seven blocks up
     }, end="Stop")
 
-    hurt_names = ["Core", "Pillar", "PillarTop"] + face_names
-    m.animation("hurt", 14, {
-        0: full(hurt_names, {}),
-        4: full(hurt_names, dict({"Core": pose((5, 0, -4)), "Pillar": pose((8, 0, -8)), "PillarTop": pose((10, 0, -6))}, **faces_emerge(set(range(11)), 2.5))),
-        9: full(hurt_names, dict({"Core": pose((-2, 0, 2)), "Pillar": pose((-4, 0, 3)), "PillarTop": pose((-5, 0, 2))}, **faces_emerge(set(range(11)), 1.2))),
-        13: full(hurt_names, {}),
-    }, end="Stop")
+    # ---- Hurt: it flinches all over, every mouth opens at once ----
+    hurt_names = ["Body", "Stalk", "Knot"] + jaw_names + face_names + all_tendrils
+    def flinch(k):
+        d = {"Body": pose((1.5 * k, 0, -1 * k)), "Stalk": pose((10 * k, 0, -12 * k)), "Knot": pose((8 * k, 14 * k, -8 * k))}
+        d.update(emerge({i: 2.2 * k for i in range(len(MG_FACES))}))
+        d.update({nm: pose((0, 0, -26 * k), (0, -1.0 * k, 0)) for nm in jaw_names})
+        d.update({nm: pose((0, 0, (-14 if nm.endswith("_0") else -3) * k)) for nm in all_tendrils})
+        return d
+    m.animation("hurt", 16, {0: full(hurt_names, {}), 4: full(hurt_names, flinch(1.0)), 9: full(hurt_names, flinch(0.4)), 15: full(hurt_names, {})}, end="Stop")
 
-    # Death: the limbs buckle one after another and the whole height comes down; the pillar topples; the tendrils go slack
-    die_names = ["Core", "Pillar", "PillarTop"] + leg_names + shin_names + [f"Shank{i}" for i in range(6)] + tendril_names + face_names
-    def collapse(k, topple):
-        d = {"Core": pose((8 * k, 0, 12 * k), (0, -62 * k, 0)), "Pillar": pose((10 * topple, 0, 50 * topple)), "PillarTop": pose((0, 0, 30 * topple))}
-        for i in range(6):
-            kk = min(1.0, max(0.0, k * 1.6 - i * 0.12))
-            d[f"Leg{i}"] = pose((0, 0, 30 * kk)); d[f"Shin{i}"] = pose((0, 0, 40 * kk)); d[f"Shank{i}"] = pose((0, 0, -50 * kk))
-        d.update({n: pose((0, 0, 0)) for n in tendril_names})
-        d.update(faces_emerge(set(range(11)), 2.0 * (1 - k)))
+    # ---- Death (it never dies; the animation is there all the same): the legs buckle one after another, the body
+    # comes down into the street and the legs curl in over it like a dead spider's; the knot rolls out in front ----
+    die_names = ["Body", "Abdomen", "Stalk", "Knot"] + leg_names + all_tendrils + jaw_names + face_names
+
+    def collapse(k):
+        drop = 72 * min(1.0, k * 1.15) ** 1.6
+        d = {"Body": pose((3 * k, 0, 4 * k), (0, -drop, 0)), "Abdomen": pose((0, 0, -10 * k)),
+             "Stalk": pose((0, 0, -70 * k)), "Knot": pose((20 * k, 0, -30 * k))}
+        for i in range(8):
+            kk = min(1.0, max(0.0, k * 1.5 - MG_ORDER.index(i) * 0.06))
+            d[f"Femur{i}"] = pose((0, 0, -14 * kk))
+            d[f"Tibia{i}"] = pose((0, 0, 70 * kk))
+            d[f"Meta{i}"] = pose((0, 0, 60 * kk))
+        d.update({nm: pose((0, 0, -6 * k if nm.endswith("_0") else 4 * k)) for nm in all_tendrils})
+        d.update({nm: pose((0, 0, -30 * (1 - k) - 6), (0, -1, 0)) for nm in jaw_names})
+        d.update(emerge({i: 2.0 * (1 - k) for i in range(len(MG_FACES))}))
         return d
 
-    m.animation("die", 60, {0: full(die_names, {}), 15: full(die_names, collapse(0.3, 0.0)), 32: full(die_names, collapse(0.7, 0.4)),
-                            48: full(die_names, collapse(1.0, 0.9)), 59: full(die_names, collapse(1.0, 1.0))}, end="Hold", stopped="Stop")
+    m.animation("die", 60, {0: full(die_names, {}), 12: full(die_names, collapse(0.25)), 26: full(die_names, collapse(0.55)),
+                            40: full(die_names, collapse(0.85)), 50: full(die_names, collapse(1.0)), 59: full(die_names, collapse(1.0))},
+                end="Hold", stopped="Stop")
     return m
 
 
 # ======================================================================== The Thing
-# Nothing in the lore says what it looks like: only that it rules the Midnight Zone and the Abyss, that it killed off
-# everything else in the sea, and that its eyes, made for perpetual dark, cannot bear bright light. Here: a vast black
-# eel-like fish with a maw full of needles and small, milky, light-sick eyes.
+# Entity 20, "The Thing on Level 7". The Wikidot level page gives it almost no body: it rules the Midnight Zone and
+# the upper Abyss, it "appears to have killed off any other life in the ocean", and "its life in perpetual darkness
+# makes its eyes much more sensitive to light" (light drives it off). The other wikis fill the shape in: "a huge fish
+# or sea monster" whose open mouth dwarfs a person (Miraheze), a body that "more closely resembles an eel" (Fandom),
+# jaws that shoot forward to snap up prey, "many spikes ... especially on its tail" (Pantheon), and, in the fan
+# retellings, "a colossal, shadowy shape" with "large, murky eyes" that surface beneath swimmers.
+#
+# The design is thalassophobia first: what you see is a vast dark length passing under you at the edge of the murk,
+# far longer than you are, and only when it comes close does it resolve into a face. An eel-like leviathan 11 blocks
+# long: a massive blunt head over a prognathous lower jaw hinged far back (open, it could take a person whole), a
+# thick fore-body tapering through ten segments to a ragged leaf of a tail, a spined dorsal ribbon that ripples like
+# an oarfish's, long trailing pectoral fins, and two chin barbels. Blue-black above, a dirty ivory belly below (the
+# underside is what you see when it rises at you), pale needle teeth that show even with the mouth shut. The things
+# that read in fog are the few pale or faintly glowing accents: milky, cataract-clouded, light-sick eyes, too many of
+# them and not in matching places on its two sides; a line of dim photophores along each flank; the barbel tips.
+# Old claw rakes and sucker-ring scars from whatever else once lived down there.
+#
+# Rig: the root is the middle segment (Seg4) at the entity's position, with the fore-body chained forward to the head
+# and the hind-body chained back to the tail, so a swimming wave can travel through it while the middle holds course.
 
-T_SKIN = (16, 18, 22)
+TH_DEEP = (7, 8, 12)            # the back: near black
+TH_SKIN = (16, 19, 26)          # blue-black flank
+TH_SLATE = (36, 42, 54)         # mottling, wrinkles
+TH_BELLY_DARK = (56, 58, 62)    # the countershade's middle
+TH_BELLY = (112, 110, 102)      # dirty ivory belly
+TH_SCAR = (96, 100, 104)        # healed rakes and sucker rings
+TH_PORE = (124, 136, 132)       # sensory pits on the head
+TH_FLESH = (104, 54, 62)        # inside the mouth
+TH_GUM = (156, 106, 106)
+TH_THROAT = (10, 2, 5)
+TH_TOOTH = (224, 218, 198)
+TH_TOOTH_ROOT = (120, 108, 94)
+TH_EYE = (208, 218, 212)        # milky
+TH_EYE_CLOUD = (140, 160, 166)  # the cataract
+TH_GLOW = (150, 212, 200)       # photophores: pale sea-green
+TH_FIN = (20, 24, 32)
+TH_RAY = (54, 62, 76)
+
+TH_CY = 10                      # the spine's height: the middle of the 1.2-block hitbox
+TH_X0, TH_STEP = 33, 12         # where the first body segment starts behind the snout, and the spacing of the rest
+# Body segments, head to tail: (length, height, width, rise of the middle above the spine line)
+TH_SEGS = [(15, 28, 25, 0.5), (14, 27, 23.5, 1.0), (14, 25.5, 22, 1.0), (14, 24, 20, 0.5), (14, 22, 18, 0),
+           (14, 19.5, 15, 0), (14, 16.5, 12, 0), (14, 13, 9, 0), (14, 9.5, 6.5, 0), (14, 6.5, 4.5, 0)]
+TH_ROOT = 4
+TH_DORSAL = [0, 3, 5.5, 7, 7.5, 7.5, 7, 6.5, 6, 5.5]          # height of the dorsal ribbon over each segment
+TH_VENTRAL = {5: 3.5, 6: 5, 7: 5.5, 8: 5, 9: 4.5}
 
 
-def t_skin(ctx):
-    fill(ctx, T_SKIN, 0.25)
-    speckle(ctx, (36, 40, 46), 0.08, 2)
-    if ctx.face == "down":
-        fill(ctx, (40, 42, 46), 0.15)
+def th_along(ctx, xx):
+    """How far along the body (0 at the front, 1 at the back) a texel column of a side, top or bottom face lies."""
+    u = (xx + 0.5) / ctx.w
+    return 1 - u if ctx.face == "north" else u
 
 
-def t_head(ctx):
-    t_skin(ctx)
+def th_column(ctx, a):
+    """The texel column at a fraction `a` along the body (inverse of th_along)."""
+    return int((1 - a if ctx.face == "north" else a) * ctx.w)
+
+
+def ring(ctx, cx, cy, r, colour, alpha):
+    done = set()
+    for i in range(int(r * 8) + 6):
+        ang = TAU * i / (int(r * 8) + 6)
+        p = (int(round(cx + r * math.cos(ang))), int(round(cy + r * math.sin(ang))))
+        if p not in done:
+            done.add(p)
+            texel(ctx, p[0], p[1], colour, alpha)
+
+
+def th_scars(ctx, chance=0.5):
+    """What it fought: claw rakes in threes, and the round scars of suckers."""
+    rng = ctx.rng
+    if rng.random() < chance:
+        u0, v0 = rng.uniform(0.05, 0.6), rng.uniform(0.1, 0.55)
+        ang = rng.uniform(-0.7, 0.7)
+        ln = rng.uniform(0.25, 0.5)
+        for k in range(3):
+            dv = k * 2.2 / ctx.h
+            line(ctx, u0, v0 + dv, u0 + ln * math.cos(ang), v0 + dv + ln * math.sin(ang) * ctx.w / ctx.h * 0.4, TH_SCAR, 0.4)
+            line(ctx, u0, v0 + dv + 1 / ctx.h, u0 + ln * math.cos(ang), v0 + dv + 1 / ctx.h + ln * math.sin(ang) * ctx.w / ctx.h * 0.4, TH_DEEP, 0.3)
+    if rng.random() < chance * 0.6:
+        for _ in range(rng.randint(1, 3)):
+            ring(ctx, rng.uniform(3, max(3.5, ctx.w - 3)), rng.uniform(3, max(3.5, ctx.h - 3)), rng.uniform(1.4, 2.8), TH_SCAR, 0.45)
+
+
+def th_flank(ctx, belly=0.58):
+    """Countershaded: near black along the back, blue-black down the side, greying into a dirty ivory belly."""
+    px = ctx.img.load()
+    k = {"north": 0.94, "south": 0.94, "east": 0.88, "west": 1.0, "up": 1.0, "down": 1.0}[ctx.face]
+    for yy in range(ctx.h):
+        t = (yy + 0.5) / ctx.h
+        if t < 0.22:
+            c = mix(TH_DEEP, TH_SKIN, t / 0.22)
+        elif t < belly:
+            c = TH_SKIN
+        else:
+            q = (t - belly) / (1 - belly)
+            c = mix(TH_SKIN, TH_BELLY_DARK, q / 0.55) if q < 0.55 else mix(TH_BELLY_DARK, TH_BELLY, (q - 0.55) / 0.45)
+        for xx in range(ctx.w):
+            mm = 1 + 0.1 * (ctx.rng.random() - 0.5) * 2
+            px[ctx.x + xx, ctx.y + yy] = clamp(tuple(v * k * mm for v in c)) + (255,)
+    blotch(ctx, TH_SLATE, max(1, ctx.w * ctx.h // 400), 2, 6, 0.22)
     if ctx.face in ("north", "south"):
-        rect(ctx, 0.12, 0.25, 0.26, 0.42, (190, 196, 190))   # small milky eyes
-        rect(ctx, 0.16, 0.29, 0.22, 0.38, (220, 226, 214))
+        vlines(ctx, TH_DEEP, 3, start=ctx.rng.randint(0, 2), alpha=0.16, jitter=1)       # the slack folds of eel skin
 
 
-def t_maw(ctx):
-    fill(ctx, (40, 12, 16), 0.1)
-    if ctx.face in ("up", "west", "north", "south"):
-        vlines(ctx, (210, 206, 190), 2, alpha=0.95)
+def th_body(ctx):
+    t = ctx.part.tag
+    if ctx.face == "down":
+        fill(ctx, TH_BELLY, 0.07, face_shade=False)
+        blotch(ctx, TH_BELLY_DARK, 2, 2, 5, 0.35)
+        hlines(ctx, shade(TH_BELLY, 0.8), 4, start=1, alpha=0.3)
+        th_scars(ctx, 0.35)
+        return
+    if ctx.face == "up":
+        fill(ctx, TH_DEEP, 0.18, face_shade=False)
+        blotch(ctx, TH_SLATE, 2, 2, 5, 0.25)
+        texrow(ctx, ctx.h // 2, 0, ctx.w - 1, (2, 2, 4), 0.6)                            # the groove of the spine
+        speckle(ctx, TH_SLATE, 0.04)
+        return
+    th_flank(ctx)
+    if ctx.face not in ("north", "south"):
+        return
+    ly = int(ctx.h * 0.47)
+    for xx in range(ctx.rng.randint(0, 1), ctx.w, 2):                                   # the lateral line
+        texel(ctx, xx, ly, TH_SLATE, 0.7)
+    if t.get("gills"):
+        for a in (0.14, 0.3, 0.46, 0.62):
+            x0 = th_column(ctx, a)
+            back = 1 if ctx.face == "south" else -1
+            for yy in range(int(ctx.h * 0.2), int(ctx.h * 0.7)):
+                bow = int(round(-back * 1.6 * math.sin(math.pi * (yy - ctx.h * 0.2) / (ctx.h * 0.5))))
+                texel(ctx, x0 + bow, yy, TH_THROAT, 0.95)
+                texel(ctx, x0 + bow + back, yy, TH_FLESH, 0.55)
+                texel(ctx, x0 + bow - back, yy, TH_SLATE, 0.4)
+    th_scars(ctx, t.get("scars", 0.45))
 
 
-def t_fin(ctx):
-    fill(ctx, (28, 30, 36), 0.25, face_shade=False)
-    vlines(ctx, (10, 12, 14), 2, alpha=0.6)
+def th_pores(ctx, v, every=3, alpha=0.55):
+    for xx in range(1 + ctx.rng.randint(0, every - 1), ctx.w - 1, every):
+        yy = int(v * ctx.h) + ctx.rng.choice((0, 0, 1))
+        texel(ctx, xx, yy, TH_PORE, alpha)
+        texel(ctx, xx, yy + 1, TH_DEEP, 0.5)
+
+
+def th_palate(ctx):
+    """The roof of the mouth: dark red, ridged across, paler at the gum line."""
+    fill(ctx, TH_FLESH, 0.1, face_shade=False)
+    vlines(ctx, TH_GUM, 3, start=1, alpha=0.3)
+    for yy in (0, 1, ctx.h - 2, ctx.h - 1):
+        texrow(ctx, yy, 0, ctx.w - 1, TH_GUM, 0.7)
+    blotch(ctx, TH_THROAT, 1, 2, 4, 0.3)
+
+
+def th_head(ctx):
+    if ctx.face == "down":
+        th_palate(ctx)
+        return
+    if ctx.face == "up":
+        fill(ctx, TH_DEEP, 0.18, face_shade=False)
+        blotch(ctx, TH_SLATE, 2, 2, 6, 0.25)
+        for v in (0.22, 0.78):
+            th_pores(ctx, v)
+        th_scars(ctx, 0.6)
+        return
+    th_flank(ctx, belly=0.8)
+    if ctx.face in ("north", "south"):
+        th_pores(ctx, 0.66)
+        th_pores(ctx, 0.84, every=4, alpha=0.4)
+        th_scars(ctx, 0.7)
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, TH_GUM, 0.45)                              # the lip
+
+
+def th_snout(ctx):
+    th_head(ctx)
+    if ctx.face == "west":                                                               # the blunt face: pits, nostrils
+        for v in (0.25, 0.45, 0.62):
+            th_pores(ctx, v, every=4)
+        for u in (0.3, 0.7):
+            texel(ctx, int(u * ctx.w), int(ctx.h * 0.3), TH_THROAT)
+            texel(ctx, int(u * ctx.w), int(ctx.h * 0.3) + 1, TH_THROAT, 0.7)
+
+
+def th_brow(ctx):
+    fill(ctx, TH_DEEP, 0.2)
+    blotch(ctx, TH_SLATE, 2, 2, 5, 0.3)
+    if ctx.face in ("north", "south", "west"):
+        hlines(ctx, (2, 2, 4), 3, start=1, alpha=0.35)
+    th_scars(ctx, 0.4)
+
+
+def th_jaw(ctx):
+    w, h = ctx.w, ctx.h
+    if ctx.face == "up":                                                                 # the floor of the mouth
+        fill(ctx, TH_FLESH, 0.1, face_shade=False)
+        for yy in (0, 1, h - 2, h - 1):
+            texrow(ctx, yy, 0, w - 1, TH_GUM, 0.75)
+        texrow(ctx, h // 2, 4, w - 1, TH_THROAT, 0.5)                                    # the tongue's groove
+        blotch(ctx, TH_THROAT, 2, 2, 5, 0.35)
+        lip, beside = int(w * 5.5 / 40), int(w * 14 / 40)                                # ahead of and beside the snout: chin, dark
+        for xx in range(beside):
+            for yy in range(h):
+                if xx < lip or yy < 3 or yy >= h - 3:
+                    texel(ctx, xx, yy, mix(TH_SKIN, TH_SLATE, ctx.rng.random() * 0.4))
+        return
+    if ctx.face == "down":                                                               # the pale throat, pleated
+        fill(ctx, TH_BELLY, 0.07, face_shade=False)
+        hlines(ctx, TH_BELLY_DARK, 3, start=1, alpha=0.45)
+        blotch(ctx, TH_BELLY_DARK, 1, 2, 5, 0.3)
+        th_scars(ctx, 0.6)
+        return
+    if ctx.face == "east":
+        fill(ctx, shade(TH_FLESH, 0.6), 0.1)
+        return
+    th_flank(ctx, belly=0.3)
+    if ctx.face in ("north", "south"):
+        texrow(ctx, 0, 0, w - 1, TH_GUM, 0.6)
+        th_pores(ctx, 0.3, every=4, alpha=0.45)
+        th_scars(ctx, 0.6)
+
+
+def th_gullet(ctx):
+    """The way in: a black hole ringed with ridged throat."""
+    if ctx.face != "west":
+        fill(ctx, shade(TH_FLESH, 0.7), 0.12)
+        return
+    px = ctx.img.load()
+    for yy in range(ctx.h):
+        for xx in range(ctx.w):
+            d = math.hypot((xx + 0.5 - ctx.w / 2) / (ctx.w / 2), (yy + 0.5 - ctx.h * 0.55) / (ctx.h / 2))
+            if d < 0.5:
+                c = TH_THROAT
+            elif d < 0.62:
+                c = mix(TH_THROAT, TH_FLESH, (d - 0.5) / 0.12)
+            else:
+                c = shade(TH_FLESH, 1.0 - 0.2 * ((int(d * 10)) % 2))
+            px[ctx.x + xx, ctx.y + yy] = clamp(tuple(v * (0.92 + 0.16 * ctx.rng.random()) for v in c)) + (255,)
+
+
+def th_eye(ctx):
+    """Milky and clouded, the pupil shrunk to a pinprick: made for a dark that never ends, hurt by any light."""
+    t = ctx.part.tag
+    out = "south" if t.get("side", 1) > 0 else "north"
+    if ctx.face != out:
+        fill(ctx, TH_SKIN, 0.15)
+        return
+    px = ctx.img.load()
+    w, h = ctx.w, ctx.h
+    r = min(w, h) / 2
+    for yy in range(h):
+        for xx in range(w):
+            d = math.hypot(xx + 0.5 - w / 2, yy + 0.5 - h / 2) / r
+            if d > 0.98:
+                c = TH_DEEP
+            elif d > 0.8:
+                c = mix(TH_EYE_CLOUD, TH_DEEP, (d - 0.8) / 0.2 * 0.7)
+            else:
+                c = mix(TH_EYE, TH_EYE_CLOUD, d * d * 0.9)
+            px[ctx.x + xx, ctx.y + yy] = clamp(tuple(v * (0.95 + 0.08 * ctx.rng.random()) for v in c)) + (255,)
+    blotch(ctx, TH_EYE_CLOUD, 1, 1.5, r * 0.8, 0.35)
+    if w >= 8:
+        cx, cy = int(w / 2 + t.get("look", 0)), int(h / 2)
+        texel(ctx, cx, cy, (40, 46, 50), 0.85)
+        texel(ctx, cx - 1, cy, (70, 80, 84), 0.5)
+        texel(ctx, cx - 2, cy - 2, (250, 252, 248), 0.8)                                  # a wet glint
+    lid = t.get("lid", 0)
+    for yy in range(int(lid * h)):                                                         # a heavy lid, half down
+        texrow(ctx, yy, 0, w - 1, TH_SKIN)
+    if lid:
+        texrow(ctx, int(lid * h), 0, w - 1, TH_DEEP, 0.8)
+
+
+def th_light(ctx):
+    fill(ctx, TH_GLOW, 0.06, face_shade=False)
+    if ctx.w >= 3 and ctx.h >= 3:
+        texel(ctx, ctx.w // 2, ctx.h // 2, (228, 252, 242))
+    for xx in range(ctx.w):
+        texel(ctx, xx, 0, shade(TH_GLOW, 0.7), 0.6)
+        texel(ctx, xx, ctx.h - 1, shade(TH_GLOW, 0.7), 0.6)
+
+
+def th_tooth(ctx):
+    """Long translucent needles, yellowed at the root."""
+    if ctx.part.tag.get("tip"):
+        fill(ctx, TH_TOOTH, 0.05, face_shade=False)
+        return
+    root_at_top = not ctx.part.tag.get("up")
+    for yy in range(ctx.h):
+        t = (yy + 0.5) / ctx.h
+        r = (1 - t) if root_at_top else t                     # 1 at the root
+        c = mix(TH_TOOTH, TH_TOOTH_ROOT, max(0.0, r - 0.55) / 0.45)
+        texrow(ctx, yy, 0, ctx.w - 1, c)
+
+
+def th_spine(ctx):
+    for yy in range(ctx.h):
+        texrow(ctx, yy, 0, ctx.w - 1, mix((96, 98, 92), TH_SKIN, (yy + 0.5) / ctx.h))
+
+
+def th_barbel(ctx):
+    t = ctx.part.tag
+    fill(ctx, mix(TH_SLATE, TH_SKIN, 0.4), 0.12)
+    if t.get("tip"):
+        for xx in range(ctx.w):
+            a = th_along(ctx, xx) if ctx.face in ("north", "south", "up", "down") else 1.0
+            for yy in range(ctx.h):
+                texel(ctx, xx, yy, TH_GLOW, 0.25 + 0.65 * a)
+
+
+def th_fin(ctx):
+    """Dark membrane between pale spined rays; the free edge torn into scallops between them."""
+    t = ctx.part.tag
+    kind = t.get("kind", "dorsal")
+    w, h = ctx.w, ctx.h
+    px = ctx.img.load()
+    fill(ctx, TH_FIN, 0.14, face_shade=False)
+    blotch(ctx, TH_SLATE, 1, 2, 5, 0.25)
+    if kind in ("dorsal", "ventral"):
+        free_top = kind == "dorsal"
+        back = 1 if ctx.face == "south" else -1
+        every, lean = 9, 0.8
+        for yy in range(h):
+            dist = (h - 1 - yy) if free_top else yy
+            for k in range(-2 * h, w + 2 * h, every):
+                texel(ctx, int(round(k + dist * lean * back)), yy, mix(TH_RAY, (118, 120, 112), (dist / max(1, h - 1)) ** 2 * 0.8), 0.9)
+        for xx in range(w):
+            r = (xx - back * lean * (h - 1)) % every
+            dd = min(r, every - r) / (every / 2)
+            cut = int(round(dd ** 1.4 * min(h * 0.4, 5)))
+            for i in range(min(cut, h - 1)):
+                yy = i if free_top else h - 1 - i
+                px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
+        return
+    if kind == "tail":
+        # A spear-head: the dorsal and ventral ribbons meeting in a point, rays leaning back from the axis to the edge
+        lim = lambda a: (0.68 + 0.6 * a) * (1 - a)
+        back = 1 if ctx.face == "south" else -1
+        mid = (h - 1) / 2
+        for yy in range(h):
+            dist = abs(yy - mid)
+            for k in range(-2 * h, w + 2 * h, 9):
+                texel(ctx, int(round(k + dist * 0.8 * back)), yy, mix(TH_RAY, (118, 120, 112), (dist / mid) ** 2 * 0.8), 0.9)
+        texrow(ctx, int(mid), 0, w - 1, TH_RAY, 0.5)
+        for xx in range(w):
+            a = th_along(ctx, xx)
+            r = (xx - back * 0.8 * mid) % 9
+            dd = min(r, 9 - r) / 4.5
+            for yy in range(h):
+                v = abs(yy - mid) / mid
+                if v > lim(a) - dd ** 1.4 * 0.12:
+                    px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
+        return
+    # Pectoral fins: flat plates (up/down faces); 0 at the body, 1 at the outer edge
+    if ctx.face not in ("up", "down"):
+        return
+    inner_v0 = (ctx.face == "up") == (t.get("side", 1) > 0)
+    trail = t.get("trail", False)
+    for i in range(7):
+        e = 0.15 + 0.85 * i / 6
+        v0, v1 = (0.0, e) if inner_v0 else (1.0, 1 - e)
+        line(ctx, 0.0, v0, 1.0 if trail else 0.35 + 0.65 * i / 6, v1, TH_RAY, 0.8)
+    for xx in range(w):
+        a = (xx + 0.5) / w
+        lim = 0.9 * (1 - a) ** 0.6 if trail else 1 - 0.35 * a ** 2
+        jag = ctx.rng.random() * 0.15
+        for yy in range(h):
+            o = (yy + 0.5) / h
+            o = o if inner_v0 else 1 - o
+            if o > lim - jag:
+                px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
 
 
 def thething():
     m = Model("thething", atlas_width=128, seed=7)
-    head = m.part("Head", (-10, 2, -4.5), (12, 8, 9), pivot=(2, 6, 0), paint=t_head)
-    m.part("Jaw", (-11, 0, -4), (11, 3, 8), pivot=(0, 2.5, 0), parent=head, paint=t_maw)
-    prev, x = head, 2
-    for i, (length, h, w) in enumerate(((14, 9, 9.5), (14, 8.5, 9), (14, 7.5, 8), (13, 6.5, 7), (12, 5, 5.5), (11, 3.5, 4))):
-        prev = m.part(f"Seg{i}", (x, 6 - h / 2, -w / 2), (length, h, w), pivot=(x, 6, 0), parent=prev, paint=t_skin)
-        m.part(f"Fin{i}", (x + 1, 6 + h / 2, -0.25), (length - 2, 3.5 - i * 0.3, 0.5), pivot=(x + 1, 6 + h / 2, 0), parent=prev, paint=t_fin, faces=("north", "south"))
-        x += length
-    m.part("Tail", (x, 0, -0.3), (9, 12, 0.6), pivot=(x, 6, 0), parent=prev, paint=t_fin, faces=("north", "south"))
+    cy = TH_CY
+    xs = [TH_X0 + TH_STEP * i for i in range(len(TH_SEGS))]
+    seg = {}
 
-    def swim(p, amp, jaw):
-        d = {f"Seg{i}": pose((0, s(p, amp * (0.4 + i * 0.25), -i * 0.11), 0)) for i in range(6)}
-        d["Head"] = pose((0, s(p, amp * 0.25, 0.1), s(p * 2, 1.5)))
-        d["Jaw"] = pose((0, 0, -jaw))
+    def body(i, parent, pivot_x):
+        length, h, w, rise = TH_SEGS[i]
+        tag = {"gills": i == 0, "scars": 0.6 if i < 5 else 0.3}
+        faces = tuple(f for f in ("north", "east", "south", "west", "up", "down") if not (f == "west" or f == "east" and i < len(TH_SEGS) - 1))
+        seg[i] = m.part(f"Seg{i}", (xs[i], cy + rise - h / 2, -w / 2), (length, h, w), pivot=(pivot_x, cy, 0), parent=parent, paint=th_body, tag=tag,
+                        faces=faces)
+
+    # The middle first (the root, at the entity's position), then the fore-body forward and the hind-body back
+    body(TH_ROOT, None, xs[TH_ROOT] + 3)
+    for i in range(TH_ROOT - 1, -1, -1):
+        body(i, seg[i + 1], xs[i + 1] + 1)
+    for i in range(TH_ROOT + 1, len(TH_SEGS)):
+        body(i, seg[i - 1], xs[i] + 1)
+
+    # The head: a heavy skull over a lower jaw that juts past the snout, hinged far back
+    head = m.part("Head", (6, cy - 4, -13), (31, 20, 26), pivot=(35, cy + 2, 0), parent=seg[0], paint=th_head,
+                  faces=("north", "east", "south", "west", "up", "down"))
+    m.part("Snout", (-3, cy - 4, -10), (10, 13, 20), pivot=(6, cy + 2, 0), parent=head, paint=th_snout)
+    m.part("Forehead", (-4, cy + 10, -9.5), (16, 6, 19), pivot=(12, cy + 16, 0), parent=head, rest=(0, 0, 30), paint=th_brow)
+    m.part("Brow", (6, cy + 14, -11), (24, 4.5, 22), pivot=(30, cy + 16, 0), parent=head, rest=(0, 0, 7), paint=th_brow)
+    m.part("Gullet", (23, cy - 13, -10), (11, 11, 20), pivot=(30, cy - 6, 0), parent=head, paint=th_gullet, faces=("north", "south", "west"))
+    jaw = m.part("Jaw", (-7, cy - 15, -11.5), (40, 10.8, 23), pivot=(31, cy - 7, 0), parent=head, paint=th_jaw)
+
+    # Teeth. Upper: needles hanging from the snout (inside the jaw, seen when it opens) and along the cheeks, where the
+    # skull overhangs the jaw (seen always). Lower: fangs up the outside of the snout, the front pair longest.
+    rng = random.Random(2077)
+
+    def tooth(name, parent, x, y, z, ln, wd, way, rest):
+        """A needle from (x, y, z) pointing down (way -1) or up (+1); a long one tapers in a thinner, inward-curving tip."""
+        base = ln * 0.55 if ln >= 4.5 else ln
+        y0 = y - base - 0.3 if way < 0 else y - 0.6
+        t = m.part(name, (x - wd / 2, y0, z - wd / 2), (wd, base + 0.9, wd), pivot=(x, y, z), parent=parent, rest=rest, paint=th_tooth,
+                   tag={"up": way > 0})
+        if ln >= 4.5:
+            tw, tl, side = wd * 0.55, ln * 0.5, (1 if z > 0 else -1)
+            yb = y + way * base
+            m.part(name + "Tip", (x - tw / 2, yb - tl if way < 0 else yb, z - tw / 2), (tw, tl, tw), pivot=(x, yb, z), parent=t,
+                   rest=(-way * side * 12, 0, rng.uniform(-6, 6)), paint=th_tooth, tag={"tip": True})
+    for side in (1, -1):
+        for j, (x, ln, z, wd) in enumerate([(-1.5, 6, 9.2, 1.0), (1.0, 4.5, 9.4, 0.9), (3.5, 5, 9.3, 0.9), (5.5, 3.5, 9.4, 0.8),
+                                            (8.5, 4.5, 12.4, 1.0), (11.5, 3, 12.5, 0.8), (14, 5.5, 12.4, 1.0), (17, 3.5, 12.5, 0.8),
+                                            (20, 4.5, 12.4, 0.9), (23, 3, 12.5, 0.8), (26, 3.5, 12.4, 0.8)]):
+            tooth(f"ToothU{'L' if side > 0 else 'R'}{j}", head, x, cy - 4, side * z, ln, wd, -1, (side * rng.uniform(-8, 8), 0, rng.uniform(-14, 6)))
+        for j, (x, ln, wd) in enumerate([(-6, 9, 1.3), (-3.5, 7, 1.1), (-1, 5, 1.0), (1.5, 6, 1.0), (4, 4, 0.9), (7, 5, 0.9), (10, 3.5, 0.8), (13, 4, 0.8)]):
+            tooth(f"ToothD{'L' if side > 0 else 'R'}{j}", jaw, x, cy - 4.2, side * 10.9, ln, wd, 1, (side * rng.uniform(-10, 4), 0, rng.uniform(-6, 12)))
+
+    # Eyes: one large milky eye a side, and a scatter of smaller ones behind it, not where the other side has them.
+    # (x, y, size, lid, look, glow)
+    eyes = {1: [(11, cy + 5, 6, 0.0, -1, 70), (19.5, cy + 9.5, 3, 0.0, 0, 55), (23, cy + 4.5, 2.5, 0.4, 0, 45)],
+            -1: [(11.5, cy + 4.5, 6, 0.15, 1, 70), (18, cy + 2.5, 3.5, 0.5, 0, 50), (23.5, cy + 9, 2, 0.0, 0, 50), (8, cy + 11, 2, 0.0, 0, 45)]}
+    eye_names = []
+    for side, row in eyes.items():
+        for k, (x, y, sz, lid, look, glow) in enumerate(row):
+            name = f"Eye{'L' if side > 0 else 'R'}{k}"
+            z0 = 12.3 if side > 0 else -12.3 - 1.4 * (1 if k == 0 else 0.9)
+            m.part(name, (x, y, z0), (sz, sz, 1.4 if k == 0 else 1.26), pivot=(x + sz / 2, y + sz / 2, side * 13), parent=head, paint=th_eye,
+                   glow=glow, tag={"side": side, "lid": lid, "look": look})
+            eye_names.append(name)
+        # The brow's overhang above the big eye
+        m.part(f"Lid{'L' if side > 0 else 'R'}", (9.5, cy + 11, 11.8 if side > 0 else -13.8), (9, 2.2, 2), parent=head, paint=th_brow)
+
+    # Barbels from the chin: they trail, and their tips glow faintly
+    m.part("BarbelL", (-3, cy - 15.6, 3.4), (9, 1.2, 1.2), pivot=(-3, cy - 15, 4), parent=jaw, rest=(0, 10, -38), paint=th_barbel)
+    m.part("BarbelMidL", (5.5, cy - 15.5, 3.5), (9, 1.0, 1.0), pivot=(5.5, cy - 15, 4), parent="BarbelL", rest=(0, 0, 22), paint=th_barbel)
+    m.part("BarbelTipL", (14, cy - 15.4, 3.6), (8, 0.8, 0.8), pivot=(14, cy - 15, 4), parent="BarbelMidL", rest=(0, 0, 18), paint=th_barbel,
+           glow=60, tag={"tip": True})
+    m.mirror("BarbelL", "BarbelR")
+
+    # Long trailing pectoral fins, low behind the head
+    m.part("PecFinL", (38, cy - 7, 12), (14, 0.6, 12), pivot=(38, cy - 6.7, 12), parent=seg[0], rest=(30, 25, 0), paint=th_fin,
+           faces=("up", "down"), tag={"kind": "pec", "side": 1})
+    m.part("PecTrailL", (51, cy - 7, 12), (24, 0.6, 10), pivot=(51, cy - 6.7, 12), parent="PecFinL", rest=(-8, 6, 0), paint=th_fin,
+           faces=("up", "down"), tag={"kind": "pec", "side": 1, "trail": True})
+    m.mirror("PecFinL", "PecFinR")
+    for n in ("PecFinR", "PecTrailR"):
+        m.by_name[n].tag["side"] = -1
+
+    # Spines over the shoulders, then the dorsal ribbon to the tail; a ventral ribbon under the hind third
+    spines = []
+    for k, (i, dx, ln) in enumerate([(0, 3, 8), (0, 9, 11), (1, 5, 10), (1, 11, 7)]):
+        length, h, w, rise = TH_SEGS[i]
+        top = cy + rise + h / 2
+        m.part(f"Spine{k}", (xs[i] + dx - 0.5, top - 1, -0.5), (1, ln + 1, 1), pivot=(xs[i] + dx, top - 1, 0), parent=seg[i], rest=(0, 0, -38), paint=th_spine)
+        spines.append(f"Spine{k}")
+    dorsal, ventral = [], []
+    for i in range(2, len(TH_SEGS)):
+        length, h, w, rise = TH_SEGS[i]
+        top = cy + rise + h / 2
+        m.part(f"Dorsal{i}", (xs[i] + 0.5, top - 0.5, -0.3), (TH_STEP + 1.5, TH_DORSAL[i] + 0.5, 0.6), pivot=(xs[i] + 0.5, top - 0.5, 0), parent=seg[i],
+               paint=th_fin, faces=("north", "south"), tag={"kind": "dorsal"})
+        dorsal.append(f"Dorsal{i}")
+    for i, fh in TH_VENTRAL.items():
+        length, h, w, rise = TH_SEGS[i]
+        bottom = cy + rise - h / 2
+        m.part(f"Ventral{i}", (xs[i] + 0.5, bottom - fh, -0.3), (TH_STEP + 1.5, fh + 0.5, 0.6), pivot=(xs[i] + 0.5, bottom + 0.5, 0), parent=seg[i],
+               paint=th_fin, faces=("north", "south"), tag={"kind": "ventral"})
+        ventral.append(f"Ventral{i}")
+    last = len(TH_SEGS) - 1
+    m.part("TailFin", (xs[last] + 9, cy - 13, -0.3), (28, 26, 0.6), pivot=(xs[last] + 9, cy, 0), parent=seg[last], paint=th_fin,
+           faces=("north", "south"), tag={"kind": "tail"})
+
+    # Photophores: a dim line down each flank, two under each big eye
+    lights = []
+    for i in range(len(TH_SEGS) - 1):
+        length, h, w, rise = TH_SEGS[i]
+        for side in (1, -1):
+            y = cy + rise - h * 0.12 + rng.uniform(-0.6, 0.6)
+            name = f"Light{'L' if side > 0 else 'R'}{i}"
+            m.part(name, (xs[i] + 6 + rng.uniform(-1, 1), y, w / 2 - 0.1 if side > 0 else -w / 2 - 0.2), (1.6, 1.6, 0.3), parent=seg[i], paint=th_light, glow=95)
+            lights.append(name)
+    for side in (1, -1):
+        for k, x in enumerate((10, 15)):
+            m.part(f"LightHead{'L' if side > 0 else 'R'}{k}", (x, cy + 1.5 - k, 12.9 if side > 0 else -13.2), (1.4, 1.4, 0.3), parent=head, paint=th_light, glow=95)
+
+    # Centred on the entity's position: the middle of its length
+    m.shift(dx=-84)
+
+    # ---- Animations ----
+    n = len(TH_SEGS)
+    seg_names = [f"Seg{i}" for i in range(n)]
+    barbels = ["BarbelL", "BarbelMidL", "BarbelTipL", "BarbelR", "BarbelMidR", "BarbelTipR"]
+    pecs = ["PecFinL", "PecTrailL", "PecFinR", "PecTrailR"]
+    names = ["Head", "Jaw", "TailFin"] + seg_names + barbels + pecs + dorsal + ventral
+
+    def wave(p, amp, lag=0.085, vamp=0.0, straight=1.0):
+        """A swimming wave from the head to the tail. Joint k (0: head to Seg0 ... n: last segment to the tail fin)
+        bends by b_k; a forward-chained part (the head and the fore-body) takes -b_k, a hind one +b_k."""
+        d = {}
+        for k in range(n + 1):
+            f = k / n
+            a = amp * (0.3 + 0.7 * f ** 1.2) * straight
+            b = a * math.sin(TAU * (p - k * lag))
+            c = vamp * (0.4 + 0.6 * f) * math.sin(TAU * (p - k * lag) + 1.3)
+            front = k <= TH_ROOT                                 # the joint lies ahead of the root: its child is the part before it
+            part = ("Head" if k == 0 else f"Seg{k - 1}") if front else ("TailFin" if k == n else f"Seg{k}")
+            sign = -1 if front else 1
+            d[part] = pose((0, sign * b, sign * c))
+        d[f"Seg{TH_ROOT}"] = pose((0, s(p, amp * 0.25, 0.25), 0))
         return d
 
-    # Centred on the entity's position (its middle, not its snout)
-    m.shift(dx=-38)
-    m.animation("swim", 60, cycle(60, 8, lambda p: swim(p, 10, 4)))
-    m.animation("attack", 20, {
-        0: dict(swim(0, 0, 0)),
-        8: dict(swim(0, 0, 0), Jaw=pose((0, 0, -45)), Head=pose((0, 0, 10))),
-        14: dict(swim(0, 0, 0), Jaw=pose((0, 0, -5)), Head=pose((0, 0, -6))),
-        19: dict(swim(0, 0, 0)),
+    def fins(p, amp=9, fold=0.0, barbel_back=0.0):
+        d = {}
+        for j, nm in enumerate(dorsal):                          # the dorsal ribbon ripples front to back, twice a cycle
+            d[nm] = pose((s(p * 2, amp * (1 - fold), -j * 0.12), 0, 0))
+        for j, nm in enumerate(ventral):
+            d[nm] = pose((s(p * 2, amp * (1 - fold), -j * 0.12 - 0.3), 0, 0))
+        for side, sfx in ((1, "L"), (-1, "R")):                  # slow sculling; folded back flat in a rush
+            d[f"PecFin{sfx}"] = pose((side * (s(p, 12, 0.0 if side > 0 else 0.5) * (1 - fold) - 18 * fold), side * 22 * fold, 0))
+            d[f"PecTrail{sfx}"] = pose((side * s(p, 16, 0.2 if side > 0 else 0.7) * (1 - fold), side * 8 * fold, 0))
+            d[f"Barbel{sfx}"] = pose((0, side * s(p, 8, 0.1 if side > 0 else 0.4), s(p, 6) + 30 * barbel_back))
+            d[f"BarbelMid{sfx}"] = pose((0, side * s(p, 14, 0.25 if side > 0 else 0.55), s(p, 10, 0.2) - 12 * barbel_back))
+            d[f"BarbelTip{sfx}"] = pose((0, side * s(p, 20, 0.4 if side > 0 else 0.7), s(p, 14, 0.35) - 10 * barbel_back))
+        return d
+
+    # Swim: slow and smooth, three seconds a stroke; the jaw hangs a little open and works
+    def swim(p):
+        d = wave(p, 6.5, lag=0.1, vamp=0.9)
+        d.update(fins(p))
+        d["Jaw"] = pose((0, 0, 4 + 3 * math.sin(TAU * (p + 0.2))))
+        d[f"Seg{TH_ROOT}"] = pose((0, s(p, 1.4, 0.25), s(p, 0.8, 0.5)), (0, 1.2 * math.sin(TAU * p), 0))
+        return d
+
+    m.animation("swim", 90, {f: full(names, swim(f / 90)) for f in range(0, 90, 5)})
+
+    # Rush: the long run in at a diver, the wave quick and deep, the maw already open, the fins laid back
+    def rush(p):
+        d = wave(p, 8.5, lag=0.1, vamp=0.6)
+        d.update(fins(p, amp=4, fold=1.0, barbel_back=1.0))
+        d["Jaw"] = pose((0, 0, 32 + 4 * math.sin(TAU * p * 2)))
+        d["Head"] = pose((0, d["Head"]["rot"][1] * 0.5, -4))
+        return d
+
+    m.animation("rush", 30, {f: full(names, rush(f / 30)) for f in range(0, 30, 3)})
+
+    # Attack (one-shot, 36 frames): it draws back into an S, the jaw dropping; lunges a block and a half forward with the
+    # maw gaped wide; snaps shut (frame 15); shakes its head, and settles back into its line.
+    def bend(front, back):
+        """An S-curve: the fore-body one way, the hind-body the other (positive front pulls the head up and back)."""
+        d = {}
+        for i in range(n):
+            if i < TH_ROOT:
+                d[f"Seg{i}"] = pose((0, front * 6 * (1 - i / TH_ROOT), -front * 5))
+            elif i > TH_ROOT:
+                d[f"Seg{i}"] = pose((0, back * 7, back * 2))
+        d["Head"] = pose((0, front * 4, -front * 10))
+        d["TailFin"] = pose((0, back * 12, 0))
+        return d
+
+    def atk(front, back, jaw, lunge, head=(0, 0), fold=0.0, p=0.0):
+        d = bend(front, back)
+        d.update(fins(p, amp=5, fold=fold, barbel_back=fold))
+        d["Jaw"] = pose((0, 0, jaw))
+        d[f"Seg{TH_ROOT}"] = pose((0, 0, -front * 3), (-lunge, front * 1.5, 0))
+        hy, hz = head
+        d["Head"] = pose((0, d["Head"]["rot"][1] + hy, d["Head"]["rot"][2] + hz))
+        return d
+
+    atk_names = names + [f"Seg{TH_ROOT}"]
+    m.animation("attack", 36, {
+        0: full(atk_names, atk(0, 0, 5, 0)),
+        7: full(atk_names, atk(1.0, -1.0, 24, -6, fold=0.5, p=0.2)),
+        12: full(atk_names, atk(-0.3, 0.6, 58, 22, fold=1.0, p=0.4)),
+        15: full(atk_names, atk(-0.2, 0.4, -1, 25, head=(0, 6), fold=1.0, p=0.5)),
+        19: full(atk_names, atk(0, 0.2, 2, 23, head=(12, 3), fold=0.6, p=0.6)),
+        23: full(atk_names, atk(0, -0.2, 3, 20, head=(-10, 0), fold=0.4, p=0.7)),
+        27: full(atk_names, atk(0, 0.1, 4, 14, head=(5, 0), fold=0.2, p=0.8)),
+        35: full(atk_names, atk(0, 0, 5, 0, p=1.0)),
     }, end="Stop")
     return m
 
@@ -3653,11 +4963,1826 @@ def roboman():
     return m
 
 
+# ======================================================================== Bacteria
+# The Howler of Kane Parsons' found footage ("the Lifeform"; Entity 1 on the Fandom wiki), here the "dark figures
+# stalking them between the corridors" of the Wikidot Level 0. "Very tall, thin and vaguely humanoid ... standing on two
+# legs"; "a slim vine-like anatomy akin to a tangle of black wires shaped into a humanoid form"; "the arms reach the
+# floor and it has long, thin fingers, while its legs are relatively short and lack feet"; "a cable-like string wraps
+# around the body and legs"; its limbs "very thin and stiff, but it can still move fast and quietly"; it "comes to life"
+# out of a black substance like mould. About eleven feet of it, which Level 0's three-block rooms cannot hold: it
+# stoops, the torso bent forward and the faceless head craned out on a long neck, so it stands ~45 px with its crown
+# under the ceiling tiles. Every limb is a bundle of two or three thin twisted strands with loose wires hanging off it
+# and cable wound round it; the legs end not in feet but in frayed strands splayed on the carpet like roots, and the
+# fingers of the floor-length arms rest on the carpet too. The head is a small dark lump with a hollow where a face (or
+# a camera's lens) should be and a seam that splits open when it howls. Nothing glows. It moves wrong: holds still, snaps
+# to a new pose in a frame or two, holds again; it runs bent double, clawing at the carpet with its arms in turn.
+
+BA_BLACK = (16, 15, 13)        # the strands: a black that is not quite black
+BA_FIBRE = (31, 29, 25)        # ... the lighter fibres along them
+BA_GLINT = (64, 60, 50)        # ... and the dull wet glint where they twist
+BA_DEEP = (5, 5, 5)            # gaps in the tangle
+BA_MOULD = (26, 28, 18)        # an olive fuzz of mould
+BA_CABLE = (38, 34, 28)        # the cable wound round the body and legs
+BA_TIP = (54, 50, 44)          # finger tips, worn grey
+
+
+def ba_lengthwise(ctx):
+    """True if the face's v axis (down the face) runs along the part's longest side."""
+    sx, sy, sz = ctx.part.size
+    long_axis = max(range(3), key=lambda i: (sx, sy, sz)[i])
+    if ctx.face in ("up", "down"):
+        return long_axis == 2
+    return long_axis == 1
+
+
+def ba_strand_paint(ctx, base=BA_BLACK):
+    """A strand of wire-like vine: dark fibres along it and a dull glint spiralling round it (the twist)."""
+    fill(ctx, base, 0.14)
+    if ctx.face in ("up", "down") and not ba_lengthwise(ctx) and min(ctx.part.size) * 2 >= max(ctx.w, ctx.h) - 1:
+        fill(ctx, BA_DEEP, 0.1, face_shade=False)          # the cut ends
+        return
+    along = ba_lengthwise(ctx)
+    n, m = (ctx.h, ctx.w) if along else (ctx.w, ctx.h)
+    phase = ctx.rng.randint(0, 5)
+    for i in range(n):
+        j = (i // 2 + phase) % max(1, m)                  # the spiral of the twist, one texel across every two along
+        a = 0.45 if (i // 2) % 3 == 0 else 0.18
+        if along:
+            texel(ctx, j, i, BA_GLINT, a)
+        else:
+            texel(ctx, i, j, BA_GLINT, a)
+        if ctx.rng.random() < 0.12:                       # a fibre crossing
+            if along:
+                texel(ctx, (j + 1) % m, i, BA_DEEP, 0.7)
+            else:
+                texel(ctx, i, (j + 1) % m, BA_DEEP, 0.7)
+    if ctx.rng.random() < 0.5:
+        blotch(ctx, BA_MOULD, 1, 1.0, 3.0, 0.45)
+    speckle(ctx, BA_FIBRE, 0.06)
+
+
+def ba_knot(ctx):
+    """A knot of the tangle (hips, joints, jaw): strands crossing every which way over black gaps."""
+    fill(ctx, BA_BLACK, 0.12)
+    for _ in range(max(2, (ctx.w * ctx.h) // 10)):
+        u0, v0 = ctx.rng.random(), ctx.rng.random()
+        ang = ctx.rng.uniform(0, math.pi)
+        ln = ctx.rng.uniform(0.3, 0.9)
+        u1, v1 = u0 + math.cos(ang) * ln, v0 + math.sin(ang) * ln
+        line(ctx, u0, v0, u1, v1, BA_FIBRE if ctx.rng.random() < 0.7 else BA_GLINT, 0.55)
+    for _ in range(max(1, (ctx.w * ctx.h) // 18)):
+        u0, v0 = ctx.rng.random(), ctx.rng.random()
+        line(ctx, u0, v0, u0 + ctx.rng.uniform(-0.3, 0.3), v0 + ctx.rng.uniform(0.1, 0.4), BA_DEEP, 0.8)
+    blotch(ctx, BA_MOULD, 1, 1.0, 2.5, 0.4)
+
+
+def ba_chest(ctx):
+    """The torso's core: the knot, with ribs of strand showing as ridges round the front and sides."""
+    ba_knot(ctx)
+    if ctx.face in ("west", "north", "south"):
+        for v in (0.2, 0.36, 0.52, 0.68):
+            line(ctx, 0.0, v, 1.0, v + 0.05, BA_GLINT, 0.35)
+            line(ctx, 0.0, v + 0.04, 1.0, v + 0.09, BA_DEEP, 0.6)
+
+
+def ba_head(ctx):
+    """The head: a lump of the tangle, wound tighter and smoother than the body (it catches more light), no face."""
+    fill(ctx, BA_BLACK, 0.1)
+    if ctx.face in ("up", "west", "north", "south"):
+        for _ in range(3):
+            v = ctx.rng.uniform(0.1, 0.9)
+            line(ctx, 0.0, v, 1.0, v + ctx.rng.uniform(-0.25, 0.25), BA_FIBRE, 0.6)
+        line(ctx, 0.0, ctx.rng.uniform(0.2, 0.8), 1.0, ctx.rng.uniform(0.2, 0.8), BA_GLINT, 0.4)
+    blotch(ctx, BA_MOULD, 1, 1.0, 2.0, 0.35)
+    if ctx.face == "down":
+        fill(ctx, BA_DEEP, 0.1, face_shade=False)
+
+
+def ba_lens(ctx):
+    """Where a face should be: a hollow, a ring of wound strand round a black pit (a lens, or a socket). Not an eye."""
+    ba_head(ctx)
+    if ctx.face == "west":
+        w, h = ctx.w, ctx.h
+        cx, cy = (w - 1) / 2, (h - 1) / 2
+        for ty in range(h):
+            for tx in range(w):
+                d = math.hypot(tx - cx, ty - cy) / max(1.0, min(w, h) / 2)
+                if d < 0.62:
+                    texel(ctx, tx, ty, BA_DEEP, 1.0)
+                elif d < 0.95:
+                    texel(ctx, tx, ty, BA_GLINT if (tx + ty) % 3 == 0 else BA_FIBRE, 0.7)
+
+
+def ba_cable(ctx):
+    """The cable wound round the body and legs: a little lighter, banded where it turns."""
+    fill(ctx, BA_CABLE, 0.1)
+    if ctx.face in ("north", "south", "east", "west"):
+        for tx in range(0, ctx.w, 2):
+            texel(ctx, tx, 0, BA_GLINT, 0.5)
+            texel(ctx, tx + 1, ctx.h - 1, BA_DEEP, 0.6)
+
+
+def ba_tendril(ctx):
+    """A loose wire or vine hanging off the body: tapering to nothing, the end cut ragged."""
+    ba_strand_paint(ctx)
+    if ctx.face in ("up", "down"):
+        return
+    w, h = ctx.w, ctx.h
+    if not ba_lengthwise(ctx):
+        return
+    for ty in range(h):
+        t = ty / max(1, h - 1)
+        cut = int((w / 2) * max(0.0, t - 0.45) / 0.55 + ctx.rng.uniform(0, 0.8))
+        for k in range(min(w - 1, cut)):
+            clear(ctx, k if ctx.rng.random() < 0.5 else w - 1 - k, ty)
+    ragged(ctx, max(1, h // 5))
+
+
+def ba_finger(ctx):
+    """A long finger: a strand with a darker knuckle band and a worn grey tip."""
+    ba_strand_paint(ctx)
+    if ctx.face in ("north", "south", "east", "west"):
+        texrow(ctx, 0, 0, -1, BA_DEEP, 0.7)
+        if ctx.part.tag.get("tip"):
+            texrow(ctx, -1, 0, -1, BA_TIP)
+            texrow(ctx, -2, 0, -1, BA_TIP, 0.5)
+    elif ctx.face == "down" and ctx.part.tag.get("tip"):
+        fill(ctx, BA_TIP, 0.05, face_shade=False)
+
+
+def ba_stain(ctx):
+    """The black mould it comes out of: a blotch on the carpet, black at the heart, fuzzed olive-black at the rim, the
+    edge blobby and spreading in fingers, spores round it."""
+    px = ctx.img.load()
+    w, h = ctx.w, ctx.h
+    cx, cy = w / 2, h / 2
+    lobes = [(ctx.rng.uniform(0, TAU), ctx.rng.uniform(0.06, 0.16), ctx.rng.randint(2, 5)) for _ in range(4)]
+    fingers = [(ctx.rng.uniform(0, TAU), ctx.rng.uniform(0.15, 0.35)) for _ in range(7)]
+    for ty in range(h):
+        for tx in range(w):
+            dx, dy = (tx + 0.5 - cx) / (w / 2), (ty + 0.5 - cy) / (h / 2)
+            r = math.hypot(dx, dy)
+            a = math.atan2(dy, dx)
+            edge = 0.66 + sum(amp * math.sin(k * a + ph) for ph, amp, k in lobes)
+            for fa, fl in fingers:                           # creeping fingers of it reaching out
+                da = abs((a - fa + math.pi) % TAU - math.pi)
+                if da < 0.09:
+                    edge = max(edge, 0.66 + fl * (1 - da / 0.09))
+            edge += ctx.rng.uniform(-0.03, 0.03)
+            if r < edge:
+                t = r / edge
+                c = mix(BA_DEEP, BA_BLACK, t * 0.8)
+                if t > 0.7:
+                    c = mix(c, BA_MOULD, (t - 0.7) / 0.3 * 0.8)
+                if ctx.rng.random() < 0.08:
+                    c = mix(c, BA_FIBRE, 0.6)
+                px[ctx.x + tx, ctx.y + ty] = c + (255,)
+            elif r < edge + 0.12 and ctx.rng.random() < 0.18 * (1 - (r - edge) / 0.12):
+                px[ctx.x + tx, ctx.y + ty] = mix(BA_MOULD, BA_BLACK, 0.4) + (255,)      # spores
+            else:
+                px[ctx.x + tx, ctx.y + ty] = (0, 0, 0, 0)
+
+
+def ba_strand(m, name, parent, at, length, t, rest=(0, 0, 0), up=False, extra=(), paint=None, flat=None, extra_paint=None):
+    """A strand hanging from (or, up=True, rising from) `at`, plus extra thinner strands bundled with it (children,
+    so they follow it). extra: (dx, dz, thickness, ex, ez, dlength): an extra strand starts at at + (dx, 0, dz) and
+    its far end drifts by (ex, ez) from there, so the bundle twists and frays."""
+    x, y, z = at
+    tz = t if flat is None else flat
+    frm = (x - t / 2, y if up else y - length, z - tz / 2)
+    core = m.part(name, frm, (t, length, tz), pivot=at, parent=parent, rest=rest, paint=paint or ba_strand_paint)
+    for i, (dx, dz, tt, ex, ez, dl) in enumerate(extra):
+        ln = length + dl
+        if up:
+            r = (math.degrees(math.atan2(ez, ln)), 0, -math.degrees(math.atan2(ex, ln)))
+        else:
+            r = (-math.degrees(math.atan2(ez, ln)), 0, math.degrees(math.atan2(ex, ln)))
+        ename = name[:-1] + f"S{i}L" if name.endswith("L") else f"{name}S{i}"
+        m.part(ename, (x + dx - tt / 2, y if up else y - ln, z + dz - tt / 2), (tt, ln, tt), pivot=(x + dx, y, z + dz),
+               parent=core, rest=r, paint=extra_paint or ba_strand_paint)
+    return core
+
+
+def _ba_lerp(a, b, t):
+    out = {"rot": tuple(a["rot"][i] + (b["rot"][i] - a["rot"][i]) * t for i in range(3)),
+           "off": tuple(a["off"][i] + (b["off"][i] - a["off"][i]) * t for i in range(3))}
+    if "str" in a or "str" in b:
+        sa, sb = a.get("str", (1, 1, 1)), b.get("str", (1, 1, 1))
+        out["str"] = tuple(sa[i] + (sb[i] - sa[i]) * t for i in range(3))
+    return out
+
+
+def _ba_at(track, f, frames, loop):
+    ks = sorted(k for k in track if not loop or k < frames)
+    if f in ks:
+        return track[f]
+    prev = [k for k in ks if k <= f]
+    nxt = [k for k in ks if k > f]
+    if loop:
+        pk, pv = (prev[-1], track[prev[-1]]) if prev else (ks[-1] - frames, track[ks[-1]])
+        nk, nv = (nxt[0], track[nxt[0]]) if nxt else (ks[0] + frames, track[ks[0]])
+    else:
+        if not prev:
+            return track[ks[0]]
+        if not nxt:
+            return track[ks[-1]]
+        pk, pv, nk, nv = prev[-1], track[prev[-1]], nxt[0], track[nxt[0]]
+    return _ba_lerp(pv, nv, (f - pk) / (nk - pk))
+
+
+def ba_keys(frames, spec, overlay=None, step=0, loop=True, names=()):
+    """Keyframes from sparse per-part keys, the way the motion is thought of: spec {frame: {part: pose}} keys a part
+    only where it changes; between its keys it eases linearly (so two keys a frame apart are a snap, two equal keys a
+    hold). Every emitted keyframe names every animated part at its interpolated pose (the game wants that), plus an
+    optional overlay(frame) -> {part: pose} added on top (the loose wires swaying), sampled every `step` frames."""
+    tracks = {}
+    for f, parts in spec.items():
+        for n, p in parts.items():
+            tracks.setdefault(n, {})[f] = p
+    frames_set = {0} | {f for f in spec if f < frames or not loop}
+    if step:
+        frames_set |= set(range(0, frames, step))
+    if not loop:
+        frames_set.add(frames - 1)
+    every = set(tracks) | set(names) | (set(overlay(0)) if overlay else set())
+    out = {}
+    for f in sorted(frames_set):
+        d = {}
+        ov = overlay(f) if overlay else {}
+        for n in every:
+            p = _ba_at(tracks[n], f, frames, loop) if n in tracks else pose()
+            if n in ov:
+                o = ov[n]
+                q = {"rot": tuple(p["rot"][i] + o["rot"][i] for i in range(3)), "off": tuple(p["off"][i] + o["off"][i] for i in range(3))}
+                if "str" in p or "str" in o:
+                    q["str"] = tuple(p.get("str", (1, 1, 1))[i] * o.get("str", (1, 1, 1))[i] for i in range(3))
+                p = q
+            d[n] = p
+        out[f] = d
+    return out
+
+
+def R(x=0.0, y=0.0, z=0.0, o=(0, 0, 0), st=None):
+    return pose((x, y, z), o, st)
+
+
+def bacteria():
+    m = Model("bacteria", atlas_width=64, seed=1)
+
+    # ---- Hips and torso: a knot of strands, then a bundle rising out of it, bent forward under the ceiling ----
+    HY, WL, CL, NL = 15.6, 8.8, 12.6, 5.6               # hip height; waist, chest and neck lengths
+    CY = HY + 0.6 + WL - 0.2                            # where the chest starts
+    SY = CY + CL - 0.8                                  # the shoulder bar
+    NY = CY + CL - 0.2                                  # the neck's root
+    HD = NY + NL                                        # the head's pivot
+    hips = m.part("Hips", (-1.3, HY - 1.2, -1.9), (2.6, 2.4, 3.8), pivot=(0, HY, 0), paint=ba_knot)
+    ba_strand(m, "Waist", hips, (0, HY + 0.6, 0), WL, 1.2, rest=(0, 0, 6), up=True,
+              extra=[(0.45, 0.5, 0.5, -0.7, -1.0, 0), (-0.45, -0.5, 0.5, 0.6, 1.0, 0), (0.3, -0.55, 0.4, -0.4, 0.9, -0.6)])
+    m.part("WaistWrap", (-1.0, HY + 3.8, -1.0), (2.0, 0.4, 2.0), pivot=(0, HY + 4.0, 0), parent="Waist", rest=(12, 0, 16), paint=ba_cable)
+    chest = ba_strand(m, "Chest", "Waist", (0, CY, 0), CL, 1.4, rest=(0, 0, 9), up=True, flat=1.8, paint=ba_chest,
+                      extra=[(0.5, 0.9, 0.5, 0.0, 1.9, 0), (-0.5, 0.9, 0.45, 0.2, 1.6, -0.4),
+                             (0.5, -0.9, 0.5, 0.0, -1.9, 0), (-0.5, -0.9, 0.45, 0.2, -1.6, -0.4),
+                             (-0.75, 0.2, 0.4, -0.3, -0.5, -1.0), (0.75, -0.2, 0.45, 0.2, 0.4, -0.6),
+                             (-0.95, 1.0, 0.4, -0.2, -2.9, -0.8), (-0.95, -1.1, 0.4, -0.3, 2.6, -1.6),   # an X of strands across the front
+                             (0.9, 1.2, 0.4, 0.3, -2.0, -2.4)])
+    m.part("ChestWrap0", (-1.25, CY + 3.0, -1.7), (2.5, 0.4, 3.4), pivot=(0, CY + 3.2, 0), parent=chest, rest=(16, 0, -10), paint=ba_cable)
+    m.part("ChestWrap1", (-1.25, CY + 7.2, -2.1), (2.5, 0.4, 4.2), pivot=(0, CY + 7.4, 0), parent=chest, rest=(-12, 0, 8), paint=ba_cable)
+
+    # ---- Shoulders: hunched high, a bar of strand each side ----
+    sh = m.part("ShoulderL", (-0.55, SY - 0.55, 0.0), (1.1, 1.1, 5.0), pivot=(0, SY, 0.2), parent=chest, rest=(10, 0, 0), paint=ba_strand_paint)
+    m.part("ShoulderS0L", (-0.3, SY - 0.2, 0.4), (0.55, 0.55, 4.6), pivot=(0, SY, 0.4), parent=sh, rest=(8, 12, 0), paint=ba_strand_paint)
+    m.part("ShoulderKnotL", (-0.75, SY - 0.9, 4.0), (1.5, 1.6, 1.5), pivot=(0, SY - 0.1, 4.75), parent=sh, paint=ba_knot)
+
+    # ---- Arms: floor-length bundles of strand, the fingers splayed on the carpet ----
+    UL, FL = 14.5, 14.4
+    EY = SY - 0.2 - UL                                  # the elbow
+    WY = EY - FL                                        # the wrist
+    ba_strand(m, "UpperArmL", sh, (0, SY - 0.2, 4.75), UL, 0.9, rest=(-13, 0, -15),
+              extra=[(0.4, 0.3, 0.5, -0.5, -0.6, 0), (-0.35, -0.3, 0.45, 0.6, 0.5, -0.5)])
+    m.part("ArmWrapL", (-0.8, SY - 7.4, 3.95), (1.6, 0.35, 1.6), pivot=(0, SY - 7.2, 4.75), parent="UpperArmL", rest=(20, 0, -14), paint=ba_cable)
+    ba_strand(m, "ForearmL", "UpperArmL", (0, EY, 4.75), FL, 0.8, rest=(0, 0, -7),
+              extra=[(0.35, 0.3, 0.45, -0.4, -0.7, 0), (-0.3, -0.3, 0.4, 0.5, 0.6, -0.3)])
+    m.part("ElbowL", (-0.7, EY - 0.7, 4.05), (1.4, 1.5, 1.4), pivot=(0, EY, 4.75), parent="ForearmL", paint=ba_knot)
+    m.part("HandL", (-0.5, WY - 2.3, 3.95), (1.0, 2.4, 1.6), pivot=(0, WY, 4.75), parent="ForearmL", rest=(0, 0, -4), paint=ba_knot)
+    KY = WY - 2.2                                       # the knuckles
+    for i, (dz, ln, tip, spread) in enumerate(((-0.6, 3.2, 2.6, 12), (-0.2, 3.8, 3.2, 4), (0.2, 3.6, 3.0, -4), (0.6, 3.0, 2.4, -12))):
+        z = 4.75 + dz
+        m.part(f"Finger{i}L", (-0.18, KY - ln, z - 0.18), (0.36, ln, 0.36), pivot=(0, KY, z), parent="HandL",
+               rest=(spread, 0, -14), paint=ba_finger)
+        m.part(f"Tip{i}L", (-0.15, KY - ln - tip, z - 0.15), (0.3, tip + 0.1, 0.3), pivot=(0, KY - ln + 0.05, z), parent=f"Finger{i}L",
+               rest=(0, 0, -38), paint=ba_finger, tag={"tip": True})
+    # loose wires hanging off the shoulder and the elbow
+    ba_strand(m, "ShoulderWireL", sh, (0.5, SY - 0.6, 4.3), 8.5, 0.3, rest=(-6, 0, 8), flat=1.0, paint=ba_tendril)
+    ba_strand(m, "ElbowWireL", "ForearmL", (0.4, EY - 0.4, 5.2), 6.5, 0.9, rest=(-4, 0, 6), flat=0.3, paint=ba_tendril)
+
+    # ---- Legs: short, footless, frayed into roots on the carpet ----
+    TL, SL = 8.0, 6.9
+    KN = HY - 0.4 - TL                                  # the knee
+    ba_strand(m, "ThighL", hips, (0, HY - 0.4, 1.3), TL, 0.95, rest=(-4, 0, -18),
+              extra=[(0.4, 0.3, 0.5, -0.5, -0.7, 0), (-0.4, -0.25, 0.5, 0.5, 0.6, -0.3)])
+    m.part("ThighWrapL", (-0.85, HY - 4.2, 0.45), (1.7, 0.4, 1.7), pivot=(0, HY - 4.0, 1.3), parent="ThighL", rest=(14, 0, -18), paint=ba_cable)
+    m.part("KneeL", (-0.7, KN - 0.7, 0.6), (1.4, 1.4, 1.4), pivot=(0, KN, 1.3), parent="ThighL", paint=ba_knot)
+    ba_strand(m, "ShinL", "ThighL", (0, KN + 0.1, 1.3), SL, 0.8, rest=(3, 0, 30),
+              extra=[(0.35, 0.25, 0.45, -0.3, -0.6, -0.2), (-0.3, -0.3, 0.4, 0.4, 0.5, -0.6)])
+    for i, (rx, rz, ln) in enumerate(((-55, -40, 2.8), (40, -30, 2.4), (-10, 60, 2.2), (25, -70, 3.0))):
+        ba_strand(m, f"Root{i}L", "ShinL", (0, KN + 0.1 - SL + 0.2, 1.3), ln, 0.35, rest=(rx, 0, rz), paint=ba_finger)
+        m.by_name[f"Root{i}L"].tag["tip"] = True
+
+    m.mirror("ShoulderL", "ShoulderR")
+    m.mirror("ThighL", "ThighR")
+    # Asymmetry: the right shoulder sits a touch lower and further forward, the right arm a little more bent
+    m.by_name["ShoulderR"].rest = (-13, 0, 0)
+    m.by_name["UpperArmR"].rest = (14, 0, -15)
+    m.by_name["ForearmR"].rest = (0, 0, -9)
+
+    # Wires hanging off the hips: the cable wound round the body coming loose
+    hip_wires = []
+    for i, (at, ln, rest, flat) in enumerate((((-0.9, HY - 0.8, 1.4), 9.0, (-10, 0, -6), 0.3), ((1.0, HY - 0.4, 0.4), 11.5, (4, 0, 10), 0.9),
+                                               ((0.2, HY - 0.8, -1.6), 7.5, (12, 0, 4), 0.3), ((-0.6, HY - 0.6, -0.8), 5.5, (6, 0, -12), 0.8))):
+        tw = 0.3 if flat == 0.9 else 0.9
+        ba_strand(m, f"HipWire{i}", hips, at, ln, tw, rest=rest, flat=flat, paint=ba_tendril)
+        hip_wires.append(f"HipWire{i}")
+
+    # ---- Neck and head: craned forward; a faceless lump with a hollow where the face should be ----
+    ba_strand(m, "Neck", chest, (0, NY, 0), NL, 0.75, rest=(0, 0, 24), up=True,
+              extra=[(0.3, 0.3, 0.4, -0.3, -0.5, 0), (-0.3, -0.3, 0.4, 0.4, 0.5, -0.3)])
+    head = m.part("Head", (-2.2, HD - 0.6, -1.15), (3.0, 2.3, 2.3), pivot=(0, HD, 0), parent="Neck", rest=(10, 0, -32), paint=ba_head)
+    # the back of the skull bulging up and back over the neck, lopsided; a lump low on one side; cable wound round it
+    m.part("Crown", (-1.0, HD + 0.6, -1.3), (3.0, 2.0, 2.4), pivot=(0.4, HD + 1.0, 0), parent=head, rest=(-8, 6, -18), paint=ba_head)
+    m.part("Cheek", (-1.9, HD - 0.9, 0.5), (2.0, 1.4, 1.0), pivot=(-0.9, HD - 0.2, 1.0), parent=head, rest=(0, -12, 8), paint=ba_knot)
+    m.part("Lens", (-3.0, HD - 0.2, -0.85), (0.9, 1.7, 1.7), pivot=(-2.3, HD + 0.6, 0), parent=head, rest=(0, 0, 6), paint=ba_lens)
+    m.part("HeadWrap0", (-2.4, HD + 0.2, -1.35), (3.4, 0.35, 2.7), pivot=(-0.7, HD + 0.4, 0), parent=head, rest=(18, 0, -12), paint=ba_cable)
+    m.part("HeadWrap1", (-1.25, HD - 0.75, -1.35), (0.35, 2.9, 2.7), pivot=(-1.1, HD + 0.6, 0), parent=head, rest=(0, 16, 10), paint=ba_cable)
+    jaw = m.part("Jaw", (-2.2, HD - 1.5, -1.1), (2.8, 1.0, 2.2), pivot=(0.4, HD - 0.9, 0), parent=head, paint=ba_knot)
+    # wires coming loose off the back of the skull and hanging from the jaw
+    for i, (at, ln, rest) in enumerate((((1.4, HD + 2.2, 0.6), 3.6, (14, 0, -64)), ((1.6, HD + 1.8, -0.6), 4.6, (-16, 0, -82)))):
+        ba_strand(m, f"CrownWire{i}", "Crown", at, ln, 0.3, rest=rest, up=True, paint=ba_finger)
+    jaw_wires = []
+    for i, (at, ln, rest) in enumerate((((-1.6, HD - 1.4, 0.6), 5.0, (-6, 0, 28)), ((-0.6, HD - 1.4, -0.6), 6.5, (8, 0, 34)),
+                                        ((1.6, HD + 1.6, 0.2), 5.5, (4, 0, 40)))):
+        ba_strand(m, f"JawWire{i}", jaw if i < 2 else "Crown", at, ln, 0.3, rest=rest, flat=0.6, paint=ba_tendril)
+        jaw_wires.append(f"JawWire{i}")
+
+    # ---- The mould it comes out of: a stain on the floor, buried under the carpet except while it rises or falls ----
+    m.part("Stain", (-12, -0.4, -12), (24, 0.1, 24), pivot=(0, -0.35, 0), faces=("up",), paint=ba_stain)
+
+    # ================================================================ Animations
+    # +Z swings a hanging limb back and leans an upright part forward; +X tilts an upright part toward the left (+z)
+    # and swings a hanging part toward the right. Motion is held still and snapped between poses (two keys a frame or
+    # two apart), never eased into a natural rhythm; only the loose wires drift.
+    fingers = [f"{k}{i}{sd}" for k in ("Finger", "Tip") for i in range(4) for sd in "LR"]
+    wires = ["ShoulderWireL", "ShoulderWireR", "ElbowWireL", "ElbowWireR"] + hip_wires + jaw_wires
+
+    def drift(amp=4.0, speed=1.0, trail=0.0, frames=120):
+        def f(fr):
+            p = fr / frames
+            d = {}
+            for i, n in enumerate(wires):
+                d[n] = pose((s(p * speed, amp * 0.7, i * 0.21), 0, trail + s(p * speed * 1.3, amp, i * 0.37)))
+            return d
+        return f
+
+    def fingers_curl(side, amount, tips=1.4):
+        return {**{f"Finger{i}{side}": R(z=-amount) for i in range(4)}, **{f"Tip{i}{side}": R(z=-amount * tips) for i in range(4)}}
+
+    def fingers_spread(side, amount):
+        sg = 1 if side == "L" else -1
+        return {**{f"Finger{i}{side}": R(x=sg * (1.5 - i) * amount * 0.5, z=amount * 0.4) for i in range(4)},
+                **{f"Tip{i}{side}": R(z=amount * 0.6) for i in range(4)}}
+
+    # Idle (5 s): nothing, held. Then the head snaps over into a tilt and stays there, a shoulder jerks, two fingers
+    # on the carpet curl and let go, the head snaps back; once, the whole thing shudders for a frame.
+    m.animation("idle", 150, ba_keys(150, {
+        0: {"Head": R(), "Neck": R(), "Chest": R(), "ShoulderR": R(), "Finger1L": R(), "Tip1L": R(), "Finger2L": R(), "Tip2L": R()},
+        36: {"Head": R()},
+        38: {"Head": R(x=-22, y=-6, z=4)},
+        40: {"Head": R(x=-18, y=-4, z=2)},
+        70: {"Head": R(x=-18, y=-4, z=2), "ShoulderR": R()},
+        71: {"ShoulderR": R(x=-6, z=-6)},
+        74: {"ShoulderR": R()},
+        88: {"Finger1L": R(), "Tip1L": R(), "Finger2L": R(), "Tip2L": R()},
+        92: {"Finger1L": R(z=26), "Tip1L": R(z=-40), "Finger2L": R(z=18), "Tip2L": R(z=-34)},
+        104: {"Finger1L": R(z=26), "Tip1L": R(z=-40), "Finger2L": R(z=18), "Tip2L": R(z=-34)},
+        106: {"Finger1L": R(), "Tip1L": R(), "Finger2L": R(), "Tip2L": R()},
+        110: {"Head": R(x=-18, y=-4, z=2)},
+        111: {"Head": R(x=4, y=2, z=-3)},
+        113: {"Head": R()},
+        128: {"Chest": R(), "Neck": R()},
+        129: {"Chest": R(x=3, z=-2), "Neck": R(x=-4, z=3)},
+        131: {"Chest": R(), "Neck": R()},
+    }, overlay=drift(3, 1, 0, 150), step=10))
+
+    # Lurk (6 s): standing at the end of the corridor, watching. The head tilts over, slowly, far further than a neck
+    # should allow; holds; snaps upright and forward (it has seen you); the fingers flex on the carpet one after
+    # another; the head turns a little and tilts back the other way.
+    lk = {
+        0: {"Head": R(), "Neck": R(), "Chest": R(), "Waist": R(), "ShoulderL": R(), "ShoulderR": R(), "Jaw": R(),
+            **fingers_curl("L", 0), **fingers_curl("R", 0)},
+        20: {"Head": R(x=-4)},
+        60: {"Head": R(x=-34, y=-6, z=-4), "Neck": R(x=-6)},
+        96: {"Head": R(x=-36, y=-6, z=-4), "Neck": R(x=-6), "Chest": R(), "ShoulderL": R(), "ShoulderR": R()},
+        98: {"Head": R(x=6, y=8, z=-12), "Neck": R(x=2, z=6), "Chest": R(z=3), "ShoulderL": R(x=-5), "ShoulderR": R(x=5)},
+        100: {"Head": R(x=4, y=6, z=-10), "Neck": R(z=5), "Chest": R(z=2), "ShoulderL": R(), "ShoulderR": R()},
+        104: {"Jaw": R()}, 106: {"Jaw": R(z=12)}, 112: {"Jaw": R(z=12)}, 113: {"Jaw": R()},
+        150: {"Head": R(x=4, y=6, z=-10), "Neck": R(z=5), "Chest": R(z=2)},
+        172: {"Head": R(x=14, y=2, z=-4), "Neck": R(z=2), "Chest": R()},
+    }
+    # the finger ripple (right hand, then left), each finger curling in two frames and letting go slowly
+    for k, (side, base) in enumerate((("R", 108), ("L", 126))):
+        for i in range(4):
+            f0 = base + i * 3
+            for fr, amt in ((f0, 0), (f0 + 2, 34), (f0 + 10, 30), (f0 + 16, 0)):
+                lk.setdefault(fr, {}).update({f"Finger{i}{side}": R(z=-amt * 0.2 if amt else 0, x=0), f"Tip{i}{side}": R(z=-amt)})
+                if amt:
+                    lk[fr][f"Finger{i}{side}"] = R(z=amt * 0.7)
+    m.animation("lurk", 180, ba_keys(180, lk, overlay=drift(3, 1, 0, 180), step=12))
+
+    # Walk (1.33 s a cycle): a stiff, stepped stride, each leg swinging and then stopping dead (plateau), the knee
+    # barely bending; the body rocks side to side over the planted leg; the arms hardly swing but drag, the fingers
+    # trailing over the carpet behind the hands. The head is held level and still, then twitches once.
+    def walk(p):
+        sw = plateau(p, 1.0, 1.7)
+        lift_l = max(0.0, math.sin(TAU * (p + 0.25)))
+        lift_r = max(0.0, math.sin(TAU * (p + 0.75)))
+        rock = plateau(p + 0.25, 1.0, 1.8)
+        d = {
+            "Hips": R(x=rock * 4, y=sw * 5, o=(0, -0.4 + 0.4 * abs(math.sin(TAU * p)), 0)),
+            "Waist": R(x=-rock * 2, z=3), "Chest": R(x=-rock * 2, y=-sw * 5, z=2),
+            "Neck": R(), "Head": R(x=-rock * 1, y=0, z=-4),
+            "ThighL": R(z=-18 * sw), "ThighR": R(z=18 * sw),
+            "ShinL": R(z=22 * lift_l), "ShinR": R(z=22 * lift_r),
+            "UpperArmL": R(z=-1 + 7 * sw), "UpperArmR": R(z=-1 - 7 * sw),
+            "ForearmL": R(z=-20 + 4 * sw), "ForearmR": R(z=-20 - 4 * sw),
+            "HandL": R(z=6), "HandR": R(z=6),
+        }
+        for sd in "LR":
+            for i in range(4):
+                d[f"Finger{i}{sd}"] = R(z=40)
+                d[f"Tip{i}{sd}"] = R(z=40)
+        return d
+
+    wk = cycle(40, 20, walk)
+    # the head's twitch, once a cycle: snap aside and back
+    for fr, hp in ((26, R(z=-4)), (27, R(x=-14, y=10, z=-6)), (30, R(x=-12, y=8, z=-6)), (31, R(z=-4))):
+        wk.setdefault(fr, walk(fr / 40))
+        wk[fr]["Head"] = hp
+    for fr in list(wk):
+        wk[fr].update(drift(5, 2, 10, 40)(fr))
+    m.animation("walk", 40, wk)
+
+    # Run (0.67 s a cycle): bent double and lurching, the long arms reaching out ahead and clawing the carpet back in
+    # turn like front legs, the short legs scrabbling under it; the head thrust out level, jerking. The wires stream.
+    def run(p):
+        # each arm: reaching out ahead at phase 0, planted and dragged back to phase 0.5, then whipped forward folded
+        d = {}
+        bob = math.sin(TAU * p * 2)
+        for sd, ph in (("L", 0.0), ("R", 0.5)):
+            q = (p + ph) % 1.0
+            swing = -math.cos(TAU * q)                        # -1 reaching ahead .. +1 swept back
+            lift = max(0.0, -math.sin(TAU * q))               # the arm's swing forward, off the carpet
+            d[f"UpperArm{sd}"] = R(z=-26 + (30 if swing < 0 else 22) * swing - 8 * lift)
+            d[f"Forearm{sd}"] = R(z=-38 * (1 - abs(swing) * 0.5) * (1 - lift) + 50 * lift)
+            d[f"Hand{sd}"] = R(z=20 + 30 * lift)
+            for i in range(4):
+                d[f"Finger{i}{sd}"] = R(z=-6 + 30 * lift + 14 * max(0.0, swing))
+                d[f"Tip{i}{sd}"] = R(z=-20 + 40 * lift)
+        for sd, ph in (("L", 0.25), ("R", 0.75)):
+            q = (p + ph) % 1.0
+            swing = -math.cos(TAU * q)
+            lift = max(0.0, -math.sin(TAU * q))
+            d[f"Thigh{sd}"] = R(z=-14 + 28 * swing - 12 * lift)
+            d[f"Shin{sd}"] = R(z=8 + 50 * lift)
+        a = math.sin(TAU * p)
+        d.update({
+            "Hips": R(z=14 + 3 * bob, x=3 * a, o=(0, -0.8 + 0.8 * bob, 0)),
+            "Waist": R(z=6 - 2 * bob), "Chest": R(z=2 + 3 * bob, x=-4 * a),
+            "Neck": R(z=-22), "Head": R(z=-6 - 5 * bob, x=6 * a),
+            "Jaw": R(z=8 + 8 * max(0.0, bob)),
+            "ShoulderL": R(z=-5 * a), "ShoulderR": R(z=5 * a),
+        })
+        d.update(drift(8, 3, 34, 20)(p * 20))
+        return d
+
+    m.animation("run", 20, cycle(20, 10, run))
+
+    # Attack (30 frames, 1 s; the grab lands on frame 13, damageAtMs ~450): it rears up, the jaw splitting into a howl
+    # and the arms flung up and wide; snaps forward, the arms sweeping in from both sides to close round you at frame
+    # 13, fingers clenching; holds you, pulling in; lets go and stands as if nothing happened.
+    atk = {
+        0: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(),
+            "ShoulderL": R(), "ShoulderR": R(), "UpperArmL": R(), "UpperArmR": R(), "ForearmL": R(), "ForearmR": R(),
+            "HandL": R(), "HandR": R(), **fingers_curl("L", 0), **fingers_curl("R", 0),
+            "ThighL": R(), "ShinL": R(), "ThighR": R(), "ShinR": R()},
+        3: {"Waist": R(z=-4), "Chest": R(z=-6), "Neck": R(z=-10), "Head": R(z=10), "Jaw": R(z=18)},
+        7: {"Hips": R(o=(0.8, 0, 0)), "Waist": R(z=-8), "Chest": R(z=-12), "Neck": R(z=-14), "Head": R(z=16, x=-8), "Jaw": R(z=38),
+            "ShoulderL": R(), "ShoulderR": R(),
+            "UpperArmL": R(-103.5, 0, -34.4), "UpperArmR": R(103.5, 0, -34.4), "ForearmL": R(x=50.6, z=0.9), "ForearmR": R(x=-50.6, z=0.9),
+            "HandL": R(), "HandR": R(), **fingers_spread("L", 40), **fingers_spread("R", 40)},
+        9: {"ThighL": R(), "ShinL": R(), "ThighR": R(), "ShinR": R(), "Hips": R(o=(0.6, 0, 0)), "Waist": R(z=-8), "Chest": R(z=-12), "Neck": R(z=-14), "Head": R(z=16, x=-8), "Jaw": R(z=38),
+            "UpperArmL": R(-97.8, -5.2, -32.2), "UpperArmR": R(97.8, 5.2, -32.2), "ForearmL": R(x=34.7, z=1.7), "ForearmR": R(x=-34.7, z=1.7)},
+        # the lunge: a long step in, the arms swinging round from wide to close
+        11: {"Hips": R(o=(-1.6, -1.2, 0)), "Waist": R(z=10), "Chest": R(z=8), "Neck": R(z=2), "Head": R(z=-14), "Jaw": R(z=36),
+             "ShoulderL": R(x=-6), "ShoulderR": R(x=6),
+             "UpperArmL": R(-84.2, 21.4, -4.8), "UpperArmR": R(84.2, -21.4, -4.8), "ForearmL": R(x=25.3, z=-39.1), "ForearmR": R(x=-25.3, z=-39.1),
+             "ThighL": R(z=-26), "ShinL": R(z=22), "ThighR": R(z=16), "ShinR": R(z=8)},
+        # frame 13: the grab closes round you (damage)
+        13: {"Hips": R(o=(-2, -1.6, 0)), "Waist": R(z=12), "Chest": R(z=10), "Neck": R(z=2), "Head": R(z=-16), "Jaw": R(z=30),
+             "ShoulderL": R(x=4), "ShoulderR": R(x=-4),
+             "UpperArmL": R(-92.4, -1.0, -20.1), "UpperArmR": R(92.4, 1.0, -20.1), "ForearmL": R(x=18.2, z=-92.3), "ForearmR": R(x=-18.2, z=-92.3),
+             "HandL": R(x=20), "HandR": R(x=-20), **fingers_curl("L", 40), **fingers_curl("R", 40),
+             "ThighL": R(z=-30), "ShinL": R(z=25), "ThighR": R(z=18), "ShinR": R(z=10)},
+        16: {"Hips": R(o=(-1.8, -1.5, 0)), "Waist": R(z=11), "Chest": R(z=9), "Neck": R(z=2), "Head": R(z=-14), "Jaw": R(z=12),
+             "UpperArmL": R(-87.4, -10.9, -20.0), "UpperArmR": R(87.4, 10.9, -20.0), "ForearmL": R(x=14.2, z=-106.6), "ForearmR": R(x=-14.2, z=-106.6),
+             "HandL": R(x=20), "HandR": R(x=-20)},
+        # pulling what it caught in to itself
+        21: {"Hips": R(o=(-1.0, -0.8, 0)), "Waist": R(z=6), "Chest": R(z=4), "Neck": R(z=0), "Head": R(z=-8), "Jaw": R(z=4),
+             "ShoulderL": R(), "ShoulderR": R(),
+             "UpperArmL": R(-79.9, -26.8, -24.6), "UpperArmR": R(79.9, 26.8, -24.6), "ForearmL": R(x=10.4, z=-106.6), "ForearmR": R(x=-10.4, z=-106.6),
+             **fingers_curl("L", 40), **fingers_curl("R", 40),
+             "ThighL": R(z=-14), "ShinL": R(z=12), "ThighR": R(z=8), "ShinR": R(z=4)},
+        29: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(),
+             "UpperArmL": R(), "UpperArmR": R(), "ForearmL": R(), "ForearmR": R(), "HandL": R(), "HandR": R(),
+             **fingers_curl("L", 0), **fingers_curl("R", 0), "ThighL": R(), "ShinL": R(), "ThighR": R(), "ShinR": R()},
+    }
+    m.animation("attack", 30, ba_keys(30, atk, overlay=drift(10, 2, 0, 30), step=0, loop=False), end="Stop")
+
+    # Hurt (15 frames): snaps back and aside, the head wrenched over, the jaw split, the arms flung; jerks back.
+    hu = {
+        0: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(), "UpperArmL": R(), "UpperArmR": R(),
+            "ForearmL": R(), "ForearmR": R()},
+        2: {"Hips": R(o=(1.5, 0, 0)), "Waist": R(z=-10, x=6), "Chest": R(z=-10, y=14), "Neck": R(z=-8), "Head": R(x=34, y=-10, z=14),
+            "Jaw": R(z=30), "UpperArmL": R(x=-30, z=20), "UpperArmR": R(x=24, z=26), "ForearmL": R(z=-20), "ForearmR": R(z=-16)},
+        5: {"Hips": R(o=(1.2, 0, 0)), "Waist": R(z=-8, x=5), "Chest": R(z=-8, y=12), "Neck": R(z=-6), "Head": R(x=30, y=-8, z=12),
+            "Jaw": R(z=26), "UpperArmL": R(x=-24, z=16), "UpperArmR": R(x=20, z=20), "ForearmL": R(z=-16), "ForearmR": R(z=-12)},
+        6: {"Head": R(x=-6, y=4, z=-4), "Jaw": R(z=6)},
+        8: {"Hips": R(o=(0.3, 0, 0)), "Waist": R(z=-2), "Chest": R(z=-2, y=3), "Neck": R(), "Head": R(x=-6, y=4, z=-4),
+            "UpperArmL": R(x=-6, z=4), "UpperArmR": R(x=6, z=4), "ForearmL": R(z=-4), "ForearmR": R(z=-4)},
+        14: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(), "UpperArmL": R(), "UpperArmR": R(),
+             "ForearmL": R(), "ForearmR": R()},
+    }
+    m.animation("hurt", 15, ba_keys(15, hu, overlay=drift(14, 2, -10, 15), loop=False), end="Stop")
+
+    # Die (2 s, held): convulses, the head snapping back; then drops like a puppet with its strings cut, the legs
+    # folding under, the torso folding over, the arms sprawling on the carpet; then sinks a little into the stain
+    # spreading out under it, as if going back into the mould.
+    folded = {"Hips": R(o=(0, -12.5, 0)), "Waist": R(z=52, x=8), "Chest": R(z=38, x=-6), "Neck": R(z=-10, x=20), "Head": R(z=10, x=30, y=10),
+              "Jaw": R(z=24), "ThighL": R(z=-88, x=-24), "ThighR": R(z=-80, x=22), "ShinL": R(z=110), "ShinR": R(z=104),
+              "UpperArmL": R(x=-62, z=-36), "UpperArmR": R(x=50, z=-56), "ForearmL": R(z=-20, x=20), "ForearmR": R(z=24, x=-10),
+              "HandL": R(z=20), "HandR": R(z=-10)}
+    die = {
+        0: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(), "ThighL": R(), "ThighR": R(), "ShinL": R(),
+            "ShinR": R(), "UpperArmL": R(), "UpperArmR": R(), "ForearmL": R(), "ForearmR": R(), "HandL": R(), "HandR": R(),
+            "Stain": R(st=(0.2, 1, 0.2))},
+        3: {"Chest": R(z=-10, x=8), "Neck": R(z=-16), "Head": R(z=30, x=-20), "Jaw": R(z=40), "UpperArmL": R(x=-40, z=10), "UpperArmR": R(x=36, z=14)},
+        7: {"Chest": R(z=-6, x=-10), "Neck": R(z=-10), "Head": R(z=22, x=24), "Jaw": R(z=36), "UpperArmL": R(x=-30, z=-10), "UpperArmR": R(x=40, z=4)},
+        9: {"Hips": R(), "Waist": R(), "ThighL": R(), "ThighR": R(), "ShinL": R(), "ShinR": R()},
+        16: {"Hips": R(o=(0, -6, 0)), "Waist": R(z=24), "Chest": R(z=10), "Neck": R(z=0), "Head": R(z=10, x=10), "Jaw": R(z=28),
+             "ThighL": R(z=-50, x=-14), "ThighR": R(z=-44, x=14), "ShinL": R(z=62), "ShinR": R(z=58),
+             "UpperArmL": R(x=-30, z=-20), "UpperArmR": R(x=30, z=-26)},
+        26: dict(folded, Hips=R(o=(0, -13, 0)), Waist=R(z=56, x=8)),
+        30: dict(folded),
+        34: {"Stain": R(o=(0, 0.45, 0), st=(0.3, 1, 0.3))},
+        58: {"Stain": R(o=(0, 0.45, 0), st=(1.0, 1, 1.0))},
+        40: dict(folded, Hips=R(o=(0, -12.5, 0))),
+        59: dict(folded, Hips=R(o=(0, -15.5, 0)), Waist=R(z=58, x=8), Head=R(z=16, x=34, y=10)),
+    }
+    m.animation("die", 60, ba_keys(60, die, overlay=drift(3, 1, 0, 60), loop=False), end="Hold", stopped="Stop")
+
+    # Emerge (2.5 s): out of a black stain on the carpet. The fingers come up first, then the arms, which reach out and
+    # grip the floor; the head pushes up between them, then the shoulders; it hauls the rest of itself out bent double,
+    # stands, and snaps upright into its stance with a jerk of the head. The stain shrinks back under it.
+    def arms(u, f, hand=0.0):
+        """Both arms from the left one's (UpperArm x, y, z) and (Forearm x, z), mirrored."""
+        return {"UpperArmL": R(*u), "UpperArmR": R(-u[0], -u[1], u[2]), "ForearmL": R(x=f[0], z=f[1]), "ForearmR": R(x=-f[0], z=f[1]),
+                "HandL": R(z=hand), "HandR": R(z=hand)}
+
+    up = arms((-172, 0, 32), (0, 0))
+    legs0 = {"ThighL": R(), "ThighR": R(), "ShinL": R(), "ShinR": R()}
+    # The arm poses that keep the hands planted on the carpet as the body hauls itself up were solved numerically
+    em = {
+        0: {"Hips": R(o=(0, -72, 0)), "Waist": R(), "Chest": R(), "Neck": R(z=-10), "Head": R(z=30), "Jaw": R(),
+            "ShoulderL": R(), "ShoulderR": R(), **legs0, **up, **fingers_curl("L", -10), **fingers_curl("R", -10),
+            "Stain": R(o=(0, 0.45, 0), st=(0.15, 1, 0.15))},
+        8: {"Hips": R(o=(0, -66, 0)), "Stain": R(o=(0, 0.45, 0), st=(0.8, 1, 0.8)), **fingers_spread("L", 30), **fingers_spread("R", 30)},
+        16: {"Hips": R(o=(0, -59, 0)), **up, "Neck": R(z=-10), "Head": R(z=30)},
+        18: {**fingers_spread("L", 44), **fingers_spread("R", 44)},
+        # the arms snap over and down: the hands slap onto the carpet either side, the elbows up like a spider's knees
+        24: {**fingers_curl("L", -24), **fingers_curl("R", -24)},
+        26: {"Hips": R(o=(0, -41, 0)), **arms((-136.6, 0, 46.0), (15.4, -108.8), 30), "Waist": R(), "Chest": R(), "Neck": R(z=-10), "Head": R(z=30)},
+        # the head comes up between them, then the shoulders, bent over, pulling
+        34: {"Hips": R(o=(0, -34, 0)), "Waist": R(z=10), "Chest": R(z=8), "Neck": R(z=-14), "Head": R(z=10, x=-16),
+             **arms((-139.5, 0, 50.9), (-21.7, -162.7), 30), **legs0},
+        44: {"Hips": R(o=(0, -24, 0)), "Waist": R(z=26), "Chest": R(z=18), "Neck": R(z=-24), "Head": R(z=-6, x=10),
+             **arms((-103.6, 0, 66.3), (-29.0, -161.5), 30), **fingers_curl("L", -24), **fingers_curl("R", -24)},
+        54: {"Hips": R(o=(0, -11, 0)), "Waist": R(z=34), "Chest": R(z=22), "Neck": R(z=-26), "Head": R(z=-14, x=6),
+             **arms((-65.9, 0, 19.1), (-34.2, -125.1), 30),
+             "ThighL": R(z=-70), "ThighR": R(z=-70), "ShinL": R(z=90), "ShinR": R(z=90)},
+        56: {"Stain": R(o=(0, 0.45, 0), st=(0.9, 1, 0.9))},
+        58: {"Hips": R(o=(0, -5, 0)), "Waist": R(z=26), "Chest": R(z=16), "Neck": R(z=-20), "Head": R(z=-10),
+             **arms((-47.5, 0, -7.0), (-98.7, -121.5), 20), **fingers_curl("L", -24), **fingers_curl("R", -24),
+             "ThighL": R(z=-45), "ThighR": R(z=-45), "ShinL": R(z=60), "ShinR": R(z=60)},
+        # it lets go and stands, bent ...
+        61: {"Hips": R(o=(0, -2.5, 0)), "Waist": R(z=18), "Chest": R(z=11), "Neck": R(z=-12), "Head": R(z=-8),
+             **arms((0, 0, -14), (0, -8)), **fingers_curl("L", 0), **fingers_curl("R", 0),
+             "ThighL": R(z=-30), "ThighR": R(z=-30), "ShinL": R(z=36), "ShinR": R(z=36)},
+        64: {"Hips": R(o=(0, -0.5, 0)), "Waist": R(z=10), "Chest": R(z=8), "Neck": R(z=-4), "Head": R(z=-4, x=-30, y=-8),
+             **arms((0, 0, -6), (0, -4)), "ThighL": R(z=-8), "ThighR": R(z=-8), "ShinL": R(z=10), "ShinR": R(z=10)},
+        66: {"Hips": R(o=(0, -0.5, 0)), "Waist": R(z=10), "Chest": R(z=8), "Neck": R(z=-4), "Head": R(z=-4, x=-30, y=-8)},
+        # ... and snaps upright in two frames, the head jerking over the other way and back
+        68: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(x=8, y=4), **arms((0, 0, 0), (0, 0)), **legs0,
+             "Stain": R(o=(0, 0.45, 0), st=(0.7, 1, 0.7))},
+        72: {"Head": R(x=8, y=4)},
+        73: {"Head": R()},
+        74: {"Stain": R(st=(0.2, 1, 0.2)), "Hips": R(), "Head": R(), "Jaw": R()},
+    }
+    m.animation("emerge", 75, ba_keys(75, em, overlay=drift(6, 2, 0, 75), loop=False), end="Stop")
+
+    # Howl (1.5 s, an extra for the hunt's start): it straightens as far as the ceiling lets it, throws the head back,
+    # the jaw splitting wide, the arms jerking out from its sides; the noise is in the sounds, the shudder here.
+    hw = {
+        0: {"Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(), "UpperArmL": R(), "UpperArmR": R(),
+            **fingers_curl("L", 0), **fingers_curl("R", 0)},
+        6: {"Waist": R(z=-6), "Chest": R(z=-8), "Neck": R(z=-14), "Head": R(z=24), "Jaw": R(z=40),
+            "UpperArmL": R(x=-24), "UpperArmR": R(x=24), **fingers_spread("L", 40), **fingers_spread("R", 40)},
+    }
+    for k, fr in enumerate(range(8, 36, 2)):                          # the shudder through the howl
+        j = 1 if k % 2 else -1
+        hw[fr] = {"Head": R(x=4 * j, z=24 + 2 * j), "Chest": R(z=-8, x=1.5 * j), "Jaw": R(z=40 - 2 * j)}
+    hw[38] = {"Waist": R(z=-6), "Chest": R(z=-8), "Neck": R(z=-14), "Head": R(z=24), "Jaw": R(z=40), "UpperArmL": R(x=-24), "UpperArmR": R(x=24),
+              **fingers_spread("L", 40), **fingers_spread("R", 40)}
+    hw[44] = hw[0]
+    m.animation("howl", 45, ba_keys(45, hw, overlay=drift(8, 3, 0, 45), loop=False), end="Stop")
+    return m
+
+
+# ======================================================================== Wretch
+# Entity 15, "Wretches": wanderers undone by the Wretched Cycle, the slow work of hunger, thirst and sleeplessness.
+# Wikidot: humanoids with "reddish-brown skin that is dry and flaky, covered in holes and pustules secreting a thick
+# red-brown substance", skeletal yet strong enough to break through walls. In the last stage "eyelids, lips, and
+# cartilage dissolve, forcing the eyes to remain open constantly and roll wildly in their sockets"; "hair loss sets
+# in"; "nails and teeth fall out of their natural positions, often regrowing elsewhere in unnatural quantities and
+# sizes"; they "ooze a brown sludge-like substance from mouths and other orifices"; and "clothing, supplies, and
+# personal belongings will remain on the body, though often mutilated beyond recognition". Speeds run "from a slow
+# shamble to sprints surpassing human capabilities"; they gurgle and snarl.
+# Design brief: once a person, and you can still tell. A starved body bent nearly double (the spine and shoulder
+# blades standing out of the curved back, a waist like a wrist, knees wider than the thighs), the head pushed forward
+# on a thin neck. The remains of a wanderer: a t-shirt in rags, jeans torn at the knees and cinched with a belt, one
+# sneaker and one bare foot, a backpack strap still over the shoulder with a torn pouch hanging from it. The face is
+# where the Cycle shows: no lips (the teeth bare to the gums over a slack, hanging jaw), no nose (two holes), ears
+# shrivelled to stubs, lidless bloodshot eyes rolling in deep sockets under a heavy brow, a few strings of hair,
+# teeth growing out of a cheek, nails out of a forearm. Pustules stand off the skin as real bumps; the holes are
+# pits with sludge running from them. Warm red-brown against the Skin-Stealer's pale yellow, the Duller's grey, the
+# Smiler's black; upright on two legs, unlike the Hound. About 27 px tall hunched (1.7 blocks; 30 standing straight).
+# Two more looks on the same atlas: "early" (stage 2: still dressed, sallow skin in a scratched-raw rash, eyelids,
+# hair, no sludge yet) and "fargone" (deep in stage 3: the shirt gone but for its collar, skin hanging in flaps where
+# it was, black rags, darker skin riddled with holes, yellowed eyes).
+
+WRETCH_VARIANTS = {
+    "common": dict(skin=(136, 70, 50), dark=(86, 40, 30), raw=(168, 58, 46), flake=(200, 156, 124),
+                   holes=0.013, pus=0.009, flakes=0.035, cracks=0.02, scratches=0.4, ooze=1.0, rash=0.0,
+                   shirt=(160, 152, 134), trousers=(66, 84, 112), shoe=(176, 168, 150), sole=(74, 68, 62), gear=(56, 66, 72),
+                   chest=0.42, belly=0.0, sleeveL=0.34, sleeveR=0.0, thighL=0.94, thighR=0.82, shinL=0.42, shinR=0.0,
+                   shoeL=True, shoeR=False, rags="cloth", trouser_rag=True, hair="wisps", eyes="lidless", drool=True,
+                   stain=1.0, tears=2, sclera=(212, 166, 148), iris=(84, 60, 36)),
+    "early": dict(skin=(180, 126, 102), dark=(136, 90, 72), raw=(192, 84, 70), flake=(220, 188, 164),
+                  holes=0.004, pus=0.006, flakes=0.08, cracks=0.02, scratches=1.0, ooze=0.0, rash=0.45,
+                  shirt=(78, 96, 128), trousers=(122, 110, 84), shoe=(98, 72, 50), sole=(52, 42, 36), gear=(64, 76, 56),
+                  chest=1.0, belly=1.0, sleeveL=0.62, sleeveR=0.62, thighL=1.0, thighR=1.0, shinL=1.0, shinR=1.0,
+                  shoeL=True, shoeR=True, rags="cloth", trouser_rag=False, hair="thin", eyes="lidded", drool=False,
+                  stain=0.4, tears=1, sclera=(226, 200, 186), iris=(70, 84, 64)),
+    "fargone": dict(skin=(110, 50, 36), dark=(64, 26, 20), raw=(152, 40, 34), flake=(172, 118, 92),
+                    holes=0.028, pus=0.012, flakes=0.025, cracks=0.035, scratches=0.25, ooze=2.0, rash=0.0,
+                    shirt=(50, 44, 40), trousers=(54, 48, 44), shoe=(122, 108, 90), sole=(50, 44, 40), gear=(40, 36, 34),
+                    chest=0.0, belly=0.0, sleeveL=0.0, sleeveR=0.0, thighL=0.5, thighR=0.36, shinL=0.0, shinR=0.0,
+                    shoeL=True, shoeR=False, rags="skin", trouser_rag=False, hair="none", eyes="yellow", drool=True,
+                    stain=1.7, tears=3, sclera=(200, 172, 98), iris=(120, 36, 26)),
+}
+WV = dict(WRETCH_VARIANTS["common"])
+
+W_HOLE = (26, 9, 7)            # the inside of a hole
+W_RIM = (100, 28, 22)          # ... its raw rim
+W_CRACK = (48, 22, 16)
+W_PUS = (214, 174, 88)         # a pustule's head
+W_PUS_HI = (244, 226, 160)
+W_SLUDGE = (84, 52, 22)        # the brown sludge
+W_SLUDGE_HI = (140, 98, 48)    # ... wet where it catches the light
+W_GUM = (112, 34, 34)
+W_MAWC = (38, 9, 9)
+W_TOOTH = (206, 186, 138)
+W_TOOTH_DK = (128, 102, 66)
+W_NAIL = (178, 158, 114)
+W_NAIL_DK = (104, 88, 60)
+W_VEIN = (182, 30, 30)
+W_PUPIL = (10, 6, 5)
+W_METAL = (152, 148, 138)
+W_HAIR = (40, 32, 26)
+W_TONGUE = (98, 40, 46)
+
+
+def w_side(ctx):
+    return "R" if ctx.part.name.endswith("R") else "L"
+
+
+def w_hole(ctx, tx, ty, drip=True):
+    """A pit in the skin: a dark hole with a raw rim, sludge running from it down the face."""
+    texel(ctx, tx, ty, W_HOLE)
+    texel(ctx, tx - 1, ty, W_RIM, 0.55)
+    texel(ctx, tx + 1, ty, W_RIM, 0.45)
+    texel(ctx, tx, ty - 1, W_RIM, 0.5)
+    if drip and WV["ooze"] > 0:
+        run = ctx.rng.randint(0, int(1 + 2 * WV["ooze"]))
+        for k in range(run):
+            texel(ctx, tx, ty + 1 + k, W_SLUDGE, 0.85 - 0.16 * k)
+        if run:
+            texel(ctx, tx, ty + 1, W_SLUDGE_HI, 0.35)
+
+
+def w_pimple(ctx, tx, ty):
+    head = mix(W_PUS, WV["raw"], 0.55) if WV["rash"] else W_PUS
+    texel(ctx, tx, ty, head)
+    texel(ctx, tx, ty - 1, W_PUS_HI if not WV["rash"] else head, 0.35)
+    for dx, dy, a in ((-1, 0, 0.5), (1, 0, 0.5), (0, 1, 0.55)):
+        texel(ctx, tx + dx, ty + dy, WV["raw"], a)
+
+
+def w_scratches(ctx, count):
+    """Claw marks in threes: the itch of the Cycle, scratched until the skin came off."""
+    if ctx.w < 4 or ctx.h < 4:
+        return
+    for _ in range(int(count + ctx.rng.random())):
+        u0, v0 = ctx.rng.uniform(0.0, 0.6), ctx.rng.uniform(0.0, 0.6)
+        du, dv = ctx.rng.uniform(0.15, 0.4), ctx.rng.uniform(0.25, 0.5)
+        col = WV["raw"] if WV["rash"] else mix(WV["raw"], WV["dark"], 0.4)
+        for k in range(3):
+            off = k * 1.0 / ctx.w
+            line(ctx, u0 + off, v0, u0 + off + du, v0 + dv, col, 0.7)
+
+
+def w_skin(ctx, k=1.0, base=None):
+    """Dry, flaking, cracked red-brown skin, pocked with holes that weep sludge and studded with pustules."""
+    v = WV
+    base = base or v["skin"]
+    fill(ctx, base, 0.05)
+    if ctx.face not in ("up", "down") and ctx.h > 2:                       # a little darker toward the bottom
+        px = ctx.img.load()
+        for yy in range(ctx.h):
+            k_ = 1.06 - 0.16 * yy / (ctx.h - 1)
+            for xx in range(ctx.w):
+                c = px[ctx.x + xx, ctx.y + yy]
+                px[ctx.x + xx, ctx.y + yy] = clamp((c[0] * k_, c[1] * k_, c[2] * k_)) + (255,)
+    blotch(ctx, v["dark"], 2, 1.5, 4.0, 0.35)
+    blotch(ctx, mix(base, v["flake"], 0.5), 1, 1.5, 3.5, 0.28)
+    if v["rash"]:
+        blotch(ctx, v["raw"], 2, 1.0, 3.0, v["rash"])
+    elif ctx.rng.random() < 0.45:
+        blotch(ctx, v["raw"], 1, 1.0, 2.5, 0.4)
+    area = ctx.w * ctx.h
+    side = ctx.face not in ("up", "down")
+    for _ in range(int(area * v["flakes"] * k + ctx.rng.random())):        # flakes: the lifted edge's shadow below
+        tx, ty = ctx.rng.randrange(ctx.w), ctx.rng.randrange(ctx.h)
+        texel(ctx, tx, ty, v["flake"], 0.75)
+        texel(ctx, tx + 1, ty, v["flake"], 0.3)
+        texel(ctx, tx, ty + 1, v["dark"], 0.5)
+    for _ in range(int(area * v["cracks"] * k + ctx.rng.random())):         # cracks: short jagged lines
+        tx, ty = ctx.rng.randrange(ctx.w), ctx.rng.randrange(ctx.h)
+        for _ in range(ctx.rng.randint(2, 4)):
+            texel(ctx, tx, ty, W_CRACK, 0.7)
+            texel(ctx, tx, ty - 1, v["flake"], 0.25)
+            if ctx.rng.random() < 0.5:
+                tx += ctx.rng.choice((-1, 1))
+            else:
+                ty += 1
+    for _ in range(int(area * v["holes"] * k + ctx.rng.random() * 0.7)):
+        w_hole(ctx, ctx.rng.randrange(ctx.w), ctx.rng.randrange(ctx.h), side)
+    for _ in range(int(area * v["pus"] * k + ctx.rng.random() * 0.5)):
+        w_pimple(ctx, ctx.rng.randrange(ctx.w), ctx.rng.randrange(ctx.h))
+
+
+def w_cloth(ctx, colour, stain=None):
+    """Worn cloth: a weave, grime darker toward the bottom, sludge and old blood soaked in."""
+    stain = WV["stain"] if stain is None else stain
+    fill(ctx, colour, 0.05)
+    vlines(ctx, shade(colour, 0.86), 2, start=ctx.rng.randint(0, 1), alpha=0.25)
+    if ctx.face not in ("up", "down"):
+        px = ctx.img.load()
+        for yy in range(ctx.h):
+            t = yy / max(1, ctx.h - 1)
+            for xx in range(ctx.w):
+                old = px[ctx.x + xx, ctx.y + yy]
+                px[ctx.x + xx, ctx.y + yy] = mix(old[:3], shade(colour, 0.6), 0.3 * t) + (255,)
+    blotch(ctx, mix(colour, (120, 104, 80), 0.6), 1, 1.5, 3.5, 0.35)                 # dust
+    blotch(ctx, W_SLUDGE, int(1 + stain), 1.0, 3.0, min(0.85, 0.4 * stain))         # sludge soaked in
+    if ctx.rng.random() < 0.5 * stain:
+        blotch(ctx, (70, 24, 20), 1, 1.0, 2.5, 0.4)                                  # old blood
+    speckle(ctx, shade(colour, 1.18), 0.04)
+
+
+def cloth_over(ctx, colour, limit, tears=0, stain=None, fray=True):
+    """Cloth over the skin already painted, from the top of the face down to `limit` (a fraction of its height) with a
+    torn, uneven edge; `tears` holes show the skin through. Up faces are covered if any is, down faces only if all."""
+    if limit <= 0:
+        return
+    if ctx.face == "down" and limit < 1:
+        return
+    tmp = rig.Ctx()
+    tmp.img = rig.Image.new("RGBA", (ctx.w, ctx.h), (0, 0, 0, 0))
+    tmp.draw = rig.ImageDraw.Draw(tmp.img)
+    tmp.x = tmp.y = 0
+    tmp.w, tmp.h, tmp.face, tmp.part, tmp.rng = ctx.w, ctx.h, ctx.face, ctx.part, ctx.rng
+    w_cloth(tmp, colour, stain)
+    src, dst = tmp.img.load(), ctx.img.load()
+    full_cover = limit >= 1 or ctx.face == "up"
+    edge, e = [], limit * ctx.h + ctx.rng.uniform(-1, 1)
+    for xx in range(ctx.w):
+        e += ctx.rng.choice((-1, 0, 0, 1)) * (1 if ctx.h > 4 else 0.5)
+        e = max(limit * ctx.h - 2.5, min(limit * ctx.h + 2.5, e))
+        edge.append(ctx.h if full_cover else int(round(e)))
+    holes = []
+    for _ in range(int(tears + ctx.rng.random() * 0.5)):
+        if ctx.w >= 4 and ctx.h >= 4:
+            holes.append((ctx.rng.uniform(1, ctx.w - 1), ctx.rng.uniform(1, ctx.h - 1), ctx.rng.uniform(0.8, 1.8)))
+    for xx in range(ctx.w):
+        for yy in range(min(ctx.h, edge[xx])):
+            d = min([math.hypot(xx + 0.5 - hx, (yy + 0.5 - hy) * 1.3) / hr for hx, hy, hr in holes] or [9])
+            if d < 1:
+                continue                                                              # a tear: the skin shows
+            c = src[xx, yy][:3]
+            if d < 1.5 or (fray and yy >= edge[xx] - 1 and not full_cover):
+                c = mix(c, shade(colour, 1.35) if ctx.rng.random() < 0.5 else shade(colour, 0.6), 0.6)   # frayed
+            dst[ctx.x + xx, ctx.y + yy] = c + (255,)
+        if not full_cover and 0 <= edge[xx] < ctx.h:                                 # the cloth's shadow on the skin
+            old = dst[ctx.x + xx, ctx.y + edge[xx]]
+            dst[ctx.x + xx, ctx.y + edge[xx]] = mix(old[:3], WV["dark"], 0.45) + (255,)
+
+
+def w_rows(ctx, rows, colour, alpha=1.0):
+    for ty in rows:
+        texrow(ctx, ty, 0, -1, colour, alpha)
+
+
+# ---- the body ----
+
+def w_hips(ctx):
+    """Trousers hanging off the pelvis, a belt cinched three holes past its last, the spare end hanging."""
+    v = WV
+    w_skin(ctx)
+    w_cloth(ctx, v["trousers"])
+    if ctx.face in ("west", "north", "south", "east"):
+        w_rows(ctx, (0, 1), (58, 40, 28))                                               # the belt
+        texrow(ctx, 1, 0, -1, (40, 26, 18), 0.5)
+        if ctx.face == "west":
+            cx = ctx.w // 2 + 1
+            for tx in (cx - 1, cx):
+                texel(ctx, tx, 0, W_METAL)
+                texel(ctx, tx, 1, W_METAL, 0.8)
+            for ty in range(2, 5):
+                texel(ctx, cx + 2, ty, (58, 40, 28))                                    # the spare end, hanging
+            texel(ctx, cx + 2, 3, (30, 20, 14))                                         # ... the hole punched by hand
+            line(ctx, 0.5, 0.35, 0.5, 1.0, shade(v["trousers"], 0.7), 0.5)              # the fly
+        if ctx.face == "east":
+            texel(ctx, ctx.w // 2, 0, (30, 20, 14))
+    if ctx.face == "up":
+        fill(ctx, v["dark"], 0.05)
+
+
+def w_belly(ctx):
+    """A waist like a wrist: the skin sunk between the ribs and the hips, a navel stretched sideways."""
+    v = WV
+    w_skin(ctx)
+    if ctx.face == "west":
+        texel(ctx, ctx.w // 2, ctx.h * 2 // 3, v["dark"])
+        texel(ctx, ctx.w // 2 - 1, ctx.h * 2 // 3, v["dark"], 0.5)
+        line(ctx, 0.0, 0.0, 0.2, 1.0, v["dark"], 0.4)                                   # the sunken flanks
+        line(ctx, 1.0, 0.0, 0.8, 1.0, v["dark"], 0.4)
+    elif ctx.face in ("north", "south"):
+        line(ctx, 0.0, 0.15, 1.0, 0.1, v["flake"], 0.35)                                # the lowest rib
+        line(ctx, 0.0, 0.25, 1.0, 0.2, v["dark"], 0.5)
+    cloth_over(ctx, v["shirt"], v["belly"], tears=v["tears"] - 1)
+
+
+def w_chest(ctx):
+    """The ribcage under dry skin: every rib, collarbones, a hollow sternum, scratched raw; the shirt in rags on top."""
+    v = WV
+    w_skin(ctx)
+    if ctx.face in ("west", "north", "south"):
+        for i in range(2, ctx.h - 1, 2):                                                 # ribs and the hollows between
+            if ctx.face == "west":
+                line(ctx, 0.0, i / ctx.h + 0.06, 0.42, i / ctx.h, v["dark"], 0.55)
+                line(ctx, 0.58, i / ctx.h, 1.0, i / ctx.h + 0.06, v["dark"], 0.55)
+                line(ctx, 0.0, (i + 1) / ctx.h + 0.06, 0.42, (i + 1) / ctx.h, v["flake"], 0.3)
+                line(ctx, 0.58, (i + 1) / ctx.h, 1.0, (i + 1) / ctx.h + 0.06, v["flake"], 0.3)
+            else:
+                texrow(ctx, i, 0, -1, v["dark"], 0.5)
+                texrow(ctx, i + 1, 0, -1, v["flake"], 0.25)
+        if ctx.face == "west":
+            line(ctx, 0.5, 0.15, 0.5, 0.9, v["dark"], 0.6)                               # the sternum's hollow
+            line(ctx, 0.05, 0.08, 0.45, 0.02, v["flake"], 0.6)                           # collarbones
+            line(ctx, 0.55, 0.02, 0.95, 0.08, v["flake"], 0.6)
+        w_scratches(ctx, v["scratches"])
+    elif ctx.face == "east":
+        line(ctx, 0.1, 0.25, 0.32, 0.6, v["dark"], 0.5)                                  # under the shoulder blades
+        line(ctx, 0.9, 0.25, 0.68, 0.6, v["dark"], 0.5)
+        w_scratches(ctx, v["scratches"])
+    cloth_over(ctx, v["shirt"], v["chest"], tears=v["tears"])
+    if v["chest"] >= 1 and ctx.face == "west":                                           # a faded print on the shirt
+        for tx, ty in ((3, 3), (4, 3), (5, 3), (4, 4), (3, 5), (5, 5)):
+            texel(ctx, tx, ty, shade(v["shirt"], 1.4), 0.5)
+
+
+def w_spine(ctx):
+    """The spine through the skin of the bent back, a knuckle at every other texel."""
+    v = WV
+    w_skin(ctx, 0.6, base=mix(v["skin"], v["flake"], 0.25))
+    if ctx.face not in ("up", "down"):
+        for ty in range(0, ctx.h, 2):
+            texrow(ctx, ty, 0, -1, mix(v["flake"], v["skin"], 0.3), 0.7)
+            texrow(ctx, ty + 1, 0, -1, v["dark"], 0.55)
+    limit = v["chest"] if ctx.part.name == "SpineHigh" else v["belly"]
+    cloth_over(ctx, v["shirt"], limit, fray=False)
+
+
+def w_blade(ctx):
+    v = WV
+    w_skin(ctx, 0.6, base=mix(v["skin"], v["flake"], 0.2))
+    if ctx.face in ("east", "down"):
+        texrow(ctx, -1, 0, -1, v["dark"], 0.6)
+    cloth_over(ctx, v["shirt"], v["chest"] * 1.6, fray=False)
+
+
+def w_collar(ctx):
+    """What is left of the shirt: its ribbed collar, filthy, still round the neck."""
+    v = WV
+    w_cloth(ctx, v["shirt"], WV["stain"] * 1.3)
+    if ctx.face not in ("up", "down"):
+        texrow(ctx, 0, 0, -1, shade(v["shirt"], 0.75), 0.5)
+        ragged(ctx, 1)
+    if ctx.face == "up":
+        fill(ctx, v["dark"], 0.05)
+
+
+def w_rag(ctx):
+    """A strip of shirt hanging from the ribs; on the far-gone look, a flap of the skin itself, raw underneath."""
+    v = WV
+    if v["rags"] == "skin":
+        if ctx.face in ("north", "east") or (ctx.face == "west" and ctx.part.name == "RagBack"):
+            fill(ctx, v["raw"], 0.12)                                                     # the inside of the flap
+            blotch(ctx, W_RIM, 2, 1.0, 2.5, 0.5)
+            blotch(ctx, W_SLUDGE, 1, 1.0, 2.5, 0.5)
+        else:
+            w_skin(ctx, 1.4)
+        texrow(ctx, 0, 0, -1, W_RIM, 0.5)
+        ragged(ctx, 4)
+        return
+    w_cloth(ctx, v["shirt"], v["stain"] * 1.2)
+    if ctx.face not in ("up", "down"):
+        if ctx.w >= 3 and ctx.h >= 4 and ctx.rng.random() < 0.6:
+            tx, ty = ctx.rng.randrange(1, ctx.w - 1), ctx.rng.randrange(1, ctx.h - 2)
+            clear(ctx, tx, ty)                                                           # a hole worn through
+        ragged(ctx, 2 if v["chest"] >= 1 else 4)
+
+
+def w_strap(ctx):
+    """Backpack webbing over the shoulder: nylon, stitched along both edges, the slider still on it."""
+    v = WV
+    w_cloth(ctx, v["gear"], v["stain"] * 0.8)
+    if ctx.face in ("west", "east"):
+        line(ctx, 0.2, 0.0, 0.2, 1.0, shade(v["gear"], 1.35), 0.4)
+        line(ctx, 0.8, 0.0, 0.8, 1.0, shade(v["gear"], 1.35), 0.4)
+    if ctx.face == "up":
+        fill(ctx, mix(v["gear"], (140, 130, 116), 0.2), 0.08)                             # worn pale over the shoulder
+
+
+def w_metal(ctx):
+    fill(ctx, W_METAL, 0.08)
+    blotch(ctx, (110, 70, 40), 1, 0.8, 1.5, 0.5)                                         # rust
+
+
+def w_pouch(ctx):
+    """All that is left of the backpack: a pouch torn open, its zip burst, a keyring tag still on its pull."""
+    v = WV
+    w_cloth(ctx, v["gear"], v["stain"])
+    if ctx.face == "up":
+        rect(ctx, 0.15, 0.2, 0.85, 0.8, (18, 14, 12))                                     # torn open
+        texel(ctx, 0, ctx.h // 2, W_METAL, 0.8)
+    elif ctx.face == "east":
+        line(ctx, 0.0, 0.2, 1.0, 0.2, W_METAL, 0.7)                                       # the zip
+        texel(ctx, ctx.w // 3, 1, (196, 40, 36))                                           # the keyring tag: red ...
+        texel(ctx, ctx.w // 3, 2, (226, 224, 214))                                         # ... and white
+        texel(ctx, ctx.w // 3 + 1, 2, (196, 40, 36))
+        if ctx.w >= 4:
+            rect(ctx, 0.55, 0.5, 0.85, 0.85, (22, 18, 14))                                 # a rip in the side
+    elif ctx.face in ("north", "south"):
+        line(ctx, 0.0, 0.2, 1.0, 0.25, shade(v["gear"], 0.6), 0.5)
+    if ctx.face in ("north", "south", "east", "west"):
+        ragged(ctx, 1)
+
+
+def w_pustule(ctx):
+    """A pustule standing off the skin: a yellow head (on the early look, an angry red bump), a raw base."""
+    v = WV
+    head = mix(W_PUS, v["raw"], 0.6) if v["rash"] else W_PUS
+    fill(ctx, head, 0.08, face_shade=False)
+    if ctx.face == "up":
+        texel(ctx, 0, 0, W_PUS_HI if not v["rash"] else shade(head, 1.2), 0.8)
+    elif ctx.face != "down":
+        texrow(ctx, -1, 0, -1, v["raw"], 0.8)
+        texel(ctx, 0, 0, W_PUS_HI if not v["rash"] else shade(head, 1.2), 0.5)
+        if v["ooze"] > 0.5 and ctx.rng.random() < 0.5:
+            texel(ctx, ctx.w - 1, ctx.h - 1, W_SLUDGE, 0.8)
+
+
+# ---- head and face ----
+
+def w_hair_on(ctx, rows=None):
+    """Hair on a scalp face, as the look has it: thinning (early), a few roots (common), none."""
+    v = WV
+    if v["hair"] == "none":
+        return
+    chance = 0.75 if v["hair"] == "thin" else 0.12
+    rows = range(ctx.h) if rows is None else rows
+    for ty in rows:
+        for tx in range(ctx.w):
+            if ctx.rng.random() < chance:
+                texel(ctx, tx, ty, W_HAIR if ctx.rng.random() < 0.8 else mix(W_HAIR, (110, 100, 90), 0.5), 0.9)
+    if v["hair"] == "thin":
+        blotch(ctx, v["skin"], 1, 1.0, 2.0, 0.8)                                          # a bald patch
+
+
+def w_head(ctx):
+    """The skull. In front, the deep sockets the eyes sit in; temples sunk; the scalp as the look has it."""
+    v = WV
+    w_skin(ctx)
+    if ctx.face == "west":
+        fill(ctx, (34, 14, 12), 0.15, face_shade=False)                                    # the sockets, deep
+        blotch(ctx, W_RIM, 2, 1.0, 2.0, 0.4)
+    elif ctx.face == "down":
+        fill(ctx, W_MAWC, 0.1, face_shade=False)                                           # the roof of the mouth
+        texrow(ctx, 0, 0, -1, W_GUM, 0.7)
+    elif ctx.face in ("north", "south"):
+        blotch(ctx, v["dark"], 1, 1.5, 2.5, 0.55)                                          # sunken temples
+        w_hair_on(ctx, range(0, ctx.h // 3))
+        if v["hair"] != "thin":
+            texrow(ctx, ctx.h // 3, 0, -1, v["dark"], 0.2)
+    elif ctx.face == "east":
+        w_hair_on(ctx, range(0, ctx.h * 2 // 3))
+    elif ctx.face == "up":
+        w_hair_on(ctx)
+        if v["hair"] == "none":
+            w_hole(ctx, ctx.w // 2, ctx.h // 2, False)
+
+
+def w_crown(ctx):
+    """The top of the skull, narrower than the head: the scalp as the look has it."""
+    v = WV
+    w_skin(ctx, 0.8)
+    if ctx.face == "up":
+        w_hair_on(ctx)
+    elif ctx.face != "down":
+        w_hair_on(ctx, range(ctx.h))
+
+
+def w_brow(ctx):
+    """The forehead and a heavy brow over the sockets, bone pushing through the skin at its edge."""
+    v = WV
+    w_skin(ctx, 0.8)
+    if ctx.face == "west":
+        texrow(ctx, -1, 0, -1, mix(v["flake"], v["skin"], 0.2), 0.7)                       # the brow ridge
+        texrow(ctx, -2, 0, -1, v["dark"], 0.35)
+        line(ctx, 0.1, 0.35, 0.9, 0.3, v["dark"], 0.35)                                    # a furrow
+        if v["eyes"] == "lidded":
+            w_scratches(ctx, 0.5)
+    elif ctx.face == "down":
+        fill(ctx, (30, 12, 10), 0.1, face_shade=False)                                     # the socket's ceiling
+    elif ctx.face == "up":
+        w_hair_on(ctx)
+
+
+def w_face(ctx):
+    """Below the eyes: hollows; where the nose was, two holes; the upper lip gone, the gums and teeth bare."""
+    v = WV
+    w_skin(ctx, 0.5)
+    if ctx.face == "west":
+        w, h = ctx.w, ctx.h
+        texrow(ctx, 0, 0, w // 2 - 2, v["dark"], 0.6)                                       # under-eye hollows
+        texrow(ctx, 0, w // 2 + 2, w - 1, v["dark"], 0.6)
+        cx = w // 2
+        for tx in (cx - 1, cx):                                                             # the nasal holes
+            texel(ctx, tx, 0, W_HOLE)
+            texel(ctx, tx, 1, W_HOLE, 0.85)
+        texel(ctx, cx - 1, 2, W_RIM, 0.6)
+        texel(ctx, cx, 2, W_RIM, 0.6)
+        if v["ooze"] > 0:
+            texel(ctx, cx, 2, W_SLUDGE, 0.8)
+        for tx in (1, w - 2):                                                               # cheekbones under the skin
+            texel(ctx, tx, 0, mix(v["flake"], v["skin"], 0.25), 0.8)
+        texrow(ctx, 1, 0, 0, v["dark"], 0.6)                                                # hollow cheeks
+        texrow(ctx, 1, w - 1, w - 1, v["dark"], 0.6)
+        texrow(ctx, h - 2, 0, -1, W_GUM, 0.7)                                               # the gum, no lip
+        texrow(ctx, h - 1, 0, -1, W_GUM)
+        for tx in range(1, w - 1, 3):
+            texel(ctx, tx, h - 1, W_MAWC, 0.8)                                              # the gaps the teeth left
+        if v["eyes"] == "lidded":                                                           # stage 2: a lip, cracked
+            texrow(ctx, h - 2, 1, w - 2, mix(v["raw"], v["skin"], 0.4))
+            texel(ctx, w // 3, h - 2, W_CRACK)
+    elif ctx.face in ("north", "south"):
+        blotch(ctx, v["dark"], 1, 1.0, 2.0, 0.5)
+        texrow(ctx, -1, 0, -1, W_GUM, 0.7)
+    elif ctx.face == "down":
+        fill(ctx, W_GUM, 0.1, face_shade=False)
+
+
+def w_bridge(ctx):
+    v = WV
+    w_skin(ctx, 0.4, base=mix(v["skin"], v["flake"], 0.2))
+    if ctx.face == "west":
+        texrow(ctx, -1, 0, -1, W_RIM, 0.7)                                                  # the cartilage gone below
+
+
+def w_eye(ctx):
+    """A lidless eye, bloodshot: two texels of white, a vein, and a pupil looking somewhere the other eye is not.
+    Early, a heavy lid still over the top; far gone, yellowed."""
+    v = WV
+    fill(ctx, v["sclera"], 0.04, face_shade=False)
+    if ctx.face == "west":
+        right = w_side(ctx) == "R"
+        px_, py_ = (1, 0) if right else (0, 1)                                                # the pupils diverge
+        texel(ctx, px_, py_, W_PUPIL)
+        texel(ctx, 1 - px_, 1 - py_, W_VEIN, 0.45 if v["eyes"] != "yellow" else 0.7)
+        if v["eyes"] == "lidded":
+            texrow(ctx, 0, 0, -1, mix(v["skin"], v["dark"], 0.25), 0.85)                       # the lid, heavy
+            texel(ctx, px_, 1, v["iris"])
+    else:
+        texel(ctx, 0, ctx.h - 1, W_VEIN, 0.6)
+        if v["eyes"] == "lidded" and ctx.face != "down":
+            texrow(ctx, 0, 0, -1, mix(v["skin"], v["dark"], 0.25))
+
+
+def w_ear(ctx):
+    """An ear shrivelled to a stub, its cartilage gone."""
+    v = WV
+    w_skin(ctx, 0.5, base=v["dark"])
+    if ctx.face == "south" or ctx.face == "north":
+        texel(ctx, ctx.w // 2, ctx.h // 2, W_HOLE)
+        texrow(ctx, 0, 0, -1, W_RIM, 0.6)
+        ragged(ctx, 1)
+
+
+def w_jaw(ctx):
+    """The jaw: bare gum and teeth on top (no lip), a chin streaked with sludge, a dry tongue in the floor."""
+    v = WV
+    w_skin(ctx, 0.7)
+    if ctx.face == "west":
+        texrow(ctx, 0, 0, -1, W_GUM)
+        texrow(ctx, 1, 0, -1, W_GUM, 0.6)
+        if v["eyes"] == "lidded":
+            texrow(ctx, 1, 0, -1, mix(v["raw"], v["skin"], 0.4))
+        if v["ooze"] > 0:
+            for tx in (1, ctx.w - 2, ctx.w // 2):                                           # sludge from the mouth
+                for ty in range(1, 1 + ctx.rng.randint(1, ctx.h - 1)):
+                    texel(ctx, tx, ty, W_SLUDGE, 0.85)
+                texel(ctx, tx, 1, W_SLUDGE_HI, 0.4)
+    elif ctx.face == "up":
+        fill(ctx, W_MAWC, 0.1, face_shade=False)
+        rect(ctx, 0.15, 0.25, 0.75, 0.75, W_TONGUE)                                          # the tongue, dry
+        texel(ctx, ctx.w // 3, ctx.h // 2, W_CRACK)
+        texrow(ctx, 0, 0, -1, W_GUM)
+        texrow(ctx, -1, 0, -1, W_GUM)
+        if v["ooze"] > 0:
+            blotch(ctx, W_SLUDGE, 1, 1.0, 2.0, 0.7)
+    elif ctx.face == "down":
+        blotch(ctx, v["dark"], 1, 1.5, 3, 0.5)
+    elif ctx.face in ("north", "south"):
+        texrow(ctx, 0, 0, -1, W_GUM, 0.6)
+
+
+def w_maw(ctx):
+    fill(ctx, W_MAWC, 0.15, face_shade=False)
+    blotch(ctx, (4, 2, 2), 1, 1.0, 2.5, 0.8)
+    if ctx.face == "west":
+        texrow(ctx, 0, 0, -1, W_GUM, 0.6)
+
+
+def w_tooth(ctx):
+    """A tooth, stained; brown toward the gum (on the far-gone look, brown all through)."""
+    base = mix(W_TOOTH, W_TOOTH_DK, 0.65 if WV["eyes"] == "yellow" else 0.15 + ctx.rng.random() * 0.4)
+    fill(ctx, base, 0.05, face_shade=False)
+    if ctx.face not in ("up", "down"):
+        up = ctx.part.tag.get("upper", True)
+        texrow(ctx, 0 if up else -1, 0, -1, W_TOOTH_DK, 0.8)
+        texrow(ctx, -1 if up else 0, 0, -1, shade(base, 1.08), 0.6)
+
+
+def w_hair(ctx):
+    """A few strings of hair left: dark strands with gaps between, the ends ragged. None at all far gone."""
+    v = WV
+    if v["hair"] == "none":
+        ctx.draw.rectangle([ctx.x, ctx.y, ctx.x + ctx.w - 1, ctx.y + ctx.h - 1], fill=(0, 0, 0, 0))
+        return
+    fill(ctx, W_HAIR, 0.15, face_shade=False)
+    keep = 0.8 if v["hair"] == "thin" else 0.5
+    for xx in range(ctx.w):
+        if ctx.rng.random() > keep:
+            for yy in range(ctx.h):
+                clear(ctx, xx, yy)
+        elif ctx.rng.random() < 0.3:
+            for yy in range(ctx.h):
+                texel(ctx, xx, yy, (82, 72, 62), 0.6)
+    ragged(ctx, max(2, ctx.h // 2))
+
+
+def w_drool(ctx):
+    """A rope of brown sludge from the mouth, wet, with a drop at its end. Stage 2 has none."""
+    if not WV["drool"]:
+        ctx.draw.rectangle([ctx.x, ctx.y, ctx.x + ctx.w - 1, ctx.y + ctx.h - 1], fill=(0, 0, 0, 0))
+        return
+    fill(ctx, W_SLUDGE, 0.1, face_shade=False)
+    if ctx.face not in ("up", "down"):
+        line(ctx, 0.3, 0.0, 0.3, 0.8, W_SLUDGE_HI, 0.7)
+        if ctx.w > 1:
+            for yy in range(ctx.h * 2 // 3, ctx.h - 1):
+                clear(ctx, ctx.w - 1, yy)
+
+
+def w_trouser_rag(ctx):
+    v = WV
+    if not v["trouser_rag"]:
+        ctx.draw.rectangle([ctx.x, ctx.y, ctx.x + ctx.w - 1, ctx.y + ctx.h - 1], fill=(0, 0, 0, 0))
+        return
+    w_cloth(ctx, v["trousers"])
+    vlines(ctx, shade(v["trousers"], 1.3), 3, alpha=0.3)
+    ragged(ctx, 4)
+
+
+# ---- limbs ----
+
+def w_arm(ctx):
+    """The upper arm: bone and skin, the shoulder's knob, a sleeve (or what is left of it)."""
+    v = WV
+    w_skin(ctx)
+    if ctx.face in ("west", "north", "south", "east"):
+        texrow(ctx, 0, 0, -1, mix(v["flake"], v["skin"], 0.3), 0.6)                        # the knob of the shoulder
+        texrow(ctx, -1, 0, -1, v["dark"], 0.5)
+        w_scratches(ctx, v["scratches"] * 0.7)
+    cloth_over(ctx, v["shirt"], v["sleeve" + w_side(ctx)], tears=v["tears"] - 1)
+
+
+def w_forearm(ctx):
+    """A forearm of two bones and tendons; the elbow a knot; on the far-gone looks, a nail growing out of it."""
+    v = WV
+    w_skin(ctx)
+    if ctx.face in ("west", "north", "south", "east"):
+        texrow(ctx, 0, 0, -1, v["dark"], 0.5)
+        texrow(ctx, 1, 0, -1, v["flake"], 0.3)
+        line(ctx, 0.35, 0.15, 0.3, 0.9, v["dark"], 0.35)                                     # between the bones
+        texrow(ctx, -2, 0, -1, mix(v["flake"], v["skin"], 0.3), 0.5)                          # the wrist's knobs
+        w_scratches(ctx, v["scratches"])
+    if ctx.face == "east":
+        texrow(ctx, 0, 0, -1, mix(v["flake"], v["skin"], 0.2), 0.8)                           # the elbow
+        if v["eyes"] != "lidded" and w_side(ctx) == "L":
+            for ty in (ctx.h // 2, ctx.h // 2 + 1):
+                texrow(ctx, ty, 1, 2, W_NAIL)                                                  # a nail, grown wrong
+            texrow(ctx, ctx.h // 2 + 2, 1, 2, W_RIM, 0.7)
+
+
+def w_hand(ctx):
+    v = WV
+    w_skin(ctx, 0.7)
+    if ctx.face == "west":
+        for tx in range(0, ctx.w, 2):
+            line(ctx, (tx + 0.5) / ctx.w, 0.1, (tx + 0.5) / ctx.w, 0.9, v["flake"], 0.35)  # tendons
+    if ctx.face in ("west", "east", "north", "south"):
+        texrow(ctx, -1, 0, -1, mix(v["flake"], v["skin"], 0.2), 0.6)                         # knuckles
+    if ctx.face == "down":
+        fill(ctx, mix(v["dark"], (60, 50, 40), 0.4), 0.08)
+
+
+def w_finger(ctx):
+    """A long bony finger ending in a long cracked nail (a claw now)."""
+    v = WV
+    w_skin(ctx, 0.4)
+    if ctx.face in ("west", "east", "north", "south"):
+        texrow(ctx, ctx.h // 3, 0, -1, v["dark"], 0.5)                                       # knuckles
+        texrow(ctx, ctx.h * 2 // 3 - 1, 0, -1, v["dark"], 0.4)
+        nail = W_NAIL if v["eyes"] != "yellow" else mix(W_NAIL, W_NAIL_DK, 0.5)
+        for ty in range(ctx.h - 2, ctx.h):
+            texrow(ctx, ty, 0, -1, nail)
+        texrow(ctx, -1, 0, -1, W_NAIL_DK)
+        if ctx.face == "west":
+            texel(ctx, 0, ctx.h - 2, W_CRACK, 0.6)
+    elif ctx.face == "down":
+        fill(ctx, W_NAIL_DK, 0.05)
+
+
+def w_thigh(ctx):
+    v = WV
+    w_skin(ctx)
+    side = w_side(ctx)
+    cloth_over(ctx, v["trousers"], v["thigh" + side], tears=v["tears"])
+    if v["thigh" + side] > 0 and ctx.face in ("west", "north", "south", "east"):
+        vlines(ctx, shade(v["trousers"], 1.25), 4, start=1, alpha=0.12)
+    if ctx.face == "west" and v["thigh" + side] > 0.8 and v["shin" + side] < 1:               # torn open at the knee
+        rect(ctx, 0.2, 0.86, 0.8, 1.0, v["skin"])
+        texrow(ctx, -1, 0, -1, mix(v["flake"], v["skin"], 0.3), 0.6)
+
+
+def w_shin(ctx):
+    v = WV
+    w_skin(ctx)
+    if ctx.face == "west":
+        line(ctx, 0.5, 0.1, 0.5, 0.95, mix(v["flake"], v["skin"], 0.2), 0.55)                 # the shin bone
+    if ctx.face in ("west", "north", "south", "east"):
+        texrow(ctx, -2, 0, -1, mix(v["flake"], v["skin"], 0.3), 0.5)                          # ankle knobs
+        w_scratches(ctx, v["scratches"] * 0.5)
+    cloth_over(ctx, v["trousers"], v["shin" + w_side(ctx)], tears=1)
+
+
+def w_knee(ctx):
+    """A knee wider than the thigh above it, scraped from crawling."""
+    v = WV
+    w_skin(ctx, 1.0, base=mix(v["skin"], v["flake"], 0.15))
+    blotch(ctx, v["raw"], 1, 1.0, 2.0, 0.6)
+    if v["shin" + w_side(ctx)] > 0:
+        w_cloth(ctx, v["trousers"])
+        if v["shin" + w_side(ctx)] < 1:
+            blotch(ctx, v["skin"], 1, 1.0, 1.8, 0.9)                                          # worn through
+
+
+def w_foot(ctx):
+    """A sneaker (boots, early), stained and split; or a bare foot with long cracked toenails."""
+    v = WV
+    side = w_side(ctx)
+    if v["shoe" + side]:
+        fill(ctx, v["shoe"], 0.06)
+        blotch(ctx, W_SLUDGE, 2, 1.0, 3.0, 0.45 * v["stain"])
+        blotch(ctx, (90, 30, 24), 1, 1.0, 2.0, 0.3)
+        if ctx.face in ("north", "south", "west", "east"):
+            texrow(ctx, -1, 0, -1, v["sole"])
+            if ctx.h > 2:
+                texrow(ctx, -2, 0, -1, mix(v["sole"], v["shoe"], 0.5))
+        if ctx.face == "up":
+            for tx in range(ctx.w // 3, ctx.w * 2 // 3, 2):                                   # laces
+                texel(ctx, tx, ctx.h // 2, (220, 214, 200) if v["shoe"][0] > 150 else (40, 30, 24))
+                texel(ctx, tx + 1, ctx.h // 2 - 1, shade(v["shoe"], 0.6))
+                texel(ctx, tx + 1, ctx.h // 2 + 1, shade(v["shoe"], 0.6))
+            rect(ctx, 0.0, 0.0, 0.25, 1.0, shade(v["shoe"], 0.92))                            # the toe cap
+            rect(ctx, 0.85, 0.15, 1.0, 0.85, (24, 18, 14))                                    # the opening, the ankle
+        if ctx.face == "west" and v["eyes"] == "yellow":
+            texrow(ctx, -2, 1, -2, (20, 12, 10))                                              # the sole split open
+            texel(ctx, 2, -2, v["skin"])
+            texel(ctx, 3, -2, v["skin"])
+        if ctx.face == "down":
+            fill(ctx, v["sole"], 0.08)
+        return
+    w_skin(ctx, 0.8)
+    if ctx.face == "up":
+        for ty in range(0, ctx.h, 2):                                                          # the toes, long nails
+            texel(ctx, 0, ty, W_NAIL)
+            texel(ctx, 1, ty, W_NAIL, 0.6)
+            texel(ctx, 2, ty, v["dark"], 0.5)
+        line(ctx, 0.3, 0.5, 0.9, 0.5, mix(v["flake"], v["skin"], 0.3), 0.45)                   # the tendons, the bones
+    elif ctx.face == "west":
+        for tx in range(0, ctx.w, 2):
+            texel(ctx, tx, 0, W_NAIL)
+            texel(ctx, tx + 1, 0, v["dark"], 0.6)
+        texrow(ctx, -1, 0, -1, (54, 44, 36), 0.7)
+    elif ctx.face == "down":
+        fill(ctx, (62, 48, 38), 0.1)                                                           # grime
+    else:
+        texrow(ctx, -1, 0, -1, (60, 48, 40), 0.6)
+
+
+# ---- the model ----
+
+W_THIGH_REST, W_SHIN_REST, W_FOOT_REST = -16.0, 28.0, -12.0
+W_SHIFT = -0.4                 # the bent knees lift the feet: the whole model is moved down onto the floor
+W_HIP_P, W_THIGH_P, W_KNEE_P, W_ANKLE_P = (0.0, 14.4), (0.0, 14.3), (0.0, 7.6), (0.0, 1.0)
+
+
+def _w_rot(pt, piv, deg):
+    a = math.radians(deg)
+    x, y = pt[0] - piv[0], pt[1] - piv[1]
+    return (piv[0] + x * math.cos(a) - y * math.sin(a), piv[1] + x * math.sin(a) + y * math.cos(a))
+
+
+def _w_ankle(hip, thigh, shin):
+    """Where the ankle ends up (model space) for the hips', thigh's and shin's own Z rotations (rest + animation)."""
+    q = _w_rot(W_ANKLE_P, W_KNEE_P, shin)
+    q = _w_rot(q, W_THIGH_P, thigh)
+    return _w_rot(q, W_HIP_P, hip)
+
+
+def w_legs(thigh_w, shin_w, hip=0.0, hip_x=0.0, sides="LR", foot_w=0.0):
+    """Legs posed by their world angles (thigh and shin from straight down, + is backward), the feet set at foot_w
+    (0: flat), the hips moved (in their own turned frame) so the feet stay where they stood at rest. -> poses"""
+    a0 = _w_ankle(0, W_THIGH_REST, W_SHIN_REST)
+    a = _w_ankle(hip, thigh_w - hip, shin_w - thigh_w)
+    d = (a0[0] - a[0], a0[1] - a[1])
+    off = _w_rot(d, (0, 0), -hip)
+    out = {"Hips": pose((hip_x, 0, hip), (off[0], off[1], 0))}
+    for sd in sides:
+        out["Thigh" + sd] = pose((0, 0, thigh_w - hip - W_THIGH_REST))
+        out["Shin" + sd] = pose((0, 0, shin_w - thigh_w - W_SHIN_REST))
+        out["Foot" + sd] = pose((0, 0, foot_w - shin_w - W_FOOT_REST))
+    return out
+
+
+def wretch(variant="common"):
+    global WV
+    WV = dict(WRETCH_VARIANTS[variant])
+    m = Model("wretch", atlas_width=64, seed=15)
+
+    # ---- The body, bent nearly double ----
+    # The waist leans forward 10, the chest 16 more; the thin neck juts forward a further 22 and the head tips back 46
+    # (so the face looks ahead, a touch down, from in front of the shoulders, as a vulture's does).
+    hips = m.part("Hips", (-1.7, 12.8, -2.7), (3.4, 3.2, 5.4), pivot=(0, 14.4, 0), paint=w_hips)
+    belly = m.part("Belly", (-1.3, 15.8, -2.0), (2.6, 4.0, 4.0), pivot=(0, 15.9, 0), parent=hips, rest=(0, 0, 14), paint=w_belly)
+    chest = m.part("Chest", (-1.9, 19.5, -2.7), (3.8, 5.3, 5.4), pivot=(0, 19.7, 0), parent=belly, rest=(0, 0, 22), paint=w_chest)
+    m.part("SpineLow", (1.2, 16.1, -0.35), (0.4, 3.7, 0.7), parent=belly, paint=w_spine)
+    m.part("SpineHigh", (1.8, 19.6, -0.4), (0.45, 4.6, 0.8), parent=chest, paint=w_spine)
+    m.part("BladeL", (1.75, 21.0, 0.6), (0.4, 2.8, 1.9), pivot=(1.95, 23.8, 1.55), parent=chest, rest=(0, 0, 10), paint=w_blade)
+    m.mirror("BladeL", "BladeR")
+    m.part("Collar", (-1.35, 24.3, -1.35), (2.7, 0.75, 2.7), parent=chest, paint=w_collar)
+    neck = m.part("Neck", (-0.75, 24.3, -0.75), (1.5, 3.4, 1.5), pivot=(0, 24.5, 0), parent=chest, rest=(0, 0, 40), paint=w_neck)
+
+    # ---- The head: the skull set back, a brow and the cheeks in front, the sockets between ----
+    head = m.part("Head", (-2.0, 27.2, -2.0), (4.0, 4.4, 4.0), pivot=(0.3, 27.6, 0), parent=neck, rest=(0, 0, -70), paint=w_head)
+    m.part("Crown", (-1.7, 31.6, -1.65), (3.5, 0.65, 3.3), parent=head, paint=w_crown)
+    m.part("Brow", (-2.75, 30.3, -2.05), (0.8, 1.45, 4.1), parent=head, paint=w_brow)
+    m.part("Face", (-2.6, 27.2, -1.95), (0.65, 1.7, 3.9), parent=head, paint=w_face)
+    m.part("Bridge", (-2.42, 28.9, -0.3), (0.45, 1.4, 0.6), parent=head, paint=w_bridge)
+    m.part("EyeL", (-2.3, 29.05, 0.5), (1.0, 1.0, 1.0), pivot=(-1.8, 29.55, 1.0), parent=head, paint=w_eye)
+    m.mirror("EyeL", "EyeR")
+    for n, dy in (("EyeR", -0.12),):                                                    # one eye a little lower
+        p = m.by_name[n]
+        p.frm[1] += dy
+        p.pivot[1] += dy
+    m.part("EarL", (-0.2, 28.7, 1.95), (1.0, 1.3, 0.35), pivot=(0.3, 29.3, 2.0), parent=head, rest=(-8, 0, 0), paint=w_ear)
+    m.mirror("EarL", "EarR")
+    m.part("Maw", (-1.95, 26.0, -1.5), (2.2, 1.25, 3.0), parent=head, paint=w_maw)
+    jaw = m.part("Jaw", (-2.5, 25.9, -1.75), (2.9, 1.3, 3.5), pivot=(0.3, 26.9, 0), parent=head, rest=(0, 0, 22), paint=w_jaw)
+    # Teeth: the upper ones left in the gum, uneven, one far too long; the lower ones; and three grown out of a cheek
+    for i, (z, wd, ln) in enumerate(((-1.4, 0.35, 0.5), (-0.55, 0.3, 0.75), (0.25, 0.4, 1.15), (1.2, 0.3, 0.45))):
+        m.part(f"ToothU{i}", (-2.55, 27.2 - ln, z - wd / 2), (0.4, ln + 0.1, wd), parent=head, paint=w_tooth, tag={"upper": True})
+    for i, (z, wd, ln) in enumerate(((-1.05, 0.35, 0.55), (-0.15, 0.3, 0.4), (0.8, 0.45, 0.85))):
+        m.part(f"ToothD{i}", (-2.45, 27.1, z - wd / 2), (0.4, ln, wd), parent=jaw, paint=w_tooth, tag={"upper": False})
+    for i, (x, y, sz) in enumerate(((-1.45, 27.75, 0.45), (-0.95, 27.5, 0.35), (-1.0, 28.15, 0.3))):
+        m.part(f"CheekTooth{i}", (x, y, 1.9), (sz, sz, 0.45 + sz * 0.6), parent=head, paint=w_tooth, tag={"upper": True})
+    # A few strings of hair
+    m.part("HairA", (-0.4, 27.0, 2.0), (1.9, 4.6, 0.12), pivot=(0.55, 31.6, 2.06), parent=head, rest=(-5, 0, 0), paint=w_hair)
+    m.part("HairB", (2.0, 26.4, -1.3), (0.12, 5.2, 1.7), pivot=(2.06, 31.6, -0.45), parent=head, rest=(0, 0, 6), paint=w_hair)
+    m.part("HairC", (0.4, 29.4, -2.12), (1.3, 2.2, 0.12), pivot=(1.05, 31.6, -2.06), parent=head, rest=(4, 0, 0), paint=w_hair)
+    # Sludge hanging from the mouth (turned to hang straight down: the jaw sits 18 forward of upright)
+    m.part("Drool", (-2.38, 23.3, -0.65), (0.3, 2.7, 0.45), pivot=(-2.23, 26.0, -0.42), parent=jaw, rest=(0, 0, -28), paint=w_drool)
+    m.part("DroolB", (-1.75, 24.5, 1.25), (0.25, 1.5, 0.35), pivot=(-1.62, 26.0, 1.42), parent=jaw, rest=(0, 0, -28), paint=w_drool)
+
+    # ---- Arms: long, all bone, hanging to the knees, the hands turned back, nails grown into claws ----
+    arm = m.part("ArmL", (-0.7, 17.4, 2.7), (1.4, 7.0, 1.4), pivot=(0, 24.0, 3.4), parent=chest, rest=(-5, 0, -38), paint=w_arm)
+    fore = m.part("ForearmL", (-0.6, 10.0, 2.8), (1.2, 7.6, 1.2), pivot=(0, 17.6, 3.4), parent=arm, rest=(2, 0, -6), paint=w_forearm)
+    hand = m.part("HandL", (-0.45, 8.0, 2.6), (0.9, 2.1, 1.6), pivot=(0, 10.0, 3.4), parent=fore, rest=(0, 0, 6), paint=w_hand)
+    for i in range(3):
+        z = 2.62 + i * 0.55
+        m.part(f"Finger{i}L", (-0.35, 5.2 + (0.3 if i != 1 else 0), z), (0.45, 2.9 - (0.3 if i != 1 else 0), 0.45),
+               pivot=(-0.12, 8.05, z + 0.22), parent=hand, rest=((i - 1) * -4, 0, -8), paint=w_finger)
+    m.part("ThumbL", (-0.6, 6.7, 2.55), (0.45, 1.7, 0.45), pivot=(-0.4, 8.4, 2.75), parent=hand, rest=(10, 0, -20), paint=w_finger)
+    # ---- Legs: thin, knees bent and knobbed, one shoe ----
+    thigh = m.part("ThighL", (-1.05, 7.4, 0.25), (2.1, 7.2, 2.1), pivot=(0, 14.3, 1.3), parent=hips, rest=(0, 0, W_THIGH_REST), paint=w_thigh)
+    shin = m.part("ShinL", (-0.8, 0.9, 0.45), (1.6, 6.8, 1.7), pivot=(0, 7.6, 1.3), parent=thigh, rest=(0, 0, W_SHIN_REST), paint=w_shin)
+    m.part("KneeL", (-1.15, 6.6, 0.55), (0.5, 1.4, 1.5), parent=shin, paint=w_knee)
+    m.part("FootL", (-3.0, 0.0, 0.25), (4.0, 1.2, 2.1), pivot=(0, 1.0, 1.3), parent=shin, rest=(0, 0, W_FOOT_REST), paint=w_foot)
+    m.mirror("ArmL", "ArmR")
+    m.mirror("ThighL", "ThighR")
+    # The bare right foot is narrower than the shoe; the right arm hangs a little further forward and turns in
+    fr = m.by_name["FootR"]
+    fr.frm, fr.size = [-2.85, 0.0, -2.2], [3.85, 1.0, 1.8]
+    m.by_name["ArmR"].rest = (3, 0, -44)
+    m.by_name["ForearmR"].rest = (-4, 0, -10)
+    m.by_name["HandR"].rest = (0, 10, 4)
+    m.part("TrouserRagR", (-0.9, 4.6, -2.32), (1.9, 2.9, 0.12), pivot=(0, 7.5, -2.26), parent="ShinR", rest=(6, 0, 0), paint=w_trouser_rag)
+
+    # ---- The rags of the shirt, the backpack's strap and its torn pouch ----
+    m.part("RagFront", (-2.0, 16.9, -2.4), (0.15, 3.0, 2.3), pivot=(-1.92, 19.9, -1.25), parent=chest, rest=(0, 0, -32), paint=w_rag)
+    m.part("RagFront2", (-2.0, 17.7, 0.3), (0.15, 2.2, 1.6), pivot=(-1.92, 19.9, 1.1), parent=chest, rest=(4, 0, -28), paint=w_rag)
+    m.part("RagSide", (-1.2, 16.5, 2.7), (2.1, 3.4, 0.15), pivot=(-0.15, 19.9, 2.75), parent=chest, rest=(8, 0, -24), paint=w_rag)
+    m.part("RagBack", (1.85, 16.3, -2.3), (0.15, 3.6, 2.6), pivot=(1.92, 19.9, -1.0), parent=chest, rest=(0, 0, -30), paint=w_rag)
+    m.part("Strap", (-2.05, 19.3, 1.0), (4.1, 5.75, 0.7), parent=chest, paint=w_strap)
+    m.part("Buckle", (-2.2, 21.0, 0.95), (0.2, 0.6, 0.8), parent=chest, paint=w_metal)
+    m.part("Pouch", (1.95, 16.6, 0.5), (1.6, 2.6, 2.2), pivot=(2.4, 19.2, 1.35), parent=chest, rest=(0, 0, -34), paint=w_pouch)
+    # Pustules standing off the skin
+    for name, parent, frm, size in (("PusA", "Chest", (1.85, 22.4, 1.9), (0.5, 0.8, 0.8)),
+                                    ("PusB", "ArmR", (-0.4, 22.2, -4.45), (0.8, 0.9, 0.4)),
+                                    ("PusC", "Head", (-1.3, 29.7, -2.3), (0.7, 0.7, 0.35)),
+                                    ("PusD", "ForearmL", (-0.3, 13.0, 3.95), (0.7, 0.8, 0.35)),
+                                    ("PusE", "Belly", (-0.6, 17.4, -2.3), (0.8, 0.8, 0.35)),
+                                    ("PusF", "Neck", (-0.95, 25.4, 0.1), (0.3, 0.6, 0.6))):
+        m.part(name, frm, size, parent=parent, paint=w_pustule)
+
+    # ---- Animations ----
+    # A hanging limb swings backward with +Z, an upright part leans forward with +Z; the jaw drops with +Z. +X tilts
+    # an upright part to the left (+z) and swings a hanging left limb inward (a right one outward).
+    fingers = [f"Finger{i}{sd}" for i in range(3) for sd in "LR"] + ["ThumbL", "ThumbR"]
+    loose = ["Drool", "DroolB", "RagFront", "RagFront2", "RagSide", "RagBack", "Pouch", "HairA", "HairB", "HairC", "TrouserRagR"]
+    NAMES = (["Hips", "Belly", "Chest", "Neck", "Head", "Jaw", "EyeL", "EyeR",
+              "ArmL", "ArmR", "ForearmL", "ForearmR", "HandL", "HandR", "ThighL", "ThighR", "ShinL", "ShinR", "FootL", "FootR"]
+             + fingers + loose)
+
+    def eyes(p, amt=1.0):
+        """Lidless eyes rolling on their own, each to its own rhythm, never quite still."""
+        return {"EyeL": pose((0, amt * (24 * math.sin(TAU * (3 * p + 0.1)) + 9 * math.sin(TAU * 7 * p)), amt * 16 * math.sin(TAU * (2 * p + 0.35)))),
+                "EyeR": pose((0, amt * (22 * math.sin(TAU * (4 * p + 0.62)) + 8 * math.sin(TAU * (5 * p + 0.2))), amt * 18 * math.sin(TAU * (3 * p + 0.8))))}
+
+    def dangle(p, lean=0.0, head=0.0, trail=0.0, amp=1.0, f=1):
+        """The loose things (rags, strap pouch, hair, sludge) hang straight down whatever the body does (`lean`: how far
+        the chest leans past its rest; `head`: the jaw's tilt past its rest), trail behind as it moves, and sway."""
+        d = {}
+        for i, n in enumerate(("RagFront", "RagFront2", "RagSide", "RagBack")):
+            d[n] = pose((s(p * f, 3 * amp, i * 0.21), 0, -lean + trail + s(p * f * 2, 5 * amp, i * 0.17)))
+        d["Pouch"] = pose((s(p * f, 3 * amp, 0.4), 0, -lean + trail * 0.7 + s(p * f * 2, 4 * amp, 0.3)))
+        d["TrouserRagR"] = pose((s(p * f, 4 * amp, 0.6), 0, trail * 0.8 + s(p * f * 2, 6 * amp, 0.5)))
+        d["Drool"] = pose((s(p * f, 6 * amp, 0.1), 0, -head + trail + s(p * f * 2, 8 * amp, 0.25)))
+        d["DroolB"] = pose((s(p * f, 6 * amp, 0.4), 0, -head + trail + s(p * f * 2, 8 * amp, 0.55)))
+        for i, n in enumerate(("HairA", "HairB", "HairC")):
+            d[n] = pose((s(p * f, 4 * amp, i * 0.3), 0, trail * 0.5 + s(p * f * 2, 4 * amp, i * 0.2)))
+        return d
+
+    def claws(curl, spread=0.0):
+        d = {}
+        for i in range(3):
+            for sd, k in (("L", 1), ("R", -1)):
+                d[f"Finger{i}{sd}"] = pose(((i - 1) * spread * k, 0, curl))
+        d["ThumbL"] = pose((-curl * 0.5, 0, curl * 0.4))
+        d["ThumbR"] = pose((curl * 0.5, 0, curl * 0.4))
+        return d
+
+    def loop(code, frames, steps, fn):
+        m.animation(code, frames, cycle(frames, steps, lambda p: full(NAMES, fn(p))))
+
+    # Idle: it stands bent, breathing hard through the open mouth, swaying; the head drifts and jerks; the jaw works
+    # at nothing; the fingers twitch; the eyes never stop.
+    def idle(p):
+        breath = math.sin(TAU * p * 3)
+        twitch = ramp(p, 0.30, 0.32, 0.36, 0.42) - ramp(p, 0.70, 0.72, 0.75, 0.82)
+        sway = s(p, 2.0)
+        d = {
+            "Hips": pose((sway, 0, 0), (0, 0.12 * breath, 0)),
+            "Belly": pose((0, s(p, 3, 0.2), 0.8 * breath)),
+            "Chest": pose((-sway * 0.5, 0, 1.2 * breath), s=(1, 1 + 0.025 * breath, 1 + 0.02 * breath)),
+            "Neck": pose((0, 0, -1.2 * breath)),
+            "Head": pose((10 * twitch - sway * 0.5, 16 * twitch + s(p, 6, 0.3), s(p * 2, 3, 0.1))),
+            "Jaw": pose((0, 0, 4 + s(p * 3, 4, 0.2) + 6 * ramp(p, 0.5, 0.55, 0.6, 0.66))),
+            "ArmL": pose((0, 0, s(p, 2, 0.2))), "ArmR": pose((0, 0, -s(p, 2))),
+            "ForearmL": pose((0, 0, s(p, 2, 0.4))), "ForearmR": pose((0, 0, -s(p, 2, 0.1))),
+        }
+        d.update(claws(6 + 10 * ramp(p, 0.15, 0.2, 0.24, 0.3) - 8 * ramp(p, 0.8, 0.84, 0.88, 0.94)))
+        d.update(eyes(p))
+        d.update(dangle(p, amp=0.6))
+        return d
+
+    loop("idle", 90, 30, idle)
+
+    # Walk: a stumbling lurch. The bare right foot drags and takes the weight badly: the body drops and swings over
+    # it every other step, the head flops a beat late, the arms dangle and swing loose, the jaw bounces.
+    def walk(p):
+        c, sn = math.cos(TAU * p), math.sin(TAU * p)
+        r_st, l_st = max(0.0, c), max(0.0, -c)            # weight on the right (p ~ 0) and on the left (p ~ 0.5)
+        thigh_l, thigh_r = -24 * sn, 18 * sn               # the left swings forward from p 0 to 0.5
+        knee_l = 34 * max(0.0, c)                          # the left knee bends mid-swing; the right barely does
+        knee_r = 12 * max(0.0, -c)
+        d = {
+            "Hips": pose((-5 * r_st + 2 * l_st, s(p, 6, 0.05), 0), (0, -0.25 * r_st * r_st - 0.1 * l_st, 0)),
+            "Belly": pose((-2 * r_st, -s(p, 4, 0.1), 3 * r_st)),
+            "Chest": pose((-6 * r_st + 3 * l_st, -s(p, 5, 0.12), 2 + 4 * r_st)),
+            "Neck": pose((0, 0, -3 * r_st)),
+            "Head": pose((8 * max(0.0, math.cos(TAU * (p - 0.14))) - 4 * max(0.0, -math.cos(TAU * (p - 0.14))), s(p, 6, 0.2),
+                          -2 * r_st + 5 * max(0.0, math.cos(TAU * (p - 0.18))))),
+            "Jaw": pose((0, 0, 3 + 8 * abs(math.sin(TAU * (p - 0.15))))),
+            "ThighL": pose((2, 0, thigh_l)), "ThighR": pose((-3, 0, thigh_r)),
+            "ShinL": pose((0, 0, knee_l)), "ShinR": pose((0, 0, knee_r)),
+            "FootL": pose((0, 0, -(thigh_l + knee_l) * 0.85)),
+            "FootR": pose((0, 0, -(thigh_r + knee_r) * 0.6 + 18 * max(0.0, -sn))),        # the toes dragging through
+            "ArmL": pose((-3 + 3 * r_st, 0, 4 + 10 * math.sin(TAU * (p - 0.12)))),
+            "ArmR": pose((2, 0, -8 - 9 * math.sin(TAU * (p - 0.12)))),
+            "ForearmL": pose((0, 0, -4 + 10 * math.sin(TAU * (p - 0.3)))),
+            "ForearmR": pose((0, 0, -8 - 7 * math.sin(TAU * (p - 0.3)))),
+            "HandL": pose((0, 0, 8 * math.sin(TAU * (p - 0.4)))), "HandR": pose((0, 0, -6 * math.sin(TAU * (p - 0.4)))),
+        }
+        d.update(claws(8))
+        d.update(eyes(p, 0.8))
+        d.update(dangle(p, lean=2 + 4 * r_st, head=5 * max(0.0, math.cos(TAU * (p - 0.18))), trail=6, amp=1.3, f=2))
+        return d
+
+    loop("walk", 48, 16, walk)
+
+    # Run: a desperate sprint, faster than a person should run, bent forward, the head thrust out and the jaw wide;
+    # the arms flail forward grabbing at the air in turn, out of step with the legs.
+    def run(p):
+        c, sn = math.cos(TAU * p), math.sin(TAU * p)
+        thigh_l, thigh_r = -44 * sn, 44 * sn
+        knee_l, knee_r = 70 * max(0.0, c), 70 * max(0.0, -c)
+        d = {
+            "Hips": pose((s(p, 4), s(p, 8, 0.05), 8), (0, -0.8 + 0.9 * abs(math.sin(TAU * (p * 2 - 0.1))), 0)),
+            "Belly": pose((0, -s(p, 6), 8)),
+            "Chest": pose((s(p * 2, 3), -s(p, 8, 0.1), 10)),
+            "Neck": pose((0, 0, -6)),
+            "Head": pose((s(p * 2, 6, 0.2), s(p * 3, 8), -18 + s(p * 2, 5, 0.3))),
+            "Jaw": pose((0, 0, 18 + s(p * 4, 8))),
+            "ThighL": pose((0, 0, thigh_l - 8)), "ThighR": pose((0, 0, thigh_r - 8)),
+            "ShinL": pose((0, 0, knee_l + 10)), "ShinR": pose((0, 0, knee_r + 10)),
+            "FootL": pose((0, 0, -(thigh_l + knee_l) * 0.7)), "FootR": pose((0, 0, -(thigh_r + knee_r) * 0.7)),
+            "ArmL": pose((-16 + s(p * 2, 8), 0, -90 + 32 * math.sin(TAU * (p + 0.1)))),
+            "ArmR": pose((16 + s(p * 2, 8, 0.3), 0, -90 + 32 * math.sin(TAU * (p + 0.6)))),
+            "ForearmL": pose((0, 0, -30 + 28 * math.sin(TAU * (p + 0.35)))),
+            "ForearmR": pose((0, 0, -30 + 28 * math.sin(TAU * (p + 0.85)))),
+            "HandL": pose((0, 0, -10 + s(p, 12, 0.5))), "HandR": pose((0, 0, -10 + s(p, 12))),
+        }
+        d.update(claws(20 + 25 * math.sin(TAU * (p + 0.2)), 10))
+        d.update(eyes(p, 1.2))
+        d.update(dangle(p, lean=26, head=-14, trail=22, amp=1.6, f=2))
+        return d
+
+    loop("run", 24, 12, run)
+
+    # Attack (30 frames, 1 s): it rears up with the arms high and the mouth wide, lunges, rakes down with both hands and
+    # bites, the jaw slamming shut on frame 13 (damage there: ~430 ms), then tears, shaking its head, and lets go.
+    def atk(d, p, lean=0.0, head=0.0):
+        out = dict(d)
+        out.update(eyes(p, 0.6))
+        out.update(dangle(p, lean=lean, head=head, trail=0, amp=1.0))
+        return full(NAMES, out)
+
+    rear = {"Hips": pose((0, 0, -6), (0.8, -0.6, 0)), "Belly": pose((0, 0, -10)), "Chest": pose((0, 0, -16)), "Neck": pose((0, 0, -4)),
+            "Head": pose((0, 0, 2)), "Jaw": pose((0, 0, 26)),
+            "ArmL": pose((-30, 0, -74)), "ArmR": pose((30, 0, -68)), "ForearmL": pose((0, 0, -44)), "ForearmR": pose((0, 0, -40)),
+            "HandL": pose((0, 0, -20)), "HandR": pose((0, 0, -20)),
+            **w_legs(-26, 18, -6), **claws(-15, 12)}
+    launch = {"Hips": pose((0, 0, 6), (-1.0, -0.4, 0)), "Belly": pose((0, 0, 6)), "Chest": pose((0, 0, 8)), "Neck": pose((0, 0, 2)),
+              "Head": pose((0, 0, -6)), "Jaw": pose((0, 0, 30)),
+              "ArmL": pose((-24, 0, -96)), "ArmR": pose((24, 0, -90)), "ForearmL": pose((0, 0, -30)), "ForearmR": pose((0, 0, -28)),
+              "HandL": pose((0, 0, -15)), "HandR": pose((0, 0, -15)),
+              "ThighL": pose((0, 0, -34)), "ShinL": pose((0, 0, 30)), "FootL": pose((0, 0, 4)),
+              "ThighR": pose((0, 0, 12)), "ShinR": pose((0, 0, 8)), "FootR": pose((0, 0, -20)), **claws(-5, 12)}
+    strike = {"Hips": pose((0, 0, 8), (-2.8, -0.3, 0)), "Belly": pose((0, 0, 6)), "Chest": pose((0, 0, 8)), "Neck": pose((0, 0, 4)),
+              "Head": pose((0, 0, -16)), "Jaw": pose((0, 0, -20)),
+              "ArmL": pose((-6, 0, -58)), "ArmR": pose((6, 0, -48)), "ForearmL": pose((0, 0, -38)), "ForearmR": pose((0, 0, -34)),
+              "HandL": pose((0, 0, 10)), "HandR": pose((0, 0, 10)),
+              "ThighL": pose((0, 0, -36)), "ShinL": pose((0, 0, 28)), "FootL": pose((0, 0, 8)),
+              "ThighR": pose((0, 0, 16)), "ShinR": pose((0, 0, 12)), "FootR": pose((0, 0, -26)), **claws(45)}
+    tear_a = dict(strike, **{"Head": pose((0, 18, -18)), "Jaw": pose((0, 0, -12)), "ArmL": pose((-4, 0, -36)), "ArmR": pose((4, 0, -30)),
+                             "ForearmL": pose((0, 0, -62)), "ForearmR": pose((0, 0, -58)), "Chest": pose((0, -6, 6))})
+    tear_b = dict(strike, **{"Head": pose((0, -16, -16)), "Jaw": pose((0, 0, -6)), "ArmL": pose((-4, 0, -30)), "ArmR": pose((4, 0, -34)),
+                             "ForearmL": pose((0, 0, -55)), "ForearmR": pose((0, 0, -62)), "Chest": pose((0, 6, 4)),
+                             "Hips": pose((0, 0, 6), (-2.2, -0.3, 0)), "Belly": pose((0, 0, 4))})
+    settle = {"Hips": pose((0, 0, 3), (-0.6, -0.2, 0)), "Belly": pose((0, 0, 4)), "Chest": pose((0, 0, 4)), "Head": pose((0, 0, -4)),
+              "Jaw": pose((0, 0, 6)), "ArmL": pose((0, 0, -16)), "ArmR": pose((0, 0, -12)), "ForearmL": pose((0, 0, -20)),
+              "ForearmR": pose((0, 0, -16)), **claws(20)}
+    m.animation("attack", 30, {
+        0: atk({}, 0), 5: atk(rear, 5 / 30, lean=-28, head=-24), 9: atk(launch, 9 / 30, lean=20, head=10),
+        13: atk(strike, 13 / 30, lean=44, head=-15), 16: atk(tear_a, 16 / 30, lean=40, head=-10),
+        20: atk(tear_b, 20 / 30, lean=30, head=-6), 25: atk(settle, 25 / 30, lean=11, head=4), 29: atk({}, 29 / 30),
+    }, end="Stop")
+
+    # Hurt: it reels back from the blow, the head snapping aside, the mouth gaping, the arms flinching up.
+    hurt_names = ["Belly", "Chest", "Neck", "Head", "Jaw", "ArmL", "ArmR", "ForearmL", "ForearmR", "EyeL", "EyeR"]
+    m.animation("hurt", 12, {
+        0: full(hurt_names, {}),
+        3: full(hurt_names, {"Belly": pose((0, 0, -8)), "Chest": pose((6, 12, -14)), "Neck": pose((0, 0, -10)), "Head": pose((16, 18, 2)),
+                             "Jaw": pose((0, 0, 20)), "ArmL": pose((-22, 0, -40)), "ArmR": pose((18, 0, -30)),
+                             "ForearmL": pose((0, 0, -40)), "ForearmR": pose((0, 0, -30)),
+                             "EyeL": pose((0, 30, -20)), "EyeR": pose((0, -25, 15))}),
+        7: full(hurt_names, {"Belly": pose((0, 0, -3)), "Chest": pose((2, 5, -5)), "Neck": pose((0, 0, -4)), "Head": pose((6, 6, 0)),
+                             "Jaw": pose((0, 0, 10)), "ArmL": pose((-8, 0, -14)), "ArmR": pose((6, 0, -10)),
+                             "EyeL": pose((0, -10, 10)), "EyeR": pose((0, 15, -10))}),
+        11: full(hurt_names, {}),
+    }, end="Stop")
+
+    # Death: it reels, the knees go, it kneels a moment swaying, then pitches forward onto its face, one hand reaching
+    # out along the floor ahead of it, the head turned aside. Held.
+    def topple(theta, hips_y):
+        """The hips turned forward by theta, moved so their pivot sits hips_y above the floor (lying, about 2.3)."""
+        dw = (-1.5 * theta / 90, hips_y - W_HIP_P[1] - W_SHIFT)
+        o = _w_rot(dw, (0, 0), -theta)
+        return pose((0, 0, theta), (o[0], o[1], 0))
+
+    kneel = w_legs(0, 90, 0, foot_w=-188)
+    kneel["Hips"] = pose((0, 0, 0), (0.6, -6.2, 0))
+    die = {
+        0: {},
+        6: {"Hips": pose((5, 0, -6), (1.4, -0.3, 0)), "Belly": pose((0, 0, -6)), "Chest": pose((0, 8, -12)), "Neck": pose((0, 0, -8)),
+            "Head": pose((14, 10, -14)), "Jaw": pose((0, 0, 26)), "ArmL": pose((-30, 0, -60)), "ArmR": pose((30, 0, -40)),
+            "ForearmL": pose((0, 0, -40)), "ForearmR": pose((0, 0, -30)), **w_legs(-4, 10, -6), **claws(-10, 10)},
+        14: dict(kneel, **{"Belly": pose((0, 0, 8)), "Chest": pose((4, 0, 10)), "Neck": pose((0, 0, 8)), "Head": pose((8, -6, 8)),
+                           "Jaw": pose((0, 0, 22)), "ArmL": pose((-14, 0, -6)), "ArmR": pose((14, 0, 4)),
+                           "ForearmL": pose((0, 0, -64)), "ForearmR": pose((0, 0, -58)), **claws(10)}),
+        19: dict(kneel, **{"Hips": pose((-4, 0, 6), (0.4, -6.4, 0)), "Belly": pose((0, 0, 12)), "Chest": pose((-6, 0, 14)), "Neck": pose((0, 0, 10)),
+                           "Head": pose((-10, 8, 10)), "Jaw": pose((0, 0, 26)), "ArmL": pose((-14, 0, -30)), "ArmR": pose((14, 0, -6)),
+                           "ForearmL": pose((0, 0, -70)), "ForearmR": pose((0, 0, -76)),
+                           "ThighL": pose((0, 0, 6)), "ThighR": pose((0, 0, 6)), **claws(10)}),
+        26: {"Hips": topple(55, 6.0), "ThighL": pose((0, 0, 12 - 55 + 30)), "ThighR": pose((0, 0, 12 - 55 + 34)),
+             "ShinL": pose((0, 0, 60)), "ShinR": pose((0, 0, 56)), "FootL": pose((0, 0, 80)), "FootR": pose((0, 0, 80)),
+             "Belly": pose((0, 0, 0)), "Chest": pose((-4, 0, 0)), "Neck": pose((0, 0, 0)), "Head": pose((0, 30, 10)), "Jaw": pose((0, 0, 20)),
+             "ArmL": pose((-10, 0, -120)), "ArmR": pose((8, 0, 34)), "ForearmL": pose((0, 0, -10)), "ForearmR": pose((0, 0, -30)),
+             "RagFront": pose((0, 0, 20)), "RagFront2": pose((0, 0, 20)), **claws(-5, 10)},
+        31: {"Hips": topple(86, 2.6), "ThighL": pose((0, 0, 16 + 4)), "ThighR": pose((0, 0, 16 - 6)),
+             "ShinL": pose((0, 0, -28 + 2)), "ShinR": pose((0, 0, -28 + 20)), "FootL": pose((0, 0, 80)), "FootR": pose((0, 0, 70)),
+             "Belly": pose((0, 0, -12)), "Chest": pose((-4, 0, -18)), "Neck": pose((0, 0, -26)), "Head": pose((0, 70, 50)), "Jaw": pose((0, 0, 24)),
+             "ArmL": pose((-6, 0, -130)), "ArmR": pose((8, 0, 36)), "ForearmL": pose((0, 0, 6)), "ForearmR": pose((0, 0, 8)),
+             "HandL": pose((0, 0, -10)), "RagFront": pose((0, 0, 40)), "RagFront2": pose((0, 0, 36)), **claws(-10, 10)},
+        34: {"Hips": topple(90, 2.4), "ThighL": pose((0, 0, 16 + 2)), "ThighR": pose((0, 0, 16 - 8)),
+             "ShinL": pose((0, 0, -28)), "ShinR": pose((0, 0, -28 + 24)), "FootL": pose((0, 0, 86)), "FootR": pose((0, 0, 70)),
+             "Belly": pose((0, 0, -14)), "Chest": pose((-3, 0, -22)), "Neck": pose((0, 0, -30)), "Head": pose((0, 80, 58)), "Jaw": pose((0, 0, 16)),
+             "ArmL": pose((-8, 0, -142)), "ArmR": pose((8, 0, 44)), "ForearmL": pose((0, 0, 4)), "ForearmR": pose((0, 0, 8)),
+             "HandL": pose((0, 0, -8)), "HandR": pose((0, 0, -6)), "RagFront": pose((0, 0, 50)), "RagFront2": pose((0, 0, 44)), **claws(30, 10)},
+    }
+    die[39] = dict(die[34], **claws(46, 10))
+    m.animation("die", 40, {f: full(NAMES, dict(d, **eyes(f / 40, 0.0 if f > 30 else 0.8))) for f, d in die.items()}, end="Hold", stopped="Stop")
+
+    # Huddle (6 s): squatting on its heels with its arms round its shins, rocking; then the itch: the right hand goes
+    # to the left arm and scratches, fast, the head turned to it, until it stops, and rocks again.
+    def huddle(p):
+        rock = math.sin(TAU * p * 4)
+        itch = ramp(p, 0.40, 0.46, 0.74, 0.80)
+        scr = math.sin(TAU * p * 20)
+        twitch = ramp(p, 0.12, 0.14, 0.17, 0.22) + ramp(p, 0.88, 0.9, 0.92, 0.97)
+        d = w_legs(-108 + 5 * rock * (1 - itch), 40 + 4 * rock * (1 - itch), 4 + 4 * rock * (1 - itch))
+        d.update({
+            "Belly": pose((0, 0, 2 * rock * (1 - itch))), "Chest": pose((0, -6 * itch, 4 + 2 * rock * (1 - itch) + 6 * itch)),
+            "Neck": pose((0, 0, -10 + 6 * itch)),
+            "Head": pose((10 * twitch + 4 * scr * itch, -14 * itch, -10 - 4 * rock * (1 - itch) + 12 * twitch + 16 * itch)),
+            "Jaw": pose((0, 0, -6 + 8 * abs(scr) * itch + 3 * math.sin(TAU * p * 6))),
+            "ArmL": pose((-6, 0, -36 - 12 * itch)), "ForearmL": pose((0, -80 + 30 * itch, -50 - 14 * itch)), "HandL": pose((0, 0, -16)),
+            "ArmR": pose((6, 0, -36 - 10 * itch)),
+            "ForearmR": pose((0, 80 - 26 * itch + 14 * scr * itch, -50 - 14 * itch + 10 * scr * itch)), "HandR": pose((0, 0, -16 + 20 * itch + 22 * scr * itch)),
+        })
+        d.update(claws(40 * (1 - itch) + (30 + 30 * scr) * itch))
+        d.update(eyes(p, 1.0))
+        d.update(dangle(p, lean=10, head=-14, amp=0.6, f=2))
+        return d
+
+    loop("huddle", 180, 90, huddle)
+
+    # Gnaw (2 s): crouched over something on the floor, one hand pinning it, the other tearing; the head jerks down,
+    # bites and rips up, chewing fast; once it looks up, still chewing.
+    def gnaw(p):
+        rip = math.sin(TAU * p * 2)
+        look = ramp(p, 0.62, 0.68, 0.82, 0.88)
+        chew = abs(math.sin(TAU * p * 5))
+        d = w_legs(-104, 44, 10)
+        d.update({
+            "Belly": pose((0, s(p * 2, 3), 2)), "Chest": pose((0, s(p * 2, 4, 0.2), 6 - 12 * look)),
+            "Neck": pose((0, 0, 4 - 8 * look)), "Head": pose((s(p * 2, 4), s(p * 4, 10) * (1 - look), 14 + 8 * rip * (1 - look) - 30 * look)),
+            "Jaw": pose((0, 0, -10 + 24 * chew)),
+            "ArmL": pose((-4, 0, -38 + 6 * rip)), "ForearmL": pose((0, -30 - 8 * rip, -112 - 10 * rip)), "HandL": pose((0, 0, -20)),
+            "ArmR": pose((4, 0, -38 - 6 * rip)), "ForearmR": pose((0, 30 - 8 * rip, -112 + 10 * rip)), "HandR": pose((0, 0, -20)),
+        })
+        d.update(claws(55))
+        d.update(eyes(p, 1.0))
+        d.update(dangle(p, lean=34 - 12 * look, head=0, amp=0.6, f=2))
+        return d
+
+    loop("gnaw", 60, 30, gnaw)
+
+    # Snarl (an alert, 1.2 s): it straightens, throws its arms out and gapes, gurgling, the whole body shuddering.
+    def snarl_pose(k, shake):
+        return {"Hips": pose((0, 0, -4 * k)), "Belly": pose((0, 0, -6 * k)), "Chest": pose((shake * 3, shake * 4, -10 * k)),
+                "Neck": pose((0, 0, -6 * k)), "Head": pose((shake * 6, shake * 8, 14 * k)), "Jaw": pose((0, 0, 32 * k)),
+                "ArmL": pose((-40 * k, 0, -40 * k)), "ArmR": pose((40 * k, 0, -40 * k)),
+                "ForearmL": pose((0, 0, -50 * k)), "ForearmR": pose((0, 0, -50 * k)), **claws(-15 * k, 14 * k)}
+
+    m.animation("snarl", 36, {f: full(NAMES, dict(snarl_pose(k, sh), **eyes(f / 36, 1.3), **dangle(f / 36, lean=-16 * k, head=-20 * k)))
+                              for f, k, sh in ((0, 0, 0), (6, 0.9, 0), (10, 1.0, 1), (13, 1.0, -1), (16, 1.0, 1), (19, 1.0, -1),
+                                               (22, 1.0, 1), (25, 0.9, -0.5), (35, 0, 0))}, end="Stop")
+    m.shift(dy=W_SHIFT)
+    return m
+
+
+def w_neck(ctx):
+    v = WV
+    w_skin(ctx, 0.8)
+    if ctx.face == "west":
+        line(ctx, 0.2, 0.0, 0.35, 1.0, v["flake"], 0.4)                                        # the tendons
+        line(ctx, 0.8, 0.0, 0.65, 1.0, v["flake"], 0.4)
+        texel(ctx, ctx.w // 2, ctx.h // 2, mix(v["flake"], v["skin"], 0.3), 0.7)                # the Adam's apple
+        w_scratches(ctx, v["scratches"])
+
+
+def wretch_variant_textures():
+    """The early and far-gone looks, painted on the common atlas layout: texture alternates picked per spawn."""
+    global WV
+    for variant in WRETCH_VARIANTS:
+        if variant == "common":
+            continue
+        m = wretch(variant)
+        width, height = m._pack()
+        m._paint(width, height).save(os.path.join(ASSETS, "textures", "entity", f"wretch-{variant}.png"))
+        print(f"wrote wretch-{variant} texture {width}x{height}")
+    WV = dict(WRETCH_VARIANTS["common"])
+
+
 MODELS = {
     "skinstealer": skinstealer, "hound": hound, "duller": duller, "deathrat": deathrat,
     "deathmoth-male": lambda: deathmoth(False), "deathmoth-female": lambda: deathmoth(True),
     "smiler": smiler, "clump": clump, "mangled": mangled, "thething": thething,
     "animation-clay": animation_clay, "animation-wooden": animation_wooden, "animation-paper": animation_paper, "roboman": roboman,
+    "bacteria": bacteria, "wretch": wretch,
 }
 
 
@@ -3670,6 +6795,8 @@ def build(names=None):
             clump_variant_textures()
         if name == "hound":
             hound_variant_textures()
+        if name == "wretch":
+            wretch_variant_textures()
 
 
 def main():

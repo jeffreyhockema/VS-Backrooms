@@ -168,6 +168,22 @@
 				"avg": 0.15,
 				"var": 0.15
 			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-bear",
+			"quantity": {
+				"avg": 0.015,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-bunny",
+			"quantity": {
+				"avg": 0.015,
+				"var": 0
+			}
 		}
 	]
 }

@@ -46,10 +46,11 @@ public sealed partial class WorldLayout
     private const int ShapeHarmonics = 7;
 
     /// <summary>
-    /// Number of levels: Level 0 to the outermost ring, Level 11 (the city beyond it), and the two other places no ring
-    /// reaches, Level 37 (kept as <see cref="Poolrooms"/>) and Level 94 (<see cref="Motion"/>).
+    /// Number of levels: Level 0 to the outermost ring, Level 11 (the city beyond it), and the other places no ring
+    /// reaches, Level 37 (kept as <see cref="Poolrooms"/>), Level 94 (<see cref="Motion"/>), the five kept as 14-18,
+    /// Level 3999 (19) and Level 188 (20).
     /// </summary>
-    public static int LevelCount => RingWidths.Length + 4;
+    public static int LevelCount => RingWidths.Length + 11;
 
     /// <summary>Level 37, "Sublimity", the Poolrooms: kept as level 12, shown as 37.</summary>
     public const int Poolrooms = 12;
@@ -57,18 +58,76 @@ public sealed partial class WorldLayout
     /// <summary>Level 94, "Motion": kept as level 13, shown as 94.</summary>
     public const int Motion = 13;
 
-    /// <summary>The number a level goes by: its own for the rings and the city, 37 and 94 for the two kept past them.</summary>
-    public static string DisplayNumber(int level) => level switch { Poolrooms => "37", Motion => "94", _ => level.ToString() };
+    /// <summary>Level !, "Run For Your Life!": kept as level 14, shown as "!".</summary>
+    public const int RunLevel = 14;
+
+    /// <summary>Level Fun =): kept as level 15, shown as "Fun".</summary>
+    public const int FunLevel = 15;
+
+    /// <summary>The End: kept as level 16, shown as "End".</summary>
+    public const int TheEnd = 16;
+
+    /// <summary>The Hub: kept as level 17, shown as "Hub".</summary>
+    public const int Hub = 17;
+
+    /// <summary>Level 974: kept as level 18, shown as 974.</summary>
+    public const int Level974 = 18;
+
+    /// <summary>Level 3999, "The Neon Paradise": kept as level 19, shown as 3999.</summary>
+    public const int Level3999 = 19;
+
+    /// <summary>Level 188, "The Courtyard of Windows": kept as level 20, shown as 188.</summary>
+    public const int Level188 = 20;
+
+    /// <summary>The number (or name) a level goes by: its own for the rings and the city, 37 and 94 and the rest for those kept past them.</summary>
+    public static string DisplayNumber(int level) => level switch
+    {
+        Poolrooms => "37",
+        Motion => "94",
+        RunLevel => "!",
+        FunLevel => "Fun",
+        TheEnd => "End",
+        Hub => "Hub",
+        Level974 => "974",
+        Level3999 => "3999",
+        Level188 => "188",
+        _ => level.ToString(),
+    };
 
     /// <summary>The level kept for a number a player would use ("37" is the Poolrooms), or -1 if there is none.</summary>
     public static int FromDisplayNumber(int number) => number switch
     {
         37 => Poolrooms,
         94 => Motion,
+        974 => Level974,
+        3999 => Level3999,
+        188 => Level188,
         _ => number >= 0 && number <= 11 ? number : -1,
     };
 
-    /// <summary>The places no ring reaches, which you can only noclip into: the city, the Poolrooms and Motion.</summary>
+    /// <summary>
+    /// The level kept for what a player would type: a number ("37"), or a name ("!", "fun", "end", "hub"), with or
+    /// without "level" in front; -1 if there is none.
+    /// </summary>
+    public static int FromDisplayName(string name)
+    {
+        string s = (name ?? "").Trim().ToLowerInvariant();
+        if (s.StartsWith("level")) s = s.Substring(5).Trim();
+        if (s.StartsWith("the ")) s = s.Substring(4).Trim();
+        return s switch
+        {
+            "!" => RunLevel,
+            "fun" or "fun=)" or "fun =)" => FunLevel,
+            "end" => TheEnd,
+            "hub" => Hub,
+            _ => int.TryParse(s, out int number) ? FromDisplayNumber(number) : -1,
+        };
+    }
+
+    /// <summary>
+    /// The places no ring reaches, which you can only noclip into: the city, the Poolrooms, Motion, and the five kept as
+    /// 14-18. Their rims have no gates.
+    /// </summary>
     public static bool IsNoclipRegion(int level) => level >= 11;
 
     private readonly ulong seed;
@@ -137,8 +196,28 @@ public sealed partial class WorldLayout
         if (InCity(mx, mz)) return 11;
         if (InPoolrooms(mx, mz)) return Poolrooms;
         if (InMotion(mx, mz)) return Motion;
+        // And further out, the five kept as 14-18, each in its own direction (see RegionReach): Level ! to the south,
+        // Fun to the north-east, the End to the north-west, the Hub to the south-east and Level 974 to the south-west
+        if (InRun(mx, mz)) return RunLevel;
+        if (InFun(mx, mz)) return FunLevel;
+        if (InEnd(mx, mz)) return TheEnd;
+        if (InHub(mx, mz)) return Hub;
+        if (InL974(mx, mz)) return Level974;
+        // Level 3999 far out beyond the Hub to the south-east, Level 188 to the north-north-east (see their files)
+        if (InL3999(mx, mz)) return Level3999;
+        if (InL188(mx, mz)) return Level188;
         return RingWidths.Length;
     }
+
+    /// <summary>
+    /// How far out, in macro cells, the regions past the rings lie: the city, the Poolrooms and Motion this far from
+    /// spawn; the five kept as 14-18 this far (Level !) or a quarter further (the rest). Scales with the world, so they
+    /// never overlap one another, in a small world or a full-size one.
+    /// </summary>
+    private int RegionReach => Math.Max(800, spawnMacroX / 4);
+
+    /// <summary>The offset along each axis of a region lying diagonally out from spawn, a quarter further than the city.</summary>
+    private int DiagonalReach => (int)Math.Round(RegionReach * 1.25 / Math.Sqrt(2));
 
     /// <summary>
     /// How much wider or narrower than its average a ring is in a direction from spawn (an angle in radians):
@@ -186,7 +265,19 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Levels under the open sky rather than a ceiling: the Suburbs, the fields, the city and Motion.</summary>
-    public static bool IsOpenSky(int level) => level is 9 or 10 or 11 or Motion;
+    public static bool IsOpenSky(int level) => level switch
+    {
+        9 or 10 or 11 or Motion => true,
+        // The five kept as 14-18 (each level's own line)
+        RunLevel => false,
+        FunLevel => false,
+        TheEnd => false,
+        Hub => false,
+        Level974 => false,
+        Level3999 => false,
+        Level188 => false,
+        _ => false,
+    };
 
     /// <summary>Smooth value noise in roughly [-1, 1].</summary>
     private double Noise(double x, double z, ulong salt)
@@ -251,6 +342,13 @@ public sealed partial class WorldLayout
             7 => new Edge { Pattern = WallPattern.Concrete },
             8 => Level8Edge(mx, mz, west),
             Poolrooms => new Edge { Pattern = WallPattern.PoolTile }, // the plans are laid over the edges
+            RunLevel => RunEdge(mx, mz, west),
+            FunLevel => FunEdge(mx, mz, west),
+            TheEnd => EndEdge(mx, mz, west),
+            Hub => HubEdge(mx, mz, west),
+            Level974 => L974Edge(mx, mz, west),
+            Level3999 => L3999Edge(mx, mz, west),
+            Level188 => L188Edge(mx, mz, west),
             _ => new Edge { Pattern = WallPattern.Rock }, // the suburbs and the fields run straight on
         };
     }
@@ -272,6 +370,13 @@ public sealed partial class WorldLayout
             6 => WallPattern.L6Wall,
             7 => WallPattern.Concrete,
             Poolrooms => WallPattern.PoolTile,
+            RunLevel => WallPattern.RunWall,
+            FunLevel => WallPattern.FunWall,
+            TheEnd => WallPattern.EndWall,
+            Hub => WallPattern.HubWall,
+            Level974 => WallPattern.L974Wall,
+            Level3999 => WallPattern.L3999Wall,
+            Level188 => WallPattern.L188Wall,
             _ => WallPattern.Rock, // the caves; and the cliffs the open levels meet the rest at
         };
         // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
@@ -363,10 +468,22 @@ public sealed partial class WorldLayout
         if (level == 6 && IsSnackrooms(mx, mz)) return 21f;
         if (level == 7 && y <= floorY) return 6f; // the cold sea
         if (level == Poolrooms) return y <= floorY - WorldGeometry.PoolDrop ? 31f : IsReservoir(mx, mz) ? 24f : 29f; // lukewarm, everywhere
+        switch (level)
+        {
+            // The five kept as 14-18 work theirs out in their own files
+            case RunLevel: return RunTemperature(x, y, z, floorY);
+            case FunLevel: return FunTemperature(x, y, z, floorY);
+            case TheEnd: return EndTemperature(x, y, z, floorY);
+            case Hub: return HubTemperature(x, y, z, floorY);
+            case Level974: return L974Temperature(x, y, z, floorY);
+            case Level3999: return L3999Temperature(x, y, z, floorY);
+            case Level188: return L188Temperature(x, y, z, floorY);
+        }
         return LevelTemperatures[Math.Min(level, LevelTemperatures.Length - 1)];
     }
 
-    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 8f, 12f, 9f, 14f, 18f, 17f, 29f, 21f };
+    /// <summary>Each level's usual temperature, by the number it is kept as (14-20: Level !, Fun, the End, the Hub, 974, 3999, 188).</summary>
+    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 8f, 12f, 9f, 14f, 18f, 17f, 29f, 21f, 20f, 22f, 19f, 20f, 21f, 24f, 21f };
 
     /// <summary>Indices along an edge that can be walked through.</summary>
     private static List<int> Passages(Edge edge)
@@ -423,6 +540,13 @@ public sealed partial class WorldLayout
             case 11: BuildLevel11(b, mx, mz); break;
             case Poolrooms: BuildLevel37(b, mx, mz); break;
             case Motion: BuildLevel94(b, mx, mz); break;
+            case RunLevel: BuildLevelRun(b, mx, mz); break;
+            case FunLevel: BuildLevelFun(b, mx, mz); break;
+            case TheEnd: BuildLevelEnd(b, mx, mz); break;
+            case Hub: BuildLevelHub(b, mx, mz); break;
+            case Level974: BuildLevel974(b, mx, mz); break;
+            case Level3999: BuildLevel3999(b, mx, mz); break;
+            case Level188: BuildLevel188(b, mx, mz); break;
             default: BuildLevel10(b, mx, mz); break;
         }
 
@@ -530,8 +654,11 @@ public sealed partial class WorldLayout
 
     /// <summary>Whether a person can stand on and walk across a tile.</summary>
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
-    internal static bool IsWalkThroughProp(byte variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
-        or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts;
+    internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
+        or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+        // The five kept as 14-18 say which of their own props are walked through
+        || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
+            || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));
 
     private static bool IsWalkable(in Tile t)
     {
@@ -645,6 +772,51 @@ public sealed partial class WorldLayout
             tile.SupplyBox = true;
             return;
         }
+    }
+
+    // ================= Shared by the levels kept as 14-18 =================
+
+    /// <summary>
+    /// Scaffolding, until a level kept as 14-18 has its own plan: the wall on a cell's west or north side is solid but
+    /// for a doorway three wide in its middle. Remove once no level calls it.
+    /// </summary>
+    private static Edge PlaceholderEdge(WallPattern pattern)
+    {
+        var edge = new Edge { Pattern = pattern, Base = BaseStyle.Plain };
+        for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = i is >= 14 and <= 16 ? EdgeTile.Doorway : EdgeTile.Wall;
+        return edge;
+    }
+
+    /// <summary>
+    /// Scaffolding, until a level kept as 14-18 has its own plan: one bare room filling the cell, its walls the cell's
+    /// edges (<see cref="PlaceholderEdge"/>), a working light every four blocks. Remove once no level calls it.
+    /// </summary>
+    private static void BuildPlaceholderCell(Builder b, FloorKind floor)
+    {
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                ref Tile t = ref b.At(lx, lz);
+                if (t.Kind != TileKind.Floor) continue;
+                t.Floor = floor;
+                t.Ceiling = lx % 4 == 2 && lz % 4 == 2 ? CeilingKind.LightOn : CeilingKind.Tile;
+            }
+    }
+
+    /// <summary>Whether a cell lies in a round region past the rings, a little lumpy at its rim, like the Poolrooms.</summary>
+    private bool InRoundRegion(double mx, double mz, int centreX, int centreZ, int radius, ulong salt)
+    {
+        double dx = mx - centreX, dz = mz - centreZ;
+        double r = Math.Sqrt(dx * dx + dz * dz);
+        if (r > radius * 1.2) return false;
+        return r * (1 + 0.08 * Fbm(mx / 40.0, mz / 40.0, salt)) < radius;
+    }
+
+    /// <summary>A cell near the middle of a round region, picked by hash, to look for somewhere to arrive.</summary>
+    private static (int Mx, int Mz) RoundArrivalCell(ulong h, int centreX, int centreZ, int radius)
+    {
+        double angle = Hashing.Unit(h) * Math.PI * 2, r = Math.Sqrt(Hashing.Unit(Hashing.Mix(h))) * radius * 0.4;
+        return (centreX + (int)Math.Round(Math.Cos(angle) * r), centreZ + (int)Math.Round(Math.Sin(angle) * r));
     }
 
     // ================= Helpers =================

@@ -1,0 +1,1086 @@
+// Level 3999's rim and the Grand Lobby strips: an unbreakable window onto a lit car park at night (one painting, 4 x 3 blocks: col 0 is the left and row 0 the top as seen from the room; facing = the way it looks into the room)
+{
+	"code": "l3999-window",
+	"variantgroups": [
+		{
+			"code": "col",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"0",
+				"1",
+				"2"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-window-0-0-north": {
+			"base": "backrooms:block/3999/l3999-window-0-0"
+		},
+		"l3999-window-0-0-east": {
+			"base": "backrooms:block/3999/l3999-window-0-0",
+			"rotateY": 270
+		},
+		"l3999-window-0-0-south": {
+			"base": "backrooms:block/3999/l3999-window-0-0",
+			"rotateY": 180
+		},
+		"l3999-window-0-0-west": {
+			"base": "backrooms:block/3999/l3999-window-0-0",
+			"rotateY": 90
+		},
+		"l3999-window-0-1-north": {
+			"base": "backrooms:block/3999/l3999-window-0-1"
+		},
+		"l3999-window-0-1-east": {
+			"base": "backrooms:block/3999/l3999-window-0-1",
+			"rotateY": 270
+		},
+		"l3999-window-0-1-south": {
+			"base": "backrooms:block/3999/l3999-window-0-1",
+			"rotateY": 180
+		},
+		"l3999-window-0-1-west": {
+			"base": "backrooms:block/3999/l3999-window-0-1",
+			"rotateY": 90
+		},
+		"l3999-window-0-2-north": {
+			"base": "backrooms:block/3999/l3999-window-0-2"
+		},
+		"l3999-window-0-2-east": {
+			"base": "backrooms:block/3999/l3999-window-0-2",
+			"rotateY": 270
+		},
+		"l3999-window-0-2-south": {
+			"base": "backrooms:block/3999/l3999-window-0-2",
+			"rotateY": 180
+		},
+		"l3999-window-0-2-west": {
+			"base": "backrooms:block/3999/l3999-window-0-2",
+			"rotateY": 90
+		},
+		"l3999-window-1-0-north": {
+			"base": "backrooms:block/3999/l3999-window-1-0"
+		},
+		"l3999-window-1-0-east": {
+			"base": "backrooms:block/3999/l3999-window-1-0",
+			"rotateY": 270
+		},
+		"l3999-window-1-0-south": {
+			"base": "backrooms:block/3999/l3999-window-1-0",
+			"rotateY": 180
+		},
+		"l3999-window-1-0-west": {
+			"base": "backrooms:block/3999/l3999-window-1-0",
+			"rotateY": 90
+		},
+		"l3999-window-1-1-north": {
+			"base": "backrooms:block/3999/l3999-window-1-1"
+		},
+		"l3999-window-1-1-east": {
+			"base": "backrooms:block/3999/l3999-window-1-1",
+			"rotateY": 270
+		},
+		"l3999-window-1-1-south": {
+			"base": "backrooms:block/3999/l3999-window-1-1",
+			"rotateY": 180
+		},
+		"l3999-window-1-1-west": {
+			"base": "backrooms:block/3999/l3999-window-1-1",
+			"rotateY": 90
+		},
+		"l3999-window-1-2-north": {
+			"base": "backrooms:block/3999/l3999-window-1-2"
+		},
+		"l3999-window-1-2-east": {
+			"base": "backrooms:block/3999/l3999-window-1-2",
+			"rotateY": 270
+		},
+		"l3999-window-1-2-south": {
+			"base": "backrooms:block/3999/l3999-window-1-2",
+			"rotateY": 180
+		},
+		"l3999-window-1-2-west": {
+			"base": "backrooms:block/3999/l3999-window-1-2",
+			"rotateY": 90
+		},
+		"l3999-window-2-0-north": {
+			"base": "backrooms:block/3999/l3999-window-2-0"
+		},
+		"l3999-window-2-0-east": {
+			"base": "backrooms:block/3999/l3999-window-2-0",
+			"rotateY": 270
+		},
+		"l3999-window-2-0-south": {
+			"base": "backrooms:block/3999/l3999-window-2-0",
+			"rotateY": 180
+		},
+		"l3999-window-2-0-west": {
+			"base": "backrooms:block/3999/l3999-window-2-0",
+			"rotateY": 90
+		},
+		"l3999-window-2-1-north": {
+			"base": "backrooms:block/3999/l3999-window-2-1"
+		},
+		"l3999-window-2-1-east": {
+			"base": "backrooms:block/3999/l3999-window-2-1",
+			"rotateY": 270
+		},
+		"l3999-window-2-1-south": {
+			"base": "backrooms:block/3999/l3999-window-2-1",
+			"rotateY": 180
+		},
+		"l3999-window-2-1-west": {
+			"base": "backrooms:block/3999/l3999-window-2-1",
+			"rotateY": 90
+		},
+		"l3999-window-2-2-north": {
+			"base": "backrooms:block/3999/l3999-window-2-2"
+		},
+		"l3999-window-2-2-east": {
+			"base": "backrooms:block/3999/l3999-window-2-2",
+			"rotateY": 270
+		},
+		"l3999-window-2-2-south": {
+			"base": "backrooms:block/3999/l3999-window-2-2",
+			"rotateY": 180
+		},
+		"l3999-window-2-2-west": {
+			"base": "backrooms:block/3999/l3999-window-2-2",
+			"rotateY": 90
+		},
+		"l3999-window-3-0-north": {
+			"base": "backrooms:block/3999/l3999-window-3-0"
+		},
+		"l3999-window-3-0-east": {
+			"base": "backrooms:block/3999/l3999-window-3-0",
+			"rotateY": 270
+		},
+		"l3999-window-3-0-south": {
+			"base": "backrooms:block/3999/l3999-window-3-0",
+			"rotateY": 180
+		},
+		"l3999-window-3-0-west": {
+			"base": "backrooms:block/3999/l3999-window-3-0",
+			"rotateY": 90
+		},
+		"l3999-window-3-1-north": {
+			"base": "backrooms:block/3999/l3999-window-3-1"
+		},
+		"l3999-window-3-1-east": {
+			"base": "backrooms:block/3999/l3999-window-3-1",
+			"rotateY": 270
+		},
+		"l3999-window-3-1-south": {
+			"base": "backrooms:block/3999/l3999-window-3-1",
+			"rotateY": 180
+		},
+		"l3999-window-3-1-west": {
+			"base": "backrooms:block/3999/l3999-window-3-1",
+			"rotateY": 90
+		},
+		"l3999-window-3-2-north": {
+			"base": "backrooms:block/3999/l3999-window-3-2"
+		},
+		"l3999-window-3-2-east": {
+			"base": "backrooms:block/3999/l3999-window-3-2",
+			"rotateY": 270
+		},
+		"l3999-window-3-2-south": {
+			"base": "backrooms:block/3999/l3999-window-3-2",
+			"rotateY": 180
+		},
+		"l3999-window-3-2-west": {
+			"base": "backrooms:block/3999/l3999-window-3-2",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-window-0-0-north"
+		],
+		"backrooms": [
+			"l3999-window-0-0-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-window-0-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-0-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-0-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-window-0-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-0-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-0-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-0-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-0-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-0-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-1-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-1-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-1-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-1-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-2-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-2-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-2-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-2-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-0-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-0-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-0-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-0-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-1-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-1-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-1-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-1-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-window-3-2-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l3999-window-3-2-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-window-3-2-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-window-3-2-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

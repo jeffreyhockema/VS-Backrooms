@@ -1,0 +1,42 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plate-plain": "backrooms:block/fun/plate-plain"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				3,
+				-2.75,
+				3
+			],
+			"to": [
+				13,
+				-2.45,
+				13
+			],
+			"faces": {
+				"up": {
+					"texture": "#plate-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plate-plain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

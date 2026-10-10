@@ -1,0 +1,153 @@
+// Level Fun: a red =) daubed on the wall. Anything marked =) is a lie
+{
+	"code": "fun-smiley",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-1-north": {
+			"base": "block/fun/fun-smiley-1",
+			"rotateY": 0
+		},
+		"*-1-east": {
+			"base": "block/fun/fun-smiley-1",
+			"rotateY": 270
+		},
+		"*-1-south": {
+			"base": "block/fun/fun-smiley-1",
+			"rotateY": 180
+		},
+		"*-1-west": {
+			"base": "block/fun/fun-smiley-1",
+			"rotateY": 90
+		},
+		"*-2-north": {
+			"base": "block/fun/fun-smiley-2",
+			"rotateY": 0
+		},
+		"*-2-east": {
+			"base": "block/fun/fun-smiley-2",
+			"rotateY": 270
+		},
+		"*-2-south": {
+			"base": "block/fun/fun-smiley-2",
+			"rotateY": 180
+		},
+		"*-2-west": {
+			"base": "block/fun/fun-smiley-2",
+			"rotateY": 90
+		},
+		"*-3-north": {
+			"base": "block/fun/fun-smiley-3",
+			"rotateY": 0
+		},
+		"*-3-east": {
+			"base": "block/fun/fun-smiley-3",
+			"rotateY": 270
+		},
+		"*-3-south": {
+			"base": "block/fun/fun-smiley-3",
+			"rotateY": 180
+		},
+		"*-3-west": {
+			"base": "block/fun/fun-smiley-3",
+			"rotateY": 90
+		},
+		"*-4-north": {
+			"base": "block/fun/fun-smiley-4",
+			"rotateY": 0
+		},
+		"*-4-east": {
+			"base": "block/fun/fun-smiley-4",
+			"rotateY": 270
+		},
+		"*-4-south": {
+			"base": "block/fun/fun-smiley-4",
+			"rotateY": 180
+		},
+		"*-4-west": {
+			"base": "block/fun/fun-smiley-4",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-1-north"
+		],
+		"decorative": [
+			"*-1-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.97,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.97,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.97,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.97,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": []
+}

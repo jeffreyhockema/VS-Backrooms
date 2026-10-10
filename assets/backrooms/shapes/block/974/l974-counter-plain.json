@@ -1,0 +1,563 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"countertop": "backrooms:block/974/countertop",
+		"cupboard": "backrooms:block/974/cupboard",
+		"knob-white": "backrooms:block/974/knob-white"
+	},
+	"elements": [
+		{
+			"name": "Plinth",
+			"from": [
+				0,
+				0,
+				2.2
+			],
+			"to": [
+				16,
+				1.6,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.8,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.8,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						13.8
+					]
+				},
+				"down": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						13.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				0,
+				1.6,
+				1.2
+			],
+			"to": [
+				16,
+				14,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						12.4
+					]
+				},
+				"east": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						14.8,
+						12.4
+					]
+				},
+				"south": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						12.4
+					]
+				},
+				"west": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						14.8,
+						12.4
+					]
+				},
+				"up": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						16,
+						14.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				14,
+				0.4
+			],
+			"to": [
+				16,
+				15.6,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						15.6,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						15.6
+					]
+				},
+				"down": {
+					"texture": "#countertop",
+					"uv": [
+						0,
+						0,
+						16,
+						15.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer",
+			"from": [
+				1.2,
+				11,
+				0.9
+			],
+			"to": [
+				14.8,
+				13.4,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						2.4000000000000004
+					]
+				},
+				"east": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						2.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DKnob",
+			"from": [
+				7.4,
+				11.7,
+				0.3
+			],
+			"to": [
+				8.6,
+				12.7,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.6000000000000001
+					]
+				},
+				"down": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.6000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				1.2,
+				2.4,
+				0.9
+			],
+			"to": [
+				14.8,
+				10.6,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						8.2
+					]
+				},
+				"east": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.2
+					]
+				},
+				"south": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						8.2
+					]
+				},
+				"west": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.2
+					]
+				},
+				"up": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Field",
+			"from": [
+				2.6,
+				3.8,
+				0.6
+			],
+			"to": [
+				13.4,
+				9.2,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						10.8,
+						5.3999999999999995
+					]
+				},
+				"east": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.3999999999999995
+					]
+				},
+				"south": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						10.8,
+						5.3999999999999995
+					]
+				},
+				"west": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.3999999999999995
+					]
+				},
+				"up": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cupboard",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knob",
+			"from": [
+				12.2,
+				8.4,
+				0.0
+			],
+			"to": [
+				13.2,
+				9.4,
+				0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#knob-white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

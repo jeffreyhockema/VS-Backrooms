@@ -1,0 +1,213 @@
+// Level 188: the iron hatch in the deck (rel 1), one quarter each; open, the plate stands up on its hinge edge (north quarters: the north edge, south quarters: the south edge) over the black shaft
+{
+	"code": "l188-hatch",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"nw",
+				"ne",
+				"sw",
+				"se"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-hatch-closed-nw": {
+			"base": "backrooms:block/188/l188-hatch-closed-nw"
+		},
+		"l188-hatch-closed-ne": {
+			"base": "backrooms:block/188/l188-hatch-closed-ne"
+		},
+		"l188-hatch-closed-sw": {
+			"base": "backrooms:block/188/l188-hatch-closed-sw"
+		},
+		"l188-hatch-closed-se": {
+			"base": "backrooms:block/188/l188-hatch-closed-se"
+		},
+		"l188-hatch-open-nw": {
+			"base": "backrooms:block/188/l188-hatch-open-nw"
+		},
+		"l188-hatch-open-ne": {
+			"base": "backrooms:block/188/l188-hatch-open-ne"
+		},
+		"l188-hatch-open-sw": {
+			"base": "backrooms:block/188/l188-hatch-open-sw"
+		},
+		"l188-hatch-open-se": {
+			"base": "backrooms:block/188/l188-hatch-open-se"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-hatch-closed-nw"
+		],
+		"backrooms": [
+			"l188-hatch-closed-nw"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 999,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l188-hatch-closed-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-ne": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-se": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-open-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l188-hatch-open-ne": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l188-hatch-open-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-hatch-open-se": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"l188-hatch-closed-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-ne": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-closed-se": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.1875,
+			"z2": 1
+		},
+		"l188-hatch-open-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l188-hatch-open-ne": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l188-hatch-open-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-hatch-open-se": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsL188Hatch"
+		}
+	]
+}

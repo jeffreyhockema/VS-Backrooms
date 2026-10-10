@@ -1,0 +1,46 @@
+// Level 188: the downpipe's foot (rel 1, the façade to its north): the shoe running dark water into a grate in a puddle. It carries the pipe's sound
+{
+	"code": "l188-drain",
+	"shape": {
+		"base": "backrooms:block/188/l188-drain"
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-drain"
+		],
+		"backrooms": [
+			"l188-drain"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe",
+		"ambient": "backrooms:ambient/188/pipe",
+		"ambientBlockCount": 1
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0,
+		"x2": 0.75,
+		"y2": 0.3,
+		"z2": 0.75
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"drops": []
+}

@@ -1,0 +1,162 @@
+// Level 3999's Arcade Attendant (3999-plan.md 3.9): a faceless plastic mannequin, polite, in a plum or navy flight-attendant uniform, speaking through a speaker in its head. No health behaviour, so it cannot be hurt; the code (L3999System) puts it behind counters and on concourses, makes it bow, point the way and serve, and speaks for it
+{
+	"code": "l3999-attendant",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid"
+	],
+	"weight": 60,
+	"hitboxSize": {
+		"x": 0.5,
+		"y": 1.55
+	},
+	"eyeHeight": 1.38,
+	"attributes": {
+		"invulnerable": true,
+		"l3999attendant": true
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/3999/attendant"
+		},
+		"texture": {
+			"base": "backrooms:entity/3999/attendant-plum",
+			"alternates": [
+				{
+					"base": "backrooms:entity/3999/attendant-navy"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents"
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 3
+			},
+			{
+				"code": "bow",
+				"animation": "bow",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "point",
+				"animation": "point",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "serve",
+				"animation": "serve",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "wave",
+				"animation": "wave",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			}
+		]
+	},
+	"server": {
+		"attributes": {
+			"pathfinder": {
+				"minTurnAnglePerSec": 360,
+				"maxTurnAnglePerSec": 720
+			}
+		},
+		"behaviors": [
+			{
+				"code": "repulseagents"
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "lookatentity",
+						"priority": 1.5,
+						"maxTurnAngleDeg": 120,
+						"entityCodes": [
+							"player"
+						],
+						"minduration": 2000,
+						"maxduration": 6000,
+						"mincooldown": 1000,
+						"maxcooldown": 3000
+					},
+					{
+						"code": "idle",
+						"priority": 1.2,
+						"minduration": 3000,
+						"maxduration": 6000,
+						"mincooldown": 8000,
+						"maxcooldown": 20000,
+						"animation": "bow",
+						"sound": "backrooms:effect/3999/chime",
+						"soundRange": 8
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"movespeed": 0.008,
+						"animation": "walk",
+						"executionChance": 0.004,
+						"maxDistanceToSpawn": 6,
+						"wanderRangeMin": 2,
+						"wanderRangeMax": 5
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"idle": "backrooms:effect/3999/voice*",
+		"hurt": "backrooms:effect/3999/chime"
+	},
+	"idleSoundChance": 0.03,
+	"idleSoundRange": 8
+}

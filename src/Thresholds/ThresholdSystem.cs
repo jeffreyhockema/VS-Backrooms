@@ -41,7 +41,7 @@ namespace Backrooms.Thresholds;
 /// Where each one leads, which are two-way and how the way back is made is all in <see cref="ThresholdNetwork"/>;
 /// this system notices players going through thresholds, moves them, and keeps the network saved with the world.
 /// </summary>
-public class ThresholdSystem : ModSystem
+public partial class ThresholdSystem : ModSystem
 {
     private const string SaveKey = "backrooms-thresholds";
     private const int CooldownMs = 4000;
@@ -123,6 +123,8 @@ public class ThresholdSystem : ModSystem
             sapi.ModLoader.GetModSystem<Regions.MotionSystem>()?.UseThroneDoor(player, pos);
             return;
         }
+        // Level !'s doors that lead nowhere (the stuck hall door, the chained door, side doors, false exits)
+        if (RunUse(player, pos, kind)) return;
         Passage passage = network.Used(pos.X, pos.Z, kind, out string refusal);
         if (passage == null)
         {
@@ -175,8 +177,10 @@ public class ThresholdSystem : ModSystem
                     busyUntilMs.Remove(rider.PlayerUID);
                     continue;
                 }
-                Remember(rider, boarded[rider.PlayerUID], arrival, twoWay: true);
-                Arrive(rider, arrival);
+                Link to = Redirect(rider, passage, arrival);
+                bool redirected = !to.Equals(arrival);
+                Remember(rider, boarded[rider.PlayerUID], arrival, twoWay: true, arrived: !redirected);
+                Arrive(rider, redirected ? to with { Marker = false } : to);
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
         }, ElevatorRideMs);
@@ -247,6 +251,9 @@ public class ThresholdSystem : ModSystem
             if (passage == null) continue;
             // Level 94's rusted gates open only at twilight; at any other hour they are only a gate
             if (passage.Twilight && !Regions.MotionSystem.IsTwilight(sapi.World.Calendar)) continue;
+            // The five kept as 14-18 may hold theirs shut for now
+            if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
+                && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage))) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeBeside(passage.Source) : null));
         }
     }
@@ -283,21 +290,37 @@ public class ThresholdSystem : ModSystem
 
     private bool Go(IServerPlayer player, Passage passage, Link? destination)
     {
-        if (destination is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay);
+        // The map remembers where the threshold really leads (and the way back from there only if they arrive there);
+        // someone redirected elsewhere is put down plainly, with no thin spot
+        Link? real = destination;
+        if (destination is { } d) destination = Redirect(player, passage, d);
+        bool redirected = !Nullable.Equals(real, destination);
+        if (real is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay, arrived: !redirected);
+        if (redirected && destination is { } other) destination = other with { Marker = false };
         if (!Arrive(player, destination)) return false;
         if (passage.Message != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(passage.Message), EnumChatType.Notification);
         return true;
     }
 
     /// <summary>
+    /// Where someone going through a threshold is put down after all: the five kept as 14-18 may send them somewhere else
+    /// than it leads, just before they arrive (what is written down in the network stays as it was).
+    /// </summary>
+    private Link Redirect(IServerPlayer player, Passage passage, Link destination) =>
+        RunRedirect(player, passage, destination) ?? FunRedirect(player, passage, destination) ?? EndRedirect(player, passage, destination)
+        ?? HubRedirect(player, passage, destination) ?? L974Redirect(player, passage, destination)
+        ?? L3999Redirect(player, passage, destination) ?? L188Redirect(player, passage, destination)
+        ?? destination;
+
+    /// <summary>
     /// Marks on the player's map the way they just took (where they left from, and where it goes), and if they can come
     /// back the same way, the way back where they arrive. Each is marked once.
     /// </summary>
-    private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay)
+    private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay, bool arrived = true)
     {
         string there = MapMarks.LevelName(layout, to.X, to.Z), here = MapMarks.LevelName(layout, from.X, from.Z);
         MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), "spiral", MapMarks.WayColor, 6);
-        if (twoWay) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), "spiral", MapMarks.WayColor, 6);
+        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), "spiral", MapMarks.WayColor, 6);
     }
 
     /// <summary>
@@ -343,11 +366,23 @@ public class ThresholdSystem : ModSystem
         // Nobody walks into Level 94: you fall into it, out of a rectangle of black in the sky, and land softly on the
         // grass. (The thin spot back is on the ground; the fall is over before anyone could step back into it.)
         double drop = 0;
-        if (layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(link.X)), WorldLayout.MacroOf((int)Math.Floor(link.Z))) == WorldLayout.Motion)
+        int arrivalLevel = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(link.X)), WorldLayout.MacroOf((int)Math.Floor(link.Z)));
+        if (arrivalLevel == WorldLayout.Motion)
         {
             drop = Regions.MotionSystem.SkyDrop;
             busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + CooldownMs + 6000;
             Regions.MotionSystem.LandSoftly(player.Entity, sapi.World);
+        }
+        // The five kept as 14-18 see to their own arrivals
+        switch (arrivalLevel)
+        {
+            case WorldLayout.RunLevel: RunArriving(player, link, ref drop); break;
+            case WorldLayout.FunLevel: FunArriving(player, link, ref drop); break;
+            case WorldLayout.TheEnd: EndArriving(player, link, ref drop); break;
+            case WorldLayout.Hub: HubArriving(player, link, ref drop); break;
+            case WorldLayout.Level974: L974Arriving(player, link, ref drop); break;
+            case WorldLayout.Level3999: L3999Arriving(player, link, ref drop); break;
+            case WorldLayout.Level188: L188Arriving(player, link, ref drop); break;
         }
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is

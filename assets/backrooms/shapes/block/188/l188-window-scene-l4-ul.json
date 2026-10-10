@@ -1,0 +1,374 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"sc-office": "backrooms:block/188/sc-office",
+		"sc-troffer": "backrooms:block/188/sc-troffer",
+		"scene-l4-ul": "backrooms:block/188/scene-l4-ul"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				14.5,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						1,
+						0,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						14.5,
+						1,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0,
+				14.5,
+				1
+			],
+			"to": [
+				14.5,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						0,
+						15,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						14.5,
+						5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						11,
+						14.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				0.5,
+				14.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						15.5,
+						1.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1.5,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						1.5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						0.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				14.5,
+				0.5,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						1.5,
+						15.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						15.5,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						11,
+						15.5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						1,
+						14.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scene-l4-ul",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "BoxCeil",
+			"from": [
+				0,
+				14.5,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sc-office",
+					"uv": [
+						0,
+						1,
+						16,
+						11
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "BoxL",
+			"from": [
+				14.5,
+				0,
+				5
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"west": {
+					"texture": "#sc-office",
+					"uv": [
+						5,
+						0,
+						15,
+						16
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Troffer",
+			"from": [
+				0,
+				14,
+				7
+			],
+			"to": [
+				8,
+				14.5,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#sc-troffer",
+					"uv": [
+						8,
+						1.5,
+						16,
+						2
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#sc-troffer",
+					"uv": [
+						6,
+						1.5,
+						9,
+						2
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#sc-troffer",
+					"uv": [
+						0,
+						1.5,
+						8,
+						2
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#sc-troffer",
+					"uv": [
+						0,
+						7,
+						8,
+						10
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#sc-troffer",
+					"uv": [
+						0,
+						6,
+						8,
+						9
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

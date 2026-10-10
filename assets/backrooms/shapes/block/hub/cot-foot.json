@@ -1,0 +1,575 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"canvas": "backrooms:block/hub/canvas",
+		"megnavy": "backrooms:block/hub/megnavy",
+		"rod": "backrooms:block/hub/rod"
+	},
+	"elements": [
+		{
+			"name": "Canvas",
+			"from": [
+				2.5,
+				5.5,
+				0
+			],
+			"to": [
+				13.5,
+				6.2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						9.8,
+						13.5,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						9.8,
+						16,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						9.8,
+						13.5,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						9.8,
+						16,
+						10.5
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						0,
+						13.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						0,
+						13.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailL",
+			"from": [
+				13.5,
+				5,
+				0
+			],
+			"to": [
+				14.3,
+				6.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						9.6,
+						2.5,
+						11
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						9.6,
+						16,
+						11
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						13.5,
+						9.6,
+						14.3,
+						11
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						9.6,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						13.5,
+						0,
+						14.3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						13.5,
+						0,
+						14.3,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailR",
+			"from": [
+				1.7,
+				5,
+				0
+			],
+			"to": [
+				2.5,
+				6.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						13.5,
+						9.6,
+						14.3,
+						11
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						9.6,
+						16,
+						11
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						9.6,
+						2.5,
+						11
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						9.6,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						0,
+						2.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						0,
+						2.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "End",
+			"from": [
+				1.7,
+				5,
+				15.2
+			],
+			"to": [
+				14.3,
+				6.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						9.6,
+						14.3,
+						11
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						9.6,
+						0.8,
+						11
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						9.6,
+						14.3,
+						11
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						15.2,
+						9.6,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						15.2,
+						14.3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						0,
+						14.3,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "LegA",
+			"from": [
+				2,
+				0,
+				13.6
+			],
+			"to": [
+				2.8,
+				5,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						13.2,
+						11,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						1.6,
+						11,
+						2.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						2,
+						11,
+						2.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						13.6,
+						11,
+						14.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						2,
+						13.6,
+						2.8,
+						14.4
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						2,
+						1.6,
+						2.8,
+						2.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.4,
+				5,
+				14
+			],
+			"rotationZ": 18
+		},
+		{
+			"name": "LegB",
+			"from": [
+				13.2,
+				0,
+				13.6
+			],
+			"to": [
+				14,
+				5,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						2,
+						11,
+						2.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						1.6,
+						11,
+						2.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						13.2,
+						11,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						13.6,
+						11,
+						14.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						13.2,
+						13.6,
+						14,
+						14.4
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						13.2,
+						1.6,
+						14,
+						2.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.6,
+				5,
+				14
+			],
+			"rotationZ": -18
+		},
+		{
+			"name": "Cross",
+			"from": [
+				2.4,
+				1.5,
+				13.7
+			],
+			"to": [
+				13.6,
+				2.1,
+				14.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						2.4,
+						13.9,
+						13.6,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						1.7,
+						13.9,
+						2.3,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						2.4,
+						13.9,
+						13.6,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						13.7,
+						13.9,
+						14.3,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						2.4,
+						13.7,
+						13.6,
+						14.3
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						2.4,
+						1.7,
+						13.6,
+						2.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Blanket",
+			"from": [
+				3,
+				6.2,
+				0
+			],
+			"to": [
+				13,
+				7.2,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#megnavy",
+					"uv": [
+						3,
+						8.8,
+						13,
+						9.8
+					]
+				},
+				"east": {
+					"texture": "#megnavy",
+					"uv": [
+						6,
+						8.8,
+						16,
+						9.8
+					]
+				},
+				"south": {
+					"texture": "#megnavy",
+					"uv": [
+						3,
+						8.8,
+						13,
+						9.8
+					]
+				},
+				"west": {
+					"texture": "#megnavy",
+					"uv": [
+						0,
+						8.8,
+						10,
+						9.8
+					]
+				},
+				"up": {
+					"texture": "#megnavy",
+					"uv": [
+						3,
+						0,
+						13,
+						10
+					]
+				},
+				"down": {
+					"texture": "#megnavy",
+					"uv": [
+						3,
+						6,
+						13,
+						16
+					]
+				}
+			}
+		}
+	]
+}

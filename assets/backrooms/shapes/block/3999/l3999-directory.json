@@ -1,0 +1,318 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"directory": "backrooms:block/3999/directory",
+		"neon-lilac": "backrooms:block/3999/neon-lilac"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				3,
+				0,
+				4
+			],
+			"to": [
+				13,
+				2,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Totem",
+			"from": [
+				4,
+				2,
+				6
+			],
+			"to": [
+				12,
+				30,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				4.5,
+				3,
+				5.4
+			],
+			"to": [
+				11.5,
+				29,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#directory",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				3.6,
+				30,
+				5.6
+			],
+			"to": [
+				12.4,
+				31,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8.8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8.8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8.8,
+						4.800000000000001
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8.8,
+						4.800000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				4,
+				30,
+				5.6
+			],
+			"to": [
+				12,
+				30.4,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-lilac",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

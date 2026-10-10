@@ -1,0 +1,245 @@
+// Level 974: a rounded 1950s pink fridge, two blocks tall; it hands out food that comes back (l974food: fridge)
+{
+	"code": "l974-fridge",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-fridge-lower-north": {
+			"base": "backrooms:block/974/l974-fridge-lower"
+		},
+		"l974-fridge-lower-east": {
+			"base": "backrooms:block/974/l974-fridge-lower",
+			"rotateY": 270
+		},
+		"l974-fridge-lower-south": {
+			"base": "backrooms:block/974/l974-fridge-lower",
+			"rotateY": 180
+		},
+		"l974-fridge-lower-west": {
+			"base": "backrooms:block/974/l974-fridge-lower",
+			"rotateY": 90
+		},
+		"l974-fridge-upper-north": {
+			"base": "backrooms:block/974/l974-fridge-upper"
+		},
+		"l974-fridge-upper-east": {
+			"base": "backrooms:block/974/l974-fridge-upper",
+			"rotateY": 270
+		},
+		"l974-fridge-upper-south": {
+			"base": "backrooms:block/974/l974-fridge-upper",
+			"rotateY": 180
+		},
+		"l974-fridge-upper-west": {
+			"base": "backrooms:block/974/l974-fridge-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-fridge-lower-north"
+		],
+		"backrooms": [
+			"l974-fridge-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l974-fridge-lower-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l974-fridge-lower-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l974-fridge-lower-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l974-fridge-lower-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l974-fridge-upper-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l974-fridge-upper-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l974-fridge-upper-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l974-fridge-upper-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l974-fridge-lower-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l974-fridge-lower-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l974-fridge-lower-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l974-fridge-lower-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l974-fridge-upper-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l974-fridge-upper-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l974-fridge-upper-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l974-fridge-upper-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l974furniture": true,
+		"l974food": "fridge"
+	},
+	"class": "BackroomsL974Food",
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

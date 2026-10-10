@@ -1,0 +1,27 @@
+// Level Fun: faded 1990s carpet in the bounce halls and arcades
+{
+	"code": "fun-retrocarpet",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/retrocarpet"
+		}
+	}
+}

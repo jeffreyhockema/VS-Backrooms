@@ -1,0 +1,159 @@
+// Level 188: a small black fridge with a glass door, bottles inside. Breaks into Almond Water, juice and crackers, sometimes
+{
+	"code": "l188-minibar",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-minibar-north": {
+			"base": "backrooms:block/188/l188-minibar"
+		},
+		"l188-minibar-east": {
+			"base": "backrooms:block/188/l188-minibar",
+			"rotateY": 270
+		},
+		"l188-minibar-south": {
+			"base": "backrooms:block/188/l188-minibar",
+			"rotateY": 180
+		},
+		"l188-minibar-west": {
+			"base": "backrooms:block/188/l188-minibar",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-minibar-north"
+		],
+		"backrooms": [
+			"l188-minibar-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-minibar-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-minibar-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-minibar-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-minibar-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-minibar-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94
+		},
+		"l188-minibar-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l188-minibar-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l188-minibar-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.82,
+			"y2": 0.56,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "almondwater",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "l188-juicebox",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "crackers",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		}
+	]
+}

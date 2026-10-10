@@ -1,0 +1,320 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"concrete-wall": "backrooms:block/3999/concrete-wall",
+		"darksteel": "backrooms:block/3999/darksteel",
+		"glasspane": "backrooms:block/3999/glasspane",
+		"window-2-0": "backrooms:block/3999/window-2-0"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#concrete-wall",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#concrete-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#concrete-wall",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#concrete-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#concrete-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"north": {
+					"texture": "#window-2-0",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Pane",
+			"from": [
+				2,
+				2,
+				2
+			],
+			"to": [
+				14,
+				14,
+				2.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "MullionT",
+			"from": [
+				0,
+				14,
+				0
+			],
+			"to": [
+				16,
+				16,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "MullionB",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				2,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						2
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "MullionL",
+			"from": [
+				14,
+				2,
+				0
+			],
+			"to": [
+				16,
+				14,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						12
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "MullionR",
+			"from": [
+				0,
+				2,
+				0
+			],
+			"to": [
+				2,
+				14,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						12
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				}
+			}
+		}
+	]
+}

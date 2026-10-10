@@ -1,0 +1,109 @@
+// A jet fan hung from the tunnel roof, still and silent: 2.75 blocks long along its axis (we = along X), 0.9 across, hanging from the top of its block 0.35 into the one below. Hang them in pairs side by side
+{
+	"code": "hub-jetfan",
+	"variantgroups": [
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-we"
+		],
+		"decorative": [
+			"*-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-we": {
+			"base": "block/hub/jetfan",
+			"rotateY": 0
+		},
+		"*-ns": {
+			"base": "block/hub/jetfan",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"*-ns": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"*-ns": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:metalbit-copper",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		}
+	]
+}

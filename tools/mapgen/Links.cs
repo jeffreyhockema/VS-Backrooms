@@ -29,6 +29,10 @@ static class Links {
     // Barns with a wall that isn't there are rare: walk the fields for a few
     { int barns = 0; for (int rr = 0; rr < 1600 && barns < 6; rr += 37) { if (layout.LevelAt(smx + rr, smz) != 10) continue;
         for (int dz = -12; dz <= 12; dz++) { var t = layout.BuildMacro(smx + rr, smz + dz); if (t.Any(q => q.Under == Unders.Noclip)) { barns++; AddCells(smx + rr, smz + dz, 0); } } } }
+    // The five kept as 14-18 (after everything else, so the rest of the sample is as it was)
+    foreach (int level in new[] { WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Hub, WorldLayout.Level974,
+        WorldLayout.Level3999, WorldLayout.Level188 })
+      for (ulong k = 1; k <= 4; k++) if (layout.FindArrival(level, k * 104729UL + 7) is { } a) AddCells(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z), 2);
     Console.WriteLine($"sampling {cells.Count} cells");
 
     var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -47,7 +51,7 @@ static class Links {
               Unders.DarkPassage => "dark doorway", Unders.FountainDeep => "fountain", Unders.WheatPatch => "wheat patch",
               Unders.TunnelMouth => "tunnel mouth", Unders.PoolCarpet => "dry corridor's carpet", Unders.PitBottom => "bottomless pit",
               Unders.TiledSeabed => "tiled seabed", Unders.FullPool => "full pool", Unders.CinemaScreen => "cinema screen",
-              _ => t.Variant == Props.TwilightGate ? "rusted gate" : "?" });
+              _ => t.Variant == Props.TwilightGate ? "rusted gate" : LevelModes.LinkLabel(t) ?? "?" });
           Try(label, p, x, z, walked: true, null);
           break;
         }
@@ -63,6 +67,8 @@ static class Links {
         else if (t.Kind == TileKind.Door && t.Under == Unders.DollHouse) kind = "dollhouse";
         else if (t.Kind == TileKind.Door && t.Under == Unders.FloodedHouse) kind = "floodedhouse";
         else if (t.Kind == TileKind.Door && t.Level == 11) kind = t.Pipe == 0 ? ((CityKind)t.Zone == CityKind.Substation ? "substation" : "rowhouse") : (CityKind)t.Zone == CityKind.Diner ? "kitchendoor" : "basement";
+        // (The five kept as 14-18 name their own blocks' threshold kinds, in their own files)
+        kind = LevelModes.UseKind(t) ?? kind;
         if (kind != null) {
           Passage p = net.Used(x, z, kind, out string refusal);
           string label = $"L{t.Level,-2} {(kind == "door" ? "hotel door" : kind == "locked" ? "house door" : kind)}" + (t.Level == 11 && kind == "elevator" ? $" ({(CityKind)t.Zone})" : "");

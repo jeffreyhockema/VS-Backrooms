@@ -1,0 +1,98 @@
+// The End: the atrium's mezzanine deck at rel 6: carpet on top, a white fascia, ceiling tiles (or a troffer) beneath
+{
+	"code": "end-deck",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"troffer"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"up": {
+				"base": "block/end/carpet-plain",
+				"alternates": [
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 270
+					}
+				]
+			},
+			"horizontals": {
+				"base": "block/end/deck-fascia"
+			},
+			"down": {
+				"base": "block/end/ceiling-plain"
+			}
+		},
+		"*-troffer": {
+			"up": {
+				"base": "block/end/carpet-plain",
+				"alternates": [
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain",
+						"rotation": 270
+					}
+				]
+			},
+			"horizontals": {
+				"base": "block/end/deck-fascia"
+			},
+			"down": {
+				"base": "block/end/troffer-on"
+			}
+		}
+	},
+	"lightHsvByType": {
+		"*-troffer": [
+			8,
+			2,
+			13
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-troffer": 0,
+		"*": 99
+	},
+	"vertexFlagsByType": {
+		"*-troffer": {
+			"glowLevel": 120
+		}
+	},
+	"resistance": 8,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

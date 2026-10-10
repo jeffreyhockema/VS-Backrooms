@@ -1,0 +1,630 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"inflatable-blue": "backrooms:block/fun/inflatable-blue"
+	},
+	"elements": [
+		{
+			"name": "D0",
+			"from": [
+				1,
+				0.3,
+				1
+			],
+			"to": [
+				15,
+				5.0,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.7
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.7
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "D0X",
+			"from": [
+				2,
+				0.3,
+				0
+			],
+			"to": [
+				14,
+				5.0,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.7
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.7
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "D0Z",
+			"from": [
+				0,
+				0.3,
+				2
+			],
+			"to": [
+				16,
+				5.0,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.7
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.7
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "D1",
+			"from": [
+				1,
+				5.633333333333333,
+				1
+			],
+			"to": [
+				15,
+				10.333333333333332,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "D1X",
+			"from": [
+				2,
+				5.633333333333333,
+				0
+			],
+			"to": [
+				14,
+				10.333333333333332,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "D1Z",
+			"from": [
+				0,
+				5.633333333333333,
+				2
+			],
+			"to": [
+				16,
+				10.333333333333332,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "D2",
+			"from": [
+				1,
+				10.966666666666667,
+				1
+			],
+			"to": [
+				15,
+				15.666666666666666,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "D2X",
+			"from": [
+				2,
+				10.966666666666667,
+				0
+			],
+			"to": [
+				14,
+				15.666666666666666,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "D2Z",
+			"from": [
+				0,
+				10.966666666666667,
+				2
+			],
+			"to": [
+				16,
+				15.666666666666666,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"south": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						4.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						12,
+						4.699999999999999
+					]
+				},
+				"up": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#inflatable-blue",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rug-2": "backrooms:block/974/rug-2"
+	},
+	"elements": [
+		{
+			"name": "Rug",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.6,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#rug-2",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

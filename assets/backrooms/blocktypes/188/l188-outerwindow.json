@@ -1,0 +1,755 @@
+// Level 188: a window in the outer façade (side = the room side; parts seen from the room); beyond the glass there is nothing
+{
+	"code": "l188-outerwindow",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"ll",
+				"lr",
+				"ul",
+				"ur"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-outerwindow-closed-ll-north": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ll"
+		},
+		"l188-outerwindow-closed-ll-east": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ll",
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ll-south": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ll",
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ll-west": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ll",
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-lr-north": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-lr"
+		},
+		"l188-outerwindow-closed-lr-east": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-lr",
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-lr-south": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-lr",
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-lr-west": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-lr",
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ul-north": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ul"
+		},
+		"l188-outerwindow-closed-ul-east": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ul",
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ul-south": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ul",
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ul-west": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ul",
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ur-north": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ur"
+		},
+		"l188-outerwindow-closed-ur-east": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ur",
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ur-south": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ur",
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ur-west": {
+			"base": "backrooms:block/188/l188-outerwindow-closed-ur",
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ll-north": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ll"
+		},
+		"l188-outerwindow-open-ll-east": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ll",
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ll-south": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ll",
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ll-west": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ll",
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-lr-north": {
+			"base": "backrooms:block/188/l188-outerwindow-open-lr"
+		},
+		"l188-outerwindow-open-lr-east": {
+			"base": "backrooms:block/188/l188-outerwindow-open-lr",
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-lr-south": {
+			"base": "backrooms:block/188/l188-outerwindow-open-lr",
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-lr-west": {
+			"base": "backrooms:block/188/l188-outerwindow-open-lr",
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ul-north": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ul"
+		},
+		"l188-outerwindow-open-ul-east": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ul",
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ul-south": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ul",
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ul-west": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ul",
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ur-north": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ur"
+		},
+		"l188-outerwindow-open-ur-east": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ur",
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ur-south": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ur",
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ur-west": {
+			"base": "backrooms:block/188/l188-outerwindow-open-ur",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-outerwindow-closed-ll-north"
+		],
+		"backrooms": [
+			"l188-outerwindow-closed-ll-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxByType": {
+		"l188-outerwindow-closed-ll-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ll-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ll-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ll-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-lr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-lr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-lr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-lr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ul-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ul-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ul-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ul-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ur-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ur-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ur-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ur-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ll-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ll-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ll-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ll-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-lr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-lr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-lr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-lr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ul-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ul-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ul-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ul-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ur-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ur-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ur-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ur-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-outerwindow-closed-ll-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ll-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ll-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ll-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-lr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-lr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-lr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-lr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ul-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ul-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ul-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ul-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-closed-ur-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-closed-ur-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-closed-ur-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-closed-ur-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ll-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ll-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ll-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ll-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-lr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-lr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-lr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-lr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ul-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ul-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ul-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ul-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-outerwindow-open-ur-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-outerwindow-open-ur-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-outerwindow-open-ur-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-outerwindow-open-ur-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"renderpass": "Transparent",
+	"drops": [],
+	"lightAbsorptionByType": {
+		"*-closed-*": 99,
+		"*": 1
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsL188Blind"
+		}
+	]
+}

@@ -1,0 +1,351 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"foil": "backrooms:item/run/energybar"
+	},
+	"elements": [
+		{
+			"name": "Bar",
+			"from": [
+				3,
+				0,
+				6
+			],
+			"to": [
+				13,
+				2,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						8,
+						16,
+						11
+					]
+				},
+				"south": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						8,
+						16,
+						11
+					]
+				},
+				"down": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						8,
+						16,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				3,
+				0,
+				6
+			],
+			"to": [
+				13,
+				2,
+				10
+			],
+			"faces": {
+				"up": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "CrimpL",
+			"from": [
+				2,
+				0.3,
+				6.2
+			],
+			"to": [
+				3,
+				1.7,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "CrimpR",
+			"from": [
+				13,
+				0.3,
+				6.2
+			],
+			"to": [
+				14,
+				1.7,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "CrimpLTip",
+			"from": [
+				1.5,
+				0.6,
+				6.4
+			],
+			"to": [
+				2,
+				1.4,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "CrimpRTip",
+			"from": [
+				14,
+				0.6,
+				6.4
+			],
+			"to": [
+				14.5,
+				1.4,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"east": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"south": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"west": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"up": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				},
+				"down": {
+					"texture": "#foil",
+					"uv": [
+						0,
+						6,
+						2,
+						8
+					]
+				}
+			}
+		}
+	]
+}

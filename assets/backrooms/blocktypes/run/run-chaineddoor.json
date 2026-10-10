@@ -1,0 +1,174 @@
+// Level !: the start room's chained door, the horde behind it. intact, bulging (bowed into the room), broken (torn out, the leaf lying in front of the doorway)
+{
+	"code": "run-chaineddoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"intact",
+				"bulging",
+				"broken"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-intact-lower-north"
+		],
+		"construction": [
+			"*-intact-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-intact-lower-north": {
+			"base": "block/run/run-chaineddoor-intact-lower",
+			"rotateY": 0
+		},
+		"*-intact-lower-east": {
+			"base": "block/run/run-chaineddoor-intact-lower",
+			"rotateY": 270
+		},
+		"*-intact-lower-south": {
+			"base": "block/run/run-chaineddoor-intact-lower",
+			"rotateY": 180
+		},
+		"*-intact-lower-west": {
+			"base": "block/run/run-chaineddoor-intact-lower",
+			"rotateY": 90
+		},
+		"*-intact-upper-north": {
+			"base": "block/run/run-chaineddoor-intact-upper",
+			"rotateY": 0
+		},
+		"*-intact-upper-east": {
+			"base": "block/run/run-chaineddoor-intact-upper",
+			"rotateY": 270
+		},
+		"*-intact-upper-south": {
+			"base": "block/run/run-chaineddoor-intact-upper",
+			"rotateY": 180
+		},
+		"*-intact-upper-west": {
+			"base": "block/run/run-chaineddoor-intact-upper",
+			"rotateY": 90
+		},
+		"*-bulging-lower-north": {
+			"base": "block/run/run-chaineddoor-bulging-lower",
+			"rotateY": 0
+		},
+		"*-bulging-lower-east": {
+			"base": "block/run/run-chaineddoor-bulging-lower",
+			"rotateY": 270
+		},
+		"*-bulging-lower-south": {
+			"base": "block/run/run-chaineddoor-bulging-lower",
+			"rotateY": 180
+		},
+		"*-bulging-lower-west": {
+			"base": "block/run/run-chaineddoor-bulging-lower",
+			"rotateY": 90
+		},
+		"*-bulging-upper-north": {
+			"base": "block/run/run-chaineddoor-bulging-upper",
+			"rotateY": 0
+		},
+		"*-bulging-upper-east": {
+			"base": "block/run/run-chaineddoor-bulging-upper",
+			"rotateY": 270
+		},
+		"*-bulging-upper-south": {
+			"base": "block/run/run-chaineddoor-bulging-upper",
+			"rotateY": 180
+		},
+		"*-bulging-upper-west": {
+			"base": "block/run/run-chaineddoor-bulging-upper",
+			"rotateY": 90
+		},
+		"*-broken-lower-north": {
+			"base": "block/run/run-chaineddoor-broken-lower",
+			"rotateY": 0
+		},
+		"*-broken-lower-east": {
+			"base": "block/run/run-chaineddoor-broken-lower",
+			"rotateY": 270
+		},
+		"*-broken-lower-south": {
+			"base": "block/run/run-chaineddoor-broken-lower",
+			"rotateY": 180
+		},
+		"*-broken-lower-west": {
+			"base": "block/run/run-chaineddoor-broken-lower",
+			"rotateY": 90
+		},
+		"*-broken-upper-north": {
+			"base": "block/run/run-chaineddoor-broken-upper",
+			"rotateY": 0
+		},
+		"*-broken-upper-east": {
+			"base": "block/run/run-chaineddoor-broken-upper",
+			"rotateY": 270
+		},
+		"*-broken-upper-south": {
+			"base": "block/run/run-chaineddoor-broken-upper",
+			"rotateY": 180
+		},
+		"*-broken-upper-west": {
+			"base": "block/run/run-chaineddoor-broken-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"behaviorsByType": {
+		"*-intact-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "runchained"
+				}
+			}
+		],
+		"*-bulging-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "runchained"
+				}
+			}
+		]
+	},
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-broken-*": null
+	}
+}

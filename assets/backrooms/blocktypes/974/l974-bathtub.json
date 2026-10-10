@@ -1,0 +1,244 @@
+// Level 974: a white clawfoot tub, two blocks long (side = head toward foot); a rubber duck on the head's rim, the tap at the foot
+{
+	"code": "l974-bathtub",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-bathtub-head-north": {
+			"base": "backrooms:block/974/l974-bathtub-head"
+		},
+		"l974-bathtub-head-east": {
+			"base": "backrooms:block/974/l974-bathtub-head",
+			"rotateY": 270
+		},
+		"l974-bathtub-head-south": {
+			"base": "backrooms:block/974/l974-bathtub-head",
+			"rotateY": 180
+		},
+		"l974-bathtub-head-west": {
+			"base": "backrooms:block/974/l974-bathtub-head",
+			"rotateY": 90
+		},
+		"l974-bathtub-foot-north": {
+			"base": "backrooms:block/974/l974-bathtub-foot"
+		},
+		"l974-bathtub-foot-east": {
+			"base": "backrooms:block/974/l974-bathtub-foot",
+			"rotateY": 270
+		},
+		"l974-bathtub-foot-south": {
+			"base": "backrooms:block/974/l974-bathtub-foot",
+			"rotateY": 180
+		},
+		"l974-bathtub-foot-west": {
+			"base": "backrooms:block/974/l974-bathtub-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-bathtub-head-north"
+		],
+		"backrooms": [
+			"l974-bathtub-head-north"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/ceramicplace",
+		"break": "game:block/ceramicbreak",
+		"hit": "game:block/ceramichit"
+	},
+	"selectionboxByType": {
+		"l974-bathtub-head-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1
+		},
+		"l974-bathtub-head-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bathtub-head-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bathtub-head-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bathtub-foot-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1
+		},
+		"l974-bathtub-foot-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bathtub-foot-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bathtub-foot-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l974-bathtub-head-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1
+		},
+		"l974-bathtub-head-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bathtub-head-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bathtub-head-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l974-bathtub-foot-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1
+		},
+		"l974-bathtub-foot-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-bathtub-foot-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-bathtub-foot-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.78,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l974furniture": true
+	},
+	"class": "BackroomsL974Tap",
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:metalbit-copper",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}

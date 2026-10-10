@@ -1,0 +1,250 @@
+// Level 3999: skee-ball. lane: a wooden ramp rising toward the back, a ball trough at the front (the player stands on the side named); target: rings and holes worth 10 to 100 under a score display, its face toward the way named (put it at the far end of the lane, facing it). Hold the target to play (10 s, pays 1-5)
+{
+	"code": "l3999-skeeball",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lane",
+				"target"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-skeeball-lane-north": {
+			"base": "backrooms:block/3999/l3999-skeeball-lane"
+		},
+		"l3999-skeeball-lane-east": {
+			"base": "backrooms:block/3999/l3999-skeeball-lane",
+			"rotateY": 270
+		},
+		"l3999-skeeball-lane-south": {
+			"base": "backrooms:block/3999/l3999-skeeball-lane",
+			"rotateY": 180
+		},
+		"l3999-skeeball-lane-west": {
+			"base": "backrooms:block/3999/l3999-skeeball-lane",
+			"rotateY": 90
+		},
+		"l3999-skeeball-target-north": {
+			"base": "backrooms:block/3999/l3999-skeeball-target"
+		},
+		"l3999-skeeball-target-east": {
+			"base": "backrooms:block/3999/l3999-skeeball-target",
+			"rotateY": 270
+		},
+		"l3999-skeeball-target-south": {
+			"base": "backrooms:block/3999/l3999-skeeball-target",
+			"rotateY": 180
+		},
+		"l3999-skeeball-target-west": {
+			"base": "backrooms:block/3999/l3999-skeeball-target",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-skeeball-lane-north"
+		],
+		"backrooms": [
+			"l3999-skeeball-lane-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-skeeball-lane-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1
+		},
+		"l3999-skeeball-lane-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-skeeball-lane-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-skeeball-lane-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-skeeball-target-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1
+		},
+		"l3999-skeeball-target-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-skeeball-target-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-skeeball-target-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-skeeball-lane-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1
+		},
+		"l3999-skeeball-lane-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-skeeball-lane-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-skeeball-lane-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.65,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-skeeball-target-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1
+		},
+		"l3999-skeeball-target-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-skeeball-target-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-skeeball-target-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 1.7,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-target-*": [
+			62,
+			7,
+			5
+		],
+		"*-lane-*": [
+			53,
+			3,
+			3
+		]
+	},
+	"drops": [],
+	"attributesByType": {
+		"*-target-*": {
+			"l3999structure": true,
+			"l3999cabinet": {
+				"seconds": 10,
+				"min": 1,
+				"max": 5,
+				"jackpot": 12,
+				"jackpotChance": 0.03
+			}
+		},
+		"*": {
+			"l3999structure": true
+		}
+	}
+}

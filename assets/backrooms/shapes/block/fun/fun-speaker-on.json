@@ -1,0 +1,337 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bulb-green": "backrooms:block/fun/bulb-green",
+		"grille": "backrooms:block/fun/grille",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"plastic-black": "backrooms:block/fun/plastic-black",
+		"speakerbody": "backrooms:block/fun/speakerbody"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				5,
+				4,
+				10.5
+			],
+			"to": [
+				11,
+				12,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						8
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						4.0,
+						8
+					]
+				},
+				"south": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						8
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						4.0,
+						8
+					]
+				},
+				"up": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Grille",
+			"from": [
+				5.4,
+				4.4,
+				10.3
+			],
+			"to": [
+				10.6,
+				11.6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				7,
+				10.5,
+				14.5
+			],
+			"to": [
+				9,
+				11.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cable",
+			"from": [
+				10.5,
+				11,
+				15.4
+			],
+			"to": [
+				11,
+				16,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"south": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#plastic-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led",
+			"from": [
+				9.6,
+				4.8,
+				10.2
+			],
+			"to": [
+				10.2,
+				5.4,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					],
+					"glow": 200
+				},
+				"east": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000005
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000005
+					],
+					"glow": 200
+				},
+				"west": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000005
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					],
+					"glow": 200
+				},
+				"down": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					],
+					"glow": 200
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		}
+	]
+}

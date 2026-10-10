@@ -811,7 +811,9 @@ def props():
     prop("clothesrack", "Clothes Rack", rack, box=(0, 0, 0.3, 1, 1.56, 0.7), material="Cloth", sounds=CLOTH,
          extra={"drops": drops(("game:clothes-upperbody-linen-tunic", 0.2, 0), ("game:clothes-upperbody-woolen-shirt", 0.15, 0),
                                 ("game:clothes-lowerbody-commoner-trousers", 0.2, 0), ("game:clothes-foot-commoner-boots", 0.12, 0),
-                                ("game:clothes-upperbody-commoner-shirt", 0.15, 0), ("game:cloth-plain", 1, 0.5), ("metalbracket", 0.5, 0.3))})
+                                ("game:clothes-upperbody-commoner-shirt", 0.15, 0), ("game:cloth-plain", 1, 0.5), ("metalbracket", 0.5, 0.3),
+                                # (Level 974: now and then a plush toy left on a rack, cute)
+                                ("l974-plush-bunny", 0.01, 0), ("l974-plush-bear", 0.01, 0))})
     prop("shoppingcart", "Shopping Cart", [
         bx("Basket", (2, 8, 1), (14, 18, 14), "cartwire"), bx("Handle", (2, 18, 14), (14, 19, 15), "redmetal"),
         bx("Frame", (3, 2, 2), (13, 8, 13), "chrome", faces=("east", "west")),

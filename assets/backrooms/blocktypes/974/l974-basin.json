@@ -1,0 +1,152 @@
+// Level 974: a white pedestal basin with a chrome tap (a tap: fills a held container with water)
+{
+	"code": "l974-basin",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-basin-north": {
+			"base": "backrooms:block/974/l974-basin"
+		},
+		"l974-basin-east": {
+			"base": "backrooms:block/974/l974-basin",
+			"rotateY": 270
+		},
+		"l974-basin-south": {
+			"base": "backrooms:block/974/l974-basin",
+			"rotateY": 180
+		},
+		"l974-basin-west": {
+			"base": "backrooms:block/974/l974-basin",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-basin-north"
+		],
+		"backrooms": [
+			"l974-basin-north"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/ceramicplace",
+		"break": "game:block/ceramicbreak",
+		"hit": "game:block/ceramichit"
+	},
+	"selectionboxByType": {
+		"l974-basin-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1
+		},
+		"l974-basin-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-basin-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-basin-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l974-basin-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1
+		},
+		"l974-basin-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l974-basin-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l974-basin-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l974furniture": true
+	},
+	"class": "BackroomsL974Tap",
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:metalbit-copper",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}

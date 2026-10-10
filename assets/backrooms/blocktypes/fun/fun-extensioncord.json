@@ -1,0 +1,145 @@
+// Level Fun: an orange extension cord snaking over the carpet
+{
+	"code": "fun-extensioncord",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"straight",
+				"corner",
+				"plug"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-straight-north": {
+			"base": "block/fun/fun-extensioncord-straight",
+			"rotateY": 0
+		},
+		"*-straight-east": {
+			"base": "block/fun/fun-extensioncord-straight",
+			"rotateY": 270
+		},
+		"*-straight-south": {
+			"base": "block/fun/fun-extensioncord-straight",
+			"rotateY": 180
+		},
+		"*-straight-west": {
+			"base": "block/fun/fun-extensioncord-straight",
+			"rotateY": 90
+		},
+		"*-corner-north": {
+			"base": "block/fun/fun-extensioncord-corner",
+			"rotateY": 0
+		},
+		"*-corner-east": {
+			"base": "block/fun/fun-extensioncord-corner",
+			"rotateY": 270
+		},
+		"*-corner-south": {
+			"base": "block/fun/fun-extensioncord-corner",
+			"rotateY": 180
+		},
+		"*-corner-west": {
+			"base": "block/fun/fun-extensioncord-corner",
+			"rotateY": 90
+		},
+		"*-plug-north": {
+			"base": "block/fun/fun-extensioncord-plug",
+			"rotateY": 0
+		},
+		"*-plug-east": {
+			"base": "block/fun/fun-extensioncord-plug",
+			"rotateY": 270
+		},
+		"*-plug-south": {
+			"base": "block/fun/fun-extensioncord-plug",
+			"rotateY": 180
+		},
+		"*-plug-west": {
+			"base": "block/fun/fun-extensioncord-plug",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-straight-north"
+		],
+		"decorative": [
+			"*-straight-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.3,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.06,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.06,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.06,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.06,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.3
+			}
+		}
+	]
+}

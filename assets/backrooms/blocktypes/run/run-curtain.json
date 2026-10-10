@@ -1,0 +1,109 @@
+// Level !: a pale green privacy curtain, walk-through. Stacked rel 1-4: lower, middle, upper, top (the mesh band and the ceiling track). Axis we: the curtain runs west-east (its faces look north and south)
+{
+	"code": "run-curtain",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"middle",
+				"upper",
+				"top"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-we"
+		],
+		"decorative": [
+			"*-lower-we"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-we": {
+			"base": "block/run/run-curtain-lower",
+			"rotateY": 0
+		},
+		"*-lower-ns": {
+			"base": "block/run/run-curtain-lower",
+			"rotateY": 90
+		},
+		"*-middle-we": {
+			"base": "block/run/run-curtain-middle",
+			"rotateY": 0
+		},
+		"*-middle-ns": {
+			"base": "block/run/run-curtain-middle",
+			"rotateY": 90
+		},
+		"*-upper-we": {
+			"base": "block/run/run-curtain-upper",
+			"rotateY": 0
+		},
+		"*-upper-ns": {
+			"base": "block/run/run-curtain-upper",
+			"rotateY": 90
+		},
+		"*-top-we": {
+			"base": "block/run/run-curtain-top",
+			"rotateY": 0
+		},
+		"*-top-ns": {
+			"base": "block/run/run-curtain-top",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"*-ns": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

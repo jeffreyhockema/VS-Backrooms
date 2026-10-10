@@ -1,0 +1,769 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"inflatable-gold": "backrooms:block/fun/inflatable-gold",
+		"inflatable-plum": "backrooms:block/fun/inflatable-plum"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						8
+					]
+				},
+				"east": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				},
+				"south": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						8
+					]
+				},
+				"west": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				},
+				"up": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				2,
+				8,
+				2.5
+			],
+			"to": [
+				14,
+				11,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						10.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						10.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						12,
+						10.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						12,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				0,
+				8,
+				2
+			],
+			"to": [
+				3,
+				15,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						7
+					]
+				},
+				"east": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						11,
+						7
+					]
+				},
+				"south": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						7
+					]
+				},
+				"west": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						11,
+						7
+					]
+				},
+				"up": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						11
+					]
+				},
+				"down": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				13,
+				8,
+				2
+			],
+			"to": [
+				16,
+				15,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						7
+					]
+				},
+				"east": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						11,
+						7
+					]
+				},
+				"south": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						7
+					]
+				},
+				"west": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						11,
+						7
+					]
+				},
+				"up": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						11
+					]
+				},
+				"down": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmTopL",
+			"from": [
+				-0.3,
+				14,
+				1.7
+			],
+			"to": [
+				3.3,
+				16,
+				13.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						2
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						11.600000000000001,
+						2
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						2
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						11.600000000000001,
+						2
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						11.600000000000001
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						11.600000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmTopR",
+			"from": [
+				12.7,
+				14,
+				1.7
+			],
+			"to": [
+				16.3,
+				16,
+				13.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.6000000000000014,
+						2
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						11.600000000000001,
+						2
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.6000000000000014,
+						2
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						11.600000000000001,
+						2
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.6000000000000014,
+						11.600000000000001
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.6000000000000014,
+						11.600000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1,
+				8,
+				12
+			],
+			"to": [
+				15,
+				28,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						3.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#inflatable-plum",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Crown",
+			"from": [
+				0,
+				27,
+				11
+			],
+			"to": [
+				16,
+				31,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knob1",
+			"from": [
+				0,
+				31,
+				12.5
+			],
+			"to": [
+				3,
+				34,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Knob2",
+			"from": [
+				13,
+				31,
+				12.5
+			],
+			"to": [
+				16,
+				34,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Knob3",
+			"from": [
+				6.5,
+				31,
+				12.5
+			],
+			"to": [
+				9.5,
+				35,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						2.0,
+						4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-gold",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,619 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bulb-green": "backrooms:block/3999/bulb-green",
+		"darksteel": "backrooms:block/3999/darksteel"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				2,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Bulb",
+			"from": [
+				5,
+				2,
+				5
+			],
+			"to": [
+				11,
+				8,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#bulb-green",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Bar0",
+			"from": [
+				4,
+				2,
+				4
+			],
+			"to": [
+				5,
+				9,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar1",
+			"from": [
+				11,
+				2,
+				4
+			],
+			"to": [
+				12,
+				9,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar2",
+			"from": [
+				4,
+				2,
+				11
+			],
+			"to": [
+				5,
+				9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar3",
+			"from": [
+				11,
+				2,
+				11
+			],
+			"to": [
+				12,
+				9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						7
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "CapX",
+			"from": [
+				4,
+				9,
+				7.5
+			],
+			"to": [
+				12,
+				10,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CapZ",
+			"from": [
+				7.5,
+				9,
+				4
+			],
+			"to": [
+				8.5,
+				10,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring",
+			"from": [
+				4,
+				5,
+				4
+			],
+			"to": [
+				12,
+				5.6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

@@ -182,11 +182,20 @@ public static class Breakdown
         _ => Concrete,
     };
 
+    /// <summary>Level !'s blocks that break like props, with the drops their blocktypes give (everything else of it is fixed).</summary>
+    private static readonly string[] RunProps =
+    {
+        "run-gurney", "run-wheelchair", "run-ivstand", "run-chairs", "run-crashcart", "run-shelf", "run-toycar", "run-boxes", "run-cord",
+        "run-sheets", "run-remains", "run-tray", "run-bedside", "run-safeshelf", "run-safecot", "run-debris", "run-curtain", "run-medcabinet",
+    };
+
     /// <summary>What kind of block this is, as far as breaking goes.</summary>
     public static BreakKind KindOf(Block block)
     {
         if (block?.Code == null || block.Code.Domain != "backrooms" || block.BlockId == 0) return BreakKind.None;
         string first = block.FirstCodePart();
+        // Level !: every code starts "run"; its props keep their own drops (loot), the hallway itself never breaks
+        if (first == "run") return System.Array.Exists(RunProps, p => block.Code.Path.StartsWith(p)) ? BreakKind.None : BreakKind.Fixed;
         if (SalvageSystem.IsSalvage(block) || OwnRules.Contains(first)) return BreakKind.None;
         if (FixedCodes.Contains(first) || block is Props.BlockDispenser) return BreakKind.Fixed;
         if (block.BlockBehaviors != null)

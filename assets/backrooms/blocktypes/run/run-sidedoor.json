@@ -1,0 +1,279 @@
+// Level !: the locked steel doors down both sides of the hall (runside). dented (something behind it, about to burst), open (burst or flung open: an empty frame, black beyond), leaf (the flung-open leaf, placed in the hall tile in front of the door with the door's own side; collision on the leaf only)
+{
+	"code": "run-sidedoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"dented",
+				"open",
+				"leaf"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-closed-lower-north"
+		],
+		"construction": [
+			"*-closed-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-closed-lower-north": {
+			"base": "block/run/run-sidedoor-closed-lower",
+			"rotateY": 0
+		},
+		"*-closed-lower-east": {
+			"base": "block/run/run-sidedoor-closed-lower",
+			"rotateY": 270
+		},
+		"*-closed-lower-south": {
+			"base": "block/run/run-sidedoor-closed-lower",
+			"rotateY": 180
+		},
+		"*-closed-lower-west": {
+			"base": "block/run/run-sidedoor-closed-lower",
+			"rotateY": 90
+		},
+		"*-closed-upper-north": {
+			"base": "block/run/run-sidedoor-closed-upper",
+			"rotateY": 0
+		},
+		"*-closed-upper-east": {
+			"base": "block/run/run-sidedoor-closed-upper",
+			"rotateY": 270
+		},
+		"*-closed-upper-south": {
+			"base": "block/run/run-sidedoor-closed-upper",
+			"rotateY": 180
+		},
+		"*-closed-upper-west": {
+			"base": "block/run/run-sidedoor-closed-upper",
+			"rotateY": 90
+		},
+		"*-dented-lower-north": {
+			"base": "block/run/run-sidedoor-dented-lower",
+			"rotateY": 0
+		},
+		"*-dented-lower-east": {
+			"base": "block/run/run-sidedoor-dented-lower",
+			"rotateY": 270
+		},
+		"*-dented-lower-south": {
+			"base": "block/run/run-sidedoor-dented-lower",
+			"rotateY": 180
+		},
+		"*-dented-lower-west": {
+			"base": "block/run/run-sidedoor-dented-lower",
+			"rotateY": 90
+		},
+		"*-dented-upper-north": {
+			"base": "block/run/run-sidedoor-dented-upper",
+			"rotateY": 0
+		},
+		"*-dented-upper-east": {
+			"base": "block/run/run-sidedoor-dented-upper",
+			"rotateY": 270
+		},
+		"*-dented-upper-south": {
+			"base": "block/run/run-sidedoor-dented-upper",
+			"rotateY": 180
+		},
+		"*-dented-upper-west": {
+			"base": "block/run/run-sidedoor-dented-upper",
+			"rotateY": 90
+		},
+		"*-open-lower-north": {
+			"base": "block/run/run-sidedoor-open-lower",
+			"rotateY": 0
+		},
+		"*-open-lower-east": {
+			"base": "block/run/run-sidedoor-open-lower",
+			"rotateY": 270
+		},
+		"*-open-lower-south": {
+			"base": "block/run/run-sidedoor-open-lower",
+			"rotateY": 180
+		},
+		"*-open-lower-west": {
+			"base": "block/run/run-sidedoor-open-lower",
+			"rotateY": 90
+		},
+		"*-open-upper-north": {
+			"base": "block/run/run-sidedoor-open-upper",
+			"rotateY": 0
+		},
+		"*-open-upper-east": {
+			"base": "block/run/run-sidedoor-open-upper",
+			"rotateY": 270
+		},
+		"*-open-upper-south": {
+			"base": "block/run/run-sidedoor-open-upper",
+			"rotateY": 180
+		},
+		"*-open-upper-west": {
+			"base": "block/run/run-sidedoor-open-upper",
+			"rotateY": 90
+		},
+		"*-leaf-lower-north": {
+			"base": "block/run/run-sidedoor-leaf-lower",
+			"rotateY": 0
+		},
+		"*-leaf-lower-east": {
+			"base": "block/run/run-sidedoor-leaf-lower",
+			"rotateY": 270
+		},
+		"*-leaf-lower-south": {
+			"base": "block/run/run-sidedoor-leaf-lower",
+			"rotateY": 180
+		},
+		"*-leaf-lower-west": {
+			"base": "block/run/run-sidedoor-leaf-lower",
+			"rotateY": 90
+		},
+		"*-leaf-upper-north": {
+			"base": "block/run/run-sidedoor-leaf-upper",
+			"rotateY": 0
+		},
+		"*-leaf-upper-east": {
+			"base": "block/run/run-sidedoor-leaf-upper",
+			"rotateY": 270
+		},
+		"*-leaf-upper-south": {
+			"base": "block/run/run-sidedoor-leaf-upper",
+			"rotateY": 180
+		},
+		"*-leaf-upper-west": {
+			"base": "block/run/run-sidedoor-leaf-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"behaviorsByType": {
+		"*-closed-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "runside"
+				}
+			}
+		],
+		"*-dented-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "runside"
+				}
+			}
+		]
+	},
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-open-*": null,
+		"*-leaf-*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-leaf-*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-leaf-*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-leaf-*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-leaf-*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-leaf-*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-leaf-*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-leaf-*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

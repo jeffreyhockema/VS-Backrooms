@@ -1,0 +1,302 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"halldoor-back": "backrooms:block/run/halldoor-back",
+		"halldoor-upper": "backrooms:block/run/halldoor-upper",
+		"hallframe": "backrooms:block/run/hallframe"
+	},
+	"elements": [
+		{
+			"name": "JambL",
+			"from": [
+				-1.5,
+				0,
+				-1
+			],
+			"to": [
+				0,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "JambR",
+			"from": [
+				16,
+				0,
+				-1
+			],
+			"to": [
+				17.5,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				-1.5,
+				16,
+				-1
+			],
+			"to": [
+				17.5,
+				17.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#halldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBack",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		}
+	]
+}

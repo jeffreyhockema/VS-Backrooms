@@ -1,0 +1,362 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackmetal": "backrooms:block/detail/blackmetal",
+		"cage": "backrooms:block/fun/cage",
+		"lampglow": "backrooms:block/fun/lampglow"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				6,
+				5,
+				15
+			],
+			"to": [
+				10,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"east": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"south": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"west": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						6
+					]
+				},
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				},
+				"down": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						4,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				6.5,
+				5.5,
+				13
+			],
+			"to": [
+				9.5,
+				10.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						2,
+						5.0
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						2,
+						5.0
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#lampglow",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "CageV1",
+			"from": [
+				6.2,
+				5.2,
+				12.6
+			],
+			"to": [
+				6.6,
+				10.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"east": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"south": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"west": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"up": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CageV2",
+			"from": [
+				9.4,
+				5.2,
+				12.6
+			],
+			"to": [
+				9.8,
+				10.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"east": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"south": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"west": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6000000000000005
+					]
+				},
+				"up": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CageH",
+			"from": [
+				6.2,
+				7.8,
+				12.5
+			],
+			"to": [
+				9.8,
+				8.2,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cage",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,113 @@
+// Level Fun: a round party cake on a table (placed in the block above it); right-click cuts a slice
+{
+	"code": "fun-cake",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"birthday-4",
+				"birthday-3",
+				"birthday-2",
+				"birthday-1",
+				"birthday-0",
+				"velvet-4",
+				"velvet-3",
+				"velvet-2",
+				"velvet-1",
+				"velvet-0"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-birthday-4": {
+			"base": "block/fun/fun-cake-birthday-4"
+		},
+		"*-birthday-3": {
+			"base": "block/fun/fun-cake-birthday-3"
+		},
+		"*-birthday-2": {
+			"base": "block/fun/fun-cake-birthday-2"
+		},
+		"*-birthday-1": {
+			"base": "block/fun/fun-cake-birthday-1"
+		},
+		"*-birthday-0": {
+			"base": "block/fun/fun-cake-birthday-0"
+		},
+		"*-velvet-4": {
+			"base": "block/fun/fun-cake-velvet-4"
+		},
+		"*-velvet-3": {
+			"base": "block/fun/fun-cake-velvet-3"
+		},
+		"*-velvet-2": {
+			"base": "block/fun/fun-cake-velvet-2"
+		},
+		"*-velvet-1": {
+			"base": "block/fun/fun-cake-velvet-1"
+		},
+		"*-velvet-0": {
+			"base": "block/fun/fun-cake-velvet-0"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-birthday-4"
+		],
+		"decorative": [
+			"*-birthday-4"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-birthday-1": [
+			7,
+			4,
+			4
+		],
+		"*-birthday-2": [
+			7,
+			4,
+			4
+		],
+		"*-birthday-3": [
+			7,
+			4,
+			4
+		],
+		"*-birthday-4": [
+			7,
+			4,
+			4
+		]
+	},
+	"drops": [],
+	"selectionbox": {
+		"x1": 0.1,
+		"y1": -0.18,
+		"z1": 0.1,
+		"x2": 0.9,
+		"y2": 0.3,
+		"z2": 0.9
+	},
+	"attributes": {
+		"slices": 4
+	},
+	"class": "BackroomsFunCake"
+}

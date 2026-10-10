@@ -48,5 +48,309 @@
 		"place": "game:block/planks",
 		"break": "game:block/planks",
 		"hit": "game:block/planks"
+	},
+	"particlePropertiesByType": {
+		"*-sconce": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 20,
+						"var": 20
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"opacityEvolve": {
+					"transform": "quadratic",
+					"factor": -16
+				},
+				"gravityEffect": {
+					"avg": 0,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.005
+					},
+					{
+						"avg": -0.25,
+						"var": 0
+					},
+					{
+						"avg": -0.6875,
+						"var": 0.005
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.0125
+					},
+					{
+						"avg": 0.03,
+						"var": 0.01
+					},
+					{
+						"avg": 0,
+						"var": 0.0125
+					}
+				],
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				},
+				"size": {
+					"avg": 0.05,
+					"var": 0.025
+				},
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0
+				},
+				"sizeEvolve": {
+					"transform": "linear",
+					"factor": 0.1
+				},
+				"particleModel": "Quad",
+				"vertexFlags": 128,
+				"windAffectednes": 0.05
+			},
+			{
+				"hsvaColor": [
+					{
+						"avg": 20,
+						"var": 20
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"opacityEvolve": {
+					"transform": "quadratic",
+					"factor": -16
+				},
+				"gravityEffect": {
+					"avg": 0,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0.6875,
+						"var": 0.005
+					},
+					{
+						"avg": -0.25,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0.005
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.0125
+					},
+					{
+						"avg": 0.03,
+						"var": 0.01
+					},
+					{
+						"avg": 0,
+						"var": 0.0125
+					}
+				],
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				},
+				"size": {
+					"avg": 0.05,
+					"var": 0.025
+				},
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0
+				},
+				"sizeEvolve": {
+					"transform": "linear",
+					"factor": 0.1
+				},
+				"particleModel": "Quad",
+				"vertexFlags": 128,
+				"windAffectednes": 0.05
+			},
+			{
+				"hsvaColor": [
+					{
+						"avg": 20,
+						"var": 20
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"opacityEvolve": {
+					"transform": "quadratic",
+					"factor": -16
+				},
+				"gravityEffect": {
+					"avg": 0,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.005
+					},
+					{
+						"avg": -0.25,
+						"var": 0
+					},
+					{
+						"avg": 0.6875,
+						"var": 0.005
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.0125
+					},
+					{
+						"avg": 0.03,
+						"var": 0.01
+					},
+					{
+						"avg": 0,
+						"var": 0.0125
+					}
+				],
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				},
+				"size": {
+					"avg": 0.05,
+					"var": 0.025
+				},
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0
+				},
+				"sizeEvolve": {
+					"transform": "linear",
+					"factor": 0.1
+				},
+				"particleModel": "Quad",
+				"vertexFlags": 128,
+				"windAffectednes": 0.05
+			},
+			{
+				"hsvaColor": [
+					{
+						"avg": 20,
+						"var": 20
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 50
+					},
+					{
+						"avg": 255,
+						"var": 0
+					}
+				],
+				"opacityEvolve": {
+					"transform": "quadratic",
+					"factor": -16
+				},
+				"gravityEffect": {
+					"avg": 0,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": -0.6875,
+						"var": 0.005
+					},
+					{
+						"avg": -0.25,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0.005
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0.0125
+					},
+					{
+						"avg": 0.03,
+						"var": 0.01
+					},
+					{
+						"avg": 0,
+						"var": 0.0125
+					}
+				],
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				},
+				"size": {
+					"avg": 0.05,
+					"var": 0.025
+				},
+				"lifeLength": {
+					"avg": 0.5,
+					"var": 0
+				},
+				"sizeEvolve": {
+					"transform": "linear",
+					"factor": 0.1
+				},
+				"particleModel": "Quad",
+				"vertexFlags": 128,
+				"windAffectednes": 0.05
+			}
+		]
 	}
 }

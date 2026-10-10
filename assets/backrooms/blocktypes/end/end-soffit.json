@@ -1,0 +1,103 @@
+// The End: the lowered bulkhead at rel 4 over a service desk; its edge face (the side named) carries the band
+{
+	"code": "end-soffit",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"edge-north",
+				"edge-east",
+				"edge-south",
+				"edge-west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-plain"
+		],
+		"construction": [
+			"*-plain"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/end/soffit-face"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			},
+			"down": {
+				"base": "block/end/soffit-under"
+			}
+		},
+		"*-edge-north": {
+			"all": {
+				"base": "block/end/wall-upper"
+			},
+			"north": {
+				"base": "block/end/soffit-face"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			},
+			"down": {
+				"base": "block/end/soffit-under"
+			}
+		},
+		"*-edge-east": {
+			"all": {
+				"base": "block/end/wall-upper"
+			},
+			"east": {
+				"base": "block/end/soffit-face"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			},
+			"down": {
+				"base": "block/end/soffit-under"
+			}
+		},
+		"*-edge-south": {
+			"all": {
+				"base": "block/end/wall-upper"
+			},
+			"south": {
+				"base": "block/end/soffit-face"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			},
+			"down": {
+				"base": "block/end/soffit-under"
+			}
+		},
+		"*-edge-west": {
+			"all": {
+				"base": "block/end/wall-upper"
+			},
+			"west": {
+				"base": "block/end/soffit-face"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			},
+			"down": {
+				"base": "block/end/soffit-under"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 8,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

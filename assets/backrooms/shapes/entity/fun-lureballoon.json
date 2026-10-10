@@ -1,0 +1,2208 @@
+{
+	"editor": {
+		"allAngles": true,
+		"entityTextureMode": true
+	},
+	"textureWidth": 32,
+	"textureHeight": 64,
+	"textures": {
+		"skin": "backrooms:entity/fun-lureballoon"
+	},
+	"elements": [
+		{
+			"name": "Balloon",
+			"from": [
+				5.624,
+				23.7,
+				5.624
+			],
+			"to": [
+				10.376,
+				26.7,
+				10.376
+			],
+			"rotationOrigin": [
+				8.0,
+				24.5,
+				8.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#skin",
+					"uv": [
+						15.0,
+						26.0,
+						20.0,
+						29.0
+					]
+				},
+				"east": {
+					"texture": "#skin",
+					"uv": [
+						20.5,
+						26.0,
+						25.5,
+						29.0
+					]
+				},
+				"south": {
+					"texture": "#skin",
+					"uv": [
+						26.0,
+						26.0,
+						31.0,
+						29.0
+					]
+				},
+				"west": {
+					"texture": "#skin",
+					"uv": [
+						0.0,
+						29.5,
+						5.0,
+						32.5
+					]
+				},
+				"up": {
+					"texture": "#skin",
+					"uv": [
+						25.0,
+						0.0,
+						30.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#skin",
+					"uv": [
+						0.0,
+						7.5,
+						5.0,
+						12.5
+					]
+				}
+			},
+			"attachmentpoints": [
+				{
+					"code": "Center",
+					"posX": 2.376,
+					"posY": 1.5,
+					"posZ": 2.376,
+					"rotationX": 0,
+					"rotationY": 0,
+					"rotationZ": 0
+				}
+			],
+			"children": [
+				{
+					"name": "BalloonX",
+					"from": [
+						-0.924,
+						0.0,
+						0.396
+					],
+					"to": [
+						5.676,
+						3.0,
+						4.356
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								12.0,
+								22.0,
+								19.0,
+								25.0
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								15.5,
+								29.5,
+								19.5,
+								32.5
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								19.5,
+								22.0,
+								26.5,
+								25.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								20.0,
+								29.5,
+								24.0,
+								32.5
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								16.0,
+								13.0,
+								23.0,
+								17.0
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								23.5,
+								13.0,
+								30.5,
+								17.0
+							]
+						}
+					}
+				},
+				{
+					"name": "BalloonZ",
+					"from": [
+						0.396,
+						0.0,
+						-0.924
+					],
+					"to": [
+						4.356,
+						3.0,
+						5.676
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								24.5,
+								29.5,
+								28.5,
+								32.5
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								26.0,
+								7.0,
+								29.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								33.0,
+								4.0,
+								36.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								7.5,
+								26.0,
+								14.5,
+								29.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								0.0,
+								4.0,
+								7.0
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								4.5,
+								0.0,
+								8.5,
+								7.0
+							]
+						}
+					}
+				},
+				{
+					"name": "Balloon0",
+					"from": [
+						1.271,
+						-3.0,
+						1.271
+					],
+					"to": [
+						3.481,
+						-2.4,
+						3.481
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								14.0,
+								45.0,
+								16.5,
+								46.0
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								17.0,
+								45.0,
+								19.5,
+								46.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								20.0,
+								45.0,
+								22.5,
+								46.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								23.0,
+								45.0,
+								25.5,
+								46.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								4.5,
+								33.0,
+								7.0,
+								35.5
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								7.5,
+								33.0,
+								10.0,
+								35.5
+							]
+						}
+					}
+				},
+				{
+					"name": "Balloon1",
+					"from": [
+						0.792,
+						-2.4,
+						0.792
+					],
+					"to": [
+						3.96,
+						-1.4,
+						3.96
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								15.0,
+								42.0,
+								18.5,
+								43.0
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								19.0,
+								42.0,
+								22.5,
+								43.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								23.0,
+								42.0,
+								26.5,
+								43.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								27.0,
+								42.0,
+								30.5,
+								43.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								26.0,
+								18.0,
+								29.5,
+								21.5
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								22.0,
+								3.5,
+								25.5
+							]
+						}
+					},
+					"children": [
+						{
+							"name": "Balloon1X",
+							"from": [
+								-0.616,
+								0.0,
+								0.264
+							],
+							"to": [
+								3.784,
+								1.0,
+								2.904
+							],
+							"rotationOrigin": [
+								1.584,
+								3.2,
+								1.584
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										6.5,
+										40.5,
+										11.0,
+										41.5
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										45.0,
+										3.0,
+										46.0
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										11.5,
+										40.5,
+										16.0,
+										41.5
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										3.5,
+										45.0,
+										6.5,
+										46.0
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										5.5,
+										29.5,
+										10.0,
+										32.5
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										10.5,
+										29.5,
+										15.0,
+										32.5
+									]
+								}
+							}
+						},
+						{
+							"name": "Balloon1Z",
+							"from": [
+								0.264,
+								0.0,
+								-0.616
+							],
+							"to": [
+								2.904,
+								1.0,
+								3.784
+							],
+							"rotationOrigin": [
+								1.584,
+								3.2,
+								1.584
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										7.0,
+										45.0,
+										10.0,
+										46.0
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										16.5,
+										40.5,
+										21.0,
+										41.5
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										10.5,
+										45.0,
+										13.5,
+										46.0
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										21.5,
+										40.5,
+										26.0,
+										41.5
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										5.0,
+										13.0,
+										8.0,
+										17.5
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										8.5,
+										13.0,
+										11.5,
+										17.5
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Balloon2",
+					"from": [
+						0.288,
+						-1.4,
+						0.288
+					],
+					"to": [
+						4.464,
+						0.0,
+						4.464
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								6.5,
+								36.5,
+								11.0,
+								38.0
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								11.5,
+								36.5,
+								16.0,
+								38.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								16.5,
+								36.5,
+								21.0,
+								38.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								21.5,
+								36.5,
+								26.0,
+								38.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								13.5,
+								7.5,
+								18.0,
+								12.0
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								18.5,
+								7.5,
+								23.0,
+								12.0
+							]
+						}
+					},
+					"children": [
+						{
+							"name": "Balloon2X",
+							"from": [
+								-0.812,
+								0.0,
+								0.348
+							],
+							"to": [
+								4.988,
+								1.4,
+								3.828
+							],
+							"rotationOrigin": [
+								2.088,
+								2.2,
+								2.088
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										10.5,
+										33.0,
+										16.5,
+										34.5
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										26.5,
+										36.5,
+										30.0,
+										38.0
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										17.0,
+										33.0,
+										23.0,
+										34.5
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										38.5,
+										3.5,
+										40.0
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										18.0,
+										6.0,
+										21.5
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										6.5,
+										18.0,
+										12.5,
+										21.5
+									]
+								}
+							}
+						},
+						{
+							"name": "Balloon2Z",
+							"from": [
+								0.348,
+								0.0,
+								-0.812
+							],
+							"to": [
+								3.828,
+								1.4,
+								4.988
+							],
+							"rotationOrigin": [
+								2.088,
+								2.2,
+								2.088
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										4.0,
+										38.5,
+										7.5,
+										40.0
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										23.5,
+										33.0,
+										29.5,
+										34.5
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										8.0,
+										38.5,
+										11.5,
+										40.0
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										36.5,
+										6.0,
+										38.0
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										9.0,
+										0.0,
+										12.5,
+										6.0
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										13.0,
+										0.0,
+										16.5,
+										6.0
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Balloon4",
+					"from": [
+						0.36,
+						3.0,
+						0.36
+					],
+					"to": [
+						4.392,
+						4.0,
+						4.392
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								26.5,
+								40.5,
+								31.0,
+								41.5
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								42.0,
+								4.5,
+								43.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								5.0,
+								42.0,
+								9.5,
+								43.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								10.0,
+								42.0,
+								14.5,
+								43.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								23.5,
+								7.5,
+								28.0,
+								12.0
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								13.0,
+								4.5,
+								17.5
+							]
+						}
+					},
+					"children": [
+						{
+							"name": "Balloon4X",
+							"from": [
+								-0.784,
+								0.0,
+								0.336
+							],
+							"to": [
+								4.816,
+								1.0,
+								3.696
+							],
+							"rotationOrigin": [
+								2.016,
+								-2.2,
+								2.016
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										12.0,
+										38.5,
+										18.0,
+										39.5
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										43.5,
+										3.5,
+										44.5
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										18.5,
+										38.5,
+										24.5,
+										39.5
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										4.0,
+										43.5,
+										7.5,
+										44.5
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										13.0,
+										18.0,
+										19.0,
+										21.5
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										19.5,
+										18.0,
+										25.5,
+										21.5
+									]
+								}
+							}
+						},
+						{
+							"name": "Balloon4Z",
+							"from": [
+								0.336,
+								0.0,
+								-0.784
+							],
+							"to": [
+								3.696,
+								1.0,
+								4.816
+							],
+							"rotationOrigin": [
+								2.016,
+								-2.2,
+								2.016
+							],
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										8.0,
+										43.5,
+										11.5,
+										44.5
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										25.0,
+										38.5,
+										31.0,
+										39.5
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										12.0,
+										43.5,
+										15.5,
+										44.5
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										0.0,
+										40.5,
+										6.0,
+										41.5
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										17.0,
+										0.0,
+										20.5,
+										6.0
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										21.0,
+										0.0,
+										24.5,
+										6.0
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Balloon5",
+					"from": [
+						0.846,
+						4.0,
+						0.846
+					],
+					"to": [
+						3.906,
+						4.6,
+						3.906
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								16.0,
+								43.5,
+								19.5,
+								44.5
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								20.0,
+								43.5,
+								23.5,
+								44.5
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								24.0,
+								43.5,
+								27.5,
+								44.5
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								28.0,
+								43.5,
+								31.5,
+								44.5
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								4.0,
+								22.0,
+								7.5,
+								25.5
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								8.0,
+								22.0,
+								11.5,
+								25.5
+							]
+						}
+					}
+				},
+				{
+					"name": "BalloonKnot",
+					"from": [
+						1.876,
+						-3.8,
+						1.876
+					],
+					"to": [
+						2.876,
+						-3.0,
+						2.876
+					],
+					"rotationOrigin": [
+						2.376,
+						0.8,
+						2.376
+					],
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								26.0,
+								45.0,
+								27.0,
+								46.0
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								27.5,
+								45.0,
+								28.5,
+								46.0
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								29.0,
+								45.0,
+								30.0,
+								46.0
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								30.5,
+								45.0,
+								31.5,
+								46.0
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								0.0,
+								46.5,
+								1.0,
+								47.5
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								1.5,
+								46.5,
+								2.5,
+								47.5
+							]
+						}
+					}
+				},
+				{
+					"name": "String0",
+					"from": [
+						2.256,
+						-8.8,
+						2.256
+					],
+					"to": [
+						2.506,
+						-3.8,
+						2.506
+					],
+					"rotationOrigin": [
+						2.376,
+						-3.8,
+						2.376
+					],
+					"rotationX": 4,
+					"rotationZ": -3,
+					"faces": {
+						"north": {
+							"texture": "#skin",
+							"uv": [
+								5.5,
+								7.5,
+								6.0,
+								12.5
+							]
+						},
+						"east": {
+							"texture": "#skin",
+							"uv": [
+								6.5,
+								7.5,
+								7.0,
+								12.5
+							]
+						},
+						"south": {
+							"texture": "#skin",
+							"uv": [
+								7.5,
+								7.5,
+								8.0,
+								12.5
+							]
+						},
+						"west": {
+							"texture": "#skin",
+							"uv": [
+								8.5,
+								7.5,
+								9.0,
+								12.5
+							]
+						},
+						"up": {
+							"texture": "#skin",
+							"uv": [
+								3.0,
+								46.5,
+								3.5,
+								47.0
+							]
+						},
+						"down": {
+							"texture": "#skin",
+							"uv": [
+								4.0,
+								46.5,
+								4.5,
+								47.0
+							]
+						}
+					},
+					"children": [
+						{
+							"name": "String1",
+							"from": [
+								0.0,
+								-5.0,
+								0.0
+							],
+							"to": [
+								0.25,
+								0.0,
+								0.25
+							],
+							"rotationOrigin": [
+								0.12,
+								0.0,
+								0.12
+							],
+							"rotationX": -6,
+							"rotationZ": 5,
+							"faces": {
+								"north": {
+									"texture": "#skin",
+									"uv": [
+										9.5,
+										7.5,
+										10.0,
+										12.5
+									]
+								},
+								"east": {
+									"texture": "#skin",
+									"uv": [
+										10.5,
+										7.5,
+										11.0,
+										12.5
+									]
+								},
+								"south": {
+									"texture": "#skin",
+									"uv": [
+										11.5,
+										7.5,
+										12.0,
+										12.5
+									]
+								},
+								"west": {
+									"texture": "#skin",
+									"uv": [
+										12.5,
+										7.5,
+										13.0,
+										12.5
+									]
+								},
+								"up": {
+									"texture": "#skin",
+									"uv": [
+										5.0,
+										46.5,
+										5.5,
+										47.0
+									]
+								},
+								"down": {
+									"texture": "#skin",
+									"uv": [
+										6.0,
+										46.5,
+										6.5,
+										47.0
+									]
+								}
+							},
+							"children": [
+								{
+									"name": "String2",
+									"from": [
+										0.0,
+										-4.5,
+										0.0
+									],
+									"to": [
+										0.25,
+										0.0,
+										0.25
+									],
+									"rotationOrigin": [
+										0.12,
+										0.0,
+										0.12
+									],
+									"rotationX": 5,
+									"rotationZ": -4,
+									"faces": {
+										"north": {
+											"texture": "#skin",
+											"uv": [
+												12.0,
+												13.0,
+												12.5,
+												17.5
+											]
+										},
+										"east": {
+											"texture": "#skin",
+											"uv": [
+												13.0,
+												13.0,
+												13.5,
+												17.5
+											]
+										},
+										"south": {
+											"texture": "#skin",
+											"uv": [
+												14.0,
+												13.0,
+												14.5,
+												17.5
+											]
+										},
+										"west": {
+											"texture": "#skin",
+											"uv": [
+												15.0,
+												13.0,
+												15.5,
+												17.5
+											]
+										},
+										"up": {
+											"texture": "#skin",
+											"uv": [
+												7.0,
+												46.5,
+												7.5,
+												47.0
+											]
+										},
+										"down": {
+											"texture": "#skin",
+											"uv": [
+												8.0,
+												46.5,
+												8.5,
+												47.0
+											]
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"animations": [
+		{
+			"name": "idle",
+			"code": "idle",
+			"quantityframes": 60,
+			"onActivityStopped": "EaseOut",
+			"onAnimationEnd": "Repeat",
+			"keyframes": [
+				{
+					"frame": 0,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.353,
+							"offsetZ": 0,
+							"rotationX": 2.853,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.045,
+							"rotationY": 0,
+							"rotationZ": 4.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.755,
+							"rotationY": 0,
+							"rotationZ": 2.351
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.545,
+							"rotationY": 0,
+							"rotationZ": -1.236
+						}
+					}
+				},
+				{
+					"frame": 5,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.548,
+							"offsetZ": 0,
+							"rotationX": 2.934,
+							"rotationY": 7.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.973,
+							"rotationY": 0,
+							"rotationZ": 3.464
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.346,
+							"rotationY": 0,
+							"rotationZ": 0.418
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.04,
+							"rotationY": 0,
+							"rotationZ": -2.973
+						}
+					}
+				},
+				{
+					"frame": 10,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.597,
+							"offsetZ": 0,
+							"rotationX": 2.229,
+							"rotationY": 12.124,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.568,
+							"rotationY": 0,
+							"rotationZ": 2.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.04,
+							"rotationY": 0,
+							"rotationZ": -1.627
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.346,
+							"rotationY": 0,
+							"rotationZ": -3.913
+						}
+					}
+				},
+				{
+					"frame": 15,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.485,
+							"offsetZ": 0,
+							"rotationX": 0.927,
+							"rotationY": 14.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 2.939,
+							"rotationY": 0,
+							"rotationZ": 0.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.545,
+							"rotationY": 0,
+							"rotationZ": -3.236
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.755,
+							"rotationY": 0,
+							"rotationZ": -3.804
+						}
+					}
+				},
+				{
+					"frame": 20,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.244,
+							"offsetZ": 0,
+							"rotationX": -0.624,
+							"rotationY": 12.124,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.523,
+							"rotationY": 0,
+							"rotationZ": -2.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.716,
+							"rotationY": 0,
+							"rotationZ": -3.978
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.891,
+							"rotationY": 0,
+							"rotationZ": -2.677
+						}
+					}
+				},
+				{
+					"frame": 25,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.063,
+							"offsetZ": 0,
+							"rotationX": -2.007,
+							"rotationY": 7.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -2.034,
+							"rotationY": 0,
+							"rotationZ": -3.464
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.891,
+							"rotationY": 0,
+							"rotationZ": -3.654
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.716,
+							"rotationY": 0,
+							"rotationZ": -0.832
+						}
+					}
+				},
+				{
+					"frame": 30,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.353,
+							"offsetZ": 0,
+							"rotationX": -2.853,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.045,
+							"rotationY": 0,
+							"rotationZ": -4.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.755,
+							"rotationY": 0,
+							"rotationZ": -2.351
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.545,
+							"rotationY": 0,
+							"rotationZ": 1.236
+						}
+					}
+				},
+				{
+					"frame": 35,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.548,
+							"offsetZ": 0,
+							"rotationX": -2.934,
+							"rotationY": -7.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.973,
+							"rotationY": 0,
+							"rotationZ": -3.464
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.346,
+							"rotationY": 0,
+							"rotationZ": -0.418
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.04,
+							"rotationY": 0,
+							"rotationZ": 2.973
+						}
+					}
+				},
+				{
+					"frame": 40,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.597,
+							"offsetZ": 0,
+							"rotationX": -2.229,
+							"rotationY": -12.124,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.568,
+							"rotationY": 0,
+							"rotationZ": -2.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.04,
+							"rotationY": 0,
+							"rotationZ": 1.627
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.346,
+							"rotationY": 0,
+							"rotationZ": 3.913
+						}
+					}
+				},
+				{
+					"frame": 45,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.485,
+							"offsetZ": 0,
+							"rotationX": -0.927,
+							"rotationY": -14.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -2.939,
+							"rotationY": 0,
+							"rotationZ": -0.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.545,
+							"rotationY": 0,
+							"rotationZ": 3.236
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.755,
+							"rotationY": 0,
+							"rotationZ": 3.804
+						}
+					}
+				},
+				{
+					"frame": 50,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.244,
+							"offsetZ": 0,
+							"rotationX": 0.624,
+							"rotationY": -12.124,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -0.523,
+							"rotationY": 0,
+							"rotationZ": 2.0
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.716,
+							"rotationY": 0,
+							"rotationZ": 3.978
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.891,
+							"rotationY": 0,
+							"rotationZ": 2.677
+						}
+					}
+				},
+				{
+					"frame": 55,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.063,
+							"offsetZ": 0,
+							"rotationX": 2.007,
+							"rotationY": -7.0,
+							"rotationZ": 0.0
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 2.034,
+							"rotationY": 0,
+							"rotationZ": 3.464
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.891,
+							"rotationY": 0,
+							"rotationZ": 3.654
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.716,
+							"rotationY": 0,
+							"rotationZ": 0.832
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "drift",
+			"code": "drift",
+			"quantityframes": 30,
+			"onActivityStopped": "EaseOut",
+			"onAnimationEnd": "Repeat",
+			"keyframes": [
+				{
+					"frame": 0,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.353,
+							"offsetZ": 0,
+							"rotationX": 2.853,
+							"rotationY": 0.0,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.236,
+							"rotationY": 0,
+							"rotationZ": -20.8
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.804,
+							"rotationY": 0,
+							"rotationZ": -5.319
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.236,
+							"rotationY": 0,
+							"rotationZ": -8.189
+						}
+					}
+				},
+				{
+					"frame": 3,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.571,
+							"offsetZ": 0,
+							"rotationX": 2.853,
+							"rotationY": 8.229,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.0,
+							"rotationY": 0,
+							"rotationZ": -21.411
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 2.351,
+							"rotationY": 0,
+							"rotationZ": -7.2
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.236,
+							"rotationY": 0,
+							"rotationZ": -9.789
+						}
+					}
+				},
+				{
+					"frame": 6,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.571,
+							"offsetZ": 0,
+							"rotationX": 1.763,
+							"rotationY": 13.315,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.236,
+							"rotationY": 0,
+							"rotationZ": -23.011
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0,
+							"rotationZ": -9.081
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.236,
+							"rotationY": 0,
+							"rotationZ": -10.4
+						}
+					}
+				},
+				{
+					"frame": 9,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.353,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 13.315,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.236,
+							"rotationY": 0,
+							"rotationZ": -24.989
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -2.351,
+							"rotationY": 0,
+							"rotationZ": -10.243
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.0,
+							"rotationY": 0,
+							"rotationZ": -9.789
+						}
+					}
+				},
+				{
+					"frame": 12,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": 0.0,
+							"offsetZ": 0,
+							"rotationX": -1.763,
+							"rotationY": 8.229,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.236,
+							"rotationY": 0,
+							"rotationZ": -26.589
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.804,
+							"rotationY": 0,
+							"rotationZ": -10.243
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.236,
+							"rotationY": 0,
+							"rotationZ": -8.189
+						}
+					}
+				},
+				{
+					"frame": 15,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.353,
+							"offsetZ": 0,
+							"rotationX": -2.853,
+							"rotationY": 0.0,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.236,
+							"rotationY": 0,
+							"rotationZ": -27.2
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.804,
+							"rotationY": 0,
+							"rotationZ": -9.081
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.236,
+							"rotationY": 0,
+							"rotationZ": -6.211
+						}
+					}
+				},
+				{
+					"frame": 18,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.571,
+							"offsetZ": 0,
+							"rotationX": -2.853,
+							"rotationY": -8.229,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -4.0,
+							"rotationY": 0,
+							"rotationZ": -26.589
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -2.351,
+							"rotationY": 0,
+							"rotationZ": -7.2
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.236,
+							"rotationY": 0,
+							"rotationZ": -4.611
+						}
+					}
+				},
+				{
+					"frame": 21,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.571,
+							"offsetZ": 0,
+							"rotationX": -1.763,
+							"rotationY": -13.315,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3.236,
+							"rotationY": 0,
+							"rotationZ": -24.989
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -0.0,
+							"rotationY": 0,
+							"rotationZ": -5.319
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.236,
+							"rotationY": 0,
+							"rotationZ": -4.0
+						}
+					}
+				},
+				{
+					"frame": 24,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.353,
+							"offsetZ": 0,
+							"rotationX": -0.0,
+							"rotationY": -13.315,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -1.236,
+							"rotationY": 0,
+							"rotationZ": -23.011
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 2.351,
+							"rotationY": 0,
+							"rotationZ": -4.157
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4.0,
+							"rotationY": 0,
+							"rotationZ": -4.611
+						}
+					}
+				},
+				{
+					"frame": 27,
+					"elements": {
+						"Balloon": {
+							"offsetX": 0,
+							"offsetY": -0.0,
+							"offsetZ": 0,
+							"rotationX": 1.763,
+							"rotationY": -8.229,
+							"rotationZ": -9.6
+						},
+						"String0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 1.236,
+							"rotationY": 0,
+							"rotationZ": -21.411
+						},
+						"String1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.804,
+							"rotationY": 0,
+							"rotationZ": -4.157
+						},
+						"String2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3.236,
+							"rotationY": 0,
+							"rotationZ": -6.211
+						}
+					}
+				}
+			]
+		}
+	]
+}

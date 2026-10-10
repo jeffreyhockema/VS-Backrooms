@@ -1,0 +1,149 @@
+// Level Fun: a waiting room's cushioned teal seats
+{
+	"code": "fun-waitingchair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/fun/fun-waitingchair",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/fun/fun-waitingchair",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/fun/fun-waitingchair",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/fun/fun-waitingchair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 1,
+			"y2": 0.56,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.3
+			}
+		}
+	]
+}

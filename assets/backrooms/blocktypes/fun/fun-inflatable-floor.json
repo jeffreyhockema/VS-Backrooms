@@ -1,0 +1,51 @@
+// Level Fun: the quilted floor of a bounce house: soft, slow to walk on, and it bounces you
+{
+	"code": "fun-inflatable",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"floor"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"up": {
+			"base": "block/fun/inflatable-floor"
+		},
+		"horizontals": {
+			"base": "block/fun/inflatable-yellow"
+		},
+		"down": {
+			"base": "block/fun/inflatable-yellow"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [],
+	"walkspeedmultiplier": 0.7,
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.75,
+		"z2": 1
+	}
+}

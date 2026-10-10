@@ -1,0 +1,68 @@
+// Level 188: a round pedestal table in the breakfast area
+{
+	"code": "l188-roundtable",
+	"shape": {
+		"base": "backrooms:block/188/l188-roundtable"
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-roundtable"
+		],
+		"backrooms": [
+			"l188-roundtable"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

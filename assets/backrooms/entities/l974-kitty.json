@@ -1,0 +1,130 @@
+// Kitty (Level 974): faceless, 3.2 m, matt black, never harms. Class EntityKitty; driven by L974System
+{
+	"code": "l974-kitty",
+	"class": "EntityKitty",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 60,
+	"hitboxSize": {
+		"x": 0.7,
+		"y": 2.9
+	},
+	"selectionBoxSize": {
+		"x": 0.8,
+		"y": 3.2
+	},
+	"eyeHeight": 2.9,
+	"canClimb": false,
+	"attributes": {
+		"invulnerable": true
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/974/l974-kitty"
+		},
+		"texture": {
+			"base": "backrooms:entity/974/l974-kitty"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "headtilt",
+				"animation": "headtilt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 2
+			},
+			{
+				"code": "glide",
+				"animation": "glide",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "walk",
+				"animation": "glide",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "stoop",
+				"animation": "stoop",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "peek",
+				"animation": "peek",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "ask",
+				"animation": "ask",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 2
+			},
+			{
+				"code": "take",
+				"animation": "take",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 3
+			},
+			{
+				"code": "sleepwatch",
+				"animation": "sleepwatch",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "kneel",
+				"animation": "kneel",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "vanish",
+				"animation": "vanish",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "appear",
+				"animation": "appear",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 0.6
+			}
+		]
+	},
+	"sounds": {}
+}

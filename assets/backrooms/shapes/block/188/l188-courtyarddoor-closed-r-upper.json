@@ -1,0 +1,515 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/188/alu",
+		"glass": "backrooms:block/188/glass",
+		"steel": "backrooms:block/188/steel"
+	},
+	"elements": [
+		{
+			"name": "Jamb",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				1,
+				14.399999999999999,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileO",
+			"from": [
+				1,
+				0,
+				7
+			],
+			"to": [
+				3,
+				14.399999999999999,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				}
+			}
+		},
+		{
+			"name": "StileI",
+			"from": [
+				14,
+				0,
+				7
+			],
+			"to": [
+				16,
+				14.399999999999999,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				}
+			}
+		},
+		{
+			"name": "RailM",
+			"from": [
+				3,
+				0,
+				7
+			],
+			"to": [
+				14,
+				0.3999999999999986,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						0.4
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						0.4
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						2
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						0.4
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						0.4
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				3,
+				12.399999999999999,
+				7
+			],
+			"to": [
+				14,
+				14.399999999999999,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						2
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						11,
+						2
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "GlassHi",
+			"from": [
+				3,
+				0.3999999999999986,
+				7.8
+			],
+			"to": [
+				14,
+				12.399999999999999,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						11,
+						12.0
+					]
+				},
+				"south": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						11,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull",
+			"from": [
+				12.4,
+				0,
+				5.6
+			],
+			"to": [
+				13.4,
+				5,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "PullS2",
+			"from": [
+				12.6,
+				3.1999999999999993,
+				6.4
+			],
+			"to": [
+				13.2,
+				4,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

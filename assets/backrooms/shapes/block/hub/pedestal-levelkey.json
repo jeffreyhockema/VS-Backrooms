@@ -1,0 +1,823 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bellglass": "backrooms:block/hub/bellglass",
+		"brass": "backrooms:block/hub/brass",
+		"keyhole": "backrooms:block/hub/keyhole",
+		"marble-plain": "backrooms:block/hub/marble-plain",
+		"velvetred": "backrooms:block/hub/velvetred"
+	},
+	"elements": [
+		{
+			"name": "Foot",
+			"from": [
+				2.5,
+				0,
+				2.5
+			],
+			"to": [
+				13.5,
+				1.5,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						14.5,
+						13.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						14.5,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						14.5,
+						13.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						14.5,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						2.5,
+						13.5,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.5,
+						2.5,
+						13.5,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Die",
+			"from": [
+				3.5,
+				1.5,
+				3.5
+			],
+			"to": [
+				12.5,
+				10.5,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						5.5,
+						12.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						5.5,
+						12.5,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						5.5,
+						12.5,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						5.5,
+						12.5,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						3.5,
+						12.5,
+						12.5
+					]
+				},
+				"down": {
+					"texture": "#marble-plain",
+					"uv": [
+						3.5,
+						3.5,
+						12.5,
+						12.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				2.8,
+				10.5,
+				2.8
+			],
+			"to": [
+				13.2,
+				12,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						4,
+						13.2,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						4,
+						13.2,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						4,
+						13.2,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						4,
+						13.2,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						2.8,
+						13.2,
+						13.2
+					]
+				},
+				"down": {
+					"texture": "#marble-plain",
+					"uv": [
+						2.8,
+						2.8,
+						13.2,
+						13.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cushion",
+			"from": [
+				4.5,
+				12,
+				4.5
+			],
+			"to": [
+				11.5,
+				12.6,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						3.4,
+						11.5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						3.4,
+						11.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						3.4,
+						11.5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						3.4,
+						11.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						4.5,
+						11.5,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#velvetred",
+					"uv": [
+						4.5,
+						4.5,
+						11.5,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bow",
+			"from": [
+				5.4,
+				12.6,
+				7
+			],
+			"to": [
+				8,
+				13.2,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						8,
+						2.8,
+						10.6,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						6.4,
+						2.8,
+						9,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						5.4,
+						2.8,
+						8,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						7,
+						2.8,
+						9.6,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						5.4,
+						7,
+						8,
+						9.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						5.4,
+						6.4,
+						8,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Shank",
+			"from": [
+				8,
+				12.6,
+				7.9
+			],
+			"to": [
+				11.4,
+				13.2,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						4.6,
+						2.8,
+						8,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						7.3,
+						2.8,
+						8.1,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						8,
+						2.8,
+						11.4,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						7.9,
+						2.8,
+						8.7,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						8,
+						7.9,
+						11.4,
+						8.7
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						8,
+						7.3,
+						11.4,
+						8.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Bit",
+			"from": [
+				10.2,
+				12.6,
+				8.7
+			],
+			"to": [
+				11.4,
+				13.2,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						4.6,
+						2.8,
+						5.8,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						6.2,
+						2.8,
+						7.3,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						10.2,
+						2.8,
+						11.4,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						8.7,
+						2.8,
+						9.8,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						10.2,
+						8.7,
+						11.4,
+						9.8
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						10.2,
+						6.2,
+						11.4,
+						7.3
+					]
+				}
+			}
+		},
+		{
+			"name": "BowHole",
+			"from": [
+				6.2,
+				13.2,
+				7.8
+			],
+			"to": [
+				7.2,
+				13.25,
+				8.8
+			],
+			"faces": {
+				"up": {
+					"texture": "#keyhole",
+					"uv": [
+						6.2,
+						7.8,
+						7.2,
+						8.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BellN",
+			"from": [
+				4,
+				12,
+				4
+			],
+			"to": [
+				12,
+				21,
+				4.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BellS",
+			"from": [
+				4,
+				12,
+				11.8
+			],
+			"to": [
+				12,
+				21,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BellW",
+			"from": [
+				4,
+				12,
+				4.2
+			],
+			"to": [
+				4.2,
+				21,
+				11.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BellE",
+			"from": [
+				11.8,
+				12,
+				4.2
+			],
+			"to": [
+				12,
+				21,
+				11.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BellTop",
+			"from": [
+				4,
+				21,
+				4
+			],
+			"to": [
+				12,
+				21.2,
+				12
+			],
+			"faces": {
+				"up": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bellglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BellKnob",
+			"from": [
+				7.2,
+				21.2,
+				7.2
+			],
+			"to": [
+				8.8,
+				22.2,
+				8.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						9.8,
+						8.8,
+						10.8
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						9.8,
+						8.8,
+						10.8
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						9.8,
+						8.8,
+						10.8
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						9.8,
+						8.8,
+						10.8
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						7.2,
+						8.8,
+						8.8
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						7.2,
+						7.2,
+						8.8,
+						8.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BellRim",
+			"from": [
+				3.8,
+				12,
+				3.8
+			],
+			"to": [
+				12.2,
+				12.4,
+				12.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.6,
+						12.2,
+						4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.6,
+						12.2,
+						4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.6,
+						12.2,
+						4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.6,
+						12.2,
+						4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.8,
+						12.2,
+						12.2
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						3.8,
+						3.8,
+						12.2,
+						12.2
+					]
+				}
+			}
+		}
+	]
+}

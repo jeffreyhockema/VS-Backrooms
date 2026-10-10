@@ -1,0 +1,68 @@
+// Level 3999's Neon Natatorium: violet and lilac mosaic; edge: white bullnose coping with a dark LED groove
+{
+	"code": "l3999-pooltile",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l3999structure": true
+	},
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"violet",
+				"lilac",
+				"edge"
+			]
+		}
+	],
+	"texturesByType": {
+		"l3999-pooltile-violet": {
+			"all": {
+				"base": "block/3999/pooltile-violet"
+			}
+		},
+		"l3999-pooltile-lilac": {
+			"all": {
+				"base": "block/3999/pooltile-lilac"
+			}
+		},
+		"l3999-pooltile-edge": {
+			"up": {
+				"base": "block/3999/white"
+			},
+			"down": {
+				"base": "block/3999/pooltile-violet"
+			},
+			"north": {
+				"base": "block/3999/pooltile-edge"
+			},
+			"east": {
+				"base": "block/3999/pooltile-edge"
+			},
+			"south": {
+				"base": "block/3999/pooltile-edge"
+			},
+			"west": {
+				"base": "block/3999/pooltile-edge"
+			}
+		}
+	}
+}

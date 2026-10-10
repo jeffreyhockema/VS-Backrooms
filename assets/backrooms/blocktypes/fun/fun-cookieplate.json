@@ -1,0 +1,64 @@
+// Level Fun: a paper plate of cookies on a party table (placed in the block above it); right-click takes one
+{
+	"code": "fun-cookieplate",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"3",
+				"2",
+				"1",
+				"0"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-3": {
+			"base": "block/fun/fun-cookieplate-3"
+		},
+		"*-2": {
+			"base": "block/fun/fun-cookieplate-2"
+		},
+		"*-1": {
+			"base": "block/fun/fun-cookieplate-1"
+		},
+		"*-0": {
+			"base": "block/fun/fun-cookieplate-0"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-3"
+		],
+		"decorative": [
+			"*-3"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.3,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"drops": [],
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": -0.18,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.0,
+		"z2": 0.85
+	},
+	"class": "BackroomsFunCookies"
+}

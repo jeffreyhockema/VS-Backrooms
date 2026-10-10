@@ -139,7 +139,7 @@
 		},
 		{
 			"type": "item",
-			"code": "game:butter",
+			"code": "game:butter-salted",
 			"quantity": {
 				"avg": 0.5,
 				"var": 0.4

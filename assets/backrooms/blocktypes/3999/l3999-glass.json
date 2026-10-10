@@ -1,0 +1,55 @@
+// Level 3999: unbreakable storefront glass with faint streaks; dark: black glass with magenta glints (the Level 10 arcade)
+{
+	"code": "l3999-glass",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"clear",
+				"dark"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"l3999-glass-clear": {
+			"all": {
+				"base": "block/3999/glass-clear"
+			}
+		},
+		"l3999-glass-dark": {
+			"all": {
+				"base": "block/3999/glass-dark"
+			}
+		}
+	},
+	"renderpass": "Transparent",
+	"faceCullMode": "Merge",
+	"lightAbsorption": 0,
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"attributes": {
+		"l3999structure": true
+	}
+}

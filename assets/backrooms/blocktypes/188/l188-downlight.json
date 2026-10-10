@@ -1,0 +1,232 @@
+// Level 188: a storey slab with a round recessed downlight in its underside (a 5-voxel disc in a chrome ring); flicker swaps to -off
+{
+	"code": "l188-downlight",
+	"variantgroups": [
+		{
+			"code": "zone",
+			"states": [
+				"corridor",
+				"room",
+				"lobby",
+				"stair",
+				"roof"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off",
+				"flicker"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-downlight-corridor-on": {
+			"base": "backrooms:block/188/l188-downlight-corridor-on"
+		},
+		"l188-downlight-corridor-off": {
+			"base": "backrooms:block/188/l188-downlight-corridor-off"
+		},
+		"l188-downlight-corridor-flicker": {
+			"base": "backrooms:block/188/l188-downlight-corridor-flicker"
+		},
+		"l188-downlight-room-on": {
+			"base": "backrooms:block/188/l188-downlight-room-on"
+		},
+		"l188-downlight-room-off": {
+			"base": "backrooms:block/188/l188-downlight-room-off"
+		},
+		"l188-downlight-room-flicker": {
+			"base": "backrooms:block/188/l188-downlight-room-flicker"
+		},
+		"l188-downlight-lobby-on": {
+			"base": "backrooms:block/188/l188-downlight-lobby-on"
+		},
+		"l188-downlight-lobby-off": {
+			"base": "backrooms:block/188/l188-downlight-lobby-off"
+		},
+		"l188-downlight-lobby-flicker": {
+			"base": "backrooms:block/188/l188-downlight-lobby-flicker"
+		},
+		"l188-downlight-stair-on": {
+			"base": "backrooms:block/188/l188-downlight-stair-on"
+		},
+		"l188-downlight-stair-off": {
+			"base": "backrooms:block/188/l188-downlight-stair-off"
+		},
+		"l188-downlight-stair-flicker": {
+			"base": "backrooms:block/188/l188-downlight-stair-flicker"
+		},
+		"l188-downlight-roof-on": {
+			"base": "backrooms:block/188/l188-downlight-roof-on"
+		},
+		"l188-downlight-roof-off": {
+			"base": "backrooms:block/188/l188-downlight-roof-off"
+		},
+		"l188-downlight-roof-flicker": {
+			"base": "backrooms:block/188/l188-downlight-roof-flicker"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-downlight-corridor-on"
+		],
+		"backrooms": [
+			"l188-downlight-corridor-on"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l188structure": true
+	},
+	"lightHsvByType": {
+		"l188-downlight-corridor-on": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-corridor-flicker": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-room-on": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-room-flicker": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-lobby-on": [
+			7,
+			2,
+			14
+		],
+		"l188-downlight-lobby-flicker": [
+			7,
+			2,
+			14
+		],
+		"l188-downlight-stair-on": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-stair-flicker": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-roof-on": [
+			7,
+			2,
+			12
+		],
+		"l188-downlight-roof-flicker": [
+			7,
+			2,
+			12
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-on": 0,
+		"*-flicker": 0,
+		"*": 99
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"l188-downlight-corridor-flicker": {
+			"l188structure": true,
+			"offBlock": "backrooms:l188-downlight-corridor-off"
+		},
+		"l188-downlight-room-flicker": {
+			"l188structure": true,
+			"offBlock": "backrooms:l188-downlight-room-off"
+		},
+		"l188-downlight-lobby-flicker": {
+			"l188structure": true,
+			"offBlock": "backrooms:l188-downlight-lobby-off"
+		},
+		"l188-downlight-stair-flicker": {
+			"l188structure": true,
+			"offBlock": "backrooms:l188-downlight-stair-off"
+		},
+		"l188-downlight-roof-flicker": {
+			"l188structure": true,
+			"offBlock": "backrooms:l188-downlight-roof-off"
+		},
+		"*": {
+			"l188structure": true
+		}
+	},
+	"soundsByType": {
+		"l188-downlight-corridor-*": {
+			"walk": "game:walk/cloth",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"l188-downlight-room-*": {
+			"walk": "game:walk/cloth",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"l188-downlight-lobby-*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		},
+		"l188-downlight-stair-*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		},
+		"l188-downlight-roof-*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}

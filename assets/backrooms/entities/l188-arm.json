@@ -1,0 +1,91 @@
+// Level 188: a Window's arm (Entity 2). Anchored at a predatory window's centre, reaching along its forward axis (-X); driven by L188System
+{
+	"code": "l188-arm",
+	"class": "BackroomsL188Arm",
+	"tags": [
+		"backrooms-entity"
+	],
+	"weight": 20,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 0.6
+	},
+	"selectionBoxSize": {
+		"x": 0.7,
+		"y": 0.6
+	},
+	"eyeHeight": 0.3,
+	"knockbackResistance": 1,
+	"canClimb": false,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l188-arm"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/188/l188-arm"
+		},
+		"texture": {
+			"base": "backrooms:entity/188/l188-arm"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "reach",
+				"animation": "reach",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 2
+			},
+			{
+				"code": "grab",
+				"animation": "grab",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 3
+			},
+			{
+				"code": "pull",
+				"animation": "pull",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 12
+			},
+			{
+				"code": "recoil",
+				"animation": "recoil",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 60
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "health",
+				"currenthealth": 6,
+				"maxhealth": 6
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:effect/188/recoil",
+		"death": "backrooms:effect/188/recoil"
+	},
+	"drops": []
+}

@@ -1,0 +1,60 @@
+// The End: the navy patterned carpet of the racetrack aisle
+{
+	"code": "end-runway",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/end/runway",
+				"alternates": [
+					{
+						"base": "block/end/runway",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/runway",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/runway",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsStrippable",
+			"properties": {
+				"result": "end-carpet-worn",
+				"item": "carpetfibre"
+			}
+		}
+	]
+}

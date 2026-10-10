@@ -1,0 +1,596 @@
+// Level 3999's food courts: a stall's counter (its colour on the front), a till, napkins and a cup of straws. 6 tickets buy that stall's tray meal (attributes.l3999stall)
+{
+	"code": "l3999-stallcounter",
+	"variantgroups": [
+		{
+			"code": "stall",
+			"states": [
+				"burger",
+				"pizza",
+				"noodles",
+				"taco",
+				"icecream",
+				"pretzel"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-stallcounter-burger-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-burger"
+		},
+		"l3999-stallcounter-burger-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-burger",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-burger-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-burger",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-burger-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-burger",
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pizza-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pizza"
+		},
+		"l3999-stallcounter-pizza-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pizza",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pizza-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pizza",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pizza-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pizza",
+			"rotateY": 90
+		},
+		"l3999-stallcounter-noodles-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-noodles"
+		},
+		"l3999-stallcounter-noodles-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-noodles",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-noodles-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-noodles",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-noodles-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-noodles",
+			"rotateY": 90
+		},
+		"l3999-stallcounter-taco-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-taco"
+		},
+		"l3999-stallcounter-taco-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-taco",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-taco-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-taco",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-taco-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-taco",
+			"rotateY": 90
+		},
+		"l3999-stallcounter-icecream-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-icecream"
+		},
+		"l3999-stallcounter-icecream-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-icecream",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-icecream-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-icecream",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-icecream-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-icecream",
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pretzel-north": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pretzel"
+		},
+		"l3999-stallcounter-pretzel-east": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pretzel",
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pretzel-south": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pretzel",
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pretzel-west": {
+			"base": "backrooms:block/3999/l3999-stallcounter-pretzel",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-stallcounter-burger-north"
+		],
+		"backrooms": [
+			"l3999-stallcounter-burger-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-stallcounter-burger-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-burger-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-burger-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-burger-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pizza-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-pizza-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pizza-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pizza-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-noodles-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-noodles-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-noodles-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-noodles-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-taco-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-taco-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-taco-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-taco-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-icecream-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-icecream-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-icecream-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-icecream-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pretzel-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-pretzel-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pretzel-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pretzel-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-stallcounter-burger-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-burger-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-burger-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-burger-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pizza-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-pizza-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pizza-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pizza-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-noodles-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-noodles-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-noodles-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-noodles-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-taco-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-taco-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-taco-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-taco-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-icecream-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-icecream-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-icecream-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-icecream-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l3999-stallcounter-pretzel-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-stallcounter-pretzel-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-stallcounter-pretzel-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-stallcounter-pretzel-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999stall": {
+			"burger": {
+				"meal": "l3999-traymeal-burger",
+				"cost": 6
+			},
+			"pizza": {
+				"meal": "l3999-traymeal-pizza",
+				"cost": 6
+			},
+			"noodles": {
+				"meal": "l3999-traymeal-noodles",
+				"cost": 6
+			},
+			"taco": {
+				"meal": "l3999-traymeal-taco",
+				"cost": 6
+			},
+			"icecream": {
+				"meal": "l3999-traymeal-icecream",
+				"cost": 6
+			},
+			"pretzel": {
+				"meal": "l3999-traymeal-pretzel",
+				"cost": 6
+			}
+		}
+	}
+}

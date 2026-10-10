@@ -1,0 +1,303 @@
+// Level 974: a 2 x 2 window in a wall (part as seen from the room; side = the way it faces). Behind the glass is a painting of a sky
+{
+	"code": "l974-window",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"bl",
+				"br",
+				"tl",
+				"tr"
+			]
+		},
+		{
+			"code": "painting",
+			"states": [
+				"clouds",
+				"hills",
+				"rainbow",
+				"sunset"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-window-bl-clouds-north": {
+			"base": "backrooms:block/974/l974-window-bl-clouds"
+		},
+		"l974-window-bl-clouds-east": {
+			"base": "backrooms:block/974/l974-window-bl-clouds",
+			"rotateY": 270
+		},
+		"l974-window-bl-clouds-south": {
+			"base": "backrooms:block/974/l974-window-bl-clouds",
+			"rotateY": 180
+		},
+		"l974-window-bl-clouds-west": {
+			"base": "backrooms:block/974/l974-window-bl-clouds",
+			"rotateY": 90
+		},
+		"l974-window-bl-hills-north": {
+			"base": "backrooms:block/974/l974-window-bl-hills"
+		},
+		"l974-window-bl-hills-east": {
+			"base": "backrooms:block/974/l974-window-bl-hills",
+			"rotateY": 270
+		},
+		"l974-window-bl-hills-south": {
+			"base": "backrooms:block/974/l974-window-bl-hills",
+			"rotateY": 180
+		},
+		"l974-window-bl-hills-west": {
+			"base": "backrooms:block/974/l974-window-bl-hills",
+			"rotateY": 90
+		},
+		"l974-window-bl-rainbow-north": {
+			"base": "backrooms:block/974/l974-window-bl-rainbow"
+		},
+		"l974-window-bl-rainbow-east": {
+			"base": "backrooms:block/974/l974-window-bl-rainbow",
+			"rotateY": 270
+		},
+		"l974-window-bl-rainbow-south": {
+			"base": "backrooms:block/974/l974-window-bl-rainbow",
+			"rotateY": 180
+		},
+		"l974-window-bl-rainbow-west": {
+			"base": "backrooms:block/974/l974-window-bl-rainbow",
+			"rotateY": 90
+		},
+		"l974-window-bl-sunset-north": {
+			"base": "backrooms:block/974/l974-window-bl-sunset"
+		},
+		"l974-window-bl-sunset-east": {
+			"base": "backrooms:block/974/l974-window-bl-sunset",
+			"rotateY": 270
+		},
+		"l974-window-bl-sunset-south": {
+			"base": "backrooms:block/974/l974-window-bl-sunset",
+			"rotateY": 180
+		},
+		"l974-window-bl-sunset-west": {
+			"base": "backrooms:block/974/l974-window-bl-sunset",
+			"rotateY": 90
+		},
+		"l974-window-br-clouds-north": {
+			"base": "backrooms:block/974/l974-window-br-clouds"
+		},
+		"l974-window-br-clouds-east": {
+			"base": "backrooms:block/974/l974-window-br-clouds",
+			"rotateY": 270
+		},
+		"l974-window-br-clouds-south": {
+			"base": "backrooms:block/974/l974-window-br-clouds",
+			"rotateY": 180
+		},
+		"l974-window-br-clouds-west": {
+			"base": "backrooms:block/974/l974-window-br-clouds",
+			"rotateY": 90
+		},
+		"l974-window-br-hills-north": {
+			"base": "backrooms:block/974/l974-window-br-hills"
+		},
+		"l974-window-br-hills-east": {
+			"base": "backrooms:block/974/l974-window-br-hills",
+			"rotateY": 270
+		},
+		"l974-window-br-hills-south": {
+			"base": "backrooms:block/974/l974-window-br-hills",
+			"rotateY": 180
+		},
+		"l974-window-br-hills-west": {
+			"base": "backrooms:block/974/l974-window-br-hills",
+			"rotateY": 90
+		},
+		"l974-window-br-rainbow-north": {
+			"base": "backrooms:block/974/l974-window-br-rainbow"
+		},
+		"l974-window-br-rainbow-east": {
+			"base": "backrooms:block/974/l974-window-br-rainbow",
+			"rotateY": 270
+		},
+		"l974-window-br-rainbow-south": {
+			"base": "backrooms:block/974/l974-window-br-rainbow",
+			"rotateY": 180
+		},
+		"l974-window-br-rainbow-west": {
+			"base": "backrooms:block/974/l974-window-br-rainbow",
+			"rotateY": 90
+		},
+		"l974-window-br-sunset-north": {
+			"base": "backrooms:block/974/l974-window-br-sunset"
+		},
+		"l974-window-br-sunset-east": {
+			"base": "backrooms:block/974/l974-window-br-sunset",
+			"rotateY": 270
+		},
+		"l974-window-br-sunset-south": {
+			"base": "backrooms:block/974/l974-window-br-sunset",
+			"rotateY": 180
+		},
+		"l974-window-br-sunset-west": {
+			"base": "backrooms:block/974/l974-window-br-sunset",
+			"rotateY": 90
+		},
+		"l974-window-tl-clouds-north": {
+			"base": "backrooms:block/974/l974-window-tl-clouds"
+		},
+		"l974-window-tl-clouds-east": {
+			"base": "backrooms:block/974/l974-window-tl-clouds",
+			"rotateY": 270
+		},
+		"l974-window-tl-clouds-south": {
+			"base": "backrooms:block/974/l974-window-tl-clouds",
+			"rotateY": 180
+		},
+		"l974-window-tl-clouds-west": {
+			"base": "backrooms:block/974/l974-window-tl-clouds",
+			"rotateY": 90
+		},
+		"l974-window-tl-hills-north": {
+			"base": "backrooms:block/974/l974-window-tl-hills"
+		},
+		"l974-window-tl-hills-east": {
+			"base": "backrooms:block/974/l974-window-tl-hills",
+			"rotateY": 270
+		},
+		"l974-window-tl-hills-south": {
+			"base": "backrooms:block/974/l974-window-tl-hills",
+			"rotateY": 180
+		},
+		"l974-window-tl-hills-west": {
+			"base": "backrooms:block/974/l974-window-tl-hills",
+			"rotateY": 90
+		},
+		"l974-window-tl-rainbow-north": {
+			"base": "backrooms:block/974/l974-window-tl-rainbow"
+		},
+		"l974-window-tl-rainbow-east": {
+			"base": "backrooms:block/974/l974-window-tl-rainbow",
+			"rotateY": 270
+		},
+		"l974-window-tl-rainbow-south": {
+			"base": "backrooms:block/974/l974-window-tl-rainbow",
+			"rotateY": 180
+		},
+		"l974-window-tl-rainbow-west": {
+			"base": "backrooms:block/974/l974-window-tl-rainbow",
+			"rotateY": 90
+		},
+		"l974-window-tl-sunset-north": {
+			"base": "backrooms:block/974/l974-window-tl-sunset"
+		},
+		"l974-window-tl-sunset-east": {
+			"base": "backrooms:block/974/l974-window-tl-sunset",
+			"rotateY": 270
+		},
+		"l974-window-tl-sunset-south": {
+			"base": "backrooms:block/974/l974-window-tl-sunset",
+			"rotateY": 180
+		},
+		"l974-window-tl-sunset-west": {
+			"base": "backrooms:block/974/l974-window-tl-sunset",
+			"rotateY": 90
+		},
+		"l974-window-tr-clouds-north": {
+			"base": "backrooms:block/974/l974-window-tr-clouds"
+		},
+		"l974-window-tr-clouds-east": {
+			"base": "backrooms:block/974/l974-window-tr-clouds",
+			"rotateY": 270
+		},
+		"l974-window-tr-clouds-south": {
+			"base": "backrooms:block/974/l974-window-tr-clouds",
+			"rotateY": 180
+		},
+		"l974-window-tr-clouds-west": {
+			"base": "backrooms:block/974/l974-window-tr-clouds",
+			"rotateY": 90
+		},
+		"l974-window-tr-hills-north": {
+			"base": "backrooms:block/974/l974-window-tr-hills"
+		},
+		"l974-window-tr-hills-east": {
+			"base": "backrooms:block/974/l974-window-tr-hills",
+			"rotateY": 270
+		},
+		"l974-window-tr-hills-south": {
+			"base": "backrooms:block/974/l974-window-tr-hills",
+			"rotateY": 180
+		},
+		"l974-window-tr-hills-west": {
+			"base": "backrooms:block/974/l974-window-tr-hills",
+			"rotateY": 90
+		},
+		"l974-window-tr-rainbow-north": {
+			"base": "backrooms:block/974/l974-window-tr-rainbow"
+		},
+		"l974-window-tr-rainbow-east": {
+			"base": "backrooms:block/974/l974-window-tr-rainbow",
+			"rotateY": 270
+		},
+		"l974-window-tr-rainbow-south": {
+			"base": "backrooms:block/974/l974-window-tr-rainbow",
+			"rotateY": 180
+		},
+		"l974-window-tr-rainbow-west": {
+			"base": "backrooms:block/974/l974-window-tr-rainbow",
+			"rotateY": 90
+		},
+		"l974-window-tr-sunset-north": {
+			"base": "backrooms:block/974/l974-window-tr-sunset"
+		},
+		"l974-window-tr-sunset-east": {
+			"base": "backrooms:block/974/l974-window-tr-sunset",
+			"rotateY": 270
+		},
+		"l974-window-tr-sunset-south": {
+			"base": "backrooms:block/974/l974-window-tr-sunset",
+			"rotateY": 180
+		},
+		"l974-window-tr-sunset-west": {
+			"base": "backrooms:block/974/l974-window-tr-sunset",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-window-bl-clouds-north"
+		],
+		"backrooms": [
+			"l974-window-bl-clouds-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drops": [],
+	"attributes": {
+		"l974structure": true
+	}
+}

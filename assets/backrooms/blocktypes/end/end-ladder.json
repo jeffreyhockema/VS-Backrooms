@@ -1,0 +1,510 @@
+// The End: ladders standing against the side named. rolling: a maple library ladder, 2 tall (lower, upper), leaning onto the tall stack beyond that side (the stack facing back toward the ladder), hooked over its shelf; wall: a steel ladder fixed to the wall on that side (lower; upper is the same). Climbable
+{
+	"code": "end-ladder",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"rolling",
+				"wall"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-rolling-lower-north",
+			"*-wall-lower-north"
+		],
+		"decorative": [
+			"*-rolling-lower-north",
+			"*-wall-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-rolling-lower-north": {
+			"base": "block/end/end-ladder-rolling-lower",
+			"rotateY": 0
+		},
+		"*-rolling-lower-east": {
+			"base": "block/end/end-ladder-rolling-lower",
+			"rotateY": 270
+		},
+		"*-rolling-lower-south": {
+			"base": "block/end/end-ladder-rolling-lower",
+			"rotateY": 180
+		},
+		"*-rolling-lower-west": {
+			"base": "block/end/end-ladder-rolling-lower",
+			"rotateY": 90
+		},
+		"*-rolling-upper-north": {
+			"base": "block/end/end-ladder-rolling-upper",
+			"rotateY": 0
+		},
+		"*-rolling-upper-east": {
+			"base": "block/end/end-ladder-rolling-upper",
+			"rotateY": 270
+		},
+		"*-rolling-upper-south": {
+			"base": "block/end/end-ladder-rolling-upper",
+			"rotateY": 180
+		},
+		"*-rolling-upper-west": {
+			"base": "block/end/end-ladder-rolling-upper",
+			"rotateY": 90
+		},
+		"*-wall-lower-north": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 0
+		},
+		"*-wall-lower-east": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 270
+		},
+		"*-wall-lower-south": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 180
+		},
+		"*-wall-lower-west": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 90
+		},
+		"*-wall-upper-north": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 0
+		},
+		"*-wall-upper-east": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 270
+		},
+		"*-wall-upper-south": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 180
+		},
+		"*-wall-upper-west": {
+			"base": "block/end/end-ladder-wall",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"climbable": true,
+	"collisionboxesByType": {
+		"*-rolling-lower-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525
+			}
+		],
+		"*-rolling-lower-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 270
+			}
+		],
+		"*-rolling-lower-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 180
+			}
+		],
+		"*-rolling-lower-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 90
+			}
+		],
+		"*-wall-lower-north": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25
+			}
+		],
+		"*-wall-lower-east": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 270
+			}
+		],
+		"*-wall-lower-south": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 180
+			}
+		],
+		"*-wall-lower-west": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 90
+			}
+		],
+		"*-rolling-upper-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875
+			}
+		],
+		"*-rolling-upper-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 270
+			}
+		],
+		"*-rolling-upper-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 180
+			}
+		],
+		"*-rolling-upper-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 90
+			}
+		],
+		"*-wall-upper-north": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25
+			}
+		],
+		"*-wall-upper-east": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 270
+			}
+		],
+		"*-wall-upper-south": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 180
+			}
+		],
+		"*-wall-upper-west": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"*-rolling-lower-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525
+			}
+		],
+		"*-rolling-lower-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 270
+			}
+		],
+		"*-rolling-lower-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 180
+			}
+		],
+		"*-rolling-lower-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.046875,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.525,
+				"rotateY": 90
+			}
+		],
+		"*-wall-lower-north": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25
+			}
+		],
+		"*-wall-lower-east": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 270
+			}
+		],
+		"*-wall-lower-south": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 180
+			}
+		],
+		"*-wall-lower-west": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 90
+			}
+		],
+		"*-rolling-upper-north": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875
+			}
+		],
+		"*-rolling-upper-east": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 270
+			}
+		],
+		"*-rolling-upper-south": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 180
+			}
+		],
+		"*-rolling-upper-west": [
+			{
+				"x1": 0.12,
+				"y1": 0,
+				"z1": 0.0,
+				"x2": 0.88,
+				"y2": 1,
+				"z2": 0.196875,
+				"rotateY": 90
+			}
+		],
+		"*-wall-upper-north": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25
+			}
+		],
+		"*-wall-upper-east": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 270
+			}
+		],
+		"*-wall-upper-south": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 180
+			}
+		],
+		"*-wall-upper-west": [
+			{
+				"x1": 0.15,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.85,
+				"y2": 1,
+				"z2": 0.25,
+				"rotateY": 90
+			}
+		]
+	},
+	"soundsByType": {
+		"*-wall-*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		}
+	},
+	"dropsByType": {
+		"*-rolling-lower-*": [
+			{
+				"type": "block",
+				"code": "game:ladder-wood-oak-north",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*-rolling-*": [
+			{
+				"type": "block",
+				"code": "game:ladder-wood-oak-north",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-wall-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		]
+	}
+}

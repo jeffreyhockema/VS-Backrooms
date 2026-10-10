@@ -1,0 +1,175 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"exitdoor-upper": "backrooms:block/fun/exitdoor-upper",
+		"exitsign": "backrooms:block/fun/exitsign"
+	},
+	"elements": [
+		{
+			"name": "Door",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#exitdoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignN",
+			"from": [
+				5,
+				9.5,
+				-0.4
+			],
+			"to": [
+				11,
+				13,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignE",
+			"from": [
+				16,
+				9.5,
+				5
+			],
+			"to": [
+				16.4,
+				13,
+				11
+			],
+			"faces": {
+				"east": {
+					"texture": "#exitsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignS",
+			"from": [
+				5,
+				9.5,
+				16
+			],
+			"to": [
+				11,
+				13,
+				16.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignW",
+			"from": [
+				-0.3999999999999986,
+				9.5,
+				5
+			],
+			"to": [
+				0,
+				13,
+				11
+			],
+			"faces": {
+				"west": {
+					"texture": "#exitsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,354 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"railwhite": "backrooms:block/fun/railwhite"
+	},
+	"elements": [
+		{
+			"name": "Rail1",
+			"from": [
+				0,
+				5.5,
+				7.5
+			],
+			"to": [
+				16,
+				6.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail2",
+			"from": [
+				0,
+				10.5,
+				7.5
+			],
+			"to": [
+				16,
+				11.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail3",
+			"from": [
+				0,
+				15,
+				7.2
+			],
+			"to": [
+				16,
+				16,
+				8.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1
+					]
+				},
+				"south": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1
+					]
+				},
+				"up": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6000000000000005
+					]
+				},
+				"down": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "Post1",
+			"from": [
+				3.5,
+				0,
+				7.5
+			],
+			"to": [
+				4.5,
+				15,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"east": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"south": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"west": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"up": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Post2",
+			"from": [
+				11.5,
+				0,
+				7.5
+			],
+			"to": [
+				12.5,
+				15,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"east": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"south": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"west": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15
+					]
+				},
+				"up": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#railwhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

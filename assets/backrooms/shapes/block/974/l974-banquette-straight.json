@@ -1,0 +1,397 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cushion": "backrooms:block/974/cushion",
+		"pinkwood": "backrooms:block/974/pinkwood"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				6,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"east": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						13,
+						6
+					]
+				},
+				"south": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"west": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						13,
+						6
+					]
+				},
+				"up": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"down": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				6,
+				3
+			],
+			"to": [
+				16,
+				8,
+				13.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						10.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						10.6,
+						2
+					]
+				},
+				"up": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						16,
+						10.6
+					]
+				},
+				"down": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						16,
+						10.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0,
+				6.4,
+				2.6
+			],
+			"to": [
+				16,
+				7.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1999999999999993
+					]
+				},
+				"east": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1999999999999993
+					]
+				},
+				"west": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "BackBoard",
+			"from": [
+				0,
+				6,
+				14
+			],
+			"to": [
+				16,
+				18,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						2,
+						12
+					]
+				},
+				"south": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"west": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						2,
+						12
+					]
+				},
+				"up": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0,
+				18,
+				13.6
+			],
+			"to": [
+				16,
+				18.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.4000000000000004
+					]
+				},
+				"down": {
+					"texture": "#pinkwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2.4000000000000004
+					]
+				}
+			}
+		},
+		{
+			"name": "BackCushion",
+			"from": [
+				0.4,
+				8.4,
+				12.4
+			],
+			"to": [
+				15.6,
+				17.4,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						15.2,
+						8.999999999999998
+					]
+				},
+				"east": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						8.999999999999998
+					]
+				},
+				"south": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						15.2,
+						8.999999999999998
+					]
+				},
+				"west": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						8.999999999999998
+					]
+				},
+				"up": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						15.2,
+						1.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#cushion",
+					"uv": [
+						0,
+						0,
+						15.2,
+						1.5999999999999996
+					]
+				}
+			}
+		}
+	]
+}

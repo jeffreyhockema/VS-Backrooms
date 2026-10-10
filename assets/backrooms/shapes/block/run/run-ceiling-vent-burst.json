@@ -1,0 +1,521 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiltile": "backrooms:block/run/ceiltile",
+		"duct": "backrooms:block/run/duct",
+		"ventmetal": "backrooms:block/run/ventmetal"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				3,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Duct",
+			"from": [
+				1,
+				3,
+				1
+			],
+			"to": [
+				15,
+				3.01,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "RimN",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"south": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"up": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "RimS",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"south": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"up": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "RimW",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				1,
+				3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"south": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"up": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"down": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "RimE",
+			"from": [
+				15,
+				0,
+				1
+			],
+			"to": [
+				16,
+				3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"south": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"up": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"down": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				1,
+				1.5,
+				1
+			],
+			"to": [
+				15,
+				2.3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				},
+				"east": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				},
+				"south": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				},
+				"west": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						0.7999999999999998
+					]
+				},
+				"up": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#ventmetal",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				2,
+				15
+			],
+			"rotationX": -70
+		},
+		{
+			"name": "GrilleSlats",
+			"from": [
+				1.5,
+				1.2,
+				1.5
+			],
+			"to": [
+				14.5,
+				1.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				2,
+				15
+			],
+			"rotationX": -70
+		}
+	]
+}

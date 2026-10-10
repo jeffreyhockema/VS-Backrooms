@@ -1,0 +1,71 @@
+// Level Fun: twisted crepe streamers across the ceiling
+{
+	"code": "fun-streamer",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"redyellow-ns",
+				"redyellow-ew",
+				"bluegreen-ns",
+				"bluegreen-ew",
+				"pinkpurple-ns",
+				"pinkpurple-ew"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-redyellow-ns": {
+			"base": "block/fun/fun-streamer-redyellow-ns"
+		},
+		"*-redyellow-ew": {
+			"base": "block/fun/fun-streamer-redyellow-ew"
+		},
+		"*-bluegreen-ns": {
+			"base": "block/fun/fun-streamer-bluegreen-ns"
+		},
+		"*-bluegreen-ew": {
+			"base": "block/fun/fun-streamer-bluegreen-ew"
+		},
+		"*-pinkpurple-ns": {
+			"base": "block/fun/fun-streamer-pinkpurple-ns"
+		},
+		"*-pinkpurple-ew": {
+			"base": "block/fun/fun-streamer-pinkpurple-ew"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-redyellow-ns"
+		],
+		"decorative": [
+			"*-redyellow-ns"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.75,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": []
+}

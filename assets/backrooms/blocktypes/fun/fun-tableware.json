@@ -1,0 +1,59 @@
+// Level Fun: what is laid on a party table (placed in the block above it)
+{
+	"code": "fun-tableware",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plates",
+				"cups",
+				"mess"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-plates": {
+			"base": "block/fun/fun-tableware-plates"
+		},
+		"*-cups": {
+			"base": "block/fun/fun-tableware-cups"
+		},
+		"*-mess": {
+			"base": "block/fun/fun-tableware-mess"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-plates"
+		],
+		"decorative": [
+			"*-plates"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.05,
+		"y1": -0.18,
+		"z1": 0.05,
+		"x2": 0.95,
+		"y2": 0.02,
+		"z2": 0.95
+	},
+	"drops": []
+}

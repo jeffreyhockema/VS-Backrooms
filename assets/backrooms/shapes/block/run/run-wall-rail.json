@@ -1,0 +1,408 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"railtop": "backrooms:block/run/railtop",
+		"railwood": "backrooms:block/run/railwood",
+		"steelframe": "backrooms:block/run/steelframe",
+		"wallbase": "backrooms:block/run/wallbase"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wallbase",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail",
+			"from": [
+				0,
+				12,
+				-3
+			],
+			"to": [
+				16,
+				14,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "RailTop",
+			"from": [
+				0,
+				14,
+				-2.7
+			],
+			"to": [
+				16,
+				14.5,
+				-1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#railtop",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#railtop",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#railtop",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000001
+					]
+				},
+				"east": {
+					"texture": "#railtop",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#railtop",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailBottom",
+			"from": [
+				0,
+				11.6,
+				-2.7
+			],
+			"to": [
+				16,
+				12,
+				-1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000001
+					]
+				},
+				"east": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#railwood",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket1",
+			"from": [
+				3,
+				11,
+				-2
+			],
+			"to": [
+				4,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket2",
+			"from": [
+				12,
+				11,
+				-2
+			],
+			"to": [
+				13,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						3
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		}
+	]
+}

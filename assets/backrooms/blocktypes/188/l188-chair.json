@@ -1,0 +1,151 @@
+// Level 188: a desk chair in charcoal fabric on chrome legs (the sitter faces the side)
+{
+	"code": "l188-chair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-chair-north": {
+			"base": "backrooms:block/188/l188-chair"
+		},
+		"l188-chair-east": {
+			"base": "backrooms:block/188/l188-chair",
+			"rotateY": 270
+		},
+		"l188-chair-south": {
+			"base": "backrooms:block/188/l188-chair",
+			"rotateY": 180
+		},
+		"l188-chair-west": {
+			"base": "backrooms:block/188/l188-chair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-chair-north"
+		],
+		"backrooms": [
+			"l188-chair-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-chair-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"l188-chair-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l188-chair-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l188-chair-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-chair-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"l188-chair-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l188-chair-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l188-chair-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}

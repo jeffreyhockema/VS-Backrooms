@@ -1,0 +1,67 @@
+// Gymnasium double doors painted with a tiger, a parrot and a giraffe, at the back of a parking garage in Level 11: to a Level Fun waiting room (two-way)
+{
+	"code": "fun-door-mascot",
+	"variantgroups": [
+		{
+			"code": "leaf",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-lower": {
+			"base": "block/fun/fun-door-mascot-l-lower"
+		},
+		"*-l-upper": {
+			"base": "block/fun/fun-door-mascot-l-upper"
+		},
+		"*-r-lower": {
+			"base": "block/fun/fun-door-mascot-r-lower"
+		},
+		"*-r-upper": {
+			"base": "block/fun/fun-door-mascot-r-upper"
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "mascotdoor"
+			}
+		}
+	]
+}

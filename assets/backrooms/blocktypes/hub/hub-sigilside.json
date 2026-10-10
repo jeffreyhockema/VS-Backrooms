@@ -1,0 +1,81 @@
+// The carved border either side of a door's sigil (above l-4 and r-4), face to the north
+{
+	"code": "hub-sigilside",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"decorative": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/hub/sigilside-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/hub/sigilside-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/hub/sigilside-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/hub/sigilside-l",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/hub/sigilside-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/hub/sigilside-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/hub/sigilside-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/hub/sigilside-r",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

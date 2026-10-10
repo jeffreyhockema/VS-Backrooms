@@ -1,0 +1,69 @@
+// Level Fun: a stencilled CREW ONLY plate on the service corridors' steel
+{
+	"code": "fun-steel",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"sign"
+			]
+		},
+		{
+			"code": "sign",
+			"states": [
+				"crewonly"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"construction": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"fun-steel-sign-crewonly-north": {
+			"base": "block/fun/fun-steel-sign-crewonly",
+			"rotateY": 0
+		},
+		"fun-steel-sign-crewonly-east": {
+			"base": "block/fun/fun-steel-sign-crewonly",
+			"rotateY": 270
+		},
+		"fun-steel-sign-crewonly-south": {
+			"base": "block/fun/fun-steel-sign-crewonly",
+			"rotateY": 180
+		},
+		"fun-steel-sign-crewonly-west": {
+			"base": "block/fun/fun-steel-sign-crewonly",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

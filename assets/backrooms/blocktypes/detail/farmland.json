@@ -26,6 +26,7 @@
 	},
 	"lightAbsorption": 99,
 	"resistance": 1,
+	"fertility": 60,
 	"drops": [
 		{
 			"type": "block",

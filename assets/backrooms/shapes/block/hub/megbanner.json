@@ -1,0 +1,389 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"megbanner": "backrooms:block/hub/megbanner",
+		"megnavy": "backrooms:block/hub/megnavy",
+		"rod": "backrooms:block/hub/rod"
+	},
+	"elements": [
+		{
+			"name": "Rod",
+			"from": [
+				0.5,
+				15,
+				13.4
+			],
+			"to": [
+				15.5,
+				15.8,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						0.5,
+						0.2,
+						15.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						1.8,
+						0.2,
+						2.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						0.5,
+						0.2,
+						15.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						13.4,
+						0.2,
+						14.2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						0.5,
+						13.4,
+						15.5,
+						14.2
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						0.5,
+						1.8,
+						15.5,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "BracketL",
+			"from": [
+				1,
+				14.6,
+				14.2
+			],
+			"to": [
+				2,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						14,
+						0,
+						15,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						1,
+						0,
+						2,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						14.2,
+						0,
+						16,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						1,
+						14.2,
+						2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						1,
+						0,
+						2,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BracketR",
+			"from": [
+				14,
+				14.6,
+				14.2
+			],
+			"to": [
+				15,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						1,
+						0,
+						2,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						14,
+						0,
+						15,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						14.2,
+						0,
+						16,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						14,
+						14.2,
+						15,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rod",
+					"uv": [
+						14,
+						0,
+						15,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "ClothTop",
+			"from": [
+				1.5,
+				6,
+				13.5
+			],
+			"to": [
+				14.5,
+				15,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#megbanner",
+					"uv": [
+						0,
+						0,
+						16,
+						10.7
+					]
+				}
+			}
+		},
+		{
+			"name": "ClothTopBack",
+			"from": [
+				1.5,
+				6,
+				13.5
+			],
+			"to": [
+				14.5,
+				15,
+				14
+			],
+			"faces": {
+				"south": {
+					"texture": "#megnavy",
+					"uv": [
+						1.5,
+						1,
+						14.5,
+						10
+					]
+				},
+				"east": {
+					"texture": "#megnavy",
+					"uv": [
+						2,
+						1,
+						2.5,
+						10
+					]
+				},
+				"west": {
+					"texture": "#megnavy",
+					"uv": [
+						13.5,
+						1,
+						14,
+						10
+					]
+				},
+				"up": {
+					"texture": "#megnavy",
+					"uv": [
+						1.5,
+						13.5,
+						14.5,
+						14
+					]
+				},
+				"down": {
+					"texture": "#megnavy",
+					"uv": [
+						1.5,
+						2,
+						14.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ClothLow",
+			"from": [
+				1.5,
+				-9,
+				13.1
+			],
+			"to": [
+				14.5,
+				6,
+				13.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#megbanner",
+					"uv": [
+						0,
+						10.7,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				6,
+				13.5
+			],
+			"rotationX": 4
+		},
+		{
+			"name": "ClothLowBack",
+			"from": [
+				1.5,
+				-9,
+				13.1
+			],
+			"to": [
+				14.5,
+				6,
+				13.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#megnavy",
+					"uv": [
+						1.5,
+						10,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#megnavy",
+					"uv": [
+						2.4,
+						10,
+						2.9,
+						16
+					]
+				},
+				"west": {
+					"texture": "#megnavy",
+					"uv": [
+						13.1,
+						10,
+						13.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#megnavy",
+					"uv": [
+						1.5,
+						2.4,
+						14.5,
+						2.9
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				6,
+				13.5
+			],
+			"rotationX": 4
+		}
+	]
+}

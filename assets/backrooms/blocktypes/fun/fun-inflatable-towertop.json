@@ -1,0 +1,76 @@
+// Level Fun: a bounce house's corner towertop
+{
+	"code": "fun-inflatable",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"towertop"
+			]
+		},
+		{
+			"code": "colour",
+			"states": [
+				"yellow",
+				"blue",
+				"red",
+				"green"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-yellow": {
+			"base": "block/fun/fun-inflatable-towertop-yellow"
+		},
+		"*-blue": {
+			"base": "block/fun/fun-inflatable-towertop-blue"
+		},
+		"*-red": {
+			"base": "block/fun/fun-inflatable-towertop-red"
+		},
+		"*-green": {
+			"base": "block/fun/fun-inflatable-towertop-green"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.95,
+		"z2": 0.94
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 0.94,
+		"y2": 0.95,
+		"z2": 0.94
+	}
+}

@@ -1,0 +1,285 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"inflatable-yellow": "backrooms:block/fun/inflatable-yellow"
+	},
+	"elements": [
+		{
+			"name": "Tube0",
+			"from": [
+				0,
+				0.0,
+				5.5
+			],
+			"to": [
+				16,
+				4.4,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tube1",
+			"from": [
+				0,
+				3.9,
+				5.0
+			],
+			"to": [
+				16,
+				8.3,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6.0,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6.0,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tube2",
+			"from": [
+				0,
+				7.8,
+				5.5
+			],
+			"to": [
+				16,
+				12.2,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.3999999999999995
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.3999999999999995
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.3999999999999995
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.3999999999999995
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tube3",
+			"from": [
+				0,
+				11.7,
+				5.0
+			],
+			"to": [
+				16,
+				16.1,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.400000000000002
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6.0,
+						4.400000000000002
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						4.400000000000002
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6.0,
+						4.400000000000002
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				}
+			}
+		}
+	]
+}

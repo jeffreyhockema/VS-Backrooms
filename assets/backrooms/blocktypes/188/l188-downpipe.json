@@ -1,0 +1,98 @@
+// Level 188: a grey downpipe with brackets on the north façade (rel 2-20, wall-hung in the courtyard cell)
+{
+	"code": "l188-downpipe",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-downpipe-north": {
+			"base": "backrooms:block/188/l188-downpipe"
+		},
+		"l188-downpipe-east": {
+			"base": "backrooms:block/188/l188-downpipe",
+			"rotateY": 270
+		},
+		"l188-downpipe-south": {
+			"base": "backrooms:block/188/l188-downpipe",
+			"rotateY": 180
+		},
+		"l188-downpipe-west": {
+			"base": "backrooms:block/188/l188-downpipe",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-downpipe-north"
+		],
+		"backrooms": [
+			"l188-downpipe-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l188-downpipe-north": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.72,
+			"x2": 0.62,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-downpipe-east": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.72,
+			"x2": 0.62,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-downpipe-south": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.72,
+			"x2": 0.62,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-downpipe-west": {
+			"x1": 0.38,
+			"y1": 0,
+			"z1": 0.72,
+			"x2": 0.62,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"drops": []
+}

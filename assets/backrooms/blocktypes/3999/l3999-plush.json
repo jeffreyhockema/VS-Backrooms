@@ -1,0 +1,406 @@
+// Level 3999's prizes: a plush toy 8 px tall (a brown bear, an orange cat, a green alien, a yellow smiley ball), won from a claw machine or a prize counter; set it down anywhere. Cute (backroomsCute)
+{
+	"code": "l3999-plush",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"bear",
+				"cat",
+				"alien",
+				"smiley"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-plush-bear-north": {
+			"base": "backrooms:block/3999/l3999-plush-bear"
+		},
+		"l3999-plush-bear-east": {
+			"base": "backrooms:block/3999/l3999-plush-bear",
+			"rotateY": 270
+		},
+		"l3999-plush-bear-south": {
+			"base": "backrooms:block/3999/l3999-plush-bear",
+			"rotateY": 180
+		},
+		"l3999-plush-bear-west": {
+			"base": "backrooms:block/3999/l3999-plush-bear",
+			"rotateY": 90
+		},
+		"l3999-plush-cat-north": {
+			"base": "backrooms:block/3999/l3999-plush-cat"
+		},
+		"l3999-plush-cat-east": {
+			"base": "backrooms:block/3999/l3999-plush-cat",
+			"rotateY": 270
+		},
+		"l3999-plush-cat-south": {
+			"base": "backrooms:block/3999/l3999-plush-cat",
+			"rotateY": 180
+		},
+		"l3999-plush-cat-west": {
+			"base": "backrooms:block/3999/l3999-plush-cat",
+			"rotateY": 90
+		},
+		"l3999-plush-alien-north": {
+			"base": "backrooms:block/3999/l3999-plush-alien"
+		},
+		"l3999-plush-alien-east": {
+			"base": "backrooms:block/3999/l3999-plush-alien",
+			"rotateY": 270
+		},
+		"l3999-plush-alien-south": {
+			"base": "backrooms:block/3999/l3999-plush-alien",
+			"rotateY": 180
+		},
+		"l3999-plush-alien-west": {
+			"base": "backrooms:block/3999/l3999-plush-alien",
+			"rotateY": 90
+		},
+		"l3999-plush-smiley-north": {
+			"base": "backrooms:block/3999/l3999-plush-smiley"
+		},
+		"l3999-plush-smiley-east": {
+			"base": "backrooms:block/3999/l3999-plush-smiley",
+			"rotateY": 270
+		},
+		"l3999-plush-smiley-south": {
+			"base": "backrooms:block/3999/l3999-plush-smiley",
+			"rotateY": 180
+		},
+		"l3999-plush-smiley-west": {
+			"base": "backrooms:block/3999/l3999-plush-smiley",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"l3999-plush-bear-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-bear-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-bear-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-bear-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-cat-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-cat-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-cat-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-cat-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-alien-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-alien-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-alien-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-alien-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-smiley-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-smiley-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-smiley-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-smiley-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-plush-bear-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-bear-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-bear-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-bear-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-cat-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-cat-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-cat-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-cat-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-alien-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-alien-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-alien-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-alien-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l3999-plush-smiley-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		},
+		"l3999-plush-smiley-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l3999-plush-smiley-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l3999-plush-smiley-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"behaviors": [
+		{
+			"name": "HorizontalOrientable",
+			"properties": {
+				"dropBlockFace": "north"
+			}
+		}
+	],
+	"attributes": {
+		"backroomsCute": true
+	},
+	"heldTpIdleAnimation": "holdbothhandslarge"
+}

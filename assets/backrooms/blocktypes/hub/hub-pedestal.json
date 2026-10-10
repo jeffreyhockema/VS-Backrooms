@@ -1,0 +1,87 @@
+// The Tower's museum rows: an artifact under a glass bell on a marble pedestal. Breaking one brings the Keymaster
+{
+	"code": "hub-pedestal",
+	"variantgroups": [
+		{
+			"code": "artifact",
+			"states": [
+				"scaraback",
+				"squidjar",
+				"noodle",
+				"clayfigure",
+				"radio",
+				"crownshard",
+				"levelkey",
+				"megbadge"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"renderpass": "Transparent",
+	"shapeByType": {
+		"*-scaraback": {
+			"base": "block/hub/pedestal-scaraback"
+		},
+		"*-squidjar": {
+			"base": "block/hub/pedestal-squidjar"
+		},
+		"*-noodle": {
+			"base": "block/hub/pedestal-noodle"
+		},
+		"*-clayfigure": {
+			"base": "block/hub/pedestal-clayfigure"
+		},
+		"*-radio": {
+			"base": "block/hub/pedestal-radio"
+		},
+		"*-crownshard": {
+			"base": "block/hub/pedestal-crownshard"
+		},
+		"*-levelkey": {
+			"base": "block/hub/pedestal-levelkey"
+		},
+		"*-megbadge": {
+			"base": "block/hub/pedestal-megbadge"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionbox": {
+		"x1": 0.16,
+		"y1": 0,
+		"z1": 0.16,
+		"x2": 0.84,
+		"y2": 1,
+		"z2": 0.84
+	},
+	"selectionbox": {
+		"x1": 0.16,
+		"y1": 0,
+		"z1": 0.16,
+		"x2": 0.84,
+		"y2": 1.4,
+		"z2": 0.84
+	}
+}

@@ -1,0 +1,49 @@
+// Level 3999: the giant 3999 sign of a junction plaza, 3 blocks wide and 2 tall, hanging on four chains below its block (place it under the ceiling); it reads from the north and the south (light 14)
+{
+	"code": "l3999-sign3999",
+	"shape": {
+		"base": "backrooms:block/3999/l3999-sign3999"
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-sign3999"
+		],
+		"backrooms": [
+			"l3999-sign3999"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionbox": {
+		"x1": -0.9,
+		"y1": -1.75,
+		"z1": 0.38,
+		"x2": 1.9,
+		"y2": 1,
+		"z2": 0.62
+	},
+	"collisionbox": null,
+	"lightHsv": [
+		62,
+		7,
+		14
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

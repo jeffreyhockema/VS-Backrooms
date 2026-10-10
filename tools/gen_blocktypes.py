@@ -6,6 +6,8 @@ Blocks for Levels 0-2 are hand-written in assets/backrooms/blocktypes.
 import json
 import os
 
+import fire_fx
+
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "assets", "backrooms", "blocktypes")
 
@@ -31,6 +33,41 @@ CEILING_DROPS = [
     # Crumbled gypsum: enough to mark a wall or two
     {"type": "item", "code": "chalk", "quantity": {"avg": 0.12, "var": 0}},
 ]
+
+
+# ---- Flames, fire, smoke and steam (offsets from the top middle of each block's first collision box) ----
+
+def _sconce_flames():
+    """The hotel sconce panel carries a candle on each of its four faces, its top 12/16 up and 3/16 out."""
+    return [fire_fx.flame(dx, -0.25, dz) for dx, dz in ((0, -0.6875), (0.6875, 0), (0, 0.6875), (-0.6875, 0))]
+
+
+def _chandelier_flames():
+    """The chandelier's eight candles on its ring, their tops 8.5/16 up (the box tops out at 1)."""
+    return [fire_fx.flame(x / 16 - 0.5, 8.5 / 16 - 1, z / 16 - 0.5, quantity=0.08)
+            for x, z in ((-3, -3), (8, -4), (19, -3), (-4, 8), (20, 8), (-3, 19), (8, 20), (19, 19))]
+
+
+# Boilers and furnaces: the box (0.06-0.94, 0.125-0.94) puts the top middle at x 0.5, z 0.5325
+_MID_Z = (0.125 + 0.94) / 2
+
+
+def _furnace_fx(side):
+    """Fire licking behind the glowing door (2-9/16 up, 1.6/16 from the north face), now and then a spark out of it,
+    and a thin smoke off the hood."""
+    x, z = fire_fx.turn(0.5, 0.06, side)
+    out_x, out_z = fire_fx.turn(0.5, -0.5, side)
+    out_x, out_z = (out_x - 0.5) * 0.3, (out_z - 0.5) * 0.3
+    along = (0.17, 0.04, 0.01) if side in ("north", "south") else (0.01, 0.04, 0.17)
+    return [fire_fx.fire(x - 0.5, -0.8, z - _MID_Z, spread=along, quantity=0.3, size=0.14, rise=0.06),
+            fire_fx.embers(x - 0.5, -0.78, z - _MID_Z, spread=along, quantity=0.006, velocity=(out_x, 0.3, out_z)),
+            fire_fx.smoke(0, 0, 0, spread=0.3, quantity=0.02, life=4, value=55, alpha=110)]
+
+
+def _boiler_fx(side):
+    """Steam wisping from the collar where the flue leaves the boiler (26/16 up, at 8, 9 on the north-facing model)."""
+    x, z = fire_fx.turn(0.5, 9 / 16, side)
+    return [fire_fx.steam(x - 0.5, 26 / 16 - 1, z - _MID_Z, quantity=0.05)]
 
 
 def threshold(kind):
@@ -244,6 +281,7 @@ def level5():
         "textures": {"all": {"base": "block/level5/hotelwall-panel"}},
         "lightHsvByType": {"*-sconce": [6, 5, 11]},
         "resistance": 2, "lightAbsorption": 99, "lightAbsorptionByType": {"*-sconce": 0}, "sounds": WOOD,
+        "particlePropertiesByType": {"*-sconce": _sconce_flames()},
     }
     write("level5", "hotelfixture", fixture, "Hotel wall panels with a candle sconce, a portrait, or The Beverly Room's placard")
     cube("level5", "hotelcarpet", "block/level5/hotelcarpet-{type}", material="Cloth", sounds=CLOTH, states=["damask", "maroon", "lobby"],
@@ -279,7 +317,8 @@ def level5():
     }
     write("level5", "domelight", dome, "Flush dome lights along the corridor ceilings")
     shaped("level5", "chandelier", "block/chandelier", material="Metal", sounds=GLASS, oriented=False,
-           comment="Great chandelier in the grand rooms", box=(0.25, 0, 0.25, 0.75, 1, 0.75), lightHsv=[6, 4, 18])
+           comment="Great chandelier in the grand rooms", box=(0.25, 0, 0.25, 0.75, 1, 0.75), lightHsv=[6, 4, 18],
+           particleProperties=_chandelier_flames())
     shaped("level5", "bed-head", "block/bed-head", material="Cloth", sounds=CLOTH, comment="Guest bed, head end", box=(0, 0, 0, 1, 0.6, 1))
     shaped("level5", "bed-foot", "block/bed-foot", material="Cloth", sounds=CLOTH, comment="Guest bed, foot end", box=(0, 0, 0, 1, 0.6, 1))
     shaped("level5", "nightstand", "block/nightstand", comment="Nightstand with a lamp", box=(0.125, 0, 0.25, 0.875, 0.65, 0.875), lightHsv=[6, 5, 9])
@@ -290,9 +329,11 @@ def level5():
     shaped("level5", "mahjongtable", "block/mahjongtable", oriented=False, comment="The Beverly Room's Art Deco table, with an unfinished game of Mahjong", box=(0, 0, 0, 1, 0.85, 1))
     shaped("level5", "turntable", "block/turntable", oriented=False, comment="A turntable playing jazz that drifts nearer and farther",
            box=(0.125, 0, 0.125, 0.875, 0.65, 0.875), sounds_override=None)
-    shaped("level5", "boiler", "block/boiler", material="Metal", sounds=METAL, comment="Boiler", box=(0.06, 0, 0.125, 0.94, 1, 0.94))
+    shaped("level5", "boiler", "block/boiler", material="Metal", sounds=METAL, comment="Boiler", box=(0.06, 0, 0.125, 0.94, 1, 0.94),
+           particlePropertiesByType=fire_fx.by_side(_boiler_fx), behaviors=[fire_fx.heat(4)])
     shaped("level5", "furnace", "block/furnace", material="Metal", sounds=METAL, comment="Furnace with a glowing door",
-           box=(0.06, 0, 0.125, 0.94, 1, 0.94), lightHsv=[4, 7, 12])
+           box=(0.06, 0, 0.125, 0.94, 1, 0.94), lightHsv=[4, 7, 12],
+           particlePropertiesByType=fire_fx.by_side(_furnace_fx), behaviors=[fire_fx.heat(8)])
 
 
 def fix_ambients():

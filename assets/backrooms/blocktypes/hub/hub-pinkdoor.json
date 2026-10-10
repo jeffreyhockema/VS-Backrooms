@@ -1,0 +1,256 @@
+// The pink door, tied with a ribbon like a present: the same size and parts as hub-door (3 x 4, row 1 with a sill), the bow on c-3, a gold knob on r-2. It needs no key: it lets in only someone carrying something cute (Level 974). Behaviour BackroomsHubDoor, like the carved doors (HubSystem tells them apart by place)
+{
+	"code": "hub-pinkdoor",
+	"variantgroups": [
+		{
+			"code": "col",
+			"states": [
+				"l",
+				"c",
+				"r"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-c-3-north"
+		],
+		"decorative": [
+			"*-c-3-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-1-north": {
+			"base": "block/hub/pinkdoor-l-1",
+			"rotateY": 0
+		},
+		"*-l-1-east": {
+			"base": "block/hub/pinkdoor-l-1",
+			"rotateY": 270
+		},
+		"*-l-1-south": {
+			"base": "block/hub/pinkdoor-l-1",
+			"rotateY": 180
+		},
+		"*-l-1-west": {
+			"base": "block/hub/pinkdoor-l-1",
+			"rotateY": 90
+		},
+		"*-l-2-north": {
+			"base": "block/hub/pinkdoor-l-2",
+			"rotateY": 0
+		},
+		"*-l-2-east": {
+			"base": "block/hub/pinkdoor-l-2",
+			"rotateY": 270
+		},
+		"*-l-2-south": {
+			"base": "block/hub/pinkdoor-l-2",
+			"rotateY": 180
+		},
+		"*-l-2-west": {
+			"base": "block/hub/pinkdoor-l-2",
+			"rotateY": 90
+		},
+		"*-l-3-north": {
+			"base": "block/hub/pinkdoor-l-3",
+			"rotateY": 0
+		},
+		"*-l-3-east": {
+			"base": "block/hub/pinkdoor-l-3",
+			"rotateY": 270
+		},
+		"*-l-3-south": {
+			"base": "block/hub/pinkdoor-l-3",
+			"rotateY": 180
+		},
+		"*-l-3-west": {
+			"base": "block/hub/pinkdoor-l-3",
+			"rotateY": 90
+		},
+		"*-l-4-north": {
+			"base": "block/hub/pinkdoor-l-4",
+			"rotateY": 0
+		},
+		"*-l-4-east": {
+			"base": "block/hub/pinkdoor-l-4",
+			"rotateY": 270
+		},
+		"*-l-4-south": {
+			"base": "block/hub/pinkdoor-l-4",
+			"rotateY": 180
+		},
+		"*-l-4-west": {
+			"base": "block/hub/pinkdoor-l-4",
+			"rotateY": 90
+		},
+		"*-c-1-north": {
+			"base": "block/hub/pinkdoor-c-1",
+			"rotateY": 0
+		},
+		"*-c-1-east": {
+			"base": "block/hub/pinkdoor-c-1",
+			"rotateY": 270
+		},
+		"*-c-1-south": {
+			"base": "block/hub/pinkdoor-c-1",
+			"rotateY": 180
+		},
+		"*-c-1-west": {
+			"base": "block/hub/pinkdoor-c-1",
+			"rotateY": 90
+		},
+		"*-c-2-north": {
+			"base": "block/hub/pinkdoor-c-2",
+			"rotateY": 0
+		},
+		"*-c-2-east": {
+			"base": "block/hub/pinkdoor-c-2",
+			"rotateY": 270
+		},
+		"*-c-2-south": {
+			"base": "block/hub/pinkdoor-c-2",
+			"rotateY": 180
+		},
+		"*-c-2-west": {
+			"base": "block/hub/pinkdoor-c-2",
+			"rotateY": 90
+		},
+		"*-c-3-north": {
+			"base": "block/hub/pinkdoor-c-3",
+			"rotateY": 0
+		},
+		"*-c-3-east": {
+			"base": "block/hub/pinkdoor-c-3",
+			"rotateY": 270
+		},
+		"*-c-3-south": {
+			"base": "block/hub/pinkdoor-c-3",
+			"rotateY": 180
+		},
+		"*-c-3-west": {
+			"base": "block/hub/pinkdoor-c-3",
+			"rotateY": 90
+		},
+		"*-c-4-north": {
+			"base": "block/hub/pinkdoor-c-4",
+			"rotateY": 0
+		},
+		"*-c-4-east": {
+			"base": "block/hub/pinkdoor-c-4",
+			"rotateY": 270
+		},
+		"*-c-4-south": {
+			"base": "block/hub/pinkdoor-c-4",
+			"rotateY": 180
+		},
+		"*-c-4-west": {
+			"base": "block/hub/pinkdoor-c-4",
+			"rotateY": 90
+		},
+		"*-r-1-north": {
+			"base": "block/hub/pinkdoor-r-1",
+			"rotateY": 0
+		},
+		"*-r-1-east": {
+			"base": "block/hub/pinkdoor-r-1",
+			"rotateY": 270
+		},
+		"*-r-1-south": {
+			"base": "block/hub/pinkdoor-r-1",
+			"rotateY": 180
+		},
+		"*-r-1-west": {
+			"base": "block/hub/pinkdoor-r-1",
+			"rotateY": 90
+		},
+		"*-r-2-north": {
+			"base": "block/hub/pinkdoor-r-2",
+			"rotateY": 0
+		},
+		"*-r-2-east": {
+			"base": "block/hub/pinkdoor-r-2",
+			"rotateY": 270
+		},
+		"*-r-2-south": {
+			"base": "block/hub/pinkdoor-r-2",
+			"rotateY": 180
+		},
+		"*-r-2-west": {
+			"base": "block/hub/pinkdoor-r-2",
+			"rotateY": 90
+		},
+		"*-r-3-north": {
+			"base": "block/hub/pinkdoor-r-3",
+			"rotateY": 0
+		},
+		"*-r-3-east": {
+			"base": "block/hub/pinkdoor-r-3",
+			"rotateY": 270
+		},
+		"*-r-3-south": {
+			"base": "block/hub/pinkdoor-r-3",
+			"rotateY": 180
+		},
+		"*-r-3-west": {
+			"base": "block/hub/pinkdoor-r-3",
+			"rotateY": 90
+		},
+		"*-r-4-north": {
+			"base": "block/hub/pinkdoor-r-4",
+			"rotateY": 0
+		},
+		"*-r-4-east": {
+			"base": "block/hub/pinkdoor-r-4",
+			"rotateY": 270
+		},
+		"*-r-4-south": {
+			"base": "block/hub/pinkdoor-r-4",
+			"rotateY": 180
+		},
+		"*-r-4-west": {
+			"base": "block/hub/pinkdoor-r-4",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsHubDoor"
+		}
+	]
+}

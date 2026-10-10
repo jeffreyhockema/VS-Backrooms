@@ -1,0 +1,31 @@
+// Level 188: the sky over the courtyard, rel 33, a black the eye cannot focus on
+{
+	"code": "l188-sky",
+	"textures": {
+		"all": {
+			"base": "block/188/sky"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-sky"
+		],
+		"backrooms": [
+			"l188-sky"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

@@ -1,0 +1,457 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dance-body": "backrooms:block/3999/dance-body",
+		"dance-marquee": "backrooms:block/3999/dance-marquee",
+		"dance-screen": "backrooms:block/3999/dance-screen",
+		"darksteel": "backrooms:block/3999/darksteel",
+		"neon-magenta": "backrooms:block/3999/neon-magenta",
+		"speaker": "backrooms:block/3999/speaker"
+	},
+	"elements": [
+		{
+			"name": "Tower",
+			"from": [
+				2,
+				0,
+				6
+			],
+			"to": [
+				14,
+				32,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				},
+				"down": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Screen",
+			"from": [
+				3,
+				12,
+				5.8
+			],
+			"to": [
+				13,
+				26,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#dance-screen",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Marquee",
+			"from": [
+				2,
+				27,
+				4.5
+			],
+			"to": [
+				14,
+				32,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#dance-marquee",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"down": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						12,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#dance-body",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "SpeakerL",
+			"from": [
+				14,
+				0,
+				6.5
+			],
+			"to": [
+				16.5,
+				14,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6.5,
+						14
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						14
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6.5,
+						14
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "NeonL",
+			"from": [
+				14,
+				14,
+				6.5
+			],
+			"to": [
+				16.5,
+				14.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "SpeakerR",
+			"from": [
+				-0.5,
+				0,
+				6.5
+			],
+			"to": [
+				2,
+				14,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6.5,
+						14
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						14
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6.5,
+						14
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "NeonR",
+			"from": [
+				-0.5,
+				14,
+				6.5
+			],
+			"to": [
+				2,
+				14.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.5999999999999996
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-magenta",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6.5
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

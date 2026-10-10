@@ -1124,6 +1124,10 @@ public sealed partial class WorldLayout
         OpenRedRoomGaps(b, mx, mz, west, north);
         PlaceLights(b, mx, mz, owner);
         PlaceOutlets(b, mx, mz);
+        // Now and then a party nobody came to, and a poster that takes you to it (Level Fun's)
+        if (IsFunPartyCell(mx, mz)) DressFunPartyCell(b, mx, mz);
+        // Very rarely, a window where no window should be: Level 188's (its own salt: nothing else moves)
+        if (IsL188WindowCellL0(mx, mz)) MarkL188Window(b, mx, mz, 0);
         if (b.IsSpawn)
         {
             PlaceSpawnBox(b);

@@ -1,0 +1,57 @@
+// The rim of the rectangular hole in a far tunnel's road (the hole is to its north): asphalt broken away into black
+{
+	"code": "hub-holelip",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/hub/holelip",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/hub/holelip",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/hub/holelip",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/hub/holelip",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"construction": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

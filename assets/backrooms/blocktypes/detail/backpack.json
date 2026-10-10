@@ -208,6 +208,14 @@
 				"avg": 0.2,
 				"var": 0
 			}
+		},
+		{
+			"type": "item",
+			"code": "l974-plush-cat",
+			"quantity": {
+				"avg": 0.02,
+				"var": 0
+			}
 		}
 	]
 }

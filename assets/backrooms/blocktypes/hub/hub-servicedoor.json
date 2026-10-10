@@ -1,0 +1,89 @@
+// A plain grey steel service door, face to the north, 2 blocks high: lower (with a sill meeting the sidewalk), upper (push bar, wired-glass window, frame head). Threshold kind locked: the way back out of the Hub, opening only for whoever arrived beside it; also the Hub's entrance in Level 1, under hub-sigil-0
+{
+	"code": "hub-servicedoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"decorative": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "block/hub/servicedoor-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/hub/servicedoor-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/hub/servicedoor-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/hub/servicedoor-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/hub/servicedoor-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/hub/servicedoor-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/hub/servicedoor-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/hub/servicedoor-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "locked"
+			}
+		}
+	]
+}

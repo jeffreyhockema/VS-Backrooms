@@ -1,0 +1,65 @@
+// Slice of Red Velvet Cake =)
+{
+	"code": "fun-cakeslice-velvet",
+	"maxstacksize": 16,
+	"texture": {
+		"base": "item/fun/cakeslice-velvet"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"nutritionProps": {
+		"satiety": 420,
+		"foodcategory": "Protein"
+	},
+	"materialDensity": 600,
+	"class": "BackroomsVelvetCake",
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	},
+	"attributes": {
+		"stabilityChange": -0.2,
+		"funFever": 0.2
+	}
+}

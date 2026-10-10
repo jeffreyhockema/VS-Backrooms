@@ -1,0 +1,137 @@
+// The plates the M.E.G. riveted beside the three doors that are always open
+{
+	"code": "hub-plaque",
+	"variantgroups": [
+		{
+			"code": "lvl",
+			"states": [
+				"1",
+				"11",
+				"178"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-1-north": {
+			"base": "block/hub/plaque-1",
+			"rotateY": 0
+		},
+		"*-1-east": {
+			"base": "block/hub/plaque-1",
+			"rotateY": 270
+		},
+		"*-1-south": {
+			"base": "block/hub/plaque-1",
+			"rotateY": 180
+		},
+		"*-1-west": {
+			"base": "block/hub/plaque-1",
+			"rotateY": 90
+		},
+		"*-11-north": {
+			"base": "block/hub/plaque-11",
+			"rotateY": 0
+		},
+		"*-11-east": {
+			"base": "block/hub/plaque-11",
+			"rotateY": 270
+		},
+		"*-11-south": {
+			"base": "block/hub/plaque-11",
+			"rotateY": 180
+		},
+		"*-11-west": {
+			"base": "block/hub/plaque-11",
+			"rotateY": 90
+		},
+		"*-178-north": {
+			"base": "block/hub/plaque-178",
+			"rotateY": 0
+		},
+		"*-178-east": {
+			"base": "block/hub/plaque-178",
+			"rotateY": 270
+		},
+		"*-178-south": {
+			"base": "block/hub/plaque-178",
+			"rotateY": 180
+		},
+		"*-178-west": {
+			"base": "block/hub/plaque-178",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-1-north"
+		],
+		"decorative": [
+			"*-1-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0.3,
+			"z1": 0.94,
+			"x2": 0.88,
+			"y2": 0.7,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0.3,
+			"z1": 0.94,
+			"x2": 0.88,
+			"y2": 0.7,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0.3,
+			"z1": 0.94,
+			"x2": 0.88,
+			"y2": 0.7,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0.3,
+			"z1": 0.94,
+			"x2": 0.88,
+			"y2": 0.7,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [],
+	"replaceable": 5000
+}

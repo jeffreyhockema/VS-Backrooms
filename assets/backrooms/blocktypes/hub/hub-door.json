@@ -1,0 +1,256 @@
+// A great carved concrete door of the Hub, 3 wide (col l, c, r: the viewer's left to right) and 4 high (row 1-4 from the bottom; row 1 has a half-block sill meeting the sidewalk), set into the wall with its face to the north. Behaviour BackroomsHubDoor (HubSystem). c-2 carries the brass keyhole. Its sigil goes above c-4 (hub-sigil), the carved sides above l-4 and r-4 (hub-sigilside)
+{
+	"code": "hub-door",
+	"variantgroups": [
+		{
+			"code": "col",
+			"states": [
+				"l",
+				"c",
+				"r"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-c-2-north"
+		],
+		"decorative": [
+			"*-c-2-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-1-north": {
+			"base": "block/hub/door-l-1",
+			"rotateY": 0
+		},
+		"*-l-1-east": {
+			"base": "block/hub/door-l-1",
+			"rotateY": 270
+		},
+		"*-l-1-south": {
+			"base": "block/hub/door-l-1",
+			"rotateY": 180
+		},
+		"*-l-1-west": {
+			"base": "block/hub/door-l-1",
+			"rotateY": 90
+		},
+		"*-l-2-north": {
+			"base": "block/hub/door-l-2",
+			"rotateY": 0
+		},
+		"*-l-2-east": {
+			"base": "block/hub/door-l-2",
+			"rotateY": 270
+		},
+		"*-l-2-south": {
+			"base": "block/hub/door-l-2",
+			"rotateY": 180
+		},
+		"*-l-2-west": {
+			"base": "block/hub/door-l-2",
+			"rotateY": 90
+		},
+		"*-l-3-north": {
+			"base": "block/hub/door-l-3",
+			"rotateY": 0
+		},
+		"*-l-3-east": {
+			"base": "block/hub/door-l-3",
+			"rotateY": 270
+		},
+		"*-l-3-south": {
+			"base": "block/hub/door-l-3",
+			"rotateY": 180
+		},
+		"*-l-3-west": {
+			"base": "block/hub/door-l-3",
+			"rotateY": 90
+		},
+		"*-l-4-north": {
+			"base": "block/hub/door-l-4",
+			"rotateY": 0
+		},
+		"*-l-4-east": {
+			"base": "block/hub/door-l-4",
+			"rotateY": 270
+		},
+		"*-l-4-south": {
+			"base": "block/hub/door-l-4",
+			"rotateY": 180
+		},
+		"*-l-4-west": {
+			"base": "block/hub/door-l-4",
+			"rotateY": 90
+		},
+		"*-c-1-north": {
+			"base": "block/hub/door-c-1",
+			"rotateY": 0
+		},
+		"*-c-1-east": {
+			"base": "block/hub/door-c-1",
+			"rotateY": 270
+		},
+		"*-c-1-south": {
+			"base": "block/hub/door-c-1",
+			"rotateY": 180
+		},
+		"*-c-1-west": {
+			"base": "block/hub/door-c-1",
+			"rotateY": 90
+		},
+		"*-c-2-north": {
+			"base": "block/hub/door-c-2",
+			"rotateY": 0
+		},
+		"*-c-2-east": {
+			"base": "block/hub/door-c-2",
+			"rotateY": 270
+		},
+		"*-c-2-south": {
+			"base": "block/hub/door-c-2",
+			"rotateY": 180
+		},
+		"*-c-2-west": {
+			"base": "block/hub/door-c-2",
+			"rotateY": 90
+		},
+		"*-c-3-north": {
+			"base": "block/hub/door-c-3",
+			"rotateY": 0
+		},
+		"*-c-3-east": {
+			"base": "block/hub/door-c-3",
+			"rotateY": 270
+		},
+		"*-c-3-south": {
+			"base": "block/hub/door-c-3",
+			"rotateY": 180
+		},
+		"*-c-3-west": {
+			"base": "block/hub/door-c-3",
+			"rotateY": 90
+		},
+		"*-c-4-north": {
+			"base": "block/hub/door-c-4",
+			"rotateY": 0
+		},
+		"*-c-4-east": {
+			"base": "block/hub/door-c-4",
+			"rotateY": 270
+		},
+		"*-c-4-south": {
+			"base": "block/hub/door-c-4",
+			"rotateY": 180
+		},
+		"*-c-4-west": {
+			"base": "block/hub/door-c-4",
+			"rotateY": 90
+		},
+		"*-r-1-north": {
+			"base": "block/hub/door-r-1",
+			"rotateY": 0
+		},
+		"*-r-1-east": {
+			"base": "block/hub/door-r-1",
+			"rotateY": 270
+		},
+		"*-r-1-south": {
+			"base": "block/hub/door-r-1",
+			"rotateY": 180
+		},
+		"*-r-1-west": {
+			"base": "block/hub/door-r-1",
+			"rotateY": 90
+		},
+		"*-r-2-north": {
+			"base": "block/hub/door-r-2",
+			"rotateY": 0
+		},
+		"*-r-2-east": {
+			"base": "block/hub/door-r-2",
+			"rotateY": 270
+		},
+		"*-r-2-south": {
+			"base": "block/hub/door-r-2",
+			"rotateY": 180
+		},
+		"*-r-2-west": {
+			"base": "block/hub/door-r-2",
+			"rotateY": 90
+		},
+		"*-r-3-north": {
+			"base": "block/hub/door-r-3",
+			"rotateY": 0
+		},
+		"*-r-3-east": {
+			"base": "block/hub/door-r-3",
+			"rotateY": 270
+		},
+		"*-r-3-south": {
+			"base": "block/hub/door-r-3",
+			"rotateY": 180
+		},
+		"*-r-3-west": {
+			"base": "block/hub/door-r-3",
+			"rotateY": 90
+		},
+		"*-r-4-north": {
+			"base": "block/hub/door-r-4",
+			"rotateY": 0
+		},
+		"*-r-4-east": {
+			"base": "block/hub/door-r-4",
+			"rotateY": 270
+		},
+		"*-r-4-south": {
+			"base": "block/hub/door-r-4",
+			"rotateY": 180
+		},
+		"*-r-4-west": {
+			"base": "block/hub/door-r-4",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsHubDoor"
+		}
+	]
+}

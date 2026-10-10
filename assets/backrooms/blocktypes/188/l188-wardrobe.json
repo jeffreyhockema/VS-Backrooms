@@ -1,0 +1,271 @@
+// Level 188: an open hanging niche, two blocks tall: a rail, hangers, two grey hotel robes, a shelf with an iron and a safe. Breaks into cloth and now and then clothes
+{
+	"code": "l188-wardrobe",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-wardrobe-lower-north": {
+			"base": "backrooms:block/188/l188-wardrobe-lower"
+		},
+		"l188-wardrobe-lower-east": {
+			"base": "backrooms:block/188/l188-wardrobe-lower",
+			"rotateY": 270
+		},
+		"l188-wardrobe-lower-south": {
+			"base": "backrooms:block/188/l188-wardrobe-lower",
+			"rotateY": 180
+		},
+		"l188-wardrobe-lower-west": {
+			"base": "backrooms:block/188/l188-wardrobe-lower",
+			"rotateY": 90
+		},
+		"l188-wardrobe-upper-north": {
+			"base": "backrooms:block/188/l188-wardrobe-upper"
+		},
+		"l188-wardrobe-upper-east": {
+			"base": "backrooms:block/188/l188-wardrobe-upper",
+			"rotateY": 270
+		},
+		"l188-wardrobe-upper-south": {
+			"base": "backrooms:block/188/l188-wardrobe-upper",
+			"rotateY": 180
+		},
+		"l188-wardrobe-upper-west": {
+			"base": "backrooms:block/188/l188-wardrobe-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-wardrobe-lower-north"
+		],
+		"backrooms": [
+			"l188-wardrobe-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l188-wardrobe-lower-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-wardrobe-lower-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-wardrobe-lower-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-wardrobe-lower-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-wardrobe-upper-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-wardrobe-upper-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-wardrobe-upper-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-wardrobe-upper-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l188-wardrobe-lower-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-wardrobe-lower-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-wardrobe-lower-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-wardrobe-lower-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l188-wardrobe-upper-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1
+		},
+		"l188-wardrobe-upper-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-wardrobe-upper-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-wardrobe-upper-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.46,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"dropsByType": {
+		"*-lower-*": [
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:clothes-upperbody-commoner-shirt",
+				"quantity": {
+					"avg": 0.07,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:clothes-lowerbody-commoner-trousers",
+				"quantity": {
+					"avg": 0.05,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:clothes-foot-commoner-boots",
+				"quantity": {
+					"avg": 0.03,
+					"var": 0
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		]
+	}
+}

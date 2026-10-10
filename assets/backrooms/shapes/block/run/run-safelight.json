@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiltile": "backrooms:block/run/ceiltile",
+		"safelight": "backrooms:block/run/safelight",
+		"safepanelrim": "backrooms:block/run/safepanelrim"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				0.5,
+				-0.8,
+				0.5
+			],
+			"to": [
+				15.5,
+				0,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#safepanelrim",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1,
+				-0.8,
+				1
+			],
+			"to": [
+				15,
+				-0.79,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#safelight",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					],
+					"glow": 160
+				}
+			}
+		}
+	]
+}

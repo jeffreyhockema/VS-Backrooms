@@ -1,0 +1,128 @@
+// A tray meal from a food stall in the Neon Paradise (6 tickets): satiety 420 (ice cream 240) and +2 health
+{
+	"code": "l3999-traymeal",
+	"variantgroups": [
+		{
+			"code": "meal",
+			"states": [
+				"burger",
+				"pizza",
+				"noodles",
+				"taco",
+				"icecream",
+				"pretzel"
+			]
+		}
+	],
+	"maxstacksize": 8,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 600,
+	"textureByType": {
+		"l3999-traymeal-burger": {
+			"base": "item/3999/traymeal-burger"
+		},
+		"l3999-traymeal-pizza": {
+			"base": "item/3999/traymeal-pizza"
+		},
+		"l3999-traymeal-noodles": {
+			"base": "item/3999/traymeal-noodles"
+		},
+		"l3999-traymeal-taco": {
+			"base": "item/3999/traymeal-taco"
+		},
+		"l3999-traymeal-icecream": {
+			"base": "item/3999/traymeal-icecream"
+		},
+		"l3999-traymeal-pretzel": {
+			"base": "item/3999/traymeal-pretzel"
+		}
+	},
+	"nutritionPropsByType": {
+		"l3999-traymeal-burger": {
+			"satiety": 420,
+			"foodcategory": "Protein",
+			"health": 2
+		},
+		"l3999-traymeal-pizza": {
+			"satiety": 420,
+			"foodcategory": "Grain",
+			"health": 2
+		},
+		"l3999-traymeal-noodles": {
+			"satiety": 420,
+			"foodcategory": "Grain",
+			"health": 2
+		},
+		"l3999-traymeal-taco": {
+			"satiety": 420,
+			"foodcategory": "Protein",
+			"health": 2
+		},
+		"l3999-traymeal-icecream": {
+			"satiety": 240,
+			"foodcategory": "Dairy",
+			"health": 2
+		},
+		"l3999-traymeal-pretzel": {
+			"satiety": 420,
+			"foodcategory": "Grain",
+			"health": 2
+		}
+	},
+	"attributes": {
+		"handbook": {
+			"groupBy": [
+				"l3999-traymeal-*"
+			]
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

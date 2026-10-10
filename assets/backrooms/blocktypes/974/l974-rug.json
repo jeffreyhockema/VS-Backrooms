@@ -1,0 +1,76 @@
+// Level 974: a quarter of a pink heart rug (nw, ne, sw, se)
+{
+	"code": "l974-rug",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"nw",
+				"ne",
+				"sw",
+				"se"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-rug-nw": {
+			"base": "backrooms:block/974/l974-rug-nw"
+		},
+		"l974-rug-ne": {
+			"base": "backrooms:block/974/l974-rug-ne"
+		},
+		"l974-rug-sw": {
+			"base": "backrooms:block/974/l974-rug-sw"
+		},
+		"l974-rug-se": {
+			"base": "backrooms:block/974/l974-rug-se"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-rug-nw"
+		],
+		"backrooms": [
+			"l974-rug-nw"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.04,
+		"z2": 1
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l974furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0
+			}
+		}
+	],
+	"replaceable": 100
+}

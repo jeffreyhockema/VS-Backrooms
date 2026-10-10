@@ -100,9 +100,9 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnHomeCommand)
             .EndSubCommand()
             .BeginSubCommand("find")
-                .WithDescription("Teleports you beside a feature: " + string.Join(", ", Features.Select(f => f.Code)) + ". Give a level number to look in another level.")
+                .WithDescription("Teleports you beside a feature: " + string.Join(", ", Features.Select(f => f.Code)) + ". Give a level (a number, or !, fun, end, hub) to look in another level.")
                 .RequiresPlayer()
-                .WithArgs(parsers.WordRange("feature", Features.Select(f => f.Code).ToArray()), parsers.OptionalInt("level", -1))
+                .WithArgs(parsers.WordRange("feature", Features.Select(f => f.Code).ToArray()), parsers.OptionalWord("level"))
                 .HandleWith(OnFindCommand)
             .EndSubCommand()
             .BeginSubCommand("nearest")
@@ -201,13 +201,13 @@ public partial class CheatSystem : ModSystem
     {
         if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
         string feature = (string)args[0];
-        int level = (int)args[1];
-        if (level < 0) level = Features.First(f => f.Code == feature).DefaultLevel;
+        int level;
+        if (args.Parsers[1].IsMissing || string.IsNullOrEmpty(args[1] as string)) level = Features.First(f => f.Code == feature).DefaultLevel;
         else
         {
-            int number = level;
-            level = WorldLayout.FromDisplayNumber(number);
-            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37 or 94)");
+            string number = (string)args[1];
+            level = WorldLayout.FromDisplayName(number);
+            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
         }
 
         // The arrival search starts from a point picked by key, so a few keys find a few different places

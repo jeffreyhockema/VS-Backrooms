@@ -1,0 +1,27 @@
+// Level Fun: the rim of the region, the white riveted hull of a ship that cannot be this big
+{
+	"code": "fun-hull",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"textures": {
+		"all": {
+			"base": "block/fun/hull"
+		}
+	}
+}

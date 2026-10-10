@@ -1,0 +1,332 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"carpet-corridor": "backrooms:block/188/carpet-corridor",
+		"ceiling": "backrooms:block/188/ceiling",
+		"chrome": "backrooms:block/188/chrome",
+		"concrete": "backrooms:block/188/concrete",
+		"lens-on": "backrooms:block/188/lens-on"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#carpet-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring",
+			"from": [
+				5,
+				-0.25,
+				6.2
+			],
+			"to": [
+				11,
+				0,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						6,
+						3.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring2",
+			"from": [
+				6.2,
+				-0.25,
+				5
+			],
+			"to": [
+				9.8,
+				0,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6000000000000005,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lens",
+			"from": [
+				5.5,
+				-0.45,
+				6.6
+			],
+			"to": [
+				10.5,
+				-0.25,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.8000000000000007
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Lens2",
+			"from": [
+				6.6,
+				-0.45,
+				5.5
+			],
+			"to": [
+				9.4,
+				-0.25,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						0.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#lens-on",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						5.0
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

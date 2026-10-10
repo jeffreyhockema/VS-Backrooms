@@ -1,0 +1,31 @@
+// Level 188: the lining of the shaft under the hatch
+{
+	"code": "l188-shaft",
+	"textures": {
+		"all": {
+			"base": "block/188/shaft"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-shaft"
+		],
+		"backrooms": [
+			"l188-shaft"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

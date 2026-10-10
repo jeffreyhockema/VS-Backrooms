@@ -1,0 +1,564 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"canvas": "backrooms:block/fun/canvas",
+		"paperwhite": "backrooms:block/fun/paperwhite",
+		"rubber": "backrooms:block/fun/rubber",
+		"steeltube": "backrooms:block/fun/steeltube"
+	},
+	"elements": [
+		{
+			"name": "Bag",
+			"from": [
+				2,
+				4,
+				1
+			],
+			"to": [
+				14,
+				15,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						14,
+						11
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						12,
+						11
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						14,
+						11
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				1.5,
+				14.5,
+				0.5
+			],
+			"to": [
+				14.5,
+				15.5,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				2,
+				3,
+				1
+			],
+			"to": [
+				14,
+				4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"down": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Linen",
+			"from": [
+				3,
+				15,
+				3
+			],
+			"to": [
+				12,
+				16.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				},
+				"down": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Castor1",
+			"from": [
+				2.5,
+				0,
+				1.5
+			],
+			"to": [
+				4,
+				3,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Castor2",
+			"from": [
+				12,
+				0,
+				1.5
+			],
+			"to": [
+				13.5,
+				3,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Castor3",
+			"from": [
+				2.5,
+				0,
+				13
+			],
+			"to": [
+				4,
+				3,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Castor4",
+			"from": [
+				12,
+				0,
+				13
+			],
+			"to": [
+				13.5,
+				3,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

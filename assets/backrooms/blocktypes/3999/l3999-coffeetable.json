@@ -1,0 +1,51 @@
+// Level 3999's lobbies: a low glass table on a chrome frame
+{
+	"code": "l3999-coffeetable",
+	"shape": {
+		"base": "backrooms:block/3999/l3999-coffeetable"
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-coffeetable"
+		],
+		"backrooms": [
+			"l3999-coffeetable"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.94,
+		"y2": 0.5,
+		"z2": 0.9
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.94,
+		"y2": 0.5,
+		"z2": 0.9
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

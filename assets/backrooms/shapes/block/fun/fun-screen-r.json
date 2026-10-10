@@ -1,0 +1,293 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paperwhite": "backrooms:block/fun/paperwhite",
+		"roller": "backrooms:block/fun/roller",
+		"screen": "backrooms:block/fun/screen"
+	},
+	"elements": [
+		{
+			"name": "Screen",
+			"from": [
+				0,
+				-14,
+				14.5
+			],
+			"to": [
+				16,
+				13,
+				14.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#screen",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ScreenBack",
+			"from": [
+				0,
+				-14,
+				14.5
+			],
+			"to": [
+				16,
+				13,
+				14.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#paperwhite",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Roller",
+			"from": [
+				0,
+				13,
+				14
+			],
+			"to": [
+				16,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Hem",
+			"from": [
+				0,
+				-14.5,
+				14.3
+			],
+			"to": [
+				16,
+				-13.8,
+				14.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6999999999999993
+					]
+				},
+				"east": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						0.6499999999999986,
+						0.6999999999999993
+					]
+				},
+				"south": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6999999999999993
+					]
+				},
+				"west": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						0.6499999999999986,
+						0.6999999999999993
+					]
+				},
+				"up": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6499999999999986
+					]
+				},
+				"down": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6499999999999986
+					]
+				}
+			}
+		},
+		{
+			"name": "CapR",
+			"from": [
+				-0.5,
+				12.5,
+				13.5
+			],
+			"to": [
+				1,
+				15.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#roller",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				}
+			}
+		}
+	]
+}

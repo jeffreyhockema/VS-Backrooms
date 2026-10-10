@@ -1,0 +1,54 @@
+// Level 2: a smooth new concrete wall where a tunnel used to go on (Unders.RunFalseWall): lower at rel 1, a thread of red light round its foot; upper above. It has no substance: walk into it
+{
+	"code": "run-falsewall",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"construction": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/run/run-falsewall-lower"
+		},
+		"*-upper": {
+			"base": "block/run/run-falsewall-upper"
+		}
+	},
+	"collisionbox": null,
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightHsvByType": {
+		"*-lower": [
+			0,
+			7,
+			3
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

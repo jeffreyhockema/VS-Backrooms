@@ -1,0 +1,922 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mirror": "backrooms:block/3999/mirror",
+		"neon-pink": "backrooms:block/3999/neon-pink"
+	},
+	"elements": [
+		{
+			"name": "ShaftA",
+			"from": [
+				2,
+				0,
+				4.5
+			],
+			"to": [
+				14,
+				16,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ShaftB",
+			"from": [
+				4.5,
+				0,
+				2
+			],
+			"to": [
+				11.5,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						12
+					]
+				},
+				"down": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "ShaftC",
+			"from": [
+				2,
+				0,
+				4.5
+			],
+			"to": [
+				14,
+				16,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "ShaftD",
+			"from": [
+				4.5,
+				0,
+				2
+			],
+			"to": [
+				11.5,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						12
+					]
+				},
+				"down": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						7.0,
+						12
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Ring4a",
+			"from": [
+				1,
+				4,
+				4.1
+			],
+			"to": [
+				15,
+				5,
+				11.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Ring4b",
+			"from": [
+				4.1,
+				4,
+				1
+			],
+			"to": [
+				11.9,
+				5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Ring4c",
+			"from": [
+				1,
+				4,
+				4.1
+			],
+			"to": [
+				15,
+				5,
+				11.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				8,
+				4,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Ring4d",
+			"from": [
+				4.1,
+				4,
+				1
+			],
+			"to": [
+				11.9,
+				5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				8,
+				4,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Ring12a",
+			"from": [
+				1,
+				12,
+				4.1
+			],
+			"to": [
+				15,
+				13,
+				11.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Ring12b",
+			"from": [
+				4.1,
+				12,
+				1
+			],
+			"to": [
+				11.9,
+				13,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Ring12c",
+			"from": [
+				1,
+				12,
+				4.1
+			],
+			"to": [
+				15,
+				13,
+				11.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						7.800000000000001
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Ring12d",
+			"from": [
+				4.1,
+				12,
+				1
+			],
+			"to": [
+				11.9,
+				13,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						1
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-pink",
+					"uv": [
+						0,
+						0,
+						7.800000000000001,
+						14
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				8
+			],
+			"rotationY": 45
+		}
+	]
+}

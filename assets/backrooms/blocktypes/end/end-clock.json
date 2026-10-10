@@ -1,0 +1,236 @@
+// The End: a wall clock, stopped at five to midnight
+{
+	"code": "end-clock",
+	"variantgroups": [
+		{
+			"code": "backing",
+			"states": [
+				"lower",
+				"upper",
+				"band",
+				"block",
+				"sage",
+				"slate",
+				"none"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "block/end/end-clock-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/end/end-clock-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/end/end-clock-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/end/end-clock-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/end/end-clock-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/end/end-clock-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/end/end-clock-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/end/end-clock-upper",
+			"rotateY": 90
+		},
+		"*-band-north": {
+			"base": "block/end/end-clock-band",
+			"rotateY": 0
+		},
+		"*-band-east": {
+			"base": "block/end/end-clock-band",
+			"rotateY": 270
+		},
+		"*-band-south": {
+			"base": "block/end/end-clock-band",
+			"rotateY": 180
+		},
+		"*-band-west": {
+			"base": "block/end/end-clock-band",
+			"rotateY": 90
+		},
+		"*-block-north": {
+			"base": "block/end/end-clock-block",
+			"rotateY": 0
+		},
+		"*-block-east": {
+			"base": "block/end/end-clock-block",
+			"rotateY": 270
+		},
+		"*-block-south": {
+			"base": "block/end/end-clock-block",
+			"rotateY": 180
+		},
+		"*-block-west": {
+			"base": "block/end/end-clock-block",
+			"rotateY": 90
+		},
+		"*-sage-north": {
+			"base": "block/end/end-clock-sage",
+			"rotateY": 0
+		},
+		"*-sage-east": {
+			"base": "block/end/end-clock-sage",
+			"rotateY": 270
+		},
+		"*-sage-south": {
+			"base": "block/end/end-clock-sage",
+			"rotateY": 180
+		},
+		"*-sage-west": {
+			"base": "block/end/end-clock-sage",
+			"rotateY": 90
+		},
+		"*-slate-north": {
+			"base": "block/end/end-clock-slate",
+			"rotateY": 0
+		},
+		"*-slate-east": {
+			"base": "block/end/end-clock-slate",
+			"rotateY": 270
+		},
+		"*-slate-south": {
+			"base": "block/end/end-clock-slate",
+			"rotateY": 180
+		},
+		"*-slate-west": {
+			"base": "block/end/end-clock-slate",
+			"rotateY": 90
+		},
+		"*-none-north": {
+			"base": "block/end/end-clock-none",
+			"rotateY": 0
+		},
+		"*-none-east": {
+			"base": "block/end/end-clock-none",
+			"rotateY": 270
+		},
+		"*-none-south": {
+			"base": "block/end/end-clock-none",
+			"rotateY": 180
+		},
+		"*-none-west": {
+			"base": "block/end/end-clock-none",
+			"rotateY": 90
+		}
+	},
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"sideopaqueByType": {
+		"*-none-*": {
+			"all": false
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"sidesolidByType": {
+		"*-none-*": {
+			"all": false
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"lightAbsorptionByType": {
+		"*-none-*": 0,
+		"*": 99
+	},
+	"collisionboxByType": {
+		"*-none-*": null
+	},
+	"selectionboxByType": {
+		"*-none-north": {
+			"x1": 0.18,
+			"y1": 0.24,
+			"z1": 0.88,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1
+		},
+		"*-none-east": {
+			"x1": 0.18,
+			"y1": 0.24,
+			"z1": 0.88,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-none-south": {
+			"x1": 0.18,
+			"y1": 0.24,
+			"z1": 0.88,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-none-west": {
+			"x1": 0.18,
+			"y1": 0.24,
+			"z1": 0.88,
+			"x2": 0.82,
+			"y2": 0.88,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

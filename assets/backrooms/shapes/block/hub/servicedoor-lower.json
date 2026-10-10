@@ -1,0 +1,330 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"doorsill": "backrooms:block/hub/doorsill",
+		"pushbar": "backrooms:block/hub/pushbar",
+		"serviceframe": "backrooms:block/hub/serviceframe",
+		"servicesteel": "backrooms:block/hub/servicesteel"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				14.0,
+				0,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#serviceframe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#serviceframe",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#serviceframe",
+					"uv": [
+						-0.5,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#serviceframe",
+					"uv": [
+						14.0,
+						-0.5,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#serviceframe",
+					"uv": [
+						14.0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				0,
+				0,
+				-0.5
+			],
+			"to": [
+				2.0,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#serviceframe",
+					"uv": [
+						14.0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#serviceframe",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#serviceframe",
+					"uv": [
+						-0.5,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#serviceframe",
+					"uv": [
+						0,
+						-0.5,
+						2.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#serviceframe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				2.0,
+				0,
+				-1.2
+			],
+			"to": [
+				14.0,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsill",
+					"uv": [
+						2.0,
+						8,
+						14.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#doorsill",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#doorsill",
+					"uv": [
+						2.0,
+						8,
+						14.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#doorsill",
+					"uv": [
+						-1.2,
+						8,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#doorsill",
+					"uv": [
+						2.0,
+						-1.2,
+						14.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#doorsill",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				2.0,
+				8,
+				1.0
+			],
+			"to": [
+				14.0,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#servicesteel",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						8
+					]
+				},
+				"east": {
+					"texture": "#servicesteel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8
+					]
+				},
+				"south": {
+					"texture": "#servicesteel",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#servicesteel",
+					"uv": [
+						1.0,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#servicesteel",
+					"uv": [
+						2.0,
+						1.0,
+						14.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#servicesteel",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						15.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				2.5,
+				8,
+				0.7
+			],
+			"to": [
+				13.5,
+				12.5,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushbar",
+					"uv": [
+						2.5,
+						3.5,
+						13.5,
+						8
+					]
+				},
+				"east": {
+					"texture": "#pushbar",
+					"uv": [
+						15.0,
+						3.5,
+						15.3,
+						8
+					]
+				},
+				"west": {
+					"texture": "#pushbar",
+					"uv": [
+						0.7,
+						3.5,
+						1.0,
+						8
+					]
+				},
+				"up": {
+					"texture": "#pushbar",
+					"uv": [
+						2.5,
+						0.7,
+						13.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#pushbar",
+					"uv": [
+						2.5,
+						15.0,
+						13.5,
+						15.3
+					]
+				}
+			}
+		}
+	]
+}

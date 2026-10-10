@@ -1,0 +1,85 @@
+// The End: a neon EXIT sign on the side-named face of the yellow band (rel 3) over a door. Also over Level 1's EXIT doors into The End. Indestructible
+{
+	"code": "end-exitsign",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"lit",
+				"dead"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lit-north": {
+			"base": "block/end/end-exitsign-lit-band",
+			"rotateY": 0
+		},
+		"*-lit-east": {
+			"base": "block/end/end-exitsign-lit-band",
+			"rotateY": 270
+		},
+		"*-lit-south": {
+			"base": "block/end/end-exitsign-lit-band",
+			"rotateY": 180
+		},
+		"*-lit-west": {
+			"base": "block/end/end-exitsign-lit-band",
+			"rotateY": 90
+		},
+		"*-dead-north": {
+			"base": "block/end/end-exitsign-dead-band",
+			"rotateY": 0
+		},
+		"*-dead-east": {
+			"base": "block/end/end-exitsign-dead-band",
+			"rotateY": 270
+		},
+		"*-dead-south": {
+			"base": "block/end/end-exitsign-dead-band",
+			"rotateY": 180
+		},
+		"*-dead-west": {
+			"base": "block/end/end-exitsign-dead-band",
+			"rotateY": 90
+		}
+	},
+	"resistance": 20,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-lit-*": [
+			0,
+			7,
+			8
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-lit-*": 0,
+		"*": 99
+	}
+}

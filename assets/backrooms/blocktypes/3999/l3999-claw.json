@@ -1,0 +1,151 @@
+// Level 3999: GRAB-A-PRIZE, a claw machine: a glass box heaped with plush, a gantry and a three-pronged claw, a control panel on the side named. 1 play in 4 wins a plush instead of tickets (light 6)
+{
+	"code": "l3999-claw",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-claw-north": {
+			"base": "backrooms:block/3999/l3999-claw"
+		},
+		"l3999-claw-east": {
+			"base": "backrooms:block/3999/l3999-claw",
+			"rotateY": 270
+		},
+		"l3999-claw-south": {
+			"base": "backrooms:block/3999/l3999-claw",
+			"rotateY": 180
+		},
+		"l3999-claw-west": {
+			"base": "backrooms:block/3999/l3999-claw",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-claw-north"
+		],
+		"backrooms": [
+			"l3999-claw-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-claw-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94
+		},
+		"l3999-claw-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-claw-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-claw-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-claw-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94
+		},
+		"l3999-claw-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-claw-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-claw-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.94,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		53,
+		3,
+		6
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999cabinet": {
+			"seconds": 6,
+			"min": 0,
+			"max": 0,
+			"plushChance": 0.25,
+			"plush": [
+				"l3999-plush-bear-north",
+				"l3999-plush-cat-north",
+				"l3999-plush-alien-north",
+				"l3999-plush-smiley-north"
+			]
+		}
+	}
+}

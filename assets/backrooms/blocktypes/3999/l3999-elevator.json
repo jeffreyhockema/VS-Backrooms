@@ -1,0 +1,239 @@
+// Level 3999's mini arcades: brushed plum elevator doors in a neon-pink frame (the face named), a floor display above. It goes to Level 0 (threshold kind l3999-elevator; light 6)
+{
+	"code": "l3999-elevator",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-elevator-lower-north": {
+			"base": "backrooms:block/3999/l3999-elevator-lower"
+		},
+		"l3999-elevator-lower-east": {
+			"base": "backrooms:block/3999/l3999-elevator-lower",
+			"rotateY": 270
+		},
+		"l3999-elevator-lower-south": {
+			"base": "backrooms:block/3999/l3999-elevator-lower",
+			"rotateY": 180
+		},
+		"l3999-elevator-lower-west": {
+			"base": "backrooms:block/3999/l3999-elevator-lower",
+			"rotateY": 90
+		},
+		"l3999-elevator-upper-north": {
+			"base": "backrooms:block/3999/l3999-elevator-upper"
+		},
+		"l3999-elevator-upper-east": {
+			"base": "backrooms:block/3999/l3999-elevator-upper",
+			"rotateY": 270
+		},
+		"l3999-elevator-upper-south": {
+			"base": "backrooms:block/3999/l3999-elevator-upper",
+			"rotateY": 180
+		},
+		"l3999-elevator-upper-west": {
+			"base": "backrooms:block/3999/l3999-elevator-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-elevator-lower-north"
+		],
+		"backrooms": [
+			"l3999-elevator-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-elevator-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-elevator-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-elevator-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-elevator-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l3999-elevator-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-elevator-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-elevator-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-elevator-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-elevator-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-elevator-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-elevator-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-elevator-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l3999-elevator-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l3999-elevator-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l3999-elevator-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l3999-elevator-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l3999-elevator"
+			}
+		}
+	],
+	"lightHsv": [
+		62,
+		7,
+		6
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

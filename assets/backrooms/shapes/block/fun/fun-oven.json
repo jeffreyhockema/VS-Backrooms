@@ -1,0 +1,302 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/fun/chrome",
+		"ovenfront": "backrooms:block/fun/ovenfront",
+		"stainless": "backrooms:block/fun/stainless"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				15,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#stainless",
+					"uv": [
+						0,
+						0,
+						13,
+						15
+					]
+				},
+				"west": {
+					"texture": "#stainless",
+					"uv": [
+						0,
+						0,
+						13,
+						15
+					]
+				},
+				"up": {
+					"texture": "#stainless",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"down": {
+					"texture": "#stainless",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"south": {
+					"texture": "#stainless",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Front",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ovenfront",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				3,
+				11.2,
+				2.2
+			],
+			"to": [
+				13,
+				11.8,
+				2.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6000000000000014
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000014
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6000000000000014
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000014
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleL",
+			"from": [
+				3,
+				11,
+				2.2
+			],
+			"to": [
+				3.6,
+				12,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						1
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.7999999999999998
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						0.7999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleR",
+			"from": [
+				12.4,
+				11,
+				2.2
+			],
+			"to": [
+				13,
+				12,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						1
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						1
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.7999999999999998
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.7999999999999998
+					]
+				}
+			}
+		}
+	]
+}

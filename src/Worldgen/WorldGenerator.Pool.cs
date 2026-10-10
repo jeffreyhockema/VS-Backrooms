@@ -34,6 +34,8 @@ public sealed partial class WorldGenerator
     private int Level37Block(in Tile t, int rel, out int fluid)
     {
         fluid = 0;
+        // Where a dry corridor's tile gives way to the Hub's concrete and asphalt
+        if (t.Floor == FloorKind.HubAsphalt || t.Pattern == WallPattern.HubWall) return HubInPool(t, rel);
         int tile = t.Zone == 1 ? poolRedId : poolTileId;
         if (t.Kind == TileKind.Door)
         {

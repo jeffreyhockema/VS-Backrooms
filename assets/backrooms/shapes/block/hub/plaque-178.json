@@ -1,0 +1,326 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plaque-178": "backrooms:block/hub/plaque-178",
+		"plaqueside": "backrooms:block/hub/plaqueside",
+		"rivet": "backrooms:block/hub/rivet"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				5,
+				15.2
+			],
+			"to": [
+				14,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plaque-178",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateSides",
+			"from": [
+				2,
+				5,
+				15.2
+			],
+			"to": [
+				14,
+				11,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#plaqueside",
+					"uv": [
+						0,
+						5,
+						0.8,
+						11
+					]
+				},
+				"west": {
+					"texture": "#plaqueside",
+					"uv": [
+						15.2,
+						5,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#plaqueside",
+					"uv": [
+						2,
+						15.2,
+						14,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plaqueside",
+					"uv": [
+						2,
+						0,
+						14,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rivet0",
+			"from": [
+				2.6,
+				5.6,
+				14.9
+			],
+			"to": [
+				3.4,
+				6.4,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						9.6,
+						13.4,
+						10.4
+					]
+				},
+				"east": {
+					"texture": "#rivet",
+					"uv": [
+						0.8,
+						9.6,
+						1.1,
+						10.4
+					]
+				},
+				"west": {
+					"texture": "#rivet",
+					"uv": [
+						14.9,
+						9.6,
+						15.2,
+						10.4
+					]
+				},
+				"up": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						14.9,
+						3.4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						0.8,
+						3.4,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Rivet1",
+			"from": [
+				12.6,
+				5.6,
+				14.9
+			],
+			"to": [
+				13.4,
+				6.4,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						9.6,
+						3.4,
+						10.4
+					]
+				},
+				"east": {
+					"texture": "#rivet",
+					"uv": [
+						0.8,
+						9.6,
+						1.1,
+						10.4
+					]
+				},
+				"west": {
+					"texture": "#rivet",
+					"uv": [
+						14.9,
+						9.6,
+						15.2,
+						10.4
+					]
+				},
+				"up": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						14.9,
+						13.4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						0.8,
+						13.4,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Rivet2",
+			"from": [
+				2.6,
+				9.6,
+				14.9
+			],
+			"to": [
+				3.4,
+				10.4,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						5.6,
+						13.4,
+						6.4
+					]
+				},
+				"east": {
+					"texture": "#rivet",
+					"uv": [
+						0.8,
+						5.6,
+						1.1,
+						6.4
+					]
+				},
+				"west": {
+					"texture": "#rivet",
+					"uv": [
+						14.9,
+						5.6,
+						15.2,
+						6.4
+					]
+				},
+				"up": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						14.9,
+						3.4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						0.8,
+						3.4,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Rivet3",
+			"from": [
+				12.6,
+				9.6,
+				14.9
+			],
+			"to": [
+				13.4,
+				10.4,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rivet",
+					"uv": [
+						2.6,
+						5.6,
+						3.4,
+						6.4
+					]
+				},
+				"east": {
+					"texture": "#rivet",
+					"uv": [
+						0.8,
+						5.6,
+						1.1,
+						6.4
+					]
+				},
+				"west": {
+					"texture": "#rivet",
+					"uv": [
+						14.9,
+						5.6,
+						15.2,
+						6.4
+					]
+				},
+				"up": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						14.9,
+						13.4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#rivet",
+					"uv": [
+						12.6,
+						0.8,
+						13.4,
+						1.1
+					]
+				}
+			}
+		}
+	]
+}

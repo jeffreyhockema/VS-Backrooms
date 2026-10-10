@@ -1,0 +1,139 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deck": "backrooms:block/188/deck",
+		"deck-side": "backrooms:block/188/deck-side"
+	},
+	"elements": [
+		{
+			"name": "Deck",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "DeckN",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				0.01
+			],
+			"faces": {
+				"north": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "DeckS",
+			"from": [
+				0,
+				0,
+				15.99
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "DeckW",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.01,
+				3,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "DeckE",
+			"from": [
+				15.99,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#deck-side",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				}
+			}
+		}
+	]
+}

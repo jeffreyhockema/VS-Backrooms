@@ -1,0 +1,46 @@
+// Level 188: painted concrete
+{
+	"code": "l188-concrete-stair",
+	"textures": {
+		"up": {
+			"base": "block/188/concrete-stair-edge"
+		},
+		"down": {
+			"base": "block/188/concrete"
+		},
+		"north": {
+			"base": "block/188/concrete"
+		},
+		"east": {
+			"base": "block/188/concrete"
+		},
+		"south": {
+			"base": "block/188/concrete"
+		},
+		"west": {
+			"base": "block/188/concrete"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-concrete-stair"
+		],
+		"backrooms": [
+			"l188-concrete-stair"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l188structure": true
+	}
+}

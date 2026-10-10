@@ -1,0 +1,395 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"inflatable-yellow": "backrooms:block/fun/inflatable-yellow",
+		"pennant-red": "backrooms:block/fun/pennant-red",
+		"steeltube": "backrooms:block/fun/steeltube"
+	},
+	"elements": [
+		{
+			"name": "Rim",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						3
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "C1",
+			"from": [
+				3,
+				3,
+				3
+			],
+			"to": [
+				13,
+				7,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "C2",
+			"from": [
+				5,
+				7,
+				5
+			],
+			"to": [
+				11,
+				11,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "C3",
+			"from": [
+				6.8,
+				11,
+				6.8
+			],
+			"to": [
+				9.2,
+				15,
+				9.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						4
+					]
+				},
+				"east": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						4
+					]
+				},
+				"south": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						4
+					]
+				},
+				"west": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						4
+					]
+				},
+				"up": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						2.3999999999999995
+					]
+				},
+				"down": {
+					"texture": "#inflatable-yellow",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						2.3999999999999995
+					]
+				}
+			}
+		},
+		{
+			"name": "Pole",
+			"from": [
+				7.8,
+				15,
+				7.8
+			],
+			"to": [
+				8.2,
+				21,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"east": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"south": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"west": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6
+					]
+				},
+				"up": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steeltube",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Flag",
+			"from": [
+				8.2,
+				17.5,
+				7.9
+			],
+			"to": [
+				12.5,
+				21,
+				8.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#pennant-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pennant-red",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.2,
+				21,
+				8
+			],
+			"rotationZ": 90
+		}
+	]
+}

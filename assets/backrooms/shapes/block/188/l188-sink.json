@@ -1,0 +1,532 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/188/chrome",
+		"frame-white": "backrooms:block/188/frame-white",
+		"frosted": "backrooms:block/188/frosted",
+		"mirror": "backrooms:block/188/mirror",
+		"porcelain": "backrooms:block/188/porcelain"
+	},
+	"elements": [
+		{
+			"name": "Front",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				32,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#frosted",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#frosted",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontTop",
+			"from": [
+				0,
+				31,
+				-0.2
+			],
+			"to": [
+				16,
+				32,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1
+					]
+				},
+				"south": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1
+					]
+				},
+				"up": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontFoot",
+			"from": [
+				0,
+				0,
+				-0.2
+			],
+			"to": [
+				16,
+				0.8,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Basin",
+			"from": [
+				3,
+				13,
+				1
+			],
+			"to": [
+				13,
+				15,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"east": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"south": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"west": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"up": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				},
+				"down": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "Bowl",
+			"from": [
+				4,
+				14.6,
+				2
+			],
+			"to": [
+				12,
+				15.05,
+				7
+			],
+			"faces": {
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Under",
+			"from": [
+				4,
+				11,
+				1
+			],
+			"to": [
+				12,
+				13,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"east": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						8,
+						2
+					]
+				},
+				"west": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						8,
+						5
+					]
+				},
+				"down": {
+					"texture": "#porcelain",
+					"uv": [
+						0,
+						0,
+						8,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tap",
+			"from": [
+				7.4,
+				15,
+				1
+			],
+			"to": [
+				8.6,
+				18,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						3
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						3
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						3
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						3
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.2000000000000002
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.2000000000000002
+					]
+				}
+			}
+		},
+		{
+			"name": "Spout",
+			"from": [
+				7.4,
+				17,
+				2.2
+			],
+			"to": [
+				8.6,
+				18,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						1
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						1
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						2.3999999999999995
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						2.3999999999999995
+					]
+				}
+			}
+		},
+		{
+			"name": "Mirror",
+			"from": [
+				3.5,
+				19,
+				1
+			],
+			"to": [
+				12.5,
+				29,
+				1.3
+			],
+			"faces": {
+				"south": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						9.0,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "MirrorRim",
+			"from": [
+				3.2,
+				18.7,
+				1
+			],
+			"to": [
+				12.8,
+				29.3,
+				1.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#frame-white",
+					"uv": [
+						0,
+						0,
+						9.600000000000001,
+						10.600000000000001
+					]
+				}
+			}
+		}
+	]
+}

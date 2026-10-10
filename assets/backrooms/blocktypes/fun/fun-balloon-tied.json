@@ -1,0 +1,67 @@
+// Level Fun: a balloon on a string, tied to something below
+{
+	"code": "fun-balloon-tied",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"red",
+				"yellow",
+				"blue",
+				"green",
+				"pink"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-red": {
+			"base": "block/fun/fun-balloon-tied-red"
+		},
+		"*-yellow": {
+			"base": "block/fun/fun-balloon-tied-yellow"
+		},
+		"*-blue": {
+			"base": "block/fun/fun-balloon-tied-blue"
+		},
+		"*-green": {
+			"base": "block/fun/fun-balloon-tied-green"
+		},
+		"*-pink": {
+			"base": "block/fun/fun-balloon-tied-pink"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-red"
+		],
+		"decorative": [
+			"*-red"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "backrooms:ambient/fun/balloonpop",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1.9,
+		"z2": 0.7
+	},
+	"drops": []
+}

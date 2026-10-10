@@ -1,0 +1,334 @@
+// Level 3999: a prize counter: purple laminate, a chrome edge, a glass case of plush and boxed toys (its customer side faces the way named; an attendant stands behind it). Tickets buy prizes by tier (attributes.l3999prizes: 5, 15, 40, 200 tickets; light 6)
+{
+	"code": "l3999-prizecounter",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-prizecounter-north": {
+			"base": "backrooms:block/3999/l3999-prizecounter"
+		},
+		"l3999-prizecounter-east": {
+			"base": "backrooms:block/3999/l3999-prizecounter",
+			"rotateY": 270
+		},
+		"l3999-prizecounter-south": {
+			"base": "backrooms:block/3999/l3999-prizecounter",
+			"rotateY": 180
+		},
+		"l3999-prizecounter-west": {
+			"base": "backrooms:block/3999/l3999-prizecounter",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-prizecounter-north"
+		],
+		"backrooms": [
+			"l3999-prizecounter-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l3999-prizecounter-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-prizecounter-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-prizecounter-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-prizecounter-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-prizecounter-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-prizecounter-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-prizecounter-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-prizecounter-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		53,
+		3,
+		6
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999prizes": {
+			"5": [
+				{
+					"type": "item",
+					"code": "almondwater",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "game:candle",
+					"quantity": 2
+				},
+				{
+					"type": "item",
+					"code": "l3999-glowband-magenta",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-glowband-cyan",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-glowband-lilac",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-plush-bear-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-plush-cat-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-plush-alien-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-plush-smiley-north",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-popcorn",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-cottoncandy",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-soda-cherry",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "l3999-soda-grape",
+					"quantity": 1
+				}
+			],
+			"15": [
+				{
+					"type": "item",
+					"code": "game:bandage-clean",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "firesalt",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "seedpacket-turnip",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "seedpacket-carrot",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "seedpacket-onion",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "game:gear-rusty",
+					"quantity": 2
+				},
+				{
+					"type": "item",
+					"code": "l3999-neontubing",
+					"quantity": 3
+				},
+				{
+					"type": "item",
+					"code": "l3999-traymeal-burger",
+					"quantity": 2
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-magenta-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-cyan-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-blue-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-pink-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-orange-north",
+					"quantity": 1
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-lilac-north",
+					"quantity": 1
+				}
+			],
+			"40": [
+				{
+					"type": "block",
+					"code": "game:lantern-small-up",
+					"quantity": 1,
+					"attributes": {
+						"material": "copper",
+						"lining": "plain",
+						"glass": "quartz"
+					}
+				},
+				{
+					"type": "item",
+					"code": "prybar",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "game:backpack-normal",
+					"quantity": 1
+				},
+				{
+					"type": "item",
+					"code": "almondwater",
+					"quantity": 6
+				},
+				{
+					"type": "item",
+					"code": "game:bandage-clean",
+					"quantity": 4
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-magenta-north",
+					"quantity": 5
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-cyan-north",
+					"quantity": 5
+				},
+				{
+					"type": "block",
+					"code": "l3999-neonlamp-pink-north",
+					"quantity": 5
+				}
+			],
+			"200": [
+				{
+					"type": "item",
+					"code": "game:gear-temporal",
+					"quantity": 1
+				}
+			]
+		}
+	}
+}

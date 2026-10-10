@@ -1,0 +1,563 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"face-cat": "backrooms:block/3999/face-cat",
+		"fur-cat": "backrooms:block/3999/fur-cat",
+		"fur-white": "backrooms:block/3999/fur-white"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				5.6,
+				0.0,
+				6.1
+			],
+			"to": [
+				10.4,
+				4.0,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.8,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.3,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.8,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.3,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.8,
+						4.3
+					]
+				},
+				"down": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						4.8,
+						4.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				5.0,
+				3.6,
+				5.5
+			],
+			"to": [
+				11.0,
+				8.6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#face-cat",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						5.0,
+						5.0
+					]
+				},
+				"south": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						6.0,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						5.0,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						6.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						6.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "EarL",
+			"from": [
+				9.2,
+				8.6,
+				7.4
+			],
+			"to": [
+				10.8,
+				10.2,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "EarR",
+			"from": [
+				5.2,
+				8.6,
+				7.4
+			],
+			"to": [
+				6.8,
+				10.2,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.2,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.6,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "PawL",
+			"from": [
+				8.6,
+				0.0,
+				5.4
+			],
+			"to": [
+				10.0,
+				1.2,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PawR",
+			"from": [
+				6.0,
+				0.0,
+				5.4
+			],
+			"to": [
+				7.4,
+				1.2,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.4,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tail",
+			"from": [
+				4.6,
+				0.4,
+				9.0
+			],
+			"to": [
+				5.6,
+				3.6,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#fur-cat",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "TailTip",
+			"from": [
+				4.2,
+				3.6,
+				9.1
+			],
+			"to": [
+				5.2,
+				4.8,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						0.8,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						0.8,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#fur-white",
+					"uv": [
+						0.5,
+						0.5,
+						1.0,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

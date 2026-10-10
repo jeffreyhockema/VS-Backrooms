@@ -216,6 +216,16 @@ public class BackroomsMapLayer : MapLayer
                 floorY = geometry.FloorFor(level);
                 groundFollows = true;
                 return y > floorY - 4 && y < geometry.TopY;
+            // The five kept as 14-18: their own floor, and the room above it (a level that needs more takes its case out of this group)
+            case WorldLayout.RunLevel:
+            case WorldLayout.FunLevel:
+            case WorldLayout.TheEnd:
+            case WorldLayout.Hub:
+            case WorldLayout.Level974:
+            case WorldLayout.Level3999:
+            case WorldLayout.Level188:
+                floorY = geometry.FloorFor(level);
+                return y > floorY && y < floorY + WorldGeometry.MaxRoomHeight + 1;
             case 7:
                 return y > geometry.FloorY - 70 && y < geometry.FloorY + WorldGeometry.MaxRoomHeight + 1;
             case 8:

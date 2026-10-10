@@ -1,0 +1,134 @@
+// The Level 10 arcade's car park: a concrete kerb 4 px high with a rounded lip on the side it faces
+{
+	"code": "l3999-curb",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-curb-north": {
+			"base": "backrooms:block/3999/l3999-curb"
+		},
+		"l3999-curb-east": {
+			"base": "backrooms:block/3999/l3999-curb",
+			"rotateY": 270
+		},
+		"l3999-curb-south": {
+			"base": "backrooms:block/3999/l3999-curb",
+			"rotateY": 180
+		},
+		"l3999-curb-west": {
+			"base": "backrooms:block/3999/l3999-curb",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-curb-north"
+		],
+		"backrooms": [
+			"l3999-curb-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"selectionboxByType": {
+		"l3999-curb-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1
+		},
+		"l3999-curb-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-curb-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-curb-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-curb-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1
+		},
+		"l3999-curb-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-curb-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-curb-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.25,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

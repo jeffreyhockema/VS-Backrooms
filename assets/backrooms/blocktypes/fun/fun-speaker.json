@@ -1,0 +1,152 @@
+// Level Fun: a wall speaker over a party room's door; -on plays Happy Birthday
+{
+	"code": "fun-speaker",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"on",
+				"off"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-on-north": {
+			"base": "block/fun/fun-speaker-on",
+			"rotateY": 0
+		},
+		"*-on-east": {
+			"base": "block/fun/fun-speaker-on",
+			"rotateY": 270
+		},
+		"*-on-south": {
+			"base": "block/fun/fun-speaker-on",
+			"rotateY": 180
+		},
+		"*-on-west": {
+			"base": "block/fun/fun-speaker-on",
+			"rotateY": 90
+		},
+		"*-off-north": {
+			"base": "block/fun/fun-speaker-off",
+			"rotateY": 0
+		},
+		"*-off-east": {
+			"base": "block/fun/fun-speaker-off",
+			"rotateY": 270
+		},
+		"*-off-south": {
+			"base": "block/fun/fun-speaker-off",
+			"rotateY": 180
+		},
+		"*-off-west": {
+			"base": "block/fun/fun-speaker-off",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-on-north"
+		],
+		"decorative": [
+			"*-on-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.6,
+			"x2": 0.7,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.6,
+			"x2": 0.7,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.6,
+			"x2": 0.7,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.6,
+			"x2": 0.7,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"soundsByType": {
+		"*-on-*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks",
+			"ambient": "backrooms:ambient/fun/funtune",
+			"ambientBlockCount": 1
+		},
+		"*": {
+			"walk": "game:walk/wood",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}

@@ -1,0 +1,319 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ambersign": "backrooms:block/hub/ambersign",
+		"plywood": "backrooms:block/hub/plywood"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				1,
+				7,
+				7.2
+			],
+			"to": [
+				15,
+				21,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#ambersign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BoardBack",
+			"from": [
+				1,
+				7,
+				7.2
+			],
+			"to": [
+				15,
+				21,
+				8.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#plywood",
+					"uv": [
+						1,
+						11,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plywood",
+					"uv": [
+						7.8,
+						11,
+						8.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plywood",
+					"uv": [
+						7.2,
+						11,
+						8.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plywood",
+					"uv": [
+						1,
+						7.2,
+						15,
+						8.2
+					]
+				},
+				"down": {
+					"texture": "#plywood",
+					"uv": [
+						1,
+						7.8,
+						15,
+						8.8
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				13,
+				0,
+				8.2
+			],
+			"to": [
+				14.4,
+				19,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#plywood",
+					"uv": [
+						1.6,
+						-3,
+						3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plywood",
+					"uv": [
+						6.6,
+						-3,
+						7.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plywood",
+					"uv": [
+						13,
+						-3,
+						14.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plywood",
+					"uv": [
+						8.2,
+						-3,
+						9.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plywood",
+					"uv": [
+						13,
+						8.2,
+						14.4,
+						9.4
+					]
+				},
+				"down": {
+					"texture": "#plywood",
+					"uv": [
+						13,
+						6.6,
+						14.4,
+						7.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.7,
+				19,
+				8.8
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "LegR",
+			"from": [
+				1.6,
+				0,
+				8.2
+			],
+			"to": [
+				3,
+				19,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#plywood",
+					"uv": [
+						13,
+						-3,
+						14.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plywood",
+					"uv": [
+						6.6,
+						-3,
+						7.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plywood",
+					"uv": [
+						1.6,
+						-3,
+						3,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plywood",
+					"uv": [
+						8.2,
+						-3,
+						9.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plywood",
+					"uv": [
+						1.6,
+						8.2,
+						3,
+						9.4
+					]
+				},
+				"down": {
+					"texture": "#plywood",
+					"uv": [
+						1.6,
+						6.6,
+						3,
+						7.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.3,
+				19,
+				8.8
+			],
+			"rotationX": -8
+		},
+		{
+			"name": "Prop",
+			"from": [
+				7.3,
+				0,
+				12
+			],
+			"to": [
+				8.7,
+				18,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#plywood",
+					"uv": [
+						7.3,
+						-2,
+						8.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plywood",
+					"uv": [
+						2.8,
+						-2,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plywood",
+					"uv": [
+						7.3,
+						-2,
+						8.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plywood",
+					"uv": [
+						12,
+						-2,
+						13.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plywood",
+					"uv": [
+						7.3,
+						12,
+						8.7,
+						13.2
+					]
+				},
+				"down": {
+					"texture": "#plywood",
+					"uv": [
+						7.3,
+						2.8,
+						8.7,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				18,
+				9
+			],
+			"rotationX": 20
+		}
+	]
+}

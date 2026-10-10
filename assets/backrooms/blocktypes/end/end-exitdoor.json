@@ -1,0 +1,48 @@
+// The End: a grey steel door under an EXIT sign, a push bar and wired glass on every face (it fits a wall either way). Kind endexit; indestructible. Also used in Level 1, the Hub and Level !
+{
+	"code": "end-exitdoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/end/end-exitdoor-lower"
+		},
+		"*-upper": {
+			"base": "block/end/end-exitdoor-upper"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "endexit"
+			}
+		}
+	]
+}

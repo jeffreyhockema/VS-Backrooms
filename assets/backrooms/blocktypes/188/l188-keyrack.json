@@ -1,0 +1,107 @@
+// Level 188: wall pigeonholes for room keys behind the reception desk, a few key cards still in them (wall-hung, rel 2)
+{
+	"code": "l188-keyrack",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-keyrack-north": {
+			"base": "backrooms:block/188/l188-keyrack"
+		},
+		"l188-keyrack-east": {
+			"base": "backrooms:block/188/l188-keyrack",
+			"rotateY": 270
+		},
+		"l188-keyrack-south": {
+			"base": "backrooms:block/188/l188-keyrack",
+			"rotateY": 180
+		},
+		"l188-keyrack-west": {
+			"base": "backrooms:block/188/l188-keyrack",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-keyrack-north"
+		],
+		"backrooms": [
+			"l188-keyrack-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l188-keyrack-north": {
+			"x1": 0,
+			"y1": 0.05,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 0.82,
+			"z2": 1
+		},
+		"l188-keyrack-east": {
+			"x1": 0,
+			"y1": 0.05,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 0.82,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-keyrack-south": {
+			"x1": 0,
+			"y1": 0.05,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 0.82,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-keyrack-west": {
+			"x1": 0,
+			"y1": 0.05,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 0.82,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188furniture": true
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	]
+}

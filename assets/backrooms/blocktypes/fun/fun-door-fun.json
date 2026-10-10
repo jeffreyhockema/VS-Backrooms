@@ -1,0 +1,74 @@
+// Wooden doors with big raised multicoloured letters spelling FUN: between Level 5 and Level Fun (two-way). A double door (l, r as seen from any face) or a single leaf with all three letters (Level 5's hotel corridors)
+{
+	"code": "fun-door-fun",
+	"variantgroups": [
+		{
+			"code": "leaf",
+			"states": [
+				"l",
+				"r",
+				"single"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-lower": {
+			"base": "block/fun/fun-door-fun-l-lower"
+		},
+		"*-l-upper": {
+			"base": "block/fun/fun-door-fun-l-upper"
+		},
+		"*-r-lower": {
+			"base": "block/fun/fun-door-fun-r-lower"
+		},
+		"*-r-upper": {
+			"base": "block/fun/fun-door-fun-r-upper"
+		},
+		"*-single-upper": {
+			"base": "block/fun/fun-door-fun-single-upper"
+		},
+		"*-single-lower": {
+			"base": "block/fun/fun-door-fun-single-lower"
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "fundoor"
+			}
+		}
+	]
+}

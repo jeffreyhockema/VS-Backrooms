@@ -47,12 +47,16 @@ public sealed class Passage
 ///
 /// This class has no game dependencies, so the whole network can be exercised outside the game.
 /// </summary>
-public sealed class ThresholdNetwork
+public sealed partial class ThresholdNetwork
 {
     private const ulong SaltElevator = 0x7E01, SaltDoor = 0x7E02, SaltPit = 0x7E03, SaltStairs = 0x7E04, SaltDeep = 0x7E05, SaltVending = 0x7E06;
 
     /// <summary>Chance that a hotel door which looks locked opens after all, and that a Level 4 vending machine is a hungry one.</summary>
     private const double OpenDoorChance = 0.06, HungryMachineChance = 0.06, OpenTunnelDoorChance = 0.3;
+
+    /// <summary>Whether one of Level 2's steel tunnel doors (a door of one tile, at its own position) opens; the rest stay locked.
+    /// (For the layout, which puts the Hub's doors only on the locked ones.)</summary>
+    public static bool TunnelDoorOpens(ulong seed, int x, int z) => Hashing.Unit(Hashing.Hash(seed, x, z, SaltDoor + 2)) < OpenTunnelDoorChance;
 
     public const double StandHeight = 1.05, EntryRoomHeight = 6.05;
 
@@ -123,6 +127,10 @@ public sealed class ThresholdNetwork
     {
         int level = tile.Level;
         (int X, int Z) Whole(Func<Tile, bool> part) => layout.FeatureOrigin(x, z, t => t.Level == level && part(t));
+        // The five kept as 14-18 keep their thresholds, out of them and into them from anywhere, in their own files
+        Passage region = RunWalked(x, z, tile, rel) ?? FunWalked(x, z, tile, rel) ?? EndWalked(x, z, tile, rel)
+            ?? HubWalked(x, z, tile, rel) ?? L974Walked(x, z, tile, rel) ?? L3999Walked(x, z, tile, rel) ?? L188Walked(x, z, tile, rel);
+        if (region != null) return region;
         switch (level)
         {
             case 0 when tile.Kind == TileKind.Pit && rel < -1.5:
@@ -297,6 +305,12 @@ public sealed class ThresholdNetwork
         // The Snackrooms' doors answer for their whole food court, so every door of a kind leads to the same place
         ulong court = Hashing.Hash(seed, mx, mz, SaltDoor + KindSalt(kind));
         ulong here = KeyOf(at, SaltDoor);
+
+        // The five kept as 14-18 answer for their own kinds of block first, in their own files
+        Passage region = RunUsed(x, z, level, kind, ref refusal) ?? FunUsed(x, z, level, kind, ref refusal) ?? EndUsed(x, z, level, kind, ref refusal)
+            ?? HubUsed(x, z, level, kind, ref refusal) ?? L974Used(x, z, level, kind, ref refusal)
+            ?? L3999Used(x, z, level, kind, ref refusal) ?? L188Used(x, z, level, kind, ref refusal);
+        if (region != null || refusal != null) return region;
 
         switch (kind)
         {

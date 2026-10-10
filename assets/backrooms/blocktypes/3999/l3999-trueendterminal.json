@@ -1,0 +1,139 @@
+// The End's old computer running TRUEEND.EXE (Level 3999's way in, one-way): The End's terminal model with a neon screen. Put there by EndSystem for the three seconds before the computer takes its user and dies
+{
+	"code": "l3999-trueendterminal",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/end/end-terminal-party",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "backrooms:block/end/end-terminal-party",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/end/end-terminal-party",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/end/end-terminal-party",
+			"rotateY": 90
+		}
+	},
+	"textures": {
+		"screen-party": {
+			"base": "backrooms:block/3999/screen-trueend"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"lightHsv": [
+		50,
+		5,
+		6
+	],
+	"resistance": 20,
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.88,
+			"y2": 0.75,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	}
+}

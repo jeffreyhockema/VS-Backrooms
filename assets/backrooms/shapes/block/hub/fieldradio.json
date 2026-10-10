@@ -1,0 +1,662 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"blackknob": "backrooms:block/hub/blackknob",
+		"olive": "backrooms:block/hub/olive",
+		"radioface": "backrooms:block/hub/radioface"
+	},
+	"elements": [
+		{
+			"name": "Case",
+			"from": [
+				3,
+				0,
+				5
+			],
+			"to": [
+				13,
+				7,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#olive",
+					"uv": [
+						3,
+						9,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#olive",
+					"uv": [
+						5,
+						9,
+						11,
+						16
+					]
+				},
+				"south": {
+					"texture": "#olive",
+					"uv": [
+						3,
+						9,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#olive",
+					"uv": [
+						5,
+						9,
+						11,
+						16
+					]
+				},
+				"up": {
+					"texture": "#olive",
+					"uv": [
+						3,
+						5,
+						13,
+						11
+					]
+				},
+				"down": {
+					"texture": "#olive",
+					"uv": [
+						3,
+						5,
+						13,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				3,
+				0,
+				5
+			],
+			"to": [
+				13,
+				7,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#radioface",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				5,
+				7,
+				7.5
+			],
+			"to": [
+				11,
+				7.6,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						8.4,
+						11,
+						9
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						8.4,
+						8.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						8.4,
+						11,
+						9
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						8.4,
+						8.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						11,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						11,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleL",
+			"from": [
+				5,
+				7,
+				7.5
+			],
+			"to": [
+				5.6,
+				8.6,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						10.4,
+						7.4,
+						11,
+						9
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						7.4,
+						8.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.4,
+						5.6,
+						9
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						7.4,
+						8.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						5.6,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						5.6,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleR",
+			"from": [
+				10.4,
+				7,
+				7.5
+			],
+			"to": [
+				11,
+				8.6,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.4,
+						5.6,
+						9
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						7.4,
+						8.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						10.4,
+						7.4,
+						11,
+						9
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						7.4,
+						8.5,
+						9
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						10.4,
+						7.5,
+						11,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						10.4,
+						7.5,
+						11,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleTop",
+			"from": [
+				5,
+				8.6,
+				7.5
+			],
+			"to": [
+				11,
+				9.2,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						6.8,
+						11,
+						7.4
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						6.8,
+						8.5,
+						7.4
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						6.8,
+						11,
+						7.4
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						7.5,
+						6.8,
+						8.5,
+						7.4
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						11,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						5,
+						7.5,
+						11,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Antenna",
+			"from": [
+				11.8,
+				7,
+				9.6
+			],
+			"to": [
+				12.2,
+				19,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						3.8,
+						13,
+						4.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						6,
+						13,
+						6.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						11.8,
+						13,
+						12.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						9.6,
+						13,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						11.8,
+						9.6,
+						12.2,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						11.8,
+						6,
+						12.2,
+						6.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				12,
+				7,
+				9.8
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "KnobA",
+			"from": [
+				4.2,
+				1.6,
+				4.4
+			],
+			"to": [
+				5.6,
+				3,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						10.4,
+						13,
+						11.8,
+						14.4
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						11,
+						13,
+						11.6,
+						14.4
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						4.2,
+						13,
+						5.6,
+						14.4
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						4.4,
+						13,
+						5,
+						14.4
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						4.2,
+						4.4,
+						5.6,
+						5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						4.2,
+						11,
+						5.6,
+						11.6
+					]
+				}
+			}
+		},
+		{
+			"name": "KnobB",
+			"from": [
+				7.2,
+				1.6,
+				4.4
+			],
+			"to": [
+				8.6,
+				3,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						7.4,
+						13,
+						8.8,
+						14.4
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						11,
+						13,
+						11.6,
+						14.4
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						7.2,
+						13,
+						8.6,
+						14.4
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						4.4,
+						13,
+						5,
+						14.4
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						7.2,
+						4.4,
+						8.6,
+						5
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						7.2,
+						11,
+						8.6,
+						11.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Handset",
+			"from": [
+				13,
+				0,
+				6
+			],
+			"to": [
+				15.5,
+				2,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#blackknob",
+					"uv": [
+						0.5,
+						14,
+						3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#blackknob",
+					"uv": [
+						6,
+						14,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#blackknob",
+					"uv": [
+						13,
+						14,
+						15.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#blackknob",
+					"uv": [
+						6,
+						14,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#blackknob",
+					"uv": [
+						13,
+						6,
+						15.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blackknob",
+					"uv": [
+						13,
+						6,
+						15.5,
+						10
+					]
+				}
+			}
+		}
+	]
+}

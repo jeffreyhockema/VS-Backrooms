@@ -1,0 +1,506 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"balloonstring": "backrooms:block/fun/balloonstring",
+		"latex-yellow": "backrooms:block/fun/latex-yellow"
+	},
+	"elements": [
+		{
+			"name": "BA",
+			"from": [
+				5.0,
+				23.8,
+				5.9
+			],
+			"to": [
+				11.0,
+				28.8,
+				10.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BB",
+			"from": [
+				5.9,
+				23.8,
+				5.0
+			],
+			"to": [
+				10.1,
+				28.8,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BCore",
+			"from": [
+				5.8,
+				22.5,
+				5.8
+			],
+			"to": [
+				10.2,
+				29.5,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BNeck",
+			"from": [
+				6.7,
+				21.3,
+				6.7
+			],
+			"to": [
+				9.3,
+				22.5,
+				9.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#latex-yellow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "S1",
+			"from": [
+				7.88,
+				10.3,
+				7.88
+			],
+			"to": [
+				8.12,
+				21.3,
+				8.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.0
+					]
+				},
+				"east": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.0
+					]
+				},
+				"south": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.0
+					]
+				},
+				"west": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.0
+					]
+				},
+				"up": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				21.3,
+				8
+			],
+			"rotationX": 4
+		},
+		{
+			"name": "S2",
+			"from": [
+				7.88,
+				0.0,
+				8.63
+			],
+			"to": [
+				8.12,
+				10.6,
+				8.87
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.6
+					]
+				},
+				"east": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.6
+					]
+				},
+				"south": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.6
+					]
+				},
+				"west": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.6
+					]
+				},
+				"up": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				10.6,
+				8.75
+			],
+			"rotationX": -3,
+			"rotationZ": 2
+		},
+		{
+			"name": "Knot",
+			"from": [
+				7.4,
+				0,
+				8.1
+			],
+			"to": [
+				8.6,
+				0.8,
+				9.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				},
+				"down": {
+					"texture": "#balloonstring",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.200000000000001
+					]
+				}
+			}
+		}
+	]
+}

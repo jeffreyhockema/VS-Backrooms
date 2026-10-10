@@ -1,0 +1,93 @@
+// A stretch of tunnel wall whose seams meet nothing. Walk into it: it isn't there (the way to Level 4)
+{
+	"code": "hub-falsewall",
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/hub/wall-false"
+		}
+	},
+	"collisionbox": null,
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 25,
+					"var": 5
+				},
+				{
+					"avg": 20,
+					"var": 10
+				},
+				{
+					"avg": 150,
+					"var": 20
+				},
+				{
+					"avg": 60,
+					"var": 20
+				}
+			],
+			"gravityEffect": {
+				"avg": 0,
+				"var": 0.01
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.5
+				},
+				{
+					"avg": 0,
+					"var": 0.5
+				},
+				{
+					"avg": 0,
+					"var": 0.5
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.01
+				},
+				{
+					"avg": 0.005,
+					"var": 0.005
+				},
+				{
+					"avg": 0,
+					"var": 0.01
+				}
+			],
+			"quantity": {
+				"avg": 0.015
+			},
+			"size": {
+				"avg": 0.08,
+				"var": 0.04
+			},
+			"particleModel": "Quad",
+			"lifeLength": {
+				"avg": 2,
+				"var": 1
+			},
+			"selfPropelled": true
+		}
+	]
+}

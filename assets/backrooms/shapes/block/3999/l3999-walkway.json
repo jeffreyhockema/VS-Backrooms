@@ -1,0 +1,373 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/3999/darksteel",
+		"tread": "backrooms:block/3999/tread"
+	},
+	"elements": [
+		{
+			"name": "Tread",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				14.6,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#tread",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.6
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.6
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.6
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.6
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib0",
+			"from": [
+				2,
+				14.6,
+				0
+			],
+			"to": [
+				2.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.6000000000000001,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib1",
+			"from": [
+				4,
+				14.6,
+				0
+			],
+			"to": [
+				4.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib2",
+			"from": [
+				6,
+				14.6,
+				0
+			],
+			"to": [
+				6.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib3",
+			"from": [
+				8,
+				14.6,
+				0
+			],
+			"to": [
+				8.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib4",
+			"from": [
+				10,
+				14.6,
+				0
+			],
+			"to": [
+				10.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib5",
+			"from": [
+				12,
+				14.6,
+				0
+			],
+			"to": [
+				12.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib6",
+			"from": [
+				14,
+				14.6,
+				0
+			],
+			"to": [
+				14.6,
+				15,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

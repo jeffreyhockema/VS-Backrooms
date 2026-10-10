@@ -1,0 +1,424 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/188/black",
+		"loungefabric": "backrooms:block/188/loungefabric"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				1.6,
+				0,
+				2
+			],
+			"to": [
+				14.4,
+				1.6,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12.8,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12.8,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12.8,
+						12
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						12.8,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				1.6,
+				1.6,
+				1.6
+			],
+			"to": [
+				14.4,
+				6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11.4,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11.4,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						11.4
+					]
+				},
+				"down": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						11.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1.6,
+				6,
+				11
+			],
+			"to": [
+				14.4,
+				12.4,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						6.4
+					]
+				},
+				"east": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						6.4
+					]
+				},
+				"south": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						6.4
+					]
+				},
+				"west": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						3.5999999999999996,
+						6.4
+					]
+				},
+				"up": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						3.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						12.8,
+						3.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				12.6,
+				6,
+				2
+			],
+			"to": [
+				14.6,
+				9,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11,
+						3
+					]
+				},
+				"south": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11,
+						3
+					]
+				},
+				"up": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						11
+					]
+				},
+				"down": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				1.4,
+				6,
+				2
+			],
+			"to": [
+				3.4,
+				9,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11,
+						3
+					]
+				},
+				"south": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						11,
+						3
+					]
+				},
+				"up": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						11
+					]
+				},
+				"down": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						2.0,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Cushion",
+			"from": [
+				3.4,
+				6,
+				2
+			],
+			"to": [
+				12.6,
+				7,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9.2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9,
+						1
+					]
+				},
+				"south": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9.2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9,
+						1
+					]
+				},
+				"up": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9.2,
+						9
+					]
+				},
+				"down": {
+					"texture": "#loungefabric",
+					"uv": [
+						0,
+						0,
+						9.2,
+						9
+					]
+				}
+			}
+		}
+	]
+}

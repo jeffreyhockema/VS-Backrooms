@@ -1,0 +1,103 @@
+// Level 3999's mini arcades: a 3 x 3 keypad with a tiny green display beside the elevator, on the wall behind it
+{
+	"code": "l3999-keypad",
+	"variantgroups": [
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-keypad-north": {
+			"base": "backrooms:block/3999/l3999-keypad"
+		},
+		"l3999-keypad-east": {
+			"base": "backrooms:block/3999/l3999-keypad",
+			"rotateY": 270
+		},
+		"l3999-keypad-south": {
+			"base": "backrooms:block/3999/l3999-keypad",
+			"rotateY": 180
+		},
+		"l3999-keypad-west": {
+			"base": "backrooms:block/3999/l3999-keypad",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-keypad-north"
+		],
+		"backrooms": [
+			"l3999-keypad-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-keypad-north": {
+			"x1": 0.3,
+			"y1": 0.3,
+			"z1": 0.9,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l3999-keypad-east": {
+			"x1": 0.3,
+			"y1": 0.3,
+			"z1": 0.9,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l3999-keypad-south": {
+			"x1": 0.3,
+			"y1": 0.3,
+			"z1": 0.9,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l3999-keypad-west": {
+			"x1": 0.3,
+			"y1": 0.3,
+			"z1": 0.9,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsv": [
+		21,
+		4,
+		2
+	],
+	"drops": [],
+	"attributes": {
+		"l3999structure": true
+	}
+}

@@ -1,0 +1,251 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hatch-sw": "backrooms:block/188/hatch-sw",
+		"iron": "backrooms:block/188/iron",
+		"ring": "backrooms:block/188/ring"
+	},
+	"elements": [
+		{
+			"name": "Platesw",
+			"from": [
+				0,
+				0,
+				13
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"south": {
+					"texture": "#hatch-sw",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RingS",
+			"from": [
+				14.5,
+				13,
+				16
+			],
+			"to": [
+				16,
+				13.600000000000001,
+				16.6
+			],
+			"faces": {
+				"up": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "RingW",
+			"from": [
+				13,
+				14.5,
+				16
+			],
+			"to": [
+				13.6,
+				16,
+				16.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Staple",
+			"from": [
+				15.2,
+				15.2,
+				16
+			],
+			"to": [
+				16,
+				16,
+				16.9
+			],
+			"faces": {
+				"down": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

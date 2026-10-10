@@ -1,0 +1,105 @@
+// Level Fun: a life ring on the deck's bulkhead
+{
+	"code": "fun-lifering",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/fun/fun-lifering",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/fun/fun-lifering",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/fun/fun-lifering",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/fun/fun-lifering",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.85,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.85,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.85,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0.1,
+			"z1": 0.85,
+			"x2": 0.9,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:rope",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.3
+			}
+		}
+	]
+}

@@ -1,0 +1,66 @@
+// LUCA tears from the Host's golden pool
+{
+	"code": "fun-lucatears",
+	"maxstacksize": 4,
+	"texture": {
+		"base": "item/fun/lucatears"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	},
+	"nutritionProps": {
+		"satiety": 20,
+		"foodcategory": "NoNutrition"
+	},
+	"materialDensity": 1000,
+	"attributes": {
+		"maxhealthExtraPoints": 4,
+		"meleeWeaponsDamage": 0.25,
+		"durationHours": 24,
+		"stabilityRestored": 0.3
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}

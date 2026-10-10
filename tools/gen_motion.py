@@ -250,6 +250,8 @@ def blocks():
             "textures": {"up": {"base": f"block/detail/clayturf-{kind}"}, "down": {"base": "block/detail/claysoil"},
                          "horizontals": {"base": f"block/detail/clayturf-side-{kind}"}},
             "lightAbsorption": 99, "resistance": 1.5,
+            # Fertile enough for the grass and flowers on it, and (like soil) keeps the shrubs' leaves from decaying
+            "fertility": 50, "attributes": {"preventsDecay": True},
             "sounds": {"walk": "game:walk/grass", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"},
             "drops": [{"type": "block", "code": "game:soil-low-none", "quantity": {"avg": 1}}],
         }, "Level 94: clay turf, mown in stripes. Dug up, it gives a poor sort of soil")
@@ -257,6 +259,7 @@ def blocks():
     block("claysoil", {
         "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
         "textures": {"all": {"base": "block/detail/claysoil"}}, "lightAbsorption": 99, "resistance": 1.5,
+        "fertility": 10, "attributes": {"preventsDecay": True},
         "sounds": {"walk": "game:walk/sludge*", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"},
         "drops": [{"type": "item", "code": "game:clay-red", "quantity": {"avg": 3, "var": 1}}],
     }, "Level 94: the modelling clay everything is made of. Dug up, it is clay for the potter's wheel")
@@ -434,7 +437,7 @@ def props():
         bx("Body", (2, 0, 4), (14, 26, 15), "fridgewhite", faces=("east", "west", "up", "south")),
         bx("Front", (2, 0, 4), (14, 26, 15), "icebox-front", faces=("north",), full=True)],
          box=(0.12, 0, 0.25, 0.88, 1.62, 0.94), material="Metal", sounds=METAL,
-         extra={"drops": drops(("game:cheese-cheddar-1slice", 0.8, 0.6), ("game:butter", 0.5, 0.4),
+         extra={"drops": drops(("game:cheese-cheddar-1slice", 0.8, 0.6), ("game:butter-salted", 0.5, 0.4),
                                ("almondmilk", 0.6, 0.4), ("cannedbeans", 0.4, 0.3), ("metalbracket", 1, 0.5))})
     prop("radiocabinet", "Radio Cabinet", [
         bx("Body", (1, 0, 5), (15, 15, 14), "tvwood", faces=("east", "west", "up", "south")),

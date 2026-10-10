@@ -94,6 +94,31 @@ public sealed partial class WorldLayout
         return Hashing.Unit(Hashing.Hash(seed, bi, bj, SaltPoolReservoir)) < 0.05;
     }
 
+    /// <summary>What the far end of one of Level 37's dry corridors gives way to.</summary>
+    public enum PoolCorridorEnd : byte
+    {
+        /// <summary>Grey office carpet and drywall: Level 4 (as it always was).</summary>
+        Carpet,
+        /// <summary>Level !'s red corridor.</summary>
+        Run,
+        /// <summary>Concrete slabs and asphalt: the Hub.</summary>
+        Hub,
+    }
+
+    /// <summary>Salt of the one roll per dry corridor (from the Hub's block of salts).</summary>
+    private const ulong SaltPoolCorridorEnd = 0x1710;
+
+    /// <summary>
+    /// The single roll for what the dry corridor of a Level 37 plan block (there is at most one to a block) gives way to
+    /// at its far end (docs/new-levels/LINKS.md): 15% Level !'s red corridor, 20% the Hub's asphalt, 65% office carpet
+    /// as before. Its own salt, so nothing else in the block moves. Read this; never roll your own.
+    /// </summary>
+    public PoolCorridorEnd PoolCorridorEndKind(int bi, int bj)
+    {
+        double r = Hashing.Unit(Hashing.Hash(seed, bi, bj, SaltPoolCorridorEnd));
+        return r < 0.15 ? PoolCorridorEnd.Run : r < 0.35 ? PoolCorridorEnd.Hub : PoolCorridorEnd.Carpet;
+    }
+
     /// <summary>Whether a Level 37 cell lies in the Sanguine Reservoir.</summary>
     public bool IsReservoir(int mx, int mz)
     {
@@ -237,6 +262,8 @@ public sealed partial class WorldLayout
         public readonly byte[] Owner = new byte[PoolBlock * PoolBlock];
         public Rng Rng;
         public bool Reservoir, Dim;
+        /// <summary>What the far end of this block's dry corridor (if it has one) gives way to (<see cref="PoolCorridorEndKind"/>).</summary>
+        public PoolCorridorEnd CorridorEnd;
 
         public static bool In(int u, int v) => u >= 0 && v >= 0 && u < PoolBlock && v < PoolBlock;
         public ref Tile At(int u, int v) => ref Tiles[v * PoolBlock + u];
@@ -295,6 +322,7 @@ public sealed partial class WorldLayout
             Rng = new Rng(Hashing.Hash(seed, bi, bj, SaltPoolBlock)),
             Reservoir = IsReservoirBlock(bi, bj),
             Dim = NearReservoir(bi, bj),
+            CorridorEnd = PoolCorridorEndKind(bi, bj),
         };
         for (int i = 0; i < p.Tiles.Length; i++) p.Tiles[i] = PoolWall();
         int x0 = PoolOriginX + bi * PoolBlock, z0 = PoolOriginZ + bj * PoolBlock;
@@ -312,6 +340,8 @@ public sealed partial class WorldLayout
         PlacePoolDoors(p);
         PlacePoolLeftovers(p);
         if (p.Reservoir) MakeReservoir(p);
+        // Level 3999's way in: glowing magenta tiles at the bottom of the deepest water, far out (its own salt; WorldLayout.Level3999.Ways.cs)
+        if (L3999Entrances) PlaceL3999Magenta(p, bi, bj);
         return p.Tiles;
     }
 
@@ -875,6 +905,14 @@ public sealed partial class WorldLayout
         bool alongZ = r.V1 - r.V0 > r.U1 - r.U0;
         int length = alongZ ? r.V1 - r.V0 + 1 : r.U1 - r.U0 + 1;
         bool farHigh = p.Rng.Chance(0.5);
+        // What the tile gives way to at the far end: office carpet and drywall (Level 4), or concrete slabs and asphalt
+        // (the Hub). (Level !'s red corridor is rolled here too, and is carpet until that level draws its own.)
+        bool hub = p.CorridorEnd == PoolCorridorEnd.Hub;
+        // Level !'s red corridor: hospital vinyl and hospital walls lit red by an EXIT sign, and an EXIT door in the far
+        // wall (Unders.RunRedCorridor: Level ! draws those tiles itself, see WorldGenerator.Run.cs)
+        bool run = p.CorridorEnd == PoolCorridorEnd.Run && RunEntrances;
+        FloorKind endFloor = hub ? FloorKind.HubAsphalt : run ? FloorKind.RunFloor : FloorKind.OfficeCarpet;
+        WallPattern endWall = hub ? WallPattern.HubWall : WallPattern.Drywall;
         for (int a = 0; a < length; a++)
         {
             int t = farHigh ? a : length - 1 - a; // 0 at the far end
@@ -882,22 +920,46 @@ public sealed partial class WorldLayout
             {
                 int u = alongZ ? r.U0 + c : r.U0 + a, v = alongZ ? r.V0 + a : r.V0 + c;
                 bool carpet = t < 4;
-                p.Floor(u, v, 0, 4, o, carpet ? FloorKind.OfficeCarpet : FloorKind.PoolTile);
-                if (t == 0) p.At(u, v).Under = Unders.PoolCarpet;
+                p.Floor(u, v, 0, 4, o, carpet ? endFloor : FloorKind.PoolTile);
+                if (t == 0 && !run) p.At(u, v).Under = hub ? Unders.PoolAsphalt : Unders.PoolCarpet;
+                if (carpet && run)
+                {
+                    p.At(u, v).Under = Unders.RunRedCorridor;
+                    if (t == 0 && c == 2)
+                    {
+                        p.At(u, v).Ceiling = CeilingKind.RunExitSign;
+                        if (!alongZ) p.At(u, v).Detail = WorldLayout.RunSignWE;
+                    }
+                }
                 if (carpet)
                 {
-                    // Drywall either side of the carpet
+                    // Drywall (or the Hub's concrete, or Level !'s hospital wall) either side of the carpet
                     int wu = alongZ ? r.U0 + (c == 1 ? 0 : 4) : u, wv = alongZ ? v : r.V0 + (c == 1 ? 0 : 4);
-                    if (c != 2 && p.At(wu, wv).Kind == TileKind.Wall) p.At(wu, wv).Pattern = WallPattern.Drywall;
+                    if (c != 2 && p.At(wu, wv).Kind == TileKind.Wall)
+                    {
+                        p.At(wu, wv).Pattern = endWall;
+                        if (run)
+                        {
+                            p.At(wu, wv).Under = Unders.RunRedCorridor;
+                            p.At(wu, wv).Pier = alongZ ? (c == 1 ? ArchPier.East : ArchPier.West) : (c == 1 ? ArchPier.South : ArchPier.North);
+                        }
+                    }
                 }
             }
         }
-        // The far wall, drywall too
+        // The far wall, drywall too (Level !'s: an EXIT door in the middle of it)
         int endA = farHigh ? 0 : length - 1;
         for (int c = 0; c <= 4; c++)
         {
             int u = alongZ ? r.U0 + c : r.U0 + endA + (farHigh ? -1 : 1), v = alongZ ? r.V0 + endA + (farHigh ? -1 : 1) : r.V0 + c;
-            if (PoolPlanner.In(u, v) && p.At(u, v).Kind == TileKind.Wall) p.At(u, v).Pattern = WallPattern.Drywall;
+            if (PoolPlanner.In(u, v) && p.At(u, v).Kind == TileKind.Wall)
+            {
+                p.At(u, v).Pattern = endWall;
+                if (!run) continue;
+                p.At(u, v).Under = Unders.RunRedCorridor;
+                p.At(u, v).Pier = alongZ ? (farHigh ? ArchPier.South : ArchPier.North) : (farHigh ? ArchPier.East : ArchPier.West);
+                if (c == 2) p.At(u, v).Kind = TileKind.Door;
+            }
         }
         // One slit at the tile end, and then the corridor goes on without light
         int a0 = farHigh ? length - 2 : 1;

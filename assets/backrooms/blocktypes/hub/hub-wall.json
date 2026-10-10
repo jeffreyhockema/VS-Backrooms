@@ -1,0 +1,55 @@
+// The Hub's tunnel walls: great cast concrete panels, 2 blocks wide and 3 high. 'left' carries the seam on its left edge (every 2nd block along a wall), 'bottom' on its bottom edge (every 3rd block up), 'corner' both
+{
+	"code": "hub-wall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"left",
+				"bottom",
+				"corner"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/hub/wall-plain"
+			}
+		},
+		"*-left": {
+			"all": {
+				"base": "block/hub/wall-left"
+			}
+		},
+		"*-bottom": {
+			"all": {
+				"base": "block/hub/wall-bottom"
+			}
+		},
+		"*-corner": {
+			"all": {
+				"base": "block/hub/wall-corner"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

@@ -1,0 +1,609 @@
+// Level 3999: an upright arcade cabinet facing the way named, six invented games (a GALAXIA 3999, b NEON RALLY, c DUNGEON BYTE, d ROBO BRAWL, e SKY JOUSTER, f MAZE MUNCHER), each with its marquee, screen, side art and neon T-moulding. Hold to play (4 s); pays 0-3 tickets once a day (attributes.l3999cabinet; screen light 6)
+{
+	"code": "l3999-cabinet",
+	"variantgroups": [
+		{
+			"code": "game",
+			"states": [
+				"a",
+				"b",
+				"c",
+				"d",
+				"e",
+				"f"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-cabinet-a-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-a"
+		},
+		"l3999-cabinet-a-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-a",
+			"rotateY": 270
+		},
+		"l3999-cabinet-a-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-a",
+			"rotateY": 180
+		},
+		"l3999-cabinet-a-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-a",
+			"rotateY": 90
+		},
+		"l3999-cabinet-b-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-b"
+		},
+		"l3999-cabinet-b-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-b",
+			"rotateY": 270
+		},
+		"l3999-cabinet-b-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-b",
+			"rotateY": 180
+		},
+		"l3999-cabinet-b-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-b",
+			"rotateY": 90
+		},
+		"l3999-cabinet-c-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-c"
+		},
+		"l3999-cabinet-c-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-c",
+			"rotateY": 270
+		},
+		"l3999-cabinet-c-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-c",
+			"rotateY": 180
+		},
+		"l3999-cabinet-c-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-c",
+			"rotateY": 90
+		},
+		"l3999-cabinet-d-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-d"
+		},
+		"l3999-cabinet-d-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-d",
+			"rotateY": 270
+		},
+		"l3999-cabinet-d-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-d",
+			"rotateY": 180
+		},
+		"l3999-cabinet-d-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-d",
+			"rotateY": 90
+		},
+		"l3999-cabinet-e-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-e"
+		},
+		"l3999-cabinet-e-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-e",
+			"rotateY": 270
+		},
+		"l3999-cabinet-e-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-e",
+			"rotateY": 180
+		},
+		"l3999-cabinet-e-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-e",
+			"rotateY": 90
+		},
+		"l3999-cabinet-f-north": {
+			"base": "backrooms:block/3999/l3999-cabinet-f"
+		},
+		"l3999-cabinet-f-east": {
+			"base": "backrooms:block/3999/l3999-cabinet-f",
+			"rotateY": 270
+		},
+		"l3999-cabinet-f-south": {
+			"base": "backrooms:block/3999/l3999-cabinet-f",
+			"rotateY": 180
+		},
+		"l3999-cabinet-f-west": {
+			"base": "backrooms:block/3999/l3999-cabinet-f",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-cabinet-a-north"
+		],
+		"backrooms": [
+			"l3999-cabinet-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l3999-cabinet-a-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-a-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-a-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-a-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-b-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-b-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-b-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-b-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-c-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-c-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-c-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-c-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-d-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-d-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-d-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-d-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-e-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-e-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-e-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-e-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-f-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-f-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-f-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-f-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-cabinet-a-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-a-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-a-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-a-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-b-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-b-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-b-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-b-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-c-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-c-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-c-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-c-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-d-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-d-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-d-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-d-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-e-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-e-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-e-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-e-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-cabinet-f-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94
+		},
+		"l3999-cabinet-f-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-cabinet-f-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-cabinet-f-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.91,
+			"y2": 1.75,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"*-a-*": [
+			51,
+			7,
+			6
+		],
+		"*-b-*": [
+			3,
+			7,
+			6
+		],
+		"*-c-*": [
+			53,
+			3,
+			6
+		],
+		"*-d-*": [
+			40,
+			7,
+			6
+		],
+		"*-e-*": [
+			33,
+			6,
+			6
+		],
+		"*-f-*": [
+			62,
+			7,
+			6
+		]
+	},
+	"drops": [],
+	"attributes": {
+		"l3999structure": true,
+		"l3999cabinet": {
+			"seconds": 4,
+			"min": 0,
+			"max": 3,
+			"jackpot": 12,
+			"jackpotChance": 0.03
+		}
+	}
+}

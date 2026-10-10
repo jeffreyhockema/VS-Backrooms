@@ -1,0 +1,51 @@
+// Level 188: a vent stack with a cowl on the roof
+{
+	"code": "l188-ventstack",
+	"shape": {
+		"base": "backrooms:block/188/l188-ventstack"
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-ventstack"
+		],
+		"backrooms": [
+			"l188-ventstack"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.28,
+		"y1": 0,
+		"z1": 0.28,
+		"x2": 0.72,
+		"y2": 0.96,
+		"z2": 0.72
+	},
+	"selectionbox": {
+		"x1": 0.28,
+		"y1": 0,
+		"z1": 0.28,
+		"x2": 0.72,
+		"y2": 0.96,
+		"z2": 0.72
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"drops": []
+}

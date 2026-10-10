@@ -31,6 +31,9 @@ public class BackroomsModSystem : ModSystem
     private WorldGenerator generator;
     private bool isBackroomsWorld;
 
+    /// <summary>The world's generator (server side, in a Backrooms world): Level ! puts its lanes back as they were with it.</summary>
+    public WorldGenerator Generator => generator;
+
     private ICoreClientAPI capi;
     private bool? clientIsBackroomsWorld;
 
@@ -59,9 +62,9 @@ public class BackroomsModSystem : ModSystem
                 .HandleWith(OnColumnCommand)
             .EndSubCommand()
             .BeginSubCommand("goto")
-                .WithDescription("Teleports you into a level (0-11, 37 or 94)")
+                .WithDescription("Teleports you into a level (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)")
                 .RequiresPlayer()
-                .WithArgs(api.ChatCommands.Parsers.IntRange("level", 0, 94))
+                .WithArgs(api.ChatCommands.Parsers.Word("level"))
                 .HandleWith(OnGotoCommand)
             .EndSubCommand()
             .BeginSubCommand("shift")
@@ -219,13 +222,14 @@ public class BackroomsModSystem : ModSystem
     private TextCommandResult OnGotoCommand(TextCommandCallingArgs args)
     {
         if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
-        int number = (int)args[0], level = WorldLayout.FromDisplayNumber(number);
-        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37 or 94)");
+        string number = (string)args[0];
+        int level = WorldLayout.FromDisplayName(number);
+        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
         return thresholds.Send((IServerPlayer)args.Caller.Player, level, key, null)
-            ? TextCommandResult.Success($"Sent to Level {number}")
-            : TextCommandResult.Error($"Found nowhere to arrive in Level {number}");
+            ? TextCommandResult.Success($"Sent to Level {WorldLayout.DisplayNumber(level)}")
+            : TextCommandResult.Error($"Found nowhere to arrive in Level {WorldLayout.DisplayNumber(level)}");
     }
 
     private TextCommandResult OnShiftCommand(TextCommandCallingArgs args)
@@ -262,12 +266,15 @@ public class BackroomsModSystem : ModSystem
         // The city lies lower than the other levels, and its towers rise much higher; the Poolrooms' pits go deep, and
         // Motion's hills and mountain rise far above its valleys
         int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
-        int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 4, _ => floor - 10 };
+        // (The five kept as 14-18: the band each is lit over, from its own floor)
+        bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level188;
+        int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel), _ => floor - 10 };
         int y1 = dumpLevel switch
         {
             11 => Math.Min(g.TopY, floor + 90),
             WorldLayout.Poolrooms => floor + 16,
             WorldLayout.Motion => Math.Min(g.TopY, floor + 66),
+            _ when region => g.BandTopFor(dumpLevel),
             _ => g.BandTop,
         };
         int size = 2 * r + 1, height = y1 - y0 + 1;

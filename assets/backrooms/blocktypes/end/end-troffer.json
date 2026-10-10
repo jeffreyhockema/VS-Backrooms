@@ -1,0 +1,117 @@
+// The End: 2x4 fluorescent troffers in the acoustic tile; about 1 in 3 emits (on), the rest only glow (lit)
+{
+	"code": "end-troffer",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"lit",
+				"off",
+				"flicker"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-off": {
+			"all": {
+				"base": "block/end/troffer-off"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			}
+		},
+		"*": {
+			"all": {
+				"base": "block/end/troffer-on"
+			},
+			"up": {
+				"base": "block/end/plenum"
+			}
+		}
+	},
+	"lightHsvByType": {
+		"*-on": [
+			8,
+			2,
+			14
+		]
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 160
+		},
+		"*-lit": {
+			"glowLevel": 160
+		},
+		"*-flicker": {
+			"glowLevel": 160
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:end-troffer-off"
+		}
+	},
+	"dropsByType": {
+		"*-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"*-flicker": [
+			{
+				"type": "block",
+				"code": "end-troffer-off"
+			}
+		],
+		"*-lit": [
+			{
+				"type": "block",
+				"code": "end-troffer-on"
+			}
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

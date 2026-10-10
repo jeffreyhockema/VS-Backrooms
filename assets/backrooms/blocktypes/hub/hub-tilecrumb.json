@@ -1,0 +1,43 @@
+// Where a far tunnel turns toward Level 37, white pool tile creeps over the concrete: stage 1 scattered, 2 mostly tile
+{
+	"code": "hub-tilecrumb",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"1",
+				"2"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-1": {
+			"all": {
+				"base": "block/hub/tilecrumb-1"
+			}
+		},
+		"*-2": {
+			"all": {
+				"base": "block/hub/tilecrumb-2"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

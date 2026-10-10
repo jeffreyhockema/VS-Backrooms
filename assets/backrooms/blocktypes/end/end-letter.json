@@ -1,0 +1,378 @@
+// The End: bronze metal letters standing off the side-named face of a soffit block (family soffit, rel 4) or of the yellow band (family wall, rel 3). THE END = t h e blank e n d; THE END IS NEAR across 15 blocks. Indestructible
+{
+	"code": "end-letter",
+	"variantgroups": [
+		{
+			"code": "family",
+			"states": [
+				"soffit",
+				"wall"
+			]
+		},
+		{
+			"code": "letter",
+			"states": [
+				"t",
+				"h",
+				"e",
+				"n",
+				"d",
+				"i",
+				"s",
+				"a",
+				"r",
+				"blank"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-soffit-t-north": {
+			"base": "block/end/end-letter-t-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-t-east": {
+			"base": "block/end/end-letter-t-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-t-south": {
+			"base": "block/end/end-letter-t-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-t-west": {
+			"base": "block/end/end-letter-t-soffit",
+			"rotateY": 90
+		},
+		"*-wall-t-north": {
+			"base": "block/end/end-letter-t-wall",
+			"rotateY": 0
+		},
+		"*-wall-t-east": {
+			"base": "block/end/end-letter-t-wall",
+			"rotateY": 270
+		},
+		"*-wall-t-south": {
+			"base": "block/end/end-letter-t-wall",
+			"rotateY": 180
+		},
+		"*-wall-t-west": {
+			"base": "block/end/end-letter-t-wall",
+			"rotateY": 90
+		},
+		"*-soffit-h-north": {
+			"base": "block/end/end-letter-h-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-h-east": {
+			"base": "block/end/end-letter-h-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-h-south": {
+			"base": "block/end/end-letter-h-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-h-west": {
+			"base": "block/end/end-letter-h-soffit",
+			"rotateY": 90
+		},
+		"*-wall-h-north": {
+			"base": "block/end/end-letter-h-wall",
+			"rotateY": 0
+		},
+		"*-wall-h-east": {
+			"base": "block/end/end-letter-h-wall",
+			"rotateY": 270
+		},
+		"*-wall-h-south": {
+			"base": "block/end/end-letter-h-wall",
+			"rotateY": 180
+		},
+		"*-wall-h-west": {
+			"base": "block/end/end-letter-h-wall",
+			"rotateY": 90
+		},
+		"*-soffit-e-north": {
+			"base": "block/end/end-letter-e-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-e-east": {
+			"base": "block/end/end-letter-e-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-e-south": {
+			"base": "block/end/end-letter-e-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-e-west": {
+			"base": "block/end/end-letter-e-soffit",
+			"rotateY": 90
+		},
+		"*-wall-e-north": {
+			"base": "block/end/end-letter-e-wall",
+			"rotateY": 0
+		},
+		"*-wall-e-east": {
+			"base": "block/end/end-letter-e-wall",
+			"rotateY": 270
+		},
+		"*-wall-e-south": {
+			"base": "block/end/end-letter-e-wall",
+			"rotateY": 180
+		},
+		"*-wall-e-west": {
+			"base": "block/end/end-letter-e-wall",
+			"rotateY": 90
+		},
+		"*-soffit-n-north": {
+			"base": "block/end/end-letter-n-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-n-east": {
+			"base": "block/end/end-letter-n-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-n-south": {
+			"base": "block/end/end-letter-n-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-n-west": {
+			"base": "block/end/end-letter-n-soffit",
+			"rotateY": 90
+		},
+		"*-wall-n-north": {
+			"base": "block/end/end-letter-n-wall",
+			"rotateY": 0
+		},
+		"*-wall-n-east": {
+			"base": "block/end/end-letter-n-wall",
+			"rotateY": 270
+		},
+		"*-wall-n-south": {
+			"base": "block/end/end-letter-n-wall",
+			"rotateY": 180
+		},
+		"*-wall-n-west": {
+			"base": "block/end/end-letter-n-wall",
+			"rotateY": 90
+		},
+		"*-soffit-d-north": {
+			"base": "block/end/end-letter-d-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-d-east": {
+			"base": "block/end/end-letter-d-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-d-south": {
+			"base": "block/end/end-letter-d-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-d-west": {
+			"base": "block/end/end-letter-d-soffit",
+			"rotateY": 90
+		},
+		"*-wall-d-north": {
+			"base": "block/end/end-letter-d-wall",
+			"rotateY": 0
+		},
+		"*-wall-d-east": {
+			"base": "block/end/end-letter-d-wall",
+			"rotateY": 270
+		},
+		"*-wall-d-south": {
+			"base": "block/end/end-letter-d-wall",
+			"rotateY": 180
+		},
+		"*-wall-d-west": {
+			"base": "block/end/end-letter-d-wall",
+			"rotateY": 90
+		},
+		"*-soffit-i-north": {
+			"base": "block/end/end-letter-i-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-i-east": {
+			"base": "block/end/end-letter-i-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-i-south": {
+			"base": "block/end/end-letter-i-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-i-west": {
+			"base": "block/end/end-letter-i-soffit",
+			"rotateY": 90
+		},
+		"*-wall-i-north": {
+			"base": "block/end/end-letter-i-wall",
+			"rotateY": 0
+		},
+		"*-wall-i-east": {
+			"base": "block/end/end-letter-i-wall",
+			"rotateY": 270
+		},
+		"*-wall-i-south": {
+			"base": "block/end/end-letter-i-wall",
+			"rotateY": 180
+		},
+		"*-wall-i-west": {
+			"base": "block/end/end-letter-i-wall",
+			"rotateY": 90
+		},
+		"*-soffit-s-north": {
+			"base": "block/end/end-letter-s-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-s-east": {
+			"base": "block/end/end-letter-s-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-s-south": {
+			"base": "block/end/end-letter-s-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-s-west": {
+			"base": "block/end/end-letter-s-soffit",
+			"rotateY": 90
+		},
+		"*-wall-s-north": {
+			"base": "block/end/end-letter-s-wall",
+			"rotateY": 0
+		},
+		"*-wall-s-east": {
+			"base": "block/end/end-letter-s-wall",
+			"rotateY": 270
+		},
+		"*-wall-s-south": {
+			"base": "block/end/end-letter-s-wall",
+			"rotateY": 180
+		},
+		"*-wall-s-west": {
+			"base": "block/end/end-letter-s-wall",
+			"rotateY": 90
+		},
+		"*-soffit-a-north": {
+			"base": "block/end/end-letter-a-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-a-east": {
+			"base": "block/end/end-letter-a-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-a-south": {
+			"base": "block/end/end-letter-a-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-a-west": {
+			"base": "block/end/end-letter-a-soffit",
+			"rotateY": 90
+		},
+		"*-wall-a-north": {
+			"base": "block/end/end-letter-a-wall",
+			"rotateY": 0
+		},
+		"*-wall-a-east": {
+			"base": "block/end/end-letter-a-wall",
+			"rotateY": 270
+		},
+		"*-wall-a-south": {
+			"base": "block/end/end-letter-a-wall",
+			"rotateY": 180
+		},
+		"*-wall-a-west": {
+			"base": "block/end/end-letter-a-wall",
+			"rotateY": 90
+		},
+		"*-soffit-r-north": {
+			"base": "block/end/end-letter-r-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-r-east": {
+			"base": "block/end/end-letter-r-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-r-south": {
+			"base": "block/end/end-letter-r-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-r-west": {
+			"base": "block/end/end-letter-r-soffit",
+			"rotateY": 90
+		},
+		"*-wall-r-north": {
+			"base": "block/end/end-letter-r-wall",
+			"rotateY": 0
+		},
+		"*-wall-r-east": {
+			"base": "block/end/end-letter-r-wall",
+			"rotateY": 270
+		},
+		"*-wall-r-south": {
+			"base": "block/end/end-letter-r-wall",
+			"rotateY": 180
+		},
+		"*-wall-r-west": {
+			"base": "block/end/end-letter-r-wall",
+			"rotateY": 90
+		},
+		"*-soffit-blank-north": {
+			"base": "block/end/end-letter-blank-soffit",
+			"rotateY": 0
+		},
+		"*-soffit-blank-east": {
+			"base": "block/end/end-letter-blank-soffit",
+			"rotateY": 270
+		},
+		"*-soffit-blank-south": {
+			"base": "block/end/end-letter-blank-soffit",
+			"rotateY": 180
+		},
+		"*-soffit-blank-west": {
+			"base": "block/end/end-letter-blank-soffit",
+			"rotateY": 90
+		},
+		"*-wall-blank-north": {
+			"base": "block/end/end-letter-blank-wall",
+			"rotateY": 0
+		},
+		"*-wall-blank-east": {
+			"base": "block/end/end-letter-blank-wall",
+			"rotateY": 270
+		},
+		"*-wall-blank-south": {
+			"base": "block/end/end-letter-blank-wall",
+			"rotateY": 180
+		},
+		"*-wall-blank-west": {
+			"base": "block/end/end-letter-blank-wall",
+			"rotateY": 90
+		}
+	},
+	"resistance": 20,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightAbsorption": 99,
+	"drops": []
+}

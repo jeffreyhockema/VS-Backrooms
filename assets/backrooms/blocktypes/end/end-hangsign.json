@@ -1,0 +1,105 @@
+// The End: an INFORMATION sign hung from the ceiling on two chains over a desk, readable from both faces
+{
+	"code": "end-hangsign",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/end/end-hangsign",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/end/end-hangsign",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/end/end-hangsign",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/end/end-hangsign",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0.25,
+			"z1": 0.44,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.56
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0.25,
+			"z1": 0.44,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.56,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0.25,
+			"z1": 0.44,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.56,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0.25,
+			"z1": 0.44,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.56,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

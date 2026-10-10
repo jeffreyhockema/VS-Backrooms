@@ -142,7 +142,7 @@ public sealed partial class WorldGenerator
         }
         // A sidewalk that has come loose and runs on up into the sky, a block at a time
         if (t.Roof > 0 && rel == t.Roof) return floorIds[(int)FloorKind.Sidewalk];
-        return TreeOrProp(t, rel, trunk: 4);
+        return TreeOrProp(t, gx, gz, rel, trunk: 4);
     }
 
     /// <summary>A building: foundations, the ground floor, the storeys above, the roof and what stands on it.</summary>
@@ -207,6 +207,8 @@ public sealed partial class WorldGenerator
             }
             if (t.Kind == TileKind.Door && rel <= 2)
             {
+                // Level Fun's gym doors at the back of a parking garage
+                if (t.Under == Unders.FunMascotDoor) return funMascotDoorIds[t.Variant == 1 ? 1 : 0, rel - 1];
                 return kind switch
                 {
                     CityKind.Substation => rel == 1 ? substationDoorLowerId : substationDoorUpperId,

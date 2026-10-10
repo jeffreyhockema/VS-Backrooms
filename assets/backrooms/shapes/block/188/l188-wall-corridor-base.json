@@ -1,0 +1,182 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"skirting": "backrooms:block/188/skirting",
+		"wall-corridor": "backrooms:block/188/wall-corridor",
+		"wall-room": "backrooms:block/188/wall-room"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-room",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-corridor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Skirting",
+			"from": [
+				0,
+				0,
+				-1
+			],
+			"to": [
+				16,
+				2,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "SkirtingTop",
+			"from": [
+				0,
+				2,
+				-0.6
+			],
+			"to": [
+				16,
+				2.4,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#skirting",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,319 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"glasspane": "backrooms:block/3999/glasspane",
+		"neon-cyan": "backrooms:block/3999/neon-cyan",
+		"rubber": "backrooms:block/3999/rubber",
+		"steel": "backrooms:block/3999/steel"
+	},
+	"elements": [
+		{
+			"name": "Skirt",
+			"from": [
+				0,
+				-3.4000000000000004,
+				0.8862915010152381
+			],
+			"to": [
+				2,
+				11,
+				23.513708498984762
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.4
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2,
+						14.4
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.4
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Neon",
+			"from": [
+				2,
+				8.5,
+				-4.2137084989847615
+			],
+			"to": [
+				2.3,
+				9.3,
+				18.41370849898476
+			],
+			"faces": {
+				"north": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8000000000000007
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8000000000000007
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8000000000000007
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8000000000000007
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#neon-cyan",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				2.15,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Glass",
+			"from": [
+				0.75,
+				11,
+				-11.563708498984761
+			],
+			"to": [
+				1.25,
+				21.5,
+				11.063708498984761
+			],
+			"faces": {
+				"north": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						16,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						16,
+						10.5
+					]
+				},
+				"up": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#glasspane",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				8,
+				8
+			],
+			"rotationX": 45,
+			"renderPass": 3
+		},
+		{
+			"name": "Rail",
+			"from": [
+				0,
+				21.5,
+				-17.81370849898476
+			],
+			"to": [
+				2,
+				23.5,
+				4.813708498984761
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				8,
+				8
+			],
+			"rotationX": 45
+		}
+	]
+}

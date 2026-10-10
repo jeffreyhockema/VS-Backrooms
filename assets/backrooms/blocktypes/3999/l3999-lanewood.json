@@ -1,0 +1,36 @@
+// Level 3999: bowling-lane maple, boards running one way, glossy
+{
+	"code": "l3999-lanewood",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"attributes": {
+		"l3999structure": true
+	},
+	"textures": {
+		"all": {
+			"base": "block/3999/lanewood",
+			"alternates": [
+				{
+					"base": "block/3999/lanewood2"
+				}
+			]
+		}
+	}
+}

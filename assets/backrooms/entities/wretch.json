@@ -1,0 +1,241 @@
+{
+	"code": "wretch",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 60,
+	"canClimb": true,
+	"hitboxSize": {
+		"x": 0.65,
+		"y": 1.8
+	},
+	"deadHitboxSize": {
+		"x": 0.65,
+		"y": 0.6
+	},
+	"eyeHeight": 1.6,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-wretch"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/wretch"
+		},
+		"texture": {
+			"base": "backrooms:entity/wretch",
+			"alternates": [
+				{
+					"base": "backrooms:entity/wretch-early"
+				},
+				{
+					"base": "backrooms:entity/wretch-fargone"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "huddle",
+				"animation": "huddle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "gnaw",
+				"animation": "gnaw",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "snarl",
+				"animation": "snarl",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 16,
+				"maxhealth": 16
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24,
+				"decayedBlock": "game:carcass-medium"
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"stalkSeconds": 90
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.018,
+						"runSpeed": 0.046,
+						"stalkMin": 8,
+						"stalkMax": 14,
+						"glimpseFleeDistance": 12,
+						"damage": 3.5,
+						"damageTier": 1,
+						"damageType": "PiercingAttack",
+						"knockback": 0.3,
+						"attackRange": 0.9,
+						"attackDurationMs": 1000,
+						"damageAtMs": 430,
+						"attackCooldownMs": 1400,
+						"attackAnimation": "attack",
+						"prefersHidden": true,
+						"retreatBelow": 0.2,
+						"huntAnimation": "snarl",
+						"huntAnimationMs": 1200,
+						"stalkSound": "backrooms:entity/gurgle",
+						"huntSound": "backrooms:entity/snarl",
+						"voices": [
+							"backrooms:entity/gurgle",
+							"backrooms:entity/cough",
+							"backrooms:effect/whisper",
+							"game:player/hurt*"
+						],
+						"soundRange": 24
+					},
+					{
+						"code": "idle",
+						"priority": 1.15,
+						"priorityForCancel": 1.35,
+						"animation": "huddle",
+						"minduration": 6000,
+						"maxduration": 12000,
+						"mincooldown": 20000,
+						"maxcooldown": 60000
+					},
+					{
+						"code": "idle",
+						"priority": 1.2,
+						"priorityForCancel": 1.35,
+						"animation": "gnaw",
+						"minduration": 2000,
+						"maxduration": 6000,
+						"mincooldown": 15000,
+						"maxcooldown": 45000
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"priorityForCancel": 1.35,
+						"movespeed": 0.006,
+						"animation": "walk",
+						"animationSpeed": 1.0,
+						"maxDistanceToSpawn": 24
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:creature/drifter-hurt",
+		"death": "game:creature/drifter-death"
+	}
+}

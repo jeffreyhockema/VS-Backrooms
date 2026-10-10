@@ -21,6 +21,15 @@ public sealed partial class WorldLayout
         0 => ZoneAt(mx, mz) == ZoneKind.Blackout ? 0.4 : 0.65,
         1 => 0.8, // the Habitable Zone has the most crates, and the most people going through them
         <= 5 => 0.6,
+        // The five kept as 14-18 (each level's own line)
+        RunLevel => 0.4,
+        FunLevel => 0.4,
+        TheEnd => 0, // "these objects appear untouched"
+        Hub => 0.4,
+        Level974 => 0.4,
+        Level3999 => 0.15, // this deep, hardly anyone has been through the stores
+        Level188 => 0.3, // few come here, fewer leave
+
         _ => 0.4,
     };
 

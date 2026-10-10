@@ -1,0 +1,537 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"kick": "backrooms:block/end/kick",
+		"maple": "backrooms:block/end/maple",
+		"maple-vertical": "backrooms:block/end/maple-vertical",
+		"pricechannel": "backrooms:block/end/pricechannel"
+	},
+	"elements": [
+		{
+			"name": "SideW",
+			"from": [
+				0,
+				0,
+				5.0
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideE",
+			"from": [
+				14.5,
+				0,
+				5.0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1.5,
+				0,
+				14.5
+			],
+			"to": [
+				14.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple-vertical",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				1.5,
+				0,
+				5.6
+			],
+			"to": [
+				14.5,
+				2.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						8.9,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						8.9,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						8.9
+					]
+				},
+				"down": {
+					"texture": "#kick",
+					"uv": [
+						0,
+						0,
+						13.0,
+						8.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Deck",
+			"from": [
+				1.5,
+				2.5,
+				5.0
+			],
+			"to": [
+				14.5,
+				3.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						9.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						9.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.5
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipD",
+			"from": [
+				1.5,
+				2.2,
+				4.7
+			],
+			"to": [
+				14.5,
+				3.7,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf0",
+			"from": [
+				1.5,
+				9,
+				5.5
+			],
+			"to": [
+				14.5,
+				10,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.0
+					]
+				},
+				"down": {
+					"texture": "#maple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						9.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip0",
+			"from": [
+				1.5,
+				8.7,
+				5.2
+			],
+			"to": [
+				14.5,
+				10.2,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pricechannel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

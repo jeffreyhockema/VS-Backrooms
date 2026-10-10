@@ -1,0 +1,443 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"backlit": "backrooms:block/188/backlit",
+		"black": "backrooms:block/188/black",
+		"chrome": "backrooms:block/188/chrome",
+		"desktop": "backrooms:block/188/desktop",
+		"fascia": "backrooms:block/188/fascia",
+		"oak": "backrooms:block/188/oak",
+		"upholstery": "backrooms:block/188/upholstery"
+	},
+	"elements": [
+		{
+			"name": "Fascia",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				16,
+				14,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"south": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"up": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#fascia",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Counter",
+			"from": [
+				0,
+				14,
+				2.4
+			],
+			"to": [
+				16,
+				15,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						5.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						5.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						5.6
+					]
+				},
+				"down": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						5.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip",
+			"from": [
+				0,
+				1,
+				2.6
+			],
+			"to": [
+				16,
+				2,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#backlit",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					],
+					"glow": 230
+				},
+				"down": {
+					"texture": "#backlit",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 230
+				}
+			}
+		},
+		{
+			"name": "Work",
+			"from": [
+				0,
+				9,
+				4
+			],
+			"to": [
+				16,
+				10,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						9,
+						1
+					]
+				},
+				"south": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						9,
+						1
+					]
+				},
+				"up": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"down": {
+					"texture": "#desktop",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0,
+				0,
+				3.6
+			],
+			"to": [
+				16,
+				1,
+				13
+			],
+			"faces": {
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						16,
+						9.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				1,
+				12
+			],
+			"to": [
+				16,
+				9,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bell",
+			"from": [
+				11,
+				15,
+				4.6
+			],
+			"to": [
+				12.6,
+				16,
+				6.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						1
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1.6000000000000005
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5999999999999996,
+						1.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "Book",
+			"from": [
+				3,
+				15,
+				3.6
+			],
+			"to": [
+				8,
+				15.6,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						5,
+						3.4
+					]
+				},
+				"down": {
+					"texture": "#upholstery",
+					"uv": [
+						0,
+						0,
+						5,
+						3.4
+					]
+				}
+			}
+		}
+	]
+}

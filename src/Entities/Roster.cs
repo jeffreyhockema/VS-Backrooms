@@ -96,6 +96,14 @@ public static class Danger
         10 => 0.88,
         11 => 0.95,
         Backrooms.Worldgen.WorldLayout.Poolrooms => 0.5,
+        // The five kept as 14-18 (each level's own line): calm until their plans say otherwise
+        Backrooms.Worldgen.WorldLayout.RunLevel => 0.9, // Level !: the horde, Class 5
+        Backrooms.Worldgen.WorldLayout.FunLevel => 0.9, // Level Fun: Survival Difficulty 5, the Partygoers' own level
+        Backrooms.Worldgen.WorldLayout.TheEnd => 0.4,
+        Backrooms.Worldgen.WorldLayout.Hub => 0,
+        Backrooms.Worldgen.WorldLayout.Level974 => 0,
+        Backrooms.Worldgen.WorldLayout.Level3999 => 0.8, // (only its Neon Blackout has anything in it)
+        Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
         // Level 94 keeps its own balance (the King's trial)
         _ => 0,
     };
@@ -133,14 +141,20 @@ public static class Roster
     public const string Clump = "backrooms:clump";
     public const string TheThing = "backrooms:thething";
     public const string Mangled = "backrooms:mangled";
+    /// <summary>The dark figures of Level 0 (the Howler of the found footage; Entity 1 on the Fandom wiki).</summary>
+    public const string Bacteria = "backrooms:bacteria";
+    /// <summary>Wanderers the Backrooms wore down: starved, parched, sleepless (Entity 15).</summary>
+    public const string Wretch = "backrooms:wretch";
     public const string AnimationClay = "backrooms:animation-clay";
     public const string AnimationWooden = "backrooms:animation-wooden";
     public const string AnimationPaper = "backrooms:animation-paper";
     public const string RoboMan = "backrooms:roboman";
+    public const string Partygoer = "backrooms:partygoer";
+    public const string PartygoerIntern = "backrooms:partygoer-intern";
 
     /// <summary>Every entity the director puts down.</summary>
-    public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan };
+    public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -155,6 +169,9 @@ public static class Roster
         {
             E(Smiler, Approach, Menacing, 1.0) with { NeedsDark = true },
             E(Hound, Edge, Encounters.Glimpse | Encounters.Stalk, 0.5, 1, 2),
+            // "Wanderers have claimed to have seen dark figures stalking them between the corridors": seen far off, now and
+            // then following; it only turns on someone who runs near the way out
+            E(Bacteria, Approach, Encounters.Glimpse | Encounters.Stalk, 0.6),
         },
         // The Habitable Zone: wanderers and rats in the halls, Hounds in the dark sections
         [1] = new[]
@@ -162,6 +179,7 @@ public static class Roster
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
             E(DeathRat, Heart, Menacing, 0.6, 2, 4),
             E(Hound, Approach, Menacing, 1.0, 2, 3),
+            E(Wretch, Approach, Menacing, 0.3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing, 0.4),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 3, 5),
@@ -183,6 +201,7 @@ public static class Roster
             E(SkinStealer, Approach, Menacing, 0.5),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Clump, Approach, Encounters.Stalk, 0.3) with { Ambush = true },
+            E(Wretch, Approach, Menacing, 0.4, 1, 2),
         },
         // The Abandoned Office: a calm place where people rest; a Duller in the walls, the odd Hound near the stairs
         [4] = new[]
@@ -199,6 +218,7 @@ public static class Roster
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(SkinStealer, Approach, Menacing, 0.6),
             E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
+            E(Wretch, Approach, Menacing, 0.3),
         },
         // Lights Out: the darkness is the entity. Things are heard; almost nothing is ever seen
         [6] = new[]
@@ -214,6 +234,8 @@ public static class Roster
         [8] = new[]
         {
             E(DeathRat, Heart, Menacing, 0.8, 2, 4),
+            // (Level 8's feral dark: the Wretches, once the drifters of the vanilla spawner)
+            E(Wretch, Heart, Menacing, 1.2, 1, 3),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Smiler, Approach, Menacing, 0.6) with { NeedsDark = true },
             E(Hound, Edge, Menacing, 0.8, 2, 3),
@@ -226,6 +248,7 @@ public static class Roster
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing, 0.5),
+            E(Wretch, Approach, Menacing, 0.4, 1, 2),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
@@ -249,6 +272,34 @@ public static class Roster
             E(AnimationWooden, Approach, Menacing, 1.0, 1, 2),
             E(AnimationPaper, Approach, Encounters.Stalk | Encounters.Hunt, 0.7, 3, 5),
         },
+        // The five kept as 14-18 (each level's own entry): nothing yet
+        [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<RosterEntry>(),
+        // Level Fun: Partygoers walking the corridors in twos and threes (you can never catch one alone); the rest stand at
+        // their parties (put down by Regions.FunSystem, not the director)
+        [Backrooms.Worldgen.WorldLayout.FunLevel] = new[]
+        {
+            E(Partygoer, Approach, Encounters.Stalk, 1.0, 2, 3),
+            E(PartygoerIntern, Approach, Encounters.Stalk, 0.4, 2, 2),
+        },
+        // The End: devoid of all life; only in the dark of its collapses, or with its lights out, a grin now and then
+        [Backrooms.Worldgen.WorldLayout.TheEnd] = new[] { E(Smiler, Heart, Encounters.Glimpse, 1.0) with { NeedsDark = true } },
+        [Backrooms.Worldgen.WorldLayout.Hub] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level974] = Array.Empty<RosterEntry>(),
+        // Level 3999: nothing hostile in the Neon Paradise; in the dark of its Blackout, Smilers, Hound packs, and
+        // Partygoers (canon's Euphoric Wars) (MenaceSystem gives the Blackout the Threshold band, the rest Safe)
+        [Backrooms.Worldgen.WorldLayout.Level3999] = new[]
+        {
+            E(Smiler, Heart, Menacing, 1.0) with { NeedsDark = true },
+            E(Hound, Approach, Menacing, 0.8, 2, 3),
+            E(Partygoer, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 2, 3),
+        },
+        // Level 188: the Windows are its own (Regions.L188System); a Skin-Stealer in the upper corridors now and then, a grin in
+        // the dark (Miraheze's list, kept light)
+        [Backrooms.Worldgen.WorldLayout.Level188] = new[]
+        {
+            E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
+            E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
+        },
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -257,6 +308,7 @@ public static class Roster
             E(Hound, Heart, Amb, 0.4, 1, 2),
             E(DeathRat, Heart, Menacing, 0.6, 2, 4),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5) with { SubwayOnly = true },
+            E(Wretch, Approach, Menacing, 0.5, 1, 2) with { SubwayOnly = true },
         },
     };
 
@@ -370,6 +422,31 @@ public static class Roster
         [11] = new[] { CarAlarm, Murmur, Footsteps, Squeak },
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[] { Drip, Lapping },
         [Backrooms.Worldgen.WorldLayout.Motion] = new[] { Laughter, Laughter, AllGlory, Squeak },
+        // The five kept as 14-18 (each level's own entry): silence for now
+        [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<DistantSound>(),
+        // Level Fun: a party somewhere else: a cheer, a party horn, a balloon popping, laughing, now and then far-off singing
+        [Backrooms.Worldgen.WorldLayout.FunLevel] = new[]
+        {
+            S("backrooms:sounds/ambient/fun/cheer", 0.9f, 1.1f, 0.45f), S("backrooms:sounds/ambient/fun/partyhorn", 0.85f, 1.15f, 0.4f),
+            S("backrooms:sounds/ambient/fun/balloonpop", 0.85f, 1.15f, 0.4f), Laughter, S("backrooms:sounds/ambient/fun/singing", 0.95f, 1.05f, 0.35f),
+        },
+        // The End: near silence; a book falls somewhere, a shelf creaks, a chair scrapes, a page turns
+        [Backrooms.Worldgen.WorldLayout.TheEnd] = new[]
+        {
+            S("backrooms:sounds/ambient/end/bookfall", 0.9f, 1.1f, 0.5f), S("backrooms:sounds/ambient/end/shelfcreak", 0.9f, 1.1f, 0.45f),
+            S("backrooms:sounds/ambient/end/chairscrape", 0.9f, 1.05f, 0.45f), S("backrooms:sounds/ambient/end/pageturn", 0.95f, 1.05f, 0.4f),
+        },
+        [Backrooms.Worldgen.WorldLayout.Hub] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level974] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level3999] = Array.Empty<DistantSound>(),
+        // Level 188: a hotel at night: a dead lift's chime, a TV through a wall, a vacuum cleaner far off, the ice machine,
+        // footsteps on the floor above, knocking on glass
+        [Backrooms.Worldgen.WorldLayout.Level188] = new[]
+        {
+            S("backrooms:sounds/effect/188/liftchime", 0.95f, 1.05f, 0.35f), S("backrooms:sounds/effect/188/tvwall", 0.9f, 1.1f, 0.35f),
+            S("backrooms:sounds/effect/188/vacuum", 0.9f, 1.05f, 0.3f), S("backrooms:sounds/effect/188/icedrop", 0.9f, 1.1f, 0.35f),
+            S("backrooms:sounds/effect/188/thump", 0.85f, 1.05f, 0.5f), S("backrooms:sounds/effect/188/knock", 0.9f, 1.1f, 0.4f), Footsteps,
+        },
     };
 
     public static DistantSound[] SoundsFor(int level) => SoundsByLevel.TryGetValue(level, out DistantSound[] s) ? s : Array.Empty<DistantSound>();

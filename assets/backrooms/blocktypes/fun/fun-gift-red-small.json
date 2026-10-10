@@ -1,0 +1,152 @@
+// Level Fun: a wrapped gift, the belongings of a guest who never left. Break it to open it: its drops are what is inside; one in five is a popper (BackroomsFunGift)
+{
+	"code": "fun-gift",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"red"
+			]
+		},
+		{
+			"code": "size",
+			"states": [
+				"small"
+			]
+		}
+	],
+	"class": "BackroomsFunGift",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"shape": {
+		"base": "block/fun/fun-gift-red-small"
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": {
+		"x1": 0.1675,
+		"y1": 0,
+		"z1": 0.1675,
+		"x2": 0.8325,
+		"y2": 0.5625,
+		"z2": 0.8325
+	},
+	"selectionbox": {
+		"x1": 0.1675,
+		"y1": 0,
+		"z1": 0.1675,
+		"x2": 0.8325,
+		"y2": 0.6375,
+		"z2": 0.8325
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "cannedbeans",
+			"quantity": {
+				"avg": 0.35,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "crackers",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "almondwater",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:bandage-clean",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:poultice-linen-horsetail",
+			"quantity": {
+				"avg": 0.15,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:knife-generic-copper",
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:flaxtwine",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.6
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:gear-rusty",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:candle",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "fun-wanderernote-altered",
+			"quantity": {
+				"avg": 0.12,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-way",
+			"quantity": {
+				"avg": 0.05,
+				"var": 0
+			}
+		}
+	]
+}

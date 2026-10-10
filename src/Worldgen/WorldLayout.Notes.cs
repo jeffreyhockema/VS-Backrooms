@@ -80,4 +80,159 @@ public sealed partial class WorldLayout
         }
         return null;
     }
+
+    // ================= What the notes' own marks point at (src/Notes/MarkResolver.cs) =================
+
+    /// <summary>The nearest manhole down into Level 3's flooded tunnels (where the clay is).</summary>
+    public (int X, int Z)? NearestManhole(int gx, int gz, int radius) => NearestTile(gx, gz, 3, radius, t => t.Under == 2 && t.Kind != TileKind.Wall);
+
+    /// <summary>The nearest stretch of barn wall in Level 10 that isn't quite there (the way into the city).</summary>
+    public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius) => NearestTile(gx, gz, 10, radius, t => t.Under == Unders.Noclip);
+
+    /// <summary>The heart of the nearest den in the same level. Decided cell by cell, so cheap to search far.</summary>
+    public (int X, int Z)? NearestDen(int gx, int gz, int level, int radius)
+    {
+        foreach ((int mx, int mz, int ring) in CellsOutward(MacroOf(gx), MacroOf(gz), radius / MacroSize + 1))
+            if (LevelAt(mx, mz) == level && DenAt(mx, mz) != DenKind.None) return (mx * MacroSize + MacroSize / 2, mz * MacroSize + MacroSize / 2);
+        return null;
+    }
+
+    /// <summary>The middle of the nearest block of Red Rooms in Level 0. Decided cell by cell.</summary>
+    public (int X, int Z)? NearestRedRoom(int gx, int gz, int radius)
+    {
+        foreach ((int mx, int mz, int ring) in CellsOutward(MacroOf(gx), MacroOf(gz), radius / MacroSize + 1))
+            if (LevelAt(mx, mz) == 0 && IsRedRoom(mx, mz)) return (mx * MacroSize + MacroSize / 2, mz * MacroSize + MacroSize / 2);
+        return null;
+    }
+
+    /// <summary>
+    /// The nearest way into the Hub from Level 1 (the grey door at a maintenance hall's end: the corridor in front of it)
+    /// or Level 2 (a steel door with a chalk circle). Level 1's are found by the same hash as
+    /// <see cref="MarkHubDoorInLevel1"/>, hall block by hall block, without building any cell.
+    /// </summary>
+    public (int X, int Z)? NearestHubEntrance(int gx, int gz, int level, int radius)
+    {
+        if (level == 2) return NearestTile(gx, gz, 2, radius, t => t.Kind == TileKind.Door && t.Under == Unders.HubEntrance);
+        if (level != 1) return null;
+        (int X, int Z)? best = null;
+        long bestD = (long)radius * radius;
+        int bx0 = Hashing.FloorDiv(gx - radius - HallOffset - 2, HallGrid), bx1 = Hashing.FloorDiv(gx + radius - HallOffset - 2, HallGrid);
+        int bz0 = Hashing.FloorDiv(gz - radius - HallOffset - 2, HallGrid), bz1 = Hashing.FloorDiv(gz + radius - HallOffset - 2, HallGrid);
+        for (int bz = bz0; bz <= bz1; bz++)
+            for (int bx = bx0; bx <= bx1; bx++)
+            {
+                if (Hashing.Unit(Hashing.Hash(seed, bx, bz, SaltHubLevel1)) >= 1 / 250.0) continue;
+                int dx = bx * HallGrid + HallOffset + 2 + 6, dz = bz * HallGrid + HallOffset + 2;
+                int dmx = MacroOf(dx), dmz = MacroOf(dz);
+                if (LevelAt(dmx, dmz) != 1 || !IsLevel1Corridors(dmx, dmz) || RingFraction(dx, dz, 1) < 0.5) continue;
+                long d = (long)(dx - gx) * (dx - gx) + (long)(dz - 1 - gz) * (dz - 1 - gz);
+                if (d < bestD) { bestD = d; best = (dx, dz - 1); }
+            }
+        return best;
+    }
+
+    /// <summary>The middle of the nearest room in Level Fun where a party is going on (the altered note's "party").</summary>
+    public (int X, int Z)? NearestParty(int gx, int gz, int radius)
+    {
+        (int X, int Z)? best = null;
+        long bestD = long.MaxValue;
+        foreach (FunRoom room in FunRoomsNear(gx, gz, radius))
+        {
+            if (room.Guests <= 0) continue;
+            int cx = (room.X0 + room.X1) / 2, cz = (room.Z0 + room.Z1) / 2;
+            long d = (long)(cx - gx) * (cx - gx) + (long)(cz - gz) * (cz - gz);
+            if (d < bestD) { bestD = d; best = (cx, cz); }
+        }
+        return best;
+    }
+
+    // ================= Notes left lying where a story puts one (src/Notes/NoteSystem.Spots.cs) =================
+
+    private const ulong SaltNoteSpot = 0x707F;
+
+    /// <summary>Whether a cell of Level 5 is the Beverly Room.</summary>
+    public bool IsBeverlyMacro(int mx, int mz) => LevelAt(mx, mz) == 5 && HotelZoneAt(mx, mz) == HotelZone.Beverly;
+
+    /// <summary>
+    /// The notes lying loose in a cell (cell-local tile, and the paper: door, way, cache, refuge or folded): beside the cache
+    /// of half the dens (folded), on the floor of the Manila Room and of a Red Room block (folded), at one chalk-crossed dead
+    /// end in eight in Level 0, in a Sanctum, the Beverly Room and a food court, beside where a runner arrives in
+    /// Level !, by Kitty's kitchen table, and at the Hub's outposts and Level 3999's camps. Their own salt, so nothing else
+    /// in the layout moves.
+    /// </summary>
+    public List<(int Lx, int Lz, string Kind)> NoteSpots(int mx, int mz)
+    {
+        var spots = new List<(int, int, string)>();
+        int level = LevelAt(mx, mz);
+        Tile[] tiles = null;
+        Tile[] Tiles() => tiles ??= BuildMacro(mx, mz);
+        void Near(int cx, int cz, string kind, int reach = 10)
+        {
+            if (FreeNear(Tiles(), cx, cz, reach) is { } at) spots.Add((at.X, at.Z, kind));
+        }
+
+        const int c = MacroSize / 2;
+        // (Half the dens: the rest still have their caches, and a folded note may be in a box)
+        if (DenAt(mx, mz) != DenKind.None && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNoteSpot + 1)) < 0.5) Near(c, c, "folded", 6);
+        switch (level)
+        {
+            case 0:
+                if (IsManilaMacro(mx, mz)) Near(c + 1, c + 1, "way", 4);
+                if (IsRedRoom(mx, mz)) Near(c, c, "folded", 14);
+                Tile[] t0 = Tiles();
+                for (int i = 0; i < t0.Length; i++)
+                {
+                    if (t0[i].Chalk == 0 || ChalkBits.Symbol(t0[i].Chalk) != 2 || !FreeFloor(t0[i])) continue;
+                    int lx = i % MacroSize, lz = i / MacroSize;
+                    if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltNoteSpot)) < 1 / 8.0) spots.Add((lx, lz, "door"));
+                }
+                break;
+            case 3 when IsSanctum(mx, mz): Near(c, c, "way", 12); break;
+            case 5 when IsBeverlyMacro(mx, mz): Near(c + 2, c, "door", 8); break;
+            case 6 when IsSnackrooms(mx, mz): Near(c, c, "way", 12); break;
+            // Level 974: on the floor by the kitchen table (the house's first visit)
+            case Level974:
+            {
+                var (tx, tz) = L974At(mx, mz, 6, 13);
+                Near(tx - mx * MacroSize, tz - mz * MacroSize, "refuge", 3);
+                break;
+            }
+            // The Hub's outposts and Level 3999's camps (the Megacolony): beside the camp
+            case Hub or Level3999 when WandererSite(mx, mz) is { } camp:
+                Near(camp.X - mx * MacroSize, camp.Z - mz * MacroSize, "way", 4);
+                break;
+            case RunLevel:
+            {
+                int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);
+                if (lane < 0) break;
+                var (ax, az) = RunWorld(lane, RunPlan(lane).Arrival.X, RunPlan(lane).Arrival.Z);
+                int alx = ax - mx * MacroSize, alz = az - mz * MacroSize;
+                if (alx >= 0 && alz >= 0 && alx < MacroSize && alz < MacroSize) Near(alx, alz, "door", 3);
+                break;
+            }
+        }
+        return spots;
+    }
+
+    private static bool FreeFloor(in Tile t) =>
+        t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox && t.Stair == 0 && t.Under == 0;
+
+    /// <summary>The free floor tile nearest a cell-local spot (not right in a doorway), within the reach, or null.</summary>
+    private static (int X, int Z)? FreeNear(Tile[] tiles, int cx, int cz, int reach)
+    {
+        for (int r = 0; r <= reach; r++)
+            for (int dz = -r; dz <= r; dz++)
+                for (int dx = -r; dx <= r; dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
+                    int x = cx + dx, z = cz + dz;
+                    if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1) continue;
+                    if (!FreeFloor(tiles[TileIndex(x, z)])) continue;
+                    bool doorway = false;
+                    foreach ((int ox, int oz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                        if (tiles[TileIndex(x + ox, z + oz)].Kind is TileKind.Door or TileKind.Doorway or TileKind.ArchDoor) doorway = true;
+                    if (!doorway) return (x, z);
+                }
+        return null;
+    }
 }

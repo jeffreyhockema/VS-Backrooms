@@ -1,0 +1,206 @@
+// Level Fun: a plastic stacking chair at a party table
+{
+	"code": "fun-chair",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"white",
+				"orange",
+				"lime",
+				"red",
+				"black"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-white-north": {
+			"base": "block/fun/fun-chair-white",
+			"rotateY": 0
+		},
+		"*-white-east": {
+			"base": "block/fun/fun-chair-white",
+			"rotateY": 270
+		},
+		"*-white-south": {
+			"base": "block/fun/fun-chair-white",
+			"rotateY": 180
+		},
+		"*-white-west": {
+			"base": "block/fun/fun-chair-white",
+			"rotateY": 90
+		},
+		"*-orange-north": {
+			"base": "block/fun/fun-chair-orange",
+			"rotateY": 0
+		},
+		"*-orange-east": {
+			"base": "block/fun/fun-chair-orange",
+			"rotateY": 270
+		},
+		"*-orange-south": {
+			"base": "block/fun/fun-chair-orange",
+			"rotateY": 180
+		},
+		"*-orange-west": {
+			"base": "block/fun/fun-chair-orange",
+			"rotateY": 90
+		},
+		"*-lime-north": {
+			"base": "block/fun/fun-chair-lime",
+			"rotateY": 0
+		},
+		"*-lime-east": {
+			"base": "block/fun/fun-chair-lime",
+			"rotateY": 270
+		},
+		"*-lime-south": {
+			"base": "block/fun/fun-chair-lime",
+			"rotateY": 180
+		},
+		"*-lime-west": {
+			"base": "block/fun/fun-chair-lime",
+			"rotateY": 90
+		},
+		"*-red-north": {
+			"base": "block/fun/fun-chair-red",
+			"rotateY": 0
+		},
+		"*-red-east": {
+			"base": "block/fun/fun-chair-red",
+			"rotateY": 270
+		},
+		"*-red-south": {
+			"base": "block/fun/fun-chair-red",
+			"rotateY": 180
+		},
+		"*-red-west": {
+			"base": "block/fun/fun-chair-red",
+			"rotateY": 90
+		},
+		"*-black-north": {
+			"base": "block/fun/fun-chair-black",
+			"rotateY": 0
+		},
+		"*-black-east": {
+			"base": "block/fun/fun-chair-black",
+			"rotateY": 270
+		},
+		"*-black-south": {
+			"base": "block/fun/fun-chair-black",
+			"rotateY": 180
+		},
+		"*-black-west": {
+			"base": "block/fun/fun-chair-black",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-white-north"
+		],
+		"decorative": [
+			"*-white-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.56,
+			"z2": 0.85
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.56,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.56,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.56,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1.15,
+			"z2": 0.92
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1.15,
+			"z2": 0.92,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1.15,
+			"z2": 0.92,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1.15,
+			"z2": 0.92,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

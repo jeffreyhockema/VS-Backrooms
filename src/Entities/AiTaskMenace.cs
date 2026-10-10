@@ -41,6 +41,17 @@ public class AiTaskMenace : AiTaskBase
     private readonly AssetLocation[] voices;
     private readonly bool lightBound, fearsFire, grabsThroughWalls, respectsAlmond, avoidsLight, slowedByLight, coward, retaliates, prefersHidden, staredDown;
     private readonly float retreatBelow, cryRange, stealChance, liftBlocks;
+    /// <summary>Played once, standing still, when it first appears (the Bacteria rising out of the mould), and for how long.</summary>
+    private readonly string emergeAnim;
+    private readonly int emergeMs;
+    /// <summary>Played standing still as it turns to the hunt (a Wretch's snarl, the Bacteria's howl), and for how long.</summary>
+    private readonly string huntAnim;
+    private readonly int huntAnimMs;
+    /// <summary>May turn on someone who runs near the way out of Level 0 (where nothing else hunts but in the Red Rooms).</summary>
+    private readonly bool huntsInLobby;
+    private bool emerged;
+    /// <summary>Until when it stands where it is, playing one of those, only turning to face its target.</summary>
+    private long holdUntilMs;
 
     // ---- State ----
     private EntityBehaviorMenace menace;
@@ -99,6 +110,11 @@ public class AiTaskMenace : AiTaskBase
         staredDown = taskConfig["staredDown"].AsBool(false);
         stealChance = taskConfig["stealChance"].AsFloat(0);
         liftBlocks = taskConfig["liftBlocks"].AsFloat(0);
+        emergeAnim = Anim(taskConfig["emergeAnimation"].AsString(null));
+        emergeMs = taskConfig["emergeMs"].AsInt(0);
+        huntAnim = Anim(taskConfig["huntAnimation"].AsString(null));
+        huntAnimMs = taskConfig["huntAnimationMs"].AsInt(0);
+        huntsInLobby = taskConfig["huntsInLobby"].AsBool(false);
     }
 
     /// <summary>An animation code, or null for none (an empty string in the config).</summary>
@@ -140,6 +156,11 @@ public class AiTaskMenace : AiTaskBase
             turnMul = (float)(1 + 2 * d);
             giveUpAt = 40 + 25 * d;
         }
+        if (emergeAnim != null && !emerged)
+        {
+            emerged = true;
+            Hold(emergeAnim, emergeMs);
+        }
         Log("starts: {0}", menace.Kind);
         think = 0;
         plannedAt = null;
@@ -160,10 +181,18 @@ public class AiTaskMenace : AiTaskBase
             return true;
         }
 
+        // Still coming up out of the floor, or snarling before the chase: only the head turns
+        if (entity.World.ElapsedMilliseconds < holdUntilMs)
+        {
+            if (target != null) TurnTowards(target.Pos.XYZ, dt);
+            return true;
+        }
+
         if (kind != lastKind)
         {
             OnKindChanged(kind);
             lastKind = kind;
+            if (entity.World.ElapsedMilliseconds < holdUntilMs) return true;
         }
 
         think -= dt;
@@ -242,6 +271,7 @@ public class AiTaskMenace : AiTaskBase
                 if (huntSound != null) PlaySound(huntSound);
                 RallyPack();
             }
+            if (huntAnim != null) Hold(huntAnim, huntAnimMs);
         }
     }
 
@@ -345,7 +375,7 @@ public class AiTaskMenace : AiTaskBase
         if (menace.Passive || a.Band < MenaceBand.Approach || NoPathLately) return false;
         if (IsCreative(target)) return false;
         // The Lobby is empty, as the lore has it: what watches there never hunts, but in the Red Rooms
-        if (a.Level == 0 && !a.Worst) return false;
+        if (a.Level == 0 && !a.Worst && !(huntsInLobby && a.Band == MenaceBand.Threshold && runningFor > 1.5 && distance < 20)) return false;
         if (respectsAlmond && Protected(target)) return false;
         Random rand = entity.World.Rand;
         if (lightBound)
@@ -749,6 +779,14 @@ public class AiTaskMenace : AiTaskBase
             pathTraverser.Stop();
             pathTraverser.NavigateTo(to, speed, within, OnArrived, OnStuck, OnNoPath, false, 2000, 1);
         }
+    }
+
+    /// <summary>Stops where it is and plays an animation through, for so long.</summary>
+    private void Hold(string animation, int ms)
+    {
+        Stop();
+        entity.AnimManager.StartAnimation(animation);
+        holdUntilMs = entity.World.ElapsedMilliseconds + ms;
     }
 
     private void Stop()

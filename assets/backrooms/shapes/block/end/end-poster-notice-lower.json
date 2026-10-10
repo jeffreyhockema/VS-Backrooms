@@ -1,0 +1,179 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cleartape": "backrooms:block/end/cleartape",
+		"poster-notice": "backrooms:block/end/poster-notice",
+		"wall-lower": "backrooms:block/end/wall-lower"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sheet",
+			"from": [
+				3.5,
+				2,
+				-0.3
+			],
+			"to": [
+				12.5,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poster-notice",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poster-notice",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poster-notice",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poster-notice",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape0",
+			"from": [
+				3.7,
+				12.6,
+				-0.36
+			],
+			"to": [
+				4.9,
+				13.799999999999999,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cleartape",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape1",
+			"from": [
+				11.1,
+				12.6,
+				-0.36
+			],
+			"to": [
+				12.299999999999999,
+				13.799999999999999,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cleartape",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					]
+				}
+			}
+		}
+	]
+}

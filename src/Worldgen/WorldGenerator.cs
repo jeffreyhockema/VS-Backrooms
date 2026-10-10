@@ -30,7 +30,7 @@ public sealed partial class WorldGenerator
     /// variants by facing; props with kinds pick theirs from <see cref="Tile.Stack"/>. HeadFirst props (beds) are
     /// modelled head to the north, so they turn to face away from their <see cref="Tile.Pier"/>.
     /// </summary>
-    private static readonly (byte Prop, string Code, bool Oriented, string[] Kinds, bool HeadFirst)[] PropTable =
+    private static readonly (ushort Prop, string Code, bool Oriented, string[] Kinds, bool HeadFirst)[] PropTable =
     {
         (Props.CardboardBoxes, "cardboardboxes", false, null, false),
         (Props.Workbench, "workbench", true, null, false),
@@ -61,6 +61,10 @@ public sealed partial class WorldGenerator
         (Props.AngelStatue, "angelstatue", true, null, false),
         (Props.FloorCable, "floorcable", true, null, false),
         (Props.PipeStack, "pipestack", true, null, false),
+        (Props.GaugeFrame, "gaugeframe", true, new[] { "gauges", "manifold", "valve", "sightglass" }, false),
+        (Props.PressureTank, "pressuretank", true, new[] { "plain", "valved" }, false),
+        (Props.RustMachine, "rustmachine", true, new[] { "pump", "governor" }, false),
+        (Props.FloorLever, "floorlever", true, new[] { "single", "double" }, false),
         (Props.Ficus, "ficus", false, null, false),
         (Props.ChairStack, "chairstack", false, null, false),
         (Props.Copier, "copier", true, null, false),
@@ -191,6 +195,32 @@ public sealed partial class WorldGenerator
         (Props.KingStatue, "kingstatue", true, null, false),
         (Props.Slide, "slide", true, null, false),
         (Props.TippedCar, "tippedcar", true, new[] { "black", "green" }, false),
+        // Level Fun's ways in from other levels (its own props are drawn in WorldGenerator.Fun.cs): the party
+        // dressing of a Level 0 cell and of a Level 1 stair core, and the poster that takes you
+        (Props.FunPosterTrap, "fun-poster-trap", true, null, false),
+        (Props.FunSmiley, "fun-smiley", true, new[] { "1", "2", "3", "4" }, false),
+        (Props.FunBalloonsFloor, "fun-balloons-floor", false, new[] { "mixed", "pastel" }, false),
+        (Props.FunBalloonTied, "fun-balloon-tied", false, new[] { "red", "yellow", "blue", "green", "pink" }, false),
+        (Props.FunConfetti, "fun-confetti", false, null, false),
+        // Level !(its two-block-tall shelving and curtain are drawn in WorldGenerator.Run.cs)
+        (Props.RunGurney, "run-gurney", true, new[] { "head", "foot" }, true),
+        (Props.RunWheelchair, "run-wheelchair", true, null, false),
+        (Props.RunIvStand, "run-ivstand", true, null, false),
+        (Props.RunChairs, "run-chairs", true, null, false),
+        (Props.RunCrashCart, "run-crashcart", true, null, false),
+        (Props.RunShelfFallen, "run-shelf", true, new[] { "fallen-a", "fallen-b" }, false),
+        (Props.RunToyCar, "run-toycar", true, null, false),
+        (Props.RunBoxes, "run-boxes", true, null, false),
+        (Props.RunCord, "run-cord", true, null, false),
+        (Props.RunSheets, "run-sheets", true, null, false),
+        (Props.RunRemains, "run-remains", true, null, false),
+        (Props.RunTray, "run-tray", true, new[] { "bar", "water" }, false),
+        (Props.RunBedside, "run-bedside", true, null, false),
+        (Props.RunSafeShelf, "run-safeshelf", true, null, false),
+        (Props.RunSafeCot, "run-safecot", true, new[] { "head", "foot" }, true),
+        (Props.RunDebris, "run-debris", true, null, false),
+        // The End (its tall props are drawn in WorldGenerator.End.cs; this row draws the low shelving of Level 11's closed bookstore)
+        (Props.EndShelf, "end-shelf", true, new[] { "empty-lower", "books-lower", "dusty-lower", "endpanel-lower", "leaning-lower" }, false),
     };
 
     /// <summary>Wall decoration families: one block type per wall material.</summary>
@@ -273,13 +303,25 @@ public sealed partial class WorldGenerator
     private readonly int mantleId, concreteId, waterId, boxId, boxTornId, crateOpenId, groundFallbackId;
     /// <summary>Chalk marks by symbol (left, right, cross, circle) and by the side of the wall they are on (north, east, south, west).</summary>
     private readonly int[,] chalkIds = new int[4, 4];
-    private readonly int[] floorIds = new int[128];
-    private readonly int[] overheadIds = new int[32];
-    private readonly int[,,] propIds = new int[256, 4, 4];
+    // (Sized for every value of the enums and of Props, the reserved blocks of the levels kept as 14-18 included)
+    private readonly int[] floorIds = new int[256];
+    private readonly int[] overheadIds = new int[256];
+    /// <summary>Most kinds a prop may come in (the second index of <see cref="propIds"/>).</summary>
+    private const int MaxPropKinds = 8;
+    private readonly int[,,] propIds = new int[Props.Limit, MaxPropKinds, 4];
     /// <summary>How many kinds each prop comes in, and whether it is modelled head to the north (beds, baths).</summary>
-    private readonly byte[] propKinds = new byte[256];
-    private readonly bool[] propHeadFirst = new bool[256];
-    private readonly int[,,,] decorIds = new int[64, 256, 6, 4];
+    private readonly byte[] propKinds = new byte[Props.Limit];
+    private readonly bool[] propHeadFirst = new bool[Props.Limit];
+    /// <summary>Wall decorations: [wall pattern, decoration, height above the floor, facing].</summary>
+    private readonly int[,,,] decorIds = new int[PatternCount, Decor.Limit, 6, 4];
+    private static readonly int PatternCount = MaxPattern() + 1;
+
+    private static int MaxPattern()
+    {
+        int max = 0;
+        foreach (WallPattern p in Enum.GetValues(typeof(WallPattern))) max = Math.Max(max, (int)p);
+        return max;
+    }
     private readonly int[,] exitLintelIds = new int[3, 2]; // concrete, white block, drywall x axis (we, ns)
     private readonly HashSet<int> flickerIds = new();
 
@@ -311,7 +353,7 @@ public sealed partial class WorldGenerator
     // Level 3
     private readonly int dustyFloorId, plasterCeilingId, transformerId, windowGlowId, manholeId, rungsId, sanctumStoneId;
     private readonly Dictionary<WallPattern, int> l3WallIds = new();
-    private readonly Dictionary<(WallPattern, byte), int> l3FixtureIds = new();
+    private readonly Dictionary<(WallPattern, ushort), int> l3FixtureIds = new();
     private readonly int cableXId, cableZId, cableHubId, cableDroopXId, cableDroopZId;
     private readonly int[,] cableLightIds = new int[3, 2]; // state (warm, off, flicker) x axis (we, ns)
     private readonly int[] roomSignIds = new int[8];
@@ -398,6 +440,7 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.HotelRunnerWE] = Id("hotelfloor-runnerwe");
         floorIds[(int)FloorKind.HotelRug] = Id("hotelfloor-rug");
         InitDeep();
+        InitInterior();
 
         overheadIds[Overheads.ExitSignWE] = Id("exithanging-we");
         overheadIds[Overheads.ExitSignNS] = Id("exithanging-ns");
@@ -532,6 +575,16 @@ public sealed partial class WorldGenerator
         InitCity();
         InitPool();
         InitMotion();
+        InitVegetation(); // vanilla trees, grass and flowers under the open sky (WorldGenerator.Vegetation.cs)
+        // The five kept as 14-18
+        InitRun();
+        InitFun();
+        InitEnd();
+        InitHub();
+        InitL974();
+        // Levels 3999 and 188
+        InitL3999();
+        InitL188();
         cableXId = BlockId("backrooms:cables-run-we");
         cableZId = BlockId("backrooms:cables-run-ns");
         cableHubId = BlockId("backrooms:cables-hub");
@@ -661,9 +714,17 @@ public sealed partial class WorldGenerator
             11 => g.CityBandBottom,
             WorldLayout.Poolrooms => g.FloorFor(level) - WorldGeometry.PoolPitDepth - 2,
             WorldLayout.Motion => g.FloorFor(level) - 6,
+            // The five kept as 14-18: the band they are lit over (see WorldGeometry.BandBottomFor), or the usual one if
+            // that begins higher (their column builders fill in under their floors)
+            WorldLayout.RunLevel or WorldLayout.FunLevel or WorldLayout.TheEnd or WorldLayout.Hub
+                or WorldLayout.Level974 or WorldLayout.Level3999 or WorldLayout.Level188 => Math.Min(g.BandBottom, g.BandBottomFor(level)),
             _ => g.BandBottom,
         };
         int bandTop = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
+        // The five kept as 14-18 are generated over their own band, and sealed just above it
+        bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level188;
+        if (region) bandTop = g.BandTopFor(level);
+        int cap = region ? bandTop + 1 : g.CapY;
 
         if (ground)
         {
@@ -675,7 +736,7 @@ public sealed partial class WorldGenerator
             for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
         }
         FillLayer(chunks, 0, mantleId);
-        if (!openSky) FillLayer(chunks, g.CapY, mantleId);
+        if (!openSky) FillLayer(chunks, cap, mantleId);
 
         IMapChunk mapChunk = chunks[0].MapChunk;
         var entities = new List<(BlockPos, string)>();
@@ -721,7 +782,7 @@ public sealed partial class WorldGenerator
                 }
                 if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
-                int rainHeight = openSky ? top : g.CapY;
+                int rainHeight = openSky ? top : cap;
                 mapChunk.RainHeightMap[column] = (ushort)rainHeight;
                 mapChunk.WorldGenTerrainHeightMap[column] = (ushort)(openSky ? Math.Max(g.FloorFor(level), top) : g.FloorY);
                 yMax = Math.Max(yMax, rainHeight);
@@ -752,6 +813,18 @@ public sealed partial class WorldGenerator
     {
         fluid = 0;
         int rel = y - Geometry.FloorY;
+        // Level !'s ways in, in other levels (a door that shouldn't be there, a wall that wasn't, a red corridor)
+        if (t.Under is >= Unders.RunFirst and <= Unders.RunLast && t.Level != WorldLayout.RunLevel
+            && RunEntranceBlock(t, gx, gz, y - Geometry.FloorFor(t.Level), out fluid) is int run and >= 0) return run;
+        // The End's ways in, in other levels (an EXIT door in Level 1, a lone doorway in Level 4, a bookstore's door in the city)
+        if (t.Under is >= Unders.EndFirst and <= Unders.EndLast && t.Level != WorldLayout.TheEnd
+            && EndEntranceBlock(t, y - Geometry.FloorFor(t.Level), out fluid) is int end and >= 0) return end;
+        // Level 3999's ways in, in other levels (the lone arcade and its windmills in Level 10, a glitching wall in the city, magenta tiles in Level 37)
+        if (t.Under is >= Unders.L3999First and <= Unders.L3999Last && t.Level != WorldLayout.Level3999
+            && L3999EntranceBlock(t, y - Geometry.FloorFor(t.Level), out fluid) is int l3999 and >= 0) return l3999;
+        // Level 188's ways in, in other levels (a window where no window should be, in Level 0, Level 1 and Level Fun)
+        if (t.Under is >= Unders.L188First and <= Unders.L188Last && t.Level != WorldLayout.Level188
+            && L188EntranceBlock(t, y - Geometry.FloorFor(t.Level), out fluid) is int l188 and >= 0) return l188;
         switch (t.Level)
         {
             case 7: return Level7Block(t, gx, gz, rel, out fluid);
@@ -763,12 +836,22 @@ public sealed partial class WorldGenerator
             case 11: return Level11Block(t, gx, gz, y - Geometry.CityFloorY, out fluid);
             case WorldLayout.Poolrooms: return Level37Block(t, y - Geometry.FloorFor(WorldLayout.Poolrooms), out fluid);
             case WorldLayout.Motion: return Level94Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Motion), out fluid);
+            // The five kept as 14-18, each in its own file, from its own floor
+            case WorldLayout.RunLevel: return LevelRunBlock(t, gx, gz, y - Geometry.FloorFor(WorldLayout.RunLevel), out fluid);
+            case WorldLayout.FunLevel: return LevelFunBlock(t, gx, gz, y - Geometry.FloorFor(WorldLayout.FunLevel), out fluid);
+            case WorldLayout.TheEnd: return LevelEndBlock(t, gx, gz, y - Geometry.FloorFor(WorldLayout.TheEnd), out fluid);
+            case WorldLayout.Hub: return LevelHubBlock(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Hub), out fluid);
+            case WorldLayout.Level974: return Level974Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level974), out fluid);
+            case WorldLayout.Level3999: return Level3999Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level3999), out fluid);
+            case WorldLayout.Level188: return Level188Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level188), out fluid);
         }
         if (rel < 0) return BelowFloor(t, rel, out fluid);
 
         // Walls between levels (or around grand rooms) run solid up to the top of the tallest space next to them
         int room = t.Level == 1 || t.Grand ? WorldGeometry.MaxRoomHeight : WorldGeometry.RoomHeight;
         if (t.Tall && t.IsWallLike && rel > room && rel <= WorldGeometry.MaxRoomHeight + 1 && t.Level != 0) return concreteId;
+        // A sump let into the floor (Level 5's boiler bays): the water stands where the floor block would be
+        if (InteriorSump(t, rel, out fluid)) return 0;
 
         int block = t.Level switch
         {
@@ -822,14 +905,14 @@ public sealed partial class WorldGenerator
     /// <summary>The decoration block for a wall tile at this height, or 0 if it has none there.</summary>
     private int Decorated(in Tile t, int rel)
     {
-        if (t.Variant < Decor.First || rel < 0 || rel > 5) return 0;
+        if (t.Variant < Decor.First || t.Variant >= Decor.Limit || rel < 0 || rel > 5) return 0;
         return decorIds[(int)t.Pattern, t.Variant, rel, Facing(t.Pier)];
     }
 
     /// <summary>The block for a detail prop, or 0 if the tile holds none.</summary>
     private int PropBlock(in Tile t)
     {
-        if (t.Variant < 40) return 0;
+        if (t.Variant < 40 || t.Variant >= Props.Limit) return 0;
         int kind = Math.Min(t.Stack, propKinds[t.Variant] - 1);
         return propIds[t.Variant, Math.Max(0, kind), Facing(propHeadFirst[t.Variant] ? Opposite(t.Pier) : t.Pier)];
     }
@@ -848,6 +931,26 @@ public sealed partial class WorldGenerator
 
     /// <summary>A part of a two-wide elevator door. Stack says which leaf (0 left, 1 right) as seen from in front.</summary>
     private int LiftPart(int[,,,] ids, int wall, int part, in Tile t) => ids[wall, part, t.Stack & 1, Facing(t.Pier)];
+
+    /// <summary>
+    /// Scaffolding for the levels kept as 14-18 until each has its own blocks (see docs/new-levels/CONTRACT.md): bare
+    /// concrete rooms, a working light where the layout puts one, the level's props on the floor. Each level's column
+    /// builder replaces its call to this; remove it once none calls it.
+    /// </summary>
+    private int PlaceholderRegionBlock(in Tile t, int rel)
+    {
+        const int room = WorldGeometry.RoomHeight;
+        if (rel < 0 || rel > room + 1) return concreteId;
+        if (rel == 0)
+        {
+            int floor = t.Kind == TileKind.Floor ? floorIds[(int)t.Floor] : 0;
+            return floor != 0 ? floor : floorIds[(int)FloorKind.Concrete];
+        }
+        if (rel == room + 1) return t.Kind == TileKind.Floor && t.Ceiling == CeilingKind.LightOn ? lightOnId : concreteCeilingId;
+        if (t.Kind == TileKind.Doorway) return rel == room ? concreteWallId : 0;
+        if (t.Kind != TileKind.Floor) return concreteWallId;
+        return rel == 1 ? PropBlock(t) : 0;
+    }
 
     // ---- Level 0: wallpaper, carpet, drop ceiling ----
 
@@ -886,6 +989,8 @@ public sealed partial class WorldGenerator
             case TileKind.ArchDoor:
                 return top ? archIds[(int)t.Pier] : 0;
             default:
+                // (Level Fun's poster and its red smiley hang at eye height, over the carpet)
+                if (t.Variant is Props.FunPosterTrap or Props.FunSmiley) return rel == 2 ? PropBlock(t) : 0;
                 if (bottom) return t.SupplyBox ? BoxOf(t) : t.Variant >= 40 ? PropBlock(t) : 0;
                 // The Manila Room's chandelier hangs under its ceiling
                 return top && t.Ceiling == CeilingKind.Chandelier ? chandelierId : 0;
@@ -1057,7 +1162,7 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>Tunnel walls: plain at the top, with pipework, valves or machinery at body height.</summary>
-    private int TunnelWall(byte variant, int rel) => variant switch
+    private int TunnelWall(ushort variant, int rel) => variant switch
     {
         Props.WallPipes => tunnelWallIds[rel == 2 ? "pipes" : "plain"],
         Props.WallRiser => tunnelWallIds[rel == 2 ? "riserjoint" : "riser"],
@@ -1264,6 +1369,8 @@ public sealed partial class WorldGenerator
                     return t.Variant == 1 ? LiftPart(liftIds, 1, rel - 1, t) : LiftPart(cageIds, t.Floor == FloorKind.Dusty ? 1 : 0, rel - 1, t);
                 }
                 if (t.Pattern == WallPattern.PoolDoor) return rel == 1 ? poolDoorLowerId : rel == 2 ? poolDoorUpperId : HotelWall(rel);
+                // Level Fun's FUN doors (one leaf, all three letters)
+                if (t.Pattern == WallPattern.FunDoor) return rel <= 2 ? funFunDoorIds[2, rel - 1] : HotelWall(rel);
                 return rel == 1 ? doorLowerId : rel == 2 ? doorUpperIds[t.Variant % 8] : HotelWall(rel);
             case TileKind.Doorway:
                 if (rel <= 2) return 0;

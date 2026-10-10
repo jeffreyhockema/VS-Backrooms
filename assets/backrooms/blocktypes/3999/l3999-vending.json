@@ -1,0 +1,255 @@
+// Level 3999: a tall vending machine (snacks or drinks), the coin slot taped over: ALMOND WATER ONLY. One bottle in, one snack or drink out, never empty (attributes takes and stockless are for BackroomsDispenser; light 6)
+{
+	"code": "l3999-vending",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"snack",
+				"drink"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l3999-vending-snack-north": {
+			"base": "backrooms:block/3999/l3999-vending-snack"
+		},
+		"l3999-vending-snack-east": {
+			"base": "backrooms:block/3999/l3999-vending-snack",
+			"rotateY": 270
+		},
+		"l3999-vending-snack-south": {
+			"base": "backrooms:block/3999/l3999-vending-snack",
+			"rotateY": 180
+		},
+		"l3999-vending-snack-west": {
+			"base": "backrooms:block/3999/l3999-vending-snack",
+			"rotateY": 90
+		},
+		"l3999-vending-drink-north": {
+			"base": "backrooms:block/3999/l3999-vending-drink"
+		},
+		"l3999-vending-drink-east": {
+			"base": "backrooms:block/3999/l3999-vending-drink",
+			"rotateY": 270
+		},
+		"l3999-vending-drink-south": {
+			"base": "backrooms:block/3999/l3999-vending-drink",
+			"rotateY": 180
+		},
+		"l3999-vending-drink-west": {
+			"base": "backrooms:block/3999/l3999-vending-drink",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l3999-vending-snack-north"
+		],
+		"backrooms": [
+			"l3999-vending-snack-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l3999-vending-snack-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"l3999-vending-snack-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-vending-snack-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-vending-snack-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-vending-drink-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"l3999-vending-drink-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-vending-drink-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-vending-drink-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l3999-vending-snack-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"l3999-vending-snack-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-vending-snack-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-vending-snack-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l3999-vending-drink-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94
+		},
+		"l3999-vending-drink-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l3999-vending-drink-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l3999-vending-drink-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 1.9,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"class": "BackroomsDispenser",
+	"entityClass": "BackroomsDispenser",
+	"lightHsv": [
+		33,
+		4,
+		6
+	],
+	"drops": [],
+	"attributesByType": {
+		"*-snack-*": {
+			"l3999structure": true,
+			"takes": "backrooms:almondwater",
+			"stockless": true,
+			"dispenses": [
+				"backrooms:chips",
+				"backrooms:candybar",
+				"backrooms:l3999-popcorn",
+				"backrooms:l3999-cottoncandy"
+			]
+		},
+		"*-drink-*": {
+			"l3999structure": true,
+			"takes": "backrooms:almondwater",
+			"stockless": true,
+			"dispenses": [
+				"backrooms:soda",
+				"backrooms:cashewwater",
+				"backrooms:l3999-soda-cherry",
+				"backrooms:l3999-soda-lime",
+				"backrooms:l3999-soda-grape"
+			]
+		}
+	}
+}
