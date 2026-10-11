@@ -24,11 +24,14 @@ def tex(key):
 # ======================================================================== 6.1 Surfaces
 
 def surfaces():
-    # Carpet: three looks, each turned four ways as alternates so the pattern never lines up
+    # Carpet: three looks, each turned four ways as alternates so the pattern never lines up. The galaxy carpet is also a
+    # unit's gallery slab, so its sides and underside are plain dark paint (the stars would band the gallery's fascia)
     tex_by = {}
     for k in ("cosmic", "galaxy", "rotten"):
         base = tex(f"carpet-{k}")
         tex_by[f"l3999-carpet-{k}"] = {"all": {"base": base, "alternates": [{"base": base, "rotation": r} for r in (90, 180, 270)]}}
+    tex_by["l3999-carpet-galaxy"] = dict({f: {"base": tex("wall-midnight")} for f in ("north", "east", "south", "west", "down")},
+                                         up=tex_by["l3999-carpet-galaxy"]["all"])
     block("l3999-carpet", {
         "variantgroups": [{"code": "kind", "states": ["cosmic", "galaxy", "rotten"]}],
         "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Stone", "drawtype": "cube",
@@ -42,7 +45,8 @@ def surfaces():
                "Level 3999: polished marble tiles, 2 x 2 to a block (white with grey veins, black with white-gold veins)",
                names={"l3999-marble-white": "White Marble", "l3999-marble-black": "Black Marble"})
     cube_block("l3999-concrete", "Concrete", {"wall": "concrete-wall", "floor": "concrete-floor"},
-               "Level 3999: smooth concrete walls with form-tie holes; the polished floors of the service corridors")
+               "Level 3999: smooth concrete walls with form-tie holes; the polished floors of the service corridors",
+               alternates={"wall": ["concrete-wall2", "concrete-wall3"]})
     cube_block("l3999-wall", "Painted Wall", {"violet": "wall-violet", "midnight": "wall-midnight", "teal": "wall-teal"},
                "Level 3999: matt painted plaster (violet, midnight, teal)")
     cube_block("l3999-ceiling", "Ceiling", {"black": "ceiling-black", "acoustic": "ceiling-acoustic"},
@@ -148,8 +152,21 @@ def neon():
 
     variants_block("l3999-neonrail", "Neon Base Strip", [("colour", COLOURS), ("facing", SIDES)], rail, rot="facing",
                    box=(0, 0, 0.75, 1, 0.25, 1), collide=False, material="Glass", sounds=GLASS,
-                   data={"lightHsvByType": light_c(10), "drops": [], "attributes": dict(FIXED)},
-                   comment="Level 3999: a horizontal neon strip along the foot of the wall behind it (base glow, light 10)")
+                   data={"lightHsvByType": light_c(12), "drops": [], "attributes": dict(FIXED)},
+                   comment="Level 3999: a horizontal neon strip along the foot of the wall behind it (base glow, light 12)")
+
+    def rail_corner(v):
+        # In a unit's corner the strip along the side wall comes on to meet the one along the wall behind: hand "l" has
+        # the side wall on the left (west of a north-facing strip), "r" on the right
+        c = v["colour"]
+        x0, cx = (1, 0) if v["hand"] == "l" else (13, 12.6)
+        return rail(v) + [tube("SideTube", (x0, 1, 0), (x0 + 2, 3, 13), c),
+                          bx("SideClip", (cx, 0.5, 3), (cx + 3.4, 3.5, 4.5), "darksteel")]
+
+    variants_block("l3999-neonrailcorner", "Neon Base Strip", [("colour", COLOURS), ("hand", ["l", "r"]), ("facing", SIDES)], rail_corner,
+                   rot="facing", box=(0, 0, 0.75, 1, 0.25, 1), collide=False, material="Glass", sounds=GLASS,
+                   data={"lightHsvByType": light_c(12), "drops": [], "attributes": dict(FIXED)},
+                   comment="Level 3999: the neon base strip in a unit's corner, along the wall behind it and on along the side wall")
 
     def dead(v):
         els = ceiling({"colour": "magenta"})
@@ -192,6 +209,18 @@ def neon():
                            "the way it faces): ARCADE magenta, PRIZES cyan, FOOD COURT orange, LOBBY lilac, OPEN pink, PARADISE magenta "
                            "in a cyan frame, EXIT pink (light 12)",
                    names={f"l3999-neonsign-{k}-*": f"Neon Sign ({w.title()})" for k, (w, _) in SIGNS.items()})
+    # The same signs drawn half a block to the left or right of their block (as seen from in front), for a unit's
+    # sign over its six-wide way in: there is no middle block over an even width, and drawn on its own block the sign
+    # hung half a block off the middle of the doorway (layout version 4 on picks these there)
+    variants_block("l3999-neonsignshift", "Neon Sign", [("sign", list(SIGNS)), ("shift", ["left", "right"]), ("facing", SIDES)],
+                   lambda v: move(sign(v), dx=8 if v["shift"] == "left" else -8), rot="facing",
+                   boxes=lambda v: (-0.4, 0.06, 0.85, 2.4, 0.94, 1) if v["shift"] == "left" else (-1.4, 0.06, 0.85, 1.4, 0.94, 1),
+                   collide=False, material="Glass", sounds=GLASS,
+                   data={"lightHsvByType": {f"*-{k}-*": hsv(c, 12) for k, (_, c) in SIGNS.items()}, "drops": [], "attributes": dict(FIXED)},
+                   comment="Level 3999: a neon sign three blocks wide, drawn half a block to the left or right of its block as seen "
+                           "from in front, so that it hangs centred over a doorway an even number of blocks wide (otherwise as "
+                           "l3999-neonsign)",
+                   names={f"l3999-neonsignshift-{k}-*": f"Neon Sign ({w.title()})" for k, (w, _) in SIGNS.items()})
 
     # Stall signs: an icon and the word in neon, two blocks wide
     STALLS = {"burger": ("BURGERS", "orange"), "pizza": ("PIZZA", "pink"), "noodles": ("NOODLES", "cyan"),
@@ -250,21 +279,22 @@ def neon():
                    comment="Level 3999: the giant 3999 sign of a junction plaza, 3 blocks wide and 2 tall, hanging on four chains below its "
                            "block (place it under the ceiling); it reads from the north and the south (light 14)")
 
-    # Pillars: mirror steel, octagonal, two neon rings
+    # Pillars: mirror steel, octagonal, a vertical neon tube down each of the four diagonal faces, full height, so a stack
+    # of blocks reads as one lit column (rings stacked 17 high read as a ladder)
     def pillar(v):
         c = v["colour"]
         els = [bx("ShaftA", (2, 0, 4.5), (14, 16, 11.5), "mirror"), bx("ShaftB", (4.5, 0, 2), (11.5, 16, 14), "mirror"),
                rot(bx("ShaftC", (2, 0, 4.5), (14, 16, 11.5), "mirror"), ry=45, origin=(8, 0, 8)),
                rot(bx("ShaftD", (4.5, 0, 2), (11.5, 16, 14), "mirror"), ry=45, origin=(8, 0, 8))]
-        for y in (4, 12):
-            els += [tube(f"Ring{y}a", (1, y, 4.1), (15, y + 1, 11.9), c), tube(f"Ring{y}b", (4.1, y, 1), (11.9, y + 1, 15), c),
-                    rot(tube(f"Ring{y}c", (1, y, 4.1), (15, y + 1, 11.9), c), ry=45, origin=(8, y, 8)),
-                    rot(tube(f"Ring{y}d", (4.1, y, 1), (11.9, y + 1, 15), c), ry=45, origin=(8, y, 8))]
+        for n, (frm, to) in enumerate((((13.5, 0, 7), (15, 16, 9)), ((1, 0, 7), (2.5, 16, 9)),
+                                       ((7, 0, 13.5), (9, 16, 15)), ((7, 0, 1), (9, 16, 2.5)))):
+            els.append(rot(tube(f"Tube{n}", frm, to, c), ry=45, origin=(8, 0, 8)))
         return els
 
     variants_block("l3999-pillar", "Mirror Pillar", [("colour", COLOURS)], pillar, box=(0.125, 0, 0.125, 0.875, 1, 0.875), material="Metal",
-                   sounds=METAL, data={"lightHsvByType": {f"*-{c}": hsv(c, 13) for c in COLOURS}, "drops": [], "attributes": dict(FIXED)},
-                   comment="Level 3999: a mirror-steel octagonal column 12 px across with two neon rings (stack one per block of height; light 13)")
+                   sounds=METAL, data={"lightHsvByType": {f"*-{c}": hsv(c, 15) for c in COLOURS}, "drops": [], "attributes": dict(FIXED)},
+                   comment="Level 3999: a mirror-steel octagonal column 12 px across with a vertical neon tube down each diagonal face "
+                           "(stack one per block of height; the tubes run on into one lit column; light 15)")
 
     def poolled(v):
         return [faces_box("Edge", (0, 0, 0), (16, 16, 16), {"up": "white", "down": "pooltile-violet", "east": "pooltile-edge", "south": "pooltile-edge",

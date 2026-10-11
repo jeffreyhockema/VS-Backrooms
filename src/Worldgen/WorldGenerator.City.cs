@@ -65,6 +65,15 @@ public sealed partial class WorldGenerator
         almondSeepId = Id("almondseep");
         tunnelDoorLowerId = Id("tunneldoor-lower");
         tunnelDoorUpperId = Id("tunneldoor-upper");
+        tramRailIds[0] = Id("tramrails-we");
+        tramRailIds[1] = Id("tramrails-ns");
+        tramRailIds[2] = Id("tramrails-cross");
+        string[] paints = { "white", "grey", "cream" };
+        for (int i = 0; i < paints.Length; i++)
+        {
+            tunnelDoorPaintIds[i, 0] = Id($"tunneldoorpaint-{paints[i]}-lower");
+            tunnelDoorPaintIds[i, 1] = Id($"tunneldoorpaint-{paints[i]}-upper");
+        }
         string[] subway = { "bed", "raill", "railr", "platform", "edge" };
         for (int i = 0; i < subway.Length; i++) subwayFloorIds[i] = Id($"subwayfloor-{subway[i]}");
 
@@ -180,6 +189,8 @@ public sealed partial class WorldGenerator
                 Props.AcUnit => propIds[Props.AcUnit, 0, Facing(t.Pier)],
                 Props.WaterTank => propIds[Props.WaterTank, 0, 0],
                 Props.Antenna => propIds[Props.Antenna, 0, 0],
+                // A billboard faces the street its building fronts, whichever poster it has
+                Props.Billboard => propIds[Props.Billboard, (int)(Hashing.Hash(seed, gx, gz, 0xB111) % propKinds[Props.Billboard]), Facing(layout.CityLotFront(gx, gz))],
                 _ => 0,
             };
         }
@@ -202,7 +213,7 @@ public sealed partial class WorldGenerator
             if (t.Kind == TileKind.Doorway)
             {
                 if (rel <= 2) return 0;
-                if (rel == 3) return Sign(t, side) is int sign and not 0 ? sign : (detail & CityDetail.Open) != 0 || kind is CityKind.Office or CityKind.Hotel
+                if (rel == 3) return StoreSign(t, gx, gz, facing, side) is int sign and not 0 ? sign : (detail & CityDetail.Open) != 0 || kind is CityKind.Office or CityKind.Hotel
                     ? facadeIds[style, PartBand, side] : fasciaIds[side];
             }
             if (t.Kind == TileKind.Door && rel <= 2)

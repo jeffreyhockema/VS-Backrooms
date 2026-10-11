@@ -13,8 +13,8 @@ namespace Backrooms.Entities;
 /// Wanderers who trade: other people lost in the Backrooms, keeping to a camp in Level 1, an outpost in Level 4, the
 /// 9th Road or a corner of the city (see <see cref="WorldLayout.WandererSite"/>). Each site is given its wanderer the
 /// first time a player comes near, and the world remembers it (saved as "backrooms-wanderers"); from then on the
-/// wanderer is an ordinary trader kept with the world, who comes back some days after being killed. They take rusty
-/// gears, buy salvage and sell Almond Water, Firesalt, candles, bandages and seeds.
+/// wanderer is an ordinary trader kept with the world. A site is only ever given one: a wanderer killed is not put
+/// down again. They take rusty gears, buy salvage and sell Almond Water, Firesalt, candles, bandages and seeds.
 /// </summary>
 public class WandererSystem : ModSystem
 {

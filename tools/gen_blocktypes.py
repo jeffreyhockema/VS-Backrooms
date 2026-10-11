@@ -135,15 +135,29 @@ def level3():
          comment="Level 3 walls: two-tone glazed structural tile, red brick, and cinder block in the machine rooms")
     fixture = {
         "code": "l3wallfixture",
-        "variantgroups": [{"code": "material", "states": ["glazed", "brick", "cinder"]}, {"code": "fixture", "states": ["pipes", "panel", "fan"]}],
+        "variantgroups": [{"code": "material", "states": ["glazed", "brick", "cinder"]}, {"code": "fixture", "states": ["pipes", "panel", "fan", "pipesjoint", "pipesbracket"]}],
         "creativeinventory": {"general": ["*"], "construction": ["*"]},
         "blockmaterial": "Stone",
         "drawtype": "json",
         "shapeByType": {"*": {"base": "block/l3wall-{material}-{fixture}"}},
-        "textures": {"all": {"base": "block/level3/l3wall-{material}"}},
+        "textures": {"wall": {"base": "block/level3/l3wall-{material}"}},
         "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
     }
-    write("level3", "l3wallfixture", fixture, "Level 3 walls carrying 3D pipes, electrical panels or industrial fans")
+    write("level3", "l3wallfixture", fixture, "Level 3 walls carrying 3D pipes (with a flanged joint, or a bracket), electrical panels or industrial fans")
+    # The wall pipes of Levels 2 and 3 turning corners and ending: the state names the faces open to the tunnel and
+    # what the pipes do at each corner (see tools/gen_shapes.py, wall_pipe_configs)
+    from gen_shapes import wall_pipe_corner_states
+    corner_states = wall_pipe_corner_states()
+    write("level3", "wallpipecorner", {
+        "code": "wallpipecorner",
+        "variantgroups": [{"code": "wall", "states": ["tunnel", "glazed", "brick", "cinder"]}, {"code": "conf", "states": list(corner_states)}],
+        "creativeinventory": {"general": ["*-tunnel-nesw-wwww", "*-tunnel-ne-wooo"], "construction": ["*-tunnel-nesw-wwww", "*-tunnel-ne-wooo"]},
+        "blockmaterial": "Stone",
+        "drawtype": "json",
+        "shapeByType": {f"*-{state}": {"base": f"block/wallpipe/{shape}", "rotateY": rotate} for state, (shape, rotate) in corner_states.items()},
+        "texturesByType": {"*-tunnel-*": {"wall": {"base": "block/level2/tunnelwall-plain"}}, "*": {"wall": {"base": "block/level3/l3wall-{wall}"}}},
+        "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
+    }, "Level 2 and 3 walls whose round pipes turn a corner (outer corners wrap round, inner corners meet) or end in a blind flange")
     cube("level3", "dustyfloor", "block/level3/dustyfloor", comment="Dusty concrete floor")
     cube("level3", "plasterceiling", "block/level3/plasterceiling", comment="Peeling, stained plaster ceiling")
     cube("level3", "roomsign", "block/level3/roomsign-{type}", states=[str(i) for i in range(8)],
@@ -154,10 +168,13 @@ def level3():
 
     cables = {
         "code": "cables",
-        "variantgroups": [{"code": "type", "states": ["run-we", "run-ns", "hub"]}],
+        # "end-<side>": a tray ending with open hall beyond it on that side
+        "variantgroups": [{"code": "type", "states": ["run-we", "run-ns", "hub", "end-north", "end-east", "end-south", "end-west"]}],
         "creativeinventory": {"general": ["*-run-we", "*-hub"], "decorative": ["*-run-we", "*-hub"]},
         "blockmaterial": "Metal", "drawtype": "json",
-        "shapeByType": {"*-hub": {"base": "block/cables-hub"}, "*-we": {"base": "block/cables-run", "rotateY": 0}, "*-ns": {"base": "block/cables-run", "rotateY": 90}},
+        "shapeByType": {"*-hub": {"base": "block/cables-hub"}, "*-we": {"base": "block/cables-run", "rotateY": 0}, "*-ns": {"base": "block/cables-run", "rotateY": 90},
+                        "*-end-east": {"base": "block/cables-end", "rotateY": 0}, "*-end-north": {"base": "block/cables-end", "rotateY": 90},
+                        "*-end-west": {"base": "block/cables-end", "rotateY": 180}, "*-end-south": {"base": "block/cables-end", "rotateY": 270}},
         "sidesolid": {"all": False}, "sideopaque": {"all": False},
         "collisionbox": {"x1": 0, "y1": 0.7, "z1": 0, "x2": 1, "y2": 1, "z2": 1},
         "selectionbox": {"x1": 0, "y1": 0.7, "z1": 0, "x2": 1, "y2": 1, "z2": 1},
@@ -167,16 +184,21 @@ def level3():
 
     light = {
         "code": "cablelight",
-        "variantgroups": [{"code": "state", "states": ["warm", "off", "flicker"]}, {"code": "axis", "states": ["we", "ns"]}],
+        # Along a tray ("we", "ns"), on no tray, hanging from the ceiling ("none"), or on a bundle of the tar pipes
+        "variantgroups": [{"code": "state", "states": ["warm", "off", "flicker"]}, {"code": "axis", "states": ["we", "ns", "none", "tarwe", "tarns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
         "blockmaterial": "Glass", "drawtype": "json",
         "shapeByType": {
+            "*-off-none": {"base": "block/cablelight-plain-off"}, "*-none": {"base": "block/cablelight-plain-lit"},
+            "*-off-tarwe": {"base": "block/tunnellight-bundle-off", "rotateY": 0}, "*-off-tarns": {"base": "block/tunnellight-bundle-off", "rotateY": 90},
+            "*-tarwe": {"base": "block/tunnellight-bundle-warm", "rotateY": 0}, "*-tarns": {"base": "block/tunnellight-bundle-warm", "rotateY": 90},
             "*-off-we": {"base": "block/cablelight-off", "rotateY": 0}, "*-off-ns": {"base": "block/cablelight-off", "rotateY": 90},
             "*-we": {"base": "block/cablelight-lit", "rotateY": 0}, "*-ns": {"base": "block/cablelight-lit", "rotateY": 90},
         },
         "lightHsvByType": {"*-warm-*": [5, 5, 13]},
         "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
-        "attributesByType": {"*-flicker-we": {"offBlock": "backrooms:cablelight-off-we"}, "*-flicker-ns": {"offBlock": "backrooms:cablelight-off-ns"}},
+        "texturesByType": {"*-tarwe": {"rust": {"base": "block/level3/pipe-tar"}}, "*-tarns": {"rust": {"base": "block/level3/pipe-tar"}}},
+        "attributesByType": {f"*-flicker-{a}": {"offBlock": f"backrooms:cablelight-off-{a}"} for a in ("we", "ns", "none", "tarwe", "tarns")},
         "dropsByType": {"*-off-*": DEAD_LIGHT_DROPS, "*-flicker-*": [{"type": "block", "code": "cablelight-off-we"}]},
         "sidesolid": {"all": False}, "sideopaque": {"all": False},
         "collisionbox": {"x1": 0, "y1": 0.55, "z1": 0, "x2": 1, "y2": 1, "z2": 1},
@@ -278,7 +300,7 @@ def level5():
         "creativeinventory": {"general": ["*"], "decorative": ["*"]},
         "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": {"*": {"base": "block/hotelfixture-{type}"}},
-        "textures": {"all": {"base": "block/level5/hotelwall-panel"}},
+        "textures": {"panel": {"base": "block/level5/hotelwall-panel"}},
         "lightHsvByType": {"*-sconce": [6, 5, 11]},
         "resistance": 2, "lightAbsorption": 99, "lightAbsorptionByType": {"*-sconce": 0}, "sounds": WOOD,
         "particlePropertiesByType": {"*-sconce": _sconce_flames()},
@@ -287,14 +309,32 @@ def level5():
     cube("level5", "hotelcarpet", "block/level5/hotelcarpet-{type}", material="Cloth", sounds=CLOTH, states=["damask", "maroon", "lobby"],
          comment="Red and gold damask, near-black ballroom maroon, and tan lobby carpet")
     cube("level5", "hotelwood", "block/level5/hotelwood", material="Wood", sounds=WOOD, comment="Dark walnut floorboards")
-    cube("level5", "hotelceiling", "block/level5/hotelceiling-{type}", material="Wood", sounds=WOOD, states=["cream", "beams"],
-         comment="Cream corridor ceiling and the painted beams of the grand rooms")
+    # The grand rooms' coffered ceiling is drawn from shapes (coffer, a beam along X or Z, two beams crossing) that let
+    # light through, so the beams hanging under it are lit on their sides; "beams" is the old painted ceiling, kept
+    # for rooms generated before
+    beams = {"coffer": "block/hotelceiling-coffer", "beam-we": "block/hotelceiling-beam", "beam-cross": "block/hotelceiling-beamcross"}
+    ceiling = {
+        "code": "hotelceiling",
+        "variantgroups": [{"code": "type", "states": ["cream", "beams", "coffer", "beam-we", "beam-ns", "beam-cross"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Wood",
+        "drawtypeByType": {"*-cream": "cube", "*-beams": "cube", "*": "json"},
+        "shapeByType": {**{f"*-{k}": {"base": v} for k, v in beams.items()},
+                        "*-beam-ns": {"base": "block/hotelceiling-beam", "rotateY": 90}},
+        "texturesByType": {"*-cream": {"all": {"base": "block/level5/hotelceiling-cream"}},
+                           "*-beams": {"all": {"base": "block/level5/hotelceiling-beams"}}},
+        "sideopaqueByType": {"*-cream": {"all": True}, "*-beams": {"all": True}, "*": {"all": False}},
+        "resistance": 2,
+        "lightAbsorptionByType": {"*-cream": 99, "*-beams": 99, "*": 0},
+        "sounds": WOOD,
+    }
+    write("level5", "hotelceiling", ceiling, "Cream corridor ceiling, and the coffered ceiling and mahogany beams of the grand rooms")
     cube("level5", "marblecolumn", "block/level5/marble", comment="Red faux-marble column")
     cube("level5", "plasterwall", "block/level5/plaster", comment="Stained plaster of the boiler halls")
     cube("level5", "staffsign", "block/level5/staffsign", material="Wood", sounds=WOOD, comment="STAFF ONLY sign above the doors to the boiler halls")
     door = {
         "code": "hoteldoor",
-        "variantgroups": [{"code": "part", "states": ["lower"] + [f"upper{i}" for i in range(8)]}],
+        "variantgroups": [{"code": "part", "states": ["lower"] + [f"upper{i}" for i in range(10)]}],
         "creativeinventory": {"general": ["*"], "decorative": ["*"]},
         "blockmaterial": "Wood", "drawtype": "cube",
         "textures": {"all": {"base": "block/level5/hoteldoor-{part}"}},
@@ -342,7 +382,7 @@ def fix_ambients():
                                          ("level4", "officewindow", "backrooms:ambient/rain", 12),
                                          ("level5", "turntable", "backrooms:ambient/jazz", 1)):
         path = os.path.join(OUT, folder, code + ".json")
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             lines = f.read()
         comment, _, body = lines.partition("\n") if lines.startswith("//") else ("", "", lines)
         block = json.loads(body)

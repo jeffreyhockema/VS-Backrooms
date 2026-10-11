@@ -10,15 +10,15 @@ namespace Backrooms.Worldgen;
 /// higher than three storeys. Nothing moves. The cars are parked where they were left, the traffic lights are dead
 /// or stuck, most of the street lamps are out, and the only sound is a hum like distant traffic that isn't there.
 ///
-/// A third of the buildings can never be entered: their windows are black mirrors and they have no doors. The
-/// rest open onto lobbies, diners, grocery stores, pharmacies, hardware stores, laundromats, a church or a museum,
-/// with the lights still on and the shelves still stocked; Almond Water is everywhere, in vending machines and on
-/// street vendors' carts. A subway runs under every avenue, with a station at every third street. It is the safest
-/// place in the Backrooms, and the best connected: its exits are as many as they are hard to notice. An office
-/// tower's elevators go to Level 4 and a hotel's to Level 5; a basement door to Level 0, a garage ramp to Level 1,
-/// an open manhole to Level 2, a substation to Level 3; a dark doorway off an alley to Level 6, the deep middle of a
-/// park fountain to Level 7, a broken street to Level 8, a rowhouse's front door to Level 9, a patch of wheat in a
-/// park to Level 10, and a diner's kitchen door to the Snackrooms.
+/// Between a sixth and a third of the buildings (the most downtown) can never be entered: their windows are black
+/// mirrors and they have no doors. The rest open onto lobbies, diners, grocery stores, pharmacies, hardware stores,
+/// laundromats, a church or a museum, with the lights still on and the shelves still stocked; Almond Water is
+/// everywhere, in vending machines and on street vendors' carts. A subway runs under every avenue, with a station
+/// at every third street. It is the safest place in the Backrooms, and the best connected: its exits are as many as
+/// they are hard to notice. An office tower's elevators go to Level 4 and a hotel's to Level 5; a basement door to
+/// Level 0, a garage ramp to Level 1, an open manhole to Level 2, a substation to Level 3; a dark doorway off an
+/// alley to Level 6, the deep middle of a park fountain to Level 7, a broken street to Level 8, a rowhouse's front
+/// door to Level 9, a patch of wheat in a park to Level 10, and a diner's kitchen door to the Snackrooms.
 ///
 /// The city is not a ring. It lies far out past the fields of Level 10, and no one walks there: you noclip in,
 /// through a barn wall in Level 10 that isn't quite there. Its streets are <see cref="WorldGeometry.CityDrop"/>
@@ -70,6 +70,9 @@ public sealed partial class WorldLayout
         double angle = Hashing.Unit(h) * Math.PI * 2, radius = Math.Sqrt(Hashing.Unit(Hashing.Mix(h))) * CityRadius * 0.35;
         return (CityCentreX + (int)Math.Round(Math.Cos(angle) * radius), CityCentreZ + (int)Math.Round(Math.Sin(angle) * radius));
     }
+
+    /// <summary>Which way a lot fronts onto its street: north for the lots north of their block's alley, south for the rest.</summary>
+    public ArchPier CityLotFront(int gx, int gz) => Hashing.Mod(gz - CityOriginZ, StreetPitch) - StreetWidth < AlleyZ ? ArchPier.North : ArchPier.South;
 
     /// <summary>Arriving in the city: on a sidewalk or a plaza, out in the open.</summary>
     private static bool IsCityArrivalSpot(Tile t) =>
@@ -435,7 +438,7 @@ public sealed partial class WorldLayout
         }
 
         // The roofs: plant and tanks, a mast on the tallest towers
-        RoofDressing(f, spec, ref rng);
+        RoofDressing(f, spec, ref rng, billboards: Version >= 5);
 
         switch (spec.Kind)
         {
@@ -559,18 +562,35 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>Things on the roof: air-conditioning plant, old wooden water tanks on the brick buildings, a mast on the tallest.</summary>
-    private static void RoofDressing(Frame f, Spec spec, ref Rng rng)
+    /// <summary>
+    /// Things on the roof: air-conditioning plant, old wooden water tanks on the brick buildings, a mast on the tallest;
+    /// and (layout version 5) now and then a billboard on a low brick roof, along its front, its poster to the street.
+    /// </summary>
+    private static void RoofDressing(Frame f, Spec spec, ref Rng rng, bool billboards)
     {
         if (spec.Kind is CityKind.Garage or CityKind.Church or CityKind.Rowhouse || f.W < 6 || f.D < 6) return;
         bool brick = spec.Style is WallPattern.CityBrick or WallPattern.CityBrickDark or WallPattern.CityStone;
         int inset = spec.Setback > 0 ? 3 : 2;
         int u0 = inset, u1 = f.W - 1 - inset, v0 = inset, v1 = f.D - 1 - inset;
         if (u1 - u0 < 2 || v1 - v0 < 2) return;
-        if (brick && spec.Height <= 48 && rng.Chance(0.6)) Mark(f, rng.Range(u0 + 1, u1 - 1), rng.Range(v0 + 1, v1 - 1), Props.WaterTank);
+        // (Rolled on a copy of the building's sequence, so everything after it comes out as it always has)
+        Rng peek = rng;
+        int board = billboards && spec.Style is WallPattern.CityBrick or WallPattern.CityBrickDark && spec.Height <= 24 && f.W >= 8
+            && Hashing.Unit(Hashing.Mix(peek.NextULong() + 0xB111)) < 0.35 ? (u0 + u1) / 2 : -1;
+        if (board >= 0) Mark(f, board, v0, Props.Billboard);
+        bool Clear(int u, int v) => board < 0 || Math.Abs(u - board) > 1 || Math.Abs(v - v0) > 1;
+        if (brick && spec.Height <= 48 && rng.Chance(0.6))
+        {
+            int u = rng.Range(u0 + 1, u1 - 1), v = rng.Range(v0 + 1, v1 - 1);
+            if (Clear(u, v)) Mark(f, u, v, Props.WaterTank);
+        }
         if (spec.Height >= 60 && rng.Chance(0.6)) Mark(f, (u0 + u1) / 2, (v0 + v1) / 2, Props.Antenna);
         int units = rng.Range(1, Math.Max(1, (u1 - u0) * (v1 - v0) / 40));
-        for (int i = 0; i < units; i++) Mark(f, rng.Range(u0, u1), rng.Range(v0, v1), Props.AcUnit);
+        for (int i = 0; i < units; i++)
+        {
+            int u = rng.Range(u0, u1), v = rng.Range(v0, v1);
+            if (Clear(u, v)) Mark(f, u, v, Props.AcUnit);
+        }
 
         static void Mark(Frame f, int u, int v, byte what)
         {
@@ -1426,7 +1446,7 @@ public sealed partial class WorldLayout
         // ---- Sidewalks ----
         if (ave && street)
         {
-            CornerFurniture(ref t, ax, sz, r);
+            CornerFurniture(ref t, ax, sz, r, pillars: Version >= 5);
             return t;
         }
         if (stationStairs) return t;
@@ -1528,9 +1548,18 @@ public sealed partial class WorldLayout
         return false;
     }
 
-    /// <summary>The corners: traffic lights (dead, stuck on red, or blinking amber), and the street signs.</summary>
-    private static void CornerFurniture(ref Tile t, int ax, int sz, double r)
+    /// <summary>
+    /// The corners: traffic lights (dead, stuck on red, or blinking amber), and the street signs; and (layout version 5)
+    /// on some of them an advertising pillar in the inside corner, pasted all round with posters.
+    /// </summary>
+    private static void CornerFurniture(ref Tile t, int ax, int sz, double r, bool pillars)
     {
+        if (pillars && (ax == 0 || ax == AveWidth - 1) && (sz == 0 || sz == StreetWidth - 1) && r < 0.15)
+        {
+            t.Variant = Props.AdPillar;
+            t.Stack = (byte)(r * 1000 % 3);
+            return;
+        }
         bool curbX = ax == 2 || ax == AveWidth - 3, curbZ = sz == 2 || sz == StreetWidth - 3;
         if (curbX && curbZ)
         {

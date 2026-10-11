@@ -1,0 +1,45 @@
+// The vaulted stone ceiling of a Sanctum
+{
+	"code": "sanctumceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"vault",
+				"boss"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-vault": {
+			"base": "block/detail/sanctumceiling-vault"
+		},
+		"*-boss": {
+			"base": "block/detail/sanctumceiling-boss"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

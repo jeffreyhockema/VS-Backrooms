@@ -94,7 +94,7 @@ public sealed partial class WorldLayout
             for (int di = -1; di <= 1; di++)
             {
                 if (TownOf(ti + di, tj + dj) is not { } town) continue;
-                foreach (var (u, v) in new[] { (22, 22), (51, 22), (22, 51), (51, 51) })
+                foreach (var (u, v) in SirenPoleOffsets)
                 {
                     int x = MotionOriginX + town.X0 + u, z = MotionOriginZ + town.Z0 + v;
                     long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
@@ -103,6 +103,9 @@ public sealed partial class WorldLayout
             }
         return best;
     }
+
+    /// <summary>Where a town's four siren poles stand, from its corner (asked every tick by the atmosphere by day).</summary>
+    private static readonly (int U, int V)[] SirenPoleOffsets = { (22, 22), (51, 22), (22, 51), (51, 51) };
 
     /// <summary>Whether a Level 94 position is in a town (its square of roads, houses and plaza).</summary>
     public bool InMotionTown(int gx, int gz) => TownAt(gx - MotionOriginX, gz - MotionOriginZ) != null;
@@ -159,7 +162,17 @@ public sealed partial class WorldLayout
         return (hi * HillPitch + HillPitch / 2 + (int)(Hashing.Unit(h) * 25) - 12, hj * HillPitch + HillPitch / 2 + (int)(Hashing.Unit(Hashing.Mix(h)) * 25) - 12);
     }
 
-    private Hill HillAt(int hi, int hj)
+    /// <summary>
+    /// The hill at a lattice point (see <see cref="PlanHillAt"/>), remembered: every tile asks for the nine round it, and
+    /// each of those looks at nine towns and eight more hills, so working them out afresh made Motion the slowest level
+    /// to build by far.
+    /// </summary>
+    private Hill HillAt(int hi, int hj) => (hills ??= new LatticeMemo<Hill>(4096, PlanHillAt)).Get(hi, hj);
+
+    private LatticeMemo<Hill> hills;
+
+    /// <summary>Works out the hill at a lattice point (a pure function of the seed and the point).</summary>
+    private Hill PlanHillAt(int hi, int hj)
     {
         var (x, z) = HillCentre(hi, hj);
         double d = Math.Sqrt((double)x * x + (double)z * z);
@@ -223,7 +236,9 @@ public sealed partial class WorldLayout
         for (int dj = -2; dj <= 2; dj++)
             for (int di = -2; di <= 2; di++)
             {
-                var (x, z) = HillCentre(hi + di, hj + dj);
+                // (A hill's X and Z are its lattice point's HillCentre, remembered with the rest of it)
+                Hill hill = HillAt(hi + di, hj + dj);
+                int x = hill.X, z = hill.Z;
                 double d = (double)(ux - x) * (ux - x) + (double)(uz - z) * (uz - z);
                 var e = (d, hi + di, hj + dj, x, z);
                 if (d < a.D) { c = b; b = a; a = e; }
@@ -322,7 +337,10 @@ public sealed partial class WorldLayout
         return Hashing.Mod((int)Math.Floor(along / 3), 2) == 0 ? FloorKind.TurfLight : FloorKind.TurfDark;
     }
 
-    /// <summary>Whether a stretch of road (the edge between two hills) has picket fences along it.</summary>
+    /// <summary>
+    /// Whether a position beside a road (a block out from its kerb) has a picket fence: rolled once for each square of the
+    /// hill lattice, so a fence runs along the roads through a square and stops at its edge.
+    /// </summary>
     private bool FenceAlong(int ux, int uz)
     {
         var (off, kept, _) = RoadNear(ux, uz);
@@ -397,10 +415,14 @@ public sealed partial class WorldLayout
                     // Cream clapboard (or white), every one; the fittings of the 1950s
                     if (t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick)
                         t.Pattern = kind < 0.7 ? WallPattern.SidingYellow : WallPattern.SidingWhite;
-                    if (t.Variant == Props.Fridge) t.Variant = Props.Icebox;
-                    else if (t.Variant == Props.OfficeBookshelf) t.Variant = Props.RadioCabinet;
-                    else if (t.Variant == Props.FloorLamp && rng.Chance(0.5)) t.Variant = Props.RotaryPhone;
-                    else if (t.Variant is Props.WheelieBin or Props.Mailbox) t.Variant = 0;
+                    // (Props only: a wall's Variant is its decor, numbered apart)
+                    if (t.Kind == TileKind.Floor)
+                    {
+                        if (t.Variant == Props.Fridge) t.Variant = Props.Icebox;
+                        else if (t.Variant == Props.OfficeBookshelf) t.Variant = Props.RadioCabinet;
+                        else if (t.Variant == Props.FloorLamp && rng.Chance(0.5)) t.Variant = Props.RotaryPhone;
+                        else if (t.Variant is Props.WheelieBin or Props.Mailbox) t.Variant = 0;
+                    }
                     if (t.Ceiling == CeilingKind.LightOn) t.Ceiling = CeilingKind.LightOff;
                     if (t.Floor == FloorKind.Sidewalk) t.Floor = FloorKind.MotionPath;
                 }
@@ -611,8 +633,12 @@ public sealed partial class WorldLayout
 
     // ================= Towns =================
 
-    /// <summary>Where the town of a district stands (the corner of its square), if it has one.</summary>
-    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj)
+    /// <summary>Where the town of a district stands (the corner of its square), if it has one (remembered, as the hills are).</summary>
+    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj) => (towns ??= new LatticeMemo<(int, int, int, int)?>(1024, PlanTownOf)).Get(ti, tj);
+
+    private LatticeMemo<(int, int, int, int)?> towns;
+
+    private (int Ti, int Tj, int X0, int Z0)? PlanTownOf(int ti, int tj)
     {
         ulong h = Hashing.Hash(seed, ti, tj, SaltTown);
         int span = HillPitch * TownEvery;
@@ -737,9 +763,12 @@ public sealed partial class WorldLayout
                     {
                         Tile t = lot[v * HillLot + u];
                         if (t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick) t.Pattern = (row + col) % 3 == 0 ? WallPattern.SidingWhite : WallPattern.SidingYellow;
-                        if (t.Variant == Props.Fridge) t.Variant = Props.Icebox;
-                        else if (t.Variant == Props.OfficeBookshelf) t.Variant = Props.RadioCabinet;
-                        else if (t.Variant is Props.WheelieBin or Props.Mailbox) t.Variant = 0;
+                        if (t.Kind == TileKind.Floor) // (props only, as on the hills)
+                        {
+                            if (t.Variant == Props.Fridge) t.Variant = Props.Icebox;
+                            else if (t.Variant == Props.OfficeBookshelf) t.Variant = Props.RadioCabinet;
+                            else if (t.Variant is Props.WheelieBin or Props.Mailbox) t.Variant = 0;
+                        }
                         if (t.Ceiling == CeilingKind.LightOn) t.Ceiling = CeilingKind.LightOff;
                         if (t.Floor == FloorKind.Sidewalk) t.Floor = FloorKind.MotionPath;
                         if (t.Floor is FloorKind.Lawn or FloorKind.Grass) t.Floor = FloorKind.TurfLight;
@@ -900,5 +929,41 @@ public sealed partial class WorldLayout
                 if (blinding ? u % 2 == 0 && v % 2 == 0 : u % 5 == 2 && v % 5 == 2) t.Ceiling = CeilingKind.LightOn;
             }
         return tiles;
+    }
+}
+
+/// <summary>
+/// A small memo of something worked out per point of a lattice (Motion's hills, its towns), for values that are pure
+/// functions of the seed and the point and are asked for over and over while neighbouring tiles are built. Direct-mapped
+/// and lock-free: each slot holds one immutable entry, replaced whole, so threads building cells at once only ever see a
+/// complete entry, or a different point's (a miss: the value is worked out again). Bounded, so it never grows.
+/// </summary>
+internal sealed class LatticeMemo<T>
+{
+    private sealed class Entry
+    {
+        public readonly int I, J;
+        public readonly T Value;
+        public Entry(int i, int j, T value) { I = i; J = j; Value = value; }
+    }
+
+    private readonly Entry[] slots;
+    private readonly Func<int, int, T> make;
+
+    /// <param name="size">The number of slots, a power of two.</param>
+    public LatticeMemo(int size, Func<int, int, T> make)
+    {
+        slots = new Entry[size];
+        this.make = make;
+    }
+
+    public T Get(int i, int j)
+    {
+        int slot = (int)(unchecked((uint)(i * 73856093 ^ j * 19349663)) & (uint)(slots.Length - 1));
+        Entry e = System.Threading.Volatile.Read(ref slots[slot]);
+        if (e != null && e.I == i && e.J == j) return e.Value;
+        T value = make(i, j);
+        System.Threading.Volatile.Write(ref slots[slot], new Entry(i, j, value));
+        return value;
     }
 }

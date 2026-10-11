@@ -30,8 +30,19 @@ public sealed partial class ThresholdNetwork
     /// </summary>
     private Passage FunWalked(int x, int z, in Tile tile, double rel)
     {
-        // Up one of Level 1's stair cores, the one in twenty with confetti trickling down its steps
-        if (tile.Level == 1 && tile.Stair >= 2 && rel >= 2.4)
+        // Up one of Level 1's stair cores, the one in twenty with confetti trickled down its stairs: from layout version
+        // 4, up its flight through the slab and into the dark of the shaft, and out of the service stairs, whose way back
+        // it is (its steps are marked as Level Fun's, so no trip from another stair core comes out at its foot)
+        if (tile.Level == 1 && tile.Zone == WorldLayout.FlightZoneFun && tile.Stair >= WorldLayout.UpTripStep(1) && rel >= WorldLayout.UpTripStep(1) + 0.4)
+        {
+            var flight = layout.FeatureOrigin(x, z, t => t.Level == 1 && t.Stair > 0 && t.Zone == WorldLayout.FlightZoneFun);
+            return new Passage
+            {
+                Source = flight, Key = KeyOf(flight, SaltFunThreshold + 1), Find = IntoFunRoom(FunZone.Stair, FunStairs), ReturnFeature = FunStairs,
+                TwoWay = true, Message = "backrooms:funstairs",
+            };
+        }
+        if (tile.Level == 1 && tile.Stair >= 2 && rel >= 2.4 && !WorldLayout.IsShaftFlight(tile))
         {
             var stairs = layout.FeatureOrigin(x, z, t => t.Level == 1 && Stairs(t));
             if (!layout.IsFunStairCore(stairs.X, stairs.Z) || layout.TileAt(stairs.X, stairs.Z + 2).Variant != Worldgen.Props.FunConfetti) return null;
@@ -49,8 +60,12 @@ public sealed partial class ThresholdNetwork
         if (tile.Stair >= 2 && rel >= 2.4)
         {
             var stairs = Whole(FunStairs);
-            Passage up = BothWays(stairs, KeyOf(stairs, SaltFunThreshold + 2), 1, Stairs);
+            // (From layout version 4, out at the top of the flight down in one of Level 1's stairwells, as anyone coming
+            // up does; before, near the top of a Level 1 flight, as every stairwell trip was)
+            ulong key = KeyOf(stairs, SaltFunThreshold + 2);
+            Passage up = layout.Version >= 4 ? ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst) : BothWays(stairs, key, 1, Stairs);
             up.Message = "backrooms:funstairs";
+            up.Upstairs = true;
             return up;
         }
         // Down through the balls to the bottom of a deep pit: up through the castle's ball pit, on its mountain in Level 94
@@ -86,8 +101,8 @@ public sealed partial class ThresholdNetwork
                 // from Level Fun back out into a hotel corridor, beside a locked guest door
                 var door = layout.FeatureOrigin(x, z, FunDoorTile);
                 ulong key = KeyOf(door, SaltFunThreshold + 5);
-                // (Never beside a POOL door: the way back would be written on it, and it leads to the Poolrooms)
-                Passage p = level == WorldLayout.FunLevel ? BothWays(door, key, 5, t => Door(t) && t.Pattern != WallPattern.PoolDoor)
+                // (Never beside a POOL door or another FUN door: the way back would be written on it, and its own way lost)
+                Passage p = level == WorldLayout.FunLevel ? BothWays(door, key, 5, PlainDoor)
                     : new Passage { Source = door, Key = key, Find = IntoFunRoom(FunZone.Vestibule, FunDoorTile), ReturnFeature = FunDoorTile, TwoWay = true, Message = "backrooms:fundoor" };
                 p.Sound = "game:sounds/block/door";
                 return p;

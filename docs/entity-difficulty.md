@@ -39,7 +39,9 @@ Each level has a danger value, set on every entity as it is put down:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Danger | 0 | .12 | .24 | .36 | .44 | .52 | .60 | .66 | .74 | .82 | .88 | .95 | .50 |
 
-Level 94 keeps its own balance (the King's trial) and has danger 0.
+Level 94 keeps its own balance (the King's trial) and has danger 0. The far places: Level ! .90, Fun .90, The End .40,
+the Hub 0, 974 0, 3999 .80 (only its Neon Blackout has anything in it), 188 .45. The bonus pool below goes by danger
+(under .4, under .7, the rest), not by level number.
 
 What danger `d` does:
 
@@ -84,17 +86,23 @@ Speeds are shares of a sprint; "hits" is how many land on an unarmoured player w
 | Deathmoth female (bite) | 1 | | 1.7 | | 3 |
 | Wretch (bite; packs in Level 8) | 1 | 96 % | 4.0 | 4 | 19 |
 | | 8 | 112 % | 6.3 (tier 2) | 3 | 33 |
-| Bacteria (hunts only a runner near the Lobby's exits) | 0 | 112 % | 6.0 | 3 | 30 |
+| Bacteria (hunts only a runner near the Lobby's exits, briefly: see §4) | 0 | 92 % | 6.0 | 3 | 20 |
 
 The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since 2026-10-10) and The Thing are events and keep their own numbers.
 
 ## 4. Skill: what keeps you alive now
 
 - **Running only works early.** From Level 3 a Hound outruns you, and running is what turns a stalker into a hunter.
+- **Nothing chases for ever** (2026-10-10). A hunt that draws no blood for 20 seconds (35 at the bottom) is given up: the
+  hunter goes back to following and will not hunt again for a minute. The Lobby's Bacteria hunts only while you keep
+  running near the way out: walk for four seconds, head back towards the heart, take one blow, or last 25 seconds,
+  and it sinks back into the mould (strike it and it fights, bounded only by the 20 seconds).
 - **Light** still slows Hounds to 70 % and keeps Smilers and rats back. **Fire** still wards off Hounds,
   Skin-Stealers, rats and moths.
 - **Stare a Hound down** for a few seconds' grace.
-- **Doors**: nothing hostile opens one.
+- **Doors**: nothing hostile opens one but the Skin-Stealer (2026-10-10): hunting someone shut in, out towards the
+  edge of a level or worse, it knocks on the nearest door near them, waits two seconds, and opens it. A door barred
+  from the inside (a vanilla bar lock) only gets the knock; fire keeps it away from the door altogether.
 - **Dodge**: every attack is wound up (600 ms for a Hound, 650 for a Skin-Stealer). Being more than 0.4 blocks
   beyond its reach when the blow lands makes it miss (was 0.6).
 - **Almond Water** keeps Dullers off; **quiet** keeps Clumps buried; **indoors** is safe from the Mangled.
@@ -114,19 +122,21 @@ The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since
 | Deathmoth female | 0.05 | 0.2 | 0.15 |
 | Wretch (plus one or two belongings) | 0.3 | 0.8 | 0.7 |
 | Bacteria | 1.0 | 2.0 | 2.0 |
+| Partygoer, intern (Fun, danger .9: 3.25) | 1.0 | 2.5 | 2.3 |
 
-  Facelings carry no bounty.
+  Facelings carry no bounty, and neither does any of Level !'s horde.
 - **Caches** (`Rewards.OnBrokeBlock`): any of our blocks whose drops include food, medicine, metal, seeds or gears
   (132 kinds). Broken by a player in survival below Level 0:
   - with chance 0.7 d, its contents drop a second time;
   - with chance 0.15 + 0.35 d, one extra from the level's pool:
     - Levels 1 to 3: bandage, candles, crackers, twine, a rusty gear;
-    - Levels 4 to 6: rusty gears, copper bits, a poultice, Almond Water, Firesalt;
-    - Level 7 on: rusty gears, tin bronze bits, bandages, iron bits, very rarely a temporal gear.
+    - Levels 4 to 7: rusty gears, copper bits, a poultice, Almond Water, Firesalt;
+    - Level 8 on: rusty gears, tin bronze bits, bandages, iron bits, very rarely a temporal gear.
 - Already there: deeper levels' boxes are less picked over (80 % in Level 1, 60 % to Level 5, 40 % below).
 
 ## 6. To tune after play
 
 All in one place: `Danger.OfLevel` (the curve) and the multipliers beside it; the base stats in
 `tools/gen_entities.py`; the bounty and cache tables at the top of `Rewards.cs`. The world setting *Backrooms
-entities* (Low, Normal, High) still multiplies damage (0.5, 1, 1.3) and spawns on top of all this.
+entities* (Off, Low, Normal, High) still multiplies damage (0, 0.5, 1, 1.3) and spawns (0.6, 0.6, 1, 1.5) on top of all
+this; Off also keeps the entities themselves away, leaving only their sounds.

@@ -1,0 +1,1375 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"glowcapblue": "backrooms:block/detail/glowcapblue",
+		"glowcapgreen": "backrooms:block/detail/glowcapgreen",
+		"glowcapviolet": "backrooms:block/detail/glowcapviolet",
+		"glowstem": "backrooms:block/detail/glowstem",
+		"mycelium": "backrooms:block/detail/mycelium"
+	},
+	"elements": [
+		{
+			"name": "Mycelium",
+			"from": [
+				1.5,
+				0,
+				2
+			],
+			"to": [
+				14,
+				0.2,
+				14.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#mycelium",
+					"uv": [
+						0,
+						0,
+						12.5,
+						12.5
+					]
+				}
+			}
+		},
+		{
+			"name": "M0Stem",
+			"from": [
+				5.6,
+				0,
+				6.6
+			],
+			"to": [
+				6.4,
+				6,
+				7.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						6
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						6
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						6
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						6
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "M0Cap",
+			"from": [
+				3.8,
+				6,
+				4.8
+			],
+			"to": [
+				8.2,
+				7.375,
+				9.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						1.375
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						1.375
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						1.375
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						1.375
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						4.3999999999999995
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						4.3999999999999995,
+						4.3999999999999995
+					],
+					"glow": 150
+				}
+			}
+		},
+		{
+			"name": "M0Gills",
+			"from": [
+				4.2,
+				5.5,
+				5.2
+			],
+			"to": [
+				7.799999999999999,
+				6,
+				8.799999999999999
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						3.5999999999999988,
+						3.5999999999999988
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						3.5999999999999988,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						3.5999999999999988,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						3.5999999999999988,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						3.5999999999999988,
+						0.5
+					],
+					"glow": 75
+				}
+			}
+		},
+		{
+			"name": "M1Stem",
+			"from": [
+				10.1,
+				0,
+				9.1
+			],
+			"to": [
+				10.9,
+				4,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				0,
+				9.5
+			],
+			"rotationX": 10,
+			"rotationZ": 5.0
+		},
+		{
+			"name": "M1Cap",
+			"from": [
+				8.8,
+				4,
+				7.8
+			],
+			"to": [
+				12.2,
+				5.0625,
+				11.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999986,
+						1.0625
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999995,
+						1.0625
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999986,
+						1.0625
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999995,
+						1.0625
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999986,
+						3.3999999999999995
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						3.3999999999999986,
+						3.3999999999999995
+					],
+					"glow": 150
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				0,
+				9.5
+			],
+			"rotationX": 10,
+			"rotationZ": 5.0
+		},
+		{
+			"name": "M1Gills",
+			"from": [
+				9.200000000000001,
+				3.5,
+				8.2
+			],
+			"to": [
+				11.799999999999999,
+				4,
+				10.799999999999999
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.599999999999998,
+						2.5999999999999996
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.599999999999998,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.599999999999998,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						0.5
+					],
+					"glow": 75
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				0,
+				9.5
+			],
+			"rotationX": 10,
+			"rotationZ": 5.0
+		},
+		{
+			"name": "M2Stem",
+			"from": [
+				3.6,
+				0,
+				11.1
+			],
+			"to": [
+				4.4,
+				2.6,
+				11.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						0.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				4,
+				0,
+				11.5
+			],
+			"rotationX": -12,
+			"rotationZ": -6.0
+		},
+		{
+			"name": "M2Cap",
+			"from": [
+				2.7,
+				2.6,
+				10.2
+			],
+			"to": [
+				5.3,
+				3.6,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						1.0
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.6000000000000014,
+						1.0
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						1.0
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.6000000000000014,
+						1.0
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						2.6000000000000014
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						2.5999999999999996,
+						2.6000000000000014
+					],
+					"glow": 150
+				}
+			},
+			"rotationOrigin": [
+				4,
+				0,
+				11.5
+			],
+			"rotationX": -12,
+			"rotationZ": -6.0
+		},
+		{
+			"name": "M2Gills",
+			"from": [
+				3.1,
+				2.1,
+				10.6
+			],
+			"to": [
+				4.8999999999999995,
+				2.6,
+				12.4
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.7999999999999994,
+						1.8000000000000007
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.7999999999999994,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.7999999999999994,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						0.5
+					],
+					"glow": 75
+				}
+			},
+			"rotationOrigin": [
+				4,
+				0,
+				11.5
+			],
+			"rotationX": -12,
+			"rotationZ": -6.0
+		},
+		{
+			"name": "M3Stem",
+			"from": [
+				11.1,
+				0,
+				4.1
+			],
+			"to": [
+				11.9,
+				3,
+				4.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						3
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						3
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						3
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						3
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				0,
+				4.5
+			],
+			"rotationX": 14,
+			"rotationZ": 7.0
+		},
+		{
+			"name": "M3Cap",
+			"from": [
+				10.1,
+				3,
+				3.1
+			],
+			"to": [
+				12.9,
+				4,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000003,
+						1
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						1
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000003,
+						1
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.8000000000000003
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.8000000000000007,
+						2.8000000000000003
+					],
+					"glow": 150
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				0,
+				4.5
+			],
+			"rotationX": 14,
+			"rotationZ": 7.0
+		},
+		{
+			"name": "M3Gills",
+			"from": [
+				10.5,
+				2.5,
+				3.5
+			],
+			"to": [
+				12.5,
+				3,
+				5.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapblue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					],
+					"glow": 75
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				0,
+				4.5
+			],
+			"rotationX": 14,
+			"rotationZ": 7.0
+		},
+		{
+			"name": "M4Stem",
+			"from": [
+				8.1,
+				0,
+				12.1
+			],
+			"to": [
+				8.9,
+				1.6,
+				12.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "M4Cap",
+			"from": [
+				7.5,
+				1.6,
+				11.5
+			],
+			"to": [
+				9.5,
+				2.6,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					],
+					"glow": 150
+				}
+			}
+		},
+		{
+			"name": "M4Gills",
+			"from": [
+				7.9,
+				1.1,
+				11.9
+			],
+			"to": [
+				9.1,
+				1.6,
+				13.1
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.1999999999999993
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapviolet",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						0.5
+					],
+					"glow": 75
+				}
+			}
+		},
+		{
+			"name": "M5Stem",
+			"from": [
+				3.1,
+				0,
+				3.6
+			],
+			"to": [
+				3.9,
+				1.4,
+				4.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.8000000000000003,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#glowstem",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.8000000000000003
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				0,
+				4
+			],
+			"rotationX": -8,
+			"rotationZ": -4.0
+		},
+		{
+			"name": "M5Cap",
+			"from": [
+				2.6,
+				1.4,
+				3.1
+			],
+			"to": [
+				4.4,
+				2.4,
+				4.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.0
+					],
+					"glow": 150
+				},
+				"east": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.0
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.0
+					],
+					"glow": 150
+				},
+				"west": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.0
+					],
+					"glow": 150
+				},
+				"up": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.8000000000000003
+					],
+					"glow": 150
+				},
+				"down": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.8000000000000003
+					],
+					"glow": 150
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				0,
+				4
+			],
+			"rotationX": -8,
+			"rotationZ": -4.0
+		},
+		{
+			"name": "M5Gills",
+			"from": [
+				3.0,
+				0.8999999999999999,
+				3.5
+			],
+			"to": [
+				4.0,
+				1.4,
+				4.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 75
+				},
+				"north": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"south": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"east": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					],
+					"glow": 75
+				},
+				"west": {
+					"texture": "#glowcapgreen",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					],
+					"glow": 75
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				0,
+				4
+			],
+			"rotationX": -8,
+			"rotationZ": -4.0
+		}
+	]
+}

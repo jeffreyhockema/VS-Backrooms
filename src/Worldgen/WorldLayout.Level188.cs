@@ -11,7 +11,7 @@ namespace Backrooms.Worldgen;
 /// Fandom's "The Windows", Miraheze and Escape the Backrooms).
 ///
 /// <para><b>The building</b> is 88 by 58 blocks (building-local X east, Z south, from <see cref="L188BuildX0"/>,
-/// <see cref="L188BuildZ0"/>) and fills three cells by two in the middle of a region four cells across; every other block
+/// <see cref="L188BuildZ0"/>) and fills three cells by two in the middle of a round region four cells in radius; every other block
 /// of the region is solid nothing. From the courtyard (X 17-70, Z 17-40) outward each wing is 17 deep: the courtyard
 /// façade (depth 0), the inner rooms (1-5), the inner corridor wall (6), the corridor that rings the building (7-9), the
 /// outer corridor wall (10), the outer rooms (11-15) and the outer façade (16), which looks onto nothing. Rooms come in
@@ -347,16 +347,17 @@ public sealed partial class WorldLayout
     public bool L188IsLocked(int wing, int k, bool outer, int storey) =>
         Hashing.Unit(Hashing.Hash(seed, wing * 64 + k * 2 + (outer ? 1 : 0), storey, SaltL188Lock)) < 0.05;
 
+    private static readonly (int Level, double Weight)[] L188BlindTable =
+    {
+        (0, .16), (1, .10), (2, .08), (3, .07), (4, .10), (5, .10), (6, .05), (7, .04), (8, .04), (9, .08), (10, .04), (11, .04),
+        (Poolrooms, .04), (Motion, .02), (TheEnd, .02), (FunLevel, .02),
+    };
+
     /// <summary>The level whoever opens a closed window's blind is taken to: fixed for each window, weighted toward the main levels.</summary>
     public int L188BlindTarget(int wi, int storey)
     {
         double u = Hashing.Unit(Hashing.Hash(seed, wi * 8 + storey, 0, SaltL188Blind));
-        (int Level, double Weight)[] table =
-        {
-            (0, .16), (1, .10), (2, .08), (3, .07), (4, .10), (5, .10), (6, .05), (7, .04), (8, .04), (9, .08), (10, .04), (11, .04),
-            (Poolrooms, .04), (Motion, .02), (TheEnd, .02), (FunLevel, .02),
-        };
-        foreach (var (level, weight) in table)
+        foreach (var (level, weight) in L188BlindTable)
         {
             if (u < weight) return level;
             u -= weight;
@@ -652,13 +653,10 @@ public sealed partial class WorldLayout
     };
 
     /// <summary>A direction as a step (x east, z south).</summary>
-    public static (int X, int Z) L188Step(ArchPier p) => p switch
-    {
-        ArchPier.East => (1, 0), ArchPier.West => (-1, 0), ArchPier.South => (0, 1), _ => (0, -1),
-    };
+    public static (int X, int Z) L188Step(ArchPier p) => Step(p);
 
-    private ((int X, int Z) Left, (int X, int Z) Right, ArchPier Facing)? l188FunWindow;
-    private bool l188FunWindowFound;
+    /// <summary>The confetti window once worked out (null until then), boxed so one write publishes it whole to every thread.</summary>
+    private System.Runtime.CompilerServices.StrongBox<((int X, int Z) Left, (int X, int Z) Right, ArchPier Facing)?> l188FunWindow;
 
     /// <summary>
     /// Level Fun's confetti window into 188 (one in the world): in the north wall of the quiet party room nearest the
@@ -667,7 +665,7 @@ public sealed partial class WorldLayout
     /// </summary>
     public ((int X, int Z) Left, (int X, int Z) Right, ArchPier Facing)? L188FunWindow()
     {
-        if (l188FunWindowFound) return l188FunWindow;
+        if (System.Threading.Volatile.Read(ref l188FunWindow) is { } known) return known.Value;
         ((int, int), (int, int), ArchPier)? best = null;
         long bestD = long.MaxValue;
         int cx = FunCentreX * MacroSize, cz = FunCentreZ * MacroSize;
@@ -706,8 +704,7 @@ public sealed partial class WorldLayout
                         best = ((x, z), (x + 1, z), ArchPier.South);
                     }
                 }
-        l188FunWindow = best;
-        l188FunWindowFound = true;
+        System.Threading.Volatile.Write(ref l188FunWindow, new(best));
         return best;
     }
 

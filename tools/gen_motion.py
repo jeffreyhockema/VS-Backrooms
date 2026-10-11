@@ -19,8 +19,8 @@ from gen_detail import cube_block
 from detail_kit import T, seed_of
 
 
-def grain(img, amount, key):
-    """The grain of something made by hand: per-pixel noise, and a few thumbprint swirls."""
+def grain(img, amount, key, prints=True):
+    """The grain of something made by hand: per-pixel noise, and a few thumbprint swirls (unless `prints` is off)."""
     rng = random.Random(seed_of(key))
     px = img.load()
     for y in range(S):
@@ -28,6 +28,8 @@ def grain(img, amount, key):
             r, g, b, a = px[x, y]
             n = rng.uniform(-amount, amount)
             px[x, y] = (max(0, min(255, int(r + n))), max(0, min(255, int(g + n))), max(0, min(255, int(b + n))), a)
+    if not prints:
+        return img
     d = ImageDraw.Draw(img)
     for _ in range(2):
         cx, cy, r0 = rng.randrange(S), rng.randrange(S), rng.randint(4, 7)
@@ -54,11 +56,20 @@ def textures():
         for _ in range(26):
             x, y = rng.randrange(S), rng.randrange(S)
             d.line([x, y, x + rng.randint(-1, 1), y - rng.randint(1, 3)], fill=tuple(min(255, v + 18) for v in c) + (255,))
-        save(grain(img, 6, "turf" + kind), f"clayturf-{kind}")
-        side = flat(c)
+        # (No thumbprints on top: seen from above they read as dirt. The sides keep them, and say "clay")
+        save(grain(img, 6, "turf" + kind, prints=False), f"clayturf-{kind}")
+        # The side is turf too, nearly to the bottom, a shade darker than the top so the terraces still read as steps;
+        # only a broken, dull line of clay shows at its foot (a thick band would stripe every contour of a hill)
+        shade = tuple(int(v * 0.87) for v in c)
+        side = flat(shade)
         d = ImageDraw.Draw(side)
+        for _ in range(18):
+            x, y = rng.randrange(S), rng.randrange(S - 4)
+            d.line([x, y, x, y + rng.randint(1, 3)], fill=tuple(min(255, v + 12) for v in shade) + (255,))
+        fringe = tuple(int(0.5 * u + 0.5 * v) for u, v in zip(shade, (128, 104, 80)))
         for x in range(S):
-            d.line([x, S - 3 - (x * 7 % 3), x, S], fill=(168, 104, 64, 255))
+            if rng.random() < 0.55:
+                d.point([x, S - 1], fill=fringe + (255,))
         save(grain(side, 7, "turfside" + kind), f"clayturf-side-{kind}")
     save(grain(flat((168, 104, 64)), 8, "claysoil"), "claysoil")
     save(grain(flat((182, 150, 104)), 7, "motionpath"), "motionpath")
@@ -280,7 +291,11 @@ def blocks():
     cube_block("castleblock", {"wall": "Castle Stone", "roof": "Castle Roof", "funwall": "Funhouse Wall", "ceiling": "Castle Ceiling", "white": "White Wall"},
                ["wall", "roof", "funwall", "ceiling", "white"],
                {"wall": "castlewall", "roof": "castleroof", "funwall": "funwall", "ceiling": "castleceiling", "white": "castlewhite"},
-               comment="Level 94: the castle on the mountain")
+               comment="Level 94: the castle on the mountain",
+               # Its white walls and red roofs glow a little, so at dusk the castle still stands out on its mountain, lit
+               # like a set under the studio lights, when the hills round it have gone dark (a glow, not a light: no
+               # light is spread, so the castle costs nothing to light)
+               vertexFlagsByType={"*-wall": {"glowLevel": 72}, "*-roof": {"glowLevel": 56}})
     cube_block("funfloor", {"checker": "Checkerboard Floor", "carpet": "Striped Carpet", "star": "Star Floor"}, ["checker", "carpet", "star"],
                {"checker": "funfloor-checker", "carpet": "funfloor-carpet", "star": "funfloor-star"}, comment="Level 94: the funhouse's floors")
     block("funlight", {
@@ -598,8 +613,74 @@ def lang():
     })
 
 
+def far_castle():
+    """The castle on its glass mountain as it looks from a long way off, for the picture drawn on the horizon when the
+    real one is past the view distance (src/Regions/MotionLandmark.cs). Two pixels to the block, its foot at the bottom
+    middle: the mountain 180 blocks across at the foot and 40 high, the castle 56 across on top of it, its towers' red
+    roofs stepping in to 61. Symmetric, so it reads the same whichever way it is turned to face you."""
+    W, H = 360, 128
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+
+    def px(bx, by):
+        return 180 + 2 * bx, H - 2 * by
+
+    # The mountain: a shell of glass, dark and hollow inside, so it shows the dark through a pale skin, paler toward
+    # the top where it catches the sky, and a seam of light down each flank
+    for by in range(40):
+        half = 90 - 50 * by / 40
+        t = by / 40
+        c = (int(116 + 70 * t), int(146 + 66 * t), int(180 + 52 * t), 255)
+        x0, y0 = px(-half, by + 1)
+        x1, y1 = px(half, by)
+        d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=c)
+    for side in (-1, 1):
+        for by in range(2, 38):
+            x, y = px(side * (86 - 50 * by / 40), by)
+            d.rectangle([x - 1, y - 2, x, y - 1], fill=(244, 250, 255, 255))
+        x0, y0 = px(side * 30, 6)
+        x1, y1 = px(side * 18, 34)
+        d.line([x0, y0, x1, y1], fill=(236, 246, 252, 255), width=2)
+
+    white, line, red, redline = (240, 238, 232, 255), (214, 210, 202, 255), (196, 44, 40, 255), (160, 30, 30, 255)
+    # The curtain wall, eight high, with battlements along its top
+    x0, y0 = px(-28, 48)
+    x1, y1 = px(28, 40)
+    d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=white)
+    for by in (42, 44, 46):
+        d.line([x0, px(0, by)[1], x1 - 1, px(0, by)[1]], fill=line)
+    for bx in range(-27, 27, 2):
+        a, b = px(bx, 49)
+        d.rectangle([a, b, a + 1, b + 1], fill=white)
+    # The gate: a dark arch in the middle
+    a, b = px(-2, 44)
+    c, e = px(2, 40)
+    d.rectangle([a, b, c - 1, e - 1], fill=(40, 34, 40, 255))
+    d.rectangle([a + 1, b - 1, c - 2, b], fill=(40, 34, 40, 255))
+    # The towers at the corners, thirteen high, their red roofs stepping in to a point
+    for side in (-1, 1):
+        lo, hi = (-28, -21) if side < 0 else (21, 28)
+        a, b = px(lo, 53)
+        c, e = px(hi, 40)
+        d.rectangle([a, b, c - 1, e - 1], fill=white)
+        for by in (44, 48, 52):
+            d.line([a, px(0, by)[1], c - 1, px(0, by)[1]], fill=line)
+        # A slit window or two
+        mid = (lo + hi) / 2
+        for by in (45, 50):
+            u, v = px(mid, by + 1)
+            d.rectangle([u - 1, v, u, v + 2], fill=(52, 44, 52, 255))
+        for ring, (top, inset) in enumerate(((55, 0), (57, 1), (59, 2), (61, 3))):
+            a, b = px(lo + inset, top)
+            c, e = px(hi - inset, top - 2 if ring else 53)
+            d.rectangle([a, b, c - 1, e - 1], fill=red)
+            d.line([a, e - 1, c - 1, e - 1], fill=redline)
+    T.save(img, "environment/motioncastle-far.png")
+
+
 def generate():
     textures()
+    far_castle()
     blocks()
     props()
     items()

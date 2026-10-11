@@ -446,7 +446,18 @@
 		},
 		"*-mirror-wall-north": {
 			"north": {
-				"base": "block/detail/facade-mirror-wall"
+				"base": "block/detail/facade-mirror-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -469,7 +480,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-mirror-wall"
+				"base": "block/detail/facade-mirror-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -492,7 +514,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-mirror-wall"
+				"base": "block/detail/facade-mirror-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -515,7 +548,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-mirror-wall"
+				"base": "block/detail/facade-mirror-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-mirror"
@@ -526,7 +570,18 @@
 		},
 		"*-mirror-window-north": {
 			"north": {
-				"base": "block/detail/facade-mirror-window"
+				"base": "block/detail/facade-mirror-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -549,7 +604,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-mirror-window"
+				"base": "block/detail/facade-mirror-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -572,7 +638,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-mirror-window"
+				"base": "block/detail/facade-mirror-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -595,7 +672,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-mirror-window"
+				"base": "block/detail/facade-mirror-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-mirror"
@@ -606,7 +694,18 @@
 		},
 		"*-mirror-lit-north": {
 			"north": {
-				"base": "block/detail/facade-mirror-lit"
+				"base": "block/detail/facade-mirror-lit",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -629,7 +728,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-mirror-lit"
+				"base": "block/detail/facade-mirror-lit",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -652,7 +762,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-mirror-lit"
+				"base": "block/detail/facade-mirror-lit",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -675,7 +796,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-mirror-lit"
+				"base": "block/detail/facade-mirror-lit",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-mirror"
@@ -686,7 +818,18 @@
 		},
 		"*-mirror-blinds-north": {
 			"north": {
-				"base": "block/detail/facade-mirror-blinds"
+				"base": "block/detail/facade-mirror-blinds",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -709,7 +852,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-mirror-blinds"
+				"base": "block/detail/facade-mirror-blinds",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -732,7 +886,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-mirror-blinds"
+				"base": "block/detail/facade-mirror-blinds",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -755,7 +920,18 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-mirror-blinds"
+				"base": "block/detail/facade-mirror-blinds",
+				"alternates": [
+					{
+						"base": "block/detail/facade-mirror-alt1"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt2"
+					},
+					{
+						"base": "block/detail/facade-mirror-alt3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-mirror"

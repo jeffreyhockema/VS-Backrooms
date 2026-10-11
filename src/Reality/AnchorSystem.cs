@@ -6,6 +6,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
+using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace Backrooms.Reality;
@@ -84,8 +85,17 @@ public class ItemBackroomsTemporalGear : ItemTemporalGear
 
     public override void OnHeldInteractStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel)
     {
-        // The server has the last word: a gear that would not take hold is not used up
-        if (Refuses(byEntity)) return;
+        // The server has the last word: a gear that would not take hold is not used up (someone who stepped out of
+        // Level 0 while it turned). Its whirring still stops, as the vanilla stop would have seen to
+        if (Refuses(byEntity))
+        {
+            if (byEntity.World.Side == EnumAppSide.Client && ObjectCacheUtil.TryGet<ILoadedSound>(api, "temporalGearSound") is { } sound)
+            {
+                sound.Stop();
+                sound.Dispose();
+            }
+            return;
+        }
         base.OnHeldInteractStop(secondsUsed, slot, byEntity, blockSel, entitySel);
     }
 }

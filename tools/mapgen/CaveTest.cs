@@ -32,4 +32,34 @@ static class CaveTest {
     }
     Console.WriteLine($"{n} blocks checked, {caves} cave, {bad} mismatches");
   }
+
+  /// <summary>
+  /// ore: Level 8's ore as bodies (layout versions 1-4) and as veins and pockets (5), over the same columns: ore blocks
+  /// per 1000 of rock, metal units (30/40/50 by grade, as vanilla's common ores), and the share of the rock faces open
+  /// to a cave that are ore (what you see on the walls).
+  /// </summary>
+  public static void OreRun() {
+    int floorY = 217, yMin = floorY - 62, yMax = floorY + 8; var rng = new Random(5);
+    foreach (bool veins in new[] { false, true }) {
+      long rock = 0, ore = 0, units = 0, faces = 0, oreFaces = 0; var grades = new long[3];
+      for (int i = 0; i < 3000; i++) {
+        int gx = rng.Next(500000, 530000), gz = rng.Next(500000, 530000);
+        CaveColumn Col(int x, int z) => new CaveColumn(seed, x, z, floorY, yMin - 41, yMax + 1, Noise2, SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins);
+        var col = Col(gx, gz); var sides = new[] { Col(gx + 1, gz), Col(gx - 1, gz), Col(gx, gz + 1), Col(gx, gz - 1) };
+        for (int y = yMin; y <= yMax; y++) {
+          if (col.IsCave(y)) continue; rock++;
+          int g = col.OreGrade(y); if (g >= 0) { ore++; grades[g]++; units += 30 + 10 * g; }
+          int open = (col.IsCave(y + 1) ? 1 : 0) + (col.IsCave(y - 1) ? 1 : 0); foreach (var c in sides) if (c.IsCave(y)) open++;
+          faces += open; if (g >= 0) oreFaces += open;
+        }
+      }
+      // A wall's worth of rock, seen side on (x across, y up): # ore, . rock, space cave
+      for (int y = floorY + 6; y >= floorY - 20; y--) {
+        var line = new System.Text.StringBuilder("  ");
+        for (int x = 0; x < 100; x++) { var c = new CaveColumn(seed, 512000 + x, 512000, floorY, yMin - 41, yMax + 1, Noise2, SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins);
+          line.Append(c.IsCave(y) ? ' ' : c.OreGrade(y) >= 0 ? '#' : '.'); }
+        Console.WriteLine(line); }
+      Console.WriteLine($"{(veins ? "veins (5)" : "bodies (1-4)"),-13}: ore {1000.0 * ore / rock:0.0} per 1000 rock, units {1000.0 * units / rock:0} per 1000 rock, grades poor/medium/rich {grades[0]}/{grades[1]}/{grades[2]}, cave faces that are ore {100.0 * oreFaces / faces:0.0}%");
+    }
+  }
 }

@@ -12,9 +12,9 @@ namespace Backrooms;
 
 /// <summary>
 /// Per-level fog on the client, blended smoothly as the player crosses from one level into the next: a faint warm
-/// haze in Level 0, grey fog with a low ground fog over Level 1's concrete, a dark murk in Level 2, and so on. The
-/// enclosed levels ignore the outside world's day and night; the Suburbs are always night, and Level 10's sky is
-/// always overcast.
+/// haze in Level 0, grey fog with a low ground fog over Level 1's concrete, a dark murk in Level 2, and so on. Every
+/// level but 10, 11 and 94 ignores the outside world's day and night (its fog and ambient light are held at the day's);
+/// the Suburbs are always night, and Level 10's sky is always overcast.
 ///
 /// Level 6 is darkness that light barely reaches: a candle shows the floor at your feet, a torch a few steps, a
 /// lantern a stretch of corridor, and now and then the dark lifts for a heartbeat to show where you really are,
@@ -33,16 +33,25 @@ public partial class AtmosphereSystem : ModSystem
         /// GroundFog is vanilla's flat fog density. It must be negative for fog that thickens below the fog
         /// surface; positive values fog everything above it instead. Scene is how bright the world is, applied with
         /// SceneWeight (1 on enclosed levels, so the outside night never reaches them). Clouds are only applied
-        /// where they are not negative.
+        /// where they are not negative, at CloudBrightness (vanilla's own clouds are lit by the outside day, which a
+        /// level's night or overcast doesn't share). FogMin is a floor of fog on everything, the sky dome included:
+        /// enough of it (with the density) and the whole sky takes the fog colour, sun and cloud edges gone.
         /// </summary>
-        public readonly float Density, R, G, B, GroundFog, Scene, SceneWeight, Clouds;
+        public readonly float Density, R, G, B, GroundFog, Scene, SceneWeight, Clouds, CloudBrightness, FogMin;
 
-        /// <summary>Open-sky levels let the vanilla day and night tint their fog; enclosed levels keep their own.</summary>
-        public readonly bool OpenSky;
+        /// <summary>
+        /// The levels with the outside world's day and night (10, 11 and 94) let the vanilla day and night tint their fog
+        /// and light their open ground. Every other level, the Suburbs' endless night and Level 188's open courtyard
+        /// included, keeps its own at every hour: its fog brightness and its ambient light are held at the day's, so it
+        /// looks at midnight as it does at noon.
+        /// </summary>
+        public readonly bool DayNight;
 
-        public Atmosphere(float density, float r, float g, float b, float groundFog, float scene = 1, float sceneWeight = 1, float clouds = -1, bool openSky = false)
+        public Atmosphere(float density, float r, float g, float b, float groundFog, float scene = 1, float sceneWeight = 1, float clouds = -1, bool dayNight = false,
+            float cloudBrightness = 0.75f, float fogMin = 0f)
         {
-            Density = density; R = r; G = g; B = b; GroundFog = groundFog; Scene = scene; SceneWeight = sceneWeight; Clouds = clouds; OpenSky = openSky;
+            Density = density; R = r; G = g; B = b; GroundFog = groundFog; Scene = scene; SceneWeight = sceneWeight; Clouds = clouds; DayNight = dayNight;
+            CloudBrightness = cloudBrightness; FogMin = fogMin;
         }
     }
 
@@ -59,29 +68,34 @@ public partial class AtmosphereSystem : ModSystem
         new(0.008f, 0.36f, 0.24f, 0.14f, 0f),
         // Level 6: black (thinned by whatever light the player holds; see OnTick)
         new(0.30f, 0.005f, 0.005f, 0.008f, 0f),
-        // Level 7: a cold blue sea mist under the ceiling
-        new(0.012f, 0.10f, 0.20f, 0.30f, -0.3f),
+        // Level 7: a thin, near-black sea mist under the ceiling: the distance fades into the dark rather than glowing
+        // brighter than the dimly lit sea and ceiling (the mist on the water stays)
+        new(0.008f, 0.03f, 0.05f, 0.08f, -0.3f),
         // Level 8: close, dusty brown air in the tunnels
         new(0.030f, 0.17f, 0.13f, 0.09f, 0f),
-        // Level 9: a suburban night that never ends, a mist lying in its streets
-        new(0.010f, 0.05f, 0.06f, 0.12f, -0.22f, scene: 0.32f, openSky: true),
-        // Level 10: a flat grey overcast over the fields, a little dimmer than a clear day, and a thin ground fog
-        new(0.006f, 0.62f, 0.64f, 0.66f, -0.14f, scene: 0.6f, sceneWeight: 0.35f, clouds: 0.95f, openSky: true),
+        // Level 9: a suburban night that never ends, a mist lying in its streets, under a thin deck of black cloud
+        new(0.010f, 0.05f, 0.06f, 0.12f, -0.22f, scene: 0.32f, clouds: 0.4f, cloudBrightness: 0.08f),
+        // Level 10: a flat, leaden overcast over the fields, a little dimmer than a clear day, and a thin ground fog. The
+        // sky dome, the sun and the moon are hidden in a sphere of fog round the player (AtmosphereSystem.L10.cs), so the
+        // fog itself can stay thin enough to see the hedges a long way off; a full cloud deck as grey as the fog. Now and
+        // then a spell of thick fog comes over the fields for a few minutes, and lifts
+        new(0.0075f, 0.60f, 0.61f, 0.62f, -0.14f, scene: 0.6f, sceneWeight: 0.35f, clouds: 1f, dayNight: true, cloudBrightness: 0.5f, fogMin: 0.02f),
         // Level 11: the city's own day and night, under a thin haze that softens the towers at a distance
-        new(0.0045f, 0.70f, 0.72f, 0.76f, 0f, sceneWeight: 0f, openSky: true),
+        new(0.0045f, 0.70f, 0.72f, 0.76f, 0f, sceneWeight: 0f, dayNight: true),
         // Level 37: clear, pale and faintly teal, the white tile showing a long way off
         new(0.0035f, 0.86f, 0.93f, 0.91f, 0f),
-        // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop
-        new(0.0022f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, openSky: true),
+        // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop: a film set has no haze,
+        // and the castle on its mountain shows on the horizon (MotionLandmark.cs draws it past the view distance)
+        new(0.0016f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, dayNight: true),
         // The five kept as 14-18, each level's own line (placeholders: a faint neutral haze). Parts of a level with air of
         // their own are swapped in by its AtmosphereSystem.<level>.cs
         // Level !: a close red murk, the EXIT signs repeating into it (it pulses with the alarm: AtmosphereSystem.Run.cs)
         new(0.022f, 0.30f, 0.04f, 0.04f, 0f),
         // Level Fun: warm and a little dusty, like any party venue (its open decks: AtmosphereSystem.Fun.cs)
         new(0.004f, 0.96f, 0.90f, 0.74f, 0f),
-        // The End: still, cool and dry, a thin warm-cream haze like the photographs' (its fake realities, distortions and
-        // lights-out: AtmosphereSystem.End.cs)
-        new(0.004f, 0.84f, 0.80f, 0.64f, 0f),
+        // The End: still, cool and dry, a thin neutral haze with the faint cool cast of fluorescent tubes, like the
+        // photographs' (its fake realities, distortions and lights-out: AtmosphereSystem.End.cs)
+        new(0.0035f, 0.80f, 0.81f, 0.77f, 0f),
         // The Hub: the orange haze of a road tunnel under sodium lamps (its Far Tunnels and Tower: AtmosphereSystem.Hub.cs)
         new(0.010f, 0.32f, 0.21f, 0.09f, 0f),
         // Level 974: clear, with the faintest warm pink to the air
@@ -110,6 +124,9 @@ public partial class AtmosphereSystem : ModSystem
     private string sirenPlaying;
     private float nextChant = 6, nextPoolSound = 8;
 
+    /// <summary>Level 7's water just under the surface, a blue that darkens to black as the player dives.</summary>
+    private static readonly float[] SeaWater = { 0.10f, 0.20f, 0.30f };
+
     /// <summary>Level 6.1: bright, warm and clean, the food court lights all on.</summary>
     private static readonly Atmosphere Snackrooms = new(0.002f, 0.95f, 0.85f, 0.68f, 0f);
 
@@ -118,6 +135,16 @@ public partial class AtmosphereSystem : ModSystem
 
     /// <summary>The key the Red Rooms' title is kept under (level-redrooms in the lang file).</summary>
     private const int RedRoomsKey = 1000;
+
+    /// <summary>
+    /// The ambient light of a clear noon (vanilla's, from its sky colour: white, at the day's light strength), which every
+    /// level without a day and night keeps at every hour. The game lights a block by the brighter of its block light and
+    /// its sunlight times this ambient, and even a block no sunlight reaches has a floor of sunlight (the lowest of the
+    /// world's sun light levels, about 0.06); so where a level's own lights don't reach, the ambient is all there is, and
+    /// left to vanilla it falls with the outside evening to a small fraction of the day's (Level 188's courtyard, lit only
+    /// by its windows, went black at night).
+    /// </summary>
+    private const float DayAmbient = 1.05f;
 
     /// <summary>Height of the ground fog's surface above the floor, in blocks.</summary>
     private const float GroundFogHeight = 1.3f;
@@ -141,6 +168,7 @@ public partial class AtmosphereSystem : ModSystem
     private const int WavesHeard = 160;
 
     private ICoreClientAPI capi;
+    private long tickListener;
     private WorldLayout layout;
     private WorldGeometry geometry;
     private RealitySystem reality;
@@ -150,7 +178,7 @@ public partial class AtmosphereSystem : ModSystem
     private readonly Random rand = new();
 
     // The level's own atmosphere, eased towards as the player moves; darkness is laid over it
-    private float baseDensity, baseFogMin, baseScene = 1, sceneWeight = 1, baseClouds, cloudWeight, fogBrightWeight = 1, ownWeight = 1;
+    private float baseDensity, baseFogMin, baseScene = 1, sceneWeight = 1, baseClouds, baseCloudBright = 0.75f, cloudWeight, fogBrightWeight = 1, ownWeight = 1;
     private readonly float[] baseColor = new float[3];
     private readonly float[] targetColor = new float[3];
     private bool snapNext = true;
@@ -192,11 +220,32 @@ public partial class AtmosphereSystem : ModSystem
         fog.FlatFogYPos = WeightedFloat.New(0f, 1f);
         fog.SceneBrightness = WeightedFloat.New(1f, 1f);
         fog.FogBrightness = WeightedFloat.New(1f, 1f);
+        fog.AmbientColor = WeightedFloatArray.New(new[] { DayAmbient, DayAmbient, DayAmbient }, 1f);
         fog.CloudDensity = WeightedFloat.New(0f, 0f);
         fog.CloudBrightness = WeightedFloat.New(0.75f, 0f);
         capi.Ambient.CurrentModifiers["backrooms"] = fog;
 
-        capi.Event.RegisterGameTickListener(OnTick, 50);
+        tickListener = capi.Event.RegisterGameTickListener(OnTick, 50);
+    }
+
+    public override void Dispose()
+    {
+        if (capi != null)
+        {
+            if (tickListener != 0) capi.Event.UnregisterGameTickListener(tickListener);
+            if (fog != null) capi.Ambient.CurrentModifiers.Remove("backrooms");
+        }
+        // Every loop the levels may have running, so none is left playing after the world closes
+        foreach (ILoadedSound sound in new[]
+        {
+            poolTone, sirenTune, endTone, endWind, funBed, hubDrone, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
+            l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
+        })
+        {
+            sound?.Stop();
+            sound?.Dispose();
+        }
+        base.Dispose();
     }
 
     private void OnTick(float dt)
@@ -227,6 +276,7 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Level974: L974Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level3999: L3999Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level188: L188Air(dt, pos, ref target, ref titleKey); break;
+            case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
         LevelSounds(dt, pos, level, reservoir, castle);
@@ -260,7 +310,7 @@ public partial class AtmosphereSystem : ModSystem
         flash = Math.Max(0f, flash - dt * 6f);
         float black = Math.Max(blink, shift * (1f - 0.8f * flash));
 
-        float density = target.Density, fogMin = 0f, groundFog = target.GroundFog;
+        float density = target.Density, fogMin = target.FogMin, groundFog = target.GroundFog;
         targetColor[0] = target.R; targetColor[1] = target.G; targetColor[2] = target.B;
         if (dark)
         {
@@ -279,7 +329,7 @@ public partial class AtmosphereSystem : ModSystem
             density = GameMath.Lerp(0.03f, 0.16f, deep);
             fogMin = 0.45f * deep;
             groundFog = 0f;
-            for (int i = 0; i < 3; i++) targetColor[i] = GameMath.Lerp(targetColor[i], 0.003f, deep);
+            for (int i = 0; i < 3; i++) targetColor[i] = GameMath.Lerp(SeaWater[i], 0.003f, deep);
         }
         else if (level == WorldLayout.Poolrooms && entity.IsEyesSubmerged())
         {
@@ -315,8 +365,9 @@ public partial class AtmosphereSystem : ModSystem
         for (int i = 0; i < 3; i++) baseColor[i] += (targetColor[i] - baseColor[i]) * k;
         baseScene += (target.Scene - baseScene) * k;
         sceneWeight += (target.SceneWeight - sceneWeight) * k;
-        fogBrightWeight += ((target.OpenSky ? 0f : 1f) - fogBrightWeight) * k;
+        fogBrightWeight += ((target.DayNight ? 0f : 1f) - fogBrightWeight) * k;
         baseClouds += ((target.Clouds >= 0 ? target.Clouds : 0f) - baseClouds) * k;
+        baseCloudBright += (target.CloudBrightness - baseCloudBright) * k;
         cloudWeight += ((target.Clouds >= 0 ? 1f : 0f) - cloudWeight) * k;
         ownWeight += (ownTarget - ownWeight) * Math.Min(1f, dt * 4f);
 
@@ -332,9 +383,13 @@ public partial class AtmosphereSystem : ModSystem
         fog.SceneBrightness.Value = baseScene;
         fog.SceneBrightness.Weight = sceneWeight;
         fog.FogBrightness.Weight = fogBrightWeight;
+        // The day's ambient light too, wherever the fog's brightness is held (but under water, the game's own tint)
+        fog.AmbientColor.Weight = fogBrightWeight * ownWeight;
         fog.CloudDensity.Value = baseClouds;
         fog.CloudDensity.Weight = cloudWeight;
+        fog.CloudBrightness.Value = baseCloudBright;
         fog.CloudBrightness.Weight = cloudWeight;
+        L10Sky(k, level == 10);
 
         fog.FlatFogDensity.Value += (groundFog - fog.FlatFogDensity.Value) * Math.Max(k, Math.Min(1f, dt * 2f));
         // Flat fog height is relative to sea level, which the server sets to the floor; compute it absolutely anyway

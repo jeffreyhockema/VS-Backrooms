@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -120,7 +121,7 @@ public class GuideSystem : ModSystem
             {
                 string preface = Lang.Get($"backrooms:guide-bridge-{bridge}");
                 string text = Lang.Get(page.Text);
-                if (!text.StartsWith(preface)) page.Text = preface + "<br><br>" + text;
+                if (!text.StartsWith(preface, StringComparison.Ordinal)) page.Text = preface + "<br><br>" + text;
                 page.Init(capi);
             }
         }

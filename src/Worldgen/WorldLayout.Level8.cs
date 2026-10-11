@@ -102,12 +102,38 @@ public sealed partial class WorldLayout
                     continue;
                 }
                 t.Floor = FloorKind.Gravel;
-                if (!road) continue;
+                if (!road)
+                {
+                    // From layout version 5 a settlement's clearing is a dome, highest over the crossing
+                    if (Version >= 5) t.Height = CampDome(gx, gz);
+                    continue;
+                }
                 // M.E.G. markers every so often on one side of the road, lamps on the other
                 bool alongX = ox < 3;
                 int along = alongX ? gx : gz, across = alongX ? ox : oz;
                 if (across == 0 && Hashing.Mod(along, 24) == 0) { t.Variant = Props.MegMarker; t.Pier = alongX ? ArchPier.South : ArchPier.East; }
-                else if (across == 2 && Hashing.Mod(along, 12) == 6) t.Variant = Props.RoadLamp;
+                else if (across == 2 && Hashing.Mod(along, 12) == 6)
+                {
+                    t.Variant = Props.RoadLamp;
+                    // (from layout version 5 its arm reaches out over the road, not into the wall)
+                    if (Version >= 5) t.Pier = alongX ? ArchPier.North : ArchPier.West;
+                }
+                if (Version < 5) continue;
+                t.Height = camp ? CampDome(gx, gz) : RoadRoof(gx, gz, across, alongX, along);
+                // Bioluminescent fungi in stretches along the foot of the road's walls: mostly blood-red, now and then
+                // a cluster of many colours
+                if (t.Variant == 0 && across != 1 && Noise(gx / 50.0, gz / 50.0, SaltL8Detail + 5) > 0.35)
+                {
+                    ulong fh = Hashing.Hash(seed, gx, gz, SaltL8Detail + 6);
+                    ArchPier wall = alongX ? (across == 0 ? ArchPier.North : ArchPier.South) : (across == 0 ? ArchPier.West : ArchPier.East);
+                    var (wx, wz) = Step(gx, gz, wall);
+                    if (Hashing.Unit(fh) < 0.12 && !IsNinthRoad(wx, wz) && !IsCampClearing(wx, wz))
+                    {
+                        t.Variant = Hashing.Unit(fh >> 20) < 0.8 ? Props.GlowcapRed : Props.GlowcapMixed;
+                        t.Stack = 1;
+                        t.Pier = wall;
+                    }
+                }
             }
         }
 
@@ -134,6 +160,9 @@ public sealed partial class WorldLayout
                     continue;
                 }
                 if (t.Variant != 0 || IsNinthRoad(gx, gz)) continue;
+                // (from layout version 5, nothing along the foot of a dome's wall, where the curve leaves corners that a
+                // tent could close off)
+                if (Version >= 5 && t.Height <= 6) continue;
                 // In a settlement clearing (off the road itself)
                 t.Pier = (ArchPier)rng.Range(0, 3);
                 t.Variant = r < 0.05 ? Props.Tent : r < 0.08 ? Props.Bedroll : r < 0.1 ? Props.BurnBarrel : r < 0.12 ? Props.FoldingTable
@@ -145,6 +174,38 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
+    /// How many blocks of air the 9th Road has over a tile, from layout version 5 (before, four everywhere): a rough
+    /// arch, three high at the sides and four in the middle, here and there a block lower at a side or rising into a
+    /// cleft overhead, as if the road had been cut along a natural passage. Where two roads cross, five.
+    /// </summary>
+    private byte RoadRoof(int gx, int gz, int across, bool alongX, int along)
+    {
+        if (RoadOffsetX(gx, gz) < 3 && RoadOffsetZ(gx, gz) < 3) return 5; // a crossing
+        // (one noise along each road of the lattice, the same right across it)
+        var (kz, kx) = RoadLines(gx, gz);
+        int line = 2 * (alongX ? kz : kx) + (alongX ? 0 : 1);
+        double n = Noise(along / 7.0, line * 5 + 0.5, SaltL8Road + 3);
+        ulong h = Hashing.Hash(seed, gx, gz, SaltL8Road + 4);
+        if (across == 1) return (byte)(n > 0.45 ? 6 : n > 0.15 ? 5 : 4);
+        // The sides: a block lower here and there (never down to where a lamp or marker stands), higher under a cleft
+        double side = Noise(along / 4.0, line * 5 + across + 0.5, SaltL8Road + 5);
+        if (side > 0.5 && Hashing.Unit(h) < 0.7) return 4;
+        return (byte)(side < -0.55 && Hashing.Unit(h) < 0.6 ? 2 : 3);
+    }
+
+    /// <summary>The height of a settlement's dome over a tile of its clearing (from layout version 5): nine over the crossing, four at the rim.</summary>
+    private byte CampDome(int gx, int gz)
+    {
+        int ox = Hashing.Mod(RoadOffsetX(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2 - 1;
+        int oz = Hashing.Mod(RoadOffsetZ(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2 - 1;
+        double r = Math.Sqrt(ox * ox + oz * oz) / CampRadius;
+        return (byte)(4 + (int)Math.Round(5 * Math.Sqrt(Math.Max(0, 1 - r * r))));
+    }
+
+    /// <summary>How far a settlement's clearing reaches round its crossing, from layout version 5 (a circle; before, a square 17 across).</summary>
+    private const double CampRadius = 8.5;
+
+    /// <summary>
     /// Whether a block lies in the clearing round a road crossing that has a settlement. Offsets are taken signed,
     /// so the clearing surrounds the crossing, and every block of it agrees on which crossing it belongs to.
     /// </summary>
@@ -153,6 +214,7 @@ public sealed partial class WorldLayout
         int ox = Hashing.Mod(RoadOffsetX(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         int oz = Hashing.Mod(RoadOffsetZ(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         if (Math.Abs(ox - 1) > 8 || Math.Abs(oz - 1) > 8) return false;
+        if (Version >= 5 && (ox - 1) * (ox - 1) + (oz - 1) * (oz - 1) > CampRadius * CampRadius) return false;
         // The crossing's road lines, numbered along the grid; a settlement only where roads still meet
         int lineX = Hashing.FloorDiv(gx - oz + RoadGrid / 2, RoadGrid), lineZ = Hashing.FloorDiv(gz - ox + RoadGrid / 2, RoadGrid);
         return Hashing.Unit(Hashing.Hash(seed, lineX, lineZ, SaltL8Camp)) < 0.35 && L8Crossing(lineX, lineZ);

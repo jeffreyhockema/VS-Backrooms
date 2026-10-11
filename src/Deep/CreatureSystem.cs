@@ -10,17 +10,18 @@ using Vintagestory.API.Server;
 namespace Backrooms.Deep;
 
 /// <summary>
-/// Living things, only where they belong: fish in Level 7's sea, drifters in the dark of Level 8's caves (never on
-/// the lit road), raccoons, foxes and hares in the Suburbs' night, and livestock in Level 10's pastures. Levels 0 to 6
-/// have no animals. Spawning is kept to a small number around each player. The Backrooms' own entities (Smilers,
-/// Hounds and the rest) are put down by <see cref="Backrooms.Entities.MenaceSystem"/>.
+/// Living things, only where they belong: fish in Level 7's sea, raccoons, foxes and hares in the Suburbs, and
+/// livestock in Level 10's pastures. The other levels have no animals (Level 8's caves had drifters once; the code
+/// for finding a dark cave floor is kept for a level that wants it). Spawning is kept to a small number around each
+/// player, and the vanilla creatures despawn by their own rules. The Backrooms' own entities (Smilers, Hounds and the
+/// rest) are put down by <see cref="Backrooms.Entities.MenaceSystem"/>.
 /// </summary>
 public class CreatureSystem : ModSystem
 {
     private const float IntervalSeconds = 6;
     private const int CountRadius = 48;
     private const int MinDistance = 16, MaxDistance = 40;
-    /// <summary>Drifters only spawn where the light is below this.</summary>
+    /// <summary>A cave floor counts as dark (see <see cref="InDarkCave"/>) where the light is below this.</summary>
     private const int DarkLight = 7;
 
     private sealed class Spawns

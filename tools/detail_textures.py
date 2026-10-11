@@ -58,6 +58,42 @@ def block_wall(base, mortar, key, rows=4):
     return img
 
 
+# Bold capitals for the EXIT signs, 10 px high with 2 px strokes ("1" is ink)
+EXIT_GLYPHS = {
+    "E": ["111111", "111111", "110000", "110000", "111110", "111110", "110000", "110000", "111111", "111111"],
+    "X": ["11000011", "11000011", "01100110", "00111100", "00011000", "00011000", "00111100", "01100110", "11000011", "11000011"],
+    "I": ["11"] * 10,
+    "T": ["11111111", "11111111"] + ["00011000"] * 8,
+}
+# 7 px capitals for small plates
+PLATE_GLYPHS = {
+    "S": ["0111", "1000", "1000", "0110", "0001", "0001", "1110"],
+    "T": ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    "A": ["0110", "1001", "1001", "1111", "1001", "1001", "1001"],
+    "F": ["1111", "1000", "1000", "1110", "1000", "1000", "1000"],
+    "O": ["0110", "1001", "1001", "1001", "1001", "1001", "0110"],
+    "N": ["1001", "1101", "1101", "1011", "1011", "1001", "1001"],
+    "L": ["1000", "1000", "1000", "1000", "1000", "1000", "1111"],
+    "Y": ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+}
+
+
+def glyphs(img, rows_list, x, y, color, gap=1):
+    """Draws bitmap glyphs (lists of rows of "0"/"1") left to right from (x, y); returns the x after the last."""
+    px = img.load()
+    for rows in rows_list:
+        for j, row in enumerate(rows):
+            for i, c in enumerate(row):
+                if c == "1":
+                    px[x + i, y + j] = color
+        x += len(rows[0]) + gap
+    return x
+
+
+def glyph_width(word, font, gap=1):
+    return sum(len(font[c][0]) for c in word) + gap * (len(word) - 1)
+
+
 def grime(img, key, strength=0.25, color=(90, 86, 70)):
     rng = random.Random(seed_of(key))
     T.blotch(img, (rng.randrange(S), S - 4), rng.randint(6, 10), color, strength, seed_of(key) + 1)
@@ -81,12 +117,14 @@ def shared():
     flat("white", 0xEEEEEA, 2)
     flat("rubber", 0x222224, 3)
 
+    # The lit face of an EXIT sign: bold red capitals on white, drawn pixel by pixel so they stay crisp (the font,
+    # scaled down, left the letters pink at the edges). Only rows 8-23 show (the faces' UV band); the letters fill
+    # rows 11-20 and are centred on the middle of the texture, where the two halves of a sign over a two-wide
+    # doorway meet
     img = Image.new("RGBA", (S, S), rgb(0xF4F2EC))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B6AE), width=1)
-    text(img, "EXIT", (6, 9, 27, 23), 0xD8141E, 12)
-    for x, sgn in ((2, 1), (29, -1)):  # chevron arrows either side
-        d.line([x + 2 * sgn, 13, x, 16, x + 2 * sgn, 19], fill=rgb(0xD8141E), width=1)
+    glyphs(img, [EXIT_GLYPHS[c] for c in "EXIT"], 1, 11, rgb(0xD8141E), gap=2)
     save(img, "exitface")
 
     img = Image.new("RGBA", (S, S))
@@ -232,11 +270,29 @@ def level1():
     img = noise(0xFFC060, 4, "lanternglass")
     ImageDraw.Draw(img).rectangle([12, 0, 19, S - 1], fill=rgb(0xFFF0C0))
     save(img, "lanternglass")
-    img = noise(0x6A3A22, 10, "burnbarrel")
-    d = ImageDraw.Draw(img)
-    for x, y in ((6, 10), (16, 8), (26, 11), (11, 20), (22, 21)):
-        d.ellipse([x - 2, y - 2, x + 2, y + 2], fill=rgb(0xE86A18))
+    # Burn barrel: a near-black steel drum, sooted at the top, thin rust runs down from the rim and rust eating
+    # in from the foot; a darker band for the rim and hoops, and the burnt-out inside
+    img = noise(0x1E1A18, 4, "burnbarrel")
+    px = img.load()
+    rng = random.Random(seed_of("burnbarrel"))
+    for y in range(5):
+        for x in range(S):
+            px[x, y] = T.shade(px[x, y], 0.7 + 0.06 * y)
+    for _ in range(9):
+        x, length = rng.randrange(S), rng.randint(6, 22)
+        c = T.hexrgb(rng.choice((0x5A3020, 0x6E3A1E, 0x4A2818)))
+        for y in range(rng.randint(0, 4), length):
+            if rng.random() < 0.85:
+                px[x, y] = T.shade(c, 1 - 0.4 * y / length)
+    for _ in range(70):
+        x, y = rng.randrange(S), S - 1 - int(rng.random() ** 2 * 8)
+        px[x, y] = rgb(rng.choice((0x4A2A1A, 0x5E321C, 0x3A2216)))
     save(img, "burnbarrel")
+    img = noise(0x2A2420, 5, "burnbarrelrim")
+    for _ in range(40):
+        img.putpixel((rng.randrange(S), rng.randrange(S)), rgb(rng.choice((0x5A3020, 0x6E3A1E))))
+    save(img, "burnbarrelrim")
+    flat("burnbarrelinside", 0x100D0B, 3)
     img = noise(0xC8401C, 30, "embers")
     rng = random.Random(9)
     for _ in range(30):
@@ -244,6 +300,14 @@ def level1():
     save(img, "embers")
     flat("hospitalsheet", 0xDCE6EC, 3)
     flat("hospitalframe", 0xE8E8E2, 3)
+    # A quilt folded in four at the foot of a hospital bed: its edges show the layers
+    flat("hospitalquilt", 0xB8C8D8, 3)
+    img = noise(0xB8C8D8, 3, "hospitalquiltfold")
+    d = ImageDraw.Draw(img)
+    for y in range(7, S, 8):
+        d.line([0, y, S - 1, y], fill=rgb(0x8496A8))
+        d.line([0, y - 1, S - 1, y - 1], fill=rgb(0xA4B4C4))
+    save(img, "hospitalquiltfold")
     flat("tabletop", 0xD2C6A8, 3)
     flat("foldsteel", 0x6E7276, 4)
     flat("medcab", 0xECECE6, 2)
@@ -353,6 +417,14 @@ def level1():
     d.ellipse([2, 2, 29, 29], fill=rgb(0xE8C020))
     text(img, "P2", (4, 7, 28, 25), 0x1C1C1C, 15)
     save(img, "levelsign")
+    # Level 1's stairwells from layout version 4 are each on a floor, painted the same way: yellow for the parking
+    # floors, orange for the basements below them
+    for label in ("P5", "P4", "P3", "P2", "P1", "B1", "B2", "B3"):
+        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        d.ellipse([2, 2, 29, 29], fill=rgb(0xE8C020 if label[0] == "P" else 0xE07020))
+        text(img, label, (4, 7, 28, 25), 0x1C1C1C, 15)
+        save(img, f"levelsign-{label.lower()}")
     img = noise(0x1E7A3A, 3, "stairsign")
     d = ImageDraw.Draw(img)
     text(img, "STAIRS", (1, 2, 31, 11), 0xF4F4F0, 7)
@@ -404,11 +476,15 @@ def level3():
         d.rectangle([11, y, 12, y + 4], fill=rgb(0x1A1A1A))
         d.rectangle([19, y, 20, y + 4], fill=rgb(0x1A1A1A))
     save(img, "outletburnt")
-    img = noise(0xFFB050, 4, "bulkheadglass")
-    d = ImageDraw.Draw(img)
-    for x in (8, 16, 24):
-        d.line([x, 0, x, S - 1], fill=rgb(0x3A3020))
-    d.line([0, 16, S - 1, 16], fill=rgb(0x3A3020))
+    # The bulkhead's glass: a warm bulb glowing through frosted glass, bright in the middle, amber at the rim
+    img = noise(0xFFB050, 3, "bulkheadglass")
+    px = img.load()
+    hot, rim = T.hexrgb(0xFFE6B0), T.hexrgb(0xC06A22)
+    for y in range(S):
+        for x in range(S):
+            t = min(1.0, math.hypot(x - 15.5, y - 14.5) / 17) ** 1.4
+            n = px[x, y][0] - 0xFF  # keep the frosting's grain
+            px[x, y] = tuple(T.clamp(hot[k] + (rim[k] - hot[k]) * t + n) for k in range(3)) + (255,)
     save(img, "bulkheadglass")
     img = noise(0xB8733A, 6, "coil")
     d = ImageDraw.Draw(img)
@@ -478,6 +554,45 @@ def level3():
     for y in range(3, S, 5):
         d.arc([-8, y - 6, 40, y + 6], 20, 160, fill=rgb(0xA8A498))
     save(img, "stonewing")
+    # The statue's pedestal, darker than the figure so the figure stands clear of it; its folds
+    img = noise(0x6E685E, 4, "pedestal")
+    d = ImageDraw.Draw(img)
+    d.line([0, 2, S - 1, 2], fill=rgb(0x8A8478))
+    d.line([0, S - 3, S - 1, S - 3], fill=rgb(0x4E4A42))
+    save(img, "pedestal")
+    img = noise(0xC8C4BA, 4, "stonefold")
+    d = ImageDraw.Draw(img)
+    for x in range(2, S, 6):
+        d.line([x, 0, x + 1, S - 1], fill=rgb(0xA49E92))
+        d.line([x + 2, 0, x + 3, S - 1], fill=rgb(0xDAD6CC))
+    save(img, "stonefold")
+    # A Sanctum's ceiling: pale ashlar ribs, and the plastered vault cells between them, paler toward their middles
+    img = noise(0xC4BCAC, 3, "sanctumvault")
+    T.blotch(img, (16, 16), 14, (214, 208, 194), 0.6, 93)
+    save(img, "sanctumvault")
+    # Purpification (layout version 5): what is left of the thing gone purple and glowing faintly, and the wall round it
+    img = noise(0x8A3CC8, 8, "purpskin")
+    T.blotch(img, (10, 12), 7, (190, 120, 240), 0.6, 94)
+    T.blotch(img, (24, 24), 6, (60, 20, 96), 0.6, 95)
+    d = ImageDraw.Draw(img)
+    for (x1, y1, x2, y2) in ((3, 4, 12, 20), (18, 2, 22, 14), (14, 22, 28, 30)):
+        d.line([x1, y1, x2, y2], fill=rgb(0x4A1470))  # veins
+    save(img, "purpskin")
+    # The wall gone purple round it, a ragged patch over two blocks: the lower block mostly, the upper only at its foot
+    rng = random.Random(seed_of("purpwall"))
+    for part in ("lower", "upper"):
+        img = noise(0x6A2C9C, 6, "purpwall" + part)
+        for k, (cx, cy, r) in enumerate(((8, 20, 9), (24, 26, 10), (14, 8, 7))):
+            T.blotch(img, (cx, cy), r, (150, 90, 210), 0.45, 96 + k)
+        px = img.load()
+        for y in range(S):
+            for x in range(S):
+                # Inside an ellipse centred on the floor at the foot of the lower block (the upper one has its top)
+                ey = (y - (S if part == "lower" else S * 2)) / (S * 1.35)
+                ex = (x - S / 2 + 0.5) / (S * 0.5)
+                if ex * ex + ey * ey + rng.uniform(-0.12, 0.12) > 1:
+                    px[x, y] = (0, 0, 0, 0)
+        save(img, f"purpwall-{part}")
     img = Image.new("RGBA", (S, S), rgb(0x1E2022))
     d = ImageDraw.Draw(img)
     for k in range(0, S, 4):
@@ -746,6 +861,17 @@ def level4():
 # ---------------- Level 5 ----------------
 
 def level5():
+    # STAFF ONLY over the doors into the boiler halls: a black enamel plate in a brass frame, gilt capitals. Drawn in
+    # rows 5-26 (the plate's UV band), the words centred on the middle of the texture
+    img = noise(0x15120E, 2, "staffplaque")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 5, S - 1, 26], outline=rgb(0xB08A3A), width=2)
+    d.line([1, 6, S - 2, 6], fill=rgb(0xE0C070))  # the frame's lit upper edge
+    for k, word in enumerate(("STAFF", "ONLY")):
+        w = glyph_width(word, PLATE_GLYPHS)
+        glyphs(img, [PLATE_GLYPHS[c] for c in word], (S - w + 1) // 2, 8 + k * 9, rgb(0xE2C26A))
+    save(img, "staffplaque")
+
     # Antique elevator: a brass scissor gate across a 2-wide opening, a dial above showing the floor
     for half in ("l", "r"):
         img = Image.new("RGBA", (S, S), rgb(0x1E120A))
@@ -771,11 +897,16 @@ def level5():
     save(big.crop((0, 0, S, S)), "cagedial-l")
     save(big.crop((S, 0, 2 * S, S)), "cagedial-r")
 
-    img = Image.new("RGBA", (S, S), rgb(0xC9A040))
+    # Mirror glass edge to edge: pale blue-grey, a little darker toward the foot, a 1 px bevel lit from above, and
+    # a diagonal sheen
+    img = texlib.vertical_gradient(T.hexrgb(0xB2C2CA), T.hexrgb(0x96A6B0))
     d = ImageDraw.Draw(img)
-    d.ellipse([3, 1, 28, 30], fill=rgb(0x8A9AA4))
-    d.ellipse([6, 4, 25, 27], fill=rgb(0xA8B8C2))
-    d.line([10, 8, 16, 14], fill=rgb(0xE0EEF4), width=2)
+    for k, w, c in ((-6, 3, 0xC8D6DC), (2, 1, 0xC2D0D6), (14, 2, 0xBCCAD2)):  # the sheen, rising to the right
+        d.line([k, S - 1, k + S - 1, 0], fill=rgb(c), width=w)
+    d.line([0, 0, S - 1, 0], fill=rgb(0xDCE6EA))  # bevel
+    d.line([0, 0, 0, S - 1], fill=rgb(0xD0DCE2))
+    d.line([0, S - 1, S - 1, S - 1], fill=rgb(0x6E7E88))
+    d.line([S - 1, 0, S - 1, S - 1], fill=rgb(0x7A8A94))
     save(img, "mirrorglass")
     img = noise(0xB08A3C, 5, "speakergrille")
     d = ImageDraw.Draw(img)

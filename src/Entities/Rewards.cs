@@ -12,7 +12,8 @@ namespace Backrooms.Entities;
 /// What the deeper levels pay for their danger (see <see cref="Danger"/>):
 /// <list type="bullet">
 /// <item>A bounty on what you kill: rusty gears, the wanderers' currency, more of them the deeper the level and the
-/// worse the thing. A Skin-Stealer also drops what it took from the last person it wore. Nothing for Facelings.</item>
+/// worse the thing. A Skin-Stealer also drops what it took from the last person it wore, and a Wretch what it carried
+/// when it was a wanderer. Nothing for Facelings.</item>
 /// <item>Fuller caches: a box, crate, cupboard or fridge broken open in a deep level may give its contents twice, and
 /// may hold something extra besides, better the deeper you are (metal, medicine, rusty gears, very rarely a
 /// temporal gear).</item>

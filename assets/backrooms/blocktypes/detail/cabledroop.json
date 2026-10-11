@@ -5,7 +5,8 @@
 		{
 			"code": "kind",
 			"states": [
-				"plain"
+				"plain",
+				"gap"
 			]
 		},
 		{
@@ -33,6 +34,22 @@
 		},
 		"*-plain-west": {
 			"base": "block/detail/cabledroop-plain",
+			"rotateY": 90
+		},
+		"*-gap-north": {
+			"base": "block/detail/cabledroop-gap",
+			"rotateY": 0
+		},
+		"*-gap-east": {
+			"base": "block/detail/cabledroop-gap",
+			"rotateY": 270
+		},
+		"*-gap-south": {
+			"base": "block/detail/cabledroop-gap",
+			"rotateY": 180
+		},
+		"*-gap-west": {
+			"base": "block/detail/cabledroop-gap",
 			"rotateY": 90
 		}
 	},

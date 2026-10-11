@@ -1,0 +1,133 @@
+// Bioluminescent fungi of Level 8's caves
+{
+	"code": "glowcapmixed",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"floor",
+				"wall"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-floor-north": {
+			"base": "block/detail/glowcapmixed-floor",
+			"rotateY": 0
+		},
+		"*-floor-east": {
+			"base": "block/detail/glowcapmixed-floor",
+			"rotateY": 270
+		},
+		"*-floor-south": {
+			"base": "block/detail/glowcapmixed-floor",
+			"rotateY": 180
+		},
+		"*-floor-west": {
+			"base": "block/detail/glowcapmixed-floor",
+			"rotateY": 90
+		},
+		"*-wall-north": {
+			"base": "block/detail/glowcapmixed-wall",
+			"rotateY": 0
+		},
+		"*-wall-east": {
+			"base": "block/detail/glowcapmixed-wall",
+			"rotateY": 270
+		},
+		"*-wall-south": {
+			"base": "block/detail/glowcapmixed-wall",
+			"rotateY": 180
+		},
+		"*-wall-west": {
+			"base": "block/detail/glowcapmixed-wall",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-floor-north"
+		],
+		"decorative": [
+			"*-floor-north"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.45,
+			"z2": 0.9
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.45,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.45,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.45,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsv": [
+		44,
+		4,
+		5
+	],
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:rot",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

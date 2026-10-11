@@ -33,6 +33,8 @@ public class AiTaskMoth : AiTaskBase
     private MenaceSystem director;
     private Vec3d goal, home, perch;
     private float think, phase, nextBite;
+    /// <summary>What the level's danger does to its speed (see <see cref="Danger"/>), read when it first flies.</summary>
+    private float speedMul = -1;
     private double drawn;
     private int thoughts;
     private Settle settle;
@@ -59,6 +61,7 @@ public class AiTaskMoth : AiTaskBase
     {
         base.StartExecute();
         home ??= entity.Pos.XYZ;
+        if (speedMul < 0) speedMul = Danger.Speed(Danger.Of(entity));
         phase = (float)(entity.World.Rand.NextDouble() * Math.PI * 2);
     }
 
@@ -298,7 +301,7 @@ public class AiTaskMoth : AiTaskBase
         }
         // A moth's flight is never straight (but it comes down to land carefully)
         double wobble = (settle == Settle.Landing && length < 1.5 ? 0.1 : 0.35) * Math.Sin(phase * 5.3);
-        float s = speed * Danger.Speed(Danger.Of(entity)) * (float)(drawn > 0 ? 1.4 : 1) * (float)Math.Min(1, length);
+        float s = speed * speedMul * (float)(drawn > 0 ? 1.4 : 1) * (float)Math.Min(1, length);
         entity.Controls.WalkVector.Set(dx / length + wobble * dz / length, dy / length * 1.2, dz / length - wobble * dx / length);
         entity.Controls.WalkVector.Mul(s);
         entity.Controls.FlyVector.Set(entity.Controls.WalkVector);
@@ -387,4 +390,7 @@ public static class AlmondWater
         lock (Cache) Cache[(cx, cy, cz)] = (now, found);
         return found;
     }
+
+    /// <summary>Forgets what is cached (its times are of the last world's clock): at each server start.</summary>
+    public static void Invalidate() { lock (Cache) Cache.Clear(); }
 }

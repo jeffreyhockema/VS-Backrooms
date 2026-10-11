@@ -43,14 +43,19 @@ public class MotionSystem : ModSystem
     private const string CrownKey = "backrooms:crownGiven";
     private const double StillSeconds = 4, AlarmSeconds = 90;
 
-    private static readonly Dictionary<string, (Vec3d Pos, long Since)> stillness = new();
+    // (Static, for the menace AI's sake; cleared when a server starts, so nothing carries over from the last world
+    // loaded in this process)
+    private static readonly Dictionary<string, (double X, double Y, double Z, long Since)> stillness = new();
     private static readonly Dictionary<string, long> alarmedUntil = new();
     private static readonly Dictionary<string, long> trialEntity = new();
+    /// <summary>The players carrying a shard of the King's crown, as of the last tick (the AI asks every time it looks).</summary>
+    private static readonly HashSet<string> crownCarriers = new();
     private static long nowMs;
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
     private WorldGeometry geometry;
+    private long tickId;
 
     public override bool ShouldLoad(EnumAppSide side) => true;
 
@@ -62,20 +67,40 @@ public class MotionSystem : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
+        stillness.Clear();
+        alarmedUntil.Clear();
+        trialEntity.Clear();
+        crownCarriers.Clear();
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
-            api.Event.RegisterGameTickListener(OnTick, 500);
+            tickId = api.Event.RegisterGameTickListener(OnTick, 500);
             api.Event.PlayerNowPlaying += OnPlayerNowPlaying;
             api.Event.PlayerDeath += OnPlayerDeath;
             api.Event.OnEntityDeath += OnEntityDeath;
-            api.Event.DidBreakBlock += (player, oldId, sel) => Disturbed(player, sel?.Position);
-            api.Event.DidUseBlock += (player, sel) => Disturbed(player, sel?.Position);
-            api.Event.DidPlaceBlock += (player, oldId, sel, stack) => Disturbed(player, sel?.Position);
+            api.Event.DidBreakBlock += OnBroke;
+            api.Event.DidUseBlock += OnUsed;
+            api.Event.DidPlaceBlock += OnPlaced;
         });
     }
+
+    public override void Dispose()
+    {
+        if (sapi == null || layout == null) return;
+        if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
+        sapi.Event.PlayerNowPlaying -= OnPlayerNowPlaying;
+        sapi.Event.PlayerDeath -= OnPlayerDeath;
+        sapi.Event.OnEntityDeath -= OnEntityDeath;
+        sapi.Event.DidBreakBlock -= OnBroke;
+        sapi.Event.DidUseBlock -= OnUsed;
+        sapi.Event.DidPlaceBlock -= OnPlaced;
+    }
+
+    private void OnBroke(IServerPlayer player, int oldBlockId, BlockSelection sel) => Disturbed(player, sel?.Position);
+    private void OnUsed(IServerPlayer player, BlockSelection sel) => Disturbed(player, sel?.Position);
+    private void OnPlaced(IServerPlayer player, int oldBlockId, BlockSelection sel, ItemStack withItem) => Disturbed(player, sel?.Position);
 
     // ================= Day and night =================
 
@@ -100,18 +125,20 @@ public class MotionSystem : ModSystem
     /// </summary>
     public static bool PlayingDoll(EntityPlayer player)
     {
-        if (player?.Player?.InventoryManager is { } inventories && CarriesCrownShard(inventories)) return true;
-        return stillness.TryGetValue(player?.PlayerUID ?? "", out var still) && nowMs - still.Since >= StillSeconds * 1000;
+        string uid = player?.PlayerUID ?? "";
+        if (crownCarriers.Contains(uid)) return true;
+        return stillness.TryGetValue(uid, out var still) && nowMs - still.Since >= StillSeconds * 1000;
     }
 
-    private static bool CarriesCrownShard(IPlayerInventoryManager inventories)
+    /// <summary>Whether a shard of the King's crown is in someone's hotbar or backpack.</summary>
+    private static bool CarriesCrownShard(IPlayerInventoryManager inventories) =>
+        HoldsCrownShard(inventories.GetOwnInventory(GlobalConstants.hotBarInvClassName)) || HoldsCrownShard(inventories.GetOwnInventory(GlobalConstants.backpackInvClassName));
+
+    private static bool HoldsCrownShard(IInventory inventory)
     {
-        foreach (var inventory in new[] { inventories.GetOwnInventory(GlobalConstants.hotBarInvClassName), inventories.GetOwnInventory(GlobalConstants.backpackInvClassName) })
-        {
-            if (inventory == null) continue;
-            foreach (ItemSlot slot in inventory)
-                if (slot?.Itemstack?.Collectible?.Code is { Domain: "backrooms", Path: "crownshard" }) return true;
-        }
+        if (inventory == null) return false;
+        foreach (ItemSlot slot in inventory)
+            if (slot?.Itemstack?.Collectible?.Code is { Domain: "backrooms", Path: "crownshard" }) return true;
         return false;
     }
 
@@ -146,11 +173,15 @@ public class MotionSystem : ModSystem
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
         {
             if (online is not IServerPlayer { Entity: { } entity } player) continue;
-            Vec3d pos = entity.Pos.XYZ;
-            if (!stillness.TryGetValue(player.PlayerUID, out var still) || still.Pos.SquareDistanceTo(pos) > 0.15 * 0.15)
-                stillness[player.PlayerUID] = (pos, nowMs);
+            EntityPos pos = entity.Pos;
+            if (!stillness.TryGetValue(player.PlayerUID, out var still)
+                || (still.X - pos.X) * (still.X - pos.X) + (still.Y - pos.Y) * (still.Y - pos.Y) + (still.Z - pos.Z) * (still.Z - pos.Z) > 0.15 * 0.15)
+                stillness[player.PlayerUID] = (pos.X, pos.Y, pos.Z, nowMs);
+            if (player.InventoryManager is { } inventories && CarriesCrownShard(inventories)) crownCarriers.Add(player.PlayerUID);
+            else crownCarriers.Remove(player.PlayerUID);
         }
         // A trial ends if the one facing it has gone (dead, left, or carried off)
+        if (trialEntity.Count == 0) return;
         foreach (string uid in trialEntity.Keys.ToList())
         {
             IServerPlayer player = sapi.World.PlayerByUid(uid) as IServerPlayer;
@@ -311,8 +342,9 @@ public class BlockTrialChair : Block
         return true;
     }
 
-    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) => new[]
-    {
-        new WorldInteraction { ActionLangCode = "backrooms:blockhelp-trialchair", MouseButton = EnumMouseButton.Right },
-    };
+    private WorldInteraction[] help;
+
+    // (Asked every frame the chair is looked at: the help is made once)
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-trialchair", MouseButton = EnumMouseButton.Right } };
 }

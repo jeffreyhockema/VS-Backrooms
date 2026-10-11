@@ -457,7 +457,8 @@ v  0   ###WW#########WW###
     foot of the bed, and (16,14) beside the cat bed;
   - the sleep-watch spot: (15,4), by the bed;
   - the gift spot: whichever watch spot is nearest the caller.
-- **Arrival**: (14,5), facing the bed. `IsL974ArrivalSpot` accepts only that tile. `checkEscape` must be false, since
+- **Arrival**: (13,4), on the rug before the bed (layout version 5 on; in 1-4 (14,5), in the mouth of the bed's alcove,
+  where a stub wall stood at arm's length). `IsL974ArrivalSpot` accepts only that tile. `checkEscape` must be false, since
   a sealed house has no escape.
 
 **Variations per house** (cell hash, salt 0x1810+):
@@ -475,11 +476,11 @@ v  0   ###WW#########WW###
 ### 3.3 Light, sound and air
 
 - **Light.** Electricity works.
-  - Recessed round ceiling **downlights** (light 13, warm white with a hint of pink): one in the middle of each room,
+  - Recessed round ceiling **downlights** (light 15, warm white with a hint of pink): one in the middle of each room,
     two in the hall.
-  - A pink-shaded **bedside lamp** (light 8).
-  - **Fairy lights** along the bedroom's north and east walls under the ceiling (light 5).
-  - A cloud-shaped **night light** in the hall (light 4).
+  - A pink-shaded **bedside lamp** (light 10).
+  - **Fairy lights** along the bedroom's north and east walls under the ceiling (light 8).
+  - A cloud-shaped **night light** in the hall (light 6).
 
   Nowhere is dark. Now and then (once in ~10 minutes, near Kitty) the nearest downlight flickers twice, the user's
   "occasional flicker". It is also a quiet tell that Kitty is in the room.
@@ -645,7 +646,7 @@ Every code starts with `l974-`. Mascots are original (§9.12): **no Sanrio or Sa
 
 | Name | Hex | Used for |
 |---|---|---|
-| Baker-Miller pink | `#F09AB0`, shading `#E48AA2` / `#F7AEC1` | Walls (canon's paint, a little desaturated so it isn't neon in game) |
+| Baker-Miller pink | `#F09AB0`, shading `#E48AA2` / `#F7AEC1` | Walls (canon's paint, a little desaturated so it isn't neon in game). The paint texture is this lifted 8% (`#FAA9BF`, shading `#ED97AE` / `#FDBFD0`) so the lit wall lands near `#F09AB0` in game |
 | Trim white | `#F8F3F0` | Baseboards, crown moulding, casings, doors, furniture |
 | Blush carpet | `#EDD5D2`, flecks `#E2C4C2` | Bedrooms, hall, living room |
 | Checker | `#F4B6C6` / `#FBF6F4` | Kitchen floor |
@@ -674,9 +675,9 @@ Every code starts with `l974-`. Mascots are original (§9.12): **no Sanrio or Sa
 
 | Code | Variants | Shape | Light |
 |---|---|---|---|
-| `l974-downlight` | `on`, `off` | A ceiling block with a round lens 6 px across, 1 px proud, a white trim ring | `on`: light 13, `lightHsv [4, 2, 13]` (warm, faintly pink) |
-| `l974-fairylights` | `n`, `e`, `s`, `w`, × `on`/`off` | A thin wire along the top of a wall face, 7 bulbs of 1 × 1.5 px (pink, butter, white), sagging 1 px between pins | `on`: 5 |
-| `l974-nightlight` | 4 facings | A cloud-shaped plug-in, 5 × 4 px, on the wall at rel 1 | 4 |
+| `l974-downlight` | `on`, `off` | A ceiling block with a round lens 6 px across, 1 px proud, a white trim ring | `on`: light 15, `lightHsv [4, 2, 15]` (warm, faintly pink) |
+| `l974-fairylights` | `n`, `e`, `s`, `w`, × `on`/`off` | A thin wire along the top of a wall face, 7 bulbs of 1 × 1.5 px (pink, butter, white), sagging 1 px between pins | `on`: 8 |
+| `l974-nightlight` | 4 facings | A cloud-shaped plug-in, 5 × 4 px, on the wall at rel 1 | 6 |
 
 **Furniture and things** (breakable, which is an offence; salvage per `tools/salvage.py`). Placed as `Props`
 440–479 (P) and `Decor` 224–235 (D):
@@ -684,7 +685,7 @@ Every code starts with `l974-`. Mascots are original (§9.12): **no Sanrio or Sa
 | Code | Variants | Size / shape | Notes |
 |---|---|---|---|
 | `l974-bed` | `head`, `foot` × 4 facings × bedding (`hearts`, `strawberries`, `stars`) | 1 × 2. A white rounded-rail frame, a 9 px mattress, a pink duvet with its pattern, two pillows, plushies heaped on the head (3 small plush boxes) | **A real bed**: vanilla bed class and attributes (sleep, spawn not set: the anchor rule) |
-| `l974-nightstand` | 4 facings | A small white table, 12 × 10 × 12, a drawer; on top a pink-shaded lamp, a water bottle and two vitamin jars (the photo) | The lamp emits 8 |
+| `l974-nightstand` | 4 facings | A small white table, 12 × 10 × 12, a drawer; on top a pink-shaded lamp, a water bottle and two vitamin jars (the photo) | The lamp emits 10 |
 | `l974-plushheap` | `a`, `b` | 4–6 plush shapes (cat, bunny, bear, star) on the floor, the tallest 9 px | Decor; breaking it drops `l974-plush-*` marked as Kitty's |
 | `l974-desk` | `plain`, `computer` × 4 facings | A white desk with a drawer column; `computer` carries a beige CRT (9 × 8 × 8, a dark blue-grey screen with a faint pink-lit desktop), a keyboard and a mouse | `computer` opens the Guest desktop |
 | `l974-chair` | `desk` (a pink swivel chair), `dining` (white with a pink cushion) × 4 facings | | |

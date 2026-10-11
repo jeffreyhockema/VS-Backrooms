@@ -46,7 +46,7 @@ public static class L188
 /// <item><b>The arm.</b> Within six blocks of a predatory window: whispers, and the figure beckons. Within two for a
 /// second: an arm comes out of the glass, holds, drags and hurts. Hit it twice, or get three and a half blocks away; held
 /// for six seconds at the glass, you are pulled through, and die.</item>
-/// <item><b>Doors, the hatch, dispensers, the keycard</b>, by their block behaviours below.</item>
+/// <item><b>Doors, the hatch, dispensers, the keycard, the guest book</b>, by their block behaviours below.</item>
 /// <item><b>Peripherals.</b> Now and then, at the edge of sight in the corridors and the courtyard, a shape that is gone when
 /// you look (the client draws it; the server says when, and takes a little stability for it).</item>
 /// </list>
@@ -75,6 +75,13 @@ public class L188System : ModSystem
     private readonly Dictionary<string, double> nextPeripheral = new();
     private readonly Dictionary<(int, int), long> lastWhisperMs = new();
     private readonly Random rand = new();
+    private readonly List<IServerPlayer> here = new();
+    private readonly List<string> stale = new();
+    private readonly List<int> expired = new();
+    private long[] tickListeners = Array.Empty<long>();
+    private bool isServer;
+    private ICoreClientAPI capi;
+    private PeripheralRenderer peripheral;
 
     private sealed class Grab
     {
@@ -96,6 +103,7 @@ public class L188System : ModSystem
         api.RegisterBlockBehaviorClass("BackroomsL188Blind", typeof(BlockBehaviorL188Blind));
         api.RegisterBlockBehaviorClass("BackroomsL188Door", typeof(BlockBehaviorL188Door));
         api.RegisterBlockBehaviorClass("BackroomsL188Hatch", typeof(BlockBehaviorL188Hatch));
+        api.RegisterBlockBehaviorClass("BackroomsL188GuestBook", typeof(BlockBehaviorL188GuestBook));
         api.RegisterBlockClass("BackroomsL188Dispenser", typeof(BlockL188Dispenser));
         api.RegisterEntity("BackroomsL188Arm", typeof(EntityL188Arm));
     }
@@ -103,6 +111,7 @@ public class L188System : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
+        isServer = true;
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
@@ -110,17 +119,51 @@ public class L188System : ModSystem
             geometry = BackroomsWorld.CreateGeometry(api.World);
             thresholds = api.ModLoader.GetModSystem<ThresholdSystem>();
             Load(api.WorldManager.SaveGame.GetData(SaveKey));
-            api.Event.GameWorldSave += () => { if (dirty) { api.WorldManager.SaveGame.StoreData(SaveKey, Save()); dirty = false; } };
-            api.Event.RegisterGameTickListener(OnWindowsTick, 2000, 1000);
-            api.Event.RegisterGameTickListener(OnArmTick, 250);
-            api.Event.RegisterGameTickListener(OnPlayersTick, 1000);
-            api.Event.PlayerDisconnect += player => { ReleaseGrab(player, false); Retract(player.PlayerUID); };
+            api.Event.GameWorldSave += OnGameWorldSave;
+            tickListeners = new[]
+            {
+                api.Event.RegisterGameTickListener(OnWindowsTick, 2000, 1000),
+                api.Event.RegisterGameTickListener(OnArmTick, 250),
+                api.Event.RegisterGameTickListener(OnPlayersTick, 1000),
+            };
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
     }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
-        api.Event.RegisterRenderer(new PeripheralRenderer(api), EnumRenderStage.Ortho, "backrooms-l188-peripheral");
+        capi = api;
+        peripheral = new PeripheralRenderer(api);
+        api.Event.RegisterRenderer(peripheral, EnumRenderStage.Ortho, "backrooms-l188-peripheral");
+    }
+
+    public override void Dispose()
+    {
+        if (peripheral != null) capi?.Event.UnregisterRenderer(peripheral, EnumRenderStage.Ortho);
+        peripheral = null;
+        // (sapi is static, so in single player this system's client-side instance sees it too: only the server's own
+        // instance lets go of it)
+        if (!isServer || sapi == null) return;
+        foreach (long id in tickListeners) sapi.Event.UnregisterGameTickListener(id);
+        sapi.Event.GameWorldSave -= OnGameWorldSave;
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+        // (Static, for BandAt: it must not outlive this world in a process that goes on to load another)
+        sapi = null;
+    }
+
+    private void OnGameWorldSave()
+    {
+        if (!dirty) return;
+        sapi.WorldManager.SaveGame.StoreData(SaveKey, Save());
+        dirty = false;
+    }
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        ReleaseGrab(player, false);
+        Retract(player.PlayerUID);
+        nearSinceMs.Remove(player.PlayerUID);
+        nextPeripheral.Remove(player.PlayerUID);
     }
 
     // ================= Where things are =================
@@ -177,20 +220,23 @@ public class L188System : ModSystem
 
     // ================= Keeping the windows =================
 
-    private IEnumerable<IServerPlayer> PlayersHere()
+    /// <summary>Everyone playing in the level now (one list, refilled by each tick that asks: don't keep it).</summary>
+    private List<IServerPlayer> PlayersHere()
     {
+        here.Clear();
         foreach (IPlayer p in sapi.World.AllOnlinePlayers)
             if (p is IServerPlayer sp && sp.Entity != null && sp.ConnectionState == EnumClientState.Playing && LevelAt(sp.Entity.Pos.X, sp.Entity.Pos.Z) == WorldLayout.Level188)
-                yield return sp;
+                here.Add(sp);
+        return here;
     }
 
     private void OnWindowsTick(float dt)
     {
-        var here = new List<IServerPlayer>(PlayersHere());
         // Blinds come down again after their days are up
-        var expired = new List<int>();
+        expired.Clear();
         foreach (var (key, seal) in sealedWindows) if (seal.Until <= sapi.World.Calendar.TotalDays) expired.Add(key);
         foreach (int key in expired) { sealedWindows.Remove(key); dirty = true; }
+        List<IServerPlayer> here = PlayersHere();
         if (here.Count == 0) return;
         for (int wi = 0; wi < WorldLayout.L188Windows; wi++)
         {
@@ -334,7 +380,6 @@ public class L188System : ModSystem
         if (path.StartsWith("l188-outerwindow-"))
         {
             // Only a blind onto nothing
-            string other = path.Contains("-closed-") ? path.Replace("-closed-", "-open-") : path.Replace("-open-", "-closed-");
             foreach (var at in WindowBlocks(pos, "l188-outerwindow-"))
             {
                 string p = sapi.World.BlockAccessor.GetBlock(at).Code.Path;
@@ -366,15 +411,7 @@ public class L188System : ModSystem
                 int target = layout.L188BlindTarget(wi, storey);
                 player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-taken"), EnumChatType.Notification);
                 thresholds?.Use(player, pos, "l188-blind-" + storey);
-                sapi.Event.RegisterCallback(_ =>
-                {
-                    // Gone: the window lights up with where they went, and the room is sealed
-                    if (player.Entity == null || player.Entity.Pos.XYZ.SquareDistanceTo(from) < 8 * 8) return;
-                    sealedWindows[wi * 8 + storey] = (target, sapi.World.Calendar.TotalDays + SealDays);
-                    dirty = true;
-                    Apply(wi, storey, WState.Scene, target, new List<IServerPlayer>());
-                    Play("backrooms:sounds/effect/188/taken", pos);
-                }, 600);
+                SealWhenGone(player, from, wi, storey, target, pos, 10);
                 return;
             }
             case WState.Open or WState.Lit:
@@ -384,6 +421,27 @@ public class L188System : ModSystem
                 Play("backrooms:sounds/effect/188/whisper", pos);
                 return;
         }
+    }
+
+    /// <summary>
+    /// Once whoever opened a blind has gone, the window lights up with where they went, and the room is sealed. (The
+    /// teleport waits for the place to load, and maybe be generated first: while it is still on its way, look again.)
+    /// </summary>
+    private void SealWhenGone(IServerPlayer player, Vec3d from, int wi, int storey, int target, BlockPos pos, int tries)
+    {
+        sapi.Event.RegisterCallback(_ =>
+        {
+            if (sapi == null || player.Entity == null) return;
+            if (player.Entity.Pos.XYZ.SquareDistanceTo(from) < 8 * 8)
+            {
+                if (player.Entity.Teleporting && tries > 0) SealWhenGone(player, from, wi, storey, target, pos, tries - 1);
+                return;
+            }
+            sealedWindows[wi * 8 + storey] = (target, sapi.World.Calendar.TotalDays + SealDays);
+            dirty = true;
+            Apply(wi, storey, WState.Scene, target, new List<IServerPlayer>());
+            Play("backrooms:sounds/effect/188/taken", pos);
+        }, 600);
     }
 
     /// <summary>The blocks of one window (the 2 x 2 round a block of it) whose code starts so.</summary>
@@ -408,15 +466,25 @@ public class L188System : ModSystem
     private void OnArmTick(float dt)
     {
         if (layout == null) return;
-        var here = new List<IServerPlayer>(PlayersHere());
+        List<IServerPlayer> here = PlayersHere();
         long now = sapi.World.ElapsedMilliseconds;
         // Whoever left the level while held (taken through a threshold, died and came back elsewhere) is let go
         if (grabs.Count > 0)
-            foreach (string uid in new List<string>(grabs.Keys))
-                if (!here.Exists(p => p.PlayerUID == uid) && sapi.World.PlayerByUid(uid) is IServerPlayer gone) ReleaseGrab(gone, false);
+        {
+            stale.Clear();
+            foreach (string uid in grabs.Keys) if (!IsHere(here, uid)) stale.Add(uid);
+            foreach (string uid in stale)
+            {
+                if (sapi.World.PlayerByUid(uid) is IServerPlayer gone) ReleaseGrab(gone, false);
+                else grabs.Remove(uid);
+            }
+        }
         if (reaching.Count > 0)
-            foreach (string uid in new List<string>(reaching.Keys))
-                if (!here.Exists(p => p.PlayerUID == uid)) Retract(uid);
+        {
+            stale.Clear();
+            foreach (string uid in reaching.Keys) if (!IsHere(here, uid)) stale.Add(uid);
+            foreach (string uid in stale) Retract(uid);
+        }
         foreach (IServerPlayer player in here)
         {
             string uid = player.PlayerUID;
@@ -466,6 +534,12 @@ public class L188System : ModSystem
         }
     }
 
+    private static bool IsHere(List<IServerPlayer> players, string uid)
+    {
+        foreach (IServerPlayer p in players) if (p.PlayerUID == uid) return true;
+        return false;
+    }
+
     private void StartGrab(IServerPlayer player, int wi, int storey, long now)
     {
         var grab = new Grab { Window = wi, Storey = storey, StartMs = now };
@@ -505,9 +579,8 @@ public class L188System : ModSystem
         // On the side of the glass the player is
         double side = (player.Entity.Pos.X - c.X) * fx + (player.Entity.Pos.Z - c.Z) * fz;
         double out_ = side >= 0 ? 0.55 : -0.55;
-        arm.ServerPos.SetPos(c.X + fx * out_, c.Y - 0.4, c.Z + fz * out_);
-        arm.ServerPos.Yaw = (float)Math.Atan2(player.Entity.Pos.X - arm.ServerPos.X, player.Entity.Pos.Z - arm.ServerPos.Z);
-        arm.Pos.SetFrom(arm.ServerPos);
+        arm.Pos.SetPos(c.X + fx * out_, c.Y - 0.4, c.Z + fz * out_);
+        arm.Pos.Yaw = (float)Math.Atan2(player.Entity.Pos.X - arm.Pos.X, player.Entity.Pos.Z - arm.Pos.Z);
         arm.WatchedAttributes.SetString("backrooms:l188Victim", player.PlayerUID);
         sapi.World.SpawnEntity(arm);
         return arm;
@@ -550,7 +623,7 @@ public class L188System : ModSystem
         }
         if (grab.Arm is { Alive: true } arm)
         {
-            arm.ServerPos.Yaw = (float)Math.Atan2(entity.Pos.X - arm.ServerPos.X, entity.Pos.Z - arm.ServerPos.Z);
+            arm.Pos.Yaw = (float)Math.Atan2(entity.Pos.X - arm.Pos.X, entity.Pos.Z - arm.Pos.Z);
             // (The grab holds for half a second, then the arm pulls while it drags)
             if (!grab.Pulling && now - grab.StartMs > 500)
             {
@@ -749,7 +822,7 @@ public class L188System : ModSystem
 /// <summary>Level 188's courtyard windows (and the Hub's window into it): using one asks <see cref="L188System.UseWindow"/>.</summary>
 public class BlockBehaviorL188Blind : BlockBehavior
 {
-    private WorldInteraction[] help;
+    private static WorldInteraction[] blindHelp, climbHelp;
 
     public BlockBehaviorL188Blind(Block block) : base(block)
     {
@@ -757,8 +830,13 @@ public class BlockBehaviorL188Blind : BlockBehavior
 
     public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
     {
-        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l188-blind", MouseButton = EnumMouseButton.Right } };
-        return help;
+        // A window onto elsewhere has no blind to open (it is walked through, not used); the Hub's window (a courtyard
+        // window's block, set in the Hub's tunnel) is climbed through by hand
+        string path = block.Code?.Path ?? "";
+        if (path.StartsWith("l188-window-scene-")) return Array.Empty<WorldInteraction>();
+        if (path.StartsWith("l188-window-") && selection?.Position is { } pos && Salvage.ProtectionSystem.LevelAt(world, pos.X, pos.Z) == WorldLayout.Hub)
+            return climbHelp ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l188-window", MouseButton = EnumMouseButton.Right } };
+        return blindHelp ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l188-blind", MouseButton = EnumMouseButton.Right } };
     }
 
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
@@ -809,14 +887,14 @@ public class BlockBehaviorL188Door : BlockBehavior
                 rules.ResealLater(pos.Copy(), half);
                 return true;
             }
-            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-sealed"));
+            // (The keycard does nothing to a door held shut)
+            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get(HoldsKeycard(byPlayer) ? "backrooms:l188-keycard-sealed" : "backrooms:l188-sealed"));
             world.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 8);
             return true;
         }
         if (path.Contains("-locked-"))
         {
-            bool card = byPlayer.InventoryManager.ActiveHotbarSlot?.Itemstack?.Collectible?.Code?.Path == "l188-keycard";
-            if (!card)
+            if (!HoldsKeycard(byPlayer))
             {
                 (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-locked"));
                 world.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 8);
@@ -837,9 +915,12 @@ public class BlockBehaviorL188Door : BlockBehavior
             otherNext = next.Contains("-open-") ? otherNext.Replace("-closed-", "-open-") : otherNext.Replace("-open-", "-closed-");
             Swap(world, other, otherNext);
         }
-        world.PlaySoundAt(new AssetLocation(next.Contains("-open-") ? "game:sounds/block/door" : "game:sounds/block/door"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 12);
+        world.PlaySoundAt(new AssetLocation("game:sounds/block/door"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 12);
         return true;
     }
+
+    private static bool HoldsKeycard(IPlayer player) =>
+        player?.InventoryManager?.ActiveHotbarSlot?.Itemstack?.Collectible?.Code?.Path == "l188-keycard";
 
     internal static void Swap(IWorldAccessor world, BlockPos pos, string path)
     {
@@ -881,6 +962,33 @@ public class BlockBehaviorL188Hatch : BlockBehavior
             }
         world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/hatch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16);
         if (open) (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-hatch-open"), EnumChatType.Notification);
+        return true;
+    }
+}
+
+/// <summary>The lobby's reception desk: the straight lengths have the guest book open on the counter, to read.</summary>
+public class BlockBehaviorL188GuestBook : BlockBehavior
+{
+    private static WorldInteraction[] help;
+
+    public BlockBehaviorL188GuestBook(Block block) : base(block)
+    {
+    }
+
+    private bool HasBook => block.Variant["kind"] == "straight";
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
+    {
+        if (!HasBook) return Array.Empty<WorldInteraction>();
+        return help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l188-guestbook", MouseButton = EnumMouseButton.Right } };
+    }
+
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        if (!HasBook) return false;
+        handling = EnumHandling.PreventDefault;
+        if (world.Side == EnumAppSide.Server)
+            (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-guestbook"), EnumChatType.Notification);
         return true;
     }
 }

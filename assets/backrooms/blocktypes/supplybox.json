@@ -11,11 +11,13 @@
 	lightAbsorption: 0,
 	resistance: 0.6,
 	// Breaking a box rolls each entry independently. A quantity like avg 0.5 means a 50% chance of one.
-	// Only the sealed boxes still hold food: most are found torn open already (supplybox-torn).
+	// Only the sealed boxes still hold food: most are found torn open already (supplybox-torn). On average a sealed box
+	// holds about 380 satiety (0.8 Almond Water at 120, 0.5 crackers at 300, 0.3 canned beans at 450): some five minutes
+	// of walking at the Backrooms' 125% hunger, which burns about 1.2 a second on the move.
 	drops: [
-		{ type: "item", code: "almondwater", quantity: { avg: 0.6, var: 0.5 } },
-		{ type: "item", code: "crackers", quantity: { avg: 0.4, var: 0.4 } },
-		{ type: "item", code: "cannedbeans", quantity: { avg: 0.25, var: 0.25 } },
+		{ type: "item", code: "almondwater", quantity: { avg: 0.8, var: 0.6 } },
+		{ type: "item", code: "crackers", quantity: { avg: 0.5, var: 0.5 } },
+		{ type: "item", code: "cannedbeans", quantity: { avg: 0.3, var: 0.3 } },
 		// What a wanderer before you scraped together
 		{ type: "item", code: "carpetfibre", quantity: { avg: 1.2, var: 1.2 } },
 		{ type: "item", code: "wallpaperstrip", quantity: { avg: 0.8, var: 0.8 } },

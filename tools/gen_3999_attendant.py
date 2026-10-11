@@ -619,8 +619,7 @@ def entity_json():
     write_json(path, data, "Level 3999's Arcade Attendant (3999-plan.md 3.9): a faceless plastic mannequin, polite, in a plum or navy "
                            "flight-attendant uniform, speaking through a speaker in its head. No health behaviour, so it cannot be hurt; the code (L3999System) puts it behind counters and on concourses, "
                            "makes it bow, point the way and serve, and speaks for it")
-    LANG.update({"item-creature-l3999-attendant": "Arcade Attendant", "entity-l3999-attendant": "Arcade Attendant",
-                 "creature-l3999-attendant": "Arcade Attendant"})
+    LANG.update({"item-creature-l3999-attendant": "Arcade Attendant", "prefixandcreature-l3999-attendant": "an Arcade Attendant"})
     return path
 
 

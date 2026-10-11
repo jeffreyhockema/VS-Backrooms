@@ -19,7 +19,7 @@ public sealed partial class WorldLayout
     /// </summary>
     public float StabilityAt(double x, double y, double z, int floorY)
     {
-        int mx = MacroOf((int)x), mz = MacroOf((int)z);
+        int mx = MacroOf((int)Math.Floor(x)), mz = MacroOf((int)Math.Floor(z));
         int level = LevelAt(mx, mz);
         float drift = (float)Fbm(x / 60.0, z / 60.0, SaltStability);
 
@@ -136,7 +136,7 @@ public sealed partial class WorldLayout
         {
             (int x, int z) = queue.Dequeue();
             if (Math.Abs(x - startX) + Math.Abs(z - startZ) >= 48) return true;
-            foreach ((int dx, int dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+            foreach ((int dx, int dz) in Steps)
             {
                 (int, int) next = (x + dx, z + dz);
                 if (seen.Contains(next) || !Passable(TileAt(next.Item1, next.Item2))) continue;
@@ -183,10 +183,15 @@ public sealed partial class WorldLayout
     /// replaces the usual test for a tile to stand on; and without <paramref name="checkEscape"/>, the arrival need
     /// not be walkable away from (the Snackrooms are sealed; Level 7's entry rooms drop you into the sea).
     /// <paramref name="near"/> searches outward from a given cell instead of a point picked from the key.
+    /// From layout version 5, where the level's own test for a spot is used, the search would rather put someone
+    /// down where they can see the level (see <see cref="ArrivalPreference"/>): it takes the best such spot within
+    /// <see cref="PreferredReach"/> rings of where it would have settled, and where there is none, the spot it would
+    /// have settled on, so no level has fewer places to arrive than before.
     /// </summary>
     public (int X, int Z)? FindArrival(int level, ulong key, Func<Tile, bool> anchor = null, Func<int, int, bool> cellFilter = null,
                                        Func<Tile, bool> spot = null, bool checkEscape = true, (int Mx, int Mz)? near = null)
     {
+        bool preferring = Version >= 5 && spot == null && RanksArrivals(level);
         ulong h = Hashing.Hash(seed, (int)(key & 0xFFFFFFFF), (int)(key >> 32), SaltArrival);
         double angle = Hashing.Unit(h) * Math.PI * 2;
         double radius = LevelMidRadius(level, angle);
@@ -250,9 +255,12 @@ public sealed partial class WorldLayout
         int reach = cellFilter != null ? 16 : 6;
         if (near != null) (cx, cz, reach) = (near.Value.Mx, near.Value.Mz, Math.Min(reach, 5));
 
-        (int, int)? fallback = null;
+        (int, int)? fallback = null, settled = null;
+        var preferred = new (int, int)?[ArrivalRanks];
+        int settledRing = 0;
         for (int r = 0; r <= reach; r++)
         {
+            if (settled != null && r > settledRing + PreferredReach) break;
             for (int dz = -r; dz <= r; dz++)
             {
                 for (int dx = -r; dx <= r; dx++)
@@ -265,6 +273,9 @@ public sealed partial class WorldLayout
                     Tile[] tiles = BuildMacro(mx, mz);
                     var anchored = new List<int>();
                     var open = new List<int>();
+                    Func<int, int> rank = preferring ? ArrivalPreference(level, tiles, mx, mz) : null;
+                    List<int>[] liked = null;
+                    if (rank != null) { liked = new List<int>[ArrivalRanks]; for (int k = 0; k < ArrivalRanks; k++) liked[k] = new List<int>(); }
                     for (int lz = 1; lz < MacroSize - 1; lz++)
                     {
                         for (int lx = 1; lx < MacroSize - 1; lx++)
@@ -272,20 +283,154 @@ public sealed partial class WorldLayout
                             int index = TileIndex(lx, lz);
                             if (!(spot != null ? spot(tiles[index]) : IsArrivalSpot(tiles[index]))) continue;
                             open.Add(index);
-                            if (anchor != null && (anchor(tiles[index - 1]) || anchor(tiles[index + 1])
-                                || anchor(tiles[index - MacroSize]) || anchor(tiles[index + MacroSize]))) anchored.Add(index);
+                            bool beside = anchor != null && (anchor(tiles[index - 1]) || anchor(tiles[index + 1])
+                                || anchor(tiles[index - MacroSize]) || anchor(tiles[index + MacroSize]));
+                            if (beside) anchored.Add(index);
+                            // (With an anchor, only an anchored spot is ever preferred)
+                            if (rank != null && (anchor == null || beside) && rank(index) is int rk and >= 0) liked[rk].Add(index);
                         }
                     }
 
+                    // The best ranked spot is taken as soon as it is found; the others only if nothing better turns up
+                    if (rank != null)
+                        for (int k = 0; k < ArrivalRanks; k++)
+                        {
+                            if (preferred[k] != null) continue;
+                            preferred[k] = checkEscape ? PickEscapable(liked[k], mx, mz, h) : PickAny(liked[k], mx, mz, h);
+                            if (k == 0 && preferred[0] != null) return preferred[0];
+                        }
+
+                    if (settled != null) continue;
                     (int, int)? found = checkEscape ? PickEscapable(anchored, mx, mz, h) : PickAny(anchored, mx, mz, h);
-                    if (found != null) return found;
-                    fallback ??= checkEscape ? PickEscapable(open, mx, mz, h) : PickAny(open, mx, mz, h);
-                    // Without an anchor any open floor will do; with one, keep looking for an anchored spot
-                    if (anchor == null && fallback != null) return fallback;
+                    if (found != null) settled = found;
+                    else
+                    {
+                        fallback ??= checkEscape ? PickEscapable(open, mx, mz, h) : PickAny(open, mx, mz, h);
+                        // Without an anchor any open floor will do; with one, keep looking for an anchored spot
+                        if (anchor == null && fallback != null) settled = fallback;
+                    }
+                    if (settled == null) continue;
+                    if (!preferring) return settled;
+                    settledRing = r;
                 }
             }
         }
-        return fallback;
+        foreach (var best in preferred) if (best != null) return best;
+        return settled ?? fallback;
+    }
+
+    /// <summary>How many rings past the spot it would have settled on the search goes on looking for a preferred one.</summary>
+    private const int PreferredReach = 2;
+
+    /// <summary>How many ranks <see cref="ArrivalPreference"/> gives its spots.</summary>
+    private const int ArrivalRanks = 4;
+
+    /// <summary>The levels whose arrivals <see cref="ArrivalPreference"/> ranks (from layout version 5).</summary>
+    private static bool RanksArrivals(int level) => level is 2 or 3 or 9 or 11 or Poolrooms or Motion;
+
+    /// <summary>
+    /// From layout version 5, which of a cell's arrival spots a level would rather put someone down on, so that the
+    /// first thing they see is the level rather than the dark or the inside of a tree: for each tile (by index) its
+    /// rank, 0 the best, or -1 for none better than any other spot. Levels 2 and 3: within a few steps of a working
+    /// light, so you arrive under a live circuit (a stretch of Level 2 wired in series, a section of Level 3) and walk
+    /// into the dead ones rather than waking in them. Level 9: out in the open, with nothing but open ground for two
+    /// blocks round (not on the path down the side of a house, nor under a tree) and nothing standing next to you.
+    /// The city: with nothing standing next to you on the sidewalk, and no street tree or parked car within two
+    /// blocks. The Poolrooms: in one of the rooms that show the level off (a domed rotunda, a pillar hall, a natatorium)
+    /// rather than a narrow corridor facing a wall; in the light falling from a slit (in a rotunda, anywhere its arches
+    /// light), or failing that anywhere but the dark corners. Motion: clear of any tree's crown, even one down in a
+    /// valley below a hillside. The cell is (mx, mz).
+    /// </summary>
+    private Func<int, int> ArrivalPreference(int level, Tile[] tiles, int mx, int mz)
+    {
+        switch (level)
+        {
+            case 2:
+            case 3:
+                bool[] lit = NearWorkingLight(tiles, 4);
+                return i => lit[i] ? 0 : -1;
+            case 9:
+                return i => ClearAround(tiles, i, 2, t => t.Kind == TileKind.Floor && t.Roof == 0 && t.Variant != Props.Tree)
+                    && ClearAround(tiles, i, 1, t => IsWalkThroughProp(t.Variant)) ? 0 : -1;
+            case 11:
+                return i => ClearAround(tiles, i, 1, t => t.Variant == 0)
+                    && ClearAround(tiles, i, 2, t => t.Variant is not (Props.Tree or Props.Car or Props.CarPart)) ? 0 : -1;
+            case Poolrooms:
+            {
+                var show = PoolShowRooms(mx, mz);
+                return i =>
+                {
+                    if (tiles[i].Detail == PoolDark) return -1;
+                    bool lit = tiles[i].Floor == FloorKind.PoolSunlit || show[i].Rotunda;
+                    // Room to look round: no more than a pillar hall's few pillars in the 7 x 7 square about the spot
+                    bool roomy = OpenAround(tiles, i, 3) >= 40;
+                    if (show[i].Any && lit && roomy) return 0;
+                    if (lit && roomy) return 1;
+                    return lit ? 2 : 3;
+                };
+            }
+            case Motion:
+                return i => ClearAround(tiles, i, 4, t => t.Variant != Props.Tree) ? 0 : -1;
+            default:
+                return null;
+        }
+    }
+
+    /// <summary>
+    /// How many tiles of a cell within <paramref name="radius"/> of one (a square) are open (not wall); 0 for a tile too
+    /// near the cell's edge for the square to fit in it.
+    /// </summary>
+    private static int OpenAround(Tile[] tiles, int index, int radius)
+    {
+        int lx = index % MacroSize, lz = index / MacroSize, open = 0;
+        if (lx < radius || lz < radius || lx >= MacroSize - radius || lz >= MacroSize - radius) return 0;
+        for (int z = lz - radius; z <= lz + radius; z++)
+            for (int x = lx - radius; x <= lx + radius; x++)
+                if (tiles[TileIndex(x, z)].Kind is not (TileKind.Wall or TileKind.Door)) open++;
+        return open;
+    }
+
+    /// <summary>
+    /// Whether every tile of a cell within <paramref name="radius"/> of one (a square) passes <paramref name="ok"/>.
+    /// A tile too near the cell's edge for the square to fit in it does not.
+    /// </summary>
+    private static bool ClearAround(Tile[] tiles, int index, int radius, Func<Tile, bool> ok)
+    {
+        int lx = index % MacroSize, lz = index / MacroSize;
+        if (lx < radius || lz < radius || lx >= MacroSize - radius || lz >= MacroSize - radius) return false;
+        for (int z = lz - radius; z <= lz + radius; z++)
+            for (int x = lx - radius; x <= lx + radius; x++)
+                if (!ok(tiles[TileIndex(x, z)])) return false;
+        return true;
+    }
+
+    /// <summary>The tiles of a cell no more than <paramref name="steps"/> steps (within the cell) from a working light overhead.</summary>
+    private static bool[] NearWorkingLight(Tile[] tiles, int steps)
+    {
+        var near = new bool[tiles.Length];
+        var queue = new Queue<(int Index, int Steps)>();
+        for (int i = 0; i < tiles.Length; i++)
+            if (tiles[i].Ceiling is CeilingKind.LightOn or CeilingKind.LightLit or CeilingKind.LightWarm or CeilingKind.Chandelier)
+            {
+                near[i] = true;
+                queue.Enqueue((i, 0));
+            }
+        while (queue.Count > 0)
+        {
+            var (i, d) = queue.Dequeue();
+            if (d == steps) continue;
+            int x = i % MacroSize, z = i / MacroSize;
+            foreach ((int dx, int dz) in Steps)
+            {
+                int nx = x + dx, nz = z + dz;
+                if (nx < 0 || nz < 0 || nx >= MacroSize || nz >= MacroSize) continue;
+                int n = TileIndex(nx, nz);
+                if (near[n] || tiles[n].Kind is not (TileKind.Floor or TileKind.Doorway or TileKind.ArchDoor)) continue;
+                near[n] = true;
+                queue.Enqueue((n, d + 1));
+            }
+        }
+        return near;
     }
 
     /// <summary>
@@ -301,6 +446,7 @@ public sealed partial class WorldLayout
         {
             Poolrooms => t.Depth == 0 ? stand : t.Depth == 1 ? stand - 1 : 0.2,
             Motion => t.Height + stand,
+            7 => t.Height + stand, // (an island's rise, from layout version 5)
             RunLevel => RunArrivalHeight(t, stand),
             FunLevel => FunArrivalHeight(t, stand),
             TheEnd => EndArrivalHeight(t, stand),
@@ -321,29 +467,27 @@ public sealed partial class WorldLayout
 
     // ================= Thresholds as features =================
 
-    // Cells looked at lately on behalf of thresholds (a flight of stairs or a lake bottom is asked about many times)
-    private readonly Dictionary<(int, int), Tile[]> featureCells = new();
+    // Cells looked at lately on behalf of thresholds and entities (a flight of stairs or a lake bottom is asked about
+    // many times): the 48 built last, built outside any lock and looked up without one. The arrays are never written to.
+    private readonly PlanCache<Tile[]> featureCells;
 
     /// <summary>The layout tile at a block position.</summary>
     public Tile TileAt(int x, int z)
     {
         int mx = MacroOf(x), mz = MacroOf(z);
-        Tile[] tiles;
-        lock (featureCells)
-        {
-            if (!featureCells.TryGetValue((mx, mz), out tiles))
-            {
-                if (featureCells.Count >= 48) featureCells.Clear();
-                featureCells[(mx, mz)] = tiles = BuildMacro(mx, mz);
-            }
-        }
-        return tiles[TileIndex(x - mx * MacroSize, z - mz * MacroSize)];
+        return CellTiles(mx, mz)[TileIndex(x - mx * MacroSize, z - mz * MacroSize)];
     }
+
+    /// <summary>A cell's tiles, from the small cache <see cref="TileAt"/> uses.</summary>
+    private Tile[] CellTiles(int mx, int mz) => featureCells.Get(mx, mz);
 
     /// <summary>
     /// One position that stands for a whole threshold: a flight of stairs, both leaves of an elevator, every tile of
     /// a lake's bottom. It is the least (by x, then z) of the tiles joined to the given one that are also
     /// <paramref name="part"/> of it, so whichever tile of the threshold is asked about, the answer is the same.
+    /// The search stops at <see cref="MaxFeatureTiles"/> as a guard against a part that matches a whole level; past
+    /// that the answer would depend on the tile asked about, so the bound sits far above any real threshold (the
+    /// largest the links harness finds, Level Fun's water overboard and Level 37's bottomless pits, are under 400 tiles).
     /// </summary>
     public (int X, int Z) FeatureOrigin(int x, int z, Func<Tile, bool> part)
     {
@@ -352,7 +496,7 @@ public sealed partial class WorldLayout
         var seen = new HashSet<(int, int)> { best };
         var queue = new Queue<(int, int)>();
         queue.Enqueue(best);
-        while (queue.Count > 0 && seen.Count < 4000)
+        while (queue.Count > 0 && seen.Count < MaxFeatureTiles)
         {
             (int cx, int cz) = queue.Dequeue();
             foreach ((int dx, int dz) in Steps)
@@ -377,12 +521,21 @@ public sealed partial class WorldLayout
 
     private static readonly (int, int)[] Steps = { (1, 0), (-1, 0), (0, 1), (0, -1) };
 
+    /// <summary>How many tiles <see cref="FeatureOrigin"/> will search (it was 4000; every real threshold is far smaller).</summary>
+    private const int MaxFeatureTiles = 16384;
+
+    /// <summary>How many tiles <see cref="StandingSpotNear"/> will look through before it gives up.</summary>
+    private const int MaxStandingSearch = 20000;
+
     /// <summary>
     /// The nearest clear floor to a threshold that a person can be put down on without at once going through it
     /// again: reached by walking from the threshold, with nothing standing on it, no step, no drop, and nothing under
-    /// it that leads elsewhere.
+    /// it that leads elsewhere. The search goes outwards a step at a time, so the nearest such floor is found
+    /// whatever the reach; the reach only decides how far it keeps looking. It is long by default because some
+    /// thresholds are long (the asphalt at the end of a Level 37 dry corridor runs some seventy blocks, every tile of
+    /// it a way into the Hub), and with nothing found a two-way threshold would silently become one-way.
     /// </summary>
-    public (int X, int Z)? StandingSpotNear(int x, int z, int reach = 7)
+    public (int X, int Z)? StandingSpotNear(int x, int z, int reach = 96)
     {
         static bool Open(in Tile t) => t.Kind is TileKind.Floor or TileKind.Doorway or TileKind.ArchDoor;
         static bool Standable(in Tile t) =>
@@ -397,7 +550,7 @@ public sealed partial class WorldLayout
             (int cx, int cz, int distance) = queue.Dequeue();
             Tile here = TileAt(cx, cz);
             if (distance > 0 && Standable(here)) return (cx, cz);
-            if (distance >= reach) continue;
+            if (distance >= reach || seen.Count > MaxStandingSearch) continue;
             foreach ((int dx, int dz) in Steps)
             {
                 (int, int) next = (cx + dx, cz + dz);

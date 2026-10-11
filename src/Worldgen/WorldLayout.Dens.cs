@@ -32,6 +32,14 @@ public sealed partial class WorldLayout
 
     private const ulong SaltDen = 0xDE40;
 
+    // What may den in each level, in the order the hash picks from (asked about for every cell built)
+    private static readonly DenKind[] DensDark = { DenKind.Dark };
+    private static readonly DenKind[] DensL1 = { DenKind.Pack, DenKind.Warren, DenKind.Hive, DenKind.Lair };
+    private static readonly DenKind[] DensWarrenDark = { DenKind.Warren, DenKind.Dark };
+    private static readonly DenKind[] DensL3 = { DenKind.Pack, DenKind.Lair };
+    private static readonly DenKind[] DensL5 = { DenKind.Hive, DenKind.Pack, DenKind.Lair };
+    private static readonly DenKind[] DensL9 = { DenKind.Pack, DenKind.Warren, DenKind.Lair, DenKind.Hive };
+
     /// <summary>The den whose heart lies in a cell, if there is one.</summary>
     public DenKind DenAt(int mx, int mz)
     {
@@ -39,13 +47,13 @@ public sealed partial class WorldLayout
         DenKind[] kinds = level switch
         {
             // The Lobby is empty but for the eyes in its blackouts
-            0 => ZoneAt(mx, mz) == ZoneKind.Blackout && !IsRedRoom(mx, mz) ? new[] { DenKind.Dark } : null,
-            1 => new[] { DenKind.Pack, DenKind.Warren, DenKind.Hive, DenKind.Lair },
-            2 => new[] { DenKind.Warren, DenKind.Dark },
-            3 => new[] { DenKind.Pack, DenKind.Lair },
-            5 => HotelZoneAt(mx, mz) == HotelZone.Beverly ? null : new[] { DenKind.Hive, DenKind.Pack, DenKind.Lair },
-            8 => new[] { DenKind.Warren, DenKind.Dark },
-            9 => new[] { DenKind.Pack, DenKind.Warren, DenKind.Lair, DenKind.Hive },
+            0 => ZoneAt(mx, mz) == ZoneKind.Blackout && !IsRedRoom(mx, mz) ? DensDark : null,
+            1 => DensL1,
+            2 => DensWarrenDark,
+            3 => DensL3,
+            5 => HotelZoneAt(mx, mz) == HotelZone.Beverly ? null : DensL5,
+            8 => DensWarrenDark,
+            9 => DensL9,
             // The five kept as 14-18 (each level's own line): none yet
             RunLevel => null,
             FunLevel => null,
@@ -137,7 +145,7 @@ public sealed partial class WorldLayout
             if (d2 < 8 * 8 || d2 > 15 * 15) continue;
             ref Tile t = ref b.At(x, z);
             if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Sealed || t.Chalk != 0) continue;
-            foreach ((int dx, int dz, ArchPier side) in new[] { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) })
+            foreach ((int dx, int dz, ArchPier side) in WallSides)
             {
                 ref Tile n = ref b.At(x + dx, z + dz);
                 if (n.Kind != TileKind.Wall || n.Variant != 0) continue;
@@ -145,6 +153,29 @@ public sealed partial class WorldLayout
                 crosses--;
                 break;
             }
+        }
+
+        // From layout version 5: a Warren in Level 2's tunnels, where a whole stretch may be dead, has candle stubs left
+        // burning under its crosses and by its cache by whoever came before, so its warnings can be seen (a Smiler's
+        // dark is left dark). Last, so nothing above moves
+        if (Version >= 5 && kind == DenKind.Warren && LevelAt(mx, mz) == 2)
+        {
+            // (Never beside a box or crate: in a one-wide dead end it would shut the box in)
+            bool Boxed(int x, int z) => b.At(x, z).SupplyBox || b.At(x, z).Stack > 0 && b.At(x, z).Variant == 0;
+            bool Candle(int x, int z)
+            {
+                if (!Free(x, z) || !SafeToBlock(Open, x, z) || Boxed(x + 1, z) || Boxed(x - 1, z) || Boxed(x, z + 1) || Boxed(x, z - 1)) return false;
+                b.At(x, z).Variant = Props.CandleStubs;
+                return true;
+            }
+            for (int z = 1; z < MacroSize - 1; z++)
+                for (int x = 1; x < MacroSize - 1; x++)
+                    if (b.At(x, z).Chalk != 0 && ChalkBits.Symbol(b.At(x, z).Chalk) == 2) Candle(x, z);
+            bool lit = false;
+            for (int r = 1; r < 6 && !lit; r++)
+                for (int dz = -r; dz <= r && !lit; dz++)
+                    for (int dx = -r; dx <= r && !lit; dx++)
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) == r && Hashing.Mod(dx + dz * 3, 2) == 0) lit = Candle(c + dx, c + dz);
         }
     }
 }

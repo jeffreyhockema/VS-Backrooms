@@ -315,10 +315,11 @@ static partial class LevelModes
                         Tile t = tiles[i];
                         if (t.Level != 1 || t.Stair < 2) continue;
                         int x = mx * 32 + i % 32, z = mz * 32 + i / 32;
-                        var p = net.Walked(x, z, t, 3.0);
+                        // (From layout version 4 the flight is climbed into the shaft over the core, and the way home is its landing)
+                        var p = net.Walked(x, z, t, 3.0) ?? net.Walked(x, z, t, 6.0);
                         if (p == null || p.Message != "backrooms:funstairs") continue;
                         cores++;
-                        var home = net.HomeBeside(p.Source);
+                        var home = net.HomeFor(p);
                         var link = net.Take(p, home);
                         int to = link is { } l ? layout.LevelAt(WorldLayout.MacroOf((int)l.X), WorldLayout.MacroOf((int)l.Z)) : -1;
                         string ret = "no way back";

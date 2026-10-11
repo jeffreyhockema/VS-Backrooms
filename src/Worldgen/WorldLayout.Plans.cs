@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Backrooms.Worldgen;
@@ -6,8 +7,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>
-    /// For the levels whose corridors run on a lattice with main lines every <paramref name="n"/> lines (Level 2,
-    /// Level 6): which stretches of the minor lines between four main ones are there. The crossings inside (n - 1 by
+    /// For the levels whose ways run on a lattice with main lines every <paramref name="n"/> lines (Level 2's tunnels,
+    /// Level 6's trunks, Level 8's roads): which stretches of the minor lines between four main ones are there. The crossings inside (n - 1 by
     /// n - 1 of them) are joined by a tree grown from one crossing on the mains, tending to run straight on, so there
     /// is one way in and most turnings end blind; a few extra stretches join two branches, or a branch back to the
     /// mains. A stretch is (axis, line, index): axis 0 the stretch of north-south line `line` beside unit row
@@ -61,7 +62,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// For the levels laid out from plans larger than a cell (Level 0, Level 6): which of the eight cells round a cell
+    /// For the levels laid out from plans larger than a cell (Level 0, Level 2, Level 6): which of the eight cells round a cell
     /// are walled off from it: another level, or (in Level 0) a Red Room on one side and not the other. Indexed
     /// (dz + 1) * 3 + (dx + 1); null when there are none.
     /// </summary>
@@ -135,14 +136,21 @@ public sealed partial class WorldLayout
 }
 
 /// <summary>
-/// Plans for pieces of a level larger than a macro cell (a city block, a stretch of Level 0's hallways and the block
-/// of rooms beside them). A plan is worked out once from its own id and kept for a while: a cell covers parts of
+/// Plans for pieces of a level larger than a macro cell (a city block, a Level 0 district, the rock between Level 6's
+/// trunks, a lattice tree). A plan is worked out once from its own id and kept for a while: a cell covers parts of
 /// several, and neighbouring cells share them. Plans are pure functions of the seed and the id, so dropping one
 /// only costs the time to work it out again.
 /// </summary>
+/// <remarks>
+/// Thread-safe: worldgen threads share it. Looking a plan up takes no lock (some callers ask once per tile); a plan is
+/// worked out outside any lock, and two threads that both miss may each work it out, keeping whichever was stored
+/// first. Plans handed out are shared, so callers only ever read them. Once more than the capacity are kept, the
+/// oldest stored is dropped.
+/// </remarks>
 internal sealed class PlanCache<T> where T : class
 {
-    private readonly Dictionary<(int, int), T> plans = new();
+    private readonly ConcurrentDictionary<(int, int), T> plans = new();
+    /// <summary>The order plans were stored in, for dropping the oldest; only touched under its own lock.</summary>
     private readonly Queue<(int, int)> order = new();
     private readonly int capacity;
     private readonly Func<int, int, T> make;
@@ -155,17 +163,14 @@ internal sealed class PlanCache<T> where T : class
 
     public T Get(int i, int j)
     {
-        lock (plans)
-        {
-            if (plans.TryGetValue((i, j), out T cached)) return cached;
-        }
+        if (plans.TryGetValue((i, j), out T cached)) return cached;
         T plan = make(i, j);
-        lock (plans)
+        lock (order)
         {
             if (plans.TryGetValue((i, j), out T raced)) return raced;
-            plans.Add((i, j), plan);
+            plans[(i, j)] = plan;
             order.Enqueue((i, j));
-            if (order.Count > capacity) plans.Remove(order.Dequeue());
+            if (order.Count > capacity) plans.TryRemove(order.Dequeue(), out _);
         }
         return plan;
     }

@@ -113,7 +113,7 @@ public sealed partial class ThresholdNetwork
                 ulong key = KeyOf(door, SaltL3999Threshold + 7);
                 if (!TryGet(door, out _) && Hashing.Unit(key) >= L3999StaffOpens)
                 {
-                    refusal = "locked";
+                    refusal = "l3999-staff";
                     return null;
                 }
                 Passage passage = BothWays(door, key, WorldLayout.Hub, HubServiceDoor);

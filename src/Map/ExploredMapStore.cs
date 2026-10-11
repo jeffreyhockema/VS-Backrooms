@@ -79,8 +79,13 @@ public sealed class ExploredMapStore
     private readonly object fileLock = new();
 
     /// <summary>
-    /// Saves the explored map if anything changed. The pixels are copied at once; compressing and writing them
-    /// happens on a background thread unless <paramref name="wait"/> (when the world is closing).
+    /// Saves the explored map if anything changed. Compressing and writing happens on a background thread unless
+    /// <paramref name="wait"/> (when the world is closing).
+    ///
+    /// The list of chunks is taken at once, but their pixels are not copied (the whole map, every 30 seconds, would be
+    /// megabytes of garbage each time): the writer reads the live arrays. A pixel the game changes while a write is
+    /// under way marks the store dirty again, so it is written once more by the next save; and the final save, when
+    /// the world closes, waits on the main thread, so nothing changes under it.
     /// </summary>
     public void Save(bool wait = false)
     {
@@ -90,7 +95,7 @@ public sealed class ExploredMapStore
             return;
         }
         var snapshot = new List<(long Key, int[] Pixels)>(chunks.Count);
-        foreach (var (key, pixels) in chunks) snapshot.Add((key, (int[])pixels.Clone()));
+        foreach (var (key, pixels) in chunks) snapshot.Add((key, pixels));
         IsDirty = false;
 
         pendingSave = (pendingSave ?? System.Threading.Tasks.Task.CompletedTask).ContinueWith(_ => Write(snapshot));

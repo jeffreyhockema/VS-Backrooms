@@ -1,0 +1,250 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fencewood": "game:block/wood/debarked/aged",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				5.5,
+				0,
+				5.5
+			],
+			"to": [
+				10.5,
+				16,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Fillet",
+			"from": [
+				5,
+				15,
+				5
+			],
+			"to": [
+				11,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Railw1",
+			"from": [
+				0,
+				1,
+				7
+			],
+			"to": [
+				5.5,
+				3,
+				9
+			],
+			"faces": {
+				"south": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"north": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						2,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						2,
+						5.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Railw13",
+			"from": [
+				0,
+				13,
+				7
+			],
+			"to": [
+				5.5,
+				15,
+				9
+			],
+			"faces": {
+				"south": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"north": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						2,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#fencewood",
+					"uv": [
+						0,
+						0,
+						2,
+						5.5
+					]
+				}
+			}
+		}
+	]
+}

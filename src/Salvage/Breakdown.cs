@@ -127,29 +127,30 @@ public static class Breakdown
     static Breakdown()
     {
         Add(Concrete, "concrete", "concretewall", "concreteceiling", "concretepillar", "concretestairs", "concretedeco", "concretecam",
-            "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitsign", "archheader",
+            "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitlintelpair", "exitsign",
             "tunnelwall", "tunnelceiling", "l6block", "l6deco", "whiteblock", "whitecam", "oceanceiling",
             "subwaywall", "subwaydeco", "citypier", "cityfacade", "cityroof", "citydeco", "chimney", "snackceiling",
-            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture");
+            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner");
         Add(Floor, "concretefloor", "l1hallfloor", "dustyfloor", "l3floor", "subwayfloor", "cityfloor", "parkfloor", "snackfloor",
             "funfloor", "hotelfloor");
         Add(CarpetFloor, "carpet", "officecarpet", "officecarpetalt", "hotelcarpet");
         Add(Masonry, "l3wall", "l3decobrick", "l3decocinder", "l3decoglazed", "l3decostone", "l3plaquebrick", "l3plaquecinder",
-            "l3plaqueglazed", "poolwall", "pooltile", "pool", "marblecolumn", "sanctumstone", "castleblock", "angelstatue",
+            "l3plaqueglazed", "poolwall", "pooltile", "pool", "marblecolumn", "hotelstairs", "sanctumstone", "sanctumceiling", "castleblock", "angelstatue",
             "stonehand", "stonestapler", "ribcage", "bathtub", "snackwall", "snackdeco");
-        Add(Papered, "wallpaper");
+        Add(Papered, "wallpaper", "paperjoin", "archheader");
         Add(Drywall, "drywallbase", "officewall", "officedeco", "plasterwall", "plasterdeco", "plasterceiling", "cityplaster",
             "houseinterior", "housedeco", "nooutletsign");
         Add(Timber, "hotelwall", "hotelwood", "hotelfixture", "hotelceiling", "hoteldeco", "housewall", "housecorner", "housefloor",
-            "houseceiling", "houseroof", "roofslope", "barnwall", "barnroof", "jetty", "cityfascia", "storefrontdeco", "staffsign",
-            "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan");
+            "houseceiling", "houseroof", "roofslope", "barnwall", "barnroof", "jetty", "cityfascia", "storefrontdeco", "storefrontsign", "staffsign", "staffplaque",
+            "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan",
+            "housestorey", "housestairs", "porchdeck", "porchpost");
         Add(Joinery, "kitchencounter", "hotelreception", "thronetable", "grandfatherclock", "grandpiano");
         Add(Metal, "pipes", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
             "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
-            "cagelift");
+            "cagelift", "suburbsign", "suburbsignblade", "citysign");
         Add(Electrical, "conduit", "cables", "floorcable", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
-            "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "trafficlight");
+            "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "roadlamparm", "trafficlight", "porchlamp");
         Add(Glass, "officeglass", "officewindow", "officewindowalt", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
         Add(Ground, "dirtroad", "fieldstubble");
         Add(Soft, "ballpit", "ballpitfill");
@@ -167,6 +168,7 @@ public static class Breakdown
         ["exithanging"] = D((Wire, 0.2f, 0.2f)),
         ["streetlight"] = D((Shard, 0.3f, 0.3f)),
         ["roadlamp"] = D((Shard, 0.3f, 0.3f)),
+        ["roadlamparm"] = D((Shard, 0.3f, 0.3f)),
         ["trafficlight"] = D((Shard, 0.5f, 0.3f)),
     };
 
@@ -189,18 +191,27 @@ public static class Breakdown
         "run-sheets", "run-remains", "run-tray", "run-bedside", "run-safeshelf", "run-safecot", "run-debris", "run-curtain", "run-medcabinet",
     };
 
+    private static bool IsRunProp(string path)
+    {
+        foreach (string prop in RunProps)
+            if (path.StartsWith(prop, System.StringComparison.Ordinal)) return true;
+        return false;
+    }
+
     /// <summary>What kind of block this is, as far as breaking goes.</summary>
     public static BreakKind KindOf(Block block)
     {
         if (block?.Code == null || block.Code.Domain != "backrooms" || block.BlockId == 0) return BreakKind.None;
         string first = block.FirstCodePart();
         // Level !: every code starts "run"; its props keep their own drops (loot), the hallway itself never breaks
-        if (first == "run") return System.Array.Exists(RunProps, p => block.Code.Path.StartsWith(p)) ? BreakKind.None : BreakKind.Fixed;
+        if (first == "run") return IsRunProp(block.Code.Path) ? BreakKind.None : BreakKind.Fixed;
         if (SalvageSystem.IsSalvage(block) || OwnRules.Contains(first)) return BreakKind.None;
         if (FixedCodes.Contains(first) || block is Props.BlockDispenser) return BreakKind.Fixed;
+        // A way somewhere: any threshold, and the Hub's carved doors (whose threshold behaviour HubSystem swaps for its
+        // own before this runs, so they would otherwise break down like the wall round them)
         if (block.BlockBehaviors != null)
             foreach (BlockBehavior behavior in block.BlockBehaviors)
-                if (behavior is Thresholds.BlockBehaviorThreshold) return BreakKind.Fixed;
+                if (behavior is Thresholds.BlockBehaviorThreshold or Regions.BlockBehaviorHubDoor) return BreakKind.Fixed;
         return BreakKind.Structure;
     }
 
@@ -276,9 +287,11 @@ public class BlockBehaviorWreck : BlockBehavior
     {
     }
 
-    public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)
+    public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier, ref EnumHandling handling)
     {
         if (world.Side != EnumAppSide.Server) return;
+        // (As the block's own drops: none in creative)
+        bool drops = byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Creative;
         IBlockAccessor blocks = world.BlockAccessor;
         var seen = new HashSet<BlockPos> { pos };
         var queue = new Queue<BlockPos>();
@@ -295,10 +308,10 @@ public class BlockBehaviorWreck : BlockBehavior
                 seen.Add(next);
                 queue.Enqueue(next);
                 // The car block holds the scrap; the hull gives nothing
-                if (part.FirstCodePart() == "car" && part.Drops != null)
+                if (drops && part.FirstCodePart() == "car" && part.Drops != null)
                     foreach (BlockDropItemStack drop in part.Drops)
                     {
-                        ItemStack stack = drop.GetNextItemStack();
+                        ItemStack stack = drop.GetNextItemStack(dropQuantityMultiplier);
                         if (stack != null) world.SpawnItemEntity(stack, next.ToVec3d().Add(0.5, 0.5, 0.5));
                     }
                 blocks.SetBlock(0, next);

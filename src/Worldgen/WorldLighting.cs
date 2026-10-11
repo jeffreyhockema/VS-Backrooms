@@ -6,7 +6,7 @@ using Vintagestory.API.Server;
 namespace Backrooms.Worldgen;
 
 /// <summary>
-/// Computes block light for a freshly generated Level 0 chunk column and writes it straight into the chunks.
+/// Computes block light for a freshly generated chunk column and writes it straight into the chunks.
 ///
 /// Vintage Story's own light engine recalculates every nearby light source each time one light is placed, which
 /// makes a ceiling full of fluorescent panels very slow to generate. Because the layout is deterministic, the
@@ -19,7 +19,11 @@ namespace Backrooms.Worldgen;
 ///
 /// What lighting needs of a cell (how much each block absorbs, and where its lights are) is worked out once and
 /// kept: every cell is wanted by the chunk it is in and by its eight neighbours, and the generator hands over what
-/// it has just built rather than having it computed again.
+/// it has just built rather than having it computed again. Whichever of the two comes first is kept, so every chunk
+/// lit with a cell sees the same cell.
+///
+/// <see cref="Light"/> works in one set of scratch arrays, so it lights one column at a time (the terrain pass runs on
+/// one thread anyway); the cell cache has its own lock.
 /// </summary>
 public sealed class WorldLighting
 {
@@ -52,14 +56,34 @@ public sealed class WorldLighting
     /// <summary>Block id of the light source that lit each cell, for its hue and saturation.</summary>
     private readonly int[] source;
     private readonly List<int>[] buckets = new List<int>[32];
-    private readonly IList<Block> blocks;
+    /// <summary>Guards the scratch arrays above, and <see cref="bandBottom"/>.</summary>
+    private readonly object scratchLock = new();
+
+    // What lighting needs of each block, by id, read once from the blocks: how much light it absorbs, how bright a
+    // light it is (0 for none), and its light's hue and saturation as they go into the block light value
+    private readonly int[] absorptionById;
+    private readonly byte[] brightnessById;
+    private readonly int[] hueSatById;
 
     public WorldLighting(ICoreServerAPI api, WorldGenerator generator, int chunkSize)
     {
         this.api = api;
         this.generator = generator;
         this.chunkSize = chunkSize;
-        blocks = api.World.Blocks;
+        IList<Block> blocks = api.World.Blocks;
+        absorptionById = new int[blocks.Count];
+        brightnessById = new byte[blocks.Count];
+        hueSatById = new int[blocks.Count];
+        for (int id = 0; id < blocks.Count; id++)
+        {
+            Block block = blocks[id];
+            if (block == null) continue;
+            absorptionById[id] = block.LightAbsorption;
+            byte[] hsv = block.LightHsv;
+            if (hsv == null || hsv.Length < 3) continue;
+            brightnessById[id] = hsv[2];
+            hueSatById[id] = (hsv[0] << 10) | (hsv[1] << 16);
+        }
         width = chunkSize + 2 * Margin;
         bandBottom = generator.Geometry.BandBottom;
         height = generator.Geometry.BandTop - bandBottom + 1;
@@ -83,9 +107,9 @@ public sealed class WorldLighting
     {
         int yy = y - bandBottomUsed;
         if (yy < 0 || yy >= height) return;
-        int absorb = Math.Max(blocks[block].LightAbsorption, fluid != 0 ? blocks[fluid].LightAbsorption : 0);
+        int absorb = Math.Max(absorptionById[block], fluid != 0 ? absorptionById[fluid] : 0);
         cell.Absorption[(yy * chunkSize + lz) * chunkSize + lx] = (byte)Math.Min(255, absorb);
-        if (blocks[block].LightHsv[2] > 0) cell.Sources.Add((lx, yy, lz, block));
+        if (brightnessById[block] > 0) cell.Sources.Add((lx, yy, lz, block));
     }
 
     /// <summary>Keeps a cell's lighting data the generator has just built.</summary>
@@ -128,7 +152,13 @@ public sealed class WorldLighting
         return cell;
     }
 
+    /// <summary>Lights a column the generator has just built (its blocks must have been offered with <see cref="Offer"/>, or are worked out now).</summary>
     public void Light(IServerChunk[] chunks, int chunkX, int chunkZ)
+    {
+        lock (scratchLock) LightLocked(chunks, chunkX, chunkZ);
+    }
+
+    private void LightLocked(IServerChunk[] chunks, int chunkX, int chunkZ)
     {
         Array.Clear(level);
         foreach (List<int> bucket in buckets) bucket.Clear();
@@ -162,7 +192,7 @@ public sealed class WorldLighting
 
     private void Seed(int index, int blockId)
     {
-        byte brightness = Math.Min((byte)31, blocks[blockId].LightHsv[2]);
+        byte brightness = Math.Min((byte)31, brightnessById[blockId]);
         if (brightness <= level[index]) return;
         level[index] = brightness;
         source[index] = blockId;
@@ -218,9 +248,8 @@ public sealed class WorldLighting
                     int index = Index(Margin + lx, y, Margin + lz);
                     int value = level[index];
                     if (value == 0) continue;
-                    Block emitter = blocks[source[index]];
                     int index3d = ((worldY % chunkSize) * chunkSize + lz) * chunkSize + lx;
-                    chunk.Lighting.SetBlocklight(index3d, (value << 5) | (emitter.LightHsv[0] << 10) | (emitter.LightHsv[1] << 16));
+                    chunk.Lighting.SetBlocklight(index3d, (value << 5) | hueSatById[source[index]]);
                 }
             }
         }

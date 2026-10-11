@@ -12,7 +12,7 @@ namespace Backrooms.Worldgen;
 /// open black ceiling, or the service corridors' acoustic tile and white tubes), and over a gallery the slab at rel 7
 /// with its balustrade at rel 8. Neon: tubes just under a ceiling or a slab, up the walls and along their feet, pillars;
 /// all of it dead where the Blackout has reached. Walls run to 18: glass shopfronts (glass to rel 5, then the fascia),
-/// painted plaster, concrete, windows painted with a car park at night.
+/// painted plaster, concrete, windows painted with a car park at night; round a lobby, a band of black marble at rel 6-7.
 /// </summary>
 public sealed partial class WorldGenerator
 {
@@ -25,11 +25,15 @@ public sealed partial class WorldGenerator
         l3PrizeCaseIds = new int[4], l3LostFoundIds = new int[4], l3BenchIds = new int[4], l3BoothIds = new int[4], l3MenuIds = new int[4],
         l3DirectoryIds = new int[4], l3WalkwayIds = new int[4], l3WalkwayEndIds = new int[4], l3WalkwayRailIds = new int[4], l3EscalatorIds = new int[4],
         l3BalustradeIds = new int[4], l3KeypadIds = new int[4], l3LoungerIds = new int[4], l3SailsIds = new int[4], l3GeneratorIds = new int[4];
+    /// <summary>The neon base strip in a unit's corner (colour, side wall on the left or right, facing).</summary>
+    private readonly int[,,] l3RailCornerIds = new int[6, 2, 4];
     private readonly int[,] l3TubeIds = new int[6, 2], l3WallTubeIds = new int[6, 4], l3RailIds = new int[6, 4], l3SignIds = new int[8, 4], l3StallSignIds = new int[6, 4],
         l3CabinetIds = new int[6, 4], l3ThemedIds = new int[12, 4], l3RacerIds = new int[2, 4], l3DanceIds = new int[2, 4], l3SkeeIds = new int[2, 4],
         l3AirHockeyIds = new int[2, 4], l3PlushIds = new int[4, 4], l3ReceptionIds = new int[3, 4], l3CouchIds = new int[2, 4], l3ChairIds = new int[3, 4],
         l3StallIds = new int[6, 4], l3VendingIds = new int[2, 4], l3ShutterIds = new int[2, 4], l3RevolvingIds = new int[3, 4], l3StaffDoorIds = new int[2, 4],
         l3ElevatorIds = new int[2, 4];
+    /// <summary>The neon signs drawn half a block off their block: [words, shift (left, right as seen from in front), facing].</summary>
+    private readonly int[,,] l3SignShiftIds = new int[8, 2, 4];
     /// <summary>The painted car park in the windows: column, row, facing (the way the painting looks out).</summary>
     private readonly int[,,] l3WindowIds = new int[4, 3, 4];
 
@@ -102,11 +106,18 @@ public sealed partial class WorldGenerator
             {
                 l3WallTubeIds[c, f] = L3999Block($"l3999-neonwall-{colours[c]}-{side}", 0);
                 l3RailIds[c, f] = L3999Block($"l3999-neonrail-{colours[c]}-{side}", 0);
+                l3RailCornerIds[c, 0, f] = L3999Block($"l3999-neonrailcorner-{colours[c]}-l-{side}", l3RailIds[c, f]);
+                l3RailCornerIds[c, 1, f] = L3999Block($"l3999-neonrailcorner-{colours[c]}-r-{side}", l3RailIds[c, f]);
                 l3CabinetIds[c, f] = L3999Block($"l3999-cabinet-{games[c]}-{side}", 0);
                 l3StallSignIds[c, f] = L3999Block($"l3999-stallsign-{foods[c]}-{side}", 0);
                 l3StallIds[c, f] = L3999Block($"l3999-stallcounter-{foods[c]}-{side}", 0);
             }
-            for (int s = 1; s < signs.Length; s++) l3SignIds[s, f] = L3999Block($"l3999-neonsign-{signs[s]}-{side}", 0);
+            for (int s = 1; s < signs.Length; s++)
+            {
+                l3SignIds[s, f] = L3999Block($"l3999-neonsign-{signs[s]}-{side}", 0);
+                l3SignShiftIds[s, 0, f] = L3999Block($"l3999-neonsignshift-{signs[s]}-left-{side}", l3SignIds[s, f]);
+                l3SignShiftIds[s, 1, f] = L3999Block($"l3999-neonsignshift-{signs[s]}-right-{side}", l3SignIds[s, f]);
+            }
             for (int k = 0; k < themes.Length; k++) l3ThemedIds[k, f] = L3999Block($"l3999-themed-{themes[k]}-{side}", l3CabinetIds[k % 6, f]);
             l3RustedIds[f] = L3999Block($"l3999-cabinet-rusted-{side}", 0);
             l3DeadCabinetIds[f] = L3999Block($"l3999-cabinet-dead-{side}", 0);
@@ -264,12 +275,29 @@ public sealed partial class WorldGenerator
         }
         if (t.Overhead == Overheads.L3999Sign3999 && rel == 14) return WorldLayout.L3999IsDark(t) ? 0 : l3Sign3999Id;
         if (t.Overhead == Overheads.L3999Sign && rel == 5 && t.Depth is > 0 and < 8)
-            return (WorldLayout.L3999IsDark(t) || dead) && t.Depth != 7 ? 0 : l3SignIds[t.Depth, facing];
+            return (WorldLayout.L3999IsDark(t) || dead) && t.Depth != 7 ? 0 : NeonSign(t, gx, gz, facing);
         if ((t.Roof & WorldLayout.L3999ArchBit) != 0 && rel >= 1 && rel < height && !(slab && rel == WorldLayout.L3999SlabRel)) return dead ? 0 : l3WallTubeIds[colour, facing];
-        if ((t.Roof & WorldLayout.L3999BaseBit) != 0 && rel == 1 && t.Variant == 0) return dead ? 0 : l3RailIds[colour, facing];
+        if ((t.Roof & WorldLayout.L3999BaseBit) != 0 && rel == 1 && t.Variant == 0) return dead ? 0 : NeonBaseStrip(t, gx, gz, colour, facing);
         if (t.SupplyBox) return rel == 1 ? BoxOf(t) : 0;
         if (slab && rel >= WorldLayout.L3999SlabRel && rel <= WorldLayout.L3999SlabRel + 1) return 0;
         return L3999PropBlock(t, rel, facing, colour, dead);
+    }
+
+    /// <summary>
+    /// The neon strip along the foot of a unit's wall; in a corner it carries on along the side wall to meet the strip
+    /// coming down that wall (the layout gives the corner tile the wall behind it only).
+    /// </summary>
+    private int NeonBaseStrip(in Tile t, int gx, int gz, int colour, int facing)
+    {
+        Tile next = TileAt(gx + PipeFaces[facing].Dx, gz + PipeFaces[facing].Dz);
+        if ((next.Roof & WorldLayout.L3999BaseBit) == 0 || next.Variant != 0 || next.Level != t.Level) return l3RailIds[colour, facing];
+        for (int hand = 0; hand < 2; hand++)
+        {
+            int side = (facing + (hand == 0 ? 3 : 1)) & 3;
+            if (TileAt(gx + PipeFaces[side].Dx, gz + PipeFaces[side].Dz).Kind == TileKind.Wall && Facing(next.Pier) == ((side + 2) & 3))
+                return l3RailCornerIds[colour, hand, facing];
+        }
+        return l3RailIds[colour, facing];
     }
 
     /// <summary>What stands on a floor tile at a height.</summary>
@@ -350,6 +378,8 @@ public sealed partial class WorldGenerator
     private int L3999WallBlock(in Tile t, int rel, int facing, int colour)
     {
         int paint = l3PaintIds[colour % 3];
+        // Layout version 5 on: a storey line round a lobby, a band of black marble at rel 6-7 (over the shopfront's glass too)
+        if (layout.Version >= 5 && rel is 6 or 7 && t.Zone == (byte)WorldLayout.L3999Zone.Lobby && t.Pattern != WallPattern.L3999Window) return l3MarbleIds[1];
         switch (t.Pattern)
         {
             case WallPattern.L3999Concrete: return l3ConcreteWallId;

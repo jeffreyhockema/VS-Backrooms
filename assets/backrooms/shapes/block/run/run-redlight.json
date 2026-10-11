@@ -1,0 +1,156 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiltile": "backrooms:block/run/ceiltile",
+		"redlight": "backrooms:block/run/redlight",
+		"trofferframe": "backrooms:block/run/trofferframe"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#ceiltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				0.5,
+				-0.8,
+				0.5
+			],
+			"to": [
+				15.5,
+				0,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trofferframe",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#trofferframe",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#trofferframe",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#trofferframe",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1,
+				-0.8,
+				1
+			],
+			"to": [
+				15,
+				-0.79,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#redlight",
+					"uv": [
+						0,
+						0,
+						14,
+						14
+					],
+					"glow": 140
+				}
+			}
+		}
+	]
+}

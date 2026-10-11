@@ -1,4 +1,4 @@
-// Level 188: the lobby's reception desk, a light wood fascia with a backlit strip (light 7); the clerk's side is behind (end: with a return on its east side)
+// Level 188: the lobby's reception desk, a light wood fascia with a backlit strip (light 7); the clerk's side is behind (end: with a return on its east side). The straight lengths have the guest book open on the counter: right-click reads it
 {
 	"code": "l188-reception",
 	"variantgroups": [
@@ -243,6 +243,11 @@
 				"avg": 0.5,
 				"var": 0.5
 			}
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsL188GuestBook"
 		}
 	]
 }

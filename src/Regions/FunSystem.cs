@@ -26,7 +26,7 @@ namespace Backrooms.Regions;
 /// fever you join the party: you die, and where you fell a new Partygoer with a red balloon stands guard over what
 /// you dropped.</item>
 /// <item><b>The disguise.</b> A party hat on your head and a red balloon in your hand: a Partygoer more than three
-/// blocks off takes you for one of its own, as long as you don't run or strike.</item>
+/// blocks off takes you for one of its own, as long as you don't run or strike (you are told so when you put it on there).</item>
 /// <item><b>Voices.</b> One that has seen you speaks in a familiar voice (chat, now and then).</item>
 /// </list>
 /// The level's blocks with their own ways (cakes and cookies, gifts, Carnivorous Balloons, the poster trap) and its
@@ -36,7 +36,10 @@ public class FunSystem : ModSystem
 {
     /// <summary>Player attribute: Party Fever, 0 to 1.</summary>
     public const string FeverKey = "backrooms:funFever";
-    /// <summary>Entity attributes on a guest: its room's key (or -1 for a guard), and where it stands.</summary>
+    /// <summary>
+    /// Entity attributes on a guest: its room's key (<see cref="KeyOf"/>, never negative; a guard's is -1 - its index in
+    /// the guards), and where it stands.
+    /// </summary>
     public const string RoomKey = "backrooms:funRoom", HomeKey = "backrooms:funHome";
 
     public const int GuestRange = 32;
@@ -58,10 +61,14 @@ public class FunSystem : ModSystem
     /// <summary>The supply shelves already stocked (the first time anyone opened them). Saved.</summary>
     private readonly HashSet<(int X, int Y, int Z)> stocked = new();
 
+    private long tickId;
+
     private readonly Dictionary<long, (double Amount, long DueMs)> pending = new();
     private readonly Dictionary<long, long> latchedUntilMs = new(), lastVoiceMs = new(), struckMs = new(), noiseMs = new();
     private readonly Dictionary<long, (float Health, bool Treating)> lastHealth = new();
     private readonly Dictionary<long, double> lastHours = new(), lastDrank = new();
+    /// <summary>Players wearing the disguise in the level now (told so when they put it on).</summary>
+    private readonly HashSet<long> disguised = new();
 
     public override bool ShouldLoad(EnumAppSide side) => true;
 
@@ -89,7 +96,7 @@ public class FunSystem : ModSystem
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
             Load();
-            api.Event.RegisterGameTickListener(OnTick, 500);
+            tickId = api.Event.RegisterGameTickListener(OnTick, 500);
             api.Event.PlayerDeath += OnPlayerDeath;
             api.Event.GameWorldSave += Save;
             api.Event.CanUseBlock += StockShelf;
@@ -108,6 +115,13 @@ public class FunSystem : ModSystem
     public override void Dispose()
     {
         if (server == this) server = null;
+        if (sapi == null || layout == null) return;
+        if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
+        sapi.Event.PlayerDeath -= OnPlayerDeath;
+        sapi.Event.GameWorldSave -= Save;
+        sapi.Event.CanUseBlock -= StockShelf;
+        sapi.Event.OnEntitySpawn -= GiveBody;
+        sapi.Event.OnEntityLoaded -= GiveBody;
     }
 
     // ================= Saved =================
@@ -192,6 +206,12 @@ public class FunSystem : ModSystem
             int x = (int)Math.Floor(entity.Pos.X), z = (int)Math.Floor(entity.Pos.Z);
             bool here = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) == WorldLayout.FunLevel;
             if (here) PutDownGuests(player, x, z);
+            // Dressed for the party: told so once each time they put the disguise together here
+            if (here && Disguised(entity))
+            {
+                if (disguised.Add(entity.EntityId)) Tell(player, "backrooms:fun-disguised");
+            }
+            else disguised.Remove(entity.EntityId);
             Fever(player, entity, here, now);
             // Let go: the arm that held you lets go
             if (latchedUntilMs.TryGetValue(entity.EntityId, out long until) && now >= until)
@@ -211,7 +231,7 @@ public class FunSystem : ModSystem
         foreach (FunRoom room in layout.FunRoomsNear(x, z, GuestRange))
         {
             if (room.Guests == 0 || room.Spots.Count == 0) continue;
-            long key = (long)room.Key;
+            long key = KeyOf(room);
             if (Standing(key)) continue;
             int count = room.Spots.Count;
             if (killed.TryGetValue(key, out var k))
@@ -252,8 +272,20 @@ public class FunSystem : ModSystem
         }
     }
 
-    private bool Standing(long key) =>
-        standing.TryGetValue(key, out var ids) && ids.Any(id => sapi.World.GetEntityById(id) is { Alive: true });
+    /// <summary>
+    /// A party room's key in <see cref="standing"/>, <see cref="killed"/> and its guests' <see cref="RoomKey"/>: its hash
+    /// with the sign bit cleared, since negative keys are the guards'. (Taken whole, half the rooms' keys were negative,
+    /// and a guest killed in one of those was taken for a guard, so its party was never one short.)
+    /// </summary>
+    private static long KeyOf(FunRoom room) => (long)(room.Key & long.MaxValue);
+
+    private bool Standing(long key)
+    {
+        if (!standing.TryGetValue(key, out var ids)) return false;
+        foreach (long id in ids)
+            if (sapi.World.GetEntityById(id) is { Alive: true }) return true;
+        return false;
+    }
 
     private Entity PutDown(string code, Vec3d at, float yaw, Entity near, long key)
     {
@@ -363,9 +395,11 @@ public class FunSystem : ModSystem
         lastHours[id] = hours;
         lastDrank[id] = drank;
 
-        // What it does: hunger, and a ceiling on how steady you can be
-        if (fever > 0) entity.Stats.Set("hungerrate", FeverStat, 0.25f, false);
-        else entity.Stats.Remove("hungerrate", FeverStat);
+        // What it does: hunger, and a ceiling on how steady you can be. (Only on a change: every Set or Remove rewrites
+        // and resends the player's whole stats tree, and this runs for every player twice a second)
+        bool hungry = HasStat(entity, "hungerrate", FeverStat);
+        if (fever > 0 && !hungry) entity.Stats.Set("hungerrate", FeverStat, 0.25f, false);
+        else if (fever <= 0 && hungry) entity.Stats.Remove("hungerrate", FeverStat);
         if (fever > 0)
         {
             double cap = 1 - 0.5 * fever, stability = entity.WatchedAttributes.GetDouble("temporalStability", 1);
@@ -378,20 +412,28 @@ public class FunSystem : ModSystem
         {
             entity.WatchedAttributes.SetDouble(FeverKey, 0);
             sapi.BroadcastMessageToAllGroups(Lang.Get("backrooms:fun-joined", player.PlayerName), EnumChatType.Notification);
-            entity.Die(EnumDespawnReason.Death, new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury });
+            entity.Die(EnumDespawnReason.Death, JoinedTheParty);
         }
     }
 
+    /// <summary>Whether an entity has a stat modifier (the watched "stats" tree mirrors every one, saved or not).</summary>
+    private static bool HasStat(Entity entity, string category, string code) =>
+        entity.WatchedAttributes.GetTreeAttribute("stats")?.GetTreeAttribute(category)?.HasAttribute(code) == true;
+
     /// <summary>Whether someone has a poultice or a bandage in hand.</summary>
-    private static bool Treating(EntityAgent entity)
+    private static bool Treating(EntityAgent entity) => IsTreatment(entity.RightHandItemSlot) || IsTreatment(entity.LeftHandItemSlot);
+
+    private static bool IsTreatment(ItemSlot slot)
     {
-        foreach (ItemSlot slot in new[] { entity.RightHandItemSlot, entity.LeftHandItemSlot })
-        {
-            string path = slot?.Itemstack?.Collectible?.Code?.Path;
-            if (path != null && (path.Contains("poultice") || path.Contains("bandage"))) return true;
-        }
-        return false;
+        string path = slot?.Itemstack?.Collectible?.Code?.Path;
+        return path != null && (path.Contains("poultice") || path.Contains("bandage"));
     }
+
+    /// <summary>
+    /// What full fever kills you with. The server reports a player's death a tick later, with this same object, which is
+    /// how <see cref="OnPlayerDeath"/> knows it from any other death "from inside" (starving reports Internal too).
+    /// </summary>
+    private static readonly DamageSource JoinedTheParty = new() { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury };
 
     private void OnPlayerDeath(IServerPlayer player, DamageSource source)
     {
@@ -401,20 +443,20 @@ public class FunSystem : ModSystem
         entity.WatchedAttributes.SetDouble(FeverKey, 0);
         int x = (int)Math.Floor(entity.Pos.X), z = (int)Math.Floor(entity.Pos.Z);
         if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != WorldLayout.FunLevel) return;
-        // Killed in Level Fun by its own: a new one, with a red balloon, will stand where you fell
+        // Killed in Level Fun by its own (a Partygoer, or the fever): a new one, with a red balloon, will stand where you
+        // fell. Not for starving, drowning or anything else that happens to kill you here
         Entity killer = source?.GetCauseEntity() ?? source?.SourceEntity;
-        bool theirs = killer?.Code?.Path?.StartsWith("partygoer") == true || source?.Source == EnumDamageSource.Internal;
+        bool theirs = killer?.Code?.Path?.StartsWith("partygoer") == true || ReferenceEquals(source, JoinedTheParty);
         if (theirs) guards.Add((entity.Pos.X, geometry.FloorFor(WorldLayout.FunLevel) + 1, entity.Pos.Z, true));
     }
 
     // ================= The disguise, and what they notice =================
 
-    /// <summary>Whether someone wears a party hat and holds a red balloon.</summary>
+    /// <summary>Whether someone wears a party hat and holds a red balloon. (Asked by every Partygoer that looks at them.)</summary>
     public static bool Disguised(EntityAgent entity)
     {
-        bool balloon = false;
-        foreach (ItemSlot slot in new[] { entity.RightHandItemSlot, entity.LeftHandItemSlot })
-            if (slot?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red") balloon = true;
+        bool balloon = entity.RightHandItemSlot?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red"
+            || entity.LeftHandItemSlot?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red";
         if (!balloon || entity is not EntityPlayer { Player: { } player }) return false;
         IInventory clothes = player.InventoryManager?.GetOwnInventory(GlobalConstants.characterInvClassName);
         if (clothes == null) return false;
@@ -491,7 +533,7 @@ public class BlockFunCake : Block
         }
         Block next = world.GetBlock(new AssetLocation("backrooms", path[..(dash + 1)] + (left - 1)));
         if (next != null) world.BlockAccessor.ExchangeBlock(next.BlockId, blockSel.Position);
-        world.PlaySoundAt(new AssetLocation("game:sounds/player/eat1"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8, 0.5f);
+        world.PlaySoundAt(new AssetLocation("game:sounds/player/eat"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8, 0.5f);
         return true;
     }
 }
@@ -515,11 +557,12 @@ public class BlockFunGift : Block
             return;
         }
         base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
-        // Now and then, among a wanderer's belongings, the Hub's key to Level Fun (its only source, as The End's desks are its)
+        // Now and then, among a wanderer's belongings, the Hub's key to Level Fun (its only source, as The End's desks are its).
+        // (Rolled by position; a gift drops only what is inside, never itself, so the roll cannot be had twice)
         if (world.Side == EnumAppSide.Server && byPlayer?.WorldData.CurrentGameMode == EnumGameMode.Survival
             && Hashing.Unit(Hashing.Hash(0x15F2, pos.X, pos.Z ^ pos.Y * 31, 0x15F3)) < 0.04
             && world.GetItem(new AssetLocation("backrooms:hub-key-fun")) is { } key)
-            world.SpawnItemEntity(new ItemStack(key), pos.ToVec3d().Add(0.5, 0.5, 0.5));
+            HubSystem.KeyTurnedUp(world, byPlayer, new ItemStack(key), pos);
     }
 }
 

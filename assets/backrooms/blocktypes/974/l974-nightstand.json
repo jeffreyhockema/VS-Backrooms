@@ -1,4 +1,4 @@
-// Level 974: a small white bedside table, a pink-shaded lamp (light 8), a water bottle and vitamins
+// Level 974: a small white bedside table, a pink-shaded lamp (light 10), a water bottle and vitamins
 {
 	"code": "l974-nightstand",
 	"variantgroups": [
@@ -130,7 +130,7 @@
 	"lightHsv": [
 		4,
 		3,
-		8
+		10
 	],
 	"attributes": {
 		"l974furniture": true

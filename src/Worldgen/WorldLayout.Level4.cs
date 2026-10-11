@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Backrooms.Worldgen;
 
@@ -26,6 +27,8 @@ public sealed partial class WorldLayout
     private const int L4ConcourseEvery = 6;
     /// <summary>Building cores: one per region of this many cells each way (where that cell is an office block).</summary>
     private const int L4CoreRegion = 2;
+    /// <summary>Approaching the hotel (layout 5): all hotel red this many blocks from it, and none past the fringe.</summary>
+    private const double L4HotelSolid = 5, L4HotelFringe = 14;
 
     private const ulong SaltL4Zone = 0x4D01;
     private const ulong SaltL4Room = 0x4D02;
@@ -119,8 +122,10 @@ public sealed partial class WorldLayout
                     if (c < 0.05)
                     {
                         t.Worn = true;
-                        // Half the gaps have a cable hanging out of them
-                        if (c < 0.025) t.Pipe = c < 0.0125 ? Pipes.CableDroopX : Pipes.CableDroopZ;
+                        // Half the gaps had a cable hanging out of them; from layout 5 about one in six does, as a
+                        // ceiling full of them read as clutter
+                        double droop = Version >= 5 ? 0.008 : 0.025;
+                        if (c < droop) t.Pipe = c < droop / 2 ? Pipes.CableDroopX : Pipes.CableDroopZ;
                     }
                     else if (c < 0.12) t.Overhead = Overheads.CeilingVent;
                     else if (c < 0.2) t.Overhead = Overheads.CeilingSprinkler;
@@ -392,6 +397,49 @@ public sealed partial class WorldLayout
                 if (doorNorth ? ix == 4 && iz == 3 : ix == 3 && iz == 5) { tile.Variant = 0; tile.Stack = 0; }
             }
         }
+        if (Version >= 4 && core is { } stairs) BuildL4StairwellV4(b, mx, mz, stairs.RoomX, stairs.RoomZ + 1);
+    }
+
+    /// <summary>
+    /// From layout version 4 a building core's stairwell has a flight up and a flight down, as Level 1's stairwells do
+    /// (<see cref="StampStairwellV4"/>). A room of the office grid is too small for them, so the stairwell takes in the
+    /// corridor along its east side as far as the restroom's wall: the flights run east from a landing inside its door,
+    /// three steps up in the room under an opening in the ceiling and three more under the restroom's wall and the
+    /// corridor's, in the dark; four steps down under an opening in the floor and two more under the wall. In room
+    /// coordinates (ix 3-7 its own, then the corridor's 0-1, and the restroom's wall at 2):
+    /// <code>
+    ///   iz 2   #  #  door #  #  #  #  #  #      (the STAIRS sign beside the door, outside)
+    ///   iz 3   #  L  L    U1 U2 U3 U4 U5 U6
+    ///   iz 4   #  L  L    #  #  #  #  #  #
+    ///   iz 5   #  L  L    D1 D2 D3 D4 D5 D6
+    ///   iz 6   #  L  L    #  #  #  #  #  #
+    ///   ix     2  3  4    5  6  7  0  1  2
+    /// </code>
+    /// The corridor between the stairwell and the restroom is walled up from crossing to crossing. The shaft over the
+    /// flight up is walled off from the void over the drop ceiling: the column of its first step is solid above the
+    /// ceiling, and every tile round the rest of it is wall.
+    /// </summary>
+    private void BuildL4StairwellV4(Builder b, int mx, int mz, int roomX, int roomZ)
+    {
+        int x0 = mx * MacroSize, z0 = mz * MacroSize;
+        int farX = (roomX + 1) * L4OfficeGrid + 2 - x0, northZ = roomZ * L4OfficeGrid + 2 - z0;
+        ref Tile At(int a, int c) => ref b.At(farX - a, northZ + c);
+        // The room and the corridor beside it, cleared (the old stairs along the back wall too)
+        for (int a = 1; a <= 7; a++)
+            for (int c = 1; c <= 4; c++)
+            {
+                ref Tile t = ref At(a, c);
+                t = new Tile { Kind = TileKind.Floor, Floor = FloorKind.OfficeCarpet, Level = t.Level };
+            }
+        // The corridor walled up at both ends
+        for (int a = 1; a <= 2; a++)
+        {
+            SetWall(ref At(a, 0), WallPattern.Drywall, BaseStyle.Plain);
+            SetWall(ref At(a, 5), WallPattern.Drywall, BaseStyle.Plain);
+        }
+        StampStairwellV4((a, c) => ref At(a, c), ArchPier.East, 3, WallPattern.Drywall, false, -1);
+        // A light over the landing's far corner, as likely as any other room's to be dead
+        At(7, 4).Ceiling = Level4LightState(x0 + farX - 7, z0 + northZ + 4, 0.5);
     }
 
     /// <summary>One tile of an office-block room (interior 3-6 each way; the door is on the north or west wall).</summary>
@@ -499,7 +547,7 @@ public sealed partial class WorldLayout
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile t = ref b.At(lx, lz);
-                if (t.Kind != TileKind.Wall || t.Pattern != WallPattern.Drywall || t.Variant != 0) continue;
+                if (t.Kind != TileKind.Wall || t.Pattern != WallPattern.Drywall || t.Variant != 0 || t.Stair != 0) continue;
                 ArchPier? face = Walkable(lx, lz - 1) ? ArchPier.North : Walkable(lx, lz + 1) ? ArchPier.South
                     : Walkable(lx + 1, lz) ? ArchPier.East : Walkable(lx - 1, lz) ? ArchPier.West : null;
                 if (face == null) continue;
@@ -535,15 +583,37 @@ public sealed partial class WorldLayout
         return r < deadChance ? CeilingKind.LightOff : r < deadChance + 0.04 ? CeilingKind.LightFlicker : CeilingKind.LightOn;
     }
 
+    /// <summary>
+    /// Approaching the Terror Hotel the carpet turns to hotel red and wood panelling takes over the walls. From layout
+    /// version 5 it is a ramp: all red within about <see cref="L4HotelSolid"/> blocks of the nearest Level 5 cell,
+    /// ragged out to <see cref="L4HotelFringe"/> where the noise frays its edge, and grey office beyond (in 1-4,
+    /// patches of red wherever the noise was high, in islands all over a cell beside the hotel).
+    /// </summary>
     private void WarmTowardsHotel(Builder b, int mx, int mz)
     {
+        // The Level 5 cells round this one, for the distance to the nearest
+        var hotel = new List<(int Dx, int Dz)>();
+        for (int dz = -1; dz <= 1; dz++)
+            for (int dx = -1; dx <= 1; dx++)
+                if ((dx != 0 || dz != 0) && LevelAt(mx + dx, mz + dz) == 5) hotel.Add((dx, dz));
+        double ToHotel(int lx, int lz)
+        {
+            double best = double.MaxValue;
+            foreach ((int dx, int dz) in hotel)
+            {
+                // Blocks to the nearest tile of that cell, along x and z (0 where the cell is level with this tile)
+                int ax = dx < 0 ? lx + 1 : dx > 0 ? MacroSize - lx : 0, az = dz < 0 ? lz + 1 : dz > 0 ? MacroSize - lz : 0;
+                best = Math.Min(best, Math.Sqrt(ax * ax + az * az));
+            }
+            return best;
+        }
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile tile = ref b.At(lx, lz);
                 double patch = Noise((mx * MacroSize + lx) / 5.0, (mz * MacroSize + lz) / 5.0, SaltL4Zone + 7);
-                if (patch < 0.15) continue;
+                if (Version >= 5 ? ToHotel(lx, lz) >= L4HotelSolid + (1 + patch) / 2 * (L4HotelFringe - L4HotelSolid) : patch < 0.15) continue;
                 if (tile.Kind == TileKind.Floor) tile.Floor = FloorKind.HotelCarpet;
                 // Walls that sign a stairwell or call an elevator stay as they are
                 else if (tile.Kind == TileKind.Wall && tile.Pattern == WallPattern.Drywall && tile.Variant is not (Decor.OfficeStairSign or Decor.CallButton))
@@ -553,5 +623,103 @@ public sealed partial class WorldLayout
                 }
             }
         }
+    }
+
+    /// <summary>The tile a Level 4 refuge's wanderer keeps to, from layout version 5 (in <see cref="Tile.Detail"/>).</summary>
+    internal const byte L4CampSite = 1;
+
+    /// <summary>
+    /// From layout version 5 a Level 4 refuge (<see cref="WandererSite"/>) is an outpost, as Level 1's camps are: round
+    /// the spot the wanderer keeps to, bedrolls on the carpet, a camp lantern, a folding table and chair, boxes of what
+    /// they have gathered and a crate of supplies, now and then a tent. No fire: the office is lit and nothing here
+    /// needs keeping off. It is pitched in the open, on the clear floor nearest the cell's middle with five by five of
+    /// it (else three by three, else wherever the wanderer would have stood before), after the cell's doorways are
+    /// cleared and its pockets sealed; anything you cannot walk through stands clear of doors and of the wanderer's
+    /// four sides, and keeps the floor round it joined up. The spot is marked, so the wanderer is put on it.
+    /// </summary>
+    private void PitchL4Camp(Builder b, int mx, int mz)
+    {
+        if (!HasWandererSite(mx, mz, 4)) return;
+        bool Clear(int x, int z) => x >= 1 && z >= 1 && x < MacroSize - 1 && z < MacroSize - 1
+            && b.At(x, z) is { Kind: TileKind.Floor, Variant: 0, Stack: 0, SupplyBox: false, Stair: 0, Sealed: false, Under: 0 };
+        bool ClearAround(int x, int z, int r)
+        {
+            for (int dz = -r; dz <= r; dz++)
+                for (int dx = -r; dx <= r; dx++)
+                    if (!Clear(x + dx, z + dz)) return false;
+            return true;
+        }
+        const int c = MacroSize / 2;
+        (int X, int Z)? found = null;
+        for (int tier = 0; tier < 3 && found == null; tier++)
+            for (int r = 0; r <= 12 && found == null; r++)
+                for (int dz = -r; dz <= r && found == null; dz++)
+                    for (int dx = -r; dx <= r; dx++)
+                    {
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
+                        int x = c + dx, z = c + dz;
+                        if (tier < 2 ? !ClearAround(x, z, 2 - tier) : !IsEntitySpot(b.At(x, z)) || b.At(x, z).Variant != 0) continue;
+                        found = (x, z);
+                        break;
+                    }
+        if (found is not (int sx, int sz)) return;
+        b.At(sx, sz).Detail = L4CampSite;
+
+        var rng = new Rng(Hashing.Hash(seed, mx, mz, SaltL4Detail + 2));
+        int turn = rng.Range(0, 3);
+        // Laid out facing north, then turned a quarter at a time
+        (int, int) Turn(int dx, int dz)
+        {
+            for (int k = 0; k < turn; k++) (dx, dz) = (-dz, dx);
+            return (dx, dz);
+        }
+        ArchPier TurnPier(ArchPier p)
+        {
+            for (int k = 0; k < turn; k++) p = p switch { ArchPier.North => ArchPier.East, ArchPier.East => ArchPier.South, ArchPier.South => ArchPier.West, _ => ArchPier.North };
+            return p;
+        }
+        bool Open(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z));
+        bool NearOpening(int x, int z)
+        {
+            foreach ((int ox, int oz) in Ring)
+            {
+                int nx = x + ox, nz = z + oz;
+                if (nx < 0 || nz < 0 || nx >= MacroSize || nz >= MacroSize) continue;
+                if (b.At(nx, nz).Kind is TileKind.Door or TileKind.Doorway or TileKind.ArchDoor || b.At(nx, nz).Stair != 0) return true;
+            }
+            return false;
+        }
+        void Put(int dx, int dz, byte prop, ArchPier facing, bool box = false)
+        {
+            (int tx, int tz) = Turn(dx, dz);
+            int x = sx + tx, z = sz + tz;
+            if (!Clear(x, z)) return;
+            if (box || !IsWalkThroughProp(prop))
+            {
+                // Clear of the wanderer's four sides and of doors, and never cutting the floor round it in two
+                if (Math.Abs(tx) + Math.Abs(tz) == 1 || NearOpening(x, z) || !SafeToBlock(Open, x, z)) return;
+                int open = 0;
+                foreach ((int ox, int oz) in Ring) if (Open(x + ox, z + oz)) open++;
+                if (open < 6) return;
+            }
+            ref Tile t = ref b.At(x, z);
+            if (box) t.SupplyBox = true;
+            else
+            {
+                t.Variant = prop;
+                t.Pier = TurnPier(facing);
+            }
+        }
+        // Two bedrolls side by side behind the wanderer, the lantern between their heads
+        Put(-1, -1, Props.Bedroll, ArchPier.South);
+        if (rng.Chance(0.6)) Put(1, -1, Props.Bedroll, ArchPier.South);
+        Put(0, -2, Props.Lantern, ArchPier.North);
+        // A folding table with its chair to one side, the hoard and the supplies to the other
+        Put(-2, 1, Props.FoldingTable, ArchPier.North);
+        Put(-1, 1, Props.FoldingChair, ArchPier.West);
+        Put(2, 1, Props.CardboardBoxes, ArchPier.North);
+        Put(2, 2, 0, ArchPier.North, box: true);
+        if (rng.Chance(0.4)) Put(1, 2, Props.CardboardBoxes, ArchPier.North);
+        if (rng.Chance(0.5)) Put(-2, -2, Props.Tent, ArchPier.East);
     }
 }

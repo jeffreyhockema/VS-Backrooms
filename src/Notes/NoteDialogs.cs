@@ -4,13 +4,18 @@ using Vintagestory.API.Config;
 
 namespace Backrooms.Notes;
 
-/// <summary>The note just read: its text and marks, with a way into the journal.</summary>
+/// <summary>
+/// The note just read: its text and marks, with a way into the journal. A new one is made for every note shown, so it
+/// leaves the game's list of dialogs when closed (else every note read would stay loaded for the rest of the session).
+/// </summary>
 public class GuiDialogNote : GuiDialog
 {
     private const double Width = 440, TextHeight = 300;
     private readonly NoteSystem notes;
 
     public override string ToggleKeyCombinationCode => null;
+
+    public override bool UnregisterOnClose => true;
 
     public GuiDialogNote(ICoreClientAPI capi, NoteSystem notes, NoteRead read) : base(capi)
     {

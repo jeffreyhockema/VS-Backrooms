@@ -1,4 +1,4 @@
-// Level !: the hallway's walls. plain above, base (cove base) at the floor, rail-<side> with the crash rail on that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), void (matte black: the antechamber behind the chained door, the fake exits' closets)
+// Level !: the hallway's walls. plain above, base (cove base) at the floor, rail-<side> with the crash rail on that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), railshort-<side> stopping short of the other rail in an inside corner, void (matte black: the antechamber behind the chained door, the fake exits' closets)
 {
 	"code": "run-wall",
 	"variantgroups": [
@@ -15,7 +15,11 @@
 				"railcorner-north",
 				"railcorner-east",
 				"railcorner-south",
-				"railcorner-west"
+				"railcorner-west",
+				"railshort-north",
+				"railshort-east",
+				"railshort-south",
+				"railshort-west"
 			]
 		}
 	],
@@ -79,6 +83,10 @@
 		"*-railcorner-east": "json",
 		"*-railcorner-south": "json",
 		"*-railcorner-west": "json",
+		"*-railshort-north": "json",
+		"*-railshort-east": "json",
+		"*-railshort-south": "json",
+		"*-railshort-west": "json",
 		"*": "cube"
 	},
 	"shapeByType": {
@@ -113,6 +121,22 @@
 		"*-railcorner-west": {
 			"base": "block/run/run-wall-railcorner",
 			"rotateY": 90
+		},
+		"*-railshort-north": {
+			"base": "block/run/run-wall-railshort",
+			"rotateY": 0
+		},
+		"*-railshort-east": {
+			"base": "block/run/run-wall-railshort",
+			"rotateY": 270
+		},
+		"*-railshort-south": {
+			"base": "block/run/run-wall-railshort",
+			"rotateY": 180
+		},
+		"*-railshort-west": {
+			"base": "block/run/run-wall-railshort",
+			"rotateY": 90
 		}
 	},
 	"sidesolidByType": {
@@ -138,6 +162,18 @@
 			"all": false
 		},
 		"*-railcorner-west": {
+			"all": false
+		},
+		"*-railshort-north": {
+			"all": false
+		},
+		"*-railshort-east": {
+			"all": false
+		},
+		"*-railshort-south": {
+			"all": false
+		},
+		"*-railshort-west": {
 			"all": false
 		},
 		"*": {
@@ -167,6 +203,18 @@
 			"all": false
 		},
 		"*-railcorner-west": {
+			"all": false
+		},
+		"*-railshort-north": {
+			"all": false
+		},
+		"*-railshort-east": {
+			"all": false
+		},
+		"*-railshort-south": {
+			"all": false
+		},
+		"*-railshort-west": {
 			"all": false
 		},
 		"*": {

@@ -1,0 +1,85 @@
+// A street-name sign on a corner of the Suburbs
+{
+	"code": "suburbsign",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"elm",
+				"oak",
+				"maple",
+				"pine",
+				"cedar",
+				"birch",
+				"walnut",
+				"ash"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-elm": {
+			"base": "block/detail/suburbsign-elm"
+		},
+		"*-oak": {
+			"base": "block/detail/suburbsign-oak"
+		},
+		"*-maple": {
+			"base": "block/detail/suburbsign-maple"
+		},
+		"*-pine": {
+			"base": "block/detail/suburbsign-pine"
+		},
+		"*-cedar": {
+			"base": "block/detail/suburbsign-cedar"
+		},
+		"*-birch": {
+			"base": "block/detail/suburbsign-birch"
+		},
+		"*-walnut": {
+			"base": "block/detail/suburbsign-walnut"
+		},
+		"*-ash": {
+			"base": "block/detail/suburbsign-ash"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-elm"
+		],
+		"decorative": [
+			"*-elm"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.44,
+		"y1": 0,
+		"z1": 0.44,
+		"x2": 0.56,
+		"y2": 2,
+		"z2": 0.56
+	},
+	"selectionbox": {
+		"x1": 0.44,
+		"y1": 0,
+		"z1": 0.44,
+		"x2": 0.56,
+		"y2": 2,
+		"z2": 0.56
+	}
+}

@@ -66,8 +66,14 @@ public class EndSystem : ModSystem
 
     private readonly Dictionary<string, Wanderer> wanderers = new();
 
-    /// <summary>The Turnaround's bookcases standing now: where, and when they went up (so a restart takes them down).</summary>
+    /// <summary>
+    /// The blocks of the Turnaround's bookcases standing now. Saved, so that ones still standing when the server stopped
+    /// are taken down after a restart too (once nobody is near them, like any other).
+    /// </summary>
     private List<(int X, int Y, int Z)> turnarounds = new();
+
+    private ICoreAPI api;
+    private long tickId;
 
     public override void Start(ICoreAPI api)
     {
@@ -75,8 +81,26 @@ public class EndSystem : ModSystem
         api.RegisterBlockClass("BackroomsFragileShelf", typeof(BlockFragileShelf));
         api.RegisterItemClass("BackroomsCatalogueCard", typeof(ItemCatalogueCard));
         api.RegisterItemClass("BackroomsMemoryJuice", typeof(ItemMemoryJuice));
-        api.Event.OnEntityLoaded += e => Junkies.Attach(api, e);
-        api.Event.OnEntitySpawn += e => Junkies.Attach(api, e);
+        this.api = api;
+        api.Event.OnEntityLoaded += AttachJunkie;
+        api.Event.OnEntitySpawn += AttachJunkie;
+    }
+
+    private void AttachJunkie(Entity entity) => Junkies.Attach(api, entity);
+
+    public override void Dispose()
+    {
+        if (api != null)
+        {
+            api.Event.OnEntityLoaded -= AttachJunkie;
+            api.Event.OnEntitySpawn -= AttachJunkie;
+        }
+        if (sapi != null)
+        {
+            if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
+            sapi.Event.DidBreakBlock -= OnBrokenBlock;
+            sapi.Event.GameWorldSave -= OnSave;
+        }
     }
 
     public override void StartServerSide(ICoreServerAPI api)
@@ -94,17 +118,10 @@ public class EndSystem : ModSystem
                 try { turnarounds = SerializerUtil.Deserialize<List<int>>(data).Chunk(3).Select(c => (c[0], c[1], c[2])).ToList(); }
                 catch (Exception e) { api.Logger.Warning("[backrooms] could not read The End's state: {0}", e.Message); }
             }
-            api.Event.RegisterGameTickListener(OnTick, 250);
+            tickId = api.Event.RegisterGameTickListener(OnTick, 250);
             api.Event.DidBreakBlock += OnBrokenBlock;
         });
-        api.Event.GameWorldSave += () =>
-        {
-            if (layout == null) return;
-            var flat = new List<int>();
-            foreach (var (x, y, z) in turnarounds) { flat.Add(x); flat.Add(y); flat.Add(z); }
-            api.WorldManager.SaveGame.StoreData(SaveKey, SerializerUtil.Serialize(flat));
-            api.WorldManager.SaveGame.StoreData(LoopFlagKey, new[] { (byte)(LoopEnabled ? 1 : 0) });
-        };
+        api.Event.GameWorldSave += OnSave;
         api.ChatCommands.Create("endloop")
             .WithDescription("The End: turn the looping long aisles (and the Turnaround) on or off. Untested in a client.")
             .RequiresPrivilege(Privilege.controlserver)
@@ -116,6 +133,15 @@ public class EndSystem : ModSystem
                 else if (word == "off") LoopEnabled = false;
                 return TextCommandResult.Success($"The End's loop is {(LoopEnabled ? "on" : "off")}.");
             });
+    }
+
+    private void OnSave()
+    {
+        if (layout == null) return;
+        var flat = new List<int>();
+        foreach (var (x, y, z) in turnarounds) { flat.Add(x); flat.Add(y); flat.Add(z); }
+        sapi.WorldManager.SaveGame.StoreData(SaveKey, SerializerUtil.Serialize(flat));
+        sapi.WorldManager.SaveGame.StoreData(LoopFlagKey, new[] { (byte)(LoopEnabled ? 1 : 0) });
     }
 
     // ================= The tick =================
@@ -144,7 +170,8 @@ public class EndSystem : ModSystem
             {
                 w.EnteredHours = now;
                 w.NextDistortHours = now + HoursFor(sapi.World.Rand.Next(20 * 60, 26 * 60));
-                w.NextLightsOutHours = now + 1 + sapi.World.Rand.NextDouble();
+                // The first lights-out waits a while, so that a first look round the store is in the light
+                w.NextLightsOutHours = now + 3 + sapi.World.Rand.NextDouble();
             }
             double dx = pos.X - w.LastX, dz = pos.Z - w.LastZ;
             w.LastX = pos.X;
@@ -269,6 +296,8 @@ public class EndSystem : ModSystem
         foreach (IPlayer other in sapi.World.AllOnlinePlayers)
             if (other != player && other.Entity != null && other.Entity.Pos.SquareDistanceTo(pos.XYZ) < 48 * 48) return;
         if (!layout.EndLoopAt(x + shift, z, out _)) return;
+        // (Never into a chunk that is not there: 64 blocks back along the way they came, it almost always is)
+        if (sapi.World.BlockAccessor.GetChunkAtBlockPos(x + shift, (int)Math.Floor(pos.Y), z) == null) return;
         w.LoopedAtMs = sapi.World.ElapsedMilliseconds;
         w.LastX = pos.X + shift;
         player.Entity.TeleportToDouble(pos.X + shift, pos.Y, pos.Z);
@@ -336,6 +365,8 @@ public class EndSystem : ModSystem
         bool shelfBooks = path.StartsWith("end-shelf-books") || path.StartsWith("end-tallshelf-books") || path.StartsWith("end-wallshelf-books");
         bool desk = path.StartsWith("end-desk"), catalogue = path.StartsWith("end-catalogue");
         if (!shelfBooks && !desk && !catalogue) return;
+        // (Rolled by position, so the same place always gives the same. That cannot be farmed: none of these blocks drops
+        // itself, so one cannot be put back where it stood and broken again outside creative mode)
         ulong h = Hashing.Hash((ulong)sapi.World.Seed, pos.X * 31 + pos.Y, pos.Z, 0x16F0);
         var at = new Vec3d(pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5);
         if (Hashing.Unit(h) < (shelfBooks ? 0.3 : 0.1)) sapi.World.SpawnItemEntity(FoundBook(Hashing.Mix(h)), at);
@@ -355,7 +386,7 @@ public class EndSystem : ModSystem
         if ((desk || catalogue) && Hashing.Unit(Hashing.Mix(h + 1)) < 0.08)
         {
             Item key = sapi.World.GetItem(new AssetLocation("backrooms:hub-key-end"));
-            if (key != null) sapi.World.SpawnItemEntity(new ItemStack(key), at);
+            if (key != null) HubSystem.KeyTurnedUp(sapi.World, byPlayer, new ItemStack(key), pos);
         }
     }
 
@@ -396,11 +427,14 @@ public class EndSystem : ModSystem
 /// </summary>
 public class BlockBehaviorEndTerminal : BlockBehavior
 {
+    private WorldInteraction[] help;
+
     public BlockBehaviorEndTerminal(Block block) : base(block) { }
 
+    // (Asked every frame the block is looked at: the help is made once)
     public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling) =>
         block.Variant["state"] != "off" ? Array.Empty<WorldInteraction>() :
-            new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-endterminal", MouseButton = EnumMouseButton.Right } };
+            (help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-endterminal", MouseButton = EnumMouseButton.Right } });
 
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
     {
@@ -449,7 +483,6 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         return true;
     }
 
-    /// <summary>Puts the computer at a position into another state (on, static, party, dead), keeping its facing.</summary>
     /// <summary>Puts the computer at a position (The End's, or Level 3999's TRUEEND.EXE screen) into the block of the given code.</summary>
     private static void SwapTo(ICoreServerAPI sapi, BlockPos pos, string path)
     {
@@ -459,6 +492,7 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         if (next != null && next.BlockId != 0) sapi.World.BlockAccessor.ExchangeBlock(next.BlockId, pos);
     }
 
+    /// <summary>Puts The End's computer at a position into another state (on, static, party, dead), keeping its facing.</summary>
     private static void Swap(ICoreServerAPI sapi, BlockPos pos, string state)
     {
         Block here = sapi.World.BlockAccessor.GetBlock(pos);
@@ -521,9 +555,7 @@ public class ItemCatalogueCard : Item
         }
         var (ax, az) = exits[0];
         double dx = ax + 0.5 - pos.X, dz = az + 0.5 - pos.Z;
-        string[] names = { "e", "se", "s", "sw", "w", "nw", "n", "ne" };
-        int octant = (int)Math.Round(Math.Atan2(dz, dx) / (Math.PI / 4));
-        string direction = Lang.Get("backrooms:dir-" + names[((octant % 8) + 8) % 8]);
+        string direction = L3999System.Direction(dx, dz);
         double d = Math.Sqrt(dx * dx + dz * dz);
         int step = d < 60 ? 10 : d < 300 ? 25 : 50, paces = Math.Max(step, (int)Math.Round(d / step) * step);
         int variant = (int)(Hashing.Hash((ulong)api.World.Seed, ax, az, 0x16F1) % 3) + 1;

@@ -293,6 +293,8 @@ Layouts made cell by cell read as noise (`docs/level-design-plan.md`). The End i
 
 **Departments.** Each 64×64 block is one of the kinds below, by hash. Each kind has a strict internal grid, but its orientation and offsets differ from its neighbours'.
 
+**Partition walls** (from layout version 5, after the 2026-10 visual review: with no wall in sight the open departments read as an endless plane, not the store in the photographs). Along about one department border in three, on the side of a stacks or open-floor department, the store's painted wall (base, ghost marks, yellow band, cream) stands one block thick on the department's inner edge, out of the runway, broken by openings three wide every 8–12 blocks. Ghost marks show where fixtures once hung, some runs carry a poster, and a clear way runs along its inner face so shelving never closes a corner off behind it (`PlanEndPartitions`).
+
 | Department | Share | Ceiling | What it is |
 |---|---|---|---|
 | **Stacks** | 34% | 5 | Rows of double-faced gondola shelving 2 high, in runs of 4–10 with 2-wide aisles, and cross-gaps every 5–7. An end panel or a pyramid end-cap at each row end. 1 run in 10 "converges": it bends diagonally into the next row, or runs straight into a wall or column |
@@ -311,7 +313,7 @@ Layouts made cell by cell read as noise (`docs/level-design-plan.md`). The End i
 - four sage columns plastered with yellow posters;
 - open carpet with pyramid towers, and the blue carpet field round the desk;
 - a ring of stacks;
-- an **EXIT door in each of its four corner walls**, so that arrivals beside an EXIT door can always be found near the middle.
+- an **EXIT door in each of its four corner walls**, so that arrivals beside an EXIT door can always be found near the middle. From layout version 5 each stands at the back of a little vestibule (walls on three sides, open toward the middle, a poster inside), after the 2026-10 visual review found the lone walls read as kiosks.
 
 It is where most arrivals land. Wikidot: "stay here and not explore".
 
@@ -361,7 +363,7 @@ It is where most arrivals land. Wikidot: "stay here and not explore".
 
 ### 3.5 Fog and sound
 
-- **Fog.** Thin and warm-cream, like the photos' yellowish air: `new(0.004f, 0.84f, 0.80f, 0.64f, 0f)`. Overrides:
+- **Fog.** Thin and neutral, with the faint cool cast of the photos' fluorescent light: `new(0.0035f, 0.80f, 0.81f, 0.77f, 0f)` (until the visual review of 2026-10, a warm cream 0.84/0.80/0.64 at 0.004, which turned the carpet, maple and sage to khaki). Overrides:
   - the Lobby fake reality takes Level 0's;
   - the Snowfield is bright and white-blue (0.02, 0.90/0.93/0.97);
   - Home is warm amber (0.006, 0.80/0.66/0.48);
@@ -383,7 +385,7 @@ It is where most arrivals land. Wikidot: "stay here and not explore".
 | **The loop** | In a **Long Aisle**, walking straight on (speed above 2 blocks/s, facing within 30° of the aisle) past 96 blocks along it moves you back 64, to a spot that looks exactly the same: the aisle repeats every 32 blocks (stacks, lights, posters, cross-gaps). It only happens with no other player within 48 blocks | Wikidot: "the Level seems to loop when walking in one direction" |
 | **The Turnaround** | At the moment the loop moves you, a full-height bookcase (the same tall stacks the aisle is made of) is set across the aisle 5 blocks behind you, out of sight. Turn round, and you walk into it. The cross-gaps ahead (every 32 blocks, left and right in turn) always lead out. The bookcase is taken away again once nobody is within 48 blocks and none can see it | Wikidot: "turning around at this point will cause you to run into a wall" |
 | **Distortions** | Once you have been in The End 20 real minutes, one comes every 8–15 minutes. For 12 seconds: <br>• the lights pulse in patterns, the camera shakes and a low rumble rises; <br>• the fog and the sound bed become the department's scene (the Lobby's yellow and hum, the snow's white and wind, the Poolrooms' teal and lapping, Motion's tune, the office's rain). <br>**Walk into a wall or a shelf during one** (pressing against it for half a second) and you go through, into that scene's level (2.2). Each department always shows the same scene, so the threshold is fixed | Fandom's "Distortions" note and its exit |
-| **Lights out** | Every 60–120 in-game minutes, a breaker clunks and the lights round you go out for 60–120 s. This reuses Level 1's Flickering darkness ("round the player only") without the Hounds. Terminals stay lit | Fandom: lights "sometimes shutting off temporarily"; ETB's Lights Out |
+| **Lights out** | Every 60–120 in-game minutes (the first only 3–4 in-game hours after arriving, so a first look round is in the light), a breaker clunks and the lights round you go out for 60–120 s. This reuses Level 1's Flickering darkness ("round the player only") without the Hounds. Terminals stay lit | Fandom: lights "sometimes shutting off temporarily"; ETB's Lights Out |
 | **Terminals** | Right-click a CRT. It buzzes, the screen shows **THE END** in white for 3 s, then fading static, then it is dead for good (the block becomes `dead`, saved with the world). <br>**What it gives:** your map is marked with the nearest *working* way out within 400 blocks (an unlocked EXIT door, a working fake-reality door, a vent), and up to two more beyond it. <br>**1 in 4** terminals (fixed by hash, never the central hall's) show **"=)"** instead, and you are taken to Level Fun (one-way) | Fandom's one-time computers. Wikidot: terminals "connect to any Wi-Fi source", and the Partygoers' host is behind them |
 | **Fragile shelves** | `leaning` shelves (1 in 25 in Stacks) fall the moment anything pushes them: walk into one, or hit it once with anything. They come down as rubble and a few boards, with a crash that counts as noise | Fandom: "some shelves may collapse under slight pressure" |
 | **Indestructible** | Terminals, EXIT and staff doors, vents, letters, the Level 4 doorframe, and the rim from the ceiling up. Everything else breaks down as usual (`Breakdown.cs`) | Fandom: the computers are indestructible |

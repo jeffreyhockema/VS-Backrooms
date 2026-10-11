@@ -1,0 +1,249 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"citysign-left": "backrooms:block/detail/citysign-left",
+		"citysign-right": "backrooms:block/detail/citysign-right",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"streetgreen": "backrooms:block/detail/streetgreen"
+	},
+	"elements": [
+		{
+			"name": "PostA",
+			"from": [
+				7.5,
+				0,
+				2.5
+			],
+			"to": [
+				8.5,
+				30,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB",
+			"from": [
+				7.5,
+				0,
+				12.5
+			],
+			"to": [
+				8.5,
+				30,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateE",
+			"from": [
+				8.5,
+				18,
+				-1
+			],
+			"to": [
+				8.8,
+				30,
+				17
+			],
+			"faces": {
+				"east": {
+					"texture": "#citysign-right",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateW",
+			"from": [
+				7.2,
+				18,
+				-1
+			],
+			"to": [
+				7.5,
+				30,
+				17
+			],
+			"faces": {
+				"west": {
+					"texture": "#citysign-left",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PlateEdge",
+			"from": [
+				7.2,
+				18,
+				-1
+			],
+			"to": [
+				8.8,
+				30,
+				17
+			],
+			"faces": {
+				"north": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						12
+					]
+				},
+				"south": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						12
+					]
+				},
+				"up": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						16
+					]
+				},
+				"down": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						1.6000000000000005,
+						16
+					]
+				}
+			}
+		}
+	]
+}

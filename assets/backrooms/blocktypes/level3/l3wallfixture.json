@@ -1,4 +1,4 @@
-// Level 3 walls carrying 3D pipes, electrical panels or industrial fans
+// Level 3 walls carrying 3D pipes (with a flanged joint, or a bracket), electrical panels or industrial fans
 {
 	"code": "l3wallfixture",
 	"variantgroups": [
@@ -15,7 +15,9 @@
 			"states": [
 				"pipes",
 				"panel",
-				"fan"
+				"fan",
+				"pipesjoint",
+				"pipesbracket"
 			]
 		}
 	],
@@ -35,7 +37,7 @@
 		}
 	},
 	"textures": {
-		"all": {
+		"wall": {
 			"base": "block/level3/l3wall-{material}"
 		}
 	},

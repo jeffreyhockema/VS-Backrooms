@@ -13,7 +13,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private const ulong SaltSpeleoDown = 0xC410, SaltSpeleoUp = 0xC411, SaltSpeleoDensity = 0xC412, SaltGlowColony = 0xC413,
-        SaltGlowSlot = 0xC414, SaltLichen = 0xC415, SaltFungus = 0xC416, SaltRubble = 0xC417, SaltCrystalKind = 0xC418;
+        SaltGlowSlot = 0xC414, SaltLichen = 0xC415, SaltFungus = 0xC416, SaltRubble = 0xC417, SaltCrystalKind = 0xC418, SaltGlowcap = 0xC419;
     private const ulong SaltShallows = 0x7C10, SaltReef = 0x7C11, SaltShore = 0x7C12;
 
     /// <summary>How far up or down a speleothem span is looked for; spans taller than this never need clamping.</summary>
@@ -136,8 +136,31 @@ public sealed partial class WorldGenerator
                 if (r < 0.18) return looseStoneIds.TryGetValue(rock, out int stones) ? stones : 0;
             }
         }
+        if (down <= 2 && layout.Version >= 5 && Glowcaps(gx, y, gz, rel, down) is int glowing and >= 0) return glowing;
         if (down <= 3) return WallFungus(gx, y, gz, rel);
         return -1;
+    }
+
+    /// <summary>
+    /// From layout version 5, Level 8's bioluminescent fungi (Wikidot: growth "enveloped in a blood-red glow", and
+    /// "multicolored bioluminescent mushrooms"): in some stretches of cave, clusters on the floor and at the foot of
+    /// the walls, faintly lit, mostly blood-red, in places of many colours. -1 where none is.
+    /// </summary>
+    private int Glowcaps(int gx, int y, int gz, int rel, int down)
+    {
+        if (Noise2(gx / 36.0, gz / 36.0, SaltGlowcap) < 0.4) return -1;
+        ulong h = Hashing.Hash(seed, gx, gz, SaltGlowcap + 1 + (ulong)(y & 1023));
+        if (Hashing.Unit(h) > 0.035) return -1;
+        // One kind to a stretch, mostly red
+        int prop = Noise2(gx / 14.0, gz / 14.0, SaltGlowcap + 2) > 0.45 ? Props.GlowcapMixed : Props.GlowcapRed;
+        int start = (int)((h >> 24) & 3);
+        for (int i = 0; i < 4; i++)
+        {
+            int side = (start + i) & 3; // north, east, south, west
+            int nx = gx + (side == 1 ? 1 : side == 3 ? -1 : 0), nz = gz + (side == 2 ? 1 : side == 0 ? -1 : 0);
+            if (SolidRock(nx, y, nz, rel)) return propIds[prop, 1, side]; // against the wall
+        }
+        return down == 1 ? propIds[prop, 0, (int)((h >> 40) & 3)] : -1; // out on the floor
     }
 
     private enum Hang : byte { None, Stalactite, Glowworms, Lichen }
@@ -193,7 +216,7 @@ public sealed partial class WorldGenerator
         // Anything too tall to step over stands where there is room to walk round it
         if (len >= 2)
         {
-            foreach ((int dx, int dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+            foreach ((int dx, int dz) in Neighbours4)
                 if (!caveColumns.Get(gx + dx, gz + dz).IsCave(floorY + 1)) { len = 1; break; }
         }
         return Math.Max(len, 0);
@@ -288,7 +311,9 @@ public sealed partial class WorldGenerator
         if (n.Level != 8) return false;
         if (n.Tall) return true;
         bool open = !n.IsWallLike || n.Kind == TileKind.Doorway;
-        if (open && rel >= 0 && rel <= 4) return rel == 0;
+        // (the road's and the settlements' air: four high, or from layout version 5 their Height, and rock over that)
+        int roof = open && n.Height > 0 ? n.Height : 4;
+        if (open && rel >= 0 && rel <= Math.Max(roof, 4)) return rel == 0 || rel > roof && !IsCave(gx, y, gz);
         if (n.Variant is Props.CaveVent or Props.AlmondSeep && rel >= 1 && rel <= 4) return false;
         return !IsCave(gx, y, gz);
     }
@@ -359,10 +384,13 @@ public sealed partial class WorldGenerator
         return -1; // the midnight zone and the abyss stay bare
     }
 
-    /// <summary>Whether a sea block is next to an island or a ledge.</summary>
+    /// <summary>The columns up to two out from a column, straight along each axis.</summary>
+    private static readonly (int Dx, int Dz)[] ShoreReach = { (1, 0), (-1, 0), (0, 1), (0, -1), (2, 0), (-2, 0), (0, 2), (0, -2) };
+
+    /// <summary>Whether a sea block is next to an island or a ledge (within two blocks).</summary>
     private bool NearShore(int gx, int gz)
     {
-        foreach ((int dx, int dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1), (2, 0), (-2, 0), (0, 2), (0, -2) })
+        foreach ((int dx, int dz) in ShoreReach)
         {
             Tile n = TileAt(gx + dx, gz + dz);
             if (n.Level == 7 && n.Kind == TileKind.Floor) return true;
@@ -378,7 +406,7 @@ public sealed partial class WorldGenerator
         double u = Hashing.Unit(h);
         if (u > 0.1) return -1;
         bool rim = false;
-        foreach ((int dx, int dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+        foreach ((int dx, int dz) in Neighbours4)
             if (TileAt(gx + dx, gz + dz) is { Level: 7, Kind: TileKind.Water }) { rim = true; break; }
         if (!rim) return -1;
         if (u < 0.075 && shellIds.Length > 0) return shellIds[(int)((h >> 32) % (ulong)shellIds.Length)];

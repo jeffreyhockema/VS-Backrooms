@@ -14,9 +14,13 @@ public class FlickerSystem : ModSystem
     private readonly HashSet<BlockEntityFlickerLight> lights = new();
     private readonly List<BlockEntityFlickerLight> scratch = new();
     private ICoreClientAPI capi;
+    private long tickListener;
     private Backrooms.Reality.RealitySystem reality;
 
-    /// <summary>The dead look of each kind of failing light, tesselated once per world.</summary>
+    /// <summary>
+    /// The dead look of each kind of failing light, tesselated once per world: keyed by the lit block's id. Used from
+    /// the tesselation threads, so always locked.
+    /// </summary>
     internal readonly Dictionary<int, MeshData> OffMeshes = new();
 
     public override void Start(ICoreAPI api)
@@ -27,13 +31,14 @@ public class FlickerSystem : ModSystem
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;
-        api.Event.RegisterGameTickListener(OnTick, 30);
+        tickListener = api.Event.RegisterGameTickListener(OnTick, 30);
     }
 
     public void Register(BlockEntityFlickerLight light) => lights.Add(light);
 
     public override void Dispose()
     {
+        if (capi != null) capi.Event.UnregisterGameTickListener(tickListener);
         lock (OffMeshes) OffMeshes.Clear();
         lights.Clear();
         base.Dispose();

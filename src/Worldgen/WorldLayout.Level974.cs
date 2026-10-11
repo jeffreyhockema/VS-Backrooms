@@ -96,8 +96,11 @@ public sealed partial class WorldLayout
         return (x0 + (L974Mirrored(mx, mz) ? L974HouseW - 1 - u : u), z0 + v);
     }
 
-    /// <summary>Where someone taken to the house in a cell wakes: in the bedroom, beside the bed.</summary>
-    public (int X, int Z) L974Arrival(int mx, int mz) => L974At(mx, mz, 14, 5);
+    /// <summary>
+    /// Where someone taken to the house in a cell wakes: in the bedroom, on the rug before the bed (layout version 5 on;
+    /// in 1-4 in the mouth of the bed's alcove, a stub wall at arm's length).
+    /// </summary>
+    public (int X, int Z) L974Arrival(int mx, int mz) => Version >= 5 ? L974At(mx, mz, 13, 4) : L974At(mx, mz, 14, 5);
 
     /// <summary>The kinds of place in a house Kitty keeps to (see <c>L974System</c>).</summary>
     public enum L974SpotKind : byte { Watch, SleepWatch, Kneel, Table, Kitchen }
@@ -296,7 +299,8 @@ public sealed partial class WorldLayout
                 At(u, v).Height = (byte)h;
                 At(u, v).Depth = (byte)((L974HighSlope << 2) | (int)F(ArchPier.East));
             }
-        At(14, 5).Under = Unders.L974Arrival;
+        if (Version >= 5) At(13, 4).Under = Unders.L974Arrival;
+        else At(14, 5).Under = Unders.L974Arrival;
         Light(14, 3);
 
         // The kitchen: fridge, pantry and counters down the west wall, the stove on the south; the dining corner's
@@ -332,6 +336,8 @@ public sealed partial class WorldLayout
         Hang(10, 8, L974Hung.NightLight, ArchPier.West);
         Light(9, 3);
         Light(10, 13);
+        // (Layout version 5 on, a third downlight halfway down: with two, the hall was the darkest place in the house)
+        if (Version >= 5) Light(9, 8);
 
         // The bathrooms
         Put(12, 8, Props.L974Basin, ArchPier.South);

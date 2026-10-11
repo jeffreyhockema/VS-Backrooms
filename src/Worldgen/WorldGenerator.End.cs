@@ -55,7 +55,6 @@ public sealed partial class WorldGenerator
         endTrofferIds[1] = EndBlock("end-troffer-lit", officeLightIds[1]);
         endTrofferIds[2] = EndBlock("end-troffer-off", officeLightIds[2]);
         endTrofferIds[3] = EndBlock("end-troffer-flicker", officeLightIds[3]);
-        flickerIds.Add(endTrofferIds[3]);
         endSoffitId = EndBlock("end-soffit-plain", wall);
         endDeckIds[0] = EndBlock("end-deck-plain", ceiling);
         endDeckIds[1] = EndBlock("end-deck-troffer", officeLightIds[0]);
@@ -274,9 +273,9 @@ public sealed partial class WorldGenerator
             case WorldLayout.EndFake.Lobby:
                 return Level0Block(t, rel, out _);
             case WorldLayout.EndFake.Office:
-                return Level4Block(t, rel);
+                return Level4Block(t, rel, gx, gz);
             case WorldLayout.EndFake.Hotel:
-                return Level5Block(t, rel);
+                return Level5Block(t, rel, gx, gz);
             case WorldLayout.EndFake.House:
             case WorldLayout.EndFake.Home:
                 // (No roof: a house's rooms with nothing over them but The End's ceiling)

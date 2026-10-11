@@ -1,0 +1,96 @@
+// STAFF ONLY plate over a doorway into the boiler halls, on both faces (in halves over a two-wide doorway)
+{
+	"code": "staffplaque",
+	"variantgroups": [
+		{
+			"code": "wall",
+			"states": [
+				"frieze",
+				"plaster"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"single",
+				"lo",
+				"hi"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-single-we"
+		],
+		"decorative": [
+			"*-single-we"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-frieze-single-we": {
+			"base": "block/detail/staffplaque-frieze",
+			"rotateY": 0
+		},
+		"*-frieze-single-ns": {
+			"base": "block/detail/staffplaque-frieze",
+			"rotateY": 90
+		},
+		"*-frieze-lo-we": {
+			"base": "block/detail/staffplaque-frieze-r",
+			"rotateY": 0
+		},
+		"*-frieze-hi-we": {
+			"base": "block/detail/staffplaque-frieze-l",
+			"rotateY": 0
+		},
+		"*-frieze-lo-ns": {
+			"base": "block/detail/staffplaque-frieze-l",
+			"rotateY": 90
+		},
+		"*-frieze-hi-ns": {
+			"base": "block/detail/staffplaque-frieze-r",
+			"rotateY": 90
+		},
+		"*-plaster-single-we": {
+			"base": "block/detail/staffplaque-plaster",
+			"rotateY": 0
+		},
+		"*-plaster-single-ns": {
+			"base": "block/detail/staffplaque-plaster",
+			"rotateY": 90
+		},
+		"*-plaster-lo-we": {
+			"base": "block/detail/staffplaque-plaster-r",
+			"rotateY": 0
+		},
+		"*-plaster-hi-we": {
+			"base": "block/detail/staffplaque-plaster-l",
+			"rotateY": 0
+		},
+		"*-plaster-lo-ns": {
+			"base": "block/detail/staffplaque-plaster-l",
+			"rotateY": 90
+		},
+		"*-plaster-hi-ns": {
+			"base": "block/detail/staffplaque-plaster-r",
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

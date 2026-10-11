@@ -32,9 +32,9 @@ namespace Backrooms.Regions;
 /// player).</item>
 /// <item><b>Mall directories</b> mark the nearest food court and lobby; <b>Arcade Attendants</b> stand behind the prize
 /// counters, the food stalls and the reception desks while anyone is near (never kept with the world), cannot be hurt,
-/// and point the way to a lobby.</item>
-/// <item>The Natatorium's water soothes (half a point of health every four seconds); a windmill's generator in Level 10
-/// turns its beacon green, for good.</item>
+/// and point the way: to a lobby, or from a lobby's reception desk to the food court.</item>
+/// <item>The Natatorium's water soothes (half a point of health every four seconds); the first failing neon near the Neon
+/// Blackout says so; a windmill's generator in Level 10 turns its beacon green, for good.</item>
 /// <item>Blocks marked <c>l3999structure</c> never break (machines, counters, doors, windows: canon's indestructible
 /// arcade).</item>
 /// </list>
@@ -47,13 +47,21 @@ public class L3999System : ModSystem
     private const string PlayerKey = "backrooms:l3999";
     private const string TicketCode = "backrooms:l3999-ticket";
     private const int AttendantNear = 40, AttendantGone = 96;
+    /// <summary>The neon sign over a prize counter, and over a lobby's reception desk (indices in <see cref="WorldLayout.L3999Signs"/>).</summary>
+    private const int PrizesSign = 2, ReceptionSign = 4;
 
     private static ICoreServerAPI sapi;
+    private ICoreServerAPI serverApi;
     private ICoreClientAPI capi;
+    private long attendantTick, sootheTick, walkwayTick;
+    /// <summary>Reused by the client's walkway tick (every 20 ms) for the blocks it looks at.</summary>
+    private readonly BlockPos walkwayProbe = new(0);
     private WorldLayout layout;
     private WorldGeometry geometry;
     private readonly Dictionary<(int X, int Z), Entity> attendants = new();
     private readonly Dictionary<string, long> nextSoothe = new();
+    /// <summary>When (server ms) each player was told the Blackout is near, until they have been out of its fringe a while.</summary>
+    private readonly Dictionary<string, long> blackoutWarned = new();
     private EntityProperties[] attendantTypes = Array.Empty<EntityProperties>();
 
     // After Protection (1.2), whose block classes this changes for the level's indestructible blocks
@@ -94,6 +102,8 @@ public class L3999System : ModSystem
             if (attributes?["l3999prizes"].Exists == true) Add(block, new BlockBehaviorL3999Prizes(block));
             if (attributes?["l3999stall"].Exists == true) Add(block, new BlockBehaviorL3999Stall(block));
             if (path.StartsWith("l3999-directory-")) Add(block, new BlockBehaviorL3999Directory(block));
+            // (The vending machines work through their own block class, BackroomsDispenser: this only says what they take)
+            if (attributes?["takes"].Exists == true) Add(block, new BlockBehaviorL3999Vending(block));
             if (path.StartsWith("l3999-generator-")) Add(block, new BlockBehaviorL3999Generator(block));
         }
     }
@@ -114,28 +124,43 @@ public class L3999System : ModSystem
 
     public override void StartServerSide(ICoreServerAPI api)
     {
-        sapi = api;
+        sapi = serverApi = api;
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
             attendantTypes = api.World.EntityTypes.Where(t => t.Code?.Domain == "backrooms" && t.Code.Path.StartsWith("l3999-attendant")).ToArray();
-            api.Event.RegisterGameTickListener(OnAttendants, 3000, 1500);
-            api.Event.RegisterGameTickListener(OnSoothe, 1000, 500);
-            api.Event.PlayerDisconnect += player => nextSoothe.Remove(player.PlayerUID);
+            attendantTick = api.Event.RegisterGameTickListener(OnAttendants, 3000, 1500);
+            sootheTick = api.Event.RegisterGameTickListener(OnSoothe, 1000, 500);
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
+    }
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        nextSoothe.Remove(player.PlayerUID);
+        blackoutWarned.Remove(player.PlayerUID);
+        BlockBehaviorL3999Cabinet.Forget(player.PlayerUID);
     }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;
-        api.Event.RegisterGameTickListener(OnWalkway, 20);
+        walkwayTick = api.Event.RegisterGameTickListener(OnWalkway, 20);
     }
 
     public override void Dispose()
     {
-        sapi = null;
+        if (serverApi != null)
+        {
+            if (attendantTick != 0) serverApi.Event.UnregisterGameTickListener(attendantTick);
+            if (sootheTick != 0) serverApi.Event.UnregisterGameTickListener(sootheTick);
+            serverApi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+            // (Static, and shared with the client's instance in a single-player game: only the server's own may clear it)
+            if (sapi == serverApi) sapi = null;
+        }
+        if (capi != null && walkwayTick != 0) capi.Event.UnregisterGameTickListener(walkwayTick);
     }
 
     // ================= Machines and tickets =================
@@ -154,14 +179,21 @@ public class L3999System : ModSystem
         return tree;
     }
 
+    /// <summary>A machine's entry in the day's <c>played</c> list, which is these run together ("x,y,z;x,y,z;").</summary>
     private static string MachineKey(BlockPos pos) => $"{pos.X},{pos.Y},{pos.Z};";
+
+    /// <summary>
+    /// Whether a machine is in the day's <c>played</c> list. (Matched whole: a bare Contains would find "1,64,5;" inside
+    /// "11,64,5;" or "-1,64,5;", and refuse a machine that had never paid.)
+    /// </summary>
+    private static bool HasPlayed(ITreeAttribute day, BlockPos pos) => (";" + day.GetString("played", "")).Contains(";" + MachineKey(pos));
 
     /// <summary>Whether a machine will pay a player today; if not, says why. (Themed cabinets always play.)</summary>
     public static bool MayPlay(IServerPlayer player, BlockPos pos, bool themed)
     {
         if (themed || sapi == null) return true;
         ITreeAttribute day = Day(player);
-        if (day.GetString("played", "").Contains(MachineKey(pos))) { Say(player, "backrooms:l3999-cabinet-played"); return false; }
+        if (HasPlayed(day, pos)) { Say(player, "backrooms:l3999-cabinet-played"); return false; }
         if (day.GetInt("tickets") >= DailyCap) { Say(player, "backrooms:l3999-cabinet-cap"); return false; }
         return true;
     }
@@ -233,6 +265,7 @@ public class L3999System : ModSystem
         if (tier == 0)
         {
             Say(player, "backrooms:l3999-prize-need");
+            Say(player, "backrooms:l3999-prize-tiers");
             return;
         }
         JsonObject[] prizes = tiers[tier.ToString()].AsArray();
@@ -260,7 +293,8 @@ public class L3999System : ModSystem
         string food = block.Variant?["stall"] ?? block.Code.Path.Split('-').ElementAtOrDefault(2);
         JsonObject cfg = block.Attributes?["l3999stall"]?[food];
         if (cfg == null || !cfg.Exists) return;
-        int cost = cfg["cost"].AsInt(6);
+        // (Never free: a stall whose cost is missing or nonsense still takes one ticket)
+        int cost = Math.Max(1, cfg["cost"].AsInt(6));
         if (HeldTickets(player, out ItemSlot slot) < cost)
         {
             Say(player, "backrooms:l3999-stall-need");
@@ -325,12 +359,13 @@ public class L3999System : ModSystem
 
     // ================= Finding the way =================
 
-    /// <summary>The name of the direction from one place to another ("north-east").</summary>
-    private static string Direction(double dx, double dz)
+    private static readonly string[] DirectionNames = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
+
+    /// <summary>The name of the direction of an offset (dx east, dz south): "north-east". Shared with The End's catalogue cards.</summary>
+    internal static string Direction(double dx, double dz)
     {
-        string[] names = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
         int octant = (int)Math.Round(Math.Atan2(dx, -dz) / (Math.PI / 4));
-        return Lang.Get("backrooms:dir-" + names[((octant % 8) + 8) % 8]);
+        return Lang.Get("backrooms:dir-" + DirectionNames[((octant % 8) + 8) % 8]);
     }
 
     /// <summary>A mall directory: marks the nearest food court and lobby on the player's map, and says which way they lie.</summary>
@@ -361,7 +396,7 @@ public class L3999System : ModSystem
             {
                 Tile t = layout.TileAt(x, z);
                 if (t.Level != WorldLayout.Level3999 || t.Kind != TileKind.Floor || WorldLayout.L3999IsDark(t)) continue;
-                bool spot = t.Overhead == Overheads.L3999Sign && t.Depth is 2 or 4 && t.Zone is not ((byte)WorldLayout.L3999Zone.Concourse or (byte)WorldLayout.L3999Zone.Junction)
+                bool spot = t.Overhead == Overheads.L3999Sign && t.Depth is PrizesSign or ReceptionSign && t.Zone is not ((byte)WorldLayout.L3999Zone.Concourse or (byte)WorldLayout.L3999Zone.Junction)
                     || t.Variant == Worldgen.Props.L3999MenuBoard;
                 if (spot) yield return (x, z, t.Pier);
             }
@@ -371,12 +406,18 @@ public class L3999System : ModSystem
     {
         if (attendantTypes.Length == 0) return;
         var players = sapi.World.AllOnlinePlayers.OfType<IServerPlayer>().Where(p => p.Entity != null && p.ConnectionState == EnumClientState.Playing).ToList();
-        // Gone when nobody is near any more, or killed somehow
+        // Gone when nobody is near any more, or killed somehow, or unloaded with its chunk (never kept with the world, so
+        // it is simply dropped, still "alive": without this its counter would go unstaffed until the server restarted)
         foreach (var key in attendants.Keys.ToList())
         {
             Entity e = attendants[key];
-            bool near = players.Any(p => p.Entity.Pos.XYZ.HorizontalSquareDistanceTo(key.X + 0.5, key.Z + 0.5) < AttendantGone * AttendantGone);
-            if (e.Alive && near) continue;
+            bool near = false;
+            foreach (IServerPlayer p in players)
+            {
+                double dx = p.Entity.Pos.X - (key.X + 0.5), dz = p.Entity.Pos.Z - (key.Z + 0.5);
+                if (dx * dx + dz * dz < AttendantGone * AttendantGone) { near = true; break; }
+            }
+            if (e.Alive && near && sapi.World.GetEntityById(e.EntityId) != null) continue;
             if (e.Alive) e.Die(EnumDespawnReason.Removed);
             attendants.Remove(key);
         }
@@ -400,7 +441,10 @@ public class L3999System : ModSystem
         }
     }
 
-    /// <summary>Asked: a chime, a polite line, and the way to the nearest lobby, marked on the map.</summary>
+    /// <summary>
+    /// Asked: a chime, a polite line, and the way somewhere, marked on the map: from a lobby's reception desk (under its
+    /// LOBBY sign) to the nearest food court; from anywhere else, to the nearest lobby.
+    /// </summary>
     public void AttendantInteract(IServerPlayer player, Entity attendant)
     {
         Random rand = sapi.World.Rand;
@@ -408,12 +452,16 @@ public class L3999System : ModSystem
         Say(player, "backrooms:l3999-attendant-" + (1 + rand.Next(7)));
         if (layout == null) return;
         int x = (int)Math.Floor(attendant.Pos.X), z = (int)Math.Floor(attendant.Pos.Z);
-        var lobby = layout.L3999UnitsNear(x, z, u => u.Kind == WorldLayout.L3999Kind.Lobby, 900);
-        if (lobby.Count == 0) return;
-        var (lx, lz) = lobby[0];
+        Tile at = layout.TileAt(x, z);
+        bool reception = at.Overhead == Overheads.L3999Sign && at.Depth == ReceptionSign;
+        var kind = reception ? WorldLayout.L3999Kind.FoodCourt : WorldLayout.L3999Kind.Lobby;
+        var found = layout.L3999UnitsNear(x, z, u => u.Kind == kind, 900);
+        if (found.Count == 0) return;
+        var (tx, tz) = found[0];
         attendant.AnimManager?.StartAnimation("point");
-        MapMarks.Add(sapi, player, new Vec3d(lx + 0.5, attendant.Pos.Y, lz + 0.5), Lang.Get("backrooms:waypoint-l3999-lobby"), "star1", MapMarks.NoteColor, 24);
-        Say(player, "backrooms:l3999-attendant-point", Lang.Get("backrooms:l3999-place-lobby"));
+        string waypoint = reception ? "backrooms:waypoint-l3999-foodcourt" : "backrooms:waypoint-l3999-lobby";
+        MapMarks.Add(sapi, player, new Vec3d(tx + 0.5, attendant.Pos.Y, tz + 0.5), Lang.Get(waypoint), "star1", MapMarks.NoteColor, 24);
+        Say(player, "backrooms:l3999-attendant-point", Lang.Get(reception ? "backrooms:l3999-place-foodcourt" : "backrooms:l3999-place-lobby"));
     }
 
     /// <summary>Struck: a chime, and "Please refrain."</summary>
@@ -425,7 +473,10 @@ public class L3999System : ModSystem
 
     // ================= The Natatorium, the walkways =================
 
-    /// <summary>Paradis Water: standing in a natatorium's water soothes, half a point of health every four seconds.</summary>
+    /// <summary>
+    /// Every second: Paradis Water (standing in a natatorium's water soothes, half a point of health every four seconds),
+    /// and the word that the Neon Blackout is near (<see cref="BlackoutNear"/>).
+    /// </summary>
     private void OnSoothe(float dt)
     {
         long now = sapi.World.ElapsedMilliseconds;
@@ -436,6 +487,7 @@ public class L3999System : ModSystem
             int x = (int)Math.Floor(e.Pos.X), z = (int)Math.Floor(e.Pos.Z);
             if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != WorldLayout.Level3999) continue;
             Tile t = layout.TileAt(x, z);
+            BlackoutNear(player, t, now);
             if (t.Kind != TileKind.Water || t.Zone != (byte)WorldLayout.L3999Zone.Natatorium || e.Pos.Y > geometry.FloorFor(WorldLayout.Level3999) + 1.2) continue;
             if (nextSoothe.TryGetValue(player.PlayerUID, out long next) && now < next) continue;
             nextSoothe[player.PlayerUID] = now + 4000;
@@ -443,14 +495,29 @@ public class L3999System : ModSystem
         }
     }
 
+    /// <summary>
+    /// The first failing neon (within 48 blocks of a block of the Neon Blackout, where the tiles' drift starts): told once,
+    /// and again only after they have been back under neon that works, at least a minute after they were told (so that a
+    /// walk along the fringe's edge is not a message every few steps).
+    /// </summary>
+    private void BlackoutNear(IServerPlayer player, in Tile t, long now)
+    {
+        if (WorldLayout.L3999IsDark(t)) return;
+        if (WorldLayout.L3999Drift(t) > 0)
+        {
+            if (blackoutWarned.TryAdd(player.PlayerUID, now)) Say(player, "backrooms:l3999-blackout-near");
+        }
+        else if (blackoutWarned.TryGetValue(player.PlayerUID, out long at) && now - at > 60_000) blackoutWarned.Remove(player.PlayerUID);
+    }
+
     /// <summary>On the client: a walkway's tread carries the player standing on it the way its chevrons point.</summary>
     private void OnWalkway(float dt)
     {
         EntityPlayer e = capi?.World?.Player?.Entity;
         if (e == null || !e.OnGround || dt > 0.25f) return;
-        EntityPos pos = e.SidedPos;
-        var under = new BlockPos((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y - 0.1), (int)Math.Floor(pos.Z));
-        Block block = capi.World.BlockAccessor.GetBlock(under);
+        // (The client moves its own player: in 1.22 an entity has one position, Pos, on either side)
+        EntityPos pos = e.Pos;
+        Block block = capi.World.BlockAccessor.GetBlock(walkwayProbe.Set((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y - 0.1), (int)Math.Floor(pos.Z)));
         JsonObject cfg = block?.Attributes?["l3999walkway"];
         if (cfg == null || !cfg.Exists) return;
         string flow = block.Code.Path.Substring(block.Code.Path.LastIndexOf('-') + 1);
@@ -458,9 +525,9 @@ public class L3999System : ModSystem
         double step = cfg["speed"].AsDouble(2.5) * dt;
         double nx = pos.X + dx * step, nz = pos.Z + dz * step;
         // Never into anything solid (a rail, a wall)
-        foreach (double up in new[] { 0.1, 1.1 })
+        for (double up = 0.1; up < 2; up += 1)
         {
-            Block ahead = capi.World.BlockAccessor.GetBlock(new BlockPos((int)Math.Floor(nx + dx * 0.3), (int)Math.Floor(pos.Y + up), (int)Math.Floor(nz + dz * 0.3)));
+            Block ahead = capi.World.BlockAccessor.GetBlock(walkwayProbe.Set((int)Math.Floor(nx + dx * 0.3), (int)Math.Floor(pos.Y + up), (int)Math.Floor(nz + dz * 0.3)));
             if (ahead.CollisionBoxes is { Length: > 0 } && ahead.Attributes?["l3999walkway"].Exists != true) return;
         }
         pos.X = nx;
@@ -494,11 +561,30 @@ public class L3999System : ModSystem
     }
 }
 
-/// <summary>An arcade machine (or a themed cabinet): hold to play, for <c>seconds</c> (a themed one's <c>l3999playSeconds</c>).</summary>
+/// <summary>
+/// An arcade machine (or a themed cabinet): hold to play, for <c>seconds</c> (a themed one's <c>l3999playSeconds</c>).
+/// The server times the game by its own clock: how long the client says the button was held only ends it, so a client
+/// that counts faster than time passes gets nothing.
+/// </summary>
 public class BlockBehaviorL3999Cabinet : BlockBehavior
 {
+    /// <summary>
+    /// How much shorter than the game the server's own count may be and still pay: the start reaches it a little later
+    /// than the client began, and the end a little sooner or later, by the connection's lag.
+    /// </summary>
+    private const long LagSlackMs = 750;
+
+    /// <summary>
+    /// Server side (only ever touched there): where each player (by uid) began a game, and when by the server's clock.
+    /// (Static: a player plays one machine at a time, whatever its type.)
+    /// </summary>
+    private static readonly Dictionary<string, (BlockPos Pos, long StartMs)> playing = new();
+
     public bool Themed;
     private WorldInteraction[] help;
+
+    /// <summary>Forgets a player's game (given up, or they left the server).</summary>
+    public static void Forget(string uid) => playing.Remove(uid);
 
     public BlockBehaviorL3999Cabinet(Block block) : base(block)
     {
@@ -518,6 +604,7 @@ public class BlockBehaviorL3999Cabinet : BlockBehavior
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)
         {
             if (!L3999System.MayPlay(player, blockSel.Position, Themed)) return false;
+            playing[player.PlayerUID] = (blockSel.Position.Copy(), world.ElapsedMilliseconds);
             world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/3999/play"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, null, true, 12);
         }
         return true;
@@ -532,8 +619,18 @@ public class BlockBehaviorL3999Cabinet : BlockBehavior
     public override void OnBlockInteractStop(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
     {
         handling = EnumHandling.PreventDefault;
-        if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player && secondsUsed >= Seconds - 0.1f)
-            L3999System.Finish(player, blockSel.Position.Copy(), block, Themed);
+        if (world.Side != EnumAppSide.Server || byPlayer is not IServerPlayer player) return;
+        if (!playing.Remove(player.PlayerUID, out var game)) return;
+        // Played to the end: by the client's count, and (give or take the lag) by the server's own clock, at this machine
+        bool held = secondsUsed >= Seconds - 0.1f;
+        bool timed = world.ElapsedMilliseconds - game.StartMs >= (long)(Seconds * 1000) - LagSlackMs;
+        if (held && timed && game.Pos.Equals(blockSel.Position)) L3999System.Finish(player, blockSel.Position.Copy(), block, Themed);
+    }
+
+    public override bool OnBlockInteractCancel(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        if (world.Side == EnumAppSide.Server && byPlayer != null) Forget(byPlayer.PlayerUID);
+        return true;
     }
 }
 
@@ -626,6 +723,25 @@ public class BlockBehaviorL3999Generator : BlockBehavior
         handling = EnumHandling.PreventDefault;
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player) L3999System.ThrowLever(player, blockSel.Position, block);
         return true;
+    }
+}
+
+/// <summary>
+/// A vending machine's interaction help (it takes Almond Water). The machine itself works through its block class,
+/// BackroomsDispenser, which never asks its behaviours, so this only answers for the help.
+/// </summary>
+public class BlockBehaviorL3999Vending : BlockBehavior
+{
+    private WorldInteraction[] help;
+
+    public BlockBehaviorL3999Vending(Block block) : base(block)
+    {
+    }
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
+    {
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l3999-vending", MouseButton = EnumMouseButton.Right } };
+        return help;
     }
 }
 

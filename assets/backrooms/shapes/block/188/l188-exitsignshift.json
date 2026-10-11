@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"exitsign": "backrooms:block/188/exitsign",
+		"signbox": "backrooms:block/188/signbox"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				11,
+				7,
+				14
+			],
+			"to": [
+				21,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10,
+						5
+					]
+				},
+				"east": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"south": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10,
+						5
+					]
+				},
+				"west": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						2,
+						5
+					]
+				},
+				"up": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				},
+				"down": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				11,
+				7,
+				13.8
+			],
+			"to": [
+				21,
+				12,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				10.6,
+				6.6,
+				15.6
+			],
+			"to": [
+				21.4,
+				12.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10.8,
+						5.800000000000001
+					]
+				},
+				"east": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.800000000000001
+					]
+				},
+				"west": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.800000000000001
+					]
+				},
+				"up": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#signbox",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

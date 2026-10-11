@@ -246,7 +246,7 @@ def entity():
         f.write(json.dumps(data, indent="\t") + "\n")
     WRITTEN["entities"].append("l188-arm")
     LANG["item-creature-l188-arm"] = "A Window's arm"
-    LANG["creature-l188-arm"] = "A Window's arm"
+    LANG["prefixandcreature-l188-arm"] = "a Window's arm"
 
 
 def generate():

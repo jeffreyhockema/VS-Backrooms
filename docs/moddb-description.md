@@ -1,16 +1,100 @@
-# The Backrooms
+# Backrooms: Survival Story
 
-**Wake up in the Backrooms with nothing.** No tools, no food, no daylight: just a folded note in your pocket, two supply boxes beside you, and an endless expanse of mono-yellow rooms under buzzing fluorescent lights. Walk far enough and Level 0 gives way to deeper levels, one after another, each with its own way to survive and its own things living in it.
+**Wake up in the Backrooms with nothing.** No tools, no food, no daylight. A folded note in your pocket, two supply boxes beside you, and an endless expanse of mono-yellow rooms under buzzing fluorescent lights. The carpet is damp. The hum never stops. Somewhere down the hall a light is failing.
 
-This is a survival mod built on Vintage Story's own systems. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work. What changes is where everything comes from, because there is no outdoors. You scavenge, you strip the building, you learn the ways between levels, and you carry what you find back home.
+This is not a maze you escape. It is a world you learn to survive in.
 
-Requires Vintage Story 1.22 or later. Backrooms worlds are created with the **The Backrooms** playstyle; your normal worlds are untouched.
+Backrooms: Survival Story is a complete survival game built on Vintage Story's own systems and moved into a building with no outside. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work. What changes is where everything comes from. There are no trees, no rivers, no sunrise. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
+
+Requires Vintage Story 1.22 or later. Backrooms worlds are created with the **Backrooms: Survival Story** playstyle; your normal worlds are untouched.
+
+---
+
+## What version 0.512.2019 contains
+
+Everything below is in the mod now and playable.
+
+- Twenty-two levels, all fully built: Levels 0 to 11, the Snackrooms, Level 37, Level 94, Level !, Level Fun, The End, the Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
+- More than seventy kinds of threshold between them, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
+- A roster of creatures with their own behaviour, each with a counter you can learn.
+- Survival progression from improvised salvage tools through Vintage Story's normal path of flint, fire, pottery, copper and bronze.
+- Scavenging, mining, farming, livestock and base building with no overworld.
+- A map that shows only what you have seen and remembers it, with every transition you have used marked.
+- Discoverable wanderers' notes, an expedition journal, and a handbook rewritten for the Backrooms.
+- A fifteen-step tutorial for the first hour.
+- World settings for creature activity and resource scarcity.
+- Multiplayer: server and clients compare builds on joining and warn in chat if they differ.
+
+---
+
+## Surviving
+
+**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. From there the normal Vintage Story path carries on with materials found level by level: flint in the Lobby's boxes, copper and lead in the pipe tunnels, clay in the flooded tunnels under the Electrical Station, coal beside the generators and boilers, real ore veins in the caves, crops and livestock in the farmland.
+
+**The building breaks down, never up.** Drywall and wallpaper break with any tool. Concrete, brick and tile want a copper pickaxe, like rock, and give rubble you can build with. Pipes and machinery give brackets, wire and the odd copper bit. Each level's roof, the wall between two levels above a certain height, and every door, elevator and vent are indestructible. Under every floor lie eight blocks of concrete and then the ground Vintage Story lays down in any world, with its strata, caves and ore.
+
+**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
+
+**Food is scarce.** Most boxes and crates were gone through long ago, and a torn box can be told from across the room. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
+
+**Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography. Each area has its own stability. Where it is low the gear turns backwards and yours drains; when yours is low the world distorts. Almond Water restores it. Once in every thirty in-game hours or so the lights fail for a few hours in a Reality Shift, and stability drains everywhere.
+
+---
+
+## Finding the way
+
+**A map that only shows what you have seen.** The map reveals what is in your line of sight, so walls block it, and it remembers between sessions. Every gate you walk through and every elevator, stairwell, door or pit you take is marked the first time, with the way back where there is one. Surveyor's chalk marks walls with arrows, crosses and circles that show on the map.
+
+**Notes and the journal.** Earlier wanderers left notes in boxes, desks, backpacks and bedrolls. They come in order, carrying you from waking to the far levels, and each one marks the nearest gate, way out, cache or refuge on your map. Everything you read is kept in your journal. Folded notes, rarer, give exact routes, odds and rules.
+
+**The handbook is rewritten.** In a Backrooms world the Guides tab is written for the Backrooms: the Starter Guide; the Progression Guide; Reality Stability; Home and Expeditions; Finding the Way; Salvage; Food, Heat and Cold; The Levels, in two pages; Ways Between Levels; and What Lives Here. Every vanilla guide opens with an "In the Backrooms" preface saying what is different here. A fifteen-step First Steps tutorial starts the first time you join.
+
+---
+
+## The topology lies
+
+The levels are laid out in nested regions around where you wake: Level 0 in the middle, Level 1 around it, Level 2 around that, and so on out to Level 10. No region is a circle. A level may end after a few hundred blocks in one direction and run for kilometres in another, and the short way through one level need not line up with the short way through the next. Where two levels meet, the wall is solid but for gates every few hundred blocks. Beyond the rings lie places no amount of walking reaches, only noclipping.
+
+That is only how the world is built. The real map is the network of ways between levels, and it follows two rules so you can learn it:
+
+1. **Every threshold always leads to the same place.** Where it leads is fixed the first time anyone goes through it and saved with the world.
+2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors, and that partner becomes the way back. Where there is no partner, a thin spot is left in the air to step back through. A few doors close behind you for good: the Hub's carved doors, every way out of the Snackrooms but one, the doors into Level !, and a lone doorframe in the Office.
+
+Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that aren't quite there, cinema screens, backyard pools, fountains, manholes, tripwires, hungry vending machines, posters, windows where no window should be: more than seventy kinds of threshold tie the levels together, the same way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
+
+---
+
+## Things that live here
+
+What lives in the Backrooms is there to be heard and glimpsed far more than fought. In the heart of a level you hear things down the hall and see things far off that leave when you come near. Further out, things follow at a distance. Near the edge into the next level, and near its elevators, stairs and pits, they hunt.
+
+How bold they come depends on where you are and what you do: the dark, low stability, running, the noise of breaking something open or forcing a door, and how long you have gone without rest all bring them closer. Dens scattered through the dangerous levels are as bad as any edge, and chalk crosses on the walls warn you off. The heart of Level 0 stays empty except during a Reality Shift; further out, things watch and follow. A minute by a fire, beside a wanderer, asleep in a bed, in a safe place or at home counts as rest.
+
+Every creature has a counter you earn as you go; the handbook page *What Lives Here* has the details.
+
+| Creature | What it does | What keeps it back |
+| --- | --- | --- |
+| Smiler | Eyes and a grin in the dark; cannot be killed | A torch's light; holding its gaze without running |
+| Hound | Packs of two or three, heard before seen | Fire, Firesalt, a steady stare, weapons and armour |
+| Faceling | Wanders and sits; right-click one and it points to the nearest way out | Harmless unless hurt |
+| Deathmoth | Circles open flame; females bite near the edge | A closed lantern; smoke |
+| Skin-Stealer | Slow and strong, coughs and calls out from out of sight | Distance, doors, fire |
+| Duller | Scrapes inside the walls and reaches through them | Almond Water; keeping off the walls |
+| Death Rat | Packs that nip at your legs | A carried torch; they are edible |
+| Clump | Buried with one arm out of the floor | Watching the floor; staying quiet |
+| The Thing | Circles divers in Level 7 | Surfacing |
+| The Mangled | A fog, voices, then a pillar of faces walking the streets of Level 9 | Indoors; waiting it out |
+| Bacteria | A tall figure of black wires far off down Level 0's outer halls; it runs down whoever runs near the way out | Walking, not running |
+| Wretch | Wanderers worn down to nothing, gurgling as they follow | Keeping fed; fighting them one at a time; the 9th Road's lamps |
+| Animations, Robo-Men | Level 94's night, and its castle | Indoors by dusk; standing still; leaving the castle's things alone |
+| Partygoers, Carnivorous Balloons | Level Fun's guests and its dark corridors | Running, fire, a poultice after a bite, a party hat and a red balloon |
+| The Windows, Kitty, the Keymaster, the Arcade Attendant | Each far level's own | Each its own |
+
+There are also Flickerings out towards the edge of Level 1, the Screaming of the rats, and the horde of Level !. Wanderers who trade keep camps along the way, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, keeps Hounds, Skin-Stealers, rats, moths and Partygoers eight blocks off for half a day.
 
 ---
 
 ## The levels
-
-The Backrooms are laid out as levels nested around your starting point like blobs within blobs, no ring a circle, so a level may end after a few hundred blocks in one direction and run for kilometres in another. Beyond the rings lie places that no amount of walking reaches, only noclipping.
 
 **The rings**
 
@@ -21,12 +105,12 @@ The Backrooms are laid out as levels nested around your starting point like blob
 - **Level 4, the Abandoned Office.** One quiet office floor: grey carpet with the marks of desks long gone, cubicle farms stripped to partitions, break rooms, server rooms, elevator lobbies, and windows that look out on rain that never ends.
 - **Level 5, the Terror Hotel.** A 1930s grand hotel, oddly well kept. Double-loaded corridors of numbered rooms, grand lobbies under chandeliers, dining halls laid for a dinner nobody comes to, the Beverly Room, and boiler halls behind STAFF ONLY doors.
 - **Level 6, Lights Out.** Darkness that light barely reaches. Trunk corridors, blind mazes, chalk arrows left by earlier explorers, and the sound of waves from the way the stairs lie.
-- **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out.
+- **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out, unless you know the right diner in the city.
 - **Level 7, Thalassophobia.** An endless sea under a concrete ceiling, deeper and darker the further out you swim. Entry rooms in the ceiling, islands with old camps, kelp, a dead reef, and something that circles divers.
 - **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road runs through it, with camps at its crossings.
 - **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, fenced backyards, cars at the kerb, and foxes and raccoons in the long grass.
 - **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, livestock in the paddocks, ponds in the hollows. One of the safest places there is. The soil is thin, though.
-- **Level 11, the Endless City.** Fifty kilometres out, behind a wall of black glass. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
+- **Level 11, the Endless City.** Not a ring: fifty kilometres out, behind a wall of black glass that nobody walks through. You noclip in through a barn wall in Level 10. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
 
 **Beyond the rings**
 
@@ -35,77 +119,21 @@ The Backrooms are laid out as levels nested around your starting point like blob
 - **Level !, Run For Your Life!** One hospital hallway lit by red EXIT signs, an alarm, and a horde behind you. Sprinting is the only answer.
 - **Level Fun =).** An endless party on a ship that cannot be this big. Cake, balloons, bunting, and guests who are not people.
 - **The End.** A library that looks like the way out, and is the cruellest trap in the Backrooms.
-- **The Hub.** A crossroads of road tunnels lined with carved doors to every level, each wanting a Level Key. Cold, silent and safe.
+- **The Hub.** A crossroads of road tunnels lined with carved doors to almost every level. Three open for anyone; the rest want a Level Key, and the pink one wants something cute. Cold, silent and safe.
 - **Level 974, Kitty's House.** A small pink house with no outside, where something three metres tall takes you if you carry something cute.
 - **Level 3999, the Neon Paradise.** An endless arcade-mall of tickets and prizes, safe at its heart and dark at its fringe.
 - **Level 188, the Courtyard of Windows.** A hotel courtyard walled in by 160 windows. Some of them show other places. Some of them beckon.
 
 ---
 
-## Surviving
+## Getting started
 
-**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps; walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. Glass shiv, improvised scraper, twine, carpet bag and tinder come from Level 0 alone, and from there the normal Vintage Story path (flint, fire, pottery, copper, bronze) carries on with materials found level by level.
-
-**The building breaks down, never up.** Drywall breaks with any tool, concrete and brick want a copper pickaxe and give rubble, pipes and machinery give brackets, wire and the odd copper bit. Each level's roof, the walls between levels above a certain height, and every door, elevator and vent are indestructible. Under every floor is eight blocks of concrete and then the ground Vintage Story lays down in any world, ores and all.
-
-**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights.
-
-**Food is scarce.** Most boxes and crates were gone through long ago; a torn box can be told from across the room. The deeper the level, the less is picked over. Rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%, heat makes it worse, and the cold levels want clothes.
-
-**A map that only shows what you have seen.** The map reveals what is in your line of sight, remembers it between sessions, and marks every gate, elevator, stairwell and pit you use. Surveyor's chalk marks walls with arrows, crosses and circles.
-
-**Notes and the journal.** Earlier wanderers left notes in boxes, desks, backpacks and bedrolls. They come in order, carrying you from waking to the far levels, and each one marks the nearest gate, way out, cache or refuge on your map. Everything you read is kept in your journal. Folded notes, rarer, give exact routes, odds and rules.
-
-**Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography. Each area has its own stability; where it is low the gear turns backwards and yours drains. Almond Water restores it. About once every thirty in-game hours the lights fail for a few hours in a Reality Shift.
-
-**The handbook and the tutorial are rewritten.** In a Backrooms world the Guides tab is written for the Backrooms (Starter Guide, Progression Guide, Home and Expeditions, Finding the Way, Salvage, Food, Heat and Cold, The Levels, Ways Between Levels, What Lives Here), every vanilla guide opens with an "In the Backrooms" preface, and a fifteen-step First Steps tutorial starts the first time you join.
-
----
-
-## The topology lies
-
-The rings are only how the world is built. The network of ways between levels is the real map, and it follows two rules so you can learn it:
-
-1. **Every threshold always leads to the same place**, fixed the first time anyone goes through it and saved with the world.
-2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors. Where there is no partner, a thin spot is left in the air to step back through.
-
-Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that aren't quite there, cinema screens, backyard pools, fountains, manholes, tripwires, hungry vending machines, posters, a lone doorframe, windows where no window should be: more than seventy kinds of threshold tie the levels together, the same way vanilla translocators pair up once repaired.
-
----
-
-## Things that live here
-
-What lives in the Backrooms is there to be heard and glimpsed far more than fought. In the heart of a level you hear things down the hall and see things far off that leave when you come near. Further out, things follow at a distance. Near the edge into the next level, and near its elevators, stairs and pits, they hunt. They come bolder in the dark, when your stability is low, when you run, when you make noise, and the longer you go without rest.
-
-Every entity has a counter you earn as you go:
-
-| Entity | What it does | What keeps it back |
-| --- | --- | --- |
-| Smiler | Eyes and a grin in the dark; cannot be killed | A torch's light; holding its gaze without running |
-| Hound | Packs of two or three, heard before seen | Fire, Firesalt, a steady stare, weapons and armour |
-| Faceling | Wanders and sits; right-click one and it points to the nearest way out | Harmless unless hurt |
-| Deathmoth | Circles open flame; females bite near the edge | A closed lantern; smoke |
-| Skin-Stealer | Slow and strong, coughs and calls out from out of sight | Distance, doors, fire |
-| Duller | Scrapes inside the walls and reaches through them | Almond Water, keeping off the walls |
-| Death Rat | Packs that nip at your legs | A carried torch; they are edible |
-| Clump | Buried with one arm out of the floor | Watching the floor, staying quiet |
-| The Thing | Circles divers in Level 7 | Surfacing |
-| The Mangled | A fog, voices, then a pillar of faces walking the streets of Level 9 | Indoors; waiting it out |
-| Partygoers, Carnivorous Balloons | Level Fun's guests and its dark corridors | Running, fire, a poultice after a bite, a party hat and a red balloon |
-| The Windows, Kitty, the Keymaster, the Arcade Attendant | Each far level's own | Each its own |
-
-Dens, Flickerings in Level 1's car park, the Screaming of the rats, the horde of Level !. Wanderers who trade keep camps along the way and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, keeps everything hostile eight blocks off for half a day.
-
-World settings let you turn entities down to sounds only or up to High, and set scarcity from Plentiful to Sparse.
-
----
-
-## How to play
-
-1. Install the mod (and give it to everyone on your server; clients and server compare builds and warn in chat if they differ).
-2. Create a new world and pick the **The Backrooms** playstyle. Existing worlds and other playstyles are not affected.
-3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial will walk you through your first blade, bag and fire.
+1. Install the mod as usual. On a server, everyone needs the same build; the mod checks on joining and warns in chat if a client's copy differs.
+2. Create a new world and pick the **Backrooms: Survival Story** playstyle. Existing worlds and other playstyles are not affected.
+3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blade, bag and flint knife.
 4. Keep the map (M) open often. It only knows what you have seen.
+
+World settings under *Survival challenges* when creating a world: **Backrooms entities** (Off: sounds only, Low, Normal, High) and **Backrooms scarcity** (Plentiful: twice the food; Normal; Sparse: a little over half).
 
 ---
 
@@ -114,6 +142,6 @@ World settings let you turn entities down to sounds only or up to High, and set 
 - Built for Vintage Story 1.22 (.NET 10).
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original 2019 photo and Kane Pixels' films for Level 0's look and feel.
-- The mod is in active development (0.3). Levels, entities and survival systems are all in and playable; expect balance changes between versions.
+- Version 0.512.2019 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
 
 Bug reports, screenshots of what you found, and notes from your own expeditions are very welcome.

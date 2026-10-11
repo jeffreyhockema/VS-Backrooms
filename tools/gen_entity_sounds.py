@@ -8,7 +8,7 @@ Every sound is one-shot and dry; the game places it in the world. Run from the r
 import os
 
 import numpy as np
-import soundfile as sf
+from oggutil import write_ogg
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "assets", "backrooms", "sounds", "entity")
@@ -26,10 +26,8 @@ def write(name, signal, peak):
         signal[:fade] *= np.linspace(0, 1, fade)
         signal[-fade:] *= np.linspace(1, 0, fade)
     signal = peak * signal / max(1e-9, np.max(np.abs(signal)))
-    with sf.SoundFile(path, "w", samplerate=RATE, channels=1, format="OGG", subtype="VORBIS") as f:
-        for start in range(0, len(signal), RATE // 4):
-            f.write(signal[start:start + RATE // 4].astype(np.float32))
-    print("wrote", os.path.relpath(path, ROOT))
+    if write_ogg(path, signal, RATE):
+        print("wrote", os.path.relpath(path, ROOT))
 
 
 def band(signal, lo, hi):

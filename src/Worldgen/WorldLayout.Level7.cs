@@ -24,6 +24,13 @@ public sealed partial class WorldLayout
 
     public const int TwilightDepth = 12, MidnightDepth = 30, AbyssDepth = 60;
 
+    /// <summary>
+    /// Level 7's <see cref="Tile.Detail"/> (from layout version 5): a shelter's furniture stuck down on a lump of tar
+    /// (the prop stands one block higher), and a pillar of the islands' rock standing up into the ceiling (a wall tile;
+    /// its <see cref="Tile.Depth"/> is the seabed's where it stands in the sea).
+    /// </summary>
+    public const byte L7TarUnder = 1, L7Pillar = 2;
+
     /// <summary>Depth of the seabed below the floor at a block of Level 7 (0 where an island breaks the surface).</summary>
     private int OceanDepth(int gx, int gz)
     {
@@ -132,6 +139,7 @@ public sealed partial class WorldLayout
             }
         }
 
+        if (Version >= 5) ShapeLevel7(b, mx, mz);
         AddJetty(b, mx, mz);
 
         double feature = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL7Feature));
@@ -141,6 +149,153 @@ public sealed partial class WorldLayout
         else if (feature < 0.06 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
         else if (feature < 0.16 && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
         else if (feature is >= 0.06 and < 0.1 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddTiledSeabed(b, cx, cz);
+    }
+
+    /// <summary>
+    /// From layout version 5, what gives the sea a middle distance. The islands rise in steps from the water's edge
+    /// (<see cref="Tile.Height"/> 0 at the rim, 1 a step in, 2 further in, so every step can be climbed); pillars of
+    /// their rock stand from the larger islands up into the ceiling, and sea stacks of it out in the shallows, dark
+    /// shapes against the mist that you can steer by. On some camped islands (one camp in two) the campers built a shelter in the manner
+    /// of Fort Surrender ("a haphazardly constructed shelter composed of broken furniture held together by tar"): a
+    /// ring of cabinets, bookcases and chairs, some stuck down on lumps of tar, round a bedroll, with a gap to get in.
+    /// Everything is worked out from where it is, so cells agree along their edges.
+    /// </summary>
+    private void ShapeLevel7(Builder b, int mx, int mz)
+    {
+        const int margin = 8, span = MacroSize + 2 * margin;
+        int x0 = mx * MacroSize - margin, z0 = mz * MacroSize - margin;
+        var isle = new bool[span * span];
+        for (int z = 0; z < span; z++)
+            for (int x = 0; x < span; x++)
+                isle[z * span + x] = OceanDepth(x0 + x, z0 + z) == 0;
+        bool Isle(int gx, int gz) => gx >= x0 && gz >= z0 && gx < x0 + span && gz < z0 + span ? isle[(gz - z0) * span + gx - x0] : OceanDepth(gx, gz) == 0;
+        // How far (in rings) to the nearest water, up to max + 1
+        int Inland(int gx, int gz, int max)
+        {
+            for (int k = 1; k <= max; k++)
+                for (int dz = -k; dz <= k; dz++)
+                    for (int dx = -k; dx <= k; dx++)
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) == k && !Isle(gx + dx, gz + dz)) return k;
+            return max + 1;
+        }
+        int gx0 = mx * MacroSize, gz0 = mz * MacroSize;
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                ref Tile t = ref b.At(lx, lz);
+                if (t.Kind == TileKind.Floor && t.Floor == FloorKind.Seabed) t.Height = (byte)Math.Min(Inland(gx0 + lx, gz0 + lz, 3) - 1, 2);
+            }
+
+        // A pillar of rock over a round footprint, where it touches this cell
+        void Pillar(int cx, int cz, int r2, bool sea)
+        {
+            for (int z = cz - 2; z <= cz + 2; z++)
+                for (int x = cx - 2; x <= cx + 2; x++)
+                {
+                    int lx = x - gx0, lz = z - gz0;
+                    if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize || (x - cx) * (x - cx) + (z - cz) * (z - cz) > r2) continue;
+                    ref Tile t = ref b.At(lx, lz);
+                    if (t.Kind != (sea ? TileKind.Water : TileKind.Floor) || t.Zone != 0) continue;
+                    int depth = sea ? t.Depth : 0;
+                    t = default;
+                    t.Kind = TileKind.Wall;
+                    t.Pattern = WallPattern.Rock;
+                    t.Detail = L7Pillar;
+                    t.Depth = (byte)depth;
+                }
+        }
+        // Never in the middle of a cell, where an entry room may hang over the water
+        static bool Clear(int x, int z) => Math.Abs(Hashing.Mod(x, MacroSize) - 16) > 5 || Math.Abs(Hashing.Mod(z, MacroSize) - 16) > 5;
+        // Island pillars: one place in each 10 by 10 square, if it is well inland
+        for (int sz = Hashing.FloorDiv(gz0 - 2, 10); sz <= Hashing.FloorDiv(gz0 + MacroSize + 1, 10); sz++)
+            for (int sx = Hashing.FloorDiv(gx0 - 2, 10); sx <= Hashing.FloorDiv(gx0 + MacroSize + 1, 10); sx++)
+            {
+                ulong h = Hashing.Hash(seed, sx, sz, SaltL7Island + 6);
+                int cx = sx * 10 + (int)(h % 10), cz = sz * 10 + (int)((h >> 8) % 10);
+                if (cx < gx0 - 2 || cz < gz0 - 2 || cx > gx0 + MacroSize + 1 || cz > gz0 + MacroSize + 1 || !Clear(cx, cz)) continue;
+                int inland = Inland(cx, cz, 5);
+                if (inland >= 3) Pillar(cx, cz, inland >= 5 && (h >> 20) % 2 == 0 ? 5 : 2, sea: false);
+            }
+        // Sea stacks out of the shallows and the twilight zone, about one to every 28 by 28 blocks, clear of islands and
+        // the walls' ledges
+        for (int sz = Hashing.FloorDiv(gz0 - 2, 28); sz <= Hashing.FloorDiv(gz0 + MacroSize + 1, 28); sz++)
+            for (int sx = Hashing.FloorDiv(gx0 - 2, 28); sx <= Hashing.FloorDiv(gx0 + MacroSize + 1, 28); sx++)
+            {
+                ulong h = Hashing.Hash(seed, sx, sz, SaltL7Island + 7);
+                if (Hashing.Unit(h) > 0.7) continue;
+                int cx = sx * 28 + (int)((h >> 8) % 28), cz = sz * 28 + (int)((h >> 16) % 28);
+                if (cx < gx0 - 2 || cz < gz0 - 2 || cx > gx0 + MacroSize + 1 || cz > gz0 + MacroSize + 1 || !Clear(cx, cz)) continue;
+                int lcx = Hashing.Mod(cx, MacroSize), lcz = Hashing.Mod(cz, MacroSize);
+                if (lcx < 5 || lcz < 5 || lcx > MacroSize - 6 || lcz > MacroSize - 6 || LevelAt(MacroOf(cx), MacroOf(cz)) != 7) continue;
+                int depth = OceanDepth(cx, cz);
+                if (depth < 2 || depth >= MidnightDepth || NearIsle(cx, cz)) continue;
+                Pillar(cx, cz, (h >> 30) % 3 == 0 ? 5 : 2, sea: true);
+            }
+        bool NearIsle(int cx, int cz)
+        {
+            for (int dz = -4; dz <= 4; dz++)
+                for (int dx = -4; dx <= 4; dx++)
+                    if (Isle(cx + dx, cz + dz)) return true;
+            return false;
+        }
+
+        // Fort Surrender's kind of shelter, in one camp in two
+        for (int sz = Hashing.FloorDiv(gz0 - 2, 24); sz <= Hashing.FloorDiv(gz0 + MacroSize + 1, 24); sz++)
+            for (int sx = Hashing.FloorDiv(gx0 - 2, 24); sx <= Hashing.FloorDiv(gx0 + MacroSize + 1, 24); sx++)
+            {
+                if (Hashing.Unit(Hashing.Hash(seed, sx, sz, SaltL7Island + 1)) >= 0.3) continue; // not a camp
+                ulong h = Hashing.Hash(seed, sx, sz, SaltL7Island + 8);
+                if (Hashing.Unit(h) > 0.5) continue;
+                // (The first of a few places in the square that is well inland, wherever the cell is)
+                for (int attempt = 0; attempt < 8; attempt++, h = Hashing.Mix(h))
+                {
+                    int cx = sx * 24 + 2 + (int)(h % 20), cz = sz * 24 + 2 + (int)((h >> 8) % 20);
+                    if (Inland(cx, cz, 3) < 3) continue;
+                    if (cx >= gx0 - 2 && cz >= gz0 - 2 && cx <= gx0 + MacroSize + 1 && cz <= gz0 + MacroSize + 1) Shelter(b, cx - gx0, cz - gz0, h);
+                    break;
+                }
+            }
+    }
+
+    /// <summary>
+    /// A shelter of broken furniture held together by tar, round (<paramref name="cx"/>, <paramref name="cz"/>) in the
+    /// cell's coordinates (the middle may lie just outside the cell): the ring two out from the middle is furniture
+    /// facing in, the corners lumps of tar, with one gap; inside, a bedroll and a lantern.
+    /// </summary>
+    private static void Shelter(Builder b, int cx, int cz, ulong h)
+    {
+        byte[] furniture = { Props.FilingCabinet, Props.WingChair, Props.HotelChair, Props.FilingCabinet, Props.HotelBookshelf, Props.Wardrobe };
+        int gap = (int)((h >> 24) % 4); // the way in: north, east, south or west side
+        int i = 0;
+        for (int z = cz - 2; z <= cz + 2; z++)
+            for (int x = cx - 2; x <= cx + 2; x++, i++)
+            {
+                if (x < 0 || z < 0 || x >= MacroSize || z >= MacroSize) continue;
+                ref Tile t = ref b.At(x, z);
+                if (t.Kind != TileKind.Floor || t.Floor != FloorKind.Seabed) continue;
+                int dx = x - cx, dz = z - cz;
+                t.Variant = 0;
+                t.Stack = 0;
+                t.SupplyBox = false;
+                if (Math.Max(Math.Abs(dx), Math.Abs(dz)) < 2)
+                {
+                    // Inside: a bedroll in the middle, a lantern in a corner
+                    if (dx == 0 && dz == 0) { t.Variant = Props.Bedroll; t.Pier = (ArchPier)((h >> 30) & 3); }
+                    else if (dx == 1 && dz == -1) t.Variant = Props.Lantern;
+                    continue;
+                }
+                ArchPier side = dz == -2 ? ArchPier.North : dz == 2 ? ArchPier.South : dx == 2 ? ArchPier.East : ArchPier.West;
+                if (Math.Abs(dx) == 2 && Math.Abs(dz) == 2)
+                {
+                    t.Detail = L7TarUnder; // a corner: a lump of tar
+                    continue;
+                }
+                if ((int)side == new[] { 2, 1, 3, 0 }[gap] && (dx == 0 || dz == 0)) continue; // the way in
+                t.Variant = furniture[(int)((h >> (i % 40)) % (ulong)furniture.Length)];
+                t.Pier = Opposite(side); // facing in
+                // Some of it stuck down on tar, where the ceiling leaves room (never the tall pieces)
+                if (t.Height <= 1 && (i + (int)(h >> 34)) % 2 == 0 && t.Variant is not (Props.HotelBookshelf or Props.Wardrobe)) t.Detail = L7TarUnder;
+            }
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Backrooms.Worldgen;
@@ -22,7 +21,8 @@ public sealed partial class WorldLayout
 
     private const ulong SaltGate = 0x6A7E;
 
-    private readonly ConcurrentDictionary<long, HashSet<long>> gateCache = new();
+    // Bounded memo of GatesIn, one entry per block (the sets in it are only ever read)
+    private readonly LatticeMemo<HashSet<long>> gateCache;
 
     private static long EdgeKey(int mx, int mz, bool west) => ((long)mx << 33) ^ ((long)(uint)mz << 1) ^ (west ? 1L : 0L);
 
@@ -39,11 +39,11 @@ public sealed partial class WorldLayout
     private bool IsGate(int mx, int mz, bool west) =>
         GatesIn(Hashing.FloorDiv(mx, GateBlock), Hashing.FloorDiv(mz, GateBlock)).Contains(EdgeKey(mx, mz, west));
 
-    private HashSet<long> GatesIn(int bx, int bz)
-    {
-        long key = ((long)bx << 32) | (uint)bz;
-        if (gateCache.TryGetValue(key, out HashSet<long> cached)) return cached;
+    private HashSet<long> GatesIn(int bx, int bz) => gateCache.Get(bx, bz);
 
+    /// <summary>The gates of one block, as <see cref="EdgeKey"/>s (see <see cref="GatesIn"/>).</summary>
+    private HashSet<long> PlanGates(int bx, int bz)
+    {
         // Every gated boundary edge owned by a cell of this block
         var edges = new List<(int Mx, int Mz, bool West, int Pair, ulong Hash)>();
         for (int mz = bz * GateBlock; mz < (bz + 1) * GateBlock; mz++)
@@ -89,7 +89,7 @@ public sealed partial class WorldLayout
         }
         var gates = new HashSet<long>();
         foreach (int i in best.Values) gates.Add(EdgeKey(edges[i].Mx, edges[i].Mz, edges[i].West));
-        return gateCache.GetOrAdd(key, gates);
+        return gates;
     }
 
     /// <summary>
@@ -115,14 +115,18 @@ public sealed partial class WorldLayout
         return found;
     }
 
-    /// <summary>The nearest gate out of a level toward a given level (or any level when <paramref name="to"/> is -1), or null.</summary>
-    public (int X, int Z, int To)? NearestGate(int gx, int gz, int level, int radius, int to = -1)
+    /// <summary>
+    /// The nearest gate out of a level toward a given level (or any level when <paramref name="to"/> is -1), or null.
+    /// <paramref name="skip"/> names gates not to count (a note never points at a place its reader's notes already marked).
+    /// </summary>
+    public (int X, int Z, int To)? NearestGate(int gx, int gz, int level, int radius, int to = -1, Func<int, int, bool> skip = null)
     {
         (int X, int Z, int To)? nearest = null;
         long bestDistance = long.MaxValue;
         foreach (var gate in GatesNear(gx, gz, level, radius))
         {
             if (to >= 0 && gate.To != to) continue;
+            if (skip != null && skip(gate.X, gate.Z)) continue;
             long d = (long)(gate.X - gx) * (gate.X - gx) + (long)(gate.Z - gz) * (gate.Z - gz);
             if (d < bestDistance) { bestDistance = d; nearest = gate; }
         }
@@ -179,6 +183,10 @@ public sealed partial class WorldLayout
 
     private const ulong SaltGateChalk = 0x6A7F;
 
+    /// <summary>The four tiles beside one, and which wall of it each is, in the order the chalk marks look for a wall.</summary>
+    private static readonly (int Dx, int Dz, ArchPier Side)[] WallSides =
+        { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) };
+
     /// <summary>
     /// Others found the gates before you, and marked the way: in most cells within a hundred blocks or so of a gate,
     /// an arrow in chalk on a wall or two points toward it, the way the M.E.G. mark the ways out.
@@ -202,7 +210,7 @@ public sealed partial class WorldLayout
             if (Math.Abs(lx - lastX) + Math.Abs(lz - lastZ) < 10) continue;
             // A plain stretch of wall beside it (not a doorway or a decorated panel)
             ArchPier? wall = null;
-            foreach ((int dx, int dz, ArchPier side) in new[] { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) })
+            foreach ((int dx, int dz, ArchPier side) in WallSides)
             {
                 ref Tile n = ref b.At(lx + dx, lz + dz);
                 if (n.Kind == TileKind.Wall && n.Variant == 0) { wall = side; break; }

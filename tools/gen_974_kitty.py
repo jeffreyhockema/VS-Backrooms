@@ -274,7 +274,7 @@ def entity(LANG):
         f.write("// Kitty (Level 974): faceless, 3.2 m, matt black, never harms. Class EntityKitty; driven by L974System\n")
         f.write(json.dumps(data, indent="\t") + "\n")
     LANG["item-creature-l974-kitty"] = "Kitty"
-    LANG["creature-l974-kitty"] = "Kitty"
+    LANG["prefixandcreature-l974-kitty"] = "Kitty"
 
 
 def generate(LANG=None):

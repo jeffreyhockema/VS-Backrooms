@@ -99,6 +99,8 @@ public class BlockEntityDispenser : BlockEntity
     {
         base.GetBlockInfo(forPlayer, dsc);
         if (Block?.Attributes?["stockless"].AsBool(false) == true) return; // (Level 3999's: never empty)
+        // (-1: not rolled yet, or not sent yet. Unknown, not empty)
+        if (stock < 0) return;
         dsc.AppendLine(stock > 0 ? Lang.Get("backrooms:dispenser-stock", stock) : Lang.Get(Restocks ? "backrooms:dispenser-restocks" : "backrooms:dispenser-empty"));
     }
 

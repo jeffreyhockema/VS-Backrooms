@@ -64,14 +64,14 @@ public sealed partial class WorldGenerator
 
     private readonly int[,,] funPropIds = new int[Props.FunLast - Props.FunFirst + 1, 10, 4];
     private readonly byte[] funPropKinds = new byte[Props.FunLast - Props.FunFirst + 1];
-    private readonly int[] funPaintIds = new int[6], funPromBandIds = new int[4], funPortholeIds = new int[4], funCrewSignIds = new int[4];
-    private readonly int[,] funSkirtIds = new int[6, 4], funInflatableIds = new int[3, 4], funFunDoorIds = new int[3, 2];
-    private readonly int[,,] funMuralIds = new int[4, 4, 4], funElevatorIds = new int[2, 2, 4];
+    private readonly int[] funPaintIds = new int[6], funPromBandIds = new int[16], funPortholeIds = new int[4], funCrewSignIds = new int[4];
+    private readonly int[,] funSkirtIds = new int[6, 16], funInflatableIds = new int[3, 4], funFunDoorIds = new int[3, 2];
+    private readonly int[,,] funMuralIds = new int[4, 4, 4], funElevatorIds = new int[2, 3, 4];
     private readonly int[,] funItemIds = new int[32, 4];
     private readonly int[] funTopIds = new int[6], funBalloonIds = new int[3], funExitDoorIds = new int[2];
     private readonly int[,] funMascotDoorIds = new int[2, 2];
     private readonly int[,] funStreamerIds = new int[3, 2];
-    private int funPromwallId, funHullId, funSteelId, funVoidId, funPitFillId, funRoofId, funPumpkinId;
+    private int funPromwallId, funHullId, funSteelId, funVoidId, funPitFillId, funRoofId, funPumpkinId, funSoffitId;
     private readonly List<string> funMissing = new();
 
     /// <summary>A block of this mod by code path, or a stand-in while the level's assets are still being made (listed once in the log).</summary>
@@ -100,25 +100,28 @@ public sealed partial class WorldGenerator
         for (int c = 0; c < 6; c++)
         {
             funPaintIds[c] = FunId($"fun-paint-{FunPaints[c]}", wall);
-            for (int f = 0; f < 4; f++) funSkirtIds[c, f] = FunId($"fun-paint-{FunPaints[c]}-skirted-{Sides[f]}", funPaintIds[c]);
+            funSkirtIds[c, 0] = funPaintIds[c];
+            for (int m = 1; m < 16; m++) funSkirtIds[c, m] = FunId($"fun-paint-{FunPaints[c]}-skirted-{FunTrimSide(m)}", funPaintIds[c]);
         }
         funPromwallId = FunId("fun-promwall", wall);
+        funPromBandIds[0] = funPromwallId;
+        for (int m = 1; m < 16; m++) funPromBandIds[m] = FunId($"fun-promwall-band-{FunTrimSide(m)}", funPromwallId);
         funHullId = FunId("fun-hull", wall);
         funSteelId = FunId("fun-steel", wall);
         funVoidId = FunId("fun-nightvoid", mantleId);
         funPitFillId = FunId("ballpitfill", 0);
         funRoofId = FunId("fun-inflatable-floor", carpet);
+        funSoffitId = FunId("fun-soffit", ceilingTileId);
         for (int f = 0; f < 4; f++)
         {
-            funPromBandIds[f] = FunId($"fun-promwall-band-{Sides[f]}", funPromwallId);
             funPortholeIds[f] = FunId($"fun-hull-porthole-{Sides[f]}", funHullId);
             funCrewSignIds[f] = FunId($"fun-steel-sign-crewonly-{Sides[f]}", funSteelId);
             for (int c = 0; c < 3; c++) funInflatableIds[c, f] = FunId($"fun-inflatable-wall-{FunBalloonColour(c)}-{Sides[f]}", wall);
             for (int m = 0; m < 4; m++)
                 for (int q = 0; q < 4; q++) funMuralIds[m, q, f] = FunId($"fun-mural-{FunMurals[m]}-{FunQuadrants[q]}-{Sides[f]}", funPaintIds[4]);
             for (int lr = 0; lr < 2; lr++)
-                for (int part = 0; part < 2; part++)
-                    funElevatorIds[lr, part, f] = FunId($"fun-elevator-{(lr == 0 ? "l" : "r")}-{(part == 0 ? "lower" : "upper")}-{Sides[f]}", funPromwallId);
+                for (int part = 0; part < 3; part++)
+                    funElevatorIds[lr, part, f] = FunId($"fun-elevator-{(lr == 0 ? "l" : "r")}-{(part == 0 ? "lower" : part == 1 ? "upper" : "uppersign")}-{Sides[f]}", funPromwallId);
         }
         string[] leaves = { "l", "r", "single" };
         for (int l = 0; l < 3; l++)
@@ -139,6 +142,7 @@ public sealed partial class WorldGenerator
             [FunWallItems.StringLights] = "fun-stringlights", [FunWallItems.DeckSign] = "fun-decksign",
             [FunWallItems.LifeRing] = "fun-lifering", [FunWallItems.DeckLamp] = "fun-decklamp",
             [FunWallItems.ScreenL] = "fun-screen-l", [FunWallItems.ScreenM] = "fun-screen-m", [FunWallItems.ScreenR] = "fun-screen-r",
+            [FunWallItems.Directory] = "fun-directory",
         };
         for (int i = 0; i < 4; i++) items[(byte)(FunWallItems.Smiley1 + i)] = $"fun-smiley-{i + 1}";
         string letters = "hapybirtd";
@@ -205,7 +209,7 @@ public sealed partial class WorldGenerator
                     if (t.Pattern == WallPattern.FunExitDoor) return funExitDoorIds[rel - 1];
                     return funFunDoorIds[t.Variant == 1 ? 1 : 0, rel - 1];
                 }
-                return FunPaintFace(t.Detail, rel, t.Pier);
+                return FunPaintFace(t.Detail, rel, gx, gz);
             case TileKind.Doorway:
                 if (rel < 0 || rel > FunWallTop) return concreteId;
                 if (rel == 0) return FunFloorBlock(t.Floor);
@@ -241,7 +245,12 @@ public sealed partial class WorldGenerator
         }
         else
         {
-            if (rel == height + 1) return t.Ceiling == CeilingKind.FunCeiling ? funVoidId : CeilingBlock0(t.Ceiling);
+            if (rel == height + 1)
+            {
+                if (t.Ceiling == CeilingKind.FunCeiling) return funVoidId;
+                int ceilingId = CeilingBlock0(t.Ceiling);
+                return ceilingId == ceilingTileId && FunTallerBeside(gx, gz, rel) ? funSoffitId : ceilingId;
+            }
             if (rel > height + 1) return concreteId;
         }
 
@@ -261,6 +270,7 @@ public sealed partial class WorldGenerator
         {
             if (prop == Props.FunCBalloon) return 0; // it floats at chest height
             if (prop == Props.FunPumpkin) return funPumpkinId;
+            if (prop == Props.Palm) return palmId; // Level 5's, in a lobby's corner
             return FunProp(t);
         }
         if (prop == Props.FunInflatableTower && rel <= 3 || prop == Props.FunNet && rel < height) return FunProp(t);
@@ -299,10 +309,49 @@ public sealed partial class WorldGenerator
         return funPropIds[index, System.Math.Max(0, kind), Facing(t.Pier)];
     }
 
-    private int FunPaintFace(byte detail, int rel, ArchPier facing)
+    private int FunPaintFace(byte detail, int rel, int gx, int gz)
     {
         int colour = System.Math.Min(detail & 7, 5);
-        return rel == 1 ? funSkirtIds[colour, Facing(facing)] : funPaintIds[colour];
+        return rel == 1 ? funSkirtIds[colour, FunOpenFaces(gx, gz)] : funPaintIds[colour];
+    }
+
+    /// <summary>The steps to the columns beside one, by face: north, east, south, west (the order of the trim masks).</summary>
+    private static readonly (int Dx, int Dz)[] FunFaceSteps = { (0, -1), (1, 0), (0, 1), (-1, 0) };
+
+    /// <summary>
+    /// Which faces of a wall's column (north 1, east 2, south 4, west 8) look onto the level's floor: the ones its
+    /// skirting or band runs along, so it turns outside corners and lines both sides of a partition's end.
+    /// </summary>
+    private int FunOpenFaces(int gx, int gz)
+    {
+        int mask = 0;
+        for (int f = 0; f < 4; f++)
+            if (TileAt(gx + FunFaceSteps[f].Dx, gz + FunFaceSteps[f].Dz) is { Level: WorldLayout.FunLevel, Kind: TileKind.Floor } n
+                && n.Zone != (byte)FunZone.Sea) mask |= 1 << f;
+        return mask;
+    }
+
+    /// <summary>
+    /// Whether a column beside this one is a taller room with air at <paramref name="rel"/>: where a 3-high hall opens
+    /// into a 4-high lobby, the hall's last ceiling tile shows its side to the lobby (it takes the soffit, cream sides).
+    /// </summary>
+    private bool FunTallerBeside(int gx, int gz, int rel)
+    {
+        for (int f = 0; f < 4; f++)
+            if (TileAt(gx + FunFaceSteps[f].Dx, gz + FunFaceSteps[f].Dz) is { Level: WorldLayout.FunLevel, Kind: TileKind.Floor } n
+                && n.Zone != (byte)FunZone.Sea && (n.Height == 0 ? 3 : n.Height) >= rel) return true;
+        return false;
+    }
+
+    /// <summary>A trimmed wall block's side state for a mask of faces: a single face by name, several by their letters.</summary>
+    private static string FunTrimSide(int mask)
+    {
+        for (int f = 0; f < 4; f++)
+            if (mask == 1 << f) return Sides[f];
+        var letters = new System.Text.StringBuilder(4);
+        for (int f = 0; f < 4; f++)
+            if ((mask >> f & 1) != 0) letters.Append("nesw"[f]);
+        return letters.ToString();
     }
 
     /// <summary>A wall's block at a height: its material, and what is on its face toward <see cref="Tile.Pier"/>.</summary>
@@ -312,21 +361,23 @@ public sealed partial class WorldGenerator
         switch (t.Pattern)
         {
             case WallPattern.FunPaint:
-                return FunPaintFace(t.Detail, rel, t.Pier);
+                return FunPaintFace(t.Detail, rel, gx, gz);
             case WallPattern.FunPromenade:
-                return rel == 1 ? funPromBandIds[facing] : funPromwallId;
+                return rel == 1 ? funPromBandIds[FunOpenFaces(gx, gz)] : funPromwallId;
             case WallPattern.FunMural:
                 if (t.Variant > 0 && rel is 2 or 3)
                 {
                     int m = (t.Variant - 1) / 2 % 4, half = (t.Variant - 1) % 2;
                     return funMuralIds[m, (rel == 3 ? 0 : 2) + half, facing];
                 }
-                return FunPaintFace(4, rel, t.Pier);
+                return FunPaintFace(4, rel, gx, gz);
             case WallPattern.FunSteel:
                 return rel == 2 && Hashing.Mod(gx * 3 + gz * 5, 11) == 0 ? funCrewSignIds[facing] : funSteelId;
             case WallPattern.FunInflatable:
                 return funInflatableIds[t.Detail % 3, facing];
             case WallPattern.FunElevator:
+                // (Variant 2: the left leaf with the OUT OF ORDER =) sign taped to its upper half)
+                if (rel == 2 && t.Variant == 2) return funElevatorIds[0, 2, facing];
                 return rel is 1 or 2 ? funElevatorIds[t.Variant == 1 ? 1 : 0, rel - 1, facing] : funPromwallId;
             case WallPattern.FunWall:
                 return rel == 2 && Hashing.Mod(gx + gz, 4) == 0 ? funPortholeIds[facing] : funHullId;

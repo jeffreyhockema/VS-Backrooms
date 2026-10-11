@@ -478,8 +478,8 @@ def lights():
         "blockmaterial": "Stone", "sounds": STONE, "lightAbsorption": 99, "resistance": 6, "drops": [], "sidesolid": {"all": True},
         # A lit lamp must not absorb its own light, or worldgen lighting spreads none of it
         "lightAbsorptionByType": {"l974-downlight-on": 0, "*": 99},
-        "lightHsvByType": {"l974-downlight-on": [4, 2, 13]}, "attributes": {"l974structure": True, "l974light": True},
-    }, comment="Level 974: a round recessed downlight in the ceiling (on: light 13, warm white, faintly pink)")
+        "lightHsvByType": {"l974-downlight-on": [4, 2, 15]}, "attributes": {"l974structure": True, "l974light": True},
+    }, comment="Level 974: a round recessed downlight in the ceiling (on: light 15, warm white, faintly pink)")
 
     def fairy(v):
         on = v["state"] == "on"
@@ -509,7 +509,7 @@ def lights():
 
     variants_block("l974-fairylights", "Fairy Lights", [("state", ["on", "off"]), ("side", SIDES)], fairy, rot="side",
                    box=(0, 0.55, 0.88, 1, 0.75, 1), collide=False, data=dict(HUNG, **{
-                       "drops": [], "resistance": 6, "lightHsvByType": {"l974-fairylights-on-*": [58, 3, 5]},
+                       "drops": [], "resistance": 6, "lightHsvByType": {"l974-fairylights-on-*": [58, 3, 8]},
                        "attributes": {"l974structure": True, "l974light": True}}),
                    comment="Level 974: fairy lights strung under the crown moulding (rel 4), in the room-side block; the suffix is the way they face")
 
@@ -523,7 +523,7 @@ def lights():
             bx("PuffE", (10.6, 7.2, -1.4), (11.2, 9.0, -0.5), "nightlight", glow=200)])
 
     variants_block("l974-nightlight", "Night Light", [("side", SIDES)], nightlight, rot="side", box=(0.3, 0.35, 0.88, 0.7, 0.72, 1), collide=False,
-                   data=dict(HUNG, **{"drops": [], "resistance": 6, "lightHsv": [38, 2, 4], "attributes": {"l974structure": True}}),
+                   data=dict(HUNG, **{"drops": [], "resistance": 6, "lightHsv": [38, 2, 6], "attributes": {"l974structure": True}}),
                    comment="Level 974: a cloud-shaped night light plugged in above the baseboard (rel 1), in the room-side block; it stays on")
 
 
@@ -594,9 +594,9 @@ def furniture():
         return els
 
     variants_block("l974-nightstand", "Bedside Table", [("side", SIDES)], nightstand, rot="side",
-                   box=(0.1, 0, 0.1, 0.9, 0.68, 0.9), data={"lightHsv": [4, 3, 8], "attributes": FURNITURE,
+                   box=(0.1, 0, 0.1, 0.9, 0.68, 0.9), data={"lightHsv": [4, 3, 10], "attributes": FURNITURE,
                                                            "drops": drops((PLANK, 1, 0.5), ("game:candle", 0.3, 0.3))},
-                   comment="Level 974: a small white bedside table, a pink-shaded lamp (light 8), a water bottle and vitamins")
+                   comment="Level 974: a small white bedside table, a pink-shaded lamp (light 10), a water bottle and vitamins")
 
     # ---- A heap of plushies on the floor (a, b)
     def heap(v):
@@ -1100,7 +1100,6 @@ def lang():
         "levelhint-18": "You are a guest here. Be a good one.",
         "levelname-18": "Level 974",
         "l974-arrive": "You wake in a pink bedroom that feels as if it has always been yours. Somewhere, a music box is playing.",
-        "l974-taken": "Something takes an interest in what you are carrying.",
         "l974-call": "\"Here Kitty, Kitty, Kitty!\"",
         "l974-ask": "Kitty holds out a long black arm.",
         "l974-gift-taken": "Kitty takes the {0}. You are suddenly, overwhelmingly sleepy.",
@@ -1143,8 +1142,8 @@ def lang():
         "l974-dreamsleep": "Your dreams are ready. Sleep to start.",
         "l974-dream": "You dream of rooms you have never been in, and some you have. You wake steadier.",
         "item-creature-l974-kitty": "Kitty",
-        "creature-l974-kitty": "Kitty",
-        "blockhelp-l974-call": "Call Kitty (sneak, with something cute in hand)",
+        "prefixandcreature-l974-kitty": "Kitty",
+        "blockhelp-l974-call": "Call Kitty, or give it what you brought (something cute in hand)",
         "blockhelp-l974-tap": "Fill with water",
         "l974-gift-none": "You have nothing cute to give.",
         "l974-detour": "Something takes an interest in what you are carrying, and the world goes pink.",

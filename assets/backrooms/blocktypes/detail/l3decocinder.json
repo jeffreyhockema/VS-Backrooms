@@ -14,8 +14,12 @@
 				"bulkhead",
 				"alarmbell",
 				"wallcables",
+				"risers1",
 				"risers2",
 				"risers3",
+				"risers4",
+				"purpified1",
+				"purpified2",
 				"roomsign0",
 				"roomsign1",
 				"roomsign2",
@@ -191,6 +195,22 @@
 			"base": "block/detail/l3decocinder-wallcables",
 			"rotateY": 90
 		},
+		"*-risers1-north": {
+			"base": "block/detail/l3decocinder-risers1",
+			"rotateY": 0
+		},
+		"*-risers1-east": {
+			"base": "block/detail/l3decocinder-risers1",
+			"rotateY": 270
+		},
+		"*-risers1-south": {
+			"base": "block/detail/l3decocinder-risers1",
+			"rotateY": 180
+		},
+		"*-risers1-west": {
+			"base": "block/detail/l3decocinder-risers1",
+			"rotateY": 90
+		},
 		"*-risers2-north": {
 			"base": "block/detail/l3decocinder-risers2",
 			"rotateY": 0
@@ -221,6 +241,54 @@
 		},
 		"*-risers3-west": {
 			"base": "block/detail/l3decocinder-risers3",
+			"rotateY": 90
+		},
+		"*-risers4-north": {
+			"base": "block/detail/l3decocinder-risers4",
+			"rotateY": 0
+		},
+		"*-risers4-east": {
+			"base": "block/detail/l3decocinder-risers4",
+			"rotateY": 270
+		},
+		"*-risers4-south": {
+			"base": "block/detail/l3decocinder-risers4",
+			"rotateY": 180
+		},
+		"*-risers4-west": {
+			"base": "block/detail/l3decocinder-risers4",
+			"rotateY": 90
+		},
+		"*-purpified1-north": {
+			"base": "block/detail/l3decocinder-purpified1",
+			"rotateY": 0
+		},
+		"*-purpified1-east": {
+			"base": "block/detail/l3decocinder-purpified1",
+			"rotateY": 270
+		},
+		"*-purpified1-south": {
+			"base": "block/detail/l3decocinder-purpified1",
+			"rotateY": 180
+		},
+		"*-purpified1-west": {
+			"base": "block/detail/l3decocinder-purpified1",
+			"rotateY": 90
+		},
+		"*-purpified2-north": {
+			"base": "block/detail/l3decocinder-purpified2",
+			"rotateY": 0
+		},
+		"*-purpified2-east": {
+			"base": "block/detail/l3decocinder-purpified2",
+			"rotateY": 270
+		},
+		"*-purpified2-south": {
+			"base": "block/detail/l3decocinder-purpified2",
+			"rotateY": 180
+		},
+		"*-purpified2-west": {
+			"base": "block/detail/l3decocinder-purpified2",
 			"rotateY": 90
 		},
 		"*-roomsign0-north": {
@@ -365,10 +433,22 @@
 			6,
 			5,
 			9
+		],
+		"*-purpified1-*": [
+			50,
+			6,
+			5
+		],
+		"*-purpified2-*": [
+			50,
+			6,
+			5
 		]
 	},
 	"lightAbsorptionByType": {
 		"*-bulkhead-*": 0,
+		"*-purpified1-*": 0,
+		"*-purpified2-*": 0,
 		"*": 99
 	},
 	"particlePropertiesByType": {

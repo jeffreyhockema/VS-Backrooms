@@ -154,6 +154,45 @@ def shift(els, dx=0, dy=0, dz=0):
     return out
 
 
+def clip_x(el, x_lo, x_hi):
+    """Cuts an unrotated box down to x_lo..x_hi, leaving its pictures where they were: each face's UVs are cut in the
+    same proportion (a north face's U runs from east to west, as it is seen from the north; the others' west to east),
+    and an end face left on a cut is dropped. None if nothing of the box is left."""
+    assert not any(k in el for k in ("rotationX", "rotationY", "rotationZ")), el["name"]
+    el = json.loads(json.dumps(el))
+    (x1, _, _), (x2, _, _) = el["from"], el["to"]
+    n1, n2 = max(x1, x_lo), min(x2, x_hi)
+    if n2 <= n1:
+        return None
+    for k, f in el["faces"].items():
+        if k in ("east", "west"):
+            continue
+        u1, v1, u2, v2 = f["uv"]
+
+        def u_at(x):
+            t = (x2 - x) / (x2 - x1) if k == "north" else (x - x1) / (x2 - x1)
+            return round(u1 + t * (u2 - u1), 4)
+        f["uv"] = [u_at(n2), v1, u_at(n1), v2] if k == "north" else [u_at(n1), v1, u_at(n2), v2]
+    if n1 > x1:
+        el["faces"].pop("west", None)
+    if n2 < x2:
+        el["faces"].pop("east", None)
+    el["from"][0], el["to"][0] = n1, n2
+    return el
+
+
+def seam_halves(els):
+    """A sign modelled centred on a block (x = 8), split into the two halves that draw it centred on the seam between
+    two blocks side by side, for a sign over a two-wide doorway. Returns (left, right). `left` is the half a viewer
+    in front of the north face sees on the left: it lies in the block east of the seam, from its west edge (x 0) on.
+    `right` lies in the block west of the seam, up to its east edge (x 16). A face a half has on the seam is dropped,
+    and the pictures are cut so the two halves read as one; the sign's south face, if it has one, is split to match
+    (seen from the south, `right` carries its left half)."""
+    left = [e for e in (clip_x(e, 0, 16) for e in shift(els, dx=-8)) if e]
+    right = [e for e in (clip_x(e, 0, 16) for e in shift(els, dx=8)) if e]
+    return left, right
+
+
 def cube(tex):
     return bx("Wall", (0, 0, 0), (16, 16, 16), tex)
 

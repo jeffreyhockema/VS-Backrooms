@@ -5,3 +5,6 @@ obj/
 tools/mapgen/out/
 tools/mapgen/*.bin
 tools/mapgen/*.png
+__pycache__/
+*.pyc
+*.ogg.tmp

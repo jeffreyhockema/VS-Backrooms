@@ -1,0 +1,212 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"frieze": "backrooms:block/level5/hotelwall-frieze",
+		"staffplaque": "backrooms:block/detail/staffplaque"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#frieze",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				0,
+				4,
+				-0.6
+			],
+			"to": [
+				6,
+				12.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#staffplaque",
+					"uv": [
+						0.0,
+						2.5,
+						8.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				0,
+				4,
+				-0.6
+			],
+			"to": [
+				6,
+				12.25,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						6.0,
+						0,
+						12.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						6.0,
+						0,
+						12.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				0,
+				4,
+				16
+			],
+			"to": [
+				6,
+				12.25,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#staffplaque",
+					"uv": [
+						8.0,
+						2.5,
+						16.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				0,
+				4,
+				16
+			],
+			"to": [
+				6,
+				12.25,
+				16.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						6.0,
+						0,
+						12.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						6.0,
+						0,
+						12.0,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

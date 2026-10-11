@@ -49,10 +49,26 @@ public partial class HubSystem
     {
         byte[] data = api.WorldManager.SaveGame.GetData(EnteredSaveKey);
         if (data != null && data.Length == 4) entered = BitConverter.ToInt32(data, 0);
-        api.Event.GameWorldSave += () => api.WorldManager.SaveGame.StoreData(EnteredSaveKey, BitConverter.GetBytes(entered));
-        api.Event.RegisterGameTickListener(OnTowerTick, 1000, 1500);
-        api.Event.RegisterGameTickListener(OnMegTick, 30_000, 7000);
-        api.Event.PlayerDisconnect += player => Dismiss(player.PlayerUID);
+        api.Event.GameWorldSave += SaveEntered;
+        ticks.Add(api.Event.RegisterGameTickListener(OnTowerTick, 1000, 1500));
+        ticks.Add(api.Event.RegisterGameTickListener(OnMegTick, 30_000, 7000));
+        api.Event.PlayerDisconnect += OnTowerDisconnect;
+    }
+
+    /// <summary>Takes the Tower's handlers off again (its tick listeners are among <see cref="HubSystem"/>'s own).</summary>
+    private void StopTower(ICoreServerAPI api)
+    {
+        api.Event.GameWorldSave -= SaveEntered;
+        api.Event.PlayerDisconnect -= OnTowerDisconnect;
+    }
+
+    private void SaveEntered() => sapi.WorldManager.SaveGame.StoreData(EnteredSaveKey, BitConverter.GetBytes(entered));
+
+    private void OnTowerDisconnect(IServerPlayer player)
+    {
+        Dismiss(player.PlayerUID);
+        nextChime.Remove(player.PlayerUID);
+        keyNear.Remove(player.PlayerUID);
     }
 
     // ================= Who has been where =================
@@ -71,7 +87,7 @@ public partial class HubSystem
             EntityPos pos = entity.Pos;
             int level = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(pos.X)), WorldLayout.MacroOf((int)Math.Floor(pos.Z)));
             // The levels this player has been to (for the Keymaster), and that anyone has (for the M.E.G.)
-            if (level < 31)
+            if (level is >= 0 and < 31)
             {
                 int bits = entity.WatchedAttributes.GetInt(VisitedKey);
                 if ((bits & (1 << level)) == 0) entity.WatchedAttributes.SetInt(VisitedKey, bits | (1 << level));
@@ -89,7 +105,7 @@ public partial class HubSystem
                 continue;
             }
             if (entity.WatchedAttributes.GetBool(GiftKey) || keymasters.ContainsKey(player.PlayerUID)) continue;
-            bool carriesKey = KeyedLevels.Any(l => FindKey(player, l) != null);
+            bool carriesKey = FindKey(player, -1) != null;
             bool inHall = pos.Y >= geometry.FloorFor(WorldLayout.Hub) + WorldLayout.HubTowerHall;
             if (carriesKey || inHall) Summon(player);
         }
@@ -107,9 +123,10 @@ public partial class HubSystem
         double dx = layout.HubOriginX + 0.5 - pos.X, dz = layout.HubOriginZ + 0.5 - pos.Z, d = Math.Max(0.001, Math.Sqrt(dx * dx + dz * dz));
         double step = Math.Min(3, d - 1.5);
         double x = pos.X + dx / d * step, z = pos.Z + dz / d * step, y = Math.Floor(pos.Y + 0.01);
-        keymaster.ServerPos.SetPos(x, y, z);
-        keymaster.ServerPos.Yaw = (float)Math.Atan2(-dx, -dz);
-        keymaster.Pos.SetFrom(keymaster.ServerPos);
+        keymaster.Pos.SetPos(x, y, z);
+        keymaster.Pos.Yaw = (float)Math.Atan2(-dx, -dz);
+        // (Whose he is: each visitor has their own, and the client shows his help only to them)
+        keymaster.WatchedAttributes.SetString(EntityKeymaster.ForKey, player.PlayerUID);
         sapi.World.SpawnEntity(keymaster);
         keymaster.StartAnimation("descend");
         keymasters[player.PlayerUID] = keymaster;
@@ -139,10 +156,12 @@ public partial class HubSystem
 
     /// <summary>
     /// Someone right-clicks the Keymaster. He holds out the key to a level they have been to, another each time; sneaking,
-    /// they take the one he holds, and he shows them to its door.
+    /// they take the one he holds, and he shows them to its door. He answers only the visitor he came down to: anyone
+    /// else's is deaf to them (otherwise a second player could take a key from someone else's audience).
     /// </summary>
     public void KeymasterInteract(IServerPlayer player, Entity keymaster)
     {
+        if (!keymasters.TryGetValue(player.PlayerUID, out Entity mine) || mine != keymaster) return;
         if (player.Entity.WatchedAttributes.GetBool(GiftKey))
         {
             // Already given his key: he waves them off
@@ -156,6 +175,8 @@ public partial class HubSystem
         bool sneaking = player.Entity.Controls.Sneak;
         if (!sneaking || choice < 0 || choice >= choices.Length)
         {
+            // (The first time asked, he says so; then the first key)
+            if (choice < 0) Say(player, "backrooms:hub-keymaster-2");
             choice = (choice + 1) % choices.Length;
             player.Entity.WatchedAttributes.SetInt(ChoiceKey, choice);
             keymaster.StartAnimation("jingle");
@@ -348,8 +369,24 @@ public partial class HubSystem
 /// <summary>The Keymaster: he cannot be hurt, is never kept with the world, and right-clicking him asks for a key.</summary>
 public class EntityKeymaster : EntityAgent
 {
+    /// <summary>Watched attribute: the uid of the visitor he came down to.</summary>
+    public const string ForKey = "backrooms:keymasterFor";
+
+    private static WorldInteraction[] help;
+
     public override bool StoreWithChunk => false;
     public override bool IsInteractable => true;
+
+    /// <summary>Right-click for another key, sneak and right-click to take it: shown only to the visitor he came down to.</summary>
+    public override WorldInteraction[] GetInteractionHelp(IClientWorldAccessor world, EntitySelection es, IClientPlayer player)
+    {
+        if (WatchedAttributes.GetString(ForKey) != player?.PlayerUID) return Array.Empty<WorldInteraction>();
+        return help ??= new[]
+        {
+            new WorldInteraction { ActionLangCode = "backrooms:hub-keymaster-choose", MouseButton = EnumMouseButton.Right },
+            new WorldInteraction { ActionLangCode = "backrooms:hub-keymaster-take", MouseButton = EnumMouseButton.Right, HotKeyCode = "sneak" },
+        };
+    }
 
     public override bool ShouldReceiveDamage(DamageSource damageSource, float damage) => false;
 

@@ -66,36 +66,39 @@ public static class MapColors
 
     private static int FloorColor(Block floor)
     {
+        // (Ordinal tests: this runs for every column the map reveals, and culture-aware comparison is many times slower)
         string path = floor.Code?.Path ?? "";
-        if (path.StartsWith("carpet")) return path.EndsWith("stained") ? CarpetStained : Carpet;
-        if (path.StartsWith("soil-")) return Grass;
-        if (path.StartsWith("farmland")) return Field;
-        if (path.StartsWith("gravel") || path.StartsWith("dirtroad") || path.StartsWith("muddygravel")) return Road;
-        if (path.StartsWith("asphalt")) return Asphalt;
-        if (path.StartsWith("sidewalk") || path.StartsWith("cityfloor-plaza") || path.StartsWith("subwayfloor-platform")) return Pavement;
-        if (path.StartsWith("seabed") || path.StartsWith("islandrock")) return Sand;
-        if (path.StartsWith("housefloor")) return HouseFloor;
-        if (path.StartsWith("rock-") || path.StartsWith("ore-")) return CaveFloor;
-        if (path.StartsWith("tar")) return Tar;
-        if (path.StartsWith("pooltile")) return path.EndsWith("red") ? PoolRed : PoolTile;
-        if (path.StartsWith("clayturf")) return Turf;
-        if (path.StartsWith("claysoil") || path.StartsWith("motionground-path")) return Clay;
-        if (path.StartsWith("motionground-asphalt")) return Asphalt;
-        if (path.StartsWith("motionground")) return Pavement;
-        if (path.StartsWith("glassmountain")) return Glass;
-        if (path.StartsWith("funfloor")) return Funhouse;
+        bool Is(string prefix) => path.StartsWith(prefix, StringComparison.Ordinal);
+        if (Is("carpet")) return path.EndsWith("stained", StringComparison.Ordinal) ? CarpetStained : Carpet;
+        if (Is("soil-")) return Grass;
+        if (Is("farmland")) return Field;
+        if (Is("gravel") || Is("dirtroad") || Is("muddygravel")) return Road;
+        if (Is("asphalt")) return Asphalt;
+        if (Is("sidewalk") || Is("cityfloor-plaza") || Is("subwayfloor-platform")) return Pavement;
+        if (Is("seabed") || Is("islandrock")) return Sand;
+        if (Is("housefloor")) return HouseFloor;
+        if (Is("rock-") || Is("ore-")) return CaveFloor;
+        if (Is("tar")) return Tar;
+        if (Is("pooltile")) return path.EndsWith("red", StringComparison.Ordinal) ? PoolRed : PoolTile;
+        if (Is("clayturf")) return Turf;
+        if (Is("claysoil") || Is("motionground-path")) return Clay;
+        if (Is("motionground-asphalt")) return Asphalt;
+        if (Is("motionground")) return Pavement;
+        if (Is("glassmountain")) return Glass;
+        if (Is("funfloor")) return Funhouse;
         return OtherFloor;
     }
 
     private static bool IsPlant(Block block)
     {
         string path = block.Code?.Path ?? "";
-        return path.StartsWith("leaves") || path.StartsWith("log-");
+        return path.StartsWith("leaves", StringComparison.Ordinal) || path.StartsWith("log-", StringComparison.Ordinal);
     }
 
-    private static bool IsChalk(Block block) => block.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("chalkmark");
+    private static bool IsChalk(Block block) => block.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("chalkmark", StringComparison.Ordinal);
 
-    private static bool IsSolid(Block block) => block.BlockId != 0 && block.CollisionBoxes != null && block.CollisionBoxes.Length > 0;
+    /// <summary>Whether a block stops the player (and so the map's line of sight): anything with a collision box.</summary>
+    internal static bool IsSolid(Block block) => block.BlockId != 0 && block.CollisionBoxes != null && block.CollisionBoxes.Length > 0;
 
     /// <summary>0xRRGGBB to an opaque ABGR int.</summary>
     private static int Rgb(int rgb) => unchecked((int)0xFF000000) | ((rgb & 0xFF) << 16) | (rgb & 0xFF00) | ((rgb >> 16) & 0xFF);

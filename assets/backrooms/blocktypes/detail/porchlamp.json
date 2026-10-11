@@ -1,0 +1,125 @@
+// A coach lamp on the wall by a front door
+{
+	"code": "porchlamp",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"off",
+				"on"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-off-north": {
+			"base": "block/detail/porchlamp-off",
+			"rotateY": 0
+		},
+		"*-off-east": {
+			"base": "block/detail/porchlamp-off",
+			"rotateY": 270
+		},
+		"*-off-south": {
+			"base": "block/detail/porchlamp-off",
+			"rotateY": 180
+		},
+		"*-off-west": {
+			"base": "block/detail/porchlamp-off",
+			"rotateY": 90
+		},
+		"*-on-north": {
+			"base": "block/detail/porchlamp-on",
+			"rotateY": 0
+		},
+		"*-on-east": {
+			"base": "block/detail/porchlamp-on",
+			"rotateY": 270
+		},
+		"*-on-south": {
+			"base": "block/detail/porchlamp-on",
+			"rotateY": 180
+		},
+		"*-on-west": {
+			"base": "block/detail/porchlamp-on",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-off-north"
+		],
+		"decorative": [
+			"*-off-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.34,
+			"y1": 0.3,
+			"z1": 0.6,
+			"x2": 0.66,
+			"y2": 0.92,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.34,
+			"y1": 0.3,
+			"z1": 0.6,
+			"x2": 0.66,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.34,
+			"y1": 0.3,
+			"z1": 0.6,
+			"x2": 0.66,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.34,
+			"y1": 0.3,
+			"z1": 0.6,
+			"x2": 0.66,
+			"y2": 0.92,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"lightHsvByType": {
+		"*-on-*": [
+			6,
+			4,
+			11
+		]
+	}
+}

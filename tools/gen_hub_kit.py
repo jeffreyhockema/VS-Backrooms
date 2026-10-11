@@ -325,8 +325,8 @@ def wall_textures():
     # Ceiling: darker, the board lines of the formwork it was cast against
     img = concrete(0x77746E, "hubceiling", grain=False)
     d = ImageDraw.Draw(img)
-    for y in (0, 8, 16, 24):
-        d.line([0, y, S - 1, y], fill=rgb(0x67645E))
+    for y in (0, 16):
+        d.line([0, y, S - 1, y], fill=rgb(0x6E6B65))
     save_tex(img, "ceiling")
     # Tiles creeping in where a tunnel turns toward Level 37
     for stage, share in ((1, 0.22), (2, 0.8)):
@@ -412,6 +412,10 @@ def fixture_textures():
     save_tex(img, "lampglass")
     save_tex(noise(0x5A4630, 4, "lampdead"), "lampglass-dead")
     save_tex(noise(0x3D4A3F, 4, "lamphousing"), "lamphousing")
+    # The inside of a lit lamp's hood, washed amber by the glass under it
+    img = noise(0xC8782C, 4, "lamphoodlit")
+    ImageDraw.Draw(img).rectangle([0, 0, S - 1, S - 1], outline=rgb(0x5A3A1C), width=2)
+    save_tex(img, "lamphood-lit")
     save_tex(noise(0x7A7F7C, 3, "cage"), "cage")
     # Galvanised steel: the spangle of zinc crystals
     img = noise(0xA7ACAE, 3, "galv")
@@ -563,6 +567,7 @@ def door_textures():
     # Carving: the face, the floor of the recess (in its own shadow) and the relief (catching the light)
     save_tex(concrete(0x98938A, "carved", n=4), "carved")
     save_tex(tint(concrete(0x98938A, "carveddeep", n=4), 0.7), "carved-deep")
+    save_tex(tint(concrete(0x98938A, "carvedrecess", n=4), 0.45), "carved-recess")  # a sigil's disc, deep in shadow
     save_tex(tint(concrete(0x98938A, "carvedrelief", n=3), 1.1, 6), "carved-relief")
     # Service door: grey-painted steel, chipped at the edges; its frame; a push bar; wired glass
     img = noise(0x7F8589, 3, "servicesteel")
@@ -926,20 +931,35 @@ def tunnel_blocks():
              solid=True, creative="construction", extra={"resistance": 4})
 
     # Caged sodium lamp on a wall plate: on, dead, flickering (modelled on the wall to the south)
+    # (Lit, the glass fills the cage to its floor and front, so it shows from the road below, and the hood's
+    # underside is washed amber; a lamp seen from below was a dark box)
     def lamp(glass):
-        g = 255 if glass == "lampglass" else 0
+        lit = glass == "lampglass"
+        g = 255 if lit else 0
+        under = ("lamphood-lit", 200) if lit else ("lamphousing", 0)
         els = [bx("Plate", (4.5, 3.5, 15), (11.5, 12.5, 16), "lamphousing"),
                bx("Arm", (7, 9.5, 12), (9, 11.5, 15), "lamphousing"),
-               bx("Hood", (3.5, 10, 7.5), (12.5, 12, 15), "lamphousing"),
-               bx("HoodLip", (3, 9.5, 7), (13, 10, 15), "lamphousing"),
-               bx("Glass", (4.5, 4.5, 8.5), (11.5, 9.5, 14), glass, glow=g),
-               bx("Base", (5, 3.8, 9), (11, 4.5, 13.5), "lamphousing")]
+               bx("Hood", (3.5, 10, 7.5), (12.5, 12, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
+               bx("HoodLip", (3, 9.5, 7), (13, 10, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
+               bx("HoodUnder", (3, 9.5, 7), (13, 10, 15), under[0], glow=under[1], faces=("down",), full=True)]
+        if lit:
+            els.append(bx("Glass", (4.4, 4.1, 8.4), (11.6, 9.5, 14.8), glass, glow=g, full=True))
+        else:
+            els += [bx("Glass", (4.5, 4.5, 8.5), (11.5, 9.5, 14), glass),
+                    bx("Base", (5, 3.8, 9), (11, 4.5, 13.5), "lamphousing")]
         for i, x in enumerate((4.2, 6.8, 8.7, 11.3)):
             els.append(bx(f"BarF{i}", (x - 0.25, 4.0, 7.9), (x + 0.25, 9.5, 8.4), "cage"))
-        els += [bx("BarBottom", (4, 3.6, 7.9), (12, 4.1, 14.5), "cage"),
-                bx("BarSideL", (3.8, 4.0, 8.2), (4.3, 9.5, 14.5), "cage"),
-                bx("BarSideR", (11.7, 4.0, 8.2), (12.2, 9.5, 14.5), "cage"),
-                bx("BarRing", (3.8, 6.8, 7.9), (12.2, 7.2, 8.4), "cage")]
+        # The cage's floor and sides are bars, not plates, so the glass shows between them from below and the side
+        els += [bx("BarRing", (3.8, 6.8, 7.9), (12.2, 7.2, 8.4), "cage"),
+                bx("BarRingL", (3.8, 6.8, 8.4), (4.3, 7.2, 14.5), "cage"),
+                bx("BarRingR", (11.7, 6.8, 8.4), (12.2, 7.2, 14.5), "cage")]
+        for i, z in enumerate((7.9, 11.2, 14)):
+            els.append(bx(f"BarBottom{i}", (3.8, 3.6, z), (12.2, 4.1, z + 0.5), "cage"))
+            if i:
+                els += [bx(f"BarSideL{i}", (3.8, 4.1, z), (4.3, 9.5, z + 0.5), "cage"),
+                        bx(f"BarSideR{i}", (11.7, 4.1, z), (12.2, 9.5, z + 0.5), "cage")]
+        for i, x in enumerate((3.8, 7.75, 11.7)):
+            els.append(bx(f"BarUnder{i}", (x, 3.6, 8.4), (x + 0.5, 4.1, 14), "cage"))
         return els
     on, dead = shape("lamp-on", lamp("lampglass")), shape("lamp-dead", lamp("lampglass-dead"))
     oriented("hub-lamp", "Tunnel Lamp", {"on": on, "dead": dead, "flicker": on},

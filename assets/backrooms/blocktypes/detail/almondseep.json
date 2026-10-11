@@ -9,17 +9,10 @@
 		],
 		"restock": true
 	},
-	"creativeinventory": {
-		"general": [
-			"*"
-		]
-	},
 	"blockmaterial": "Stone",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/almondseep"
-		}
+	"drawtype": "json",
+	"shape": {
+		"base": "block/detail/almondseep"
 	},
 	"lightAbsorption": 99,
 	"resistance": 6,
@@ -95,5 +88,15 @@
 				"var": 0.3
 			}
 		}
-	]
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		]
+	},
+	"textures": {
+		"rock": {
+			"base": "block/detail/almondseep"
+		}
+	}
 }

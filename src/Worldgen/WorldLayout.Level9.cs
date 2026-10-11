@@ -32,6 +32,38 @@ public sealed partial class WorldLayout
     private const ulong SaltL9Street = 0x9D02;
     private const ulong SaltL9Car = 0x9D03;
 
+    /// <summary>
+    /// From layout version 5, what a Suburbs house's tile carries over its ground floor, in <see cref="Tile.Height"/> (0:
+    /// nothing, as in every house before). A two-storey house's tiles say what stands a storey up: its floor is at rel 4
+    /// (the ceiling of the ground floor), its rooms rel 5-7, its ceiling rel 8, and the roof is a storey higher. Upstairs,
+    /// a floor tile's prop is in <see cref="Tile.Detail"/> (an index into <see cref="UpstairsProps"/>, its facing times 32),
+    /// and a wall's or a doorway's paper (0-3 on from <see cref="WallPattern.InteriorFloral"/>). Outside walls go up as
+    /// they are below, windows and all (Blank: without the windows, where a wall upstairs meets them). The porch, and
+    /// the lawn by a door, carry <see cref="StoreyPorch"/> and their parts: a deck of boards, the steps up to it, a post
+    /// holding up its roof, a lamp by the door (lit in the houses that still have power).
+    /// </summary>
+    public const byte StoreyFloor = 1, StoreyLightOff = 2, StoreyLightOn = 3, StoreyHole = 4, StoreyWall = 5, StoreyDoorway = 6,
+        StoreyOuter = 7, StoreyOuterBlank = 8;
+    public const byte StoreyPorch = 0x40, PorchDeck = 1, PorchStep = 2, PorchPost = 4, PorchLamp = 8, PorchLampLit = 16;
+
+    /// <summary>The props upstairs in a two-storey house, by their index in <see cref="Tile.Detail"/>: the prop, and which part of it.</summary>
+    public static readonly (ushort Prop, byte Stack)[] UpstairsProps =
+    {
+        (0, 0), (Props.Bed, 0), (Props.Bed, 1), (Props.Nightstand, 0), (Props.Dresser, 0), (Props.Wardrobe, 0), (Props.ToyBox, 0),
+        (Props.Bathtub, 0), (Props.Bathtub, 1), (Props.Toilet, 0), (Props.MedCabinet, 0),
+    };
+    private const byte UpBedHead = 1, UpBedFoot = 2, UpNightstand = 3, UpDresser = 4, UpWardrobe = 5, UpToyBox = 6, UpTubHead = 7,
+        UpTubFoot = 8, UpToilet = 9, UpMedCabinet = 10;
+
+    /// <summary>Whether a storey value is a floor upstairs (so its <see cref="Tile.Detail"/> is a prop).</summary>
+    public static bool IsUpstairsFloor(byte storey) => storey is StoreyFloor or StoreyLightOff or StoreyLightOn;
+
+    /// <summary>An upstairs prop's facing, turned as its lot is mirrored.</summary>
+    private static void TurnUpstairs(ref Tile t, Func<ArchPier, ArchPier> turn)
+    {
+        if (IsUpstairsFloor(t.Height) && (t.Detail & 31) != 0) t.Detail = (byte)((t.Detail & 31) | ((int)turn((ArchPier)(t.Detail >> 5)) << 5));
+    }
+
     /// <summary>Which lot of the town a block lies in, as a single key (so a house can have one colour of roof).</summary>
     public (int, int) LotKeyAt(int gx, int gz)
     {
@@ -77,8 +109,9 @@ public sealed partial class WorldLayout
         for (int bz = bz0 - 1; bz <= bz0 + 1; bz++)
             for (int bx = bx0 - 1; bx <= bx0 + 1; bx++)
                 for (int slot = 0; slot < 8; slot++)
-                    foreach (bool east in new[] { false, true })
+                    for (int side = 0; side < 2; side++)
                     {
+                        bool east = side == 1;
                         int cx = bx * TownBlockX + (east ? 5 : 1), cz = bz * TownBlockZ + 9 + slot * 7;
                         ulong h = Hashing.Hash(seed, cx, cz, SaltL9Car);
                         if (Hashing.Unit(h) > 0.22) continue;
@@ -118,6 +151,7 @@ public sealed partial class WorldLayout
                                 else if (t.Variant == Props.CarPart && u > 0 && plan[v * LotWidth + u - 1].Variant == Props.Car) t.Variant = Props.Car;
                                 t.Pier = MirrorNS(t.Pier);
                                 t.Roof = RoofBits.Turned(t.Roof, MirrorNS);
+                                TurnUpstairs(ref t, MirrorNS);
                                 if (t.Kind == TileKind.Bars) t.Stack = MirrorMask(t.Stack);
                             }
                         }
@@ -150,6 +184,30 @@ public sealed partial class WorldLayout
         bool signed = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx + 8, TownBlockX), Hashing.FloorDiv(gz + 8, TownBlockZ), SaltL9Street + 3)) < 0.2;
         if (signed && sx == 7 && sz == 7) { t.Variant = Props.StopSign; t.Pier = ArchPier.South; return; }
         if (signed && sx == 0 && sz == 0) { t.Variant = Props.StopSign; t.Pier = ArchPier.North; return; }
+        if (Version >= 5)
+        {
+            int jx = Hashing.FloorDiv(gx, TownBlockX), jz = Hashing.FloorDiv(gz, TownBlockZ);
+            // On one corner of every junction, the names of the two streets: the same all along each street (and only
+            // sixteen names between them, over and over)
+            if (sx == 7 && sz == 0)
+            {
+                t.Variant = Props.SuburbSign;
+                t.Stack = (byte)(Hashing.Hash(seed, 0, jz, SaltL9Street + 6) % 8);
+                t.Detail = (byte)(Hashing.Hash(seed, jx, 0, SaltL9Street + 7) % 8);
+                return;
+            }
+            // At one junction in six, a sign pointing the way to the city: down whichever street heads more nearly
+            // toward it (now and then the other, as a road would wind)
+            ulong guide = Hashing.Hash(seed, jx, jz, SaltL9Street + 5);
+            if (sx == 0 && sz == 7 && Hashing.Unit(guide) < 1 / 6.0)
+            {
+                double dx = CityOriginX - gx, dz = CityOriginZ - gz;
+                bool alongX = Hashing.Unit(Hashing.Mix(guide)) * (Math.Abs(dx) + Math.Abs(dz)) < Math.Abs(dx);
+                t.Variant = Props.CitySign;
+                t.Pier = alongX ? (dx > 0 ? ArchPier.East : ArchPier.West) : (dz > 0 ? ArchPier.South : ArchPier.North);
+                return;
+            }
+        }
         // Street lamps along the pavements on the lot side, every 16 blocks; most are dead
         bool lampX = sz == 7 && sx >= 8 && Hashing.Mod(gx, 16) == 12;
         bool lampZ = sx == 7 && sz >= 8 && Hashing.Mod(gz, 16) == 4;
@@ -233,10 +291,10 @@ public sealed partial class WorldLayout
         {
             case LotKind.House:
             {
-                var house = PlanHouse(tiles, w, ref rng, farmhouse: false);
+                var house = PlanHouse(tiles, w, ref rng, farmhouse: false, v5: Version >= 5);
                 PlanFrontYard(tiles, w, house, ref rng);
                 PlanBackyard(tiles, w, d, house, ref rng);
-                // One backyard pool in a few dozen was never drained: lit teal at midnight, and its bottom is not the
+                // About one backyard pool in seventeen was never drained: lit teal at midnight, and its bottom is not the
                 // bottom (Level 37). One house in a hundred and fifty is a doll's house, too clean and too cream, and
                 // its front door opens onto Level 94
                 ulong odd = Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 37);
@@ -318,6 +376,7 @@ public sealed partial class WorldLayout
             ref Tile t = ref tiles[i];
             t.Pier = MirrorEW(t.Pier);
             t.Roof = RoofBits.Turned(t.Roof, MirrorEW);
+            TurnUpstairs(ref t, MirrorEW);
             if (t.Kind == TileKind.Bars) t.Stack = MirrorMaskEW(t.Stack);
             // A corner of a house: the side its second face looks out on swaps too
             else if (t.Kind == TileKind.Wall && t.Stack is 1 or 2 && t.Pattern >= WallPattern.SidingWhite && t.Pattern <= WallPattern.Brick) t.Stack = (byte)(3 - t.Stack);
@@ -340,8 +399,11 @@ public sealed partial class WorldLayout
     /// <summary>
     /// A house in lot coordinates, its front wall at v = 6 (or 7 behind a porch), on one of a few plans. The lot is
     /// <paramref name="w"/> wide; the farmhouses of Level 10 are planned in an 18-wide lot with their front at v = 5.
+    /// From layout version 5 (<paramref name="v5"/>, the Suburbs only) the houses are less alike: about a third have two
+    /// storeys (a hall up the middle with the stairs in it, bedrooms upstairs), half have a porch on posts with steps up
+    /// to it, every door has a lamp by it, and the windows come in one of three rhythms.
     /// </summary>
-    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse)
+    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false)
     {
         ref Tile At(int u, int v) => ref tiles[v * w + u];
         HousePlan kind = farmhouse ? HousePlan.Family : (HousePlan)rng.Range(0, 2);
@@ -355,6 +417,23 @@ public sealed partial class WorldLayout
         bool locked = !farmhouse && rng.Chance(0.15);
         bool litWindows = rng.Chance(0.1);
         bool garage = kind == HousePlan.Garage;
+        // Layout version 5: two storeys over a narrower, deeper house (its porch, if any, in front of it), more porches,
+        // and the windows in pairs, every other block, or every third as before
+        bool twoStorey = false;
+        int rhythm = 0;
+        if (v5)
+        {
+            twoStorey = kind != HousePlan.Garage && rng.Chance(0.55);
+            if (kind == HousePlan.Family && rng.Chance(0.45)) porch = true;
+            rhythm = rng.Range(0, 2);
+            if (twoStorey) { u0 = 3; u1 = w - 4; v0 = 6; v1 = v0 + 11; }
+        }
+        bool WindowAt(int u, int v) => rhythm switch
+        {
+            1 => (u + v) % 4 is 1 or 2,
+            2 => (u + v) % 2 == 1,
+            _ => (u + v) % 3 == 0,
+        };
 
         void Wall(int u, int v, WallPattern p)
         {
@@ -405,7 +484,7 @@ public sealed partial class WorldLayout
                 t.Pier = v == v0 ? ArchPier.North : v == v1 ? ArchPier.South : u == u0 ? ArchPier.West : ArchPier.East;
                 bool corner = (u == u0 || u == u1) && (v == v0 || v == v1);
                 if (corner) t.Stack = (byte)(u == u1 ? 1 : 2); // its second outside face: 1 east, 2 west
-                else if ((u + v) % 3 == 0) t.Variant = (byte)(litWindows && rng.Chance(0.5) ? 2 : 1);
+                else if (WindowAt(u, v)) t.Variant = (byte)(litWindows && rng.Chance(0.5) ? 2 : 1);
             }
         int chimneyV = (v0 + v1) / 2 + rng.Range(-2, 2);
         At(u0, chimneyV).Variant = 3; // a brick chimney up the side wall
@@ -415,6 +494,129 @@ public sealed partial class WorldLayout
         int garageU0 = 0, garageU1 = 0;
         switch (kind)
         {
+            case HousePlan.Family or HousePlan.Porch when twoStorey:
+            {
+                // Two storeys, like the houses in the pictures. Downstairs a hall from the front door to the kitchen, the
+                // stairs up one side of it; the dining room on one side of the hall, the living room on the other; the
+                // kitchen, a bathroom and a utility room behind. Upstairs, off a landing across the house, three
+                // bedrooms (one a child's) and a bathroom
+                int hall = u0 + 6, stair = u0 + 7, k1 = u0 + 8, b1 = u0 + 11;
+                PartitionX(hall - 1, v0 + 1, mid - 1, paper2);
+                PartitionX(stair + 1, v0 + 1, mid - 1, paper2);
+                PartitionZ(mid, u0 + 1, u1 - 1, paper);
+                PartitionX(k1, mid + 1, v1 - 1, paper);
+                PartitionX(b1, mid + 1, v1 - 1, paper);
+                Room(u0 + 1, v0 + 1, hall - 2, mid - 1, FloorKind.HouseWood);
+                Room(hall, v0 + 1, stair, mid - 1, FloorKind.HouseWood);
+                Room(stair + 2, v0 + 1, u1 - 1, mid - 1, FloorKind.HouseCarpet);
+                Room(u0 + 1, mid + 1, k1 - 1, v1 - 1, FloorKind.HouseLino);
+                Room(k1 + 1, mid + 1, b1 - 1, v1 - 1, FloorKind.HouseTile);
+                Room(b1 + 1, mid + 1, u1 - 1, v1 - 1, FloorKind.HouseLino);
+                Doorway(hall - 1, v0 + 3); Doorway(stair + 1, v0 + 1);
+                Doorway(hall, mid); Doorway(k1 + 1, mid); Doorway(b1 + 2, mid);
+                // The stairs: four steps up the side of the hall away from the street, the last in the line of the wall
+                // behind, coming out on the landing
+                for (int s = 1; s <= 4; s++)
+                {
+                    ref Tile step = ref At(stair, v0 + 1 + s);
+                    step.Kind = TileKind.Floor;
+                    step.Floor = FloorKind.HouseWood;
+                    step.Variant = 0;
+                    step.Stair = (byte)s;
+                    step.Pier = ArchPier.South;
+                }
+                // Dining room: a table laid for nobody
+                Put(u0 + 2, v0 + 3, Props.DiningTable, ArchPier.North);
+                Put(u0 + 1, v0 + 3, Props.HotelChair, ArchPier.East);
+                Put(u0 + 3, v0 + 3, Props.HotelChair, ArchPier.West);
+                Put(u0 + 2, v0 + 2, Props.HotelChair, ArchPier.South);
+                Put(u0 + 2, v0 + 4, Props.HotelChair, ArchPier.North);
+                Put(u0 + 4, v0 + 1, Props.CurioCabinet, ArchPier.West);
+                // Living room
+                Put(u1 - 1, v0 + 1, Props.OfficeBookshelf, ArchPier.West);
+                Put(u1 - 1, v0 + 3, Props.Tv, ArchPier.West);
+                Put(stair + 3, v0 + 3, Props.Sofa, ArchPier.East);
+                Put(stair + 5, v0 + 3, Props.CoffeeTable, ArchPier.North);
+                Put(stair + 5, v0 + 1, Props.WingChair, ArchPier.South);
+                Put(u1 - 1, v0 + 4, Props.FloorLamp, ArchPier.North);
+                for (int u = stair + 4; u <= stair + 6; u++) for (int v = v0 + 2; v <= v0 + 3; v++) At(u, v).Floor = FloorKind.HouseRug;
+                // Kitchen
+                Put(u0 + 1, v1 - 1, Props.KitchenCabinet, ArchPier.North);
+                Put(u0 + 3, v1 - 1, Props.KitchenCounter, ArchPier.North, 1);
+                Put(u0 + 4, v1 - 1, Props.Stove, ArchPier.North);
+                Put(u0 + 5, v1 - 1, Props.KitchenCabinet, ArchPier.North);
+                Put(k1 - 1, v1 - 1, Props.Fridge, ArchPier.North);
+                Put(u0 + 1, mid + 2, Props.KitchenCabinet, ArchPier.East);
+                Put(u0 + 3, mid + 3, Props.RoundTable, ArchPier.North);
+                Put(u0 + 2, mid + 3, Props.HotelChair, ArchPier.East);
+                Put(u0 + 4, mid + 3, Props.HotelChair, ArchPier.West);
+                Put(k1 - 1, mid + 1, Props.PantryShelf, ArchPier.West);
+                // Bathroom
+                Put(k1 + 1, v1 - 1, Props.Bathtub, ArchPier.East, 0);
+                Put(k1 + 2, v1 - 1, Props.Bathtub, ArchPier.East, 1);
+                Put(k1 + 2, mid + 1, Props.Toilet, ArchPier.West);
+                Put(k1 + 2, mid + 3, Props.MedCabinet, ArchPier.West);
+                // Utility room: the laundry, and the shelves nobody else had room for
+                Put(b1 + 1, v1 - 1, Props.Laundry, ArchPier.North, 0);
+                Put(b1 + 2, v1 - 1, Props.Laundry, ArchPier.North, 1);
+                Put(u1 - 1, mid + 1, Props.PantryShelf, ArchPier.West);
+                Put(b1 + 1, mid + 2, Props.ToolShelf, ArchPier.East);
+                doorU = hall;
+                backDoorU = u0 + 2;
+                Hang(hall - 1, v0 + 1, Decor.FamilyPhoto, ArchPier.East);
+                Hang(stair + 1, v0 + 3, Decor.HousePainting, ArchPier.East);
+                Hang(k1, mid + 2, Decor.HouseClock, ArchPier.West);
+
+                // Upstairs: floor over everything inside the outside walls, which go on up
+                void Up(int u, int v, byte storey, byte detail = 0) { At(u, v).Height = storey; At(u, v).Detail = detail; }
+                void UpWall(int u, int v) => Up(u, v, StoreyWall, (byte)(paper - WallPattern.InteriorFloral));
+                void UpDoor(int u, int v) => Up(u, v, StoreyDoorway, (byte)(paper - WallPattern.InteriorFloral));
+                void UpProp(int u, int v, byte prop, ArchPier facing) => At(u, v).Detail = (byte)(prop | (int)facing << 5);
+                for (int v = v0; v <= v1; v++)
+                    for (int u = u0; u <= u1; u++)
+                        Up(u, v, u == u0 || u == u1 || v == v0 || v == v1 ? StoreyOuter : StoreyFloor);
+                // The stairwell, walled in, open over the second and third steps
+                for (int v = v0 + 1; v <= v0 + 4; v++) { UpWall(hall, v); UpWall(stair + 1, v); }
+                UpWall(stair, v0 + 1); UpWall(stair, v0 + 2);
+                Up(stair, v0 + 3, StoreyHole); Up(stair, v0 + 4, StoreyHole);
+                // Two bedrooms at the front, across the landing from a bedroom, the bathroom and another bedroom
+                for (int u = u0 + 1; u < u1; u++)
+                {
+                    if (u < hall || u > stair + 1) UpWall(u, v0 + 4);
+                    UpWall(u, mid + 1);
+                }
+                for (int v = mid + 2; v < v1; v++) { UpWall(hall, v); UpWall(u0 + 9, v); }
+                UpDoor(u0 + 3, v0 + 4); UpDoor(u0 + 11, v0 + 4);
+                UpDoor(u0 + 3, mid + 1); UpDoor(stair + 1, mid + 1); UpDoor(u0 + 12, mid + 1);
+                byte lamp = litWindows ? StoreyLightOn : StoreyLightOff;
+                foreach (var (lu, lv) in new[] { (u0 + 3, v0 + 2), (u0 + 11, v0 + 2), (u0 + 4, mid), (u0 + 3, mid + 3), (stair, mid + 3), (u0 + 12, mid + 3) })
+                    At(lu, lv).Height = lamp;
+                // The front bedrooms: the parents' and a child's
+                UpProp(u0 + 2, v0 + 1, UpBedHead, ArchPier.South); UpProp(u0 + 2, v0 + 2, UpBedFoot, ArchPier.South);
+                UpProp(u0 + 1, v0 + 1, UpNightstand, ArchPier.South); UpProp(u0 + 3, v0 + 1, UpNightstand, ArchPier.South);
+                UpProp(u0 + 5, v0 + 2, UpDresser, ArchPier.West); UpProp(u0 + 5, v0 + 1, UpWardrobe, ArchPier.West);
+                UpProp(u0 + 13, v0 + 1, UpBedHead, ArchPier.South); UpProp(u0 + 13, v0 + 2, UpBedFoot, ArchPier.South);
+                UpProp(u0 + 14, v0 + 1, UpNightstand, ArchPier.South);
+                UpProp(u0 + 9, v0 + 3, UpToyBox, ArchPier.East); UpProp(u0 + 9, v0 + 1, UpDresser, ArchPier.East);
+                // At the back: a bedroom, the bathroom, a guest room
+                UpProp(u0 + 3, v1 - 1, UpBedHead, ArchPier.North); UpProp(u0 + 3, v1 - 2, UpBedFoot, ArchPier.North);
+                UpProp(u0 + 2, v1 - 1, UpNightstand, ArchPier.North); UpProp(u0 + 4, v1 - 1, UpNightstand, ArchPier.North);
+                UpProp(u0 + 1, mid + 2, UpWardrobe, ArchPier.East); UpProp(u0 + 5, mid + 2, UpDresser, ArchPier.West);
+                UpProp(stair, v1 - 1, UpTubHead, ArchPier.East); UpProp(stair + 1, v1 - 1, UpTubFoot, ArchPier.East);
+                UpProp(stair, mid + 2, UpToilet, ArchPier.East); UpProp(stair, mid + 3, UpMedCabinet, ArchPier.East);
+                UpProp(u1 - 1, v1 - 2, UpBedHead, ArchPier.West); UpProp(u1 - 2, v1 - 2, UpBedFoot, ArchPier.West);
+                UpProp(u1 - 1, v1 - 1, UpNightstand, ArchPier.West);
+                UpProp(u0 + 10, v1 - 1, UpWardrobe, ArchPier.North); UpProp(u0 + 10, mid + 2, UpToyBox, ArchPier.East);
+                // No window upstairs where a wall inside meets it
+                for (int v = v0; v <= v1; v++)
+                    for (int u = u0; u <= u1; u++)
+                    {
+                        if (At(u, v).Height != StoreyOuter) continue;
+                        int iu = u == u0 ? u + 1 : u == u1 ? u - 1 : u, iv = v == v0 ? v + 1 : v == v1 ? v - 1 : v;
+                        if (At(iu, iv).Height == StoreyWall) At(u, v).Height = StoreyOuterBlank;
+                    }
+                break;
+            }
             case HousePlan.Garage:
             {
                 // Living room at the front, kitchen-diner, bathroom and bedroom behind; a garage down one side
@@ -599,6 +801,33 @@ public sealed partial class WorldLayout
                 }
             Put(u0 + 1, v0 - 1, Props.PatioChair, ArchPier.North);
             Put(u1 - 1, v0 - 1, Props.PatioChair, ArchPier.North);
+            if (v5 && v0 >= 4)
+            {
+                // Layout version 5: a deck of boards a little off the ground, posts holding up the roof (at the corners,
+                // either side of the steps and every few blocks between), and steps up to it
+                for (int u = u0; u <= u1; u++)
+                    for (int v = v0 - 2; v < v0; v++)
+                    {
+                        ref Tile t = ref At(u, v);
+                        bool post = t.Kind == TileKind.Bars && v == v0 - 2 && (u == u0 || u == u1 || Math.Abs(u - doorU) == 2 || (u - u0) % 4 == 0);
+                        t.Height = (byte)(StoreyPorch | (post ? PorchPost : t.Kind == TileKind.Floor ? PorchDeck : 0));
+                    }
+                for (int u = doorU - 1; u <= doorU + 1; u++) At(u, v0 - 3).Height = StoreyPorch | PorchStep;
+            }
+        }
+        // Layout version 5: a lamp on the wall by the front door, lit if the house still has power, and no window where a
+        // wall inside meets the outside one
+        if (v5)
+        {
+            ref Tile lamp = ref At(doorU + 1, v0 - 1);
+            lamp.Height |= (byte)(StoreyPorch | (litWindows ? PorchLamp | PorchLampLit : PorchLamp));
+            lamp.Pier = ArchPier.North;
+            for (int v = v0 + 1; v < v1; v++)
+                foreach (var (u, iu) in new[] { (u0, u0 + 1), (u1, u1 - 1) })
+                    if (At(u, v).Variant is 1 or 2 && At(iu, v).Kind == TileKind.Wall) At(u, v).Variant = 0;
+            for (int u = u0 + 1; u < u1; u++)
+                foreach (var (v, iv) in new[] { (v0, v0 + 1), (v1, v1 - 1) })
+                    if (At(u, v).Kind == TileKind.Wall && At(u, v).Variant is 1 or 2 && At(u, iv).Kind == TileKind.Wall) At(u, v).Variant = 0;
         }
 
         // A gable roof rises from the front and back eaves to a ridge along the middle

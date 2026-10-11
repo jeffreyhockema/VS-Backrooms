@@ -40,6 +40,9 @@ public class BackroomsMapLayer : MapLayer
     private readonly Dictionary<FastVec2i, MultiChunkMapComponent> components = new();
     private readonly HashSet<FastVec2i> visibleChunks = new();
     private readonly HashSet<FastVec2i> dirtyChunks = new();
+    // Scratch sets for RefreshTextures, kept to save allocating them twice a second
+    private readonly HashSet<FastVec2i> groupsToRebuild = new();
+    private readonly List<FastVec2i> hiddenGroups = new();
 
     // Scratch state for one reveal pass, sized for the square around the player
     private const int GridSize = RevealRadius * 2 + 1;
@@ -255,7 +258,7 @@ public class BackroomsMapLayer : MapLayer
         sbyte sight;
         int floor = FloorAt(x, z);
         if (blockAccessor.GetChunkAtBlockPos(x, floor + 2, z) == null) sight = SightUnloaded;
-        else sight = IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, floor + 2, z))) ? SightBlocked : SightOpen;
+        else sight = MapColors.IsSolid(blockAccessor.GetBlock(tmpPos.Set(x, floor + 2, z))) ? SightBlocked : SightOpen;
 
         sightGrid[index] = sight;
         return sight;
@@ -275,13 +278,11 @@ public class BackroomsMapLayer : MapLayer
         }
     }
 
-    private static bool IsSolid(Block block) => block.BlockId != 0 && block.CollisionBoxes != null && block.CollisionBoxes.Length > 0;
-
     // ---- Textures ----
 
     private void RefreshTextures()
     {
-        var groupsToRebuild = new HashSet<FastVec2i>();
+        groupsToRebuild.Clear();
         foreach (FastVec2i chunk in dirtyChunks)
         {
             FastVec2i group = GroupOf(chunk.X, chunk.Y);
@@ -299,12 +300,12 @@ public class BackroomsMapLayer : MapLayer
         foreach (FastVec2i group in groupsToRebuild) RebuildGroup(group);
 
         // Free textures for groups that are no longer on screen
-        var hidden = new List<FastVec2i>();
+        hiddenGroups.Clear();
         foreach (FastVec2i group in components.Keys)
         {
-            if (!IsGroupVisible(group)) hidden.Add(group);
+            if (!IsGroupVisible(group)) hiddenGroups.Add(group);
         }
-        foreach (FastVec2i group in hidden)
+        foreach (FastVec2i group in hiddenGroups)
         {
             components[group].ActuallyDispose();
             components.Remove(group);

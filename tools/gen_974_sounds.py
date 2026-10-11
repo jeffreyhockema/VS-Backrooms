@@ -9,9 +9,8 @@ Written in quarter-second chunks (libsndfile can crash on long Vorbis writes).
 import os
 
 import numpy as np
-import soundfile as sf
-
 from gen_entity_sounds import RATE, band, place, seconds
+from oggutil import write_ogg
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 SOUNDS = os.path.join(ROOT, "assets", "backrooms", "sounds")
@@ -26,10 +25,8 @@ def write(folder, name, signal, peak, fade=True):
         signal[:n] *= np.linspace(0, 1, n)
         signal[-n:] *= np.linspace(1, 0, n)
     signal = peak * signal / max(1e-9, np.max(np.abs(signal)))
-    with sf.SoundFile(path, "w", samplerate=RATE, channels=1, format="OGG", subtype="VORBIS") as f:
-        for start in range(0, len(signal), RATE // 4):
-            f.write(signal[start:start + RATE // 4].astype(np.float32))
-    print("wrote", os.path.relpath(path, ROOT))
+    if write_ogg(path, signal, RATE):
+        print("wrote", os.path.relpath(path, ROOT))
 
 
 def reverb(signal, decay=0.35, loop=False):

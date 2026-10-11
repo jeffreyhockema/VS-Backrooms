@@ -2,7 +2,7 @@
 	code: "wallpaper",
 	variantgroups: [
 		// "stripped" is bare drywall, left behind when the paper has been cut away
-		// "red" is the paper of the Red Rooms
+		// "red" is the paper of the Red Rooms, "cream" the pale paper of the arched areas
 		{ code: "pattern", states: ["chevron", "dotted", "cream", "manila", "red", "stripped"] },
 		// "upper" is a plain wall block; the others are the bottom block with its trim
 		{ code: "part", states: ["upper", "plain", "baseboard", "rail", "outlet"] }
@@ -10,7 +10,7 @@
 	// A blade strips the paper off (for tinder and bindings), leaving the wall bare
 	behaviors: [{ name: "BackroomsStrippable", properties: {
 		result: "wallpaper-stripped-{part}", item: "wallpaperstrip",
-		variant: "pattern", allowed: ["chevron", "dotted", "manila", "red"]
+		variant: "pattern", allowed: ["chevron", "dotted", "cream", "manila", "red"]
 	} }],
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",

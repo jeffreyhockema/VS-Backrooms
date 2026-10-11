@@ -6,7 +6,13 @@
 			"code": "axis",
 			"states": [
 				"we",
-				"ns"
+				"ns",
+				"end-north",
+				"end-east",
+				"end-south",
+				"end-west",
+				"stub-we",
+				"stub-ns"
 			]
 		}
 	],
@@ -21,6 +27,30 @@
 	"blockmaterial": "Metal",
 	"drawtype": "json",
 	"shapeByType": {
+		"*-end-east": {
+			"base": "block/pipes-end",
+			"rotateY": 0
+		},
+		"*-end-north": {
+			"base": "block/pipes-end",
+			"rotateY": 90
+		},
+		"*-end-west": {
+			"base": "block/pipes-end",
+			"rotateY": 180
+		},
+		"*-end-south": {
+			"base": "block/pipes-end",
+			"rotateY": 270
+		},
+		"*-stub-we": {
+			"base": "block/pipes-stub",
+			"rotateY": 0
+		},
+		"*-stub-ns": {
+			"base": "block/pipes-stub",
+			"rotateY": 90
+		},
 		"*-we": {
 			"base": "block/pipes-run",
 			"rotateY": 0
@@ -164,6 +194,274 @@
 					{
 						"avg": 0,
 						"var": 0.3
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": -0.1,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0
+					}
+				],
+				"quantity": {
+					"avg": 0.06
+				},
+				"size": {
+					"avg": 0.12,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 1.2,
+					"var": 0
+				},
+				"selfPropelled": false
+			}
+		],
+		"*-end-north": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 140,
+						"var": 10
+					},
+					{
+						"avg": 40,
+						"var": 10
+					},
+					{
+						"avg": 200,
+						"var": 20
+					},
+					{
+						"avg": 200,
+						"var": 30
+					}
+				],
+				"gravityEffect": {
+					"avg": 1,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": -0.2,
+						"var": 0
+					},
+					{
+						"avg": -0.3,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0.3
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": -0.1,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0
+					}
+				],
+				"quantity": {
+					"avg": 0.06
+				},
+				"size": {
+					"avg": 0.12,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 1.2,
+					"var": 0
+				},
+				"selfPropelled": false
+			}
+		],
+		"*-end-east": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 140,
+						"var": 10
+					},
+					{
+						"avg": 40,
+						"var": 10
+					},
+					{
+						"avg": 200,
+						"var": 20
+					},
+					{
+						"avg": 200,
+						"var": 30
+					}
+				],
+				"gravityEffect": {
+					"avg": 1,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.3
+					},
+					{
+						"avg": -0.3,
+						"var": 0
+					},
+					{
+						"avg": 0.2,
+						"var": 0
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": -0.1,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0
+					}
+				],
+				"quantity": {
+					"avg": 0.06
+				},
+				"size": {
+					"avg": 0.12,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 1.2,
+					"var": 0
+				},
+				"selfPropelled": false
+			}
+		],
+		"*-end-south": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 140,
+						"var": 10
+					},
+					{
+						"avg": 40,
+						"var": 10
+					},
+					{
+						"avg": 200,
+						"var": 20
+					},
+					{
+						"avg": 200,
+						"var": 30
+					}
+				],
+				"gravityEffect": {
+					"avg": 1,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": -0.2,
+						"var": 0
+					},
+					{
+						"avg": -0.3,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0.3
+					}
+				],
+				"velocity": [
+					{
+						"avg": 0,
+						"var": 0
+					},
+					{
+						"avg": -0.1,
+						"var": 0
+					},
+					{
+						"avg": 0,
+						"var": 0
+					}
+				],
+				"quantity": {
+					"avg": 0.06
+				},
+				"size": {
+					"avg": 0.12,
+					"var": 0.03
+				},
+				"particleModel": "Cube",
+				"lifeLength": {
+					"avg": 1.2,
+					"var": 0
+				},
+				"selfPropelled": false
+			}
+		],
+		"*-end-west": [
+			{
+				"hsvaColor": [
+					{
+						"avg": 140,
+						"var": 10
+					},
+					{
+						"avg": 40,
+						"var": 10
+					},
+					{
+						"avg": 200,
+						"var": 20
+					},
+					{
+						"avg": 200,
+						"var": 30
+					}
+				],
+				"gravityEffect": {
+					"avg": 1,
+					"var": 0
+				},
+				"posOffset": [
+					{
+						"avg": 0,
+						"var": 0.3
+					},
+					{
+						"avg": -0.3,
+						"var": 0
+					},
+					{
+						"avg": 0.2,
+						"var": 0
 					}
 				],
 				"velocity": [

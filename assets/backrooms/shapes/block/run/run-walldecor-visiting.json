@@ -1,0 +1,294 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/run/chrome",
+		"dispenser": "backrooms:block/run/dispenser",
+		"notice-visiting": "backrooms:block/run/notice-visiting",
+		"wall": "backrooms:block/run/wall"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Card",
+			"from": [
+				3,
+				2,
+				-0.3
+			],
+			"to": [
+				13,
+				14.5,
+				-0.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#notice-visiting",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CardEdge",
+			"from": [
+				3,
+				2,
+				-0.3
+			],
+			"to": [
+				13,
+				14.5,
+				-0.05
+			],
+			"faces": {
+				"east": {
+					"texture": "#dispenser",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"west": {
+					"texture": "#dispenser",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"up": {
+					"texture": "#dispenser",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dispenser",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HolderT",
+			"from": [
+				2.6,
+				14.5,
+				-0.6
+			],
+			"to": [
+				13.4,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "HolderB",
+			"from": [
+				2.6,
+				1.5,
+				-0.6
+			],
+			"to": [
+				13.4,
+				2,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						10.8,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -33,6 +34,9 @@ public class BuildCheckSystem : ModSystem
     private ICoreClientAPI capi;
     private BuildInfo own;
 
+    /// <summary>Players whose build has been checked this session: a client only introduces itself once per join.</summary>
+    private readonly HashSet<string> checkedPlayers = new();
+
     public override void Start(ICoreAPI api)
     {
         api.Network.RegisterChannel(Channel).RegisterMessageType<BuildInfo>();
@@ -42,14 +46,21 @@ public class BuildCheckSystem : ModSystem
     {
         sapi = api;
         api.Network.GetChannel(Channel).SetMessageHandler<BuildInfo>(OnClientBuild);
+        api.Event.PlayerDisconnect += player => checkedPlayers.Remove(player.PlayerUID);
     }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;
-        api.Network.GetChannel(Channel).SetMessageHandler<BuildInfo>(OnServerBuild);
-        // Introduce ourselves once the world is ready
-        api.Event.LevelFinalize += () => api.Network.GetChannel(Channel).SendPacket(Own(api));
+        IClientNetworkChannel channel = api.Network.GetChannel(Channel);
+        channel.SetMessageHandler<BuildInfo>(OnServerBuild);
+        // Introduce ourselves once the world is ready. A server whose copy has no build check has no such channel,
+        // and sending on it would throw
+        api.Event.LevelFinalize += () =>
+        {
+            if (channel.Connected) channel.SendPacket(Own(api));
+            else api.Logger.Warning("[backrooms] The server's copy of the mod has no build check: it is an older build than this one");
+        };
     }
 
     /// <summary>This side's fingerprint: the mod's version, its compiled code, and the names of its assets.</summary>
@@ -73,22 +84,40 @@ public class BuildCheckSystem : ModSystem
 
     private void OnClientBuild(IServerPlayer player, BuildInfo theirs)
     {
+        // Once per join: the packet comes from the client, and each mismatch is announced to everyone
+        if (theirs == null || !checkedPlayers.Add(player.PlayerUID)) return;
         BuildInfo mine = Own(sapi);
         // The server always answers, so the client can say whether all is well
         sapi.Network.GetChannel(Channel).SendPacket(mine, player);
         if (theirs.Fingerprint == mine.Fingerprint) return;
+        // (What the client says it is goes into chat markup, so keep it short and plain)
+        string version = Plain(theirs.Version), fingerprint = Plain(theirs.Fingerprint);
+        theirs = new BuildInfo { Version = version, Fingerprint = fingerprint, AssetCount = theirs.AssetCount };
         sapi.Logger.Warning("[backrooms] {0} joined with a different copy of the mod: {1} build {2} ({3} assets); the server has {4} build {5} ({6} assets)",
             player.PlayerName, theirs.Version, theirs.Fingerprint, theirs.AssetCount, mine.Version, mine.Fingerprint, mine.AssetCount);
         sapi.BroadcastMessageToAllGroups(
-            $"<font color=\"#ff9060\">{player.PlayerName}'s copy of The Backrooms differs from the server's (theirs: {theirs.Version}, {theirs.AssetCount} files; server: {mine.Version}, {mine.AssetCount} files). "
+            $"<font color=\"#ff9060\">{player.PlayerName}'s copy of Backrooms: Survival Story differs from the server's (theirs: {theirs.Version}, {theirs.AssetCount} files; server: {mine.Version}, {mine.AssetCount} files). "
             + "They may not see entities or other new content until they install the server's copy.</font>", EnumChatType.Notification);
+    }
+
+    /// <summary>A client-sent string cut to 24 letters, digits and version punctuation.</summary>
+    private static string Plain(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "?";
+        var sb = new StringBuilder();
+        foreach (char c in text)
+        {
+            if (sb.Length == 24) break;
+            if (char.IsAsciiLetterOrDigit(c) || c is '.' or '-' or '+' or '_') sb.Append(c);
+        }
+        return sb.Length > 0 ? sb.ToString() : "?";
     }
 
     private void OnServerBuild(BuildInfo servers)
     {
         BuildInfo mine = Own(capi);
         if (servers.Fingerprint == mine.Fingerprint) return;
-        string message = $"Your copy of The Backrooms differs from this server's (yours: {mine.Version}, {mine.AssetCount} files; server: {servers.Version}, {servers.AssetCount} files). "
+        string message = $"Your copy of Backrooms: Survival Story differs from this server's (yours: {mine.Version}, {mine.AssetCount} files; server: {servers.Version}, {servers.AssetCount} files). "
             + "Entities and other new content may be missing or broken for you. Ask the host for their copy of the mod and replace yours with it.";
         capi.ShowChatMessage($"<font color=\"#ff9060\">{message}</font>");
         capi.TriggerIngameError(this, "backrooms-mismatch", message);

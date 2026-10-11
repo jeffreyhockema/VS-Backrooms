@@ -14,7 +14,10 @@
 			"code": "axis",
 			"states": [
 				"we",
-				"ns"
+				"ns",
+				"none",
+				"tarwe",
+				"tarns"
 			]
 		}
 	],
@@ -29,6 +32,28 @@
 	"blockmaterial": "Glass",
 	"drawtype": "json",
 	"shapeByType": {
+		"*-off-none": {
+			"base": "block/cablelight-plain-off"
+		},
+		"*-none": {
+			"base": "block/cablelight-plain-lit"
+		},
+		"*-off-tarwe": {
+			"base": "block/tunnellight-bundle-off",
+			"rotateY": 0
+		},
+		"*-off-tarns": {
+			"base": "block/tunnellight-bundle-off",
+			"rotateY": 90
+		},
+		"*-tarwe": {
+			"base": "block/tunnellight-bundle-warm",
+			"rotateY": 0
+		},
+		"*-tarns": {
+			"base": "block/tunnellight-bundle-warm",
+			"rotateY": 90
+		},
 		"*-off-we": {
 			"base": "block/cablelight-off",
 			"rotateY": 0
@@ -56,12 +81,33 @@
 	"entityClassByType": {
 		"*-flicker-*": "BackroomsFlicker"
 	},
+	"texturesByType": {
+		"*-tarwe": {
+			"rust": {
+				"base": "block/level3/pipe-tar"
+			}
+		},
+		"*-tarns": {
+			"rust": {
+				"base": "block/level3/pipe-tar"
+			}
+		}
+	},
 	"attributesByType": {
 		"*-flicker-we": {
 			"offBlock": "backrooms:cablelight-off-we"
 		},
 		"*-flicker-ns": {
 			"offBlock": "backrooms:cablelight-off-ns"
+		},
+		"*-flicker-none": {
+			"offBlock": "backrooms:cablelight-off-none"
+		},
+		"*-flicker-tarwe": {
+			"offBlock": "backrooms:cablelight-off-tarwe"
+		},
+		"*-flicker-tarns": {
+			"offBlock": "backrooms:cablelight-off-tarns"
 		}
 	},
 	"dropsByType": {

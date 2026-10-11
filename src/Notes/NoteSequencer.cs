@@ -42,6 +42,8 @@ public sealed class NoteLog
     /// <summary>"main" or "level": which kind of common note came last (they alternate).</summary>
     public string LastPick;
     public bool PocketGiven;
+    /// <summary>Directions notes (their kinds) that told of nothing, read just before their reader left: handed back on joining. Null when none.</summary>
+    public List<string> Owed;
     /// <summary>The next <see cref="NoteRead.Id"/> to give.</summary>
     public int NextId = 1;
 

@@ -577,7 +577,10 @@ public struct Tile
     public byte Level;
     /// <summary>Wall between two levels: solid up to the top of the taller level.</summary>
     public bool Tall;
-    /// <summary>Level 1: height of a stack of crates (0 = none).</summary>
+    /// <summary>
+    /// Level 1 (and elsewhere where <see cref="Variant"/> is 0): height of a stack of crates (0 = none). With a prop, which
+    /// of its kinds or parts it is (a car's colour, a bed's head or foot, a door's leaf); its meaning is the prop's.
+    /// </summary>
     public byte Stack;
     /// <summary>Overhead pipework, one of <see cref="Pipes"/>.</summary>
     public byte Pipe;
@@ -589,7 +592,11 @@ public struct Tile
     public ushort Variant;
     /// <summary>Level 1: a concrete beam under the slab, spanning between columns.</summary>
     public bool Beam;
-    /// <summary>Level 1 stairs to nowhere: the height of this step (0 = none). Climbs toward <see cref="Pier"/>.</summary>
+    /// <summary>
+    /// Stairs: the height of this step (0 = none). Climbs toward <see cref="Pier"/>. In the flight down of a stairwell of
+    /// Level 1 or 4 (from layout version 4, <see cref="WorldLayout.FlightZoneDown"/> in <see cref="Zone"/>), the step's
+    /// number down from the floor instead (see <see cref="WorldLayout.StairwellSteps"/>).
+    /// </summary>
     public byte Stair;
     /// <summary>A glowing EXIT sign above this doorway.</summary>
     public bool ExitSign;
@@ -601,7 +608,10 @@ public struct Tile
     public bool Low;
     /// <summary>Inside a space with no way out (locked rooms, barred bays): nobody may be teleported here.</summary>
     public bool Sealed;
-    /// <summary>Level 3 below the floor: 1 = flooded utility tunnel, 2 = manhole shaft down into one.</summary>
+    /// <summary>
+    /// What is below the floor, or a threshold to somewhere else: Level 3's 1 = flooded utility tunnel, 2 = manhole shaft
+    /// down into one; the rest are <see cref="Unders"/>.
+    /// </summary>
     public byte Under;
     /// <summary>What hangs under the ceiling or replaces a ceiling tile: one of <see cref="Overheads"/>.</summary>
     public byte Overhead;
@@ -609,13 +619,17 @@ public struct Tile
     public byte Depth;
     /// <summary>Open-sky levels: the pitched roof over a house or an outbuilding (see <see cref="RoofBits"/>), or 0.</summary>
     public byte Roof;
-    /// <summary>What part of its level this tile is in; meaning depends on the level (e.g. Level 6: 1 = the Snackrooms).</summary>
+    /// <summary>
+    /// What part of its level this tile is in; meaning depends on the level (e.g. Level 6: 1 = the Snackrooms; Levels 1
+    /// and 4: which of a stairwell's flights a step is in, <see cref="WorldLayout.FlightZoneUp"/>).
+    /// </summary>
     public byte Zone;
     /// <summary>Level 11: flags on a building tile (see <see cref="CityDetail"/>).</summary>
     public byte Detail;
     /// <summary>
     /// Level 37: the height above the water's surface of the ceiling over a floor tile (of the top of a slit, on a
-    /// wall). Level 94: the height of the ground above the valley floor.
+    /// wall). Level 94: the height of the ground above the valley floor. Level 1: the floor of a stairwell, plus one, on
+    /// its steps and its painted wall (<see cref="WorldLayout.L1FloorOf"/>).
     /// </summary>
     public byte Height;
     /// <summary>A chalk mark at eye height on the wall beside this floor tile, left by someone before (see <see cref="ChalkBits"/>), or 0.</summary>
@@ -1002,6 +1016,15 @@ public static class Props
     public const byte PressureTank = 72;
     public const byte RustMachine = 73;
     public const byte FloorLever = 74;
+    // Level 2, from layout version 5
+    /// <summary>
+    /// The B.N.T.G.'s dead tram on its rails, two blocks long (Stack 0 the locomotive's front, 1 its rear), and the goods
+    /// wagon behind it, in a main's middle lane; facing <see cref="Tile.Pier"/>.
+    /// </summary>
+    public const byte Tram = 75;
+    public const byte TramWagon = 76;
+    /// <summary>Candle stubs on a tin plate by a den's cache, left burning by whoever drew the crosses.</summary>
+    public const byte CandleStubs = 77;
     // Level 4
     public const byte Ficus = 80;
     public const byte ChairStack = 81;
@@ -1048,6 +1071,12 @@ public static class Props
     public const byte SnackShelf = 126;
     public const byte SnackVending = 127;
     public const byte DrinkFridge = 128;
+    /// <summary>
+    /// Level 6.1's vending machine rooms (from layout version 5): a dead machine of the heap (<see cref="Tile.Stack"/> 0
+    /// standing, 1 toppled over); <see cref="Tile.Detail"/> <see cref="WorldLayout.SnackPiledOn"/> on this or a working
+    /// machine puts another lying across its top.
+    /// </summary>
+    public const byte VendingPile = 129;
     // Level 7
     public const byte BonePile = 130;
     public const byte ScrapMetal = 131;
@@ -1066,6 +1095,11 @@ public static class Props
     public const byte CaveVent = 144;
     /// <summary>On a rock tile beside the 9th Road: Almond Water seeping out of the rock.</summary>
     public const byte AlmondSeep = 145;
+    /// <summary>
+    /// Level 8's bioluminescent fungi (from layout version 5): a cluster of blood-red glowing mushrooms, or of many
+    /// colours (<see cref="Tile.Stack"/> 0 on the floor, 1 against the wall on its <see cref="Tile.Pier"/> side).
+    /// </summary>
+    public const byte GlowcapRed = 146, GlowcapMixed = 147;
     // Level 9
     public const byte Tv = 150;
     /// <summary>Bathtub: Stack 0 = tap end, 1 = far end; Pier points from the tap end along the tub.</summary>
@@ -1102,6 +1136,10 @@ public static class Props
     public const byte Tractor = 182;
     /// <summary>A round bale of hay left in a stubble field.</summary>
     public const byte HayRoll = 183;
+    /// <summary>A galvanised water trough out in a field, a hand pump at its end (layout version 5).</summary>
+    public const byte WaterTrough = 181;
+    /// <summary>A field gate off its hinges, lying flat in a trampled patch of the crops (layout version 5).</summary>
+    public const byte FallenGate = 184;
     // Level 9, more of it
     public const byte FireHydrant = 162;
     public const byte StopSign = 163;
@@ -1126,6 +1164,13 @@ public static class Props
     public const byte Skep = 191;
     /// <summary>A stone quern (vanilla), for flour, salt and lime.</summary>
     public const byte Quern = 192;
+    /// <summary>
+    /// A green street-name sign on a Suburbs corner (layout version 5): Stack names the west-east street, Detail the
+    /// north-south one (the blade for that is the block over it).
+    /// </summary>
+    public const byte SuburbSign = 195;
+    /// <summary>A guide sign at a Suburbs junction, its arrow toward the city (Pier; layout version 5).</summary>
+    public const byte CitySign = 196;
     // Level 5, more of it
     public const byte IceMachine = 200;
     /// <summary>A room-service tray left on the carpet outside a door.</summary>
@@ -1162,6 +1207,10 @@ public static class Props
     public const byte WaterTank = 223;
     public const byte Antenna = 224;
     public const byte Postbox = 225;
+    /// <summary>On a brick roof (as <see cref="Tile.Overhead"/>, like the plant): a billboard on legs, its poster to the street (layout version 5).</summary>
+    public const byte Billboard = 193;
+    /// <summary>A round advertising pillar on a street corner, pasted all round with posters (Stack picks which; layout version 5).</summary>
+    public const byte AdPillar = 194;
     // Level 2, more of it
     /// <summary>A flatbed trolley left in a tunnel.</summary>
     public const byte Trolley = 226;
@@ -1431,6 +1480,11 @@ public static class Decor
     public const byte AlarmBell = 66;
     public const byte WallCables = 67;
     public const byte Risers = 68;
+    /// <summary>
+    /// Level 3, from layout version 5: something dead, half noclipped into the wall, it and the wall round it gone
+    /// purple: "Purpification" (Wikidot). Rare.
+    /// </summary>
+    public const byte Purpified = 69;
     /// <summary>Eight numbered machine-room signs, 70-77, hung beside the door.</summary>
     public const byte RoomSign = 70;
     // Level 4: drywall

@@ -1,0 +1,1719 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rock": "backrooms:block/detail/rock",
+		"seepcrust": "backrooms:block/detail/seepcrust",
+		"seeppool": "backrooms:block/detail/seeppool",
+		"seepstain": "backrooms:block/detail/seepstain",
+		"seepstainlow": "backrooms:block/detail/seepstainlow",
+		"seepwater": "backrooms:block/detail/seepwater"
+	},
+	"elements": [
+		{
+			"name": "Rock",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#rock",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Stain",
+			"from": [
+				0,
+				0,
+				-0.12
+			],
+			"to": [
+				16,
+				16,
+				-0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepstain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StainLow",
+			"from": [
+				0,
+				-16,
+				-0.12
+			],
+			"to": [
+				16,
+				0,
+				-0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepstainlow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust",
+			"from": [
+				6.2,
+				12.6,
+				-0.7
+			],
+			"to": [
+				10.2,
+				14.2,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust2",
+			"from": [
+				7,
+				11.6,
+				-0.4
+			],
+			"to": [
+				9.4,
+				12.6,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pool",
+			"from": [
+				3.5,
+				-15.85,
+				-5
+			],
+			"to": [
+				12.5,
+				-15.7,
+				-0.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#seeppool",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 20
+				}
+			}
+		},
+		{
+			"name": "Trickle0",
+			"from": [
+				7.4,
+				6,
+				-0.4
+			],
+			"to": [
+				7.9,
+				11.6,
+				-0.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle1",
+			"from": [
+				7.9,
+				-4,
+				-0.4
+			],
+			"to": [
+				8.4,
+				6,
+				-0.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle2",
+			"from": [
+				7.5,
+				-15.9,
+				-0.4
+			],
+			"to": [
+				8.0,
+				-4,
+				-0.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle3",
+			"from": [
+				8.9,
+				0.5,
+				-0.4
+			],
+			"to": [
+				9.4,
+				11.6,
+				-0.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle4",
+			"from": [
+				9.2,
+				-15.9,
+				-0.4
+			],
+			"to": [
+				9.7,
+				0.5,
+				-0.12
+			],
+			"faces": {
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Stain",
+			"from": [
+				16.1,
+				0,
+				0
+			],
+			"to": [
+				16.12,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepstain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StainLow",
+			"from": [
+				16.1,
+				-16,
+				0
+			],
+			"to": [
+				16.12,
+				0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepstainlow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust",
+			"from": [
+				16,
+				12.6,
+				6.2
+			],
+			"to": [
+				16.7,
+				14.2,
+				10.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust2",
+			"from": [
+				16,
+				11.6,
+				7
+			],
+			"to": [
+				16.4,
+				12.6,
+				9.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pool",
+			"from": [
+				16.1,
+				-15.85,
+				3.5
+			],
+			"to": [
+				21,
+				-15.7,
+				12.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#seeppool",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 20
+				}
+			}
+		},
+		{
+			"name": "Trickle0",
+			"from": [
+				16.12,
+				6,
+				7.4
+			],
+			"to": [
+				16.4,
+				11.6,
+				7.9
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle1",
+			"from": [
+				16.12,
+				-4,
+				7.9
+			],
+			"to": [
+				16.4,
+				6,
+				8.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle2",
+			"from": [
+				16.12,
+				-15.9,
+				7.5
+			],
+			"to": [
+				16.4,
+				-4,
+				8.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle3",
+			"from": [
+				16.12,
+				0.5,
+				8.9
+			],
+			"to": [
+				16.4,
+				11.6,
+				9.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle4",
+			"from": [
+				16.12,
+				-15.9,
+				9.2
+			],
+			"to": [
+				16.4,
+				0.5,
+				9.7
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Stain",
+			"from": [
+				0,
+				0,
+				16.1
+			],
+			"to": [
+				16,
+				16,
+				16.12
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepstain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StainLow",
+			"from": [
+				0,
+				-16,
+				16.1
+			],
+			"to": [
+				16,
+				0,
+				16.12
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepstainlow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust",
+			"from": [
+				5.800000000000001,
+				12.6,
+				16
+			],
+			"to": [
+				9.8,
+				14.2,
+				16.7
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust2",
+			"from": [
+				6.6,
+				11.6,
+				16
+			],
+			"to": [
+				9,
+				12.6,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pool",
+			"from": [
+				3.5,
+				-15.85,
+				16.1
+			],
+			"to": [
+				12.5,
+				-15.7,
+				21
+			],
+			"faces": {
+				"up": {
+					"texture": "#seeppool",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 20
+				}
+			}
+		},
+		{
+			"name": "Trickle0",
+			"from": [
+				8.1,
+				6,
+				16.12
+			],
+			"to": [
+				8.6,
+				11.6,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle1",
+			"from": [
+				7.6,
+				-4,
+				16.12
+			],
+			"to": [
+				8.1,
+				6,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle2",
+			"from": [
+				8.0,
+				-15.9,
+				16.12
+			],
+			"to": [
+				8.5,
+				-4,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle3",
+			"from": [
+				6.6,
+				0.5,
+				16.12
+			],
+			"to": [
+				7.1,
+				11.6,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle4",
+			"from": [
+				6.300000000000001,
+				-15.9,
+				16.12
+			],
+			"to": [
+				6.800000000000001,
+				0.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Stain",
+			"from": [
+				-0.120000000000001,
+				0,
+				0
+			],
+			"to": [
+				-0.10000000000000142,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#seepstain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StainLow",
+			"from": [
+				-0.120000000000001,
+				-16,
+				0
+			],
+			"to": [
+				-0.10000000000000142,
+				0,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#seepstainlow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust",
+			"from": [
+				-0.6999999999999993,
+				12.6,
+				5.800000000000001
+			],
+			"to": [
+				0,
+				14.2,
+				9.8
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						1.5999999999999996
+					]
+				},
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						3.999999999999999,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Crust2",
+			"from": [
+				-0.3999999999999986,
+				11.6,
+				6.6
+			],
+			"to": [
+				0,
+				12.6,
+				9
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#seepcrust",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pool",
+			"from": [
+				-5,
+				-15.85,
+				3.5
+			],
+			"to": [
+				-0.10000000000000142,
+				-15.7,
+				12.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#seeppool",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 20
+				}
+			}
+		},
+		{
+			"name": "Trickle0",
+			"from": [
+				-0.3999999999999986,
+				6,
+				8.1
+			],
+			"to": [
+				-0.120000000000001,
+				11.6,
+				8.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle1",
+			"from": [
+				-0.3999999999999986,
+				-4,
+				7.6
+			],
+			"to": [
+				-0.120000000000001,
+				6,
+				8.1
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle2",
+			"from": [
+				-0.3999999999999986,
+				-15.9,
+				8.0
+			],
+			"to": [
+				-0.120000000000001,
+				-4,
+				8.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.9
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle3",
+			"from": [
+				-0.3999999999999986,
+				0.5,
+				6.6
+			],
+			"to": [
+				-0.120000000000001,
+				11.6,
+				7.1
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.1
+					],
+					"glow": 30
+				}
+			}
+		},
+		{
+			"name": "Trickle4",
+			"from": [
+				-0.3999999999999986,
+				-15.9,
+				6.300000000000001
+			],
+			"to": [
+				-0.120000000000001,
+				0.5,
+				6.800000000000001
+			],
+			"faces": {
+				"south": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				},
+				"north": {
+					"texture": "#seepwater",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 30
+				}
+			}
+		}
+	]
+}

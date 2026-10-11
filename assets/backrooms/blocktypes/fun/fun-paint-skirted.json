@@ -1,4 +1,4 @@
-// Level Fun: the lowest block of a painted wall, with white tile skirting on its north (room) face
+// Level Fun: the lowest block of a painted wall, with white tile skirting on each face its side names (north alone in the inventory)
 {
 	"code": "fun-paint",
 	"variantgroups": [
@@ -24,8 +24,19 @@
 			"states": [
 				"north",
 				"east",
+				"ne",
 				"south",
-				"west"
+				"ns",
+				"es",
+				"nes",
+				"west",
+				"nw",
+				"ew",
+				"new",
+				"sw",
+				"nsw",
+				"esw",
+				"nesw"
 			]
 		}
 	],
@@ -48,13 +59,57 @@
 			"base": "block/fun/fun-paint-orange-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-orange-skirted-ne": {
+			"base": "block/fun/fun-paint-orange-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-orange-skirted-south": {
 			"base": "block/fun/fun-paint-orange-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-orange-skirted-ns": {
+			"base": "block/fun/fun-paint-orange-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-orange-skirted-es": {
+			"base": "block/fun/fun-paint-orange-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-orange-skirted-nes": {
+			"base": "block/fun/fun-paint-orange-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-orange-skirted-west": {
 			"base": "block/fun/fun-paint-orange-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-orange-skirted-nw": {
+			"base": "block/fun/fun-paint-orange-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-orange-skirted-ew": {
+			"base": "block/fun/fun-paint-orange-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-orange-skirted-new": {
+			"base": "block/fun/fun-paint-orange-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-orange-skirted-sw": {
+			"base": "block/fun/fun-paint-orange-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-orange-skirted-nsw": {
+			"base": "block/fun/fun-paint-orange-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-orange-skirted-esw": {
+			"base": "block/fun/fun-paint-orange-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-orange-skirted-nesw": {
+			"base": "block/fun/fun-paint-orange-skirted-nesw",
+			"rotateY": 0
 		},
 		"fun-paint-sky-skirted-north": {
 			"base": "block/fun/fun-paint-sky-skirted",
@@ -64,13 +119,57 @@
 			"base": "block/fun/fun-paint-sky-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-sky-skirted-ne": {
+			"base": "block/fun/fun-paint-sky-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-sky-skirted-south": {
 			"base": "block/fun/fun-paint-sky-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-sky-skirted-ns": {
+			"base": "block/fun/fun-paint-sky-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-sky-skirted-es": {
+			"base": "block/fun/fun-paint-sky-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-sky-skirted-nes": {
+			"base": "block/fun/fun-paint-sky-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-sky-skirted-west": {
 			"base": "block/fun/fun-paint-sky-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-sky-skirted-nw": {
+			"base": "block/fun/fun-paint-sky-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-sky-skirted-ew": {
+			"base": "block/fun/fun-paint-sky-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-sky-skirted-new": {
+			"base": "block/fun/fun-paint-sky-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-sky-skirted-sw": {
+			"base": "block/fun/fun-paint-sky-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-sky-skirted-nsw": {
+			"base": "block/fun/fun-paint-sky-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-sky-skirted-esw": {
+			"base": "block/fun/fun-paint-sky-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-sky-skirted-nesw": {
+			"base": "block/fun/fun-paint-sky-skirted-nesw",
+			"rotateY": 0
 		},
 		"fun-paint-lime-skirted-north": {
 			"base": "block/fun/fun-paint-lime-skirted",
@@ -80,13 +179,57 @@
 			"base": "block/fun/fun-paint-lime-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-lime-skirted-ne": {
+			"base": "block/fun/fun-paint-lime-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-lime-skirted-south": {
 			"base": "block/fun/fun-paint-lime-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-lime-skirted-ns": {
+			"base": "block/fun/fun-paint-lime-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-lime-skirted-es": {
+			"base": "block/fun/fun-paint-lime-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-lime-skirted-nes": {
+			"base": "block/fun/fun-paint-lime-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-lime-skirted-west": {
 			"base": "block/fun/fun-paint-lime-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-lime-skirted-nw": {
+			"base": "block/fun/fun-paint-lime-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-lime-skirted-ew": {
+			"base": "block/fun/fun-paint-lime-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-lime-skirted-new": {
+			"base": "block/fun/fun-paint-lime-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-lime-skirted-sw": {
+			"base": "block/fun/fun-paint-lime-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-lime-skirted-nsw": {
+			"base": "block/fun/fun-paint-lime-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-lime-skirted-esw": {
+			"base": "block/fun/fun-paint-lime-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-lime-skirted-nesw": {
+			"base": "block/fun/fun-paint-lime-skirted-nesw",
+			"rotateY": 0
 		},
 		"fun-paint-pink-skirted-north": {
 			"base": "block/fun/fun-paint-pink-skirted",
@@ -96,13 +239,57 @@
 			"base": "block/fun/fun-paint-pink-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-pink-skirted-ne": {
+			"base": "block/fun/fun-paint-pink-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-pink-skirted-south": {
 			"base": "block/fun/fun-paint-pink-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-pink-skirted-ns": {
+			"base": "block/fun/fun-paint-pink-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-pink-skirted-es": {
+			"base": "block/fun/fun-paint-pink-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-pink-skirted-nes": {
+			"base": "block/fun/fun-paint-pink-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-pink-skirted-west": {
 			"base": "block/fun/fun-paint-pink-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-pink-skirted-nw": {
+			"base": "block/fun/fun-paint-pink-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-pink-skirted-ew": {
+			"base": "block/fun/fun-paint-pink-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-pink-skirted-new": {
+			"base": "block/fun/fun-paint-pink-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-pink-skirted-sw": {
+			"base": "block/fun/fun-paint-pink-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-pink-skirted-nsw": {
+			"base": "block/fun/fun-paint-pink-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-pink-skirted-esw": {
+			"base": "block/fun/fun-paint-pink-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-pink-skirted-nesw": {
+			"base": "block/fun/fun-paint-pink-skirted-nesw",
+			"rotateY": 0
 		},
 		"fun-paint-yellow-skirted-north": {
 			"base": "block/fun/fun-paint-yellow-skirted",
@@ -112,13 +299,57 @@
 			"base": "block/fun/fun-paint-yellow-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-yellow-skirted-ne": {
+			"base": "block/fun/fun-paint-yellow-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-yellow-skirted-south": {
 			"base": "block/fun/fun-paint-yellow-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-yellow-skirted-ns": {
+			"base": "block/fun/fun-paint-yellow-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-yellow-skirted-es": {
+			"base": "block/fun/fun-paint-yellow-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-yellow-skirted-nes": {
+			"base": "block/fun/fun-paint-yellow-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-yellow-skirted-west": {
 			"base": "block/fun/fun-paint-yellow-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-yellow-skirted-nw": {
+			"base": "block/fun/fun-paint-yellow-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-yellow-skirted-ew": {
+			"base": "block/fun/fun-paint-yellow-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-yellow-skirted-new": {
+			"base": "block/fun/fun-paint-yellow-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-yellow-skirted-sw": {
+			"base": "block/fun/fun-paint-yellow-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-yellow-skirted-nsw": {
+			"base": "block/fun/fun-paint-yellow-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-yellow-skirted-esw": {
+			"base": "block/fun/fun-paint-yellow-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-yellow-skirted-nesw": {
+			"base": "block/fun/fun-paint-yellow-skirted-nesw",
+			"rotateY": 0
 		},
 		"fun-paint-lilac-skirted-north": {
 			"base": "block/fun/fun-paint-lilac-skirted",
@@ -128,13 +359,57 @@
 			"base": "block/fun/fun-paint-lilac-skirted",
 			"rotateY": 270
 		},
+		"fun-paint-lilac-skirted-ne": {
+			"base": "block/fun/fun-paint-lilac-skirted-ne",
+			"rotateY": 0
+		},
 		"fun-paint-lilac-skirted-south": {
 			"base": "block/fun/fun-paint-lilac-skirted",
 			"rotateY": 180
 		},
+		"fun-paint-lilac-skirted-ns": {
+			"base": "block/fun/fun-paint-lilac-skirted-ns",
+			"rotateY": 0
+		},
+		"fun-paint-lilac-skirted-es": {
+			"base": "block/fun/fun-paint-lilac-skirted-ne",
+			"rotateY": 270
+		},
+		"fun-paint-lilac-skirted-nes": {
+			"base": "block/fun/fun-paint-lilac-skirted-nes",
+			"rotateY": 0
+		},
 		"fun-paint-lilac-skirted-west": {
 			"base": "block/fun/fun-paint-lilac-skirted",
 			"rotateY": 90
+		},
+		"fun-paint-lilac-skirted-nw": {
+			"base": "block/fun/fun-paint-lilac-skirted-ne",
+			"rotateY": 90
+		},
+		"fun-paint-lilac-skirted-ew": {
+			"base": "block/fun/fun-paint-lilac-skirted-ns",
+			"rotateY": 270
+		},
+		"fun-paint-lilac-skirted-new": {
+			"base": "block/fun/fun-paint-lilac-skirted-nes",
+			"rotateY": 90
+		},
+		"fun-paint-lilac-skirted-sw": {
+			"base": "block/fun/fun-paint-lilac-skirted-ne",
+			"rotateY": 180
+		},
+		"fun-paint-lilac-skirted-nsw": {
+			"base": "block/fun/fun-paint-lilac-skirted-nes",
+			"rotateY": 180
+		},
+		"fun-paint-lilac-skirted-esw": {
+			"base": "block/fun/fun-paint-lilac-skirted-nes",
+			"rotateY": 270
+		},
+		"fun-paint-lilac-skirted-nesw": {
+			"base": "block/fun/fun-paint-lilac-skirted-nesw",
+			"rotateY": 0
 		}
 	},
 	"sidesolid": {

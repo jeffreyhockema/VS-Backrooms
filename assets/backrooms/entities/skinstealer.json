@@ -175,6 +175,7 @@
 						"fearsFire": true,
 						"prefersHidden": true,
 						"retreatBelow": 0.25,
+						"opensDoors": true,
 						"voices": [
 							"backrooms:entity/cough",
 							"game:player/hurt*",

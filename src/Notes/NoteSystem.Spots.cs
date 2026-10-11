@@ -147,11 +147,14 @@ public partial class NoteSystem
         List<(int Lx, int Lz, string Kind)> spots = layout.NoteSpots(mx, mz);
         if (spots.Count == 0) return true;
         int floor = geometry.FloorFor(layout.LevelAt(mx, mz));
+        // Every spot's chunk first: a cell is set down whole or not at all, so a note already taken is never put back
+        // when the cell is tried again
+        foreach (var (lx, lz, _) in spots)
+            if (ba.GetChunkAtBlockPos(new BlockPos(x0 + lx, floor, z0 + lz)) == null) return false;
         foreach (var (lx, lz, kind) in spots)
         {
             if (!looseNoteIds.TryGetValue(kind, out int id)) continue;
             int x = x0 + lx, z = z0 + lz;
-            if (ba.GetChunkAtBlockPos(new BlockPos(x, floor, z)) == null) return false;
             for (int y = floor - 1; y <= floor + 3; y++)
             {
                 var p = new BlockPos(x, y, z);

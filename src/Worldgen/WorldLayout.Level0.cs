@@ -62,7 +62,7 @@ public sealed partial class WorldLayout
         /// <summary>Most walls in an area share one wallpaper, so trim stays consistent.</summary>
         public readonly WallPattern PrimaryPattern;
 
-        public Region(ulong seed, int rx, int rz)
+        public Region(ulong seed, int rx, int rz, bool onePaper)
         {
             X = rx;
             Z = rz;
@@ -85,7 +85,7 @@ public sealed partial class WorldLayout
             PlusPillars = PillarSize == 3 && rng.Chance(0.5);
             PillarPhaseX = rng.Range(0, 15);
             PillarPhaseZ = rng.Range(0, 15);
-            PrimaryPattern = rng.Chance(0.8) ? WallPattern.Chevron : WallPattern.Dotted;
+            PrimaryPattern = rng.Chance(0.8) || onePaper ? WallPattern.Chevron : WallPattern.Dotted;
         }
     }
 
@@ -107,7 +107,7 @@ public sealed partial class WorldLayout
                 if (d < best) { best = d; bestX = cx; bestZ = cz; }
             }
         }
-        return new Region(seed, bestX, bestZ);
+        return new Region(seed, bestX, bestZ, Version >= 4);
     }
 
     /// <summary>The zone of a cell: that of the district its middle lies in.</summary>
@@ -182,12 +182,10 @@ public sealed partial class WorldLayout
         return i;
     }
 
-    private bool L0SpawnDistrict(int i, int j)
-    {
-        int gx = spawnMacroX * MacroSize + MacroSize / 2, gz = spawnMacroZ * MacroSize + MacroSize / 2;
-        int sj = L0RowOf(gz);
-        return sj == j && L0ColOf(gx, sj) == i;
-    }
+    /// <summary>The district the middle of the spawn cell lies in (worked out once, in the constructor).</summary>
+    private readonly int l0SpawnCol, l0SpawnRow;
+
+    private bool L0SpawnDistrict(int i, int j) => j == l0SpawnRow && i == l0SpawnCol;
 
     /// <summary>The area (zone, wallpaper, lights, pillars) a district belongs to, decided by its middle.</summary>
     private (ZoneKind Zone, Region Region, bool Pillars, bool Spawn) L0Info(int i, int j)
@@ -248,6 +246,8 @@ public sealed partial class WorldLayout
         public ZoneKind Zone;
         public Region Region;
         public bool Pillars, Spawn, PitsAllowed;
+        /// <summary>Layout version 4 on: one wallpaper, and the pale walls trimmed like it (see <see cref="CurrentVersion"/>).</summary>
+        public bool OnePaper;
         public WallPattern Primary;
         public Tile[] Tiles;
         public LightMood[] Mood;
@@ -283,6 +283,7 @@ public sealed partial class WorldLayout
             Zone = info.Zone, Region = info.Region, Pillars = info.Pillars, Spawn = info.Spawn,
             Primary = info.Zone == ZoneKind.Arches ? WallPattern.Cream : info.Region.PrimaryPattern,
             Rng = new Rng(Hashing.Hash(seed, i, j, SaltL0Block)),
+            OnePaper = Version >= 4,
         };
         int cmx = MacroOf(x0 + p.W / 2), cmz = MacroOf(z0 + p.H / 2);
         p.PitsAllowed = p.Zone == ZoneKind.Lobby && (Math.Abs(cmx - spawnMacroX) >= 3 || Math.Abs(cmz - spawnMacroZ) >= 3);
@@ -294,7 +295,7 @@ public sealed partial class WorldLayout
 
         // The walls this district shares with its neighbours to the west and north, and their gaps. Between two
         // pillar halls there is no wall: the pillars run on.
-        BaseStyle baseStyle = BaseFor(p.Primary);
+        BaseStyle baseStyle = L0Base(p, p.Primary);
         bool UpperPillars(int gx) => L0Info(L0ColOf(gx, j - 1), j - 1).Pillars;
         bool westMerged = p.Pillars && L0Info(i - 1, j).Pillars;
         for (int v = 0; v < p.H; v++) if (!(westMerged && v > 0)) SetWall(ref p.At(0, v), p.Primary, baseStyle);
@@ -334,11 +335,78 @@ public sealed partial class WorldLayout
             foreach (var o in openings) ClearGap(p, o);
             MoodPatch(p, 1, 1, p.W - 1, p.H - 1);
             for (int n = 0; n < 3; n++) Stain(p, p.Rng.Range(1, p.W - 1), p.Rng.Range(1, p.H - 1), p.Rng.Range(1, 3));
-            return p;
         }
-        PlanLabyrinth(p, openings);
+        else PlanLabyrinth(p, openings);
+        if (p.OnePaper) PaperJoins(p, i, j, westMerged);
         return p;
     }
+
+    /// <summary>
+    /// Where an arched area meets a papered one: the gaps in the wall between them become arches, so you see the pale
+    /// rooms coming before you are in them, and each face of the wall takes the finish of the side it faces (marked in
+    /// <see cref="Tile.Detail"/>, see <see cref="L0FlipBits"/>), so neither side sees the other's walls. Only the
+    /// district's own west and north walls can face another district; the rest it shares with nobody.
+    /// </summary>
+    private void PaperJoins(L0Plan p, int i, int j, bool westMerged)
+    {
+        WallPattern Paper(ZoneKind zone) => zone == ZoneKind.Arches ? WallPattern.Cream : WallPattern.Chevron;
+        WallPattern own = Paper(p.Zone);
+        // The papers beyond the west wall and beyond each stretch of the north wall
+        WallPattern west = Paper(L0Info(i - 1, j).Zone);
+        WallPattern North(int u) => Paper(L0Info(L0ColOf(p.X0 + u, j - 1), j - 1).Zone);
+
+        // The gaps first: any opening with an arched area on either side of it is an arch
+        if (!westMerged && (own == WallPattern.Cream || west == WallPattern.Cream))
+            foreach (int s in L0Gaps(i, j, 0)) ArchGap(p, 0, s - p.Z0, false);
+        foreach (int s in L0Gaps(i, j, 1))
+            if (own == WallPattern.Cream || North(s - p.X0) == WallPattern.Cream) ArchGap(p, s - p.X0, 0, true);
+
+        for (int v = 0; v < p.H; v++)
+            for (int u = 0; u < p.W; u++)
+            {
+                if (u > 0 && v > 0) break;
+                ref Tile t = ref p.At(u, v);
+                if (t.Kind != TileKind.Wall || t.Pattern is not (WallPattern.Chevron or WallPattern.Cream)) continue;
+                // North, east, south, west: what each face looks out on
+                WallPattern n = v == 0 ? North(u) : Facing(u, v - 1), s = Facing(u, v + 1);
+                WallPattern w = u == 0 ? west : Facing(u - 1, v), e = Facing(u + 1, v);
+                int flip = (n != t.Pattern ? 1 : 0) | (e != t.Pattern ? 2 : 0) | (s != t.Pattern ? 4 : 0) | (w != t.Pattern ? 8 : 0);
+                t.Detail = (byte)flip;
+            }
+
+        // A face looking into an arch is pale; one looking along the wall, or into this district, has its paper
+        WallPattern Facing(int u, int v) => p.In(u, v) && p.At(u, v).Kind == TileKind.ArchDoor ? WallPattern.Cream : own;
+    }
+
+    /// <summary>Turns the two tiles of a gap in a district's west wall (along z) or north wall (along x) into an arch.</summary>
+    private static void ArchGap(L0Plan p, int u, int v, bool alongX)
+    {
+        if (p.At(u, v).Kind != TileKind.Floor || p.At(alongX ? u + 1 : u, alongX ? v : v + 1).Kind != TileKind.Floor) return;
+        for (int k = 0; k < 2; k++)
+        {
+            ref Tile t = ref p.At(alongX ? u + k : u, alongX ? v : v + k);
+            t.Kind = TileKind.ArchDoor;
+            t.Pattern = WallPattern.Cream;
+            t.Base = L0Base(p, WallPattern.Cream);
+            t.Pier = alongX ? (k == 0 ? ArchPier.West : ArchPier.East) : (k == 0 ? ArchPier.North : ArchPier.South);
+        }
+    }
+
+    /// <summary>
+    /// Level 0, on a papered or pale wall: the faces (bit 0 north, 1 east, 2 south, 3 west) that show the other finish,
+    /// where an arched area meets a papered one (layout version 4 on).
+    /// </summary>
+    public static int L0FlipBits(in Tile t) => t.Level == 0 && t.Kind == TileKind.Wall && t.Variant == 0 && t.Under == 0 ? t.Detail & 15 : 0;
+
+    /// <summary>The wallpaper of the next wall: the area's own, or, before layout version 4, now and then the other one.</summary>
+    private static WallPattern L0Roll(L0Plan p)
+    {
+        WallPattern rolled = RollPattern(ref p.Rng, p.Primary);
+        return p.OnePaper ? p.Primary : rolled;
+    }
+
+    /// <summary>The trim under a Level 0 wall: from layout version 4 the pale walls have the same baseboard as the paper.</summary>
+    private static BaseStyle L0Base(L0Plan p, WallPattern pattern) => p.OnePaper && pattern == WallPattern.Cream ? BaseStyle.Baseboard : BaseFor(pattern);
 
     /// <summary>Clears the two tiles just inside a gap.</summary>
     private static void ClearGap(L0Plan p, (int U, int V, int DU, int DV) o)
@@ -366,7 +434,7 @@ public sealed partial class WorldLayout
                 for (int u = room.Item2 - 1; u <= room.Item4 + 1; u++)
                 {
                     bool ring = u < room.Item2 || u > room.Item4 || v < room.Item3 || v > room.Item5;
-                    if (ring) SetWall(ref p.At(u, v), p.Primary, BaseFor(p.Primary));
+                    if (ring) SetWall(ref p.At(u, v), p.Primary, L0Base(p, p.Primary));
                     else p.At(u, v) = new Tile { Floor = p.At(u, v).Floor };
                 }
         }
@@ -395,7 +463,7 @@ public sealed partial class WorldLayout
                 for (int dv = -1; dv <= 1 && !beside; dv++)
                     for (int du = -1; du <= 1; du++)
                         if (p.In(u + du, v + dv) && worm[(v + dv) * W + u + du] != 0) { beside = true; break; }
-                if (beside && p.At(u, v).Kind != TileKind.Wall) SetWall(ref p.At(u, v), p.Primary, BaseFor(p.Primary));
+                if (beside && p.At(u, v).Kind != TileKind.Wall) SetWall(ref p.At(u, v), p.Primary, L0Base(p, p.Primary));
             }
 
         // The set pieces
@@ -436,7 +504,7 @@ public sealed partial class WorldLayout
         {
             int c = comp[n];
             if (c < 0 || keep[c]) continue;
-            if (size[c] < 6 || box[c].U0 == box[c].U1 || box[c].V0 == box[c].V1) SetWall(ref p.Tiles[n], p.Primary, BaseFor(p.Primary));
+            if (size[c] < 6 || box[c].U0 == box[c].U1 || box[c].V0 == box[c].V1) SetWall(ref p.Tiles[n], p.Primary, L0Base(p, p.Primary));
         }
         comp = LabComponents(p, out count, out size);
 
@@ -556,8 +624,8 @@ public sealed partial class WorldLayout
             ArchWall(p, x, z, !alongZ, open);
             return;
         }
-        WallPattern pattern = RollPattern(ref rng, p.Primary);
-        BaseStyle baseStyle = BaseFor(pattern);
+        WallPattern pattern = L0Roll(p);
+        BaseStyle baseStyle = L0Base(p, pattern);
         // Now and then a wall stops short, or is broken by a wide gap, so rooms run into each other round corners
         int gap0 = -1, gap1 = -1;
         if (len >= 8 && rng.Chance(0.22))
@@ -852,14 +920,14 @@ public sealed partial class WorldLayout
                     (int du, int dv) = t.Pier switch { ArchPier.West => (-1, 0), ArchPier.East => (1, 0), ArchPier.North => (0, -1), _ => (0, 1) };
                     bool pier = !p.In(u + du, v + dv) || p.At(u + du, v + dv).Kind == TileKind.Wall;
                     bool partner = !p.In(u - du, v - dv) || p.At(u - du, v - dv).Kind is TileKind.ArchDoor or TileKind.ArchWindow;
-                    if (!pier || !partner) SetWall(ref t, WallPattern.Cream, BaseFor(WallPattern.Cream));
+                    if (!pier || !partner) SetWall(ref t, WallPattern.Cream, L0Base(p, WallPattern.Cream));
                 }
     }
 
     /// <summary>Piers every third block with pairs of arched openings over half-height walls between them.</summary>
     private static void ArchWall(L0Plan u, int x, int z, bool alongX, bool[] open)
     {
-        BaseStyle baseStyle = BaseFor(WallPattern.Cream);
+        BaseStyle baseStyle = L0Base(u, WallPattern.Cream);
         bool anyDoor = false;
         int len = open.Length;
 
@@ -920,8 +988,8 @@ public sealed partial class WorldLayout
         bool Place(List<(int X, int Z)> tiles)
         {
             foreach ((int x, int z) in tiles) if (!Clear(x, z)) return false;
-            WallPattern pattern = RollPattern(ref u.Rng, u.Primary);
-            foreach ((int x, int z) in tiles) SetWall(ref u.At(x, z), pattern, BaseFor(pattern));
+            WallPattern pattern = L0Roll(u);
+            foreach ((int x, int z) in tiles) SetWall(ref u.At(x, z), pattern, L0Base(u, pattern));
             return true;
         }
 
@@ -970,7 +1038,7 @@ public sealed partial class WorldLayout
         bool both = depth >= 12;
         int corridor = both ? c0 + (depth - 2) / 2 : rng.Chance(0.5) ? c0 : c1 - 1; // first of its two rows
         WallPattern pattern = u.Primary;
-        BaseStyle baseStyle = BaseFor(pattern);
+        BaseStyle baseStyle = L0Base(u, pattern);
         int doorAt = rng.Range(1, 2); // where in each room's front its doorway is, the same for all
         int roomWidth = rng.Range(4, 5);
 
@@ -1093,10 +1161,14 @@ public sealed partial class WorldLayout
             for (int i = 0; i < MacroSize; i++) cols[i] = L0ColOf(mx * MacroSize + i, j);
             colOf.Add(j, cols);
         }
+        // (Runs of tiles share a district, so the last one looked up is kept rather than asking the cache every tile)
+        L0Plan last = null;
+        int lastI = 0, lastJ = 0;
         CopyPlan(b, mx, mz, west, north, (gx, gz, index) =>
         {
-            int j = rowOf[gz - mz * MacroSize];
-            L0Plan u = L0PlanAt(colOf[j][gx - mx * MacroSize], j);
+            int j = rowOf[gz - mz * MacroSize], i = colOf[j][gx - mx * MacroSize];
+            if (last == null || i != lastI || j != lastJ) (last, lastI, lastJ) = (L0PlanAt(i, j), i, j);
+            L0Plan u = last;
             int iu = gx - u.X0, iv = gz - u.Z0;
             b.Tiles[index] = u.At(iu, iv);
             b.Mood[index] = u.Mood[iv * u.W + iu];
@@ -1304,7 +1376,7 @@ public sealed partial class WorldLayout
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile tile = ref b.At(lx, lz);
-                if (tile.Kind != TileKind.Wall || tile.Pattern is WallPattern.Cream or WallPattern.Manila) continue;
+                if (tile.Kind != TileKind.Wall || tile.Pattern == WallPattern.Manila || tile.Pattern == WallPattern.Cream && Version < 4) continue;
                 if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltOutlet)) < 0.04) tile.Outlet = true;
             }
         }

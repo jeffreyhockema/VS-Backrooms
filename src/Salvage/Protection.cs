@@ -32,14 +32,26 @@ public class ProtectionSystem : ModSystem
     // One per side: in single player the client and the server share a process
     private static Protection server, client;
 
+    // The patches are process-wide but both sides start (and dispose) this system: the first to start patches, the
+    // last to go unpatches, so a world loaded after this one in the same process gets patches of its own
+    private static readonly object patchLock = new();
+    private static int patchUsers;
+    private bool patched;
+    private EnumAppSide side;
+
     // After BackroomsModSystem, which creates the /backrooms command this adds to
     public override double ExecuteOrder() => 1.2;
 
     public override void Start(ICoreAPI api)
     {
-        if (!Harmony.HasAnyPatches(HarmonyId))
+        side = api.Side;
+        lock (patchLock)
         {
+            patched = true;
+            if (patchUsers++ > 0) return;
             var harmony = new Harmony(HarmonyId);
+            // (Whatever an earlier load of the mod may have left behind)
+            harmony.UnpatchAll(HarmonyId);
             harmony.Patch(AccessTools.Method(typeof(Block), nameof(Block.GetRequiredMiningTier), new[] { typeof(IWorldAccessor), typeof(BlockPos) }),
                 postfix: new HarmonyMethod(typeof(ProtectionSystem), nameof(RequiredTierPostfix)));
             harmony.Patch(AccessTools.Method(typeof(Block), nameof(Block.GetBlastResistance)),
@@ -62,7 +74,8 @@ public class ProtectionSystem : ModSystem
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             server = new Protection(BackroomsWorld.CreateLayout(api.World), BackroomsWorld.CreateGeometry(api.World));
         });
-        // Whatever the client thought, the server has the last word
+        // Whatever the client thought, the server has the last word. (The engine already refuses a survival break whose
+        // tool tier is short, and this tier is out of every tool's reach; this is the backstop for any other way in.)
         api.Event.BreakBlock += (IServerPlayer player, BlockSelection selection, ref float dropMultiplier, ref EnumHandling handling) =>
         {
             if (player?.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
@@ -83,11 +96,26 @@ public class ProtectionSystem : ModSystem
         if (server == null) return TextCommandResult.Error("Not a Backrooms world");
         int x = (int)args[0], z = (int)args[1], y = (int)args[2];
         WorldGeometry g = BackroomsWorld.CreateGeometry(api.World);
-        if (api.World.BlockAccessor.GetChunkAtBlockPos(x, g.FloorY, z) == null)
+        if (api.World.BlockAccessor.GetChunkAtBlockPos(x, g.FloorY, z) != null) return TextCommandResult.Success(CanBreakListing(api, g, x, z, y));
+        // Not loaded: load it (not kept: the game unloads it again in its own time) and send the list once it is there
+        IServerPlayer caller = args.Caller.Player as IServerPlayer;
+        int group = args.Caller.FromChatGroupId;
+        api.WorldManager.LoadChunkColumnPriority(x / GlobalConstants.ChunkSize, z / GlobalConstants.ChunkSize, new ChunkLoadOptions
         {
-            api.WorldManager.LoadChunkColumnPriority(x / GlobalConstants.ChunkSize, z / GlobalConstants.ChunkSize, new ChunkLoadOptions { KeepLoaded = true });
-            return TextCommandResult.Success("That column is not loaded yet. Loading it; run the command again in a moment.");
-        }
+            OnLoaded = () =>
+            {
+                if (server == null) return;
+                string text = CanBreakListing(api, g, x, z, y);
+                if (caller != null) caller.SendMessage(group, text, EnumChatType.CommandSuccess);
+                else api.Logger.Notification(text);
+            },
+        });
+        return TextCommandResult.Success("That column is not loaded yet. Loading it; the list follows once it is.");
+    }
+
+    /// <summary>The <c>canbreak</c> command's list, for a loaded column.</summary>
+    private static string CanBreakListing(ICoreServerAPI api, WorldGeometry g, int x, int z, int y)
+    {
         int level = server.LevelAt(x, z);
         int floor = g.FloorFor(level);
         var text = new StringBuilder();
@@ -106,7 +134,7 @@ public class ProtectionSystem : ModSystem
                 : " -> " + string.Join(", ", System.Linq.Enumerable.Select(block.Drops, d => $"{d.Code} ~{d.Quantity.avg:0.##}"));
             text.AppendFormat("\n rel {0,3}  {1}  {2}{3}", at - floor, block.Code, verdict, drops);
         }
-        return TextCommandResult.Success(text.ToString());
+        return text.ToString();
     }
 
     public override void StartClientSide(ICoreClientAPI api)
@@ -119,10 +147,19 @@ public class ProtectionSystem : ModSystem
 
     public override void Dispose()
     {
-        server = client = null;
+        // (Only this side's rules: in single player the other side may still be running)
+        if (side == EnumAppSide.Server) server = null;
+        else client = null;
+        if (!patched) return;
+        patched = false;
+        lock (patchLock)
+            if (--patchUsers == 0) new Harmony(HarmonyId).UnpatchAll(HarmonyId);
     }
 
     private static Protection For(IWorldAccessor world) => world?.Side == EnumAppSide.Server ? server : client;
+
+    /// <summary>The level at a block position, on either side (-1 outside a Backrooms world): for what a block's help says where.</summary>
+    public static int LevelAt(IWorldAccessor world, int x, int z) => For(world)?.LevelAt(x, z) ?? -1;
 
     public static void RequiredTierPostfix(Block __instance, IWorldAccessor world, BlockPos pos, ref int __result)
     {
@@ -215,12 +252,18 @@ public sealed class Protection
         return roof;
     }
 
-    /// <summary>Whether this block, at this position, cannot be broken.</summary>
+    /// <summary>
+    /// Whether this block, at this position, cannot be broken. Asked every time the game wants a block's tool tier
+    /// (each mining tick, the block info HUD, every block an explosion reaches), so anything not ours and not rock is
+    /// let through before any lookup.
+    /// </summary>
     public bool IsProtected(IBlockAccessor blocks, Block block, BlockPos pos)
     {
-        if (block == null || block.BlockId == 0) return false;
+        if (block?.Code == null || block.BlockId == 0) return false;
+        bool ours = block.Code.Domain == "backrooms";
+        if (!ours && !IsRock(block)) return false;
         // Level 974: the house is Kitty's, and nobody digs their way out of it (only its furniture breaks, and that offends)
-        if (LevelAt(pos.X, pos.Z) == WorldLayout.Level974 && Regions.L974.IsHouseFabric(block)) return true;
+        if (ours && Regions.L974.IsHouseFabric(block) && LevelAt(pos.X, pos.Z) == WorldLayout.Level974) return true;
         // Level 188: its building's fabric (canon: forcing its doors has always failed), wherever its blocks are
         if (Regions.L188.IsFabric(block)) return true;
         BreakKind kind = Breakdown.KindOf(block);
@@ -253,6 +296,14 @@ public sealed class Protection
     }
 
     /// <summary>Raw rock and ore: the caves, cliffs and strata. No player ever has a block of it to set down.</summary>
-    private static bool IsRock(Block block) =>
-        block.Code?.Domain == "game" && block.FirstCodePart() is "rock" or "ore" or "crackedrock";
+    private static bool IsRock(Block block)
+    {
+        if (block.Code?.Domain != "game") return false;
+        string path = block.Code.Path;
+        return IsFirstPart(path, "rock") || IsFirstPart(path, "ore") || IsFirstPart(path, "crackedrock");
+    }
+
+    /// <summary>Whether a code's first part is this (as <see cref="RegistryObject.FirstCodePart"/>, without splitting the code).</summary>
+    private static bool IsFirstPart(string path, string first) =>
+        path.StartsWith(first, StringComparison.Ordinal) && (path.Length == first.Length || path[first.Length] == '-');
 }

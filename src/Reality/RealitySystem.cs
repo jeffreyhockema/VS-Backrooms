@@ -21,8 +21,9 @@ public class RealitySystem : ModSystem
     private ICoreAPI api;
     private WorldLayout layout;
     private WorldGeometry geometry;
+    private SystemTemporalStability stabilitySystem;
 
-    /// <summary>Server: total hours until which a forced shift lasts.</summary>
+    /// <summary>Server: the calendar's elapsed hours until which a forced shift lasts (not saved: a restart ends it).</summary>
     private double forcedUntilHours;
 
     // Shift strength is the same everywhere, so work it out once per tick rather than for every stability query
@@ -41,7 +42,7 @@ public class RealitySystem : ModSystem
         {
             if (sapi.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             Hook(sapi);
-            sapi.Event.PlayerNowPlaying += player => player.Entity.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
+            sapi.Event.PlayerNowPlaying += player => player.Entity?.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
         });
     }
 
@@ -57,7 +58,14 @@ public class RealitySystem : ModSystem
     {
         layout = BackroomsWorld.CreateLayout(api.World);
         geometry = BackroomsWorld.CreateGeometry(api.World);
-        api.ModLoader.GetModSystem<SystemTemporalStability>().OnGetTemporalStability += OnGetStability;
+        stabilitySystem = api.ModLoader.GetModSystem<SystemTemporalStability>();
+        stabilitySystem.OnGetTemporalStability += OnGetStability;
+    }
+
+    public override void Dispose()
+    {
+        if (stabilitySystem != null) stabilitySystem.OnGetTemporalStability -= OnGetStability;
+        stabilitySystem = null;
     }
 
     /// <summary>Whether this world is a Backrooms world with Reality Stability running.</summary>
@@ -90,7 +98,7 @@ public class RealitySystem : ModSystem
         forcedUntilHours = hours <= 0 ? 0 : sapi.World.Calendar.ElapsedHours + hours;
         foreach (IPlayer player in sapi.World.AllOnlinePlayers)
         {
-            player.Entity.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
+            player.Entity?.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
         }
         cachedAtMs = -1000;
     }

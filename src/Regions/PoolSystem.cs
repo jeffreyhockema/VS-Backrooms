@@ -31,8 +31,8 @@ public class PoolSystem : ModSystem
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
-    private readonly Dictionary<long, float> healClock = new();
-    private readonly HashSet<long> slowed = new();
+    private readonly Dictionary<string, float> healClock = new();
+    private long tickListener;
 
     public override void Start(ICoreAPI api)
     {
@@ -48,9 +48,19 @@ public class PoolSystem : ModSystem
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
-            api.Event.RegisterGameTickListener(OnTick, 1000);
+            tickListener = api.Event.RegisterGameTickListener(OnTick, 1000);
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
     }
+
+    public override void Dispose()
+    {
+        if (sapi == null) return;
+        if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+    }
+
+    private void OnPlayerDisconnect(IServerPlayer player) => healClock.Remove(player.PlayerUID);
 
     private void OnTick(float dt)
     {
@@ -68,12 +78,13 @@ public class PoolSystem : ModSystem
             bool inWater = here && (entity.Swimming || entity.FeetInLiquid);
             bool reservoir = here && layout.IsReservoirAt(x, z);
 
-            // The Reservoir's water holds on to whoever wades in it
+            // The Reservoir's water holds on to whoever wades in it. (The stat itself says whether they are slowed: it is
+            // not persistent, so it is gone after a rejoin or a restart, and a set kept here would go stale.)
             bool slow = inWater && reservoir;
-            if (slow != slowed.Contains(entity.EntityId))
+            if (slow != entity.Stats["walkspeed"].ValuesByKey.ContainsKey(ViscousStat))
             {
-                if (slow) { slowed.Add(entity.EntityId); entity.Stats.Set("walkspeed", ViscousStat, -0.5f, false); }
-                else { slowed.Remove(entity.EntityId); entity.Stats.Remove("walkspeed", ViscousStat); }
+                if (slow) entity.Stats.Set("walkspeed", ViscousStat, -0.5f, false);
+                else entity.Stats.Remove("walkspeed", ViscousStat);
             }
             if (!inWater || reservoir) continue;
 
@@ -82,14 +93,14 @@ public class PoolSystem : ModSystem
             if (sapi.World.BlockAccessor.GetLightLevel(pos, EnumLightLevelType.MaxLight) < ReliefLight) continue;
             entity.WatchedAttributes.SetDouble("temporalStability", Math.Min(cap, Math.Min(1, stability + SteadyPerSecond * dt)));
             entity.Attributes.SetDouble(MenaceSystem.RestedKey, sapi.World.Calendar.TotalHours);
-            float clock = healClock.GetValueOrDefault(entity.EntityId) + dt;
+            float clock = healClock.GetValueOrDefault(online.PlayerUID) + dt;
             if (clock >= HealEverySeconds)
             {
                 clock = 0;
                 if (entity.GetBehavior<EntityBehaviorHealth>() is { } health && health.Health < health.MaxHealth)
                     health.Health = Math.Min(health.MaxHealth, health.Health + HealAmount);
             }
-            healClock[entity.EntityId] = clock;
+            healClock[online.PlayerUID] = clock;
         }
     }
 }

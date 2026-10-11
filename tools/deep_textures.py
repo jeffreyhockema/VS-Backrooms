@@ -123,17 +123,20 @@ def level61():
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B8B4))
     d.line([0, 16, S - 1, 16], fill=rgb(0xB8B8B4))
     save(img, "snackceiling-grid")
-    # A skylight full of daylight that comes from nowhere: pale sky panes in a white frame
+    # A skylight that shows nothing but darkness, though light comes from it: four near-black panes, a faint
+    # sheen on the glass, between dark mullions, in a frame whose diffuser rim glows orange-white
     img = Image.new("RGBA", (S, S))
     px = img.load()
     for y in range(S):
         for x in range(S):
             t = ((x % 16) + (y % 16)) / 30.0
-            px[x, y] = (int(214 + 30 * t), int(232 + 18 * t), 255, 255)
+            sheen = 10 if abs((x % 16) - (y % 16) - 3) <= 1 else 0
+            px[x, y] = (int(7 + 6 * t) + sheen, int(8 + 7 * t) + sheen, int(12 + 10 * t) + sheen, 255)
     d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xE8E8E2), width=2)
-    d.line([16, 0, 16, S - 1], fill=rgb(0xE8E8E2))
-    d.line([0, 16, S - 1, 16], fill=rgb(0xE8E8E2))
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xFFE8C4), width=2)
+    d.rectangle([2, 2, S - 3, S - 3], outline=rgb(0xE0B888))
+    d.rectangle([15, 3, 16, S - 4], fill=rgb(0x4A4640))
+    d.rectangle([3, 15, S - 4, 16], fill=rgb(0x4A4640))
     save(img, "snackceiling-skylight")
     for part in ("lower", "upper"):
         img = noise(0x6A4A3A, 12, "rusty" + part)
@@ -212,16 +215,46 @@ def level61():
             x += w + 1
         d.line([0, row * 11 + 10, S - 1, row * 11 + 10], fill=rgb(0x5A5E62))
     save(img, "snackshelf")
-    img = noise(0x2A6AB0, 4, "snackvending")
+    # The snack machine: its blue cabinet, the lit header, the dark inside behind the glass, the packets on their
+    # spirals (four 4-unit bands, one a column), a glint on the glass (the rest of it see-through), and the coin panel
+    # (drawn in the middle 8 px, for a face 4 wide)
+    save(noise(0x2A6AB0, 4, "snackvending"), "snackvending")
+    img = noise(0x2A6AB0, 3, "snackvendhead")
     d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 21, 28], fill=rgb(0x1A1E24))
-    rng = random.Random(81)
-    for r in range(5):
+    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xF4F0E4))
+    text(img, "SNACKS", (1, 1, S - 1, 9), rgb(0xD02020), 7)
+    save(img, "snackvendhead")
+    save(noise(0x16191E, 3, "snackvendinside"), "snackvendinside")
+    img = Image.new("RGBA", (S, S), rgb(0x1A1E24))
+    d = ImageDraw.Draw(img)
+    for band, (c, logo) in enumerate(((0xE82020, 0xF0C020), (0xF0C020, 0xC02020), (0x30A040, 0xF4F4F0), (0xE87020, 0x6A2A10))):
+        x0 = band * 8
+        d.rectangle([x0, 0, x0 + 5, S - 1], fill=rgb(c))
+        d.line([x0, 0, x0 + 5, 0], fill=T.shade(T.hexrgb(c), 0.7))
+        for y in range(2, S, 6):
+            d.rectangle([x0 + 1, y, x0 + 4, y + 1], fill=rgb(logo))
+        for y in range(0, S, 3):
+            d.point((x0 + 5, y), fill=rgb(0xB8BCC0))  # the spiral's turns in front of the packets
+            d.point((x0, y + 1), fill=rgb(0x8A8E92))
+    save(img, "snackvendrows")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for x0 in (4, 20):
+        d.line([x0, S - 1, x0 + 10, 0], fill=(214, 230, 240, 255))
+    d.line([25, S - 1, 31, 12], fill=(214, 230, 240, 255))
+    save(img, "snackvendglass")
+    img = noise(0x3A3E44, 3, "snackvendpanel")
+    d = ImageDraw.Draw(img)
+    d.rectangle([12, 2, 19, 5], fill=rgb(0x1A2A1A))
+    d.line([13, 3, 17, 3], fill=rgb(0x60E060))  # the price display
+    for r in range(4):
         for c in range(3):
-            d.rectangle([5 + c * 6, 5 + r * 5, 8 + c * 6, 7 + r * 5], fill=rgb(rng.choice([0xE82020, 0xF0C020, 0x30A040, 0xE87020])))
-    d.rectangle([24, 6, 28, 14], fill=rgb(0xD8D8D0))
-    d.rectangle([24, 22, 28, 26], fill=rgb(0x1A1A1A))
-    save(img, "snackvending")
+            d.point((13 + c * 2, 8 + r * 2), fill=rgb(0xD8D8D0))
+    d.rectangle([14, 17, 17, 21], fill=rgb(0xB8BCC0))
+    d.line([15, 18, 15, 20], fill=rgb(0x101010))  # the coin slot
+    d.rectangle([13, 24, 18, 26], fill=rgb(0x8A8E92))
+    d.rectangle([14, 25, 17, 25], fill=rgb(0x1A1A1A))  # coin return
+    save(img, "snackvendpanel")
     img = Image.new("RGBA", (S, S), rgb(0xD8DCE0))
     d = ImageDraw.Draw(img)
     d.rectangle([3, 2, 28, 29], fill=rgb(0x2A3A44))
@@ -230,6 +263,64 @@ def level61():
             d.rectangle([5 + c * 6, 4 + r * 6, 8 + c * 6, 8 + r * 6], fill=rgb([0xE82020, 0x30A0E0, 0xF4F0E0, 0x40C040][(r + c) % 4]))
     d.rectangle([26, 10, 27, 20], fill=rgb(0xC8CCD0))
     save(img, "drinkfridge")
+    # The drinks fridge in 3D: white enamel, a lit header, a kick-plate grille, cold white inside, frosted glass (see-
+    # through but for its glints and a frosted rim), and the cans and bottles: four 4-unit bands, one a column
+    save(noise(0xE6E8EA, 3, "fridgebody"), "fridgebody")
+    img = noise(0x1E4A8A, 2, "drinkhead")
+    d = ImageDraw.Draw(img)
+    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xF4F8FC))
+    text(img, "DRINKS", (1, 1, S - 1, 9), rgb(0x1E4A9A), 7)
+    save(img, "drinkhead")
+    img = Image.new("RGBA", (S, S), rgb(0x2A2C30))
+    d = ImageDraw.Draw(img)
+    for y in range(1, S, 3):
+        d.line([2, y, S - 3, y], fill=rgb(0x0E0F11))
+    save(img, "fridgegrille")
+    save(noise(0xDCE8F0, 2, "fridgeinside"), "fridgeinside")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for x0 in (3, 18):
+        d.line([x0, S - 1, x0 + 9, 0], fill=(224, 238, 248, 200))
+    d.rectangle([0, 0, S - 1, S - 1], outline=(220, 232, 240, 110), width=1)  # frost at the rim
+    save(img, "fridgeglass")
+    img = Image.new("RGBA", (S, S), rgb(0x1A1E24))
+    d = ImageDraw.Draw(img)
+    for band, (c, label) in enumerate(((0xC81E1E, 0xF4F0E8), (0x2E9A3A, 0xF0E040), (0x7AB8E8, 0x2A5AA8), (0xF08A1E, 0xFFFFFF))):
+        x0 = band * 8
+        d.rectangle([x0, 0, x0 + 5, S - 1], fill=rgb(c))
+        d.line([x0 + 1, 0, x0 + 1, S - 1], fill=T.shade(T.hexrgb(c), 1.3))  # the shine down a can
+        for y in range(3, S, 8):
+            d.rectangle([x0, y, x0 + 5, y + 2], fill=rgb(label))
+        d.line([x0, 0, x0 + 5, 0], fill=rgb(0xB8BCC0))  # the lids
+    save(img, "drinkcans")
+    # A dead machine of a vending room's heap: faded red, scuffed, its sign unlit, its glass cracked
+    img = noise(0x8A2A24, 5, "vendpilebody")
+    grime(img, "vendpilebody", 0.35, (60, 40, 30))
+    d = ImageDraw.Draw(img)
+    rng = random.Random(61)
+    for _ in range(5):
+        x, y = rng.randrange(S), rng.randrange(S)
+        d.line([x, y, x + rng.randint(2, 6), y + rng.randint(-1, 1)], fill=rgb(0xB8B0A8))  # scuffs to the paint
+    save(img, "vendpilebody")
+    img = noise(0x6A2420, 3, "vendpilehead")
+    d = ImageDraw.Draw(img)
+    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xB8B0A0))
+    text(img, "COLA", (1, 1, S - 1, 9), rgb(0x7A1A14), 7)
+    save(img, "vendpilehead")
+    img = noise(0x3A3C40, 3, "vendpilepanel")
+    d = ImageDraw.Draw(img)
+    d.rectangle([12, 2, 19, 5], fill=rgb(0x141414))  # a dead display
+    for r in range(4):
+        for c in range(3):
+            d.point((13 + c * 2, 8 + r * 2), fill=rgb(0x9A9A94))
+    d.line([15, 18, 15, 20], fill=rgb(0x101010))
+    save(img, "vendpilepanel")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for pts in (((20, 9), (13, 3), (9, 0)), ((20, 9), (27, 4)), ((20, 9), (24, 20), (22, 31)), ((20, 9), (8, 14), (0, 15))):
+        d.line(pts, fill=(226, 232, 236, 210))  # cracks spreading from a blow
+    d.line([4, S - 1, 12, 18], fill=(214, 230, 240, 150))
+    save(img, "vendpileglass")
     for name, word, color in (("signburger", "BURGERS", 0xFF4060), ("signpizza", "PIZZA", 0x40FF90), ("signtaco", "TACOS", 0xFFC040), ("signdonut", "DONUTS", 0x60C0FF)):
         img = Image.new("RGBA", (S, S), rgb(0x141018))
         d = ImageDraw.Draw(img)
@@ -289,16 +380,74 @@ def level7():
     for x in (5, 19, 27):
         d.line([x, 24, x, 31], fill=rgb(0x485052))  # water stains running down
     save(img, "oceanceiling")
-    img = noise(0x3E4640, 14, "islandrock")
-    specks(img, [0x2A302C, 0x58605A, 0x6A5A4A], 60, "islandrock")
+    # The islands' unknown rock: dark grey-green basalt broken into angular facets, each its own shade, with dark
+    # cracks between them, a pale edge where a facet catches the light, and a few specks of lichen
+    rng = random.Random(seed_of("islandrock"))
+    pts = [(rng.uniform(0, S), rng.uniform(0, S)) for _ in range(6)]
+    shades = [rng.uniform(0.8, 1.1) for _ in pts]
+    cracked = {(a, b): rng.random() < 0.55 for a in range(len(pts)) for b in range(len(pts))}
+    img = noise(0x4A4F4C, 10, "islandrock")
+    px = img.load()
+    def nearest(x, y):
+        best = []
+        for i, (cx, cy) in enumerate(pts):
+            for ox in (-S, 0, S):
+                for oy in (-S, 0, S):
+                    best.append(((x - cx - ox) ** 2 + (y - cy - oy) ** 2, i))
+        best.sort()
+        return best[0][1], math.sqrt(best[1][0]) - math.sqrt(best[0][0]), best[1][1]
+    for y in range(S):
+        for x in range(S):
+            i, edge, other = nearest(x + 0.5, y + 0.5)
+            c = px[x, y]
+            k = shades[i] * (1 + 0.1 * ((x - pts[i][0]) + (y - pts[i][1])) / S)  # each facet lit from one side
+            c = tuple(max(0, min(255, int(v * k))) for v in c[:3])
+            if edge < 0.7 and cracked[min(i, other), max(i, other)]:
+                c = (24, 27, 26)  # a crack (not every facet is split from its neighbour)
+            elif edge < 1.8 and nearest(x - 0.5, y - 0.5)[0] != i:
+                c = tuple(min(255, int(v * 1.25)) for v in c)  # the lit lip of a facet
+            px[x, y] = c + (255,)
+    specks(img, [0x6E7A5A, 0x8A946A, 0x2A302C], 14, "islandrock-lichen")
     save(img, "islandrock")
-    img = noise(0x0C0C0E, 6, "tar")
-    rng = random.Random(93)
-    d = ImageDraw.Draw(img)
-    for _ in range(9):
-        x, y = rng.randrange(S - 4), rng.randrange(S - 4)
-        d.ellipse([x, y, x + rng.randint(2, 4), y + rng.randint(2, 4)], outline=rgb(0x3A3A40))
+    # Tar: glossy near-black, a faint broad sheen across it; on top, a few soft domes where bubbles are rising, each
+    # with a pinpoint highlight; down the sides, slow drips with a glint along them and a bead at the end
+    def tar_base(key):
+        img = noise(0x0A0A0C, 2, key)
+        px = img.load()
+        for y in range(S):
+            for x in range(S):
+                t = max(0.0, 1 - abs((x + y) - 26) / 9)
+                c = px[x, y]
+                px[x, y] = tuple(min(255, int(v + 12 * t)) for v in c[:3]) + (255,)
+        return img
+    img = tar_base("tar")
+    px = img.load()
+    for cx, cy, r in ((9, 22, 4.5), (23, 9, 3.5), (25, 25, 2.5)):
+        for y in range(S):
+            for x in range(S):
+                d = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5 / r
+                if d < 1:
+                    c = px[x, y]
+                    px[x, y] = tuple(min(255, int(v + 26 * (1 - d * d))) for v in c[:3]) + (255,)
+        hx, hy = int(cx - r * 0.4), int(cy - r * 0.4)
+        px[hx, hy] = (92, 92, 102, 255)
+        px[hx + 1, hy] = (56, 56, 64, 255)
     save(img, "tar")
+    img = tar_base("tar-side")
+    px = img.load()
+    rng = random.Random(93)
+    for x0 in (3, 10, 19, 27):
+        length = rng.randint(10, 26)
+        for y in range(length):
+            for x in (x0, x0 + 1):
+                px[x, y] = (6, 6, 8, 255)
+            px[x0 + 1, y] = (34, 34, 40, 255) if y % 7 != 3 else (52, 52, 60, 255)  # the glint along it
+        for x in range(x0 - 1, x0 + 3):
+            px[x, length] = (8, 8, 10, 255)
+        px[x0, length + 1] = (8, 8, 10, 255)
+        px[x0 + 1, length + 1] = (8, 8, 10, 255)
+        px[x0 + 1, length] = (70, 70, 80, 255)  # the bead's highlight
+    save(img, "tar-side")
     flat("bone", 0xE4D8BC, 6)
     flat("scrap", 0x7A4A2A, 14)
     img = noise(0x8A7A50, 5, "canvas")
@@ -327,6 +476,23 @@ def level8():
     ImageDraw.Draw(img).rectangle([12, 0, 19, S - 1], fill=rgb(0xFFF4D0))
     save(img, "lampglass")
     flat("cavestone", 0x8A8478, 8)
+    # Bioluminescent fungi: caps that glow from within (a brighter rim and gills, paler speckles), stems, and the
+    # mycelium they grow from; blood-red, and the other colours of the mixed clusters
+    for name, cap, rim in (("glowcapred", 0xB01818, 0xFF5A40), ("glowcapblue", 0x2A6AD8, 0x8AD8FF),
+                           ("glowcapviolet", 0x8A2AC8, 0xE09AFF), ("glowcapgreen", 0x38B850, 0xB8FF8A)):
+        img = noise(cap, 6, name)
+        d = ImageDraw.Draw(img)
+        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(rim), width=2)
+        rng = random.Random(seed_of(name))
+        for _ in range(10):
+            x, y = rng.randrange(3, S - 3), rng.randrange(3, S - 3)
+            d.rectangle([x, y, x + 1, y + 1], fill=T.shade(T.hexrgb(rim), 1.15))
+        save(img, name)
+    img = noise(0xD8CCB8, 4, "glowstem")
+    save(img, "glowstem")
+    img = noise(0x3A1414, 5, "mycelium")
+    specks(img, [0x7A2A20, 0xA03A2A, 0x1A0A0A], 40, "mycelium")
+    save(img, "mycelium")
 
 
 # ---------------- Level 9 ----------------
@@ -342,14 +508,20 @@ def level9():
         x, y = rng.randrange(S - 3), rng.randrange(S - 3)
         d.ellipse([x, y, x + 3, y + 2], fill=rgb(rng.choice([0x8A5A1E, 0xB07A20, 0x6A3A14, 0x9A2A14])))
     save(leaves, "asphalt-leaves")
-    # Wet asphalt: darker, with a faint sheen where the puddle catches what light there is
-    wet = noise(0x1C1E22, 3, "asphaltwet")
+    # Wet asphalt: standing water, smoother and darker than the dry road, with the sky in it as a blue-grey sheen in
+    # long ripples and a glint or two, so a puddle reads as water and not as a shadow. The ripples wrap round the tile
+    # (it is turned at random from block to block, so they never line up)
+    wet = noise(0x181C24, 2, "asphaltwet")
     px = wet.load()
     for y in range(S):
         for x in range(S):
-            t = max(0.0, 1 - ((x - 20) ** 2 + (y - 11) ** 2) / 140.0) * 0.18
+            ripple = 0.5 + 0.5 * math.sin(2 * math.pi * (x + 3 * y) / S + 0.8 * math.sin(2 * math.pi * 2 * x / S))
+            t = 0.06 + 0.22 * ripple ** 3
             r_, g_, b_, a_ = px[x, y]
-            px[x, y] = (int(r_ + (70 - r_) * t), int(g_ + (80 - g_) * t), int(b_ + (96 - b_) * t), a_)
+            px[x, y] = (int(r_ + (78 - r_) * t), int(g_ + (90 - g_) * t), int(b_ + (112 - b_) * t), a_)
+    rng = random.Random(102)
+    for _ in range(5):
+        wet.putpixel((rng.randrange(S), rng.randrange(S)), (128, 138, 156, 255))
     save(wet, "asphalt-wet")
     img = noise(0x9A9890, 5, "sidewalk")
     d = ImageDraw.Draw(img)
@@ -406,15 +578,79 @@ def level9():
         d.line([0, k, S - 1, k], fill=rgb(0xB8C0C8))
         d.line([k, 0, k, S - 1], fill=rgb(0xB8C0C8))
     save(img, "houseinterior-tile")
-    for state, glass in (("dark", 0x10141C), ("lit", 0xFFD890)):
-        img = Image.new("RGBA", (S, S), rgb(glass))
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xF0F0EA), width=3)
-        d.line([16, 0, 16, S - 1], fill=rgb(0xF0F0EA), width=2)
-        d.line([0, 16, S - 1, 16], fill=rgb(0xF0F0EA), width=2)
-        if state == "dark":
-            d.line([5, 5, 11, 11], fill=rgb(0x3A4250))
+    # The glass of a house window (the frame, the glazing bars and the sill are the block's own boxes): dark, with the
+    # night sky's faint sheen across it and the curtains just showing at the sides; or lit, warm, the curtains drawn
+    # back in folds either side
+    def lerp(a, b, f):
+        return tuple(p + (q - p) * f for p, q in zip(a[:3], b[:3]))
+
+    for state in ("dark", "lit"):
+        img = Image.new("RGBA", (S, S))
+        px = img.load()
+        rng = random.Random(seed_of("housewindow" + state))
+        for y in range(S):
+            for x in range(S):
+                edge = min(x, S - 1 - x)
+                fold = 0.85 + 0.15 * math.sin(x * 1.9)
+                if state == "dark":
+                    sheen = max(0.0, 1 - abs((x + y * 0.6) - 18) / 6) * 0.35
+                    c = lerp(T.hexrgb(0x0C1018), T.hexrgb(0x2A3442), 0.25 * (1 - y / S) + sheen)
+                    if edge < 5:
+                        c = lerp(c, T.shade(T.hexrgb(0x3A3028), fold), 0.55)
+                else:
+                    glow = 1 - abs(x - S / 2) / (S / 2) * 0.35 - y / S * 0.1
+                    c = T.shade(T.hexrgb(0xFFD890), glow)
+                    if edge < 6:
+                        c = T.shade(T.hexrgb(0xD8904A), fold * (0.8 + 0.04 * edge))
+                k = rng.uniform(0.96, 1.04)
+                px[x, y] = tuple(max(0, min(255, int(v * k))) for v in c[:3]) + (255,)
         save(img, f"housewindow-{state}")
+    # Painted wood: the window frames, a porch's posts and the skirt round its deck
+    img = noise(0xEEEDE6, 2, "windowtrim")
+    d = ImageDraw.Draw(img)
+    for y in (7, 19, 28):
+        d.line([0, y, S - 1, y], fill=rgb(0xDCDAD0))
+    save(img, "windowtrim")
+    # A porch lamp with no power: dusty amber glass
+    img = noise(0x5A4A30, 4, "porchglass-off")
+    ImageDraw.Draw(img).line([4, 4, 12, 20], fill=rgb(0x7A6A50))
+    save(img, "porchglass-off")
+    # The concrete step up to a porch
+    img = noise(0xB8B4AA, 4, "porchstep")
+    ImageDraw.Draw(img).rectangle([0, 0, S - 1, S - 1], outline=rgb(0xA09C92))
+    save(img, "porchstep")
+    # Street names on the Suburbs' corners, white on green; the same few over and over
+    for street in ("elm", "oak", "maple", "pine", "cedar", "birch", "walnut", "ash"):
+        img = Image.new("RGBA", (S, S), rgb(0x1E6A3A))
+        text(img, f"{street.upper()} ST", (0, 6, S, 26), 0xFFFFFF, 5)
+        ImageDraw.Draw(img).rectangle([0, 0, S - 1, S - 1], outline=rgb(0xFFFFFF))
+        save(img, f"suburbsign-{street}")
+    for street in ("willow", "linden", "aspen", "poplar", "holly", "laurel", "spruce", "cherry"):
+        img = Image.new("RGBA", (S, S), rgb(0x1E6A3A))
+        text(img, f"{street.upper()} AV", (0, 6, S, 26), 0xFFFFFF, 5)
+        ImageDraw.Draw(img).rectangle([0, 0, S - 1, S - 1], outline=rgb(0xFFFFFF))
+        save(img, f"suburbsignblade-{street}")
+    # The guide sign toward the city: DOWNTOWN in plain block capitals (three pixels wide, doubled in height, to fill
+    # the plate) and an arrow, as read from either side
+    glyphs = {"D": ["110", "101", "101", "101", "110"], "O": ["111", "101", "101", "101", "111"],
+              "W": ["101", "101", "111", "111", "101"], "N": ["110", "101", "101", "101", "101"], "T": ["111", "010", "010", "010", "010"]}
+    for side in ("right", "left"):
+        img = Image.new("RGBA", (S, S), rgb(0x1E6A3A))
+        d = ImageDraw.Draw(img)
+        d.line([0, 1, S - 1, 1], fill=rgb(0xFFFFFF))
+        d.line([0, S - 2, S - 1, S - 2], fill=rgb(0xFFFFFF))
+        for k, ch in enumerate("DOWNTOWN"):
+            for gy, row in enumerate(glyphs[ch]):
+                for gx, bit in enumerate(row):
+                    if bit == "1":
+                        d.rectangle([k * 4 + gx, 5 + gy * 2, k * 4 + gx, 6 + gy * 2], fill=rgb(0xFFFFFF))
+        # The arrow, drawn rather than lettered so it is the same in any font
+        tip = S - 6 if side == "right" else 5
+        tail = 6 if side == "right" else S - 7
+        d.line([tail, 22, tip, 22], fill=rgb(0xFFFFFF), width=2)
+        k = -1 if side == "right" else 1
+        d.polygon([(tip - k, 22), (tip + k * 5, 17), (tip + k * 5, 27)], fill=rgb(0xFFFFFF))
+        save(img, f"citysign-{side}")
     for name, c in (("grey", 0x55575C), ("brown", 0x5E4430), ("red", 0x7A3328)):
         save(shingles(c, "roof" + name), f"houseroof-{name}")
     img = noise(0xF0EEE8, 6, "popcorn")
@@ -641,6 +877,18 @@ def refinements():
     for r in range(3, 16, 3):
         d.ellipse([16 - r, 16 - r, 16 + r, 16 + r], outline=rgb(0xA0823A))
     save(img, "hayroll-end")
+    # A galvanised trough out in a field, ribbed, and the rainwater in it with a leaf floating
+    img = noise(0x9AA2A4, 6, "galvanised")
+    d = ImageDraw.Draw(img)
+    for x in range(0, S, 4):
+        d.line([x, 0, x, S - 1], fill=rgb(0x848C8E))
+    save(img, "galvanised")
+    img = noise(0x3E5A5A, 4, "troughwater")
+    d = ImageDraw.Draw(img)
+    d.line([3, 20, 14, 18], fill=rgb(0x96AAAC))
+    d.line([18, 9, 27, 8], fill=rgb(0x789296))
+    d.ellipse([22, 22, 26, 25], fill=rgb(0x606E46))
+    save(img, "troughwater")
     img = noise(0xB8BCC0, 3, "icemachine")
     d = ImageDraw.Draw(img)
     d.rectangle([4, 14, 27, 28], fill=rgb(0x6A7076))

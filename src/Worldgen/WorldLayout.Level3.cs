@@ -36,6 +36,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL3District = 0x3C07;
     private const ulong SaltL3Hall = 0x3C08;
     private const ulong SaltL3Sanctum = 0x3C09;
+    /// <summary>Where something has been purpified into a wall (from layout version 5).</summary>
+    private const ulong SaltL3Purpified = 0x3C0A;
     /// <summary>Vanilla machinery in the corridor niches (pressure tanks, old pumps) instead of the electrical gear.</summary>
     private const ulong SaltL3Fitting = 0x1E02;
 
@@ -634,6 +636,9 @@ public sealed partial class WorldLayout
                         : r < 0.145 ? Decor.AlarmBell : r < 0.16 ? Decor.Risers
                         : stretch < 0.45 ? Props.WallPipes : stretch < 0.62 ? Decor.WallCables
                         : r < 0.32 ? Props.WallPanel : r < 0.42 ? Props.WallFan : Props.WallPlain;
+                    // From layout version 5, very rarely: something dead half noclipped into the wall, it and the wall
+                    // round it gone purple ("Only 17 instances of Purpification have been encountered", Wikidot)
+                    if (Version >= 5 && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL3Purpified)) < 0.00025) tile.Variant = Decor.Purpified;
                     continue;
                 }
                 if (tile.Kind != TileKind.Floor || tile.Sealed) continue;

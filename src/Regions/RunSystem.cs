@@ -62,6 +62,9 @@ public class RunSystem : ModSystem
     private readonly Dictionary<string, (Link To, long At)> escapes = new();
     private readonly Dictionary<string, int> blockIds = new();
     private int falseWallId, falseWallUpperId;
+    private long tickListener;
+    private readonly BlockPos feetPos = new(0, 0, 0), headPos = new(0, 0, 0);
+    private readonly List<int> expiredClaims = new();
 
     private sealed class Chaser
     {
@@ -93,6 +96,8 @@ public class RunSystem : ModSystem
         public bool[] Restored;
         public double TripUntil, TripCooldown;
         public bool Active = true;
+        /// <summary>Held by the horde at the last tick (so a death then is theirs).</summary>
+        public bool Caught;
     }
 
     public override bool ShouldLoad(EnumAppSide side) => true;
@@ -117,17 +122,31 @@ public class RunSystem : ModSystem
             menace = api.ModLoader.GetModSystem<MenaceSystem>();
             falseWallId = BlockId("run-falsewall-lower");
             falseWallUpperId = BlockId("run-falsewall-upper");
-            api.Event.RegisterGameTickListener(OnTick, TickMs);
+            tickListener = api.Event.RegisterGameTickListener(OnTick, TickMs);
             api.Event.OnEntityDeath += OnEntityDeath;
-            // The horde is saved with its chunk (its mark too) but not its puppeting: any of it loaded again is let go
-            api.Event.OnEntityLoaded += e =>
-            {
-                if (e.Attributes.GetBool(HordeKey))
-                    sapi.Event.RegisterCallback(_ => { if (e.State != EnumEntityState.Despawned) sapi.World.DespawnEntity(e, new EntityDespawnData { Reason = EnumDespawnReason.Expire }); }, 50);
-            };
-            api.Event.PlayerDisconnect += player => EndRun(player.PlayerUID, "left");
+            api.Event.OnEntityLoaded += OnEntityLoaded;
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
     }
+
+    public override void Dispose()
+    {
+        if (sapi == null) return;
+        if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
+        sapi.Event.OnEntityDeath -= OnEntityDeath;
+        sapi.Event.OnEntityLoaded -= OnEntityLoaded;
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+    }
+
+    /// <summary>The horde is saved with its chunk (its mark too) but not its puppeting: any of it loaded again is let go.</summary>
+    private void OnEntityLoaded(Entity e)
+    {
+        if (e.Attributes.GetBool(HordeKey))
+            sapi.Event.RegisterCallback(_ => { if (e.State != EnumEntityState.Despawned) sapi.World.DespawnEntity(e, new EntityDespawnData { Reason = EnumDespawnReason.Expire }); }, 50);
+    }
+
+    // (Fired before the player's data is saved, so the run's stats and phase are cleared in the save too)
+    private void OnPlayerDisconnect(IServerPlayer player) => EndRun(player.PlayerUID, "left");
 
     private int BlockId(string code)
     {
@@ -201,10 +220,11 @@ public class RunSystem : ModSystem
             // Level 2: walking into the wall that wasn't there
             if (level == 2 && falseWallId != 0 && entity.Alive && !entity.Teleporting && player.WorldData.CurrentGameMode != EnumGameMode.Spectator)
             {
-                var feet = new BlockPos(x, (int)Math.Floor(entity.Pos.Y), z);
-                int atFeet = sapi.World.BlockAccessor.GetBlock(feet).BlockId, atHead = sapi.World.BlockAccessor.GetBlock(feet.UpCopy()).BlockId;
+                feetPos.Set(x, (int)Math.Floor(entity.Pos.Y), z);
+                headPos.Set(x, feetPos.Y + 1, z);
+                int atFeet = sapi.World.BlockAccessor.GetBlock(feetPos).BlockId, atHead = sapi.World.BlockAccessor.GetBlock(headPos).BlockId;
                 if (atFeet == falseWallId || atFeet == falseWallUpperId || atHead == falseWallId || atHead == falseWallUpperId)
-                    sapi.ModLoader.GetModSystem<ThresholdSystem>()?.Use(player, feet, "runfalsewall");
+                    sapi.ModLoader.GetModSystem<ThresholdSystem>()?.Use(player, feetPos.Copy(), "runfalsewall");
             }
 
             // Out through a true exit: leave the door they came out of where they came out
@@ -216,12 +236,25 @@ public class RunSystem : ModSystem
 
             runs.TryGetValue(player.PlayerUID, out Run run);
             bool here = level == WorldLayout.RunLevel && entity.Alive && !entity.Teleporting;
-            if (run != null && (!here || !run.Active))
+            if (run != null && !here)
             {
-                if (!here) EndRun(player.PlayerUID, entity.Alive ? "left" : "died");
+                EndRun(player.PlayerUID, entity.Alive ? "left" : "died");
                 continue;
             }
-            if (!here) continue;
+            if (run != null && !run.Active)
+            {
+                // A run with nothing behind it (a spectator, a creative player, a world without entities) is left alone:
+                // the hall ahead is not restored, so whatever a builder puts in it stays. Turned survival partway down
+                // the hall, the run ends, and the next tick begins a real one by the usual rule (from the start room)
+                if (player.WorldData.CurrentGameMode == EnumGameMode.Survival && menace?.Setting.Entities != false) EndRun(player.PlayerUID, "mode");
+                continue;
+            }
+            if (!here)
+            {
+                // A phase left over from a run the server never saw end (a crash mid-run): the client would keep its alarm
+                if (entity.WatchedAttributes.GetInt(PhaseKey) != (int)Phase.None) SetPhase(entity, Phase.None, 999, null);
+                continue;
+            }
             if (run == null)
             {
                 run = StartRun(player, x, z);
@@ -229,7 +262,10 @@ public class RunSystem : ModSystem
             }
             TickRun(player, run, dt);
         }
-        foreach (var lane in new List<int>(claims.Keys)) if (claims[lane].Until < now) claims.Remove(lane);
+        if (claims.Count == 0) return;
+        expiredClaims.Clear();
+        foreach (var (lane, claim) in claims) if (claim.Until < now) expiredClaims.Add(lane);
+        foreach (int lane in expiredClaims) claims.Remove(lane);
     }
 
     private Run StartRun(IServerPlayer player, int x, int z)
@@ -282,8 +318,10 @@ public class RunSystem : ModSystem
         claims.Remove(run.Lane);
         foreach (var h in run.Horde) Despawn(h.Entity);
         foreach (var c in run.Chasers) Despawn(c.Entity);
-        if (sapi.World.PlayerByUid(uid) is IServerPlayer { Entity: { } e })
+        if (sapi.World.PlayerByUid(uid) is IServerPlayer { Entity: { } e } player)
         {
+            if (why == "died" && run.Caught)
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-caught", player.PlayerName), EnumChatType.Notification);
             e.Stats.Remove("walkspeed", CaughtStat);
             e.Stats.Remove("walkspeed", TripStat);
             SetPhase(e, Phase.None, 999, null);
@@ -291,10 +329,12 @@ public class RunSystem : ModSystem
     }
 
     /// <summary>The runner's sprint, in blocks a second: Vintage Story's, slowed by armour, not hurried by an Energy Bar.</summary>
+    private static readonly string[] OwnWalkStats = { WindStat, TripStat, CaughtStat };
+
     private static double SprintOf(EntityAgent entity)
     {
         double walk = entity.Stats.GetBlended("walkspeed");
-        foreach (string mine in new[] { WindStat, TripStat, CaughtStat })
+        foreach (string mine in OwnWalkStats)
             if (entity.Stats["walkspeed"].ValuesByKey.TryGetValue(mine, out var v)) walk -= v.Value;
         return RunChase.SprintSpeed * Math.Clamp(walk, 0.4, 1.5);
     }
@@ -318,13 +358,8 @@ public class RunSystem : ModSystem
                 if (Math.Abs(lx - f.X) <= 1 && lz > f.Z && lz <= f.Z + 3) at = plan.ProgressAt(f.FrontX, f.FrontZ);
         if (at != null) run.P = at.Value;
 
-        // Keep the stretch ahead as it was meant to be
+        // Keep the stretch ahead as it was meant to be (only active runs get here: see OnTick)
         RestoreAhead(run);
-        if (!run.Active)
-        {
-            SetPhase(entity, Phase.None, 999, null);
-            return;
-        }
 
         RunChase chase = run.Chase;
         bool wasLoose = chase.Loose;
@@ -372,6 +407,7 @@ public class RunSystem : ModSystem
         Trip(player, run, dt);
 
         // Caught: pinned, and torn apart
+        run.Caught = caught;
         if (caught && entity.Alive)
         {
             entity.Stats.Set("walkspeed", CaughtStat, Pinned, false);
@@ -468,10 +504,9 @@ public class RunSystem : ModSystem
     {
         Vec3d to = Along(run, s, lateral, up);
         Vec3d ahead = Along(run, s + 1, lateral, up);
-        e.ServerPos.SetPos(to);
-        e.ServerPos.Yaw = (float)Math.Atan2(ahead.X - to.X, ahead.Z - to.Z);
-        e.ServerPos.Motion.Set(0, 0, 0);
-        e.Pos.SetFrom(e.ServerPos);
+        e.Pos.SetPos(to);
+        e.Pos.Yaw = (float)Math.Atan2(ahead.X - to.X, ahead.Z - to.Z);
+        e.Pos.Motion.Set(0, 0, 0);
     }
 
     /// <summary>Switches an entity's own mind off: it goes where it is put, running.</summary>
@@ -697,12 +732,12 @@ public class RunSystem : ModSystem
             case "runhall":
             {
                 runs.TryGetValue(player.PlayerUID, out Run run);
-                // It sticks: it opens on the third try
+                // It sticks: it opens on the third try (and says so, so nobody takes it for the wrong door)
                 int tries = run != null ? ++run.HallTries : 3;
                 if (tries < 3)
                 {
                     Play("run/rattle", pos.ToVec3d().Add(0.5, 0.5, 0.5), 16, 1f);
-                    message = "backrooms:run-stuck";
+                    message = tries == 1 ? "backrooms:run-stuck" : "backrooms:run-stuck2";
                     break;
                 }
                 if (lane >= 0)

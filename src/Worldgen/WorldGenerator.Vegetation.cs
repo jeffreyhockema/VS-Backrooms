@@ -131,6 +131,8 @@ public sealed partial class WorldGenerator
         int best = int.MaxValue, tdx = 0, tdz = 0;
         Tile trunk = default;
         bool fence = false, door = false, road = false, field = false, backdrop = false, tower = false, hedge = false, tracks = false, shore = false;
+        // Tire tracks on both sides along a row or a column: the strip down the middle of a farm road
+        bool trackW = false, trackE = false, trackN = false, trackS = false;
         for (int dz = -2; dz <= 2; dz++)
         {
             for (int dx = -2; dx <= 2; dx++)
@@ -150,6 +152,11 @@ public sealed partial class WorldGenerator
                     if (n.Variant == Props.WaterTower) tower = true;
                     if (n.Floor == FloorKind.DirtTracks) tracks = true;
                     if (dx * dz == 0 && d == 1 && n.Kind != TileKind.Water) shore = true;
+                }
+                if (n.Floor == FloorKind.DirtTracks)
+                {
+                    if (dz == 0) { trackW |= dx < 0; trackE |= dx > 0; }
+                    if (dx == 0) { trackN |= dz < 0; trackS |= dz > 0; }
                 }
                 if (n.Floor is FloorKind.MotionKerb or FloorKind.MotionAsphalt) road = true;
                 if (n.Floor == FloorKind.Field && n.Kind == TileKind.Floor) field = true;
@@ -186,7 +193,8 @@ public sealed partial class WorldGenerator
         }
 
         if (t.Kind != TileKind.Floor || t.Variant == Props.Tree || door) return;
-        c.Ground = GroundCover(t, gx, gz, shade, fence, road, field, backdrop, tower, hedge, tracks);
+        bool between = trackW && trackE || trackN && trackS;
+        c.Ground = GroundCover(t, gx, gz, shade, fence, road, field, backdrop, tower, hedge, tracks, between);
     }
 
     /// <summary>
@@ -274,7 +282,8 @@ public sealed partial class WorldGenerator
 
     // ---- Ground cover, level by level ----
 
-    private int GroundCover(in Tile t, int gx, int gz, bool shade, bool fence, bool road, bool field, bool backdrop, bool tower, bool hedge, bool tracks)
+    private int GroundCover(in Tile t, int gx, int gz, bool shade, bool fence, bool road, bool field, bool backdrop, bool tower, bool hedge, bool tracks,
+        bool between)
     {
         if (t.SupplyBox || t.Stair != 0 || t.Roof != 0 || t.Overhead is not (0 or Overheads.Leaves)) return -1;
         bool plain = t.Variant == 0;
@@ -311,6 +320,9 @@ public sealed partial class WorldGenerator
                     return grassIds[margin ? GrassHeight(gx, gz, 4, 5) : layout.IsPasture(gx, gz) ? GrassHeight(gx, gz, 1, 2) : GrassHeight(gx, gz, 2, 5)];
                 if (!plain) return -1;
                 if (shade) return roll < 0.08 ? Pick(fernIds, gx, gz) : GrassAt(gx, gz, 0.35, 2, 4);
+                // A farm road: the tracks themselves bare (they are not grass), the strip between them cropped short by
+                // the wheels, the verges a little longer
+                if (between) return GrassAt(gx, gz, 0.3, 0, 0);
                 if (tracks) return GrassAt(gx, gz, 0.4, 0, 1);
                 // Poppies, cornflowers and lupins along the edges of the fields
                 if (margin) return roll < 0.14 ? Pick(marginFlowerIds, gx, gz) : GrassAt(gx, gz, 0.5, 3, 5);

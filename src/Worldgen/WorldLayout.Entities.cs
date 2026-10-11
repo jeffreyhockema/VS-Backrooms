@@ -18,7 +18,7 @@ public sealed partial class WorldLayout
         // (Measured where the level itself is measured, the cell's corner, so the two always agree)
         int mx = MacroOf(gx), mz = MacroOf(gz);
         double angle = Math.Atan2(mz - spawnMacroZ, mx - spawnMacroX);
-        double inner = InnerEdge(level, angle), outer = OuterEdge(level, angle);
+        var (inner, outer) = RingEdges(level, angle);
         return Math.Clamp((RingDistance(mx, mz) - inner) / (outer - inner), 0, 1);
     }
 
@@ -106,7 +106,8 @@ public sealed partial class WorldLayout
             case 5:
                 return HotelZoneAt(mx, mz) == HotelZone.Boiler ? DarkPlace.Bad : DarkPlace.None;
             case 8:
-                // (Roads run every 48 blocks, so nowhere is more than 23 from one: the far stretch between them is the worst)
+                // (Roads run on a 48-block grid, so where the roads either side are there nowhere is more than 23 from one,
+                // and the far stretch between them is the worst; where the lattice has a gap it counts as the full 48)
                 int road = NinthRoadDistance(gx, gz);
                 return road > 18 ? DarkPlace.Worst : road > 12 ? DarkPlace.Bad : DarkPlace.None;
             default:
@@ -148,20 +149,6 @@ public sealed partial class WorldLayout
         return false;
     }
 
-    /// <summary>A cell's tiles, from the same small cache <see cref="TileAt"/> uses.</summary>
-    private Tile[] CellTiles(int mx, int mz)
-    {
-        lock (featureCells)
-        {
-            if (!featureCells.TryGetValue((mx, mz), out Tile[] tiles))
-            {
-                if (featureCells.Count >= 48) featureCells.Clear();
-                featureCells[(mx, mz)] = tiles = BuildMacro(mx, mz);
-            }
-            return tiles;
-        }
-    }
-
     private const ulong SaltWanderer = 0xEA7E;
 
     /// <summary>Wanderers are spread out by district: at most one in each square of this many cells a side.</summary>
@@ -182,15 +169,16 @@ public sealed partial class WorldLayout
         if (LevelAt(mx, mz) == Hub) return HubWandererSite(mx, mz);
         // Level 3999: a camp in one lobby in four, the Megacolony (WorldLayout.Level3999.cs)
         if (LevelAt(mx, mz) == Level3999) return L3999WandererSite(mx, mz);
-        int dx0 = Hashing.FloorDiv(mx, WandererDistrict), dz0 = Hashing.FloorDiv(mz, WandererDistrict);
-        ulong h = Hashing.Hash(seed, dx0, dz0, SaltWanderer);
-        // The district's one candidate, 1 to 6 cells in from its corner
-        int cmx = dx0 * WandererDistrict + 1 + (int)(Hashing.Mix(h) % 6), cmz = dz0 * WandererDistrict + 1 + (int)(Hashing.Mix(h + 1) % 6);
-        if (mx != cmx || mz != cmz) return null;
         int level = LevelAt(mx, mz);
-        double chance = level switch { 1 => 0.3, 4 => 0.45, 8 => 0.5, 11 => 0.25, _ => 0 };
-        if (chance <= 0 || Hashing.Unit(Hashing.Mix(h + 2)) >= chance) return null;
+        if (!HasWandererSite(mx, mz, level)) return null;
         int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+        // From layout version 5 a Level 4 wanderer keeps to the middle of the camp laid out round them (PitchL4Camp)
+        if (level == 4 && Version >= 5)
+        {
+            Tile[] tiles = CellTiles(mx, mz);
+            for (int i = 0; i < tiles.Length; i++)
+                if (tiles[i].Detail == L4CampSite) return (mx * MacroSize + i % MacroSize, mz * MacroSize + i / MacroSize);
+        }
         for (int r = 0; r <= 12; r++)
         {
             for (int dz = -r; dz <= r; dz++)
@@ -207,10 +195,26 @@ public sealed partial class WorldLayout
         return null;
     }
 
-    /// <summary>Whether a tile is somewhere an entity could be put down to stand (open floor, nothing on it, no drop).</summary>
-    public bool IsEntitySpot(int gx, int gz)
+    /// <summary>
+    /// Whether a cell of Levels 1, 4, 8 or 11 is its district's one candidate for a wanderer's site, and has one (from
+    /// hashes alone, so a cell can ask it of itself while it is being laid out).
+    /// </summary>
+    private bool HasWandererSite(int mx, int mz, int level)
     {
-        Tile t = TileAt(gx, gz);
+        int dx0 = Hashing.FloorDiv(mx, WandererDistrict), dz0 = Hashing.FloorDiv(mz, WandererDistrict);
+        ulong h = Hashing.Hash(seed, dx0, dz0, SaltWanderer);
+        // The district's one candidate, 1 to 6 cells in from its corner
+        int cmx = dx0 * WandererDistrict + 1 + (int)(Hashing.Mix(h) % 6), cmz = dz0 * WandererDistrict + 1 + (int)(Hashing.Mix(h + 1) % 6);
+        if (mx != cmx || mz != cmz) return false;
+        double chance = level switch { 1 => 0.3, 4 => 0.45, 8 => 0.5, 11 => 0.25, _ => 0 };
+        return chance > 0 && Hashing.Unit(Hashing.Mix(h + 2)) < chance;
+    }
+
+    /// <summary>Whether a tile is somewhere an entity could be put down to stand (open floor, nothing on it, no drop).</summary>
+    public bool IsEntitySpot(int gx, int gz) => IsEntitySpot(TileAt(gx, gz));
+
+    private static bool IsEntitySpot(in Tile t)
+    {
         if (t.Sealed || t.SupplyBox || t.Stair != 0) return false;
         if (t.Kind == TileKind.Doorway || t.Kind == TileKind.ArchDoor) return true;
         return t.Kind == TileKind.Floor && IsWalkThroughProp(t.Variant) && t.Stack == 0

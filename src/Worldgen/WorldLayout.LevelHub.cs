@@ -466,6 +466,7 @@ public sealed partial class WorldLayout
         _ => (0, 1),
     };
 
+    /// <summary>A direction as a step (x east, z south). The one the regions' partials share.</summary>
     private static (int X, int Z) Step(ArchPier p) => p switch
     {
         ArchPier.North => (0, -1),
@@ -480,13 +481,9 @@ public sealed partial class WorldLayout
         var (l, c, r, facing) = SlotTiles(s, slot);
         var (fx, fz) = Step(facing);
         var (rx, rz) = RightOf(facing);
-        foreach (var t in new[] { l, c, r })
-        {
-            if (HubInside(plan, t.X, t.Z) || !HubInside(plan, t.X + fx, t.Z + fz)) return false;
-            // Behind it, solid: a door is never a hole into the next tunnel
-            if (HubInside(plan, t.X - fx, t.Z - fz)) return false;
-        }
-        return !HubInside(plan, l.X - rx, l.Z - rz) && !HubInside(plan, r.X + rx, r.Z + rz);
+        // Each of the three: wall, open floor in front, and behind it solid (a door is never a hole into the next tunnel)
+        bool Fits((int X, int Z) t) => !HubInside(plan, t.X, t.Z) && HubInside(plan, t.X + fx, t.Z + fz) && !HubInside(plan, t.X - fx, t.Z - fz);
+        return Fits(l) && Fits(c) && Fits(r) && !HubInside(plan, l.X - rx, l.Z - rz) && !HubInside(plan, r.X + rx, r.Z + rz);
     }
 
     /// <summary>The level each sigil's door leads to, or -1 for the doors to levels nobody can reach (and the Hub's own, 0).</summary>
@@ -1160,7 +1157,7 @@ public sealed partial class WorldLayout
                 if (cx < 0 || cz < 0 || cx >= MacroSize || cz >= MacroSize) continue;
                 ref Tile beside = ref b.At(cx, cz);
                 if (beside.Kind == TileKind.Floor && b.At(cx - fx, cz - fz).Kind == TileKind.Wall)
-                    beside.Chalk = ChalkBits.Make(Opposite37(door.Pier), 3);
+                    beside.Chalk = ChalkBits.Make(Opposite(door.Pier), 3);
             }
     }
 

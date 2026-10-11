@@ -1,0 +1,53 @@
+// A steel door off one of Level 2's tunnels, painted white, grey or cream. Most are locked. A few open, onto another level
+{
+	"code": "tunneldoorpaint",
+	"variantgroups": [
+		{
+			"code": "paint",
+			"states": [
+				"white",
+				"grey",
+				"cream"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/detail/tunneldoor-{paint}-{part}"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "tunneldoor"
+			}
+		}
+	]
+}

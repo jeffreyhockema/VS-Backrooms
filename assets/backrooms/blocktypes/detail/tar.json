@@ -10,8 +10,14 @@
 	"blockmaterial": "Soil",
 	"drawtype": "cube",
 	"textures": {
-		"all": {
+		"up": {
 			"base": "block/detail/tar"
+		},
+		"down": {
+			"base": "block/detail/tar"
+		},
+		"horizontals": {
+			"base": "block/detail/tar-side"
 		}
 	},
 	"lightAbsorption": 99,

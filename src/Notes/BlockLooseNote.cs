@@ -14,7 +14,7 @@ public class BlockLooseNote : Block
     {
         if (world.Side != EnumAppSide.Server) return true;
         string kind = Variant["kind"] ?? "door";
-        Item item = world.GetItem(new AssetLocation("backrooms", kind == "folded" ? "wanderernote-folded" : "wanderernote-" + kind));
+        Item item = world.GetItem(new AssetLocation("backrooms", NoteSystem.NoteItemCode(kind)));
         if (item == null) return false;
         var stack = new ItemStack(item);
         if (!byPlayer.InventoryManager.TryGiveItemstack(stack, true))

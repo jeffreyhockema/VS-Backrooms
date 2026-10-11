@@ -260,8 +260,10 @@ def lobby():
 
     vblock("l188-reception", "Reception Desk", [("kind", ["straight", "end"]), ("side", SIDES)], reception,
            boxes=lambda v: (0, 0, 0.15, 1, 0.94, 0.85),
-           data={"attributes": FURN, "lightHsv": [7, 2, 7], "drops": drops((PLANK, 2, 1), ("scrapwire", 0.5, 0.5))},
-           comment="Level 188: the lobby's reception desk, a light wood fascia with a backlit strip (light 7); the clerk's side is behind (end: with a return on its east side)",
+           data=dict({"attributes": FURN, "lightHsv": [7, 2, 7], "drops": drops((PLANK, 2, 1), ("scrapwire", 0.5, 0.5))},
+                     **({"behaviors": [{"name": "BackroomsL188GuestBook"}]} if reg("BackroomsL188GuestBook") else {})),
+           comment="Level 188: the lobby's reception desk, a light wood fascia with a backlit strip (light 7); the clerk's side is behind (end: with a return on its east side). "
+                   "The straight lengths have the guest book open on the counter: right-click reads it",
            names={"l188-reception-*": "Reception Desk"})
 
     def keyrack(v):
@@ -343,6 +345,15 @@ def courtyard():
            data={"attributes": {"l188structure": True}, "drops": [], "resistance": 6, "sounds": dict(METAL)},
            material="Metal", sounds=METAL, comment="Level 188: a grey downpipe with brackets on the north façade (rel 2-20, wall-hung in the courtyard cell)")
 
+    def downpipe_top(v):
+        # Its head under the parapet's drip (rel 21): the pipe up into a hopper that takes the roof's water
+        return hung([bx("Pipe", (6.5, 0, -4), (9.5, 10.5, -1), "downpipe"), bx("Hopper", (5, 10.5, -5.5), (11, 13.4, -1), "downpipe"),
+                     bx("Lip", (4.6, 12.8, -5.9), (11.4, 13.4, -1), "downpipe"), bx("Bracket", (6, 5, -4.4), (10, 6.2, 0), "bracket")])
+
+    vblock("l188-downpipetop", "Downpipe", [("side", SIDES)], downpipe_top, collide=False, sel=lambda v: (0.3, 0, 0.62, 0.7, 0.85, 1),
+           data={"attributes": {"l188structure": True}, "drops": [], "resistance": 6, "sounds": dict(METAL)},
+           material="Metal", sounds=METAL, comment="Level 188: the downpipe's hopper head under the parapet's drip (rel 21, wall-hung in the courtyard cell)")
+
     def drain(v):
         # the downpipe's shoe at the wall (north edge), its outlet over a grate in a dark puddle
         return [bx("PipeEnd", (6.5, 4, 12), (9.5, 16, 15), "downpipe"), bx("Shoe", (6.5, 2, 9.4), (9.5, 4.6, 15), "downpipe"),
@@ -363,12 +374,12 @@ def courtyard():
     LANG["block-l188-drain"] = "Drain"
 
     def bollard(v):
-        return (cyl("Body", 8, 8, 2, 0, 7, "bollard", k=0.6) + cyl("Band", 8, 8, 2.05, 7, 8.6, "bollardlight", glow=220, k=0.6)
-                + cyl("Cap", 8, 8, 2.1, 8.6, 10, "bollard", k=0.6))
+        return (cyl("Body", 8, 8, 2, 0, 6, "bollard", k=0.6) + cyl("Band", 8, 8, 2.05, 6, 9, "bollardlight", glow=220, k=0.6)
+                + cyl("Cap", 8, 8, 2.1, 9, 10, "bollard", k=0.6))
 
     vblock("l188-bollard", "Bollard Lamp", [], bollard, rot=None, box=(0.36, 0, 0.36, 0.64, 0.625, 0.64),
-           data={"attributes": {"l188structure": True}, "lightHsv": [8, 2, 7], "drops": [], "resistance": 6}, material="Metal", sounds=METAL,
-           comment="Level 188: a squat dark bollard with a dim light band (light 7), one at each of the deck's diagonals")
+           data={"attributes": {"l188structure": True}, "lightHsv": [8, 2, 10], "drops": [], "resistance": 6}, material="Metal", sounds=METAL,
+           comment="Level 188: a squat dark bollard with a dim light band (light 10), one at each of the deck's diagonals")
     LANG["block-l188-bollard"] = "Bollard Lamp"
 
     def bench(v):

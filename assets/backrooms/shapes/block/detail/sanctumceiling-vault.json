@@ -1,0 +1,850 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sanctumvault": "backrooms:block/detail/sanctumvault",
+		"sanctumwall": "backrooms:block/detail/sanctumwall"
+	},
+	"elements": [
+		{
+			"name": "Crown",
+			"from": [
+				0,
+				15,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch00",
+			"from": [
+				1,
+				13.4,
+				1
+			],
+			"to": [
+				15,
+				15,
+				4.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch01",
+			"from": [
+				1,
+				13.4,
+				11.5
+			],
+			"to": [
+				15,
+				15,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch02",
+			"from": [
+				1,
+				13.4,
+				4.5
+			],
+			"to": [
+				4.5,
+				15,
+				11.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						7.0
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch03",
+			"from": [
+				11.5,
+				13.4,
+				4.5
+			],
+			"to": [
+				15,
+				15,
+				11.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						7.0
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch10",
+			"from": [
+				4.5,
+				14.3,
+				4.5
+			],
+			"to": [
+				11.5,
+				15,
+				7
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6999999999999993
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6999999999999993
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch11",
+			"from": [
+				4.5,
+				14.3,
+				9
+			],
+			"to": [
+				11.5,
+				15,
+				11.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6999999999999993
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6999999999999993
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch12",
+			"from": [
+				4.5,
+				14.3,
+				7
+			],
+			"to": [
+				7,
+				15,
+				9
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6999999999999993
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Haunch13",
+			"from": [
+				9,
+				14.3,
+				7
+			],
+			"to": [
+				11.5,
+				15,
+				9
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"north": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"south": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6999999999999993
+					]
+				},
+				"east": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6999999999999993
+					]
+				},
+				"west": {
+					"texture": "#sanctumvault",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib0",
+			"from": [
+				0,
+				12,
+				0
+			],
+			"to": [
+				16,
+				16,
+				1
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"west": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib1",
+			"from": [
+				0,
+				12,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"west": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib2",
+			"from": [
+				0,
+				12,
+				1
+			],
+			"to": [
+				1,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				},
+				"west": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib3",
+			"from": [
+				15,
+				12,
+				1
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						14
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				},
+				"west": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						14,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Diag0",
+			"from": [
+				-3.313708498984761,
+				13,
+				7.4
+			],
+			"to": [
+				19.31370849898476,
+				14.4,
+				8.6
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1999999999999993
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000004
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Diag1",
+			"from": [
+				-3.313708498984761,
+				13,
+				7.4
+			],
+			"to": [
+				19.31370849898476,
+				14.4,
+				8.6
+			],
+			"faces": {
+				"down": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1999999999999993
+					]
+				},
+				"north": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000004
+					]
+				},
+				"south": {
+					"texture": "#sanctumwall",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4000000000000004
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13,
+				8
+			],
+			"rotationY": -45
+		}
+	]
+}

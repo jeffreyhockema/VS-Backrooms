@@ -9,9 +9,8 @@ revolving door, the attendant's chime and three of its wordless syllables. All o
 import os
 
 import numpy as np
-import soundfile as sf
-
 from gen_entity_sounds import RATE, band, place, seconds, vowel
+from oggutil import write_ogg
 from gen_3999_kit import ASSETS, SOUNDS
 
 TAU = 2 * np.pi
@@ -26,9 +25,7 @@ def write(folder, name, signal, peak, fade=True):
         signal[:n] *= np.linspace(0, 1, n)
         signal[-n:] *= np.linspace(1, 0, n)
     signal = peak * signal / max(1e-9, np.max(np.abs(signal)))
-    with sf.SoundFile(path, "w", samplerate=RATE, channels=1, format="OGG", subtype="VORBIS") as f:
-        for start in range(0, len(signal), RATE // 4):
-            f.write(signal[start:start + RATE // 4].astype(np.float32))
+    write_ogg(path, signal, RATE)
     SOUNDS.append(f"{folder}/{name}")
 
 

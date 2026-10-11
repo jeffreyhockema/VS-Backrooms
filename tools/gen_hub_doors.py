@@ -192,8 +192,9 @@ def carved_doors():
 
 
 def sigil_depths(n):
-    """The sigil over a door: a disc cut 1.5 deep into the face with a chamfered edge, the sigil standing 1 proud of
-    the floor; the border grooves of the carved sides run on into the disc's rim."""
+    """The sigil over a door: a disc cut 3 deep into the face with a stepped edge, the sigil standing 2.5 proud of
+    the floor (in the floor's shadow, so it reads from across the road under the orange haze); the border grooves of
+    the carved sides run on into the disc's rim."""
     grid = SIG.raster(n, 28)
 
     def fn(u, v):
@@ -201,11 +202,11 @@ def sigil_depths(n):
         if r > 7:
             return 1.0 if (1 <= v < 2 or 14 <= v < 15) else 0.0
         if r > 6.5:
-            return 0.75
+            return 1.5
         c, row = int((u - 1) * 2), int((v - 1) * 2)
         if 0 <= c < 28 and 0 <= row < 28 and grid[row][c] and r < 6.3:
             return 0.5
-        return 1.5
+        return 3.0
     return depth_grid(fn)
 
 
@@ -222,7 +223,7 @@ def sigilside_depths():
 
 
 def carve_tex(d):
-    return {0.0: "carved", 0.5: "carved-relief", 0.75: "carved-deep", 1.0: "carved-deep", 1.5: "carved-deep"}[d]
+    return {0.0: "carved", 0.5: "carved-relief", 0.75: "carved-deep", 1.0: "carved-deep", 1.5: "carved-deep", 3.0: "carved-recess"}[d]
 
 
 def sigils():

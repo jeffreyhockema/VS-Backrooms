@@ -3,9 +3,18 @@ long seed = args.Length > 0 ? long.Parse(args[0]) : 12345;
 int n = args.Length > 1 ? int.Parse(args[1]) : 14;
 // SPAWN=<cells> sets the spawn macro cell (half the map's size in cells; 16000 is a full-size world)
 int smx = int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int spawnCells) ? spawnCells : 16000, smz = smx;
-var layout = new WorldLayout(seed, smx, smz);
+// LAYOUT_VERSION=<n> builds the layout of a world made with that layout version (default: the current one)
+int layoutVersion = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int lvSet) ? lvSet : WorldLayout.CurrentVersion;
+var layout = new WorldLayout(seed, smx, smz, layoutVersion);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }
+// AT=<mx>,<mz> centres any mode's area on that cell (AT=L<level> on that level's first arrival, AT=S on a food court)
+if (Environment.GetEnvironmentVariable("AT") is string at && at.Length > 0)
+{
+  if (at == "S" && layout.FindSnackroomsArrival(99991UL) is { } s0) { m0x = WorldLayout.MacroOf(s0.X) - n / 2; m0z = WorldLayout.MacroOf(s0.Z) - n / 2; }
+  else if (at[0] == 'L' && layout.FindArrival(int.Parse(at[1..]), 99991UL) is { } a0) { m0x = WorldLayout.MacroOf(a0.X) - n / 2; m0z = WorldLayout.MacroOf(a0.Z) - n / 2; }
+  else if (at.Split(',') is { Length: 2 } xz) { m0x = int.Parse(xz[0]) - n / 2; m0z = int.Parse(xz[1]) - n / 2; }
+}
 if (args.Length > 3 && args[2] == "region") {
   // Centre the render in the middle of a level, straight out from spawn at a given angle (degrees)
   int want = int.Parse(args[3]); double ang = (args.Length > 4 ? double.Parse(args[4]) : 0) * Math.PI / 180;
@@ -32,6 +41,7 @@ if (args.Length > 2 && args[2] == "stats2") { Stats2.Run(layout, m0x, m0z, n); r
 if (args.Length > 2 && args[2] == "boxes") { Boxes.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "boiler") { Boiler.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "cubes") { Cubes.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 3 && args[2] == "stairs") { StairCheck.RunLevel(layout, int.Parse(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 4); return; }
 if (args.Length > 2 && args[2] == "stairs") { StairCheck.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "posts") { Posts.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "overview") { Overview.Run(layout, smx, smz, int.Parse(args[1]), "overview.bin", args.Length > 3 ? int.Parse(args[3]) : 1); return; }
@@ -46,6 +56,7 @@ if (args.Length > 6 && args[2] == "path") { PathCheck.Run(layout, n, int.Parse(a
 if (args.Length > 4 && args[2] == "l0") { for (int i = 3; i + 1 < args.Length; i += 2) Console.WriteLine(layout.DescribeLevel0(int.Parse(args[i]), int.Parse(args[i + 1]))); return; }
 if (args.Length > 4 && args[2] == "reach") { Reach.Run(layout, smx, smz, n, int.Parse(args[3]), double.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : -1); return; }
 if (args.Length > 2 && args[2] == "cavetest") { CaveTest.Run(); return; }
+if (args.Length > 2 && args[2] == "ore") { CaveTest.OreRun(); return; }
 if (args.Length > 2 && args[2] == "wander") { Wander.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "bands") { Bands.Run(layout, smx, smz, args); return; }
 if (args.Length > 2 && args[2] == "loot") { Loot.Run(layout, smx, smz, n, args.Length > 3 ? int.Parse(args[3]) : 3); return; }
@@ -53,6 +64,8 @@ if (args.Length > 2 && args[2] == "chalk") { ChalkStats.Run(layout, smx, smz, n)
 if (args.Length > 2 && args[2] == "dens") { DenStats.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "gates") { Gates.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "lorespots") { LoreSpots.Run(layout, smx, smz); return; }
+if (args.Length > 2 && args[2] == "l9houses") { L9Houses.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "archspots") { ArchSpots.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }

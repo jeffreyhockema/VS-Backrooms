@@ -91,11 +91,12 @@ public sealed partial class WorldLayout
         return Hashing.Unit(Hashing.Hash(seed, a * 7919 + b, c * 7919 + d, SaltL10Edge)) < 0.55;
     }
 
-    private bool IsFarmTree(int gx, int gz)
+    private bool IsFarmTree(int gx, int gz) => FarmRoadAt(gx, gz) < 0 && IsFarmTreeIn(gx, gz, FieldAt(gx, gz));
+
+    /// <summary><see cref="IsFarmTree"/> off the roads, given the block's <see cref="FieldAt"/>.</summary>
+    private bool IsFarmTreeIn(int gx, int gz, (int I, int J, int OtherI, int OtherJ, double EdgeGap) f)
     {
-        if (FarmRoadAt(gx, gz) >= 0) return false;
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL10Detail + 9));
-        var f = FieldAt(gx, gz);
         if (f.EdgeGap < 2.2) return r < 0.035 && IsHedgeEdge(f.I, f.J, f.OtherI, f.OtherJ);
         FarmField kind = FieldKind(f.I, f.J);
         // The odd oak standing alone out in a meadow or a paddock
@@ -127,9 +128,104 @@ public sealed partial class WorldLayout
         return Math.Abs(gx - sx) < hx && Math.Abs(gz - sz) < hz;
     }
 
+    // ---- Something to look at out in the crops (layout version 5) ----
+
+    /// <summary>
+    /// What stands out in a field of crops besides its scarecrow: a lone tool shed (one field in four, the lore's "small
+    /// wooden sheds and outbuildings"), a galvanised water trough with a hand pump by it, or a field gate fallen flat in a
+    /// trampled patch, nowhere near a fence. None where it would not fit: it must lie wholly inside the field, clear of
+    /// the hedges, the roads and the telegraph poles, and in Level 10.
+    /// </summary>
+    private enum FieldFocal : byte { None, Shed, Trough, FallenGate }
+
+    private (FieldFocal Kind, int Du, int Dv) FieldFocalOf(int i, int j)
+    {
+        ulong h = Hashing.Hash(seed, i, j, SaltL10Kind + 6);
+        double r = Hashing.Unit(h);
+        FieldFocal kind = r < 0.25 ? FieldFocal.Shed : r < 0.62 ? FieldFocal.Trough : FieldFocal.FallenGate;
+        // Somewhere between the scarecrow in the middle and the hedges
+        double angle = Hashing.Unit(Hashing.Mix(h)) * Math.PI * 2, distance = 22 + 18 * Hashing.Unit(Hashing.Mix(h + 1));
+        int du = (int)Math.Round(Math.Cos(angle) * distance), dv = (int)Math.Round(Math.Sin(angle) * distance);
+        var (sx, sz) = FieldSite(i, j);
+        int half = kind == FieldFocal.Shed ? 6 : 3, x0 = sx + du - half, z0 = sz + dv - half;
+        if (!AllLevel(10, x0, z0, 2 * half + 1)) return (FieldFocal.None, 0, 0);
+        for (int z = z0; z <= z0 + 2 * half; z++)
+            for (int x = x0; x <= x0 + 2 * half; x++)
+            {
+                if (FarmRoadOffsetX(x, z) < 7 || FarmRoadOffsetZ(x, z) < 7) return (FieldFocal.None, 0, 0);
+                var f = FieldAt(x, z);
+                if (f.I != i || f.J != j || f.EdgeGap < 4) return (FieldFocal.None, 0, 0);
+            }
+        return (kind, du, dv);
+    }
+
+    /// <summary>A tile of a crop field's <see cref="FieldFocalOf"/>, at (du, dv) from the site; false if it is not part of it.</summary>
+    private static bool FocalTile(ref Tile t, (FieldFocal Kind, int Du, int Dv) focal, ulong fh, int du, int dv, double r)
+    {
+        int u = du - focal.Du, v = dv - focal.Dv;
+        switch (focal.Kind)
+        {
+            case FieldFocal.Shed:
+            {
+                if (Math.Abs(u) > 5 || Math.Abs(v) > 5) return false;
+                // A grey board shed (walls at u 6-12, v 7-12 of its frame, the door to the south), in a patch of rough
+                // grass the plough went round
+                t.Floor = FloorKind.Grass;
+                if (u + 9 is >= 6 and <= 12 && v + 9 is >= 7 and <= 12) PlanBarnTile(ref t, u + 9, v + 9, r, big: false);
+                else if (r < 0.35) t.Variant = Props.TallGrass;
+                return true;
+            }
+            case FieldFocal.Trough:
+            {
+                if (Math.Abs(u) > 2 || Math.Abs(v) > 2) return false;
+                // A trough and its pump, the ground round them trodden to mud
+                t.Floor = Math.Abs(u) <= 1 && Math.Abs(v) <= 1 ? FloorKind.DirtRoad : FloorKind.Grass;
+                bool alongZ = ((fh >> 16) & 1) == 1; // (a trough facing north runs west to east, and the pump stands at its end)
+                if (u == 0 && v == 0) { t.Variant = Props.WaterTrough; t.Pier = alongZ ? ArchPier.East : ArchPier.North; }
+                else if (alongZ ? u == 0 && v == 1 : u == 1 && v == 0) t.Variant = Props.WaterPump;
+                else if (Math.Abs(u) == 2 || Math.Abs(v) == 2) { if (r < 0.4) t.Variant = Props.TallGrass; }
+                return true;
+            }
+            case FieldFocal.FallenGate:
+            {
+                if (Math.Abs(u) > 2 || Math.Abs(v) > 2) return false;
+                // A field gate off its hinges, lying flat in the crops, as if the fence it hung on had walked off
+                t.Floor = FloorKind.Grass;
+                if (u == 0 && v == 0) { t.Variant = Props.FallenGate; t.Pier = (ArchPier)((fh >> 20) % 4); }
+                else if (r < 0.3) t.Variant = Props.TallGrass;
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void BuildLevel10(Builder b, int mx, int mz)
     {
         var houses = new Dictionary<(int, int), Tile[]>();
+        var focals = new Dictionary<(int, int), (FieldFocal, int, int)>();
+        // Where the trees stand, over the cell and the ring of blocks round it: each tile asks about its own and its
+        // eight neighbours' (for the crowns), so working it out once per block saves most of the cell's time. The
+        // cell's own blocks keep the road and the field they were worked out from, for the tiles themselves.
+        const int span = MacroSize + 2;
+        var trees = new bool[span * span];
+        var roads = new int[MacroSize * MacroSize];
+        var fields = new (int I, int J, int OtherI, int OtherJ, double EdgeGap)[MacroSize * MacroSize];
+        for (int z = -1; z <= MacroSize; z++)
+            for (int x = -1; x <= MacroSize; x++)
+            {
+                int gx = mx * MacroSize + x, gz = mz * MacroSize + z;
+                if (x < 0 || z < 0 || x >= MacroSize || z >= MacroSize)
+                {
+                    trees[(z + 1) * span + x + 1] = IsFarmTree(gx, gz);
+                    continue;
+                }
+                int index = TileIndex(x, z), road = roads[index] = FarmRoadAt(gx, gz);
+                if (road >= 0) continue;
+                fields[index] = FieldAt(gx, gz);
+                trees[(z + 1) * span + x + 1] = IsFarmTreeIn(gx, gz, fields[index]);
+            }
+        bool TreeAt(int lx, int lz) => trees[(lz + 1) * span + lx + 1];
+
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
@@ -141,7 +237,7 @@ public sealed partial class WorldLayout
                 t.Floor = FloorKind.Grass;
 
                 // Farm roads, four wide: two strips of tire tracks with grass between, telegraph poles along one side
-                int road = FarmRoadAt(gx, gz);
+                int road = roads[TileIndex(lx, lz)];
                 if (road >= 0)
                 {
                     t.Floor = road is 1 or 2 ? FloorKind.Grass : FloorKind.DirtTracks;
@@ -154,8 +250,8 @@ public sealed partial class WorldLayout
                     continue;
                 }
 
-                var f = FieldAt(gx, gz);
-                if (IsFarmTree(gx, gz))
+                var f = fields[TileIndex(lx, lz)];
+                if (TreeAt(lx, lz))
                 {
                     t.Variant = Props.Tree;
                     continue;
@@ -171,7 +267,7 @@ public sealed partial class WorldLayout
                 }
 
                 var (sx, sz) = FieldSite(f.I, f.J);
-                FieldTile(ref t, FieldKind(f.I, f.J), f.I, f.J, gx - sx, gz - sz, gx, gz, r, houses);
+                FieldTile(ref t, FieldKind(f.I, f.J), f.I, f.J, gx - sx, gz - sz, gx, gz, r, houses, focals);
             }
         }
 
@@ -184,7 +280,7 @@ public sealed partial class WorldLayout
                 for (int dz = -1; dz <= 1; dz++)
                     for (int dx = -1; dx <= 1; dx++)
                     {
-                        if ((dx != 0 || dz != 0) && IsFarmTree(gx + dx, gz + dz)
+                        if ((dx != 0 || dz != 0) && TreeAt(lx + dx, lz + dz)
                             && (inside || LevelAt(MacroOf(gx + dx), MacroOf(gz + dz)) == 10))
                             b.At(lx, lz).Overhead = Overheads.Leaves;
                     }
@@ -196,7 +292,7 @@ public sealed partial class WorldLayout
 
     /// <summary>One tile of a field, at (du, dv) from its site.</summary>
     private void FieldTile(ref Tile t, FarmField kind, int i, int j, int du, int dv, int gx, int gz, double r,
-                           Dictionary<(int, int), Tile[]> houses)
+                           Dictionary<(int, int), Tile[]> houses, Dictionary<(int, int), (FieldFocal, int, int)> focals)
     {
         ulong fh = Hashing.Hash(seed, i, j, SaltL10Kind + 3);
         bool alongX = (fh & 1) == 0; // which way the furrows run
@@ -210,6 +306,12 @@ public sealed partial class WorldLayout
                 t.Floor = FloorKind.Field;
                 // A scarecrow near the middle, keeping watch over nothing
                 if (du == 3 && dv == -2 && (fh >> 8) % 3 != 0) { t.Variant = Props.Scarecrow; t.Pier = (ArchPier)((fh >> 12) % 4); break; }
+                // And something else to look at, further out
+                if (Version >= 5)
+                {
+                    if (!focals.TryGetValue((i, j), out var focal)) focals[(i, j)] = focal = FieldFocalOf(i, j);
+                    if (focal.Item1 != FieldFocal.None && FocalTile(ref t, focal, fh, du, dv, r)) break;
+                }
                 // Furrows every few rows, and the tramlines a tractor once left
                 int row = Hashing.Mod(across, 24);
                 if (row is 11 or 13 || Hashing.Mod(across, 7) == 3) break;

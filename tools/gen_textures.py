@@ -7,6 +7,7 @@ fissured drop-ceiling tiles and prismatic troffer lights.
 Run from the repo root:  python tools/gen_textures.py
 Re-running overwrites the PNGs, so once a texture has been hand-painted, remove it from this script.
 """
+import math
 import os
 import random
 
@@ -19,7 +20,46 @@ TEX = os.path.join(ROOT, "assets", "backrooms", "textures")
 S = 32  # block texture size
 
 
+# Block textures share one atlas, packed edge to edge with no padding, and mipmapped three levels down (8 pixels to a
+# texel at the coarsest). A texture whose width or height is not a multiple of 8 leaves the space after it in the
+# atlas off that grid, so whatever is packed there next (Level 0's carpet, say) has its coarse texels straddle two
+# textures, and far off its block edges show as a bright grid. Every vanilla block texture is a multiple of 8.
+ATLAS_GRID = 8
+
+
+def check_atlas_grid(img, rel):
+    """Refuses a block texture that would knock the atlas off its mipmap grid (see ATLAS_GRID)."""
+    if rel.replace("\\", "/").startswith("block/") and (img.width % ATLAS_GRID or img.height % ATLAS_GRID):
+        raise ValueError(f"{rel} is {img.width}x{img.height}: block textures must be multiples of {ATLAS_GRID} on both sides "
+                         "(scale it up with fit_atlas_grid, or pad it with pad_to_atlas_grid and map the face to the original part)")
+
+
+def fit_atlas_grid(img):
+    """The smallest whole-number nearest-neighbour enlargement (up to 4x) that puts both sides on the atlas grid,
+    so a picture mapped over its whole face looks exactly the same; None if there is none."""
+    for k in range(1, 5):
+        if (img.width * k) % ATLAS_GRID == 0 and (img.height * k) % ATLAS_GRID == 0:
+            return img if k == 1 else img.resize((img.width * k, img.height * k), Image.NEAREST)
+    return None
+
+
+def pad_to_atlas_grid(img):
+    """The picture padded on the right and bottom to the atlas grid, with its edge pixels repeated outwards (so its
+    own mipmaps blend into its own colours), and the face UV, in 16ths, that shows just the original picture."""
+    w, h = img.width, img.height
+    W, H = -(-w // ATLAS_GRID) * ATLAS_GRID, -(-h // ATLAS_GRID) * ATLAS_GRID
+    out = Image.new(img.mode, (W, H))
+    out.paste(img, (0, 0))
+    src, px = img.load(), out.load()
+    for y in range(H):
+        for x in range(W):
+            if x >= w or y >= h:
+                px[x, y] = src[min(x, w - 1), min(y, h - 1)]
+    return out, (0, 0, 16 * w / W, 16 * h / H)
+
+
 def save(img, rel):
+    check_atlas_grid(img, rel)
     path = os.path.join(TEX, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     img.save(path)
@@ -73,21 +113,21 @@ CHEVRON = hexrgb(0xB3AE7A)
 BEAD = hexrgb(0xE8E4BE)
 
 
-def pattern_chevron(seed):
+def pattern_chevron(seed, ground=GROUND, chevron=CHEVRON, bead=BEAD, grain=3):
     """Columns of beaded lines alternating with columns of stacked upward chevrons, offset by half a step."""
-    img = noise_fill(GROUND, 3, seed)
+    img = noise_fill(ground, grain, seed)
     px = img.load()
     for col in range(S // 8):
         x0 = col * 8
         offset = (col % 2) * 4
         for y in range(S):
             if (y // 2) % 2 == 0:
-                px[x0, y] = BEAD + (255,)  # beaded / dashed line
+                px[x0, y] = bead + (255,)  # beaded / dashed line
             row = (y + offset) % 8
             # "^" three rows tall, five pixels wide, centred in the column
             for dx, r in ((4, 0), (3, 1), (5, 1), (2, 2), (6, 2)):
                 if row == r:
-                    px[x0 + dx, y] = CHEVRON + (255,)
+                    px[x0 + dx, y] = chevron + (255,)
     return img
 
 
@@ -101,7 +141,8 @@ def pattern_dotted(seed):
 
 
 def pattern_cream(seed):
-    return noise_fill(hexrgb(0xE4DDC2), 4, seed)
+    """The pale walls of the arched areas: the same paper, bleached until the pattern is only just there."""
+    return pattern_chevron(seed, hexrgb(0xE9E1BA), hexrgb(0xD8CEA2), hexrgb(0xF1EBCF), grain=3)
 
 
 def pattern_manila(seed):
@@ -178,22 +219,25 @@ def add_outlet(img, name):
 
 
 def damp(img, seed):
-    """The same wall, older: a faint water stain run down from the ceiling, and a tide mark of yellowed paste."""
+    """The same wall, older: a faint water stain run down from the ceiling, and a tide mark of yellowed paste. Both
+    are more yellowing than darkening, so a damp block beside a plain one reads as the same paper aged, not a patch."""
     img = img.copy()
     rng = random.Random(seed)
     px = img.load()
     x0, w = rng.randrange(2, S - 10), rng.randint(5, 10)
     for y in range(S):
         for x in range(x0, min(S, x0 + w)):
-            t = 0.16 * (1 - abs((x - x0 - w / 2) / (w / 2))) * (1 - y / (S * 1.8))
+            t = 0.12 * (1 - abs((x - x0 - w / 2) / (w / 2))) * (1 - y / (S * 1.8))
             r, g, b, a = px[x, y]
-            px[x, y] = (clamp(r * (1 - t) + 118 * t), clamp(g * (1 - t) + 102 * t), clamp(b * (1 - t) + 58 * t), a)
-    blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (160, 148, 92), 0.22, seed + 1)
+            px[x, y] = (clamp(r * (1 - t) + 168 * t), clamp(g * (1 - t) + 150 * t), clamp(b * (1 - t) + 82 * t), a)
+    blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (200, 186, 112), 0.2, seed + 1)
     return img
 
 
-def wallpapers():
+def wallpapers(only=None):
     for i, (name, fn) in enumerate(PATTERNS.items()):
+        if only and name not in only:
+            continue
         parts = {"upper": fn(100 + i), "plain": fn(110 + i), "baseboard": add_baseboard(fn(120 + i)),
                  "rail": add_rail(fn(130 + i)), "outlet": add_outlet(fn(140 + i), name)}
         for part, img in parts.items():
@@ -532,9 +576,32 @@ def crate(top):
 
 # ---------------- Level 2: utility tunnels ----------------
 
+def tunnel_concrete(seed):
+    """Level 2's dark grey cast concrete: a quiet grain with a few broad stains and water streaks run down from the
+    ceiling, so it does not read as static up close. Streaks fade in and out along y but wrap, so walls stack."""
+    img = noise_fill(hexrgb(0x43484D), 4, seed)
+    rng = random.Random(seed + 1)
+    px = img.load()
+    for _ in range(18):  # pores and aggregate
+        x, y = rng.randrange(S), rng.randrange(S)
+        px[x, y] = shade(px[x, y], 0.86)
+    for (x, y) in ((6, 8), (25, 8), (6, 24), (25, 24)):  # form-tie holes from the casting
+        px[x, y] = shade(px[x, y], 0.6)
+        px[x + 1, y] = shade(px[x + 1, y], 0.75)
+    blotch(img, (24, 26), 11, (78, 86, 74), 0.4, seed + 2)  # grime
+    blotch(img, (rng.randrange(S), rng.randrange(S)), 9, (34, 32, 28), 0.5, seed + 3)  # damp stain
+    blotch(img, (rng.randrange(S), rng.randrange(S)), 6, (96, 98, 92), 0.3, seed + 4)  # efflorescence
+    for sx in (rng.randrange(2, 12), rng.randrange(18, 29)):  # water streaks, each showing over half the tile
+        phase = rng.random() * 6.283
+        for y in range(S):
+            k = max(0.0, math.sin(y * 6.283 / S + phase)) ** 2 * 0.2
+            for x, w in ((sx, 1.0), (sx + 1, 0.5)):
+                px[x, y] = shade(px[x, y], 1 - k * w)
+    return img
+
+
 def tunnel_wall(variant):
-    img = concrete_base(0x4F555B, 350 + len(variant))
-    blotch(img, (24, 26), 10, (110, 120, 108), 0.35, 12)  # grime
+    img = tunnel_concrete(350 + len(variant))
     d = ImageDraw.Draw(img)
     if variant == "pipes":
         for y, h, col in ((3, 5, (107, 62, 42)), (11, 7, (226, 225, 215)), (22, 4, (90, 70, 56))):
@@ -587,10 +654,11 @@ def pipe_tex(kind):
     down each band, falling to shadow at its bottom. Pipe models stretch one band over the pipe's height, so a
     square pipe reads as round."""
     import math
-    base = {"rust": 0xA5582E, "red": 0xA8302A, "lagging": 0xE2E1D7}[kind]
-    img = noise_fill(hexrgb(base), 10 if kind != "lagging" else 5, {"rust": 380, "red": 382, "lagging": 381}[kind])
+    base = {"rust": 0xA5582E, "red": 0xA8302A, "lagging": 0xE2E1D7, "tar": 0x2A2622}[kind]
+    noise = {"lagging": 5, "tar": 4}.get(kind, 10)
+    img = noise_fill(hexrgb(base), noise, {"rust": 380, "red": 382, "lagging": 381, "tar": 383}[kind])
     px = img.load()
-    rng = random.Random({"rust": 21, "red": 22, "lagging": 23}[kind])
+    rng = random.Random({"rust": 21, "red": 22, "lagging": 23, "tar": 24}[kind])
     for y in range(S):
         p = (y % 16 + 0.5) / 16
         light = 0.66 + 0.52 * math.exp(-((p - 0.3) / 0.2) ** 2) - 0.22 * max(0.0, (p - 0.6) / 0.4) ** 1.5
@@ -624,6 +692,107 @@ def pipe_tex(kind):
                 for k in range(rng.randint(3, 6)):
                     if y + k < S:
                         px[x, y + k] = shade(px[x, y + k], 0.72)
+        if kind == "tar":
+            # Level 3's pipes of black sludge: a wet sheen along the highlight, and the joint weeping tar
+            for y in range(S):
+                if y % 16 in (4, 5):
+                    for x in range(S):
+                        if rng.random() < 0.55:
+                            px[x, y] = (96, 92, 86, 255) if y % 16 == 4 else (70, 66, 62, 255)
+            for band in (0, 16):
+                for x in (12, 13, 18, 19, 20):
+                    for y in range(band + 6, band + 6 + rng.randint(3, 9)):
+                        px[x, y] = (14, 12, 10, 255) if y < band + 15 else px[x, y]
+    return img
+
+
+def smooth_noise(w, h, cell, seed):
+    """Value noise in 0..1, bilinear between random values on a grid of `cell` pixels, wrapping on both axes."""
+    rng = random.Random(seed)
+    gw, gh = max(1, w // cell), max(1, h // cell)
+    grid = [[rng.random() for _ in range(gw)] for _ in range(gh)]
+    out = [[0.0] * w for _ in range(h)]
+    for y in range(h):
+        fy = y / cell
+        y0, ty = int(fy) % gh, fy - int(fy)
+        y1 = (y0 + 1) % gh
+        ty = ty * ty * (3 - 2 * ty)
+        for x in range(w):
+            fx = x / cell
+            x0, tx = int(fx) % gw, fx - int(fx)
+            x1 = (x0 + 1) % gw
+            tx = tx * tx * (3 - 2 * tx)
+            a = grid[y0][x0] + (grid[y0][x1] - grid[y0][x0]) * tx
+            b = grid[y1][x0] + (grid[y1][x1] - grid[y1][x0]) * tx
+            out[y][x] = a + (b - a) * ty
+    return out
+
+
+def pipe_light(v):
+    """How bright a round pipe on a wall is at `v` (0 its top, 1 its underside, round its front), lit from above and
+    in front: a soft diffuse falloff, a narrow specular highlight a little above the middle, deep shadow underneath."""
+    theta = math.pi / 2 - v * math.pi  # +90 degrees at the top, -90 at the bottom
+    nx, ny = math.cos(theta), math.sin(theta)  # facing out of the wall, and up
+    lx, ly = 0.55, 0.83
+    diffuse = max(0.0, nx * lx + ny * ly)
+    hx, hy = 0.92, 0.39  # half way between the light and the eye
+    spec = max(0.0, nx * hx + ny * hy) ** 24
+    return 0.42 + 0.62 * diffuse, spec
+
+
+def wall_pipe_tex(kind):
+    """The skin of the round pipes bolted along Level 2's and Level 3's walls, 64 pixels square: along U the length of
+    the pipe (a block), down V once round it from its top to its underside, so the stepped boxes of the model each
+    take their own part of the shading and the pipe reads as round. Smooth mottling rather than per-pixel noise, so
+    it holds up at arm's length."""
+    W = 64
+    if kind == "rust":
+        paint, rust, dark = (150, 74, 38), (176, 96, 44), (86, 44, 26)
+    else:  # lagging: canvas-wrapped insulation, cream gone grubby
+        paint, rust, dark = (214, 208, 190), (196, 186, 160), (160, 138, 100)
+    mott = smooth_noise(W, W, 16, {"rust": 711, "lagging": 712}[kind])
+    fine = smooth_noise(W, W, 4, {"rust": 713, "lagging": 714}[kind])
+    blooms = smooth_noise(W, W, 8, {"rust": 715, "lagging": 716}[kind])
+    rng = random.Random({"rust": 717, "lagging": 718}[kind])
+    img = Image.new("RGBA", (W, W))
+    px = img.load()
+    for y in range(W):
+        light, spec = pipe_light((y + 0.5) / W)
+        for x in range(W):
+            m = mott[y][x] * 0.7 + fine[y][x] * 0.3
+            c = [paint[i] + (rust[i] - paint[i]) * max(0.0, min(1.0, (m - 0.45) * 2.2)) for i in range(3)]
+            if blooms[y][x] > 0.7:  # a darker crust of rust, or a grimy patch on the canvas
+                t = min(1.0, (blooms[y][x] - 0.7) * 4) * (0.45 + 0.55 * fine[y][x])
+                c = [c[i] + (dark[i] - c[i]) * t * 0.7 for i in range(3)]
+            gloss = 0.22 if kind == "rust" else 0.1
+            c = [clamp(c[i] * light + 255 * spec * gloss) for i in range(3)]
+            px[x, y] = tuple(c) + (255,)
+    if kind == "rust":
+        # Streaks of rust running down the underside from the seam, and a few pits
+        for _ in range(9):
+            x, y = rng.randrange(W), rng.randrange(W // 2, W - 6)
+            for k in range(rng.randint(4, 10)):
+                if y + k < W:
+                    px[x, y + k] = shade(px[x, y + k], 0.8)
+        for _ in range(14):
+            x, y = rng.randrange(W), rng.randrange(W)
+            px[x, y] = shade(px[x, y], 0.62)
+    else:
+        # The canvas is strapped every half block, and seamed along the top
+        for x0 in (12, 44):
+            for y in range(W):
+                for dx, f in ((0, 0.74), (1, 0.8), (2, 1.08)):
+                    px[x0 + dx, y] = shade(px[x0 + dx, y], f)
+        for x in range(W):
+            px[x, 9] = shade(px[x, 9], 0.86)
+    return img
+
+
+def wall_pipe_flange():
+    """A flanged joint and the clamps of the wall pipes: dark, rust-bloomed steel, its bolt heads picked out."""
+    img = noise_fill((70, 58, 50), 4, 719)
+    for (cx, cy, r, s) in ((8, 6, 6, 0.4), (24, 22, 7, 0.45), (20, 8, 4, 0.35)):
+        blotch(img, (cx, cy), r, (120, 66, 34), s, 720 + cx)
     return img
 
 
@@ -659,7 +828,7 @@ def props_textures():
     d.rectangle([18, 6, 26, 10], fill=(220, 214, 196, 255))
     save(front, "block/props/cabinet-front.png")
 
-    sign = concrete_base(0x4F555B, 408)
+    sign = tunnel_concrete(408)
     d = ImageDraw.Draw(sign)
     d.rectangle([6, 8, 25, 23], fill=(232, 192, 40, 255))
     for k in range(-16, 32, 6):  # hazard stripes
@@ -702,6 +871,41 @@ def parking_textures():
     d = ImageDraw.Draw(glass)
     d.line([4, 2, 14, 12], fill=(70, 84, 92, 255), width=2)  # reflection
     save(glass, "block/level1/car-glass.png")
+    car_wreck_textures()
+
+
+def car_wreck_textures():
+    """Level 1's wrecks: the paint faded and grimed and rusting through at the edges and in blooms, the black one
+    burnt out to grey ash and rust; the windscreen crazed round a hole; the seats' cracked vinyl."""
+    for name, colour in (("redwreck", 0x7A2A24), ("bluewreck", 0x3A4E6C), ("whitewreck", 0xBDB8A8), ("burnt", 0x2E2A26)):
+        img = noise_fill(hexrgb(colour), 7, 450 + len(name))
+        rust = (122, 64, 34) if name != "burnt" else (110, 58, 30)
+        rng = random.Random(451 + len(name))
+        for k in range(7 if name != "burnt" else 11):
+            blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(3, 7), rust, rng.uniform(0.45, 0.8), 452 + k)
+        blotch(img, (rng.randrange(S), S - 3), 9, (96, 88, 74), 0.45, 470)  # road dirt up the sills
+        if name == "burnt":
+            for k in range(4):  # grey ash where the paint blistered off
+                blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (92, 88, 82), 0.5, 480 + k)
+        save(img, f"block/level1/car-{name}.png")
+    glass = noise_fill(hexrgb(0x1C2428), 4, 441)
+    d = ImageDraw.Draw(glass)
+    cx, cy = 20, 12
+    rng = random.Random(442)
+    for k in range(9):  # cracks running out from the impact
+        a = k * math.tau / 9 + rng.uniform(-0.2, 0.2)
+        r = rng.randint(9, 22)
+        d.line([cx, cy, cx + r * math.cos(a), cy + r * math.sin(a)], fill=(150, 160, 164, 255), width=1)
+    for r in (3, 6):
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 255))
+    d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 255))  # the hole
+    save(glass, "block/level1/car-glass-broken.png")
+    seat = noise_fill(hexrgb(0x4A3426), 6, 443)
+    d = ImageDraw.Draw(seat)
+    for y in range(4, S, 8):  # piping
+        d.line([0, y, S - 1, y], fill=(58, 42, 30, 255))
+    d.line([9, 10, 17, 19], fill=(176, 160, 120, 255), width=2)  # the foam showing through a split
+    save(seat, "block/level1/car-seat.png")
 
 
 def text_img(img, text, box, color, size):
@@ -716,6 +920,30 @@ def text_img(img, text, box, color, size):
     d.text(((big.width - w) / 2, (big.height - h) / 2 - scale), text, font=font, fill=color)
     small = big.resize((x1 - x0, y1 - y0), Image.LANCZOS)
     img.alpha_composite(small, (x0, y0))
+
+
+def bars_steel():
+    """Level 3's bars: cold blue-grey steel, darker at the edges of a bar and with a bright specular stripe down it, so
+    they read as round metal and not as pale wooden pickets in the amber haze. The left half runs across a vertical bar
+    (the bars map it over their width), the right half the same turned for the horizontal rails; flecks of rust."""
+    img = Image.new("RGBA", (S, S))
+    px = img.load()
+    base = (84, 90, 98)
+    grain = smooth_noise(S, S, 4, 511)
+    rng = random.Random(512)
+    for y in range(S):
+        for x in range(S):
+            t = (x % 16 + 0.5) / 16 if x < 16 else (y + 0.5) / S  # across the bar, or across the rail
+            a = (t - 0.5) * math.pi
+            f = 0.55 + 0.5 * math.cos(a) ** 1.5 + 0.75 * math.exp(-((t - 0.36) / 0.07) ** 2)
+            g = 0.92 + 0.16 * grain[y][x]
+            px[x, y] = tuple(clamp(base[i] * f * g) for i in range(3)) + (255,)
+    for _ in range(10):  # rust flecks
+        x, y = rng.randrange(S), rng.randrange(S)
+        for k in range(rng.randint(1, 3)):
+            if y + k < S:
+                px[x, y + k] = (92, 58, 36, 255)
+    return img
 
 
 def level3_textures():
@@ -781,10 +1009,7 @@ def level3_textures():
         d.line([i, 0, i, S - 1], fill=(120, 124, 128, 255))
         d.line([0, i, S - 1, i], fill=(120, 124, 128, 255))
     save(img, "block/level3/fan.png")
-    img = noise_fill(hexrgb(0x98948F), 6, 511)
-    blotch(img, (8, 24), 7, (44, 33, 21), 0.7, 512)
-    blotch(img, (26, 6), 5, (44, 33, 21), 0.6, 513)
-    save(img, "block/level3/bars.png")
+    save(bars_steel(), "block/level3/bars.png")
     img = noise_fill(hexrgb(0x2E2C2A), 6, 514)
     d = ImageDraw.Draw(img)
     d.ellipse([2, 2, 29, 29], outline=(70, 66, 60, 255), width=2)
@@ -838,7 +1063,13 @@ def level4_textures():
         for x in range(4, S - 3, 3):
             d.line([x, 3, x, S - 4], fill=shade(lens, 0.93))
         save(img, f"block/level4/officelight-{state}.png")
-    save(noise_fill(hexrgb(0x575A62), 6, 525), "block/level4/partition.png")
+    img = noise_fill(hexrgb(0x8A8C86), 3, 525)  # warm grey cubicle fabric with a faint basket weave
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            f = 1.035 if ((x // 2) + (y // 2)) % 2 else 0.97
+            px[x, y] = shade(px[x, y], f * (0.97 if y % 2 else 1.0))
+    save(img, "block/level4/partition.png")
     save(noise_fill(hexrgb(0xB49C78), 5, 526), "block/level4/laminate.png")
     save(noise_fill(hexrgb(0xC9C2AE), 4, 527), "block/level4/crt.png")
     img = noise_fill(hexrgb(0x16241A), 4, 528)
@@ -870,6 +1101,55 @@ def level4_textures():
         save(img, f"block/level4/elevatordoor-{part}.png")
 
 
+def damask_panel():
+    """The hotel's red damask panel in a gilt frame on cream, at 64 px: a diamond lattice with a fleur in every cell,
+    woven in two reds about 10% apart (drawn 4x large and scaled down, so the curves come out smooth)."""
+    N, k = 64, 4
+    ground, motif = (98, 12, 8), (116, 22, 14)
+    big = Image.new("RGBA", (N * k, N * k), ground + (255,))
+    d = ImageDraw.Draw(big)
+    x0, y0, x1, y1 = 11, 7, 52, 56  # the red field inside the frame
+    cw, ch = 20, 26  # one diamond of the lattice
+
+    def fleur(cx, cy, w, h):
+        cx, cy, w, h = cx * k, cy * k, w * k, h * k
+        d.polygon([(cx, cy - h * 0.5), (cx + w * 0.17, cy - h * 0.18), (cx + w * 0.1, cy + h * 0.08),
+                   (cx, cy + h * 0.14), (cx - w * 0.1, cy + h * 0.08), (cx - w * 0.17, cy - h * 0.18)], fill=motif)
+        for sx in (1, -1):  # the two curling side leaves
+            d.polygon([(cx + sx * w * 0.08, cy + h * 0.06), (cx + sx * w * 0.3, cy - h * 0.12), (cx + sx * w * 0.5, cy - h * 0.34),
+                       (cx + sx * w * 0.52, cy - h * 0.12), (cx + sx * w * 0.4, cy + h * 0.06), (cx + sx * w * 0.2, cy + h * 0.14)], fill=motif)
+            d.ellipse([cx + sx * w * 0.42 - w * 0.07, cy - h * 0.4, cx + sx * w * 0.42 + w * 0.07, cy - h * 0.3], fill=motif)
+        d.rectangle([cx - w * 0.24, cy + h * 0.14, cx + w * 0.24, cy + h * 0.22], fill=motif)  # the band
+        d.polygon([(cx - w * 0.14, cy + h * 0.22), (cx + w * 0.14, cy + h * 0.22), (cx, cy + h * 0.46)], fill=motif)  # the foot
+
+    ox, oy = (x0 + x1) / 2, (y0 + y1) / 2
+    for i in range(-3, 4):
+        for j in range(-4, 5):
+            fleur(ox + i * cw + (cw / 2 if j % 2 else 0), oy + j * ch / 2, cw * 0.56, ch * 0.6)
+    for i in range(-6, 7):  # the lattice: lines through the diamonds' side corners
+        px0, py0 = ox + cw / 2 + i * cw, oy
+        for sgn in (1, -1):
+            d.line([((px0 - 4 * cw) * k, (py0 - sgn * 4 * ch) * k), ((px0 + 4 * cw) * k, (py0 + sgn * 4 * ch) * k)], fill=motif, width=k)
+    field = big.resize((N, N), Image.LANCZOS)
+
+    img = noise_fill(hexrgb(0xD9C3A0), 3, 541, size=N)
+    img.paste(field.crop((x0, y0, x1 + 1, y1 + 1)), (x0, y0))
+    rng = random.Random(541)
+    px = img.load()
+    for y in range(y0, y1 + 1):  # a little weave noise
+        for x in range(x0, x1 + 1):
+            px[x, y] = shade(px[x, y], 1 + rng.uniform(-0.04, 0.04))
+    d = ImageDraw.Draw(img)
+    gilt, light, dark = (196, 160, 72, 255), (232, 204, 120, 255), (124, 92, 36, 255)
+    d.rectangle([x0 - 4, y0 - 4, x1 + 4, y1 + 4], outline=gilt, width=4)
+    d.line([x0 - 4, y0 - 4, x1 + 4, y0 - 4], fill=light)  # bevel: lit from above
+    d.line([x0 - 4, y0 - 4, x0 - 4, y1 + 4], fill=light)
+    d.line([x0 - 4, y1 + 4, x1 + 4, y1 + 4], fill=dark)
+    d.line([x1 + 4, y0 - 4, x1 + 4, y1 + 4], fill=dark)
+    d.rectangle([x0 - 1, y0 - 1, x1 + 1, y1 + 1], outline=dark)  # the inner sight edge
+    return img
+
+
 def level5_textures():
     # Hotel walls: mahogany wainscot, red damask panel in a gilt frame on cream, cream frieze with a cornice
     img = noise_fill(hexrgb(0x452518), 6, 540)
@@ -877,13 +1157,7 @@ def level5_textures():
     d.rectangle([3, 4, 28, 27], outline=(115, 74, 48, 255), width=2)
     d.line([0, 1, S - 1, 1], fill=(140, 100, 60, 255))
     save(img, "block/level5/hotelwall-wainscot.png")
-    img = noise_fill(hexrgb(0xD9C3A0), 4, 541)
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 2, 27, 29], fill=(94, 6, 4, 255), outline=(196, 160, 72, 255), width=2)
-    for y in range(6, 28, 6):  # damask motif
-        for x in range(8, 26, 6):
-            d.ellipse([x - 1, y - 1, x + 1, y + 1], fill=(130, 30, 16, 255))
-    save(img, "block/level5/hotelwall-panel.png")
+    save(damask_panel(), "block/level5/hotelwall-panel.png")
     img = noise_fill(hexrgb(0xD9C3A0), 4, 542)
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, 5], fill=(232, 214, 180, 255))
@@ -920,19 +1194,27 @@ def level5_textures():
     blotch(img, (16, 28), 12, (60, 44, 26), 0.5, 552)
     save(img, "block/level5/plaster.png")
 
+    # The doors are drawn at 64 px (the wood and mouldings at 32 px, doubled) so the room number on its brass plate
+    # can be read from across the corridor
     img = noise_fill(hexrgb(0x452518), 5, 553)
     d = ImageDraw.Draw(img)
     d.rectangle([4, 3, 27, 28], outline=(115, 74, 48, 255), width=2)
     d.rectangle([24, 10, 27, 13], fill=(196, 160, 72, 255))  # knob
-    save(img, "block/level5/hoteldoor-lower.png")
+    save(img.resize((2 * S, 2 * S), Image.NEAREST), "block/level5/hoteldoor-lower.png")
     # Consecutive numbers: odd doors down one side of a corridor, even down the other, counting up and then,
     # every few doors, starting again
-    for i, number in enumerate(("201", "202", "203", "204", "205", "206", "207", "208")):
+    # Then (layout 5) a blank plate for the Beverly Room's doors, which are no guest rooms', and the odd 666
+    for i, number in enumerate(("201", "202", "203", "204", "205", "206", "207", "208", "", "666")):
         img = noise_fill(hexrgb(0x452518), 5, 554)
         d = ImageDraw.Draw(img)
         d.rectangle([4, 3, 27, 31], outline=(115, 74, 48, 255), width=2)
-        d.rectangle([9, 8, 22, 15], fill=(200, 164, 80, 255))
-        text_img(img, number, (9, 8, 23, 16), (60, 36, 10, 255), 7)
+        img = img.resize((2 * S, 2 * S), Image.NEAREST)
+        d = ImageDraw.Draw(img)
+        d.rectangle([17, 13, 46, 30], fill=(206, 170, 84, 255), outline=(120, 86, 32, 255))  # brass plate
+        d.line([18, 14, 45, 14], fill=(236, 210, 140, 255))
+        d.point([(19, 16), (44, 16), (19, 27), (44, 27)], fill=(120, 86, 32, 255))  # screws
+        if number:
+            text_img(img, number, (17, 14, 47, 31), (40, 22, 6, 255), 13)
         save(img, f"block/level5/hoteldoor-upper{i}.png")
     for part in ("lower", "upper"):
         img = Image.new("RGBA", (S, S), (40, 24, 14, 255))
@@ -1000,6 +1282,10 @@ def level_textures():
     save(pipe_tex("rust"), "block/level2/pipe-rust.png")
     save(pipe_tex("lagging"), "block/level2/pipe-lagging.png")
     save(pipe_tex("red"), "block/level2/pipe-red.png")
+    save(pipe_tex("tar"), "block/level3/pipe-tar.png")
+    save(wall_pipe_tex("rust"), "block/level2/wallpipe-rust.png")
+    save(wall_pipe_tex("lagging"), "block/level2/wallpipe-lagging.png")
+    save(wall_pipe_flange(), "block/level2/wallpipe-flange.png")
     parking_textures()
     save(drum(1), "block/level2/oildrum-top.png")
     save(drum(0), "block/level2/oildrum-side.png")

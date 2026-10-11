@@ -6,8 +6,8 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 8's noise, worked out once for a whole column of blocks rather than once per block. The cave and ore noises
 /// are smooth value noise: between two lattice layers a column's value only interpolates, so the few lattice layers
-/// a column crosses are hashed once each and every block in the column is answered from them. A chunk's worth of
-/// columns is kept, since a block asks about its neighbours above, below and beside it.
+/// a column crosses are hashed once each and every block in the column is answered from them. The columns lately asked
+/// about are kept (<see cref="CaveColumns"/>), since a block asks about its neighbours above, below and beside it.
 /// </summary>
 internal sealed class CaveColumn
 {
@@ -52,15 +52,25 @@ internal sealed class CaveColumn
 
     private readonly int floorY;
     private readonly Noise chamber, detail, tube, ore;
+    /// <summary>The ore veins' sheets (from layout version 5; null before), and what a block's own roll needs.</summary>
+    private readonly Noise vein;
+    private readonly ulong seed, saltOre;
+    private readonly int gx, gz;
 
     /// <summary>How far the strata are shifted here (the rock layers undulate).</summary>
     public readonly int StrataShift;
     /// <summary>Whether a flooded pocket may lie here, whether tar pools here, whether a coal seam runs up this column.</summary>
     public readonly bool Pool, Tar, CoalSeam;
 
-    public CaveColumn(ulong seed, int gx, int gz, int floorY, int yMin, int yMax, Func<double, double, ulong, double> noise2, ulong saltCave, ulong saltTube, ulong saltStrata, ulong saltOre, ulong saltPool)
+    public CaveColumn(ulong seed, int gx, int gz, int floorY, int yMin, int yMax, Func<double, double, ulong, double> noise2, ulong saltCave, ulong saltTube, ulong saltStrata, ulong saltOre, ulong saltPool,
+        bool veins = false)
     {
         this.floorY = floorY;
+        this.seed = seed;
+        this.saltOre = saltOre;
+        this.gx = gx;
+        this.gz = gz;
+        if (veins) vein = new Noise(seed, gx, gz, 18, 5, 18, saltOre + 2, yMin - 1, yMax + 1);
         chamber = new Noise(seed, gx, gz, 26, 11, 26, saltCave, yMin - 1, yMax + 1);
         detail = new Noise(seed, gx, gz, 10, 6, 10, saltCave + 1, yMin - 1, yMax + 1);
         tube = new Noise(seed, gx, gz, 38, 14, 38, saltTube, yMin - 1, yMax + 1);
@@ -82,12 +92,37 @@ internal sealed class CaveColumn
     }
 
     public double Ore(int y) => ore.At(y);
+
+    /// <summary>
+    /// Whether ore is in the rock at a height, and its grade (0 poor to 2 rich), or -1. Up to layout version 4, wherever
+    /// the ore noise is over 0.5: bodies of it that covered whole walls. From version 5 (with <c>veins</c>), as veins
+    /// and pockets: thin sheets winding through the rock along the bedding (where the ore noise is not low), and small
+    /// speckled pockets where it is highest; fewer blocks, but richer, so a level holds about as much metal as before.
+    /// </summary>
+    public int OreGrade(int y)
+    {
+        double n = ore.At(y);
+        if (vein == null) return n > 0.5 ? (n > 0.75 ? 2 : n > 0.62 ? 1 : 0) : -1;
+        double v = Math.Abs(vein.At(y));
+        bool inVein = v < VeinWidth && n > -0.1;
+        if (!inVein && (n < 0.62 || Hashing.Unit(Hashing.Hash(seed, gx, gz, saltOre + 3 + (ulong)(y & 1023))) > 0.4)) return -1;
+        // Richest in the heart of a vein and where the ore noise is high
+        return n > 0.45 || inVein && v < VeinWidth * 0.5 && n > 0.15 ? 2 : n > 0.1 ? 1 : 0;
+    }
+
+    /// <summary>How close to its zero the vein noise must be for ore (half a vein's thickness, in noise).</summary>
+    private const double VeinWidth = 0.053;
 }
 
-/// <summary>The columns of the chunk being generated and its margin, by position.</summary>
+/// <summary>
+/// The columns lately asked about, by position: those of the chunk being generated and of the eight round it (which
+/// its lighting looks at), with a block's margin. When full it is emptied and starts again. Safe to use from several
+/// threads.
+/// </summary>
 internal sealed class CaveColumns
 {
-    private const int Capacity = 6000;
+    /// <summary>Three cells by three and their margin (102 by 102 columns), so lighting a chunk never empties it midway.</summary>
+    private const int Capacity = 12000;
     private readonly Dictionary<long, CaveColumn> columns = new();
     private readonly Func<int, int, CaveColumn> build;
     // The column asked about last: a block asks about its own column several times over (one reference, so a

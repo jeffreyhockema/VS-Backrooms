@@ -1,4 +1,4 @@
-// Level Fun: a promenade wall's lowest block: a band of four-colour checks and white tile skirting on its north face
+// Level Fun: a promenade wall's lowest block: a band of four-colour checks and white tile skirting on each face its side names
 {
 	"code": "fun-promwall",
 	"variantgroups": [
@@ -13,8 +13,19 @@
 			"states": [
 				"north",
 				"east",
+				"ne",
 				"south",
-				"west"
+				"ns",
+				"es",
+				"nes",
+				"west",
+				"nw",
+				"ew",
+				"new",
+				"sw",
+				"nsw",
+				"esw",
+				"nesw"
 			]
 		}
 	],
@@ -37,13 +48,57 @@
 			"base": "block/fun/fun-promwall-band",
 			"rotateY": 270
 		},
+		"fun-promwall-band-ne": {
+			"base": "block/fun/fun-promwall-band-ne",
+			"rotateY": 0
+		},
 		"fun-promwall-band-south": {
 			"base": "block/fun/fun-promwall-band",
 			"rotateY": 180
 		},
+		"fun-promwall-band-ns": {
+			"base": "block/fun/fun-promwall-band-ns",
+			"rotateY": 0
+		},
+		"fun-promwall-band-es": {
+			"base": "block/fun/fun-promwall-band-ne",
+			"rotateY": 270
+		},
+		"fun-promwall-band-nes": {
+			"base": "block/fun/fun-promwall-band-nes",
+			"rotateY": 0
+		},
 		"fun-promwall-band-west": {
 			"base": "block/fun/fun-promwall-band",
 			"rotateY": 90
+		},
+		"fun-promwall-band-nw": {
+			"base": "block/fun/fun-promwall-band-ne",
+			"rotateY": 90
+		},
+		"fun-promwall-band-ew": {
+			"base": "block/fun/fun-promwall-band-ns",
+			"rotateY": 270
+		},
+		"fun-promwall-band-new": {
+			"base": "block/fun/fun-promwall-band-nes",
+			"rotateY": 90
+		},
+		"fun-promwall-band-sw": {
+			"base": "block/fun/fun-promwall-band-ne",
+			"rotateY": 180
+		},
+		"fun-promwall-band-nsw": {
+			"base": "block/fun/fun-promwall-band-nes",
+			"rotateY": 180
+		},
+		"fun-promwall-band-esw": {
+			"base": "block/fun/fun-promwall-band-nes",
+			"rotateY": 270
+		},
+		"fun-promwall-band-nesw": {
+			"base": "block/fun/fun-promwall-band-nesw",
+			"rotateY": 0
 		}
 	},
 	"sidesolid": {

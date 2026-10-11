@@ -32,7 +32,7 @@ public class SalvageSystem : ModSystem
         "consoletable", "hotelbookshelf", "curiocabinet", "luggagecart", "servicetrolley", "writingdesk", "hotelchair",
         "floorlamp", "suitcase", "coffeetable", "ashtraystand", "diningtable", "coalpile",
         // Levels 6 to 10: what can be raided, salvaged, dug or wiped away
-        "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer",
+        "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer", "vendingpile", "glowcapred", "glowcapmixed",
         "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock",
         "tv", "toilet", "dresser", "mailbox", "seedsacks", "toolshelf", "pantryshelf", "kitchencabinet",
         "feedtrough", "toolrack", "nailbarrel", "wormmass", "farmland",
@@ -41,7 +41,7 @@ public class SalvageSystem : ModSystem
         // Level 11: what the city leaves lying about
         "newsbox", "parkingmeter", "phonebooth", "clothesrack", "shoppingcart", "pew", "dumpster", "trashbags", "postbox",
         // Lore details
-        "trolley", "machineparts", "trafficsign",
+        "trolley", "machineparts", "trafficsign", "tramrails", "deadtram", "tramwagon", "candlestubs",
         // The survival loop: what is left of a hive
         "mothhive",
         // Level 37: what the pool leaves on its rims; Level 94: the 1950s, and what heaps up on the hills

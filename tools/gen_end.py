@@ -155,6 +155,11 @@ def save(img, name):
     T.save(img, f"block/end/{name}.png")
 
 
+# The face UVs of the two pictures padded out to the atlas grid (see gen_textures.ATLAS_GRID), set when they are drawn
+INFOSIGN_UV = [0, 0, 16, 16]
+STAFFPLATE_UV = [0, 0, 16, 16]
+
+
 def save_item(img, name):
     T.save(img, f"item/end/{name}.png")
 
@@ -252,7 +257,7 @@ def tiled_draw(size, draw_fn):
 CARPET, LOOP, DUST = 0x646B5F, 0x5A6155, 0x8C9086
 MAPLE, MAPLE_L, MAPLE_D, GROOVE = 0xCD9A55, 0xDDB06C, 0xA9763A, 0x7A5428
 WALL_LO, SCUFF, GHOST, BAND, BAND_E, WALL_UP, COVE = 0xEEEBE0, 0xD8D3C4, 0xF6F4EC, 0xDDB03A, 0xB88E22, 0xEBD69C, 0x45413B
-SAGE, SLATE, CEIL, GRID, LENS = 0x9AAE86, 0x8B9AB1, 0xE8E5DC, 0xC2BDB0, 0xF5F7F1
+SAGE, SLATE, CEIL, GRID, LENS = 0x9AAE86, 0x8B9AB1, 0xE8E5DC, 0xC2BDB0, 0xFBFCF8
 BRONZE, BRONZE_H = 0x463B2C, 0x75664C
 P_YEL, P_PINK, P_GREEN = 0xF2E43C, 0xF09CC2, 0xA6DE78
 CRT, CRT_S, CRT_G, KICK = 0xCFC6AE, 0xA99F86, 0x1C2220, 0x2A2622
@@ -465,7 +470,8 @@ def textures():
     save(noisy(0xD8D6CE, 2, "tbar"), "tbar")
 
     # ---- Troffers: white frame, prismatic lens with a fine diamond pattern; a dead one
-    for state, lens, prism in (("on", LENS, 0xE4E8E2), ("off", 0xB8BAB2, 0xAAACA4)):
+    # (The lit lens is near white with a faint prism, inside a 1 px white line, so it reads as light under the haze)
+    for state, lens, prism in (("on", LENS, 0xF0F2EE), ("off", 0xB8BAB2, 0xAAACA4)):
         img = Image.new("RGBA", (S, S), H(0xF2F2EE))
         px = img.load()
         for y in range(3, S - 3):
@@ -473,7 +479,9 @@ def textures():
                 px[x, y] = H(prism) if (x + y) % 4 == 0 or (x - y) % 4 == 0 else H(lens)
         d = ImageDraw.Draw(img)
         d.rectangle([0, 0, S - 1, S - 1], outline=H(0xD8D8D2))
-        d.rectangle([3, 15, S - 4, 16], fill=H(0xE6E6E0))
+        if state == "on":
+            d.rectangle([2, 2, S - 3, S - 3], outline=H(0xFFFFFF))
+        d.rectangle([3, 15, S - 4, 16], fill=H(0xE6E6E0 if state == "off" else 0xF6F7F2))
         save(img, f"troffer-{state}")
 
     # ---- Soffit: yellow-cream face with the band along its foot; white underside
@@ -736,18 +744,21 @@ def signs():
                 for x in range(48):
                     if mp[x, y][3]:
                         px[x, y] = (88, 30, 26, 255)
-        save(img, f"exitface-{state}")
+        save(T.fit_atlas_grid(img), f"exitface-{state}")
     save(noisy(0xFF3A28, 8, "neonred"), "neonred")
     save(noisy(0x5A1E1A, 4, "neondead"), "neondead")
     # INFORMATION: white on navy
     img = noisy(0x1E2A5A, 2, "infosign", 70, 25)
     centred(img, "INFORMATION", 9, (240, 240, 236, 255), F5, 1, gap=1)
     ImageDraw.Draw(img).rectangle([0, 0, 69, 24], outline=(200, 200, 196, 255))
+    # (70 x 25 has no whole-number enlargement on the atlas grid: padded, and the sign's faces show only the picture)
+    img, INFOSIGN_UV[:] = T.pad_to_atlas_grid(img)
     save(img, "infosign")
     # EMPLOYEES ONLY plate
     img = noisy(0xB9BDC0, 2, "staffplate", 60, 18)
     centred(img, "EMPLOYEES", 1, (30, 30, 30, 255), F5, 1, gap=1)
     centred(img, "ONLY", 10, (30, 30, 30, 255), F5, 1, gap=1)
+    img, STAFFPLATE_UV[:] = T.pad_to_atlas_grid(img)
     save(img, "staffplate")
     # Vent: off-white sheet metal, and the dark behind
     save(noisy(0xD6D4CC, 2, "vent"), "vent")
@@ -862,13 +873,13 @@ def posters():
     for k, line in enumerate(("ALL", "FIXTURES", "FURNITURE", "& EQUIPMENT")):
         centred(img, line, 22 + k * 6, (20, 20, 20, 255), F3, 1, gap=1)
     d.rectangle([0, 0, 35, 47], outline=(200, 200, 194, 255))
-    save(img, "poster-notice")
+    save(T.fit_atlas_grid(img), "poster-notice")
     # The bookstore's door poster: THE END IS NEAR
     img = noisy(P_YEL, 3, "poster-near", 36, 44)
     centred(img, "THE END", 6, (16, 16, 16, 255), F5, 1, bold=True, gap=1)
     centred(img, "IS", 17, (16, 16, 16, 255), F5, 1, bold=True, gap=1)
     centred(img, "NEAR", 28, (16, 16, 16, 255), F5, 1, bold=True, gap=1)
-    save(img, "poster-near")
+    save(T.fit_atlas_grid(img), "poster-near")
     # Window posters: ALL FIXTURES FOR SALE (yellow), CLOSING (pink)
     img = noisy(P_YEL, 3, "poster-fixtures", 40, 44)
     centred(img, "ALL", 3, (16, 16, 16, 255), F5, 1, bold=True, gap=1)
@@ -876,12 +887,12 @@ def posters():
     centred(img, "FURNITURE", 20, (16, 16, 16, 255), F3, 1, gap=1)
     centred(img, "& EQUIPMENT", 27, (16, 16, 16, 255), F3, 1, gap=1)
     centred(img, "FOR SALE", 35, (190, 20, 20, 255), F3, 1, bold=True, gap=1)
-    save(img, "poster-fixtures")
+    save(T.fit_atlas_grid(img), "poster-fixtures")
     img = noisy(P_PINK, 3, "poster-closing", 28, 36)
     centred(img, "STORE", 4, (30, 20, 40, 255), F3, 1, bold=True, gap=1)
     centred(img, "CLOSING", 12, (30, 20, 40, 255), F3, 1, bold=True, gap=1)
     centred(img, "THE END", 22, (30, 20, 40, 255), F3, 1, gap=1)
-    save(img, "poster-closing")
+    save(T.fit_atlas_grid(img), "poster-closing")
     # A price sticker and a stock label
     img = noisy(P_YEL, 2, "sticker")
     centred(img, "50", 9, (20, 20, 20, 255), F5, 2, gap=1)
@@ -1218,7 +1229,7 @@ def structure():
         "texturesByType": {"*-off": {"all": flat_("troffer-off"), "up": flat_("plenum")},
                            "*": {"all": flat_("troffer-on"), "up": flat_("plenum")}},
         "lightHsvByType": {"*-on": [8, 2, 14]},
-        "vertexFlagsByType": {"*-on": {"glowLevel": 160}, "*-lit": {"glowLevel": 160}, "*-flicker": {"glowLevel": 160}},
+        "vertexFlagsByType": {"*-on": {"glowLevel": 220}, "*-lit": {"glowLevel": 220}, "*-flicker": {"glowLevel": 220}},
         "entityClassByType": {"*-flicker": "BackroomsFlicker"},
         "attributesByType": {"*-flicker": {"offBlock": "backrooms:end-troffer-off"}},
         "dropsByType": {"*-off": drops(("glassshard", 1.5, 0.5), ("metalbracket", 0.25, 0), ("scrapwire", 0.3, 0)),
@@ -2027,7 +2038,7 @@ def wall_words():
     name("end-clock-*", "Stopped Clock")
 
     # INFORMATION, hung on two chains over a desk
-    els = [faces_box("Sign", (1, 4, 7.5), (15, 9, 8.5), {"north": "infosign", "south": "infosign"}, uv=(0, 0, 16, 16)),
+    els = [faces_box("Sign", (1, 4, 7.5), (15, 9, 8.5), {"north": "infosign", "south": "infosign"}, uv=INFOSIGN_UV),
            faces_box("Edge", (1, 4, 7.5), (15, 9, 8.5), {"east": "blackcase", "west": "blackcase", "up": "blackcase", "down": "blackcase"}),
            faces_box("ChainW", (3, 9, 8), (3.8, 16, 8), {"north": "chain", "south": "chain"}),
            faces_box("ChainE", (12.2, 9, 8), (13, 16, 8), {"north": "chain", "south": "chain"})]
@@ -2092,6 +2103,7 @@ def doors_and_ways():
         else:
             els += [bx("Head", (0, 15, -0.4), (16, 16, 0), "maple-dark"),
                     faces_box("Plate", (3, 6, -0.2), (13, 9, 0), {"north": "staffplate", "east": "brushed", "west": "brushed", "up": "brushed", "down": "brushed"}, uv=(0, 0, 16, 16))]
+            els[-1]["faces"]["north"]["uv"] = list(STAFFPLATE_UV)
         return els
     shapes = {f"*-{part}": {"base": shp(f"end-staffdoor-{part}", all_faces(staffdoor(part)))} for part in ("lower", "upper")}
     blk("end-staffdoor", {

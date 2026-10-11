@@ -1,0 +1,289 @@
+// Candle stubs left burning by a den's cache and under its crosses by whoever came before
+{
+	"code": "candlestubs",
+	"shape": {
+		"base": "block/detail/candlestubs"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.25,
+		"z2": 0.75
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.25,
+		"z2": 0.75
+	},
+	"lightHsv": [
+		7,
+		5,
+		7
+	],
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 20,
+					"var": 20
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"opacityEvolve": {
+				"transform": "quadratic",
+				"factor": -16
+			},
+			"gravityEffect": {
+				"avg": 0,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": -0.08124999999999999,
+					"var": 0.005
+				},
+				{
+					"avg": 0.03749999999999998,
+					"var": 0
+				},
+				{
+					"avg": -0.08124999999999999,
+					"var": 0.005
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.0125
+				},
+				{
+					"avg": 0.03,
+					"var": 0.01
+				},
+				{
+					"avg": 0,
+					"var": 0.0125
+				}
+			],
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			},
+			"size": {
+				"avg": 0.04,
+				"var": 0.02
+			},
+			"lifeLength": {
+				"avg": 0.5,
+				"var": 0
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 0.1
+			},
+			"particleModel": "Quad",
+			"vertexFlags": 128,
+			"windAffectednes": 0.05
+		},
+		{
+			"hsvaColor": [
+				{
+					"avg": 20,
+					"var": 20
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"opacityEvolve": {
+				"transform": "quadratic",
+				"factor": -16
+			},
+			"gravityEffect": {
+				"avg": 0,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": 0.13749999999999996,
+					"var": 0.005
+				},
+				{
+					"avg": -0.024999999999999994,
+					"var": 0
+				},
+				{
+					"avg": 0.012499999999999956,
+					"var": 0.005
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.0125
+				},
+				{
+					"avg": 0.03,
+					"var": 0.01
+				},
+				{
+					"avg": 0,
+					"var": 0.0125
+				}
+			],
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			},
+			"size": {
+				"avg": 0.04,
+				"var": 0.02
+			},
+			"lifeLength": {
+				"avg": 0.5,
+				"var": 0
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 0.1
+			},
+			"particleModel": "Quad",
+			"vertexFlags": 128,
+			"windAffectednes": 0.05
+		},
+		{
+			"hsvaColor": [
+				{
+					"avg": 20,
+					"var": 20
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 50
+				},
+				{
+					"avg": 255,
+					"var": 0
+				}
+			],
+			"opacityEvolve": {
+				"transform": "quadratic",
+				"factor": -16
+			},
+			"gravityEffect": {
+				"avg": 0,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": -0.01874999999999999,
+					"var": 0.005
+				},
+				{
+					"avg": -0.056249999999999994,
+					"var": 0
+				},
+				{
+					"avg": 0.16874999999999996,
+					"var": 0.005
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.0125
+				},
+				{
+					"avg": 0.03,
+					"var": 0.01
+				},
+				{
+					"avg": 0,
+					"var": 0.0125
+				}
+			],
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			},
+			"size": {
+				"avg": 0.04,
+				"var": 0.02
+			},
+			"lifeLength": {
+				"avg": 0.5,
+				"var": 0
+			},
+			"sizeEvolve": {
+				"transform": "linear",
+				"factor": 0.1
+			},
+			"particleModel": "Quad",
+			"vertexFlags": 128,
+			"windAffectednes": 0.05
+		}
+	],
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:candle",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	]
+}

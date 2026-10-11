@@ -418,7 +418,7 @@ def windows():
 
     absorb = {"*-closed-*": 99, "*-glow-*": 0, "*": 1}
     data = with_behaviours({"renderpass": "Transparent", "drops": [], "resistance": 6, "lightAbsorptionByType": absorb,
-                            "lightHsvByType": {"*-glow-*": [7, 3, 6]}, "attributes": {"l188structure": True, "l188window": True}},
+                            "lightHsvByType": {"*-glow-*": [7, 3, 7]}, "attributes": {"l188structure": True, "l188window": True}},
                            "BackroomsL188Blind")
     vblock("l188-window", "Courtyard Window", [("state", states), ("part", list(PARTS)), ("side", SIDES)], courtyard_window,
            box=(0, 0, 0, 1, 1, 1), data=data, material="Glass", sounds=GLASS,
@@ -717,6 +717,15 @@ def signs():
            data={"drops": [], "resistance": 6, "lightHsv": [22, 5, 7], "lightAbsorption": 0, "attributes": {"l188structure": True}},
            material="Glass", sounds=GLASS, comment="Level 188: a green running-man exit sign, wall-hung over fire doors and stair doors (in the air cell, its back on the wall behind it; front = side)")
 
+    def exitsign_shift(v):
+        from gen_188_kit import shift
+        return shift(exitsign(v), dx=8)
+
+    vblock("l188-exitsignshift", "Exit Sign", [("side", SIDES)], exitsign_shift, collide=False, sel=lambda v: (0.65, 0.4, 0.85, 1, 0.8, 1),
+           data={"drops": [], "resistance": 6, "lightHsv": [22, 5, 7], "lightAbsorption": 0, "attributes": {"l188structure": True}},
+           material="Glass", sounds=GLASS, comment="Level 188: the exit sign drawn half a block to the left (as seen from in front), so that over "
+           "the courtyard's double door it hangs over the middle")
+
     labels = ["1", "2", "3", "4", "5", "roof"]
 
     def floorsign(v):
@@ -760,22 +769,17 @@ def lang():
         "l188-grabbed": "Something has your arm.",
         "l188-brokefree": "It lets go and is gone back into the glass.",
         "l188-consumed": "{0} was pulled through a window",
-        "l188-note-1": "Count the windows from the yard before you go up. Someone standing in one: count across, count up, and stay out of that room.",
-        "l188-note-2": "Marta opened the blinds in a room on three. She was just gone. From the yard I watched her window light up yellow.",
-        "l188-note-3": "The window you came in by goes back. Mark it before you leave the yard.",
-        "l188-note-4": "The fire doors work. Each one goes somewhere different. None of them come back here except the way you went.",
-        "l188-note-5": "The iron ring in the deck: it opens. I heard water down there.",
         "l188-guestbook": ("A guest book: two hundred pages of names in different hands, every one checking in, none checking out. "
                            "The last page says only \"=)\" in red."),
         "blockhelp-l188-blind": "Open the blind",
         "blockhelp-l188-door": "Open / close",
         "blockhelp-l188-hatch": "Lift the hatch",
         "blockhelp-l188-window": "Climb through",
+        "blockhelp-l188-guestbook": "Read the guest book",
         "l188-blind-up": "The blind is already up.",
         "l188-dispenser-empty": "Empty.",
-        "l188-hub-window": "You climb through the window into the dark.",
         "item-creature-l188-arm": "A Window's arm",
-        "creature-l188-arm": "A Window's arm",
+        "prefixandcreature-l188-arm": "a Window's arm",
         "deadcreature-l188-arm": "Pulled through a window",
     })
 

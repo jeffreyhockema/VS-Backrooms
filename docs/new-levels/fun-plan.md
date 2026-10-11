@@ -1037,7 +1037,9 @@ C1-C4 above are all built as asked.
 
 - **A1. Orientation.** `{side}` = the direction the prop's face points. Wall blocks (`fun-paint-*-skirted-*`,
   `fun-promwall-band-*`, `fun-mural-*`, `fun-hull-porthole-*`, `fun-steel-sign-crewonly-*`) carry their decoration on the
-  side face (the room is that way). Wall-hung props (posters, `fun-smiley`, speaker, string lights, bunting, deck sign,
+  side face (the room is that way). The two trim blocks (`fun-paint-*-skirted-*`, `fun-promwall-band-*`) also come in
+  every set of faces (`ne`, `ns`, `nes`, `nesw`, ... letters in n-e-s-w order), so the skirting turns outside corners;
+  the generator picks the set from which neighbours are floor (`FunOpenFaces`). Wall-hung props (posters, `fun-smiley`, speaker, string lights, bunting, deck sign,
   life ring, deck lamp, balloon arch) stand in the air cell in front of the wall, their back against it. Murals: `tl/tr/bl/br`
   as seen by someone facing them. Tables: `-a` is the west end of a north-facing table, `-b` the east (one block east).
 - **A2. Doors** follow C3: cubes with no `{side}`; their raised letters, push bars and handles repeat on all four faces.

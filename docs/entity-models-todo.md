@@ -96,15 +96,15 @@ sources in `docs/entity-briefs/`) and built in a sandbox; integrated through `to
 | The Thing (Level 7) | black slab, 15 parts | 135 parts: an 11-block eel-like leviathan, undershot jaw of needle teeth, mismatched milky eyes, glowing photophores and barbels. Added `rush`; its AI now plays `rush` and `attack`; selection box 7.5 x 2 so it is not culled |
 | Kitty (974) | | sloped shoulders and egg head after the Wikidot photo; kneel fixed (was floating); richer idle, ask, glide, take |
 | Window arm (188) | pencil, 18 parts | 26 parts: tapering, knuckled, four-joint fingers and thumb, a stump into the glass; reach unfolds the wrong way and ends closed; pull 12 / recoil 60 weights |
-| Keymaster (Hub) | 89 parts | 117: real cowl with glowing eyes, robe and capelet, boots (canon: he lands and strides), 15 mixed keys; `descend`'s cloak now moves; new `dismiss` and `stride` (the Hub's session wires them) |
+| Keymaster (Hub) | 89 parts | 117: real cowl with glowing eyes, robe and capelet, boots (canon: he lands and strides), 15 mixed keys; `descend`'s cloak now moves; new `dismiss` and `stride` (played by `HubTower`) |
 | Attendant (3999) | egg head with a grille | a faceless shop mannequin in a tailored cabin-crew uniform (canon: Fandom Level 399), ear-grille speakers |
 | Partygoer and intern (Fun) | | canon proportions, hook-lined chest doors over the centipede, which reaches out in berserk; the carved "=)" kept exactly; the intern's balloon stays upright |
 | Lure balloon, Party Host (Fun) | | a glossy balloon on a swaying string; the Host as canon Level 26's single eye-and-mouth organ in a golden dome |
 
 Check in game: the Smiler's glow at full 255; The Thing's jaw direction and its size against shallow seabeds; the
 arm's semi-transparent edges and whether it blocks the view up close; the Keymaster's dark face under the Tower's
-light. Suggested to the owning sessions, not applied: lure balloon hitbox ~1.8 tall, Party Host immortal, attendant
-eyeHeight 1.38 and "mannequin" wording, the arm's selection box ~1.4 x 1.2.
+light. Suggested to the owning sessions and applied since: lure balloon hitbox 1.8 tall, Party Host invulnerable, attendant
+eyeHeight 1.38. Still open: the "mannequin" wording and the arm's selection box (~1.4 x 1.2; now 0.7 x 0.6).
 
 ## 7. The Mangled again, and two new entities (2026-10-10)
 
@@ -135,4 +135,3 @@ Check in game:
 Open:
 - A mould stain left where a Bacteria dies.
 - The Wretches' rare mutated forms (misplaced eyes, extra limbs, flesh "wings") as further looks.
-- Handbook entries for both, for the guide's owner.

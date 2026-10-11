@@ -37,6 +37,14 @@ So, against the first draft below:
 
 Implemented as revised. What exists, and what differs from the first draft:
 
+- (2026-10-11) **Every note marks somewhere new:** a search skips every place the reader's earlier notes marked (all
+  marks in their log, `NoteSystem.TakenOf`, within 12 blocks = the same place: another doorway of a gate, another box of
+  a stash), so the second supplies note names the next stash out, the second door note the next gate; only when nothing
+  else is in range is the nearest named again (`MarkResolver.Resolve(..., skip)`, and the `skip` parameter on every
+  `WorldLayout.Nearest*`). Headless-checked with `note probe`: three cache notes at spawn gave three stashes.
+- (2026-10-11) **Stacks:** notes of one kind always stacked (16); the four ordinary kinds now carry their kind in the
+  name ("Wanderer's Note (supplies)" …, `NOTE_KIND_NAMES` in gen_loop.py) so two that will not stack can be told apart.
+
 - `tools/gen_notes.py`: every text (186 entries: 145 common, 30 rare, 10 scraps, 1 special), the writers, the classes,
   gates and marks; writes lang (`note-*`, `notetitle-*`, `journal-*`), `assets/backrooms/config/notes.json`, the
   folded note item and texture, the loose note block, and **`docs/notes-catalogue.md`** (every text, generated: read

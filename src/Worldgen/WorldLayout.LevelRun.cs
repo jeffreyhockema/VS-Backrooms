@@ -89,8 +89,11 @@ public sealed partial class WorldLayout
     /// <summary>The lane-local position of a world block position in a lane.</summary>
     public (int X, int Z) RunLocal(int lane, int gx, int gz) => (gx - RunOriginX - lane * MacroSize, gz - RunOriginZ);
 
-    /// <summary>A lane's plan (worked out once and kept for a while).</summary>
-    public RunLane RunPlan(int lane) => (runPlans ??= new PlanCache<RunLane>(8, (i, _) => PlanRunLane(i))).Get(lane, 0);
+    /// <summary>
+    /// A lane's plan (worked out once and kept). Room for every lane: the cells round a runner take in all seventeen,
+    /// and building them row by row through a smaller cache planned a lane over again for nearly every cell.
+    /// </summary>
+    public RunLane RunPlan(int lane) => (runPlans ??= new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i))).Get(lane, 0);
 
     private PlanCache<RunLane> runPlans;
 
@@ -196,6 +199,9 @@ public sealed partial class WorldLayout
     /// looks like smooth new concrete across the tunnel (on that tile: <see cref="Unders.RunFalseWall"/>); walk into it
     /// and you noclip into Level !.
     /// </summary>
+    private static readonly (int Dx, int Dz, ArchPier Toward)[] RunFalseWallDirs =
+        { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
+
     private void MarkRunFalseWall(Builder b, int mx, int mz)
     {
         ulong h = Hashing.Hash(seed, mx, mz, SaltRunFalseWallL2);
@@ -211,10 +217,9 @@ public sealed partial class WorldLayout
             Tile end = b.At(x, z);
             if (end.Kind != TileKind.Floor || end.Variant != 0 || end.Under != 0) continue;
             // A blind end: open one way only, rock the other three
-            (int Dx, int Dz, ArchPier Toward)[] dirs = { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
             int opens = 0;
             (int Dx, int Dz, ArchPier Toward) back = default;
-            foreach (var d in dirs)
+            foreach (var d in RunFalseWallDirs)
                 if (Open(x + d.Dx, z + d.Dz)) { opens++; back = d; }
             if (opens != 1) continue;
             int wx = x - back.Dx, wz = z - back.Dz;
@@ -237,7 +242,13 @@ public sealed partial class WorldLayout
     /// <summary><see cref="Tile.Detail"/> bits on the level's tiles.</summary>
     public const byte RunArrivalMark = 1, RunBeacon = 2, RunSignWE = 4, RunSafeSign = 8, RunSafeSignRight = 16,
         /// <summary>On a <see cref="FloorKind.RunBorder"/> tile: the band is along its east edge (else its west).</summary>
-        RunBorderEast = 32;
+        RunBorderEast = 32,
+        /// <summary>
+        /// On a start-room wall (layout version 5): <see cref="Tile.Detail"/> / RunWallDecor (its top two bits) is what
+        /// hangs on its <see cref="Tile.Pier"/> face at eye height: 1 a hand-washing notice, 2 visiting hours, 3 a
+        /// hand-sanitiser dispenser.
+        /// </summary>
+        RunWallDecor = 64;
 
     /// <summary>The things that happen along a lane as a runner nears them (see <c>Regions.RunSystem</c>).</summary>
     public enum RunEventKind : byte
@@ -333,7 +344,7 @@ public sealed partial class WorldLayout
         for (int i = 0; i < L.Tiles.Length; i++) L.Tiles[i] = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.RunWall, Level = RunLevel };
 
         PlanRunDestination(L);
-        PlanRunStartRoom(L);
+        PlanRunStartRoom(L, Version >= 5);
 
         // The hallway: south from the hallway door, a dogleg in row -3 and another in row +2, on to the exit
         int c1 = RunHallX;
@@ -442,8 +453,11 @@ public sealed partial class WorldLayout
         t.Grand = true;
     }
 
-    /// <summary>The start room, the antechamber behind its chained door, and its three doors.</summary>
-    private static void PlanRunStartRoom(RunLane L)
+    /// <summary>
+    /// The start room, the antechamber behind its chained door, and its three doors; <paramref name="dressed"/> (layout
+    /// version 5): its walls dressed as a hospital room's.
+    /// </summary>
+    private static void PlanRunStartRoom(RunLane L, bool dressed)
     {
         for (int z = RunRoomZ0; z <= RunRoomZ1; z++)
             for (int x = RunRoomX0; x <= RunRoomX1; x++) RunFloor(ref L.At(x, z), RunZone.StartRoom);
@@ -488,6 +502,28 @@ public sealed partial class WorldLayout
         L.At(RunHallX, 20).Ceiling = CeilingKind.LampRed;
         L.Arrival = (14, 21);
         L.At(14, 21).Detail |= RunArrivalMark;
+        if (!dressed) return;
+
+        // A hospital room before the red is explained: the hallway's crash rail along its walls (not behind the bed and
+        // its table; under the cabinet the generator draws it), visiting hours by the marked door, and either side of the
+        // door to the hall a hand-washing notice and a sanitiser dispenser (no rail there: that wall's other face carries
+        // the hall's)
+        void Dress(int x, int z, ArchPier into, int decor, bool rail = true)
+        {
+            ref Tile w = ref L.At(x, z);
+            if (w.Kind != TileKind.Wall || w.Pattern != WallPattern.RunWall) return;
+            if (rail) w.Pattern = WallPattern.RunWallRail;
+            w.Pier = into;
+            w.Detail |= (byte)(decor * RunWallDecor);
+        }
+        for (int z = RunRoomZ0; z <= RunRoomZ1; z++)
+        {
+            Dress(RunRoomX0 - 1, z, ArchPier.East, z == 22 ? 2 : 0);
+            if (z is < 18 or > 20) Dress(RunRoomX1 + 1, z, ArchPier.West, 0);
+        }
+        for (int x = RunRoomX0; x <= RunRoomX1; x++) Dress(x, RunChainZ, ArchPier.South, 0);
+        Dress(RunRoomX0, RunHallDoorZ, ArchPier.North, 1, rail: false);
+        Dress(RunRoomX1, RunHallDoorZ, ArchPier.North, 3, rail: false);
     }
 
     /// <summary>A false exit in the end wall at (x, z), looking north up the hall, with an empty closet behind it.</summary>
@@ -506,6 +542,8 @@ public sealed partial class WorldLayout
         L.FakeExits.Add((x, z, x, z - 1));
     }
 
+    private static readonly (int Dx, int Dz)[] RunCourseSteps = { (0, 1), (0, -1), (1, 0), (-1, 0) };
+
     /// <summary>The course: how far along it every tile of the start room and the hall is (a walk from the chained door).</summary>
     private static void RunCourse(RunLane L)
     {
@@ -520,7 +558,7 @@ public sealed partial class WorldLayout
         {
             int i = queue.Dequeue();
             int x = i % RunLane.Width, z = i / RunLane.Width;
-            foreach ((int dx, int dz) in new[] { (0, 1), (0, -1), (1, 0), (-1, 0) })
+            foreach ((int dx, int dz) in RunCourseSteps)
             {
                 int nx = x + dx, nz = z + dz;
                 if (!L.In(nx, nz)) continue;
@@ -914,6 +952,9 @@ public sealed partial class WorldLayout
         L.Events.Sort((a, b) => a.S.CompareTo(b.S));
     }
 
+    private static readonly ArchPier[] RunTrimSides = { ArchPier.East, ArchPier.West, ArchPier.North, ArchPier.South },
+        RunBorderSides = { ArchPier.East, ArchPier.West };
+
     /// <summary>The crash rail on every wall face along the hall, and the dark band in the vinyl beside it.</summary>
     private static void PlanRunTrim(RunLane L)
     {
@@ -923,7 +964,7 @@ public sealed partial class WorldLayout
                 ref Tile t = ref L.At(x, z);
                 if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.RunWall)
                 {
-                    foreach (ArchPier dir in new[] { ArchPier.East, ArchPier.West, ArchPier.North, ArchPier.South })
+                    foreach (ArchPier dir in RunTrimSides)
                     {
                         Tile n = RunStep(L, x, z, dir);
                         if (n.Kind != TileKind.Floor || n.Zone is not (RunZone.Hall or RunZone.ExitStretch)) continue;
@@ -934,7 +975,7 @@ public sealed partial class WorldLayout
                 }
                 else if (t.Kind == TileKind.Floor && t.Floor == FloorKind.RunFloor && t.Zone is RunZone.Hall or RunZone.ExitStretch)
                 {
-                    foreach (ArchPier dir in new[] { ArchPier.East, ArchPier.West })
+                    foreach (ArchPier dir in RunBorderSides)
                     {
                         if (RunStep(L, x, z, dir).Kind == TileKind.Floor) continue;
                         t.Floor = FloorKind.RunBorder;
@@ -947,7 +988,7 @@ public sealed partial class WorldLayout
 
     private static Tile RunStep(RunLane L, int x, int z, ArchPier dir)
     {
-        var (dx, dz) = dir switch { ArchPier.East => (1, 0), ArchPier.West => (-1, 0), ArchPier.North => (0, -1), _ => (0, 1) };
+        var (dx, dz) = Step(dir);
         return L.In(x + dx, z + dz) ? L.At(x + dx, z + dz) : default;
     }
 }

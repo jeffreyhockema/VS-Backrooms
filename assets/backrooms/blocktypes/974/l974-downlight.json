@@ -1,4 +1,4 @@
-// Level 974: a round recessed downlight in the ceiling (on: light 13, warm white, faintly pink)
+// Level 974: a round recessed downlight in the ceiling (on: light 15, warm white, faintly pink)
 {
 	"code": "l974-downlight",
 	"variantgroups": [
@@ -51,7 +51,7 @@
 		"l974-downlight-on": [
 			4,
 			2,
-			13
+			15
 		]
 	},
 	"attributes": {

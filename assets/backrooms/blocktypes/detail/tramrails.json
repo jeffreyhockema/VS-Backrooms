@@ -1,0 +1,76 @@
+// The B.N.T.G.'s narrow-gauge tramway down one of Level 2's mains, rusting since the power went
+{
+	"code": "tramrails",
+	"variantgroups": [
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns",
+				"cross"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-ns"
+		],
+		"decorative": [
+			"*-ns"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-ns": {
+			"base": "block/detail/tramrails-ns"
+		},
+		"*-we": {
+			"base": "block/detail/tramrails-we"
+		},
+		"*-cross": {
+			"base": "block/detail/tramrails-cross"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.14,
+		"z2": 1
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	]
+}

@@ -1,0 +1,230 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"plaster": "backrooms:block/level5/plaster",
+		"staffplaque": "backrooms:block/detail/staffplaque"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#plaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				4,
+				-0.6
+			],
+			"to": [
+				14,
+				12.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#staffplaque",
+					"uv": [
+						0,
+						2.5,
+						16,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				2,
+				4,
+				-0.6
+			],
+			"to": [
+				14,
+				12.25,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				4,
+				16
+			],
+			"to": [
+				14,
+				12.25,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#staffplaque",
+					"uv": [
+						0,
+						2.5,
+						16,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Edge",
+			"from": [
+				2,
+				4,
+				16
+			],
+			"to": [
+				14,
+				12.25,
+				16.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.25
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

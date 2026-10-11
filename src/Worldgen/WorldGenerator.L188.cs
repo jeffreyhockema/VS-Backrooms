@@ -32,7 +32,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l188Paver = new int[3], l188Turf = new int[2], l188DeckRound = new int[4], l188Hatch = new int[4], l188Slab = new int[6];
     private readonly int[,] l188Light = new int[5, 3], l188Cladding = new int[3, 4], l188WallCorr = new int[2, 4], l188Lift = new int[3, 4];
     private readonly int[] l188Edging = new int[4], l188Sill = new int[4], l188Coping = new int[4], l188Feature = new int[4], l188ExitSign = new int[4],
-        l188StairStep = new int[4], l188Downpipe = new int[4], l188Bench = new int[4];
+        l188StairStep = new int[4], l188Downpipe = new int[4], l188DownpipeTop = new int[4], l188Bench = new int[4], l188ExitSignShift = new int[4];
     private readonly int[,,] l188Window = new int[6, 4, 4], l188Scene = new int[13, 4, 4], l188OuterWindow = new int[2, 4, 4],
         l188GuestDoor = new int[4, 2, 4], l188StairDoor = new int[2, 2, 4], l188FrontDoor = new int[2, 2, 4], l188Entry = new int[3, 4, 4];
     private readonly int[,] l188StairWindow = new int[4, 4], l188FireDoor = new int[2, 4], l188FloorSign = new int[6, 4], l188EntrySill = new int[3, 4];
@@ -88,7 +88,6 @@ public sealed partial class WorldGenerator
                 int slab = l188Slab[k == 4 ? SlabRoof : k];
                 l188Light[k, st] = L188Block($"l188-downlight-{L188LightKinds[k]}-{lightStates[st]}", slab);
             }
-        for (int k = 0; k < 5; k++) if (l188Light[k, 2] != l188Slab[k == 4 ? SlabRoof : k]) flickerIds.Add(l188Light[k, 2]);
         l188WallRoom = L188Block("l188-wall-room", wall);
         l188WallStair = L188Block("l188-wall-stair", wall);
         l188Gravel = L188Block("l188-roofgravel");
@@ -108,8 +107,10 @@ public sealed partial class WorldGenerator
             l188Sill[f] = L188Block("l188-sill-" + side, l188Cladding[0, f]);
             l188Coping[f] = L188Block("l188-coping-" + side, l188Cladding[0, f]);
             l188ExitSign[f] = L188Block("l188-exitsign-" + side);
+            l188ExitSignShift[f] = L188Block("l188-exitsignshift-" + side, l188ExitSign[f]);
             l188StairStep[f] = L188Block("l188-stair-" + side, stairIds[f]);
             l188Downpipe[f] = L188Block("l188-downpipe-" + side);
+            l188DownpipeTop[f] = L188Block("l188-downpipetop-" + side);
             l188Bench[f] = L188Block("l188-bench-" + side);
             for (int p = 0; p < 4; p++)
             {
@@ -229,6 +230,10 @@ public sealed partial class WorldGenerator
 
     // ---- The courtyard ----
 
+    /// <summary>The four sides of a lawn block, in the order its edging is looked for.</summary>
+    private static readonly (int Dx, int Dz, ArchPier Side)[] L188LawnSides =
+        { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) };
+
     private int L188Court(in Tile t, int bx, int bz, int rel)
     {
         bool hatch = WorldLayout.L188IsHatch(bx, bz), deck = WorldLayout.L188IsDeck(bx, bz);
@@ -261,7 +266,7 @@ public sealed partial class WorldGenerator
             if (t.Floor == FloorKind.L188Turf)
             {
                 // Timber edging where the lawn meets the paving
-                foreach (var (dx, dz, p) in new[] { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) })
+                foreach (var (dx, dz, p) in L188LawnSides)
                 {
                     int nx = bx + dx, nz = bz + dz;
                     if (!WorldLayout.L188IsLawn(nx, nz) && !WorldLayout.L188IsDeck(nx, nz)) return l188Edging[Facing(p)];
@@ -271,8 +276,16 @@ public sealed partial class WorldGenerator
         }
         // The downpipe on the north façade, from the gutter to the drain
         if (bx == WorldLayout.L188PipeBx && bz == WorldLayout.L188PipeBz && rel <= WorldLayout.L188RoofRel) return l188Downpipe[Facing(ArchPier.South)];
+        // Layout version 5 on: a green EXIT sign over the courtyard's one door, on the courtyard side, hung over the middle
+        // of the double door from the cell before its right leaf
+        if (rel == 3 && layout.Version >= 5 && (bx, bz) == L188CourtExitSign) return l188ExitSignShift[Facing(L188CourtDoorFacing)];
         return 0;
     }
+
+    /// <summary>The courtyard door's right leaf (as seen from the courtyard), the way it faces, and the courtyard cell before that leaf.</summary>
+    private static readonly ArchPier L188CourtDoorFacing = WorldLayout.L188WindowTiles(WorldLayout.L188StairWindow).Facing;
+    private static readonly (int Bx, int Bz) L188CourtExitSign = (WorldLayout.L188WindowTiles(WorldLayout.L188StairWindow).Right.Bx + WorldLayout.L188Step(L188CourtDoorFacing).X,
+        WorldLayout.L188WindowTiles(WorldLayout.L188StairWindow).Right.Bz + WorldLayout.L188Step(L188CourtDoorFacing).Z);
 
     // ---- Façades ----
 
@@ -293,8 +306,8 @@ public sealed partial class WorldGenerator
             {
                 // The courtyard's one door
                 if (r == 3) return l188Cladding[0, f];
-                int door = l188CourtDoor[0, left ? 0 : 1, r - 1, f];
-                return door != 0 ? door : (r == 1 ? 0 : 0);
+                // (air where the door's block is missing)
+                return l188CourtDoor[0, left ? 0 : 1, r - 1, f];
             }
             if (r == 1) return l188Sill[f];
             return l188StairWindow[L188Part(r == 3, left), f];
@@ -568,7 +581,9 @@ public sealed partial class WorldGenerator
 
     private int L188Roof(in WorldLayout.L188Cell c, int bx, int bz, int rel)
     {
-        if (c.Part == Part.Court) return 0;
+        // Over the courtyard only the downpipe's head, under the parapet's drip
+        if (c.Part == Part.Court)
+            return bx == WorldLayout.L188PipeBx && bz == WorldLayout.L188PipeBz && rel == WorldLayout.L188RoofRel + 1 ? l188DownpipeTop[Facing(ArchPier.South)] : 0;
         // The stair's bulkhead, with its door onto the roof
         if (bx >= 10 && bx <= 16 && bz >= 10 && bz <= 21 && rel <= 25)
         {

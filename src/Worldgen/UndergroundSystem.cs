@@ -137,12 +137,13 @@ public class UndergroundSystem : ModSystem
 
     private static int Borrow<T>(List<T> from, List<T> to) where T : Delegate => Borrow((IList)from, (IList)to);
 
-    /// <summary>Leaves the soil deposits (clay, peat, gravel, soil) out of vanilla's deposit generator.</summary>
     public override void Dispose()
     {
+        // (Static, so a world loaded next in the same process starts without it)
         Active = false;
     }
 
+    /// <summary>Leaves the soil deposits (clay, peat, gravel, soil) out of vanilla's deposit generator.</summary>
     private int DropSoilDeposits()
     {
         GenDeposits deposits = sapi.ModLoader.GetModSystem<GenDeposits>();

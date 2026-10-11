@@ -15,10 +15,12 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private int runWallId, runVoidId, runSafeWallId, runCeilingId, runPanelDeadId, runVentId, runSafeLightId, runFalseWallId,
-        runFalseWallUpperId, runFloorId, runScuffedId, runCrackedId, runSafeFloorId, runRubbleId;
+        runFalseWallUpperId, runFloorId, runScuffedId, runCrackedId, runSafeFloorId, runRubbleId, runRedLightId;
+    /// <summary>The crash rail round an outer corner (on a face and the next clockwise), and stopped short in an inner corner.</summary>
+    private readonly int[] runRailCornerIds = new int[4], runRailShortIds = new int[4];
     private readonly int[] runRailIds = new int[4], runBeaconIds = new int[4], runCabinetIds = new int[4], runBorderIds = new int[4],
         runSignIds = new int[2], runSignDimIds = new int[4], runSignBrightIds = new int[4], runSignConcreteIds = new int[4], runSignLitIds = new int[4];
-    private readonly int[,] runSafeSignIds = new int[2, 4], runShelfIds = new int[2, 4], runCurtainIds = new int[4, 2];
+    private readonly int[,] runSafeSignIds = new int[2, 4], runShelfIds = new int[2, 4], runCurtainIds = new int[4, 2], runDecorIds = new int[3, 4];
     /// <summary>Door blocks by pattern (lower, upper; facing).</summary>
     private readonly Dictionary<WallPattern, int[,]> runDoorIds = new();
     private readonly List<string> runMissing = new();
@@ -29,6 +31,42 @@ public sealed partial class WorldGenerator
         if (modBlocks.TryGetValue(path, out int id)) return id;
         runMissing.Add(path);
         return fallback;
+    }
+
+    /// <summary>
+    /// The crash rail on a wall (its <see cref="Tile.Pier"/> face). Where the wall ends in an outer corner of the same
+    /// floor the rail goes on round it; where its clockwise end runs into an inner corner whose other wall carries the
+    /// rail too, it stops against that rail's front (the other one runs on into the corner).
+    /// </summary>
+    private int RunRail(in Tile t, int gx, int gz)
+    {
+        int face = Facing(t.Pier), next = (face + 1) & 3, prev = (face + 3) & 3;
+        int faces = RunRailFaces(t, gx, gz);
+        if ((faces >> next & 1) != 0) return runRailCornerIds[face];
+        if ((faces >> prev & 1) != 0) return runRailCornerIds[prev];
+        Tile along = TileAt(gx + PipeFaces[next].Dx, gz + PipeFaces[next].Dz);
+        int bx = gx + PipeFaces[face].Dx + PipeFaces[next].Dx, bz = gz + PipeFaces[face].Dz + PipeFaces[next].Dz;
+        if (along.Kind == TileKind.Wall && (RunRailFaces(TileAt(bx, bz), bx, bz) >> ((next + 2) & 3) & 1) != 0) return runRailShortIds[face];
+        return runRailIds[face];
+    }
+
+    /// <summary>The faces of a Level ! wall that carry the crash rail (as bits by <see cref="Facing"/>): its own, and
+    /// round an outer corner the next one onto the same floor.</summary>
+    private int RunRailFaces(in Tile t, int gx, int gz)
+    {
+        if (t.Level != WorldLayout.RunLevel || t.Kind != TileKind.Wall
+            || !(t.Pattern == WallPattern.RunWallRail || t.Pattern == WallPattern.RunMedCabinet && layout.Version >= 5)) return 0;
+        int face = Facing(t.Pier);
+        Tile front = TileAt(gx + PipeFaces[face].Dx, gz + PipeFaces[face].Dz);
+        int faces = 1 << face;
+        if (t.Pattern != WallPattern.RunWallRail) return faces;
+        for (int turn = 1; turn <= 3; turn += 2)
+        {
+            int side = (face + turn) & 3;
+            Tile n = TileAt(gx + PipeFaces[side].Dx, gz + PipeFaces[side].Dz);
+            if (n.Kind == TileKind.Floor && n.Zone == front.Zone) return faces | 1 << side;
+        }
+        return faces;
     }
 
     /// <summary>Looks up the level's blocks, once, when the generator is made.</summary>
@@ -42,6 +80,7 @@ public sealed partial class WorldGenerator
         runPanelDeadId = RunId("run-ceiling-panel-dead", BlockId("backrooms:fluorescentlight-off"));
         runVentId = RunId("run-ceiling-vent", runCeilingId);
         runSafeLightId = RunId("run-safelight", BlockId("backrooms:fluorescentlight-on"));
+        runRedLightId = RunId("run-redlight", lightFallback);
         runFalseWallId = RunId("run-falsewall-lower", 0);
         runFalseWallUpperId = RunId("run-falsewall-upper", runFalseWallId);
         runFloorId = RunId("run-floor-vinyl", BlockId("backrooms:concretefloor-plain"));
@@ -60,6 +99,8 @@ public sealed partial class WorldGenerator
         {
             string side = Sides[f];
             runRailIds[f] = RunId($"run-wall-rail-{side}", runWallId);
+            runRailCornerIds[f] = RunId($"run-wall-railcorner-{side}", runRailIds[f]);
+            runRailShortIds[f] = RunId($"run-wall-railshort-{side}", runRailIds[f]);
             runBeaconIds[f] = RunId($"run-wall-beacon-lit-{side}", runWallId);
             runCabinetIds[f] = RunId($"run-medcabinet-{side}", runWallId);
             runBorderIds[f] = RunId($"run-floor-border-{side}", runFloorId);
@@ -71,6 +112,9 @@ public sealed partial class WorldGenerator
             runSafeSignIds[1, f] = RunId($"run-safewall-sign-{side}-r", runSafeWallId);
             runShelfIds[0, f] = RunId($"run-shelf-standing-lower-{side}", 0);
             runShelfIds[1, f] = RunId($"run-shelf-standing-upper-{side}", 0);
+            runDecorIds[0, f] = RunId($"run-walldecor-handwash-{side}", runWallId);
+            runDecorIds[1, f] = RunId($"run-walldecor-visiting-{side}", runWallId);
+            runDecorIds[2, f] = RunId($"run-walldecor-sanitiser-{side}", runWallId);
 
         }
         string[] curtain = { "lower", "middle", "upper", "top" };
@@ -129,8 +173,12 @@ public sealed partial class WorldGenerator
                     WallPattern.RunSafeWall when rel == 2 && (t.Detail & WorldLayout.RunSafeSign) != 0 =>
                         runSafeSignIds[(t.Detail & WorldLayout.RunSafeSignRight) != 0 ? 1 : 0, face],
                     WallPattern.RunSafeWall => runSafeWallId,
-                    WallPattern.RunWallRail when rel == 1 => runRailIds[face],
+                    WallPattern.RunWallRail when rel == 1 => RunRail(t, gx, gz),
+                    // The start room's notices and dispenser (layout version 5), and the rail under its cabinet
+                    WallPattern.RunWall or WallPattern.RunWallRail when rel == 2 && t.Detail >= WorldLayout.RunWallDecor =>
+                        runDecorIds[t.Detail / WorldLayout.RunWallDecor - 1, face],
                     WallPattern.RunMedCabinet when rel == 2 => runCabinetIds[face],
+                    WallPattern.RunMedCabinet when rel == 1 && layout.Version >= 5 => runRailIds[face],
                     _ => runWallId,
                 };
             case TileKind.Door:
@@ -143,8 +191,9 @@ public sealed partial class WorldGenerator
                 {
                     if (t.Pattern == WallPattern.RunTrueExit) return runSignBrightIds[face];
                     if (t.Pattern == WallPattern.RunFakeExit) return runSignDimIds[face];
-                    // Over the start room's door to the hall, on the room's side: the room's red light
-                    if (t.Pattern == WallPattern.RunHallDoor) return runSignLitIds[Facing(Opposite(t.Pier))];
+                    // Over the start room's door to the hall, on the room's side: the room's red light, the bright sign so
+                    // that it lights the whole room (the lit one, [0,7,9], left the bed and the "!" door in the dark)
+                    if (t.Pattern == WallPattern.RunHallDoor) return runSignBrightIds[Facing(Opposite(t.Pier))];
                     if ((t.Detail & WorldLayout.RunBeacon) != 0) return runBeaconIds[face];
                 }
                 return runWallId;
@@ -158,7 +207,7 @@ public sealed partial class WorldGenerator
                 CeilingKind.RunPanelDead => runPanelDeadId,
                 CeilingKind.RunVent => runVentId,
                 CeilingKind.RunSafeLight => runSafeLightId,
-                CeilingKind.LampRed => lampRedId,
+                CeilingKind.LampRed => runRedLightId, // the start room's own red panel (brighter than the Red Rooms' lamp)
                 _ => runCeilingId,
             };
         if (rel == 4) return t.Ceiling == CeilingKind.RunExitSign ? runSignIds[(t.Detail & WorldLayout.RunSignWE) != 0 ? 1 : 0] : 0;

@@ -113,12 +113,22 @@ public partial class NoteSystem : ModSystem
         RegisterCommands(api);
     }
 
+    public override void Dispose()
+    {
+        // (A search still on the worker finds layout gone and gives up: see ApplyMarks)
+        layout = null;
+        marks = null;
+        DisposeClient();
+    }
+
     private void Load()
     {
         try
         {
             byte[] data = sapi.WorldManager.SaveGame.GetData(SaveKey);
             logs = data == null ? new() : NoteLog.LoadAll(Encoding.UTF8.GetString(data));
+            // (A hand-edited or damaged save may hold an empty entry: it would be handed out as a null log)
+            foreach (string uid in logs.Where(p => p.Value == null).Select(p => p.Key).ToList()) logs.Remove(uid);
         }
         catch (Exception ex)
         {
@@ -156,15 +166,39 @@ public partial class NoteSystem : ModSystem
         MarkVisited(player.Entity);
         // A new player finds a note in their pocket (not someone who has been about before the notes were sequenced)
         int bits = player.Entity.WatchedAttributes.GetInt(VisitedKey);
-        if (!log.PocketGiven && log.Read.Count == 0 && (bits & ~1) == 0)
+        if (!log.PocketGiven && log.Read.Count == 0 && (bits & ~1) == 0 && sapi.World.GetItem(new AssetLocation("backrooms", "wanderernote-cache")) is Item note)
         {
-            Item note = sapi.World.GetItem(new AssetLocation("backrooms", "wanderernote-cache"));
-            if (note != null && player.InventoryManager.TryGiveItemstack(new ItemStack(note), true))
+            // (With no room in their pockets, it is at their feet)
+            if (GiveOrDrop(player, new ItemStack(note)))
                 player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-pocket-given"), EnumChatType.Notification);
         }
         if (!log.PocketGiven) { log.PocketGiven = true; dirty = true; }
+        // Directions notes that told of nothing, read just before they left: back into their hands (see ApplyMarks)
+        if (log.Owed is { Count: > 0 } owed)
+        {
+            log.Owed = null;
+            dirty = true;
+            foreach (string kind in owed)
+                if (sapi.World.GetItem(new AssetLocation("backrooms", NoteItemCode(kind))) is Item item) GiveOrDrop(player, new ItemStack(item));
+        }
         SendLog(player);
     }
+
+    /// <summary>Puts a stack in a player's inventory, or at their feet if there is no room; true if it went in.</summary>
+    private bool GiveOrDrop(IServerPlayer player, ItemStack stack)
+    {
+        if (player.InventoryManager.TryGiveItemstack(stack, true)) return true;
+        sapi.World.SpawnItemEntity(stack, player.Entity.Pos.XYZ);
+        return false;
+    }
+
+    /// <summary>The item a note of a kind is (door, way, cache, refuge; folded; altered, Level Fun's).</summary>
+    public static string NoteItemCode(string kind) => kind switch
+    {
+        "folded" => "wanderernote-folded",
+        "altered" => "fun-wanderernote-altered",
+        _ => "wanderernote-" + kind,
+    };
 
     // ================= Where a player has been =================
 
@@ -186,8 +220,12 @@ public partial class NoteSystem : ModSystem
         if ((bits & (1 << level)) == 0) entity.WatchedAttributes.SetInt(VisitedKey, bits | (1 << level));
     }
 
-    private static bool HasVisited(EntityPlayer entity, int level) =>
-        level < 31 && (entity.WatchedAttributes.GetInt(VisitedKey) & (1 << (level == NoteCatalog.SnackroomsKey ? 6 : level))) != 0;
+    /// <summary>Whether a player has been to a level (a gate's level: the 6.1 key counts as Level 6, which holds it).</summary>
+    private static bool HasVisited(EntityPlayer entity, int level)
+    {
+        if (level == NoteCatalog.SnackroomsKey) level = 6;
+        return level is >= 0 and < 31 && (entity.WatchedAttributes.GetInt(VisitedKey) & (1 << level)) != 0;
+    }
 
     // ================= Reading =================
 
@@ -206,7 +244,7 @@ public partial class NoteSystem : ModSystem
         var request = new MarkRequest
         {
             Uid = player.PlayerUID, Kind = kind, X = pos.X, Y = geometry.FloorFor(level) + 1, Z = pos.Z, Level = level, Key = key,
-            EntryMark = res?.Entry.Mark, Hours = sapi.World.Calendar.TotalHours,
+            EntryMark = res?.Entry.Mark, Hours = sapi.World.Calendar.TotalHours, Taken = TakenOf(log),
         };
         if (res != null)
         {
@@ -235,6 +273,35 @@ public partial class NoteSystem : ModSystem
         public int Level, Key;
         /// <summary>The read in the player's log the marks belong to; 0 for a directions note (recorded once its marks are found).</summary>
         public int ReadId;
+        /// <summary>Everything the reader's notes have marked before (a snapshot, so the worker reads nothing shared).</summary>
+        public List<(int X, int Z)> Taken;
+    }
+
+    /// <summary>Two places this close are the same place: another doorway of the same gate, another box of the same stash.</summary>
+    private const int SamePlace = 12;
+
+    /// <summary>Everything a log's notes have marked so far.</summary>
+    private static List<(int X, int Z)> TakenOf(NoteLog log)
+    {
+        var taken = new List<(int X, int Z)>();
+        foreach (NoteRead r in log.Read) foreach (NoteMark m in r.Marks) taken.Add((m.X, m.Z));
+        foreach (NoteRead r in log.Directions) foreach (NoteMark m in r.Marks) taken.Add((m.X, m.Z));
+        return taken;
+    }
+
+    /// <summary>
+    /// A search's skip: places already marked for this reader (null when there are none). A note never points at a place
+    /// the reader's earlier notes marked while there is another to point at; failing that, the nearest is named again.
+    /// </summary>
+    private static System.Func<int, int, bool> SkipOf(List<(int X, int Z)> taken)
+    {
+        if (taken == null || taken.Count == 0) return null;
+        return (x, z) =>
+        {
+            foreach (var (tx, tz) in taken)
+                if ((tx - x) * (tx - x) + (tz - z) * (tz - z) <= SamePlace * SamePlace) return true;
+            return false;
+        };
     }
 
     /// <summary>One search of a note: its kind of mark, and how far.</summary>
@@ -257,7 +324,7 @@ public partial class NoteSystem : ModSystem
         return slots;
     }
 
-    /// <summary>At most two marks, never two within eight blocks of each other.</summary>
+    /// <summary>At most two marks, never two of the same place.</summary>
     private static List<NoteMark> Gather(List<MarkSlot> slots)
     {
         var found = new List<NoteMark>();
@@ -265,7 +332,7 @@ public partial class NoteSystem : ModSystem
         {
             NoteMark m = slot.Found;
             if (m == null || found.Count >= 2) continue;
-            if (found.Any(f => (f.X - m.X) * (f.X - m.X) + (f.Z - m.Z) * (f.Z - m.Z) < 64)) continue;
+            if (found.Any(f => (f.X - m.X) * (f.X - m.X) + (f.Z - m.Z) * (f.Z - m.Z) <= SamePlace * SamePlace)) continue;
             found.Add(m);
         }
         return found;
@@ -285,13 +352,14 @@ public partial class NoteSystem : ModSystem
         }
         MarkResolver resolver = workerMarks;
         ICoreServerAPI api = sapi;
+        System.Func<int, int, bool> skip = SkipOf(request.Taken);
         Task.Run(() =>
         {
             try
             {
                 lock (workerLock)
                     foreach (MarkSlot slot in slots)
-                        slot.Found = resolver.Resolve(slot.Kind, request.X, request.Y, request.Z, request.Level, slot.Far, MarkSearch.Layout, out slot.Defer);
+                        slot.Found = resolver.Resolve(slot.Kind, request.X, request.Y, request.Z, request.Level, slot.Far, MarkSearch.Layout, out slot.Defer, skip);
             }
             catch (Exception ex)
             {
@@ -306,10 +374,15 @@ public partial class NoteSystem : ModSystem
     private void ApplyMarks(MarkRequest request, List<MarkSlot> slots)
     {
         if (layout == null || marks == null) return; // (the world is closing)
+        System.Func<int, int, bool> skip = SkipOf(request.Taken);
         foreach (MarkSlot slot in slots)
             if (slot.Found == null && slot.Defer != MarkDefer.None)
                 slot.Found = marks.Resolve(slot.Kind, request.X, request.Y, request.Z, request.Level, slot.Far,
-                    slot.Defer == MarkDefer.World ? MarkSearch.World : MarkSearch.Full, out _);
+                    slot.Defer == MarkDefer.World ? MarkSearch.World : MarkSearch.Full, out _, skip);
+        // Nowhere new to point at: the nearest place is named again rather than nothing
+        if (skip != null)
+            foreach (MarkSlot slot in slots)
+                if (slot.Found == null) slot.Found = marks.Resolve(slot.Kind, request.X, request.Y, request.Z, request.Level, slot.Far);
         List<NoteMark> found = Gather(slots);
         NoteLog log = LogOf(request.Uid);
         var player = sapi.World.PlayerByUid(request.Uid) as IServerPlayer;
@@ -328,15 +401,16 @@ public partial class NoteSystem : ModSystem
         {
             if (found.Count == 0)
             {
-                // A directions note that tells of nothing here: back into their hands, to read somewhere else
-                if (!online) return;
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-nothing"), EnumChatType.Notification);
-                string code = request.Kind switch { "folded" => "wanderernote-folded", "altered" => "fun-wanderernote-altered", _ => "wanderernote-" + request.Kind };
-                if (sapi.World.GetItem(new AssetLocation("backrooms", code)) is Item item)
+                // A directions note that tells of nothing here: back into their hands, to read somewhere else (gone
+                // meanwhile, they are owed it: given back when they next join, see OnPlayerNowPlaying)
+                if (!online)
                 {
-                    var stack = new ItemStack(item);
-                    if (!player.InventoryManager.TryGiveItemstack(stack, true)) sapi.World.SpawnItemEntity(stack, player.Entity.Pos.XYZ);
+                    (log.Owed ??= new()).Add(request.Kind);
+                    dirty = true;
+                    return;
                 }
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-nothing"), EnumChatType.Notification);
+                if (sapi.World.GetItem(new AssetLocation("backrooms", NoteItemCode(request.Kind))) is Item item) GiveOrDrop(player, new ItemStack(item));
                 return;
             }
             read = new NoteRead
@@ -386,7 +460,9 @@ public partial class NoteSystem : ModSystem
         // (All on this thread: the console can wait)
         double y = geometry.FloorFor(level) + 1;
         List<MarkSlot> slots = SlotsFor(kind, res?.Entry.Mark);
-        foreach (MarkSlot slot in slots) slot.Found = marks.Resolve(slot.Kind, x, y, z, level, slot.Far);
+        System.Func<int, int, bool> skip = SkipOf(TakenOf(log));
+        foreach (MarkSlot slot in slots)
+            slot.Found = marks.Resolve(slot.Kind, x, y, z, level, slot.Far, skip) ?? (skip != null ? marks.Resolve(slot.Kind, x, y, z, level, slot.Far) : null);
         List<NoteMark> found = Gather(slots);
         if (res == null && found.Count == 0) return null;
 
@@ -408,8 +484,13 @@ public partial class NoteSystem : ModSystem
         return Lang.Get("backrooms:note-toast", Lang.Get("backrooms:journal-track-" + chapter), Math.Max(1, n), Math.Max(total, n));
     }
 
+    /// <summary>
+    /// A journal's "mark again" link. The client only names one of its own reads and a mark of it: the place comes from
+    /// the server's copy of that player's log, so nothing else can be marked this way.
+    /// </summary>
     private void OnMarkAgain(IServerPlayer player, MarkAgainPacket packet)
     {
+        if (player?.Entity == null || packet == null) return;
         if (!logs.TryGetValue(player.PlayerUID, out NoteLog log) || log.Find(packet.Id) is not { } read) return;
         List<NoteMark> ms = read.Marks;
         if (packet.Mark < 0 || packet.Mark >= ms.Count) return;
@@ -447,7 +528,7 @@ public partial class NoteSystem : ModSystem
                 .HandleWith(args =>
                 {
                     string kind = args[0] as string ?? "door";
-                    Item item = api.World.GetItem(new AssetLocation("backrooms", kind == "folded" ? "wanderernote-folded" : "wanderernote-" + kind));
+                    Item item = api.World.GetItem(new AssetLocation("backrooms", NoteItemCode(kind)));
                     if (item == null) return TextCommandResult.Error("No such note.");
                     args.Caller.Player.InventoryManager.TryGiveItemstack(new ItemStack(item, (int)args[1]), true);
                     return TextCommandResult.Success($"Gave {(int)args[1]} {kind} notes.");
@@ -492,7 +573,8 @@ public partial class NoteSystem : ModSystem
                 {
                     IServerPlayer who = Find(args.Caller.Player as IServerPlayer, args[0] as string);
                     if (who == null) return TextCommandResult.Error("No such player online.");
-                    logs[who.PlayerUID] = new NoteLog { PocketGiven = true };
+                    // (Ids go on from where the old log's stopped: a search still running for an old read must not find a new one)
+                    logs[who.PlayerUID] = new NoteLog { PocketGiven = true, NextId = LogOf(who.PlayerUID).NextId };
                     dirty = true;
                     SendLog(who);
                     return TextCommandResult.Success($"{who.PlayerName}'s notes are forgotten.");

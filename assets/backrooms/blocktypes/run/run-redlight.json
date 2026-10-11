@@ -1,0 +1,37 @@
+// Level !: the start room's ceiling lamp, a red light panel (brighter than the Red Rooms' lamp it replaced, so the room's bed, cabinet, curtain and doors read; still only red)
+{
+	"code": "run-redlight",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/run/run-redlight"
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightHsv": [
+		0,
+		7,
+		14
+	],
+	"lightAbsorption": 0,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

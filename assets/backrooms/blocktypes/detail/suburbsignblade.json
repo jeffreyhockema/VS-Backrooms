@@ -1,0 +1,78 @@
+// The second blade of a Suburbs street sign, naming the street that runs north-south
+{
+	"code": "suburbsignblade",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"willow",
+				"linden",
+				"aspen",
+				"poplar",
+				"holly",
+				"laurel",
+				"spruce",
+				"cherry"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-willow": {
+			"base": "block/detail/suburbsignblade-willow"
+		},
+		"*-linden": {
+			"base": "block/detail/suburbsignblade-linden"
+		},
+		"*-aspen": {
+			"base": "block/detail/suburbsignblade-aspen"
+		},
+		"*-poplar": {
+			"base": "block/detail/suburbsignblade-poplar"
+		},
+		"*-holly": {
+			"base": "block/detail/suburbsignblade-holly"
+		},
+		"*-laurel": {
+			"base": "block/detail/suburbsignblade-laurel"
+		},
+		"*-spruce": {
+			"base": "block/detail/suburbsignblade-spruce"
+		},
+		"*-cherry": {
+			"base": "block/detail/suburbsignblade-cherry"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-willow"
+		],
+		"decorative": [
+			"*-willow"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.44,
+		"y1": 0,
+		"z1": 0.44,
+		"x2": 0.56,
+		"y2": 1,
+		"z2": 0.56
+	}
+}

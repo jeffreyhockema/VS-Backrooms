@@ -18,7 +18,8 @@ public sealed partial class WorldLayout
     /// <summary>The share of boxes and crates in a cell that have already been gone through.</summary>
     private double PickedOverShare(int level, int mx, int mz) => level switch
     {
-        0 => ZoneAt(mx, mz) == ZoneKind.Blackout ? 0.4 : 0.65,
+        // (Layout version 3 gave Level 0 more food: see CurrentVersion)
+        0 => ZoneAt(mx, mz) == ZoneKind.Blackout ? (Version >= 3 ? 0.35 : 0.4) : (Version >= 3 ? 0.55 : 0.65),
         1 => 0.8, // the Habitable Zone has the most crates, and the most people going through them
         <= 5 => 0.6,
         // The five kept as 14-18 (each level's own line)
@@ -74,14 +75,15 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// Level 0: what wanderers left, they left together. About one cell in nine has a stash of two or three boxes in
-    /// the corner of a room; the blackout zones, where few go, have more. (Dens add their own caches on top.)
+    /// Level 0: what wanderers left, they left together. About one cell in six has a stash of two or three boxes in
+    /// the corner of a room (one in nine before layout version 3); the blackout zones, where few go, have more. (Dens
+    /// add their own caches on top.)
     /// </summary>
     private void PlaceStash(Builder b, int mx, int mz)
     {
         if (b.IsSpawn) return;
         ulong h = Hashing.Hash(seed, mx, mz, SaltStash);
-        double chance = b.Zone == ZoneKind.Blackout ? 0.22 : 0.11;
+        double chance = Version >= 3 ? (b.Zone == ZoneKind.Blackout ? 0.28 : 0.16) : (b.Zone == ZoneKind.Blackout ? 0.22 : 0.11);
         if (Hashing.Unit(h) >= chance) return;
         var rng = new Rng(Hashing.Mix(h));
         bool Open(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z));

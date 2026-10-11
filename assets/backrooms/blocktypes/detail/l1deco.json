@@ -28,7 +28,15 @@
 				"banner0",
 				"banner1",
 				"banner2",
-				"banner3"
+				"banner3",
+				"levelsignp5",
+				"levelsignp4",
+				"levelsignp3",
+				"levelsignp2",
+				"levelsignp1",
+				"levelsignb1",
+				"levelsignb2",
+				"levelsignb3"
 			]
 		},
 		{
@@ -434,6 +442,134 @@
 		},
 		"*-banner3-west": {
 			"base": "block/detail/l1deco-banner3",
+			"rotateY": 90
+		},
+		"*-levelsignp5-north": {
+			"base": "block/detail/l1deco-levelsignp5",
+			"rotateY": 0
+		},
+		"*-levelsignp5-east": {
+			"base": "block/detail/l1deco-levelsignp5",
+			"rotateY": 270
+		},
+		"*-levelsignp5-south": {
+			"base": "block/detail/l1deco-levelsignp5",
+			"rotateY": 180
+		},
+		"*-levelsignp5-west": {
+			"base": "block/detail/l1deco-levelsignp5",
+			"rotateY": 90
+		},
+		"*-levelsignp4-north": {
+			"base": "block/detail/l1deco-levelsignp4",
+			"rotateY": 0
+		},
+		"*-levelsignp4-east": {
+			"base": "block/detail/l1deco-levelsignp4",
+			"rotateY": 270
+		},
+		"*-levelsignp4-south": {
+			"base": "block/detail/l1deco-levelsignp4",
+			"rotateY": 180
+		},
+		"*-levelsignp4-west": {
+			"base": "block/detail/l1deco-levelsignp4",
+			"rotateY": 90
+		},
+		"*-levelsignp3-north": {
+			"base": "block/detail/l1deco-levelsignp3",
+			"rotateY": 0
+		},
+		"*-levelsignp3-east": {
+			"base": "block/detail/l1deco-levelsignp3",
+			"rotateY": 270
+		},
+		"*-levelsignp3-south": {
+			"base": "block/detail/l1deco-levelsignp3",
+			"rotateY": 180
+		},
+		"*-levelsignp3-west": {
+			"base": "block/detail/l1deco-levelsignp3",
+			"rotateY": 90
+		},
+		"*-levelsignp2-north": {
+			"base": "block/detail/l1deco-levelsignp2",
+			"rotateY": 0
+		},
+		"*-levelsignp2-east": {
+			"base": "block/detail/l1deco-levelsignp2",
+			"rotateY": 270
+		},
+		"*-levelsignp2-south": {
+			"base": "block/detail/l1deco-levelsignp2",
+			"rotateY": 180
+		},
+		"*-levelsignp2-west": {
+			"base": "block/detail/l1deco-levelsignp2",
+			"rotateY": 90
+		},
+		"*-levelsignp1-north": {
+			"base": "block/detail/l1deco-levelsignp1",
+			"rotateY": 0
+		},
+		"*-levelsignp1-east": {
+			"base": "block/detail/l1deco-levelsignp1",
+			"rotateY": 270
+		},
+		"*-levelsignp1-south": {
+			"base": "block/detail/l1deco-levelsignp1",
+			"rotateY": 180
+		},
+		"*-levelsignp1-west": {
+			"base": "block/detail/l1deco-levelsignp1",
+			"rotateY": 90
+		},
+		"*-levelsignb1-north": {
+			"base": "block/detail/l1deco-levelsignb1",
+			"rotateY": 0
+		},
+		"*-levelsignb1-east": {
+			"base": "block/detail/l1deco-levelsignb1",
+			"rotateY": 270
+		},
+		"*-levelsignb1-south": {
+			"base": "block/detail/l1deco-levelsignb1",
+			"rotateY": 180
+		},
+		"*-levelsignb1-west": {
+			"base": "block/detail/l1deco-levelsignb1",
+			"rotateY": 90
+		},
+		"*-levelsignb2-north": {
+			"base": "block/detail/l1deco-levelsignb2",
+			"rotateY": 0
+		},
+		"*-levelsignb2-east": {
+			"base": "block/detail/l1deco-levelsignb2",
+			"rotateY": 270
+		},
+		"*-levelsignb2-south": {
+			"base": "block/detail/l1deco-levelsignb2",
+			"rotateY": 180
+		},
+		"*-levelsignb2-west": {
+			"base": "block/detail/l1deco-levelsignb2",
+			"rotateY": 90
+		},
+		"*-levelsignb3-north": {
+			"base": "block/detail/l1deco-levelsignb3",
+			"rotateY": 0
+		},
+		"*-levelsignb3-east": {
+			"base": "block/detail/l1deco-levelsignb3",
+			"rotateY": 270
+		},
+		"*-levelsignb3-south": {
+			"base": "block/detail/l1deco-levelsignb3",
+			"rotateY": 180
+		},
+		"*-levelsignb3-west": {
+			"base": "block/detail/l1deco-levelsignb3",
 			"rotateY": 90
 		}
 	},

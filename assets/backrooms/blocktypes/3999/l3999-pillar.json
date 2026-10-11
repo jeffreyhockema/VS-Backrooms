@@ -1,4 +1,4 @@
-// Level 3999: a mirror-steel octagonal column 12 px across with two neon rings (stack one per block of height; light 13)
+// Level 3999: a mirror-steel octagonal column 12 px across with a vertical neon tube down each diagonal face (stack one per block of height; the tubes run on into one lit column; light 15)
 {
 	"code": "l3999-pillar",
 	"variantgroups": [
@@ -78,32 +78,32 @@
 		"*-magenta": [
 			51,
 			7,
-			13
+			15
 		],
 		"*-cyan": [
 			33,
 			6,
-			13
+			15
 		],
 		"*-blue": [
 			40,
 			7,
-			13
+			15
 		],
 		"*-pink": [
 			62,
 			7,
-			13
+			15
 		],
 		"*-orange": [
 			3,
 			7,
-			13
+			15
 		],
 		"*-lilac": [
 			53,
 			3,
-			13
+			15
 		]
 	},
 	"drops": [],

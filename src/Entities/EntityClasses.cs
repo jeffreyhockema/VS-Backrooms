@@ -3,7 +3,6 @@ using Vintagestory.GameContent;
 
 namespace Backrooms.Entities;
 
-/// <summary>Registers the entities' behaviour, AI tasks and Firesalt with the game, on both sides.</summary>
 /// <summary>A Deathmoth flies like a butterfly, but unlike one it can be struck.</summary>
 public class EntityDeathmoth : EntityButterfly
 {
@@ -25,6 +24,7 @@ public class EntityDeathRat : EntityAgent
     }
 }
 
+/// <summary>Registers the entities' behaviour, AI tasks and Firesalt with the game, on both sides.</summary>
 public class EntityClasses : ModSystem
 {
     public override double ExecuteOrder() => 0.05;

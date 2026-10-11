@@ -1,7 +1,10 @@
 {
 	code: "tunnelwall",
-	// Grimy concrete. "pipes", "riser" and "valve" carry real 3D pipework sticking out into the tunnel.
-	variantgroups: [{ code: "type", states: ["plain", "machinery", "brick", "warning", "pipes", "riser", "riserjoint", "valve"] }],
+	// Grimy concrete. "pipes", "riser" and "valve" carry real 3D pipework sticking out into the tunnel, "machinery" a
+	// control cabinet with two dial gauges ("machinerybase" is its lower half); "pipesjoint" the pipes with a flanged
+	// joint, "pipesbracket" with a strut and clamps. Name only the "wall" code on those: "all" would paint the pipes
+	// and the cabinet concrete too.
+	variantgroups: [{ code: "type", states: ["plain", "machinery", "brick", "warning", "pipes", "riser", "riserjoint", "valve", "machinerybase", "pipesjoint", "pipesbracket"] }],
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtypeByType: {
@@ -9,19 +12,31 @@
 		"*-riser": "json",
 		"*-riserjoint": "json",
 		"*-valve": "json",
+		"*-machinery": "json",
+		"*-machinerybase": "json",
+		"*-pipesjoint": "json",
+		"*-pipesbracket": "json",
 		"*": "cube"
 	},
 	shapeByType: {
 		"*-pipes": { base: "block/tunnelwall-pipes" },
 		"*-riser": { base: "block/tunnelwall-riser" },
 		"*-riserjoint": { base: "block/tunnelwall-riserjoint" },
-		"*-valve": { base: "block/tunnelwall-valve" }
+		"*-valve": { base: "block/tunnelwall-valve" },
+		"*-machinery": { base: "block/tunnelwall-machinery" },
+		"*-machinerybase": { base: "block/tunnelwall-machinerybase" },
+		"*-pipesjoint": { base: "block/tunnelwall-pipesjoint" },
+		"*-pipesbracket": { base: "block/tunnelwall-pipesbracket" }
 	},
 	texturesByType: {
-		"*-pipes": { all: { base: "block/level2/tunnelwall-plain" } },
-		"*-riser": { all: { base: "block/level2/tunnelwall-plain" } },
-		"*-riserjoint": { all: { base: "block/level2/tunnelwall-plain" } },
-		"*-valve": { all: { base: "block/level2/tunnelwall-plain" } },
+		"*-pipes": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-riser": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-riserjoint": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-valve": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-machinery": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-machinerybase": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-pipesjoint": { wall: { base: "block/level2/tunnelwall-plain" } },
+		"*-pipesbracket": { wall: { base: "block/level2/tunnelwall-plain" } },
 		"*": { all: { base: "block/level2/tunnelwall-{type}" } }
 	},
 	resistance: 8,

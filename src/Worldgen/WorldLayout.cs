@@ -13,9 +13,10 @@ namespace Backrooms.Worldgen;
 /// The world is divided into 32x32 "macro cells", exactly one per chunk column, each belonging to one level.
 /// Each macro cell owns the wall line on its west and north edge; whether those edges are walls, and where
 /// their gaps are, is a pure function of the edge, so both neighbours agree. Where two levels meet, the edge
-/// is a full-height wall, unbroken except at the few gates (see WorldLayout.Gates.cs). Within a level every edge
-/// has at least one passage, so each level is connected. Each level lays out the interior of its cells in its own
-/// partial class file.
+/// is a full-height wall, unbroken except at the few gates (see WorldLayout.Gates.cs). Within a level the edges are
+/// laid by the level itself: some follow a plan larger than a cell (Level 0's districts, Level 2's tunnels, Level 6's
+/// trunks), the rest leave passages of their own. Each level lays out the interior of its cells in its own partial
+/// class file.
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -125,10 +126,84 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// The places no ring reaches, which you can only noclip into: the city, the Poolrooms, Motion, and the five kept as
-    /// 14-18. Their rims have no gates.
+    /// The places no ring reaches, which you can only noclip into: the city, the Poolrooms, Motion, and the rest kept as
+    /// 14-20. Their rims have no gates.
     /// </summary>
     public static bool IsNoclipRegion(int level) => level >= 11;
+
+    /// <summary>
+    /// The layout version new worlds are made with. A world keeps the version it was made with for good, since its
+    /// chunks are generated as they are first reached and must go on matching the ones already made. Fixes that would
+    /// move what an existing world holds go in behind a new version (test <see cref="Version"/>), never in place:
+    /// <list type="bullet">
+    /// <item>1: every world made before the layout was versioned (up to 0.3.5).</item>
+    /// <item>2: Level 37's deep halls are rolled apart from their width (in 1 every deep hall is also a wide one), and
+    /// Level 5's boiler-bay fittings by the row as well as the column (in 1 they repeat from cell to cell along z).</item>
+    /// <item>3: Level 0 has more food: stashes of boxes in about one cell in six rather than nine (blackouts, one in
+    /// three or four rather than four or five), and fewer of them picked over (55% rather than 65%; blackouts, 35%
+    /// rather than 40%). Players starved looking for the way out.</item>
+    /// <item>4: Level 0 has one wallpaper, the chevron paper with its dark baseboard, as in Kane Parsons' footage and
+    /// the film (in 1-3 some areas and odd walls had the dotted paper with a brown rail). The pale walls of the arched
+    /// areas have the same baseboard and outlets, each face of a wall where the two meet shows the paper of the side
+    /// it faces, and the openings into an arched area are arches. A doorway wider than one block has one sign over
+    /// its middle (an EXIT or STAFF ONLY sign, a store's sign, a Level 3999 unit's neon), split in halves over the
+    /// middle two blocks of an even width (in 1-3 each block of a signed doorway had a sign of its own, a store's sign
+    /// hung over one of its two doors and a unit's neon half a block off; see WorldGenerator.Signs.cs). Level 5's
+    /// STAFF ONLY sign is a plate on the frieze. Level 1's car park is laid out district by district, its grid counted
+    /// from each district's corner, so the fire walls stand on column lines and never cut through a row of stalls or
+    /// along an aisle; its stair cores stand in the corners of each district, by the fire walls, with a crossing
+    /// painted from their doors; it has no speed bumps across its aisles; its stairs to nowhere climb into a wall at
+    /// the back of a stall; shear walls never stand across a cross aisle; and now and then a bay of stalls is a store.
+    /// Its maintenance halls have stockrooms of racks and aisles, and storerooms with shelving along the walls and
+    /// a clear way in (in 1-3 the grid ran on across the whole level and its things stood wherever they fell; see
+    /// WorldLayout.Level1.cs). Every stairwell of Levels 1 and 4 (Level 1's stair cores and its halls' stairwell rooms,
+    /// and Level 4's, which take in the corridor beside them) has a flight up through the ceiling and a flight down
+    /// through the floor, each into a dark shaft and on to another stairwell's flight the other way, Level 1's from
+    /// floor to painted floor, P5 to B3, and none of its halls' rooms has a corner fenced off by its furniture (in 1-3,
+    /// one flight that climbed into the ceiling, and a few such corners; see WorldLayout.StampStairwellV4).</item>
+    /// <item>5: arrivals in Levels 2, 3, 9, 11, 37 and 94 would rather be under a working light (2, 3), in a slit's light
+    /// and never in the dark corners (37), or out in the open, clear of house walls, trees and parked cars (9, 11, 94);
+    /// where none is near, the arrival is where it was (see WorldLayout.Reality.cs, ArrivalPreference). Level 4's cables
+    /// hang out of about one missing ceiling tile in six (0.8% of ceiling tiles; in 1-4, 2.5%). Level 37's arrivals would
+    /// rather be in a rotunda, pillar hall or natatorium with room to look round than in a corridor facing a wall. The
+    /// End has partition walls (the store's painted wall, with openings) along about one department border in three,
+    /// on the side of a stacks or open-floor department, and the central hall's EXIT doors stand at the back of little
+    /// vestibules (in 1-4, in lone walls; see WorldLayout.LevelEnd.cs, PlanEndPartitions). Most of Level 10's crop fields
+    /// have a second thing in them besides the scarecrow: a lone shed, a water trough and pump, or a fallen gate
+    /// (FieldFocalOf). Some of Level 11's low brick roofs carry a billboard facing the street, and some street corners an
+    /// advertising pillar (RoofDressing, CornerFurniture). Level 4 turns to hotel red toward Level 5 by the distance to
+    /// it, solid within about five blocks and frayed by noise out to fourteen (in 1-4, in noisy patches all over a cell
+    /// beside the hotel; WarmTowardsHotel), and its wanderers' refuges are camps (PitchL4Camp; the wanderer stands on
+    /// the tile it marks). One Level 5 lobby cell in each four by four region of cells is a front hall: a back wall, the
+    /// front desk on the axis with a key rack, two grand staircases up through the ceiling to Level 4, runners
+    /// (BuildFrontHall). One locked hotel door in three hundred reads 666, and the Beverly Room's doors have blank plates
+    /// (in 1-4, 201-208). Some of Level 2's mains carry the B.N.T.G.'s tramway down their middle lane, now and then
+    /// with a dead locomotive and wagon on it (Tile.Zone, L2Rails, PlaceDeadTram), and about one length of main in eight
+    /// between two crossings of mains is stepped 4-8 blocks aside (L2Jog); a Level 2 warren has candle stubs under its
+    /// crosses and by its cache. Now and then something purpified lies half in a Level 3 wall (Decor.Purpified).
+    /// Level 7's islands rise in steps from the water (Tile.Height 0-2), pillars of their rock stand into the ceiling
+    /// from the larger islands and as sea stacks in the sea, and one camp in two has a shelter of furniture and tar
+    /// (ShapeLevel7, Tile.Detail L7Pillar, L7TarUnder); its ceiling glows in patches (WorldGenerator.CeilingGlows). Level
+    /// 8's road is an arch and its settlements domes (Tile.Height: RoadRoof, CampDome; a clearing is round, in 1-4 a
+    /// square 17 across), its lamps face the road (Tile.Pier), glowcaps grow along its walls and in its caves
+    /// (Props.GlowcapRed/Mixed, WorldGenerator.Glowcaps), and its ore lies in veins and pockets (CaveColumn.OreGrade).
+    /// One Level 6.1 store in four is a vending machine room (SnackUnit.VendingRoom, Props.VendingPile). About a third
+    /// of Level 9's houses have two storeys with stairs and bedrooms upstairs, more have porches, there is a lamp by
+    /// every front door, windows come in three rhythms (PlanHouse, Tile.Height), and every junction has street-name
+    /// signs, one in six a DOWNTOWN sign. Level Fun's elevator lobbies are dressed for the party (string lights,
+    /// confetti, balloons and streamers, a poster, the ship's directory, a palm; DressFunLobbyTile), and one pair of
+    /// doors in each says OUT OF ORDER =). Level !'s start rooms have the crash rail, notices and a sanitiser dispenser
+    /// (in 1-4 bare walls). Level 3999's lobbies and food courts have pillars every ten blocks rather than five and
+    /// neon tubes under the ceiling every six, its lobbies a row of six machines on the back wall and a storey line of
+    /// black marble at rel 6-7 (drawn by the generator when Version >= 5). In Level 974 you wake on the bedroom rug
+    /// before the bed (in 1-4, in the mouth of the bed's alcove), and the hall has a third downlight. Level 188's EXIT
+    /// sign hangs over the courtyard door on the courtyard side (drawn by the generator when Version >= 5).</item>
+    /// </list>
+    /// </summary>
+    public const int CurrentVersion = 5;
+
+    /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
+    public readonly int Version;
 
     private readonly ulong seed;
     private readonly int spawnMacroX;
@@ -138,14 +213,20 @@ public sealed partial class WorldLayout
     private readonly double[,] shapeAmplitude = new double[RingWidths.Length, ShapeHarmonics + 1];
     private readonly double[,] shapePhase = new double[RingWidths.Length, ShapeHarmonics + 1];
 
-    // The level of every cell asked about so far (it is asked about constantly)
-    private readonly System.Collections.Concurrent.ConcurrentDictionary<long, byte> levelCache = new();
+    // The level of the cells asked about lately (it is asked about constantly): bounded, so a world explored far and
+    // wide does not keep one entry for every cell it ever looked at
+    private readonly LatticeMemo<byte> levelCache;
 
-    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ)
+    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion)
     {
+        Version = Math.Clamp(version, 1, CurrentVersion);
         this.seed = (ulong)seed;
         this.spawnMacroX = spawnMacroX;
         this.spawnMacroZ = spawnMacroZ;
+        levelCache = new LatticeMemo<byte>(1 << 16, (mx, mz) => (byte)ComputeLevel(mx, mz));
+        snackCache = new LatticeMemo<bool>(1 << 12, ComputeSnackrooms);
+        gateCache = new LatticeMemo<HashSet<long>>(1 << 10, PlanGates);
+        featureCells = new PlanCache<Tile[]>(48, BuildMacro);
 
         for (int ring = 0; ring < RingWidths.Length; ring++)
         {
@@ -161,6 +242,11 @@ public sealed partial class WorldLayout
             }
             for (int h = 1; h <= ShapeHarmonics; h++) shapeAmplitude[ring, h] /= total;
         }
+
+        // The Level 0 district the spawn point lies in (asked about for every district planned or zoned)
+        int sgx = spawnMacroX * MacroSize + MacroSize / 2, sgz = spawnMacroZ * MacroSize + MacroSize / 2;
+        l0SpawnRow = L0RowOf(sgz);
+        l0SpawnCol = L0ColOf(sgx, l0SpawnRow);
     }
 
     public static int MacroOf(int blockCoord) => Hashing.FloorDiv(blockCoord, MacroSize);
@@ -172,14 +258,7 @@ public sealed partial class WorldLayout
     // ================= Levels =================
 
     /// <summary>Which level a macro cell belongs to.</summary>
-    public int LevelAt(int mx, int mz)
-    {
-        long key = ((long)mx << 32) | (uint)mz;
-        if (levelCache.TryGetValue(key, out byte cached)) return cached;
-        int level = ComputeLevel(mx, mz);
-        levelCache.TryAdd(key, (byte)level);
-        return level;
-    }
+    public int LevelAt(int mx, int mz) => levelCache.Get(mx, mz);
 
     private int ComputeLevel(double mx, double mz)
     {
@@ -243,6 +322,21 @@ public sealed partial class WorldLayout
     private double InnerEdge(int level, double angle) => level <= 0 ? 0 : OuterEdge(level - 1, angle);
 
     /// <summary>
+    /// <see cref="InnerEdge"/> and <see cref="OuterEdge"/> of a ring level (0 to the outermost ring) in one pass, for
+    /// the per-block callers: the same sums in the same order, so the same values to the last bit, at half the cost.
+    /// </summary>
+    private (double Inner, double Outer) RingEdges(int level, double angle)
+    {
+        double inner = 0, edge = 0;
+        for (int ring = 0; ring <= level; ring++)
+        {
+            if (ring == level) inner = edge;
+            edge += RingWidths[ring] * RingShape(ring, angle);
+        }
+        return (inner, edge);
+    }
+
+    /// <summary>
     /// The warped distance from spawn (in macro cells) that is compared with the ring edges. Blobs and smaller
     /// lumps make the edges wander, and now and then leave an island of one level inside another.
     /// </summary>
@@ -260,7 +354,7 @@ public sealed partial class WorldLayout
         if (level <= 0 || level >= RingWidths.Length) return 0.5;
         double mx = gx / (double)MacroSize, mz = gz / (double)MacroSize;
         double angle = Math.Atan2(mz - spawnMacroZ, mx - spawnMacroX);
-        double inner = InnerEdge(level, angle), outer = OuterEdge(level, angle);
+        var (inner, outer) = RingEdges(level, angle);
         return Math.Clamp((RingDistance(mx, mz) - inner) / (outer - inner), 0, 1);
     }
 
@@ -560,6 +654,8 @@ public sealed partial class WorldLayout
             SealPockets(b, east, south);
             OpenGates(b, mx, mz, west, north, east, south);
         }
+        // (After the doorways are cleared and the pockets sealed, so the camp stays as it is laid out)
+        if (b.Level == 4 && Version >= 5) PitchL4Camp(b, mx, mz);
         MarkPickedOver(b, mx, mz);
         PlaceDen(b, mx, mz);
         MarkWayToGates(b, mx, mz);
@@ -652,7 +748,6 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>Whether a person can stand on and walk across a tile.</summary>
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
         or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
@@ -660,6 +755,7 @@ public sealed partial class WorldLayout
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));
 
+    /// <summary>Whether a person can stand on and walk across a tile.</summary>
     private static bool IsWalkable(in Tile t)
     {
         if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true;
@@ -676,23 +772,26 @@ public sealed partial class WorldLayout
     {
         var reached = new bool[MacroSize * MacroSize];
         var queue = new Queue<int>();
+        void Seed(int x, int z, bool open)
+        {
+            int index = TileIndex(x, z);
+            if (!open || reached[index] || !IsWalkable(b.Tiles[index])) return;
+            reached[index] = true;
+            queue.Enqueue(index);
+        }
         for (int i = 0; i < MacroSize; i++)
         {
             // The west and north edges are this cell's own tiles; past the east and south ones, the neighbours' edges must be open
-            foreach ((int x, int z, bool open) in new[] { (i, 0, true), (0, i, true),
-                     (i, MacroSize - 1, south.Tiles[i] != EdgeTile.Wall), (MacroSize - 1, i, east.Tiles[i] != EdgeTile.Wall) })
-            {
-                int index = TileIndex(x, z);
-                if (!open || reached[index] || !IsWalkable(b.Tiles[index])) continue;
-                reached[index] = true;
-                queue.Enqueue(index);
-            }
+            Seed(i, 0, true);
+            Seed(0, i, true);
+            Seed(i, MacroSize - 1, south.Tiles[i] != EdgeTile.Wall);
+            Seed(MacroSize - 1, i, east.Tiles[i] != EdgeTile.Wall);
         }
         while (queue.Count > 0)
         {
             int index = queue.Dequeue();
             int x = index % MacroSize, z = index / MacroSize;
-            foreach ((int dx, int dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+            foreach ((int dx, int dz) in Steps)
             {
                 int nx = x + dx, nz = z + dz;
                 if (nx < 0 || nz < 0 || nx >= MacroSize || nz >= MacroSize) continue;

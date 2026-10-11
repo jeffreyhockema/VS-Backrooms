@@ -6,7 +6,11 @@
 	// Damaged walls have rusty rebar sticking out of them
 	drawtypeByType: { "*-damaged": "json", "*": "cube" },
 	shapeByType: { "*-damaged": { base: "block/concretewall-damaged" } },
-	textures: { all: { base: "block/level1/concretewall-{type}" } },
+	// Name only the wall code on the damaged shape: "all" would paint the rebar concrete too
+	texturesByType: {
+		"*-damaged": { wall: { base: "block/level1/concretewall-damaged" } },
+		"*": { all: { base: "block/level1/concretewall-{type}" } }
+	},
 	resistance: 8,
 	requiredMiningTier: 3,
 	lightAbsorption: 99,

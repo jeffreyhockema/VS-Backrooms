@@ -12,8 +12,8 @@ import random
 from PIL import Image, ImageDraw
 
 import texlib
-from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cyl, name,
-                        prop, wall_family, write_json)
+from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cube, cyl, name,
+                        prop, seam_halves, shape, wall_family, write_json)
 from detail_textures import S, noise, rgb, save, text
 from gen_detail import cube_block, plate
 from detail_kit import T, seed_of
@@ -35,6 +35,8 @@ def threshold(kind):
 
 STYLES = ["glass", "mirror", "brick", "brickdark", "stone", "concrete"]
 PARTS = ["wall", "window", "lit", "blinds", "band"]
+# The other panes of the mirror-glass towers, mixed in among the first so a façade doesn't tile
+MIRROR_ALTERNATES = ["facade-mirror-alt1", "facade-mirror-alt2", "facade-mirror-alt3"]
 
 
 # ======================= Textures =======================
@@ -138,14 +140,33 @@ def facade_textures():
     save(spandrel, "facade-glass-wall")
     save(speckle(Image.new("RGBA", (S, S), (70, 76, 84, 255)), 4, "glasspier"), "pier-glass")
 
-    # Mirror glass: black, dull, giving back a dim and wrong reflection of the street. They never open
-    mirror = texlib.vertical_gradient((40, 42, 50), (12, 12, 16))
-    d = ImageDraw.Draw(mirror)
-    d.line([0, 30, 30, 0], fill=(58, 60, 70, 255), width=3)
-    d.line([12, 31, 31, 12], fill=(30, 32, 40, 255), width=1)
-    d.line([0, 0, 0, S - 1], fill=(8, 8, 10, 255))
-    for part in ("window", "lit", "blinds", "wall"):
+    # Mirror glass: black, dull, giving back a dim and wrong reflection of the street. They never open. Each block is a
+    # pane in a thin mullion grid, and no two neighbours quite match (MIRROR_ALTERNATES, picked at random by the game):
+    # a plain pane, a faint sheen across one at a different place each time, a lighter one holding a band of the street
+    # opposite, a darker one. A single streak baked into every pane tiled a whole tower into a quilt
+    def mirror_pane(top, bottom, key, sheen=None, band=None):
+        img = texlib.vertical_gradient(top, bottom)
+        if sheen is not None:
+            px = img.load()
+            for y in range(S):
+                for x in range(S):
+                    t = max(0.0, 1 - abs(x + y - sheen) / 5.0) * 7
+                    r_, g_, b_, a_ = px[x, y]
+                    px[x, y] = (int(r_ + t), int(g_ + t), int(b_ + t * 1.3), a_)
+        d = ImageDraw.Draw(img)
+        if band is not None:
+            d.rectangle([1, band, S - 1, band + 3], fill=tuple(int(v * 0.5 + 0.5 * w) for v, w in zip(bottom, (44, 46, 54))) + (255,))
+        d.line([0, 0, 0, S - 1], fill=(8, 8, 10, 255))
+        d.line([1, 0, S - 1, 0], fill=(10, 10, 13, 255))
+        save(img, key)
+        return img
+
+    mirror = mirror_pane((30, 31, 37), (17, 17, 22), "facade-mirror-wall")
+    for part in ("window", "lit", "blinds"):
         save(mirror, f"facade-mirror-{part}")
+    mirror_pane((30, 31, 37), (17, 17, 22), "facade-mirror-alt1", sheen=22)
+    mirror_pane((34, 35, 42), (21, 21, 27), "facade-mirror-alt2", band=19)
+    mirror_pane((25, 26, 31), (14, 14, 18), "facade-mirror-alt3", sheen=40)
     band = Image.new("RGBA", (S, S), (14, 14, 18, 255))
     d = ImageDraw.Draw(band)
     d.line([0, 0, S - 1, 0], fill=(36, 36, 42, 255))
@@ -383,6 +404,29 @@ def sign(code, words, bg, fg, border=None, size=8, glyph=None):
     save(img, code)
 
 
+def sign_wide(code, lines, bg, fg, border=None, glyph=None):
+    """The sign over a two-wide door: twice the width of the one-block sign, so the name fits on one line at a size
+    that reads from the street. `lines` are (words, size) pairs; `glyph` is drawn in a square at the left."""
+    w, h = 2 * S, S
+    img = Image.new("RGBA", (w, h), rgb(bg))
+    d = ImageDraw.Draw(img)
+    if border:
+        d.rectangle([0, 0, w - 1, h - 1], outline=rgb(border), width=1)
+    x0 = 2
+    if glyph == "cross":
+        d.rectangle([8, 8, 13, 23], fill=rgb(0x2ACC4A))
+        d.rectangle([3, 13, 18, 18], fill=rgb(0x2ACC4A))
+        x0 = 20
+    if glyph == "p":
+        d.rectangle([3, 7, 20, 24], fill=rgb(0x1C4AB0))
+        text(img, "P", (3, 7, 21, 25), 0xFFFFFF, 15)
+        x0 = 22
+    row = (h - 4) // len(lines)
+    for k, (words, size) in enumerate(lines):
+        text(img, words, (x0, 2 + k * row, w - 2, 2 + (k + 1) * row), fg, size)
+    save(img, code + "-wide")
+
+
 def sign_textures():
     sign("signdiner", "DINER\nOPEN 24 HRS", 0x181418, 0xFF4A5A, border=0x606060)
     sign("signgrocery", "GROCERY", 0x1C3A24, 0xF2E8C8, border=0xC8B060)
@@ -398,6 +442,21 @@ def sign_textures():
     sign("signapartments", "THE\nARMS", 0x1C2A24, 0xE8E0C8)
     sign("signparking", "   PARK\n   ING", 0xF0F0F0, 0x1C4AB0, glyph="p")
     sign("signmuseum", "MUSEUM", 0xD8CCAA, 0x3A3020, border=0x9A8E70)
+    # The same signs made for a two-wide door, to hang centred over it in two halves (storefrontsign)
+    sign_wide("signdiner", [("DINER", 13), ("OPEN 24 HRS", 7)], 0x181418, 0xFF4A5A, border=0x606060)
+    sign_wide("signgrocery", [("GROCERY", 12)], 0x1C3A24, 0xF2E8C8, border=0xC8B060)
+    sign_wide("signbodega", [("BODEGA", 12), ("DELI", 9)], 0xC8381E, 0xFFF0C8)
+    sign_wide("signpharmacy", [("PHARMACY", 7)], 0xF4F4F0, 0x1A7A3A, glyph="cross")
+    sign_wide("signfarmacia", [("FARMACIA", 7)], 0xF4F4F0, 0x1A7A3A, glyph="cross")
+    sign_wide("signhardware", [("HARDWARE", 10), ("TOOLS", 9)], 0xB01818, 0xFFFFFF)
+    sign_wide("signlaundry", [("LAUNDROMAT", 9)], 0x1A3A8A, 0xFFFFFF)
+    sign_wide("signlavanderia", [("LAVANDERIA", 9)], 0x1A3A8A, 0xFFE860)
+    sign_wide("signclothing", [("CLOTHING", 11)], 0x101010, 0xE8D8B0, border=0xB0A070)
+    sign_wide("signhotel", [("HOTEL", 14)], 0x4A0E14, 0xE8C060, border=0xE8C060)
+    sign_wide("signoffices", [("1100", 14)], 0x2A2620, 0xC8A060, border=0x5A5040)
+    sign_wide("signapartments", [("THE ARMS", 11)], 0x1C2A24, 0xE8E0C8)
+    sign_wide("signparking", [("PARKING", 8)], 0xF0F0F0, 0x1C4AB0, glyph="p")
+    sign_wide("signmuseum", [("MUSEUM", 12)], 0xD8CCAA, 0x3A3020, border=0x9A8E70)
 
     # Inside: a bank of brass mailboxes, a felt letter board, a missing person poster
     img = Image.new("RGBA", (S, S), rgb(0x6A5430))
@@ -612,12 +671,106 @@ def prop_textures():
     flat("dumpsterlid", 0x1C1E20, 3)
 
 
+# The billboards on the brick roofs and the advertising pillars on the corners (the lore's "advertising pillars and
+# billboards"): the same few brands as the rest of the city, sun-faded, and one billboard stripped to its last shreds
+BILLBOARDS = ["almond", "city", "diner", "stripped"]
+PILLARS = ["a", "b", "c"]
+
+
+def poster_textures():
+    def faded(img, key, amount=0.18):
+        """Sun and rain: the colours washed toward paper, a few streaks down from the top."""
+        rng = random.Random(seed_of(key))
+        px = img.load()
+        w, h = img.size
+        for y in range(h):
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                f = amount + rng.uniform(0, 0.05)
+                px[x, y] = (int(r + (226 - r) * f), int(g + (220 - g) * f), int(b + (204 - b) * f), a)
+        for _ in range(w // 16):
+            x = rng.randrange(w)
+            for y in range(rng.randrange(h // 3, h)):
+                r, g, b, a = px[x, y]
+                px[x, y] = (int(r + (214 - r) * 0.3), int(g + (208 - g) * 0.3), int(b + (192 - b) * 0.3), a)
+        return img
+
+    W, H = 3 * S, S + S // 2  # a billboard's poster: three blocks by a block and a half
+    img = texlib.vertical_gradient((150, 196, 214), (104, 160, 188)).resize((W, H))
+    d = ImageDraw.Draw(img)
+    d.rectangle([62, 8, 80, 44], fill=rgb(0xF4ECD8))
+    d.rectangle([66, 3, 76, 8], fill=rgb(0xE8E0CC))
+    d.rectangle([65, 0, 77, 3], fill=rgb(0x2A6A9A))
+    d.rectangle([64, 20, 78, 32], fill=rgb(0x8AB8C8))
+    text(img, "ALMOND", (3, 4, 60, 22), 0x203040, 13)
+    text(img, "WATER", (3, 20, 60, 36), 0x203040, 13)
+    text(img, "STAY HYDRATED", (2, 36, 60, 46), 0x8A3A1A, 6)
+    save(faded(img, "bb-almond"), "billboard-almond")
+    img = texlib.vertical_gradient((24, 30, 64), (60, 54, 96)).resize((W, H))
+    d = ImageDraw.Draw(img)
+    rng = random.Random(seed_of("bb-city"))
+    x = 0
+    while x < W:
+        bw, bh = rng.randint(4, 9), rng.randint(10, 26)
+        d.rectangle([x, H - bh, x + bw - 1, H - 1], fill=(16, 18, 34, 255))
+        for wy in range(H - bh + 2, H - 2, 3):
+            for wx in range(x + 1, x + bw - 1, 2):
+                if rng.random() < 0.35:
+                    d.point((wx, wy), fill=(250, 214, 120, 255))
+        x += bw
+    text(img, "THE CITY THAT", (4, 2, W - 4, 13), 0xF2D27A, 9)
+    text(img, "NEVER SLEEPS", (4, 12, W - 4, 24), 0xF2D27A, 9)
+    save(faded(img, "bb-city", 0.12), "billboard-city")
+    img = Image.new("RGBA", (W, H), rgb(0xB82A24))
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, H - 10, W - 1, H - 1], fill=rgb(0xF2E8C8))
+    d.ellipse([70, 8, 90, 30], fill=rgb(0xF4F0E8))
+    d.ellipse([74, 12, 86, 20], fill=rgb(0x5A3420))
+    d.arc([86, 14, 94, 24], 270, 90, fill=rgb(0xF4F0E8), width=2)
+    text(img, "EAT AT THE", (4, 3, 66, 14), 0xF2E8C8, 8)
+    text(img, "DINER", (4, 13, 66, 36), 0xFFFFFF, 17)
+    text(img, "OPEN 24 HRS  NEXT CORNER", (2, H - 10, W - 2, H), 0xB82A24, 6)
+    save(faded(img, "bb-diner"), "billboard-diner")
+    # Stripped: grey backing boards, the last strips of old posters pasted one over another
+    img = Image.new("RGBA", (W, H), rgb(0x8A8A84))
+    d = ImageDraw.Draw(img)
+    for xx in range(0, W, 16):
+        d.line([xx, 0, xx, H - 1], fill=rgb(0x74746E))
+    rng = random.Random(seed_of("bb-stripped"))
+    for c in (0xE8E0CC, 0x2A6A9A, 0xB82A24, 0xF2D27A):
+        for _ in range(5):
+            x0, y0 = rng.randrange(W - 10), rng.randrange(H - 6)
+            d.polygon([(x0, y0), (x0 + rng.randint(6, 22), y0 + rng.randint(-2, 2)), (x0 + rng.randint(4, 18), y0 + rng.randint(4, 14)),
+                       (x0 + rng.randint(-2, 3), y0 + rng.randint(3, 12))], fill=rgb(c))
+    save(img, "billboard-stripped")
+    save(noise(0x3A3C3E, 4, "billboardframe"), "billboardframe")
+
+    # The advertising pillars: a column of posters pasted up one over another, one over the next, in the city's brands
+    ph = 3 * S
+    for k, posters in enumerate((
+            [("ALMOND", "WATER", 0x8AB8C8, 0x203040), ("DINER", "24 HRS", 0xB82A24, 0xF2E8C8), ("THE ARMS", "ROOMS", 0x1C2A24, 0xE8E0C8)],
+            [("MUSEUM", "OPEN", 0xD8CCAA, 0x3A3020), ("HOTEL", "VACANCY", 0x4A0E14, 0xE8C060), ("LAUNDRO", "MAT", 0x1A3A8A, 0xFFFFFF)],
+            [("CINEMA", "TONIGHT", 0x181418, 0xF2D27A), ("MISSING", "?", 0xF0ECDC, 0xC01818), ("BODEGA", "DELI", 0xC8381E, 0xFFF0C8)])):
+        img = Image.new("RGBA", (S, ph), rgb(0xD8D2C0))
+        d = ImageDraw.Draw(img)
+        for n, (top, bottom, bg, fg) in enumerate(posters):
+            y0 = 2 + n * S
+            d.rectangle([1, y0, S - 2, y0 + S - 4], fill=rgb(bg))
+            text(img, top, (2, y0 + 3, S - 2, y0 + 13), fg, 6 if len(top) > 6 else 7)
+            text(img, bottom, (2, y0 + 14, S - 2, y0 + 24), fg, 5 if len(bottom) > 6 else 6)
+            # A torn corner, the poster under it showing through
+            d.polygon([(S - 2, y0 + S - 10), (S - 2, y0 + S - 4), (S - 8, y0 + S - 4)], fill=rgb(0xD8D2C0))
+        save(faded(img, f"pillar-{k}", 0.1), f"adpillar-{PILLARS[k]}")
+    save(noise(0x24503A, 3, "pillargreen"), "pillargreen")
+
+
 def generate_textures():
     facade_textures()
     street_textures()
     door_textures()
     sign_textures()
     prop_textures()
+    poster_textures()
 
 
 # ======================= Blocks =======================
@@ -630,6 +783,8 @@ def facades():
                 faces = {f: {"base": "block/detail/cityplaster"} for f in ("north", "east", "south", "west")}
                 faces["up"] = faces["down"] = {"base": f"block/detail/pier-{style}"}
                 faces[s] = {"base": f"block/detail/facade-{style}-{part}"}
+                if style == "mirror" and part != "band":
+                    faces[s]["alternates"] = [{"base": f"block/detail/{k}"} for k in MIRROR_ALTERNATES]
                 by_type[f"*-{style}-{part}-{s}"] = faces
             if part == "lit" and style != "mirror":
                 glow_by[f"*-{style}-lit-*"] = {"glowLevel": 150}
@@ -722,6 +877,26 @@ def decorations():
         Decor(code, english[code], {3: plate("Sign", (0.5, 2.5, -1), (15.5, 13.5, 0), code, "blackmetal", glow=200 if code in neon else 60)},
               light=[0, 3, 7] if code in neon else None)
         for code in signs], material="Wood", sounds=WOOD)
+    # Over a two-wide door, the wide sign centred on the seam between the two fascia blocks over it, in halves: "l"
+    # carries the half seen on the left from the street, "r" the other (layout version 4 on; before, the one-block
+    # sign hung over one of the doors). Both halves of a neon sign are lit, as the one-block sign is
+    by_type, light_by = {}, {}
+    for code in signs:
+        wide = plate("Sign", (-5, 2, -1), (21, 15, 0), code + "-wide", "blackmetal", glow=200 if code in neon else 60)
+        for half, els in zip(("l", "r"), seam_halves(wide)):
+            path = shape(f"storefrontsign-{code}-{half}", [cube("cityfascia")] + els)
+            for s in SIDES:
+                by_type[f"*-{code}-{half}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+        if code in neon:
+            light_by[f"*-{code}-*"] = [0, 3, 7]
+        name(f"storefrontsign-{code}-*", english[code])
+    block("storefrontsign", {
+        "variantgroups": [{"code": "sign", "states": signs}, {"code": "half", "states": ["l", "r"]}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Wood", "drawtype": "json", "shapeByType": by_type,
+        "lightHsvByType": light_by, "lightAbsorptionByType": dict({k: 0 for k in light_by}, **{"*": 99}),
+        "resistance": 4, "sounds": WOOD,
+    }, "Storefront fascia carrying half of a store's sign: two side by side make one sign centred over a two-wide door")
     wall_family("citydeco", "Plaster Wall", {1: "cityplaster"}, [
         Decor("mailboxes", "Mailboxes", {2: plate("Boxes", (1, 1, -1.5), (15, 15, 0), "mailboxes", "brass")}),
         Decor("directory", "Directory Board", {2: plate("Board", (2, 2, -0.8), (14, 14, 0), "directory", "wooddark")}),
@@ -856,6 +1031,39 @@ def props():
     for k, y in enumerate(range(16, 120, 24)):
         mast += [bx(f"BarX{k}", (2, y, 7.5), (14, y + 1, 8.5), "steel"), bx(f"BarZ{k}", (7.5, y + 12, 2), (8.5, y + 13, 14), "steel")]
     prop("antenna", "Radio Mast", mast, box=(0.4, 0, 0.4, 0.6, 1, 0.6), oriented=False, material="Metal", sounds=METAL)
+    # A billboard on a brick roof: a steel frame on legs, the poster three blocks wide facing the street (north), a
+    # catwalk along its foot and three lamps over it, long dead. Drawn from the middle block of the three
+    frame = [bx("LegL", (-14, 0, 9), (-12, 14, 11), "billboardframe"), bx("LegR", (28, 0, 9), (30, 14, 11), "billboardframe"),
+             bx("LegM", (7, 0, 9), (9, 14, 11), "billboardframe"),
+             # Raking struts from the roof behind up to the back of the frame
+             bx("StrutL", (-14, 0, 19), (-12, 31, 21), "billboardframe", rot=(-20, 0, 0), origin=(-13, 0, 20)),
+             bx("StrutR", (28, 0, 19), (30, 31, 21), "billboardframe", rot=(-20, 0, 0), origin=(29, 0, 20)),
+             bx("Back", (-16, 14, 8), (32, 38, 9), "billboardframe", faces=("south", "east", "west", "up", "down")),
+             bx("Trim", (-16.5, 13.5, 7.5), (32.5, 14.5, 8.5), "billboardframe"),
+             bx("TrimTop", (-16.5, 37.5, 7.5), (32.5, 38.5, 8.5), "billboardframe"),
+             bx("Catwalk", (-16, 12.5, 2), (32, 13.5, 8), "billboardframe"),
+             bx("Rail", (-16, 16, 1.5), (32, 16.5, 2), "billboardframe")]
+    for k, x in enumerate((-8, 8, 24)):
+        frame += [bx(f"Arm{k}", (x - 0.5, 38, 2), (x + 0.5, 39, 8), "billboardframe"),
+                  bx(f"Lamp{k}", (x - 2, 36.5, 1), (x + 2, 38.5, 3.5), "metaldark")]
+    prop("billboard", "Billboard", {k: frame + [bx("Poster", (-16, 14, 7.9), (32, 38, 8), f"billboard-{k}", faces=("north",), full=True)]
+                                    for k in BILLBOARDS},
+         box=(0, 0, 0.5, 1, 0.9, 0.75), material="Metal", sounds=METAL,
+         extra={"drops": drops(("metalbracket", 2, 1), ("game:metalnailsandstrips-iron", 0.6, 0.4), ("game:paper-parchment", 1, 1))},
+         comment="A billboard on a brick roof, its poster to the street, its lamps long dead")
+
+    # An advertising pillar on a street corner: a round column pasted all round with posters, a moulded cap and a finial
+    def column(k):
+        return ([bx("Plinth", (2, 0, 2), (14, 3, 14), "pillargreen"), bx("PlinthB", (1, 0, 4), (15, 3, 12), "pillargreen"),
+                 bx("PlinthC", (4, 0, 1), (12, 3, 15), "pillargreen")]
+                + [bx("Column", (2, 3, 3.8), (14, 39, 12.2), f"adpillar-{k}", faces=("north", "south", "east", "west"), full=True),
+                   bx("ColumnB", (3.8, 3, 2), (12.2, 39, 14), f"adpillar-{k}", faces=("north", "south", "east", "west"), full=True)]
+                + [bx("Band", (1.5, 39, 3.5), (14.5, 41, 12.5), "pillargreen"), bx("BandB", (3.5, 39, 1.5), (12.5, 41, 14.5), "pillargreen"),
+                   bx("Cap", (2.5, 41, 2.5), (13.5, 44, 13.5), "pillargreen"), bx("Dome", (5, 44, 5), (11, 46, 11), "pillargreen"),
+                   bx("Finial", (7.5, 46, 7.5), (8.5, 49, 8.5), "metaldark")])
+    prop("adpillar", "Advertising Pillar", {k: column(k) for k in PILLARS}, box=(0.1, 0, 0.1, 0.9, 1.5, 0.9), oriented=False,
+         material="Stone", sounds=STONE, extra={"drops": drops(("game:paper-parchment", 2, 1))},
+         comment="An advertising pillar on a street corner, pasted all round with posters")
     prop("postbox", "Mailbox", [
         bx("Body", (3, 2, 4), (13, 18, 12), "postblue", faces=("east", "west", "south", "down")),
         bx("Front", (3, 2, 4), (13, 18, 12), "postfront", faces=("north",), full=True),

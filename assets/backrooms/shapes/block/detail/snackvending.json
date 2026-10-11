@@ -3,7 +3,13 @@
 	"textureHeight": 16,
 	"textures": {
 		"chrome": "backrooms:block/detail/chrome",
-		"snackvending": "backrooms:block/detail/snackvending"
+		"metaldark": "backrooms:block/props/metal-dark",
+		"snackvendglass": "backrooms:block/detail/snackvendglass",
+		"snackvendhead": "backrooms:block/detail/snackvendhead",
+		"snackvending": "backrooms:block/detail/snackvending",
+		"snackvendinside": "backrooms:block/detail/snackvendinside",
+		"snackvendpanel": "backrooms:block/detail/snackvendpanel",
+		"snackvendrows": "backrooms:block/detail/snackvendrows"
 	},
 	"elements": [
 		{
@@ -11,7 +17,7 @@
 			"from": [
 				1,
 				0,
-				2
+				8
 			],
 			"to": [
 				15,
@@ -20,34 +26,34 @@
 			],
 			"faces": {
 				"east": {
-					"texture": "#chrome",
+					"texture": "#snackvending",
 					"uv": [
 						0,
 						0,
-						13,
+						7,
 						16
 					]
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#snackvending",
 					"uv": [
 						0,
 						0,
-						13,
+						7,
 						16
 					]
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#snackvending",
 					"uv": [
 						0,
 						0,
 						14,
-						13
+						7
 					]
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#snackvending",
 					"uv": [
 						0,
 						0,
@@ -58,16 +64,117 @@
 			}
 		},
 		{
-			"name": "Front",
+			"name": "Inside",
+			"from": [
+				5,
+				7,
+				8
+			],
+			"to": [
+				13.5,
+				25,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendinside",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "Header",
 			"from": [
 				1,
-				0,
-				2
+				25,
+				1.4
 			],
 			"to": [
 				15,
 				29,
-				15
+				8
+			],
+			"faces": {
+				"east": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						4
+					]
+				},
+				"west": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						4
+					]
+				},
+				"up": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						14,
+						6.6
+					]
+				},
+				"down": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						14,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "HeaderFace",
+			"from": [
+				1,
+				25,
+				1.4
+			],
+			"to": [
+				15,
+				29,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendhead",
+					"uv": [
+						0,
+						0,
+						16,
+						4.5
+					],
+					"glow": 80
+				}
+			}
+		},
+		{
+			"name": "Stile",
+			"from": [
+				13.5,
+				7,
+				1.4
+			],
+			"to": [
+				15,
+				25,
+				8
 			],
 			"faces": {
 				"north": {
@@ -75,8 +182,778 @@
 					"uv": [
 						0,
 						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1,
+				7,
+				1
+			],
+			"to": [
+				5,
+				25,
+				8
+			],
+			"faces": {
+				"east": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						7,
+						16
+					]
+				},
+				"up": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				},
+				"down": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelFace",
+			"from": [
+				1,
+				7,
+				1
+			],
+			"to": [
+				5,
+				25,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendpanel",
+					"uv": [
+						6,
+						0,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				1,
+				0,
+				1.4
+			],
+			"to": [
+				15,
+				7,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						14,
+						7
+					]
+				},
+				"east": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						7
+					]
+				},
+				"west": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						6.6,
+						7
+					]
+				},
+				"up": {
+					"texture": "#snackvending",
+					"uv": [
+						0,
+						0,
+						14,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Flap",
+			"from": [
+				5.5,
+				2,
+				1.1
+			],
+			"to": [
+				13.5,
+				5.5,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				5,
+				7,
+				2.2
+			],
+			"to": [
+				13.5,
+				25,
+				2.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendglass",
+					"uv": [
+						0,
+						0,
 						16,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf0",
+			"from": [
+				5,
+				8,
+				3
+			],
+			"to": [
+				13.5,
+				8.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Packets00",
+			"from": [
+				5.3,
+				8.5,
+				4
+			],
+			"to": [
+				7.699999999999999,
+				11.3,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets01",
+			"from": [
+				8.05,
+				8.5,
+				4
+			],
+			"to": [
+				10.450000000000001,
+				11.3,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets02",
+			"from": [
+				10.8,
+				8.5,
+				4
+			],
+			"to": [
+				13.200000000000001,
+				11.3,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				5,
+				12.3,
+				3
+			],
+			"to": [
+				13.5,
+				12.8,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Packets10",
+			"from": [
+				5.3,
+				12.8,
+				4
+			],
+			"to": [
+				7.699999999999999,
+				15.600000000000001,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets11",
+			"from": [
+				8.05,
+				12.8,
+				4
+			],
+			"to": [
+				10.450000000000001,
+				15.600000000000001,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets12",
+			"from": [
+				10.8,
+				12.8,
+				4
+			],
+			"to": [
+				13.200000000000001,
+				15.600000000000001,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Shelf2",
+			"from": [
+				5,
+				16.6,
+				3
+			],
+			"to": [
+				13.5,
+				17.1,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Packets20",
+			"from": [
+				5.3,
+				17.1,
+				4
+			],
+			"to": [
+				7.699999999999999,
+				19.900000000000002,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						8,
+						0,
+						10.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets21",
+			"from": [
+				8.05,
+				17.1,
+				4
+			],
+			"to": [
+				10.450000000000001,
+				19.900000000000002,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets22",
+			"from": [
+				10.8,
+				17.1,
+				4
+			],
+			"to": [
+				13.200000000000001,
+				19.900000000000002,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Shelf3",
+			"from": [
+				5,
+				20.9,
+				3
+			],
+			"to": [
+				13.5,
+				21.4,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Packets30",
+			"from": [
+				5.3,
+				21.4,
+				4
+			],
+			"to": [
+				7.699999999999999,
+				24.2,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						12,
+						0,
+						14.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets31",
+			"from": [
+				8.05,
+				21.4,
+				4
+			],
+			"to": [
+				10.450000000000001,
+				24.2,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						0,
+						0,
+						2.4,
+						2.8
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "Packets32",
+			"from": [
+				10.8,
+				21.4,
+				4
+			],
+			"to": [
+				13.200000000000001,
+				24.2,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#snackvendrows",
+					"uv": [
+						4,
+						0,
+						6.4,
+						2.8
 					],
 					"glow": 60
 				}

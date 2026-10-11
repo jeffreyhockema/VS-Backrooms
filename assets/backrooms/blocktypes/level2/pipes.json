@@ -1,14 +1,27 @@
 {
 	code: "pipes",
-	// Overhead pipe bundles in the top block of a tunnel: straight runs, junction boxes, and hissing leaks
-	variantgroups: [{ code: "type", states: ["run-we", "run-ns", "hub", "leak-we", "leak-ns"] }],
-	creativeinventory: { "general": ["*-run-we", "*-hub", "*-leak-we"], "decorative": ["*-run-we", "*-hub", "*-leak-we"] },
+	// Overhead pipe bundles in the top block of a tunnel: straight runs, junction boxes, and hissing leaks. The tar
+	// bundles are Level 3's: the bare pipe is black with the sludge it carries. "end-<side>" is a run ending with open
+	// tunnel beyond it on that side, capped; "stub-<axis>" a length on its own, capped at both ends
+	variantgroups: [{ code: "type", states: ["run-we", "run-ns", "hub", "leak-we", "leak-ns", "tar-we", "tar-ns", "tar-hub",
+		"end-north", "end-east", "end-south", "end-west", "tar-end-north", "tar-end-east", "tar-end-south", "tar-end-west",
+		"stub-we", "stub-ns", "tar-stub-we", "tar-stub-ns"] }],
+	creativeinventory: { "general": ["*-run-we", "*-hub", "*-leak-we", "*-tar-we"], "decorative": ["*-run-we", "*-hub", "*-leak-we", "*-tar-we"] },
 	blockmaterial: "Metal",
 	drawtype: "json",
 	shapeByType: {
 		"*-hub": { base: "block/pipes-hub" },
+		"*-end-east": { base: "block/pipes-end", rotateY: 0 },
+		"*-end-north": { base: "block/pipes-end", rotateY: 90 },
+		"*-end-west": { base: "block/pipes-end", rotateY: 180 },
+		"*-end-south": { base: "block/pipes-end", rotateY: 270 },
+		"*-stub-we": { base: "block/pipes-stub", rotateY: 0 },
+		"*-stub-ns": { base: "block/pipes-stub", rotateY: 90 },
 		"*-we": { base: "block/pipes-run", rotateY: 0 },
 		"*-ns": { base: "block/pipes-run", rotateY: 90 }
+	},
+	texturesByType: {
+		"*-tar-*": { rust: { base: "block/level3/pipe-tar" } }
 	},
 	sidesolid: { all: false },
 	sideopaque: { all: false },

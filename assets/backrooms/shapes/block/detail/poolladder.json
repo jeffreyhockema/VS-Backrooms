@@ -2,7 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"chrome": "backrooms:block/detail/chrome",
+		"poolchrome": "backrooms:block/detail/poolchrome",
 		"steel": "backrooms:block/detail/steel"
 	},
 	"elements": [
@@ -20,57 +20,61 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"east": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				},
 				"down": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				}
 			}
@@ -89,57 +93,61 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"east": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
+						16,
 						16
-					]
+					],
+					"rotation": 90
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				},
 				"down": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				}
 			}

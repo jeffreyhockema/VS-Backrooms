@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Backrooms.Worldgen;
@@ -40,20 +39,14 @@ public sealed partial class WorldLayout
 
     private const double SnackroomsChance = 0.35;
 
-    private readonly ConcurrentDictionary<long, bool> snackCache = new();
+    // Bounded memo of IsSnackrooms (each answer looks at the 49 cells round one)
+    private readonly LatticeMemo<bool> snackCache;
 
     /// <summary>
     /// The Snackrooms: rare cells of Level 6 wholly surrounded by Level 6, at least four cells from another, and clear of
     /// the trunks (a food court set down across a trunk would cut it).
     /// </summary>
-    public bool IsSnackrooms(int mx, int mz)
-    {
-        long key = ((long)mx << 32) | (uint)mz;
-        if (snackCache.TryGetValue(key, out bool cached)) return cached;
-        bool snack = ComputeSnackrooms(mx, mz);
-        snackCache.TryAdd(key, snack);
-        return snack;
-    }
+    public bool IsSnackrooms(int mx, int mz) => snackCache.Get(mx, mz);
 
     private bool ComputeSnackrooms(int mx, int mz)
     {
@@ -304,12 +297,13 @@ public sealed partial class WorldLayout
         return u;
     }
 
-    /// <summary>
-    /// A narrow passage from a trunk into the rock, branching a few times on a six-block lattice and ending blind: a
-    /// tree of four to eight turnings at most four deep, all within thirty blocks of the trunk.
-    /// </summary>
+    /// <summary>Carves one tile of a unit's plan (wet underfoot or not); false where it may not be carved.</summary>
     private delegate bool Carver(int x, int v, bool wet);
 
+    /// <summary>
+    /// A narrow passage from a trunk into the rock, branching a few times on a six-block lattice and ending blind: a
+    /// tree of three to eight stretches at most four deep, all within thirty blocks of the trunk.
+    /// </summary>
     private static void SidePassage(int u0, int v0, (int X, int Z) along, (int X, int Z) inward, ref Rng rng, Carver carve)
     {
         (int, int) At(int p, int d) => (u0 + along.X * p + inward.X * d, v0 + along.Z * p + inward.Z * d);
@@ -437,7 +431,13 @@ public sealed partial class WorldLayout
 
     // ================= Level 6.1: the Snackrooms =================
 
-    private enum SnackUnit { Restaurant, Store, Seating }
+    private enum SnackUnit { Restaurant, Store, Seating, VendingRoom }
+
+    /// <summary>
+    /// Level 6.1's <see cref="Tile.Detail"/> (from layout version 5): another machine lies across the top of the one on
+    /// this tile (<see cref="SnackPiledOn"/>); the shop front of a vending machine room (<see cref="SnackVendingFront"/>).
+    /// </summary>
+    public const byte SnackPiledOn = 1, SnackVendingFront = 2;
 
     private void BuildSnackrooms(Builder b, int mx, int mz)
     {
@@ -469,6 +469,10 @@ public sealed partial class WorldLayout
                 {
                     double r = Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + ux0, mz * MacroSize + qz0, SaltL6Unit));
                     SnackUnit kind = r < 0.55 ? SnackUnit.Restaurant : r < 0.85 ? SnackUnit.Store : SnackUnit.Seating;
+                    // From layout version 5, one store in four is a room "unenterable due to the sheer amount of vending
+                    // machines piled on top of each other" (about one food court in two has one)
+                    if (Version >= 5 && kind == SnackUnit.Store
+                        && Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + ux0, mz * MacroSize + qz0, SaltL6Unit + 1)) < 0.25) kind = SnackUnit.VendingRoom;
                     BuildSnackUnit(b, ux0, ux1, north ? qz0 : qz1, north ? qz1 : qz0, north, kind, ref rng);
                 }
             }
@@ -540,7 +544,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile t = ref b.At(x, z);
                 t.Kind = z == zFront ? TileKind.Doorway : TileKind.Floor;
-                t.Pattern = kind == SnackUnit.Store ? WallPattern.SnackMall : WallPattern.SnackPanel;
+                t.Pattern = kind is SnackUnit.Store or SnackUnit.VendingRoom ? WallPattern.SnackMall : WallPattern.SnackPanel;
                 t.Variant = 0;
                 t.Floor = kind == SnackUnit.Restaurant ? FloorKind.SnackQuarry : FloorKind.SnackChecker;
                 if ((x - x0) % 2 == 1 && (z - zBack) % 3 == 1) t.Ceiling = CeilingKind.LightOn;
@@ -605,6 +609,32 @@ public sealed partial class WorldLayout
                         if (x != mid) Put(x, z, Props.SnackShelf, x < mid ? ArchPier.East : ArchPier.West);
                 Put(x0, zFront - dz, Props.SnackCounter, toBack, 1);
                 if (width >= 4) Put(x1, zFront - dz, Props.SnackVending, toBack);
+                break;
+            }
+            case SnackUnit.VendingRoom:
+            {
+                // A shop front like a store's, and behind it machines wall to wall, standing, toppled and piled on
+                // each other, dead but for the one in the doorway (which still works)
+                for (int x = x0; x <= x1; x++)
+                {
+                    ref Tile front = ref At(x, zFront);
+                    front.Detail = SnackVendingFront;
+                    if (x == mid) continue;
+                    front.Kind = TileKind.Wall;
+                    front.Pattern = WallPattern.SnackWindow;
+                }
+                for (int z = zBack; z != zFront; z += dz)
+                    for (int x = x0; x <= x1; x++)
+                    {
+                        ArchPier any = (ArchPier)rng.Range(0, 3);
+                        bool first = z == zFront - dz;
+                        At(x, z).Sealed = true; // nobody is put down in the gaps of the heap
+                        if (first && x == mid) Put(x, z, Props.SnackVending, toHall);
+                        else if (!first && rng.Chance(0.12)) continue; // a gap in the heap
+                        else if (!first && rng.Chance(0.3)) Put(x, z, Props.VendingPile, any, 1); // toppled
+                        else Put(x, z, Props.VendingPile, first ? toHall : any);
+                        if (At(x, z).Stack == 0 && rng.Chance(first ? 0.75 : 0.5)) At(x, z).Detail = SnackPiledOn;
+                    }
                 break;
             }
             default:

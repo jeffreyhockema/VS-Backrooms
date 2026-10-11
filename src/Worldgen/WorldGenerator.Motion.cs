@@ -81,7 +81,7 @@ public sealed partial class WorldGenerator
         if (t.Zone is 3 or 4) return CastleBlock(t, gx, gz, rel, ground);
 
         // The ground: clay, with a layer of real clay a little way down, under the turf, the road or the floor, and
-        // seams of fire clay three blocks thick (5 to 7 under the surface) over about half the hills (measured 57%)
+        // seams of fire clay five blocks thick (3 to 7 under the turf) over about half the hills (measured 57%)
         if (rel < ground - 2)
         {
             if (fireClayId != 0 && rel >= ground - 7 && Noise2(gx / 20.0, gz / 20.0, SaltFireClay) > 0.15) return fireClayId;
@@ -220,7 +220,7 @@ public sealed partial class WorldGenerator
     /// <summary>Whether a castle wall faces into one of the blinding halls (so it is white on that side too).</summary>
     private bool BesideBlinding(int gx, int gz)
     {
-        foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+        foreach (var (dx, dz) in Neighbours4)
             if (layout.TileAt(gx + dx, gz + dz) is { Zone: 4, Kind: TileKind.Floor }) return true;
         return false;
     }

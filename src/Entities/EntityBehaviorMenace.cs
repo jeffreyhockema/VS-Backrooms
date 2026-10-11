@@ -34,6 +34,7 @@ public class EntityBehaviorMenace : EntityBehavior
     {
         Session = Guid.NewGuid().ToString("N");
         Wards.Invalidate();
+        AlmondWater.Invalidate();
     }
 
     private bool immortal, unmoved;

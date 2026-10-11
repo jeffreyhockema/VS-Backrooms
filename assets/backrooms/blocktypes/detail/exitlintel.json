@@ -26,8 +26,6 @@
 			"*-we"
 		]
 	},
-	"blockmaterial": "Stone",
-	"drawtype": "json",
 	"shapeByType": {
 		"*-concrete-we": {
 			"base": "block/detail/exitlintel-concrete",
@@ -54,6 +52,8 @@
 			"rotateY": 90
 		}
 	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
 	"lightHsv": [
 		0,
 		6,

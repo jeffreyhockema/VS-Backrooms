@@ -58,7 +58,38 @@ public class AiTaskMenace : AiTaskBase
     private MenaceSystem director;
     private Entity target;
     private Motion motion;
-    private float think, watchedFor, heldFor, runningFor, nextVoice = 10, nextGrowl = 4;
+    private float think, watchedFor, heldFor, runningFor, walkingFor, nextVoice = 10, nextGrowl = 4;
+    // When the hunt began, when it last drew blood, and until when it will not turn to the hunt again (see Hunt)
+    private long huntSinceMs = -1, lastBloodMs, calmUntilMs;
+    // Whether this hunt was started by being struck (a fight someone picked) rather than by a runner
+    private bool huntProvoked;
+    private double patienceMs = HuntPatienceSeconds * 1000;
+
+    /// <summary>
+    /// Seconds a hunt goes on without drawing blood before it is given up (plus a quarter minute at the bottom, by
+    /// danger); and how long after that it will not turn to the hunt again. Nothing chases for ever: something as
+    /// fast as a sprint would otherwise never be shaken off.
+    /// </summary>
+    private const double HuntPatienceSeconds = 20, CalmSeconds = 60;
+
+    /// <summary>The longest a hunt in the Lobby lasts (see <see cref="huntsInLobby"/>).</summary>
+    private const long LobbyHuntMs = 25_000;
+
+    /// <summary>
+    /// Opens doors (the Skin-Stealer: it wears a person, and has their hands). Hunting someone it cannot reach, out
+    /// towards the edge of a level or worse, it goes to the nearest closed door near them, knocks, waits, and opens
+    /// it. A door barred from the inside it only knocks on; a fire keeps it from coming near at all.
+    /// </summary>
+    private readonly bool opensDoors;
+    // The door it is making for, where it stands to open it, when it knocked, and until when it will not look again
+    private BlockPos doorAt;
+    private Vec3d doorFront;
+    private long knockedAtMs = -1, noDoorUntilMs;
+    private MenaceBand huntBand;
+    private const int DoorSearch = 10;
+    private const long KnockWaitMs = 2200, DoorRetryMs = 20_000;
+    private static readonly AssetLocation KnockSound = new("backrooms:sounds/entity/knock");
+    private static readonly BlockFacing[] DoorAxes = { BlockFacing.NORTH, BlockFacing.EAST };
     private long attackStartMs = -1, lastAttackMs, lastPathMs, lastHurtByTargetMs, noPathUntilMs;
     private bool damageDone, announcedHunt, glimpseDecided, crossing, crossed;
     private int thoughts;
@@ -115,6 +146,7 @@ public class AiTaskMenace : AiTaskBase
         huntAnim = Anim(taskConfig["huntAnimation"].AsString(null));
         huntAnimMs = taskConfig["huntAnimationMs"].AsInt(0);
         huntsInLobby = taskConfig["huntsInLobby"].AsBool(false);
+        opensDoors = taskConfig["opensDoors"].AsBool(false);
     }
 
     /// <summary>An animation code, or null for none (an empty string in the config).</summary>
@@ -155,6 +187,7 @@ public class AiTaskMenace : AiTaskBase
             tierBonus = Danger.TierBonus(d);
             turnMul = (float)(1 + 2 * d);
             giveUpAt = 40 + 25 * d;
+            patienceMs = (HuntPatienceSeconds + 15 * d) * 1000;
         }
         if (emergeAnim != null && !emerged)
         {
@@ -238,8 +271,16 @@ public class AiTaskMenace : AiTaskBase
             return true;
         }
 
-        if (target is EntityAgent agent && Senses.Running(agent)) runningFor += 0.3f;
-        else runningFor = 0;
+        if (target is EntityAgent agent && Senses.Running(agent))
+        {
+            runningFor += 0.3f;
+            walkingFor = 0;
+        }
+        else
+        {
+            runningFor = 0;
+            walkingFor += 0.3f;
+        }
 
         switch (kind)
         {
@@ -261,8 +302,14 @@ public class AiTaskMenace : AiTaskBase
     {
         Encounter before = lastKind;
         plannedAt = chasing = null;
+        doorAt = null;
         lastPathMs = 0;
         if (kind == Encounter.Stalk && before != Encounter.Hunt && stalkSound != null && entity.World.Rand.NextDouble() < 0.6) PlaySound(stalkSound);
+        if (kind == Encounter.Hunt)
+        {
+            huntSinceMs = lastBloodMs = entity.World.ElapsedMilliseconds;
+            huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000;
+        }
         if (kind == Encounter.Hunt && !announcedHunt)
         {
             announcedHunt = true;
@@ -373,6 +420,8 @@ public class AiTaskMenace : AiTaskBase
     private bool ShouldTurnToHunt(double distance, MenaceSystem.Assessment a)
     {
         if (menace.Passive || a.Band < MenaceBand.Approach || NoPathLately) return false;
+        // Lately given up on them (see Hunt)
+        if (entity.World.ElapsedMilliseconds < calmUntilMs) return false;
         if (IsCreative(target)) return false;
         // The Lobby is empty, as the lore has it: what watches there never hunts, but in the Red Rooms
         if (a.Level == 0 && !a.Worst && !(huntsInLobby && a.Band == MenaceBand.Threshold && runningFor > 1.5 && distance < 20)) return false;
@@ -401,6 +450,23 @@ public class AiTaskMenace : AiTaskBase
         if (distance > giveUpAt)
         {
             Kind = Encounter.Leave;
+            return;
+        }
+        long now = entity.World.ElapsedMilliseconds;
+        // In the Lobby, where nothing hunts but what a runner near the way out sets off (the Bacteria), the hunt is
+        // a fright: it lasts only while they are still running out there, and one blow is enough. Back towards the
+        // heart, a few seconds at a walk, a wound, or long enough, and it sinks back into the mould. (Struck, it fights:
+        // a fight someone picks is only bounded by the patience below)
+        if (huntsInLobby && a.Level == 0 && !a.Worst && !huntProvoked
+            && (a.Band != MenaceBand.Threshold || walkingFor > 4 || lastBloodMs > huntSinceMs || now - huntSinceMs > LobbyHuntMs))
+        {
+            CallOffHunt(leave: true);
+            return;
+        }
+        // Anywhere, a hunt that has drawn no blood for a while is given up: back to following, and not hunting again soon
+        if (now - lastBloodMs > patienceMs)
+        {
+            CallOffHunt(leave: false);
             return;
         }
         // A coward faced runs, even mid-hunt
@@ -449,6 +515,12 @@ public class AiTaskMenace : AiTaskBase
             return;
         }
         heldFor = 0;
+        huntBand = a.Band;
+        if (doorAt != null)
+        {
+            WorkDoor();
+            return;
+        }
         if (NoPathLately)
         {
             Stop();
@@ -619,7 +691,17 @@ public class AiTaskMenace : AiTaskBase
             KnockbackStrength = knock,
         }, scaled);
         director.NoteCloseCall(target);
+        lastBloodMs = entity.World.ElapsedMilliseconds;
         Log("hit {0} for {1:0.0}", target.Code, scaled);
+    }
+
+    /// <summary>Gives up the hunt: gone, or back to following at a distance; either way, no new hunt for a minute.</summary>
+    private void CallOffHunt(bool leave)
+    {
+        calmUntilMs = entity.World.ElapsedMilliseconds + (long)(CalmSeconds * 1000);
+        Log("gives up the hunt");
+        Stop();
+        Kind = leave ? Encounter.Leave : Encounter.Stalk;
     }
 
     /// <summary>
@@ -667,6 +749,8 @@ public class AiTaskMenace : AiTaskBase
     private bool Steal(Entity who)
     {
         if (who is not EntityPlayer { Player: { } player }) return false;
+        // (One thing at a time: a second would overwrite the first, and it would be lost)
+        if (entity.Attributes.HasAttribute(EntityBehaviorMenace.StolenKey)) return false;
         IInventory hotbar = player.InventoryManager.GetHotbarInventory();
         if (hotbar == null) return false;
         var full = new System.Collections.Generic.List<ItemSlot>();
@@ -810,6 +894,18 @@ public class AiTaskMenace : AiTaskBase
     private void OnNoPath()
     {
         Stop();
+        // Making for a door it cannot reach either: forget the door, and give up as below
+        if (doorAt != null)
+        {
+            doorAt = null;
+            noDoorUntilMs = entity.World.ElapsedMilliseconds + DoorRetryMs;
+        }
+        // Shut out: something with hands tries the door instead (see opensDoors)
+        else if (Kind == Encounter.Hunt && opensDoors && huntBand >= MenaceBand.Approach && FindDoor())
+        {
+            plannedAt = null;
+            return;
+        }
         // Can't get there (a closed door, a wall): a hunter goes back to watching for a while, a stalker tries elsewhere
         noPathUntilMs = entity.World.ElapsedMilliseconds + 4000;
         if (Kind == Encounter.Hunt) Kind = Encounter.Stalk;
@@ -817,6 +913,110 @@ public class AiTaskMenace : AiTaskBase
     }
 
     private bool NoPathLately => entity.World.ElapsedMilliseconds < noPathUntilMs;
+
+    // ================= Doors =================
+
+    /// <summary>
+    /// The nearest closed door near the target that this entity could open, and the open floor before it on the side
+    /// away from the target (which is where it is coming from). Only the game's own doors: our thresholds are not doors
+    /// anything opens. Returns whether one was found (and set as <see cref="doorAt"/>).
+    /// </summary>
+    private bool FindDoor()
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        if (now < noDoorUntilMs) return false;
+        noDoorUntilMs = now + 6000; // (a look costs a few thousand block reads: not on every failed path)
+        IBlockAccessor ba = entity.World.BlockAccessor;
+        BlockPos centre = target.Pos.AsBlockPos, pos = new(0);
+        double best = double.MaxValue;
+        for (int dy = -2; dy <= 2; dy++)
+            for (int dz = -DoorSearch; dz <= DoorSearch; dz++)
+                for (int dx = -DoorSearch; dx <= DoorSearch; dx++)
+                {
+                    pos.Set(centre.X + dx, centre.Y + dy, centre.Z + dz);
+                    if (ba.GetBlock(pos).GetBehavior<BlockBehaviorDoor>() == null) continue;
+                    BEBehaviorDoor door = BlockBehaviorDoor.getDoorAt(entity.World, pos);
+                    if (door == null || door.Opened || !Openable(door)) continue;
+                    BlockPos at = door.Pos;
+                    if (FrontOf(at) is not { } front) continue;
+                    double d = entity.Pos.SquareDistanceTo(front);
+                    if (d >= best) continue;
+                    best = d;
+                    doorAt = at.Copy();
+                    doorFront = front;
+                }
+        if (doorAt == null) return false;
+        knockedAtMs = -1;
+        Log("makes for the door at {0}", doorAt);
+        return true;
+    }
+
+    /// <summary>A door a hand opens without more (not one that only opens by a mechanism, or that breaks when used).</summary>
+    private static bool Openable(BEBehaviorDoor door) =>
+        door.doorBh?.handopenable != false && (door.Block.Attributes?["breakOnTriggerChance"].AsFloat(0) ?? 0) <= 0;
+
+    /// <summary>Whether a door is barred from the inside.</summary>
+    private bool Barred(BlockPos at) => entity.World.BlockAccessor.GetBlockEntity(at)?.GetBehavior<BEBehaviorDoorBarLock>()?.IsLocked == true;
+
+    /// <summary>
+    /// The open floor before a door on the side away from the target: across the door one way or the other (both sides
+    /// open, as a doorway is walked through, not along), the side further from the target chosen.
+    /// </summary>
+    private Vec3d FrontOf(BlockPos at)
+    {
+        IBlockAccessor ba = entity.World.BlockAccessor;
+        bool Open(BlockPos p) => ba.GetBlock(p).CollisionBoxes == null && ba.GetBlock(p.UpCopy()).CollisionBoxes == null;
+        foreach (BlockFacing facing in DoorAxes)
+        {
+            BlockPos a = at.AddCopy(facing), b = at.AddCopy(facing.Opposite);
+            if (!Open(a) || !Open(b)) continue;
+            Vec3d va = new(a.X + 0.5, a.Y, a.Z + 0.5), vb = new(b.X + 0.5, b.Y, b.Z + 0.5);
+            return va.SquareDistanceTo(target.Pos.XYZ) > vb.SquareDistanceTo(target.Pos.XYZ) ? va : vb;
+        }
+        return null;
+    }
+
+    /// <summary>Goes to the door, knocks, waits a moment, and opens it (or, finding it barred, gives up).</summary>
+    private void WorkDoor()
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        BEBehaviorDoor door = BlockBehaviorDoor.getDoorAt(entity.World, doorAt);
+        if (door == null || door.Opened)
+        {
+            // Gone, or opened by someone else: on with the hunt
+            doorAt = null;
+            noPathUntilMs = 0;
+            return;
+        }
+        if (entity.Pos.SquareDistanceTo(doorFront) > 1.6 * 1.6)
+        {
+            if (!pathTraverser.Active && now - lastPathMs > 1200) Go(doorFront, walkSpeed * 1.4f, 0.8f);
+            return;
+        }
+        Stop();
+        if (knockedAtMs < 0)
+        {
+            knockedAtMs = now;
+            entity.World.PlaySoundAt(KnockSound, doorAt.X + 0.5, doorAt.Y + 1, doorAt.Z + 0.5, null, true, 24, 1f);
+            return;
+        }
+        if (now - knockedAtMs < KnockWaitMs) return;
+        if (Barred(doorAt))
+        {
+            // The bar holds: it goes back to watching, and leaves this door alone for a while
+            Log("finds the door barred");
+            doorAt = null;
+            noDoorUntilMs = now + DoorRetryMs;
+            noPathUntilMs = now + 4000;
+            Kind = Encounter.Stalk;
+            return;
+        }
+        Log("opens the door");
+        door.ToggleDoorState(null, true);
+        doorAt = null;
+        noPathUntilMs = 0;
+        lastBloodMs = now; // (the hunt is getting somewhere: its patience starts again)
+    }
 
     private void SetMotion(Motion next)
     {
@@ -842,6 +1042,9 @@ public class AiTaskMenace : AiTaskBase
         Stop();
         if (attackStartMs >= 0 && attackAnim != null) entity.AnimManager.StopAnimation(attackAnim);
         attackStartMs = -1;
+        // (A Hound stared down when the task ends must not go on growling)
+        if (growling) entity.AnimManager.StopAnimation("growl");
+        growling = false;
     }
 
     // ================= Senses =================

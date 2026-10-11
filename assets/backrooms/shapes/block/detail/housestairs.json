@@ -1,0 +1,334 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"housefloor-carpet": "backrooms:block/detail/housefloor-carpet",
+		"housefloor-wood": "backrooms:block/detail/housefloor-wood"
+	},
+	"elements": [
+		{
+			"name": "Lower",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Upper",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				16,
+				16,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "RunLower",
+			"from": [
+				4,
+				8,
+				8
+			],
+			"to": [
+				12,
+				8.3,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RunRiser",
+			"from": [
+				4,
+				8.3,
+				8
+			],
+			"to": [
+				12,
+				16,
+				8.3
+			],
+			"faces": {
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						7.699999999999999
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.699999999999999
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.699999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "RunUpper",
+			"from": [
+				4,
+				16,
+				0
+			],
+			"to": [
+				12,
+				16.3,
+				8
+			],
+			"faces": {
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RunFoot",
+			"from": [
+				4,
+				0,
+				16
+			],
+			"to": [
+				12,
+				8.3,
+				16.3
+			],
+			"faces": {
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						8.3
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.3
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.3
+					]
+				},
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

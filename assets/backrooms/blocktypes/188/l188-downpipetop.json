@@ -1,0 +1,98 @@
+// Level 188: the downpipe's hopper head under the parapet's drip (rel 21, wall-hung in the courtyard cell)
+{
+	"code": "l188-downpipetop",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l188-downpipetop-north": {
+			"base": "backrooms:block/188/l188-downpipetop"
+		},
+		"l188-downpipetop-east": {
+			"base": "backrooms:block/188/l188-downpipetop",
+			"rotateY": 270
+		},
+		"l188-downpipetop-south": {
+			"base": "backrooms:block/188/l188-downpipetop",
+			"rotateY": 180
+		},
+		"l188-downpipetop-west": {
+			"base": "backrooms:block/188/l188-downpipetop",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l188-downpipetop-north"
+		],
+		"backrooms": [
+			"l188-downpipetop-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l188-downpipetop-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.7,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l188-downpipetop-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.7,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l188-downpipetop-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.7,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l188-downpipetop-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.62,
+			"x2": 0.7,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l188structure": true
+	},
+	"drops": []
+}

@@ -532,7 +532,11 @@ def cube_block(code, english, kinds, comment, material="Stone", sounds=STONE, ex
 
 # ======================================================================== Lang
 
-STALE_LANG = {"item-creature-l3999-attendant-*", "entity-l3999-attendant-*", "creature-l3999-attendant-*"}
+STALE_LANG = {"item-creature-l3999-attendant-*", "entity-l3999-attendant-*", "creature-l3999-attendant-*",
+              # (never read: the game names an entity by item-creature-, its kills by prefixandcreature-)
+              "entity-l3999-attendant",
+              # (the Level 10 door's arrival already says l3999-arrive-lobby; nothing finds a prize counter to point to)
+              "l3999-revolving-in", "l3999-place-prizes"}
 
 
 def merge_lang():

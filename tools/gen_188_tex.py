@@ -294,22 +294,23 @@ def turf():
         save(img, "turf-side-" + k)
     save(soft(speckle(noisy((70, 54, 40), 7, "soil"), "soilg", [(96, 82, 66), (48, 38, 30)], 70, 0.7), "soilb", 6), "soil")
 
-    # A moss tuft: fronds on alpha, drawn large
+    # A moss tuft: fronds on alpha, drawn large. Few, light fronds with soft edges: standing upright they take less light
+    # than the lawn, and dense dark fronds read as black clumps (or crowds of tiny figures) across the grass at night
     img, d, s = big(S, scale=4)
     rng = random.Random(seed_of("tuft"))
-    for i in range(22):
+    for i in range(12):
         x = rng.uniform(4, 28) * s
         h = rng.uniform(10, 30) * s
         lean = rng.uniform(-5, 5) * s
-        c = mix(BLADE, TURF, rng.random() * 0.6)
-        d.line([(x, S * s), (x + lean, S * s - h)], fill=c + (255,), width=int(rng.uniform(1.2, 2.4) * s))
-        d.ellipse([x + lean - 1.6 * s, S * s - h - 1.6 * s, x + lean + 1.6 * s, S * s - h + 1.6 * s], fill=mix(c, (140, 160, 90), 0.3) + (255,))
+        c = mix(BLADE, (0x7A, 0x9A, 0x58), rng.random())
+        d.line([(x, S * s), (x + lean, S * s - h)], fill=c + (255,), width=int(rng.uniform(1.2, 2.2) * s))
+        d.ellipse([x + lean - 1.6 * s, S * s - h - 1.6 * s, x + lean + 1.6 * s, S * s - h + 1.6 * s], fill=mix(c, (150, 172, 100), 0.3) + (255,))
     img = reduce(img, S)
     px = img.load()
     for y in range(S):
         for x in range(S):
             r, g, b, a = px[x, y]
-            px[x, y] = (r, g, b, 255 if a > 110 else 0)
+            px[x, y] = (r, g, b, clamp((a - 40) * 1.5) if a > 40 else 0)
     save(img, "mosstuft")
 
 
@@ -542,7 +543,7 @@ def window_parts():
         hline(img, y, shade(BLIND, 0.95), 0.6)
     save(img, "blind")
     save(noisy(shade(BLIND, 0.93), 3, "roll"), "roll")
-    save(noisy((214, 210, 200), 3, "cord"), "cord")
+    save(noisy((118, 116, 112), 3, "cord"), "cord")  # mid-grey: a pale cord and pull read as a bright "||" in a dark window
     # The glowing blind: a lamp low behind it, warm, brightest low and toward the bed side
     pic, d, s = big(64, scale=2)
     px = pic.load()

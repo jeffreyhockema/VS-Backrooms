@@ -7,7 +7,11 @@
 			"states": [
 				"run-we",
 				"run-ns",
-				"hub"
+				"hub",
+				"end-north",
+				"end-east",
+				"end-south",
+				"end-west"
 			]
 		}
 	],
@@ -34,6 +38,22 @@
 		"*-ns": {
 			"base": "block/cables-run",
 			"rotateY": 90
+		},
+		"*-end-east": {
+			"base": "block/cables-end",
+			"rotateY": 0
+		},
+		"*-end-north": {
+			"base": "block/cables-end",
+			"rotateY": 90
+		},
+		"*-end-west": {
+			"base": "block/cables-end",
+			"rotateY": 180
+		},
+		"*-end-south": {
+			"base": "block/cables-end",
+			"rotateY": 270
 		}
 	},
 	"sidesolid": {

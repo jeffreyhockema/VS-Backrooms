@@ -42,7 +42,22 @@
 			}
 		},
 		"l3999-carpet-galaxy": {
-			"all": {
+			"north": {
+				"base": "block/3999/wall-midnight"
+			},
+			"east": {
+				"base": "block/3999/wall-midnight"
+			},
+			"south": {
+				"base": "block/3999/wall-midnight"
+			},
+			"west": {
+				"base": "block/3999/wall-midnight"
+			},
+			"down": {
+				"base": "block/3999/wall-midnight"
+			},
+			"up": {
 				"base": "block/3999/carpet-galaxy",
 				"alternates": [
 					{

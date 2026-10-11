@@ -35,7 +35,15 @@
 	"texturesByType": {
 		"l3999-concrete-wall": {
 			"all": {
-				"base": "block/3999/concrete-wall"
+				"base": "block/3999/concrete-wall",
+				"alternates": [
+					{
+						"base": "block/3999/concrete-wall2"
+					},
+					{
+						"base": "block/3999/concrete-wall3"
+					}
+				]
 			}
 		},
 		"l3999-concrete-floor": {

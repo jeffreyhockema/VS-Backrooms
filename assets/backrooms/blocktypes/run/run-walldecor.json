@@ -1,0 +1,98 @@
+// Level !: a start-room wall block (rel 2) with, on face <side>, a notice (handwash: PLEASE WASH YOUR HANDS; visiting: VISITING HOURS) or a hand-sanitiser dispenser (sanitiser); fixed like the walls
+{
+	"code": "run-walldecor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"handwash",
+				"visiting",
+				"sanitiser"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-handwash-north": {
+			"base": "block/run/run-walldecor-handwash",
+			"rotateY": 0
+		},
+		"*-handwash-east": {
+			"base": "block/run/run-walldecor-handwash",
+			"rotateY": 270
+		},
+		"*-handwash-south": {
+			"base": "block/run/run-walldecor-handwash",
+			"rotateY": 180
+		},
+		"*-handwash-west": {
+			"base": "block/run/run-walldecor-handwash",
+			"rotateY": 90
+		},
+		"*-visiting-north": {
+			"base": "block/run/run-walldecor-visiting",
+			"rotateY": 0
+		},
+		"*-visiting-east": {
+			"base": "block/run/run-walldecor-visiting",
+			"rotateY": 270
+		},
+		"*-visiting-south": {
+			"base": "block/run/run-walldecor-visiting",
+			"rotateY": 180
+		},
+		"*-visiting-west": {
+			"base": "block/run/run-walldecor-visiting",
+			"rotateY": 90
+		},
+		"*-sanitiser-north": {
+			"base": "block/run/run-walldecor-sanitiser",
+			"rotateY": 0
+		},
+		"*-sanitiser-east": {
+			"base": "block/run/run-walldecor-sanitiser",
+			"rotateY": 270
+		},
+		"*-sanitiser-south": {
+			"base": "block/run/run-walldecor-sanitiser",
+			"rotateY": 180
+		},
+		"*-sanitiser-west": {
+			"base": "block/run/run-walldecor-sanitiser",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

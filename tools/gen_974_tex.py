@@ -23,9 +23,10 @@ def hexc(h):
     return ((h >> 16) & 255, (h >> 8) & 255, h & 255)
 
 
-PINK = hexc(0xF09AB0)
-PINK_DARK = hexc(0xE48AA2)
+PINK = hexc(0xFAA9BF)        # the wall paint: canon's #F09AB0 lifted 8% so the lit wall lands near it in game
+PINK_DARK = hexc(0xED97AE)
 PINK_LIGHT = hexc(0xF7AEC1)
+PAINT_LIGHT = hexc(0xFDBFD0)
 TRIM = hexc(0xF8F3F0)
 CARPET = hexc(0xEDD5D2)
 CARPET_FLECK = hexc(0xE2C4C2)
@@ -124,7 +125,7 @@ def paint(key):
     px = img.load()
     for _ in range(70):
         x, y = rng.randrange(S), rng.randrange(S)
-        c = PINK_LIGHT if rng.random() < 0.5 else PINK_DARK
+        c = PAINT_LIGHT if rng.random() < 0.5 else PINK_DARK
         r, g, b, a = px[x, y]
         px[x, y] = mix((r, g, b), c, 0.45) + (255,)
     return soft(img, key + "f", 4)
@@ -283,20 +284,22 @@ def painting(kind):
     W = N * k
     if kind == "clouds":
         # The Wikidot photo: a clean sky blue and one towering white cumulus
-        sky_gradient(d, W, (112, 176, 236), (196, 226, 250))
+        # (deep enough to read through the glass and the sheers: paler, the window looked frosted)
+        sky_gradient(d, W, (64, 138, 224), (150, 198, 244))
         # The tower: stacked puffs, rising from the lower left
         for (cx, cy, r) in ((0.42, 0.72, 0.17), (0.6, 0.66, 0.15), (0.5, 0.5, 0.15), (0.58, 0.36, 0.12), (0.47, 0.24, 0.1), (0.3, 0.8, 0.12), (0.75, 0.8, 0.12)):
-            cloud(d, cx * W, cy * W, r * W, (255, 255, 255), (222, 226, 240))
-        cloud(d, 0.12 * W, 0.2 * W, 0.05 * W, (250, 252, 255), (226, 232, 246))
-        cloud(d, 0.88 * W, 0.3 * W, 0.04 * W, (250, 252, 255), (226, 232, 246))
+            cloud(d, cx * W, cy * W, r * W, (255, 255, 255), (172, 186, 220))
+        cloud(d, 0.12 * W, 0.2 * W, 0.05 * W, (250, 252, 255), (196, 208, 234))
+        cloud(d, 0.88 * W, 0.3 * W, 0.04 * W, (250, 252, 255), (196, 208, 234))
     elif kind == "hills":
-        sky_gradient(d, W, (176, 214, 246), (236, 226, 246))
+        # (deep enough to read through the glass and the sheers, as the clouds' sky)
+        sky_gradient(d, W, (84, 150, 228), (184, 204, 242))
         # A heart-shaped cloud
         hx, hy, hr = 0.68 * W, 0.24 * W, 0.075 * W
         d.ellipse([hx - 2 * hr, hy - hr, hx, hy + hr], fill=(255, 255, 255, 255))
         d.ellipse([hx, hy - hr, hx + 2 * hr, hy + hr], fill=(255, 255, 255, 255))
         d.polygon([(hx - 1.93 * hr, hy + 0.3 * hr), (hx + 1.93 * hr, hy + 0.3 * hr), (hx, hy + 2.3 * hr)], fill=(255, 255, 255, 255))
-        cloud(d, 0.2 * W, 0.18 * W, 0.06 * W, (255, 255, 255), (232, 226, 244))
+        cloud(d, 0.2 * W, 0.18 * W, 0.06 * W, (255, 255, 255), (200, 206, 236))
         # Rolling hills: pink behind, greens in front
         d.ellipse([-0.3 * W, 0.52 * W, 0.7 * W, 1.4 * W], fill=(244, 170, 190, 255))
         d.ellipse([0.35 * W, 0.56 * W, 1.4 * W, 1.5 * W], fill=(236, 150, 176, 255))

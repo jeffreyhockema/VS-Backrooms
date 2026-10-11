@@ -4,7 +4,7 @@ import math
 import os
 
 import deep_textures
-from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cyl, name,
+from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, name,
                         prop, shape, wall_family, write_json)
 from gen_detail import carton, cube_block, plate
 
@@ -199,18 +199,63 @@ def level61():
         bx("Stock", (1, 0, 8), (15, 28, 15), "snackshelf", faces=("north",), full=True),
         bx("Frame", (0.5, 0, 7.5), (15.5, 28, 16), "chrome", faces=("east", "west", "up", "south"))],
          box=(0.03, 0, 0.47, 0.97, 1.75, 1), material="Metal", sounds=METAL, extra={"drops": snacks})
+    # The snack machine: a blue cabinet with a lit header, a coin panel standing proud of it, and a deep glass front;
+    # behind the glass, four shelves of packets on their spirals, three columns to a shelf. (Facing north, its west
+    # side is on the right as you face it: the panel is there)
+    vend_rows = []
+    for r, y in enumerate((8, 12.3, 16.6, 20.9)):
+        vend_rows.append(bx(f"Shelf{r}", (5, y, 3), (13.5, y + 0.5, 8), "chrome", faces=("north", "up")))
+        for c in range(3):
+            x = 5.3 + c * 2.75
+            band = (r + c) % 4 * 4
+            vend_rows.append(bx(f"Packets{r}{c}", (x, y + 0.5, 4), (x + 2.4, y + 3.3, 7.8), "snackvendrows", glow=60,
+                                faces=("north", "up"), uv=[band, 0, band + 2.4, 2.8]))
     prop("snackvending", "Snack Machine", [
-        bx("Body", (1, 0, 2), (15, 29, 15), "chrome", faces=("east", "west", "up", "south")),
-        bx("Front", (1, 0, 2), (15, 29, 15), "snackvending", faces=("north",), full=True, glow=60)],
-         box=(0.06, 0, 0.12, 0.94, 1.8, 0.94), material="Metal", sounds=METAL, light=[8, 2, 7],
+        bx("Body", (1, 0, 8), (15, 29, 15), "snackvending", faces=("east", "west", "up", "south")),
+        bx("Inside", (5, 7, 8), (13.5, 25, 8.5), "snackvendinside", faces=("north",), glow=40),
+        bx("Header", (1, 25, 1.4), (15, 29, 8), "snackvending", faces=("east", "west", "up", "down")),
+        bx("HeaderFace", (1, 25, 1.4), (15, 29, 8), "snackvendhead", faces=("north",), glow=80, uv=[0, 0, 16, 4.5]),
+        bx("Stile", (13.5, 7, 1.4), (15, 25, 8), "snackvending", faces=("north", "east", "west")),
+        bx("Panel", (1, 7, 1), (5, 25, 8), "snackvending", faces=("east", "west", "up", "down")),
+        bx("PanelFace", (1, 7, 1), (5, 25, 8), "snackvendpanel", faces=("north",), uv=[6, 0, 10, 16]),
+        bx("Base", (1, 0, 1.4), (15, 7, 8), "snackvending", faces=("north", "east", "west", "up")),
+        bx("Flap", (5.5, 2, 1.1), (13.5, 5.5, 1.4), "metaldark", faces=("north", "up", "east", "west")),
+        bx("Glass", (5, 7, 2.2), (13.5, 25, 2.3), "snackvendglass", faces=("north",), full=True)] + vend_rows,
+         box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL, light=[8, 2, 7],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
                 "attributes": {"dispenses": ["backrooms:chips", "backrooms:candybar", "backrooms:crackers", "backrooms:soda"], "restock": True}})
+    # The drinks fridge: a white cabinet with a lit header and a kick-plate grille; a glass door in a dark frame with a
+    # bar handle; behind it, lit cold white, four wire shelves of cans and bottles, five to a shelf
+    drinks = []
+    for r, y in enumerate((4.2, 9.6, 15, 20.4)):
+        drinks.append(bx(f"Shelf{r}", (2, y, 2.6), (14, y + 0.4, 13.5), "chrome", faces=("north", "up")))
+        tall = r % 2 == 1  # bottles on every other shelf, cans on the rest
+        for c in range(5):
+            x = 2.6 + c * 2.25
+            band = (r * 2 + c) % 4 * 4
+            drinks.append(bx(f"Drink{r}{c}", (x, y + 0.4, 3.4), (x + 1.7, y + (4.2 if tall else 3), 5.1), "drinkcans", glow=40,
+                             faces=("north", "up", "east", "west"), uv=[band, 0, band + 1.7, 4 if tall else 2.6]))
     prop("drinkfridge", "Drinks Fridge", [
-        bx("Body", (1, 0, 2), (15, 30, 15), "chrome", faces=("east", "west", "up", "south")),
-        bx("Door", (1, 0, 2), (15, 30, 15), "drinkfridge", faces=("north",), full=True, glow=50)],
-         box=(0.06, 0, 0.12, 0.94, 1.88, 0.94), material="Metal", sounds=METAL, light=[30, 1, 6],
+        bx("Body", (1, 0, 2), (15, 30, 15), "fridgebody", faces=("east", "west", "up", "south")),
+        bx("Inside", (2, 4, 13.4), (14, 25, 13.5), "fridgeinside", faces=("north",), glow=60),
+        bx("InsideL", (2, 4, 2), (2.1, 25, 13.5), "fridgeinside", faces=("east",), glow=40),
+        bx("InsideR", (13.9, 4, 2), (14, 25, 13.5), "fridgeinside", faces=("west",), glow=40),
+        bx("Header", (1, 26, 1.4), (15, 30, 2), "drinkhead", faces=("north",), glow=90, uv=[0, 0, 16, 4.5]),
+        bx("HeaderEdge", (1, 26, 1.4), (15, 30, 2), "fridgebody", faces=("east", "west", "up", "down")),
+        bx("Kick", (1, 0, 1.6), (15, 3, 2), "fridgegrille", faces=("north", "east", "west", "up"), uv=[0, 0, 16, 3]),
+        bx("FrameL", (1, 3, 1.2), (2, 26, 2), "metaldark"), bx("FrameR", (14, 3, 1.2), (15, 26, 2), "metaldark"),
+        bx("FrameT", (2, 25, 1.2), (14, 26, 2), "metaldark"), bx("FrameB", (2, 3, 1.2), (14, 4, 2), "metaldark"),
+        bx("Handle", (12.4, 9, 0.3), (13, 20, 0.8), "chrome"),
+        bx("HandleTop", (12.4, 19.4, 0.8), (13, 20, 1.2), "chrome"), bx("HandleFoot", (12.4, 9, 0.8), (13, 9.6, 1.2), "chrome"),
+        bx("Glass", (2, 4, 1.5), (14, 25, 1.6), "fridgeglass", faces=("north",), full=True)] + drinks,
+         box=(0.06, 0, 0.06, 0.94, 1.88, 0.94), material="Metal", sounds=METAL, light=[30, 1, 6],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
                 "attributes": {"dispenses": ["backrooms:soda", "backrooms:waterbottle", "backrooms:almondwater", "backrooms:cashewwater"], "restock": True}})
+
+    # The heap of a vending machine room ("unenterable due to the sheer amount of vending machines piled on top of each
+    # other"): dead machines standing, toppled onto their backs, and lying across the tops of the standing ones
+    prop("vendingpile", "Vending Machine", {"standing": dead_machine("stand"), "toppled": dead_machine("floor"), "ontop": dead_machine("top")},
+         box=(0.06, 0, 0.06, 0.94, 1, 0.94), material="Metal", sounds=METAL)
 
     food("chips", "Bag of Chips", 160, "Grain", "Salty, crisp, and from nowhere.")
     food("candybar", "Chocolate Bar", 200, "Dairy", "Sweet enough to make you forget where you are, almost.")
@@ -220,16 +265,59 @@ def level61():
     food("waterbottle", "Bottle of Water", 100, "NoNutrition", "Plain water. Down here, that's rare.", health=1, stack=8)
 
 
+def dead_machine(pose):
+    """A dead drinks machine of a Level 6.1 vending room, standing ("stand"), on its back on the floor ("floor") or
+    lying across the top of a standing one below ("top", in the block above it). Built standing, front to the north,
+    in its own (u across, v up, w back) frame, then laid down: on its back the front faces up and its length runs
+    west-east (shortened a little to keep to its own tile), a little askew."""
+    rows = []
+    for r, y in enumerate((6, 10.5, 15, 19.5)):
+        rows.append(((2.8, y, 3.2), (11.2, y + 0.4, 7), "chrome", ("north", "up")))
+        for c in range(3):
+            x = 3 + c * 2.75
+            band = (r + c + 1) % 4 * 4
+            rows.append(((x, y + 0.4, 4), (x + 2.4, y + 3.2, 6.8), "snackvendrows", ("north", "up"), [band, 0, band + 2.4, 2.8]))
+    parts = [((1, 0, 7), (15, 29, 15), "vendpilebody", ("east", "west", "up", "south", "down")),
+             ((2.5, 4, 7), (11.5, 24, 7.2), "snackvendinside", ("north",)),
+             ((1, 24, 1.4), (15, 29, 7), "vendpilebody", ("east", "west", "up", "down")),
+             ((1, 24, 1.4), (15, 29, 7), "vendpilehead", ("north",), [0, 0, 16, 4.5]),
+             ((1, 4, 1.4), (2.5, 24, 7), "vendpilebody", ("north", "east", "west")),
+             ((11.5, 4, 1), (15, 24, 7), "vendpilebody", ("east", "west", "up", "down")),
+             ((11.5, 4, 1), (15, 24, 7), "vendpilepanel", ("north",), [6, 0, 9.5, 16]),
+             ((1, 0, 1.4), (15, 4, 7), "vendpilebody", ("north", "east", "west", "up")),
+             ((3, 1, 1.1), (11, 3.4, 1.4), "metaldark", ("north", "up", "east", "west")),
+             ((2.5, 4, 2.2), (11.5, 24, 2.3), "vendpileglass", ("north",), [0, 0, 16, 16])] + rows
+    turn = {"stand": None, "floor": (15, 0), "top": (-11, 13)}[pose]
+    out = []
+    to_world = {"north": "up", "south": "down", "up": "east", "down": "west", "east": "south", "west": "north"}
+    for i, part in enumerate(parts):
+        (u1, v1, w1), (u2, v2, w2), tex, faces = part[:4]
+        uv = part[4] if len(part) > 4 else None
+        full = uv == [0, 0, 16, 16]
+        if turn is None:
+            out.append(bx(f"P{i}", (u1, v1, w1), (u2, v2, w2), tex, faces=faces, uv=None if full else uv, full=full))
+            continue
+        # On its back: up the machine (v) runs east, out of its front (-w) is up, across it (u) is south
+        angle, base = turn
+        k = 0.78
+        frm = (-3.3 + v1 * k, base + 15 - w2, u1)
+        to = (-3.3 + v2 * k, base + 15 - w1, u2)
+        out.append(bx(f"P{i}", frm, to, tex, faces=tuple(to_world[f] for f in faces), uv=None if full else uv, full=full,
+                      rot=(0, angle, 0), origin=(8, base, 8)))
+    return out
+
+
 # ======================= Level 7 =======================
 
 def level7():
     cube_block("oceanceiling", {"plain": "Concrete Ceiling", "glow": "Concrete Ceiling"}, ["plain", "glow"],
-               {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 7]},
+               {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]},
                lightAbsorptionByType={"*-glow": 0, "*": 99}, comment="The ceiling over the sea. The dim light seems to come from nowhere")
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
     block("tar", {"class": "BackroomsTar", "creativeinventory": {"general": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
-                  "textures": {"all": {"base": "block/detail/tar"}}, "lightAbsorption": 99, "resistance": 3, "drops": [],
+                  "textures": {"up": {"base": "block/detail/tar"}, "down": {"base": "block/detail/tar"},
+                               "horizontals": {"base": "block/detail/tar-side"}}, "lightAbsorption": 99, "resistance": 3, "drops": [],
                   "sounds": {"walk": "game:walk/sludge*", "place": "game:effect/squish*", "break": "game:effect/squish*", "hit": "game:effect/squish*"},
                   "particleProperties": [{
                       "hsvaColor": [{"avg": 0, "var": 0}, {"avg": 0, "var": 0}, {"avg": 30, "var": 10}, {"avg": 200, "var": 40}],
@@ -283,10 +371,42 @@ def level8():
         bx("Plate", (2, 14, 6.4), (14, 24, 7), "megplate", faces=("north", "south"), full=True),
         bx("PlateEdge", (2, 14, 6.4), (14, 24, 7), "metaldark", faces=("east", "west", "up", "down"))],
          box=(0.4, 0, 0.4, 0.6, 1.5, 0.6), comment="An M.E.G. marker on the 9th Road")
+    # Road lamp: a caged lantern (glass inside four corner posts, a base plate, a stepped dark cap) hung on a hook
+    # from an arm off the top of its post, all inside the block
+    lantern = [bx("Glass", (10.5, 19.6, 6.5), (13.5, 23.4, 9.5), "lampglass", glow=230, faces=("north", "east", "south", "west"),
+                  uv=[4, 0, 12, 16]),
+               bx("Plate", (9.8, 19, 5.8), (14.2, 19.6, 10.2), "metaldark"), bx("Cap", (9.6, 23.4, 5.6), (14.4, 24.2, 10.4), "metaldark"),
+               bx("Roof", (10.4, 24.2, 6.4), (13.6, 24.8, 9.6), "metaldark"), bx("Hook", (11.7, 24.8, 7.7), (12.3, 26, 8.3), "metal")]
+    lantern += [bx(f"Post{i}", (x, 19.6, z), (x + 0.6, 23.4, z + 0.6), "metaldark") for i, (x, z) in enumerate(((10, 6), (13.4, 6), (10, 9.4), (13.4, 9.4)))]
     prop("roadlamp", "Road Lamp", [
-        bx("Pole", (7.5, 0, 7.5), (8.5, 22, 8.5), "metaldark"), bx("Cap", (5.5, 27, 5.5), (10.5, 28, 10.5), "metaldark"),
-        bx("Lantern", (6, 22, 6), (10, 27, 10), "lampglass", glow=230), bx("Base", (6, 0, 6), (10, 1, 10), "metaldark")],
+        bx("Pole", (7.5, 0, 7.5), (8.5, 27, 8.5), "metaldark"), bx("Finial", (7.2, 27, 7.2), (8.8, 28, 8.8), "metaldark"),
+        bx("Arm", (8.5, 26, 7.6), (12.6, 26.8, 8.4), "metaldark"),
+        bx("Brace", (8.5, 23.6, 7.7), (11, 24.2, 8.3), "metaldark", rot=(0, 0, 40), origin=(8.5, 23.9, 8)),
+        bx("Base", (6, 0, 6), (10, 1, 10), "metaldark")] + lantern,
          box=(0.4, 0, 0.4, 0.6, 1.75, 0.6), oriented=False, material="Metal", sounds=METAL, light=[7, 4, 13])
+    # The same lamp with its arm reaching out to the north (the side it is turned to), for a lamp that knows which
+    # side the road is on (layout version 5)
+    def north_arm(el):
+        turned = dict(el)
+        (x1, y1, z1), (x2, y2, z2) = el["from"], el["to"]
+        turned["from"], turned["to"] = [z1, y1, 16 - x2], [z2, y2, 16 - x1]
+        names = {"east": "north", "north": "west", "west": "south", "south": "east", "up": "up", "down": "down"}
+        turned["faces"] = {names[f]: v for f, v in el["faces"].items()}
+        return turned
+    prop("roadlamparm", "Road Lamp", [
+        bx("Pole", (7.5, 0, 7.5), (8.5, 27, 8.5), "metaldark"), bx("Finial", (7.2, 27, 7.2), (8.8, 28, 8.8), "metaldark"),
+        bx("Arm", (7.6, 26, 3.4), (8.4, 26.8, 7.5), "metaldark"),
+        bx("Brace", (7.7, 23.6, 5), (8.3, 24.2, 7.5), "metaldark", rot=(40, 0, 0), origin=(8, 23.9, 7.5)),
+        bx("Base", (6, 0, 6), (10, 1, 10), "metaldark")] + [north_arm(el) for el in lantern],
+         box=(0.4, 0, 0.4, 0.6, 1.75, 0.6), material="Metal", sounds=METAL, light=[7, 4, 13])
+    # Bioluminescent fungi of the caves (Wikidot: "enveloped in a blood-red glow", "multicolored bioluminescent
+    # mushrooms"): blood-red glowcaps, and clusters of many colours; on the floor, or growing out from the foot of a
+    # wall (on the side the block is turned to)
+    for code, english, caps, light in (("glowcapred", "Blood-Red Glowcaps", ["glowcapred"] * 3, [0, 7, 5]),
+                                       ("glowcapmixed", "Glowing Mushrooms", ["glowcapblue", "glowcapviolet", "glowcapgreen"], [44, 4, 5])):
+        prop(code, english, {"floor": glowcap_floor(caps), "wall": glowcap_wall(caps)}, box=(0.1, 0, 0.1, 0.9, 0.45, 0.9),
+             collide=False, material="Plant", sounds=PLANT, light=light,
+             extra={"drops": drops(("game:rot", 0.5, 0.5))}, comment="Bioluminescent fungi of Level 8's caves")
     prop("stonehand", "Stone Hand", [
         bx("Wrist", (6, 0, 6), (10, 8, 10), "cavestone"), bx("Palm", (5, 8, 6.5), (11, 15, 9.5), "cavestone"),
         bx("F1", (5, 15, 7), (6.4, 21, 8.6), "cavestone"), bx("F2", (6.7, 15, 7), (8.1, 22.5, 8.6), "cavestone"),
@@ -297,6 +417,43 @@ def level8():
         bx("Base", (3, 0, 5), (13, 3, 11), "cavestone"), bx("Arm", (3, 3, 5.5), (13, 6, 10.5), "cavestone", rot=(0, 0, 6), origin=(13, 3, 8)),
         bx("Hinge", (11, 2, 6), (14, 6, 10), "cavestone")], box=(0.18, 0, 0.3, 0.88, 0.4, 0.7), oriented=False,
          material="Stone", sounds=STONE, comment="Rock that has formed, impossibly, into a stapler")
+
+
+PLANT = {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"}
+
+
+def glowcap(name, x, z, stem, cap_w, cap, glow=150, lean=0):
+    """One mushroom: a pale stem, a cap that glows, a skirt of gills under it."""
+    r = cap_w / 2
+    rot = (lean, 0, lean / 2) if lean else None
+    return [bx(name + "Stem", (x - 0.4, 0, z - 0.4), (x + 0.4, stem, z + 0.4), "glowstem", rot=rot, origin=(x, 0, z)),
+            bx(name + "Cap", (x - r, stem, z - r), (x + r, stem + max(1, cap_w / 3.2), z + r), cap, glow=glow, rot=rot, origin=(x, 0, z)),
+            bx(name + "Gills", (x - r + 0.4, stem - 0.5, z - r + 0.4), (x + r - 0.4, stem, z + r - 0.4), cap, glow=glow // 2,
+               faces=("down", "north", "south", "east", "west"), rot=rot, origin=(x, 0, z))]
+
+
+def glowcap_floor(caps):
+    """A cluster on the floor: a patch of mycelium and six mushrooms of different heights."""
+    out = [bx("Mycelium", (1.5, 0, 2), (14, 0.2, 14.5), "mycelium", faces=("up",))]
+    for i, (x, z, stem, w, lean) in enumerate(((6, 7, 6, 4.4, 0), (10.5, 9.5, 4, 3.4, 10), (4, 11.5, 2.6, 2.6, -12),
+                                               (11.5, 4.5, 3, 2.8, 14), (8.5, 12.5, 1.6, 2, 0), (3.5, 4, 1.4, 1.8, -8))):
+        out += glowcap(f"M{i}", x, z, stem, w, caps[i % len(caps)], lean=lean)
+    return out
+
+
+def glowcap_wall(caps):
+    """A cluster at the foot of the wall on the north side: brackets growing out of the rock in tiers, and a few small
+    caps on the floor in front."""
+    out = [bx("Mycelium", (1, 0, 0), (15, 0.2, 6), "mycelium", faces=("up",)),
+           bx("Crust", (1.5, 0, 0), (14.5, 9, 0.3), "mycelium", faces=("south",))]
+    for i, (x, y, w, d) in enumerate(((5, 7.5, 5, 4), (10.5, 5, 4, 3.4), (3.5, 3, 3.4, 3), (8, 2, 3, 2.6), (12.5, 9.5, 3, 2.4))):
+        cap = caps[i % len(caps)]
+        out += [bx(f"B{i}", (x - w / 2, y, 0), (x + w / 2, y + 1.2, d), cap, glow=160),
+                bx(f"B{i}Gills", (x - w / 2 + 0.4, y - 0.4, 0), (x + w / 2 - 0.4, y, d - 0.4), cap, glow=70,
+                   faces=("down", "south", "east", "west"))]
+    for i, (x, z, stem, w) in enumerate(((4, 5, 1.6, 2), (11, 4, 2.2, 2.4), (7.5, 6.5, 1.2, 1.6))):
+        out += glowcap(f"F{i}", x, z, stem, w, caps[(i + 1) % len(caps)])
+    return out
 
 
 # ======================= Level 9 =======================
@@ -328,9 +485,25 @@ def level9():
     cube_block("houseinterior", {"floral": "Wallpaper", "stripe": "Wallpaper", "beige": "Wallpaper", "green": "Wallpaper", "tile": "Tiled Wall"},
                ["floral", "stripe", "beige", "green", "tile"],
                {k: f"houseinterior-{k}" for k in ("floral", "stripe", "beige", "green", "tile")}, material="Wood", sounds=WOOD)
-    cube_block("housewindow", {"dark": "Window", "lit": "Lit Window"}, ["dark", "lit"], {"dark": "housewindow-dark", "lit": "housewindow-lit"},
-               material="Glass", sounds=GLASS, lightHsvByType={"*-lit": [6, 4, 9]}, lightAbsorptionByType={"*": 0},
-               vertexFlagsByType={"*-lit": {"glowLevel": 160}}, drops=[])
+    # A house window, its outside to the north: a painted frame the depth of the wall, the glass a pixel in from the
+    # outside, glazing bars across it outside and in, a sill under it outside and a narrow one inside. Lit, the glass
+    # glows (in the one house in ten that still has power)
+    def window(glass, glow):
+        bars = []
+        for side, z1, z2 in (("Out", 0.5, 1), ("In", 1.25, 1.75)):
+            bars += [bx(f"Bar{side}V", (7.6, 2.5, z1), (8.4, 13.5, z2), "windowtrim"),
+                     bx(f"Bar{side}H", (2, 7.6, z1), (14, 8.4, z2), "windowtrim")]
+        return [bx("Head", (0, 13.5, 0), (16, 16, 16), "windowtrim"), bx("Rail", (0, 0, 0), (16, 2.5, 16), "windowtrim"),
+                bx("JambL", (0, 2.5, 0), (2, 13.5, 16), "windowtrim"), bx("JambR", (14, 2.5, 0), (16, 13.5, 16), "windowtrim"),
+                bx("Glass", (2, 2.5, 1), (14, 13.5, 1.25), glass, glow=glow, faces=("north", "south"), full=True),
+                bx("Sill", (-0.5, 1, -1.5), (16.5, 2.5, 0), "windowtrim"), bx("Apron", (1, 0, -0.6), (15, 1, 0), "windowtrim"),
+                bx("Stool", (1, 2, 16), (15, 2.5, 17), "windowtrim")] + bars
+    prop("housewindow", "Window", {"dark": window("housewindow-dark", 0), "lit": window("housewindow-lit", 200)},
+         box=(0, 0, 0, 1, 1, 1), material="Glass", sounds=GLASS,
+         extra={"resistance": 4, "drops": [], "lightHsvByType": {"*-lit-*": [6, 4, 9]}},
+         comment="A house window: frame, glass and glazing bars, a sill outside")
+    for s in SIDES:
+        name(f"housewindow-lit-{s}", "Lit Window")
     cube_block("houseroof", {"grey": "Roof Shingles", "brown": "Roof Shingles", "red": "Roof Shingles"}, ["grey", "brown", "red"],
                {"grey": "houseroof-grey", "brown": "houseroof-brown", "red": "houseroof-red"}, material="Wood", sounds=WOOD)
     cube_block("houseceiling", {"plain": "Ceiling", "lightoff": "Ceiling Light", "lighton": "Ceiling Light"}, ["plain", "lightoff", "lighton"],
@@ -338,6 +511,90 @@ def level9():
                lightHsvByType={"*-lighton": [6, 3, 12]}, vertexFlagsByType={"*-lighton": {"glowLevel": 120}})
     door_block("housedoor", "Front Door", "housedoor", "locked", material="Wood", sounds=WOOD, comment="A front door, locked")
     door_block("garagedoor", "Garage Door", "garagedoor", "locked", comment="A closed garage door, locked")
+    # Layout version 5's houses. The floor between two storeys: boards on top, the ceiling of the room below underneath
+    # (its light, dead or lit, in the middle of the room)
+    storey = {}
+    for kind, ceiling in (("plain", "houseceiling"), ("lightoff", "houseceiling-lightoff"), ("lighton", "houseceiling-lighton")):
+        storey[f"*-{kind}"] = {"up": {"base": "block/detail/housefloor-wood"}, "down": {"base": f"block/detail/{ceiling}"},
+                               "horizontals": {"base": "block/detail/houseceiling"}}
+    block("housestorey", {"variantgroups": [{"code": "kind", "states": ["plain", "lightoff", "lighton"]}],
+                          "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Wood", "drawtype": "cube",
+                          "texturesByType": storey, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD,
+                          "lightHsvByType": {"*-lighton": [6, 3, 12]}},
+          "The floor between a house's storeys: floorboards over the ceiling of the room below")
+    name("housestorey-*", "Floorboards")
+    # Wooden stairs with a carpet runner, climbing north (as the concrete ones)
+    stair_boxes = [bx("Lower", (0, 0, 0), (16, 8, 16), "housefloor-wood"), bx("Upper", (0, 8, 0), (16, 16, 8), "housefloor-wood"),
+                   bx("RunLower", (4, 8, 8), (12, 8.3, 16), "housefloor-carpet", faces=("up", "east", "west")),
+                   bx("RunRiser", (4, 8.3, 8), (12, 16, 8.3), "housefloor-carpet", faces=("south", "east", "west")),
+                   bx("RunUpper", (4, 16, 0), (12, 16.3, 8), "housefloor-carpet", faces=("up", "east", "west", "south")),
+                   bx("RunFoot", (4, 0, 16), (12, 8.3, 16.3), "housefloor-carpet", faces=("south", "east", "west", "up"))]
+    path = shape("housestairs", stair_boxes)
+    block("housestairs", {"variantgroups": [{"code": "side", "states": SIDES}],
+                          "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]}, "blockmaterial": "Wood", "drawtype": "json",
+                          "shapeByType": {f"*-{s}": {"base": path, "rotateY": ROTATE[s]} for s in SIDES},
+                          "collisionSelectionBoxesByType": {f"*-{s}": [cuboid((0, 0, 0, 1, 0.5, 1), s), cuboid((0, 0.5, 0, 1, 1, 0.5), s)] for s in SIDES},
+                          "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 4, "sounds": WOOD},
+          "Wooden stairs with a carpet runner, the variant the way they climb")
+    name("housestairs-*", "Stairs")
+    # A porch: its deck of boards a little off the ground with a painted skirt, the concrete step up to it, the posts
+    # holding up its roof, and the lamp by the door (on the wall to the south of its block, facing north)
+    prop("porchdeck", "Porch Deck", {
+        "deck": [bx("Boards", (0, 0, 0), (16, 2, 16), "housefloor-porch", faces=("up",)),
+                 bx("Skirt", (0, 0, 0), (16, 2, 16), "windowtrim", faces=("north", "east", "south", "west"))],
+        "step": [bx("Step", (0, 0, 0), (16, 1, 16), "porchstep")]},
+         box=(0, 0, 0, 1, 0.125, 1), oriented=False, comment="A porch's deck of boards, and the step up to it")
+    name("porchdeck-step", "Porch Step")
+    prop("porchpost", "Porch Post", [bx("Post", (5.5, 0, 5.5), (10.5, 16, 10.5), "windowtrim"),
+                                     bx("Fillet", (5, 15, 5), (11, 16, 11), "windowtrim")],
+         box=(0.31, 0, 0.31, 0.69, 1, 0.69), oriented=False, comment="A painted post holding up a porch roof")
+    # Its foot where it stands in the railing: the railing's two rails (vanilla aged fence wood) come in to the post from
+    # the sides the railing goes on to (kinds named like the vanilla fence's)
+    import detail_kit
+    detail_kit.EXT["fencewood"] = "game:block/wood/debarked/aged"
+
+    def post_rails(sides):
+        els = [bx("Post", (5.5, 0, 5.5), (10.5, 16, 10.5), "windowtrim"), bx("Fillet", (5, 15, 5), (11, 16, 11), "windowtrim")]
+        for side in sides:
+            k = "nesw".index(side)
+            for y in (1, 13):
+                els.append(detail_kit.turn(bx(f"Rail{side}{y}", (7, y, 0), (9, y + 2, 5.5), "fencewood", faces=("east", "west", "up", "down")), k))
+        return els
+    rail_kinds = ["n", "e", "ne", "s", "ns", "es", "nes", "w", "nw", "ew", "new", "sw", "nsw", "esw", "nesw"]
+    prop("porchpostrail", "Porch Post", {k: post_rails(k) for k in rail_kinds},
+         box=(0.31, 0, 0.31, 0.69, 1, 0.69), oriented=False, comment="A porch post's foot in the railing, the rails coming in from the sides named")
+    lamp = [bx("Plate", (6, 5, 15.3), (10, 13, 16), "metaldark"), bx("Arm", (7.5, 6, 12.2), (8.5, 7, 15.3), "metaldark"),
+            bx("Base", (6, 6.5, 10.2), (10, 7, 14.2), "metaldark"), bx("Cap", (5.4, 13, 9.6), (10.6, 13.8, 14.8), "metaldark"),
+            bx("Finial", (7.4, 13.8, 11.6), (8.6, 14.8, 12.8), "metaldark")]
+    lamp += [bx(f"Post{i}", (x, 7, z), (x + 0.6, 13, z + 0.6), "metaldark") for i, (x, z) in
+             enumerate(((5.8, 10), (9.6, 10), (5.8, 13.8), (9.6, 13.8)))]
+    prop("porchlamp", "Porch Light", {
+        "off": lamp + [bx("Glass", (6.1, 7, 10.3), (9.9, 13, 14.1), "porchglass-off", faces=("north", "east", "south", "west"))],
+        "on": lamp + [bx("Glass", (6.1, 7, 10.3), (9.9, 13, 14.1), "lampglass", glow=230, faces=("north", "east", "south", "west"))]},
+         box=(0.34, 0.3, 0.6, 0.66, 0.92, 1), collide=False, material="Metal", sounds=METAL,
+         extra={"lightHsvByType": {"*-on-*": [6, 4, 11]}}, comment="A coach lamp on the wall by a front door")
+    # The Suburbs' street signs: a green blade naming the west-east street on a pole, and (the block over it) the
+    # blade naming the north-south one; and the guide sign toward the city, its arrow pointing north as modelled
+    streets_we = ("elm", "oak", "maple", "pine", "cedar", "birch", "walnut", "ash")
+    streets_ns = ("willow", "linden", "aspen", "poplar", "holly", "laurel", "spruce", "cherry")
+    prop("suburbsign", "Street Sign", {k: [
+        bx("Pole", (7.5, 0, 7.5), (8.5, 41, 8.5), "streetgreen"),
+        bx("Blade", (-8, 36, 7.6), (24, 40, 8.4), f"suburbsign-{k}", faces=("north", "south"), full=True),
+        bx("BladeEdge", (-8, 36, 7.6), (24, 40, 8.4), "streetgreen", faces=("east", "west", "up", "down"))] for k in streets_we},
+         box=(0.44, 0, 0.44, 0.56, 2, 0.56), oriented=False, material="Metal", sounds=METAL,
+         comment="A street-name sign on a corner of the Suburbs")
+    prop("suburbsignblade", "Street Sign", {k: [
+        bx("Blade", (7.6, 15, -8), (8.4, 19, 24), f"suburbsignblade-{k}", faces=("east", "west"), full=True),
+        bx("BladeEdge", (7.6, 15, -8), (8.4, 19, 24), "streetgreen", faces=("north", "south", "up", "down"))] for k in streets_ns},
+         box=(0.44, 0, 0.44, 0.56, 1, 0.56), oriented=False, collide=False, material="Metal", sounds=METAL,
+         comment="The second blade of a Suburbs street sign, naming the street that runs north-south")
+    prop("citysign", "Guide Sign", [
+        bx("PostA", (7.5, 0, 2.5), (8.5, 30, 3.5), "metaldark"), bx("PostB", (7.5, 0, 12.5), (8.5, 30, 13.5), "metaldark"),
+        bx("PlateE", (8.5, 18, -1), (8.8, 30, 17), "citysign-right", faces=("east",), full=True),
+        bx("PlateW", (7.2, 18, -1), (7.5, 30, 17), "citysign-left", faces=("west",), full=True),
+        bx("PlateEdge", (7.2, 18, -1), (8.8, 30, 17), "streetgreen", faces=("north", "south", "up", "down"))],
+         box=(0.44, 0, 0.1, 0.56, 1.9, 0.9), material="Metal", sounds=METAL,
+         comment="A guide sign at a Suburbs junction: DOWNTOWN, and an arrow toward the city")
 
     kitchen = drops(("game:salt", 0.5, 0.5), ("game:flour-spelt", 0.5, 0.5), ("cannedbeans", 0.6, 0.5), ("game:knife-generic-copper", 0.12, 0),
                     ("game:fat", 0.3, 0.3), ("crackers", 0.4, 0.4), ("game:candle", 0.2, 0.2))
@@ -611,6 +868,27 @@ def refinements():
         bx("Ends", (0.5, 0, 1.5), (15.5, 14, 14.5), "hayroll-end", faces=("east", "west"), full=True)],
          box=(0.03, 0, 0.09, 0.97, 0.88, 0.91), material="Plant", sounds=CLOTH,
          extra={"drops": [{"type": "block", "code": "game:hay-normal-ud", "quantity": {"avg": 2, "var": 1}}]})
+    # Out in the crops: a galvanised trough with rolled rims and ribbed sides, full of rainwater (a hand pump stands at
+    # its east end), and a five-bar field gate off its hinges, lying flat, its hanging post still standing
+    prop("watertrough", "Water Trough", [
+        bx("Side1", (0.5, 1, 3), (15.5, 9, 4), "galvanised"), bx("Side2", (0.5, 1, 12), (15.5, 9, 13), "galvanised"),
+        bx("End1", (0, 1, 3.5), (1, 9, 12.5), "galvanised"), bx("End2", (15, 1, 3.5), (16, 9, 12.5), "galvanised"),
+        bx("Bottom", (1, 1, 4), (15, 2, 12), "galvanised"),
+        bx("Water", (1, 7, 4), (15, 7.5, 12), "troughwater", faces=("up",)),
+        bx("Rim1", (0, 9, 2.5), (16, 9.6, 4), "steel"), bx("Rim2", (0, 9, 12), (16, 9.6, 13.5), "steel"),
+        bx("Skid1", (2, 0, 3), (4, 1, 13), "wooddark"), bx("Skid2", (12, 0, 3), (14, 1, 13), "wooddark")],
+         box=(0, 0, 0.16, 1, 0.6, 0.84), material="Metal", sounds=METAL,
+         extra={"drops": drops(("metalbracket", 2, 1), ("game:metalnailsandstrips-iron", 0.6, 0.4))},
+         comment="A galvanised water trough out in a field, full of rainwater, a hand pump at its end")
+    gate = [bx("Post", (0, 0, 13), (2.5, 22, 15.5), "wooddark"), bx("Hinge1", (2.5, 6, 13.6), (3.5, 7, 14.6), "metaldark"),
+            bx("Hinge2", (2.5, 16, 13.6), (3.5, 17, 14.6), "metaldark"),
+            bx("Stile1", (3, 0, 0), (5, 1.6, 15), "wood"), bx("Stile2", (37, 0, 0), (39, 1.6, 15), "wood")]
+    for k, z in enumerate((0.5, 4, 7.5, 11, 13.5)):
+        gate.append(bx(f"Bar{k}", (3, 0.3, z), (39, 1.5, z + 1.4), "wood"))
+    gate.append(bx("Brace", (4, 0.4, 7), (38, 1.4, 8.4), "wood", rot=(0, 21, 0)))
+    prop("fallengate", "Fallen Gate", gate, box=(0, 0, 0, 1, 0.12, 1), material="Wood", sounds=WOOD,
+         extra={"drops": drops(("game:plank-aged", 3, 1), ("game:metalnailsandstrips-iron", 0.5, 0.4))},
+         comment="A field gate off its hinges, lying flat in a trampled patch of the crops, its hanging post still standing")
 
     # Level 5: the corridors
     prop("icemachine", "Ice Machine", [

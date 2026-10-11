@@ -8,7 +8,11 @@ static class Validator
         if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true;
         if (t.Kind != TileKind.Floor) return false;
         if (t.Stack > 0 && t.Variant == 0) return false; // crates
-        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts;
+        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+            // (Level Fun's confetti and a tied balloon have no collision: in a Level 1 stair core they lie at the foot of its flight up)
+            or Props.FunConfetti or Props.FunBalloonTied
+            // (nor have Level 8's glowcaps)
+            or Props.GlowcapRed or Props.GlowcapMixed;
     }
 
     public static void Run(WorldLayout layout, int m0x, int m0z, int n, int spawnX, int spawnZ)
@@ -39,7 +43,8 @@ static class Validator
             }
         }
         // Orphan regions: walkable, not sealed, not reached. Ignore a 40-block margin (cut off by the render edge).
-        var levelTotals = new int[13]; var levelOrphans = new int[13];
+        // (13 buckets for the ring levels and their two zones; the regions kept as 14 and up count past them)
+        var levelTotals = new int[64]; var levelOrphans = new int[64];
         int Bucket(in Tile t) => t.Level == 6 && t.Zone == 1 ? 11 : t.Level == 7 && t.Zone > 0 ? 12 : t.Level;
         var visited = new bool[size * size];
         var regions = new List<(int Size, int X, int Z, int Level)>();
@@ -64,8 +69,9 @@ static class Validator
                 levelOrphans[Bucket(t)] += count;
                 regions.Add((count, x, z, Bucket(t)));
             }
-        for (int l = 0; l < 13; l++)
-            Console.WriteLine($"Level {l}: {levelTotals[l]} walkable tiles, {levelOrphans[l]} unreachable ({100.0 * levelOrphans[l] / Math.Max(1, levelTotals[l]):0.0}%)");
+        for (int l = 0; l < 64; l++)
+            if (l < 13 || levelTotals[l] > 0)
+                Console.WriteLine($"Level {l}: {levelTotals[l]} walkable tiles, {levelOrphans[l]} unreachable ({100.0 * levelOrphans[l] / Math.Max(1, levelTotals[l]):0.0}%)");
         foreach (var r in regions.OrderByDescending(r => r.Size).Take(12))
             Console.WriteLine($"  unreachable region of {r.Size} at {r.X},{r.Z} (level {r.Level}, cell-local {r.X % 32},{r.Z % 32})");
         int dumps = 0;

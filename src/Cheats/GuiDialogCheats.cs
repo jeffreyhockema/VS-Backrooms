@@ -191,6 +191,7 @@ public class GuiDialogCheats : GuiDialog
         {
             ("Heal and rest", Cmd("/backrooms heal")),
             ("Testing kit", Cmd("/backrooms kit")),
+            ("Lantern in hand", Cmd("/backrooms light")),
             ("Die (test waking)", Cmd("/backrooms die")),
             ("Column info", Cmd("/backrooms column")),
         }, 4);

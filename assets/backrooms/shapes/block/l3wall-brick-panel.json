@@ -8,6 +8,9 @@
   "red": "backrooms:block/level2/pipe-red",
   "metal": "backrooms:block/props/metal",
   "dark": "backrooms:block/props/metal-dark",
+  "wallrust": "backrooms:block/level2/wallpipe-rust",
+  "walllag": "backrooms:block/level2/wallpipe-lagging",
+  "flange": "backrooms:block/level2/wallpipe-flange",
   "panel": "backrooms:block/level3/panel",
   "fan": "backrooms:block/level3/fan"
  },

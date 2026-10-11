@@ -12,8 +12,8 @@ namespace Backrooms;
 /// <summary>
 /// Level !'s air and sound on the client (kept as level 14). The base fog is a close red murk (its line in
 /// <see cref="Levels"/>); while the alarm sounds it pulses, once a second, a slow swell, never a strobe. The Safe Zone is
-/// clear and blue. The alarm is in your head, not anywhere in the hall: a murmur in the walls until the chained door
-/// breaks, then deafening. The horde's roar comes from where its front is, so how loud it is is how near it is; a
+/// clear and blue. The alarm is in your head, not anywhere in the hall: from the moment you arrive it sounds muffled
+/// through the walls (the two tones still plain), and once the chained door breaks, deafening. The horde's roar comes from where its front is, so how loud it is is how near it is; a
 /// heartbeat starts when it is within 20 blocks and quickens within 10. The server keeps the run's state on the player
 /// (<see cref="RunSystem.PhaseKey"/> and its neighbours).
 /// </summary>
@@ -50,8 +50,8 @@ public partial class AtmosphereSystem
         float gap = watched?.GetFloat(RunSystem.GapKey, 999) ?? 999;
         double[] front = (watched?[RunSystem.FrontKey] as DoubleArrayAttribute)?.value;
 
-        RunLoop(ref runAlarm, "ambient/run/alarm", phase == RunSystem.Phase.Alarm, 0.75f);
-        RunLoop(ref runAlarmFar, "ambient/run/alarm-far", phase is RunSystem.Phase.Waiting or RunSystem.Phase.Safe, 0.45f);
+        RunLoop(ref runAlarm, "ambient/run/alarm", phase == RunSystem.Phase.Alarm, 1f);
+        RunLoop(ref runAlarmFar, "ambient/run/alarm-far", phase is RunSystem.Phase.Waiting or RunSystem.Phase.Safe, 0.8f);
         RunLoop(ref runSafe, "ambient/run/safezone", phase == RunSystem.Phase.Safe, 0.5f);
         RunLoop(ref runHorde, "ambient/run/horde", phase is RunSystem.Phase.Alarm or RunSystem.Phase.Safe && front != null, 1f, front, 64);
         RunLoop(ref runHeart, "effect/run/heartbeat", phase == RunSystem.Phase.Alarm && gap <= 20, 0.8f);

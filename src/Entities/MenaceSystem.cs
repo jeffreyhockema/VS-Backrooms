@@ -165,7 +165,7 @@ public class MenaceSystem : ModSystem
                 .HandleWith(OnMenaceCommand)
             .EndSubCommand()
             .BeginSubCommand("encounter")
-                .WithDescription("Puts down an entity (smiler, hound, faceling, deathmoth-male, deathmoth-female, skinstealer, duller, deathrat) for an encounter (ambient, glimpse, stalk, hunt). From the console, give x and z: it targets a straw dummy put down there.")
+                .WithDescription("Puts down an entity (any Backrooms entity code: smiler, hound, faceling, deathmoth-male, deathrat, wretch, ...) for an encounter (ambient, glimpse, stalk, hunt; default hunt), optionally at a distance. From the console, give x and z: it targets a straw dummy put down there.")
                 .WithArgs(api.ChatCommands.Parsers.Word("entity"), api.ChatCommands.Parsers.OptionalWord("kind"), api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"), api.ChatCommands.Parsers.OptionalInt("distance"))
                 .HandleWith(OnEncounterCommand)
             .EndSubCommand()
@@ -204,6 +204,13 @@ public class MenaceSystem : ModSystem
                     return TextCommandResult.Success("Entity log " + (Logging ? "on" : "off"));
                 })
             .EndSubCommand();
+    }
+
+    public override void Dispose()
+    {
+        // (Static, so it would outlast this world into the next one opened in the same process)
+        Senses.LightsOut = false;
+        base.Dispose();
     }
 
     // ================= Menace =================
@@ -331,6 +338,9 @@ public class MenaceSystem : ModSystem
         int mx = WorldLayout.MacroOf(gx), mz = WorldLayout.MacroOf(gz);
         int level = layout.LevelAt(mx, mz);
         a.Level = level;
+        // (A watch's assessment is used again every time: what only some levels set must not linger from the last level)
+        a.Den = DenKind.None;
+        a.Worst = false;
         a.Snackrooms = level == 6 && layout.IsSnackrooms(mx, mz);
         a.Subway = level == 11 && y < geometry.CityFloorY - 1;
         // The city's effect: nothing there attacks unless provoked. It does not reach down into the subway
@@ -641,7 +651,9 @@ public class MenaceSystem : ModSystem
     private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours)
     {
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
-        int count = kind == Encounter.Glimpse || kind == Encounter.Ambient ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
+        // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
+        bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
+        int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
         if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(MenaceBand.Threshold, a.Level) - CountMenacing(target)));
         Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
         for (int i = 1; i < count; i++)
@@ -660,15 +672,17 @@ public class MenaceSystem : ModSystem
 
     /// <summary>
     /// Puts down one entity of a kind at a spot, hunting a target, outside the director's own rules: what the King
-    /// raises for his trial. Null if there is no such entity.
+    /// raises for his trial. Null if there is no such entity. With <paramref name="ownNumbers"/> it keeps the speed,
+    /// damage and health its type gives it instead of taking the level's danger (the Mangled, whose walk and stride
+    /// were matched by hand).
     /// </summary>
-    public Entity SpawnHunter(string code, Vec3d at, Entity target)
+    public Entity SpawnHunter(string code, Vec3d at, Entity target, bool ownNumbers = false)
     {
         if (!types.TryGetValue(code, out EntityProperties type)) return null;
-        return Spawn(type, at, target, Encounter.Hunt, passive: false);
+        return Spawn(type, at, target, Encounter.Hunt, passive: false, dangerOverride: ownNumbers ? 0 : null);
     }
 
-    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false)
+    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false, double? dangerOverride = null)
     {
         Entity entity = sapi.World.ClassRegistry.CreateEntity(type);
         if (frenzy) entity.Attributes.SetBool(AiTaskMenace.FrenzyKey, true);
@@ -678,7 +692,7 @@ public class MenaceSystem : ModSystem
         // (Headless tests: with no player about nothing would think)
         if (target.WatchedAttributes.GetBool("backrooms:testTarget")) entity.AlwaysActive = true;
         bool elder = ChooseLook(entity, at);
-        double danger = Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
+        double danger = dangerOverride ?? Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
         entity.Attributes.SetDouble(Danger.Key, danger);
         sapi.World.SpawnEntity(entity);
         if (entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is { } health)
@@ -744,7 +758,7 @@ public class MenaceSystem : ModSystem
         if (y == int.MinValue) return null;
         var spot = new Vec3d(x + 0.5, y, z + 0.5);
         if (entry.SubwayOnly && y >= geometry.CityFloorY - 1) return null;
-        if (entry.NeedsDark && Senses.LightAt(sapi.World, spot.AddCopy(0, 1, 0), new[] { target }) >= Senses.LitLevel) return null;
+        if (entry.NeedsDark && Senses.LightAt(sapi.World, spot.AddCopy(0, 1, 0), target) >= Senses.LitLevel) return null;
         if (!ambient && Wards.Warded(sapi.World, spot)) return null;
         return spot;
     }
@@ -825,7 +839,7 @@ public class MenaceSystem : ModSystem
         }
 
         var a = new Assessment();
-        Rate(a, (int)target.Pos.X, target.Pos.Y, (int)target.Pos.Z);
+        Rate(a, (int)Math.Floor(target.Pos.X), target.Pos.Y, (int)Math.Floor(target.Pos.Z));
         var entry = new RosterEntry(code, MenaceBand.Heartland, Encounters.Menacing | Encounters.Ambient, 1, 1, kind is Encounter.Stalk or Encounter.Hunt ? 2 : 1)
         {
             NeedsDark = code == Roster.Smiler,

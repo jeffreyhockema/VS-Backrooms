@@ -32,9 +32,6 @@ public sealed partial class ThresholdNetwork
     /// <summary>The Hub's window into 188.</summary>
     public static readonly Func<Tile, bool> L188HubWindow = t => t.Under == Unders.HubWindow188 && t.Level == WorldLayout.Hub;
 
-    /// <summary>An ordinary door to come back by after a fire exit (never one of the other levels' special doors).</summary>
-    private static readonly Func<Tile, bool> L188PlainDoor = t => Door(t) && t.Under == 0 && (byte)t.Pattern < 64 && t.Pattern != WallPattern.PoolDoor;
-
     /// <summary>A fire door of 188's (the way back for whoever comes in beside it).</summary>
     private static readonly Func<Tile, bool> L188FireDoor = t => t.Under == Unders.L188FireDoor && t.Level == WorldLayout.Level188;
 
@@ -54,7 +51,7 @@ public sealed partial class ThresholdNetwork
                     0 or 1 => BothWays(window, key, target, L188EntranceIn(target)),
                     WorldLayout.FunLevel => L188BothWays(window, key, L188IntoFunWindow(), L188EntranceIn(3)),
                     WorldLayout.Hub => L188BothWays(window, key, L188IntoHubWindow(), L188HubWindow),
-                    5 or 2 => BothWays(window, key, target, L188PlainDoor),
+                    5 or 2 => BothWays(window, key, target, PlainDoor),
                     _ => BothWays(window, key, target),
                 };
                 passage.Message = "backrooms:l188-window-in";
@@ -143,9 +140,9 @@ public sealed partial class ThresholdNetwork
                 (int target, Func<Tile, bool> partner) = storey switch
                 {
                     1 => (1, (Func<Tile, bool>)null),
-                    2 => (5, L188PlainDoor),
+                    2 => (5, PlainDoor),
                     3 => (4, (Func<Tile, bool>)null),
-                    _ => (2, L188PlainDoor),
+                    _ => (2, PlainDoor),
                 };
                 Passage passage = BothWays(door, key, target, partner);
                 passage.Message = "backrooms:l188-fireexit";

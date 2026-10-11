@@ -49,13 +49,13 @@
 	},
 	"vertexFlagsByType": {
 		"*-on": {
-			"glowLevel": 160
+			"glowLevel": 220
 		},
 		"*-lit": {
-			"glowLevel": 160
+			"glowLevel": 220
 		},
 		"*-flicker": {
-			"glowLevel": 160
+			"glowLevel": 220
 		}
 	},
 	"entityClassByType": {

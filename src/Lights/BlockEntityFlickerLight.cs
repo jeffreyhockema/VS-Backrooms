@@ -100,22 +100,28 @@ public class BlockEntityFlickerLight : BlockEntity
     public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
     {
         if (Lit) return false;
-        mesher.AddMeshData(GetOffMesh(tessThreadTesselator));
+        MeshData mesh = GetOffMesh(tessThreadTesselator);
+        // (Without a dead look to show, draw the block as it is)
+        if (mesh == null) return false;
+        mesher.AddMeshData(mesh);
         return true;
     }
 
+    /// <summary>The dead panel's mesh (the block named by the "offBlock" attribute), tesselated once per kind of light.</summary>
     private MeshData GetOffMesh(ITesselatorAPI tesselator)
     {
-        string offCode = Block.Attributes?["offBlock"].AsString();
-        Block offBlock = offCode == null ? Block : Api.World.GetBlock(new AssetLocation(offCode)) ?? Block;
-        // The meshes are cached per world (block ids and the texture atlas differ from one world to the next)
-        Dictionary<int, MeshData> cache = Api.ModLoader.GetModSystem<FlickerSystem>().OffMeshes;
+        // The meshes are cached per world (block ids and the texture atlas differ from one world to the next), keyed by
+        // this block's id, so the off block is only looked up the first time
+        Dictionary<int, MeshData> cache = Api.ModLoader.GetModSystem<FlickerSystem>()?.OffMeshes;
+        if (cache == null) return null;
         lock (cache)
         {
-            if (!cache.TryGetValue(offBlock.BlockId, out MeshData mesh))
+            if (!cache.TryGetValue(Block.BlockId, out MeshData mesh))
             {
+                string offCode = Block.Attributes?["offBlock"].AsString();
+                Block offBlock = offCode == null ? Block : Api.World.GetBlock(new AssetLocation(offCode)) ?? Block;
                 tesselator.TesselateBlock(offBlock, out mesh);
-                cache[offBlock.BlockId] = mesh;
+                cache[Block.BlockId] = mesh;
             }
             return mesh;
         }

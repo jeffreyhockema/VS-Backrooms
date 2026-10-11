@@ -27,7 +27,7 @@
 		}
 	},
 	"textures": {
-		"all": {
+		"panel": {
 			"base": "block/level5/hotelwall-panel"
 		}
 	},

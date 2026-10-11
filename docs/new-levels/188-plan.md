@@ -448,7 +448,7 @@ Z21 #...######w#               the first west-wing room's partition
 | **The wooden deck** | A circle 8 across, centred on the cross (X 40-47 × Z 25-32) | Radial boards a few px proud of the paving (`l188-deck`, with arc edge pieces) |
 | **The hatch** | 2 × 2 at the deck's centre (X 43-44, Z 28-29) | An iron hatch with a ring handle (3.4) |
 | **The downpipe** | On the north façade at X 55, from the roof gutter to a drain at its foot | Always running with dark water: the "non-potable liquid", and a compass (it is always north) |
-| **Bollard lamps** | Four, at the deck's diagonals | Dim (3.5) |
+| **Bollard lamps** | Four, at the deck's diagonals | Dim (light 10) |
 | **Benches** | Two, facing the deck from the east and west lawns' edges | |
 
 ### 3.3 Storeys, slabs, stairs and roof
@@ -491,7 +491,7 @@ Z21 #...######w#               the first west-wing room's partition
 | State | Looks like (from the courtyard) | Looks like (from inside the room) | Light |
 |---|---|---|---|
 | `closed` | Glass, white roller blind down behind it | The blind, down | 0 |
-| `glow` | Blind down, glowing warm from a lamp behind | The blind; the bedside lamp on | Blind 6 |
+| `glow` | Blind down, glowing warm from a lamp behind | The blind; the bedside lamp on | Blind 7 |
 | `open` | Blind up: the **real room** behind, dark | The blind rolled up; the courtyard through the glass | 0 |
 | `lit` | Blind up: the real room, lamp on | As `open`, lamp on | (lamp) |
 | `figure` | Blind up, the room lit behind; **a dark silhouette in the window**, standing | The same silhouette in the glass, facing in | Room lamp |
@@ -566,7 +566,7 @@ through cold black air into warm water."
 | Rooms | A **bedside lamp** (nightstand) | `[7, 3, 10]`, on when the window is `glow`, `lit` or a figure, else off. Ceiling downlight off (dead) |
 | Lobby | Downlights every 3 and a lit reception fascia | `[7, 2, 14]` |
 | Stair | Green emergency bulkheads on each landing; EXIT signs | `[22, 5, 7]` |
-| Courtyard | **Only the windows**: glowing blinds (6), lit rooms (through glass), link-window scenes (8-11; Level 6's black, 0), and four bollards | Bollards `[8, 2, 7]`. The deck at the centre stays dim (2-4): the windows are the light |
+| Courtyard | **Only the windows**: glowing blinds (7), lit rooms (through glass), link-window scenes (8-11; Level 6's black, 0), and four bollards | Bollards `[8, 2, 10]` (7 left the deck's rim and hatch unreadable). The deck at the centre stays dim: the windows are the light |
 | Roof | Nothing but what spills over the parapet | |
 | Outer windows, sky, void | None | |
 
@@ -729,7 +729,7 @@ Everything new is prefixed `l188-` and lives in `block/188/`, `blocktypes/188/`,
 |---|---|---|
 | `l188-paver-{plain,moss,cracked}` | Pale concrete pavers `#A8A49B`, two 16 px slabs per face, 1 px darker joints; moss variant: green `#4E6B35` in the joints; cracked: a hairline crack and a dark stain | Courtyard floor (rel 0) |
 | `l188-turf-{a,b}` | Top: dense moss-grass, dark green `#3B5530` with lighter blades `#5F7F45`, damp darker patches; sides soil | Lawns. b is slightly yellower |
-| `l188-mosstuft` | Plant shape: 6 crossed tufts 3-6 voxels tall | Non-solid, on ~15% of lawn tiles |
+| `l188-mosstuft` | Plant shape: 6 crossed tufts 3-6 voxels tall; a dozen light fronds (`#5F7F45` to `#7A9A58`) with soft edges (dark, dense fronds read as black clumps at night) | Non-solid, on ~15% of lawn tiles |
 | `l188-edging-{side}` | **Real 3D** timber edge board 16 × 3 × 1.5 at the lawn's edge, on a paver base | Lawn borders |
 | `l188-deck`, `l188-deck-edge-{straight,outer,inner}-{side}` | A slab 3 voxels high: radial timber boards `#7A5A3C`, weathered grey at the ends, 1 px dark gaps, bolt heads. Edge pieces cut the slab along a real arc (stepped boxes) over the paver | The wooden circle, 8 across |
 | `l188-hatch-{closed,open}` | 2 × 2 multiblock, 16 × 3 × 16 per part, flush with the deck: riveted iron plate `#3E3F42` rusting at the rim, a **real 3D** ring handle (8 boxes, 6 across) on the centre seam; open: the plate stands vertical on its hinge side | Kind none (class `BackroomsL188Hatch`: right-click toggles; open is passable) |
@@ -755,7 +755,7 @@ Everything new is prefixed `l188-` and lives in `block/188/`, `blocktypes/188/`,
 
 | Code | Variants | Shape (per part, voxels) |
 |---|---|---|
-| `l188-window-{state}-{part}-{side}` | state: `closed, glow, open, lit, figure, beckon`; part: `ll, lr, ul, ur`; side: 4 | **Real 3D.** Frame: dark aluminium `#3D4043`, 1.5 thick on the outer edges of the 2 × 2, a 1 voxel mullion at the centre; glass plane 0.5 thick 3 voxels in from the courtyard face (transparent, faint reflection streak). **Blind:** a white `#ECE9E0` roller blind plane 0.5 thick, 2 voxels in from the room face. Down: covers the part; up: rolled into a 2 × 2 roll at the top of the upper parts, with a bottom bar 1 × 1 and a pull cord. `glow`: the blind is warm-lit (emissive texture), `lightHsv [7, 3, 6]`. `figure` and `beckon`: a flat **silhouette panel** 1 voxel thick in the glass plane, near-black `#0B0B0D`, edges soft (2 px alpha falloff): a head and shoulders in the upper parts, a torso and arms in the lower; `beckon`'s right arm is raised in `ur`, the fingers bent. Light absorption low (glass) except where the blind is down |
+| `l188-window-{state}-{part}-{side}` | state: `closed, glow, open, lit, figure, beckon`; part: `ll, lr, ul, ur`; side: 4 | **Real 3D.** Frame: dark aluminium `#3D4043`, 1.5 thick on the outer edges of the 2 × 2, a 1 voxel mullion at the centre; glass plane 0.5 thick 3 voxels in from the courtyard face (transparent, faint reflection streak). **Blind:** a white `#ECE9E0` roller blind plane 0.5 thick, 2 voxels in from the room face. Down: covers the part; up: rolled into a 2 × 2 roll at the top of the upper parts, with a bottom bar 1 × 1 and a pull cord. `glow`: the blind is warm-lit (emissive texture), `lightHsv [7, 3, 7]` (6 left smoky dark blotches between the lit windows). `figure` and `beckon`: a flat **silhouette panel** 1 voxel thick in the glass plane, near-black `#0B0B0D`, edges soft (2 px alpha falloff): a head and shoulders in the upper parts, a torso and arms in the lower; `beckon`'s right arm is raised in `ur`, the fingers bent. Light absorption low (glass) except where the blind is down |
 | `l188-window-scene-{place}-{part}-{side}` | place: `l0, l1, l2, l4, l5, l6, l9, l37, l94, hub, fun, end, void`; parts; sides | The same frame and sill. Behind the frame, a **peep-box** 12 voxels deep across the whole 2 × 2: a painted back wall (32 × 32 per part, perspective) and the real voxel features listed in 3.4b. Emissive back wall: `lightHsv` per place (l0 [9,4,10], l1 [0,0,8], hub [5,6,11], fun [5,4,10], l2 [0,5,7], l4 [0,0,9], l5 [2,5,8], l9 [6,3,6], l37 [30,1,11], l94 [8,3,13], end [7,3,9], l6 and void 0) |
 | `l188-outerwindow-{closed,open}-{part}-{side}` | | As the courtyard window; open shows black behind |
 | `l188-stairwindow-{part}-{side}` | | As `open` but with wired glass; the stair hall's façade slot on upper storeys |
@@ -771,6 +771,7 @@ Everything new is prefixed `l188-` and lives in `block/188/`, `blocktypes/188/`,
 | `l188-stairdoor-{lower,upper}` | Grey fire door, a wired-glass vision panel, a closer arm | Ordinary door |
 | `l188-firedoor-{lower,upper}` | Grey steel, a **real 3D** push bar across, "FIRE EXIT" stencil | Kind `l188-fireexit` (used, two-way) |
 | `l188-exitsign-{side}` | Green running-man box sign 10 × 5 × 2, `lightHsv [22, 5, 7]` | Over fire doors and the stair doors |
+| `l188-exitsignshift-{side}` | The same sign drawn half a block to the left (as seen from in front) | Over the middle of the courtyard's double door, on the courtyard side (layout version 5 on): the "stairwell at one end" made findable |
 | `l188-floorsign-{1,2,3,4,5,roof}-{side}` | Stencilled number on a grey plate at the stair landings | |
 | `l188-frontdoor-{l,r}-{lower,upper}` | Frameless glass doors with long steel pulls; black beyond | Kind `l188-frontdoor` (refuses) |
 
@@ -795,7 +796,7 @@ Everything new is prefixed `l188-` and lives in `block/188/`, `blocktypes/188/`,
 | `l188-roundtable`, `l188-loungechair-{side}` | Breakfast table; low lounge chair | |
 | `l188-cerealdispenser-{3,2,1,0}-{side}`, `l188-juicedispenser-{side}` | Three gravity cereal tubes on a stand; a juice dispenser with two drums | Class `BackroomsL188Dispenser` |
 | `l188-downpipe-{side}`, `l188-drain` | A grey downpipe 3 × 16 × 3 with brackets on the façade; at its foot a shoe and a drain grate with a dark puddle | The drain carries the `l188/pipe` ambient |
-| `l188-bollard` | A squat bollard 4 × 10 × 4 with a light band, `lightHsv [8, 2, 7]` | |
+| `l188-bollard` | A squat bollard 4 × 10 × 4 with a light band 3 px tall, `lightHsv [8, 2, 10]` | |
 | `l188-bench-{side}` | A slatted timber bench on concrete legs | |
 | `l188-ventstack`, (reuse) `acunit` | Roof furniture | |
 | (reuse) `suitcase`, `luggagecart`, `roomservicetray`, `servicetrolley`, `laundrycart`, `icemachine`, `snackvending`, `wetfloorsign`, `liftdoor`, `toilet`, `wastebasket` | | Corridor and room dressing (the code places them) |
@@ -1204,6 +1205,7 @@ the key rack, the downpipe) sit in the *air* cell with their back against the wa
 | `l188-firedoor-{lower,upper}-{side}` | `{side}` = the corridor face, push bar. `BackroomsThreshold` kind **`l188-fireexit`** |
 | `l188-frontdoor-{l,r}-{lower,upper}-{side}` | `{side}` = the lobby face; black beyond. `BackroomsThreshold` kind **`l188-frontdoor`** |
 | `l188-exitsign-{side}` | Wall-hung over fire doors and stair doors, at the door's top + 1 |
+| `l188-exitsignshift-{side}` | The same, over the courtyard door's middle (hung from the cell before its right leaf, as seen from the courtyard) |
 | `l188-floorsign-{1,2,3,4,5,roof}-{side}` | Wall-hung beside stair-landing doors, rel 4s+2 |
 | `l188-stair-{side}` | A standard stair block that **ascends toward `{side}`** |
 
@@ -1264,7 +1266,7 @@ resolves. Notes for the code:
 - **Doors:** open leaves swing 90° about the hinge and lie in the next cell (room side); collision only on the leaf.
   Closed doors collide on a 2-voxel slab in the middle of the wall. Fire, front and stair doors: as M3.
 - **Windows:** courtyard windows collide on the full block; `lightAbsorption` 99 when `closed`, 0 for `glow`
-  (`lightHsv [7, 3, 6]`), 1 otherwise; `renderpass` Transparent. Scene and entry windows collide on the frame only;
+  (`lightHsv [7, 3, 7]`), 1 otherwise; `renderpass` Transparent. Scene and entry windows collide on the frame only;
   scenes are lit per 4.2 (absorption 0), `l6` and `void` dark (99). Entry windows: `[24, 3, 4]`.
 - **Hatch:** closed = 3/16 slab; open = the standing plate only (north quarters on z 0-0.2, south on z 0.8-1).
 - **Additions** (unused by the code, free to place): `l188-edging-corner-{side}` (boards on `{side}` and the next edge

@@ -1,4 +1,4 @@
-// Cream corridor ceiling and the painted beams of the grand rooms
+// Cream corridor ceiling, and the coffered ceiling and mahogany beams of the grand rooms
 {
 	"code": "hotelceiling",
 	"variantgroups": [
@@ -6,7 +6,11 @@
 			"code": "type",
 			"states": [
 				"cream",
-				"beams"
+				"beams",
+				"coffer",
+				"beam-we",
+				"beam-ns",
+				"beam-cross"
 			]
 		}
 	],
@@ -19,14 +23,55 @@
 		]
 	},
 	"blockmaterial": "Wood",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level5/hotelceiling-{type}"
+	"drawtypeByType": {
+		"*-cream": "cube",
+		"*-beams": "cube",
+		"*": "json"
+	},
+	"shapeByType": {
+		"*-coffer": {
+			"base": "block/hotelceiling-coffer"
+		},
+		"*-beam-we": {
+			"base": "block/hotelceiling-beam"
+		},
+		"*-beam-cross": {
+			"base": "block/hotelceiling-beamcross"
+		},
+		"*-beam-ns": {
+			"base": "block/hotelceiling-beam",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"*-cream": {
+			"all": {
+				"base": "block/level5/hotelceiling-cream"
+			}
+		},
+		"*-beams": {
+			"all": {
+				"base": "block/level5/hotelceiling-beams"
+			}
+		}
+	},
+	"sideopaqueByType": {
+		"*-cream": {
+			"all": true
+		},
+		"*-beams": {
+			"all": true
+		},
+		"*": {
+			"all": false
 		}
 	},
 	"resistance": 2,
-	"lightAbsorption": 99,
+	"lightAbsorptionByType": {
+		"*-cream": 99,
+		"*-beams": 99,
+		"*": 0
+	},
 	"sounds": {
 		"walk": "game:walk/wood",
 		"place": "game:block/planks",

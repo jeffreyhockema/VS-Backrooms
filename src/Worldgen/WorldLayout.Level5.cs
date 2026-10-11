@@ -227,6 +227,9 @@ public sealed partial class WorldLayout
                         if (locked && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltL5Room + 37)) < 1 / 120.0) tile.Pattern = WallPattern.PoolDoor;
                         // ...or the wooden FUN doors, onto Level Fun
                         else if (locked && IsFunHotelDoor(roomX, roomZ)) tile.Pattern = WallPattern.FunDoor;
+                        // From layout 5, one locked door in three hundred has 666 on its plaque (lore: now and then a
+                        // room labelled 666 leads somewhere else entirely); it stays locked like the rest
+                        else if (locked && Version >= 5 && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltL5Room + 66)) < 1 / 300.0) tile.Variant = Plaque666;
                         break;
 
                     case HotelCell.Room:
@@ -427,6 +430,216 @@ public sealed partial class WorldLayout
                 else if (r < 0.56) Put(rng.Range(0, 6), rng.Range(0, 1), Props.LuggageCart, ArchPier.North);
             }
         }
+
+        if (Version >= 5 && IsFrontHall(mx, mz)) BuildFrontHall(b, mx, mz);
+    }
+
+    /// <summary>A hotel door's plaque (its <see cref="Tile.Variant"/>) past the room numbers 201-208: blank, and 666.</summary>
+    public const byte PlaqueBlank = 8, Plaque666 = 9;
+
+    /// <summary>
+    /// Where to look at a Level 5 cell's door with 666 on its plaque from, if the cell has one (layout version 5): across
+    /// the corridor from it (or just in front of it), and the way to face.
+    /// </summary>
+    public (int X, int Z, ArchPier Facing)? Door666View(int mx, int mz)
+    {
+        if (Version < 5 || LevelAt(mx, mz) != 5 || HotelZoneAt(mx, mz) is not (HotelZone.Wing or HotelZone.Beverly)) return null;
+        Tile[] tiles = CellTiles(mx, mz);
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].Kind != TileKind.Door || tiles[i].Pattern != WallPattern.Hotel || tiles[i].Variant != Plaque666) continue;
+            int x = mx * MacroSize + i % MacroSize, z = mz * MacroSize + i / MacroSize;
+            foreach ((int dz, ArchPier facing) in new[] { (1, ArchPier.North), (-1, ArchPier.South) })
+            {
+                if (TileAt(x, z + dz) is not { Kind: TileKind.Floor, Sealed: false }) continue;
+                bool across = TileAt(x, z + 2 * dz) is { Kind: TileKind.Floor, Sealed: false };
+                return (x, z + (across ? 2 : 1) * dz, facing);
+            }
+        }
+        return null;
+    }
+
+    private const int FrontHallRegion = 4;
+    /// <summary>
+    /// A front hall's grand staircase climbs four steps toward its back wall; from this one on it is open to the dark
+    /// over the ceiling, and stepping onto it takes you up out of the hotel (ThresholdNetwork).
+    /// </summary>
+    public const int GrandStairTripStep = 3;
+    private const ulong SaltL5FrontHall = 0x5E0B;
+
+    /// <summary>
+    /// Whether a lobby cell is its lobby's front hall (layout version 5): in each region of four cells by four, the
+    /// lobby cell with the lowest hash, so every stretch of lobby has one, or near enough, and none has two side by side.
+    /// </summary>
+    private bool IsFrontHall(int mx, int mz)
+    {
+        if (HotelZoneAt(mx, mz) != HotelZone.Lobby) return false;
+        int rx = Hashing.FloorDiv(mx, FrontHallRegion) * FrontHallRegion, rz = Hashing.FloorDiv(mz, FrontHallRegion) * FrontHallRegion;
+        ulong own = Hashing.Hash(seed, mx, mz, SaltL5FrontHall);
+        for (int z = rz; z < rz + FrontHallRegion; z++)
+            for (int x = rx; x < rx + FrontHallRegion; x++)
+                if ((x != mx || z != mz) && Hashing.Hash(seed, x, z, SaltL5FrontHall) < own && HotelZoneAt(x, z) == HotelZone.Lobby) return false;
+        return true;
+    }
+
+    /// <summary>
+    /// Where to look at a front hall from, or null if the cell has none: on its axis 12 blocks out from the desk, facing
+    /// the desk and the stairs.
+    /// </summary>
+    public (int X, int Z, ArchPier Facing)? FrontHallView(int mx, int mz)
+    {
+        if (Version < 5 || LevelAt(mx, mz) != 5 || !IsFrontHall(mx, mz)) return null;
+        int o = FrontHallTurn(mx, mz);
+        (int lx, int lz) = FrontHallTile(o, 15, 17);
+        return (mx * MacroSize + lx, mz * MacroSize + lz, FrontHallPier(o, ArchPier.North));
+    }
+
+    /// <summary>
+    /// Which way a front hall faces (0-3): its back wall toward a neighbour that is not lobby (a wall of the hotel) if
+    /// it has one, so the desk and the stairs stand at the end of the hall.
+    /// </summary>
+    private int FrontHallTurn(int mx, int mz)
+    {
+        int first = (int)(Hashing.Hash(seed, mx, mz, SaltL5FrontHall + 1) % 4);
+        (int Dx, int Dz)[] back = { (0, -1), (0, 1), (-1, 0), (1, 0) };
+        for (int k = 0; k < 4; k++)
+        {
+            int o = (first + k) % 4;
+            if (HotelZoneAt(mx + back[o].Dx, mz + back[o].Dz) != HotelZone.Lobby) return o;
+        }
+        return first;
+    }
+
+    /// <summary>
+    /// A front hall is drawn across (u) and in depth (v, its back at 0), then turned: 0 back to the north, 1 to the
+    /// south, 2 to the west, 3 to the east. Each turn mirrors about 15, so the lobby's columns (on 3, 11, 19, 27) and
+    /// carpet borders stay where they are.
+    /// </summary>
+    private static (int X, int Z) FrontHallTile(int o, int u, int v) => o switch
+    {
+        0 => (u, v),
+        1 => (u, 30 - v),
+        2 => (v, u),
+        _ => (30 - v, u),
+    };
+
+    /// <summary>A facing in a front hall's own terms (north toward its back) as it is in the world.</summary>
+    private static ArchPier FrontHallPier(int o, ArchPier p) => (o, p) switch
+    {
+        (0, _) => p,
+        (1, ArchPier.North) => ArchPier.South,
+        (1, ArchPier.South) => ArchPier.North,
+        (1, _) => p,
+        (2, ArchPier.North) => ArchPier.West,
+        (2, ArchPier.South) => ArchPier.East,
+        (2, ArchPier.East) => ArchPier.South,
+        (2, _) => ArchPier.North,
+        (_, ArchPier.North) => ArchPier.East,
+        (_, ArchPier.South) => ArchPier.West,
+        (_, ArchPier.East) => ArchPier.South,
+        _ => ArchPier.North,
+    };
+
+    /// <summary>
+    /// A lobby's front hall (layout version 5; the design plan's authored lobby, 6.4, scoped to one cell): the end of
+    /// the hall closed by a panelled wall between its columns, the front desk on the hall's axis before it with its bell
+    /// and guest book, the key rack on the wall behind, a lamp at either end and the clock; a red runner up the axis to
+    /// the desk under the chandeliers and a cross runner; and either side of the desk a grand staircase, three wide,
+    /// climbing between marble walls toward the back wall and up through the ceiling into the dark: the way back up to
+    /// Level 4 (the lore's way out: "go back up the stairs, to re-enter Level 4"). In its own terms (v toward the front):
+    /// <code>
+    ///   v 1-2   open floor behind the wall (a way round it at both ends)
+    ///   v 3       C  #  #  #  #  #  #  S  C  P  K  K  K  K  K  P  C   (C columns, # panelling, S sconce, P portrait, K key rack)
+    ///   v 4       .  |  4  4  4  |  G  .  .  .  .  .  .  .  .  .  .   (| marble walls, 1-4 steps, G clock; a palm at u 21)
+    ///   v 5       .  |  3  3  3  |  .  .  L  D  D  D  D  D  D  D  L   (D desk, L lamps)
+    ///   v 6       .  |  2  2  2  |  .  .  .  r  r  =  =  =  r  r  .   (r rug, = runner)
+    ///   v 7       .  .  1  1  1  .  .  .  .  r  r  =  =  =  r  r  .
+    ///   v 8-9     .  .  r  r  r  -  -  -  -  -  -  =  =  =  -  -  -   (- cross runner; the runner goes on to the front)
+    ///   u         3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+    /// </code>
+    /// mirrored on the other side (the second flight on u 23-25). Laid over the lobby's own furniture, which is cleared
+    /// from it; the hall stays open on every side but its back.
+    /// </summary>
+    private void BuildFrontHall(Builder b, int mx, int mz)
+    {
+        int o = FrontHallTurn(mx, mz);
+        ref Tile At(int u, int v)
+        {
+            (int x, int z) = FrontHallTile(o, u, v);
+            return ref b.At(x, z);
+        }
+        ArchPier Pier(ArchPier p) => FrontHallPier(o, p);
+        static void Clear(ref Tile t)
+        {
+            if (t.Kind != TileKind.Floor) return;
+            t.Variant = 0;
+            t.Stack = 0;
+            t.SupplyBox = false;
+        }
+        // Clear the end of the hall and the way up its axis
+        for (int v = 1; v <= 10; v++)
+            for (int u = 3; u <= 27; u++) Clear(ref At(u, v));
+        for (int v = 11; v <= 30; v++)
+            for (int u = 13; u <= 17; u++) Clear(ref At(u, v));
+
+        // The back wall, between the end columns (which stand in it)
+        for (int u = 3; u <= 27; u++)
+        {
+            ref Tile w = ref At(u, 3);
+            if (w.Kind == TileKind.Wall && w.Pattern == WallPattern.Marble) continue;
+            SetWall(ref w, WallPattern.Hotel, BaseStyle.Plain);
+            w.Pier = Pier(ArchPier.South);
+            if (u is >= 13 and <= 17) w.Variant = Decor.KeyRack;
+            else if (u is 10 or 20) w.Variant = Props.WallSconce;
+            else if (u is 12 or 18) w.Variant = Props.WallPortrait;
+        }
+
+        // The grand staircases, either side of the desk
+        foreach (int u0 in new[] { 5, 23 })
+        {
+            for (int step = 1; step <= 4; step++)
+                for (int u = u0; u <= u0 + 2; u++)
+                {
+                    ref Tile t = ref At(u, 8 - step);
+                    t.Stair = (byte)step;
+                    t.Pier = Pier(ArchPier.North);
+                    t.Ceiling = CeilingKind.Tile;
+                    // A runner up the middle of the flight, marble either side
+                    t.Floor = u == u0 + 1 ? FloorKind.HotelCarpet : FloorKind.HotelMarble;
+                }
+            // Marble walls either side of the steps that climb into the ceiling
+            for (int v = 4; v <= 6; v++)
+            {
+                SetWall(ref At(u0 - 1, v), WallPattern.Marble, BaseStyle.Plain);
+                SetWall(ref At(u0 + 3, v), WallPattern.Marble, BaseStyle.Plain);
+            }
+            // A rug at the foot of each flight
+            for (int u = u0; u <= u0 + 2; u++) At(u, 8).Floor = FloorKind.HotelRug;
+        }
+
+        // The front desk on the axis, its front to the hall; the clock against the wall on the clerk's side, the lamps
+        for (int u = 12; u <= 18; u++)
+        {
+            At(u, 5).Variant = Props.FrontDesk;
+            At(u, 5).Pier = Pier(ArchPier.South);
+        }
+        At(9, 4).Variant = Props.GrandfatherClock;
+        At(9, 4).Pier = Pier(ArchPier.South);
+        At(21, 4).Variant = Props.Palm;
+        foreach (int u in new[] { 11, 19 })
+        {
+            At(u, 5).Variant = Props.FloorLamp;
+            At(u, 5).Pier = Pier(ArchPier.South);
+        }
+
+        // The runner up the axis to the desk, a rug either side of it before the desk, and a runner from flight to flight
+        for (int v = 6; v <= 30; v++)
+            for (int u = 14; u <= 16; u++) At(u, v).Floor = FloorKind.HotelCarpet;
+        for (int v = 6; v <= 7; v++)
+            foreach (int u in new[] { 12, 13, 17, 18 }) At(u, v).Floor = FloorKind.HotelRug;
+        for (int v = 8; v <= 9; v++)
+            for (int u = 8; u <= 22; u++)
+                if (At(u, v).Kind == TileKind.Floor) At(u, v).Floor = FloorKind.HotelCarpet;
     }
 
     // ================= Dining hall =================
@@ -507,7 +720,8 @@ public sealed partial class WorldLayout
                     if (!corner && along % 2 == 1 && along > 1 && along < length - 1)
                     {
                         tile.Kind = TileKind.Door;
-                        tile.Variant = (byte)(along % 8);
+                        // They are no guest rooms' doors: from layout 5 their plates are blank (in 1-4, numbered 201-208)
+                        tile.Variant = (byte)(Version >= 5 ? PlaqueBlank : along % 8);
                     }
                     else if (!corner && (x == x0 || x == x1) && along % 4 == 0) tile.Variant = Props.WallSconce;
                 }
@@ -659,7 +873,7 @@ public sealed partial class WorldLayout
         else foreach (int i in Passages(north)) ToAisle(i, 1);
         if (Boiler(mx, mz + 1)) { ToAisle(15, MacroSize - 1); ToAisle(16, MacroSize - 1); }
         else foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ToAisle(i, MacroSize - 1);
-        FitBoilerBays(b, mx, aisle0, aisle1);
+        FitBoilerBays(b, mx, mz, aisle0, aisle1);
     }
 
     /// <summary>
@@ -667,7 +881,7 @@ public sealed partial class WorldLayout
     /// nothing else moves): gauges and valves against the bay walls, pressure tanks, the furnaces' damper levers, and
     /// here and there a sump of scalding water let into the floor against the back wall, steaming.
     /// </summary>
-    private void FitBoilerBays(Builder b, int mx, int aisle0, int aisle1)
+    private void FitBoilerBays(Builder b, int mx, int mz, int aisle0, int aisle1)
     {
         for (int lz = 2; lz < MacroSize - 1; lz++)
         {
@@ -681,7 +895,8 @@ public sealed partial class WorldLayout
                 bool deep = lz <= 4 || lz >= MacroSize - 4;
                 bool backRow = lz == 2 || lz == MacroSize - 2;
                 ArchPier toAisle = lz < 16 ? ArchPier.South : ArchPier.North;
-                ulong h = Hashing.Hash(seed, gx, lz, SaltL5Fitting);
+                // (Layout version 1 hashed the row within the cell, so the same fittings repeat in every cell along z)
+                ulong h = Hashing.Hash(seed, gx, Version >= 2 ? mz * MacroSize + lz : lz, SaltL5Fitting);
                 double r = Hashing.Unit(h);
                 if (inBay == 3 && backRow && r < 0.35)
                 {

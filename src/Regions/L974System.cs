@@ -32,10 +32,12 @@ public static class L974
     public static bool IsCute(ItemStack stack) =>
         stack?.Collectible != null && (stack.Collectible.Attributes?[CuteKey].AsBool(false) == true || stack.Attributes?.GetBool(CuteKey) == true);
 
+    private static readonly string[] CarriedInventories = { GlobalConstants.hotBarInvClassName, GlobalConstants.backpackInvClassName };
+
     /// <summary>The slots a player carries things in: the hotbar and the backpack.</summary>
     public static IEnumerable<ItemSlot> Carried(IPlayer player)
     {
-        foreach (string name in new[] { GlobalConstants.hotBarInvClassName, GlobalConstants.backpackInvClassName })
+        foreach (string name in CarriedInventories)
         {
             IInventory inv = player?.InventoryManager?.GetOwnInventory(name);
             if (inv == null) continue;
@@ -138,6 +140,12 @@ public class L974System : ModSystem
     private readonly Dictionary<string, long> lastCallMs = new();
     private readonly HashSet<string> sleeping = new();
 
+    // Reused by the Kitty tick (ten times a second): who is in which house
+    private readonly Dictionary<(int, int), List<IServerPlayer>> occupied = new();
+    private readonly List<(int, int)> emptied = new();
+    private long[] tickListeners = Array.Empty<long>();
+    private bool isServer;
+
     public override bool ShouldLoad(EnumAppSide side) => true;
 
     public override void Start(ICoreAPI api)
@@ -152,6 +160,7 @@ public class L974System : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
+        isServer = true;
         // (Static, so it would outlive the last world loaded in this process, whose clock ran on further)
         watchedUntilMs.Clear();
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
@@ -161,11 +170,41 @@ public class L974System : ModSystem
             geometry = BackroomsWorld.CreateGeometry(api.World);
             thresholds = api.ModLoader.GetModSystem<ThresholdSystem>();
             Load(api.WorldManager.SaveGame.GetData(SaveKey));
-            api.Event.GameWorldSave += () => { if (dirty) { api.WorldManager.SaveGame.StoreData(SaveKey, Save()); dirty = false; } };
-            api.Event.RegisterGameTickListener(OnPlayerTick, 1000);
-            api.Event.RegisterGameTickListener(OnKittyTick, 100);
+            api.Event.GameWorldSave += OnGameWorldSave;
+            tickListeners = new[]
+            {
+                api.Event.RegisterGameTickListener(OnPlayerTick, 1000),
+                api.Event.RegisterGameTickListener(OnKittyTick, 100),
+            };
             api.Event.DidBreakBlock += OnBrokeBlock;
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
+    }
+
+    public override void Dispose()
+    {
+        // (sapi is static, so in single player this system's client-side instance sees it too: only the server's own
+        // instance lets go of it)
+        if (!isServer || sapi == null) return;
+        foreach (long id in tickListeners) sapi.Event.UnregisterGameTickListener(id);
+        sapi.Event.GameWorldSave -= OnGameWorldSave;
+        sapi.Event.DidBreakBlock -= OnBrokeBlock;
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+        // (Static, for Watched: it must not outlive this world in a process that goes on to load another)
+        sapi = null;
+    }
+
+    private void OnGameWorldSave()
+    {
+        if (!dirty) return;
+        sapi.WorldManager.SaveGame.StoreData(SaveKey, Save());
+        dirty = false;
+    }
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        sleeping.Remove(player.PlayerUID);
+        detoured.Remove(player.PlayerUID);
     }
 
     /// <summary>Whether a player is still watched over after waking from Kitty's House (nothing hostile comes).</summary>
@@ -190,7 +229,7 @@ public class L974System : ModSystem
         if (layout == null) return null;
         if (houses.TryGetValue(player.PlayerUID, out var house)) return house;
         var taken = new HashSet<(int, int)>(houses.Values);
-        ulong h = Hashing.Mix((ulong)player.PlayerUID.GetHashCode() * 0x9E3779B97F4A7C15UL ^ (ulong)sapi.World.Seed);
+        ulong h = Hashing.Mix(StableHash(player.PlayerUID) * 0x9E3779B97F4A7C15UL ^ (ulong)sapi.World.Seed);
         for (int attempt = 0; attempt < 400; attempt++, h = Hashing.Mix(h + 1))
         {
             if (layout.L974HouseCellFor(h) is not { } cell || taken.Contains(cell)) continue;
@@ -199,6 +238,17 @@ public class L974System : ModSystem
             return cell;
         }
         return null;
+    }
+
+    /// <summary>
+    /// FNV-1a over a player's uid: the same in every run of the server (string.GetHashCode is randomised per process, so a
+    /// house given but not yet saved when the server stopped would have been a different one next time).
+    /// </summary>
+    private static ulong StableHash(string text)
+    {
+        ulong h = 14695981039346656037UL;
+        foreach (char c in text) { h ^= c; h *= 1099511628211UL; }
+        return h;
     }
 
     private Link ArrivalLink((int Mx, int Mz) house)
@@ -305,6 +355,7 @@ public class L974System : ModSystem
             if (!here)
             {
                 if (visit != 0) EndVisit(entity);
+                sleeping.Remove(player.PlayerUID);
                 continue;
             }
             var house = CellOf(entity.Pos.X, entity.Pos.Z);
@@ -331,8 +382,11 @@ public class L974System : ModSystem
                 if ((was >> 4) != sugarStage && sugarStage > 0) Say(player, "backrooms:l974-sugar");
             }
 
-            // Memories, soft at the edges; and near the kitchen, a meal you remember
-            if (Now >= nextMemory.GetValueOrDefault(player.PlayerUID, Now + 1))
+            // Memories, soft at the edges; and near the kitchen, a meal you remember. (The clocks are not saved: a visit
+            // carried on after a restart starts them again here.)
+            if (!nextMemory.ContainsKey(player.PlayerUID)) nextMemory[player.PlayerUID] = Now + 0.5 + sapi.World.Rand.NextDouble() * 2;
+            if (!nextSmell.ContainsKey(player.PlayerUID)) nextSmell[player.PlayerUID] = Now + 1 + sapi.World.Rand.NextDouble() * 3;
+            if (Now >= nextMemory[player.PlayerUID])
             {
                 nextMemory[player.PlayerUID] = Now + 3 + sapi.World.Rand.NextDouble() * 4;
                 Say(player, "backrooms:l974-memory-" + (1 + sapi.World.Rand.Next(4)));
@@ -340,7 +394,7 @@ public class L974System : ModSystem
             var spots = layout.L974Spots(house.Item1, house.Item2);
             var kitchen = spots.First(p => p.Kind == WorldLayout.L974SpotKind.Kitchen);
             double toKitchen = Math.Sqrt(Sq(entity.Pos.X - kitchen.X - 0.5) + Sq(entity.Pos.Z - kitchen.Z - 0.5));
-            if (toKitchen <= 8 && Now >= nextSmell.GetValueOrDefault(player.PlayerUID, Now + 1))
+            if (toKitchen <= 8 && Now >= nextSmell[player.PlayerUID])
             {
                 nextSmell[player.PlayerUID] = Now + 2.5 + sapi.World.Rand.NextDouble() * 1.5;
                 int smell = sapi.World.Rand.Next(5);
@@ -409,7 +463,7 @@ public class L974System : ModSystem
     {
         if (layout == null) return;
         long nowMs = sapi.World.ElapsedMilliseconds;
-        var occupied = new Dictionary<(int, int), List<IServerPlayer>>();
+        if (occupied.Count > 0) occupied.Clear();
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
         {
             if (online is not IServerPlayer { Entity: { Alive: true } e } p || LevelAt(e.Pos.X, e.Pos.Z) != WorldLayout.Level974) continue;
@@ -423,8 +477,12 @@ public class L974System : ModSystem
                 Call(p, house);
             }
         }
-        foreach (var house in kitties.Keys.ToList())
-            if (!occupied.ContainsKey(house)) { Vanish(kitties[house], quiet: true); kitties.Remove(house); }
+        if (kitties.Count > 0)
+        {
+            emptied.Clear();
+            foreach (var house in kitties.Keys) if (!occupied.ContainsKey(house)) emptied.Add(house);
+            foreach (var house in emptied) { Vanish(kitties[house], quiet: true); kitties.Remove(house); }
+        }
         foreach (var (house, guests) in occupied)
         {
             if (!kitties.TryGetValue(house, out KittyState k))
@@ -444,7 +502,30 @@ public class L974System : ModSystem
         player.Pos.XYZ.SquareDistanceTo(point) <= range * range && Senses.AngleTo(player, point) <= 60
         && Senses.ClearLine(sapi.World, Senses.Eyes(player), point);
 
-    private bool SeenByAny(List<IServerPlayer> guests, Vec3d point) => guests.Any(g => Sees(g.Entity, point));
+    private bool SeenByAny(List<IServerPlayer> guests, Vec3d point)
+    {
+        foreach (IServerPlayer g in guests) if (Sees(g.Entity, point)) return true;
+        return false;
+    }
+
+    // (Loops rather than LINQ: these run ten times a second for each house someone is in)
+    private static IServerPlayer GuestByUid(List<IServerPlayer> guests, string uid)
+    {
+        foreach (IServerPlayer g in guests) if (g.PlayerUID == uid) return g;
+        return null;
+    }
+
+    private static IServerPlayer NearestGuest(List<IServerPlayer> guests, Vec3d to)
+    {
+        IServerPlayer best = null;
+        double bestSq = double.MaxValue;
+        foreach (IServerPlayer g in guests)
+        {
+            double sq = g.Entity.Pos.SquareDistanceTo(to);
+            if (sq < bestSq) { bestSq = sq; best = g; }
+        }
+        return best;
+    }
 
     private void ThinkKitty((int, int) house, KittyState k, List<IServerPlayer> guests, long nowMs)
     {
@@ -466,7 +547,8 @@ public class L974System : ModSystem
             return;
         }
 
-        IServerPlayer asleep = guests.FirstOrDefault(g => sleeping.Contains(g.PlayerUID));
+        IServerPlayer asleep = null;
+        foreach (IServerPlayer g in guests) if (sleeping.Contains(g.PlayerUID)) { asleep = g; break; }
         switch (k.Mode)
         {
             case KittyMode.Hidden:
@@ -487,20 +569,21 @@ public class L974System : ModSystem
             }
             case KittyMode.Watching:
             {
-                Vec3d at = kitty.ServerPos.XYZ.Add(0, 1.6, 0);
+                Vec3d at = kitty.Pos.XYZ.Add(0, 1.6, 0);
                 bool seen = SeenByAny(guests, at);
                 if (seen) k.SeenMs += 100;
-                IServerPlayer near = guests.OrderBy(g => g.Entity.Pos.SquareDistanceTo(kitty.ServerPos.XYZ)).First();
-                double dist = near.Entity.Pos.DistanceTo(kitty.ServerPos.XYZ);
+                Vec3d kittyAt = kitty.Pos.XYZ;
+                IServerPlayer near = NearestGuest(guests, kittyAt);
+                double dist = near.Entity.Pos.DistanceTo(kittyAt);
                 // (Close by only counts once it has been seen: it is put down close behind someone, or by their bed, on purpose)
                 if (k.SeenMs >= k.LeaveAfterMs || dist < 3 && k.SeenMs > 0) k.Relocate = true;
                 // Walked straight at: it glides back out of the way, the one time it is seen to move
                 if (dist < 2 && k.SeenMs > 0 && near.Entity.Controls.TriesToMove)
                 {
-                    Vec3d away = kitty.ServerPos.XYZ.SubCopy(near.Entity.Pos.XYZ);
+                    Vec3d away = kitty.Pos.XYZ.SubCopy(near.Entity.Pos.XYZ);
                     away.Y = 0;
                     if (away.Length() > 0.01) away.Normalize();
-                    Vec3d to = kitty.ServerPos.XYZ.AddCopy(away.X * 3, 0, away.Z * 3);
+                    Vec3d to = kitty.Pos.XYZ.AddCopy(away.X * 3, 0, away.Z * 3);
                     if (Walkable(to)) { k.Mode = KittyMode.Gliding; k.GlideTo = to; Animate(kitty, k, "glide"); return; }
                 }
                 if (k.Relocate && !seen)
@@ -518,10 +601,10 @@ public class L974System : ModSystem
             }
             case KittyMode.Coming:
             {
-                IServerPlayer caller = guests.FirstOrDefault(g => g.PlayerUID == k.For);
+                IServerPlayer caller = GuestByUid(guests, k.For);
                 if (caller == null || nowMs > k.ModeUntilMs) { Vanish(k); k.NextMs = nowMs + 30_000; return; }
                 Vec3d target = caller.Entity.Pos.XYZ;
-                Vec3d from = kitty.ServerPos.XYZ;
+                Vec3d from = kitty.Pos.XYZ;
                 Vec3d dir = target.SubCopy(from);
                 dir.Y = 0;
                 double d = dir.Length();
@@ -543,7 +626,7 @@ public class L974System : ModSystem
             }
             case KittyMode.Asking:
             {
-                IServerPlayer caller = guests.FirstOrDefault(g => g.PlayerUID == k.For);
+                IServerPlayer caller = GuestByUid(guests, k.For);
                 if (caller == null || nowMs > k.ModeUntilMs) { Vanish(k); k.NextMs = nowMs + 20_000; return; }
                 Face(kitty, caller.Entity.Pos.XYZ);
                 return;
@@ -615,8 +698,7 @@ public class L974System : ModSystem
             EntityProperties type = sapi.World.GetEntityType(new AssetLocation("backrooms:l974-kitty"));
             if (type == null) return false;
             kitty = sapi.World.ClassRegistry.CreateEntity(type);
-            kitty.ServerPos.SetPos(at.X, at.Y, at.Z);
-            kitty.Pos.SetFrom(kitty.ServerPos);
+            kitty.Pos.SetPos(at.X, at.Y, at.Z);
             kitty.AlwaysActive = true;
             sapi.World.SpawnEntity(kitty);
             k.EntityId = kitty.EntityId;
@@ -633,7 +715,7 @@ public class L974System : ModSystem
         Entity kitty = KittyEntity(k);
         if (kitty != null)
         {
-            if (!quiet) sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/rustle*"), kitty.ServerPos.X, kitty.ServerPos.Y + 1, kitty.ServerPos.Z, null, true, 10, 0.4f);
+            if (!quiet) sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/rustle*"), kitty.Pos.X, kitty.Pos.Y + 1, kitty.Pos.Z, null, true, 10, 0.4f);
             kitty.Die(EnumDespawnReason.Removed);
         }
         k.EntityId = -1;
@@ -651,18 +733,17 @@ public class L974System : ModSystem
 
     private static void Face(Entity kitty, Vec3d target)
     {
-        float yaw = (float)Math.Atan2(target.X - kitty.ServerPos.X, target.Z - kitty.ServerPos.Z);
-        kitty.ServerPos.Yaw = yaw;
+        float yaw = (float)Math.Atan2(target.X - kitty.Pos.X, target.Z - kitty.Pos.Z);
         kitty.Pos.Yaw = yaw;
     }
 
     /// <summary>Slides Kitty toward a point, smoothly and swiftly; true once it is there.</summary>
     private static bool Glide(Entity kitty, Vec3d to, double step)
     {
-        Vec3d from = kitty.ServerPos.XYZ;
+        Vec3d from = kitty.Pos.XYZ;
         double dx = to.X - from.X, dz = to.Z - from.Z, d = Math.Sqrt(dx * dx + dz * dz);
-        if (d <= step) { kitty.ServerPos.SetPos(to.X, from.Y, to.Z); return true; }
-        kitty.ServerPos.SetPos(from.X + dx / d * step, from.Y, from.Z + dz / d * step);
+        if (d <= step) { kitty.Pos.SetPos(to.X, from.Y, to.Z); return true; }
+        kitty.Pos.SetPos(from.X + dx / d * step, from.Y, from.Z + dz / d * step);
         return false;
     }
 
@@ -697,7 +778,7 @@ public class L974System : ModSystem
     public void OnKittyInteract(EntityKitty kitty, IServerPlayer player, ItemSlot slot)
     {
         if (layout == null || player.Entity == null) return;
-        var house = CellOf(kitty.ServerPos.X, kitty.ServerPos.Z);
+        var house = CellOf(kitty.Pos.X, kitty.Pos.Z);
         if (!kitties.TryGetValue(house, out KittyState k) || k.EntityId != kitty.EntityId) return;
         if (k.Mode != KittyMode.Asking || k.For != player.PlayerUID)
         {
@@ -730,7 +811,7 @@ public class L974System : ModSystem
         if (kitty != null)
         {
             Animate(kitty, k, "take");
-            sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/purr"), kitty.ServerPos.X, kitty.ServerPos.Y + 2, kitty.ServerPos.Z, null, false, 12, 0.8f);
+            sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/purr"), kitty.Pos.X, kitty.Pos.Y + 2, kitty.Pos.Z, null, false, 12, 0.8f);
         }
         k.Mode = KittyMode.Watching;
         k.Relocate = true;
@@ -742,7 +823,8 @@ public class L974System : ModSystem
         sapi.Event.RegisterCallback(_ =>
         {
             entity.Stats.Remove("walkspeed", "backrooms-l974-drowsy");
-            if (!entity.Alive) return;
+            // (Not if they died meanwhile, or logged out: their entity is gone, or a new one)
+            if (sapi == null || !entity.Alive || player.Entity != entity || player.ConnectionState != EnumClientState.Playing) return;
             Wake(player, house, home: valve);
         }, 4000);
     }
@@ -781,7 +863,7 @@ public class L974System : ModSystem
         if (layout == null) return;
         Entity by = source?.GetCauseEntity() ?? source?.SourceEntity;
         if (by is not EntityPlayer { Player: IServerPlayer player }) return;
-        Offend(CellOf(kitty.ServerPos.X, kitty.ServerPos.Z), player);
+        Offend(CellOf(kitty.Pos.X, kitty.Pos.Z), player);
     }
 
     private void Offend((int, int) house, IServerPlayer by)
@@ -795,7 +877,7 @@ public class L974System : ModSystem
         if (kitties.TryGetValue(house, out KittyState k))
         {
             Entity kitty = KittyEntity(k);
-            if (kitty != null) sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/exhale"), kitty.ServerPos.X, kitty.ServerPos.Y + 2, kitty.ServerPos.Z, null, false, 24, 1f);
+            if (kitty != null) sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/creature/974/exhale"), kitty.Pos.X, kitty.Pos.Y + 2, kitty.Pos.Z, null, false, 24, 1f);
             Vanish(k, quiet: true);
             k.NextMs = sapi.World.ElapsedMilliseconds + 60_000;
         }
@@ -1025,7 +1107,13 @@ public class BlockL974Dresser : Block
 /// </summary>
 public class EntityKitty : EntityAgent
 {
+    private static WorldInteraction[] help;
+
     public override bool StoreWithChunk => false;
+
+    /// <summary>Right-click, with something cute in hand: a call, or (while it holds out its arm) the gift.</summary>
+    public override WorldInteraction[] GetInteractionHelp(IClientWorldAccessor world, EntitySelection es, IClientPlayer player) =>
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l974-call", MouseButton = EnumMouseButton.Right } };
 
     public override bool ReceiveDamage(DamageSource damageSource, float damage)
     {

@@ -1,4 +1,4 @@
-// Level 188: a squat dark bollard with a dim light band (light 7), one at each of the deck's diagonals
+// Level 188: a squat dark bollard with a dim light band (light 10), one at each of the deck's diagonals
 {
 	"code": "l188-bollard",
 	"shape": {
@@ -50,7 +50,7 @@
 	"lightHsv": [
 		8,
 		2,
-		7
+		10
 	],
 	"drops": []
 }

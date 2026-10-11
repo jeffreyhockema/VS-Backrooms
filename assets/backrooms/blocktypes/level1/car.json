@@ -4,8 +4,9 @@
 	// the rest of the footprint is carcollider blocks. "north" cars face north, "south" cars are turned around.
 	// East- and west-facing cars (parked along Level 11's streets) are drawn from the corner the turned model needs:
 	// an east-facing car from its east end on its north side, a west-facing one from its west end on its south side.
+	// Level 1's are wrecks of the same car ("redwreck", "bluewreck", "whitewreck", and the black one "burnt" out).
 	variantgroups: [
-		{ code: "colour", states: ["red", "blue", "white", "black"] },
+		{ code: "colour", states: ["red", "blue", "white", "black", "redwreck", "bluewreck", "whitewreck", "burnt"] },
 		{ code: "side", states: ["north", "south", "east", "west"] }
 	],
 	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },

@@ -1,3 +1,4 @@
+// A house window: frame, glass and glazing bars, a sill outside
 {
 	"code": "housewindow",
 	"variantgroups": [
@@ -7,31 +8,68 @@
 				"dark",
 				"lit"
 			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
 		}
 	],
+	"shapeByType": {
+		"*-dark-north": {
+			"base": "block/detail/housewindow-dark",
+			"rotateY": 0
+		},
+		"*-dark-east": {
+			"base": "block/detail/housewindow-dark",
+			"rotateY": 270
+		},
+		"*-dark-south": {
+			"base": "block/detail/housewindow-dark",
+			"rotateY": 180
+		},
+		"*-dark-west": {
+			"base": "block/detail/housewindow-dark",
+			"rotateY": 90
+		},
+		"*-lit-north": {
+			"base": "block/detail/housewindow-lit",
+			"rotateY": 0
+		},
+		"*-lit-east": {
+			"base": "block/detail/housewindow-lit",
+			"rotateY": 270
+		},
+		"*-lit-south": {
+			"base": "block/detail/housewindow-lit",
+			"rotateY": 180
+		},
+		"*-lit-west": {
+			"base": "block/detail/housewindow-lit",
+			"rotateY": 90
+		}
+	},
 	"creativeinventory": {
 		"general": [
-			"*"
+			"*-dark-north"
 		],
-		"construction": [
-			"*"
+		"decorative": [
+			"*-dark-north"
 		]
 	},
 	"blockmaterial": "Glass",
-	"drawtype": "cube",
-	"texturesByType": {
-		"*-dark": {
-			"all": {
-				"base": "block/detail/housewindow-dark"
-			}
-		},
-		"*-lit": {
-			"all": {
-				"base": "block/detail/housewindow-lit"
-			}
-		}
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
 	},
-	"lightAbsorption": 99,
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
 	"resistance": 4,
 	"sounds": {
 		"walk": "game:walk/stone",
@@ -39,20 +77,86 @@
 		"break": "game:block/glass",
 		"hit": "game:block/glass"
 	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
 	"lightHsvByType": {
-		"*-lit": [
+		"*-lit-*": [
 			6,
 			4,
 			9
 		]
-	},
-	"lightAbsorptionByType": {
-		"*": 0
-	},
-	"vertexFlagsByType": {
-		"*-lit": {
-			"glowLevel": 160
-		}
-	},
-	"drops": []
+	}
 }

@@ -20,14 +20,15 @@ public static class Senses
     {
         if (entity is not EntityAgent agent) return 0;
         // (Players also glow for a while after respawning; only what is in the hands counts here)
-        int light = 0;
-        foreach (ItemSlot slot in new[] { agent.RightHandItemSlot, agent.LeftHandItemSlot })
-        {
-            ItemStack stack = slot?.Itemstack;
-            if (stack?.Collectible == null) continue;
-            light = Math.Max(light, stack.Collectible.GetLightHsv(entity.World.BlockAccessor, null, stack)?[2] ?? 0);
-        }
-        return light;
+        return Math.Max(LightOf(entity.World, agent.RightHandItemSlot), LightOf(entity.World, agent.LeftHandItemSlot));
+    }
+
+    /// <summary>How bright what lies in a slot burns (0 for nothing, or nothing alight).</summary>
+    private static int LightOf(IWorldAccessor world, ItemSlot slot)
+    {
+        ItemStack stack = slot?.Itemstack;
+        if (stack?.Collectible == null) return 0;
+        return stack.Collectible.GetLightHsv(world.BlockAccessor, null, stack)?[2] ?? 0;
     }
 
     /// <summary>
@@ -39,23 +40,28 @@ public static class Senses
 
     /// <summary>The world's own light at a position (lamps and fires, and daylight where there is sky); none while the lights are out.</summary>
     public static int WorldLight(IWorldAccessor world, Vec3d pos) => LightsOut ? 0 :
-        world.BlockAccessor.GetLightLevel(new BlockPos((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y), (int)Math.Floor(pos.Z), 0), EnumLightLevelType.MaxTimeOfDayLight);
+        world.BlockAccessor.GetLightLevel((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y), (int)Math.Floor(pos.Z), EnumLightLevelType.MaxTimeOfDayLight);
 
     /// <summary>
     /// How bright a position is, counting the light the given people carry: carried light falls off by a level a
     /// block, as block light does.
     /// </summary>
-    public static int LightAt(IWorldAccessor world, Vec3d pos, IEnumerable<Entity> carriers)
+    public static int LightAt(IWorldAccessor world, Vec3d pos, Entity[] carriers)
     {
         int light = WorldLight(world, pos);
-        foreach (Entity carrier in carriers)
-        {
-            int held = HeldLight(carrier);
-            if (held <= light) continue;
-            double distance = carrier.Pos.DistanceTo(pos);
-            light = Math.Max(light, held - (int)Math.Ceiling(distance));
-        }
+        foreach (Entity carrier in carriers) light = WithCarried(light, carrier, pos);
         return light;
+    }
+
+    /// <summary>How bright a position is, counting the light one person carries.</summary>
+    public static int LightAt(IWorldAccessor world, Vec3d pos, Entity carrier) => WithCarried(WorldLight(world, pos), carrier, pos);
+
+    private static int WithCarried(int light, Entity carrier, Vec3d pos)
+    {
+        int held = HeldLight(carrier);
+        if (held <= light) return light;
+        double distance = carrier.Pos.DistanceTo(pos);
+        return Math.Max(light, held - (int)Math.Ceiling(distance));
     }
 
     /// <summary>Whether a player stands in the dark: no light worth the name around them or in their hands.</summary>
@@ -69,17 +75,14 @@ public static class Senses
     /// How much the light a player carries draws Deathmoths: an open flame most, a candle a little, a closed lantern
     /// not at all.
     /// </summary>
-    public static double MothDraw(EntityAgent player)
+    public static double MothDraw(EntityAgent player) =>
+        Math.Max(MothDraw(player.World, player.RightHandItemSlot), MothDraw(player.World, player.LeftHandItemSlot));
+
+    private static double MothDraw(IWorldAccessor world, ItemSlot slot)
     {
-        double draw = 0;
-        foreach (ItemSlot slot in new[] { player.RightHandItemSlot, player.LeftHandItemSlot })
-        {
-            string path = slot?.Itemstack?.Collectible?.Code?.Path;
-            if (path == null || (slot.Itemstack.Collectible.GetLightHsv(player.World.BlockAccessor, null, slot.Itemstack)?[2] ?? 0) == 0) continue;
-            double d = path.StartsWith("torch") ? 1.0 : path.StartsWith("oillamp") ? 0.5 : path.StartsWith("candle") ? 0.3 : path.StartsWith("lantern") ? 0 : 0.6;
-            draw = Math.Max(draw, d);
-        }
-        return draw;
+        string path = slot?.Itemstack?.Collectible?.Code?.Path;
+        if (path == null || LightOf(world, slot) == 0) return 0;
+        return path.StartsWith("torch") ? 1.0 : path.StartsWith("oillamp") ? 0.5 : path.StartsWith("candle") ? 0.3 : path.StartsWith("lantern") ? 0 : 0.6;
     }
 
     /// <summary>The floor height (the y an entity stands at) of a column near a height, or int.MinValue.</summary>

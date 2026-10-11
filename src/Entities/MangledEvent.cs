@@ -91,7 +91,12 @@ public class MangledEvent : ModSystem
         api.Event.PlayerDisconnect += player =>
         {
             long id = player.Entity?.EntityId ?? -1;
-            if (events.TryGetValue(id, out Event e) && e.Mangled?.Alive == true) e.Mangled.GetBehavior<EntityBehaviorMenace>().Kind = Encounter.Leave;
+            if (events.TryGetValue(id, out Event e))
+            {
+                if (e.Mangled?.Alive == true) e.Mangled.GetBehavior<EntityBehaviorMenace>().Kind = Encounter.Leave;
+                // (Cut short, it still counts: logging out and back in does not bring the next one sooner)
+                nextAllowedHours[id] = sapi.World.Calendar.TotalHours + CooldownHours;
+            }
             events.Remove(id);
             lock (Cold) Cold.Remove(id);
         };
@@ -128,9 +133,10 @@ public class MangledEvent : ModSystem
             if (hours < nextAllowedHours.GetValueOrDefault(entity.EntityId)) continue;
             MenaceSystem.Assessment a = director.AssessmentOf(entity);
             if (a.Level != 9 || a.Band == MenaceBand.Safe) continue;
-            // Rare: about once in forty minutes at the edge of the Suburbs, much less in the middle; far likelier when
-            // a Reality Shift has the lights out
-            double chance = a.Band switch { MenaceBand.Heartland => 0.0002, MenaceBand.Approach => 0.0006, _ => 0.0012 };
+            // Rare: rolled once a second, so about once in forty minutes at the edge of the Suburbs (1/2400), once in
+            // an hour and a half further in, once in four hours in the heart; far likelier (x8) when a Reality Shift
+            // has the lights out
+            double chance = a.Band switch { MenaceBand.Heartland => 0.00007, MenaceBand.Approach => 0.0002, _ => 0.0004 };
             if (a.Shift) chance *= 8;
             if (rand.NextDouble() < chance)
             {
@@ -231,7 +237,7 @@ public class MangledEvent : ModSystem
             if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != 9) continue;
             int y = Senses.FindFloor(sapi.World, x, (int)Math.Floor(player.Pos.Y), z, 4, 4);
             if (y == int.MinValue) continue;
-            e.Mangled = director.SpawnHunter(Roster.Mangled, new Vec3d(x + 0.5, y, z + 0.5), player);
+            e.Mangled = director.SpawnHunter(Roster.Mangled, new Vec3d(x + 0.5, y, z + 0.5), player, ownNumbers: true);
             if (e.Mangled == null) return false;
             Log("it comes, {0:0} blocks off", d);
             return true;
@@ -278,7 +284,8 @@ public class MangledEvent : ModSystem
     // ================= Client: the ground shakes =================
 
     private ICoreClientAPI capi;
-    private float stepIn;
+    private float stepIn, lookIn;
+    private Entity mangled;
 
     public override void StartClientSide(ICoreClientAPI api)
     {
@@ -290,14 +297,22 @@ public class MangledEvent : ModSystem
     {
         Entity me = capi.World.Player?.Entity;
         if (me == null) return;
-        Entity mangled = capi.World.GetNearestEntity(me.Pos.XYZ, 80, 80, e => e.Alive && e.Code.Path == "mangled");
-        if (mangled == null) return;
+        // (Looked for once a second; the one found is followed until it is gone)
+        if (mangled == null || !mangled.Alive || capi.World.GetEntityById(mangled.EntityId) == null)
+        {
+            mangled = null;
+            lookIn -= dt;
+            if (lookIn > 0) return;
+            lookIn = 1;
+            mangled = capi.World.GetNearestEntity(me.Pos.XYZ, 80, 80, e => e.Alive && e.Code.Path == "mangled");
+            if (mangled == null) return;
+        }
         var active = mangled.AnimManager?.ActiveAnimationsByAnimCode;
         bool walking = active != null && (active.ContainsKey("walk") || active.ContainsKey("run"));
         if (!walking) return;
         stepIn -= dt;
         if (stepIn > 0) return;
-        // One leg comes down every half second of its walk; the heavy ones every second and a half
+        // A heavy step every second and a half of its walk, every 0.8 seconds when it runs
         stepIn = active.ContainsKey("run") ? 0.8f : 1.5f;
         double d = mangled.Pos.DistanceTo(me.Pos);
         float strength = (float)Math.Max(0, 1 - d / 80);

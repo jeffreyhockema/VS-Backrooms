@@ -1,0 +1,286 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bracket": "backrooms:block/188/bracket",
+		"downpipe": "backrooms:block/188/downpipe"
+	},
+	"elements": [
+		{
+			"name": "Pipe",
+			"from": [
+				6.5,
+				0,
+				12
+			],
+			"to": [
+				9.5,
+				10.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3,
+						10.5
+					]
+				},
+				"up": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"down": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Hopper",
+			"from": [
+				5,
+				10.5,
+				10.5
+			],
+			"to": [
+				11,
+				13.4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6,
+						2.9000000000000004
+					]
+				},
+				"east": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						4.5,
+						2.9000000000000004
+					]
+				},
+				"south": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6,
+						2.9000000000000004
+					]
+				},
+				"west": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						4.5,
+						2.9000000000000004
+					]
+				},
+				"up": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6,
+						4.5
+					]
+				},
+				"down": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6,
+						4.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				4.6,
+				12.8,
+				10.1
+			],
+			"to": [
+				11.4,
+				13.4,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6.800000000000001,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						4.9,
+						0.5999999999999996
+					]
+				},
+				"south": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6.800000000000001,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						4.9,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6.800000000000001,
+						4.9
+					]
+				},
+				"down": {
+					"texture": "#downpipe",
+					"uv": [
+						0,
+						0,
+						6.800000000000001,
+						4.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				6,
+				5,
+				11.6
+			],
+			"to": [
+				10,
+				6.2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4.4,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4.4,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#bracket",
+					"uv": [
+						0,
+						0,
+						4,
+						4.4
+					]
+				}
+			}
+		}
+	]
+}

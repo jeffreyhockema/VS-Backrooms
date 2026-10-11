@@ -905,10 +905,12 @@ def tall_body(code, hitbox, eye, health, task, menace, drops, sounds, size=1.0, 
 
 
 def skinstealer():
+    # It wears a person and has their hands: hunting someone shut in, out towards the edge of a level, it knocks on the
+    # door and opens it (AiTaskMenace, opensDoors). A barred door it only knocks on; it fears fire.
     task = menace_task(walkSpeed=0.016, runSpeed=0.034, stalkMin=10, stalkMax=16, glimpseFleeDistance=12,
                        damage=7, damageTier=2, damageType="BluntAttack", knockback=0.5, attackRange=1.2,
                        attackDurationMs=1100, damageAtMs=650, attackCooldownMs=2000, attackAnimation="attack",
-                       fearsFire=True, prefersHidden=True, retreatBelow=0.25,
+                       fearsFire=True, prefersHidden=True, retreatBelow=0.25, opensDoors=True,
                        voices=["backrooms:entity/cough", "game:player/hurt*", "backrooms:effect/whisper", "backrooms:entity/hello"],
                        soundRange=28)
     # The model stands 38.7 px; drawn at 0.92 it is 35.6 px (2.2 blocks), a head taller than a player, eyes at 2.05
@@ -1050,14 +1052,16 @@ def mangled():
 def bacteria():
     # Level 0's dark figures: seen far off down the halls, now and then following. It never hunts in the Lobby but
     # for someone who runs near the way out, and then it howls first. It rises out of the black mould where it appears.
-    task = menace_task(walkSpeed=0.022, runSpeed=0.056, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
+    # Its run is a little short of a sprint (it once outran one, and with nothing to make it give up, one hunt was
+    # death): a runner who keeps going pulls away, and the hunt itself is short (AiTaskMenace.Hunt, huntsInLobby).
+    task = menace_task(walkSpeed=0.022, runSpeed=0.046, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
                        damage=6, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
                        attackDurationMs=1000, damageAtMs=440, attackCooldownMs=1800, attackAnimation="attack",
                        prefersHidden=True, huntsInLobby=True, emergeAnimation="emerge", emergeMs=2500,
                        huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48)
     # The model stoops to 44 px (2.76 blocks), just under Level 0's ceiling; the hitbox is kept to a doorway's two
     # blocks, the head above it. Its long arms reach 1.6 blocks ahead.
-    return tall_body("bacteria", (0.7, 1.95), 2.5, 30, task, {"stalkSeconds": 120}, None,
+    return tall_body("bacteria", (0.7, 1.95), 2.5, 20, task, {"stalkSeconds": 120}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "backrooms:entity/howl"},
                      idles=[idle("lurk", 1.15, 6000, 12000, 15000, 45000)],
                      extra_anims=[anim("emerge", "emerge", weight=10), anim("howl", "howl", weight=10)], weight=80)
@@ -1384,15 +1388,17 @@ LANG = {
     "item-creature-skinstealer": "Skin-Stealer",
     "item-creature-duller": "Duller",
     "item-creature-deathrat": "Death Rat",
-    "creature-hound": "Hound",
-    "creature-smiler": "Smiler",
-    "creature-faceling": "Faceling",
-    "creature-faceling-child": "Faceling child",
-    "creature-deathmoth-male": "Deathmoth",
-    "creature-deathmoth-female": "Deathmoth",
-    "creature-skinstealer": "Skin-Stealer",
-    "creature-duller": "Duller",
-    "creature-deathrat": "Death Rat",
+    # prefixandcreature-<code> is what the server's death message names the killer by ("got killed by a Hound");
+    # without it the game says "a wild animal"
+    "prefixandcreature-hound": "a Hound",
+    "prefixandcreature-smiler": "a Smiler",
+    "prefixandcreature-faceling": "a Faceling",
+    "prefixandcreature-faceling-child": "a Faceling child",
+    "prefixandcreature-deathmoth-male": "Deathmoths",
+    "prefixandcreature-deathmoth-female": "Deathmoths",
+    "prefixandcreature-skinstealer": "a Skin-Stealer",
+    "prefixandcreature-duller": "a Duller",
+    "prefixandcreature-deathrat": "Death Rats",
     "deadcreature-hound": "Killed by a Hound",
     "deadcreature-smiler": "Killed by a Smiler",
     "deadcreature-faceling": "Killed by a Faceling",
@@ -1401,30 +1407,30 @@ LANG = {
     "deadcreature-duller": "Killed by a Duller",
     "deadcreature-deathrat": "Killed by Death Rats",
     "item-creature-wanderer-male": "Wanderer",
-    "creature-wanderer-male": "Wanderer",
+    "prefixandcreature-wanderer-male": "a Wanderer",
     "item-creature-clump": "Clump",
-    "creature-clump": "Clump",
+    "prefixandcreature-clump": "a Clump",
     "item-creature-mangled": "The Mangled",
-    "creature-mangled": "The Mangled",
+    "prefixandcreature-mangled": "the Mangled",
     "item-creature-thething": "The Thing",
-    "creature-thething": "The Thing",
+    "prefixandcreature-thething": "something in the deep",
     "deadcreature-clump": "Killed by a Clump",
     "deadcreature-mangled": "Killed by the Mangled",
     "deadcreature-thething": "Killed by something in the deep",
     "item-creature-bacteria": "Bacteria",
-    "creature-bacteria": "Bacteria",
+    "prefixandcreature-bacteria": "the Bacteria",
     "deadcreature-bacteria": "Taken by the Bacteria",
     "item-creature-wretch": "Wretch",
-    "creature-wretch": "Wretch",
+    "prefixandcreature-wretch": "a Wretch",
     "deadcreature-wretch": "Killed by a Wretch",
     "item-creature-animation-clay": "Clay Animation",
     "item-creature-animation-wooden": "Wooden Animation",
     "item-creature-animation-paper": "Paper Animation",
     "item-creature-roboman": "Robo-Man",
-    "creature-animation-clay": "Clay Animation",
-    "creature-animation-wooden": "Wooden Animation",
-    "creature-animation-paper": "Paper Animation",
-    "creature-roboman": "Robo-Man",
+    "prefixandcreature-animation-clay": "a Clay Animation",
+    "prefixandcreature-animation-wooden": "a Wooden Animation",
+    "prefixandcreature-animation-paper": "Paper Animations",
+    "prefixandcreature-roboman": "a Robo-Man",
     "deadcreature-animation-clay": "Smothered by a Clay Animation",
     "deadcreature-animation-wooden": "Killed by a Wooden Animation",
     "deadcreature-animation-paper": "Killed by Paper Animations",

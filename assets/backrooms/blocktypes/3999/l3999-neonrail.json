@@ -1,4 +1,4 @@
-// Level 3999: a horizontal neon strip along the foot of the wall behind it (base glow, light 10)
+// Level 3999: a horizontal neon strip along the foot of the wall behind it (base glow, light 12)
 {
 	"code": "l3999-neonrail",
 	"variantgroups": [
@@ -356,32 +356,32 @@
 		"*-magenta-*": [
 			51,
 			7,
-			10
+			12
 		],
 		"*-cyan-*": [
 			33,
 			6,
-			10
+			12
 		],
 		"*-blue-*": [
 			40,
 			7,
-			10
+			12
 		],
 		"*-pink-*": [
 			62,
 			7,
-			10
+			12
 		],
 		"*-orange-*": [
 			3,
 			7,
-			10
+			12
 		],
 		"*-lilac-*": [
 			53,
 			3,
-			10
+			12
 		]
 	},
 	"drops": [],

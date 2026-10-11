@@ -12,7 +12,7 @@ import random
 from PIL import Image, ImageDraw
 
 from gen_3999_kit import F3, F5, NEON, text_width, draw_text
-from gen_3999_tex import clamp, mix, noisy, rgba, save, seed_of, shade, neon_core
+from gen_3999_tex import clamp, fit_atlas_grid, mix, noisy, rgba, save, seed_of, shade, neon_core
 
 C = {k: v[0] for k, v in NEON.items()}
 WHITE = (250, 250, 255, 255)
@@ -570,7 +570,7 @@ def skeeball():
     draw_text(img, "100", 20, 9, rgba(C["pink"]), F3)
     draw_text(img, "50", 13, 9, WHITE, F3)
     draw_text(img, "10", 13, 38, WHITE, F3)
-    save(img, "skee-target")
+    save(fit_atlas_grid(img), "skee-target")
     img = Image.new("RGBA", (32, 8), (8, 4, 10, 255))
     draw_text(img, "0340", 8, 1, (255, 60, 60, 255), F3)
     save(img, "skee-score")

@@ -24,7 +24,7 @@ Not yet play-tested in game; everything below is verified with the layout harnes
 | 7 | Entry room one per 4×4 region; boulders by hash | 4×4 not 8×8 (entry rooms are Level 6's arrivals). No island heights, seamounts or glow patches. |
 | 8 | Road lattice keeps mains every 192 unbroken, side roads a tree, full lattice within a road block of the level's edge; camps only where roads meet | A sparse lattice instead of radial roads (same effect, far less risk to the systems that use the road). No tube/dome/road-height changes. |
 | 9 | Unpainted roads, stop signs at 1 junction in 5, field lots 1% and only in the outer third | No landmark lots, clipped houses, curved streets or signs. |
-| 10 | Roads are two tracks with grass between, hedge gaps every ~30 blocks whichever way a hedge runs | No barley (Vintage Story has none), no driveways or lone sheds. |
+| 10 | Roads are two tracks with grass between, hedge gaps every ~30 blocks whichever way a hedge runs | No barley (Vintage Story has none), no driveways. Lone sheds (with water troughs and fallen gates) from layout version 5, out in the crop fields rather than at field vertices. |
 | 11 | Street lights 55% lit, 10% flickering | Not 85% (each lit lamp costs light propagation at generation). No canals or rail. |
 
 **Verified** (seeds 56693014, 1234, 12345): zero unreachable floor around arrivals on every level except single tiles that the old build also had; `reach` zero true pockets across the borders of Levels 0–6; thresholds all paired and round-trip (`links`); mod builds clean. Level 0 cells generate in ~0.5 ms (was ~0.3; chunk generation is ~19 ms). Loot shifts: Level 0 stashes now succeed more often (d7 retuned `PlaceStash`); Level 2 and Level 3 hold ~25% fewer boxes (fewer rooms).
@@ -60,7 +60,7 @@ Compare the levels that read as places with those that do not:
 
 | Reads as a place | Why |
 |---|---|
-| Level 1 car park | Columns, aisles, stair cores and paint are global functions of `gx, gz` (`Level1.cs:191-284`). A 45×51 unit repeats across cells seamlessly. |
+| Level 1 car park | Columns, aisles, stair cores and paint are global functions of `gx, gz` (`Level1.cs:191-284`). A 45×51 unit repeats across cells seamlessly. (Up to layout version 3; from version 4 each 96-block district counts its grid from its own corner, see `ParkX`/`ParkZ`.) |
 | Level 5 hotel wings | `HallPeriod = 12`, `CrossPeriod = 33` are global; wing-to-wing edges copy the grid (`Level5.cs:61-95`). Corridors run 100+ blocks. |
 | Level 9, 11 | Global street grids; Level 11 plans a whole 83×61 block once and caches it (`Level11.cs:154-170`). |
 

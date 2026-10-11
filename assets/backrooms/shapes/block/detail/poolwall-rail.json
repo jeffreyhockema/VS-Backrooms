@@ -2,7 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"chrome": "backrooms:block/detail/chrome",
+		"poolchrome": "backrooms:block/detail/poolchrome",
 		"pooltile": "backrooms:block/detail/pooltile"
 	},
 	"elements": [
@@ -89,57 +89,57 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						16
 					]
 				},
 				"east": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1.0,
-						1
+						16,
+						16
 					]
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						16
 					]
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1.0,
-						1
+						16,
+						16
 					]
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
 						16,
-						1.0
+						16
 					]
 				},
 				"down": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
 						16,
-						1.0
+						16
 					]
 				}
 			}
@@ -147,68 +147,68 @@
 		{
 			"name": "Bracket1",
 			"from": [
-				3,
 				2.5,
-				-1
+				2,
+				-1.2
 			],
 			"to": [
-				4,
+				4.5,
 				3.5,
 				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"east": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				},
 				"down": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				}
 			}
@@ -216,68 +216,206 @@
 		{
 			"name": "Bracket2",
 			"from": [
-				12,
-				2.5,
-				-1
+				11.5,
+				2,
+				-1.2
 			],
 			"to": [
-				13,
+				13.5,
 				3.5,
 				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"east": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"south": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"west": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1.0
+						16,
+						16
 					]
 				},
 				"up": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
 					]
 				},
 				"down": {
-					"texture": "#chrome",
+					"texture": "#poolchrome",
 					"uv": [
 						0,
 						0,
-						1,
-						1
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rose1",
+			"from": [
+				2,
+				1.5,
+				-0.4
+			],
+			"to": [
+				5,
+				4,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rose2",
+			"from": [
+				11,
+				1.5,
+				-0.4
+			],
+			"to": [
+				14,
+				4,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
 					]
 				}
 			}

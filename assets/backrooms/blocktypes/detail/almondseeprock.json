@@ -1,0 +1,178 @@
+// The same seep in each of Level 8's rocks, so that it is part of the rock face it seeps out of
+{
+	"code": "almondseeprock",
+	"class": "BackroomsDispenser",
+	"entityClass": "BackroomsDispenser",
+	"attributes": {
+		"dispenses": [
+			"backrooms:almondwater"
+		],
+		"restock": true
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/detail/almondseep"
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"particleProperties": [
+		{
+			"hsvaColor": [
+				{
+					"avg": 32,
+					"var": 4
+				},
+				{
+					"avg": 40,
+					"var": 15
+				},
+				{
+					"avg": 225,
+					"var": 20
+				},
+				{
+					"avg": 200,
+					"var": 30
+				}
+			],
+			"gravityEffect": {
+				"avg": 0.6,
+				"var": 0
+			},
+			"posOffset": [
+				{
+					"avg": 0,
+					"var": 0.55
+				},
+				{
+					"avg": -0.1,
+					"var": 0.4
+				},
+				{
+					"avg": 0,
+					"var": 0.55
+				}
+			],
+			"velocity": [
+				{
+					"avg": 0,
+					"var": 0.01
+				},
+				{
+					"avg": -0.2,
+					"var": 0.1
+				},
+				{
+					"avg": 0,
+					"var": 0.01
+				}
+			],
+			"quantity": {
+				"avg": 0.08
+			},
+			"size": {
+				"avg": 0.12,
+				"var": 0.04
+			},
+			"particleModel": "Cube",
+			"lifeLength": {
+				"avg": 0.9,
+				"var": 0.3
+			}
+		}
+	],
+	"variantgroups": [
+		{
+			"code": "rock",
+			"states": [
+				"granite",
+				"limestone",
+				"andesite",
+				"shale",
+				"basalt",
+				"sandstone",
+				"chalk",
+				"slate",
+				"claystone",
+				"peridotite",
+				"chert",
+				"halite"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-granite"
+		]
+	},
+	"texturesByType": {
+		"*-granite": {
+			"rock": {
+				"base": "game:block/stone/rock/granite1"
+			}
+		},
+		"*-limestone": {
+			"rock": {
+				"base": "game:block/stone/rock/limestone1"
+			}
+		},
+		"*-andesite": {
+			"rock": {
+				"base": "game:block/stone/rock/andesite1"
+			}
+		},
+		"*-shale": {
+			"rock": {
+				"base": "game:block/stone/rock/shale1"
+			}
+		},
+		"*-basalt": {
+			"rock": {
+				"base": "game:block/stone/rock/basalt1"
+			}
+		},
+		"*-sandstone": {
+			"rock": {
+				"base": "game:block/stone/rock/sandstone1"
+			}
+		},
+		"*-chalk": {
+			"rock": {
+				"base": "game:block/stone/rock/chalk1"
+			}
+		},
+		"*-slate": {
+			"rock": {
+				"base": "game:block/stone/rock/slate1"
+			}
+		},
+		"*-claystone": {
+			"rock": {
+				"base": "game:block/stone/rock/claystone1"
+			}
+		},
+		"*-peridotite": {
+			"rock": {
+				"base": "game:block/stone/rock/peridotite1"
+			}
+		},
+		"*-chert": {
+			"rock": {
+				"base": "game:block/stone/rock/chert1"
+			}
+		},
+		"*-halite": {
+			"rock": {
+				"base": "game:block/stone/rock/halite1"
+			}
+		}
+	}
+}

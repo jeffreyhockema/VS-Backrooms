@@ -57,5 +57,13 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"vertexFlagsByType": {
+		"*-wall": {
+			"glowLevel": 72
+		},
+		"*-roof": {
+			"glowLevel": 56
+		}
 	}
 }

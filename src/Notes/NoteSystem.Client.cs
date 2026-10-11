@@ -52,6 +52,17 @@ public partial class NoteSystem
         };
     }
 
+    /// <summary>Closes and lets go of the dialogs (from <see cref="Dispose"/>).</summary>
+    private void DisposeClient()
+    {
+        noteDialog?.TryClose();
+        noteDialog?.Dispose();
+        journalDialog?.TryClose();
+        journalDialog?.Dispose();
+        noteDialog = null;
+        journalDialog = null;
+    }
+
     public void ToggleJournal()
     {
         if (capi == null || Catalog == null) return;
@@ -104,8 +115,12 @@ public partial class NoteSystem
     public string NoteVtml(NoteRead read, int number)
     {
         var sb = new StringBuilder();
-        double perDay = capi.World.Calendar.HoursPerDay;
-        int day = (int)(read.Hours / perDay) + 1;
+        // Hours is the calendar's total, which does not start at nought in a new world (it starts on the calendar's
+        // first date): the day is counted from the world's first, the hour is the clock's
+        IGameCalendar calendar = capi.World.Calendar;
+        double perDay = calendar.HoursPerDay;
+        int firstDay = (int)((calendar.TotalHours - calendar.ElapsedHours) / perDay);
+        int day = Math.Max(1, (int)(read.Hours / perDay) - firstDay + 1);
         double hourOfDay = read.Hours % perDay;
         string when = Lang.Get("backrooms:journal-read-at", LevelName(read.Level), day, (int)hourOfDay, (int)((hourOfDay % 1) * 60));
         if (read.Key != null)

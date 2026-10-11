@@ -18,12 +18,14 @@ from detail_kit import T, seed_of
 
 
 def tile_texture(tile, grout, key, film=None, glow=0.0, coping=False):
-    """Eight by eight small square tiles to a block face (about 12 cm each, the mosaic of the renders), thin grout,
-    each tile a hair different, glazed. Coping has a broad rounded lip round its edge instead."""
+    """Eight by eight small square tiles to a block face (about 12 cm each, the mosaic of the renders), thin pale
+    grout, each tile a hair different, glazed. Drawn at 64 px so the grout is one pixel in eight: at any distance
+    the wall reads as white tile, not as a net. Coping has a broad rounded lip round its edge instead."""
     rng = random.Random(seed_of(key))
-    img = Image.new("RGBA", (S, S), grout + (255,))
+    size, count = 64, 8
+    w = size // count
+    img = Image.new("RGBA", (size, size), grout + (255,))
     px = img.load()
-    count, w = 8, 4
     for ty in range(count):
         for tx in range(count):
             f = rng.uniform(0.985, 1.012)
@@ -39,24 +41,24 @@ def tile_texture(tile, grout, key, film=None, glow=0.0, coping=False):
     if coping:
         # A broad lip of solid tile round the edge, catching the light
         d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=tuple(min(255, c + 6) for c in tile) + (255,), width=5)
-        d.rectangle([5, 5, S - 6, S - 6], outline=tuple(max(0, c - 22) for c in tile) + (255,), width=1)
+        d.rectangle([0, 0, size - 1, size - 1], outline=tuple(min(255, c + 6) for c in tile) + (255,), width=10)
+        d.rectangle([10, 10, size - 11, size - 11], outline=tuple(max(0, c - 22) for c in tile) + (255,), width=2)
     if film:
         # A red film settled in the grout, heavier in places
-        for y in range(S):
-            for x in range(S):
-                if x % 4 == 0 or y % 4 == 0:
+        for y in range(size):
+            for x in range(size):
+                if x % w == 0 or y % w == 0:
                     if rng.random() < 0.8:
                         px[x, y] = film + (255,)
-        T.blotch(img, (rng.randrange(S), rng.randrange(S)), 10, film, 0.25, seed_of(key + "b"))
+        T.blotch(img, (rng.randrange(size), rng.randrange(size)), 20, film, 0.25, seed_of(key + "b"))
     return img
 
 
 def textures():
-    save(tile_texture((244, 244, 238), (198, 194, 184), "pooltile"), "pooltile")
+    save(tile_texture((244, 244, 238), (226, 224, 216), "pooltile"), "pooltile")
     save(tile_texture((255, 246, 216), (226, 210, 172), "poolsunlit"), "poolsunlit")
     save(tile_texture((236, 226, 224), (118, 22, 26), "poolred", film=(128, 18, 24)), "poolred")
-    save(tile_texture((240, 240, 234), (198, 194, 184), "poolcoping", coping=True), "poolcoping")
+    save(tile_texture((240, 240, 234), (226, 224, 216), "poolcoping", coping=True), "poolcoping")
     img = noise(0x07080A, 2, "poolvoid")
     save(img, "poolvoid")
 
@@ -71,6 +73,28 @@ def textures():
     save(img, "slitglow")
     img = Image.new("RGBA", (S, S), (250, 252, 255, 255))
     save(T.noise_fill((248, 250, 252), 2, seed_of("archglow")), "archglow")
+
+    # Polished stainless for the handrails and ladders, stretched over each face: a bright body, a white glint
+    # along the top where the light catches it, a soft reflection band, and a dark line underneath
+    img = T.noise_fill(T.hexrgb(0xE4E8EC), 2, seed_of("poolchrome"))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            if y < 4:
+                v = (255, 255, 255)
+            elif y < 6:
+                v = (242, 246, 250)
+            elif 14 <= y < 18:
+                v = (min(255, r + 8), min(255, g + 8), min(255, b + 8))
+            elif y >= 28:
+                v = (96, 102, 110)
+            elif y >= 24:
+                v = (176, 182, 190)
+            else:
+                v = (r, g, b)
+            px[x, y] = v + (255,)
+    save(img, "poolchrome")
 
     # The door marked POOL: cyan paint, a round porthole, the word in white
     for part in ("lower", "upper"):
@@ -134,17 +158,35 @@ def blocks():
                comment="Level 37: white ceramic tile, every surface; lit warm where light falls through a slit; red-filmed in the Reservoir; the black of a tunnel mouth",
                lightHsvByType={"*-sunlit": [8, 2, 5]}, lightAbsorptionByType={"*-sunlit": 0, "*": 99})
 
-    # Tile walls carrying a slit of light, a glowing arch, or a handrail on one face (modelled facing north)
+    # Tile walls carrying a slit of light, a glowing arch, or a handrail on one face (modelled facing north). The
+    # slit is an opening: tile reveals frame a glow set back into the wall, so it reads as light coming through
     wall = cube("pooltile")
+    slit = [bx("Back", (0, 0, 1.5), (16, 16, 16), "pooltile", faces=("east", "south", "west", "up", "down")),
+            bx("FrontL", (0, 0, 0), (6, 16, 1.5), "pooltile", faces=("north", "east", "west", "up", "down")),
+            bx("FrontR", (10, 0, 0), (16, 16, 1.5), "pooltile", faces=("north", "east", "west", "up", "down")),
+            bx("Slit", (6, 0, 1.45), (10, 16, 1.5), "slitglow", glow=255, faces=("north",), full=True)]
+    # Keep the mosaic in register with the plain wall beside it
+    slit[2]["faces"]["north"]["uv"] = [10, 0, 16, 16]
+    slit[0]["faces"]["up"]["uv"] = slit[0]["faces"]["down"]["uv"] = [0, 1.5, 16, 16]
+
+    def chrome(name, frm, to, upright=False):
+        """A stainless part with the glint along its top (or, upright, along its left edge)."""
+        el = bx(name, frm, to, "poolchrome", full=True)
+        if upright:
+            for f in ("north", "south", "east", "west"):
+                el["faces"][f]["rotation"] = 90
+        return el
+
     parts = {
-        "slit": [wall, bx("Slit", (5, 0, -0.02), (11, 16, 0.2), "slitglow", glow=255, faces=("north",))],
+        "slit": slit,
         "arch": [wall,
                  bx("Arch", (3, 0, -0.02), (13, 12, 0.2), "archglow", glow=255, faces=("north",)),
                  bx("ArchTop", (4.5, 12, -0.02), (11.5, 14, 0.2), "archglow", glow=255, faces=("north",)),
                  bx("ArchCrown", (6.5, 14, -0.02), (9.5, 15, 0.2), "archglow", glow=255, faces=("north",))],
         "rail": [wall,
-                 bx("Rail", (0, 3, -1.6), (16, 4, -0.6), "chrome"),
-                 bx("Bracket1", (3, 2.5, -1), (4, 3.5, 0), "chrome"), bx("Bracket2", (12, 2.5, -1), (13, 3.5, 0), "chrome")],
+                 chrome("Rail", (0, 3, -1.6), (16, 4, -0.6)),
+                 chrome("Bracket1", (2.5, 2, -1.2), (4.5, 3.5, 0)), chrome("Bracket2", (11.5, 2, -1.2), (13.5, 3.5, 0)),
+                 chrome("Rose1", (2, 1.5, -0.4), (5, 4, 0)), chrome("Rose2", (11, 1.5, -0.4), (14, 4, 0))],
     }
     by_type = {}
     for kind, els in parts.items():
@@ -156,7 +198,7 @@ def blocks():
         "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]},
         "blockmaterial": "Ceramic", "drawtype": "json", "shapeByType": by_type,
         "lightAbsorption": 99, "resistance": 4, "sounds": STONE,
-        "lightHsvByType": {"*-slit-*": [8, 2, 18], "*-arch-*": [8, 1, 17]},
+        "lightHsvByType": {"*-slit-*": [8, 1, 18], "*-arch-*": [8, 0, 17]},
         "lightAbsorptionByType": {"*-slit-*": 0, "*-arch-*": 0, "*": 99},
     }, "Level 37: tile walls with a slit of glare, a glowing arch, or a handrail, on one face")
     name("poolwall-slit-*", "Slit of Light")
@@ -168,7 +210,7 @@ def blocks():
 
     # A pool ladder: two stainless rails and steps, climbable, at the edge of the water (modelled against the north side)
     prop("poolladder", "Pool Ladder", [
-        bx("RailL", (3, 0, 1), (4, 16, 2), "chrome"), bx("RailR", (12, 0, 1), (13, 16, 2), "chrome"),
+        chrome("RailL", (3, 0, 1), (4, 16, 2), upright=True), chrome("RailR", (12, 0, 1), (13, 16, 2), upright=True),
         bx("Step1", (4, 3, 1.2), (12, 3.6, 4), "steel"), bx("Step2", (4, 10, 1.2), (12, 10.6, 4), "steel")],
          box=(0.18, 0, 0, 0.82, 1, 0.25), material="Metal", sounds=METAL, collide=True,
          extra={"climbable": True, "drops": []})

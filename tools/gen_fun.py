@@ -451,6 +451,30 @@ def paint(base, key, scuffs=False):
     return img
 
 
+def brushed_brass(key, seam=False, vertical=False):
+    """Brushed brass: a gradient from #B8923E to #E8C878 across the face (down it, if vertical), a 2 px specular
+    band, fine horizontal brushing; seam darkens the right edge, where two leaves meet."""
+    lo, hi, spec = (0xB8, 0x92, 0x3E), (0xE8, 0xC8, 0x78), (0xFA, 0xEC, 0xBC)
+    rng = random.Random(seed_of(key))
+    rows = [rng.uniform(-7, 7) for _ in range(S)]
+    img = Image.new("RGBA", (S, S))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            t = (S - 1 - y if vertical else x) / (S - 1)
+            c = [lo[k] + (hi[k] - lo[k]) * t for k in range(3)]
+            band = (y if vertical else x) - (8 if vertical else 22)
+            if 0 <= band < 2:
+                c = [c[k] + (spec[k] - c[k]) * 0.75 for k in range(3)]
+            n = rows[y] * 0.6 + rng.uniform(-2.5, 2.5)
+            px[x, y] = (clamp(c[0] + n), clamp(c[1] + n), clamp(c[2] + n), 255)
+    if seam:
+        d = ImageDraw.Draw(img)
+        d.line([S - 2, 0, S - 2, S - 1], fill=rgb(0x7A5C22))
+        d.line([S - 1, 0, S - 1, S - 1], fill=rgb(0x4A3612))
+    return img
+
+
 def skirting_texture():
     """White ceramic tile skirting: 8 px tiles with grey grout."""
     img = noise(0xF4F4F0, 2, "skirting")
@@ -839,6 +863,30 @@ def poster_time4fun():
     return grain(img, 3, "t4f")
 
 
+def directory_board():
+    """The ship's directory in a lobby: white letters pressed into a navy felt letter board, DECK 4 in gold, the ways
+    to everything, and a red YOU ARE HERE =)."""
+    k = 4
+    rows = [("PARTY ROOMS", ">"), ("BALL PIT", "<"), ("BOUNCE HALL", "^"), ("ARCADE", "v"), ("KITCHEN", ">"),
+            ("LIDO DECK", "^"), ("GUEST SVCS", "X")]
+
+    def draw(d, k_, img):
+        d.rectangle([0, 0, 56 * k, 72 * k], fill=(28, 34, 50, 255))
+        for y in range(19, 66, 3):  # the felt's grooves
+            d.line([2 * k, y * k, 54 * k, y * k], fill=(36, 44, 62, 255), width=k // 2)
+        d.text((28 * k, 7 * k), "DECK 4", fill=(232, 196, 96, 255), font=_font(10 * k), anchor="mm")
+        d.text((28 * k, 14.5 * k), "DIRECTORY", fill=(236, 232, 220, 255), font=_font(5 * k), anchor="mm")
+        d.line([4 * k, 18 * k, 52 * k, 18 * k], fill=(200, 160, 70, 255), width=k)
+        f = _font(5 * k)
+        for i, (label, arrow) in enumerate(rows):
+            y = (22.5 + i * 5.6) * k
+            d.text((4 * k, y), label, fill=(236, 232, 220, 255), font=f, anchor="lm")
+            d.text((52 * k, y), arrow, fill=(236, 232, 220, 255), font=f, anchor="rm")
+        d.ellipse([4 * k, 63.5 * k, 8 * k, 67.5 * k], fill=(214, 40, 40, 255))
+        d.text((10 * k, 65.5 * k), "YOU ARE HERE =)", fill=(230, 60, 60, 255), font=_font(int(4.4 * k)), anchor="lm")
+    return grain(supersample(56, 72, k, draw), 3, "fundirectory")
+
+
 def poster_happybday():
     k = 4
 
@@ -1206,12 +1254,19 @@ def prop_textures():
         save(img, f"fundoor-{part}")
     save(noise(0x2E7A44, 3, "gymgreen"), "gymgreen")
     gym_doors()
+    # The elevator doors: brushed brass, darker toward the post and brighter toward the seam where the leaves meet,
+    # a narrow specular band, fine horizontal brushing, the meeting edge drawn dark as if recessed. Drawn as the left
+    # leaf seen from the front (seam on the right); the right leaf mirrors it
     for part in ("lower", "upper"):
-        img = noise(GOLD, 5, "elevator" + part)
-        d = ImageDraw.Draw(img)
-        for x in range(2, S, 6):
-            d.line([x, 0, x, S], fill=tint(rgb(GOLD), 1.12))
+        img = brushed_brass("elevator" + part, seam=True)
         save(img, f"elevator-{part}")
+        save(img.transpose(Image.FLIP_LEFT_RIGHT), f"elevator-{part}-r")
+    save(brushed_brass("elevatorlintel", vertical=True), "elevatorlintel")
+    img = brushed_brass("elevatorpost")
+    d = ImageDraw.Draw(img)
+    d.line([0, 0, 0, S - 1], fill=rgb(0x5A4418))
+    d.line([S - 1, 0, S - 1, S - 1], fill=rgb(0x5A4418))
+    save(img, "elevatorpost")
     img = flat(0x2A2420)
     d = ImageDraw.Draw(img)
     d.pieslice([2, 6, 30, 34], 180, 360, fill=rgb(0xF4ECD8))
@@ -1232,6 +1287,7 @@ def prop_textures():
     d.text((32, 10), "DECK 4", fill=(40, 26, 10, 255), font=_font(11), anchor="mm")
     d.text((32, 22), "PARTY ROOMS 1-38 >", fill=(40, 26, 10, 255), font=_font(7), anchor="mm")
     save(grain(img, 5, "decksign"), "decksign")
+    save(directory_board(), "fundirectory")
     img = flat(0x2A9A48, 64)
     text(img, "EXIT", (4, 16, 60, 48), 0xFFFFFF, 18)
     save(img, "exitsign")
@@ -1328,6 +1384,56 @@ def sided_wall(fname, code, groups, shapes_by_state, english, material="Stone", 
     name(f"{code}-*", english)
 
 
+# A trimmed wall's "side" states: every set of faces its trim can run along, in mask order (north 1, east 2, south 4,
+# west 8; see WorldGenerator.FunOpenFaces). The four single faces keep their old names; the rest are their letters.
+# Each set is one of five shapes, turned.
+TRIM_BASES = ("n", "ne", "ns", "nes", "nesw")
+
+
+def trim_sets():
+    """[(state, base shape, rotateY)] for each non-empty set of faces, in mask order."""
+    out = []
+    for mask in range(1, 16):
+        faces = "".join(f for i, f in enumerate("nesw") if mask >> i & 1)
+        state = SIDES["nesw".index(faces)] if len(faces) == 1 else faces
+        out.append(next((state, base, rot) for base in TRIM_BASES for k, rot in enumerate((0, 270, 180, 90))
+                        if sorted("nesw"[("nesw".index(f) + k) % 4] for f in base) == sorted(faces)))
+    return out
+
+
+def trim_shape(name_, wall, front, faces):
+    """A wall block with `front` on each of `faces` and white tile skirting standing proud along their foot, each run
+    carried round the outside corner to the next face clockwise when that face is trimmed too."""
+    tex = {f: wall for f in ("north", "east", "south", "west", "up", "down")}
+    for f in faces:
+        tex[SIDES["nesw".index(f)]] = front
+    els = [{"name": "Wall", "from": [0, 0, 0], "to": [16, 16, 16],
+            "faces": {f: {"texture": "#" + t, "uv": [0, 0, 16, 16]} for f, t in tex.items()}}]
+    for f in faces:
+        turn_on = "nesw"[("nesw".index(f) + 1) % 4] in faces
+        for nm, y0, y1, out in (("Skirting", 0, 3, 1), ("SkirtingCap", 3, 3.5, 0.6)):
+            e = out if turn_on else 0
+            frm, to = {"n": ((0, y0, -out), (16 + e, y1, 0)), "e": ((16, y0, 0), (16 + out, y1, 16 + e)),
+                       "s": ((-e, y0, 16), (16, y1, 16 + out)), "w": ((-out, y0, -e), (0, y1, 16))}[f]
+            els.append(bx(nm if faces == "n" else nm + f.upper(), frm, to, "skirting"))
+    return shape(name_ if faces == "n" else f"{name_}-{faces}", els)
+
+
+def trim_wall(fname, code, groups, prefix_shapes, english, comment):
+    """A wall's lowest block, trimmed on any set of its faces. prefix_shapes: {"a-b": (shape name, wall, front)}."""
+    by_type = {}
+    for prefix, (name_, wall, front) in prefix_shapes.items():
+        paths = {base: trim_shape(name_, wall, front, base) for base in TRIM_BASES}
+        for state, base, rot in trim_sets():
+            by_type[f"{code}-{prefix}-{state}"] = {"base": paths[base], "rotateY": rot}
+    data = {"code": code, "variantgroups": groups + [{"code": "side", "states": [s for s, _, _ in trim_sets()]}],
+            "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]},
+            "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+            "sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorption": 99, "resistance": 3, "sounds": STONE}
+    block(fname, data, comment)
+    name(f"{code}-*", english)
+
+
 def surfaces():
     cube_block("fun-vinyl", "fun-vinyl", "abcd", {k: f"vinyl-{k}" for k in "abcd"}, sounds=PLASTIC, english="Vinyl Tiles",
                comment="Level Fun: vinyl floor tiles in every party colour (promenades, halls, party rooms)")
@@ -1339,18 +1445,24 @@ def surfaces():
                english="Foam Play Mat", comment="Level Fun: jigsaw foam mats in the play rooms")
     cube_block("fun-paint", "fun-paint", list(PAINTS), {c: f"paint-{c}" for c in PAINTS}, english="Painted Wall",
                comment="Level Fun: a party room's painted wall")
-    # The lowest block of a painted wall: scuffed paint and a real white tile skirting along the room side (north)
-    shapes_ = {}
-    for c in PAINTS:
-        shapes_[f"{c}-skirted"] = wall_shape(f"fun-paint-{c}-skirted", f"paint-{c}-low", extra_els=[
-            bx("Skirting", (0, 0, -1), (16, 3, 0), "skirting"), bx("SkirtingCap", (0, 3, -0.6), (16, 3.5, 0), "skirting")])
-    sided_wall("fun-paint-skirted", "fun-paint", [{"code": "colour", "states": list(PAINTS)}, {"code": "trim", "states": ["skirted"]}],
-               shapes_, "Painted Wall", comment="Level Fun: the lowest block of a painted wall, with white tile skirting on its north (room) face")
+    # The lowest block of a painted wall: scuffed paint and a real white tile skirting along each face onto the floor
+    trim_wall("fun-paint-skirted", "fun-paint", [{"code": "colour", "states": list(PAINTS)}, {"code": "trim", "states": ["skirted"]}],
+              {f"{c}-skirted": (f"fun-paint-{c}-skirted", f"paint-{c}-low", f"paint-{c}-low") for c in PAINTS}, "Painted Wall",
+              comment="Level Fun: the lowest block of a painted wall, with white tile skirting on each face its side names (north alone in the inventory)")
     cube_block("fun-promwall", "fun-promwall", None, "promwall", english="Promenade Wall", comment="Level Fun: the promenades' cream walls")
-    sided_wall("fun-promwall-band", "fun-promwall", [{"code": "trim", "states": ["band"]}],
-               {"band": wall_shape("fun-promwall-band", "promwall", "promband", [bx("Skirting", (0, 0, -1), (16, 3, 0), "skirting"),
-                                                                                bx("SkirtingCap", (0, 3, -0.6), (16, 3.5, 0), "skirting")])},
-               "Promenade Wall", comment="Level Fun: a promenade wall's lowest block: a band of four-colour checks and white tile skirting on its north face")
+    trim_wall("fun-promwall-band", "fun-promwall", [{"code": "trim", "states": ["band"]}],
+              {"band": ("fun-promwall-band", "promwall", "promband")}, "Promenade Wall",
+              comment="Level Fun: a promenade wall's lowest block: a band of four-colour checks and white tile skirting on each face its side names")
+    # The edge of a low hall's drop ceiling where it opens into a taller room: ceiling tile underneath, but its side,
+    # in plain view from the taller room, is the cream wall's
+    wall_tex = {"base": tpath("promwall").replace("backrooms:", "")}
+    block("fun-soffit", {"code": "fun-soffit", "creativeinventory": {"general": ["*"], "construction": ["*"]},
+                         "blockmaterial": "Ceramic", "drawtype": "cube",
+                         "textures": {"up": {"base": "block/ceilingtile"}, "down": {"base": "block/ceilingtile"}, "north": wall_tex,
+                                      "east": wall_tex, "south": wall_tex, "west": wall_tex},
+                         "lightAbsorption": 99, "resistance": 1, "sounds": STONE},
+          "Level Fun: a hall's last ceiling tile where it opens into a taller lobby; cream sides toward the lobby")
+    name("fun-soffit", "Soffit")
     # The murals: 2 x 2 blocks each; tl/tr/bl/br as seen by someone facing the painted (north) face
     shapes_ = {}
     for subject in ("mouse", "hotdog", "cheese", "stork"):
@@ -1809,6 +1921,13 @@ def wall_props():
                                        bx("PlateEdge", (2, 5, 15.4), (14, 11, 16), "brass", faces=("east", "west", "up", "down", "south"))],
          collide=False, material="Metal", sounds=METAL, box=(0.1, 0.3, 0.95, 0.9, 0.7, 1),
          comment="Level Fun: DECK 4 · PARTY ROOMS 1-38 →", extra={"drops": []})
+    # The ship's directory board in the lobbies: a felt letter board in a brass frame, a little taller than a block
+    prop("fun-directory", "Ship's Directory", [
+        bx("Board", (1.4, -0.6, 15.2), (14.6, 16.6, 16), "fundirectory", faces=("north",), full=True),
+        bx("FrameT", (0.4, 16.6, 14.7), (15.6, 17.6, 16), "brass"), bx("FrameB", (0.4, -1.6, 14.7), (15.6, -0.6, 16), "brass"),
+        bx("FrameL", (0.4, -0.6, 14.7), (1.4, 16.6, 16), "brass"), bx("FrameR", (14.6, -0.6, 14.7), (15.6, 16.6, 16), "brass")],
+        collide=False, material="Metal", sounds=METAL, box=(0.03, 0, 0.9, 0.97, 1, 1),
+        comment="Level Fun: the ship's directory board in a lobby (DECK 4, the ways to everything, YOU ARE HERE =))", extra={"drops": []})
 
 
 def inflatables():
@@ -2096,24 +2215,33 @@ def doors():
     door_type("fun-door-mascot", "fun-door-mascot", [{"code": "leaf", "states": ["l", "r"]}, {"code": "part", "states": ["lower", "upper"]}],
               shapes_, "Gym Doors", "mascotdoor",
               "Gymnasium double doors painted with a tiger, a parrot and a giraffe, at the back of a parking garage in Level 11: to a Level Fun waiting room (two-way)")
-    # The brass elevator doors of the lobbies; they never open. The upper half carries the lintel and dial above it
+    # The brass elevator doors of the lobbies; they never open. The upper half carries the lintel and dial above it.
+    # Their sides are the lobby's own cream wall (and its checked band and skirting, low down), since where a lobby
+    # wall steps back beside the doors a side is in plain view
     shapes_ = {}
     for leaf in ("l", "r"):
         seam_x = 0 if leaf == "l" else 16
         for part in ("lower", "upper", "uppersign"):
-            ptex = "elevator-lower" if part == "lower" else "elevator-upper"
+            ptex = ("elevator-lower" if part == "lower" else "elevator-upper") + ("-r" if leaf == "r" else "")
             els = [bx("Seam", (seam_x - 0.2, 0, -0.15), (seam_x + 0.2, 16, 0), "blackmetal", faces=("north",))]
             post_x = 15 if leaf == "l" else 0
-            els.append(bx("Post", (post_x, 0, -1), (post_x + 1, 16, 0), "brass"))
+            els.append(bx("Post", (post_x, 0, -1), (post_x + 1, 16, 0), "elevatorpost", full=True))
             if part != "lower":
-                els += [bx("Lintel", (-0.01, 16, -1), (16.01, 19, 0), "brass")]
+                els += [bx("Lintel", (-0.01, 16, -1), (16.01, 19, 0), "elevatorlintel", faces=("north", "up", "down"), full=True),
+                        bx("LintelEnds", (-0.01, 16, -1), (16.01, 19, 0), "elevatorpost", faces=("east", "west"), full=True)]
                 if leaf == "l":
                     els += [bx("Dial", (-4, 19.5, -0.8), (4, 23.5, 0), "liftdial", faces=("north",), full=True, glow=60),
                             bx("DialBack", (-4, 19.5, -0.8), (4, 23.5, 0), "brass", faces=("east", "west", "up", "down"))]
                 if part == "uppersign":
                     els += [bx("Sign", (3, 4, -0.3), (11, 10, -0.1), "outoforder", faces=("north",), full=True, rot=(0, 0, 4)),
                             bx("Tape1", (6, 9.6, -0.35), (8, 10.4, -0.25), "tape"), bx("Tape2", (6, 3.6, -0.35), (8, 4.4, -0.25), "tape")]
-            shapes_[f"{leaf}-{part}"] = door_shape(f"fun-elevator-{leaf}-{part}", ptex, "steel", els, all_round=False)
+            side = "promband" if part == "lower" else "promwall"
+            faces = {f: {"texture": "#" + (ptex if f == "north" else side if f in ("east", "west") else "promwall"), "uv": [0, 0, 16, 16]}
+                     for f in ("north", "east", "south", "west", "up", "down")}
+            if part == "lower":
+                for nm, y0, y1, out in (("Skirting", 0, 3, 1), ("SkirtingCap", 3, 3.5, 0.6)):
+                    els += [bx(nm + "E", (16, y0, 0), (16 + out, y1, 16), "skirting"), bx(nm + "W", (-out, y0, 0), (0, y1, 16), "skirting")]
+            shapes_[f"{leaf}-{part}"] = shape(f"fun-elevator-{leaf}-{part}", [{"name": "Door", "from": [0, 0, 0], "to": [16, 16, 16], "faces": faces}] + els)
     door_type("fun-elevator", "fun-elevator", [{"code": "leaf", "states": ["l", "r"]}, {"code": "part", "states": ["lower", "upper", "uppersign"]}],
               shapes_, "Elevator Doors", None,
               "Level Fun: brass elevator doors in a lobby, with a dial above; they never open. uppersign: OUT OF ORDER =)", material="Metal", sounds=METAL, sided=True)
@@ -2601,20 +2729,18 @@ def lang():
         "fun-voice-familiar-2": "Dad",
         "fun-voice-familiar-3": "your sister",
         "fun-voice-familiar-4": "an old friend",
-        "fun-hostupset": "The Host is upset.",
         "fun-disguised": "In a party hat, with a red balloon, you could pass for one of them. Don't run.",
-        "creature-partygoer": "Partygoer",
+        "prefixandcreature-partygoer": "a Partygoer",
         "item-creature-partygoer": "Partygoer",
         "deadcreature-partygoer": "Dead Partygoer",
-        "creature-partygoer-intern": "Partygoer",
+        "prefixandcreature-partygoer-intern": "a Partygoer",
         "item-creature-partygoer-intern": "Partygoer",
-        "creature-lureballoon": "Balloon",
+        "prefixandcreature-lureballoon": "a balloon",
         "item-creature-lureballoon": "Balloon",
         "deadcreature-lureballoon": "Popped Balloon",
-        "creature-partyhost": "The Host",
+        "prefixandcreature-partyhost": "the Host",
         "item-creature-partyhost": "The Host",
         "deadcreature-partyhost": "The Host",
-        "wanderernote-altered-text": "Level Fun is completely safe =) There is a party in the room I marked. Come join us!",
     })
 
 

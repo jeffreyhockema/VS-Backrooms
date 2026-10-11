@@ -1,0 +1,113 @@
+// A porch post's foot in the railing, the rails coming in from the sides named
+{
+	"code": "porchpostrail",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"n",
+				"e",
+				"ne",
+				"s",
+				"ns",
+				"es",
+				"nes",
+				"w",
+				"nw",
+				"ew",
+				"new",
+				"sw",
+				"nsw",
+				"esw",
+				"nesw"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-n": {
+			"base": "block/detail/porchpostrail-n"
+		},
+		"*-e": {
+			"base": "block/detail/porchpostrail-e"
+		},
+		"*-ne": {
+			"base": "block/detail/porchpostrail-ne"
+		},
+		"*-s": {
+			"base": "block/detail/porchpostrail-s"
+		},
+		"*-ns": {
+			"base": "block/detail/porchpostrail-ns"
+		},
+		"*-es": {
+			"base": "block/detail/porchpostrail-es"
+		},
+		"*-nes": {
+			"base": "block/detail/porchpostrail-nes"
+		},
+		"*-w": {
+			"base": "block/detail/porchpostrail-w"
+		},
+		"*-nw": {
+			"base": "block/detail/porchpostrail-nw"
+		},
+		"*-ew": {
+			"base": "block/detail/porchpostrail-ew"
+		},
+		"*-new": {
+			"base": "block/detail/porchpostrail-new"
+		},
+		"*-sw": {
+			"base": "block/detail/porchpostrail-sw"
+		},
+		"*-nsw": {
+			"base": "block/detail/porchpostrail-nsw"
+		},
+		"*-esw": {
+			"base": "block/detail/porchpostrail-esw"
+		},
+		"*-nesw": {
+			"base": "block/detail/porchpostrail-nesw"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-n"
+		],
+		"decorative": [
+			"*-n"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.31,
+		"y1": 0,
+		"z1": 0.31,
+		"x2": 0.69,
+		"y2": 1,
+		"z2": 0.69
+	},
+	"selectionbox": {
+		"x1": 0.31,
+		"y1": 0,
+		"z1": 0.31,
+		"x2": 0.69,
+		"y2": 1,
+		"z2": 0.69
+	}
+}

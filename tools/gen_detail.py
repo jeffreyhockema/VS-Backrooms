@@ -5,12 +5,13 @@ Run from the repo root:  python tools/gen_detail.py
 Everything is written to block/detail/ folders (textures, shapes, blocktypes); names are merged into lang/en.json.
 """
 import json
+import math
 import os
 
 import detail_textures
 import fire_fx
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
-                        STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, shape, shift, turn, wall_family)
+                        STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, seam_halves, shape, shift, turn, wall_family)
 
 
 def plate(nm, frm, to, front, side, glow=0):
@@ -65,9 +66,10 @@ def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, c
 
 
 # Flames, fire and embers on the props that burn (offsets from the top middle of each prop's collision box)
-# Burn barrel: licking flames and sparks over the embers (13/16 up; the box tops out at 0.84)
-BURNBARREL_FIRE = [fire_fx.fire(0, -0.03, 0, spread=(0.22, 0, 0.22), quantity=0.5, size=0.25),
-                   fire_fx.embers(0, -0.03, 0, spread=(0.2, 0, 0.2), quantity=0.012)]
+# Burn barrel: licking flames rising out of the drum over the embers sunk inside it (the rim 13/16 up; the box tops
+# out at 0.84), and sparks
+BURNBARREL_FIRE = [fire_fx.fire(0, -0.08, 0, spread=(0.18, 0, 0.18), quantity=0.5, size=0.3),
+                   fire_fx.embers(0, -0.1, 0, spread=(0.16, 0, 0.16), quantity=0.012)]
 # Candelabra: a flame on each of its three candles (tops 18/16, 19/16 and 18/16 up; the box tops out at 1.1)
 CANDELABRA_FLAMES = [fire_fx.flame(-0.28125, 0.025, 0), fire_fx.flame(0, 0.0875, 0), fire_fx.flame(0.28125, 0.025, 0)]
 # Dining table: the candle in the middle (its top 16/16 up; the box tops out at 0.78)
@@ -76,21 +78,45 @@ DININGTABLE_FLAMES = [fire_fx.flame(0, 0.22, 0)]
 
 # ======================= Signs and doors =======================
 
+# The halves of a two-faced sign over a two-wide doorway (from detail_kit.seam_halves), by which block of the pair
+# they are in: "lo" the one with the smaller coordinate along the wall (west, or north), "hi" the other. The models
+# face north and south; "we" (a wall running west-east) leaves them so, "ns" turns them 90 degrees (anticlockwise
+# from above: their north face looks west, their west end goes south). Seen from the north the left half is in the
+# east block, so a west-east wall's west block takes the right half; turned, the left half is in the north block.
+PAIR_MODELS = {("lo", "we"): ("r", 0), ("hi", "we"): ("l", 0), ("lo", "ns"): ("l", 90), ("hi", "ns"): ("r", 90)}
+
+
 def exit_signs():
     face = [bx("Housing", (2, 3, -2.5), (14, 11, 0), "exithousing", faces=("north", "east", "west", "up", "down")),
             bx("Face", (2.4, 3.4, -2.6), (13.6, 10.6, -2.5), "exitface", glow=200, faces=("north",), uv=[0, 4, 16, 12])]
-    by_type = {}
-    for material, wall in (("concrete", "concretewall"), ("whiteblock", "whiteblock"), ("drywall", "drywall")):
-        path = shape(f"exitlintel-{material}", [cube(wall)] + face + [turn(e, 2) for e in face])
+    sign = face + [turn(e, 2) for e in face]
+    left, right = seam_halves(sign)
+    by_type, pair_by_type = {}, {}
+    # (The painted block's lintel, with the dark head of the door frame along its foot, as over a doorway without one)
+    for material, wall in (("concrete", "concretewall"), ("whiteblock", "whiteblock-lintel"), ("drywall", "drywall")):
+        path = shape(f"exitlintel-{material}", [cube(wall)] + sign)
         by_type[f"*-{material}-we"] = {"base": path, "rotateY": 0}
         by_type[f"*-{material}-ns"] = {"base": path, "rotateY": 90}
-    block("exitlintel", {
+        halves = {"l": shape(f"exitlintelpair-{material}-l", [cube(wall)] + left),
+                  "r": shape(f"exitlintelpair-{material}-r", [cube(wall)] + right)}
+        for (half, axis), (model, rot) in PAIR_MODELS.items():
+            pair_by_type[f"*-{material}-{half}-{axis}"] = {"base": halves[model], "rotateY": rot}
+    lit = {"lightHsv": [0, 6, 6], "lightAbsorption": 0, "resistance": 4, "sounds": STONE}
+    block("exitlintel", dict({
         "variantgroups": [{"code": "material", "states": ["concrete", "whiteblock", "drywall"]}, {"code": "axis", "states": ["we", "ns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
-        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
-        "lightHsv": [0, 6, 6], "lightAbsorption": 0, "resistance": 4, "sounds": STONE,
-    }, "Lintel over a doorway with a lit EXIT sign on both faces")
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type}, **lit),
+        "Lintel over a doorway with a lit EXIT sign on both faces")
     name("exitlintel-*", "EXIT Sign")
+    # Over a two-wide doorway: the same sign in two halves, one in each block over the doorway, so that it hangs
+    # centred over the doorway (see PAIR_MODELS). Both halves are lit as one whole sign is
+    block("exitlintelpair", dict({
+        "variantgroups": [{"code": "material", "states": ["concrete", "whiteblock", "drywall"]}, {"code": "half", "states": ["lo", "hi"]},
+                          {"code": "axis", "states": ["we", "ns"]}],
+        "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": pair_by_type}, **lit),
+        "Lintel over a two-wide doorway with half of a lit EXIT sign on both faces: two side by side make one sign over its middle")
+    name("exitlintelpair-*", "EXIT Sign")
 
     hanging = [bx("RodL", (3.6, 8, 7.6), (4.4, 16, 8.4), "metal"), bx("RodR", (11.6, 8, 7.6), (12.4, 16, 8.4), "metal"),
                bx("Housing", (1.5, 1, 6.6), (14.5, 8, 9.4), "exithousing"),
@@ -107,6 +133,32 @@ def exit_signs():
         "lightHsv": [0, 6, 5], "lightAbsorption": 0, "resistance": 1, "sounds": GLASS,
     }, "Double-sided EXIT sign hanging from the ceiling")
     name("exithanging-*", "EXIT Sign")
+
+
+def staff_plaques():
+    """STAFF ONLY over the doors into Level 5's boiler halls, on the hotel's frieze (or plaster) above the doorway: a
+    plate on both faces, centred over a one-wide doorway ("single") or, in halves, over a two-wide one ("lo", "hi":
+    see PAIR_MODELS). Replaces the old all-over painted block (staffsign) in worlds from layout version 4 on."""
+    plate_ = [bx("Plate", (2, 4, -0.6), (14, 12.25, 0), "staffplaque", faces=("north",), uv=[0, 2.5, 16, 13.5]),
+              bx("Edge", (2, 4, -0.6), (14, 12.25, 0), "brass", faces=("east", "west", "up", "down"))]
+    sign = plate_ + [turn(e, 2) for e in plate_]
+    left, right = seam_halves(sign)
+    by_type = {}
+    for wall in ("frieze", "plaster"):
+        models = {"single": shape(f"staffplaque-{wall}", [cube(wall)] + sign),
+                  "l": shape(f"staffplaque-{wall}-l", [cube(wall)] + left), "r": shape(f"staffplaque-{wall}-r", [cube(wall)] + right)}
+        by_type[f"*-{wall}-single-we"] = {"base": models["single"], "rotateY": 0}
+        by_type[f"*-{wall}-single-ns"] = {"base": models["single"], "rotateY": 90}
+        for (half, axis), (model, rot) in PAIR_MODELS.items():
+            by_type[f"*-{wall}-{half}-{axis}"] = {"base": models[model], "rotateY": rot}
+    block("staffplaque", {
+        "variantgroups": [{"code": "wall", "states": ["frieze", "plaster"]}, {"code": "part", "states": ["single", "lo", "hi"]},
+                          {"code": "axis", "states": ["we", "ns"]}],
+        "creativeinventory": {"general": ["*-single-we"], "decorative": ["*-single-we"]},
+        "blockmaterial": "Wood", "drawtype": "json", "shapeByType": by_type,
+        "lightAbsorption": 99, "resistance": 2, "sounds": WOOD,
+    }, "STAFF ONLY plate over a doorway into the boiler halls, on both faces (in halves over a two-wide doorway)")
+    name("staffplaque-*", "Staff Only Sign")
 
 
 def doors():
@@ -253,7 +305,10 @@ def level1():
     banners = [Decor(f"banner{i}", "Group Landmark", {2: [bx("Cloth", (2, -6, -0.6), (14, 14, -0.3), f"banner{i}", faces=("north", "south"), full=True),
                                                            bx("NailL", (2.5, 13, -1), (3.5, 14, 0), "metaldark"),
                                                            bx("NailR", (12.5, 13, -1), (13.5, 14, 0), "metaldark")]}) for i in range(4)]
-    wall_family("l1deco", "Painted Block Wall", walls_white, decors + paintings + banners)
+    # The painted floor of each of Level 1's stairwells from layout version 4 (the plain "levelsign" is P2, as before)
+    floors = [Decor(f"levelsign{label}", "Level Marking", {2: [bx("Paint", (1, 1, -0.1), (15, 15, 0), f"levelsign-{label}", faces=("north",), full=True)]})
+              for label in ("p5", "p4", "p3", "p2", "p1", "b1", "b2", "b3")]
+    wall_family("l1deco", "Painted Block Wall", walls_white, decors + paintings + banners + floors)
     wall_family("concretedeco", "Concrete Wall", {1: "concretewall"}, decors + banners)
     wall_family("pillardeco", "Concrete Pillar", {1: "pillar"},
                 [Decor(f"banner{i}", "Group Landmark", {3: [bx("Cloth", (2, -8, -0.6), (14, 15, -0.3), f"banner{i}", faces=("north", "south"), full=True),
@@ -308,27 +363,56 @@ def level1():
         "velocity": [{"avg": 0, "var": 0.05}, {"avg": 0.25, "var": 0.05}, {"avg": 0, "var": 0.05}],
         "quantity": {"avg": 0.15}, "size": {"avg": 0.35, "var": 0.1}, "sizeEvolve": {"transform": "linear", "factor": 1},
         "particleModel": "Quad", "lifeLength": {"avg": 3, "var": 0.5}, "selfPropelled": True}]
-    prop("burnbarrel", "Burn Barrel", [
-        bx("Drum", (3, 0, 3), (13, 13, 13), "burnbarrel", faces=("north", "east", "south", "west")),
-        bx("Rim", (2.8, 12.5, 2.8), (13.2, 13.5, 13.2), "rust", faces=("north", "east", "south", "west", "down")),
-        bx("Hoop", (2.8, 1, 2.8), (13.2, 2, 13.2), "rust", faces=("north", "east", "south", "west")),
-        bx("Embers", (3.3, 12.6, 3.3), (12.7, 13, 12.7), "embers", glow=255, faces=("up",))],
+    # Burn barrel: an open steel drum, eight-sided, with a rolled rim, two hoops and a chime at the foot; the fire
+    # burns low inside it on a bed of embers and charred brands, so it shows only over the rim
+    def ring(nm, y1, y2, apothem, thick, tex, faces, inside=None, uv=None):
+        """Eight plates round the drum's axis, each facing out (north before it is turned)."""
+        side = 2 * apothem * math.tan(math.pi / 8) + 0.06
+        out = []
+        for k in range(8):
+            el = bx(f"{nm}{k}", (8 - side / 2, y1, 8 - apothem), (8 + side / 2, y2, 8 - apothem + thick), tex, faces=faces,
+                    rot=(0, k * 45, 0), origin=(8, (y1 + y2) / 2, 8),
+                    uv=None if uv is None else [uv * k % 11, 0, uv * k % 11 + side, y2 - y1])
+            if inside:
+                el["faces"]["south"] = dict(el["faces"]["south"], texture="#" + inside)
+            out.append(el)
+        return out
+    bed_side = 2 * 4.5 * math.tan(math.pi / 8)
+    prop("burnbarrel", "Burn Barrel",
+         ring("Wall", 0, 12.5, 5, 0.5, "burnbarrel", ("north", "south", "up"), inside="burnbarrelinside", uv=3.7)
+         + ring("Rim", 12.3, 13.3, 5.3, 0.9, "burnbarrelrim", ("north", "south", "up", "down"))
+         + ring("Hoop", 4, 4.8, 5.2, 0.3, "burnbarrelrim", ("north", "up", "down"))
+         + ring("Chime", 0, 0.6, 5.15, 0.3, "burnbarrelrim", ("north", "up"))
+         # The bed of embers: four strips across the drum at 45 degrees make its eight-sided floor (stepped a hair
+         # apart so they do not fight), and two charred brands leaning in it
+         + [bx(f"Embers{k}", (3.5, 9.6, 8 - bed_side / 2), (12.5, 9.8 + 0.02 * k, 8 + bed_side / 2), "embers", glow=255,
+               faces=("up",), rot=(0, k * 45, 0), origin=(8, 9.7, 8)) for k in range(4)]
+         + [bx("Brand1", (4.5, 9.4, 7), (11, 10.6, 8.2), "burnbarrelinside", rot=(0, 30, 14)),
+            bx("Brand2", (6, 9.4, 6), (7.2, 10.4, 11.5), "burnbarrelinside", rot=(-10, -20, 0))],
          box=(0.18, 0, 0.18, 0.82, 0.84, 0.82), oriented=False, material="Metal", sounds=METAL, light=[3, 7, 12],
          extra={"particleProperties": smoke + BURNBARREL_FIRE, "behaviors": [fire_fx.heat(7)]})
+    # Hospital bed: a deep mattress on a raised frame, a pillow, the blanket turned down over the sides, a quilt
+    # folded at the foot, and drop rails both sides at the head
+    def bedrail(x0, x1):
+        return [bx("RailTop", (x0, 15, 3), (x1, 15.8, 14), "steel"), bx("RailMid", (x0, 12.6, 3), (x1, 13.2, 14), "steel"),
+                bx("RailPost1", (x0, 9, 4), (x1, 15, 4.8), "steel"), bx("RailPost2", (x0, 9, 12.2), (x1, 15, 13), "steel")]
     hospital = {
-        "head": [bx("Frame", (1, 6, 0), (15, 8, 16), "hospitalframe"),
-                 bx("Mattress", (1.5, 8, 0.5), (14.5, 11, 16), "white"), bx("Pillow", (3, 11, 1.5), (13, 12.5, 5), "white"),
-                 bx("Headboard", (1, 4, -0.5), (15, 18, 1), "hospitalframe"),
-                 bx("RailL", (0.2, 11, 4), (1, 14, 14), "steel"), bx("RailR", (15, 11, 4), (15.8, 14, 14), "steel"),
-                 bx("Leg1", (1.5, 0, 1), (2.5, 6, 2), "steel"), bx("Leg2", (13.5, 0, 1), (14.5, 6, 2), "steel"),
-                 bx("Blanket", (1.3, 8.5, 6), (14.7, 11.3, 16), "hospitalsheet")],
-        "foot": [bx("Frame", (1, 6, 0), (15, 8, 15), "hospitalframe"),
-                 bx("Mattress", (1.5, 8, 0), (14.5, 11, 14.5), "white"),
-                 bx("Blanket", (1.3, 8.5, 0), (14.7, 11.3, 14.7), "hospitalsheet"),
-                 bx("Footboard", (1, 4, 14.5), (15, 15, 16), "hospitalframe"),
-                 bx("Chart", (6, 10, 16), (10, 14.5, 16.4), "paper"),
-                 bx("Leg1", (1.5, 0, 13.5), (2.5, 6, 14.5), "steel"), bx("Leg2", (13.5, 0, 13.5), (14.5, 6, 14.5), "steel")]}
-    prop("hospitalbed", "Hospital Bed", hospital, box=(0, 0, 0, 1, 0.75, 1), material="Cloth", sounds=CLOTH)
+        "head": [bx("Frame", (1, 6.5, 0), (15, 9, 16), "hospitalframe"),
+                 bx("Mattress", (1.5, 9, 0.5), (14.5, 13, 16), "white"), bx("Pillow", (3, 13, 1.5), (13, 15.2, 5.5), "white"),
+                 bx("Headboard", (1, 4, -0.5), (15, 19, 1), "hospitalframe"),
+                 bx("Leg1", (1.5, 0, 1), (2.5, 6.5, 2), "steel"), bx("Leg2", (13.5, 0, 1), (14.5, 6.5, 2), "steel"),
+                 bx("Blanket", (1.2, 11, 6.5), (14.8, 13.3, 16), "hospitalsheet"),
+                 bx("Turndown", (1.2, 13.3, 6.5), (14.8, 13.8, 8.5), "white")]
+                + bedrail(0.2, 1) + bedrail(15, 15.8),
+        "foot": [bx("Frame", (1, 6.5, 0), (15, 9, 15), "hospitalframe"),
+                 bx("Mattress", (1.5, 9, 0), (14.5, 13, 14.5), "white"),
+                 bx("Blanket", (1.2, 11, 0), (14.8, 13.3, 14.7), "hospitalsheet"),
+                 bx("QuiltTop", (2.5, 13.3, 7), (13.5, 15.4, 13.5), "hospitalquilt", faces=("up",)),
+                 bx("Quilt", (2.5, 13.3, 7), (13.5, 15.4, 13.5), "hospitalquiltfold", faces=("north", "east", "south", "west"), full=True),
+                 bx("Footboard", (1, 4, 14.5), (15, 16, 16), "hospitalframe"),
+                 bx("Chart", (6, 10.5, 16), (10, 15, 16.4), "paper"),
+                 bx("Leg1", (1.5, 0, 13.5), (2.5, 6.5, 14.5), "steel"), bx("Leg2", (13.5, 0, 13.5), (14.5, 6.5, 14.5), "steel")]}
+    prop("hospitalbed", "Hospital Bed", hospital, box=(0, 0, 0, 1, 0.85, 1), material="Cloth", sounds=CLOTH)
     prop("foldingtable", "Folding Table", [
         bx("Top", (0, 11, 1), (16, 12, 15), "tabletop"), bx("Edge", (0, 10.5, 1), (16, 11, 15), "foldsteel"),
         bx("Leg1", (1, 0, 2), (2, 10.5, 3), "foldsteel"), bx("Leg2", (14, 0, 2), (15, 10.5, 3), "foldsteel"),
@@ -390,11 +474,18 @@ def level1():
             "velocity": [{"avg": 0, "var": 0}, {"avg": -0.1, "var": 0}, {"avg": 0, "var": 0}],
             "quantity": {"avg": 0.06}, "size": {"avg": 0.12, "var": 0.03}, "particleModel": "Cube",
             "lifeLength": {"avg": 1.2, "var": 0}, "selfPropelled": False}]
+    # (Where the run ends with open space beyond, "end-<side>" is capped on that side; "stub-<axis>" is a length on its own,
+    # capped at both ends)
+    for side, axis in (("north", "ns"), ("east", "we"), ("south", "ns"), ("west", "we")):
+        drips[f"*-end-{side}"] = drips[f"*-{axis}"]
     block("drippipe", {
-        "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
+        "variantgroups": [{"code": "axis", "states": ["we", "ns", "end-north", "end-east", "end-south", "end-west", "stub-we", "stub-ns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
         "blockmaterial": "Metal", "drawtype": "json",
-        "shapeByType": {"*-we": {"base": "block/pipes-run", "rotateY": 0}, "*-ns": {"base": "block/pipes-run", "rotateY": 90}},
+        "shapeByType": {"*-end-east": {"base": "block/pipes-end", "rotateY": 0}, "*-end-north": {"base": "block/pipes-end", "rotateY": 90},
+                        "*-end-west": {"base": "block/pipes-end", "rotateY": 180}, "*-end-south": {"base": "block/pipes-end", "rotateY": 270},
+                        "*-stub-we": {"base": "block/pipes-stub", "rotateY": 0}, "*-stub-ns": {"base": "block/pipes-stub", "rotateY": 90},
+                        "*-we": {"base": "block/pipes-run", "rotateY": 0}, "*-ns": {"base": "block/pipes-run", "rotateY": 90}},
         "sidesolid": {"all": False}, "sideopaque": {"all": False},
         "collisionbox": {"x1": 0, "y1": 0.55, "z1": 0, "x2": 1, "y2": 1, "z2": 1},
         "selectionbox": {"x1": 0, "y1": 0.55, "z1": 0, "x2": 1, "y2": 1, "z2": 1},
@@ -420,7 +511,9 @@ def level3():
                      {"avg": {"north": -0.6, "south": 0.6}.get(side, 0), "var": 0.6}],
         "quantity": {"avg": 0.05, "var": 0.05}, "size": {"avg": 0.08, "var": 0.03}, "particleModel": "Cube",
         "lifeLength": {"avg": 0.5, "var": 0.2}, "vertexFlags": 255, "selfPropelled": False}]
-    gauges = [bx("Pipe", (0, 2, -3), (16, 5, 0), "rust", faces=("north", "up", "down")),
+    # (The gauges' length of pipe is on its own: blind flanges close both its ends)
+    gauges = [bx("Pipe", (0.6, 2, -3), (15.4, 5, 0), "rust", faces=("north", "up", "down")),
+              bx("FlangeW", (0, 1.5, -3.5), (0.6, 5.5, 0), "metal"), bx("FlangeE", (15.4, 1.5, -3.5), (16, 5.5, 0), "metal"),
               bx("Stem1", (4.5, 5, -2), (5.5, 7, -1), "metal"), bx("Stem2", (11, 5, -2), (12, 8, -1), "metal")] + \
         plate("Gauge1", (2.5, 7, -2.6), (7.5, 12, -1.4), "gauge", "metaldark") + plate("Gauge2", (9, 8, -2.6), (14, 13, -1.4), "gauge", "metaldark")
     decors = [
@@ -437,22 +530,51 @@ def level3():
         Decor("sparkoutlet", "Sparking Outlet", {1: plate("Outlet", (5.5, 4, -0.5), (10.5, 10, 0), "outletburnt", "metaldark") +
                                                  [bx("Wire", (8, 0, -1), (8.6, 4, -0.4), "cable"), bx("Tip", (7.9, -0.3, -1.1), (8.7, 0.3, -0.3), "copper")]},
               particles=sparks),
-        Decor("bulkhead", "Bulkhead Light", {2: [bx("Base", (5, 4, -1), (11, 11, 0), "metaldark"),
-                                                 bx("Glass", (5.5, 4.5, -3), (10.5, 10.5, -1), "bulkheadglass", glow=220),
-                                                 bx("CageH", (5.2, 7.3, -3.3), (10.8, 7.7, -1), "metaldark"),
-                                                 bx("CageV", (7.8, 4.2, -3.3), (8.2, 10.8, -1), "metaldark")]}, light=[6, 5, 9]),
+        # A round-ish glass (two crossed boxes and a domed front) behind a heavy three-bar cage
+        Decor("bulkhead", "Bulkhead Light", {2: [bx("Base", (4.5, 4, -1), (11.5, 11, 0), "metaldark"),
+                                                 bx("GlassV", (6, 4.5, -3), (10, 10.5, -1), "bulkheadglass", glow=160, full=True),
+                                                 bx("GlassH", (5, 5.5, -3), (11, 9.5, -1), "bulkheadglass", glow=160, full=True),
+                                                 bx("Dome", (6.5, 6, -3.6), (9.5, 9, -3), "bulkheadglass", glow=160, full=True),
+                                                 bx("CageL", (6.1, 4.2, -4.1), (6.9, 10.8, -1), "metaldark"),
+                                                 bx("CageM", (7.6, 4.2, -4.1), (8.4, 10.8, -1), "metaldark"),
+                                                 bx("CageR", (9.1, 4.2, -4.1), (9.9, 10.8, -1), "metaldark"),
+                                                 bx("CageRing", (4.7, 7.1, -3.4), (11.3, 7.9, -1), "metaldark")]}, light=[6, 5, 9]),
         Decor("alarmbell", "Alarm Bell", {3: [bx("Plate", (6, 4, -0.6), (10, 11, 0), "metaldark")] + cyl("Bell", 8, -2.2, 3, 5, 10, "redmetal") +
                                           [bx("Striker", (7.5, 4, -2.5), (8.5, 5, -1.5), "metal")]}),
-        Decor("wallcables", "Cable Run", {3: [bx("C1", (0, 4, -1.5), (16, 5.5, 0), "cable", faces=("north", "up", "down")),
-                                              bx("C2", (0, 6, -2), (16, 8, 0), "cable", faces=("north", "up", "down")),
-                                              bx("C3", (0, 9, -1.2), (16, 10, 0), "cable", faces=("north", "up", "down")),
+        # (The cables' ends are closed: where the run stops beside a fitting they end solid, not hollow)
+        Decor("wallcables", "Cable Run", {3: [bx("C1", (0, 4, -1.5), (16, 5.5, 0), "cable", faces=("north", "up", "down", "east", "west")),
+                                              bx("C2", (0, 6, -2), (16, 8, 0), "cable", faces=("north", "up", "down", "east", "west")),
+                                              bx("C3", (0, 9, -1.2), (16, 10, 0), "cable", faces=("north", "up", "down", "east", "west")),
                                               bx("Clamp", (7, 3.5, -2.3), (9, 10.5, 0), "metal"),
                                               bx("Droop", (11, 1, -1.8), (12, 4, -0.8), "cable")]}),
-        Decor("risers", "Hot Pipes", {2: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
+        # (From a flanged foot on the floor up into the ceiling: a gallery's taller wall gets a fourth length)
+        Decor("risers", "Hot Pipes", {1: [bx("Hot", (4, 1, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
+                                          bx("Rusty", (10, 1, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west")),
+                                          bx("FootHot", (3.4, 0, -4.6), (8.6, 1, 0), "metal", faces=("north", "east", "west", "up")),
+                                          bx("FootRusty", (9.4, 0, -3.6), (13.1, 1, 0), "metal", faces=("north", "east", "west", "up"))],
+                                      2: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
                                           bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west")),
                                           bx("Clamp", (3.5, 9, -4.5), (13, 10.5, 0), "metal")],
                                       3: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
+                                          bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west"))],
+                                      4: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
                                           bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west"))]}),
+        # Purpification (layout version 5): a dead thing, a hound by its build, half noclipped into the wall at the
+        # floor, its head, shoulders and forelegs out, and it and the wall round it "completely purple" (Wikidot),
+        # glowing faintly
+        Decor("purpified", "Purpified Remains", {
+            1: [bx("Stain", (0, 0, -0.06), (16, 16, 0), "purpwall-lower", glow=40, faces=("north",), full=True),
+                bx("Ribs", (4.5, 2.5, -4), (11.5, 9, 0), "purpskin", glow=70),
+                bx("Spine", (7, 9, -3), (9, 10.2, 0), "purpskin", glow=70),
+                bx("Neck", (6.5, 3, -6.5), (9.5, 6.5, -4), "purpskin", glow=70),
+                bx("Skull", (5.8, 0.5, -10), (10.2, 4.8, -6.5), "purpskin", glow=90),
+                bx("Snout", (6.8, 0, -13.5), (9.2, 2.8, -10), "purpskin", glow=90),
+                bx("EarL", (5.8, 4.8, -8), (6.8, 7, -7), "purpskin", glow=70), bx("EarR", (9.2, 4.8, -8), (10.2, 7, -7), "purpskin", glow=70),
+                bx("LegL", (3.5, 0, -9), (5, 1.4, -2.5), "purpskin", glow=70), bx("PawL", (3, 0, -10.8), (5.4, 1, -9), "purpskin", glow=70),
+                bx("LegR", (11, 2, -5), (12.5, 7.5, -3.5), "purpskin", glow=70),
+                bx("ForeR", (11, 0, -8.5), (12.5, 2.5, -4), "purpskin", glow=70), bx("PawR", (10.6, 0, -10.2), (13, 1, -8.5), "purpskin", glow=70)],
+            2: [bx("Stain", (0, 0, -0.06), (16, 16, 0), "purpwall-upper", glow=40, faces=("north",), full=True)]},
+            light=[50, 6, 5]),
     ] + [Decor(f"roomsign{i}", "Room Sign", {2: plate("Sign", (3, 4, -0.3), (13, 13, 0), f"roomsign{i}", "white")}) for i in range(8)]
     for material in ("glazed", "brick", "cinder"):
         wall_family(f"l3deco{material}", "Level 3 Wall", {1: material}, decors)
@@ -509,16 +631,55 @@ def level3():
         bx("CandleR", (12, 14, 7.5), (13, 18, 8.5), "tubewarm", glow=180)],
          box=(0.3, 0, 0.3, 0.7, 1.1, 0.7), oriented=False, material="Metal", sounds=METAL, light=[6, 5, 10],
          extra={"particleProperties": CANDELABRA_FLAMES})
-    prop("angelstatue", "Statue", [
-        bx("Pedestal", (1, 0, 1), (15, 8, 15), "stone"), bx("Plinth", (0.5, 8, 0.5), (15.5, 9, 15.5), "stone"),
-        bx("Robe", (4, 9, 5), (12, 25, 11), "stone"), bx("Hem", (3.5, 9, 4.5), (12.5, 12, 11.5), "stone"),
-        bx("Head", (6, 25, 6), (10, 29.5, 10), "stone"),
-        bx("WingL", (-3, 13, 10), (4, 30, 11), "stonewing", faces=("north", "south", "west", "up", "down")),
-        bx("WingR", (12, 13, 10), (19, 30, 11), "stonewing", faces=("north", "south", "east", "up", "down")),
-        bx("WingL2", (0, 17, 10.6), (5, 28, 11.6), "stonewing"), bx("WingR2", (11, 17, 10.6), (16, 28, 11.6), "stonewing"),
-        bx("Hands", (6.5, 17, 3.5), (9.5, 21, 5), "stone"), bx("Arms", (4.5, 17, 4.5), (11.5, 19, 6), "stone"),
-        bx("Halo", (5, 30.5, 7.5), (11, 31.3, 8.5), "gilt", glow=120)],
-         box=(0.06, 0, 0.06, 0.94, 1.95, 0.94), material="Stone", sounds=STONE)
+    # The Sanctum's angel: nearly three blocks tall on a darker pedestal, so it reads down the length of the nave: a
+    # robed figure with its hands together, head a little bowed, great wings raised behind it in three tiers of
+    # feathers, and a gilt halo glowing faintly ("a large statue of said deity ... elevated on a pedestal in an
+    # altar-like fashion", Wikidot)
+    wing = [bx("WingA", (-1, 20, 10.5), (4.5, 41, 12), "stonewing"), bx("WingB", (-4.5, 25, 11), (0, 45, 12.5), "stonewing"),
+            bx("WingC", (-7, 30, 11.5), (-3.5, 46.5, 13), "stonewing"), bx("WingTip", (-8, 38, 12), (-6, 46, 13.2), "stonewing"),
+            bx("WingLow", (-2, 13, 10.8), (3.5, 21, 11.8), "stonewing")]
+    angel = [
+        bx("Pedestal", (1, 0, 1), (15, 9, 15), "pedestal"), bx("Base", (0.5, 0, 0.5), (15.5, 1.5, 15.5), "pedestal"),
+        bx("Cornice", (0.5, 9, 0.5), (15.5, 10.5, 15.5), "pedestal"),
+        bx("Hem", (3.5, 10.5, 4), (12.5, 14, 12), "stonefold"), bx("Robe", (4, 14, 4.8), (12, 25, 11.2), "stonefold"),
+        bx("Waist", (4.6, 25, 5.4), (11.4, 27, 10.6), "stone"), bx("Torso", (4.4, 27, 5.6), (11.6, 33, 10.4), "stone"),
+        bx("Shoulders", (3.4, 31, 6), (12.6, 33.5, 10), "stone"),
+        bx("ArmL", (3, 25.5, 6.2), (4.6, 32, 9.6), "stone"), bx("ArmR", (11.4, 25.5, 6.2), (13, 32, 9.6), "stone"),
+        bx("ForearmL", (4, 25.5, 3.6), (7.8, 27.5, 6.4), "stone", rot=(0, -12, 0), origin=(4.5, 26.5, 6)),
+        bx("ForearmR", (8.2, 25.5, 3.6), (12, 27.5, 6.4), "stone", rot=(0, 12, 0), origin=(11.5, 26.5, 6)),
+        bx("Hands", (7, 26, 2.6), (9, 31, 4.4), "stone"),
+        bx("Neck", (7, 33.5, 7.2), (9, 35, 9.2), "stone"),
+        bx("Head", (6, 35, 6.2), (10, 39.5, 10.2), "stone", rot=(-6, 0, 0), origin=(8, 35, 8.2)),
+        bx("Veil", (5.6, 35.5, 7.4), (10.4, 40.2, 10.8), "stonefold", rot=(-6, 0, 0), origin=(8, 35, 8.2)),
+        bx("HaloTop", (5.5, 42.4, 11), (10.5, 43.2, 11.6), "gilt", glow=150), bx("HaloBottom", (5.5, 34.8, 11), (10.5, 35.6, 11.6), "gilt", glow=150),
+        bx("HaloL", (4.2, 36, 11), (5, 42, 11.6), "gilt", glow=150), bx("HaloR", (11, 36, 11), (11.8, 42, 11.6), "gilt", glow=150)]
+    angel += wing + mirror_x(wing)
+    prop("angelstatue", "Statue", angel, box=(0.06, 0, 0.06, 0.94, 1.95, 0.94), material="Stone", sounds=STONE, light=[8, 2, 5])
+
+    # A Sanctum's ceiling: a shallow vault cell in every block, ashlar ribs along its edges and across its
+    # diagonals meeting at a boss, so the ceiling reads as vaulted stone over the nave and not as Level 3's plaster.
+    # Hung from the block over the room; lit like the room (lightAbsorption 0)
+    diag = 16 * 2 ** 0.5
+    # (The cell rises from its ribs to its crown in two steps: the haunches low by the ribs, the crown highest)
+    vault = [bx("Crown", (0, 15, 0), (16, 16, 16), "sanctumvault", faces=("down",))]
+    for i, (lo, hi, y) in enumerate(((1, 4.5, 13.4), (4.5, 7, 14.3))):
+        for j, (frm, to) in enumerate((((lo, y, lo), (16 - lo, 15, hi)), ((lo, y, 16 - hi), (16 - lo, 15, 16 - lo)),
+                                       ((lo, y, hi), (hi, 15, 16 - hi)), ((16 - hi, y, hi), (16 - lo, 15, 16 - hi)))):
+            vault.append(bx(f"Haunch{i}{j}", frm, to, "sanctumvault", faces=("down", "north", "south", "east", "west")))
+    for i, (frm, to) in enumerate((((0, 12, 0), (16, 16, 1)), ((0, 12, 15), (16, 16, 16)), ((0, 12, 1), (1, 16, 15)), ((15, 12, 1), (16, 16, 15)))):
+        vault.append(bx(f"Rib{i}", frm, to, "sanctumwall", faces=("down", "north", "south", "east", "west")))
+    for i, a in enumerate((45, -45)):
+        vault.append(bx(f"Diag{i}", (8 - diag / 2, 13, 7.4), (8 + diag / 2, 14.4, 8.6), "sanctumwall", faces=("down", "north", "south"),
+                        rot=(0, a, 0), origin=(8, 13, 8)))
+    boss = vault + [bx("Boss", (6.5, 12.2, 6.5), (9.5, 13.2, 9.5), "gilt"), bx("BossRing", (5.8, 12.8, 5.8), (10.2, 13.2, 10.2), "sanctumwall")]
+    block("sanctumceiling", {
+        "variantgroups": [{"code": "kind", "states": ["vault", "boss"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Stone", "drawtype": "json",
+        "shapeByType": {"*-vault": {"base": shape("sanctumceiling-vault", vault)}, "*-boss": {"base": shape("sanctumceiling-boss", boss)}},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 4, "sounds": STONE},
+        "The vaulted stone ceiling of a Sanctum")
+    name("sanctumceiling-*", "Vaulted Ceiling")
     prop("floorcable", "Floor Cables", [
         bx("C1", (0, 0, 5.5), (16, 0.8, 6.3), "cable"), bx("C2", (0, 0, 7.5), (16, 1, 8.6), "cable"),
         bx("C3", (0, 0, 9.8), (16, 0.7, 10.4), "cable")], collide=False, material="Metal", sounds=METAL,
@@ -533,7 +694,16 @@ def level3():
          for i, (y, z, r) in enumerate(((12.5, 2, 1.5), (13, 5, 1), (12, 8, 2), (13.5, 11.5, 1), (12.5, 13.5, 1.5)))] + [
         bx("Hanger", (7.5, 12, 0.5), (8.5, 16, 1), "metal"), bx("Hanger2", (7.5, 12, 15.5), (8.5, 16, 16), "metal"),
         bx("LoopL", (3, 5, 4), (4, 11.5, 5), "cable"), bx("LoopB", (3, 5, 4), (10, 6, 5), "cable"), bx("LoopR", (9, 5, 4), (10, 11.5, 5), "cable"),
-        bx("Dangle", (12, 2, 10), (12.8, 11.5, 10.8), "cable"), bx("Tip", (12, 1.4, 10), (12.8, 2, 10.8), "copper")]},
+        bx("Dangle", (12, 2, 10), (12.8, 11.5, 10.8), "cable"), bx("Tip", (12, 1.4, 10), (12.8, 2, 10.8), "copper")],
+        # Level 4: in the gap of a missing ceiling tile (the block above the room), the tray up in the dark with a few
+        # thin cables on it, and only a loop and one loose end hanging down out of the gap
+        "gap": [bx("Tray", (0, 13.5, 4), (16, 14, 12), "metal", faces=("north", "south", "up", "down"))] +
+        [bx(f"Cable{i}", (0, 14, z), (16, 14 + r, z + r), "cable", faces=("north", "south", "up", "down"))
+         for i, (z, r) in enumerate(((4.8, 1), (6.6, 0.8), (8.4, 1.2), (10.4, 0.8)))] + [
+        bx("Hanger", (7.5, 14, 3.5), (8.5, 16, 4), "metal"), bx("Hanger2", (7.5, 14, 12), (8.5, 16, 12.5), "metal"),
+        bx("LoopL", (3, -4, 3.4), (3.5, 14.5, 3.9), "cable"), bx("LoopB", (3, -4.5, 3.4), (10, -4, 3.9), "cable"),
+        bx("LoopR", (9.5, -4, 3.4), (10, 14.5, 3.9), "cable"),
+        bx("Dangle", (12, -7.5, 12.1), (12.5, 14.5, 12.6), "cable"), bx("Tip", (11.95, -8.1, 12.05), (12.55, -7.5, 12.65), "copper")]},
          box=(0, 0.7, 0, 1, 1, 1), material="Metal", sounds=METAL)
 
 
@@ -661,8 +831,21 @@ def level5():
     cube_block("hotelfloor", {"marble": "Marble Floor", "runnerns": "Carpet Runner", "runnerwe": "Carpet Runner", "rug": "Rug"},
                ["marble", "runnerns", "runnerwe", "rug"], {"marble": "marble", "runnerns": "runner-ns", "runnerwe": "runner-we", "rug": "rug"},
                material="Stone", sounds=STONE, comment="Hotel floors: white marble, runners over walnut, and Persian rugs")
-    gauges = [bx("Pipe", (0, 2, -3), (16, 5, 0), "rust", faces=("north", "up", "down")),
+    # (The gauges' length of pipe is on its own: blind flanges close both its ends)
+    gauges = [bx("Pipe", (0.6, 2, -3), (15.4, 5, 0), "rust", faces=("north", "up", "down")),
+              bx("FlangeW", (0, 1.5, -3.5), (0.6, 5.5, 0), "metal"), bx("FlangeE", (15.4, 1.5, -3.5), (16, 5.5, 0), "metal"),
               bx("Stem1", (4.5, 5, -2), (5.5, 7, -1), "metal")] + plate("Gauge1", (2.5, 7, -2.6), (7.5, 12, -1.4), "gauge", "metaldark")
+    # The key board behind a front desk: a mahogany board with a moulded top, three rows of brass hooks, and on most of
+    # them a room key with its brass tag hanging down (the keys of rooms whose guests are out: nearly all of them)
+    keyrack = [bx("Board", (1, 1, -1), (15, 14.5, 0), "mahogany"),
+               bx("Cornice", (0.5, 14.5, -2), (15.5, 16, 0), "mahogany"), bx("Rail", (0.5, 0.5, -1.6), (15.5, 1.5, 0), "mahogany")]
+    for row, y in enumerate((13, 9, 5)):
+        for col, x in enumerate((3, 6.3, 9.7, 13)):
+            keyrack.append(bx(f"Hook{row}{col}", (x - 0.3, y - 0.3, -2), (x + 0.3, y + 0.3, -1), "brass"))
+            if (row * 4 + col) % 5 == 2:
+                continue  # an empty hook
+            keyrack += [bx(f"Key{row}{col}", (x - 0.25, y - 2.2, -1.9), (x + 0.25, y - 0.2, -1.5), "brass"),
+                        bx(f"Tag{row}{col}", (x - 0.8, y - 3.6, -1.8), (x + 0.8, y - 2.2, -1.4), "brass")]
     decors = [
         Decor("mirror", "Gilt Mirror", {2: [bx("Frame", (3, 0, -1), (13, 16, 0), "gilt"),
                                             bx("Glass", (3.8, 0.8, -1.1), (12.2, 15.2, -1), "mirrorglass", faces=("north",), full=True)]}),
@@ -675,7 +858,7 @@ def level5():
                                                 bx("EarL", (4, 6.5, -2.6), (5.5, 8, -1.2), "bakelite"), bx("EarR", (10.5, 6.5, -2.6), (12, 8, -1.2), "bakelite")]}),
         Decor("firehose", "Fire Hose Cabinet", {2: plate("Cabinet", (2, 0, -2), (14, 15, 0), "hotelhosecab", "brass")}),
         Decor("clock", "Wall Clock", {3: plate("Clock", (4, 1, -1.5), (12, 12, 0), "ornateclock", "gilt")}),
-        Decor("keyrack", "Key Rack", {2: plate("Rack", (0, 0, -2), (16, 15, 0), "keyrack", "mahogany")}),
+        Decor("keyrack", "Key Rack", {2: keyrack}),
         Decor("callplate", "Elevator Call Plate", {2: plate("Plate", (6, 3, -0.6), (10, 11, 0), "callplate", "brass")}),
         Decor("landscape", "Painting", {2: [bx("Canvas", (3, 3, -0.6), (13, 13, -0.4), "landscape", faces=("north",), full=True),
                                             bx("FrameT", (2, 13, -1.2), (14, 14, 0), "gilt"), bx("FrameB", (2, 2, -1.2), (14, 3, 0), "gilt"),
@@ -949,6 +1132,7 @@ TAB, NL = "\t", "\n"
 if __name__ == "__main__":
     detail_textures.generate()
     exit_signs()
+    staff_plaques()
     doors()
     level1()
     level3()

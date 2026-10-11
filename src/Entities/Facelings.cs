@@ -26,7 +26,7 @@ public class EntityBehaviorFaceling : EntityBehavior
 {
     private const string ProvokedKey = "backrooms:provoked";
     private long greetedAtMs = -100_000;
-    private bool child;
+    private bool child, noHead;
 
     public EntityBehaviorFaceling(Entity entity) : base(entity) { }
 
@@ -42,7 +42,7 @@ public class EntityBehaviorFaceling : EntityBehavior
 
     public override void OnGameTick(float dt)
     {
-        if (entity.World.Side != EnumAppSide.Client) return;
+        if (noHead || entity.World.Side != EnumAppSide.Client) return;
         IAnimationManager anim = entity.AnimManager;
         if (anim?.Animator == null || anim.HeadController is FacelingHeadController) return;
         try
@@ -51,7 +51,8 @@ public class EntityBehaviorFaceling : EntityBehavior
         }
         catch (InvalidOperationException)
         {
-            // (A shape without a Head and a Neck: leave it be)
+            // (A shape without a Head and a Neck: leave it be, and stop asking, rather than throw every tick)
+            noHead = true;
         }
     }
 
@@ -196,6 +197,7 @@ public class AiTaskCurious : AiTaskBase
     private EntityBehaviorMenace menace;
     private Entity target;
     private float think, watchedFor, watchFor;
+    private long nextLookMs;
     private bool fleeing, waved, moving;
     private string anim;
 
@@ -210,6 +212,10 @@ public class AiTaskCurious : AiTaskBase
 
     public override bool ShouldExecute()
     {
+        // (Asked every tick: the cheap checks first, and the search, with its rays, only twice a second)
+        long now = entity.World.ElapsedMilliseconds;
+        if (now < cooldownUntilMs || now < nextLookMs) return false;
+        nextLookMs = now + 500;
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         if (menace == null || menace.Kind != Encounter.Ambient || !PreconditionsSatisfied()) return false;
         target = entity.World.GetNearestEntity(entity.Pos.XYZ, seekingRange, 4, e => e is EntityPlayer p && p.Alive

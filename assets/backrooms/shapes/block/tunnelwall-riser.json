@@ -8,8 +8,12 @@
   "red": "backrooms:block/level2/pipe-red",
   "metal": "backrooms:block/props/metal",
   "dark": "backrooms:block/props/metal-dark",
+  "wallrust": "backrooms:block/level2/wallpipe-rust",
+  "walllag": "backrooms:block/level2/wallpipe-lagging",
+  "flange": "backrooms:block/level2/wallpipe-flange",
   "valve": "backrooms:block/props/valve",
-  "panel": "backrooms:block/props/cabinet-front"
+  "panel": "backrooms:block/props/cabinet-front",
+  "gauge": "backrooms:block/detail/gauge"
  },
  "elements": [
   {

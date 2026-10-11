@@ -13,6 +13,7 @@ import zlib
 from PIL import Image, ImageDraw, ImageFilter
 
 import texlib
+from gen_textures import check_atlas_grid, fit_atlas_grid  # noqa: F401 (fit_atlas_grid is for the generators importing this)
 from gen_3999_kit import ASSETS, COLOURS, F3, F5, NEON, centred, draw_text, text_width
 
 TEX = os.path.join(ASSETS, "textures")
@@ -44,6 +45,7 @@ def shade(c, k):
 
 
 def save(img, name):
+    check_atlas_grid(img, f"block/3999/{name}.png")
     path = os.path.join(TEX, "block", "3999", name + ".png")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     img.save(path)
@@ -214,14 +216,17 @@ def marbles():
 
 
 def concretes():
-    img = noisy((0x9A, 0x97, 0x9E), 4, "concrete-wall")
-    soft_noise(img, "cw", 6)
-    d = ImageDraw.Draw(img)
-    d.line([0, 15, S - 1, 15], fill=(140, 137, 145, 255))
-    for x, y in ((8, 7), (24, 7), (8, 23), (24, 23)):
-        d.ellipse([x - 1, y - 1, x + 1, y + 1], fill=(108, 104, 112, 255))
-        img.putpixel((x, y), (82, 80, 86, 255))
-    save(img, "concrete-wall")
+    # Form ties: two 1 px holes a block, faint, set differently on the two alternates so an 18-high wall does not tile
+    # into a grid of dots (four 3 px ties a block read as rows of "+" signs)
+    for name, ties in (("concrete-wall", ((8, 7), (24, 23))), ("concrete-wall2", ((24, 7), (8, 23))),
+                       ("concrete-wall3", ((13, 7), (29, 23)))):
+        img = noisy((0x9A, 0x97, 0x9E), 4, name)
+        soft_noise(img, "cw", 6)
+        d = ImageDraw.Draw(img)
+        d.line([0, 15, S - 1, 15], fill=(140, 137, 145, 255))
+        for x, y in ties:
+            img.putpixel((x, y), (118, 115, 122, 255))
+        save(img, name)
     img = noisy((0x7D, 0x7A, 0x80), 5, "concrete-floor")
     soft_noise(img, "cf", 10)
     px = img.load()
@@ -461,7 +466,7 @@ def glasses():
     img = noisy((210, 230, 240), 3, "glass-clear", alpha=46)
     d = ImageDraw.Draw(img)
     for x0 in (4, 18, 23):
-        d.line([(x0, 0), (x0 - 10, S - 1)], fill=(240, 250, 255, 80))
+        d.line([(x0, 0), (x0 - 10, S - 1)], fill=(225, 240, 248, 63))  # half the glass's contrast (at 80 they read as rain)
     save(img, "glass-clear")
     img = noisy((8, 6, 12), 2, "glass-dark", alpha=235)
     px = img.load()

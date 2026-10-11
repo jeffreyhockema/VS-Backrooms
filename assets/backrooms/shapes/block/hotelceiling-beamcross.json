@@ -1,0 +1,308 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade",
+  "bottle": "backrooms:block/detail/bankergreen"
+ },
+ "elements": [
+  {
+   "name": "Slab",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "down": {
+     "texture": "#cream",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Beam",
+   "from": [
+    0,
+    -4,
+    5.5
+   ],
+   "to": [
+    16,
+    0,
+    10.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "south": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      5.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Bead",
+   "from": [
+    0,
+    -4.6,
+    6.5
+   ],
+   "to": [
+    16,
+    -4,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5999999999999996
+     ]
+    },
+    "south": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      16,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "BeamZ0",
+   "from": [
+    5.5,
+    -4,
+    0
+   ],
+   "to": [
+    10.5,
+    0,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      4
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      5.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "BeadZ0",
+   "from": [
+    6.5,
+    -4.6,
+    0
+   ],
+   "to": [
+    9.5,
+    -4,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      0.5999999999999996
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "BeamZ1",
+   "from": [
+    5.5,
+    -4,
+    10.5
+   ],
+   "to": [
+    10.5,
+    0,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      4
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      5.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "BeadZ1",
+   "from": [
+    6.5,
+    -4.6,
+    10.5
+   ],
+   "to": [
+    9.5,
+    -4,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      0.5999999999999996
+     ]
+    },
+    "west": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      0.5999999999999996
+     ]
+    },
+    "down": {
+     "texture": "#wood",
+     "uv": [
+      0,
+      0,
+      5.5,
+      3.0
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -10,12 +10,13 @@ import os
 import numpy as np
 import soundfile as sf
 
+from oggutil import write_ogg
+
 
 def _write_in_chunks(path, data, rate, format="OGG", subtype="VORBIS"):
-    """libsndfile can crash when asked to encode a long Vorbis buffer in one call, so feed it a little at a time."""
-    with sf.SoundFile(path, "w", samplerate=rate, channels=1, format=format, subtype=subtype) as f:
-        for start in range(0, len(data), rate // 4):
-            f.write(data[start:start + rate // 4])
+    """Every sound here is mono OGG Vorbis: written a little at a time (libsndfile can crash on long Vorbis buffers),
+    and left alone when it has not changed (see oggutil)."""
+    write_ogg(path, data, rate)
 
 
 sf.write = _write_in_chunks

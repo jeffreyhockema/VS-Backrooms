@@ -27,6 +27,8 @@ public sealed partial class WorldLayout
     private const ulong SaltL2Line = 0x2B05;
     private const ulong SaltL2Tree = 0x2B06;
     private const ulong SaltL2Gallery = 0x2B07;
+    private const ulong SaltL2Jog = 0x2B08;
+    private const ulong SaltL2Tram = 0x2B09;
     /// <summary>The pump galleries' and tunnels' gauges, valves, tanks and old pumps (vanilla machinery).</summary>
     private const ulong SaltL2Fitting = 0x1E01;
 
@@ -61,6 +63,59 @@ public sealed partial class WorldLayout
             .Get(mcx, mcz).Contains((axis, line, index));
     }
 
+    /// <summary>
+    /// From layout version 5: whether the length of main tunnel <paramref name="main"/> (counted in mains, along
+    /// <paramref name="axis"/>: 0 the north-south mains) between its crossings with mains <paramref name="seg"/> and
+    /// <paramref name="seg"/> + 1 might be stepped aside. The tunnels "contort at strictly 45 degree angles" (Wikidot); a
+    /// block lattice has no diagonals, so the long mains jog instead. Not a main with rails down it, nor a length with a
+    /// pump gallery at either end.
+    /// </summary>
+    private bool L2JogCandidate(int axis, int main, int seg)
+    {
+        if (Version < 5 || L2RailMain(axis, main * L2MainEvery)) return false;
+        if (Hashing.Unit(Hashing.Hash(seed, main, seg, SaltL2Jog + (ulong)axis)) >= 0.6) return false;
+        return axis == 0
+            ? !L2GalleryAt(main, seg) && !L2GalleryAt(main, seg + 1)
+            : !L2GalleryAt(seg, main) && !L2GalleryAt(seg + 1, main);
+    }
+
+    /// <summary>
+    /// From layout version 5: how far a main tunnel (line <paramref name="k"/> along <paramref name="axis"/>) is stepped
+    /// aside, toward higher x (or z), in unit <paramref name="other"/> of the lattice the other way: 0, or 4 to 8 blocks
+    /// for the whole length between two crossings of mains. It steps aside at one crossing and back at the next, through
+    /// the main it crosses there, so that main must run straight on through both crossings.
+    /// </summary>
+    private int L2Jog(int axis, int k, int other)
+    {
+        if (Version < 5 || !L2Main(k)) return 0;
+        int main = Hashing.FloorDiv(k, L2MainEvery), seg = Hashing.FloorDiv(other, L2MainEvery);
+        if (!L2JogCandidate(axis, main, seg)) return 0;
+        // A north-south length jogs at its crossings with west-east mains seg and seg + 1, whose lengths east of it
+        // must not jog; a west-east length at its crossings with north-south mains seg and seg + 1, whose lengths south
+        // of it must not
+        bool blocked = axis == 0
+            ? L2JogCandidate(1, seg, main) || L2JogCandidate(1, seg + 1, main)
+            : L2JogCandidate(0, seg, main) || L2JogCandidate(0, seg + 1, main);
+        return blocked ? 0 : 4 + (int)(Hashing.Hash(seed, main, seg, SaltL2Jog + 2 + (ulong)axis) % 5);
+    }
+
+    /// <summary>From layout version 5: whether a main tunnel carries the B.N.T.G.'s narrow-gauge tramway down its middle.</summary>
+    private bool L2RailMain(int axis, int k) => Version >= 5 && L2Main(k) && Hashing.Unit(Hashing.Hash(seed, k, axis, SaltL2Tram)) < 0.3;
+
+    /// <summary>
+    /// The tramway's rails at a block position (from layout version 5): 1 along X, 2 along Z, 3 where two lines cross,
+    /// 0 none. They run down the middle lane of a main (whose rails never jog), straight on through its crossings.
+    /// </summary>
+    private byte L2Rails(int gx, int gz)
+    {
+        if (Version < 5) return 0;
+        int kx = L2UnitOf(0, gx), kz = L2UnitOf(1, gz);
+        byte rails = 0;
+        if (L2RailMain(0, kx) && gx == L2Line(0, kx) + 1) rails |= 2;
+        if (L2RailMain(1, kz) && gz == L2Line(1, kz) + 1) rails |= 1;
+        return rails;
+    }
+
     /// <summary>What a block position is in the tunnels: rock, a tunnel running along an axis (with its stretch), a crossing, or a gallery.</summary>
     private enum L2Part : byte { Rock, AlongX, AlongZ, Crossing, Gallery }
 
@@ -72,8 +127,9 @@ public sealed partial class WorldLayout
     {
         int kx = L2UnitOf(0, gx), kz = L2UnitOf(1, gz);
         int wx = L2Width(0, kx), wz = L2Width(1, kz);
-        int ax = gx - L2Line(0, kx), az = gz - L2Line(1, kz);
-        bool inX = ax < wx, inZ = az < wz; // in the band of the north-south tunnel kx, of the west-east tunnel kz
+        // (A jogged main lies further into its unit: the blocks before it, ax or az below 0, are the unit's)
+        int ax = gx - L2Line(0, kx) - L2Jog(0, kx, kz), az = gz - L2Line(1, kz) - L2Jog(1, kz, kx);
+        bool inX = ax >= 0 && ax < wx, inZ = az >= 0 && az < wz; // in the band of the north-south tunnel kx, of the west-east tunnel kz
         if (L2InGallery(gx, gz)) return (L2Part.Gallery, Hashing.Hash(seed, kx, kz, SaltL2Gallery), 0, 0);
         if (inX && inZ)
         {
@@ -82,6 +138,9 @@ public sealed partial class WorldLayout
         }
         if (inX && L2Stretch(0, kx, kz)) return (L2Part.AlongZ, Hashing.Hash(seed, kx * 2, kz, SaltL2Section), ax, wx);
         if (inZ && L2Stretch(1, kz, kx)) return (L2Part.AlongX, Hashing.Hash(seed, kz * 2 + 1, kx, SaltL2Section), az, wz);
+        // Before a jogged main: a tunnel that met the main where it was runs on to where it is now
+        if (inZ && ax < 0 && L2Stretch(1, kz, kx - 1)) return (L2Part.AlongX, Hashing.Hash(seed, kz * 2 + 1, kx - 1, SaltL2Section), az, wz);
+        if (inX && az < 0 && L2Stretch(0, kx, kz - 1)) return (L2Part.AlongZ, Hashing.Hash(seed, kx * 2, kz - 1, SaltL2Section), ax, wx);
         return default;
     }
 
@@ -95,12 +154,15 @@ public sealed partial class WorldLayout
         int mx0 = Hashing.FloorDiv(gx + span / 2, span), mz0 = Hashing.FloorDiv(gz + span / 2, span); // nearest crossing of mains
         int kx = mx0 * L2MainEvery, kz = mz0 * L2MainEvery;
         ulong h = Hashing.Hash(seed, kx, kz, SaltL2Gallery);
-        if (Hashing.Unit(h) >= 0.33) return false;
+        if (!L2GalleryAt(mx0, mz0)) return false;
         int cx = L2Line(0, kx) + 1, cz = L2Line(1, kz) + 1; // middle of the crossing
         bool alongX = (h >> 32 & 1) == 0;
         int along = alongX ? gx - cx : gz - cz, across = alongX ? gz - cz : gx - cx;
         return Math.Abs(along) <= 16 && Math.Abs(across) <= 3;
     }
+
+    /// <summary>Whether the crossing of north-south main <paramref name="mainX"/> and west-east main <paramref name="mainZ"/> (counted in mains) has a pump gallery.</summary>
+    private bool L2GalleryAt(int mainX, int mainZ) => Hashing.Unit(Hashing.Hash(seed, mainX * L2MainEvery, mainZ * L2MainEvery, SaltL2Gallery)) < 0.33;
 
     private Edge Level2Edge(int mx, int mz, bool west)
     {
@@ -137,6 +199,7 @@ public sealed partial class WorldLayout
                 }
                 tile.Kind = TileKind.Floor;
                 open[index] = true;
+                tile.Zone = L2Rails(gx, gz); // the tramway's rails, from layout version 5
                 if (at.Part == L2Part.Gallery) { machineRoom[index] = true; continue; }
                 PipeAndLight(ref tile, at, gx, gz);
             }
@@ -144,6 +207,7 @@ public sealed partial class WorldLayout
         for (int i = 0; i < open.Length; i++) open[i] |= b.Tiles[i].Kind == TileKind.Floor;
 
         AddTunnelDoors(b, open, storeroom);
+        if (Version >= 5) PlaceDeadTram(b, mx, mz);
         DecorateTunnels(b, mx, mz, machineRoom, storeroom);
         // One locked steel door in forty is a door into the Hub (its own salt: nothing else moves)
         MarkHubDoorsInLevel2(b, mx, mz);
@@ -182,6 +246,42 @@ public sealed partial class WorldLayout
             : circuit < 0.4 ? (r < 0.7 ? CeilingKind.LightFlicker : CeilingKind.LightOff)
             : r < 0.05 ? CeilingKind.LightOff
             : ((at.Stretch >> 40) & 1) == 0 ? CeilingKind.LightWarm : CeilingKind.LightOn;
+    }
+
+    /// <summary>
+    /// From layout version 5: now and then, on the tramway the B.N.T.G. laid down a main, the tram it ran, dead where
+    /// it stopped when the power went: a two-block locomotive and a goods wagon behind it, in the middle lane, so the
+    /// lanes either side stay open. "The railway system The B.N.T.G. created was left to the elements" (Wikidot).
+    /// </summary>
+    private void PlaceDeadTram(Builder b, int mx, int mz)
+    {
+        ulong h = Hashing.Hash(seed, mx, mz, SaltL2Tram + 1);
+        if (Hashing.Unit(h) >= 0.1) return;
+        // Rails one way only (no crossing) on the three tiles, and on the tile either end, inside the cell
+        bool Run(int x, int z, byte axis) => x >= 1 && z >= 1 && x < MacroSize - 1 && z < MacroSize - 1
+            && b.At(x, z) is { Kind: TileKind.Floor, Variant: 0, Stack: 0, SupplyBox: false } t && t.Zone == axis;
+        int start = (int)((h >> 20) % (MacroSize * MacroSize));
+        for (int i = 0; i < MacroSize * MacroSize; i++)
+        {
+            int idx = (start + i) % (MacroSize * MacroSize), x = idx % MacroSize, z = idx / MacroSize;
+            byte axis = b.At(x, z).Zone;
+            if (axis is not (1 or 2)) continue;
+            int dx = axis == 1 ? 1 : 0, dz = axis == 2 ? 1 : 0;
+            bool fits = true;
+            for (int k = -1; k <= 3 && fits; k++) fits = Run(x + dx * k, z + dz * k, axis);
+            if (!fits) continue;
+            // Facing one way or the other along the line: the wagon at the back, the locomotive's rear, its front
+            bool forward = ((h >> 40) & 1) == 0;
+            ArchPier facing = axis == 1 ? (forward ? ArchPier.East : ArchPier.West) : (forward ? ArchPier.South : ArchPier.North);
+            for (int k = 0; k < 3; k++)
+            {
+                ref Tile t = ref b.At(x + dx * (forward ? k : 2 - k), z + dz * (forward ? k : 2 - k));
+                t.Variant = k == 0 ? Props.TramWagon : Props.Tram;
+                t.Stack = (byte)(k == 2 ? 0 : 1); // the locomotive's front, and its rear
+                t.Pier = facing;
+            }
+            return;
+        }
     }
 
     /// <summary>
@@ -335,6 +435,8 @@ public sealed partial class WorldLayout
                         : ((section >> 12) & 1) == 0 ? CeilingKind.LightWarm : CeilingKind.LightOn;
                 }
 
+                // Nothing is left lying on the tramway (rails are from layout version 5)
+                if (tile.Zone != 0) continue;
                 // Machine rooms are lined with cabinets; elsewhere drums in wider spots and forgotten supplies in dead ends
                 if (machineRoom[index] && r > 0.35 && TryWallSide(IsWall, lx, lz, out ArchPier wall)
                     && SafeToBlock((x, z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z)), lx, lz))

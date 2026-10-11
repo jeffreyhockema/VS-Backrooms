@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"streetgreen": "backrooms:block/detail/streetgreen",
+		"suburbsignblade-aspen": "backrooms:block/detail/suburbsignblade-aspen"
+	},
+	"elements": [
+		{
+			"name": "Blade",
+			"from": [
+				7.6,
+				15,
+				-8
+			],
+			"to": [
+				8.4,
+				19,
+				24
+			],
+			"faces": {
+				"east": {
+					"texture": "#suburbsignblade-aspen",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#suburbsignblade-aspen",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BladeEdge",
+			"from": [
+				7.6,
+				15,
+				-8
+			],
+			"to": [
+				8.4,
+				19,
+				24
+			],
+			"faces": {
+				"north": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"south": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						4
+					]
+				},
+				"up": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						16
+					]
+				},
+				"down": {
+					"texture": "#streetgreen",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -2,7 +2,7 @@ using Backrooms.Worldgen;
 static class Deep {
   static WorldLayout layout; static Dictionary<(int,int), Tile[]> cache = new();
   static Tile At(int x, int z) { int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z); if (!cache.TryGetValue((mx,mz), out var t)) cache[(mx,mz)] = t = layout.BuildMacro(mx,mz); return t[WorldLayout.TileIndex(x-mx*32, z-mz*32)]; }
-  static bool Passable(Tile t) => t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water || t.Kind == TileKind.Floor && (t.Variant == 0 && t.Stack == 0 || t.Variant is Props.Crop or Props.TallGrass or Props.Tripwire or Props.Reeds or Props.FieldGate or Props.Flowers or Props.Vegetable) && !t.SupplyBox && t.Stair == 0;
+  static bool Passable(Tile t) => t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water || t.Kind == TileKind.Floor && (t.Variant == 0 && t.Stack == 0 || t.Variant is Props.Crop or Props.TallGrass or Props.Tripwire or Props.Reeds or Props.FieldGate or Props.Flowers or Props.Vegetable or Props.GlowcapRed or Props.GlowcapMixed) && !t.SupplyBox && t.Stair == 0;
   static bool Escapes(int sx, int sz, int need = 40) {
     var seen = new HashSet<(int,int)> { (sx,sz) }; var q = new Queue<(int,int)>(); q.Enqueue((sx,sz));
     while (q.Count > 0) { var (x,z) = q.Dequeue(); if (Math.Abs(x-sx)+Math.Abs(z-sz) >= need) return true; if (seen.Count > 20000) return true;
@@ -21,7 +21,7 @@ static class Deep {
     for (int level = 6; level <= 10; level++) {
       int found = 0, wrong = 0, trapped = 0, snack = 0;
       for (ulong k = 1; k <= N; k++) { var a = layout.FindArrival(level, k * 7919UL + 13); if (a == null) continue; found++;
-        var (x,z) = a.Value; if (At(x,z).Level != level) wrong++; if (layout.IsSnackrooms(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))) snack++; if (!Escapes(x,z)) { trapped++; if (trapped == 1 && level == 10) Dump(x, z); } }
+        var (x,z) = a.Value; if (At(x,z).Level != level) wrong++; if (layout.IsSnackrooms(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))) snack++; if (!Escapes(x,z)) { trapped++; if (trapped == 1 && level is 8 or 10) Dump(x, z); } }
       Console.WriteLine($"Level {level,2} open    : found {found}/{N}, wrong level {wrong}, trapped {trapped}, in snackrooms {snack}");
     }
     { int found = 0, ok = 0, trapped = 0;
@@ -47,6 +47,14 @@ static class Deep {
         if (t.Level == 7 && t.Under == Unders.Circle) Count("L7 circle", x, z);
         if (t.Level == 7 && t.Under == Unders.Cave) Count("L7 cave", x, z);
         if (t.Level == 7 && t.Zone == 1 && t.Stack == 0 && t.Kind == TileKind.Floor) Count("L7 entry room floor", x, z);
+        if (t.Level == 6 && t.Zone == 1 && t.Variant == Props.VendingPile) Count("L6.1 vending pile", x, z);
+        if (t.Level == 6 && t.Zone == 1 && t.Kind == TileKind.Doorway && t.Detail == WorldLayout.SnackVendingFront) Count("L6.1 vending room door", x, z);
+        if (t.Level == 7 && t.Detail == WorldLayout.L7Pillar) Count(t.Depth > 0 ? "L7 sea stack tile" : "L7 island pillar tile", x, z);
+        if (t.Level == 7 && t.Kind == TileKind.Floor && t.Height > 0) Count($"L7 island h{t.Height}", x, z);
+        if (t.Level == 7 && t.Kind == TileKind.Floor && t.Detail == WorldLayout.L7TarUnder) Count("L7 shelter tar", x, z);
+        if (t.Level == 8 && t.Variant is Props.GlowcapRed or Props.GlowcapMixed) Count("L8 glowcaps by road", x, z);
+        if (t.Level == 8 && t.Variant == Props.RoadLamp) Count($"L8 lamp {t.Pier}", x, z);
+        if (t.Level == 8 && t.Kind == TileKind.Floor && t.Height > 0) Count($"L8 roof {t.Height}", x, z);
         if (t.Level == 8 && layout.IsNinthRoad(x, z)) Count("L8 road", x, z);
         if (t.Level == 8 && t.Variant == Props.CaveVent) Count("L8 vent", x, z);
         if (t.Level == 9 && t.Variant == Props.FieldGate) Count("L9 field gate", x, z);

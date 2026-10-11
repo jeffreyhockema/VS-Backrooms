@@ -22,7 +22,7 @@ namespace Backrooms.Regions;
 /// there, likelier in a den, behind a forced door and in the level's worst places. In the Hub a key opens its level's
 /// carved door once and is used up (<see cref="ThresholdSystem.UseHubDoor"/>).</item>
 /// <item><b>Resonance</b>: in the Hub, a key held in the hand rings every few seconds, from the direction of its door,
-/// louder as you near it; close by, it rings from the door itself, and the door goes on your map.</item>
+/// louder as you near it; close by, it rings from the door itself, you are told so, and the door goes on your map.</item>
 /// <item><b>A door that wasn't there</b>: now and then, far from home, a grey door with the Hub's sigil over it stands in a
 /// wall near someone who is not looking. It leads one way into the Hub, and after a few minutes it is gone.</item>
 /// </list>
@@ -30,6 +30,8 @@ namespace Backrooms.Regions;
 public partial class HubSystem : ModSystem
 {
     private const string KeyPrefix = "hub-key-";
+    /// <summary>The code of the Tower's ornate doors up the stair and round the hall, which never open.</summary>
+    public const string ForbiddenDoorPrefix = "hub-ornatedoor-forbidden-";
     private const string ManifestSaveKey = "backrooms-hub-manifest";
     private const int ResonanceEveryMs = 4000, ManifestCheckMs = 60_000, ManifestLastsMs = 5 * 60_000;
     /// <summary>The chance a player far from home meets a door that wasn't there, per minute: about once in ten in-game days.</summary>
@@ -40,6 +42,10 @@ public partial class HubSystem : ModSystem
     private WorldGeometry geometry;
     private readonly HashSet<int> caches = new();
     private readonly Dictionary<string, long> nextChime = new();
+    /// <summary>Players who have been told their key rings close by (until they are well away from its door again).</summary>
+    private readonly HashSet<string> keyNear = new();
+    /// <summary>The tick listeners this system (and its Tower half) registered, taken off again in <see cref="Dispose"/>.</summary>
+    private readonly List<long> ticks = new();
     /// <summary>The doors that weren't there: their lower block's position, when they go, and the blocks they stand in for.</summary>
     private readonly List<Manifested> manifested = new();
 
@@ -62,6 +68,8 @@ public partial class HubSystem : ModSystem
     /// <summary>
     /// The carved doors need to know who uses them: whatever plain threshold behaviour their blocktypes carry is swapped
     /// for <see cref="BlockBehaviorHubDoor"/> (on both sides, since block behaviours added now are not sent to clients).
+    /// The Tower's doors (its ten ways in and its forbidden ones) are swapped the same way; the door register and Camp
+    /// Amber's sign are given a way to be read.
     /// </summary>
     public override void AssetsFinalize(ICoreAPI api)
     {
@@ -78,7 +86,15 @@ public partial class HubSystem : ModSystem
                 block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Append(new BlockBehaviorHubRegister(block)).ToArray();
                 continue;
             }
-            if (!(path.StartsWith("hub-door-") || path.StartsWith("hub-pinkdoor-") || path.StartsWith("hub-ornatedoor-entrance-"))) continue;
+            // Camp Amber's painted board: reading it
+            if (path.StartsWith("hub-ambersign-") && !block.HasBehavior<BlockBehaviorHubSign>())
+            {
+                block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Append(new BlockBehaviorHubSign(block)).ToArray();
+                continue;
+            }
+            // (The Tower's forbidden doors too, so that they can say they are forbidden: UseHubDoor refuses them by their code)
+            if (!(path.StartsWith("hub-door-") || path.StartsWith("hub-pinkdoor-") || path.StartsWith("hub-ornatedoor-entrance-")
+                  || path.StartsWith(ForbiddenDoorPrefix))) continue;
             if (block.HasBehavior<BlockBehaviorHubDoor>()) continue;
             var door = new BlockBehaviorHubDoor(block);
             bool swapped = false;
@@ -107,12 +123,22 @@ public partial class HubSystem : ModSystem
             foreach (Block block in api.World.Blocks)
                 if (block?.Code?.Domain == "backrooms" && block.Drops != null && Array.Exists(block.Drops, IsLoot)) caches.Add(block.BlockId);
             api.Event.DidBreakBlock += OnBrokeBlock;
-            api.Event.RegisterGameTickListener(OnResonance, 500);
-            api.Event.RegisterGameTickListener(OnManifestTick, 5000, 3000);
+            ticks.Add(api.Event.RegisterGameTickListener(OnResonance, 500));
+            ticks.Add(api.Event.RegisterGameTickListener(OnManifestTick, 5000, 3000));
             RestoreLeftovers();
             api.Event.GameWorldSave += SaveManifested;
             StartTower(api);
         });
+    }
+
+    public override void Dispose()
+    {
+        if (sapi == null || layout == null) return;
+        foreach (long id in ticks) sapi.Event.UnregisterGameTickListener(id);
+        ticks.Clear();
+        sapi.Event.DidBreakBlock -= OnBrokeBlock;
+        sapi.Event.GameWorldSave -= SaveManifested;
+        StopTower(sapi);
     }
 
     // ================= Keys =================
@@ -130,29 +156,40 @@ public partial class HubSystem : ModSystem
         _ => null,
     };
 
-    /// <summary>The level a key belongs to, by its item code, or -1 if it is not a Level Key.</summary>
+    /// <summary>
+    /// Each Level Key's item code path (<c>hub-key-l5</c>) to its level. (Made on first use: <see cref="KeyedLevels"/> is
+    /// in the other half of this partial class, and the order of static initialisers across files is not defined.)
+    /// </summary>
+    private static Dictionary<string, int> keyPaths;
+
+    /// <summary>The level a key belongs to, by its item code, or -1 if it is not a Level Key. (Asked of every slot a player has.)</summary>
     public static int KeyLevel(ItemStack stack)
     {
         AssetLocation code = stack?.Collectible?.Code;
         if (code == null || code.Domain != "backrooms" || !code.Path.StartsWith(KeyPrefix)) return -1;
-        string tag = code.Path.Substring(KeyPrefix.Length);
-        foreach (int level in new[] { 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, WorldLayout.Poolrooms, WorldLayout.Motion, WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Level3999 })
-            if (KeyTag(level) == tag) return level;
-        return -1;
+        keyPaths ??= KeyedLevels.ToDictionary(l => KeyPrefix + KeyTag(l));
+        return keyPaths.TryGetValue(code.Path, out int level) ? level : -1;
     }
 
-    /// <summary>The slot holding a player's key to a level (the one in their hand first), or null.</summary>
+    /// <summary>The slot holding a player's key to a level (the one in their hand first), or null. A level of -1 finds any Level Key.</summary>
     public static ItemSlot FindKey(IPlayer player, int level)
     {
-        ItemSlot held = player.InventoryManager?.ActiveHotbarSlot;
-        if (KeyLevel(held?.Itemstack) == level) return held;
+        if (player.InventoryManager == null) return null;
+        ItemSlot held = player.InventoryManager.ActiveHotbarSlot;
+        if (IsKeyTo(held?.Itemstack, level)) return held;
         foreach (IInventory inventory in player.InventoryManager.Inventories.Values)
         {
-            if (inventory.ClassName is "creative" or "ground") continue;
+            if (inventory == null || inventory.ClassName is "creative" or "ground") continue;
             foreach (ItemSlot slot in inventory)
-                if (KeyLevel(slot?.Itemstack) == level) return slot;
+                if (IsKeyTo(slot?.Itemstack, level)) return slot;
         }
         return null;
+    }
+
+    private static bool IsKeyTo(ItemStack stack, int level)
+    {
+        int of = KeyLevel(stack);
+        return of >= 0 && (level < 0 || of == level);
     }
 
     /// <summary>Whether someone carries something cute (the pink door to Level 974 opens only for them): Level 974's own test.</summary>
@@ -186,8 +223,18 @@ public partial class HubSystem : ModSystem
         if (sapi.World.Rand.NextDouble() >= chance) return;
         Item key = sapi.World.GetItem(new AssetLocation("backrooms:" + KeyPrefix + tag));
         if (key == null) return;
-        sapi.World.SpawnItemEntity(new ItemStack(key), pos.ToVec3d().Add(0.5, 0.5, 0.5));
+        KeyTurnedUp(sapi.World, byPlayer, new ItemStack(key), pos);
         sapi.Logger.Notification("[backrooms] a Level Key ({0}) turned up at {1}", tag, pos);
+    }
+
+    /// <summary>
+    /// A Level Key turns up in something broken open (a cache here, The End's desks and catalogues, Level Fun's gifts):
+    /// it is dropped there, and whoever broke it open is told it hums.
+    /// </summary>
+    public static void KeyTurnedUp(IWorldAccessor world, IPlayer byPlayer, ItemStack key, BlockPos pos)
+    {
+        world.SpawnItemEntity(key, pos.ToVec3d().Add(0.5, 0.5, 0.5));
+        (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-key-found"), EnumChatType.Notification);
     }
 
     /// <summary>Where a level hides its key best: its most dangerous places.</summary>
@@ -218,12 +265,16 @@ public partial class HubSystem : ModSystem
             if (layout.HubDoorOf(level) is not { } door) continue;
             double dx = door.X + 0.5 - entity.Pos.X, dz = door.Z + 0.5 - entity.Pos.Z, d = Math.Sqrt(dx * dx + dz * dz);
             bool close = d < 8;
+            // (Told once each time they come close: not again until they have been twice as far off)
+            if (!close && d > 16) keyNear.Remove(player.PlayerUID);
             if (nextChime.TryGetValue(player.PlayerUID, out long next) && now < next) continue;
             nextChime[player.PlayerUID] = now + (close ? ResonanceEveryMs / 2 : ResonanceEveryMs);
             double y = entity.Pos.Y + 1.2;
             var chime = new AssetLocation("backrooms:sounds/effect/hub/keychime");
             if (close)
             {
+                if (keyNear.Add(player.PlayerUID))
+                    player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-key-near"), EnumChatType.Notification);
                 sapi.World.PlaySoundAt(chime, door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 2.5, door.Z + 0.5, null, false, 24, 1f);
                 MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 1.5, door.Z + 0.5),
                     Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6);
@@ -393,6 +444,30 @@ public class BlockBehaviorHubDoor : BlockBehavior
         handling = EnumHandling.PreventDefault;
         if (world.Api is ICoreServerAPI sapi && byPlayer is IServerPlayer player)
             sapi.ModLoader.GetModSystem<ThresholdSystem>().UseHubDoor(player, blockSel.Position);
+        return true;
+    }
+}
+
+/// <summary>Camp Amber's painted board by the Level 1 door: right-click to read it.</summary>
+public class BlockBehaviorHubSign : BlockBehavior
+{
+    private WorldInteraction[] help;
+
+    public BlockBehaviorHubSign(Block block) : base(block)
+    {
+    }
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
+    {
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-hubsign", MouseButton = EnumMouseButton.Right } };
+        return help;
+    }
+
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        handling = EnumHandling.PreventDefault;
+        if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-camp-sign"), EnumChatType.Notification);
         return true;
     }
 }

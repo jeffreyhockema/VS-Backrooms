@@ -34,7 +34,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Hash salts 0x1600-0x16BF are this level's.</summary>
     private const ulong SaltEndShape = 0x1601, SaltEndDept = 0x1602, SaltEndRunway = 0x1603, SaltEndJam = 0x1604, SaltEndFake = 0x1605,
-        SaltEndPlan = 0x1606, SaltEndLight = 0x1607, SaltEndScene = 0x1608, SaltEndArrival = 0x1609;
+        SaltEndPlan = 0x1606, SaltEndLight = 0x1607, SaltEndScene = 0x1608, SaltEndArrival = 0x1609, SaltEndPartition = 0x160A;
 
     /// <summary>Size of a department, the piece the level is planned in.</summary>
     public const int EndDept = 64;
@@ -235,26 +235,31 @@ public sealed partial class WorldLayout
             for (int dx = -1; dx <= 1; dx++)
                 if (LevelAt(mx + dx, mz + dz) != TheEnd) { rim = true; break; }
 
+        if (rim)
+        {
+            for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i] = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.EndWall, Height = EndCeilingHeight };
+            return;
+        }
+        // A cell is half a department across, but the departments are offset half a cell from the cells, so a cell
+        // takes in parts of up to four of them: each one's plan is fetched once
+        int x0 = mx * MacroSize, z0 = mz * MacroSize;
+        var (di0, dj0) = EndDeptOf(x0, z0);
+        var plans = new Tile[4][];
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
-                ref Tile t = ref b.At(lx, lz);
-                if (rim)
-                {
-                    t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.EndWall, Height = EndCeilingHeight };
-                    continue;
-                }
-                int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
-                t = EndTileAt(gx, gz);
+                int gx = x0 + lx, gz = z0 + lz;
+                var (di, dj) = EndDeptOf(gx, gz);
+                int k = (dj - dj0) * 2 + di - di0;
+                b.At(lx, lz) = EndTileAt(gx, gz, di, dj, plans[k] ??= EndPlan(di, dj));
             }
     }
 
-    /// <summary>The planned tile at a block position (department plan, then the runway over it).</summary>
-    private Tile EndTileAt(int gx, int gz)
+    /// <summary>The planned tile at a block position (department plan, then the runway over it), in department di, dj, whose plan is given.</summary>
+    private Tile EndTileAt(int gx, int gz, int di, int dj, Tile[] plan)
     {
-        var (di, dj) = EndDeptOf(gx, gz);
         int a = gx - EndOriginX - di * EndDept, c = gz - EndOriginZ - dj * EndDept;
-        Tile t = EndPlan(di, dj)[c * EndDept + a];
+        Tile t = plan[c * EndDept + a];
         int runway = EndRunwayAt(gx, gz, out ulong jam);
         if (runway == 0) return t;
         if (t.Kind != TileKind.Floor || t.Zone >= 4) t = EndFloorTile(a, c, SaltEndLight, di, dj);
@@ -316,6 +321,8 @@ public sealed partial class WorldLayout
         public int Di, Dj;
         public byte Zone;
         public bool Dark;
+        /// <summary>Whether the layout is version 5 or later (partition walls, the EXIT vestibules).</summary>
+        public bool V5;
 
         public EndPlanner(int w, int h)
         {
@@ -388,12 +395,105 @@ public sealed partial class WorldLayout
                 PlanEndColumns(p, 16, null);
                 break;
         }
+        if (p.V5 && kind is EndKind.Stacks or EndKind.Open) PlanEndPartitions(p);
         return p.T;
+    }
+
+    /// <summary>
+    /// From layout version 5: the store's painted walls (base, ghost marks, yellow band, cream above) along about one
+    /// department border in three, on the side of a stacks or open-floor department, as in the photographs the level is
+    /// built on, so the floor reads as a store's departments and the long views end. A wall stands one block thick on the
+    /// department's inner edge, out of the runway, broken by openings three wide every 8 to 12 blocks; ghost marks show
+    /// where fixtures once hung, a run now and then has a poster, and a clear way runs along its inner face, so no
+    /// shelving closes off a corner behind it.
+    /// </summary>
+    private void PlanEndPartitions(EndPlanner p)
+    {
+        for (int side = 0; side < 4; side++)
+            if (EndPartitionAt(p.Di, p.Dj, side, out ulong h)) PlanEndPartition(p, side, new Rng(Hashing.Mix(h + 2)));
+        // A poster or ghost mark only where it looks onto the floor: a wall's at a corner, or a column's that now looks
+        // onto a wall, turns to the floor or goes
+        for (int c = 0; c < p.H; c++)
+            for (int a = 0; a < p.W; a++)
+            {
+                ref Tile t = ref p.At(a, c);
+                if (t.Kind != TileKind.Wall || t.Variant is not (>= Decor.EndPoster and < Decor.EndPoster + 4 or Decor.EndGhost)) continue;
+                var (dx, dz) = Step(t.Pier);
+                if (p.IsFloor(a + dx, c + dz)) continue;
+                ushort decor = t.Variant;
+                t.Variant = 0;
+                foreach (ArchPier side in new[] { ArchPier.North, ArchPier.South, ArchPier.West, ArchPier.East })
+                {
+                    (dx, dz) = Step(side);
+                    if (p.IsFloor(a + dx, c + dz)) { t.Variant = decor; t.Pier = side; break; }
+                }
+            }
+    }
+
+    /// <summary>
+    /// Whether a department has a partition wall along a side (0 west, 1 east, 2 north, 3 south), from layout version 5
+    /// (see <see cref="PlanEndPartitions"/>); <paramref name="h"/> is the border's hash.
+    /// </summary>
+    public bool EndPartitionAt(int di, int dj, int side, out ulong h)
+    {
+        // The border, as the runway counts it: axis 0 a line of constant x (west 0, east 1), axis 1 one of constant z
+        // (north 2, south 3); either department's plan rolls the same wall for it
+        int axis = side < 2 ? 0 : 1;
+        int line = side switch { 0 => di, 1 => di + 1, 2 => dj, _ => dj + 1 };
+        h = Hashing.Hash(seed, axis * 100003 + line, axis == 0 ? dj : di, SaltEndPartition);
+        if (Version < 5 || EndKindAt(di, dj) is not (EndKind.Stacks or EndKind.Open) || Hashing.Unit(h) >= 0.45) return false;
+        // It stands on this side if the other is no stacks or open floor; if both are, the hash picks
+        var (oi, oj) = side switch { 0 => (di - 1, dj), 1 => (di + 1, dj), 2 => (di, dj - 1), _ => (di, dj + 1) };
+        bool other = EndKindAt(oi, oj) is EndKind.Stacks or EndKind.Open;
+        return !other || ((Hashing.Mix(h) & 1) == 0) == (side is 1 or 3);
+    }
+
+    /// <summary>One partition wall along a department's side (0 west, 1 east, 2 north, 3 south); see <see cref="PlanEndPartitions"/>.</summary>
+    private static void PlanEndPartition(EndPlanner p, int side, Rng rng)
+    {
+        int fixedAt = side is 0 or 2 ? EndInner0 : EndInner1, inward = side is 0 or 2 ? 1 : -1;
+        ArchPier facing = side switch { 0 => ArchPier.East, 1 => ArchPier.West, 2 => ArchPier.South, _ => ArchPier.North };
+        (int A, int C) At(int along, int off) => side < 2 ? (fixedAt + off, along) : (along, fixedAt + off);
+        void ClearAt(int along, int off)
+        {
+            var (a, c) = At(along, off);
+            if (!p.IsFloor(a, c)) return; // a column stays
+            ref Tile t = ref p.At(a, c);
+            t.Variant = 0;
+            t.Stack = 0;
+        }
+        // The clear way inside it
+        for (int k = EndInner0; k <= EndInner1; k++) ClearAt(k, inward);
+        for (int k = EndInner0; k <= EndInner1;)
+        {
+            int end = Math.Min(k + rng.Range(5, 9) - 1, EndInner1);
+            if (end > k)
+            {
+                int poster = rng.Chance(0.5) ? rng.Range(k, end) : -1;
+                for (int s = k; s <= end; s++)
+                {
+                    var (a, c) = At(s, 0);
+                    if (!p.IsFloor(a, c)) continue; // a column, or a corner already walled
+                    ref Tile t = ref p.At(a, c);
+                    byte height = t.Height;
+                    t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.EndWall, Height = height == 0 ? (byte)EndCeilingHeight : height };
+                    if (s == poster) { t.Variant = (ushort)(Decor.EndPoster + rng.Range(0, 2)); t.Pier = facing; }
+                    else if (rng.Chance(0.3)) { t.Variant = Decor.EndGhost; t.Pier = facing; }
+                }
+            }
+            // An opening three wide, clear either side
+            for (int s = end + 1; s <= Math.Min(end + 3, EndInner1); s++)
+            {
+                ClearAt(s, 0);
+                ClearAt(s, -inward);
+            }
+            k = end + 4;
+        }
     }
 
     private EndPlanner NewEndPlanner(int w, int h, int di, int dj, bool dark)
     {
-        var p = new EndPlanner(w, h) { Rng = new Rng(Hashing.Hash(seed, di, dj, SaltEndPlan)), Di = di, Dj = dj, Dark = dark };
+        var p = new EndPlanner(w, h) { Rng = new Rng(Hashing.Hash(seed, di, dj, SaltEndPlan)), Di = di, Dj = dj, Dark = dark, V5 = Version >= 5 };
         for (int c = 0; c < h; c++)
             for (int a = 0; a < w; a++)
                 p.At(a, c) = EndFloorTile(a, c, SaltEndLight, di, dj, dark);
@@ -837,22 +937,46 @@ public sealed partial class WorldLayout
             p.At(a, c).Variant = Decor.EndPoster;
             p.At(a, c).Pier = a < 30 ? ArchPier.East : ArchPier.West;
         }
-        // An EXIT door in a short wall in each corner, facing the middle
+        // An EXIT door in a short wall in each corner, facing the middle; from layout version 5 at the back of a little
+        // vestibule, walled on three sides and open toward the middle, so it reads as a way out of the store, not a kiosk
         foreach (var (a, c, face) in new[] { (12, 10, ArchPier.South), (51, 10, ArchPier.South), (12, 53, ArchPier.North), (51, 53, ArchPier.North) })
         {
+            int s = face == ArchPier.South ? 1 : -1;
             for (int k = -2; k <= 2; k++)
             {
                 p.Clear(a + k, c - 1);
                 p.Clear(a + k, c + 1);
+                if (p.V5)
+                {
+                    p.Clear(a + k, c + 2 * s);
+                    p.Clear(a + k, c + 3 * s);
+                }
                 p.Wall(a + k, c);
                 p.At(a + k, c).Zone = 1;
             }
+            if (p.V5)
+                for (int d = 1; d <= 2; d++)
+                    foreach (int k in new[] { -2, 2 })
+                    {
+                        p.Wall(a + k, c + d * s);
+                        p.At(a + k, c + d * s).Zone = 1;
+                    }
             ref Tile door = ref p.At(a, c);
             door.Kind = TileKind.Door;
             door.Pattern = WallPattern.EndExit;
             door.Pier = face;
-            p.At(a - 2, c).Variant = Decor.EndGhost;
-            p.At(a - 2, c).Pier = face;
+            // (In a vestibule the ghost marks are beside the door, the end of the wall being its corner)
+            int ghost = p.V5 ? a - 1 : a - 2;
+            p.At(ghost, c).Variant = Decor.EndGhost;
+            p.At(ghost, c).Pier = face;
+            if (p.V5)
+            {
+                // A poster inside on one side wall, ghost marks on the other
+                p.At(a - 2, c + 2 * s).Variant = Decor.EndPoster;
+                p.At(a - 2, c + 2 * s).Pier = ArchPier.East;
+                p.At(a + 2, c + s).Variant = Decor.EndGhost;
+                p.At(a + 2, c + s).Pier = ArchPier.West;
+            }
         }
     }
 
@@ -1145,8 +1269,8 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// Whether a position is in a long aisle's looping stretch, and if so the block positions it would loop to walking
-    /// along +x (forward) and -x (back), and its place along the aisle (pair-local).
+    /// Whether a position is in a long aisle's looping stretch, and if so its place along the aisle (pair-local x, from
+    /// the west edge of the pair's left department; the stretch is <see cref="EndLoopStart"/> to <see cref="EndLoopEnd"/>).
     /// </summary>
     public bool EndLoopAt(int gx, int gz, out int along)
     {

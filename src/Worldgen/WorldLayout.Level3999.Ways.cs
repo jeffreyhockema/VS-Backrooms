@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// there moves (this file is the level's own; see docs/new-levels/CONTRACT.md):
 /// <list type="bullet">
 /// <item><b>Level 10</b>: a lone arcade building ("PARADISE" in neon, dark glass, a revolving door) with a little car park
-/// under sodium lamps, and a chain of five windmills leading to it across the fields, one every 120 blocks out to 600,
+/// under sodium lamps, and a chain of five windmills leading to it across the fields, one every 120 blocks from 140 out to 620,
 /// each with a red beacon on its cap (and a generator by its door that turns the beacon green). One arcade at most to a
 /// square of the fields 2048 blocks a side, where the whole of it lies on crops, stubble or meadow.</item>
 /// <item><b>Level 11</b>: a stretch of alley wall flickering purple, in one city block in three hundred.</item>
@@ -52,7 +52,7 @@ public sealed partial class WorldLayout
         site.Z = j * S + 600 + (int)(Hashing.Unit(Hashing.Mix(h + 1)) * (S - 1200));
         site.Facing = L3999FromIndex((int)(Hashing.Mix(h + 2) % 4));
         // The windmills stand out in front of the façade, within 60 degrees either side, so their lights lead to the door
-        var (fx, fz) = L3999Step(site.Facing);
+        var (fx, fz) = Step(site.Facing);
         double angle = Math.Atan2(fz, fx) + (Hashing.Unit(Hashing.Mix(h + 3)) - 0.5) * Math.PI * 2 / 3;
         site.MinX = site.X - 14; site.MaxX = site.X + 14; site.MinZ = site.Z - 14; site.MaxZ = site.Z + 14;
         for (int k = 0; k < L3999Mills; k++)
@@ -133,8 +133,8 @@ public sealed partial class WorldLayout
     private static void L3999ArcadeTile(ref Tile t, L3999ArcadeSite site, int gx, int gz)
     {
         // The building's frame: p across the façade (to its right, seen from the car park looking at it: the façade's left), q back from it
-        var (fx, fz) = L3999Step(site.Facing);
-        var (rx, rz) = L3999Step(L3999Right(site.Facing));
+        var (fx, fz) = Step(site.Facing);
+        var (rx, rz) = Step(L3999Right(site.Facing));
         int dx = gx - site.X, dz = gz - site.Z;
         int p = dx * rx + dz * rz, q = -(dx * fx + dz * fz);
         if (Math.Abs(p) <= 10 && q is >= 0 and <= 12)
@@ -171,7 +171,7 @@ public sealed partial class WorldLayout
                     Variant = (ushort)(mdx == 0 && mdz == 0 ? 1 : 0), Pier = site.MillFacing[k] };
                 return;
             }
-            var (sx, sz) = L3999Step(site.MillFacing[k]);
+            var (sx, sz) = Step(site.MillFacing[k]);
             if (mdx == sx * 4 && mdz == sz * 4)
             {
                 t = new Tile { Kind = TileKind.Floor, Floor = FloorKind.Grass, Under = Unders.L3999Windmill, Variant = Props.L3999Generator, Pier = site.MillFacing[k] };

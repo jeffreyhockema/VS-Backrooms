@@ -199,24 +199,43 @@ public sealed partial class WorldLayout
 
     private void BuildLevel3999(Builder b, int mx, int mz)
     {
-        bool rim = L3999IsRimCell(mx, mz);
+        int x0 = mx * MacroSize, z0 = mz * MacroSize;
+        if (L3999IsRimCell(mx, mz))
+        {
+            // Which of the cells round it are the level's own and not rim (their tiles are the ones a rim window looks onto)
+            var open = new bool[9];
+            for (int dz = -1; dz <= 1; dz++)
+                for (int dx = -1; dx <= 1; dx++)
+                    open[(dz + 1) * 3 + dx + 1] = LevelAt(mx + dx, mz + dz) == Level3999 && !L3999IsRimCell(mx + dx, mz + dz);
+            for (int lz = 0; lz < MacroSize; lz++)
+                for (int lx = 0; lx < MacroSize; lx++)
+                    b.At(lx, lz) = L3999RimTile(x0 + lx, z0 + lz, mx, mz, open);
+            return;
+        }
+        // The plan blocks count from a cell corner and are four cells a side, so the whole cell lies in one of them
+        var (bi, bj) = L3999BlockOf(x0, z0);
+        Tile[] plan = L3999PlanOf(bi, bj).T;
+        int a0 = x0 - L3999OriginX - bi * L3999Block, c0 = z0 - L3999OriginZ - bj * L3999Block;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
-            {
-                int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
-                b.At(lx, lz) = rim ? L3999RimTile(gx, gz) : L3999PlannedTile(gx, gz);
-            }
+                b.At(lx, lz) = plan[(c0 + lz) * L3999Block + a0 + lx];
     }
 
-    /// <summary>The rim: the outer wall; where it closes off a concourse, unbreakable windows onto a car park at night.</summary>
-    private Tile L3999RimTile(int gx, int gz)
+    private static readonly ArchPier[] L3999RimSides = { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West };
+
+    /// <summary>
+    /// The rim: the outer wall; where it closes off a concourse, unbreakable windows onto a car park at night.
+    /// <paramref name="open"/> says which of the nine cells round (and including) the rim cell <paramref name="mx"/>,
+    /// <paramref name="mz"/> are the level's and not rim, indexed (dz + 1) * 3 + (dx + 1).
+    /// </summary>
+    private Tile L3999RimTile(int gx, int gz, int mx, int mz, bool[] open)
     {
         var t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L3999Wall, Height = L3999AtriumHeight, Zone = (byte)L3999Zone.Rim, Detail = 1 };
-        foreach (ArchPier d in new[] { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West })
+        foreach (ArchPier d in L3999RimSides)
         {
-            var (dx, dz) = L3999Step(d);
+            var (dx, dz) = Step(d);
             int nx = gx + dx, nz = gz + dz, nmx = MacroOf(nx), nmz = MacroOf(nz);
-            if (LevelAt(nmx, nmz) != Level3999 || L3999IsRimCell(nmx, nmz)) continue;
+            if (!open[(nmz - mz + 1) * 3 + nmx - mx + 1]) continue;
             Tile n = L3999PlannedTile(nx, nz);
             if (n.Kind != TileKind.Floor || n.Zone is not ((byte)L3999Zone.Concourse or (byte)L3999Zone.Junction)) continue;
             t.Pattern = WallPattern.L3999Window;
@@ -228,14 +247,6 @@ public sealed partial class WorldLayout
     }
 
     // ================= Directions =================
-
-    private static (int Dx, int Dz) L3999Step(ArchPier d) => d switch
-    {
-        ArchPier.North => (0, -1),
-        ArchPier.South => (0, 1),
-        ArchPier.East => (1, 0),
-        _ => (-1, 0),
-    };
 
     public static ArchPier L3999Opp(ArchPier d) => d switch
     {
@@ -961,9 +972,20 @@ public sealed partial class WorldLayout
         }
         for (int u = 3; u <= W - 4; u += 6)
             if (Math.Abs(u - mid) > 4) L3999Prop(p, f, u, 3, Props.L3999Pillar, 0, f.Front);
-        for (int w = 8; w <= D - 9; w += 5)
-            for (int u = 8; u <= W - 9; u += 5)
-                if (Math.Abs(u - mid) > 4) L3999Prop(p, f, u, w, Props.L3999Pillar, 0, f.Front);
+        if (Version >= 5)
+        {
+            // Layout version 5 on: among the tables, a pillar every ten blocks rather than five (in 1-4 a forest), and
+            // neon tubes under the ceiling every six blocks across the atrium, as over the concourses
+            foreach (int u in new[] { 9, 19, W - 20, W - 10 })
+                for (int w = 9; w <= D - 9; w += 10)
+                    if (Math.Abs(u - mid) > 4) L3999Prop(p, f, u, w, Props.L3999Pillar, 0, f.Front);
+            for (int w = 3; w < D; w += 6)
+                for (int u = 0; u < W; u++) L3999Tube(p, f, u, w, f.PlusU);
+        }
+        else
+            for (int w = 8; w <= D - 9; w += 5)
+                for (int u = 8; u <= W - 9; u += 5)
+                    if (Math.Abs(u - mid) > 4) L3999Prop(p, f, u, w, Props.L3999Pillar, 0, f.Front);
         // Windows on the gallery, onto the car park, in the side wall that is not a shopfront
         if (rng.Chance(1 / 3.0))
         {
@@ -1000,7 +1022,8 @@ public sealed partial class WorldLayout
     /// <summary>
     /// A lobby, where wanderers arrive: a curved reception desk with an attendant on one side wall, a revolving door
     /// opposite it (on the second frontage), couches and coffee tables in strict rows, planters, a lost-and-found bin, the
-    /// LOBBY sign over the desk, neon up the walls. One lobby in four has a wanderer's camp.
+    /// LOBBY sign over the desk, neon up the walls (from layout version 5, also under the ceiling, and a row of machines
+    /// against the back wall). One lobby in four has a wanderer's camp.
     /// </summary>
     private void PlanL3999Lobby(L3999Planner p, in L3999Frame f, ArchPier revolvingSide)
     {
@@ -1045,9 +1068,29 @@ public sealed partial class WorldLayout
         // Planters in the corners and either side of the revolving door
         foreach (var (u, w) in new[] { (0, 0), (W - 1, 0), (0, D - 1), (W - 1, D - 1), (minus ? 0 : W - 1, wc - 3), (minus ? 0 : W - 1, wc + 3) })
             L3999Prop(p, f, u, w, Props.L3999Planter, 0, f.Front);
+        if (Version >= 5)
+        {
+            // Layout version 5 on: a row of six machines against the back wall, facing the way in (canon's machines
+            // stand "at random about the level"), so a lobby reads as an arcade at a glance; neon tubes under the
+            // ceiling every six blocks, running back from the front, as over the concourses
+            int game = p.Rng.Range(0, 5);
+            for (int k = 0; k < 6; k++) L3999Prop(p, f, W / 2 - 3 + k, D - 1, Props.L3999Cabinet, (game + k) % 6, f.Front);
+            for (int u = 3; u < W; u += 6)
+                for (int w = 0; w < D; w++) L3999Tube(p, f, u, w, f.Back);
+        }
         // Neon up the walls every six blocks, and along their feet; pillars at the inner corners
         L3999WallNeon(p, f, 4);
         // Neon pillars in strict rows among the couches (the atrium's light low down), clear of the aisle and the way in
+        if (Version >= 5)
+        {
+            // (Layout version 5 on: every ten blocks, not five, and in pairs either side of the way in and the aisle, so
+            // the two cross as naves; in 1-4 the rows of pillars every five were a forest)
+            int[] at = { 4, 14, W / 2 - 3, W / 2 + 2, W - 15, W - 5 }, atW = { 4, 14, wc - 3, wc + 2, D - 15, D - 5 };
+            foreach (int w in atW)
+                foreach (int u in at)
+                    if (!(w < 9 && Math.Abs(u - W / 2) <= 5)) L3999Prop(p, f, u, w, Props.L3999Pillar, 0, f.Front);
+            return;
+        }
         for (int w = 4; w <= D - 5; w += 5)
             for (int u = 4; u <= W - 5; u += 5)
                 if (Math.Abs(w - wc) > 3 && !(w < 9 && Math.Abs(u - W / 2) <= 5)) L3999Prop(p, f, u, w, Props.L3999Pillar, 0, f.Front);
@@ -1147,14 +1190,13 @@ public sealed partial class WorldLayout
         for (int w = wc - 2; w <= wc + 1; w++)
             for (int u = 4; u <= 7; u++) Pool(u, w, 1, FloorKind.L3999PoolLilac);
         if (rng.Chance(1 / 3.0)) L3999F(p, f, pu1 - 4, wc).Under = Unders.L3999Drain;
-        // The white edges round the water
+        // The white edges round the water (the coping's LED strip faces the water)
+        var toward = new[] { (1, 0, f.PlusU), (-1, 0, f.MinusU), (0, 1, f.Back), (0, -1, f.Front) };
         for (int w = 0; w < D; w++)
             for (int u = 0; u < W; u++)
             {
                 ref Tile t = ref L3999F(p, f, u, w);
                 if (t.Kind != TileKind.Floor) continue;
-                // (the coping's LED strip faces the water)
-                var toward = new[] { (1, 0, f.PlusU), (-1, 0, f.MinusU), (0, 1, f.Back), (0, -1, f.Front) };
                 foreach (var (du, dw, d) in toward)
                     if (f.Inside(u + du, w + dw) && L3999F(p, f, u + du, w + dw).Kind == TileKind.Water) { t.Floor = FloorKind.L3999PoolEdge; t.Pier = d; break; }
             }

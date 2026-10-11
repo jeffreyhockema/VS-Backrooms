@@ -1,0 +1,750 @@
+// Level 2 and 3 walls whose round pipes turn a corner (outer corners wrap round, inner corners meet) or end in a blind flange
+{
+	"code": "wallpipecorner",
+	"variantgroups": [
+		{
+			"code": "wall",
+			"states": [
+				"tunnel",
+				"glazed",
+				"brick",
+				"cinder"
+			]
+		},
+		{
+			"code": "conf",
+			"states": [
+				"n-oooc",
+				"n-cooo",
+				"n-cooc",
+				"n-jooo",
+				"n-jooc",
+				"e-ocoo",
+				"e-ojoo",
+				"e-cooo",
+				"e-ccoo",
+				"e-cjoo",
+				"ne-wooo",
+				"ne-wooc",
+				"ne-wcoo",
+				"ne-wcoc",
+				"ne-wjoo",
+				"ne-wjoc",
+				"s-ooco",
+				"s-oojo",
+				"s-ocoo",
+				"s-occo",
+				"s-ocjo",
+				"ns-oooc",
+				"ns-ooco",
+				"ns-oocc",
+				"ns-oojo",
+				"ns-oojc",
+				"ns-ocoo",
+				"ns-ococ",
+				"ns-occo",
+				"ns-occc",
+				"ns-ocjo",
+				"ns-ocjc",
+				"ns-cooo",
+				"ns-cooc",
+				"ns-coco",
+				"ns-cocc",
+				"ns-cojo",
+				"ns-cojc",
+				"ns-ccoo",
+				"ns-ccoc",
+				"ns-ccco",
+				"ns-cccc",
+				"ns-ccjo",
+				"ns-ccjc",
+				"ns-jooo",
+				"ns-jooc",
+				"ns-joco",
+				"ns-jocc",
+				"ns-jojo",
+				"ns-jojc",
+				"ns-jcoo",
+				"ns-jcoc",
+				"ns-jcco",
+				"ns-jccc",
+				"ns-jcjo",
+				"ns-jcjc",
+				"es-owoo",
+				"es-owco",
+				"es-owjo",
+				"es-cwoo",
+				"es-cwco",
+				"es-cwjo",
+				"nes-wwoo",
+				"nes-wwoc",
+				"nes-wwco",
+				"nes-wwcc",
+				"nes-wwjo",
+				"nes-wwjc",
+				"w-oooc",
+				"w-oooj",
+				"w-ooco",
+				"w-oocc",
+				"w-oocj",
+				"nw-ooow",
+				"nw-oocw",
+				"nw-coow",
+				"nw-cocw",
+				"nw-joow",
+				"nw-jocw",
+				"ew-oooc",
+				"ew-oooj",
+				"ew-ooco",
+				"ew-oocc",
+				"ew-oocj",
+				"ew-ocoo",
+				"ew-ococ",
+				"ew-ocoj",
+				"ew-occo",
+				"ew-occc",
+				"ew-occj",
+				"ew-ojoo",
+				"ew-ojoc",
+				"ew-ojoj",
+				"ew-ojco",
+				"ew-ojcc",
+				"ew-ojcj",
+				"ew-cooo",
+				"ew-cooc",
+				"ew-cooj",
+				"ew-coco",
+				"ew-cocc",
+				"ew-cocj",
+				"ew-ccoo",
+				"ew-ccoc",
+				"ew-ccoj",
+				"ew-ccco",
+				"ew-cccc",
+				"ew-cccj",
+				"ew-cjoo",
+				"ew-cjoc",
+				"ew-cjoj",
+				"ew-cjco",
+				"ew-cjcc",
+				"ew-cjcj",
+				"new-woow",
+				"new-wocw",
+				"new-wcow",
+				"new-wccw",
+				"new-wjow",
+				"new-wjcw",
+				"sw-oowo",
+				"sw-oowc",
+				"sw-oowj",
+				"sw-ocwo",
+				"sw-ocwc",
+				"sw-ocwj",
+				"nsw-ooww",
+				"nsw-ocww",
+				"nsw-coww",
+				"nsw-ccww",
+				"nsw-joww",
+				"nsw-jcww",
+				"esw-owwo",
+				"esw-owwc",
+				"esw-owwj",
+				"esw-cwwo",
+				"esw-cwwc",
+				"esw-cwwj",
+				"nesw-wwww"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-tunnel-nesw-wwww",
+			"*-tunnel-ne-wooo"
+		],
+		"construction": [
+			"*-tunnel-nesw-wwww",
+			"*-tunnel-ne-wooo"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-n-oooc": {
+			"base": "block/wallpipe/e-cooo",
+			"rotateY": 90
+		},
+		"*-n-cooo": {
+			"base": "block/wallpipe/e-ocoo",
+			"rotateY": 90
+		},
+		"*-n-cooc": {
+			"base": "block/wallpipe/e-ccoo",
+			"rotateY": 90
+		},
+		"*-n-jooo": {
+			"base": "block/wallpipe/e-ojoo",
+			"rotateY": 90
+		},
+		"*-n-jooc": {
+			"base": "block/wallpipe/e-cjoo",
+			"rotateY": 90
+		},
+		"*-e-ocoo": {
+			"base": "block/wallpipe/e-ocoo",
+			"rotateY": 0
+		},
+		"*-e-ojoo": {
+			"base": "block/wallpipe/e-ojoo",
+			"rotateY": 0
+		},
+		"*-e-cooo": {
+			"base": "block/wallpipe/e-cooo",
+			"rotateY": 0
+		},
+		"*-e-ccoo": {
+			"base": "block/wallpipe/e-ccoo",
+			"rotateY": 0
+		},
+		"*-e-cjoo": {
+			"base": "block/wallpipe/e-cjoo",
+			"rotateY": 0
+		},
+		"*-ne-wooo": {
+			"base": "block/wallpipe/es-owoo",
+			"rotateY": 90
+		},
+		"*-ne-wooc": {
+			"base": "block/wallpipe/es-cwoo",
+			"rotateY": 90
+		},
+		"*-ne-wcoo": {
+			"base": "block/wallpipe/es-owco",
+			"rotateY": 90
+		},
+		"*-ne-wcoc": {
+			"base": "block/wallpipe/es-cwco",
+			"rotateY": 90
+		},
+		"*-ne-wjoo": {
+			"base": "block/wallpipe/es-owjo",
+			"rotateY": 90
+		},
+		"*-ne-wjoc": {
+			"base": "block/wallpipe/es-cwjo",
+			"rotateY": 90
+		},
+		"*-s-ooco": {
+			"base": "block/wallpipe/e-ocoo",
+			"rotateY": 270
+		},
+		"*-s-oojo": {
+			"base": "block/wallpipe/e-ojoo",
+			"rotateY": 270
+		},
+		"*-s-ocoo": {
+			"base": "block/wallpipe/e-cooo",
+			"rotateY": 270
+		},
+		"*-s-occo": {
+			"base": "block/wallpipe/e-ccoo",
+			"rotateY": 270
+		},
+		"*-s-ocjo": {
+			"base": "block/wallpipe/e-cjoo",
+			"rotateY": 270
+		},
+		"*-ns-oooc": {
+			"base": "block/wallpipe/ew-cooo",
+			"rotateY": 90
+		},
+		"*-ns-ooco": {
+			"base": "block/wallpipe/ew-ocoo",
+			"rotateY": 270
+		},
+		"*-ns-oocc": {
+			"base": "block/wallpipe/ew-cooc",
+			"rotateY": 90
+		},
+		"*-ns-oojo": {
+			"base": "block/wallpipe/ew-ojoo",
+			"rotateY": 270
+		},
+		"*-ns-oojc": {
+			"base": "block/wallpipe/ew-cooj",
+			"rotateY": 90
+		},
+		"*-ns-ocoo": {
+			"base": "block/wallpipe/ew-cooo",
+			"rotateY": 270
+		},
+		"*-ns-ococ": {
+			"base": "block/wallpipe/ew-coco",
+			"rotateY": 270
+		},
+		"*-ns-occo": {
+			"base": "block/wallpipe/ew-ccoo",
+			"rotateY": 270
+		},
+		"*-ns-occc": {
+			"base": "block/wallpipe/ew-ccco",
+			"rotateY": 270
+		},
+		"*-ns-ocjo": {
+			"base": "block/wallpipe/ew-cjoo",
+			"rotateY": 270
+		},
+		"*-ns-ocjc": {
+			"base": "block/wallpipe/ew-cjco",
+			"rotateY": 270
+		},
+		"*-ns-cooo": {
+			"base": "block/wallpipe/ew-ocoo",
+			"rotateY": 90
+		},
+		"*-ns-cooc": {
+			"base": "block/wallpipe/ew-ccoo",
+			"rotateY": 90
+		},
+		"*-ns-coco": {
+			"base": "block/wallpipe/ew-ococ",
+			"rotateY": 270
+		},
+		"*-ns-cocc": {
+			"base": "block/wallpipe/ew-ccoc",
+			"rotateY": 90
+		},
+		"*-ns-cojo": {
+			"base": "block/wallpipe/ew-ocoj",
+			"rotateY": 90
+		},
+		"*-ns-cojc": {
+			"base": "block/wallpipe/ew-ccoj",
+			"rotateY": 90
+		},
+		"*-ns-ccoo": {
+			"base": "block/wallpipe/ew-cooc",
+			"rotateY": 270
+		},
+		"*-ns-ccoc": {
+			"base": "block/wallpipe/ew-ccco",
+			"rotateY": 90
+		},
+		"*-ns-ccco": {
+			"base": "block/wallpipe/ew-ccoc",
+			"rotateY": 270
+		},
+		"*-ns-cccc": {
+			"base": "block/wallpipe/ew-cccc",
+			"rotateY": 270
+		},
+		"*-ns-ccjo": {
+			"base": "block/wallpipe/ew-cjoc",
+			"rotateY": 270
+		},
+		"*-ns-ccjc": {
+			"base": "block/wallpipe/ew-cccj",
+			"rotateY": 90
+		},
+		"*-ns-jooo": {
+			"base": "block/wallpipe/ew-ojoo",
+			"rotateY": 90
+		},
+		"*-ns-jooc": {
+			"base": "block/wallpipe/ew-cjoo",
+			"rotateY": 90
+		},
+		"*-ns-joco": {
+			"base": "block/wallpipe/ew-ocoj",
+			"rotateY": 270
+		},
+		"*-ns-jocc": {
+			"base": "block/wallpipe/ew-cjoc",
+			"rotateY": 90
+		},
+		"*-ns-jojo": {
+			"base": "block/wallpipe/ew-ojoj",
+			"rotateY": 270
+		},
+		"*-ns-jojc": {
+			"base": "block/wallpipe/ew-cjoj",
+			"rotateY": 90
+		},
+		"*-ns-jcoo": {
+			"base": "block/wallpipe/ew-cooj",
+			"rotateY": 270
+		},
+		"*-ns-jcoc": {
+			"base": "block/wallpipe/ew-cjco",
+			"rotateY": 90
+		},
+		"*-ns-jcco": {
+			"base": "block/wallpipe/ew-ccoj",
+			"rotateY": 270
+		},
+		"*-ns-jccc": {
+			"base": "block/wallpipe/ew-cccj",
+			"rotateY": 270
+		},
+		"*-ns-jcjo": {
+			"base": "block/wallpipe/ew-cjoj",
+			"rotateY": 270
+		},
+		"*-ns-jcjc": {
+			"base": "block/wallpipe/ew-cjcj",
+			"rotateY": 270
+		},
+		"*-es-owoo": {
+			"base": "block/wallpipe/es-owoo",
+			"rotateY": 0
+		},
+		"*-es-owco": {
+			"base": "block/wallpipe/es-owco",
+			"rotateY": 0
+		},
+		"*-es-owjo": {
+			"base": "block/wallpipe/es-owjo",
+			"rotateY": 0
+		},
+		"*-es-cwoo": {
+			"base": "block/wallpipe/es-cwoo",
+			"rotateY": 0
+		},
+		"*-es-cwco": {
+			"base": "block/wallpipe/es-cwco",
+			"rotateY": 0
+		},
+		"*-es-cwjo": {
+			"base": "block/wallpipe/es-cwjo",
+			"rotateY": 0
+		},
+		"*-nes-wwoo": {
+			"base": "block/wallpipe/esw-owwo",
+			"rotateY": 90
+		},
+		"*-nes-wwoc": {
+			"base": "block/wallpipe/esw-cwwo",
+			"rotateY": 90
+		},
+		"*-nes-wwco": {
+			"base": "block/wallpipe/esw-owwc",
+			"rotateY": 90
+		},
+		"*-nes-wwcc": {
+			"base": "block/wallpipe/esw-cwwc",
+			"rotateY": 90
+		},
+		"*-nes-wwjo": {
+			"base": "block/wallpipe/esw-owwj",
+			"rotateY": 90
+		},
+		"*-nes-wwjc": {
+			"base": "block/wallpipe/esw-cwwj",
+			"rotateY": 90
+		},
+		"*-w-oooc": {
+			"base": "block/wallpipe/e-ocoo",
+			"rotateY": 180
+		},
+		"*-w-oooj": {
+			"base": "block/wallpipe/e-ojoo",
+			"rotateY": 180
+		},
+		"*-w-ooco": {
+			"base": "block/wallpipe/e-cooo",
+			"rotateY": 180
+		},
+		"*-w-oocc": {
+			"base": "block/wallpipe/e-ccoo",
+			"rotateY": 180
+		},
+		"*-w-oocj": {
+			"base": "block/wallpipe/e-cjoo",
+			"rotateY": 180
+		},
+		"*-nw-ooow": {
+			"base": "block/wallpipe/es-owoo",
+			"rotateY": 180
+		},
+		"*-nw-oocw": {
+			"base": "block/wallpipe/es-cwoo",
+			"rotateY": 180
+		},
+		"*-nw-coow": {
+			"base": "block/wallpipe/es-owco",
+			"rotateY": 180
+		},
+		"*-nw-cocw": {
+			"base": "block/wallpipe/es-cwco",
+			"rotateY": 180
+		},
+		"*-nw-joow": {
+			"base": "block/wallpipe/es-owjo",
+			"rotateY": 180
+		},
+		"*-nw-jocw": {
+			"base": "block/wallpipe/es-cwjo",
+			"rotateY": 180
+		},
+		"*-ew-oooc": {
+			"base": "block/wallpipe/ew-ocoo",
+			"rotateY": 180
+		},
+		"*-ew-oooj": {
+			"base": "block/wallpipe/ew-ojoo",
+			"rotateY": 180
+		},
+		"*-ew-ooco": {
+			"base": "block/wallpipe/ew-cooo",
+			"rotateY": 180
+		},
+		"*-ew-oocc": {
+			"base": "block/wallpipe/ew-ccoo",
+			"rotateY": 180
+		},
+		"*-ew-oocj": {
+			"base": "block/wallpipe/ew-cjoo",
+			"rotateY": 180
+		},
+		"*-ew-ocoo": {
+			"base": "block/wallpipe/ew-ocoo",
+			"rotateY": 0
+		},
+		"*-ew-ococ": {
+			"base": "block/wallpipe/ew-ococ",
+			"rotateY": 0
+		},
+		"*-ew-ocoj": {
+			"base": "block/wallpipe/ew-ocoj",
+			"rotateY": 0
+		},
+		"*-ew-occo": {
+			"base": "block/wallpipe/ew-cooc",
+			"rotateY": 180
+		},
+		"*-ew-occc": {
+			"base": "block/wallpipe/ew-ccoc",
+			"rotateY": 180
+		},
+		"*-ew-occj": {
+			"base": "block/wallpipe/ew-cjoc",
+			"rotateY": 180
+		},
+		"*-ew-ojoo": {
+			"base": "block/wallpipe/ew-ojoo",
+			"rotateY": 0
+		},
+		"*-ew-ojoc": {
+			"base": "block/wallpipe/ew-ocoj",
+			"rotateY": 180
+		},
+		"*-ew-ojoj": {
+			"base": "block/wallpipe/ew-ojoj",
+			"rotateY": 0
+		},
+		"*-ew-ojco": {
+			"base": "block/wallpipe/ew-cooj",
+			"rotateY": 180
+		},
+		"*-ew-ojcc": {
+			"base": "block/wallpipe/ew-ccoj",
+			"rotateY": 180
+		},
+		"*-ew-ojcj": {
+			"base": "block/wallpipe/ew-cjoj",
+			"rotateY": 180
+		},
+		"*-ew-cooo": {
+			"base": "block/wallpipe/ew-cooo",
+			"rotateY": 0
+		},
+		"*-ew-cooc": {
+			"base": "block/wallpipe/ew-cooc",
+			"rotateY": 0
+		},
+		"*-ew-cooj": {
+			"base": "block/wallpipe/ew-cooj",
+			"rotateY": 0
+		},
+		"*-ew-coco": {
+			"base": "block/wallpipe/ew-coco",
+			"rotateY": 0
+		},
+		"*-ew-cocc": {
+			"base": "block/wallpipe/ew-ccco",
+			"rotateY": 180
+		},
+		"*-ew-cocj": {
+			"base": "block/wallpipe/ew-cjco",
+			"rotateY": 180
+		},
+		"*-ew-ccoo": {
+			"base": "block/wallpipe/ew-ccoo",
+			"rotateY": 0
+		},
+		"*-ew-ccoc": {
+			"base": "block/wallpipe/ew-ccoc",
+			"rotateY": 0
+		},
+		"*-ew-ccoj": {
+			"base": "block/wallpipe/ew-ccoj",
+			"rotateY": 0
+		},
+		"*-ew-ccco": {
+			"base": "block/wallpipe/ew-ccco",
+			"rotateY": 0
+		},
+		"*-ew-cccc": {
+			"base": "block/wallpipe/ew-cccc",
+			"rotateY": 0
+		},
+		"*-ew-cccj": {
+			"base": "block/wallpipe/ew-cccj",
+			"rotateY": 0
+		},
+		"*-ew-cjoo": {
+			"base": "block/wallpipe/ew-cjoo",
+			"rotateY": 0
+		},
+		"*-ew-cjoc": {
+			"base": "block/wallpipe/ew-cjoc",
+			"rotateY": 0
+		},
+		"*-ew-cjoj": {
+			"base": "block/wallpipe/ew-cjoj",
+			"rotateY": 0
+		},
+		"*-ew-cjco": {
+			"base": "block/wallpipe/ew-cjco",
+			"rotateY": 0
+		},
+		"*-ew-cjcc": {
+			"base": "block/wallpipe/ew-cccj",
+			"rotateY": 180
+		},
+		"*-ew-cjcj": {
+			"base": "block/wallpipe/ew-cjcj",
+			"rotateY": 0
+		},
+		"*-new-woow": {
+			"base": "block/wallpipe/esw-owwo",
+			"rotateY": 180
+		},
+		"*-new-wocw": {
+			"base": "block/wallpipe/esw-cwwo",
+			"rotateY": 180
+		},
+		"*-new-wcow": {
+			"base": "block/wallpipe/esw-owwc",
+			"rotateY": 180
+		},
+		"*-new-wccw": {
+			"base": "block/wallpipe/esw-cwwc",
+			"rotateY": 180
+		},
+		"*-new-wjow": {
+			"base": "block/wallpipe/esw-owwj",
+			"rotateY": 180
+		},
+		"*-new-wjcw": {
+			"base": "block/wallpipe/esw-cwwj",
+			"rotateY": 180
+		},
+		"*-sw-oowo": {
+			"base": "block/wallpipe/es-owoo",
+			"rotateY": 270
+		},
+		"*-sw-oowc": {
+			"base": "block/wallpipe/es-owco",
+			"rotateY": 270
+		},
+		"*-sw-oowj": {
+			"base": "block/wallpipe/es-owjo",
+			"rotateY": 270
+		},
+		"*-sw-ocwo": {
+			"base": "block/wallpipe/es-cwoo",
+			"rotateY": 270
+		},
+		"*-sw-ocwc": {
+			"base": "block/wallpipe/es-cwco",
+			"rotateY": 270
+		},
+		"*-sw-ocwj": {
+			"base": "block/wallpipe/es-cwjo",
+			"rotateY": 270
+		},
+		"*-nsw-ooww": {
+			"base": "block/wallpipe/esw-owwo",
+			"rotateY": 270
+		},
+		"*-nsw-ocww": {
+			"base": "block/wallpipe/esw-cwwo",
+			"rotateY": 270
+		},
+		"*-nsw-coww": {
+			"base": "block/wallpipe/esw-owwc",
+			"rotateY": 270
+		},
+		"*-nsw-ccww": {
+			"base": "block/wallpipe/esw-cwwc",
+			"rotateY": 270
+		},
+		"*-nsw-joww": {
+			"base": "block/wallpipe/esw-owwj",
+			"rotateY": 270
+		},
+		"*-nsw-jcww": {
+			"base": "block/wallpipe/esw-cwwj",
+			"rotateY": 270
+		},
+		"*-esw-owwo": {
+			"base": "block/wallpipe/esw-owwo",
+			"rotateY": 0
+		},
+		"*-esw-owwc": {
+			"base": "block/wallpipe/esw-owwc",
+			"rotateY": 0
+		},
+		"*-esw-owwj": {
+			"base": "block/wallpipe/esw-owwj",
+			"rotateY": 0
+		},
+		"*-esw-cwwo": {
+			"base": "block/wallpipe/esw-cwwo",
+			"rotateY": 0
+		},
+		"*-esw-cwwc": {
+			"base": "block/wallpipe/esw-cwwc",
+			"rotateY": 0
+		},
+		"*-esw-cwwj": {
+			"base": "block/wallpipe/esw-cwwj",
+			"rotateY": 0
+		},
+		"*-nesw-wwww": {
+			"base": "block/wallpipe/nesw-wwww",
+			"rotateY": 0
+		}
+	},
+	"texturesByType": {
+		"*-tunnel-*": {
+			"wall": {
+				"base": "block/level2/tunnelwall-plain"
+			}
+		},
+		"*": {
+			"wall": {
+				"base": "block/level3/l3wall-{wall}"
+			}
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

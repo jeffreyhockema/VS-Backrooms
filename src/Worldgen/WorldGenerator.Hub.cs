@@ -309,6 +309,13 @@ public sealed partial class WorldGenerator
         return 0;
     }
 
+    /// <summary>The floors the Tower's forbidden doors stand on: each gallery's, then the meeting hall's.</summary>
+    private static readonly int[] HubDoorStoreys =
+    {
+        WorldLayout.HubTowerGalleries[0], WorldLayout.HubTowerGalleries[1], WorldLayout.HubTowerGalleries[2], WorldLayout.HubTowerGalleries[3],
+        WorldLayout.HubTowerHall,
+    };
+
     /// <summary>The Tower's ashlar: on its inner face, at each gallery and in the meeting hall, ten ornate doors forbidden to wanderers.</summary>
     private int HubTowerWall(in Tile t, int gx, int gz, int rel)
     {
@@ -323,7 +330,7 @@ public sealed partial class WorldGenerator
             // (Not in the meeting hall where the balcony goes out)
             bool balcony = Math.Abs(Math.IEEERemainder(door - layout.HubTheta0, 2 * Math.PI)) < 0.01;
             if (Math.Abs(off) <= 1.2)
-                foreach (int g in new[] { WorldLayout.HubTowerGalleries[0], WorldLayout.HubTowerGalleries[1], WorldLayout.HubTowerGalleries[2], WorldLayout.HubTowerGalleries[3], WorldLayout.HubTowerHall })
+                foreach (int g in HubDoorStoreys)
                 {
                     if (rel <= g || rel > g + 3 || g == WorldLayout.HubTowerHall && balcony) continue;
                     ArchPier facing = Cardinal(-Math.Cos(door), -Math.Sin(door));

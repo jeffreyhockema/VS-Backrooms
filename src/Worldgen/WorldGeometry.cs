@@ -1,6 +1,10 @@
 namespace Backrooms.Worldgen;
 
-/// <summary>Vertical placement of Level 0. Shared by the server-side generator and the client-side map.</summary>
+/// <summary>
+/// Vertical placement of the levels: the shared floor (Level 0's) and the levels that lie below it, and the bands of
+/// heights they are generated and lit over. Shared by the server-side generator, the client-side map and the offline
+/// layout harness (tools/mapgen).
+/// </summary>
 public readonly struct WorldGeometry
 {
     /// <summary>Walkable height between carpet and ceiling (about 3 m, like a commercial drop ceiling).</summary>
@@ -9,7 +13,7 @@ public readonly struct WorldGeometry
     /// <summary>Level 1 is a little taller: four blocks of air under a bare concrete slab.</summary>
     public const int Level1RoomHeight = 4;
 
-    /// <summary>Tallest walkable space of any level (Level 1, the Beverly Room).</summary>
+    /// <summary>Tallest walkable space of the indoor Levels 0-6 (Level 1, the grand rooms of Levels 3 and 5, the Beverly Room among them).</summary>
     public const int MaxRoomHeight = 4;
 
     /// <summary>Walkable height of each level's ordinary rooms.</summary>

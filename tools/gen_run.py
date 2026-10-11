@@ -485,20 +485,27 @@ def textures():
     save(noise(0x6E6A62, 4, "padlock"), "padlock")
     save(noise(0xB0A060, 3, "shackle"), "shackle")
 
-    # The hallway door: pale wood laminate, a narrow vision panel, a steel kick plate
+    # The hallway door: a mid wood leaf (dark enough not to read as the lit hall beyond it), a dark steel frame; the
+    # wired-glass vision panel, the kick plate and the lever are boxes of their own (hall_door)
     for part in ("lower", "upper"):
-        img = door_leaf(0xC9B48E, "halldoor" + part, 4)
+        img = door_leaf(0x8A6A48, "halldoor" + part, 4)
         d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xA8946E))
-        if part == "upper":
-            d.rectangle([20, 3, 25, 26], fill=rgb(0x6E7476))
-            d.rectangle([21, 4, 24, 25], fill=rgb(0x1E2428))
-            d.line([21, 5, 22, 7], fill=rgb(0x3E484E))
-        else:
-            d.rectangle([1, 23, S - 2, S - 2], fill=rgb(0xA4A8AA))
+        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x5E4630))
         save(img, f"halldoor-{part}")
-    save(door_leaf(0xC2AE88, "halldoorback", 4), "halldoor-back")
-    save(noise(0x7E8486, 3, "hallframe"), "hallframe")
+    save(door_leaf(0x84664A, "halldoorback", 4), "halldoor-back")
+    save(noise(0x4A4E52, 3, "hallframe"), "hallframe")
+    save(grain(noise(0xA4A8AA, 2, "hallkick"), "hallkickg", 3, vertical=False), "hallkick")
+    # Wired glass: dark glass behind a diamond mesh of wire, in a steel bead
+    img = noise(0x2A3236, 3, "wiredglass")
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 8 == 0 or (x - y) % 8 == 0:
+                px[x, y] = rgb(0x8A9296)
+    d = ImageDraw.Draw(img)
+    d.line([4, 6, 10, 14], fill=rgb(0x5A666C))
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x9CA2A6), width=2)
+    save(img, "wiredglass")
 
     # Medicine cabinet: white enamel, a mirror front with a streak, a small red cross
     img = noise(0xECECE6, 2, "cabinet")
@@ -718,15 +725,31 @@ def walls():
     path = shape("run-wall-rail", [wall] + rail())
     for s in SIDES:
         shapes[f"rail-{s}"] = {"base": path, "rotateY": ROTATE[s]}
-    # An outside corner: rails on the north and east faces, meeting round the corner
-    corner = [wall] + rail(0, 19) + [turn(e, 1) for e in rail(0, 16)]
+    # An outside corner: rails on the north and east faces, meeting round the corner in a mitre (the north rail runs on
+    # to the east rail's front, the east one starts behind it)
+    north = rail(0, 19)
+    for e in north:
+        if e["name"] in ("RailTop", "RailBottom"):
+            e["to"][0] = 18.7
+    east = rail(-1, 16)
+    for e in east:
+        if e["name"] in ("RailTop", "RailBottom"):
+            e["from"][0] = -1.3
+        e["faces"].pop("west", None)
+    corner = [wall] + north + [dict(turn(e, 1), name=e["name"] + "E") for e in east]
     path = shape("run-wall-railcorner", corner)
     for s in SIDES:
         shapes[f"railcorner-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+    # In an inside corner the rail stops against the front of the other wall's rail (the generator gives this to the
+    # rail whose clockwise end is in the corner; the other runs on into the corner)
+    path = shape("run-wall-railshort", [wall] + rail(0, 13))
+    for s in SIDES:
+        shapes[f"railshort-{s}"] = {"base": path, "rotateY": ROTATE[s]}
     cube_type("run-wall", "Hospital Wall", ["plain", "base", "void"] + list(shapes),
               {"plain": all6("wall"), "base": sides6("wallbase", "wall"), "void": all6("void")},
               "Level !: the hallway's walls. plain above, base (cove base) at the floor, rail-<side> with the crash rail on "
-              "that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), void (matte black: "
+              "that face (rel 1), railcorner-<side> on that face and the next one clockwise (an outside corner), railshort-<side> "
+              "stopping short of the other rail in an inside corner, void (matte black: "
               "the antechamber behind the chained door, the fake exits' closets)",
               json_states=shapes)
     name("run-wall-plain", "Hospital Wall")
@@ -1103,11 +1126,18 @@ def chained_door():
 
 def hall_door():
     def build(st, part):
-        els = frame("hallframe", upper=part == "upper")
+        # The frame stands two voxels proud of the wall, so the leaf reads as set back in it, not as an opening
+        els = frame("hallframe", upper=part == "upper", z0=-2)
         if st == "closed":
             els += leaf("halldoor-" + part, "halldoor-back")
             if part == "lower":
-                els += [bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"), bx("Lever", (10, 13.8, -0.6), (14, 14.8, 0.4), "chrome")]
+                els += [bx("Kick", (1, 0.5, 0.4), (15, 5, 1), "hallkick", faces=("north", "up", "east", "west")),
+                        bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"), bx("Neck", (12.9, 13.6, -1), (14, 14.6, 0.4), "chrome"),
+                        bx("Lever", (9.5, 13.6, -1.4), (14, 14.8, -0.4), "chrome")]
+            else:
+                # The wired-glass vision panel, high on the lock side, in a bead half a voxel proud
+                els += [bx("Glass", (10, 3, 0.5), (12.75, 14.5, 1), "wiredglass", faces=("north",), full=True),
+                        bx("Bead", (10, 3, 0.5), (12.75, 14.5, 1), "hallframe", faces=("east", "west", "up", "down"))]
         else:
             # Swung right round and flat against the wall beside the doorway
             els += [bx("Leaf", (17.5, 0, -2.2), (33.5, 16, -0.2), "halldoor-back"),
@@ -1517,8 +1547,9 @@ def alarm_tone(length):
 
 def alarm_signals():
     loud = periodic(lambda L: corridor(alarm_tone(L), 1.4, 0.06, 0.35, 11), 8.0)
-    # Muffled in the walls: the highs gone, a boom of the wall resonating with it
-    far = periodic(lambda L: band(corridor(alarm_tone(L), 1.8, 0.09, 0.5, 12), 120, 700), 8.0)
+    # Muffled in the walls, a boom of the wall resonating with it, but still the two tones of an alarm (both of them:
+    # cut below 700 Hz, as it once was, it lost the high one and was only a dull thud)
+    far = periodic(lambda L: band(corridor(alarm_tone(L), 1.8, 0.09, 0.5, 12), 200, 1400), 8.0)
     return loud, far
 
 
@@ -1756,7 +1787,7 @@ def trip():
 def sounds():
     loud, far = alarm_signals()
     write_sound("ambient/run", "alarm", loud, 0.55, fade=False)
-    write_sound("ambient/run", "alarm-far", far, 0.3, fade=False)
+    write_sound("ambient/run", "alarm-far", far, 0.45, fade=False)
     write_sound("ambient/run", "horde", horde(), 0.6, fade=False)
     write_sound("ambient/run", "safezone", safezone(far), 0.16, fade=False)
     for k in (1, 2, 3):
@@ -1775,26 +1806,129 @@ def sounds():
 
 # ======================= Words =======================
 
+def _font(size):
+    from PIL import ImageFont
+    try:
+        return ImageFont.truetype("arialbd.ttf", size)
+    except OSError:
+        return ImageFont.load_default(size=size)
+
+
+def notice(kind):
+    """A notice printed on white card, drawn at 4 px a voxel: PLEASE WASH YOUR HANDS (two hands under a drop), or
+    VISITING HOURS under a red cross."""
+    k, W, H = 4, 32, 40
+    big = Image.new("RGBA", (W * k, H * k), (246, 246, 240, 255))
+    d = ImageDraw.Draw(big)
+    ink, white = (40, 40, 44, 255), (255, 255, 255, 255)
+    if kind == "handwash":
+        blue = (30, 90, 170, 255)
+        d.rectangle([0, 0, W * k, 9 * k], fill=blue)
+        d.text((W * k / 2, 4.6 * k), "PLEASE", fill=white, font=_font(6 * k), anchor="mm")
+        d.polygon([(16 * k, 11 * k), (13.6 * k, 15.5 * k), (18.4 * k, 15.5 * k)], fill=blue)
+        d.ellipse([13.6 * k, 13.6 * k, 18.4 * k, 18.2 * k], fill=blue)
+        for x0 in (7, 17):  # two cupped hands
+            d.rounded_rectangle([x0 * k, 19.5 * k, (x0 + 8) * k, 25.5 * k], radius=3 * k, fill=(232, 196, 170, 255), outline=ink, width=k // 2)
+        d.text((W * k / 2, 30.5 * k), "WASH YOUR", fill=ink, font=_font(int(4.4 * k)), anchor="mm")
+        d.text((W * k / 2, 36 * k), "HANDS", fill=blue, font=_font(6 * k), anchor="mm")
+    else:
+        red = (200, 30, 36, 255)
+        d.rectangle([13.5 * k, 2 * k, 18.5 * k, 13 * k], fill=red)
+        d.rectangle([10.5 * k, 5 * k, 21.5 * k, 10 * k], fill=red)
+        d.text((W * k / 2, 17 * k), "VISITING", fill=ink, font=_font(5 * k), anchor="mm")
+        d.text((W * k / 2, 22 * k), "HOURS", fill=ink, font=_font(5 * k), anchor="mm")
+        for i, line in enumerate(("MON-FRI 2-8", "SAT-SUN 10-8")):
+            d.text((W * k / 2, (27.5 + i * 4) * k), line, fill=(90, 90, 96, 255), font=_font(3 * k), anchor="mm")
+        for i in range(2):  # the small print
+            d.line([5 * k, (35 + i * 2) * k, 27 * k, (35 + i * 2) * k], fill=(160, 160, 164, 255), width=k // 2)
+    return big.resize((W, H), Image.LANCZOS)
+
+
+def startroom():
+    """The start room's own fittings: its red ceiling lamp, two notices and a hand-sanitiser dispenser on its walls."""
+    # The lamp: a ceiling tile with a red prismatic panel, all the light the room has ("a room illuminated by red light")
+    img = Image.new("RGBA", (S, S))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            c = mix(rgb(0xFF8474), rgb(0xC42C24), ((x - 15.5) ** 2 + (y - 15.5) ** 2) ** 0.5 / 22)
+            px[x, y] = shade(c, 0.93) if (x + y) % 3 == 0 else c
+    save(img, "redlight")
+    els = [bx("Body", (0, 0, 0), (16, 16, 16), "ceiltile", faces=("north", "east", "south", "west", "up", "down")),
+           bx("Rim", (0.5, -0.8, 0.5), (15.5, 0, 15.5), "trofferframe", faces=("north", "east", "south", "west")),
+           bx("Panel", (1, -0.8, 1), (15, -0.79, 15), "redlight", glow=140, faces=("down",))]
+    block("run-redlight", {
+        "creativeinventory": {"general": ["*"], "decorative": ["*"]},
+        "blockmaterial": "Glass", "drawtype": "json", "shape": {"base": shape("run-redlight", els)},
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightHsv": [0, 7, 14], "lightAbsorption": 0, "resistance": 99999, "drops": [], "sounds": GLASS,
+    }, "Level !: the start room's ceiling lamp, a red light panel (brighter than the Red Rooms' lamp it replaced, so the "
+       "room's bed, cabinet, curtain and doors read; still only red)")
+    name("run-redlight", "Red Ceiling Light")
+
+    # On the walls, at eye height (rel 2): notices on card, and the dispenser by the way out
+    for kind in ("handwash", "visiting"):
+        save(notice(kind), "notice-" + kind)
+    save(noise(0xF2F2EE, 2, "dispenser"), "dispenser")
+    img = noise(0xF2F2EE, 2, "dispenserfront", size=16)
+    d = ImageDraw.Draw(img)
+    d.rectangle([3, 3, 12, 5], fill=rgb(0x8C9AA6))  # the window onto the gel
+    d.rectangle([3, 4, 12, 5], fill=rgb(0xC8E0EC))
+    d.polygon([(8, 8), (6, 11), (10, 11)], fill=rgb(0x2A6AB8))
+    d.ellipse([6, 9, 10, 13], fill=rgb(0x2A6AB8))
+    save(img, "dispenserfront")
+    save(noise(0x9A9EA4, 2, "dispenserlever"), "dispenserlever")
+    wall = bx("Wall", (0, 0, 0), (16, 16, 16), "wall")
+    card = lambda key: [bx("Card", (3, 2, -0.3), (13, 14.5, -0.05), key, faces=("north",), full=True),
+                        bx("CardEdge", (3, 2, -0.3), (13, 14.5, -0.05), "dispenser", faces=("east", "west", "up", "down"))]
+    kinds = {
+        "handwash": [wall] + card("notice-handwash"),
+        "visiting": [wall] + card("notice-visiting") + [
+            bx("HolderT", (2.6, 14.5, -0.6), (13.4, 15, 0), "chrome"), bx("HolderB", (2.6, 1.5, -0.6), (13.4, 2, 0), "chrome")],
+        "sanitiser": [wall,
+                      bx("Housing", (5, 1.5, -3.2), (11, 13, 0), "dispenser"),
+                      bx("Front", (5.1, 1.6, -3.3), (10.9, 12.9, -3.2), "dispenserfront", faces=("north",), full=True),
+                      bx("Lever", (5.4, 1, -3.9), (10.6, 3.6, -2.8), "dispenserlever", rot=(-12, 0, 0), origin=(8, 3.6, -2.8)),
+                      bx("Nozzle", (7.5, 0.3, -2.4), (8.5, 1.5, -1.6), "dispenserlever"),
+                      bx("Drip", (7.6, 0, -2.2), (8.4, 0.3, -1.8), "chrome")],
+    }
+    by_type = {}
+    for kind, els in kinds.items():
+        path = shape(f"run-walldecor-{kind}", els)
+        for sd in SIDES:
+            by_type[f"*-{kind}-{sd}"] = {"base": path, "rotateY": ROTATE[sd]}
+    block("run-walldecor", {
+        "variantgroups": [{"code": "kind", "states": list(kinds)}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shapeByType": by_type,
+        "sidesolid": {"all": True}, "sideopaque": {"all": False},
+        "lightAbsorption": 99, "resistance": 99999, "drops": [], "sounds": STONE,
+    }, "Level !: a start-room wall block (rel 2) with, on face <side>, a notice (handwash: PLEASE WASH YOUR HANDS; visiting: "
+       "VISITING HOURS) or a hand-sanitiser dispenser (sanitiser); fixed like the walls")
+    name("run-walldecor-handwash-*", "Hand Hygiene Notice")
+    name("run-walldecor-visiting-*", "Visiting Hours Notice")
+    name("run-walldecor-sanitiser-*", "Hand Sanitiser Dispenser")
+
+
 def lang():
     LANG.update({
         "level-14": "Level !: Run For Your Life!",
-        "levelhint-14": "Run. Don't stop. A door with a turn beside it is not the way out.",
+        "levelhint-14": "Out through the door under the lit EXIT sign, and run. Don't stop. A door with a turn beside it is not the way out.",
         "levelname-14": "Level !",
         "level-1401": "The Safe Zone",
         "levelhint-1401": "Please take a break before you continue running.",
-        "run-arrive": "The door slams behind you. On its inside, a huge red exclamation mark.",
-        "run-stuck": "The door is stuck!",
+        "run-arrive": "The door slams behind you: on its inside, a huge red exclamation mark. Something is beating on the chained door. The way out is the door under the lit EXIT sign. Run!",
+        "run-stuck": "The door is stuck! Pull again!",
+        "run-stuck2": "It gives a little. Once more!",
         "run-locked": "Locked.",
-        "run-marked": "It won't budge.",
-        "run-chained": "Something on the other side wants in.",
+        "run-marked": "It won't budge. The way out is the door under the lit EXIT sign!",
+        "run-chained": "Something on the other side wants in. Not this way: the door under the lit EXIT sign!",
         "run-fake": "An empty room. This isn't the way out.",
         "run-escaped": "No turn either side. This was the real exit. The Backrooms will never send you there again.",
         "run-ranout": "You have run this hall before. The door lets you out somewhere else.",
-        "run-full": "The door won't open. Someone else is running.",
         "run-rumble": "The walls shudder. You can't stay here much longer.",
         "run-fell": "The cracked floor gives way. You fall a long way, into rock and rubble.",
-        "run-caught": "was caught by the horde",
-        "waypoint-runexit": "The way out of Level !",
+        "run-caught": "{0} was caught by the horde",
         "note-run": "Don't take the door if the hall turns beside it. The real one is at a dead end. Don't stop. They're still there.",
         "item-run-energybar": "Energy Bar",
         "itemdesc-run-energybar": "Dense, sweet, and gone in three bites. Keeps you running a little longer.",
@@ -1840,6 +1974,7 @@ def generate():
     chained_door()
     hall_door()
     props()
+    startroom()
     items()
     lang()
     gen_detail.merge_lang()

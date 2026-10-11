@@ -1,0 +1,74 @@
+// The floor between a house's storeys: floorboards over the ceiling of the room below
+{
+	"code": "housestorey",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"lightoff",
+				"lighton"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"up": {
+				"base": "block/detail/housefloor-wood"
+			},
+			"down": {
+				"base": "block/detail/houseceiling"
+			},
+			"horizontals": {
+				"base": "block/detail/houseceiling"
+			}
+		},
+		"*-lightoff": {
+			"up": {
+				"base": "block/detail/housefloor-wood"
+			},
+			"down": {
+				"base": "block/detail/houseceiling-lightoff"
+			},
+			"horizontals": {
+				"base": "block/detail/houseceiling"
+			}
+		},
+		"*-lighton": {
+			"up": {
+				"base": "block/detail/housefloor-wood"
+			},
+			"down": {
+				"base": "block/detail/houseceiling-lighton"
+			},
+			"horizontals": {
+				"base": "block/detail/houseceiling"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"lightHsvByType": {
+		"*-lighton": [
+			6,
+			3,
+			12
+		]
+	}
+}

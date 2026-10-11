@@ -117,7 +117,8 @@ public class AiTaskPartygoer : AiTaskBase
         }
         if (menace.Kind == Encounter.Leave)
         {
-            if (!pathTraverser.Active && target != null) MoveAway(target.Pos.XYZ);
+            // (Not every tick: with nowhere to go, each try is another path search)
+            if (!pathTraverser.Active && target != null && now - lastPathMs > 1500) MoveAway(target.Pos.XYZ);
             return true;
         }
 
@@ -238,7 +239,7 @@ public class AiTaskPartygoer : AiTaskBase
         if (!hunting && distance <= 6 && (running || FunSystemHeard(who))) return Senses.ClearLine(entity.World, eyes, them) || distance <= 3;
         // One of its own, as far as it can tell
         if (!hunting && distance > 3 && !running && !FunSystem.StruckLately(who) && FunSystem.Disguised(agent)) return false;
-        int light = Senses.LightAt(entity.World, Senses.Eyes(who), new[] { who });
+        int light = Senses.LightAt(entity.World, Senses.Eyes(who), who);
         double range = light >= Senses.LitLevel ? sightLit : light >= 4 ? sightDim : sightDark;
         if (agent.ServerControls.Sneak) range *= 0.6;
         if (hunting) range = Math.Max(range, sightLit);
@@ -454,7 +455,9 @@ public class AiTaskPartygoer : AiTaskBase
     {
         base.FinishExecute(cancelled);
         Stop();
+        if (attackStartMs >= 0) entity.AnimManager.StopAnimation(clawing ? "claw" : "latch");
         attackStartMs = -1;
+        if (state == State.Gaze) entity.AnimManager.StopAnimation("gaze");
     }
 
     public override void OnEntityHurt(DamageSource source, float damage)

@@ -68,6 +68,8 @@ SALVAGE = {
     "medcabinet": d(("game:bandage-clean", 1, 1), ("glassshard", 0.3, 0.3)),
     "fridge": d(("crackers", 0.25, 0.25), ("cannedbeans", 0.2, 0.2), ("game:fruit-redapple", 0.35, 0.35), ("game:cheese-cheddar-1slice", 0.2, 0.2),
                 ("metalbracket", 1, 0.5), ("scrapwire", 0.5, 0.5)),
+    # Level 6.1's vending rooms: the dead machines of the heap, a few snacks still stuck in their spirals
+    "vendingpile": d(("metalbracket", 2, 1), ("glassshard", 1, 0.5), ("scrapwire", 1, 0.5), ("chips", 0.3, 0.3), ("soda", 0.25, 0.25)),
     "trashcan": d((PAPER, 0.5, 0.5), ("rottenwood", 0.4, 0.4), ("glassshard", 0.3, 0.3), ("game:gear-rusty", 0.05, 0)),
     # Copper cable on wooden drums, motor windings, old pipe: copper (and lead) for the crucible
     "cablespool": d(("game:metalbit-copper", 4, 2), (PLANK, 1, 0.5)),

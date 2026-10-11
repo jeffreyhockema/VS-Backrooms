@@ -133,8 +133,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 30,
-				"maxhealth": 30
+				"currenthealth": 20,
+				"maxhealth": 20
 			},
 			{
 				"code": "deaddecay",
@@ -160,7 +160,7 @@
 						"mincooldown": 0,
 						"maxcooldown": 0,
 						"walkSpeed": 0.022,
-						"runSpeed": 0.056,
+						"runSpeed": 0.046,
 						"stalkMin": 12,
 						"stalkMax": 20,
 						"glimpseFleeDistance": 18,

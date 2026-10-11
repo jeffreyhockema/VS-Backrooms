@@ -17,9 +17,20 @@ namespace Backrooms.Worldgen;
 /// </code>
 /// Every few bays a cross aisle cuts through the stall rows under striped clearance bars. Fluorescent fixtures
 /// hang over the aisles and stalls; conduit and red sprinkler pipes run under the slab; a few cars were abandoned
-/// here. Stair cores stand at regular intervals: white-painted boxes with fire doors propped open under EXIT
-/// signs, and a flight of stairs inside that climbs into the ceiling (and, now and then, somewhere else).
-/// Wanderer groups tie coloured cloths round columns as landmarks, with supplies left at the foot.
+/// here, and now and then a bay of stalls was used as a store. Stair cores stand at regular intervals: white-painted
+/// boxes with fire doors propped open under EXIT signs, and a flight of stairs inside that climbs into the ceiling
+/// (and, now and then, somewhere else). Wanderer groups tie coloured cloths round columns as landmarks, with
+/// supplies left at the foot.
+///
+/// <para>From layout version 4 each district of the car park has the grid to itself (<see cref="ParkX"/>): stalls
+/// back onto its north fire wall, a driving aisle runs along its south one, cross aisles run along its west and east
+/// ones and down its middle, and its four stair cores stand in its corners (<see cref="StairCoresV4"/>), each with a
+/// flight up through the slab and a flight down through the floor, both into the dark (<see cref="BuildStairCoresV4"/>);
+/// the halls' stairwells are laid out the same way (<see cref="PlanHallStairwellV4"/>), and every stairwell is on a
+/// painted floor, P5 to B3 (<see cref="L1Floors"/>). There are no speed bumps; stairs to nowhere climb into a wall at
+/// the back of a stall; and the halls have stockrooms of racks, storerooms laid out as such
+/// (<see cref="PlanStockroom"/>, <see cref="FurnishStoreroom"/>), and no corner fenced off by furniture
+/// (<see cref="Unfence"/>).</para>
 ///
 /// <para><b>The maintenance halls</b> fill whole sectors, entered through black fire doors under EXIT signs. Their
 /// walls are white-painted block, much brighter than the grey car park. Tight 2-wide corridors run every
@@ -36,6 +47,11 @@ public sealed partial class WorldLayout
     /// <summary>A cross aisle every five bays.</summary>
     private const int CrossAislePeriod = BayWidth * 5;
     private const int CrossAisleStart = CrossAislePeriod - 6;
+    /// <summary>
+    /// From layout version 4 the cross aisles start one block in from each district's west wall (see <see cref="ParkX"/>),
+    /// so a district has one along each of its west and east fire walls and one down its middle.
+    /// </summary>
+    private const int CrossAisleStartV4 = 1;
 
     /// <summary>Maintenance hall corridors run every 16 blocks, at offsets 7 and 8 of each period.</summary>
     private const int HallGrid = 16;
@@ -90,7 +106,8 @@ public sealed partial class WorldLayout
             for (int i = 1; i < MacroSize; i++)
             {
                 int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
-                bool gap = west ? Hashing.Mod(gz, Module) is >= 7 and <= 10 && Hashing.Mod(Hashing.FloorDiv(gz, Module), 2) == 0 : InCrossAisle(gx);
+                int pz = ParkZ(gz);
+                bool gap = west ? Hashing.Mod(pz, Module) is >= 7 and <= 10 && Hashing.Mod(Hashing.FloorDiv(pz, Module), 2) == 0 : InCrossAisleAt(ParkX(gx));
                 edge.Tiles[i] = gap ? EdgeTile.Open : EdgeTile.Wall;
             }
             return edge;
@@ -129,6 +146,8 @@ public sealed partial class WorldLayout
                 WetPatch(b, cx, cz, rng.Range(1, 3));
                 ref Tile mid = ref b.At(cx, cz);
                 if (mid.Kind != TileKind.Floor || mid.Variant != 0 || mid.Stack != 0 || mid.SupplyBox || mid.Stair != 0 || mid.Floor == FloorKind.L1Hall) continue;
+                // (From version 4, never in front of a doorway: a stair core's doors open onto the aisle)
+                if (Version >= 4 && (IsDoorAt(b, cx - 1, cz) || IsDoorAt(b, cx + 1, cz) || IsDoorAt(b, cx, cz - 1) || IsDoorAt(b, cx, cz + 1))) continue;
                 double r = rng.NextDouble();
                 if (r < 0.3) { mid.Variant = Props.WetFloorSign; mid.Pier = (ArchPier)rng.Range(0, 3); }
                 else if (r < 0.45) mid.Variant = Props.TrafficCone;
@@ -139,8 +158,9 @@ public sealed partial class WorldLayout
 
         // The fire walls between districts are scarred: here and there the concrete has spalled to rusty rebar
         for (int i = 1; i < MacroSize; i++)
-            foreach ((int x, int z) in new[] { (0, i), (i, 0) })
+            for (int side = 0; side < 2; side++)
             {
+                int x = side == 0 ? 0 : i, z = side == 0 ? i : 0;
                 ref Tile t = ref b.At(x, z);
                 if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.Concrete && t.Variant == 0
                     && Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + x, mz * MacroSize + z, SaltL1Detail + 3)) < 0.08) t.Variant = 1;
@@ -165,8 +185,9 @@ public sealed partial class WorldLayout
         bool halls = IsLevel1Corridors(mx, mz);
         for (int i = 1; i < MacroSize - 1; i++)
         {
-            foreach (bool west in new[] { true, false })
+            for (int side = 0; side < 2; side++)
             {
+                bool west = side == 0;
                 int x = west ? 0 : i, z = west ? i : 0;
                 ref Tile t = ref b.At(x, z);
                 if (t.Kind != TileKind.Doorway || !t.ExitSign) continue;
@@ -203,12 +224,38 @@ public sealed partial class WorldLayout
 
     private static bool InCrossAisle(int gx) => Hashing.Mod(gx, CrossAislePeriod) >= CrossAisleStart;
 
-    /// <summary>Stair cores stand in every fifth bay of every third module, in the first row of stalls.</summary>
+    /// <summary>
+    /// Up to layout version 3, stair cores stand in every fifth bay of every third module, in the first row of stalls
+    /// (from 4, in the corners of each district: see <see cref="StairCoresV4"/>).
+    /// </summary>
     private static bool InStairCore(int gx, int gz)
     {
         int bay = Hashing.Mod(gx, BayWidth), row = Hashing.Mod(gz, Module);
         return bay >= 1 && row >= 1 && row <= 5
             && Hashing.Mod(Hashing.FloorDiv(gx, BayWidth), 5) == 2 && Hashing.Mod(Hashing.FloorDiv(gz, Module), 3) == 1;
+    }
+
+    /// <summary>
+    /// Where a block is in the car park's grid of bays, modules and cross aisles, along x. Up to layout version 3 the
+    /// grid ran on unbroken across the whole level, so the fire walls between districts cut through it wherever they
+    /// fell: along the middle of a driving aisle, or across a row of stalls a block or two from their wheel stops. From
+    /// version 4 each district has the grid to itself, counted from its north-west corner, so its west fire wall
+    /// stands on a line of columns with a cross aisle beside it, and its north fire wall on a column line with the
+    /// first row of stalls backing onto it (and its south side, 96 being 5 modules and 11, is a driving aisle along
+    /// the next district's fire wall).
+    /// </summary>
+    private int ParkX(int gx) => Version >= 4 ? gx - L1DistrictOf(MacroOf(gx)) * L1District * MacroSize : gx;
+
+    /// <summary>The same as <see cref="ParkX"/>, along z.</summary>
+    private int ParkZ(int gz) => Version >= 4 ? gz - L1DistrictOf(MacroOf(gz)) * L1District * MacroSize : gz;
+
+    private int CrossFrom => Version >= 4 ? CrossAisleStartV4 : CrossAisleStart;
+
+    /// <summary>Whether a position along the car park's grid (<see cref="ParkX"/>) is in a cross aisle.</summary>
+    private bool InCrossAisleAt(int px)
+    {
+        int m = Hashing.Mod(px, CrossAislePeriod);
+        return m >= CrossFrom && m < CrossFrom + 6;
     }
 
     private bool IsCarParkAt(int gx, int gz)
@@ -228,8 +275,10 @@ public sealed partial class WorldLayout
     private void BuildCarPark(Builder b, int mx, int mz)
     {
         ref Rng rng = ref b.Rng;
+        bool v4 = Version >= 4;
         // Some sectors were built with massive 2x2 columns
         bool bigColumns = Noise(mx / 6.0, mz / 6.0, SaltL1BigPillars) > 0.55;
+        List<StairCore> cores = v4 ? StairCoresV4(b, mx, mz) : null;
 
         for (int lz = 0; lz < MacroSize; lz++)
         {
@@ -237,29 +286,44 @@ public sealed partial class WorldLayout
             {
                 ref Tile tile = ref b.At(lx, lz);
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
-                int bay = Hashing.Mod(gx, BayWidth), row = Hashing.Mod(gz, Module);
-                bool crossAisle = InCrossAisle(gx);
+                // (Up to version 3 the grid's own coordinates are the world's)
+                int px = ParkX(gx), pz = ParkZ(gz);
+                int bay = Hashing.Mod(px, BayWidth), row = Hashing.Mod(pz, Module);
+                bool crossAisle = InCrossAisleAt(px);
 
                 // Beams span between the columns under the slab, in both directions
                 tile.Beam = row == 0 || bay == 0;
                 if (tile.Kind != TileKind.Floor) continue;
 
-                if (InStairCore(gx, gz) && StairCoreFits(gx, gz))
+                if (v4)
+                {
+                    if (CoreAt(cores, lx, lz) is { } core)
+                    {
+                        BuildStairCoreTileV4(ref tile, lx - core.X0, lz - core.Z0, core.Fun);
+                        continue;
+                    }
+                }
+                else if (InStairCore(gx, gz) && StairCoreFits(gx, gz))
                 {
                     BuildStairCoreTile(ref tile, gx, gz, bay, row);
                     continue;
                 }
 
-                bool column = bigColumns ? bay <= 1 && (row == 0 || row == Module - 1) : bay == 0 && row == 0;
+                // (From version 4 a big column's second block is west of its grid line, so none stands in a cross aisle)
+                bool column = bigColumns ? (v4 ? bay is 0 or BayWidth - 1 : bay <= 1) && (row == 0 || row == Module - 1) : bay == 0 && row == 0;
                 if (column)
                 {
-                    int px = Hashing.FloorDiv(gx, BayWidth), pz = Hashing.FloorDiv(gz + 1, Module);
-                    ulong ph = Hashing.Hash(seed, px, pz, SaltL1Pillar);
+                    // The column's grid lines, the same for every block of a big one
+                    int cx = v4 ? gx - px + Hashing.FloorDiv(px + 1, BayWidth) * BayWidth : Hashing.FloorDiv(gx, BayWidth);
+                    int cz = v4 ? gz - pz + Hashing.FloorDiv(pz + 1, Module) * Module : Hashing.FloorDiv(gz + 1, Module);
+                    ulong ph = Hashing.Hash(seed, cx, cz, SaltL1Pillar);
                     double r = Hashing.Unit(ph);
                     bool light = r > 0.5 && !SectionDead(gx, gz);
                     SetWall(ref tile, WallPattern.Pillar, BaseStyle.Plain);
-                    // Bay letters run A-F along each column line; about half the columns carry a light
-                    tile.Variant = (byte)(Hashing.Mod(px, 6) + (light ? 8 : 0));
+                    // Bay letters run A-F along each column line (from version 4, from A by each district's west wall);
+                    // about half the columns carry a light
+                    int letter = v4 ? Hashing.Mod(Hashing.FloorDiv(px + 1, BayWidth) - 1, 6) : Hashing.Mod(cx, 6);
+                    tile.Variant = (byte)(letter + (light ? 8 : 0));
                     // Now and then a group has tied its coloured cloth round a column, supplies at its foot
                     if (!light && !bigColumns && Hashing.Unit(ph << 20) < 0.04)
                     {
@@ -269,23 +333,26 @@ public sealed partial class WorldLayout
                     continue;
                 }
 
-                ParkingZone zone = ZoneOfRow(gz);
+                ParkingZone zone = ZoneOfRow(pz);
                 bool stalls = (zone == ParkingZone.StallsA || zone == ParkingZone.StallsB) && !crossAisle;
                 ulong dh = Hashing.Hash(seed, gx, gz, SaltL1Detail);
+                int crossMid = CrossFrom + 2;
 
                 // Paint: stall dividers, dashed yellow centre lines, lane arrows, oil stains, drains
-                if (stalls && Hashing.Mod(gx, 3) == 0) tile.Floor = FloorKind.ConcreteLineNS;
-                else if (zone == ParkingZone.Aisle && row == 8 && !crossAisle && Hashing.Mod(gx, 4) < 2) tile.Floor = FloorKind.ConcreteDashWE;
-                else if (crossAisle && Hashing.Mod(gx, CrossAislePeriod) == CrossAisleStart + 2 && Hashing.Mod(gz, 4) < 2) tile.Floor = FloorKind.ConcreteDashNS;
-                else if (row == 7 && !crossAisle && Hashing.Mod(gx, 27) == 13) tile.Floor = FloorKind.ParkArrowW;
-                else if (row == 10 && !crossAisle && Hashing.Mod(gx, 27) == 26) tile.Floor = FloorKind.ParkArrowE;
-                else if (stalls && (row == 3 || row == 14) && Hashing.Mod(gx, 3) == 2 && Hashing.Unit(dh) < 0.18) tile.Floor = FloorKind.ParkOil;
-                else if (row == 9 && !crossAisle && Hashing.Mod(gx, 36) == 22) tile.Floor = FloorKind.ParkDrain;
-                else if ((row == 8 || row == 10) && !crossAisle && Hashing.Mod(gx, 36) is 21 or 22 or 23) tile.Floor = FloorKind.ConcreteWet;
+                if (stalls && Hashing.Mod(px, 3) == 0) tile.Floor = FloorKind.ConcreteLineNS;
+                else if (zone == ParkingZone.Aisle && row == 8 && !crossAisle && Hashing.Mod(px, 4) < 2) tile.Floor = FloorKind.ConcreteDashWE;
+                else if (crossAisle && Hashing.Mod(px, CrossAislePeriod) == crossMid && Hashing.Mod(pz, 4) < 2) tile.Floor = FloorKind.ConcreteDashNS;
+                else if (row == 7 && !crossAisle && Hashing.Mod(px, 27) == 13) tile.Floor = FloorKind.ParkArrowW;
+                else if (row == 10 && !crossAisle && Hashing.Mod(px, 27) == 26) tile.Floor = FloorKind.ParkArrowE;
+                else if (stalls && (row == 3 || row == 14) && Hashing.Mod(px, 3) == 2 && Hashing.Unit(dh) < 0.18) tile.Floor = FloorKind.ParkOil;
+                else if (row == 9 && !crossAisle && Hashing.Mod(px, 36) == 22) tile.Floor = FloorKind.ParkDrain;
+                else if ((row == 8 || row == 10) && !crossAisle && Hashing.Mod(px, 36) is 21 or 22 or 23) tile.Floor = FloorKind.ConcreteWet;
 
-                // Wheel stops near the back of each stall; speed bumps across the aisles
-                if (stalls && (row == 2 || row == Module - 2) && Hashing.Mod(gx, 3) != 0) tile.Variant = Props.WheelStop;
-                else if (zone == ParkingZone.Aisle && !crossAisle && Hashing.Mod(gx, CrossAislePeriod) == 22)
+                // Wheel stops near the back of each stall; up to version 3, speed bumps across the aisles every five
+                // bays (from 4 there are none: a low striped strip right across a driving aisle read as a kerb in the
+                // middle of the road)
+                if (stalls && (row == 2 || row == Module - 2) && Hashing.Mod(px, 3) != 0) tile.Variant = Props.WheelStop;
+                else if (!v4 && zone == ParkingZone.Aisle && !crossAisle && Hashing.Mod(px, CrossAislePeriod) == 22)
                 {
                     tile.Variant = Props.SpeedBump;
                     tile.Pier = ArchPier.East;
@@ -294,9 +361,9 @@ public sealed partial class WorldLayout
                 // Lights: rows over the aisle, a fixture over each bay of stalls, and along the cross aisles
                 if (!tile.Beam)
                 {
-                    if (zone == ParkingZone.Aisle && (row == 7 || row == 10) && Hashing.Mod(gx, 6) == 2 && !crossAisle) tile.Ceiling = Level1LightState(gx, gz);
+                    if (zone == ParkingZone.Aisle && (row == 7 || row == 10) && Hashing.Mod(px, 6) == 2 && !crossAisle) tile.Ceiling = Level1LightState(gx, gz);
                     else if (stalls && (row == 3 || row == 14) && (bay == 4 || bay == 5)) tile.Ceiling = Level1LightState(gx, gz);
-                    else if (crossAisle && Hashing.Mod(gx, CrossAislePeriod) == CrossAisleStart + 2 && Hashing.Mod(gz, 6) == 3)
+                    else if (crossAisle && Hashing.Mod(px, CrossAislePeriod) == crossMid && Hashing.Mod(pz, 6) == 3)
                     {
                         tile.Ceiling = Level1LightState(gx, gz);
                         tile.Pier = ArchPier.North;
@@ -314,15 +381,271 @@ public sealed partial class WorldLayout
             }
         }
 
-        PlaceStallContents(b, mx, mz);
+        if (v4)
+        {
+            BuildStairCoresV4(b, cores);
+            PaintCrossings(b, cores);
+            PlaceStallContentsV4(b, mx, mz, cores);
+        }
+        else PlaceStallContents(b, mx, mz);
         PlaceLandmarkSupplies(b);
-        if (rng.Chance(0.1)) AddShearWall(b, mx, mz);
-        if (rng.Chance(0.06)) AddStairsToNowhere(b);
+        if (rng.Chance(0.1))
+        {
+            if (v4) AddShearWallV4(b, mx, mz, cores);
+            else AddShearWall(b, mx, mz);
+        }
+        if (v4)
+        {
+            // (Stairs into a wall want a wall to climb into, which fewer cells have)
+            if (rng.Chance(0.12)) AddStairsToNowhereV4(b, mx, mz, cores);
+        }
+        else if (rng.Chance(0.06)) AddStairsToNowhere(b);
     }
 
     /// <summary>
-    /// One tile of a stair core. In bay coordinates (1-8 across, rows 1-5 deep) the core is a white box with a
-    /// two-wide doorway onto the aisle; inside, steps climb westward into the ceiling.
+    /// A stair core from layout version 4, by the cell position of its corner (bay 0, row 0); North: it backs onto its
+    /// district's north fire wall; Fun: its flight up climbs into Level Fun (<see cref="IsFunStairCore"/>); Floor: the
+    /// floor it is on (<see cref="L1Floors"/>).
+    /// </summary>
+    private readonly record struct StairCore(int X0, int Z0, bool North, bool Fun, int Floor);
+
+    /// <summary>The modules (of a district's six) and bays (of its eleven) with stair cores, from layout version 4.</summary>
+    private static readonly int[] CoreModules = { 0, 5 }, CoreBays = { 1, 9 };
+
+    // ================= Stairwells with shafts (layout version 4) =================
+
+    /// <summary>
+    /// From layout version 4 Level 1's stairwells (its stair cores and the maintenance halls' stairwell rooms) and Level
+    /// 4's each have a flight up and a flight down, side by side from a landing, each of this many steps: a flight up
+    /// climbs through an opening in the ceiling into a dark shaft, a flight down descends through an opening in the
+    /// floor into one, and the last steps of each lie under the stairwell's far wall (see
+    /// <see cref="StampStairwellV4"/>).
+    /// </summary>
+    public const int StairwellSteps = 6;
+
+    /// <summary>
+    /// The step of a flight up that takes whoever climbs onto it somewhere else: the first one set at the height of the
+    /// ceiling (Level 1's slab, 5 above the floor; Level 4's drop ceiling, 4), two steps after their head went up
+    /// through it, in the dark of the shaft.
+    /// </summary>
+    public static int UpTripStep(int level) => level == 4 ? WorldGeometry.RoomHeight + 1 : WorldGeometry.Level1RoomHeight + 1;
+
+    /// <summary>
+    /// How far below the floor (at the feet) someone going down a flight down is taken somewhere else: on its last
+    /// step, four blocks down and under the far wall, where the light from the stairwell has died away.
+    /// </summary>
+    public const double DownTripRel = -3.9;
+
+    /// <summary>
+    /// <see cref="Tile.Zone"/> of the steps of those flights (0 everywhere else in Levels 1 and 4): up through the
+    /// ceiling, down through the floor, and (one stair core in twenty) up into Level Fun.
+    /// </summary>
+    public const byte FlightZoneUp = 1, FlightZoneDown = 2, FlightZoneFun = 3;
+
+    /// <summary>Whether a tile is a step of a flight with a shaft (Level 1 or 4, from layout version 4).</summary>
+    public static bool IsShaftFlight(in Tile t) => t.Level is 1 or 4 && t.Stair > 0 && t.Zone is FlightZoneUp or FlightZoneDown or FlightZoneFun;
+
+    /// <summary>
+    /// Level 1's stairwells (from layout version 4) are each on a floor of a building that has none, painted on the wall
+    /// of the landing: P5 at the top, down to B3 at the bottom. A stairwell's floor is fixed by where it is; going up
+    /// one comes out a floor higher, going down a floor lower (see ThresholdNetwork). It is kept, plus one, in
+    /// <see cref="Tile.Height"/> of every step of both flights and of the painted wall.
+    /// </summary>
+    public const int L1Floors = 8;
+
+    /// <summary>The painted name of a floor (0 the bottom, B3; 7 the top, P5).</summary>
+    public static string L1FloorLabel(int floor) => floor >= 3 ? "P" + (floor - 2) : "B" + (3 - floor);
+
+    /// <summary>The floor, 0 (B3) to 7 (P5), of a Level 1 stairwell by a step of it or its painted wall; -1 if it has none.</summary>
+    public static int L1FloorOf(in Tile t) => t.Level == 1 && t.Height is >= 1 and <= L1Floors ? t.Height - 1 : -1;
+
+    private const ulong SaltL1Floor = 0x1A0A;
+
+    /// <summary>A tile of a stairwell being laid out, by its place in the stairwell (see <see cref="StampStairwellV4"/>).</summary>
+    private delegate ref Tile StairwellTile(int a, int c);
+
+    /// <summary>
+    /// Lays out the flights of a stairwell (from layout version 4) in its own coordinates: a runs from its far wall (0)
+    /// toward the landing, c across it, 0 and 4 being its side walls:
+    /// <code>
+    ///   c 0   #  #  #  #  #  #  ...        (side wall)
+    ///   c 1   U6 U5 U4 U3 U2 U1 landing    (the flight up)
+    ///   c 2   #  #  #  #  #  #  landing    (the wall between)
+    ///   c 3   D6 D5 D4 D3 D2 D1 landing    (the flight down)
+    ///   c 4   #  #  #  #  #  #  ...        (side wall)
+    ///   a     0  1  2  3  4  5  6...
+    /// </code>
+    /// Both flights run away from the landing, as from the floor landing of a real stair core. Step n of the flight up
+    /// is n above the floor; step n of the flight down has its tread n - 1 below it. The flight down's first four steps
+    /// are open floor (the floor is open over them) and its last two lie under the far wall, roofed by the floor; the
+    /// flight up's first steps stand in the room, under an opening in the ceiling from its second step, and those from
+    /// the height of the ceiling on (<paramref name="openUp"/> + 1: from the fifth in Level 1, the fourth in Level 4)
+    /// lie under the far wall too, steps only up in the shaft. The column a = 0 is the far wall's own; c 0, 2 and 4
+    /// are made wall up to a = 5 (the landing is left as it is). Each step's <see cref="Tile.Stair"/> is its number,
+    /// its <see cref="Tile.Pier"/> the way it climbs (<paramref name="far"/> up, back toward the landing down), its
+    /// <see cref="Tile.Zone"/> which flight it is, and its <see cref="Tile.Height"/> the floor plus one (0: none).
+    /// </summary>
+    private static void StampStairwellV4(StairwellTile at, ArchPier far, int openUp, WallPattern wall, bool fun, int floor)
+    {
+        for (int a = 0; a <= 5; a++)
+        {
+            foreach (int c in new[] { 0, 2, 4 })
+            {
+                ref Tile w = ref at(a, c);
+                if (w.Kind != TileKind.Wall) w.Variant = 0;
+                if (w.Kind != TileKind.Wall) SetWall(ref w, wall, BaseStyle.Plain);
+                w.Stack = 0;
+            }
+            int step = StairwellSteps - a;
+            SetStep(ref at(a, 1), step, far, step > openUp, fun ? FlightZoneFun : FlightZoneUp, wall, floor);
+            SetStep(ref at(a, 3), step, Opposite(far), step > 4, FlightZoneDown, wall, floor);
+        }
+    }
+
+    private static void SetStep(ref Tile t, int step, ArchPier climb, bool walled, byte zone, WallPattern wall, int floor)
+    {
+        if (walled) SetWall(ref t, wall, BaseStyle.Plain);
+        else
+        {
+            t.Kind = TileKind.Floor;
+            t.SupplyBox = false;
+        }
+        t.Variant = 0;
+        t.Stack = 0;
+        t.Ceiling = CeilingKind.Tile;
+        t.Overhead = 0;
+        t.Beam = false;
+        t.Sealed = false;
+        t.Stair = (byte)step;
+        t.Pier = climb;
+        t.Zone = zone;
+        t.Height = (byte)(floor + 1);
+    }
+
+    /// <summary>
+    /// From layout version 4 the stair cores stand in the corners of each district: in its second bay and its last but
+    /// one (beside the cross aisles along its west and east fire walls), in its first row of stalls, backing onto its
+    /// north fire wall, and in its last, facing the driving aisle along its south one. Each lies wholly in one cell,
+    /// with the aisle in front of its doors. One backing onto the north wall gives way to any doorway in that wall.
+    /// </summary>
+    private List<StairCore> StairCoresV4(Builder b, int mx, int mz)
+    {
+        var cores = new List<StairCore>(2);
+        // Where this cell's corner is in its district
+        int ox = (mx - L1DistrictOf(mx) * L1District) * MacroSize, oz = (mz - L1DistrictOf(mz) * L1District) * MacroSize;
+        foreach (int module in CoreModules)
+        {
+            int z0 = module * Module - oz;
+            if (z0 < 0 || z0 + 10 >= MacroSize) continue;
+            foreach (int bayIndex in CoreBays)
+            {
+                int x0 = bayIndex * BayWidth - ox;
+                if (x0 < 0 || x0 + BayWidth - 1 >= MacroSize) continue;
+                bool north = z0 == 0;
+                if (north)
+                {
+                    bool plain = true;
+                    for (int x = x0; x <= x0 + BayWidth && x < MacroSize; x++) plain &= b.At(x, 0).Kind == TileKind.Wall;
+                    if (!plain) continue;
+                }
+                int gx = mx * MacroSize + x0, gz = mz * MacroSize + z0;
+                // (Chosen by where the flight up stands as a threshold: its top step, at the west end of row 2)
+                bool fun = IsFunStairCore(gx, gz + 2);
+                int floor = (int)(Hashing.Hash(seed, gx, gz, SaltL1Floor) % L1Floors);
+                cores.Add(new StairCore(x0, z0, north, fun, floor));
+            }
+        }
+        return cores;
+    }
+
+    /// <summary>The version 4 stair core a cell position is in, if any (bays 0-8, rows 1-5).</summary>
+    private static StairCore? CoreAt(List<StairCore> cores, int lx, int lz)
+    {
+        foreach (StairCore c in cores)
+            if (lx >= c.X0 && lx < c.X0 + BayWidth && lz > c.Z0 && lz <= c.Z0 + 5) return c;
+        return null;
+    }
+
+    /// <summary>
+    /// A pedestrian crossing painted across the aisle from the doors of each stair core backing onto a fire wall (one
+    /// facing the south wall has only the wall across the aisle).
+    /// </summary>
+    private static void PaintCrossings(Builder b, List<StairCore> cores)
+    {
+        foreach (StairCore c in cores)
+        {
+            if (!c.North) continue;
+            for (int z = c.Z0 + 6; z <= c.Z0 + 11 && z < MacroSize; z++)
+                for (int x = c.X0 + 6; x <= c.X0 + 7; x++)
+                    if (b.At(x, z).Kind == TileKind.Floor) b.At(x, z).Floor = FloorKind.ConcreteLineWE;
+        }
+    }
+
+    /// <summary>
+    /// The stair cores from layout version 4: white boxes nine bays by five rows, in bay coordinates 0-8 across and rows
+    /// 1-5 deep, with the flights of <see cref="StampStairwellV4"/> along rows 2-4, their far wall the west one (S: the
+    /// STAIRS sign; *: a bulb; F: the painted floor, over the landing):
+    /// <code>
+    ///   row 1   #  #  #  #  #  #  #  F  #
+    ///   row 2   U6 U5 U4 U3 U2 U1 L  L  #
+    ///   row 3   #  #  #  #  #  #  L  *  #    (a fire standpipe on the east wall)
+    ///   row 4   D6 D5 D4 D3 D2 D1 L  L  #
+    ///   row 5   #  #  #  #  #  S  door  #    (two fire doors, propped open)
+    /// </code>
+    /// The flight up rises through the slab into a shaft whose air reaches rel 8 (roofed at 9, under the mantle), the
+    /// flight down falls through the floor and on under the west wall to its last step, 5 below the floor.
+    /// </summary>
+    private static void BuildStairCoresV4(Builder b, List<StairCore> cores)
+    {
+        foreach (StairCore core in cores)
+        {
+            StampStairwellV4((a, c) => ref b.At(core.X0 + a, core.Z0 + 1 + c), ArchPier.West, 4, WallPattern.WhiteBlock, core.Fun, core.Floor);
+            // The floor's marking on the north wall, over the landing at the foot of the flight up
+            b.At(core.X0 + 7, core.Z0 + 1).Height = (byte)(core.Floor + 1);
+            // A group's cloth on the column at the core's north-west corner hangs on the side away from it
+            ref Tile column = ref b.At(core.X0, core.Z0);
+            if (column.Kind == TileKind.Wall && column.Pattern == WallPattern.Pillar && column.Variant >= 16 && column.Pier == ArchPier.South)
+                column.Pier = ArchPier.North;
+        }
+    }
+
+    /// <summary>
+    /// One tile of a stair core from layout version 4 (see <see cref="BuildStairCoresV4"/>, which lays the flights over
+    /// these): its walls, doors and fittings, and the landing (bays 6-7, rows 2-4).
+    /// </summary>
+    private static void BuildStairCoreTileV4(ref Tile tile, int bay, int row, bool fun)
+    {
+        tile.Beam = false;
+        tile.Floor = FloorKind.L1Hall;
+        if (bay <= 5 && row is >= 2 and <= 4) return; // the flights
+        if (bay == 0 || bay == 8 || row == 1 || row == 5)
+        {
+            SetWall(ref tile, WallPattern.WhiteBlock, BaseStyle.Plain);
+            if (row == 5 && bay is 6 or 7)
+            {
+                tile.Kind = TileKind.Doorway;
+                tile.ExitSign = true;
+                tile.Variant = Props.FireDoor;
+                tile.Pier = ArchPier.South;
+                tile.Stack = (byte)(bay == 6 ? 0 : 1);
+            }
+            else if (row == 5 && bay == 5) { tile.Variant = Decor.StairSign; tile.Pier = ArchPier.South; }
+            else if (bay == 8 && row == 3) { tile.Variant = Decor.Standpipe; tile.Pier = ArchPier.West; }
+            else if (row == 1 && bay == 7) { tile.Variant = Decor.LevelSign; tile.Pier = ArchPier.South; }
+            else if (row == 1 && bay == 6) { tile.Variant = Decor.Outlet; tile.Pier = ArchPier.South; }
+            return;
+        }
+        // The landing, a bulb over its middle
+        if (bay == 7 && row == 3) tile.Ceiling = CeilingKind.LightWarm;
+        // One flight up in twenty climbs into Level Fun: confetti has trickled down it onto the landing at its foot, and a
+        // balloon is tied beside it (the landing at the top of the flight down is left clear, to arrive on)
+        if (fun && (bay, row) is (6, 2) or (6, 3)) tile.Variant = Props.FunConfetti;
+        else if (fun && (bay, row) is (7, 2)) tile.Variant = Props.FunBalloonTied;
+    }
+
+    /// <summary>
+    /// One tile of a stair core up to layout version 3. In bay coordinates (1-8 across, rows 1-5 deep) the core is a
+    /// white box with a two-wide doorway onto the aisle; inside, steps climb westward into the ceiling.
     /// </summary>
     private void BuildStairCoreTile(ref Tile tile, int gx, int gz, int bay, int row)
     {
@@ -384,7 +707,7 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>Each stall may hold crates or, very rarely, an abandoned car.</summary>
+    /// <summary>Up to layout version 3: each stall may hold crates or, very rarely, an abandoned car.</summary>
     private void PlaceStallContents(Builder b, int mx, int mz)
     {
         int x0 = mx * MacroSize, z0 = mz * MacroSize;
@@ -464,7 +787,10 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>A concrete shear wall between two columns, under the beam, with fire equipment and power boxes on it.</summary>
+    /// <summary>
+    /// Up to layout version 3: a concrete shear wall between two columns, under the beam, with fire equipment and power
+    /// boxes on it (in any bay, so now and then right across a cross aisle).
+    /// </summary>
     private void AddShearWall(Builder b, int mx, int mz)
     {
         ref Rng rng = ref b.Rng;
@@ -485,7 +811,7 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>A short concrete staircase climbing straight into a wall.</summary>
+    /// <summary>Up to layout version 3: a short concrete staircase anywhere, climbing straight into a block of wall of its own.</summary>
     private static void AddStairsToNowhere(Builder b)
     {
         ref Rng rng = ref b.Rng;
@@ -506,6 +832,156 @@ public sealed partial class WorldLayout
             step.Pier = dir;
         }
         SetWall(ref b.At(x + dx * 3, z + dz * 3), WallPattern.Concrete, BaseStyle.Plain);
+    }
+
+    /// <summary>
+    /// From layout version 4: what is left in the stalls. Most stalls are empty; a few hold an abandoned car, a crate
+    /// or two, a pallet or a bin. And now and then a whole bay of three stalls has been used as a store: in each,
+    /// crates stacked in front of the wheel stop, and a pallet, a heap of boxes or a supply box nearer the aisle, so
+    /// the stall still reads as a stall and the aisle stays clear.
+    /// </summary>
+    private void PlaceStallContentsV4(Builder b, int mx, int mz, List<StairCore> cores)
+    {
+        int x0 = mx * MacroSize, z0 = mz * MacroSize;
+        bool InCore(int gx, int gz) => CoreAt(cores, gx - x0, gz - z0) != null;
+        // Walk stall origins: x at the start of a stall, z at the first row of a stall row
+        for (int gz = z0 - Module; gz < z0 + MacroSize; gz++)
+        {
+            int row = Hashing.Mod(ParkZ(gz), Module);
+            if (row != 1 && row != 12) continue;
+            bool rowA = row == 1;
+            // The row in front of the wheel stop, and the one nearer the aisle
+            int cz = gz + 2, fz = rowA ? gz + 3 : gz + 1;
+            for (int gx = x0 - 3; gx < x0 + MacroSize; gx++)
+            {
+                int px = ParkX(gx);
+                if (Hashing.Mod(px, 3) != 1 || InCrossAisleAt(px) || InCrossAisleAt(px + 1)) continue;
+                if (InCore(gx, cz) || InCore(gx + 1, cz)) continue;
+                double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL1Stall));
+                double f = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL1Stall + 3));
+                int fx = f < 0.5 ? gx : gx + 1;
+
+                // A store: the whole bay, by its column line
+                if (Hashing.Unit(Hashing.Hash(seed, gx - Hashing.Mod(px, BayWidth), gz, SaltL1Stall + 2)) < 0.045)
+                {
+                    SetStack(b, x0, z0, gx, cz, (byte)(2 + (int)(r * 100) % 2));
+                    SetStack(b, x0, z0, gx + 1, cz, (byte)(1 + (int)(r * 1000) % 3));
+                    if (f < 0.35) SetProp(b, x0, z0, fx, fz, Props.Pallet);
+                    else if (f < 0.6) SetProp(b, x0, z0, fx, fz, Props.CardboardBoxes);
+                    else if (f < 0.72) SetSupplyBox(b, x0, z0, fx, fz);
+                    continue;
+                }
+                if (r < 0.025)
+                {
+                    // A car parked nose-in: 2 wide, 4 long, ending at the wheel stop
+                    PlaceCar(b, x0, z0, gx, rowA ? gz + 1 : gz, rowA, (int)(Hashing.Hash(seed, gx, gz, SaltL1Stall + 1) % 4));
+                }
+                else if (r < 0.07)
+                {
+                    // Crates left in the stall
+                    SetStack(b, x0, z0, gx, cz, (byte)(1 + (int)(r * 100) % 3));
+                    if (r < 0.045) SetStack(b, x0, z0, gx + 1, cz, 1);
+                }
+                else if (r < 0.085)
+                {
+                    // A pallet of boxes, or a forgotten bin
+                    SetProp(b, x0, z0, gx, cz, r < 0.078 ? Props.Pallet : Props.TrashCan);
+                    if (r < 0.074) SetProp(b, x0, z0, gx + 1, cz, Props.CardboardBoxes);
+                }
+            }
+        }
+    }
+
+    private static void SetSupplyBox(Builder b, int x0, int z0, int gx, int gz)
+    {
+        int lx = gx - x0, lz = gz - z0;
+        if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize) return;
+        ref Tile tile = ref b.At(lx, lz);
+        if (tile.Kind == TileKind.Floor && tile.Variant == 0 && tile.Stair == 0 && tile.Stack == 0) tile.SupplyBox = true;
+    }
+
+    /// <summary>
+    /// From layout version 4: a concrete shear wall between two columns, on a column line inside the district (between
+    /// two rows of stalls back to back), in a bay clear of the cross aisles, so it never stands across one, and not
+    /// against a stair core. Its fittings face whichever side is open.
+    /// </summary>
+    private void AddShearWallV4(Builder b, int mx, int mz, List<StairCore> cores)
+    {
+        ref Rng rng = ref b.Rng;
+        var spots = new List<(int X, int Z)>();
+        for (int z = 1; z < MacroSize; z++)
+        {
+            if (Hashing.Mod(ParkZ(mz * MacroSize + z), Module) != 0) continue;
+            for (int x = 0; x + BayWidth - 1 < MacroSize; x++)
+            {
+                int px = ParkX(mx * MacroSize + x);
+                if (Hashing.Mod(px, BayWidth) != 0) continue;
+                bool clear = true;
+                for (int k = 1; k < BayWidth; k++)
+                    clear &= !InCrossAisleAt(px + k) && b.At(x + k, z).Kind == TileKind.Floor && b.At(x + k, z).Stair == 0
+                             && CoreAt(cores, x + k, z + 1) == null && CoreAt(cores, x + k, z - 1) == null;
+                if (clear) spots.Add((x, z));
+            }
+        }
+        if (spots.Count == 0) return;
+        (int sx, int sz) = spots[rng.Range(0, spots.Count - 1)];
+        for (int k = 1; k < BayWidth; k++)
+        {
+            ref Tile tile = ref b.At(sx + k, sz);
+            tile.Variant = 0;
+            tile.Stack = 0;
+            tile.SupplyBox = false;
+            SetWall(ref tile, WallPattern.Concrete, BaseStyle.Plain);
+            double r = rng.NextDouble();
+            tile.Pier = rng.Chance(0.5) ? ArchPier.North : ArchPier.South;
+            tile.Variant = r < 0.25 ? (byte)1 : r < 0.33 ? Decor.HoseCabinet : r < 0.41 ? Decor.Extinguisher : r < 0.5 ? Decor.PowerBox
+                : r < 0.56 ? Decor.Graffiti : r < 0.62 ? Decor.Outlet : r < 0.7 ? Decor.Camera : (byte)0;
+            int fz = tile.Pier == ArchPier.North ? sz - 1 : sz + 1;
+            if (fz < 0 || fz >= MacroSize || b.At(sx + k, fz).Kind != TileKind.Floor) tile.Pier = Opposite(tile.Pier);
+        }
+    }
+
+    /// <summary>
+    /// From layout version 4: a short concrete staircase at the back of a stall, two wide, climbing straight into the
+    /// concrete wall behind it (a fire wall, or a shear wall between two columns), where a way up was walled over.
+    /// The stall's wheel stop is gone; nothing else is moved.
+    /// </summary>
+    private void AddStairsToNowhereV4(Builder b, int mx, int mz, List<StairCore> cores)
+    {
+        ref Rng rng = ref b.Rng;
+        bool Free(int x, int z) => x >= 1 && z >= 1 && x < MacroSize && z < MacroSize && b.At(x, z) is var t && t.Kind == TileKind.Floor
+            && t.Variant is 0 or Props.WheelStop && t.Stack == 0 && !t.SupplyBox && t.Stair == 0 && CoreAt(cores, x, z) == null;
+        bool Concrete(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && b.At(x, z) is var t && t.Kind == TileKind.Wall
+            && t.Pattern == WallPattern.Concrete && t.Variant <= 1 && t.Under == 0;
+        var spots = new List<(int X, int Z, int Dz)>();
+        for (int z = 1; z < MacroSize; z++)
+        {
+            int row = Hashing.Mod(ParkZ(mz * MacroSize + z), Module);
+            // The back row of a stall: the first row of stalls climbs north, the second south
+            int dz = row == 1 ? -1 : row == Module - 1 ? 1 : 0;
+            if (dz == 0) continue;
+            for (int x = 1; x + 1 < MacroSize; x++)
+            {
+                int px = ParkX(mx * MacroSize + x);
+                if (Hashing.Mod(px, 3) != 1 || InCrossAisleAt(px) || InCrossAisleAt(px + 1)) continue;
+                if (!Concrete(x, z + dz) || !Concrete(x + 1, z + dz)) continue;
+                bool ok = true;
+                for (int k = 0; k <= 3; k++) ok &= Free(x, z - dz * k) && Free(x + 1, z - dz * k);
+                if (ok) spots.Add((x, z, dz));
+            }
+        }
+        if (spots.Count == 0) return;
+        (int sx, int sz, int sdz) = spots[rng.Range(0, spots.Count - 1)];
+        for (int k = 0; k < 3; k++)
+        {
+            for (int dx = 0; dx < 2; dx++)
+            {
+                ref Tile step = ref b.At(sx + dx, sz - sdz * k);
+                step.Variant = 0;
+                step.Stair = (byte)(3 - k);
+                step.Pier = sdz < 0 ? ArchPier.North : ArchPier.South;
+            }
+        }
     }
 
     // ================= Maintenance halls =================
@@ -558,7 +1034,7 @@ public sealed partial class WorldLayout
                 ulong h = Hashing.Hash(seed, gx, gz, SaltL1Detail);
                 double r = Hashing.Unit(h);
 
-                if (tile.Kind == TileKind.Wall && tile.Variant == 0 && tile.Pattern == WallPattern.WhiteBlock)
+                if (tile.Kind == TileKind.Wall && tile.Variant == 0 && tile.Pattern == WallPattern.WhiteBlock && tile.Stair == 0)
                 {
                     // Block walls facing a corridor carry the halls' clutter of power boxes, pipes and pictures
                     ArchPier? face = IsCorridor(lx + 1, lz) ? ArchPier.East : IsCorridor(lx - 1, lz) ? ArchPier.West
@@ -657,11 +1133,22 @@ public sealed partial class WorldLayout
         bool whole = IsHallAt(gx0 - 2, gz0 - 2) && IsHallAt(gx0 + HallBlock + 1, gz0 - 2)
                      && IsHallAt(gx0 - 2, gz0 + HallBlock + 1) && IsHallAt(gx0 + HallBlock + 1, gz0 + HallBlock + 1);
         bool Inside(int u, int v) => IsHallAt(gx0 + u, gz0 + v);
+        // (From version 4, where a stairwell's flights and walls may go: in the halls, off the cells' edge lines, whose
+        // walls a cell keeps of its own, and clear of the middle of the north wall, where a door into the Hub may stand)
+        bool FlightOk(int u, int v) => IsHallAt(gx0 + u, gz0 + v) && Hashing.Mod(gx0 + u, MacroSize) != 0
+                                       && Hashing.Mod(gz0 + v, MacroSize) != 0 && !(u == 6 && v == 0);
         double kind = rng.NextDouble();
         ulong plan = Hashing.Mix(h + 1);
-        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside);
-        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null);
-        else if (kind < 0.64) PlanOpenHall(tiles, plan, DoorOk, camp: false);
+        bool v4 = Version >= 4;
+        DoorCheck flightOk = v4 ? FlightOk : null;
+        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside, v4, flightOk);
+        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null, v4, flightOk);
+        // (From version 4 half the littered halls are stockrooms instead)
+        else if (kind < 0.64)
+        {
+            if (v4 && kind >= 0.57) PlanStockroom(tiles, plan, DoorOk);
+            else PlanOpenHall(tiles, plan, DoorOk, camp: false);
+        }
         else if (kind < 0.79) PlanThroughCorridor(tiles, plan, DoorOk, gx0, gz0);
         else if (kind < 0.89) PlanOpenHall(tiles, plan, DoorOk, camp: true);
         else if (kind < 0.95)
@@ -670,14 +1157,99 @@ public sealed partial class WorldLayout
                 for (int u = 1; u < HallBlock - 1; u++)
                     SetWall(ref At(u, v), WallPattern.WhiteBlock, BaseStyle.Plain);
         }
-        else PlanRooms(tiles, plan, DoorOk, null);
+        else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk);
+        if (v4) Unfence(tiles);
         return tiles;
+    }
+
+    /// <summary>
+    /// From layout version 4: no floor of a hall block is fenced off by its furniture. Whatever can't be walked to from
+    /// the block's ways in (its doorways, and any gap in its perimeter) has a prop in the way taken out, one at a time,
+    /// until it can (a bed or a car is never taken apart; a supply box only when nothing else will do); what still
+    /// can't is marked sealed, so nobody is put down there. (Rooms behind a locked door are sealed already. Up to
+    /// version 3 a corner fenced in by furniture against the edge of a cell was missed, and stayed unsealed.)
+    /// </summary>
+    private static void Unfence(Tile[] tiles)
+    {
+        const int n = HallBlock;
+        bool Open(int i) => IsWalkable(tiles[i]) && !tiles[i].Sealed;
+        // What it costs to take a tile's prop out of the way: a box only if nothing else will do, never a bed or a car
+        int Cost(int i)
+        {
+            Tile t = tiles[i];
+            if (Open(i)) return 0;
+            if (t.Kind != TileKind.Floor || t.Sealed || t.Stair != 0 || t.Variant is Props.Bed or Props.HospitalBed or Props.Car or Props.CarPart) return -1;
+            return t.SupplyBox ? 8 : 1;
+        }
+        for (int round = 0; ; round++)
+        {
+            // The floor walked to from the block's ways in
+            var dist = new int[n * n];
+            var from = new int[n * n];
+            Array.Fill(dist, int.MaxValue);
+            var reached = new bool[n * n];
+            var queue = new Queue<int>();
+            for (int i = 0; i < n * n; i++)
+            {
+                int u = i % n, v = i / n;
+                if (u != 0 && v != 0 && u != n - 1 && v != n - 1 || !Open(i)) continue;
+                reached[i] = true;
+                queue.Enqueue(i);
+            }
+            while (queue.Count > 0)
+            {
+                int i = queue.Dequeue();
+                foreach ((int du, int dv) in Steps)
+                {
+                    int u = i % n + du, v = i / n + dv, j = v * n + u;
+                    if (u < 0 || v < 0 || u >= n || v >= n || reached[j] || !Open(j)) continue;
+                    reached[j] = true;
+                    queue.Enqueue(j);
+                }
+            }
+            int pocket = -1;
+            for (int i = 0; i < n * n && pocket < 0; i++) if (Open(i) && !reached[i]) pocket = i;
+            if (pocket < 0) return;
+            // The cheapest way out to it from the reached floor, through props
+            var open = new SortedSet<(int Cost, int Index)>();
+            for (int i = 0; i < n * n; i++) if (reached[i]) { dist[i] = 0; from[i] = -1; open.Add((0, i)); }
+            while (open.Count > 0)
+            {
+                var (c0, i) = open.Min;
+                open.Remove(open.Min);
+                if (i == pocket) break;
+                foreach ((int du, int dv) in Steps)
+                {
+                    int u = i % n + du, v = i / n + dv, j = v * n + u;
+                    if (u < 0 || v < 0 || u >= n || v >= n) continue;
+                    int step = Cost(j);
+                    if (step < 0 || c0 + step >= dist[j]) continue;
+                    if (dist[j] != int.MaxValue) open.Remove((dist[j], j));
+                    dist[j] = c0 + step;
+                    from[j] = i;
+                    open.Add((dist[j], j));
+                }
+            }
+            if (round >= 16 || dist[pocket] == int.MaxValue)
+            {
+                // Nothing can be moved (or it is a maze of props): whatever is still cut off is sealed
+                for (int i = 0; i < n * n; i++) if (Open(i) && !reached[i]) tiles[i].Sealed = true;
+                return;
+            }
+            for (int i = pocket; i >= 0 && !reached[i]; i = from[i])
+            {
+                if (Open(i)) continue;
+                tiles[i].Variant = 0;
+                tiles[i].Stack = 0;
+                tiles[i].SupplyBox = false;
+            }
+        }
     }
 
     private delegate bool DoorCheck(int u, int v);
 
     /// <summary>Splits the inside of a block into two to four rooms, each against the perimeter, each with a door.</summary>
-    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside)
+    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside, bool v4, DoorCheck flightOk = null)
     {
         var rng = new Rng(h);
         var leaves = new List<(int U0, int V0, int U1, int V1)>();
@@ -728,6 +1300,12 @@ public sealed partial class WorldLayout
                 MarkSealed(tiles, leaf);
                 continue;
             }
+            // From version 4 a stairwell is laid out like a stair core's, in a room long enough for its flights
+            if (v4 && flightOk != null && !stairwellDone && rng.Chance(HallStairwellChance) && PlanHallStairwellV4(tiles, leaf, doors, flightOk, ref rng))
+            {
+                stairwellDone = true;
+                continue;
+            }
             var door = doors[rng.Range(0, doors.Count - 1)];
             ref Tile doorTile = ref tiles[door.V * HallBlock + door.U];
             int w = leaf.U1 - leaf.U0 + 1, d = leaf.V1 - leaf.V0 + 1;
@@ -763,10 +1341,111 @@ public sealed partial class WorldLayout
             HallRoom kind = r < 0.3 ? HallRoom.Empty : r < 0.44 ? HallRoom.Storage : r < 0.53 ? HallRoom.Electrical
                 : r < 0.62 ? HallRoom.Workshop : r < 0.69 ? HallRoom.Camp : r < 0.75 ? HallRoom.Medical
                 : r < 0.82 ? HallRoom.Pump : r < 0.89 ? HallRoom.Office : HallRoom.Break;
-            if (!stairwellDone && w >= 5 && d >= 5 && rng.Chance(0.12)) { kind = HallRoom.Stairwell; stairwellDone = true; }
-            FurnishHallRoom(tiles, rng.NextULong(), leaf, door.U, door.V, kind);
+            if (!v4 && !stairwellDone && w >= 5 && d >= 5 && rng.Chance(0.12)) { kind = HallRoom.Stairwell; stairwellDone = true; }
+            FurnishHallRoom(tiles, rng.NextULong(), leaf, door.U, door.V, kind, v4);
         }
     }
+
+    /// <summary>The chance that a room long enough for a stairwell's flights is one (from layout version 4; one a block at most).</summary>
+    private const double HallStairwellChance = 0.3;
+
+    /// <summary>
+    /// From layout version 4, tries to lay a room out as a stairwell like a stair core's (<see cref="StampStairwellV4"/>):
+    /// the flights run seven tiles from a far wall of the room (their last steps under it) to a landing at least two
+    /// deep, three rows across between walls (rows of the room beside them beyond those are walled in, alongside the
+    /// flights, and are landing beyond them), with its door off the landing, in a way the flights and their shafts
+    /// open onto nothing else. False, and nothing changed, if the room has no such way to be one.
+    /// </summary>
+    private static bool PlanHallStairwellV4(Tile[] tiles, (int U0, int V0, int U1, int V1) room, List<(int U, int V, ArchPier Out)> doors,
+                                            DoorCheck flightOk, ref Rng rng)
+    {
+        ref Tile At(int u, int v) => ref tiles[v * HallBlock + u];
+        int w = room.U1 - room.U0 + 1, d = room.V1 - room.V0 + 1;
+        var options = new List<(ArchPier Far, int Band, int Length, (int U, int V, ArchPier Out) Door)>();
+        foreach (ArchPier far in new[] { ArchPier.West, ArchPier.East, ArchPier.North, ArchPier.South })
+        {
+            bool alongU = far is ArchPier.West or ArchPier.East;
+            int length = alongU ? w : d, across = alongU ? d : w;
+            if (length < 7 || across < 3) continue;
+            foreach (int band in across == 3 ? new[] { 0 } : new[] { 0, across - 3 })
+            {
+                (int U, int V) Pos(int a, int c) => HallStairPos(room, far, band, a, c);
+                bool ok = true;
+                for (int a = 0; a <= 5 && ok; a++)
+                    for (int c = 0; c <= 4 && ok; c++)
+                    {
+                        // (The far wall must be one; the side walls may be rows of the room, walled in)
+                        (int u, int v) = Pos(a, c);
+                        bool inRoom = u >= room.U0 && u <= room.U1 && v >= room.V0 && v <= room.V1;
+                        ok = flightOk(u, v) && (a > 0 && inRoom || At(u, v).Kind == TileKind.Wall)
+                             && !(At(u, v).Kind is TileKind.Door or TileKind.Doorway);
+                    }
+                if (!ok) continue;
+                // A door off the landing
+                foreach (var door in doors)
+                {
+                    (int iu, int iv) = Step(door.U, door.V, Opposite(door.Out));
+                    int a = alongU ? (far == ArchPier.West ? iu - (room.U0 - 1) : room.U1 + 1 - iu) : (far == ArchPier.North ? iv - (room.V0 - 1) : room.V1 + 1 - iv);
+                    if (a >= 6) options.Add((far, band, length, door));
+                }
+            }
+        }
+        if (options.Count == 0) return false;
+        var pick = options[rng.Range(0, options.Count - 1)];
+        int floor = rng.Range(0, L1Floors - 1);
+        // Rows of the room beside the flights, beyond the three they need, are walled in
+        bool alongU2 = pick.Far is ArchPier.West or ArchPier.East;
+        int across2 = alongU2 ? d : w;
+        for (int a = 1; a <= 5; a++)
+            for (int c = 1; c <= across2; c++)
+            {
+                if (c - pick.Band is >= 1 and <= 3) continue;
+                (int u, int v) = HallStairPos(room, pick.Far, 0, a, c);
+                SetWall(ref At(u, v), WallPattern.WhiteBlock, BaseStyle.Plain);
+                At(u, v).Variant = 0;
+            }
+        StampStairwellV4((a, c) => ref tiles[HallStairIndex(room, pick.Far, pick.Band, a, c)], pick.Far, 4, WallPattern.WhiteBlock, false, floor);
+        ref Tile doorTile = ref At(pick.Door.U, pick.Door.V);
+        doorTile.Kind = TileKind.Doorway;
+        doorTile.ExitSign = true;
+        // A bulb at the landing's end, away from the openings, and the floor painted on a wall of the landing
+        (int lu, int lv) = HallStairPos(room, pick.Far, pick.Band, pick.Length, 2);
+        At(lu, lv).Ceiling = CeilingKind.LightWarm;
+        foreach (int c in new[] { 0, 4 })
+        {
+            (int su, int sv) = HallStairPos(room, pick.Far, pick.Band, 7, c);
+            ref Tile sign = ref At(su, sv);
+            if (sign.Kind != TileKind.Wall || sign.Variant != 0 || sign.Stair != 0) continue;
+            sign.Variant = Decor.LevelSign;
+            sign.Pier = HallStairFacing(pick.Far, c == 0);
+            sign.Height = (byte)(floor + 1);
+            break;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Where a place in a hall stairwell (<see cref="PlanHallStairwellV4"/>) is in its block: a from the far wall, c across
+    /// from the side wall before its three rows (band: how many of the room's rows lie between that and them).
+    /// </summary>
+    private static (int U, int V) HallStairPos((int U0, int V0, int U1, int V1) room, ArchPier far, int band, int a, int c) => far switch
+    {
+        ArchPier.West => (room.U0 - 1 + a, room.V0 - 1 + band + c),
+        ArchPier.East => (room.U1 + 1 - a, room.V0 - 1 + band + c),
+        ArchPier.North => (room.U0 - 1 + band + c, room.V0 - 1 + a),
+        _ => (room.U0 - 1 + band + c, room.V1 + 1 - a),
+    };
+
+    private static int HallStairIndex((int U0, int V0, int U1, int V1) room, ArchPier far, int band, int a, int c)
+    {
+        (int u, int v) = HallStairPos(room, far, band, a, c);
+        return v * HallBlock + u;
+    }
+
+    /// <summary>The way a wall along the side of a hall stairwell faces into it (c 0's side, or c 4's).</summary>
+    private static ArchPier HallStairFacing(ArchPier far, bool firstSide) => far is ArchPier.West or ArchPier.East
+        ? (firstSide ? ArchPier.South : ArchPier.North)
+        : (firstSide ? ArchPier.East : ArchPier.West);
 
     private static void MarkSealed(Tile[] tiles, (int U0, int V0, int U1, int V1) room)
     {
@@ -779,7 +1458,7 @@ public sealed partial class WorldLayout
     /// Furnishes a small room. Props stand against its walls, never in the doorway or the tiles beside it, so the
     /// middle of the room stays clear.
     /// </summary>
-    private static void FurnishHallRoom(Tile[] tiles, ulong h, (int U0, int V0, int U1, int V1) room, int doorU, int doorV, HallRoom kind)
+    private static void FurnishHallRoom(Tile[] tiles, ulong h, (int U0, int V0, int U1, int V1) room, int doorU, int doorV, HallRoom kind, bool v4)
     {
         var rng = new Rng(h);
         ref Tile At(int u, int v) => ref tiles[v * HallBlock + u];
@@ -850,7 +1529,7 @@ public sealed partial class WorldLayout
                 int u = side switch { 0 => room.U0 - 1, 1 => room.U1 + 1, _ => rng.Range(room.U0, room.U1) };
                 int v = side switch { 2 => room.V0 - 1, 3 => room.V1 + 1, _ => rng.Range(room.V0, room.V1) };
                 ref Tile w = ref At(u, v);
-                if (w.Kind != TileKind.Wall || w.Variant != 0) continue;
+                if (w.Kind != TileKind.Wall || w.Variant != 0 || w.Stair != 0) continue;
                 w.Variant = decor;
                 w.Pier = side switch { 0 => ArchPier.East, 1 => ArchPier.West, 2 => ArchPier.South, _ => ArchPier.North };
                 return;
@@ -865,6 +1544,9 @@ public sealed partial class WorldLayout
             case HallRoom.Empty:
                 if (rng.Chance(0.3)) Place(Props.CardboardBoxes);
                 if (rng.Chance(0.15)) Box();
+                break;
+            case HallRoom.Storage when v4:
+                FurnishStoreroom(tiles, ref rng, room, doorU, doorV);
                 break;
             case HallRoom.Storage:
                 for (int i = 0; i < 3; i++) Place(Props.Shelf);
@@ -956,6 +1638,132 @@ public sealed partial class WorldLayout
                 break;
         }
     }
+
+    /// <summary>
+    /// From layout version 4, a storeroom is laid out as one: shelving along the back wall facing the door and down
+    /// both side walls, crates stacked in the back corners, a pallet and a heap of boxes among the side shelves, in a
+    /// big room a rack down the middle with an aisle either side and a stack of crates at its end, and the two rows
+    /// inside the door kept clear, so every aisle has a way in. (Up to version 3 its things stood against any wall,
+    /// wherever they fell.)
+    /// </summary>
+    private static void FurnishStoreroom(Tile[] tiles, ref Rng rng, (int U0, int V0, int U1, int V1) room, int doorU, int doorV)
+    {
+        // Depth runs from the back wall (0) toward the door's wall; lateral runs along the back wall
+        bool alongU = doorU < room.U0 || doorU > room.U1;
+        bool backHigh = alongU ? doorU < room.U0 : doorV < room.V0;
+        int depth = alongU ? room.U1 - room.U0 + 1 : room.V1 - room.V0 + 1;
+        int width = alongU ? room.V1 - room.V0 + 1 : room.U1 - room.U0 + 1;
+        ArchPier toDoor = alongU ? (backHigh ? ArchPier.West : ArchPier.East) : (backHigh ? ArchPier.North : ArchPier.South);
+        ArchPier fromSide0 = alongU ? ArchPier.South : ArchPier.East, fromSide1 = Opposite(fromSide0);
+        ref Tile At(int d, int l)
+        {
+            int a = backHigh ? (alongU ? room.U1 : room.V1) - d : (alongU ? room.U0 : room.V0) + d;
+            int b = (alongU ? room.V0 : room.U0) + l;
+            return ref alongU ? ref tiles[b * HallBlock + a] : ref tiles[a * HallBlock + b];
+        }
+        bool Free(int d, int l) => At(d, l) is { Kind: TileKind.Floor, Variant: 0, Stack: 0, SupplyBox: false, Stair: 0 };
+        void Put(int d, int l, byte prop, ArchPier face)
+        {
+            if (!Free(d, l)) return;
+            At(d, l).Variant = prop;
+            // Shelving is the one prop that names the wall it stands against rather than the way it faces
+            At(d, l).Pier = prop == Props.Shelf ? Opposite(face) : face;
+        }
+        void Crates(int d, int l, int height)
+        {
+            if (Free(d, l)) At(d, l).Stack = (byte)height;
+        }
+
+        int front = depth - 2; // from here to the door's wall the floor stays clear
+        int corner0 = rng.Range(2, 3), corner1 = rng.Range(1, 3);
+        int palletAt = 1 + rng.Range(0, Math.Max(0, front - 2)), boxesAt = 1 + rng.Range(0, Math.Max(0, front - 2));
+        bool rack = width >= 7 && depth >= 6;
+        int middle = width / 2;
+
+        // The back wall: shelves facing the door, crates stacked in its corners
+        Crates(0, 0, corner0);
+        Crates(0, width - 1, corner1);
+        for (int l = 1; l < width - 1; l++) Put(0, l, Props.Shelf, toDoor);
+        // Down the side walls, as far as the clear rows inside the door
+        for (int d = 1; d < front; d++)
+        {
+            Put(d, 0, d == palletAt ? Props.Pallet : Props.Shelf, fromSide0);
+            Put(d, width - 1, d == boxesAt ? Props.CardboardBoxes : Props.Shelf, fromSide1);
+        }
+        // A rack down the middle of a big room, clear of the back row so the aisles either side meet behind it
+        if (rack)
+        {
+            for (int d = 2; d < front - 1; d++) Put(d, middle, Props.Shelf, fromSide0);
+            Crates(front - 1, middle, rng.Range(1, 2));
+        }
+        // The supply box at the end of an aisle
+        if (rng.Chance(0.5))
+        {
+            int l = rng.Chance(0.5) ? 1 : width - 2;
+            if (Free(1, l)) At(1, l).SupplyBox = true;
+        }
+    }
+
+    /// <summary>
+    /// From layout version 4, some blocks are a stockroom: one big room with wide openings onto every corridor, as a
+    /// maintenance hall has, and two-high shelving racks in rows, one along each side wall and a back-to-back pair down
+    /// the middle of each half, with aisles between them (the inner ones either side of an aisle down the middle). A cross aisle
+    /// joins the openings and every aisle; crates, a pallet and a supply box or two are left at their blind ends.
+    /// </summary>
+    private static void PlanStockroom(Tile[] tiles, ulong h, DoorCheck doorOk)
+    {
+        var rng = new Rng(h);
+        ref Tile At(int u, int v) => ref tiles[v * HallBlock + u];
+        int openings = 0;
+        foreach ((int u, int v, int du, int dv) in new[] { (6, 0, 1, 0), (6, HallBlock - 1, 1, 0), (0, 6, 0, 1), (HallBlock - 1, 6, 0, 1) })
+        {
+            if (!doorOk(u, v) || !doorOk(u + du, v + dv)) continue;
+            At(u, v).Kind = At(u + du, v + dv).Kind = TileKind.Doorway;
+            openings++;
+        }
+        if (openings == 0)
+        {
+            MarkSealed(tiles, (1, 1, HallBlock - 2, HallBlock - 2));
+            return;
+        }
+
+        // The racks, north and south of the cross aisle (rows 6-7), each facing the aisle beside it
+        foreach ((int u, ArchPier face) in StockroomRacks)
+            for (int v = 1; v < HallBlock - 1; v++)
+            {
+                if (v is 6 or 7) continue;
+                At(u, v).Variant = Props.Shelf;
+                At(u, v).Pier = Opposite(face);
+            }
+
+        // Lights down the cross aisles, and one where they cross
+        foreach ((int u, int v, ArchPier axis) in new[] { (6, 3, ArchPier.North), (7, 10, ArchPier.North), (3, 6, ArchPier.West), (10, 7, ArchPier.West), (6, 6, ArchPier.West) })
+        {
+            At(u, v).Ceiling = rng.Chance(0.15) ? CeilingKind.LightOff : CeilingKind.LightOn;
+            At(u, v).Pier = axis;
+        }
+
+        // What was left at the blind ends of the outer aisles: two stacks of crates, a pallet, a supply box; and now
+        // and then a heap of boxes and another supply box where an inner aisle meets the wall
+        var ends = new List<(int U, int V)> { (2, 1), (2, HallBlock - 2), (HallBlock - 3, 1), (HallBlock - 3, HallBlock - 2) };
+        for (int i = ends.Count - 1; i > 0; i--)
+        {
+            int j = rng.Range(0, i);
+            (ends[i], ends[j]) = (ends[j], ends[i]);
+        }
+        At(ends[0].U, ends[0].V).Stack = (byte)rng.Range(2, 3);
+        At(ends[1].U, ends[1].V).Stack = (byte)rng.Range(1, 3);
+        At(ends[2].U, ends[2].V).Variant = Props.Pallet;
+        At(ends[3].U, ends[3].V).SupplyBox = true;
+        if (rng.Chance(0.5)) At(5, HallBlock - 2).Variant = Props.CardboardBoxes;
+        if (rng.Chance(0.5)) At(8, 1).SupplyBox = true;
+    }
+
+    /// <summary>A stockroom's racks across the block (u), and the way each faces: into the aisle beside it.</summary>
+    private static readonly (int U, ArchPier Face)[] StockroomRacks =
+    {
+        (1, ArchPier.East), (3, ArchPier.West), (4, ArchPier.East), (9, ArchPier.West), (10, ArchPier.East), (12, ArchPier.West),
+    };
 
     /// <summary>A flight of stairs along the wall opposite the door, climbing into the ceiling, under an EXIT sign.</summary>
     private static void PlanHallStairs(Tile[] tiles, (int U0, int V0, int U1, int V1) room, int doorU, int doorV)
@@ -1143,7 +1951,7 @@ public sealed partial class WorldLayout
                 HallRoom kind = r < 0.35 ? HallRoom.Empty : r < 0.5 ? HallRoom.Storage : r < 0.6 ? HallRoom.Workshop
                     : r < 0.7 ? HallRoom.Electrical : r < 0.8 ? HallRoom.Pump : r < 0.9 ? HallRoom.Office : HallRoom.Camp;
                 (int du, int dv) = alongU ? (doorAlong, wall) : (wall, doorAlong);
-                FurnishHallRoom(tiles, rng.NextULong(), room, du, dv, kind);
+                FurnishHallRoom(tiles, rng.NextULong(), room, du, dv, kind, Version >= 4);
             }
         }
     }
@@ -1199,7 +2007,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Parallel pipe bundles along the ceiling, heralding Level 2.</summary>
-    private static void AddCeilingPipes(Builder b, int mx, int mz)
+    private void AddCeilingPipes(Builder b, int mx, int mz)
     {
         for (int lz = 0; lz < MacroSize; lz++)
         {
@@ -1207,7 +2015,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile tile = ref b.At(lx, lz);
                 if (tile.Kind != TileKind.Floor || tile.Ceiling != CeilingKind.Tile || tile.Beam || tile.Pipe != 0) continue;
-                int row = Hashing.Mod(mz * MacroSize + lz, Module);
+                int row = Hashing.Mod(ParkZ(mz * MacroSize + lz), Module);
                 if (row == 5 || row == 12)
                 {
                     tile.Pipe = Pipes.RunX;

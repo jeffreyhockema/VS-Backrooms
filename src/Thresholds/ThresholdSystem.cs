@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Backrooms.Map;
 using Backrooms.Worldgen;
+using ProtoBuf;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -15,8 +16,8 @@ namespace Backrooms.Thresholds;
 /// The Backrooms' topology lies. The levels are laid out as rings, and you can walk outward through them all; but
 /// the rings are only how the world is built. The game is the network of ways between them:
 /// <list type="bullet">
-/// <item>Elevators (Levels 3, 4 and 5) each lead to one fixed place, beside another elevator on another level, and
-/// that elevator brings you back.</item>
+/// <item>Elevators (Levels 3, 4 and 5) each lead to one fixed place, beside another elevator in Level 3, 4 or 5 (from
+/// the hotel, now and then Level 1, with a thin spot back), and that elevator brings you back.</item>
 /// <item>A few of the hotel's locked doors open after all, onto somewhere far away.</item>
 /// <item>Falling into one of Level 0's pits drops you into Level 2.</item>
 /// <item>Stairwells: Level 1's come out of other stairwells, or now and then in the Abandoned Office; Level 4's
@@ -44,8 +45,29 @@ namespace Backrooms.Thresholds;
 public partial class ThresholdSystem : ModSystem
 {
     private const string SaveKey = "backrooms-thresholds";
+    private const string Channel = "backrooms-thresholds";
     private const int CooldownMs = 4000;
+
+    /// <summary>
+    /// Player attribute: until when (world milliseconds) a fall cannot kill them. It is set while they drop through a
+    /// pit, an open manhole, a fallen-in street or a hatch, and lasts a while after, so a fall that hurts on the far
+    /// side, or one that no threshold caught (a pit that leads nowhere, a destination not found), leaves them hurt
+    /// but alive with at least <see cref="FallGraceHealth"/> health.
+    /// </summary>
+    private const string FallGraceKey = "backrooms:fallGraceUntil";
+    private const int FallGraceMs = 10000;
+    private const float FallGraceHealth = 1f;
     private const int ElevatorRideMs = 1500;
+
+    /// <summary>
+    /// Server to client: turn to face this way (someone put down on a flight of stairs faces down it, and someone put
+    /// down on the landing of a stairwell's flight faces away from it).
+    /// </summary>
+    [ProtoContract]
+    public class FacePacket
+    {
+        [ProtoMember(1)] public float Yaw;
+    }
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
@@ -53,10 +75,14 @@ public partial class ThresholdSystem : ModSystem
     private ThresholdNetwork network;
     private int thinSpotId;
     private readonly Dictionary<string, long> busyUntilMs = new();
-    private readonly Dictionary<string, (int, int)> preloadedPit = new();
+    // The pit tile each player was last seen near, and the drop it belongs to, whose arrival is already loading
+    private readonly Dictionary<string, (int X, int Z, (int X, int Z) Source)> preloadedPit = new();
     // Whether each player stood in a thin spot at the last tick: stepping into one takes you back, standing in the
     // one you arrived in does not
     private readonly Dictionary<string, bool> inThinSpot = new();
+    // Who was put down on a flight of stairs and has not stepped off it since: the stairs they stand on take nobody
+    // anywhere until they have (or they would climb straight back the way they came)
+    private readonly HashSet<string> offStairsFirst = new();
 
     // Per-player cache of the cell they are standing in, so the tick does not rebuild it every time
     private readonly Dictionary<string, (int Mx, int Mz, Tile[] Tiles)> cellCache = new();
@@ -66,6 +92,19 @@ public partial class ThresholdSystem : ModSystem
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsThreshold", typeof(BlockBehaviorThreshold));
+        api.Network.RegisterChannel(Channel).RegisterMessageType<FacePacket>();
+    }
+
+    public override void StartClientSide(ICoreClientAPI api)
+    {
+        api.Network.GetChannel(Channel).SetMessageHandler<FacePacket>(packet =>
+        {
+            // The camera decides which way the player looks; the entity follows it
+            if (api.World.Player?.Entity is not { } self) return;
+            api.World.Player.CameraYaw = packet.Yaw;
+            self.Pos.Yaw = packet.Yaw;
+            self.BodyYaw = packet.Yaw;
+        });
     }
 
     public override void StartServerSide(ICoreServerAPI api)
@@ -80,9 +119,12 @@ public partial class ThresholdSystem : ModSystem
             byte[] saved = api.WorldManager.SaveGame.GetData(SaveKey);
             if (!network.Load(saved))
             {
-                // Keep what could not be read rather than overwrite it with whatever is found from now on
-                api.WorldManager.SaveGame.StoreData(SaveKey + "-unreadable", saved);
-                api.Logger.Error("[backrooms] The saved threshold links could not be read (kept as {0}-unreadable); thresholds will find their places again", SaveKey);
+                // Keep what could not be read rather than lose it when the links are next saved (and keep the first
+                // such copy, should it happen again)
+                if (api.WorldManager.SaveGame.GetData(SaveKey + "-unreadable") == null)
+                    api.WorldManager.SaveGame.StoreData(SaveKey + "-unreadable", saved);
+                api.Logger.Error("[backrooms] The saved threshold links could not all be read (kept as {0}-unreadable); {1} were, the rest will find their places again",
+                    SaveKey, network.Count);
             }
             thinSpotId = api.World.GetBlock(new AssetLocation("backrooms:thinspot"))?.BlockId ?? 0;
             api.Event.GameWorldSave += () =>
@@ -90,12 +132,14 @@ public partial class ThresholdSystem : ModSystem
                 if (network.Dirty) api.WorldManager.SaveGame.StoreData(SaveKey, network.Save());
             };
             api.Event.RegisterGameTickListener(OnTick, 200);
+            api.Event.PlayerNowPlaying += SoftenFalls;
             api.Event.PlayerDisconnect += player =>
             {
                 busyUntilMs.Remove(player.PlayerUID);
                 cellCache.Remove(player.PlayerUID);
                 preloadedPit.Remove(player.PlayerUID);
                 inThinSpot.Remove(player.PlayerUID);
+                offStairsFirst.Remove(player.PlayerUID);
                 lastSpot.Remove(player.PlayerUID);
             };
         });
@@ -133,6 +177,9 @@ public partial class ThresholdSystem : ModSystem
             {
                 "outoforder" => "backrooms:elevator-outoforder",
                 "nowhere" => "backrooms:thinspot-nowhere",
+                "endexit" => "backrooms:endexit-locked",
+                "endfake" => "backrooms:endfake-shut",
+                "l3999-staff" => "backrooms:l3999-staff-locked",
                 _ => "backrooms:door-locked",
             };
             player.SendIngameError("backrooms-" + refusal, Lang.Get(message));
@@ -179,7 +226,7 @@ public partial class ThresholdSystem : ModSystem
                 }
                 Link to = Redirect(rider, passage, arrival);
                 bool redirected = !to.Equals(arrival);
-                Remember(rider, boarded[rider.PlayerUID], arrival, twoWay: true, arrived: !redirected);
+                Remember(rider, boarded[rider.PlayerUID], arrival, passage.TwoWay, arrived: !redirected);
                 Arrive(rider, redirected ? to with { Marker = false } : to);
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
@@ -225,13 +272,13 @@ public partial class ThresholdSystem : ModSystem
             EntityPos pos = player.Entity.Pos;
             int x = (int)Math.Floor(pos.X), z = (int)Math.Floor(pos.Z);
 
-            // Stepping into a thin spot takes you back the way it came (standing in the one you arrived in does not)
-            bool thin = thinSpotId != 0 && (sapi.World.BlockAccessor.GetBlock(new BlockPos(x, (int)Math.Floor(pos.Y), z)).BlockId == thinSpotId
-                || sapi.World.BlockAccessor.GetBlock(new BlockPos(x, (int)Math.Floor(pos.Y + 1), z)).BlockId == thinSpotId);
-            bool wasThin = inThinSpot.GetValueOrDefault(player.PlayerUID);
+            // Stepping into a thin spot takes you back the way it came (standing in the one you arrived in does not, nor
+            // one you were standing in when you joined)
+            bool thin = thinSpotId != 0 && (ThinSpotAt(x, (int)Math.Floor(pos.Y), z) || ThinSpotAt(x, (int)Math.Floor(pos.Y + 1), z));
+            bool wasThin = inThinSpot.TryGetValue(player.PlayerUID, out bool was) ? was : thin;
             inThinSpot[player.PlayerUID] = thin;
-            if (IsBusy(player)) continue;
-            if (thin && !wasThin)
+            bool busy = IsBusy(player);
+            if (thin && !wasThin && !busy)
             {
                 Use(player, new BlockPos(x, (int)Math.Floor(pos.Y), z), "thinspot");
                 continue;
@@ -239,11 +286,26 @@ public partial class ThresholdSystem : ModSystem
 
             int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
             int level = layout.LevelAt(mx, mz);
-            NoticeGate(player, level, pos);
+            if (!busy) NoticeGate(player, level, pos);
             if (level is 2 or 3 or 8) continue;
 
             Tile tile = CellOf(player, mx, mz)[WorldLayout.TileIndex(x - mx * WorldLayout.MacroSize, z - mz * WorldLayout.MacroSize)];
             double rel = pos.Y - geometry.FloorFor(level);
+
+            // Dropping into a hole in the floor: whatever comes of it, the fall will not kill (see FallGraceKey). And a
+            // drop is never held up by the cooldown after a trip, which is there so nobody bounces straight back through
+            // the threshold they arrived beside: nobody arrives in a hole, and a fall does not wait
+            bool dropping = rel < -0.5 && IsDrop(tile);
+            if (dropping) player.Entity.Attributes.SetLong(FallGraceKey, sapi.World.ElapsedMilliseconds + FallGraceMs);
+            // Put down on a flight of stairs: they must step off it before any flight takes them anywhere again, so
+            // they can walk down and come back up later, but do not go straight back up the way they came
+            bool stepOff = offStairsFirst.Contains(player.PlayerUID);
+            if (stepOff && tile.Stair == 0)
+            {
+                offStairsFirst.Remove(player.PlayerUID);
+                stepOff = false;
+            }
+            if (busy && !dropping || stepOff) continue;
 
             if (level is 0 or 11) PreloadNearbyDrop(player, x, z, rel);
 
@@ -254,8 +316,23 @@ public partial class ThresholdSystem : ModSystem
             // The five kept as 14-18 may hold theirs shut for now
             if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage))) continue;
-            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeBeside(passage.Source) : null));
+            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null));
         }
+    }
+
+    /// <summary>A hole in the floor that a person falls down (a dry one: those into water need no softening).</summary>
+    private static bool IsDrop(in Tile tile) => tile.Kind == TileKind.Pit || tile.Under is Unders.L188Hatch or Unders.PitBottom;
+
+    /// <summary>A fall while <see cref="FallGraceKey"/> lasts hurts as usual but leaves at least <see cref="FallGraceHealth"/>.</summary>
+    private void SoftenFalls(IServerPlayer player)
+    {
+        if (player.Entity?.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is not { } health) return;
+        health.onDamaged += (damage, source) =>
+        {
+            if (source.Source != EnumDamageSource.Fall || player.Entity == null) return damage;
+            if (player.Entity.Attributes.GetLong(FallGraceKey, 0) <= sapi.World.ElapsedMilliseconds) return damage;
+            return Math.Min(damage, Math.Max(0f, health.Health - FallGraceHealth));
+        };
     }
 
     /// <summary>
@@ -265,18 +342,29 @@ public partial class ThresholdSystem : ModSystem
     private void PreloadNearbyDrop(IServerPlayer player, int x, int z, double rel)
     {
         if (rel < -1) return;
+        bool known = preloadedPit.TryGetValue(player.PlayerUID, out var last);
         for (int dz = -2; dz <= 2; dz++)
             for (int dx = -2; dx <= 2; dx++)
             {
-                Tile near = layout.TileAt(x + dx, z + dz);
+                int px = x + dx, pz = z + dz;
+                Tile near = layout.TileAt(px, pz);
                 if (near.Kind != TileKind.Pit) continue;
-                Passage drop = network.Walked(x + dx, z + dz, near, -100);
-                if (drop == null || preloadedPit.GetValueOrDefault(player.PlayerUID, (int.MinValue, 0)) == drop.Source) return;
-                preloadedPit[player.PlayerUID] = drop.Source;
+                // Still beside the same edge as at the last tick: that drop is loading already (this saves finding the
+                // whole of the pit five times a second)
+                if (known && last.X == px && last.Z == pz) return;
+                Passage drop = network.Walked(px, pz, near, -100);
+                if (drop == null) continue; // a pit that leads nowhere: look on for one that does
+                preloadedPit[player.PlayerUID] = (px, pz, drop.Source);
+                if (known && last.Source == drop.Source) return;
                 if (network.Take(drop, null) is { } below) Preload(below);
                 return;
             }
     }
+
+    // (Reused by the tick: it only ever runs on the main thread)
+    private readonly BlockPos probe = new(0);
+
+    private bool ThinSpotAt(int x, int y, int z) => sapi.World.BlockAccessor.GetBlock(probe.Set(x, y, z)).BlockId == thinSpotId;
 
     private Tile[] CellOf(IServerPlayer player, int mx, int mz)
     {
@@ -384,10 +472,48 @@ public partial class ThresholdSystem : ModSystem
             case WorldLayout.Level3999: L3999Arriving(player, link, ref drop); break;
             case WorldLayout.Level188: L188Arriving(player, link, ref drop); break;
         }
+        // Put down on a flight of stairs (near the top of the way back, after climbing another), they face down it,
+        // and it takes them nowhere until they have stepped off it
+        int ax = (int)Math.Floor(link.X), az = (int)Math.Floor(link.Z);
+        Tile onto = layout.TileAt(ax, az);
+        bool onStairs = onto.Stair > 0 && onto.Level == arrivalLevel;
+        if (onStairs) offStairsFirst.Add(player.PlayerUID);
+        else offStairsFirst.Remove(player.PlayerUID);
+        // Put down on the landing of a stairwell's flight (Levels 1 and 4; at the foot of a flight up, at the top of a flight
+        // down: that is never a step, so no step-off is needed), they face away from it, as if just come off it
+        (int Dx, int Dz)? away = onStairs || arrivalLevel is not (1 or 4) ? null : network.AwayFromFlight(ax, az);
+        // Put down on the Hub's narrow sidewalk, they look along the road rather than at the wall beside them
+        float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is
-        player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, link.Marker ? () => LeaveThinSpot(link) : null);
+        player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, () =>
+        {
+            if (link.Marker) LeaveThinSpot(link);
+            if (onStairs) Face(player, DownFlight(onto.Pier));
+            else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
+            else if (look is { } yaw) Face(player, yaw);
+        });
         return true;
+    }
+
+    /// <summary>
+    /// The yaw that looks down a flight climbing the given way. A player looks (and walks) along (sin yaw, cos yaw),
+    /// so yaw 0 faces south, +z.
+    /// </summary>
+    private static float DownFlight(ArchPier climb) => climb switch
+    {
+        ArchPier.North => 0f,                  // climbs north: face south
+        ArchPier.South => GameMath.PI,         // climbs south: face north
+        ArchPier.West => GameMath.PIHALF,      // climbs west: face east
+        _ => GameMath.PI + GameMath.PIHALF,    // climbs east: face west
+    };
+
+    /// <summary>Turns a player to face the given way (the client owns where its camera looks, so it is told).</summary>
+    private void Face(IServerPlayer player, float yaw)
+    {
+        if (player.ConnectionState != EnumClientState.Playing || player.Entity == null) return;
+        player.Entity.Pos.Yaw = yaw;
+        sapi.Network.GetChannel(Channel).SendPacket(new FacePacket { Yaw = yaw }, player);
     }
 
     /// <summary>Makes sure the thin spot that leads back from an arrival is there.</summary>
