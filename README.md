@@ -42,8 +42,8 @@ The mod only affects worlds created with its playstyle. Your other worlds are un
 You need the [.NET 10 SDK](https://dotnet.microsoft.com/download) and Vintage Story 1.22 installed.
 
 ```sh
-dotnet build                 # → bin/Debug/Mods/backrooms/
-dotnet build -c Release      # also writes bin/backrooms_<version>.zip
+dotnet build                 # → bin/Debug/Mods/backroomsss/
+dotnet build -c Release      # also writes bin/backroomsss_<version>.zip
 ```
 
 The build looks for the game in `%APPDATA%\Vintagestory`. If yours lives elsewhere, set the `VINTAGE_STORY` environment variable to its folder. To run the game with the mod: `Vintagestory.exe --addModPath "<repo>/bin/Debug/Mods"`. See [DEVELOPING.md](docs/DEVELOPING.md) for the rest.

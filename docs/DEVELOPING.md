@@ -7,11 +7,11 @@ How to build the mod, how the code is laid out, the debug commands and the scrip
 You need the .NET 10 SDK and Vintage Story 1.22. The asset generators also need Python 3.10+ with the packages in `tools/requirements.txt` (`pip install -r tools/requirements.txt`).
 
 - **Where the game is:** the build, the VS Code launch config and the generators look for Vintage Story in the `VINTAGE_STORY` environment variable, and otherwise in `%APPDATA%\Vintagestory` (the build and the generators only). Set the variable if the game lives elsewhere. For the build alone you can instead put the path in a git-ignored `Backrooms.csproj.user`: `<Project><PropertyGroup><VintageStory>D:\Games\Vintagestory</VintageStory></PropertyGroup></Project>`.
-- **Build:** `dotnet build`. The mod is output to `bin/Debug/Mods/backrooms/`.
+- **Build:** `dotnet build`. The mod is output to `bin/Debug/Mods/backroomsss/`.
   - Close the game first: a running game locks the mod DLL.
 - **Run with the debugger from VS Code:** use the *Vintage Story (client + mod)* launch config (F5). It needs `VINTAGE_STORY`.
 - **Run without VS Code:** `Vintagestory.exe --addModPath "<repo>/bin/Debug/Mods"`
-- **Release zip:** `dotnet build -c Release` writes `bin/backrooms_<version>.zip`, ready to upload.
+- **Release zip:** `dotnet build -c Release` writes `bin/backroomsss_<version>.zip`, ready to upload.
 - **Version number:** kept the same in `modinfo.json` and `Backrooms.csproj`. The build check (`src/BuildCheckSystem.cs`) compares a fingerprint of the build (the assembly's id and the names of its assets), not the version, so a server and client with different copies are warned in chat even when the version matches.
 
 ## Code map

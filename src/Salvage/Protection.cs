@@ -27,7 +27,7 @@ namespace Backrooms.Salvage;
 /// </summary>
 public class ProtectionSystem : ModSystem
 {
-    private const string HarmonyId = "backrooms.protection";
+    private const string HarmonyId = "backroomsss.protection";
 
     // One per side: in single player the client and the server share a process
     private static Protection server, client;

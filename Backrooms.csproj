@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <AssemblyName>backrooms</AssemblyName>
+    <AssemblyName>backroomsss</AssemblyName>
     <RootNamespace>Backrooms</RootNamespace>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateDependencyFile>false</GenerateDependencyFile>
-    <OutputPath>bin\$(Configuration)\Mods\backrooms\</OutputPath>
+    <OutputPath>bin\$(Configuration)\Mods\backroomsss\</OutputPath>
     <!-- Where Vintage Story is installed: the VINTAGE_STORY environment variable, else the default install folder.
          To use another folder without editing this file, set VintageStory in Backrooms.csproj.user (git-ignored). -->
     <VintageStory Condition="'$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStory>
@@ -51,7 +51,7 @@
 
   <!-- Release builds also produce a distributable zip in bin\ -->
   <Target Name="PackageMod" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-    <ZipDirectory SourceDirectory="$(OutputPath)" DestinationFile="bin\backrooms_$(Version).zip" Overwrite="true" />
+    <ZipDirectory SourceDirectory="$(OutputPath)" DestinationFile="bin\backroomsss_$(Version).zip" Overwrite="true" />
   </Target>
 
   <PropertyGroup>

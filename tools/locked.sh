@@ -1,7 +1,7 @@
 #!/bin/bash
 # Serialises builds and asset generators while several agents work in the same tree.
 #
-#   tools/locked.sh mod <tag>            build the mod to $SCRATCH/build-<tag>/Mods/backrooms/
+#   tools/locked.sh mod <tag>            build the mod to $SCRATCH/build-<tag>/Mods/backroomsss/
 #   tools/locked.sh mapgen <tag>         build the layout harness to $SCRATCH/mapgen-<tag>/ (run $SCRATCH/mapgen-<tag>/mapgen.exe)
 #   tools/locked.sh run <command...>     run any command (e.g. python tools/gen_fun.py) under the asset lock
 #
@@ -27,7 +27,7 @@ mode="${1:-}"; shift || true
 case "$mode" in
     mod)
         tag="${1:?tag}"; take build
-        cd "$REPO" && "$DOTNET" build Backrooms.csproj -nologo -clp:NoSummary -p:OutputPath="$SCRATCH/build-$tag/Mods/backrooms/" ;;
+        cd "$REPO" && "$DOTNET" build Backrooms.csproj -nologo -clp:NoSummary -p:OutputPath="$SCRATCH/build-$tag/Mods/backroomsss/" ;;
     mapgen)
         tag="${1:?tag}"; take build
         cd "$REPO" && "$DOTNET" build tools/mapgen -c Release -nologo -clp:NoSummary -o "$SCRATCH/mapgen-$tag" ;;
