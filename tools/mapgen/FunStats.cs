@@ -1,6 +1,6 @@
 using Backrooms.Worldgen;
 
-/// <summary>Level Fun's harness modes (this file is the level's own; see docs/new-levels/CONTRACT.md).</summary>
+/// <summary>Level Fun's harness modes (this file is the level's own; see docs/design/new-levels/CONTRACT.md).</summary>
 static partial class LevelModes
 {
     /// <summary>

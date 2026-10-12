@@ -1,11 +1,12 @@
 """Renders city.bin (written by `mapgen <seed> <n> citymap [dx dz]`): buildings shaded by height and style, streets, props."""
+import os
 import re
 import struct
 import sys
 
 from PIL import Image
 
-src = open(r'C:\Users\icebu\Documents\~Projects\VS Backrooms\src\Worldgen\Tiles.cs', encoding='utf-8').read()
+src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'src', 'Worldgen', 'Tiles.cs'), encoding='utf-8').read()
 
 
 def enum(name):

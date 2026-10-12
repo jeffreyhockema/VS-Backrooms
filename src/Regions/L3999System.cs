@@ -15,7 +15,7 @@ using Vintagestory.API.Server;
 namespace Backrooms.Regions;
 
 /// <summary>
-/// Level 3999, the Neon Paradise: its rules (docs/new-levels/3999-plan.md, as the user directed on 2026-10-09: an
+/// Level 3999, the Neon Paradise: its rules (docs/design/new-levels/3999-plan.md, as the user directed on 2026-10-09: an
 /// ordinary level with resources of its own). Everything a block does is read from its blocktype's attributes, written by
 /// tools/gen_3999.py:
 /// <list type="bullet">
@@ -75,6 +75,7 @@ public class L3999System : ModSystem
         api.RegisterBlockBehaviorClass("BackroomsPrizeCounter", typeof(BlockBehaviorL3999Prizes));
         api.RegisterBlockBehaviorClass("BackroomsFoodStall", typeof(BlockBehaviorL3999Stall));
         api.RegisterBlockBehaviorClass("BackroomsArcadeDirectory", typeof(BlockBehaviorL3999Directory));
+        api.RegisterBlockBehaviorClass("BackroomsL3999Vending", typeof(BlockBehaviorL3999Vending));
         api.RegisterBlockBehaviorClass("BackroomsWindmillGenerator", typeof(BlockBehaviorL3999Generator));
         api.RegisterEntity("BackroomsAttendant", typeof(EntityL3999Attendant));
     }

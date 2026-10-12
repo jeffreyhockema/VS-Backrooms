@@ -298,7 +298,7 @@ def outpost():
              " it to have the open doors and the Tower marked on your map", material="Metal", sounds=METAL,
              box=(0, 0, 0.2, 1, 1, 0.8), extra={"resistance": 20, "drops": []})
 
-    radio = [bx("Case", (3, 0, 5), (13, 7, 11), "olive"), bx("Face", (3, 0, 5), (13, 7, 11), "radioface", faces=("north",), full=True),
+    radio = [bx("Case", (3, 0, 5), (13, 7, 11), "olive", faces=("east", "south", "west", "up", "down")), bx("Face", (3, 0, 5), (13, 7, 11), "radioface", faces=("north",), full=True),
              bx("Handle", (5, 7, 7.5), (11, 7.6, 8.5), "blackknob"), bx("HandleL", (5, 7, 7.5), (5.6, 8.6, 8.5), "blackknob"),
              bx("HandleR", (10.4, 7, 7.5), (11, 8.6, 8.5), "blackknob"), bx("HandleTop", (5, 8.6, 7.5), (11, 9.2, 8.5), "blackknob"),
              bx("Antenna", (11.8, 7, 9.6), (12.2, 19, 10), "blackknob", rot=(0, 0, -12), origin=(12, 7, 9.8)),
@@ -320,8 +320,10 @@ def outpost():
 
     # A folding camp cot, two blocks long: head and foot halves (the head toward the north)
     def cot(part):
-        els = [bx("Canvas", (2.5, 5.5, 0), (13.5, 6.2, 16), "canvas"),
-               bx("RailL", (13.5, 5, 0), (14.3, 6.4, 16), "rod"), bx("RailR", (1.7, 5, 0), (2.5, 6.4, 16), "rod")]
+        # (canvas and rails stop a hair short of the end of the cot, inside the end bar, not flush with its face)
+        z0, z1 = (0.05, 16) if part == "head" else (0, 15.95)
+        els = [bx("Canvas", (2.5, 5.5, z0), (13.5, 6.2, z1), "canvas"),
+               bx("RailL", (13.5, 5, z0), (14.3, 6.4, z1), "rod"), bx("RailR", (1.7, 5, z0), (2.5, 6.4, z1), "rod")]
         endz = (0, 0.8) if part == "head" else (15.2, 16)
         els.append(bx("End", (1.7, 5, endz[0]), (14.3, 6.4, endz[1]), "rod"))
         lz = 2 if part == "head" else 14

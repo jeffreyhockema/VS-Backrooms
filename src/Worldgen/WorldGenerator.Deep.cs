@@ -61,7 +61,6 @@ public sealed partial class WorldGenerator
     private readonly int[] roofIds = new int[3];
     private readonly int[] barnWallIds = new int[2];
     private readonly int[] fenceIds = new int[16];
-    private int barnRoofId;
 
     // The finer detail of Levels 6 to 10
     private int poolFloorId, jettyId, siloId, siloTopId, chimneyId, kelpSectionId, kelpTopId, webId, crystalUpId, crystalDownId, mushroomId, remainsId;
@@ -203,7 +202,6 @@ public sealed partial class WorldGenerator
         garageUpperId = Id("garagedoor-upper");
         barnWallIds[0] = Id("barnwall-red");
         barnWallIds[1] = Id("barnwall-grey");
-        barnRoofId = Id("barnroof-dark");
         logId = GameId("game:log-grown-oak-ud", "game:log-placed-oak-ud");
         leavesId = GameId("game:leaves-grown-oak", "game:leaves-placed-oak");
         wormId = Id("wormmass");
@@ -388,7 +386,8 @@ public sealed partial class WorldGenerator
                 top++;
             }
             if (rel == top && t.Floor == FloorKind.Seabed && IslandRim(t, gx, gz) is int shell and >= 0) return shell; // shells along the rim
-            if (rel >= top) return rel == top && t.Floor == FloorKind.Seabed && t.Stack == 1 ? islandRockId : rel == top ? AnyProp(t, rel) : 0;
+            // (A boulder is Stack 1 on bare rock: a prop's Stack is its own, as a camp tent's part)
+            if (rel >= top) return rel == top && t.Floor == FloorKind.Seabed && t.Stack == 1 && t.Variant == 0 ? islandRockId : rel == top ? AnyProp(t, rel) : 0;
             if (rel > 0) return islandRockId;
             return t.Floor == FloorKind.Concrete ? floorIds[(int)FloorKind.Concrete] : islandRockId;
         }

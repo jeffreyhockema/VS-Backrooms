@@ -1,0 +1,465 @@
+// A two-person ridge tent two blocks by two, its door to the north (nw, ne the front; sw, se the back)
+{
+	"code": "camptent",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"nw",
+				"ne",
+				"sw",
+				"se"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsPartnered",
+			"properties": {
+				"parts": [
+					"nw",
+					"ne",
+					"sw",
+					"se"
+				],
+				"width": 2
+			}
+		}
+	],
+	"shapeByType": {
+		"*-nw-north": {
+			"base": "block/detail/camptent-nw",
+			"rotateY": 0
+		},
+		"*-nw-east": {
+			"base": "block/detail/camptent-nw",
+			"rotateY": 270
+		},
+		"*-nw-south": {
+			"base": "block/detail/camptent-nw",
+			"rotateY": 180
+		},
+		"*-nw-west": {
+			"base": "block/detail/camptent-nw",
+			"rotateY": 90
+		},
+		"*-ne-north": {
+			"base": "block/detail/camptent-ne",
+			"rotateY": 0
+		},
+		"*-ne-east": {
+			"base": "block/detail/camptent-ne",
+			"rotateY": 270
+		},
+		"*-ne-south": {
+			"base": "block/detail/camptent-ne",
+			"rotateY": 180
+		},
+		"*-ne-west": {
+			"base": "block/detail/camptent-ne",
+			"rotateY": 90
+		},
+		"*-sw-north": {
+			"base": "block/detail/camptent-sw",
+			"rotateY": 0
+		},
+		"*-sw-east": {
+			"base": "block/detail/camptent-sw",
+			"rotateY": 270
+		},
+		"*-sw-south": {
+			"base": "block/detail/camptent-sw",
+			"rotateY": 180
+		},
+		"*-sw-west": {
+			"base": "block/detail/camptent-sw",
+			"rotateY": 90
+		},
+		"*-se-north": {
+			"base": "block/detail/camptent-se",
+			"rotateY": 0
+		},
+		"*-se-east": {
+			"base": "block/detail/camptent-se",
+			"rotateY": 270
+		},
+		"*-se-south": {
+			"base": "block/detail/camptent-se",
+			"rotateY": 180
+		},
+		"*-se-west": {
+			"base": "block/detail/camptent-se",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-nw-north"
+		],
+		"decorative": [
+			"*-nw-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-nw-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1
+		},
+		"*-nw-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-nw-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-nw-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-ne-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1
+		},
+		"*-ne-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-ne-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-ne-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-sw-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97
+		},
+		"*-sw-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-sw-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-sw-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"*-se-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97
+		},
+		"*-se-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-se-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-se-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-nw-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1
+		},
+		"*-nw-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-nw-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-nw-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-ne-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1
+		},
+		"*-ne-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-ne-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-ne-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-sw-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97
+		},
+		"*-sw-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-sw-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-sw-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"*-se-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97
+		},
+		"*-se-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-se-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-se-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1.4,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"dropsByType": {
+		"*-nw-*": [
+			{
+				"type": "block",
+				"code": "game:linen-normal-down",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 4,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:rope",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-cache",
+				"quantity": {
+					"avg": 0.35,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-door",
+				"quantity": {
+					"avg": 0.2,
+					"var": 0
+				}
+			}
+		],
+		"*": []
+	}
+}

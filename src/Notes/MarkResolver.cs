@@ -19,7 +19,7 @@ public enum MarkSearch { Full, Layout, World }
 public enum MarkDefer { None, World, Full }
 
 /// <summary>
-/// What a note marks on the map, from where it is read (docs/notes-plan.md, section 4). The paper's own kinds keep
+/// What a note marks on the map, from where it is read (docs/design/notes-plan.md, section 4). The paper's own kinds keep
 /// their old searches (door: the nearest gate out of the level; way: the nearest elevator, stairwell or pit; cache:
 /// the nearest unopened box; refuge: the nearest safe place); entries add marks of their own (the Manila Room, a
 /// manhole, the barn wall, a den, the Hub's doors). Where a level has no ring gates (Level 11 and every noclip region)

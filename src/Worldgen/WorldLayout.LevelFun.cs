@@ -124,13 +124,6 @@ public sealed partial class WorldLayout
 
     private bool InFun(double mx, double mz) => InRoundRegion(mx, mz, FunCentreX, FunCentreZ, FunRadius, SaltFunShape);
 
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachFun(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - FunCentreX, dz = (z0 + size / 2.0) / MacroSize - FunCentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < FunRadius * 1.2 + size / (double)MacroSize;
-    }
-
     /// <summary>A place near the middle of the region to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) FunArrivalCell(ulong h) => RoundArrivalCell(h, FunCentreX, FunCentreZ, FunRadius);
 
@@ -320,7 +313,6 @@ public sealed partial class WorldLayout
         public static bool In(int u, int v) => u >= 0 && v >= 0 && u < N && v < N;
         public ref Tile At(int u, int v) => ref Tiles[v * N + u];
         public short OwnerAt(int u, int v) => In(u, v) ? Owner[v * N + u] : (short)0;
-        public bool IsRoomFloor(int u, int v, int room) => In(u, v) && Owner[v * N + u] == room + 1 && At(u, v).Kind == TileKind.Floor;
 
         public bool Free(int u, int v) => In(u, v) && !Reserved[v * N + u] && At(u, v).Kind == TileKind.Floor && At(u, v).Variant == 0
             && At(u, v).Stair == 0 && At(u, v).Depth == 0;

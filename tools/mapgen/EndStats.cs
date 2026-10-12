@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Backrooms.Worldgen;
 
 /// <summary>
-/// The End's harness modes (this file is the level's own; see docs/new-levels/CONTRACT.md):
+/// The End's harness modes (this file is the level's own; see docs/design/new-levels/CONTRACT.md):
 ///   endstats [departments]        what the departments round the centre hold: kinds, floor, light, books, exits,
 ///                                 arrivals (anywhere, and beside an EXIT door), cost per department plan
 ///   endloop [departments]         every long aisle: its looping stretch repeats exactly every 32 blocks (tiles at s and

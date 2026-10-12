@@ -559,7 +559,6 @@ def neons():
     flat("white", (238, 236, 240), 3)
     flat("redlight", (255, 50, 40), 4)
     flat("greenlight", (60, 255, 120), 4)
-    flat("amberlight", (255, 170, 40), 4)
     flat("canopy", (26, 22, 34), 3)
     save(Image.new("RGBA", (16, 16), (0, 0, 0, 0)), "clear")
 

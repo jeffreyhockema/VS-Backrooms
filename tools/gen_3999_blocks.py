@@ -1,4 +1,4 @@
-"""Level 3999, the Neon Paradise: the building (docs/new-levels/3999-plan.md 6.1, 6.2, 6.4, 6.5). Called from
+"""Level 3999, the Neon Paradise: the building (docs/design/new-levels/3999-plan.md 6.1, 6.2, 6.4, 6.5). Called from
 gen_3999.py. Surfaces, neon tubes and signs, the lobby, food court, concourse and service fittings, the Level 10
 windmills. The arcade machines are in gen_3999_arcade.py.
 
@@ -265,7 +265,8 @@ def neon():
                 g = text_rows(ch, F5)
                 w = len(g[0]) * cell
                 cxd = x_left - col0 * cell - w / 2 if facing == "north" else x_left + col0 * cell + w / 2
-                els += text_boxes(ch, cxd, -5.5, cell, z1, z2, f"neon-{cols[i]}", glow=255, name=f"D{side}{i}", facing=facing)
+                # (a hair thinner than the frame tubes, which the outer digits touch)
+                els += text_boxes(ch, cxd, -5.5, cell, z1 + 0.05, z2 - 0.05, f"neon-{cols[i]}", glow=255, name=f"D{side}{i}", facing=facing)
                 col0 += len(g[0]) + 1
             for nm, a, b in (("FT", (-14, 1.6, 0), (30, 2.4, 0)), ("FB", (-14, -27.4, 0), (30, -26.6, 0)),
                              ("FL", (-14, -26.6, 0), (-13.2, 1.6, 0)), ("FR", (29.2, -26.6, 0), (30, 1.6, 0))):
@@ -552,7 +553,7 @@ def food():
     def directory(v):
         face = picture(bx("Face", (4.5, 3, 5.4), (11.5, 29, 5.5), "black", faces=("north",)), "directory", glow=180)
         return [bx("Base", (3, 0, 4), (13, 2, 12), "darksteel"), bx("Totem", (4, 2, 6), (12, 30, 10), "darksteel"), face,
-                bx("Cap", (3.6, 30, 5.6), (12.4, 31, 10.4), "darksteel"), tube("Edge", (4, 30, 5.6), (12, 30.4, 6), "lilac")]
+                bx("Cap", (3.6, 30, 5.6), (12.4, 31, 10.4), "darksteel"), tube("Edge", (4, 29.95, 5.55), (12, 30.4, 6), "lilac")]
 
     variants_block("l3999-directory", "Mall Directory", [("facing", SIDES)], directory, rot="facing", box=(0.19, 0, 0.25, 0.81, 1.9, 0.75),
                    material="Metal", sounds=METAL,
@@ -572,7 +573,7 @@ def concourse():
         return els
 
     variants_block("l3999-walkway", "Moving Walkway", [("dir", ["n", "e", "s", "w"])], walkway, rot="dir", box=(0, 0, 0, 1, 0.9375, 1),
-                   material="Metal", sounds=METAL,
+                   material="Metal", sounds=dict(METAL, ambient="backrooms:effect/3999/walkway", ambientBlockCount=48),
                    data=with_class({"sidesolid": {"all": False, "down": True}, "sideopaque": {"all": False, "down": True}, "lightAbsorption": 99,
                                     "drops": [], "attributes": dict(FIXED, l3999walkway={"speed": 2.5})}, cls="BackroomsWalkway"),
                    comment="Level 3999's concourses: a moving walkway's tread, a floor block with its top at 15 px, ribbed, yellow edges and "
@@ -742,7 +743,9 @@ def service():
 
     def elevator(v):
         upper = v["part"] == "upper"
-        els = [tube("FrameL", (0, 0, 5), (2, 16, 7), "pink"), tube("FrameR", (14, 0, 5), (16, 16, 7), "pink"),
+        # (on the upper part the posts stop under the head, not running through it face to face)
+        post = 14 if v["part"] == "upper" else 16
+        els = [tube("FrameL", (0, 0, 5), (2, post, 7), "pink"), tube("FrameR", (14, 0, 5), (16, post, 7), "pink"),
                bx("Back", (0, 0, 7), (16, 16, 11), "darksteel", faces=("south", "east", "west", "up", "down"))]
         top = 12 if upper else 16
         els += [bx("DoorL", (8.1, 0, 6.6), (14, top, 7.6), "plumsteel"), bx("DoorR", (2, 0, 6.6), (7.9, top, 7.6), "plumsteel")]
@@ -860,7 +863,8 @@ def windmills():
         return els
 
     variants_block("l3999-windmillsails", "Windmill Sails", [("facing", SIDES)], sails, rot="facing", box=(0.25, 0.25, 0.25, 0.75, 0.75, 1),
-                   material="Wood", sounds=WOOD, data={"drops": [], "attributes": dict(FIXED)},
+                   material="Wood", sounds=dict(WOOD, ambient="backrooms:ambient/3999/windmill", ambientBlockCount=1),
+                   data={"drops": [], "attributes": dict(FIXED)},
                    comment="Level 10's windmills: four lattice sails in an X, each 4 blocks long, canvas strips on a frame, on a hub drawn "
                            "from one block (oversized; static at 45 degrees); the sails face the way named, the shaft runs back into the cap")
 

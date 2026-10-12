@@ -1,6 +1,6 @@
 """The Hub's sigils: the crop-circle symbols carved over its doors and painted on the Level Keys.
 
-Each sigil is a composition from a small vocabulary, as in docs/new-levels/hub-plan.md section 4.3: a central disc
+Each sigil is a composition from a small vocabulary, as in docs/design/new-levels/hub-plan.md section 4.3: a central disc
 (D), concentric rings (R), satellite circles (S), arcs (A), straight ridges (L) and dot spirals (P). Coordinates are
 in a unit disc (radius 1 = the inside of the carved recess, +y up). `raster(n, size)` turns one into a boolean grid,
 used both for the voxel relief over the doors (gen_hub.py) and for the keys' bows.

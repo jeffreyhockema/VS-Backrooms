@@ -4,7 +4,7 @@ namespace Backrooms.Thresholds;
 
 /// <summary>
 /// What happens round Level 3999, "The Neon Paradise"'s thresholds in the game (kept as level 19). This file is the level's own; see
-/// docs/new-levels/CONTRACT.md.
+/// docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public partial class ThresholdSystem
 {

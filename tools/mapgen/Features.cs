@@ -17,7 +17,7 @@ static class Features
                     if (t.Level == 1 && t.Kind == TileKind.Doorway && t.Variant == Props.FireDoor && t.Floor != FloorKind.L1Hall) Note("L1 edge firedoor", x, z);
                     if (t.Level == 1 && t.Kind == TileKind.Wall && t.Variant == Decor.PowerBox) Note("L1 powerbox", x, z);
                     if (t.Level == 1 && t.Overhead == Overheads.ExitSignWE) Note("L1 hanging exit", x, z);
-                    if (t.Level == 1 && t.Variant == Props.Tent) Note("L1 tent", x, z);
+                    if (t.Level == 1 && (t.Variant == Props.Tent || t.Variant == Props.CampTent && t.Stack == 0)) Note("L1 tent", x, z);
                     if (t.Level == 1 && t.Variant == Props.HospitalBed) Note("L1 hospital bed", x, z);
                     if (t.Level == 3 && t.Kind == TileKind.Floor && t.Variant == Props.AngelStatue) Note("L3 statue", x, z);
                     if (t.Level == 3 && t.Kind == TileKind.Floor && t.Variant == Props.Coil) Note("L3 coil", x, z);

@@ -5,7 +5,7 @@ namespace Backrooms.Thresholds;
 /// <summary>
 /// Level 974's thresholds (kept as level 18). Kitty's House has none of its own: you are taken into it (Kitty's detour,
 /// and the Hub's pink ribbon door, both landing in your own house: see ThresholdSystem.L974.cs), and you leave it asleep,
-/// once Kitty has its gift, by <see cref="KittyWake"/>. This file is the level's own; see docs/new-levels/CONTRACT.md.
+/// once Kitty has its gift, by <see cref="KittyWake"/>. This file is the level's own; see docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public sealed partial class ThresholdNetwork
 {

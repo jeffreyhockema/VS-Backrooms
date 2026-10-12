@@ -22,7 +22,7 @@ from gen_models import blotch, line
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
-GAME = os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory")
+GAME = os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory"))
 VANILLA = os.path.join(GAME, "assets")
 TAB, NL = "\t", "\n"
 

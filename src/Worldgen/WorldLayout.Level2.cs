@@ -23,7 +23,6 @@ public sealed partial class WorldLayout
     private const ulong SaltL2Section = 0x2B01;
     private const ulong SaltL2Light = 0x2B02;
     private const ulong SaltL2Wall = 0x2B03;
-    private const ulong SaltL2Door = 0x2B04;
     private const ulong SaltL2Line = 0x2B05;
     private const ulong SaltL2Tree = 0x2B06;
     private const ulong SaltL2Gallery = 0x2B07;

@@ -1,4 +1,4 @@
-"""Level Fun =) (tag `fun`, id 15): every asset in the plan's manifest (docs/new-levels/fun-plan.md, section 4).
+"""Level Fun =) (tag `fun`, id 15): every asset in the plan's manifest (docs/design/new-levels/fun-plan.md, section 4).
 
 Surfaces, props as real 3D shapes, items, the entity types and the level's lang. The entity models are made by
 gen_fun_models.py and the sounds by gen_fun_sounds.py; this runs both first unless told not to.
@@ -1017,10 +1017,10 @@ def prop_textures():
         save(latex(h, "latex" + c), f"latex-{c}")
     save(noise(0xF0EEE8, 3, "balloonstring"), "balloonstring")
     save(noise(0xE8BA38, 6, "curlyribbon"), "curlyribbon")
-    for c in ("red", "yellow", "blue", "green", "orange", "purple"):
+    for c in ("red", "yellow", "blue", "green", "purple"):
         save(crepe(PARTY[c], "crepe" + c), f"crepe-{c}")
     save(crepe(0xF07AB4, "crepepink"), "crepe-pink")
-    for c in PARTY:
+    for c in ("red", "yellow", "green", "purple"):
         save(pennant(PARTY[c]), f"pennant-{c}")
     for ch in "HAPYBIRTD":
         save(pennant(PARTY["blue"], ch), f"pennant-letter-{ch.lower()}")
@@ -1170,7 +1170,7 @@ def prop_textures():
         save(smiley(kind), f"smiley-{kind}")
 
     # Inflatables, the blower, extension cords, foam, the climbing net
-    for c, h in (("yellow", 0xF6C830), ("blue", 0x2E78D8), ("red", 0xE0362E), ("green", 0x3AAE54), ("purple", 0x8A4CC8)):
+    for c, h in (("yellow", 0xF6C830), ("blue", 0x2E78D8), ("red", 0xE0362E), ("green", 0x3AAE54)):
         save(inflatable(h, "infl" + c), f"inflatable-{c}")
     quilt = inflatable(0xF6C830, "quilt")
     d = ImageDraw.Draw(quilt)
@@ -1294,11 +1294,6 @@ def prop_textures():
 
     # The deck: white rail, life ring, lounger slats, a caged lamp
     save(noise(0xF4F4F0, 2, "railwhite"), "railwhite")
-    img = flat(0xF4F2EE)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 15, 15], fill=rgb(0xD82A2A))
-    d.rectangle([16, 16, 31, 31], fill=rgb(0xD82A2A))
-    save(img, "lifering")
     save(noise(0xD82A2A, 3, "ringred"), "ring-red")
     save(noise(0xF4F2EE, 2, "ringwhite"), "ring-white")
     save(noise(0xA87848, 6, "loungewood"), "loungewood")
@@ -1655,7 +1650,7 @@ def tables():
     for cloth in CLOTHS:
         t = f"cloth-{cloth}"
         for part in ("a", "b"):
-            els = [bx("Top", (0, 12, 0.5), (16, 13, 15.5), "whiteplastic"),
+            els = [bx("Top", (0.05, 12, 0.5), (16, 13, 15.5), "whiteplastic"),  # (its end inside the skirt, not in its face)
                    bx("Cloth", (0, 13, 0.25), (16, 13.25, 15.75), t),
                    bx("SkirtN", (0, 7, 0), (16, 13.25, 0.25), t), bx("SkirtS", (0, 7, 15.75), (16, 13.25, 16), t),
                    bx("SkirtEnd", (0, 7, 0), (0.25, 13.25, 16), t),
@@ -1987,7 +1982,9 @@ def inflatables():
         mx, my = (x0 + x1) / 2, (y0 + y1) / 2
         ln = math.hypot(x1 - x0, y1 - y0) + 1.6
         ang = math.degrees(math.atan2(y1 - y0, x1 - x0))
-        els.append(bx(f"Arc{i}", (mx - ln / 2, my - 2.2, 5.5), (mx + ln / 2, my + 2.2, 10.5), "inflatable-yellow" if i % 2 else t,
+        # (the yellow lengths a hair fatter, so where two lengths overlap their faces are not in one plane)
+        fat = 0.05 if i % 2 else 0
+        els.append(bx(f"Arc{i}", (mx - ln / 2, my - 2.2 - fat, 5.5 - fat), (mx + ln / 2, my + 2.2 + fat, 10.5 + fat), "inflatable-yellow" if i % 2 else t,
                       rot=(0, 0, ang), origin=(mx, my, 8)))
     prop("fun-inflatable", "Inflatable Arch", {"arch": els}, collide=False, material="Cloth", sounds=RUBBER,
          box=(0, 0, 0.3, 1, 1, 0.7), fname="fun-inflatable-arch", comment="Level Fun: the arched entrance of a bounce house (walk through)",
@@ -2311,6 +2308,9 @@ def deck():
         if (i // 2) % 2:
             for f in e["faces"].values():
                 f["texture"] = "#ring-white"
+            # (a hair thicker than the red quarters, so where they overlap their faces are not in one plane)
+            e["from"][2] -= 0.05
+            e["to"][2] += 0.05
     ring += [bx("Rope1", (1.6, 7.6, 13.6), (2.4, 8.4, 16), "rope"), bx("Rope2", (13.6, 7.6, 13.6), (14.4, 8.4, 16), "rope"),
              bx("Hook", (7.5, 14, 15), (8.5, 15.5, 16), "metaldark")]
     prop("fun-lifering", "Life Ring", ring, collide=False, material="Cloth", sounds=CLOTH, box=(0.1, 0.1, 0.85, 0.9, 0.9, 1),
@@ -2688,7 +2688,8 @@ def entities():
                    "animations": [anim("idle", "idle", triggeredBy={"defaultAnim": True}, blendMode="AddAverage"),
                                   anim("weep", "weep", 1.0, weight=5), anim("upset", "upset", 1.0, weight=10)]},
         "server": {"behaviors": [{"code": "entitystatetags"}]},
-        "sounds": {},
+        # Its wet breathing, heard across its hall (about one breath in ten seconds)
+        "sounds": {"idle": "backrooms:ambient/fun/hostbreath"}, "idleSoundChance": 0.2,
     })
 
 
@@ -2774,7 +2775,7 @@ def resolve_texture(path):
     domain, rel = path.split(":", 1) if ":" in path else ("backrooms", path)
     if domain == "backrooms":
         return os.path.exists(os.path.join(ASSETS, "textures", rel + ".png"))
-    game = os.path.join(os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory"), "assets")
+    game = os.path.join(os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory")), "assets")
     return any(os.path.exists(os.path.join(game, d, "textures", rel + ".png")) for d in ("survival", "game"))
 
 

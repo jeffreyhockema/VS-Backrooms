@@ -267,6 +267,35 @@ def level1():
         ImageDraw.Draw(img).line([0, y, S - 1, y], fill=rgb(0x2E4422))
     save(img, "bedroll")
     flat("bedrollpillow", 0x8C8070, 4)
+    # The two-block camp tent's fly: green ripstop nylon (a faint grid), a darker seam every half block, a grommet
+    img = noise(0x46623A, 4, "tentfly")
+    d = ImageDraw.Draw(img)
+    for k in range(4, S, 4):
+        d.line([k, 0, k, S - 1], fill=T.shade(T.hexrgb(0x46623A), 0.93))
+        d.line([0, k, S - 1, k], fill=T.shade(T.hexrgb(0x46623A), 0.93))
+    d.line([0, 0, 0, S - 1], fill=rgb(0x2E4426))
+    d.line([16, 0, 16, S - 1], fill=rgb(0x2E4426))
+    d.ellipse([27, 27, 30, 30], outline=rgb(0xB8B8B0))
+    save(img, "tentfly")
+    flat("tentinside", 0x1E2A1A, 3)
+    # The two-block sleeping bag: faded red quilted nylon, its channels sewn across every three pixels' worth, and the
+    # brushed flannel lining of the turned-back top (a blue tartan)
+    img = noise(0x9A3A30, 4, "sleepingbag")
+    d = ImageDraw.Draw(img)
+    for y in range(0, S, 6):
+        d.line([0, y, S - 1, y], fill=rgb(0x6E241E))
+        d.line([0, y + 1, S - 1, y + 1], fill=T.shade(T.hexrgb(0x9A3A30), 1.12))
+    save(img, "sleepingbag")
+    img = noise(0x46647A, 4, "sleepingbaglining")
+    d = ImageDraw.Draw(img)
+    for k in range(0, S, 8):
+        d.rectangle([k, 0, k + 2, S - 1], fill=rgb(0x2C4052))
+        d.rectangle([0, k, S - 1, k + 2], fill=rgb(0x2C4052))
+    for k in range(0, S, 8):
+        d.line([k + 5, 0, k + 5, S - 1], fill=rgb(0x8C7E56))
+        d.line([0, k + 5, S - 1, k + 5], fill=rgb(0x8C7E56))
+    save(img, "sleepingbaglining")
+    flat("sleepingbagzip", 0x2A2624, 3)
     img = noise(0xFFC060, 4, "lanternglass")
     ImageDraw.Draw(img).rectangle([12, 0, 19, S - 1], fill=rgb(0xFFF0C0))
     save(img, "lanternglass")

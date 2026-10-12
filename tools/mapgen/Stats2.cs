@@ -1,7 +1,7 @@
 using Backrooms.Worldgen;
 static class Stats2 {
   public static void Run(WorldLayout l, int m0x, int m0z, int n) {
-    int l4Door=0, l4Way=0, l1Pipe=0, l1Drip=0, l3Cable=0, l3Droop=0, confSlots=0, confChairs=0, l5Rooms=0, l5Empty=0, l5Wood=0, l5Beds=0;
+    int l4Door=0, l4Way=0, l1Pipe=0, l1Drip=0, l3Cable=0, l3Droop=0, confSlots=0, confChairs=0, l5Rooms=0, l5Empty=0, l5Wood=0;
     var l5RoomSeen = new HashSet<(int,int)>();
     for (int mz = m0z; mz < m0z + n; mz++) for (int mx = m0x; mx < m0x + n; mx++) {
       var tiles = l.BuildMacro(mx, mz);

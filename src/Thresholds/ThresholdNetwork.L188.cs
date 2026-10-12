@@ -4,7 +4,7 @@ using Backrooms.Worldgen;
 namespace Backrooms.Thresholds;
 
 /// <summary>
-/// Level 188, "The Courtyard of Windows"'s thresholds (kept as level 20; docs/new-levels/188-plan.md, LINKS.md round 2).
+/// Level 188, "The Courtyard of Windows"'s thresholds (kept as level 20; docs/design/new-levels/188-plan.md, LINKS.md round 2).
 /// Climbing through a window is walking, so every window is two-way; a blind opened, the hatch, a Window's arm are not.
 ///
 /// <list type="bullet">
@@ -31,9 +31,6 @@ public sealed partial class ThresholdNetwork
 
     /// <summary>The Hub's window into 188.</summary>
     public static readonly Func<Tile, bool> L188HubWindow = t => t.Under == Unders.HubWindow188 && t.Level == WorldLayout.Hub;
-
-    /// <summary>A fire door of 188's (the way back for whoever comes in beside it).</summary>
-    private static readonly Func<Tile, bool> L188FireDoor = t => t.Under == Unders.L188FireDoor && t.Level == WorldLayout.Level188;
 
     private Passage L188Walked(int x, int z, in Tile tile, double rel)
     {

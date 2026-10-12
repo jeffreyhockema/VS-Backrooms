@@ -9,7 +9,7 @@ using Vintagestory.API.MathTools;
 namespace Backrooms;
 
 /// <summary>
-/// The End's air and sound on the client (kept as level 16; docs/new-levels/end-plan.md). Its base fog is its entry in
+/// The End's air and sound on the client (kept as level 16; docs/design/new-levels/end-plan.md). Its base fog is its entry in
 /// <see cref="Levels"/>: a thin warm-cream haze. Here:
 /// <list type="bullet">
 /// <item>a fake reality's heart has the air of the place it imitates (the Lobby's, the office's, the hotel's; the snow

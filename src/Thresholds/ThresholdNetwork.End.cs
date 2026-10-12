@@ -5,7 +5,7 @@ namespace Backrooms.Thresholds;
 
 /// <summary>
 /// The End's thresholds (kept as level 16): the ways out of it, and the ways into it from any other level
-/// (docs/new-levels/end-plan.md, as reconciled in LINKS.md). Walked through, two-way; fell, dived or taken, one-way.
+/// (docs/design/new-levels/end-plan.md, as reconciled in LINKS.md). Walked through, two-way; fell, dived or taken, one-way.
 ///
 /// In: a locked door under a glowing EXIT sign in Level 1's halls, and the closed-down bookstore's door in the city
 /// (both two-way, out beside one of The End's EXIT doors, which becomes the way back); a lone wooden doorway in Level 4

@@ -51,7 +51,6 @@ def sigil_on(base, n, ink, light=None, margin=3):
 def materials():
     brass = noise(0xC8A050, 7, "kbrass")
     tex("brass", brass)
-    tex("brass-old", tint(noise(0xA8843E, 9, "kbrassold"), 0.95))
     tex("nickel", noise(0xC4C8CC, 5, "knickel"))
     tex("steel", noise(0x9AA0A6, 5, "ksteel"))
     img = noise(0x7A4A2A, 12, "krust")
@@ -64,11 +63,11 @@ def materials():
     tex("bronze-green", img)
     tex("bronze", noise(0x9A7440, 7, "kbronze2"))
     tex("slate", noise(0x4A5058, 6, "kslate"))
-    tex("ceramic", noise(0xF2F2EE, 2, "kceramic"))
+    TEXTURES["ceramic"] = noise(0xF2F2EE, 2, "kceramic")  # only a bow's base, not saved
     tex("teal", noise(0x2AA4A6, 4, "kteal"))
     tex("redrubber", noise(0xB82820, 5, "kred"))
     tex("yellowplastic", noise(0xE8C020, 4, "kyellow"))
-    tex("blackrubber", noise(0x202022, 3, "kblackrub"))
+    TEXTURES["blackrubber"] = noise(0x202022, 3, "kblackrub")  # only a bow's base, not saved
     tex("tassel", noise(0xA81E2A, 10, "ktassel"))
     tex("cork", noise(0xB08A5A, 14, "kcork"))
     tex("barnacle", noise(0xD8D0C0, 16, "kbarn"))
@@ -78,16 +77,14 @@ def materials():
     tex("stripe", noise(0x1A1A1C, 2, "kstripe"))
     tex("clip", noise(0xB8BCC0, 4, "kclip"))
     tex("pinkplastic", noise(0xF07AB0, 4, "kpink"))
-    tex("candyyellow", noise(0xFFD84A, 4, "kcandyy"))
+    TEXTURES["candyyellow"] = noise(0xFFD84A, 4, "kcandyy")  # only a bow's base, not saved
     tex("balloon", noise(0xE83040, 4, "kballoon"))
     tex("ribbon", noise(0xF4F0F8, 4, "kribbon"))
     tex("clay", noise(0xD86A3A, 10, "kclay"))
     tex("claypaint", noise(0x3A8AD8, 9, "kclayblue"))
-    tex("firered", noise(0xD02018, 4, "kfirered"))
-    tex("neonmagenta", noise(0xFF3CD2, 3, "kneonmag"))
+    TEXTURES["neonmagenta"] = noise(0xFF3CD2, 3, "kneonmag")  # only a bow's base, not saved
     tex("chrome", noise(0xD8DCE2, 3, "kchrome"))
     tex("candyblue", noise(0x5AB4F0, 4, "kcandyb"))
-    tex("leather", noise(0x6A3E22, 6, "kleather"))
     # A yellowed paper tag with a scribble on it
     img = noise(0xE8DCA8, 4, "ktag")
     d = ImageDraw.Draw(img)

@@ -2,7 +2,7 @@ using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 using Part = Backrooms.Worldgen.WorldLayout.L188Part;
 
-/// <summary>Level 188's harness modes (this file is the level's own; see docs/new-levels/CONTRACT.md).</summary>
+/// <summary>Level 188's harness modes (this file is the level's own; see docs/design/new-levels/CONTRACT.md).</summary>
 static partial class LevelModes
 {
     /// <summary>

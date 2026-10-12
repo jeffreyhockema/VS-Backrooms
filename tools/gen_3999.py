@@ -1,4 +1,4 @@
-"""Level 3999, "The Neon Paradise" (level 19): every asset, from docs/new-levels/3999-plan.md section 6 as the user's
+"""Level 3999, "The Neon Paradise" (level 19): every asset, from docs/design/new-levels/3999-plan.md section 6 as the user's
 direction of 2026-10-09 trims it (no List, no glass-door ending, no Frontrooms car park; the arcade-mall, 3999.1 and
 the theme-based resources stay). Run from the repo root, through the asset lock:
 

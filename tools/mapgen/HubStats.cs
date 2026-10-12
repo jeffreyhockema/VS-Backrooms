@@ -2,7 +2,7 @@ using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 
 /// <summary>
-/// The Hub's harness modes (this file is the level's own; see docs/new-levels/CONTRACT.md):
+/// The Hub's harness modes (this file is the level's own; see docs/design/new-levels/CONTRACT.md):
 /// <list type="bullet">
 /// <item><c>hubstats</c>: the whole region laid out: what its tiles are, its level doors (one per level, canon's three in
 /// their tunnels), whether every tunnel can be walked to from the roundabout, and where every carved door leads.</item>

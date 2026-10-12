@@ -51,7 +51,9 @@
 		"walk": "game:walk/wood*",
 		"place": "game:block/planks",
 		"break": "game:block/planks",
-		"hit": "game:block/planks"
+		"hit": "game:block/planks",
+		"ambient": "backrooms:ambient/3999/windmill",
+		"ambientBlockCount": 1
 	},
 	"selectionboxByType": {
 		"l3999-windmillsails-north": {

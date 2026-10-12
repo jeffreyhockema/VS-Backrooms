@@ -1,4 +1,4 @@
-"""Level 3999, the Neon Paradise: the arcade (docs/new-levels/3999-plan.md 6.3). Called from gen_3999.py.
+"""Level 3999, the Neon Paradise: the arcade (docs/design/new-levels/3999-plan.md 6.3). Called from gen_3999.py.
 
 Cabinets share one body, modelled in boxes facing north: a lower body with a coin door, a control panel with a
 joystick and four buttons, a screen in a bezel leaning back 15 degrees, a lit marquee box projecting a pixel, side
@@ -329,7 +329,7 @@ def games():
 
     def counter(v):
         els = [faces_box("Base", (0, 0, 1), (16, 9, 16), {"north": "laminate", "east": "laminate", "west": "laminate", "south": "laminate", "down": "laminate"}),
-               bx("Kick", (0, 0, 0.6), (16, 1, 1), "black"), bx("EdgeT", (0, 8.6, 0.6), (16, 9.2, 16), "chrome", faces=("north", "up", "east", "west")),
+               bx("Kick", (0, 0, 0.6), (16, 1, 1), "black"), bx("EdgeT", (-0.05, 8.6, 0.6), (16.05, 9.2, 16), "chrome", faces=("north", "up", "east", "west")),
                tube_strip("Strip", (0, 7.5, 0.7), (16, 8.1, 1), "lilac")]
         els += prizes_inside()
         els += [glass(bx("GlassF", (0.2, 9.2, 0.8), (15.8, 13.8, 1), "glasspane", faces=("north", "south"))),
@@ -369,7 +369,7 @@ def games():
     def prizecase(v):
         els = [faces_box("Base", (0, 0, 1), (16, 9, 16), {"north": "laminate-dusty", "east": "laminate-dusty", "west": "laminate-dusty",
                                                           "south": "laminate-dusty", "down": "laminate-dusty"}),
-               bx("Kick", (0, 0, 0.6), (16, 1, 1), "black"), bx("EdgeT", (0, 8.6, 0.6), (16, 9.2, 16), "darksteel", faces=("north", "up", "east", "west"))]
+               bx("Kick", (0, 0, 0.6), (16, 1, 1), "black"), bx("EdgeT", (-0.05, 8.6, 0.6), (16.05, 9.2, 16), "darksteel", faces=("north", "up", "east", "west"))]
         els += prizes_inside(few=True)
         els += [glass(bx("GlassF", (0.2, 9.2, 0.8), (15.8, 13.8, 1), "glass-cracked", faces=("north", "south"))),
                 glass(bx("GlassT", (4, 13.8, 0.8), (15.8, 14, 15.8), "glass-cracked", faces=("up", "down"))),

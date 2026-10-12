@@ -238,7 +238,7 @@ public partial class AtmosphereSystem : ModSystem
         // Every loop the levels may have running, so none is left playing after the world closes
         foreach (ILoadedSound sound in new[]
         {
-            poolTone, sirenTune, endTone, endWind, funBed, hubDrone, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
+            poolTone, sirenTune, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
         })
         {

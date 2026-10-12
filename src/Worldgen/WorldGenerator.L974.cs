@@ -24,7 +24,7 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l974Window = new int[4, 4, 4]; // part (bl br tl tr), painting, facing
     private readonly int[,] l974Fairy = new int[2, 4];
     private readonly int[] l974NightLight = new int[4], l974Rod = new int[4];
-    private int l974Ceiling, l974LightOn, l974LightOff, l974Table, l974CatBed;
+    private int l974Ceiling, l974LightOn, l974Table, l974CatBed;
     private readonly int[,,] l974Bed = new int[3, 2, 4]; // bedding, part (head, feet), side
     private readonly int[,] l974Hung = new int[15, 4]; // a thing hung on the wall, by kind (L974Hung), facing
     private readonly Dictionary<(ushort Prop, int Stack), int[]> l974Props = new(); // facing -> block
@@ -47,7 +47,6 @@ public sealed partial class WorldGenerator
         l974Floor[2] = L974Block("l974-floor-bathhex", concreteId);
         l974Ceiling = L974Block("l974-ceiling", concreteId);
         l974LightOn = L974Block("l974-downlight-on", l974Ceiling);
-        l974LightOff = L974Block("l974-downlight-off", l974Ceiling);
         l974Lintel[0] = L974Block("l974-lintel-ns", l974Wall[2]);
         l974Lintel[1] = L974Block("l974-lintel-we", l974Wall[2]);
         l974Casing[0] = L974Block("l974-casing-ns");

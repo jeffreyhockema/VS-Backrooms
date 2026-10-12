@@ -17,7 +17,7 @@ using Vintagestory.GameContent;
 namespace Backrooms.Regions;
 
 /// <summary>
-/// The Hub's people (docs/new-levels/hub-plan.md 2.6, 2.7):
+/// The Hub's people (docs/design/new-levels/hub-plan.md 2.6, 2.7):
 /// <list type="bullet">
 /// <item><b>The Tower</b> lets each person in once (canon: "Upon exiting The Tower, it will be impossible to re-enter
 /// afterwards"). Whoever has been inside and is outside again, however they left, is never let in again.</item>

@@ -1,4 +1,4 @@
-"""The Hub (level 17): every asset in docs/new-levels/hub-plan.md section 4 (and its "Manifest changes (phase 2)").
+"""The Hub (level 17): every asset in docs/design/new-levels/hub-plan.md section 4 (and its "Manifest changes (phase 2)").
 
 Road-tunnel blocks (seamed concrete slabs, asphalt with yellow road studs, caged amber lamps, jet fans, lane signals,
 M.E.G. stencils), the carved concrete level doors with their crop-circle sigils, the service doors, the ornate Tower

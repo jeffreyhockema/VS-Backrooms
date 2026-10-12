@@ -3,6 +3,7 @@ using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.MathTools;
 
 namespace Backrooms;
 
@@ -10,7 +11,8 @@ namespace Backrooms;
 /// The Hub's air and sound on the client (kept as level 17). Its base fog is its entry in <see cref="Levels"/>: the
 /// orange haze of the Crossroads. Out in the Far Tunnels, where the lamps die, it is darker and closer; in the Tower,
 /// dusky rose. And it is silent: canon says "completely devoid of sound", so there is no hum, only (Fandom) a drone so
-/// faint it is nearly not there, whose pitch shifts every few minutes.
+/// faint it is nearly not there, whose pitch shifts every few minutes. Only the Tower hears the storm outside: thunder
+/// through its walls, and wind that is a draught at its foot and gusts round the meeting hall and its balcony.
 /// </summary>
 public partial class AtmosphereSystem
 {
@@ -20,7 +22,7 @@ public partial class AtmosphereSystem
     /// <summary>The Tower's and the Far Tunnels' titles (level-1701, level-1702 in the lang file).</summary>
     private const int HubTowerKey = 1701, HubFarKey = 1702;
 
-    private ILoadedSound hubDrone;
+    private ILoadedSound hubDrone, hubWind;
     private float hubPitchClock, hubThunderClock = 20;
 
     private void HubAir(float dt, EntityPos pos, ref Atmosphere target, ref int titleKey)
@@ -56,9 +58,11 @@ public partial class AtmosphereSystem
             hubDrone.Dispose();
             hubDrone = null;
         }
+        bool tower = hubDrone != null && layout.InHubTower(pos.X, pos.Z);
+        HubWind(pos, tower);
         if (hubDrone == null) return;
         // In the Tower, now and then, thunder from the storm outside, through thick walls
-        if (layout.InHubTower(pos.X, pos.Z))
+        if (tower)
         {
             hubThunderClock -= dt;
             if (hubThunderClock <= 0)
@@ -73,5 +77,29 @@ public partial class AtmosphereSystem
         hubPitchClock = 150 + (float)rand.NextDouble() * 60;
         float[] pitches = { 1f, 0.94f, 1.06f, 0.89f };
         hubDrone.SetPitch(pitches[rand.Next(pitches.Length)]);
+    }
+
+    /// <summary>The storm's wind round the Tower: faint at its foot, rising with the stair to the meeting hall (and its balcony over the void).</summary>
+    private void HubWind(EntityPos pos, bool tower)
+    {
+        if (!tower)
+        {
+            if (hubWind == null) return;
+            hubWind.Stop();
+            hubWind.Dispose();
+            hubWind = null;
+            return;
+        }
+        if (hubWind == null)
+        {
+            hubWind = capi.World.LoadSound(new SoundParams
+            {
+                Location = new AssetLocation("backrooms:sounds/ambient/hub/wind"), ShouldLoop = true, RelativePosition = true,
+                DisposeOnFinish = false, Volume = 0f, SoundType = EnumSoundType.Ambient,
+            });
+            hubWind?.Start();
+        }
+        float up = GameMath.Clamp((float)(pos.Y - geometry.FloorFor(WorldLayout.Hub)) / WorldLayout.HubTowerHall, 0f, 1f);
+        hubWind?.SetVolume(0.05f + 0.35f * up);
     }
 }

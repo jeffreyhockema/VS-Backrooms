@@ -1,0 +1,872 @@
+// Level ! (layout version 6): what blocks the hall, facing <side>. beds-lower/upper: a barricade of beds, mattresses and chairs, two blocks tall (go round it). cabinet-lower/upper: a tall supply cabinet, back to the wall, its right door hanging open (go round it). tipped-head/foot: a gurney on its side, two blocks long (head to the north), 0.94 high (jump it)
+{
+	"code": "run-barricade",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"beds-lower",
+				"beds-upper",
+				"cabinet-lower",
+				"cabinet-upper",
+				"tipped-head",
+				"tipped-foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-beds-lower-north"
+		],
+		"decorative": [
+			"*-beds-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-beds-lower-north": {
+			"base": "block/run/run-barricade-beds-lower",
+			"rotateY": 0
+		},
+		"*-beds-lower-east": {
+			"base": "block/run/run-barricade-beds-lower",
+			"rotateY": 270
+		},
+		"*-beds-lower-south": {
+			"base": "block/run/run-barricade-beds-lower",
+			"rotateY": 180
+		},
+		"*-beds-lower-west": {
+			"base": "block/run/run-barricade-beds-lower",
+			"rotateY": 90
+		},
+		"*-beds-upper-north": {
+			"base": "block/run/run-barricade-beds-upper",
+			"rotateY": 0
+		},
+		"*-beds-upper-east": {
+			"base": "block/run/run-barricade-beds-upper",
+			"rotateY": 270
+		},
+		"*-beds-upper-south": {
+			"base": "block/run/run-barricade-beds-upper",
+			"rotateY": 180
+		},
+		"*-beds-upper-west": {
+			"base": "block/run/run-barricade-beds-upper",
+			"rotateY": 90
+		},
+		"*-cabinet-lower-north": {
+			"base": "block/run/run-barricade-cabinet-lower",
+			"rotateY": 0
+		},
+		"*-cabinet-lower-east": {
+			"base": "block/run/run-barricade-cabinet-lower",
+			"rotateY": 270
+		},
+		"*-cabinet-lower-south": {
+			"base": "block/run/run-barricade-cabinet-lower",
+			"rotateY": 180
+		},
+		"*-cabinet-lower-west": {
+			"base": "block/run/run-barricade-cabinet-lower",
+			"rotateY": 90
+		},
+		"*-cabinet-upper-north": {
+			"base": "block/run/run-barricade-cabinet-upper",
+			"rotateY": 0
+		},
+		"*-cabinet-upper-east": {
+			"base": "block/run/run-barricade-cabinet-upper",
+			"rotateY": 270
+		},
+		"*-cabinet-upper-south": {
+			"base": "block/run/run-barricade-cabinet-upper",
+			"rotateY": 180
+		},
+		"*-cabinet-upper-west": {
+			"base": "block/run/run-barricade-cabinet-upper",
+			"rotateY": 90
+		},
+		"*-tipped-head-north": {
+			"base": "block/run/run-barricade-tipped-head",
+			"rotateY": 0
+		},
+		"*-tipped-head-east": {
+			"base": "block/run/run-barricade-tipped-head",
+			"rotateY": 270
+		},
+		"*-tipped-head-south": {
+			"base": "block/run/run-barricade-tipped-head",
+			"rotateY": 180
+		},
+		"*-tipped-head-west": {
+			"base": "block/run/run-barricade-tipped-head",
+			"rotateY": 90
+		},
+		"*-tipped-foot-north": {
+			"base": "block/run/run-barricade-tipped-foot",
+			"rotateY": 0
+		},
+		"*-tipped-foot-east": {
+			"base": "block/run/run-barricade-tipped-foot",
+			"rotateY": 270
+		},
+		"*-tipped-foot-south": {
+			"base": "block/run/run-barricade-tipped-foot",
+			"rotateY": 180
+		},
+		"*-tipped-foot-west": {
+			"base": "block/run/run-barricade-tipped-foot",
+			"rotateY": 90
+		}
+	},
+	"collisionboxesByType": {
+		"*-beds-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-beds-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-beds-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-beds-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-beds-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1
+			}
+		],
+		"*-beds-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-beds-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-beds-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-cabinet-lower-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-cabinet-lower-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-cabinet-lower-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-cabinet-lower-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-cabinet-upper-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5
+			}
+		],
+		"*-cabinet-upper-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-cabinet-upper-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-cabinet-upper-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-tipped-head-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1
+			}
+		],
+		"*-tipped-head-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-tipped-head-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-tipped-head-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-tipped-foot-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1
+			}
+		],
+		"*-tipped-foot-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-tipped-foot-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-tipped-foot-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"*-beds-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-beds-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-beds-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-beds-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.3,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-beds-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1
+			}
+		],
+		"*-beds-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-beds-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-beds-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.36,
+				"x2": 1,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-cabinet-lower-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5
+			}
+		],
+		"*-cabinet-lower-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-cabinet-lower-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-cabinet-lower-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-cabinet-upper-north": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5
+			}
+		],
+		"*-cabinet-upper-east": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 270
+			}
+		],
+		"*-cabinet-upper-south": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 180
+			}
+		],
+		"*-cabinet-upper-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0.5,
+				"x2": 0.9375,
+				"y2": 0.97,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0.09375,
+				"x2": 0.9125,
+				"y2": 0.97,
+				"z2": 0.5,
+				"rotateY": 90
+			}
+		],
+		"*-tipped-head-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1
+			}
+		],
+		"*-tipped-head-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-tipped-head-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-tipped-head-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-tipped-foot-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1
+			}
+		],
+		"*-tipped-foot-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-tipped-foot-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-tipped-foot-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.94,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"dropsByType": {
+		"*-beds-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			}
+		],
+		"*-cabinet-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:bandage-clean",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "almondwater",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			}
+		],
+		"*-tipped-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			}
+		]
+	}
+}

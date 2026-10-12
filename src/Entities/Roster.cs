@@ -96,7 +96,7 @@ public static class Danger
         10 => 0.88,
         11 => 0.95,
         Backrooms.Worldgen.WorldLayout.Poolrooms => 0.5,
-        // The five kept as 14-18 (each level's own line): calm until their plans say otherwise
+        // The far places (ids 14-20)
         Backrooms.Worldgen.WorldLayout.RunLevel => 0.9, // Level !: the horde, Class 5
         Backrooms.Worldgen.WorldLayout.FunLevel => 0.9, // Level Fun: Survival Difficulty 5, the Partygoers' own level
         Backrooms.Worldgen.WorldLayout.TheEnd => 0.4,
@@ -272,7 +272,7 @@ public static class Roster
             E(AnimationWooden, Approach, Menacing, 1.0, 1, 2),
             E(AnimationPaper, Approach, Encounters.Stalk | Encounters.Hunt, 0.7, 3, 5),
         },
-        // The five kept as 14-18 (each level's own entry): nothing yet
+        // The far places (ids 14-20). Level !: nothing from the director (the chase is its own)
         [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<RosterEntry>(),
         // Level Fun: Partygoers walking the corridors in twos and threes (you can never catch one alone); the rest stand at
         // their parties (put down by Regions.FunSystem, not the director)
@@ -422,7 +422,7 @@ public static class Roster
         [11] = new[] { CarAlarm, Murmur, Footsteps, Squeak },
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[] { Drip, Lapping },
         [Backrooms.Worldgen.WorldLayout.Motion] = new[] { Laughter, Laughter, AllGlory, Squeak },
-        // The five kept as 14-18 (each level's own entry): silence for now
+        // The far places (ids 14-20). Level !: none (its alarm and its horde are sound enough)
         [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<DistantSound>(),
         // Level Fun: a party somewhere else: a cheer, a party horn, a balloon popping, laughing, now and then far-off singing
         [Backrooms.Worldgen.WorldLayout.FunLevel] = new[]

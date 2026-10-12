@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// The Hub, the hidden crossroads of the Backrooms: kept as level 17 (<see cref="Hub"/>) and shown as "Hub". An endless
 /// network of road tunnels of seamed concrete slabs, lit orange by caged lamps, an asphalt road with three lines of yellow
 /// studs, silent; both walls lined with great concrete doors, a crop circle carved over each, one for every level, and
-/// almost all of them locked (docs/new-levels/hub-plan.md).
+/// almost all of them locked (docs/design/new-levels/hub-plan.md).
 ///
 /// Like the Poolrooms it is not a ring: it lies far out to the south-east, a region you can only noclip into, its floor
 /// <see cref="WorldGeometry.HubDrop"/> below the other levels'. It is planned round one centre, the Tower: ten numbered
@@ -26,7 +26,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x1700-0x17BF are this level's (0x1710 is Level 37's corridor-end roll).</summary>
-    private const ulong SaltHubShape = 0x1701, SaltHubSpoke = 0x1702, SaltHubRing = 0x1703, SaltHubLattice = 0x1704,
+    private const ulong SaltHubSpoke = 0x1702, SaltHubRing = 0x1703, SaltHubLattice = 0x1704,
         SaltHubLive = 0x1705, SaltHubSlot = 0x1706, SaltHubFeature = 0x1707, SaltHubLamp = 0x1708, SaltHubFloor = 0x1709,
         SaltHubTheta = 0x170A;
 
@@ -48,13 +48,6 @@ public sealed partial class WorldLayout
     {
         double dx = mx - HubCentreX, dz = mz - HubCentreZ;
         return dx * dx + dz * dz < HubRadius * HubRadius;
-    }
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachHub(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - HubCentreX, dz = (z0 + size / 2.0) / MacroSize - HubCentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < HubRadius + 1 + size / (double)MacroSize;
     }
 
     /// <summary>A place to look for somewhere to arrive: in the Crossroads, between 200 and 1,000 blocks from the Tower.</summary>

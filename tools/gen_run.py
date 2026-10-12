@@ -1,4 +1,4 @@
-"""Level ! "Run For Your Life!": every asset in docs/new-levels/run-plan.md section 7 (and its "Manifest changes").
+"""Level ! "Run For Your Life!": every asset in docs/design/new-levels/run-plan.md section 7 (and its "Manifest changes").
 
 One long hospital hallway lit only by red EXIT signs: pale institutional walls with a wooden crash rail, white
 speckled vinyl, white acoustic ceiling tiles, grey steel doors on both sides, red fire doors at the ends, a chained
@@ -716,7 +716,8 @@ def rail(x0=0, x1=16):
     return [bx("Rail", (x0, 12, -3), (x1, 14, -1), "railwood"),
             bx("RailTop", (x0, 14, -2.7), (x1, 14.5, -1.3), "railtop", faces=("north", "south", "up", "east", "west")),
             bx("RailBottom", (x0, 11.6, -2.7), (x1, 12, -1.3), "railwood", faces=("north", "south", "down", "east", "west")),
-            bx("Bracket1", (3, 11, -2), (4, 14, 0), "steelframe"), bx("Bracket2", (12, 11, -2), (13, 14, 0), "steelframe")]
+            # (tops a hair under the rail's, the right one clear of the end of a rail stopped short at x 13)
+            bx("Bracket1", (3, 11, -2), (4, 13.95, 0), "steelframe"), bx("Bracket2", (11.9, 11, -2), (12.9, 13.95, 0), "steelframe")]
 
 
 def walls():
@@ -940,10 +941,11 @@ def signs():
 # ======================= Doors =======================
 
 def frame(tex_, upper=True, z0=-1, z1=1):
-    """A door frame standing proud of the wall, on the neighbouring wall blocks either side and above."""
-    els = [bx("JambL", (-1.5, 0, z0), (0, 16, z1), tex_), bx("JambR", (16, 0, z0), (17.5, 16, z1), tex_)]
+    """A door frame standing proud of the wall, on the neighbouring wall blocks either side and above. Where it reaches
+    into the wall its inner faces would lie in the doorway's reveals and soffit, so they stand a hair into the doorway."""
+    els = [bx("JambL", (-1.5, 0, z0), (0.02, 16, z1), tex_), bx("JambR", (15.98, 0, z0), (17.5, 16, z1), tex_)]
     if upper:
-        els.append(bx("Head", (-1.5, 16, z0), (17.5, 17.5, z1), tex_))
+        els.append(bx("Head", (-1.5, 15.98, z0), (17.5, 17.5, z1), tex_))
     return els
 
 
@@ -1198,8 +1200,8 @@ def _sizes(e):
     return {"north": (w, h), "south": (w, h), "east": (d, h), "west": (d, h), "up": (w, d), "down": (w, d)}
 
 
-def props():
-    # Gurney: modelled head to the north across two blocks (head, foot), like the hospital bed
+def gurney_parts():
+    """A gurney, modelled head to the north across two blocks (z 0-32), like the hospital bed."""
     gurney = [bx("Mattress", (1, 9, 1), (15, 12, 31), "sheet"),
               bx("Pillow", (3, 12, 1.8), (13, 13.5, 6), "pillow"),
               bx("Fold", (1.2, 12, 22), (14.8, 13, 30), "sheet"),
@@ -1211,6 +1213,12 @@ def props():
               bx("PushPostR", (13, 9, 0), (14, 13, 1), "chrome")]
     for n, (x, z) in enumerate(((2, 3), (14, 3), (2, 29), (14, 29))):
         gurney += [bx(f"Leg{n}", (x - 0.5, 3, z - 0.5), (x + 0.5, 8, z + 0.5), "chrome")] + castor(n, x, z)
+    return gurney
+
+
+def props():
+    # Gurney: modelled head to the north across two blocks (head, foot), like the hospital bed
+    gurney = gurney_parts()
     prop("run-gurney", "Gurney", {"head": clip(gurney, "z", 0, 16, 0), "foot": clip(gurney, "z", 16, 32, -16)},
          box=(0, 0, 0, 1, 0.8, 1), material="Metal", sounds=METAL,
          comment="A hospital gurney left in the hall, two blocks long (head, foot; head to the north). 0.8 high",
@@ -1458,6 +1466,220 @@ def props():
               bx("Dust", (3, 0, 3), (13, 0.1, 13), "ceiltile", faces=("up",))]
     prop("run-debris", "Fallen Ceiling", debris, box=(0.06, 0, 0.06, 0.94, 0.1, 0.94), collide=False, material="Stone", sounds=STONE,
          comment="Broken ceiling tiles and a bent T-bar on the floor (trips a sprinter)", extra={"drops": []})
+
+
+# ======================= Layout version 6: what blocks the hall =======================
+
+def kinds_block(code, parts, boxes, comment, material="Metal", sounds=METAL, extra=None):
+    """A block of several kinds, each facing <side>: parts {kind: boxes}, boxes {kind: [collision boxes] or None}."""
+    by_type, coll, sel = {}, {}, {}
+    for kind, els in parts.items():
+        path = shape(f"{code}-{kind}", els)
+        for sd in SIDES:
+            by_type[f"*-{kind}-{sd}"] = {"base": path, "rotateY": ROTATE[sd]}
+            got = boxes.get(kind)
+            coll[f"*-{kind}-{sd}"] = [K.cuboid(b, sd) for b in got] if got else None
+            sel[f"*-{kind}-{sd}"] = [K.cuboid(b, sd) for b in (got or [(0.1, 0, 0.1, 0.9, 1, 0.9)])]
+    first = f"*-{next(iter(parts))}-north"
+    data = {"variantgroups": [{"code": "kind", "states": list(parts)}, {"code": "side", "states": SIDES}],
+            "creativeinventory": {"general": [first], "decorative": [first]},
+            "blockmaterial": material, "drawtype": "json", "shapeByType": by_type,
+            "collisionboxesByType": coll, "selectionboxesByType": sel,
+            "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 1.5, "sounds": sounds}
+    if extra:
+        data.update(extra)
+    block(code, data, comment)
+
+
+def gauntlet():
+    """
+    Layout version 6 packs the hall (WorldLayout.PlanRunGauntlet): the ceiling come down (a slab hanging from the hole
+    onto a heap of rubble, or a heap you can jump, live wires hanging over it: Fandom's "the walls and the ceiling may
+    also collapse ... power lines may hang from above"), barricades of beds and chairs, tall supply cabinets with a door
+    hanging open (the open cabinet of Escape the Backrooms' hallway), and gurneys tipped on their sides.
+    """
+    # ---- Textures ----
+    img = noise(0x8C8A84, 6, "rubble")  # the concrete deck broken up: grey, chipped, dark cracks
+    rng = random.Random(seed_of("rubblechips"))
+    px = img.load()
+    for _ in range(46):
+        x, y, f = rng.randrange(S), rng.randrange(S), rng.choice((0.62, 0.75, 1.18))
+        for dx in range(rng.randint(1, 3)):
+            for dy in range(rng.randint(1, 2)):
+                px[(x + dx) % S, (y + dy) % S] = shade(px[(x + dx) % S, (y + dy) % S], f)
+    save(img, "rubble")
+    img = noise(0x6A665E, 6, "rubbledark")
+    speckle(img, "rubbledarksp", 0.05, rgb(0x4A463F), 2)
+    save(img, "rubbledark")
+    save(noise(0x6A4630, 4, "rebar"), "rebar")
+    save(noise(0x1E1E20, 2, "cable"), "cable")
+    save(noise(0xC87A3A, 3, "copper"), "copper")
+    # A hospital mattress: blue-grey wipe-clean vinyl, a seam round it, a stain
+    img = noise(0x5E7286, 3, "mattress")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x46566A))
+    T.blotch(img, (20, 12), 7, (92, 84, 60), 0.35, seed_of("mattressstain"))
+    save(img, "mattress")
+    save(grain(noise(0x9A7650, 4, "plank"), "plankg", 6, vertical=False, streak=0.6), "plank")
+    # Supply cabinet: pale green-grey enamelled steel; its doors with a label holder and vent slots
+    save(grain(noise(0x9AA6A0, 2, "cabsteel"), "cabsteelg", 2), "cabsteel")
+    img = grain(noise(0x9AA6A0, 2, "cabdoor"), "cabdoorg", 2)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x7A8680))
+    d.rectangle([9, 6, 22, 10], fill=rgb(0xE8E6DA), outline=rgb(0x5A625E))
+    d.line([11, 8, 20, 8], fill=rgb(0x8A8A86))
+    for y in (22, 25, 28):
+        d.line([8, y, 23, y], fill=rgb(0x6A7470))
+    save(img, "cabdoor")
+    save(noise(0x2E3432, 2, "cabin"), "cabin")
+
+    # ---- Collapsed ceiling ----
+    # The slab hangs from its hinge at the ceiling (south edge, rel 4's top) down onto the heap (north edge, rel 1):
+    # leaning north. One straight plane, a segment of it in each block
+    top_z, foot_z, foot_y = 13.5, 3.0, 11.0
+    slope = (top_z - foot_z) / (64 - foot_y)
+    tilt = math.degrees(math.atan(slope))
+
+    def slab(k, y0=None):
+        """The slab's segment in block k (0 = rel 1), from local height y0 (default: the whole block)."""
+        lo = 16 * k + (y0 if y0 is not None else 0)
+        yc = (lo + 16 * k + 16) / 2
+        h = (16 * k + 16 - lo) / math.cos(math.radians(tilt))
+        zc, y = foot_z + (yc - foot_y) * slope, yc - 16 * k
+        o = (8, y, zc)
+        out = [bx(f"Slab{k}", (1, y - h / 2, zc - 1.1), (15, y + h / 2, zc + 1.1), "rubble", rot=(tilt, 0, 0), origin=o),
+               bx(f"SlabTiles{k}", (1.4, y - h / 2, zc - 1.6), (14.6, y + h / 2, zc - 1.1), "ceiltile", rot=(tilt, 0, 0), origin=o,
+                  faces=("north", "east", "west", "up", "down"))]
+        if k in (1, 2):
+            # Rebar out of the broken edges
+            out += [bx(f"RebarW{k}", (-1.5, y - 2, zc - 0.3), (1, y - 1.4, zc + 0.3), "rebar", rot=(tilt, 0, 0), origin=o),
+                    bx(f"RebarE{k}", (15, y + 3, zc - 0.3), (17, y + 3.6, zc + 0.3), "rebar", rot=(tilt, 0, 12), origin=o)]
+        return out
+
+    def wires(drop):
+        """Live wires hanging out of the hole, one with a bare copper end; a ceiling tile hanging by one edge."""
+        return [bx("CableA", (5, 16 - drop, 6), (5.6, 16, 6.6), "cable", rot=(0, 0, 8), origin=(5.3, 16, 6.3)),
+                bx("CableB", (9.5, 16 - drop * 0.6, 9), (10.1, 16, 9.6), "cable", rot=(-12, 0, 0), origin=(9.8, 16, 9.3)),
+                bx("CableC", (11, 16 - drop * 0.85, 4), (11.6, 16, 4.6), "cable"),
+                bx("Copper", (10.9, 15.2 - drop * 0.85, 3.9), (11.7, 16 - drop * 0.85, 4.7), "copper", glow=60),
+                bx("Flap", (2, 7, 11), (9, 16, 11.6), "ceiltile", rot=(-24, 0, 0), origin=(5.5, 16, 11.3))]
+
+    heap = [bx("Base", (0.3, 0, 0.3), (15.7, 5, 15.7), "rubble"),
+            bx("Mound", (1.5, 5, 1), (15, 10, 14.5), "rubbledark"),
+            bx("Crown", (3, 10, 2), (13, 14, 12), "rubble"),
+            bx("Peak", (5, 14, 3.5), (11, 16, 9), "rubbledark"),
+            bx("ChunkA", (0.5, 3, 10.5), (6, 8, 15.5), "rubbledark", rot=(0, 25, 0)),
+            bx("ChunkB", (10, 4, 0.5), (15.5, 9, 5.5), "rubble", rot=(0, -20, 10)),
+            bx("ChunkC", (11, 9, 9), (15.3, 13, 14), "rubble", rot=(15, 0, 0)),
+            bx("ShardA", (1, 5.2, 2), (7, 5.8, 8), "ceiltile", rot=(0, 15, 12)),
+            bx("ShardB", (8, 10.2, 12), (14, 10.8, 15.5), "ceiltile", rot=(-20, 0, 0)),
+            bx("Tbar", (2, 8, 13), (14, 8.6, 13.6), "tbar", rot=(0, 20, -15))] + slab(0, foot_y)
+    rubble = [bx("Base", (0.5, 0, 0.5), (15.5, 4, 15.5), "rubble"),
+              bx("Mound", (2, 4, 2), (14, 8, 13.5), "rubbledark"),
+              bx("Crown", (4, 8, 4), (11, 11, 10), "rubble"),
+              bx("ChunkA", (1, 2, 11), (6.5, 7, 15.5), "rubbledark", rot=(0, 30, 0)),
+              bx("ChunkB", (10.5, 3, 1), (15.5, 7.5, 5.5), "rubble", rot=(0, -15, 8)),
+              bx("ShardA", (2, 4.2, 2.5), (8, 4.8, 8), "ceiltile", rot=(0, 20, 10)),
+              bx("ShardB", (8, 8.2, 9), (14, 8.8, 14), "ceiltile", rot=(-15, 30, 0)),
+              bx("Tbar", (1.5, 5, 12.5), (14.5, 5.6, 13.1), "tbar", rot=(0, -25, 12))]
+    hang = slab(3) + [bx("Torn", (0.8, 15, 12.2), (15.2, 16, 15.8), "ceiltile")] + wires(8)
+    parts = {"heap": heap, "slab": slab(1), "slabhigh": slab(2), "hang": hang, "rubble": rubble, "wires": wires(12)}
+
+    def plane_box(k):
+        """The slab's collision in block k: the depth of the tile it takes at that height."""
+        z0 = foot_z + (16 * k - foot_y) * slope - 1.8
+        z1 = foot_z + (16 * k + 16 - foot_y) * slope + 1.8
+        return (1 / 16, 0, max(0, z0) / 16, 15 / 16, 1, min(16, z1) / 16)
+    kinds_block("run-collapse", parts,
+                {"heap": [(0, 0, 0, 1, 1, 1)], "slab": [plane_box(1)], "slabhigh": [plane_box(2)],
+                 "rubble": [(0.03, 0, 0.03, 0.97, 0.75, 0.97)]},
+                "Level ! (layout version 6): the ceiling come down, stacked rel 1-4. A slab hanging from the hole onto a heap of "
+                "rubble, leaning toward <side>: heap (rel 1, a block high), slab, slabhigh, hang (its top, still hinged, and live "
+                "wires); or rubble (rel 1, 0.75 high: jump it) under wires (rel 4). Fixed like the hallway",
+                material="Stone", sounds=STONE, extra={"resistance": 99999, "drops": []})
+    for kind, english in (("heap", "Collapsed Ceiling"), ("slab", "Collapsed Ceiling"), ("slabhigh", "Collapsed Ceiling"),
+                          ("hang", "Collapsed Ceiling"), ("rubble", "Rubble"), ("wires", "Hanging Wires")):
+        name(f"run-collapse-{kind}-*", english)
+
+    # The ceiling over a collapse: a ragged hole into the dark above, a broken T-bar hanging
+    hole = [bx("RingN", (0, 0, 0), (16, 16, 3.5), "ceiltile"), bx("RingS", (0, 0, 12), (16, 16, 16), "ceiltile"),
+            bx("RingW", (0, 0, 3.5), (4, 16, 12), "ceiltile"), bx("RingE", (11, 0, 3.5), (16, 16, 12), "ceiltile"),
+            bx("JagA", (4, 0, 3.5), (7, 1, 6), "ceiltile"), bx("JagB", (8, 0, 10), (11, 1, 12), "ceiltile"),
+            bx("JagC", (10, 0, 5), (11, 1, 8), "ceiltile"),
+            bx("Plenum", (4, 10, 3.5), (11, 16, 12), "duct", faces=("down",)),
+            bx("Conduit", (3.8, 12, 7), (11.2, 13, 8), "ventmetal"),
+            bx("TbarHang", (5, -6, 7.7), (5.6, 1, 8.3), "tbar", rot=(0, 0, 25), origin=(5.3, 1, 8))]
+    block("run-ceilinghole", {
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Stone", "drawtype": "json", "shape": {"base": shape("run-ceilinghole", hole)},
+        "sidesolid": {"all": False, "up": True}, "sideopaque": {"all": False}, "lightAbsorption": 99,
+        "resistance": 99999, "drops": [], "sounds": STONE,
+    }, "Level ! (layout version 6): the ceiling over a collapse, a ragged hole into the dark above, a broken T-bar hanging. "
+       "Fixed like the hallway")
+    name("run-ceilinghole", "Broken Ceiling")
+
+    # ---- Barricades: beds and chairs piled up, a supply cabinet, a gurney on its side ----
+    # A bed tipped on its side across the tile, the mattress on edge behind boards nailed across, another mattress
+    # upright above it and a chair upside down on top. Front to the north
+    beds = [bx("Mattress", (0.5, 1, 6), (15.5, 15, 10), "mattress"),
+            bx("Deck", (0.3, 0.5, 10), (15.7, 15.5, 10.8), "gurneyframe"),
+            bx("Rail", (0, 15, 5.5), (16, 16, 10.6), "chrome"),
+            bx("ChairSeat", (2, 0, 1), (8, 1, 6), "chairplastic", rot=(0, 15, 0)),
+            bx("ChairBack", (2, 1, 0.6), (8, 6, 1.6), "chairplastic", rot=(0, 15, 0), origin=(5, 1, 3)),
+            bx("BoardA", (0, 4, 5), (16, 6.5, 6), "plank", rot=(0, 0, 4)),
+            bx("BoardB", (0, 10, 5), (16, 12.5, 6), "plank", rot=(0, 0, -3)),
+            bx("Upright", (1, 16, 6.5), (15, 30, 9.5), "mattress", rot=(-8, 0, 0), origin=(8, 16, 8)),
+            bx("BoardC", (0, 20, 5), (16, 22.5, 6), "plank", rot=(0, 0, -5)),
+            bx("TopSeat", (9.5, 25, 10), (15, 26, 15), "chairplastic"),
+            bx("TopBack", (9.5, 20, 14.5), (15, 25, 15.5), "chairplastic")]
+    for n, (x, y) in enumerate(((2, 3), (13, 3), (2, 11), (13, 11))):
+        beds += [bx(f"Leg{n}", (x, y, 10.8), (x + 1, y + 1, 15.5), "chrome"),
+                 bx(f"Castor{n}", (x - 0.5, y - 0.5, 15), (x + 1.5, y + 1.5, 16), "rubber")]
+    for n, x in enumerate((10, 14)):
+        beds += [bx(f"TopLeg{n}", (x, 26, 10.5), (x + 0.7, 31, 11.2), "beamsteel"),
+                 bx(f"TopLegB{n}", (x, 26, 14), (x + 0.7, 31, 14.7), "beamsteel")]
+    # A tall supply cabinet, back to the wall (south), the left door shut and the right one hanging open into the hall
+    cab = [bx("Back", (1, 0, 15), (15, 31, 16), "cabsteel"), bx("Inside", (2, 1, 14.8), (14, 30, 15), "cabin", faces=("north",)),
+           bx("SideW", (1, 0, 8), (2, 31, 15), "cabsteel"), bx("SideE", (14, 0, 8), (15, 31, 15), "cabsteel"),
+           bx("Top", (1, 30, 8), (15, 31, 15), "cabsteel"), bx("Bottom", (1, 0, 8), (15, 1, 15), "cabsteel"),
+           bx("DoorL", (2, 0.5, 7.4), (8, 30.5, 8), "cabdoor", full=True, faces=("north",)),
+           bx("DoorLEdge", (2, 0.5, 7.4), (8, 30.5, 8), "cabsteel", faces=("east", "west", "up", "down", "south")),
+           bx("PullL", (7, 13, 6.8), (7.6, 19, 7.4), "chrome"),
+           bx("DoorR", (14, 0.5, 1.5), (14.6, 30.5, 8), "cabdoor", full=True, faces=("west", "east")),
+           bx("DoorREdge", (14, 0.5, 1.5), (14.6, 30.5, 8), "cabsteel", faces=("north", "south", "up", "down")),
+           bx("PullR", (13.4, 13, 2), (14, 19, 2.6), "chrome"),
+           bx("HingeA", (13.9, 3, 7.6), (14.8, 6, 8.4), "chrome"), bx("HingeB", (13.9, 25, 7.6), (14.8, 28, 8.4), "chrome"),
+           bx("BoxA", (8.5, 1, 10), (13.5, 5, 14.5), "runbox"), bx("BoxB", (8.5, 25, 10), (13.5, 28, 14), "runbox"),
+           bx("BottleA", (9, 9, 11), (10.5, 13, 12.5), "almondbottle"), bx("BottleB", (11, 9, 11), (12.5, 13, 12.5), "almondbottle"),
+           bx("Bag", (9.5, 17, 11), (12.5, 22, 12), "ivbag")]
+    for n, y in enumerate((8, 15.5, 24)):
+        cab.append(bx(f"Shelf{n}", (2, y, 8.5), (14, y + 0.6, 14.8), "cabsteel"))
+    # A gurney tipped on its side: the gurney turned so its raised rail lies on the floor, the mattress on edge, the
+    # wheels in the air to the west
+    tipped = []
+    for e in gurney_parts():
+        (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+        tex_ = next(iter(e["faces"].values()))["texture"][1:]
+        tipped.append(bx(e["name"], (y1, x1 * 0.94, z1), (y2, x2 * 0.94, z2), tex_))
+    parts = {"beds-lower": clip(beds, "y", 0, 16, 0), "beds-upper": clip(beds, "y", 16, 32, -16),
+             "cabinet-lower": clip(cab, "y", 0, 16, 0), "cabinet-upper": clip(cab, "y", 16, 32, -16),
+             "tipped-head": clip(tipped, "z", 0, 16, 0), "tipped-foot": clip(tipped, "z", 16, 32, -16)}
+    cab_boxes = lambda top: [(1 / 16, 0, 0.5, 15 / 16, top, 1), (13.4 / 16, 0, 1.5 / 16, 14.6 / 16, top, 0.5)]
+    kinds_block("run-barricade", parts,
+                {"beds-lower": [(0, 0, 0.3, 1, 1, 1)], "beds-upper": [(0, 0, 0.36, 1, 0.97, 1)],
+                 "cabinet-lower": cab_boxes(1), "cabinet-upper": cab_boxes(0.97),
+                 "tipped-head": [(0, 0, 0, 1, 0.94, 1)], "tipped-foot": [(0, 0, 0, 1, 0.94, 1)]},
+                "Level ! (layout version 6): what blocks the hall, facing <side>. beds-lower/upper: a barricade of beds, "
+                "mattresses and chairs, two blocks tall (go round it). cabinet-lower/upper: a tall supply cabinet, back to the "
+                "wall, its right door hanging open (go round it). tipped-head/foot: a gurney on its side, two blocks long (head "
+                "to the north), 0.94 high (jump it)",
+                extra={"dropsByType": {
+                    "*-beds-*": drops(("metalbracket", 1, 0.5), ("game:cloth-plain", 1, 0.5)),
+                    "*-cabinet-*": drops(("metalbracket", 1.5, 0.5), ("game:bandage-clean", 0.3, 0.3), ("almondwater", 0.15, 0)),
+                    "*-tipped-*": drops(("metalbracket", 1, 0.5), ("game:cloth-plain", 0.5, 0.5))}})
+    name("run-barricade-beds-*", "Barricade")
+    name("run-barricade-cabinet-*", "Supply Cabinet")
+    name("run-barricade-tipped-*", "Overturned Gurney")
 
 
 # ======================= Item: the Energy Bar =======================
@@ -1974,6 +2196,7 @@ def generate():
     chained_door()
     hall_door()
     props()
+    gauntlet()
     startroom()
     items()
     lang()

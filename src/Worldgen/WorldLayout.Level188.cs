@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// Level 188, "The Courtyard of Windows": kept as level 20 (<see cref="Level188"/>) and shown as "188". One building, the
 /// same for everyone in the world, far out to the north-north-east between Motion and Level Fun: a dark courtyard of four
 /// mossy lawns and a round wooden deck, walled in by a five-storey budget hotel with 32 small square windows a storey onto
-/// it, under a black sky. The design is in docs/new-levels/188-plan.md (after the original Wikidot page by 1000dumplings,
+/// it, under a black sky. The design is in docs/design/new-levels/188-plan.md (after the original Wikidot page by 1000dumplings,
 /// Fandom's "The Windows", Miraheze and Escape the Backrooms).
 ///
 /// <para><b>The building</b> is 88 by 58 blocks (building-local X east, Z south, from <see cref="L188BuildX0"/>,
@@ -34,16 +34,13 @@ public sealed partial class WorldLayout
     private const ulong SaltL188Shape = 0x2001, SaltL188Link = 0x2002, SaltL188Furnish = 0x2003, SaltL188Window = 0x2004,
         SaltL188Prey = 0x2005, SaltL188Lock = 0x2006, SaltL188Blind = 0x2007;
     /// <summary>Salts of the windows into 188 in other levels (each its own, so nothing else there shifts).</summary>
-    private const ulong SaltL188EntranceL0 = 0x2010, SaltL188EntranceL1 = 0x2011, SaltL188EntranceFun = 0x2012;
+    private const ulong SaltL188EntranceL0 = 0x2010, SaltL188EntranceL1 = 0x2011;
 
     /// <summary>Whether Level 188's windows in other levels are laid out (always, but for the harness's check that nothing else moved).</summary>
     internal static bool L188Entrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_188_ENTRANCES") != "1";
 
-    /// <summary>The building's size (X by Z), its storeys and their height, the roof slab, and the black sky over it all.</summary>
-    public const int L188W = 88, L188D = 58, L188Storeys = 5, L188StoreyHeight = 4, L188RoofRel = 20, L188SkyRel = 33;
-
-    /// <summary>The courtyard's clear floor, building-local and inclusive.</summary>
-    public const int L188CourtX0 = 17, L188CourtX1 = 70, L188CourtZ0 = 17, L188CourtZ1 = 40;
+    /// <summary>The building's size (X by Z), its storeys, the roof slab, and the black sky over it all.</summary>
+    public const int L188W = 88, L188D = 58, L188Storeys = 5, L188RoofRel = 20, L188SkyRel = 33;
 
     /// <summary>The courtyard windows: 11 on each long side, 5 on each short one (the west side's first is the stair's).</summary>
     public const int L188Windows = 32, L188StairWindow = 27;
@@ -88,22 +85,11 @@ public sealed partial class WorldLayout
     /// <summary>The region's radius in macro cells: four, whatever the world's size. It holds one building of meagre size.</summary>
     private int L188Radius => 4;
 
-    /// <summary>The block the level's plans count from (the region's centre cell).</summary>
-    public int L188OriginX => L188CentreX * MacroSize;
-    public int L188OriginZ => L188CentreZ * MacroSize;
-
     /// <summary>The building's north-west corner, in block coordinates: in the three cells by two round the centre, with a margin.</summary>
     public int L188BuildX0 => (L188CentreX - 1) * MacroSize + 4;
     public int L188BuildZ0 => (L188CentreZ - 1) * MacroSize + 3;
 
     private bool InL188(double mx, double mz) => InRoundRegion(mx, mz, L188CentreX, L188CentreZ, L188Radius, SaltL188Shape);
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachL188(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - L188CentreX, dz = (z0 + size / 2.0) / MacroSize - L188CentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < L188Radius * 1.2 + size / (double)MacroSize;
-    }
 
     /// <summary>A place near the middle of the region to look for somewhere to arrive, picked by hash: always on the building.</summary>
     private (int Mx, int Mz) L188ArrivalCell(ulong h) => RoundArrivalCell(h, L188CentreX, L188CentreZ, L188Radius);

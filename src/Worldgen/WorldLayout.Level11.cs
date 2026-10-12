@@ -31,7 +31,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     private const ulong SaltCityShape = 0xB101, SaltCityDistrict = 0xB102, SaltCityBlock = 0xB103, SaltCityStreet = 0xB105,
-        SaltCitySide = 0xB106, SaltCityCar = 0xB107, SaltCityCollapse = 0xB108, SaltCityManhole = 0xB109, SaltCityPark = 0xB10A;
+        SaltCitySide = 0xB106, SaltCityCar = 0xB107, SaltCityCollapse = 0xB108, SaltCityManhole = 0xB109;
 
     /// <summary>Distance between avenues (running north-south) and their width: a sidewalk, eleven of road, a sidewalk.</summary>
     public const int AvePitch = 100, AveWidth = 17;

@@ -198,9 +198,15 @@ public sealed partial class WorldLayout
     /// black marble at rel 6-7 (drawn by the generator when Version >= 5). In Level 974 you wake on the bedroom rug
     /// before the bed (in 1-4, in the mouth of the bed's alcove), and the hall has a third downlight. Level 188's EXIT
     /// sign hangs over the courtyard door on the courtyard side (drawn by the generator when Version >= 5).</item>
+    /// <item>6: camps' tents and bedrolls are as big as the real things, a camp tent two by two and a sleeping bag two
+    /// long (Level 1's hall camps, Level 4's refuges, Level 6's dead ends, Level 7's islands and shelters, Level 8's
+    /// settlements, lairs), left out where there is no room; one-tile velvet sofas become two-wide sofas where there is
+    /// room (Levels 5, 9, 11, 94); a multi-tile prop that lost a part is removed whole (WorldLayout.Parts.cs). Level !'s
+    /// hallway is packed with set pieces (barricades, supply cabinets, collapsed ceiling, lines of gurneys and
+    /// wheelchairs, needles, feints), every straight kept passable at a sprint (PlanRunGauntlet, RunSprintable).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 5;
+    public const int CurrentVersion = 6;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -659,6 +665,8 @@ public sealed partial class WorldLayout
         MarkPickedOver(b, mx, mz);
         PlaceDen(b, mx, mz);
         MarkWayToGates(b, mx, mz);
+        // (Last: the tents and sleeping bags as big as the real things, and nothing left of one in part)
+        if (Version >= 6) LayOutParts(b, mx, mz);
         return b.Tiles;
     }
 
@@ -750,7 +758,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
-        or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+        or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
         // The five kept as 14-18 say which of their own props are walked through
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));
@@ -873,34 +881,7 @@ public sealed partial class WorldLayout
         }
     }
 
-    // ================= Shared by the levels kept as 14-18 =================
-
-    /// <summary>
-    /// Scaffolding, until a level kept as 14-18 has its own plan: the wall on a cell's west or north side is solid but
-    /// for a doorway three wide in its middle. Remove once no level calls it.
-    /// </summary>
-    private static Edge PlaceholderEdge(WallPattern pattern)
-    {
-        var edge = new Edge { Pattern = pattern, Base = BaseStyle.Plain };
-        for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = i is >= 14 and <= 16 ? EdgeTile.Doorway : EdgeTile.Wall;
-        return edge;
-    }
-
-    /// <summary>
-    /// Scaffolding, until a level kept as 14-18 has its own plan: one bare room filling the cell, its walls the cell's
-    /// edges (<see cref="PlaceholderEdge"/>), a working light every four blocks. Remove once no level calls it.
-    /// </summary>
-    private static void BuildPlaceholderCell(Builder b, FloorKind floor)
-    {
-        for (int lz = 0; lz < MacroSize; lz++)
-            for (int lx = 0; lx < MacroSize; lx++)
-            {
-                ref Tile t = ref b.At(lx, lz);
-                if (t.Kind != TileKind.Floor) continue;
-                t.Floor = floor;
-                t.Ceiling = lx % 4 == 2 && lz % 4 == 2 ? CeilingKind.LightOn : CeilingKind.Tile;
-            }
-    }
+    // ================= Shared by the far places (ids 14-20) =================
 
     /// <summary>Whether a cell lies in a round region past the rings, a little lumpy at its rim, like the Poolrooms.</summary>
     private bool InRoundRegion(double mx, double mz, int centreX, int centreZ, int radius, ulong salt)

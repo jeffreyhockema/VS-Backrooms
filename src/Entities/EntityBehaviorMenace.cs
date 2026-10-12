@@ -105,8 +105,6 @@ public class EntityBehaviorMenace : EntityBehavior
         set => entity.Attributes.SetLong(OwnerKey, value?.EntityId ?? -1);
     }
 
-    public long AgeMs => entity.World.ElapsedMilliseconds - entity.Attributes.GetLong(BornKey);
-
     /// <summary>How long the entity has been doing what it is doing now.</summary>
     public long PhaseMs => entity.World.ElapsedMilliseconds - entity.Attributes.GetLong(SinceKey, entity.Attributes.GetLong(BornKey));
 

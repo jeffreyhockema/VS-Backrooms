@@ -53,7 +53,9 @@
 		"walk": "game:walk/stone*",
 		"place": "game:block/anvil1",
 		"break": "game:block/heavymetal-hit",
-		"hit": "game:block/heavymetal-hit"
+		"hit": "game:block/heavymetal-hit",
+		"ambient": "backrooms:effect/3999/walkway",
+		"ambientBlockCount": 48
 	},
 	"selectionboxByType": {
 		"l3999-walkway-n": {

@@ -89,6 +89,10 @@ public partial class CheatSystem : ModSystem
         ("pipeend", "Level 1/2/3 overhead pipes ending", 256, 1024),
         ("neoncorner", "3999 neon strip corner", 512, 2048),
         ("downpipe", "188 downpipe head", 4096, 4096),
+        // (Layout version 6: a camp tent two blocks by two, from three blocks out in front of its door, looking back at it;
+        // a sleeping bag two blocks long, from the nearest place to stand; in any level)
+        ("tent", "Camp tent", 1024, 4096),
+        ("sleepingbag", "Sleeping bag", 1024, 4096),
     };
 
     public static readonly string[] Stats = { "health", "food", "stability" };
@@ -418,6 +422,24 @@ public partial class CheatSystem : ModSystem
                     var (fdx, fdz) = PierStep(tram.Pier);
                     found = (tf.X + 3 * fdx, tf.Z + 3 * fdz);
                     detail = $" (heading {PierHeading(tram.Pier, true)} looks back at it)";
+                }
+                break;
+            case "tent":
+                found = NearestTile(gx, gz, radius, level, t => t.Kind == TileKind.Floor && t.Variant == Worldgen.Props.CampTent && t.Stack == 0, out var tent);
+                if (found is { } tentAt)
+                {
+                    // (The front-left part: the door is half a block to its right, out toward Pier)
+                    var (tdx, tdz) = PierStep(tent.Pier);
+                    found = (tentAt.X + 3 * tdx, tentAt.Z + 3 * tdz);
+                    detail = $" (heading {PierHeading(tent.Pier, true)} looks back at its door)";
+                }
+                break;
+            case "sleepingbag":
+                found = NearestTile(gx, gz, radius, level, t => t.Kind == TileKind.Floor && t.Variant == Worldgen.Props.SleepingBag && t.Stack == 0, out _);
+                if (found is { } bagAt && StandNear(bagAt.X, bagAt.Z, level) is { } bs)
+                {
+                    found = bs;
+                    detail = $" (heading {(Math.Atan2(bagAt.X - bs.X, bs.Z - bagAt.Z) * 180 / Math.PI + 360) % 360:0} looks at its head, {bagAt.X - bs.X}, {bagAt.Z - bs.Z} away)";
                 }
                 break;
             case "purpified":

@@ -1,0 +1,265 @@
+// A sleeping bag two blocks long, head to the north (head, foot)
+{
+	"code": "sleepingbag",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsPartnered",
+			"properties": {
+				"parts": [
+					"head",
+					"foot"
+				],
+				"width": 1
+			}
+		}
+	],
+	"shapeByType": {
+		"*-head-north": {
+			"base": "block/detail/sleepingbag-head",
+			"rotateY": 0
+		},
+		"*-head-east": {
+			"base": "block/detail/sleepingbag-head",
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"base": "block/detail/sleepingbag-head",
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"base": "block/detail/sleepingbag-head",
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"base": "block/detail/sleepingbag-foot",
+			"rotateY": 0
+		},
+		"*-foot-east": {
+			"base": "block/detail/sleepingbag-foot",
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"base": "block/detail/sleepingbag-foot",
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"base": "block/detail/sleepingbag-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-north"
+		],
+		"decorative": [
+			"*-head-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-head-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97
+		},
+		"*-foot-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-head-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97
+		},
+		"*-foot-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.16,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"dropsByType": {
+		"*-head-*": [
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:drygrass",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-door",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			}
+		],
+		"*": []
+	}
+}

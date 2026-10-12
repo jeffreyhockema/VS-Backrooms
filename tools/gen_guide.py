@@ -320,8 +320,8 @@ Knives and axes are not used up by these, only worn.
 - **Planks:** desks (2), bookshelves (3), workbenches (3), pallets (3), wardrobes (3), pews (3), conference and dining tables and reception desks (4), plywood (2), crates, most hotel furniture.
 - **Nails and strips:** barrels of nails (2), workbenches, pallets, toolboxes, opened crates; sealed Level 1 crates hold copper nails.
 - **Rotten wood:** trash cans, wastebaskets, wheelie bins, dumpsters, televisions. Rarely above ceiling tiles.
-- **Sticks and dry grass:** supply boxes, supply crates. Sticks also from potted plants, coat stands, broken drywall and under the trees of the open-sky levels; dry grass from cardboard boxes, bedrolls and (with a knife) the tall grass of those levels.
-- **Cloth:** sofas, wing chairs, office chairs, partitions, bedrolls, suitcases, laundry carts. **Linen:** hotel beds (the foot end), tents, hotel dining tables.
+- **Sticks and dry grass:** supply boxes, supply crates. Sticks also from potted plants, coat stands, broken drywall and under the trees of the open-sky levels; dry grass from cardboard boxes, bedrolls, sleeping bags and (with a knife) the tall grass of those levels.
+- **Cloth:** sofas, wing chairs, office chairs, partitions, bedrolls, sleeping bags, tents, suitcases, laundry carts. **Linen:** hotel beds (the foot end), tents, hotel dining tables.
 - **Clothes:** wardrobes, suitcases, dressers, clothes racks.
 - **Paper:** desks, filing cabinets, photocopiers, bookshelves, mailboxes, newspaper boxes.
 - **Candles:** supply boxes, crates, nightstands, candelabras (2).

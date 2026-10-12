@@ -9,7 +9,7 @@ namespace Backrooms.Thresholds;
 
 /// <summary>
 /// What happens round The Hub's thresholds in the game (kept as level 17): its carved doors, which need to know who is
-/// using them and what they carry. This file is the level's own; see docs/new-levels/CONTRACT.md.
+/// using them and what they carry. This file is the level's own; see docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public partial class ThresholdSystem
 {

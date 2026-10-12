@@ -14,7 +14,7 @@ namespace Backrooms;
 /// darker still. No hum anywhere: the hotel's lights are silent. The courtyard has its near-silence, the downpipe running
 /// into its drain, now and then three soft knocks on glass somewhere, whispers from a window with someone in it, a party
 /// muffled behind the confetti window; the corridors have the hotel's room tone. This file is the level's own; see
-/// docs/new-levels/CONTRACT.md.
+/// docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public partial class AtmosphereSystem
 {

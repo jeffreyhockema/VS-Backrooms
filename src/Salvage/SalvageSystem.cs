@@ -22,9 +22,9 @@ public class SalvageSystem : ModSystem
         "supplybox", "crate", "metalshelf", "oildrum", "machinecabinet",
         "ceilingtile", "officeceiling",
         "desk", "officechair", "filingcabinet", "partition", "conferencetable",
-        "bed", "nightstand", "wardrobe", "wingchair", "sofa", "pottedpalm", "mahjongtable", "turntable",
+        "bed", "nightstand", "wardrobe", "wingchair", "sofa", "longsofa", "pottedpalm", "mahjongtable", "turntable",
         // Loose things left lying about: crates and boxes, tools, camp gear, furniture
-        "cardboardboxes", "workbench", "toolbox", "plywood", "tent", "bedroll", "camplantern", "hospitalbed",
+        "cardboardboxes", "workbench", "toolbox", "plywood", "tent", "bedroll", "camptent", "sleepingbag", "camplantern", "hospitalbed",
         "foldingtable", "foldingchair", "medcabinet", "trafficcone", "wetfloorsign", "pallet", "trashcan", "burnbarrel",
         "cablespool", "floorfan", "pipestack", "candelabra",
         "ficus", "chairstack", "copier", "officebookshelf", "roundtable", "receptiondesk", "wastebasket", "coatstand",
@@ -60,6 +60,7 @@ public class SalvageSystem : ModSystem
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsStrippable", typeof(BlockBehaviorStrippable));
+        api.RegisterBlockBehaviorClass("BackroomsPartnered", typeof(BlockBehaviorPartnered));
     }
 
     /// <summary>Whether a block of ours is salvage: taken whole, wherever it is, with what it holds.</summary>

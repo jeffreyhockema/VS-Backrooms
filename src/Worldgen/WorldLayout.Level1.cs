@@ -67,7 +67,6 @@ public sealed partial class WorldLayout
     private const ulong SaltL1Block = 0x1A06;
     private const ulong SaltL1Stall = 0x1A07;
     private const ulong SaltL1Detail = 0x1A08;
-    private const ulong SaltL1Core = 0x1A09;
 
     /// <summary>
     /// The level is divided into districts of this many cells each way. Between two districts of car park stands a
@@ -1158,6 +1157,7 @@ public sealed partial class WorldLayout
                     SetWall(ref At(u, v), WallPattern.WhiteBlock, BaseStyle.Plain);
         }
         else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk);
+        if (Version >= 6) EnlargeHallCamp(At, h);
         if (v4) Unfence(tiles);
         return tiles;
     }
@@ -1244,6 +1244,27 @@ public sealed partial class WorldLayout
                 tiles[i].SupplyBox = false;
             }
         }
+    }
+
+    /// <summary>
+    /// From layout version 6 a hall block's camp has tents and bedrolls as big as the real things (<see cref="Enlarge"/>):
+    /// a camp tent two by two with its back to the wall where the tent stood, its door into the hall (never into the
+    /// cross of floor kept clear through an encampment's middle), and sleeping bags with their heads to the wall, laid
+    /// out into the room; never beside a doorway, and where there is no room, none.
+    /// </summary>
+    private void EnlargeHallCamp(TileRef at, ulong h)
+    {
+        const int n = HallBlock;
+        bool Opening(int u, int v) => u >= 0 && v >= 0 && u < n && v < n
+            && (at(u, v).Kind is TileKind.Door or TileKind.Doorway or TileKind.ArchDoor || at(u, v).Stair != 0);
+        bool Free(ushort prop, int u, int v) => u > 0 && v > 0 && u < n - 1 && v < n - 1
+            && at(u, v) is { Kind: TileKind.Floor, Variant: 0, Stack: 0, SupplyBox: false, Stair: 0, Sealed: false }
+            && !(prop == Props.CampTent && (u is >= 5 and <= 8 || v is >= 5 and <= 8))
+            && !Opening(u + 1, v) && !Opening(u - 1, v) && !Opening(u, v + 1) && !Opening(u, v - 1);
+        for (int v = 1; v < n - 1; v++)
+            for (int u = 1; u < n - 1; u++)
+                if (at(u, v).Variant is Props.Tent or Props.Bedroll && at(u, v).Kind == TileKind.Floor)
+                    Enlarge(at, n, Free, u, v, Hashing.Hash(h, u, v, SaltParts), forwardOnly: true);
     }
 
     private delegate bool DoorCheck(int u, int v);

@@ -249,11 +249,11 @@ def lobby():
         end = v["kind"] == "end"
         els = [bx("Fascia", (0, 0, 3), (16, 14, 4), "fascia"), bx("Counter", (0, 14, 2.4), (16, 15, 8), "desktop"),
                bx("Strip", (0, 1, 2.6), (16, 2, 3), "backlit", glow=230, faces=("north", "down")),
-               bx("Work", (0, 9, 4), (16, 10, 13), "desktop"), bx("Kick", (0, 0, 3.6), (16, 1, 13), "black", faces=("up",)),
+               bx("Work", (0, 9, 4), (15.95 if end else 16, 10, 13), "desktop"), bx("Kick", (0, 0, 3.6), (16, 1, 13), "black", faces=("up",)),
                bx("Panel", (0, 1, 12), (16, 9, 13), "oak", faces=("north",))]
         if end:
             els += [bx("Return", (14.4, 0, 4), (16, 14, 13), "fascia"), bx("ReturnTop", (14, 14, 4), (16, 15, 13.6), "desktop"),
-                    bx("StripE", (15.6, 1, 4), (16, 2, 13), "backlit", glow=230, faces=("east", "down"))]
+                    bx("StripE", (15.6, 1, 4), (16.05, 2, 13), "backlit", glow=230, faces=("east", "down"))]
         else:
             els += [bx("Bell", (11, 15, 4.6), (12.6, 16, 6.2), "chrome"), bx("Book", (3, 15, 3.6), (8, 15.6, 7), "upholstery")]
         return els
@@ -459,7 +459,7 @@ def entry_windows():
     def sill(v):
         host = v["host"]
         ftex, stex, wall = HOSTS[host]
-        els = [cube(wall), bx("Sill", (-0.4, 14, -2.4), (16.4, 16, 2), stex, faces=("north", "up", "down", "east", "west")),
+        els = [cube(wall), bx("Sill", (-0.4, 14, -2.4), (16.4, 16.03, 2), stex, faces=("north", "up", "down", "east", "west")),
                bx("Apron", (0, 12.4, -1), (16, 14, 0), stex, faces=("north", "down", "east", "west"))]
         if host == "fun":
             els.append(bxf("Confetti", (0, 16.02, -2.2), (16, 16.08, 2), "confetti", faces=("up",)))

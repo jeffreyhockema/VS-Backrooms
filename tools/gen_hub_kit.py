@@ -668,8 +668,6 @@ def tower_textures():
     img = texlib.marble((216, 212, 204), (176, 172, 166), seed_of("statue"), veins=1, sharpness=8, mottle=0.06, turbulence=2.0)
     T.blotch(img, (12, 4), 12, (110, 108, 100), 0.25, seed_of("statuerain"))
     save_tex(img, "statue")
-    # The storm void and the dusk
-    save_tex(noise(0xE8C8B0, 2, "dusk"), "dusk")
     # Artifacts under glass
     img = Image.new("RGBA", (S, S), (190, 215, 225, 46))
     d = ImageDraw.Draw(img)
@@ -938,7 +936,7 @@ def tunnel_blocks():
         g = 255 if lit else 0
         under = ("lamphood-lit", 200) if lit else ("lamphousing", 0)
         els = [bx("Plate", (4.5, 3.5, 15), (11.5, 12.5, 16), "lamphousing"),
-               bx("Arm", (7, 9.5, 12), (9, 11.5, 15), "lamphousing"),
+               bx("Arm", (7, 10, 12), (9, 11.5, 15), "lamphousing"),  # (its underside not in the hood's)
                bx("Hood", (3.5, 10, 7.5), (12.5, 12, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
                bx("HoodLip", (3, 9.5, 7), (13, 10, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
                bx("HoodUnder", (3, 9.5, 7), (13, 10, 15), under[0], glow=under[1], faces=("down",), full=True)]

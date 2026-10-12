@@ -1,4 +1,5 @@
 using Vintagestory.API.Client;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
 namespace Backrooms.Regions;
@@ -15,6 +16,13 @@ public class L974ComputerDialog : GuiDialog
     public L974ComputerDialog(ICoreClientAPI capi) : base(capi)
     {
         Compose();
+    }
+
+    /// <summary>Waking the screen: the one e-mail is still waiting, and says so.</summary>
+    public override void OnGuiOpened()
+    {
+        base.OnGuiOpened();
+        capi.Gui.PlaySound(new AssetLocation("backrooms", "sounds/ambient/974/mail"), false, 0.5f);
     }
 
     private void Compose()

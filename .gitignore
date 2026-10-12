@@ -8,3 +8,7 @@ tools/mapgen/*.png
 __pycache__/
 *.pyc
 *.ogg.tmp
+
+# Layout harness output when run from the repo root
+/tiles.bin
+/city.bin

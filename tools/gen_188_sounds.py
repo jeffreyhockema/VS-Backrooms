@@ -1,4 +1,4 @@
-"""Level 188: every sound (docs/new-levels/188-plan.md 4.8), synthesised; mono OGG, written in chunks (libsndfile can
+"""Level 188: every sound (docs/design/new-levels/188-plan.md 4.8), synthesised; mono OGG, written in chunks (libsndfile can
 crash on long single Vorbis writes). Called from gen_188.py.
 
 No hum anywhere: the lights here are silent. The courtyard is near silence with a far roof fan; the corridors are

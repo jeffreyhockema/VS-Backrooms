@@ -6,7 +6,7 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 3999, "The Neon Paradise" (kept as level 19, <see cref="Level3999"/>, shown as "3999"): an endless arcade the
 /// size of a mall, safe at heart, lit only by neon. It lies far out beyond the Hub to the south-east, a round region only
-/// thresholds reach. The design is docs/new-levels/3999-plan.md as the user directed on 2026-10-09: an ordinary level to
+/// thresholds reach. The design is docs/design/new-levels/3999-plan.md as the user directed on 2026-10-09: an ordinary level to
 /// visit, with its own resources (tickets from the machines, prize counters, food stalls, vending machines), a safe heart
 /// and a dangerous fringe (Level 3999.1, the Neon Blackout), and ordinary thresholds.
 ///
@@ -112,13 +112,6 @@ public sealed partial class WorldLayout
     public int L3999OriginZ => L3999CentreZ * MacroSize;
 
     private bool InL3999(double mx, double mz) => InRoundRegion(mx, mz, L3999CentreX, L3999CentreZ, L3999Radius, SaltL3999Shape);
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachL3999(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - L3999CentreX, dz = (z0 + size / 2.0) / MacroSize - L3999CentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < L3999Radius * 1.2 + size / (double)MacroSize;
-    }
 
     /// <summary>A place in the inner 35% of the region to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) L3999ArrivalCell(ulong h)

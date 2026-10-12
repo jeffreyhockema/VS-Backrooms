@@ -48,7 +48,7 @@ LEAF = (110, 186, 104)
 INK = (70, 52, 62)
 BLUSH = (246, 150, 170)
 
-PASTELS = {"pink": PINK_LIGHT, "mint": MINT, "lilac": LILAC, "butter": BUTTER, "sky": SKY}
+PASTELS = {"pink": PINK_LIGHT, "mint": MINT, "lilac": LILAC, "sky": SKY}
 
 
 def seed_of(name):
@@ -756,7 +756,7 @@ def hard_things():
     save(img, "mirror")
     # A wooden spoon, a whisk's wire, canisters' labels
     save(noisy((222, 186, 132), 5, "spoonwood"), "spoonwood")
-    for name, c in (("mint", MINT), ("lilac", LILAC), ("butter", BUTTER)):
+    for name, c in (("mint", MINT),):
         img = noisy(c, 2, "crock" + name)
         ImageDraw.Draw(img).rectangle([0, 6, S, 8], fill=(255, 255, 255, 255))
         save(img, f"crock-{name}")

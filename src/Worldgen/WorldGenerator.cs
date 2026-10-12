@@ -46,6 +46,9 @@ public sealed partial class WorldGenerator
         (Props.Plywood, "plywood", true, null, false),
         (Props.Tent, "tent", true, null, false),
         (Props.Bedroll, "bedroll", true, null, false),
+        (Props.CampTent, "camptent", true, new[] { "nw", "ne", "sw", "se" }, false),
+        (Props.SleepingBag, "sleepingbag", true, new[] { "head", "foot" }, true),
+        (Props.LongSofa, "longsofa", true, new[] { "l", "r" }, false),
         (Props.Lantern, "camplantern", false, null, false),
         (Props.HospitalBed, "hospitalbed", true, new[] { "head", "foot" }, true),
         (Props.FoldingTable, "foldingtable", false, null, false),
@@ -323,7 +326,7 @@ public sealed partial class WorldGenerator
     private readonly int mantleId, concreteId, waterId, boxId, boxTornId, crateOpenId, groundFallbackId;
     /// <summary>Chalk marks by symbol (left, right, cross, circle) and by the side of the wall they are on (north, east, south, west).</summary>
     private readonly int[,] chalkIds = new int[4, 4];
-    // (Sized for every value of the enums and of Props, the reserved blocks of the levels kept as 14-18 included)
+    // (Sized for every value of the enums and of Props, the reserved blocks of the far places (ids 14-20) included)
     private readonly int[] floorIds = new int[256];
     private readonly int[] overheadIds = new int[256];
     /// <summary>Most kinds a prop may come in (the second index of <see cref="propIds"/>).</summary>
@@ -420,7 +423,7 @@ public sealed partial class WorldGenerator
     private readonly int wainscotId, panelId, friezeId, marbleId, plasterId, creamCeilingId, chandelierId;
     /// <summary>The grand rooms' coffered ceiling: a plain coffer, a beam along X, a beam along Z, two beams crossing.</summary>
     private readonly int[] grandCeilingIds = new int[4];
-    private readonly int sconceId, portraitId, beverlyId, staffSignId, doorLowerId, cageLowerId, cageUpperId, palmId, mahjongId, turntableId;
+    private readonly int sconceId, portraitId, beverlyId, staffSignId, doorLowerId, palmId, mahjongId, turntableId;
     private readonly int bulbOffId;
     /// <summary>The upper half of a hotel door by its plaque: 201-208, then (layout 5) a blank plate and 666.</summary>
     private readonly int[] doorUpperIds = new int[10];
@@ -738,8 +741,6 @@ public sealed partial class WorldGenerator
             hotelStairIds[0, f] = BlockId($"backrooms:hotelstairs-runner-{Sides[f]}");
             hotelStairIds[1, f] = BlockId($"backrooms:hotelstairs-marble-{Sides[f]}");
         }
-        cageLowerId = BlockId("backrooms:cagedoor-lower");
-        cageUpperId = BlockId("backrooms:cagedoor-upper");
         palmId = BlockId("backrooms:pottedpalm");
         mahjongId = BlockId("backrooms:mahjongtable");
         turntableId = BlockId("backrooms:turntable");
@@ -1063,26 +1064,6 @@ public sealed partial class WorldGenerator
 
     /// <summary>A part of a two-wide elevator door. Stack says which leaf (0 left, 1 right) as seen from in front.</summary>
     private int LiftPart(int[,,,] ids, int wall, int part, in Tile t) => ids[wall, part, t.Stack & 1, Facing(t.Pier)];
-
-    /// <summary>
-    /// Scaffolding for the levels kept as 14-18 until each has its own blocks (see docs/new-levels/CONTRACT.md): bare
-    /// concrete rooms, a working light where the layout puts one, the level's props on the floor. Each level's column
-    /// builder replaces its call to this; remove it once none calls it.
-    /// </summary>
-    private int PlaceholderRegionBlock(in Tile t, int rel)
-    {
-        const int room = WorldGeometry.RoomHeight;
-        if (rel < 0 || rel > room + 1) return concreteId;
-        if (rel == 0)
-        {
-            int floor = t.Kind == TileKind.Floor ? floorIds[(int)t.Floor] : 0;
-            return floor != 0 ? floor : floorIds[(int)FloorKind.Concrete];
-        }
-        if (rel == room + 1) return t.Kind == TileKind.Floor && t.Ceiling == CeilingKind.LightOn ? lightOnId : concreteCeilingId;
-        if (t.Kind == TileKind.Doorway) return rel == room ? concreteWallId : 0;
-        if (t.Kind != TileKind.Floor) return concreteWallId;
-        return rel == 1 ? PropBlock(t) : 0;
-    }
 
     // ---- Level 0: wallpaper, carpet, drop ceiling ----
 

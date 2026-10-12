@@ -8,7 +8,7 @@ namespace Backrooms.Worldgen;
 /// way out. A closed-down bookstore with no books: empty maple gondola shelving, tapered slatwall towers, sage columns
 /// clad in slatwall, a curved service desk with an old computer, and over it bronze letters reading THE END, under a
 /// drop ceiling full of fluorescent troffers. It lies far to the north-west, a region only thresholds reach. The design
-/// is in docs/new-levels/end-plan.md (after Wikidot's Level 601 and Fandom's The End).
+/// is in docs/design/new-levels/end-plan.md (after Wikidot's Level 601 and Fandom's The End).
 ///
 /// The level is planned in departments of <see cref="EndDept"/> blocks a side (two cells), each from its own id and
 /// cached (<see cref="PlanCache{T}"/>). Along every department line runs the store's racetrack aisle, a band of navy
@@ -34,7 +34,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Hash salts 0x1600-0x16BF are this level's.</summary>
     private const ulong SaltEndShape = 0x1601, SaltEndDept = 0x1602, SaltEndRunway = 0x1603, SaltEndJam = 0x1604, SaltEndFake = 0x1605,
-        SaltEndPlan = 0x1606, SaltEndLight = 0x1607, SaltEndScene = 0x1608, SaltEndArrival = 0x1609, SaltEndPartition = 0x160A;
+        SaltEndPlan = 0x1606, SaltEndLight = 0x1607, SaltEndScene = 0x1608, SaltEndPartition = 0x160A;
 
     /// <summary>Size of a department, the piece the level is planned in.</summary>
     public const int EndDept = 64;
@@ -71,13 +71,6 @@ public sealed partial class WorldLayout
     public int EndOriginZ => EndCentreZ * MacroSize - EndDept / 2 + MacroSize / 2;
 
     private bool InEnd(double mx, double mz) => InRoundRegion(mx, mz, EndCentreX, EndCentreZ, EndRadius, SaltEndShape);
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachEnd(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - EndCentreX, dz = (z0 + size / 2.0) / MacroSize - EndCentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < EndRadius * 1.2 + size / (double)MacroSize;
-    }
 
     /// <summary>A place near the middle of the region to look for somewhere to arrive: within a few departments of the central hall.</summary>
     private (int Mx, int Mz) EndArrivalCell(ulong h)

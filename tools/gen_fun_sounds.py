@@ -1,4 +1,4 @@
-"""Synthesises Level Fun =)'s sounds (docs/new-levels/fun-plan.md, 4.5): mono OGG, written in chunks.
+"""Synthesises Level Fun =)'s sounds (docs/design/new-levels/fun-plan.md, 4.5): mono OGG, written in chunks.
 
 - ambient/fun/: the distant party (an original waltz on a music box and toy organ through two walls), the speakers'
   "Happy Birthday to You" (the melody is public domain) on a tinny toy organ with tape warble, the tape catching, the

@@ -189,6 +189,7 @@ public static class Breakdown
     {
         "run-gurney", "run-wheelchair", "run-ivstand", "run-chairs", "run-crashcart", "run-shelf", "run-toycar", "run-boxes", "run-cord",
         "run-sheets", "run-remains", "run-tray", "run-bedside", "run-safeshelf", "run-safecot", "run-debris", "run-curtain", "run-medcabinet",
+        "run-barricade",
     };
 
     private static bool IsRunProp(string path)

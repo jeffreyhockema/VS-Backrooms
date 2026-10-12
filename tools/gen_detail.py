@@ -42,6 +42,81 @@ def mirror_x(els):
     return out
 
 
+def _default_uv(e, face):
+    """The UVs bx() gives a plain face of this box (its own size, so the texture keeps its scale)."""
+    (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+    w, h, d = abs(x2 - x1), abs(y2 - y1), abs(z2 - z1)
+    a, b = {"north": (w, h), "south": (w, h), "east": (d, h), "west": (d, h), "up": (w, d), "down": (w, d)}[face]
+    return [0, 0, min(16, max(a, 0.5)), min(16, max(b, 0.5))]
+
+
+def split_blocks(els, width, depth):
+    """Cuts a model that spans width x depth blocks (modelled facing north from x, z = 0: x across, z from the front
+    back) into one model per block, each moved into its own block: {(i, j): boxes}, i the column from the west, j the
+    row from the front. Boxes are cut along the seams (the faces left on a seam are dropped, plain faces keep their
+    texture's scale); a box turned about one axis can still be cut along that axis, and anything else turned goes
+    whole to the block holding its turning point (reaching over the seam a little is fine)."""
+    out = {(i, j): [] for j in range(depth) for i in range(width)}
+    for e in els:
+        rx, ry, rz = e.get("rotationX", 0), e.get("rotationY", 0), e.get("rotationZ", 0)
+        o = e.get("rotationOrigin")
+        cuts = {0: not ry and not rz, 2: not rx and not ry}
+        spans = {}
+        for axis, n in ((0, width), (2, depth)):
+            a, b = e["from"][axis], e["to"][axis]
+            if cuts[axis]:
+                spans[axis] = [k for k in range(n) if b > 16 * k and a < 16 * k + 16]
+            else:
+                at = o[axis] if o else (a + b) / 2
+                spans[axis] = [min(n - 1, max(0, int(at // 16)))]
+        for i in spans[0]:
+            for j in spans[2]:
+                c = json.loads(json.dumps(e))
+                plain = {f: face["uv"] == _default_uv(e, f) for f, face in c["faces"].items()}
+                for axis, k, lo_face, hi_face in ((0, i, "west", "east"), (2, j, "north", "south")):
+                    if not cuts[axis]:
+                        continue
+                    a, b = c["from"][axis], c["to"][axis]
+                    if a < 16 * k:
+                        c["from"][axis] = 16 * k
+                        c["faces"].pop(lo_face, None)
+                    if b > 16 * k + 16:
+                        c["to"][axis] = 16 * k + 16
+                        c["faces"].pop(hi_face, None)
+                for f, face in c["faces"].items():
+                    if plain[f]:
+                        face["uv"] = _default_uv(c, f)
+                c = shift([c], dx=-16 * i, dz=-16 * j)[0]
+                out[(i, j)].append(c)
+    return out
+
+
+def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wood", sounds=WOOD, comment=None):
+    """
+    A prop as big as the real thing, over width x depth blocks: one model (facing north, see split_blocks) cut into a
+    block per part, `parts` named row by row from the front-left (west) corner, each with its own box (`boxes`, by
+    part, as the block it is in sees it). The layout lays the parts out together (WorldLayout.PartTile); breaking any
+    of them breaks the whole thing (BackroomsPartnered), and only the first part holds what it gives (salvage.py).
+    """
+    cut = split_blocks(els, width, depth)
+    by_type, boxes_by_type = {}, {}
+    for n, part in enumerate(parts):
+        path = shape(f"{code}-{part}", cut[(n % width, n // width)])
+        for s in SIDES:
+            by_type[f"*-{part}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
+            boxes_by_type[f"*-{part}-{s}"] = cuboid(boxes[part], s)
+    block(code, {
+        "variantgroups": [{"code": "part", "states": list(parts)}, {"code": "side", "states": SIDES}],
+        "behaviors": [{"name": "BackroomsPartnered", "properties": {"parts": list(parts), "width": width}}],
+        "shapeByType": by_type,
+        "creativeinventory": {"general": [f"*-{parts[0]}-north"], "decorative": [f"*-{parts[0]}-north"]},
+        "blockmaterial": material, "drawtype": "json", "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "lightAbsorption": 0, "resistance": 1.5, "sounds": sounds,
+        "collisionboxByType": boxes_by_type, "selectionboxByType": boxes_by_type,
+    }, comment or english)
+    name(code + "-*", english)
+
+
 TURNED = {"asphalt", "asphalt-leaves", "asphalt-wet", "housefloor-carpet", "housefloor-garage", "housefloor-driveway", "l6floor",
           "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone"}
 
@@ -252,6 +327,86 @@ def doors():
 
 # ======================= Level 1 =======================
 
+def camp_tent():
+    """
+    A two-person ridge tent, two blocks by two (layout version 6 on; the old one-block "tent" stays for older worlds):
+    green ripstop fly from the ground to a ridge pole 22/16 up (crouching height), on an upright pole at each end, the
+    front laced shut but for the door, its flap rolled up and tied over it, a guy line from the ridge to a peg in front;
+    inside on the orange groundsheet, a sleeping bag with its pillow at the back and a rolled bedroll. Facing north
+    (the door), parts nw, ne (the front) and sw, se.
+    """
+    ridge, base_l, base_r = 22.0, 2.0, 30.0
+    slope = math.hypot(16 - base_l, ridge)
+    lean = math.degrees(math.atan2(16 - base_l, ridge))
+    els = []
+    # The fly, each side in two lengths up the slope (so its texture keeps its scale), its inside darker
+    for nm, x, sign in (("FlyL", base_l, -1), ("FlyR", base_r, 1)):
+        for k, (y1, y2) in enumerate(((0, slope / 2), (slope / 2, slope + 0.3))):
+            e = bx(f"{nm}{k}", (x - 0.3, y1, 0.4), (x + 0.3, y2, 31.6), "tentfly", rot=(0, 0, sign * lean), origin=(x, 0, 16))
+            e["faces"]["east" if sign < 0 else "west"]["texture"] = "#tentinside"
+            els.append(e)
+    els += [bx("RidgeCap", (14.8, 21.9, 0.45), (17.2, 22.7, 31.55), "tentfly"),
+            bx("Ridge", (15.4, 21.1, 0.1), (16.6, 22.1, 31.9), "wood"),
+            bx("PoleF", (15.6, 0, 1.5), (16.4, 21.1, 2.3), "wood"), bx("PoleB", (15.6, 0, 29.7), (16.4, 21.1, 30.5), "wood"),
+            bx("Floor", (2.6, 0, 1.2), (29.4, 0.25, 30.8), "tarporange", faces=("up", "north", "south", "east", "west"))]
+
+    # The ends: stepped to the slope of the fly, each step's top corners just inside the fly's thickness (so neither
+    # they show through it nor the gaps under them much)
+    def gable(nm, z1, z2, door):
+        out, steps = [], 16
+        for k in range(steps):
+            y1, y2 = ridge * k / steps, ridge * (k + 1) / steps
+            hw = (16 - base_l) * (1 - y2 / ridge) + 0.3
+            if hw <= 0.4:
+                continue
+            if door and y2 <= door[1] + 0.01:
+                for side, (a, b) in (("L", (16 - hw, 16 - door[0])), ("R", (16 + door[0], 16 + hw))):
+                    if b - a > 0.2:
+                        out.append(bx(f"{nm}{k}{side}", (a, y1, z1), (b, y2, z2), "tentfly"))
+            else:
+                out.append(bx(f"{nm}{k}", (16 - hw, y1, z1), (16 + hw, y2, z2), "tentfly"))
+        for e in out:
+            e["faces"]["south" if door else "north"]["texture"] = "#tentinside"
+        return out
+    els += gable("Back", 30.6, 31.1, None)
+    els += gable("Front", 0.9, 1.4, (5.0, ridge * 12 / 16))
+    # The door flap rolled up and tied over the doorway, and the dark inside seen through it
+    els += [bx("Roll", (10.6, 15.6, 0.1), (21.4, 17.4, 1.3), "tentfly"),
+            bx("TieL", (12.2, 15.3, 0.05), (12.8, 17.7, 1.4), "string"), bx("TieR", (19.2, 15.3, 0.05), (19.8, 17.7, 1.4), "string")]
+    # Pegs at the foot of the fly, and the guy line from the front of the ridge
+    for x in (base_l - 1.2, base_r + 0.6):
+        for z in (0.5, 30.9):
+            els.append(bx("Peg", (x, 0, z), (x + 0.6, 1.4, z + 0.6), "wood"))
+    rope = math.hypot(ridge, 3.2)
+    els += [bx("Guy", (15.85, 0, -2.45), (16.15, rope, -2.15), "string", rot=(math.degrees(math.atan2(3.2, ridge)), 0, 0), origin=(16, 0, -2.3)),
+            bx("GuyPeg", (15.6, 0, -2.8), (16.4, 1.3, -2.0), "wood")]
+    # Inside: a sleeping bag along the left, its pillow at the back; a rolled bedroll and a pack on the right
+    els += [bx("Bag", (5, 0.25, 6), (13, 1.6, 28.5), "sleepingbag"), bx("BagFold", (5, 1.6, 6), (13, 2.1, 10), "sleepingbaglining"),
+            bx("Pillow", (6, 1.2, 25.5), (12, 3, 29.5), "bedrollpillow"),
+            bx("Rolled", (18.5, 0.25, 25), (26.5, 3.6, 28.6), "bedroll"),
+            bx("Pack", (19.5, 0.25, 19), (25.5, 7, 23.5), "toolboxred")]
+    multiblock_prop("camptent", "Tent", els, 2, 2, ("nw", "ne", "sw", "se"), {
+        "nw": (0.1, 0, 0.03, 1, 1.4, 1), "ne": (0, 0, 0.03, 0.9, 1.4, 1),
+        "sw": (0.1, 0, 0, 1, 1.4, 0.97), "se": (0, 0, 0, 0.9, 1.4, 0.97)}, material="Cloth", sounds=CLOTH,
+        comment="A two-person ridge tent two blocks by two, its door to the north (nw, ne the front; sw, se the back)")
+
+
+def sleeping_bag():
+    """A sleeping bag two blocks long (layout version 6 on; the old one-block "bedroll" stays for older worlds): faded red
+    quilted nylon, its top turned back at the head to show the flannel lining, a pillow on the hood, a zip down one side.
+    Head to the north (parts head, foot)."""
+    els = [bx("Hood", (3, 0, 1.2), (13, 1.6, 4.2), "sleepingbag"),
+           bx("Body", (2.5, 0, 4), (13.5, 1.8, 31), "sleepingbag"),
+           bx("Turned", (2.5, 1.8, 4), (13.5, 2.5, 10.4), "sleepingbaglining"),
+           bx("FoldEdge", (2.45, 1.8, 10), (13.55, 2.9, 11.2), "sleepingbag"),
+           bx("Top", (3, 1.8, 11.2), (13, 2.4, 30.5), "sleepingbag"),
+           bx("Zip", (13.5, 0.3, 11.2), (13.7, 1.7, 30.6), "sleepingbagzip", faces=("east", "up")),
+           bx("Pillow", (4, 1.4, 1.5), (12, 3.8, 5.8), "bedrollpillow")]
+    multiblock_prop("sleepingbag", "Sleeping Bag", els, 1, 2, ("head", "foot"), {
+        "head": (0.15, 0, 0.07, 0.85, 0.16, 1), "foot": (0.15, 0, 0, 0.85, 0.16, 0.97)}, material="Cloth", sounds=CLOTH,
+        comment="A sleeping bag two blocks long, head to the north (head, foot)")
+
+
 def level1():
     cube_block("whiteblock", "Painted Block Wall", ["upper", "base", "lintel"],
                {"upper": "whiteblock", "base": "whiteblock-base", "lintel": "whiteblock-lintel"},
@@ -348,6 +503,8 @@ def level1():
     prop("bedroll", "Bedroll", [
         bx("Roll", (3, 0, 1.5), (13, 1.4, 14.5), "bedroll"), bx("Pillow", (3.5, 1.4, 2), (12.5, 3, 4.5), "bedrollpillow"),
         bx("Fold", (3, 1.4, 8), (13, 2, 14.5), "bedroll")], box=(0.19, 0, 0.09, 0.81, 0.15, 0.91), material="Cloth", sounds=CLOTH)
+    camp_tent()
+    sleeping_bag()
     prop("camplantern", "Camping Lantern", [
         bx("Base", (6, 0, 6), (10, 1, 10), "metaldark"),
         bx("Glass", (6.5, 1, 6.5), (9.5, 5.5, 9.5), "lanternglass", glow=220),
@@ -592,8 +749,9 @@ def level3():
         bx("Top", (0, 30, 3.5), (16, 31, 16), "metaldark")], box=(0.03, 0, 0.22, 0.97, 1.9, 0.97), material="Metal", sounds=METAL)
     prop("floorfan", "Industrial Fan", [
         bx("Feet", (3, 0, 7), (13, 1, 9), "metaldark"), bx("Post", (7.3, 1, 7.3), (8.7, 6, 8.7), "metaldark"),
-        bx("GrilleF", (2, 5, 5.5), (14, 17, 6), "fancage", faces=("north", "south"), full=True),
-        bx("GrilleB", (2, 5, 9), (14, 17, 9.5), "fancage", faces=("north", "south"), full=True),
+        # (the grilles a hair inside the rim's faces)
+        bx("GrilleF", (2, 5, 5.55), (14, 17, 6), "fancage", faces=("north", "south"), full=True),
+        bx("GrilleB", (2, 5, 9), (14, 17, 9.45), "fancage", faces=("north", "south"), full=True),
         bx("RimT", (2, 16.5, 5.5), (14, 17, 9.5), "metaldark"), bx("RimB", (2, 5, 5.5), (14, 5.5, 9.5), "metaldark"),
         bx("RimL", (2, 5, 5.5), (2.5, 17, 9.5), "metaldark"), bx("RimR", (13.5, 5, 5.5), (14, 17, 9.5), "metaldark"),
         bx("BladeH", (4, 10.5, 7), (12, 11.5, 7.5), "metal"), bx("BladeV", (7.5, 7, 7), (8.5, 15, 7.5), "metal"),
@@ -759,7 +917,7 @@ def level4():
         tipped.append(e)
     prop("officechairtipped", "Office Chair", tipped, box=(0.1, 0, 0.1, 0.9, 0.85, 0.9), material="Cloth", sounds=CLOTH)
     prop("ficus", "Dead Ficus", [
-        bx("Pot", (5, 0, 5), (11, 7, 11), "planter"), bx("Soil", (5.5, 6.9, 5.5), (10.5, 7, 10.5), "wooddark", faces=("up",)),
+        bx("Pot", (5, 0, 5), (11, 7, 11), "planter"), bx("Soil", (5.5, 6.9, 5.5), (10.5, 7.03, 10.5), "wooddark", faces=("up",)),
         bx("Trunk", (7.5, 7, 7.5), (8.5, 18, 8.5), "wood"),
         bx("Leaves1", (3, 15, 4), (12, 22, 12), "ficusleaves"), bx("Leaves2", (5, 20, 3), (13, 26, 11), "ficusleaves"),
         bx("Leaves3", (4, 24, 6), (10, 29, 12), "ficusleaves"),
@@ -773,7 +931,7 @@ def level4():
     prop("chairstack", "Stacked Chairs", stack, box=(0.18, 0, 0.18, 0.82, 1.5, 0.82), oriented=False)
     prop("copier", "Photocopier", [
         bx("Body", (1, 0, 3), (15, 14, 15), "copier"), bx("Lid", (1, 14, 3), (15, 15, 15), "metaldark"),
-        bx("Panel", (2, 14, 3), (8, 15.5, 5.5), "copierpanel", faces=("up", "north"), full=True),
+        bx("Panel", (2, 14, 2.95), (8, 15.5, 5.5), "copierpanel", faces=("up", "north"), full=True),
         bx("Tray", (15, 8, 6), (17, 9, 12), "copier"), bx("Paper", (15.2, 9, 6.5), (16.8, 9.4, 11.5), "paper"),
         bx("Drawer", (2, 2, 2.7), (14, 6, 3), "metaldark"), bx("Drawer2", (2, 7, 2.7), (14, 11, 3), "metaldark")],
          box=(0.06, 0, 0.18, 0.94, 0.95, 0.94), material="Metal", sounds=METAL)
@@ -827,7 +985,26 @@ def level4():
 
 # ======================= Level 5 =======================
 
+def long_sofa():
+    """The hotel's velvet sofa as long as a real one, two blocks (layout version 6; the one-block "sofa" stays for older
+    worlds): a three-seat Chesterfield-ish sofa on turned mahogany feet, rolled arms, two seat and two back cushions.
+    Facing north (its seat to the north), parts l and r (left and right as you sit on it)."""
+    els = [bx(f"Foot{k}", (x, 0, z), (x + 1.6, 2, z + 1.6), "mahogany") for k, (x, z) in
+           enumerate(((2, 4), (28.4, 4), (2, 12.4), (28.4, 12.4)))]
+    els += [bx("Skirt", (1, 2, 3.5), (31, 5.5, 14.5), "velvet"),
+            bx("Back", (1, 5.5, 12.4), (31, 13.5, 14.8), "velvet"), bx("BackRoll", (0.8, 13.2, 12.2), (31.2, 14.6, 15), "velvet"),
+            bx("ArmL", (1, 5.5, 3.5), (3.6, 10, 12.4), "velvet"), bx("ArmR", (28.4, 5.5, 3.5), (31, 10, 12.4), "velvet"),
+            bx("ArmRollL", (0.4, 9.2, 3), (4, 11.4, 12.6), "velvet"), bx("ArmRollR", (28, 9.2, 3), (31.6, 11.4, 12.6), "velvet"),
+            bx("SeatL", (3.6, 5.5, 3.2), (15.9, 8, 12.4), "velvet"), bx("SeatR", (16.1, 5.5, 3.2), (28.4, 8, 12.4), "velvet"),
+            bx("CushionL", (4, 8, 10.4), (15.8, 13, 12.4), "velvet"), bx("CushionR", (16.2, 8, 10.4), (28, 13, 12.4), "velvet"),
+            bx("Button", (15.6, 9.5, 12.3), (16.4, 10.3, 12.5), "brass")]
+    multiblock_prop("longsofa", "Sofa", els, 2, 1, ("l", "r"), {
+        "l": (0.04, 0, 0.18, 1, 0.55, 0.94), "r": (0, 0, 0.18, 0.96, 0.55, 0.94)}, material="Cloth", sounds=CLOTH,
+        comment="The hotel's velvet sofa, two blocks long, its seat to the north (l, r: left and right as you sit on it)")
+
+
 def level5():
+    long_sofa()
     cube_block("hotelfloor", {"marble": "Marble Floor", "runnerns": "Carpet Runner", "runnerwe": "Carpet Runner", "rug": "Rug"},
                ["marble", "runnerns", "runnerwe", "rug"], {"marble": "marble", "runnerns": "runner-ns", "runnerwe": "runner-we", "rug": "rug"},
                material="Stone", sounds=STONE, comment="Hotel floors: white marble, runners over walnut, and Persian rugs")

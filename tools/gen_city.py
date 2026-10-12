@@ -594,7 +594,7 @@ def prop_textures():
     flat("trashbag", 0x141618, 4)
     flat("canopy", 0xE8E2D2, 3)
     flat("cartsteel", 0xC8CCCE, 4)
-    for code, c in (("fabric0", 0x8A2A2A), ("fabric1", 0x2A4A8A), ("fabric2", 0xC8B490), ("fabric3", 0x3A3A3A), ("fabric4", 0x5A7A4A)):
+    for code, c in (("fabric0", 0x8A2A2A), ("fabric1", 0x2A4A8A), ("fabric2", 0xC8B490), ("fabric3", 0x3A3A3A)):
         flat(code, c, 6)
 
     def lens(code, on, c):
@@ -937,7 +937,7 @@ def props():
         bx("Back", (-16, 2, 16.5), (32, 36, 17.5), "shelterglass", faces=("north", "south"), full=True),
         bx("Frame", (-16, 0, 16), (32, 38, 18), "steeldark", faces=("up", "down", "east", "west")),
         bx("PostL", (-16, 0, 15.5), (-14.5, 38, 18), "steeldark"), bx("PostR", (30.5, 0, 15.5), (32, 38, 18), "steeldark"),
-        bx("Side", (-16, 2, 2), (-15, 36, 16), "shelterad", faces=("east", "west"), full=True),
+        bx("Side", (-15.95, 2, 2), (-15, 36, 16), "shelterad", faces=("east", "west"), full=True),
         bx("Seat", (-10, 7, 11), (26, 8.5, 16), "steel"), bx("SeatLegs", (-8, 0, 13), (24, 7, 14), "steeldark")],
          box=(0, 0, 0.7, 1, 2.4, 1.1), material="Metal", sounds=METAL, comment="A bus shelter. No bus has come for a long time")
     prop("newsbox", "Newspaper Box", [
@@ -964,7 +964,7 @@ def props():
         bx("Sign", (1, 30, 0.9), (15, 34, 1), "phonesign", faces=("north",), full=True),
         bx("GlassL", (1, 2, 1), (1.5, 30, 15), "shelterglass", faces=("east", "west"), full=True),
         bx("GlassR", (14.5, 2, 1), (15, 30, 15), "shelterglass", faces=("east", "west"), full=True),
-        bx("Back", (1, 2, 14.5), (15, 30, 15), "steel"),
+        bx("Back", (1.05, 2, 14.5), (14.95, 30, 15), "steel"),  # (its ends inside the side glass, not in its faces)
         bx("Phone", (6, 14, 12), (10, 22, 14.5), "blackmetal"), bx("Handset", (5, 16, 11.5), (6, 21, 12.5), "blackmetal")],
          box=(0.06, 0, 0.06, 0.94, 2.25, 0.94), material="Metal", sounds=METAL,
          extra={"drops": drops(("scrapwire", 1, 0.5), ("glassshard", 1, 0.5), ("metalbracket", 1, 0.5), ("game:metalbit-copper", 0.5, 0.4))})

@@ -1,6 +1,6 @@
 """The End (level 16): the empty bookstore-library with THE END over its service desk.
 
-Its blocks, 3D shapes, items, sounds, found books and English text, from docs/new-levels/end-plan.md section 4.
+Its blocks, 3D shapes, items, sounds, found books and English text, from docs/design/new-levels/end-plan.md section 4.
 Run from the repo root, through the asset lock:
 
     bash tools/locked.sh run python tools/gen_end.py
@@ -732,19 +732,6 @@ def neon(img, mask, col):
 
 
 def signs():
-    for state, col in (("lit", (255, 58, 40)), ("dead", None)):
-        img = noisy(0x151515, 2, "exitface" + state, 48, 20)
-        mask = Image.new("RGBA", (48, 20), (0, 0, 0, 0))
-        centred(mask, "EXIT", 3, (255, 255, 255, 255), F5, 2, gap=1)
-        if col:
-            neon(img, mask, col)
-        else:
-            mp, px = mask.load(), img.load()
-            for y in range(20):
-                for x in range(48):
-                    if mp[x, y][3]:
-                        px[x, y] = (88, 30, 26, 255)
-        save(T.fit_atlas_grid(img), f"exitface-{state}")
     save(noisy(0xFF3A28, 8, "neonred"), "neonred")
     save(noisy(0x5A1E1A, 4, "neondead"), "neondead")
     # INFORMATION: white on navy
@@ -1702,7 +1689,7 @@ def furniture():
     def catalogue(open_):
         els = legs(1, 15, 3.2, 15, 3.2, w=1.6, tex="oak")
         els += [faces_box("Cabinet", (0.5, 3, 3), (15.5, 15, 15), {"north": "oak", "south": "oak", "east": "oak", "west": "oak", "down": "oak"}),
-                bx("Top", (0, 15, 2.4), (16, 16, 15.6), "oak-light"), bx("Rail", (0.5, 2.6, 2.8), (15.5, 3.4, 15.2), "oak-light")]
+                bx("Top", (0, 15, 2.4), (16, 16, 15.6), "oak-light"), bx("Rail", (0.45, 2.6, 2.8), (15.55, 3.4, 15.2), "oak-light")]
         for col in range(4):
             for row in range(5):
                 x = 1.1 + col * 3.5
@@ -1871,7 +1858,7 @@ def atrium():
        "landing before the first step, top the last step with the comb plate at its head. Climbs like stairs. Indestructible")
     name("end-escalator-*", "Escalator (Stopped)")
 
-    rail = [bx("Shoe", (0, 0, 0.5), (16, 1.5, 2), "aluminium"), faces_box("Glass", (0, 1.5, 1), (16, 14.5, 1.5), {"north": "glass", "south": "glass", "up": "glass"}),
+    rail = [bx("Shoe", (0, 0, 0.45), (16, 1.5, 2.05), "aluminium"), faces_box("Glass", (0, 1.5, 1), (16, 14.5, 1.5), {"north": "glass", "south": "glass", "up": "glass"}),
             bx("Post0", (0.25, 0, 0.5), (1.75, 15, 2), "galvanised"), bx("Post1", (8.25, 0, 0.5), (9.75, 15, 2), "galvanised"),
             bx("Handrail", (0, 15, 0.25), (16, 16.5, 2.25), "maple")]
     blk("end-railing", {
@@ -2549,7 +2536,7 @@ def merge_lang():
 
 # ======================= Checks =======================
 
-GAME = os.path.join(os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory"), "assets")
+GAME = os.path.join(os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory")), "assets")
 
 
 def asset_exists(kind, path, ext):

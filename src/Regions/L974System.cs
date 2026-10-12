@@ -69,7 +69,7 @@ public static class L974
 }
 
 /// <summary>
-/// Level 974, Kitty's House: the rules (docs/new-levels/974-plan.md, sections 2.3, 3 and 4).
+/// Level 974, Kitty's House: the rules (docs/design/new-levels/974-plan.md, sections 2.3, 3 and 4).
 /// <list type="bullet">
 /// <item><b>Taken.</b> Cross any threshold with something cute on you and, now and then, Kitty takes you to your own
 /// house instead (<see cref="Detour"/>); the Hub's pink door lands there too. Each wanderer is given one house for

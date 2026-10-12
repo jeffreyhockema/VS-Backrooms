@@ -32,7 +32,7 @@ static class LoreSpots {
           if (level == 3 && t.Kind == TileKind.Wall && t.Variant == Decor.Plaque) Report("plaque", x, z);
           if (level == 5 && t.Overhead == Overheads.CeilingFan) Report("fan", x, z);
           if (level == 6 && t.Kind == TileKind.Wall && t.Variant == Decor.DeadSwitch) Report("deadswitch", x, z);
-          if (level == 7 && t.Kind == TileKind.Floor && t.Variant == Props.Tent) Report("camp", x, z);
+          if (level == 7 && t.Kind == TileKind.Floor && t.Variant is Props.Tent or Props.CampTent && t.Stack == 0) Report("camp", x, z);
           if (level == 8 && t.Kind == TileKind.Wall && t.Variant == Props.AlmondSeep) Report("seep", x, z);
         } } }
   }

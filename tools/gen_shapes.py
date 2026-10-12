@@ -100,7 +100,7 @@ def bundle_x():
         pipe("Lagged", (0, 10, 1), (16, 15, 6), "lagging"),
         pipe("Rusty", (0, 11, 10), (16, 14, 13), "rust"),
         pipe("FireLine", (0, 13.5, 13.5), (16, 15.5, 15.5), "red"),
-        box("Strap", (7.5, 15, 0.5), (8.5, 16, 15.5), "metal"),
+        box("Strap", (7.5, 15, 0.5), (8.5, 16, 15.55), "metal"),  # (proud of the fire line's side, not in its plane)
         box("Hanger1", (7.5, 9.5, 0.5), (8.5, 15, 1), "metal"),
         box("Hanger2", (7.5, 10.5, 13), (8.5, 14, 13.5), "metal"),
     ]
@@ -153,10 +153,14 @@ def round_pipe(name, yc, zc, r, tex, x1=0.0, x2=16.0, shaded=True, faces=None):
 # half a pixel off the wall. Plain lengths; "joint" has the steel pipe's flanged joint (bolted flanges with a gasket
 # between) and a cladding band round the lagging; "bracket" a channel strut on the wall with a clamp round each pipe.
 # The generator puts a joint every four blocks along a wall and a bracket half way between.
+# The straight blocks carry the pipes on all four faces, so the runs on faces that are not open lie inside the next
+# wall block. Their ends have no faces: an end face there lies exactly on that wall's face where it shows round a
+# corner (two pipe-coloured discs fighting with the wall), and on an open face the run always goes on into the next
+# block's pipe, or into a wall in an inner corner, so an end face is never seen.
 WALL_PIPE_RUST = (12.0, -2.0, 1.5)    # centre y, centre z, radius
 WALL_PIPE_LAG = (4.5, -2.25, 1.75)
-WALL_PIPES = (round_pipe("PipeA", *WALL_PIPE_RUST, "wallrust", faces=("east", "west"))
-              + round_pipe("PipeB", *WALL_PIPE_LAG, "walllag", faces=("east", "west")))
+WALL_PIPES = (round_pipe("PipeA", *WALL_PIPE_RUST, "wallrust")
+              + round_pipe("PipeB", *WALL_PIPE_LAG, "walllag"))
 
 
 def wall_pipe_joint():
@@ -213,10 +217,10 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
             if q - p < 0.01:
                 continue
             fs = ["north"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
-            if q == x2 and right in ("o", "c", "w"):
+            # Only the end of a turn shows; "o" runs on into the next block's pipe (as the straight blocks) and a
+            # blind flange covers "c" (an end face there would fight with the flange's face in the same plane)
+            if q == x2 and right == "w":
                 fs.append("east")
-            if p == x1 and left in ("o", "c"):
-                fs.append("west")
             b = box(f"{name}{part}{i}", (p, yc + lo * r, zc - d), (q, yc + hi * r, zc + d), tex, faces=tuple(fs))
             u1, u2 = (p + 16, q + 16) if part == "L" else (p - 16, q - 16) if part == "R" else (p, q)
             b["faces"]["north"]["uv"] = [u1, v(hi), u2, v(lo)]
@@ -226,19 +230,21 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
                 b["faces"]["down"]["uv"] = [u1, 14.8, u2, 16] if lo <= -1 else [u1, v(lo) - 0.3, u2, v(lo)]
             if "east" in b["faces"]:
                 # Round an outer corner the end is the front of the turn: shaded like the next face's pipe
-                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)] if right == "w" else [7, 7, 9, 9]
-            if "west" in b["faces"]:
-                b["faces"]["west"]["uv"] = [7, 7, 9, 9]
+                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)]
             out.append(b)
     return out
 
 
 def wall_pipe_cap(name, end):
-    """A blind flange on the end of both wall pipes, flush with the block's edge ("left" end x 0, "right" x 16)."""
+    """A blind flange on the end of both wall pipes, flush with the block's edge ("left" end x 0, "right" x 16). The
+    steel pipe's flange is wider than the pipe stands off the wall, so its back is cut flat a hair in front of the
+    wall (else its face at the block's edge shows a sliver in the wall's own face where that shows, beside a door)."""
     out = []
     for nm, (yc, zc, r), grow, tex, t in (("CapA", WALL_PIPE_RUST, 0.7, "flange", 0.8), ("CapB", WALL_PIPE_LAG, 0.35, "metal", 0.6)):
         x1, x2 = (0.0, t) if end == "left" else (16 - t, 16.0)
-        out += round_pipe(f"{name}{nm}", yc, zc, r + grow, tex, x1, x2, shaded=False, faces=("east", "west"))
+        for b in round_pipe(f"{name}{nm}", yc, zc, r + grow, tex, x1, x2, shaded=False, faces=("east", "west")):
+            b["to"][2] = min(b["to"][2], -0.02)
+            out.append(b)
     return out
 
 
@@ -385,7 +391,8 @@ def level2():
     wall_pipe_corners()
     # A vertical riser from floor to ceiling, and where it crosses the horizontal wall pipes
     riser = [
-        box("Riser", (6, 0, -4), (10, 16, 0), "rust", faces=("north", "east", "west")),
+        # (a hair deeper than the lagged pipe, whose front would otherwise lie in the riser's front where it crosses)
+        box("Riser", (6, 0, -4.05), (10, 16, 0), "rust", faces=("north", "east", "west")),
         box("Clamp", (5.5, 7, -4.5), (10.5, 8.5, 0), "metal", faces=("north", "east", "west", "up", "down")),
     ]
     save("tunnelwall-riser", wall, [CUBE("wall")] + all_sides(riser))
@@ -562,8 +569,9 @@ def parking():
             tilted(box("RearWindow", (4, 11, 44.7), (28, 11 + glass_len, 45.3), "glass"), (16, 11, 45), -rake),
         ]
         for nm, x1, x2 in (("L", 3.6, 5), ("R", 27, 28.4)):
-            els += [tilted(box(f"PillarA{nm}", (x1, 11, 19.4), (x2, 11 + glass_len, 20.6), "body"), (16, 11, 20), rake),
-                    tilted(box(f"PillarC{nm}", (x1, 11, 44.2), (x2, 11 + glass_len, 45.8), "body"), (16, 11, 45), -rake)]
+            # (a hair longer than the glass, so their ends are not in the glass's planes)
+            els += [tilted(box(f"PillarA{nm}", (x1, 10.95, 19.4), (x2, 11.05 + glass_len, 20.6), "body"), (16, 11, 20), rake),
+                    tilted(box(f"PillarC{nm}", (x1, 10.95, 44.2), (x2, 11.05 + glass_len, 45.8), "body"), (16, 11, 45), -rake)]
         for i, (y1, y2, zf, zr) in enumerate(((11, 13, 20.5, 44.5), (13, 15, 22, 43), (15, 17, 23.5, 41.5), (17, 18.5, 25, 40))):
             els += [box(f"QuarterF{i}", (4, y1, zf), (28, y2, 26), "glass", faces=("east", "west")),
                     box(f"QuarterR{i}", (4, y1, 39), (28, y2, zr), "glass", faces=("east", "west"))]
@@ -660,7 +668,7 @@ def level3():
 
     save("cables-run", cables, cable_x())
     save("cables-hub", cables, cable_x() + thinner([dict(rot(b, 1), name=b["name"] + "Z") for b in cable_x()]) + [
-        box("Box", (5, 9, 5), (11, 16, 11), "metal")])
+        box("Box", (4.95, 9, 4.95), (11.05, 16, 11.05), "metal")])  # (a hair wider than the trays' cables meeting it)
     # A tray ending with open hall beyond it (east end): an end plate the cables run into
     save("cables-end", cables, cable_x() + [box("EndPlate", (15.5, 11.5, 0.8), (16, 15, 15.7), "metal")])
     for state, tex in (("lit", "tube"), ("off", "tubeoff")):

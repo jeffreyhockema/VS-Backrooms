@@ -8,19 +8,23 @@ namespace Backrooms.Worldgen;
 ///
 /// A lane's hall is 5 wide with four blocks of air: floor at rel 0, the hanging EXIT signs in the top block of air
 /// (rel 4), the ceiling at rel 5, solid above. Walls carry the wooden crash rail at rel 1, doors at rel 1-2, a beacon or a
-/// wall-mounted EXIT sign at rel 3. Codes are the plan's (docs/new-levels/run-plan.md, "Manifest changes (phase 2)").
+/// wall-mounted EXIT sign at rel 3. Codes are the plan's (docs/design/new-levels/run-plan.md, "Manifest changes (phase 2)").
 /// Until the level's assets exist, every missing block falls back to something of the mod's own that looks the part,
 /// so the level is never full of holes.
 /// </summary>
 public sealed partial class WorldGenerator
 {
     private int runWallId, runVoidId, runSafeWallId, runCeilingId, runPanelDeadId, runVentId, runSafeLightId, runFalseWallId,
-        runFalseWallUpperId, runFloorId, runScuffedId, runCrackedId, runSafeFloorId, runRubbleId, runRedLightId;
+        runFalseWallUpperId, runFloorId, runScuffedId, runCrackedId, runSafeFloorId, runRubbleId, runRedLightId, runCeilingHoleId;
     /// <summary>The crash rail round an outer corner (on a face and the next clockwise), and stopped short in an inner corner.</summary>
     private readonly int[] runRailCornerIds = new int[4], runRailShortIds = new int[4];
     private readonly int[] runRailIds = new int[4], runBeaconIds = new int[4], runCabinetIds = new int[4], runBorderIds = new int[4],
         runSignIds = new int[2], runSignDimIds = new int[4], runSignBrightIds = new int[4], runSignConcreteIds = new int[4], runSignLitIds = new int[4];
     private readonly int[,] runSafeSignIds = new int[2, 4], runShelfIds = new int[2, 4], runCurtainIds = new int[4, 2], runDecorIds = new int[3, 4];
+    /// <summary>Layout version 6: the collapsed ceiling's parts (<see cref="RunCollapseParts"/>) and the barricades' (<see cref="RunBarricadeParts"/>), by facing.</summary>
+    private readonly int[,] runCollapseIds = new int[6, 4], runBarricadeIds = new int[6, 4];
+    private static readonly string[] RunCollapseParts = { "heap", "slab", "slabhigh", "hang", "rubble", "wires" },
+        RunBarricadeParts = { "beds-lower", "beds-upper", "cabinet-lower", "cabinet-upper", "tipped-head", "tipped-foot" };
     /// <summary>Door blocks by pattern (lower, upper; facing).</summary>
     private readonly Dictionary<WallPattern, int[,]> runDoorIds = new();
     private readonly List<string> runMissing = new();
@@ -81,6 +85,7 @@ public sealed partial class WorldGenerator
         runVentId = RunId("run-ceiling-vent", runCeilingId);
         runSafeLightId = RunId("run-safelight", BlockId("backrooms:fluorescentlight-on"));
         runRedLightId = RunId("run-redlight", lightFallback);
+        runCeilingHoleId = RunId("run-ceilinghole", runCeilingId);
         runFalseWallId = RunId("run-falsewall-lower", 0);
         runFalseWallUpperId = RunId("run-falsewall-upper", runFalseWallId);
         runFloorId = RunId("run-floor-vinyl", BlockId("backrooms:concretefloor-plain"));
@@ -115,6 +120,11 @@ public sealed partial class WorldGenerator
             runDecorIds[0, f] = RunId($"run-walldecor-handwash-{side}", runWallId);
             runDecorIds[1, f] = RunId($"run-walldecor-visiting-{side}", runWallId);
             runDecorIds[2, f] = RunId($"run-walldecor-sanitiser-{side}", runWallId);
+            for (int part = 0; part < 6; part++)
+            {
+                runCollapseIds[part, f] = RunId($"run-collapse-{RunCollapseParts[part]}-{side}", part == 4 ? runRubbleId : part == 5 ? 0 : runWallId);
+                runBarricadeIds[part, f] = RunId($"run-barricade-{RunBarricadeParts[part]}-{side}", 0);
+            }
 
         }
         string[] curtain = { "lower", "middle", "upper", "top" };
@@ -201,6 +211,21 @@ public sealed partial class WorldGenerator
 
         // Floor
         if (rel == 0) return FloorOf(t);
+        // Layout version 6: where the ceiling has come down, a hole in it and the slab hanging from it onto the rubble (or
+        // a heap under it), live wires hanging over either; the barricades, two blocks tall, and a gurney on its side
+        if (t.Variant == Props.RunCollapse)
+        {
+            if (rel == ceiling && t.Ceiling == CeilingKind.RunCeiling) return runCeilingHoleId;
+            if (rel == 4 && t.Ceiling != CeilingKind.RunExitSign) return runCollapseIds[t.Stack == 0 ? 3 : 5, face];
+            if (t.Stack == 0 && rel <= 3) return runCollapseIds[rel - 1, face];
+            if (rel == 1) return runCollapseIds[4, face];
+        }
+        if (t.Variant == Props.RunBarricade && rel <= 2)
+            return t.Stack switch
+            {
+                0 or 1 => runBarricadeIds[2 * t.Stack + rel - 1, face],
+                _ => rel == 1 ? runBarricadeIds[t.Stack == 2 ? 4 : 5, face] : 0,
+            };
         if (rel == ceiling)
             return t.Ceiling switch
             {

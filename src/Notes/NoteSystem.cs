@@ -37,7 +37,7 @@ public class MarkAgainPacket
 }
 
 /// <summary>
-/// Wanderers' notes and the journal (docs/notes-plan.md). A note is blank until read; reading it on the server resolves
+/// Wanderers' notes and the journal (docs/design/notes-plan.md). A note is blank until read; reading it on the server resolves
 /// it to the next entry in that player's sequence (<see cref="NoteSequencer"/>, from config/notes.json written by
 /// tools/gen_notes.py), marks what its paper and its entry point at (<see cref="MarkResolver"/>), and keeps it in the
 /// player's journal: a log per player in the save game, sent to them on joining and after every read, and shown on J.

@@ -5,7 +5,7 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Blocks for Level 3999, "The Neon Paradise" (kept as level 19), laid out in WorldLayout.Level3999.cs, from its own floor
 /// (<see cref="WorldGeometry.FloorFor"/>, 20 below the others'), lit over a band from 4 below it, so its 18-high atria
-/// are lit to the top. Blocks are the asset manifest's (docs/new-levels/3999-plan.md, section 6, made by tools/gen_3999.py),
+/// are lit to the top. Blocks are the asset manifest's (docs/design/new-levels/3999-plan.md, section 6, made by tools/gen_3999.py),
 /// with stand-ins until they exist.
 ///
 /// A floor tile has its floor at rel 0 (a walkway's tread there instead), its ceiling at <see cref="Tile.Height"/> (the

@@ -85,7 +85,8 @@ def door_part(col, row, leaf="doorleaf", low="doorleaf-low", frame="doorframe", 
         f.box("Lintel", FRAME - 1 if col == "l" else 0, 16 - FRAME + 1 if col == "r" else 16, 0, FRAME - 1, -1, 16, frame)
         f.box("LintelStep", FRAME if col == "l" else 0, 16 - FRAME if col == "r" else 16, FRAME - 1, FRAME, -0.4, 16, frame)
     if row == 1:
-        f.box("Sill", 0, 16, 8, 16, -1.2, 16, sill, faces=DIRS)
+        # (its ends a hair inside the posts' outer faces, not in their plane)
+        f.box("Sill", 0.05 if col == "l" else 0, 15.95 if col == "r" else 16, 8, 16, -1.2, 16, sill, faces=DIRS)
     # The raised border round the whole slab: along the outer sides, under the lintel, over the sill
     if col == "l":
         f.box("BandL", lu0, lu0 + BAND, lv0, lv1, RIM, LEAF, tex)
@@ -131,26 +132,29 @@ def pink_extra(f, col, row, u0, u1, v0, v1):
     pu0, pu1 = u0 + (1.5 if col == "l" else 2), u1 - (1.5 if col == "r" else 2)
     # Two tall raised panels to each leaf column: rows 1-2 and rows 3-4
     span = {1: (0, 5), 2: (0, 14.5), 3: (1.5, 16), 4: (0, 11.5)}[row]
-    f.box("Panel", pu0, pu1, span[0], span[1], RIM, LEAF, "pinkpanel")
+    # (a hair behind the border bands it meets, so their faces are not in one plane)
+    f.box("Panel", pu0, pu1, span[0], span[1], RIM + 0.05, LEAF, "pinkpanel")
     rz1, rz2 = 1.2, RIM
+    # The ribbon stands a hair proud of the frame and sill where it runs over them (H = a hair)
+    H = 0.05
     if col == "c":
         f.box("RibbonV", 6, 10, v0, 8 if row == 1 else 16, rz1, rz2, "ribbon")
         if row == 4:
             f.box("RibbonLintel", 6, 10, 0, FRAME, -1.5, -1, "ribbon")
             f.box("RibbonLintelTop", 6, 10, -0.01, 0.5, -1.5, -1, "ribbon")
-            f.box("RibbonDown", 6, 10, FRAME - 0.5, FRAME, -1, rz2, "ribbon")
+            f.box("RibbonDown", 6, 10, FRAME - 0.5, FRAME + H, -1, rz2, "ribbon")
         if row == 1:
             f.box("RibbonSill", 6, 10, 8.5, 16, -1.7, -1.2, "ribbon")
-            f.box("RibbonSillTop", 6, 10, 8, 8.5, -1.7, rz2, "ribbon")
+            f.box("RibbonSillTop", 6, 10, 8 - H, 8.5, -1.7, rz2, "ribbon")
     if row == 3:
         a, b = 0, 16
         if col == "l":
             f.box("RibbonFrame", 0, FRAME, 5, 9, -1.5, -1, "ribbon")
-            f.box("RibbonStep", FRAME - 0.5, FRAME, 5, 9, -1, rz2, "ribbon")
+            f.box("RibbonStep", FRAME - 0.5, FRAME + H, 5, 9, -1, rz2, "ribbon")
             a = FRAME
         if col == "r":
             f.box("RibbonFrame", 16 - FRAME, 16, 5, 9, -1.5, -1, "ribbon")
-            f.box("RibbonStep", 16 - FRAME, 16 - FRAME + 0.5, 5, 9, -1, rz2, "ribbon")
+            f.box("RibbonStep", 16 - FRAME - H, 16 - FRAME + 0.5, 5, 9, -1, rz2, "ribbon")
             b = 16 - FRAME
         f.box("RibbonH", a, b, 5, 9, rz1 - (0.2 if col == "c" else 0), rz2, "ribbon")
     if col == "c" and row == 3:
@@ -230,7 +234,7 @@ def sigils():
     shapes = {str(n): shape(f"sigil-{n}", relief(sigil_depths(n), carve_tex, back_tex="carved")) for n in SIG.IDS}
     oriented_parts("hub-sigil", [("n", [str(n) for n in SIG.IDS])], shapes, "*-0-north", "Stone", in_wall(),
                    "The crop-circle symbol carved over a Hub door (above c-4), face to the north. n is the sigil id"
-                   " (docs/new-levels/hub-plan.md 4.3, tools/gen_hub_sigils.py): 0 the Hub's own, 1-18 the levels,"
+                   " (docs/design/new-levels/hub-plan.md 4.3, tools/gen_hub_sigils.py): 0 the Hub's own, 1-18 the levels,"
                    " 20 the open door '178' (to 6.1), 21-44 dead doors; 19 is not built", "Carved Symbol")
     left = relief(sigilside_depths(), carve_tex, back_tex="carved")
     shapes = {"l": shape("sigilside-l", left), "r": shape("sigilside-r", mirror_x(left))}
@@ -258,10 +262,11 @@ def service_door():
             f.box("LeafBelow", 5.5, 10.5, 8.5, 16, z, 16, "servicesteel")
             # A small wired-glass window in a real opening, its frame proud of the leaf
             f.box("Glass", 5.5, 10.5, 3.5, 8.5, z + 0.5, 16, "wireglass", faces=("north",))
-            f.box("WinT", 5, 11, 3, 3.5, z - 0.3, z + 0.5, "serviceframe")
-            f.box("WinB", 5, 11, 8.5, 9, z - 0.3, z + 0.5, "serviceframe")
-            f.box("WinL", 5, 5.5, 3.5, 8.5, z - 0.3, z + 0.5, "serviceframe")
-            f.box("WinR", 10.5, 11, 3.5, 8.5, z - 0.3, z + 0.5, "serviceframe")
+            # (its inner faces a hair into the opening, not in the plane of the leaf's)
+            f.box("WinT", 5, 11, 3, 3.55, z - 0.3, z + 0.5, "serviceframe")
+            f.box("WinB", 5, 11, 8.45, 9, z - 0.3, z + 0.5, "serviceframe")
+            f.box("WinL", 5, 5.55, 3.55, 8.45, z - 0.3, z + 0.5, "serviceframe")
+            f.box("WinR", 10.45, 11, 3.55, 8.45, z - 0.3, z + 0.5, "serviceframe")
             # The push bar at hip height, on two brackets
             f.box("Bar", w + 1, 16 - w - 1, 11.6, 13.0, -1.6, -0.4, "pushbar")
             f.box("BracketL", w + 1, w + 2.2, 11.2, 13.4, -0.4, z, "serviceframe")

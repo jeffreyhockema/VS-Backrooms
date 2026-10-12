@@ -1,4 +1,4 @@
-"""Assets for the survival loop (docs/survival-loop-plan.md): what has been picked over, what tells you where to go,
+"""Assets for the survival loop (docs/design/survival-loop-plan.md): what has been picked over, what tells you where to go,
 and what a home needs. Run on its own: python tools/gen_loop.py
 
 - Torn supply boxes and prised-open crates: the three in four that wanderers went through before you.

@@ -132,7 +132,7 @@ public enum WallPattern : byte
     /// <summary>Level 94's castle: one of the throne room's doors (on <see cref="TileKind.Door"/> tiles). Only one opens, and a different one each day.</summary>
     ThroneDoor,
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     // A level adds its members inside its own block only, with explicit values, never past the block's end; 62-63 stay free.
 
     /// <summary>
@@ -189,7 +189,7 @@ public enum WallPattern : byte
     EndExit = 100,
     EndStaff = 101,
     EndStoreDoor = 102,
-    /// <summary>The Hub (block 112-143: its many doors). Placeholder.</summary>
+    /// <summary>The Hub (block 112-143: its many doors).</summary>
     HubWall = 112,
     /// <summary>The Hub: a great carved concrete door (on <see cref="TileKind.Door"/> tiles; Detail = its sigil, Stack = which of its three columns, Pier = the way it faces).</summary>
     HubDoor = 113,
@@ -226,7 +226,7 @@ public enum WallPattern : byte
     L3999Elevator = 166,
     L3999Window = 167,
     L3999PoolWall = 168,
-    /// <summary>Level 188 (block 176-191). Placeholder.</summary>
+    /// <summary>Level 188 (block 176-191).</summary>
     L188Wall = 176,
     /// <summary>
     /// Level 188: the courtyard façade (its windows in it), the solid nothing round the building, partitions between
@@ -380,7 +380,7 @@ public enum FloorKind : byte
     FunCarpet,
     StarFloor,
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     // A level adds its members inside its own block only, with explicit values, never past the block's end; 97-99 stay free.
 
     /// <summary>
@@ -481,7 +481,7 @@ public enum CeilingKind : byte
     /// <summary>A dim red lamp: all the light there is in Level 0's Red Rooms.</summary>
     LampRed,
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     // A level adds its members inside its own block only, with explicit values, never past the block's end; 9-15 stay free.
 
     /// <summary>
@@ -586,7 +586,7 @@ public struct Tile
     public byte Pipe;
     /// <summary>
     /// Material or prop sub-variant: see <see cref="WallPattern"/> for walls and <see cref="Props"/> for floors. Wider
-    /// than a byte so the levels kept as 14-18 have room for their props (<see cref="Props.Limit"/>); wall decorations
+    /// than a byte so the far places (ids 14-20) have room for their props (<see cref="Props.Limit"/>); wall decorations
     /// stay below <see cref="Decor.Limit"/>.
     /// </summary>
     public ushort Variant;
@@ -665,7 +665,7 @@ public static class Pipes
     public const byte CableDroopX = 13;
     public const byte CableDroopZ = 14;
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     public const byte RunFirst = 20, RunLast = 29;
     public const byte FunFirst = 30, FunLast = 39;
     /// <summary>Level Fun: not pipes but what is laid on a party table (the block above it): paper plates, cups, a mess, the cakes, cookies.</summary>
@@ -707,7 +707,7 @@ public static class Overheads
     /// <summary>Level 5: a ceiling fan in a guest room, turning.</summary>
     public const byte CeilingFan = 21;
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md) =====
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     public const byte RunFirst = 40, RunLast = 49;
     public const byte FunFirst = 50, FunLast = 59;
     /// <summary>Level Fun: a cluster of balloons against the ceiling (the room's balloon set), crepe streamers across it.</summary>
@@ -797,8 +797,8 @@ public static class Unders
     /// <summary>Level 94: a flight of steps on a hill that climbs to nothing (each step's height in <see cref="Tile.Stair"/>).</summary>
     public const byte Nowhere = 28;
 
-    // ===== The levels kept as 14-18: one block of values each, for their thresholds below the floor and the ways into
-    // them from other levels (see docs/new-levels/CONTRACT.md). 29-39 stay free. =====
+    // ===== The far places (ids 14-20): one block of values each, for their thresholds below the floor and the ways into
+    // them from other levels (see docs/design/new-levels/CONTRACT.md). 29-39 stay free. =====
     public const byte RunFirst = 40, RunLast = 49;
     /// <summary>Level 2: a blind tunnel end that wasn't there a moment ago (a floor tile before it). Walk into it: Level !.</summary>
     public const byte RunFalseWall = 40;
@@ -962,6 +962,7 @@ public static class Props
     public const byte Nightstand = 31;
     public const byte Wardrobe = 32;
     public const byte WingChair = 33;
+    /// <summary>The one-tile velvet sofa (from layout version 6, where there is room, <see cref="LongSofa"/>).</summary>
     public const byte Sofa = 34;
     public const byte Palm = 35;
     public const byte MahjongTable = 36;
@@ -976,6 +977,7 @@ public static class Props
     public const byte Toolbox = 42;
     /// <summary>Plywood sheets leaning on the wall behind them.</summary>
     public const byte Plywood = 43;
+    /// <summary>The one-tile tent and bedroll of layout versions 1-5 (from 6, <see cref="CampTent"/> and <see cref="SleepingBag"/>).</summary>
     public const byte Tent = 44;
     public const byte Bedroll = 45;
     public const byte Lantern = 46;
@@ -1025,6 +1027,14 @@ public static class Props
     public const byte TramWagon = 76;
     /// <summary>Candle stubs on a tin plate by a den's cache, left burning by whoever drew the crosses.</summary>
     public const byte CandleStubs = 77;
+    // Camps, from layout version 6: the tent and the bedroll as big as the real things (Tent and Bedroll stay for older worlds)
+    /// <summary>
+    /// A two-person ridge tent, two tiles by two, its door toward <see cref="Tile.Pier"/>. Stack is the part (0 the front
+    /// left, 1 the front right, 2 and 3 behind them, left and right as you look out of the door); see <see cref="WorldLayout.PartTile"/>.
+    /// </summary>
+    public const byte CampTent = 78;
+    /// <summary>A sleeping bag two tiles long: Stack 0 the head end, 1 the foot end; Pier points from the head toward the foot. Walked over.</summary>
+    public const byte SleepingBag = 79;
     // Level 4
     public const byte Ficus = 80;
     public const byte ChairStack = 81;
@@ -1058,6 +1068,11 @@ public static class Props
     public const byte DiningTable = 114;
     public const byte GrandPiano = 115;
     public const byte CoalPile = 116;
+    /// <summary>
+    /// From layout version 6, the velvet sofa as long as a real one, two tiles across, facing <see cref="Tile.Pier"/> (Stack 0 the
+    /// left part, 1 the right, as you sit on it; see <see cref="WorldLayout.PartTile"/>). <see cref="Sofa"/> stays for older worlds.
+    /// </summary>
+    public const byte LongSofa = 117;
     // Level 6
     /// <summary>A thin wire across a corridor at ankle height. Trip on it and you fall into the Snackrooms.</summary>
     public const byte Tripwire = 120;
@@ -1266,8 +1281,8 @@ public static class Props
     /// <summary>A slide between floors of the funhouse: slick, and it carries you down toward <see cref="Tile.Pier"/>.</summary>
     public const byte Slide = 255;
 
-    // ===== The levels kept as 14-18: one block of values each, past the byte (Tile.Variant is a ushort; see
-    // docs/new-levels/CONTRACT.md). A level declares its props as ushort constants inside its own block only. =====
+    // ===== The far places (ids 14-20): one block of values each, past the byte (Tile.Variant is a ushort; see
+    // docs/design/new-levels/CONTRACT.md). A level declares its props as ushort constants inside its own block only. =====
     public const ushort RunFirst = 300, RunLast = 319;
     // Level ! (Pier = the way the prop faces; Stack as noted)
     /// <summary>A gurney (Stack 0 head, 1 foot; Pier the way the foot points).</summary>
@@ -1294,6 +1309,17 @@ public static class Props
     public const ushort RunDebris = 316;
     /// <summary>The start room's privacy curtain, two blocks tall, walked through.</summary>
     public const ushort RunCurtain = 317;
+    /// <summary>
+    /// Layout version 6: where the ceiling has come down (Pier the way the fallen slab leans). Stack 0 a slab hanging from
+    /// the broken ceiling onto a heap of rubble, floor to ceiling (go round it); 1 a heap of rubble under the hole (jump it).
+    /// </summary>
+    public const ushort RunCollapse = 318;
+    /// <summary>
+    /// Layout version 6: what blocks a corridor (Pier the way it faces). Stack 0 a barricade of beds and chairs, two blocks
+    /// tall; 1 a tall supply cabinet against the wall, its door hanging open; 2 and 3 a gurney tipped on its side (head,
+    /// foot; foot toward Pier), a block high. The first two you go round; the gurney you jump.
+    /// </summary>
+    public const ushort RunBarricade = 319;
     public const ushort FunFirst = 320, FunLast = 359;
     // Level Fun. Props that face a way face toward Tile.Pier; Stack picks the kind (see the level's prop table)
     /// <summary>One block of a folding party table in its cloth (Stack: cloth·2 + part; part b lies toward Pier).</summary>
@@ -1567,7 +1593,7 @@ public static class Decor
     public const byte SubwayLamp = 172;
     public const byte SubwayAd = 173;
 
-    // ===== The levels kept as 14-18: one block of values each (see docs/new-levels/CONTRACT.md). Decoration codes
+    // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md). Decoration codes
     // are looked up by name across every family, so a level's codes must not reuse another's names. 174-175 stay free. =====
     public const byte RunFirst = 176, RunLast = 183;
     public const byte FunFirst = 184, FunLast = 195;

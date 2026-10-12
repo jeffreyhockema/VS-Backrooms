@@ -9,7 +9,7 @@ namespace Backrooms.Worldgen;
 /// A road tunnel: asphalt on rel 0 with the sidewalks' half slabs on rel 1, walls of seamed concrete slabs, a flat
 /// concrete ceiling one block over the air (<see cref="Tile.Height"/>), caged amber lamps on the walls, jet fans and lane
 /// signals hanging from the ceiling. The doors stand on rel 1-4 with their carved sigil on rel 5. The codes are those of
-/// the plan's asset manifest (docs/new-levels/hub-plan.md, with its phase 2 changes); where a block is missing the
+/// the plan's asset manifest (docs/design/new-levels/hub-plan.md, with its phase 2 changes); where a block is missing the
 /// tunnel falls back to plain concrete, so the layout can be looked at before the assets exist.
 /// </summary>
 public sealed partial class WorldGenerator

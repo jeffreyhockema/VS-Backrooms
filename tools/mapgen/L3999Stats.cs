@@ -3,7 +3,7 @@ using Backrooms.Worldgen;
 using static Backrooms.Worldgen.WorldLayout;
 
 /// <summary>
-/// Level 3999's harness modes (this file is the level's own; see docs/new-levels/CONTRACT.md):
+/// Level 3999's harness modes (this file is the level's own; see docs/design/new-levels/CONTRACT.md):
 ///   3999stats [blocks]       what the plan blocks round the centre (and a ring far out) hold: units by kind against their
 ///                            weights, the Blackout's share past 65%, natatoria, walkways (both ways), escalators per
 ///                            junction, arrivals, and that every unit's floor can be walked to from a concourse

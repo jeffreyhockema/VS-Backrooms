@@ -1,0 +1,273 @@
+// The hotel's velvet sofa, two blocks long, its seat to the north (l, r: left and right as you sit on it)
+{
+	"code": "longsofa",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsPartnered",
+			"properties": {
+				"parts": [
+					"l",
+					"r"
+				],
+				"width": 2
+			}
+		}
+	],
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/detail/longsofa-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/detail/longsofa-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/detail/longsofa-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/detail/longsofa-l",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/detail/longsofa-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/detail/longsofa-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/detail/longsofa-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/detail/longsofa-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"decorative": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-l-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94
+		},
+		"*-l-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94
+		},
+		"*-r-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-l-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94
+		},
+		"*-l-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94
+		},
+		"*-r-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.96,
+			"y2": 0.55,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"dropsByType": {
+		"*-l-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:cloth-plain",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:stick",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		],
+		"*": []
+	}
+}

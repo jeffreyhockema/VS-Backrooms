@@ -1,4 +1,4 @@
-"""Level Fun =)'s entity models (docs/new-levels/fun-plan.md, 4.4), built with rig.py and the helpers of gen_models.py.
+"""Level Fun =)'s entity models (docs/design/new-levels/fun-plan.md, 4.4), built with rig.py and the helpers of gen_models.py.
 
 - The Partygoer (Entity 67), after the Wikidot page and its two canon drawings (Daniel Kebab's first sketch and Myra
   Oberlyn's berserker diagram): a Gumby slab of bright yellow leathery skin, head and body one piece with the top

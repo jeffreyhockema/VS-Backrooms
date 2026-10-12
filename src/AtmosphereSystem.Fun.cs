@@ -3,6 +3,7 @@ using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.MathTools;
 
 namespace Backrooms;
 
@@ -10,7 +11,8 @@ namespace Backrooms;
 /// Level Fun's air and sound on the client (kept as level 15). Its base fog is its entry in <see cref="Levels"/>: warm
 /// and a little dusty. Out on an open deck the night closes in, low fog lying over the black water. The sound is the
 /// hum of the lights, and under it, always, a party somewhere else: a tinny tune through two walls and a crowd's
-/// murmur. The rooms' own speakers (blocks) play their tune near by; on a deck there is only the wind.
+/// murmur. The rooms' own speakers (blocks) play their tune near by, and now and then one's tape catches; on a deck
+/// there is only the wind.
 /// </summary>
 public partial class AtmosphereSystem
 {
@@ -19,6 +21,8 @@ public partial class AtmosphereSystem
 
     private ILoadedSound funBed;
     private string funBedPlaying;
+    private float funSkipClock = 40;
+    private readonly BlockPos funProbe = new(0);
 
     /// <summary>
     /// Every tick while the player is in the level: swap <paramref name="target"/> for a part of the level with air of
@@ -39,6 +43,7 @@ public partial class AtmosphereSystem
     /// <summary>Every tick, wherever the player is (<paramref name="here"/>: in the level): start and stop the level's sounds.</summary>
     private void FunSounds(float dt, EntityPos pos, bool here)
     {
+        if (here) FunTapeSkip(dt, pos);
         string want = !here ? null : FunOnDeck(pos) ? "fun/deckwind" : "fun/partydistant";
         if (want == funBedPlaying) return;
         funBed?.Stop();
@@ -52,5 +57,26 @@ public partial class AtmosphereSystem
             DisposeOnFinish = false, Volume = want == "fun/deckwind" ? 0.5f : 0.3f, SoundType = EnumSoundType.Ambient,
         });
         funBed?.Start();
+    }
+
+    /// <summary>Now and then the nearest speaker's tape catches: the tune slurs down and stops with a clunk.</summary>
+    private void FunTapeSkip(float dt, EntityPos pos)
+    {
+        funSkipClock -= dt;
+        if (funSkipClock > 0) return;
+        funSkipClock = 50 + (float)rand.NextDouble() * 70;
+        int px = (int)Math.Floor(pos.X), py = (int)Math.Floor(pos.Y), pz = (int)Math.Floor(pos.Z);
+        double best = double.MaxValue;
+        Vec3d at = null;
+        for (int dy = -1; dy <= 4; dy++)
+            for (int dz = -10; dz <= 10; dz++)
+                for (int dx = -10; dx <= 10; dx++)
+                {
+                    Block block = capi.World.BlockAccessor.GetBlock(funProbe.Set(px + dx, py + dy, pz + dz));
+                    if (block.Code?.Domain != "backrooms" || !block.Code.Path.StartsWith("fun-speaker-on-")) continue;
+                    double d = dx * dx + dy * dy + dz * dz;
+                    if (d < best) { best = d; at = new Vec3d(px + dx + 0.5, py + dy + 0.5, pz + dz + 0.5); }
+                }
+        if (at != null) capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/fun/funtune-skip"), at.X, at.Y, at.Z, null, false, 16, 0.7f);
     }
 }

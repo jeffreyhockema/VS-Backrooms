@@ -26,6 +26,7 @@ namespace ShotBot;
 ///   pause off|on
 ///   focus                   brings the game window to the front
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
+///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
 ///   shot name               screenshot, moved to SHOTBOT_DIR/name.png
 ///   mega name               2x screenshot
@@ -321,6 +322,28 @@ public class ShotBotSystem : ModSystem, IRenderer
             {
                 IntPtr h = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
                 Log("focus: " + (h == IntPtr.Zero ? "no handle" : SetForegroundWindow(h).ToString()));
+                Wait(500);
+                break;
+            }
+            case "daylight":
+            {
+                // A clear day over whatever the level's own air says (Level 9's endless night, Level 10's overcast), for
+                // an alternative shot: added last at weight 1, it wins over the Backrooms' ambient modifiers
+                const string key = "shotbot-daylight";
+                capi.Ambient.CurrentModifiers.Remove(key);
+                if (p.Length < 2 || p[1] != "off")
+                {
+                    var day = new AmbientModifier().EnsurePopulated();
+                    day.FogColor = WeightedFloatArray.New(new[] { 0.80f, 0.86f, 0.95f }, 1);
+                    day.FogDensity = WeightedFloat.New(0.0012f, 1);
+                    day.FogMin = WeightedFloat.New(0, 1);
+                    day.FlatFogDensity = WeightedFloat.New(0, 1);
+                    day.FogBrightness = WeightedFloat.New(1, 1);
+                    day.SceneBrightness = WeightedFloat.New(1, 1);
+                    day.CloudBrightness = WeightedFloat.New(1, 1);
+                    day.CloudDensity = WeightedFloat.New(0.1f, 1);
+                    capi.Ambient.CurrentModifiers[key] = day;
+                }
                 Wait(500);
                 break;
             }

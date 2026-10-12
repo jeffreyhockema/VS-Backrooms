@@ -151,9 +151,6 @@ public partial class ThresholdSystem : ModSystem
     /// <summary>Whether using the threshold block at a position would take someone somewhere (rather than being locked, out of order or nowhere).</summary>
     public bool LeadsSomewhere(BlockPos pos, string kind) => network != null && network.Used(pos.X, pos.Z, kind, out _) != null;
 
-    /// <summary>How many thresholds have had their destination (or their way back) written down so far.</summary>
-    public int LinkCount => network?.Count ?? 0;
-
     // ================= Thresholds you use =================
 
     /// <summary>Called when a player uses a threshold block (an elevator, a door, a vent, a thin spot).</summary>
@@ -313,7 +310,7 @@ public partial class ThresholdSystem : ModSystem
             if (passage == null) continue;
             // Level 94's rusted gates open only at twilight; at any other hour they are only a gate
             if (passage.Twilight && !Regions.MotionSystem.IsTwilight(sapi.World.Calendar)) continue;
-            // The five kept as 14-18 may hold theirs shut for now
+            // The far places (ids 14-20) may hold theirs shut
             if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage))) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null));
@@ -391,7 +388,7 @@ public partial class ThresholdSystem : ModSystem
     }
 
     /// <summary>
-    /// Where someone going through a threshold is put down after all: the five kept as 14-18 may send them somewhere else
+    /// Where someone going through a threshold is put down after all: the far places (ids 14-20) may send them somewhere else
     /// than it leads, just before they arrive (what is written down in the network stays as it was).
     /// </summary>
     private Link Redirect(IServerPlayer player, Passage passage, Link destination) =>
@@ -461,7 +458,7 @@ public partial class ThresholdSystem : ModSystem
             busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + CooldownMs + 6000;
             Regions.MotionSystem.LandSoftly(player.Entity, sapi.World);
         }
-        // The five kept as 14-18 see to their own arrivals
+        // The far places (ids 14-20) see to their own arrivals
         switch (arrivalLevel)
         {
             case WorldLayout.RunLevel: RunArriving(player, link, ref drop); break;

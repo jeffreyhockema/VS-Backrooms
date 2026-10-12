@@ -7,6 +7,6 @@ static class Peek {
           _ => t.SupplyBox ? 'B' : t.Stack > 0 && t.Variant == 0 ? 'c' : t.Variant != 0 ? (t.Variant < 40 ? 'p' : 'P') : t.Stair > 0 ? 's' : '.' };
         line.Append(c); }
       Console.WriteLine(line + $"  z={z}"); }
-    Tile at = layout.TileAt(cx, cz); Console.WriteLine($"at {cx},{cz}: level {at.Level} kind {at.Kind} variant {at.Variant} stack {at.Stack} pattern {at.Pattern} floor {at.Floor} pier {at.Pier}");
+    Tile at = layout.TileAt(cx, cz); Console.WriteLine($"at {cx},{cz}: level {at.Level} kind {at.Kind} variant {at.Variant} stack {at.Stack} pattern {at.Pattern} floor {at.Floor} pier {at.Pier} height {at.Height} detail {at.Detail} zone {at.Zone} under {at.Under} chalk {at.Chalk} sealed {at.Sealed} stair {at.Stair}");
   }
 }

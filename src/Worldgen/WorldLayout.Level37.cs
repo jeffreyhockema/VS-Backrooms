@@ -110,7 +110,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The single roll for what the dry corridor of a Level 37 plan block (there is at most one to a block) gives way to
-    /// at its far end (docs/new-levels/LINKS.md): 15% Level !'s red corridor, 20% the Hub's asphalt, 65% office carpet
+    /// at its far end (docs/design/new-levels/LINKS.md): 15% Level !'s red corridor, 20% the Hub's asphalt, 65% office carpet
     /// as before. Its own salt, so nothing else in the block moves. Read this; never roll your own.
     /// </summary>
     public PoolCorridorEnd PoolCorridorEndKind(int bi, int bj)

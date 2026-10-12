@@ -2,7 +2,7 @@
   "type": "code",
   "modid": "shotbot",
   "name": "ShotBot (screenshot driver)",
-  "authors": ["icebu"],
+  "authors": ["eXception386"],
   "description": "Drives the client from a command file to take screenshots. Client side only.",
   "version": "0.1.0",
   "side": "client",

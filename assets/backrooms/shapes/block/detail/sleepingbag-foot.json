@@ -1,0 +1,163 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sleepingbag": "backrooms:block/detail/sleepingbag",
+		"sleepingbagzip": "backrooms:block/detail/sleepingbagzip"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2.5,
+				0,
+				0
+			],
+			"to": [
+				13.5,
+				1.8,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						15,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						15,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15
+					]
+				},
+				"down": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				3,
+				1.8,
+				0
+			],
+			"to": [
+				13,
+				2.4,
+				14.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5999999999999999
+					]
+				},
+				"south": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5999999999999999
+					]
+				},
+				"west": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.5999999999999999
+					]
+				},
+				"up": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						10,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#sleepingbag",
+					"uv": [
+						0,
+						0,
+						10,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Zip",
+			"from": [
+				13.5,
+				0.3,
+				0
+			],
+			"to": [
+				13.7,
+				1.7,
+				14.600000000000001
+			],
+			"faces": {
+				"east": {
+					"texture": "#sleepingbagzip",
+					"uv": [
+						0,
+						0,
+						14.600000000000001,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#sleepingbagzip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.600000000000001
+					]
+				}
+			}
+		}
+	]
+}

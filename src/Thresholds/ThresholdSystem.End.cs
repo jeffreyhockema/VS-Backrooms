@@ -4,7 +4,7 @@ namespace Backrooms.Thresholds;
 
 /// <summary>
 /// What happens round The End's thresholds in the game (kept as level 16). This file is the level's own; see
-/// docs/new-levels/CONTRACT.md. <see cref="Regions.EndSystem"/> sends people through the thresholds that are not blocks
+/// docs/design/new-levels/CONTRACT.md. <see cref="Regions.EndSystem"/> sends people through the thresholds that are not blocks
 /// or tiles (a "=)" computer, a wall during a distortion) by <see cref="EndCarry"/>.
 /// </summary>
 public partial class ThresholdSystem

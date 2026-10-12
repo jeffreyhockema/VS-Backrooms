@@ -16,7 +16,7 @@ from detail_kit import bx, turn, shift  # noqa: E402,F401
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
-GAME = os.path.join(os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory"), "assets")
+GAME = os.path.join(os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory")), "assets")
 SRC = os.path.join(ROOT, "src")
 
 SIDES = ["north", "east", "south", "west"]

@@ -9,7 +9,7 @@ using Vintagestory.API.Server;
 namespace Backrooms.Notes;
 
 /// <summary>
-/// Where notes come from besides the block types' own drops (docs/notes-plan.md, section 6):
+/// Where notes come from besides the block types' own drops (docs/design/notes-plan.md, section 6):
 /// <list type="bullet">
 /// <item><b>More ordinary notes in Levels 0 and 1</b> (about double), and a few more from desks, bedrolls, runners'
 /// remains and The End's desks everywhere.</item>
@@ -35,6 +35,8 @@ public partial class NoteSystem
         ("backpack", 0, 0, 0.08),
         ("bedroll", 0, 0.03, 0.04),
         ("tent", 0, 0, 0.04),
+        ("sleepingbag", 0, 0.03, 0.04),
+        ("camptent", 0, 0, 0.04),
         ("filingcabinet", 0, 0.01, 0.01),
         ("writingdesk", 0, 0.01, 0.01),
         ("desk", 0, 0.02, 0.01),

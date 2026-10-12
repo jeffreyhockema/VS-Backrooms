@@ -24,7 +24,6 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldLayout
 {
-    private const int L3Grid = 8;
     private const int L3Lane = 3; // lanes occupy offsets 3 and 4 of each lattice period
 
     private const ulong SaltL3Material = 0x3C01;

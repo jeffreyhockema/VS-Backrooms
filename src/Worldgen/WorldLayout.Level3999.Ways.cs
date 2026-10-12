@@ -4,7 +4,7 @@ namespace Backrooms.Worldgen;
 
 /// <summary>
 /// Level 3999's ways in, laid out in the levels they stand in, each over the top with a salt of its own so nothing else
-/// there moves (this file is the level's own; see docs/new-levels/CONTRACT.md):
+/// there moves (this file is the level's own; see docs/design/new-levels/CONTRACT.md):
 /// <list type="bullet">
 /// <item><b>Level 10</b>: a lone arcade building ("PARADISE" in neon, dark glass, a revolving door) with a little car park
 /// under sodium lamps, and a chain of five windmills leading to it across the fields, one every 120 blocks from 140 out to 620,

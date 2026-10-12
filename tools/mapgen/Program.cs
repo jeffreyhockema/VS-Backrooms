@@ -62,6 +62,7 @@ if (args.Length > 2 && args[2] == "bands") { Bands.Run(layout, smx, smz, args); 
 if (args.Length > 2 && args[2] == "loot") { Loot.Run(layout, smx, smz, n, args.Length > 3 ? int.Parse(args[3]) : 3); return; }
 if (args.Length > 2 && args[2] == "chalk") { ChalkStats.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "dens") { DenStats.Run(layout, smx, smz, n); return; }
+if (args.Length > 2 && args[2] == "parts") { PartsStats.Run(layout, m0x + n / 2, m0z + n / 2, n / 2); return; }
 if (args.Length > 2 && args[2] == "gates") { Gates.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "lorespots") { LoreSpots.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "l9houses") { L9Houses.Run(layout, n); return; }

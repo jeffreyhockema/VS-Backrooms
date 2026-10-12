@@ -15,7 +15,7 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private int endRunwayId, endSoffitId, endPendantId, endSnowId, endExitSignDeadId;
+    private int endRunwayId, endSoffitId, endPendantId, endSnowId;
     private readonly int[] endCarpetIds = new int[5], endConcreteIds = new int[3], endWallIds = new int[8], endColumnIds = new int[3],
         endCeilingIds = new int[3], endTrofferIds = new int[4], endDeckIds = new int[2], endExitDoorIds = new int[2], endStaffDoorIds = new int[2],
         endStoreDoorIds = new int[2], endRubbleIds = new int[2], endTreeIds = new int[2], endRailingIds = new int[4], endVentIds = new int[4],
@@ -98,7 +98,6 @@ public sealed partial class WorldGenerator
             endExitSignIds[f] = EndBlock($"end-exitsign-lit-{side}", endWallIds[4]);
             endHangSignIds[f] = EndBlock($"end-hangsign-{side}", 0);
         }
-        endExitSignDeadId = EndBlock("end-exitsign-dead-north", endWallIds[4]);
         for (int k = 0; k < 2; k++) endEndcapIds[k, 0] = EndBlock($"end-endcap-{(k == 0 ? "plain" : "tagged")}-lower", 0);
         for (int k = 0; k < 2; k++) endEndcapIds[k, 1] = EndBlock($"end-endcap-{(k == 0 ? "plain" : "tagged")}-upper", 0);
         endExitDoorIds[0] = EndBlock("end-exitdoor-lower", metalDoorLowerId);

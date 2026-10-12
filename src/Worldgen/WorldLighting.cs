@@ -43,7 +43,6 @@ public sealed class WorldLighting
     private readonly Dictionary<(int, int, int), CellLight> cellCache = new();
     private readonly Queue<(int, int, int)> cellOrder = new();
 
-    private readonly ICoreServerAPI api;
     private readonly WorldGenerator generator;
     private readonly int chunkSize;
     private readonly int width;
@@ -67,7 +66,6 @@ public sealed class WorldLighting
 
     public WorldLighting(ICoreServerAPI api, WorldGenerator generator, int chunkSize)
     {
-        this.api = api;
         this.generator = generator;
         this.chunkSize = chunkSize;
         IList<Block> blocks = api.World.Blocks;

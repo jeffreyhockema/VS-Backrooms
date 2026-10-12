@@ -516,8 +516,6 @@ def lights():
     save(soft(noisy((255, 246, 224), 2, "lens"), "lenss", 2), "lens-on")
     save(noisy((176, 176, 172), 3, "lensoff"), "lens-off")
     save(noisy((206, 210, 214), 4, "chrome"), "chrome")
-    img = noisy((96, 220, 120), 4, "bulkhead")
-    save(img, "bulkhead-on")
 
 
 # ================================================================ Windows
@@ -777,10 +775,10 @@ def scene_materials():
         "sc-pipe": ((110, 82, 64), 6), "sc-pipe2": ((90, 96, 100), 5), "sc-dark": ((40, 38, 36), 4),
         "sc-office": ((200, 198, 188), 3), "sc-officecarpet": ((118, 120, 128), 6), "sc-desk": ((140, 118, 92), 4),
         "sc-monitor": ((30, 30, 32), 3), "sc-hotelred": ((120, 32, 34), 4), "sc-gold": ((206, 170, 90), 6),
-        "sc-door": ((60, 30, 22), 4), "sc-night": ((14, 16, 26), 3), "sc-post": ((210, 206, 196), 4),
+        "sc-night": ((14, 16, 26), 3), "sc-post": ((210, 206, 196), 4),
         "sc-porchlamp": ((255, 220, 150), 2), "sc-tile": ((230, 236, 238), 3), "sc-water": ((90, 180, 200), 8),
         "sc-hill": ((96, 176, 70), 6), "sc-shelf": ((110, 82, 58), 5), "sc-black": ((4, 4, 5), 1),
-        "sc-courtnight": ((10, 12, 16), 2), "sc-skyblue": ((140, 190, 240), 3), "sc-grassnight": ((22, 32, 22), 4), "sc-decknight": ((40, 32, 24), 4),
+        "sc-courtnight": ((10, 12, 16), 2), "sc-skyblue": ((140, 190, 240), 3), "sc-grassnight": ((22, 32, 22), 4),
     }
     for k, (c, n) in mats.items():
         save(soft(noisy(c, n, k), k + "s", n * 0.6), k)
@@ -896,21 +894,20 @@ def props():
         "shade-on": ((255, 236, 196), 2), "screen-off": ((16, 18, 20), 2), "chairfabric": ((70, 72, 76), 4),
         "teal": ((46, 116, 118), 5), "robe": ((210, 210, 206), 4), "safe": ((60, 62, 64), 3),
         "iron-white": ((230, 230, 228), 2), "fridge": ((26, 26, 28), 2), "bottle-green": ((60, 120, 70), 6),
-        "bottle-amber": ((180, 120, 50), 6), "label": ((236, 230, 210), 3), "strap": ((56, 58, 64), 3),
+        "strap": ((56, 58, 64), 3),
         "frosted": ((226, 232, 234), 2), "frame-white": ((246, 246, 244), 2), "porcelain": ((244, 244, 242), 2),
         "mirror": ((170, 186, 196), 6), "cartgrey": ((96, 100, 104), 4), "towel": ((246, 246, 244), 3),
         "linenbag": ((200, 196, 186), 5), "bottle-blue": ((70, 120, 180), 6), "mophead": ((190, 186, 172), 8),
         "fascia": (FASCIA, 4), "desktop": ((232, 230, 224), 2), "backlit": ((255, 240, 210), 2),
         "pigeon": ((150, 132, 108), 4), "cardwhite": ((244, 244, 240), 2), "loungefabric": ((92, 96, 104), 5),
-        "tabletop": ((226, 222, 214), 2), "cereal": ((214, 168, 80), 14), "tube": ((220, 230, 234), 2),
+        "tabletop": ((226, 222, 214), 2), "cereal": ((214, 168, 80), 14),
         "juice": ((236, 140, 40), 6), "drumclear": ((200, 210, 214), 2), "downpipe": ((112, 116, 118), 3),
         "bracket": ((80, 82, 84), 3), "puddle": ((14, 18, 22), 3), "bollard": ((52, 54, 58), 3),
         "bollardlight": ((255, 236, 200), 2), "benchwood": (DECK, 5), "concrete-leg": ((150, 148, 142), 6),
         "vent": ((138, 142, 144), 4), "ink": ((20, 20, 22), 2), "white": ((246, 246, 244), 2),
         "drain": ((40, 40, 42), 4), "black": ((8, 8, 9), 1), "rubber": ((34, 34, 36), 3),
-        "confetti-paper": ((240, 236, 226), 3), "balloon-red": ((214, 44, 50), 6), "string": ((236, 232, 222), 2),
-        "woodwhite": ((240, 238, 232), 3), "sash": ((248, 246, 240), 2), "blindwarm": ((236, 224, 200), 3),
-        "nightblue": ((70, 90, 130), 4),
+        "balloon-red": ((214, 44, 50), 6), "string": ((236, 232, 222), 2),
+        "woodwhite": ((240, 238, 232), 3), "sash": ((248, 246, 240), 2),
     }
     for k, (c, n) in mats.items():
         save(noisy(c, n, k), k)
@@ -923,8 +920,6 @@ def props():
     for i, c in enumerate(((60, 120, 70), (180, 120, 50), (236, 230, 210), (70, 120, 180))):
         d.rectangle([4 + i * 7, 10, 8 + i * 7, 26], fill=c + (255,))
     save(img, "minibar-door")
-    img = noisy((40, 42, 46), 2, "tvsnow")
-    save(img, "tv")
     img = noisy((40, 40, 42), 6, "grate")
     d = ImageDraw.Draw(img)
     for x in range(2, S, 4):

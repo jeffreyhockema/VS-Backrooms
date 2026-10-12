@@ -36,7 +36,6 @@ public readonly struct WorldGeometry
     public readonly int FloorY;
     /// <summary>Ceiling of Level 0 and Level 2.</summary>
     public readonly int CeilingY;
-    public readonly int Level1CeilingY;
     public readonly int CapY;
     /// <summary>The highest block of the world.</summary>
     public readonly int TopY;
@@ -138,15 +137,11 @@ public readonly struct WorldGeometry
     /// <summary>Highest block that can differ from solid concrete (just under the mantle cap).</summary>
     public int BandTop => CapY - 1;
 
-    /// <summary>Height at which the map samples whether a column blocks sight (head height).</summary>
-    public int EyeY => FloorY + 2;
-
     public WorldGeometry(int mapSizeY)
     {
         // Level 0 sits near the top of the world, leaving everything below free for deeper levels later
         FloorY = mapSizeY - 40;
         CeilingY = FloorY + RoomHeight + 1;
-        Level1CeilingY = FloorY + Level1RoomHeight + 1;
         CapY = CeilingY + CrawlspaceHeight + SlabThickness + 1;
         TopY = mapSizeY - 1;
     }

@@ -13,7 +13,7 @@ namespace Backrooms.Worldgen;
 /// The plan is fixed, as the canon has it ("nearly identical homes"): 19 by 17 with its outer walls, one storey with
 /// four blocks of air under the ceiling (Kitty is 3.2 m tall). A living room and a kitchen-diner on one side of a hall
 /// two wide, a bedroom (the bed in an alcove under a sloping ceiling), two bathrooms and the master bedroom (empty but
-/// for the cat bed) on the other. See docs/new-levels/974-plan.md, section 3.2.
+/// for the cat bed) on the other. See docs/design/new-levels/974-plan.md, section 3.2.
 ///
 /// Tiles of a house: <see cref="Tile.Zone"/> is the room (<see cref="L974Room"/>); a floor tile's
 /// <see cref="Tile.Variant"/> is the prop on it (<see cref="Props.L974Bed"/> ...) facing <see cref="Tile.Pier"/>;
@@ -52,18 +52,7 @@ public sealed partial class WorldLayout
     /// <summary>The region's radius in macro cells (one house to a cell, so thousands of houses).</summary>
     private int L974Radius => Math.Max(60, spawnMacroX / 40);
 
-    /// <summary>The block the level's plans count from.</summary>
-    public int L974OriginX => L974CentreX * MacroSize;
-    public int L974OriginZ => L974CentreZ * MacroSize;
-
     private bool InL974(double mx, double mz) => InRoundRegion(mx, mz, L974CentreX, L974CentreZ, L974Radius, SaltL974Shape);
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachL974(int x0, int z0, int size)
-    {
-        double dx = (x0 + size / 2.0) / MacroSize - L974CentreX, dz = (z0 + size / 2.0) / MacroSize - L974CentreZ;
-        return Math.Sqrt(dx * dx + dz * dz) < L974Radius * 1.2 + size / (double)MacroSize;
-    }
 
     /// <summary>A cell to look for a house in, picked by hash (somewhere toward the middle of the region).</summary>
     private (int Mx, int Mz) L974ArrivalCell(ulong h) => RoundArrivalCell(h, L974CentreX, L974CentreZ, L974Radius);

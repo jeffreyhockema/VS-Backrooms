@@ -61,5 +61,8 @@
 			}
 		]
 	},
-	"sounds": {}
+	"sounds": {
+		"idle": "backrooms:ambient/fun/hostbreath"
+	},
+	"idleSoundChance": 0.2
 }

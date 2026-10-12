@@ -2,7 +2,7 @@
 import os, random, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
 
-REPO = r"C:\Users\icebu\Documents\~Projects\VS Backrooms"
+REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 SRC = os.path.join(REPO, "docs", "screenshots", "01-level0-where-you-wake.png")
 OUT = os.path.join(REPO, "docs", "cover")
 os.makedirs(OUT, exist_ok=True)

@@ -1,4 +1,4 @@
-"""Level 974: Kitty, the house's one resident (docs/new-levels/974-plan.md section 4.5). Called from gen_974.py.
+"""Level 974: Kitty, the house's one resident (docs/design/new-levels/974-plan.md section 4.5). Called from gen_974.py.
 
 3.2 m tall (51 model px), faceless, matt black like mosou fabric, its long limbs ending in points: no hands, no feet.
 A silhouette before anything else (checked against Wikidot's photo, newkitty.jpg): a small egg-shaped head carried

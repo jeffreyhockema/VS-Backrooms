@@ -2,7 +2,7 @@ using Backrooms.Worldgen;
 static class EdgeDoors {
   static WorldLayout layout; static Dictionary<(int,int), Tile[]> cache = new();
   static Tile At(int x, int z) { int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z); if (!cache.TryGetValue((mx,mz), out var t)) cache[(mx,mz)] = t = layout.BuildMacro(mx,mz); return t[WorldLayout.TileIndex(x-mx*32, z-mz*32)]; }
-  static bool W(Tile t) { if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true; if (t.Kind != TileKind.Floor) return false; if (t.Stack > 0 && t.Variant == 0) return false; return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll; }
+  static bool W(Tile t) { if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true; if (t.Kind != TileKind.Floor) return false; if (t.Stack > 0 && t.Variant == 0) return false; return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag; }
   public static void Run(WorldLayout l, int m0x, int m0z, int n) {
     layout = l; var tot = new Dictionary<string,int>(); var bad = new Dictionary<string,int>(); var both = new Dictionary<string,int>(); var ex = new Dictionary<string,string>();
     for (int z = m0z*32+32; z < (m0z+n)*32-32; z++) for (int x = m0x*32+32; x < (m0x+n)*32-32; x++) {

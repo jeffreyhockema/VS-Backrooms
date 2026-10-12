@@ -422,7 +422,6 @@ def misc():
     save(img, "coindoor")
     save(noisy((210, 30, 30), 6, "joyball"), "joyball")
     save(noisy((20, 20, 22), 3, "stick"), "stick")
-    save(noisy((10, 10, 12), 2, "screen-dark"), "screen-dark")
     # Rusted cabinet: corroded paint, a dark screen with dead pixels, the marquee peeling
     img = noisy((110, 56, 30), 14, "cab-rust-side", 24, 56)
     rng = random.Random(4)

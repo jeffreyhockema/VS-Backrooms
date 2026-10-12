@@ -117,9 +117,6 @@ public static class Senses
     /// <summary>Whether a player is running (sprinting while moving).</summary>
     public static bool Running(EntityAgent player) => player.ServerControls.Sprint && player.ServerControls.TriesToMove;
 
-    /// <summary>Whether a player is standing still.</summary>
-    public static bool StandingStill(EntityAgent player) => !player.ServerControls.TriesToMove;
-
     /// <summary>A player's Reality Stability (1 is steady, 0 is coming apart).</summary>
     public static double Stability(Entity player) => player.WatchedAttributes.GetDouble("temporalStability", 1);
 

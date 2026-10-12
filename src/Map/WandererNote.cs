@@ -8,7 +8,7 @@ namespace Backrooms.Map;
 
 /// <summary>
 /// Registers the wanderer's note. What a note says and marks is decided by <see cref="NoteSystem"/> when it is read
-/// (docs/notes-plan.md): its kind is only the paper, and decides what it marks on the map.
+/// (docs/design/notes-plan.md): its kind is only the paper, and decides what it marks on the map.
 /// </summary>
 public class WayfindingSystem : ModSystem
 {

@@ -245,15 +245,6 @@ public class MenaceSystem : ModSystem
         watch.Noise = Math.Min(1, watch.Noise + amount);
     }
 
-    /// <summary>The menace band of a place, for entities deciding whether they may go there.</summary>
-    public MenaceBand BandAt(Vec3d pos)
-    {
-        if (layout == null) return MenaceBand.Safe;
-        var probe = new Assessment();
-        Rate(probe, (int)Math.Floor(pos.X), pos.Y, (int)Math.Floor(pos.Z));
-        return probe.Band;
-    }
-
     private void Assess(Entity target, Watch watch)
     {
         Assessment a = watch.Now;

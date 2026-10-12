@@ -425,10 +425,11 @@ PLANT = {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game
 def glowcap(name, x, z, stem, cap_w, cap, glow=150, lean=0):
     """One mushroom: a pale stem, a cap that glows, a skirt of gills under it."""
     r = cap_w / 2
+    g = max(r - 0.4, 0.5)  # the gills' half width: always wider than the stem, so their sides never lie in its sides
     rot = (lean, 0, lean / 2) if lean else None
     return [bx(name + "Stem", (x - 0.4, 0, z - 0.4), (x + 0.4, stem, z + 0.4), "glowstem", rot=rot, origin=(x, 0, z)),
             bx(name + "Cap", (x - r, stem, z - r), (x + r, stem + max(1, cap_w / 3.2), z + r), cap, glow=glow, rot=rot, origin=(x, 0, z)),
-            bx(name + "Gills", (x - r + 0.4, stem - 0.5, z - r + 0.4), (x + r - 0.4, stem, z + r - 0.4), cap, glow=glow // 2,
+            bx(name + "Gills", (x - g, stem - 0.5, z - g), (x + g, stem, z + g), cap, glow=glow // 2,
                faces=("down", "north", "south", "east", "west"), rot=rot, origin=(x, 0, z))]
 
 

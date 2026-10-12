@@ -126,7 +126,7 @@ public sealed class NoteResolution
 }
 
 /// <summary>
-/// Decides what a note says when read (docs/notes-plan.md, section 3). Pure: no game dependencies, so the layout
+/// Decides what a note says when read (docs/design/notes-plan.md, section 3). Pure: no game dependencies, so the layout
 /// harness simulates players with it.
 /// <list type="bullet">
 /// <item>A folded (rare) note: the next due entry of the rare track of the level it is read in, else of "rare-any",

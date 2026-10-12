@@ -105,7 +105,6 @@ public class RunSystem : ModSystem
     public override void Start(ICoreAPI api)
     {
         api.RegisterItemClass("BackroomsEnergyBar", typeof(ItemEnergyBar));
-        api.RegisterBlockBehaviorClass("BackroomsRunDoor", typeof(BlockBehaviorRunDoor));
         api.RegisterBlockEntityClass("BackroomsRunBeacon", typeof(BlockEntityRunBeacon));
         api.RegisterBlockEntityClass("RunBeacon", typeof(BlockEntityRunBeacon));
     }
@@ -504,9 +503,34 @@ public class RunSystem : ModSystem
     {
         Vec3d to = Along(run, s, lateral, up);
         Vec3d ahead = Along(run, s + 1, lateral, up);
+        if (up == 0) to = OverObstacles(run, to);
         e.Pos.SetPos(to);
         e.Pos.Yaw = (float)Math.Atan2(ahead.X - to.X, ahead.Z - to.Z);
         e.Pos.Motion.Set(0, 0, 0);
+    }
+
+    /// <summary>
+    /// Where one of the horde puts its feet: round what it can't get over (to the nearest clear column of the hall, as a
+    /// runner goes round a barricade), and up onto what it can (over a gurney as a runner jumps it). The front itself is a
+    /// number and never held up; this only keeps the horde you see from wading through the furniture.
+    /// </summary>
+    private Vec3d OverObstacles(Run run, Vec3d at)
+    {
+        var (lx, lz) = layout.RunLocal(run.Lane, (int)Math.Floor(at.X), (int)Math.Floor(at.Z));
+        if (!run.Plan.In(lx, lz)) return at;
+        Tile here = run.Plan.At(lx, lz);
+        int hurdle = WorldLayout.RunHurdle(here);
+        for (int d = 1; d <= 4 && hurdle == 2 && here.Kind == TileKind.Floor; d++)
+            foreach (int dx in new[] { -d, d })
+            {
+                if (!run.Plan.In(lx + dx, lz)) continue;
+                Tile side = run.Plan.At(lx + dx, lz);
+                if (side.Zone != here.Zone || WorldLayout.RunHurdle(side) == 2) continue;
+                at = new Vec3d(at.X + dx, at.Y, at.Z);
+                hurdle = WorldLayout.RunHurdle(side);
+                break;
+            }
+        return hurdle == 1 ? new Vec3d(at.X, at.Y + 1, at.Z) : at;
     }
 
     /// <summary>Switches an entity's own mind off: it goes where it is put, running.</summary>
@@ -889,17 +913,6 @@ public class RunSystem : ModSystem
         entity.Stats.Remove("walkspeed", WindStat);
         entity.Attributes.RemoveAttribute(SecondWindKey);
     }
-
-    // ================= Commands =================
-
-    /// <summary>What a player's run looks like now (for /backrooms run).</summary>
-    public string Describe(IServerPlayer player)
-    {
-        if (!runs.TryGetValue(player.PlayerUID, out Run run)) return HasRanOut(player.Entity) ? "No run (escaped once already)" : "No run";
-        var c = run.Chase;
-        return $"Lane {run.Lane}, at {run.P:0} of {run.Plan.ExitS}, front {c.Front:0.0} (gap {c.Gap(run.P):0.0}), " +
-            $"{(c.Loose ? "loose" : $"behind the door ({c.Elapsed:0.0} s)")}, sprint {c.Sprint:0.00}, exit to {WorldLayout.DisplayNumber(run.Plan.Destination)}";
-    }
 }
 
 /// <summary>An Energy Bar: food, and a second wind for half a minute.</summary>
@@ -914,30 +927,6 @@ public class ItemEnergyBar : Item
     }
 }
 
-/// <summary>Level !'s doors that are not ways anywhere: the stuck hall door, the chained door, side doors, the false exits.</summary>
-public class BlockBehaviorRunDoor : BlockBehavior
-{
-    private string kind = "runlocked";
-
-    public BlockBehaviorRunDoor(Block block) : base(block)
-    {
-    }
-
-    public override void Initialize(JsonObject properties)
-    {
-        base.Initialize(properties);
-        kind = properties?["kind"].AsString("runlocked") ?? "runlocked";
-    }
-
-    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
-    {
-        handling = EnumHandling.PreventDefault;
-        if (world.Api is ICoreServerAPI sapi && byPlayer is IServerPlayer player)
-            sapi.ModLoader.GetModSystem<RunSystem>()?.UseDoor(player, blockSel.Position, kind);
-        return true;
-    }
-}
-
 /// <summary>
 /// An emergency beacon on a wall of Level !: dark, until the alarm goes; then it flashes red once a second (a quarter of
 /// a second on). Glow only: real light changing several times a second would be far too costly, as with failing lights.
@@ -945,13 +934,12 @@ public class BlockBehaviorRunDoor : BlockBehavior
 public class BlockEntityRunBeacon : BlockEntity
 {
     private bool lit;
-    private long listener;
     private MeshData offMesh;
 
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        if (api is ICoreClientAPI capi) listener = RegisterGameTickListener(_ => Pulse(capi), 50);
+        if (api is ICoreClientAPI capi) RegisterGameTickListener(_ => Pulse(capi), 50);
     }
 
     private void Pulse(ICoreClientAPI capi)

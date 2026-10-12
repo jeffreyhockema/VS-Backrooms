@@ -1,4 +1,4 @@
-"""Level 188, the Courtyard of Windows (tag `188`, id 20, blocks `l188-`): every asset of docs/new-levels/188-plan.md
+"""Level 188, the Courtyard of Windows (tag `188`, id 20, blocks `l188-`): every asset of docs/design/new-levels/188-plan.md
 section 4, as amended by the plan's "Manifest changes (phase 2)" (which wins where they differ).
 
     bash tools/locked.sh run python tools/gen_188.py [tex] [blocks] [models] [sounds] [lang]   (no argument: all)
@@ -148,7 +148,7 @@ def structure():
     # ---- Sill under every courtyard window (rel 4s+1): render below, a concrete sill projecting toward the side
     def sill(v):
         return [cube("cladding-plain", {"south": "wall-room"}),
-                bx("Sill", (-0.2, 14.6, -2), (16.2, 16, 1), "sillstone", faces=("north", "up", "down", "east", "west")),
+                bx("Sill", (-0.2, 14.6, -2), (16.2, 16.03, 1), "sillstone", faces=("north", "up", "down", "east", "west")),
                 bx("Drip", (-0.2, 14, -2), (16.2, 14.6, -1.3), "sillstone", faces=("north", "down", "east", "west", "south"))]
 
     vblock("l188-sill", "Window Sill", [("side", SIDES)], sill, box=(0, 0, 0, 1, 1, 1), data=dict(OPAQUE_JSON, **FIXED),
@@ -786,7 +786,7 @@ def lang():
 
 # ======================================================================== Check
 
-GAME = os.path.join(os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory"), "assets")
+GAME = os.path.join(os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory")), "assets")
 
 
 def asset_exists(kind, path, ext):

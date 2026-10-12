@@ -1,4 +1,4 @@
-"""Level 974, Kitty's House: every asset (docs/new-levels/974-plan.md section 5).
+"""Level 974, Kitty's House: every asset (docs/design/new-levels/974-plan.md section 5).
 
     bash tools/locked.sh run python tools/gen_974.py
 
@@ -548,7 +548,7 @@ def furniture():
             els += [bx("RailL", (0.6, 3, 0), (1.6, 6, 14.4), "trim"), bx("RailR", (14.4, 3, 0), (15.4, 6, 14.4), "trim"),
                     bx("Mattress", (1.6, 5, 0), (14.4, 9, 14.4), "mattress"),
                     bx("Duvet", (0.8, 9, 0), (15.2, 10, 7.2), cov),
-                    bx("DrapeL", (0.6, 5.6, 0), (1.0, 10, 7.2), cov), bx("DrapeR", (15.0, 5.6, 0), (15.4, 10, 7.2), cov),
+                    bx("DrapeL", (0.55, 5.6, 0), (1.0, 10, 7.2), cov), bx("DrapeR", (15.0, 5.6, 0), (15.45, 10, 7.2), cov),
                     bx("Fold", (0.9, 10, 6.0), (15.1, 11.2, 8.4), cov),
                     bx("PillowL", (1.8, 9, 9.2), (7.6, 11.8, 14.2), "pillow"), bx("PillowR", (8.4, 9, 9.2), (14.2, 11.8, 14.2), "pillow")]
             els += scale_els(plush("cat", "grey"), 0.55, at=(4.6, 10.6, 11.0))
@@ -563,7 +563,7 @@ def furniture():
             els += [bx("RailL", (0.6, 3, 1.6), (1.6, 6, 16), "trim"), bx("RailR", (14.4, 3, 1.6), (15.4, 6, 16), "trim"),
                     bx("Mattress", (1.6, 5, 1.6), (14.4, 9, 16), "mattress"),
                     bx("Duvet", (0.8, 9, 1.4), (15.2, 10, 16), cov),
-                    bx("DrapeL", (0.6, 5.6, 1.6), (1.0, 10, 16), cov), bx("DrapeR", (15.0, 5.6, 1.6), (15.4, 10, 16), cov),
+                    bx("DrapeL", (0.55, 5.6, 1.6), (1.0, 10, 16), cov), bx("DrapeR", (15.0, 5.6, 1.6), (15.45, 10, 16), cov),
                     bx("DrapeF", (1.0, 5.6, 1.4), (15.0, 10, 1.8), cov)]
             els += scale_els(plush("bear", "bear"), 0.5, at=(11.0, 10.0, 5.0), roty=25)
         return els

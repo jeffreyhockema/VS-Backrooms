@@ -11,7 +11,6 @@ namespace Backrooms.Notes;
 public class GuiDialogNote : GuiDialog
 {
     private const double Width = 440, TextHeight = 300;
-    private readonly NoteSystem notes;
 
     public override string ToggleKeyCombinationCode => null;
 
@@ -19,7 +18,6 @@ public class GuiDialogNote : GuiDialog
 
     public GuiDialogNote(ICoreClientAPI capi, NoteSystem notes, NoteRead read) : base(capi)
     {
-        this.notes = notes;
         string vtml = notes.NoteVtml(read, 0);
         ElementBounds textBounds = ElementBounds.Fixed(0, GuiStyle.TitleBarHeight + 4, Width, TextHeight);
         ElementBounds clipBounds = textBounds.ForkBoundingParent();

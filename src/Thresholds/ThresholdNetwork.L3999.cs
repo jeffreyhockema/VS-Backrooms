@@ -5,7 +5,7 @@ namespace Backrooms.Thresholds;
 
 /// <summary>
 /// Level 3999, "The Neon Paradise"'s thresholds (kept as level 19): the ways out of it, and the ways into it from other
-/// levels (docs/new-levels/3999-plan.md, as the user directed: ordinary thresholds, no ending). Walked through, two-way;
+/// levels (docs/design/new-levels/3999-plan.md, as the user directed: ordinary thresholds, no ending). Walked through, two-way;
 /// fell, dived or taken, one-way. Salts 0x19C0-0x19FF.
 ///
 /// In: the lone arcade's revolving door in Level 10, at the end of a chain of red-lit windmills (two-way, with a lobby's

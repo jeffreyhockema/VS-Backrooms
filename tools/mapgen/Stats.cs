@@ -2,7 +2,7 @@ using System.Reflection;
 using Backrooms.Worldgen;
 static class Stats {
   public static void Run(WorldLayout l, int m0x, int m0z, int n) {
-    int corr = 0, corrSealed = 0, doors = 0, locked = 0, l4Door = 0, l4Locked = 0, l5RoomOpen = 0, l5RoomEmpty = 0, l5Wood = 0, l5Room = 0, liftModern = 0, liftCage = 0, staff = 0;
+    int corr = 0, corrSealed = 0, doors = 0, locked = 0, liftModern = 0, liftCage = 0, staff = 0;
     var cellsSealedCorr = new HashSet<(int,int)>();
     for (int mz = m0z; mz < m0z + n; mz++) for (int mx = m0x; mx < m0x + n; mx++) {
       var tiles = l.BuildMacro(mx, mz);

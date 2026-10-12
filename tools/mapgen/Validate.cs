@@ -8,7 +8,7 @@ static class Validator
         if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true;
         if (t.Kind != TileKind.Floor) return false;
         if (t.Stack > 0 && t.Variant == 0) return false; // crates
-        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
             // (Level Fun's confetti and a tied balloon have no collision: in a Level 1 stair core they lie at the foot of its flight up)
             or Props.FunConfetti or Props.FunBalloonTied
             // (nor have Level 8's glowcaps)

@@ -34,7 +34,7 @@ public static class L188
 }
 
 /// <summary>
-/// Level 188, "The Courtyard of Windows": the rules (docs/new-levels/188-plan.md, 3.4-3.8).
+/// Level 188, "The Courtyard of Windows": the rules (docs/design/new-levels/188-plan.md, 3.4-3.8).
 /// <list type="bullet">
 /// <item><b>The windows.</b> Every courtyard window's state is the world's (<see cref="WorldLayout.L188StateAt"/>): blinds
 /// down, glowing, up on a dark or a lit room, changing every day or so; a predatory one (Entity 2), about one room in
@@ -380,12 +380,13 @@ public class L188System : ModSystem
         if (path.StartsWith("l188-outerwindow-"))
         {
             // Only a blind onto nothing
+            bool raising = path.Contains("-closed-");
             foreach (var at in WindowBlocks(pos, "l188-outerwindow-"))
             {
                 string p = sapi.World.BlockAccessor.GetBlock(at).Code.Path;
-                Set(at, path.Contains("-closed-") ? p.Replace("-closed-", "-open-") : p.Replace("-open-", "-closed-"));
+                Set(at, raising ? p.Replace("-closed-", "-open-") : p.Replace("-open-", "-closed-"));
             }
-            Play("backrooms:sounds/effect/188/blindup", pos);
+            Play(raising ? "backrooms:sounds/effect/188/blindup" : "backrooms:sounds/effect/188/blinddown", pos);
             return;
         }
         int bx = pos.X - layout.L188BuildX0, bz = pos.Z - layout.L188BuildZ0;

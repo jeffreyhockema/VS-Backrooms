@@ -18,7 +18,7 @@ using Vintagestory.GameContent;
 namespace Backrooms.Regions;
 
 /// <summary>
-/// What The End does to you (kept as level 16; docs/new-levels/end-plan.md):
+/// What The End does to you (kept as level 16; docs/design/new-levels/end-plan.md):
 /// <list type="bullet">
 /// <item>its computers: one use each, a buzz, THE END in white, static, dead for good; before it dies it shows you the
 /// nearest ways out (marked on your map). One in four says "=)" instead, and you are taken to Level Fun;</item>
@@ -311,6 +311,7 @@ public class EndSystem : ModSystem
         int floor = geometry.FloorFor(WorldLayout.TheEnd);
         string side = facing == ArchPier.East ? "east" : "west";
         string[] parts = { "base", "mid1", "mid2", "crown" };
+        int placed = 0;
         for (int dz = -3; dz <= 3; dz++)
         {
             if (layout.TileAt(x, z + dz).Under != Unders.EndLoop) continue;
@@ -323,8 +324,11 @@ public class EndSystem : ModSystem
                 if (block == null || block.BlockId == 0) continue;
                 blocks.SetBlock(block.BlockId, pos);
                 turnarounds.Add((pos.X, pos.Y, pos.Z));
+                placed++;
             }
         }
+        // Behind you, something heavy is set down on the carpet
+        if (placed > 0) sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/end/turnaround"), x + 0.5, floor + 1, z + 0.5, null, false, 24);
     }
 
     /// <summary>Takes a Turnaround's bookcase down again once nobody is within 40 blocks of it.</summary>

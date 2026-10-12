@@ -635,7 +635,8 @@ public sealed partial class WorldLayout
     /// needs keeping off. It is pitched in the open, on the clear floor nearest the cell's middle with five by five of
     /// it (else three by three, else wherever the wanderer would have stood before), after the cell's doorways are
     /// cleared and its pockets sealed; anything you cannot walk through stands clear of doors and of the wanderer's
-    /// four sides, and keeps the floor round it joined up. The spot is marked, so the wanderer is put on it.
+    /// four sides, and keeps the floor round it joined up. The spot is marked, so the wanderer is put on it. From layout
+    /// version 6 the bedrolls are sleeping bags and the tent a camp tent, as big as the real things (WorldLayout.Parts.cs).
     /// </summary>
     private void PitchL4Camp(Builder b, int mx, int mz)
     {
@@ -710,9 +711,27 @@ public sealed partial class WorldLayout
                 t.Pier = TurnPier(facing);
             }
         }
+        // From layout version 6 the bedrolls are sleeping bags and the tent a camp tent, as big as the real things: the
+        // parts are laid out turned with the camp, from the front-left (a sleeping bag's head)
+        bool PutBig(int dx, int dz, byte prop, ArchPier facing)
+        {
+            (int tx, int tz) = Turn(dx, dz);
+            bool Free(int x, int z) => Clear(x, z) && (IsWalkThroughProp(prop)
+                || Math.Abs(x - sx) + Math.Abs(z - sz) > 1 && !NearOpening(x, z));
+            return PutParts(b.At, MacroSize, Free, prop, sx + tx, sz + tz, TurnPier(facing));
+        }
+        bool v6 = Version >= 6;
         // Two bedrolls side by side behind the wanderer, the lantern between their heads
-        Put(-1, -1, Props.Bedroll, ArchPier.South);
-        if (rng.Chance(0.6)) Put(1, -1, Props.Bedroll, ArchPier.South);
+        if (v6)
+        {
+            PutBig(-1, -2, Props.SleepingBag, ArchPier.South);
+            if (rng.Chance(0.6)) PutBig(1, -2, Props.SleepingBag, ArchPier.South);
+        }
+        else
+        {
+            Put(-1, -1, Props.Bedroll, ArchPier.South);
+            if (rng.Chance(0.6)) Put(1, -1, Props.Bedroll, ArchPier.South);
+        }
         Put(0, -2, Props.Lantern, ArchPier.North);
         // A folding table with its chair to one side, the hoard and the supplies to the other
         Put(-2, 1, Props.FoldingTable, ArchPier.North);
@@ -720,6 +739,11 @@ public sealed partial class WorldLayout
         Put(2, 1, Props.CardboardBoxes, ArchPier.North);
         Put(2, 2, 0, ArchPier.North, box: true);
         if (rng.Chance(0.4)) Put(1, 2, Props.CardboardBoxes, ArchPier.North);
-        if (rng.Chance(0.5)) Put(-2, -2, Props.Tent, ArchPier.East);
+        // (the camp tent in the corner behind the sleeping bags, its door to the east)
+        if (rng.Chance(0.5))
+        {
+            if (v6) PutBig(-2, -3, Props.CampTent, ArchPier.East);
+            else Put(-2, -2, Props.Tent, ArchPier.East);
+        }
     }
 }

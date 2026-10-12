@@ -9,9 +9,10 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <OutputPath>bin\$(Configuration)\Mods\backrooms\</OutputPath>
-    <!-- Override with an environment variable if the game lives elsewhere -->
+    <!-- Where Vintage Story is installed: the VINTAGE_STORY environment variable, else the default install folder.
+         To use another folder without editing this file, set VintageStory in Backrooms.csproj.user (git-ignored). -->
     <VintageStory Condition="'$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStory>
-    <VintageStory Condition="'$(VintageStory)' == ''">G:\Games\Vintagestory</VintageStory>
+    <VintageStory Condition="'$(VintageStory)' == ''">$(AppData)\Vintagestory</VintageStory>
   </PropertyGroup>
 
   <ItemGroup>

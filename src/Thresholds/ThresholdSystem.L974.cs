@@ -5,7 +5,7 @@ namespace Backrooms.Thresholds;
 /// <summary>
 /// What happens round Level 974's thresholds in the game (kept as level 18): Kitty's detour into a wanderer's own
 /// house, arriving there, and waking from it. The rules themselves are <see cref="Regions.L974System"/>'s. This file is
-/// the level's own; see docs/new-levels/CONTRACT.md.
+/// the level's own; see docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public partial class ThresholdSystem
 {

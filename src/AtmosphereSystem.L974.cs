@@ -11,7 +11,7 @@ namespace Backrooms;
 /// Level 974's air and sound on the client (kept as level 18). Its base fog is its entry in <see cref="Levels"/>: clear,
 /// faintly pink. Stay past the calm (<see cref="L974System.CalmHours"/>) and the pink presses in: the fog thickens and
 /// deepens, and the music box's lullaby slows and goes out of tune. This file is the level's own; see
-/// docs/new-levels/CONTRACT.md.
+/// docs/design/new-levels/CONTRACT.md.
 /// </summary>
 public partial class AtmosphereSystem
 {

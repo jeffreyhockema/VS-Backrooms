@@ -16,7 +16,7 @@ using Vintagestory.API.Util;
 namespace Backrooms.Regions;
 
 /// <summary>
-/// The Hub's rules (docs/new-levels/hub-plan.md):
+/// The Hub's rules (docs/design/new-levels/hub-plan.md):
 /// <list type="bullet">
 /// <item><b>Level Keys</b> (<c>backrooms:hub-key-&lt;tag&gt;</c>): each found only in its own level, in a cache broken open
 /// there, likelier in a den, behind a forced door and in the level's worst places. In the Hub a key opens its level's

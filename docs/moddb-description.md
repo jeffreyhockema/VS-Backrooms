@@ -143,5 +143,7 @@ World settings under *Survival challenges* when creating a world: **Backrooms en
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original 2019 photo and Kane Pixels' films for Level 0's look and feel.
 - Version 0.512.2019 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- Open source: the code is GPL-3.0, and the textures, models, sounds and text are CC BY-SA 4.0. Level and creature lore is adapted from the Backrooms wikis under CC BY-SA; credits are in the README.
+- Updating the mod never rearranges an existing world: each world keeps the layout it was created with.
 
 Bug reports, screenshots of what you found, and notes from your own expeditions are very welcome.

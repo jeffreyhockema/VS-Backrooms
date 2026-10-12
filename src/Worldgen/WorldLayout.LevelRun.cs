@@ -24,7 +24,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x1400-0x14BF are this level's.</summary>
-    private const ulong SaltRunShape = 0x1401, SaltRunLane = 0x1402, SaltRunDest = 0x1403, SaltRunSafe = 0x1404, SaltRunHole = 0x1405,
+    private const ulong SaltRunLane = 0x1402, SaltRunDest = 0x1403, SaltRunSafe = 0x1404, SaltRunHole = 0x1405,
         SaltRunSigns = 0x1406, SaltRunProps = 0x1407, SaltRunEvents = 0x1408;
 
     // ================= Where it is =================
@@ -57,11 +57,6 @@ public sealed partial class WorldLayout
     public int RunOriginZ => (RunCentreZ - RunHalfLength) * MacroSize;
 
     private bool InRun(double mx, double mz) => Math.Abs(mx - RunCentreX) <= RunHalfWidth && Math.Abs(mz - RunCentreZ) <= RunHalfLength;
-
-    /// <summary>Whether a square of the world (block coordinates) might reach into the region.</summary>
-    public bool MayReachRun(int x0, int z0, int size) =>
-        x0 + size > RunOriginX && x0 < RunOriginX + RunLanes * MacroSize
-        && z0 + size > RunOriginZ && z0 < RunOriginZ + RunLaneLength;
 
     /// <summary>The start room's cell of a lane picked by hash: arrivals are always in a start room.</summary>
     private (int Mx, int Mz) RunArrivalCell(ulong h) =>
@@ -96,18 +91,6 @@ public sealed partial class WorldLayout
     public RunLane RunPlan(int lane) => (runPlans ??= new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i))).Get(lane, 0);
 
     private PlanCache<RunLane> runPlans;
-
-    /// <summary>
-    /// How far along the course a world position is (0 at the hallway door; negative in the start room and behind the
-    /// chained door), or null where it is no part of a lane's course.
-    /// </summary>
-    public int? RunProgressAt(int gx, int gz)
-    {
-        int lane = RunLaneAt(gx, gz);
-        if (lane < 0) return null;
-        var (x, z) = RunLocal(lane, gx, gz);
-        return RunPlan(lane).ProgressAt(x, z);
-    }
 
     // ================= Cells =================
 
@@ -295,6 +278,8 @@ public sealed partial class WorldLayout
         public (int X, int Z) Arrival, ChainedDoor, HallDoor, MarkedDoor, ExitDoor, Bedside, Cabinet;
         /// <summary>The false exits, and the hall tile in front of each.</summary>
         public readonly List<(int X, int Z, int FrontX, int FrontZ)> FakeExits = new();
+        /// <summary>The three straights of the hall: the centre column and the first and last rows of each.</summary>
+        public readonly List<(int C, int Z0, int Z1)> Straights = new();
         public bool HasHole, HasSafe;
 
         public RunLane(int index) { Index = index; }
@@ -401,9 +386,10 @@ public sealed partial class WorldLayout
 
         // The straights, each with its centre, for doors and what stands in the way
         var straights = new List<(int C, int Z0, int Z1)> { (c1, RunHallDoorZ + 1, j1 - 1), (c2, j1 + 5, j2 - 1), (c3, j2 + 5, RunExitZ - 1) };
+        L.Straights.AddRange(straights);
         PlanRunDoors(L, p, straights);
         PlanRunHole(L, p, c3, j2);
-        PlanRunObstacles(L, p, straights);
+        PlanRunObstacles(L, p, straights, gauntlet: Version >= 6);
         PlanRunSigns(L);
         PlanRunTrim(L);
         return L;
@@ -735,8 +721,11 @@ public sealed partial class WorldLayout
         p.Blocked[h] = p.Blocked[h + 1] = side < 0 ? 0b00011 : 0b11000;
     }
 
-    /// <summary>What stands in the way, by thirds, never more than three of the five tiles of a row, always a way through.</summary>
-    private void PlanRunObstacles(RunLane L, RunPlanner p, List<(int C, int Z0, int Z1)> straights)
+    /// <summary>
+    /// What stands in the way, by thirds, never more than three of the five tiles of a row, always a way through; or
+    /// (<paramref name="gauntlet"/>, layout version 6) the hall packed with it (see <see cref="PlanRunGauntlet"/>).
+    /// </summary>
+    private void PlanRunObstacles(RunLane L, RunPlanner p, List<(int C, int Z0, int Z1)> straights, bool gauntlet = false)
     {
         var rng = new Rng(Hashing.Hash(seed, L.Index, 4, SaltRunProps));
         bool Fits(Dictionary<int, int> adds)
@@ -771,7 +760,8 @@ public sealed partial class WorldLayout
         int third = 0;
         foreach (var (c, z0, z1) in straights)
         {
-            int z = z0 + rng.Range(4, 10);
+            if (gauntlet) PlanRunGauntlet(L, p, rng, c, z0, z1, third);
+            int z = gauntlet ? z1 : z0 + rng.Range(4, 10);
             while (z < z1 - 2)
             {
                 int k = rng.Range(0, 4);
@@ -874,8 +864,14 @@ public sealed partial class WorldLayout
                     bool byDoor = L.At(wallX, tz + 1).Kind == TileKind.Door || L.At(wallX, tz - 1).Kind == TileKind.Door;
                     if (!byDoor || !Free(c, tz, wk)) continue;
                     var adds = new Dictionary<int, int> { [tz] = 1 << wk };
-                    if (!Fits(adds)) continue;
+                    if (gauntlet ? p.Reserved.Contains(tz) : !Fits(adds)) continue;
+                    Tile before = L.At(c + wk - 2, tz);
                     Put(c, tz, wk, Props.RunTray, wk == 0 ? ArchPier.East : ArchPier.West, (byte)(rng.Chance(0.6) ? 0 : 1));
+                    if (gauntlet && !RunSprintable(L, c, z0, z1))
+                    {
+                        L.At(c + wk - 2, tz) = before;
+                        continue;
+                    }
                     Commit(adds);
                     break;
                 }
@@ -900,6 +896,271 @@ public sealed partial class WorldLayout
                 }
             }
             third++;
+        }
+    }
+
+    /// <summary>
+    /// How a runner gets past a tile of the hall: 0 over it (what trips you is still underfoot), 1 jumping it (a block high
+    /// at most: a sprint-jump in Vintage Story rises about 1.25 blocks), 2 only round it (two blocks high, a pit, a wall).
+    /// </summary>
+    public static int RunHurdle(in Tile t)
+    {
+        if (t.Kind == TileKind.Doorway) return 0;
+        if (t.Kind != TileKind.Floor) return 2;
+        if (t.Variant == 0 || RunWalkThrough(t.Variant)) return 0;
+        return t.Variant switch
+        {
+            Props.RunShelfStanding => 2,
+            Props.RunCollapse => t.Stack == 0 ? 2 : 1,
+            Props.RunBarricade => t.Stack <= 1 ? 2 : 1,
+            _ => 1,
+        };
+    }
+
+    /// <summary>
+    /// Whether a runner (a block wide, two high, jumping a block) gets down rows z0..z1 of a straight centred on column c at
+    /// a sprint: a row forward at a time and no more than one column across, never into anything they must go round nor
+    /// between two such corner to corner. A door that swings open counts as its open leaf in the hall; shelving that
+    /// topples, as standing (and its fallen half as fallen).
+    /// </summary>
+    public static bool RunSprintable(RunLane L, int c, int z0, int z1)
+    {
+        var leaves = new HashSet<(int, int)>();
+        foreach (RunEvent e in L.Events)
+            if (e.Kind == RunEventKind.Swing)
+            {
+                var (dx, dz) = Step(e.Face);
+                leaves.Add((e.X + dx, e.Z + dz));
+            }
+        int Hurdle(int k, int z) => leaves.Contains((c + k - 2, z)) ? 2 : RunHurdle(L.At(c + k - 2, z));
+        int reach = 0;
+        for (int k = 0; k < 5; k++)
+            if (Hurdle(k, z0) < 2) reach |= 1 << k;
+        for (int z = z0 + 1; z <= z1 && reach != 0; z++)
+        {
+            int next = 0;
+            for (int k = 0; k < 5; k++)
+            {
+                if (Hurdle(k, z) == 2) continue;
+                for (int from = Math.Max(0, k - 1); from <= Math.Min(4, k + 1); from++)
+                {
+                    if ((reach >> from & 1) == 0) continue;
+                    if (from != k && Hurdle(from, z) == 2 && Hurdle(k, z - 1) == 2) continue;
+                    next |= 1 << k;
+                    break;
+                }
+            }
+            reach = next;
+        }
+        return reach != 0;
+    }
+
+    /// <summary>
+    /// Layout version 6: a straight packed with what a hospital leaves in its corridors and what the level throws down, a
+    /// set piece every few blocks (closer together the further you get). The canon's "large obstacles (such as chairs, beds,
+    /// etc.) may block the wanderers' progress … smaller obstacles (such as toy cars, boxes, etc.) are even more lethal"
+    /// (Fandom), its collapsing ceilings with power lines hanging from them, and Escape the Backrooms' hallway: a whole
+    /// line of objects to jump, tables and cabinets that "almost fully block your path", a blockade with the way round it
+    /// beside. Barricades, tall cabinets and collapsed ceiling you must go round; gurneys, wheelchairs, chairs, carts,
+    /// fallen shelving and rubble you can jump. Every piece is kept only if the straight can still be run at a sprint
+    /// (<see cref="RunSprintable"/>).
+    /// </summary>
+    private void PlanRunGauntlet(RunLane L, RunPlanner p, Rng rng, int c, int z0, int z1, int third)
+    {
+        var piece = new List<(int Dz, int K, ushort Prop, byte Stack, ArchPier Pier)>();
+        int side = rng.Chance(0.5) ? 1 : -1;
+        // (k counts from the wall on the piece's side; mirrored for the other)
+        void Add(int dz, int k, ushort prop, byte stack, ArchPier pier) => piece.Add((dz, k, prop, stack, pier));
+        ArchPier In(int k) => k == 0 ? ArchPier.East : ArchPier.West; // facing into the hall from the wall at k (0 or 4)
+        int Col(int k) => c + (side > 0 ? k : 4 - k) - 2;
+        ArchPier Mirror(ArchPier a) => side > 0 ? a : a switch { ArchPier.East => ArchPier.West, ArchPier.West => ArchPier.East, _ => a };
+        bool Free(int z, int col) => !p.Reserved.Contains(z) && z <= z1 - 1
+            && L.At(col, z) is { Kind: TileKind.Floor, Variant: 0 } t && t.Zone is RunZone.Hall or RunZone.ExitStretch;
+        void Small(int z, int col, ushort prop)
+        {
+            if (!Free(z, col)) return;
+            ref Tile t = ref L.At(col, z);
+            t.Variant = prop;
+            t.Pier = (ArchPier)rng.Range(0, 3);
+        }
+        ushort JumpOne() => rng.Range(0, 2) switch { 0 => Props.RunWheelchair, 1 => Props.RunIvStand, _ => Props.RunWheelchair };
+
+        // Weights of the set pieces by third: barricade, collapse, a line of things, a needle, a cabinet, gurneys,
+        // fallen shelving, a tipped gurney, a feint by a door
+        int[][] weights =
+        {
+            new[] { 18, 10, 8, 8, 14, 14, 6, 12, 10 },
+            new[] { 16, 14, 12, 10, 10, 10, 10, 10, 8 },
+            new[] { 14, 18, 14, 12, 8, 8, 10, 8, 8 },
+        };
+        int[] w = weights[Math.Min(third, 2)];
+        int total = 0;
+        foreach (int x in w) total += x;
+        var undo = new List<(int X, int Z, Tile T)>();
+
+        int z = z0 + rng.Range(3, 6);
+        while (z < z1 - 2)
+        {
+            bool placed = false;
+            int len = 1;
+            for (int attempt = 0; attempt < 4 && !placed; attempt++)
+            {
+                piece.Clear();
+                if (rng.Chance(0.7)) side = -side;
+                int roll = rng.Range(0, total - 1), kind = 0;
+                while (roll >= w[kind]) roll -= w[kind++];
+                switch (kind)
+                {
+                    case 0:
+                    {
+                        // A barricade of beds and chairs from the wall, two to four wide, now and then two deep; something
+                        // to jump on the other side
+                        int wide = rng.Range(2, 4), deep = rng.Chance(0.3) ? 2 : 1;
+                        for (int dz = 0; dz < deep; dz++)
+                            for (int k = 0; k < wide; k++) Add(dz, k, Props.RunBarricade, 0, ArchPier.North);
+                        if (wide < 4 && rng.Chance(0.7)) Add(rng.Range(0, deep - 1), 4, JumpOne(), 0, (ArchPier)rng.Range(0, 3));
+                        break;
+                    }
+                    case 1:
+                    {
+                        // The ceiling come down by the wall: slabs hanging onto rubble, a heap you can jump beside them, the
+                        // broken tiles strewn after
+                        int tall = rng.Chance(0.5) ? 1 : 2;
+                        ArchPier lean = rng.Chance(0.5) ? ArchPier.North : ArchPier.South;
+                        for (int dz = 0; dz < 2; dz++)
+                        {
+                            for (int k = 0; k < tall; k++) Add(dz, k, Props.RunCollapse, 0, lean);
+                            if (dz == 0 || rng.Chance(0.5)) Add(dz, tall, Props.RunCollapse, 1, lean);
+                        }
+                        break;
+                    }
+                    case 2:
+                    {
+                        // A whole line of things across the hall: jump it, or find the one gap
+                        int gap = rng.Chance(0.6) ? rng.Range(0, 4) : -1;
+                        for (int k = 0; k < 5; k++)
+                        {
+                            if (k == gap) continue;
+                            double r = rng.NextDouble();
+                            if (k < 4 && k + 1 != gap && r < 0.35)
+                            {
+                                bool tipped = rng.Chance(0.5);
+                                Add(0, k, tipped ? Props.RunBarricade : Props.RunGurney, (byte)(tipped ? 2 : 0), ArchPier.East);
+                                Add(0, k + 1, tipped ? Props.RunBarricade : Props.RunGurney, (byte)(tipped ? 3 : 1), ArchPier.East);
+                                k++;
+                            }
+                            else if (k is 0 or 4 && r < 0.7) Add(0, k, rng.Chance(0.5) ? Props.RunChairs : Props.RunCrashCart, 0, In(k));
+                            else Add(0, k, JumpOne(), 0, (ArchPier)rng.Range(0, 3));
+                        }
+                        break;
+                    }
+                    case 3:
+                    {
+                        // Thread the needle: one column left between a cabinet, barricades and another cabinet
+                        int gap = rng.Range(1, 3);
+                        for (int k = 0; k < 5; k++)
+                        {
+                            if (k == gap) continue;
+                            if (k is 0 or 4 && rng.Chance(0.6)) Add(0, k, Props.RunBarricade, 1, In(k));
+                            else Add(0, k, Props.RunBarricade, 0, ArchPier.North);
+                        }
+                        break;
+                    }
+                    case 4:
+                    {
+                        // A tall cabinet against the wall with its door hanging open, things beside it and across
+                        Add(0, 0, Props.RunBarricade, 1, ArchPier.East);
+                        Add(rng.Range(0, 1), rng.Range(1, 2), JumpOne(), 0, (ArchPier)rng.Range(0, 3));
+                        if (rng.Chance(0.7)) Add(rng.Range(1, 2), 4, rng.Chance(0.5) ? Props.RunCrashCart : Props.RunChairs, 0, ArchPier.West);
+                        break;
+                    }
+                    case 5:
+                    {
+                        // Gurneys left along the hall, staggered
+                        int a = rng.Range(0, 4), b = (a + rng.Range(2, 3)) % 5;
+                        Add(0, a, Props.RunGurney, 0, ArchPier.South);
+                        Add(1, a, Props.RunGurney, 1, ArchPier.South);
+                        Add(2, b, Props.RunGurney, 0, ArchPier.South);
+                        Add(3, b, Props.RunGurney, 1, ArchPier.South);
+                        break;
+                    }
+                    case 6:
+                        // Shelving lying across the hall from the wall, its boxes spilled
+                        Add(0, 0, Props.RunShelfFallen, 0, ArchPier.East);
+                        Add(0, 1, Props.RunShelfFallen, 1, ArchPier.East);
+                        if (rng.Chance(0.4)) Add(0, 3, Props.RunIvStand, 0, ArchPier.North);
+                        break;
+                    case 7:
+                    {
+                        // A gurney tipped on its side across the hall
+                        int k = rng.Range(0, 3);
+                        Add(0, k, Props.RunBarricade, 2, ArchPier.East);
+                        Add(0, k + 1, Props.RunBarricade, 3, ArchPier.East);
+                        if (rng.Chance(0.6)) Add(rng.Range(1, 2), k <= 1 ? 4 : 0, JumpOne(), 0, (ArchPier)rng.Range(0, 3));
+                        break;
+                    }
+                    default:
+                    {
+                        // A feint: the way past a barricade opens along the wall, by a door, and ends at a cabinet; the
+                        // way on is back across (or over the gurney)
+                        int wall = side > 0 ? c - 3 : c + 3;
+                        if (L.At(wall, z + 1).Kind != TileKind.Door && L.At(wall, z + 2).Kind != TileKind.Door) break;
+                        Add(0, 2, Props.RunBarricade, 0, ArchPier.North);
+                        Add(0, 3, Props.RunGurney, 0, ArchPier.East);
+                        Add(0, 4, Props.RunGurney, 1, ArchPier.East);
+                        Add(2, 0, Props.RunBarricade, 1, ArchPier.East);
+                        Add(2, 1, Props.RunBarricade, 0, ArchPier.North);
+                        break;
+                    }
+                }
+                if (piece.Count == 0) continue;
+                bool fits = true;
+                len = 1;
+                foreach (var e in piece)
+                {
+                    fits &= Free(z + e.Dz, Col(e.K));
+                    len = Math.Max(len, e.Dz + 1);
+                }
+                if (!fits) continue;
+                undo.Clear();
+                foreach (var e in piece)
+                {
+                    int col = Col(e.K);
+                    undo.Add((col, z + e.Dz, L.At(col, z + e.Dz)));
+                    ref Tile t = ref L.At(col, z + e.Dz);
+                    t.Variant = e.Prop;
+                    t.Stack = e.Stack;
+                    t.Pier = Mirror(e.Pier);
+                }
+                if (RunSprintable(L, c, z0, Math.Min(z1, z + len + 1))) placed = true;
+                else
+                    foreach (var (x, uz, t) in undo) L.At(x, uz) = t;
+            }
+            if (!placed)
+            {
+                z++;
+                continue;
+            }
+            // Under a collapse the ceiling is broken, and its tiles lie in the rows after it (they trip a sprinter)
+            if (piece[0].Prop == Props.RunCollapse)
+                for (int n = rng.Range(1, 2); n > 0; n--) Small(z + len, Col(rng.Range(0, 3)), Props.RunDebris);
+            int gapRows = third switch { 0 => rng.Range(2, 4), 1 => rng.Range(2, 4), _ => rng.Range(1, 3) };
+            // Now and then, in the gap, something small that trips a sprinter (mostly in the dark last third), or sheets
+            if (rng.Chance(third switch { 0 => 0.25, 1 => 0.35, _ => 0.55 }))
+            {
+                int tz = z + len + 1 + rng.Range(0, Math.Max(0, gapRows - 2));
+                double what = rng.NextDouble();
+                if (third == 2 && what < 0.2)
+                    for (int k = 0; k < 5; k++)
+                    {
+                        if (!Free(tz, c + k - 2)) continue;
+                        L.At(c + k - 2, tz).Variant = Props.RunCord;
+                        L.At(c + k - 2, tz).Pier = ArchPier.East;
+                    }
+                else Small(tz, c + rng.Range(-2, 2), third < 2 && what < 0.5 ? Props.RunSheets
+                    : what < 0.6 ? Props.RunToyCar : what < 0.85 ? Props.RunBoxes : Props.RunDebris);
+            }
+            z += len + gapRows;
         }
     }
 

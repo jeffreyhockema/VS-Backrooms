@@ -109,8 +109,6 @@ public sealed partial class WorldLayout
     /// </summary>
     private static int RoomU(int gx) => Hashing.Mod(gx - 19, CrossPeriod);
 
-    private static bool IsGrandZone(HotelZone zone) => zone is HotelZone.Lobby or HotelZone.Boiler or HotelZone.Dining;
-
     private Edge Level5Edge(ref Rng rng, int mx, int mz, int nx, int nz, bool west)
     {
         HotelZone a = HotelZoneAt(mx, mz), b = HotelZoneAt(nx, nz);
@@ -929,11 +927,4 @@ public sealed partial class WorldLayout
         }
     }
 
-    private static void ClearForWalking(ref Tile tile)
-    {
-        if (tile.Kind is TileKind.Wall or TileKind.Door or TileKind.Doorway) tile.Kind = TileKind.Floor;
-        tile.Variant = 0;
-        tile.Stack = 0;
-        tile.Sealed = false;
-    }
 }
