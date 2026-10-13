@@ -543,6 +543,12 @@ public class ItemCatalogueCard : Item
 {
     public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
     {
+        if (blockSel != null && byEntity.Controls.ShiftKey)
+        {
+            // Shift + right-click on the floor sets the card down (its GroundStorable behaviour) instead of reading it
+            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+            if (handling != EnumHandHandling.NotHandled) return;
+        }
         if (!firstEvent) return;
         handling = EnumHandHandling.PreventDefault;
         if (api.Side != EnumAppSide.Server || (byEntity as EntityPlayer)?.Player is not IServerPlayer player || api is not ICoreServerAPI sapi) return;

@@ -15,7 +15,15 @@
 	},
 	"materialDensity": 50,
 	"attributes": {
-		"funDisguise": "balloon"
+		"funDisguise": "balloon",
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.5
+		}
 	},
 	"guiTransform": {
 		"translation": {
@@ -88,5 +96,29 @@
 			"z": 0.5
 		},
 		"scale": 2.4
-	}
+	},
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "SingleCenter",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 0,
+					"y2": 0,
+					"z2": 0
+				},
+				"selectionBox": {
+					"x1": 0.3,
+					"y1": 0,
+					"z1": 0.3,
+					"x2": 0.7,
+					"y2": 1,
+					"z2": 0.7
+				}
+			}
+		}
+	]
 }

@@ -12,7 +12,7 @@ import random
 
 from PIL import Image, ImageDraw
 
-from detail_kit import ASSETS, CLOTH, GLASS, LANG, METAL, SIDES, STONE, WOOD, ROTATE, block, bx, cube, cyl, name, prop, shape, write_json
+from detail_kit import ASSETS, CLOTH, GLASS, LANG, METAL, SIDES, STONE, WOOD, ROTATE, block, bx, cube, cyl, ground_storable, name, prop, shape, write_json
 from detail_textures import S, noise, rgb, save, text
 from gen_deep import TRANSFORMS, door_block, drops, threshold
 from gen_detail import cube_block
@@ -569,6 +569,7 @@ def items():
             "nutritionProps": {"satiety": 300, "foodcategory": "Dairy"}, "materialDensity": 1000,
             "attributes": {"stabilityRestored": 0.1}}
     data.update(TRANSFORMS)
+    ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "almondmilk.json"), data, "Almond Milk, from the milk vans of Level 94")
     LANG["item-almondmilk"] = "Almond Milk"
     LANG["itemdesc-almondmilk"] = "From the crates of a milk van in Level 94. Creamy, sweet, and it pours like it's being animated a frame at a time. Steadies you a little, like Almond Water."
@@ -582,6 +583,7 @@ def items():
     data = {"code": "crownshard", "maxstacksize": 1, "texture": {"base": "item/crownshard"},
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 2000}
     data.update(TRANSFORMS)
+    ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "crownshard.json"), data, "A shard of the King's crown")
     LANG["item-crownshard"] = "Machination's Crown Shard"
     LANG["itemdesc-crownshard"] = "A gilt shard of the King's crown, left when he burst into light. While you carry it, the Animations of Level 94 take you for one of their own."

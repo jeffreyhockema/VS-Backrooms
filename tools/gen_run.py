@@ -1705,6 +1705,7 @@ def items():
     data["tpHandTransform"] = {"translation": {"x": -0.8, "y": -0.1, "z": -0.6}, "rotation": {"x": 0, "y": 0, "z": -10}, "scale": 0.8}
     data["groundTransform"] = {"translation": {"x": 0, "y": 0, "z": 0}, "rotation": {"x": 0, "y": 0, "z": 0},
                                "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2.5}
+    K.ground_storable(data, scale=0.6)  # (13 pixels long: shrunk to fit a quadrant)
     write_json(os.path.join(ASSETS, "itemtypes", TAG, "energybar.json"), data,
                "Level !'s Energy Bar: food (satiety 160, Grain), and a second wind when eaten (BackroomsEnergyBar)")
 

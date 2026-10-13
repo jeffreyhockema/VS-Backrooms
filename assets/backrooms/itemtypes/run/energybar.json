@@ -29,6 +29,14 @@
 			"groupBy": [
 				"run-energybar"
 			]
+		},
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.6
 		}
 	},
 	"guiTransform": {
@@ -87,5 +95,21 @@
 			"z": 10
 		},
 		"scale": 1.8
-	}
+	},
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "Quadrants",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.125,
+					"z2": 1
+				}
+			}
+		}
+	]
 }

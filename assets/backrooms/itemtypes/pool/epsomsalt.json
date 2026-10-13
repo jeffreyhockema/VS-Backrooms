@@ -19,6 +19,14 @@
 			"groupBy": [
 				"epsomsalt"
 			]
+		},
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0.5,
+				"z": 0.5
+			},
+			"scale": 0.8
 		}
 	},
 	"guiTransform": {
@@ -59,5 +67,21 @@
 			"z": 0.5
 		},
 		"scale": 2
-	}
+	},
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "Messy12",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.125,
+					"z2": 1
+				}
+			}
+		}
+	]
 }

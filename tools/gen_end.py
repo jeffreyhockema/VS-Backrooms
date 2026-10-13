@@ -26,7 +26,7 @@ import sys
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(__file__))
-from detail_kit import ASSETS, CLOTH, GLASS, METAL, ROTATE, SIDES, STONE, WOOD, T, bx, cuboid, seed_of, turn, write_json  # noqa: E402
+from detail_kit import ASSETS, CLOTH, GLASS, METAL, ROTATE, SIDES, STONE, WOOD, T, bx, cuboid, ground_storable, seed_of, turn, write_json  # noqa: E402
 
 S = 32
 LANG = {}
@@ -2288,11 +2288,11 @@ def itm(code, data, comment):
 
 def items():
     item_textures()
-    itm("end-cataloguecard", dict({
+    itm("end-cataloguecard", ground_storable(dict({
         "class": "BackroomsCatalogueCard", "maxstacksize": 16, "texture": {"base": "item/end/cataloguecard"},
         "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 300,
         "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
-    }, **ITEM_TRANSFORMS), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
+    }, **ITEM_TRANSFORMS)), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
 
     # Memory Juice: a small unlabelled bottle, cloudy amber, a cork; a few boxes in item space (0-16)
     def box(nm, frm, to, tex, top=True):
@@ -2307,11 +2307,11 @@ def items():
                {"textureWidth": 16, "textureHeight": 16,
                 "textures": {"glass": "backrooms:item/end/memoryjuice-glass", "cork": "backrooms:item/end/memoryjuice-cork"},
                 "elements": els})
-    itm("end-memoryjuice", dict({
+    itm("end-memoryjuice", ground_storable(dict({
         "class": "BackroomsMemoryJuice", "maxstacksize": 8, "shape": {"base": "item/end/memoryjuice"},
         "creativeinventory": {"general": ["*"], "items": ["*"]},
         "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
-    }, **BOTTLE_TRANSFORMS), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
+    }, **BOTTLE_TRANSFORMS), height=0.625), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
 
 
 # ======================= Sounds =======================

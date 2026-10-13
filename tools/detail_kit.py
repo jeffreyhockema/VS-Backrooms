@@ -215,6 +215,46 @@ def write_json(path, data, comment=None):
         f.write(text + "\n")
 
 
+# ---------------- Ground storage ----------------
+# Every item can be set down on the floor (shift + right-click on the top of a block), laid out the way vanilla lays
+# out its own: Quadrants puts four small things to a block, Messy12 scatters a dozen loose bits, Halves lays two long
+# tools side by side, SingleCenter puts one thing in the middle. The game lays a flat item (a texture, no shape) flat
+# at a third of a block across; FLAT_SCALE enlarges it to suit the layout.
+FLAT_SCALE = {"Quadrants": 1.3, "Messy12": 0.8, "Halves": 1.5, "SingleCenter": 2}
+
+
+def _cuboid(x1, y1, z1, x2, y2, z2):
+    return {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2}
+
+
+def ground_storable(data, layout="Quadrants", scale=None, ctrl=False, height=None, box=None, select=None, transform=None):
+    """Makes an item type ground-storable, in place, and returns it.
+
+    ctrl: placed with ctrl + shift, as vanilla's tools are (for things whose own use is shift + right-click), and
+    nothing to trip over. height: how tall a shaped item stands, in blocks, so the selection box reaches it.
+    box, select: the collision and selection boxes as (x1, y1, z1, x2, y2, z2). scale: a shaped item's size on the
+    ground (1, its own, by default), or a flat one's (FLAT_SCALE). transform: the whole groundStorageTransform.
+    """
+    props = {"layout": layout}
+    if ctrl:
+        props["ctrlKey"] = True
+        box, height = box or (0, 0, 0, 0, 0, 0), height or 0.1
+    props["collisionBox"] = _cuboid(*(box or (0, 0, 0, 1, 0.125, 1)))
+    if select or height:
+        props["selectionBox"] = _cuboid(*(select or (0, 0, 0, 1, height, 1)))
+    data["behaviors"] = [{"name": "GroundStorable", "properties": props}] + \
+        [b for b in data.get("behaviors", []) if b.get("name") != "GroundStorable"]
+    flat = not any(k in data for k in ("shape", "shapeByType", "shapebytype"))
+    if transform is None and (flat or scale):
+        # A flat item is scaled about its middle before the game lays it down; a shaped one about its foot
+        transform = {"origin": {"x": 0.5, "y": 0.5 if flat else 0, "z": 0.5}, "scale": scale or FLAT_SCALE[layout]}
+    if transform:
+        # attributesByType replaces attributes once resolved, so the transform goes in each of its entries
+        for attrs in (data["attributesByType"].values() if "attributesByType" in data else [data.setdefault("attributes", {})]):
+            attrs["groundStorageTransform"] = transform
+    return data
+
+
 def shape(name, elements):
     keys = set()
     for e in elements:

@@ -733,16 +733,18 @@ def level3():
              steel(box("RailBottom", (0, 1, 7), (16, 2.5, 9), "bars"), (8, 0, 16, 16))]
     save("ironbars", {"bars": "backrooms:block/level3/bars"}, bars)
 
+    # The frame is 2 px: the hole (12 px) takes a player (9.6 px) climbing up against the rungs, which stand 3 px off
+    # the north wall, clear of the frame's north side (gen_blocktypes.py gives both their collision boxes)
     save("manhole", {"iron": "backrooms:block/level3/manhole", "floor": "backrooms:block/level3/dustyfloor"}, [
-        box("North", (0, 0, 0), (16, 16, 3), "floor"),
-        box("South", (0, 0, 13), (16, 16, 16), "floor"),
-        box("West", (0, 0, 3), (3, 16, 13), "floor"),
-        box("East", (13, 0, 3), (16, 16, 13), "floor"),
+        box("North", (0, 0, 0), (16, 16, 2), "floor"),
+        box("South", (0, 0, 14), (16, 16, 16), "floor"),
+        box("West", (0, 0, 2), (2, 16, 14), "floor"),
+        box("East", (14, 0, 2), (16, 16, 14), "floor"),
         box("Rim", (2.5, 15.5, 2.5), (13.5, 16.2, 13.5), "iron", faces=("up",)),
     ])
     save("rungs", {"metal": PIPE_TEX["rust"]}, [
-        box(f"Rung{i}", (4, y, 1), (12, y + 1, 2), "metal") for i, y in enumerate((2, 6, 10, 14))
-    ] + [box("RailL", (3, 0, 0.5), (4, 16, 1.5), "metal"), box("RailR", (12, 0, 0.5), (13, 16, 1.5), "metal")])
+        box(f"Rung{i}", (4, y, 2), (12, y + 1, 3), "metal") for i, y in enumerate((2, 6, 10, 14))
+    ] + [box("RailL", (3, 0, 0.5), (4, 16, 3), "metal"), box("RailR", (12, 0, 0.5), (13, 16, 3), "metal")])
 
 
 def level4():
