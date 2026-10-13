@@ -461,8 +461,9 @@ public class L3999System : ModSystem
         var (tx, tz) = found[0];
         attendant.AnimManager?.StartAnimation("point");
         string waypoint = reception ? "backrooms:waypoint-l3999-foodcourt" : "backrooms:waypoint-l3999-lobby";
-        MapMarks.Add(sapi, player, new Vec3d(tx + 0.5, attendant.Pos.Y, tz + 0.5), Lang.Get(waypoint), "star1", MapMarks.NoteColor, 24);
+        // (The pointing first: where the map setting makes no waypoints, the mark is told after it)
         Say(player, "backrooms:l3999-attendant-point", Lang.Get(reception ? "backrooms:l3999-place-foodcourt" : "backrooms:l3999-place-lobby"));
+        MapMarks.Add(sapi, player, new Vec3d(tx + 0.5, attendant.Pos.Y, tz + 0.5), Lang.Get(waypoint), "star1", MapMarks.NoteColor, 24);
     }
 
     /// <summary>Struck: a chime, and "Please refrain."</summary>

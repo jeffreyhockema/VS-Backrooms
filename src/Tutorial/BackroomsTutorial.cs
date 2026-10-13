@@ -59,6 +59,13 @@ public class BackroomsTutorial : TutorialBase
     }
 
     /// <summary>
+    /// Step 2, as the world's map setting has it: where the Backrooms make no waypoints, the note marks nothing on the
+    /// map but tells the way, and the journal keeps it (the same step, "journal", only its text differs).
+    /// </summary>
+    private TutorialStepBase JournalStep() => TutorialStepBase.Press(capi, "journal",
+        Map.MapSetting.Waypoints(capi.World.Config) ? Text(2) : Text("2-nowaypoints"), "journal");
+
+    /// <summary>
     /// Step 14, as the world's map setting has it (<see cref="Map.MapSetting"/>). With no map there is no map key to
     /// press, so it is a step of its own ("nomap"), met with the journal key once the step before it is done.
     /// </summary>
@@ -83,7 +90,7 @@ public class BackroomsTutorial : TutorialBase
             // 1. Moving, and why not to run
             TutorialStepBase.Press(capi, "move", Text(1), "walkforward", "walkbackward", "walkleft", "walkright", "jump", "sneak", "sprint"),
             // 2. The note in your pocket, and the journal
-            TutorialStepBase.Press(capi, "journal", Text(2), "journal"),
+            JournalStep(),
             // 3. The two supply boxes beside you
             TutorialStepBase.Collect(capi, "openboxes", Text(3), FromSupplyBox, 1),
             // 4. Glass from a dead light

@@ -672,7 +672,7 @@ take it. He walks you to its door. He never lets you in again, and if you break 
 nothing."""),
     E("hub-5", "The doorstep", """
 By the city door the M.E.G. keep a doorstep carpet: their man sells two keys a week for rusty gears, and their register
-marks the open doors on your map. The pink door with the ribbon opens for anyone carrying something cute. A hole in the
+shows where the open doors are. The pink door with the ribbon opens for anyone carrying something cute. A hole in the
 road drops you out of the sky over green hills. Where a wall's seams don't meet, walk through: the office.
 — Dez""", mark="way", w="dez"),
 ]))
@@ -694,7 +694,7 @@ TRACKS.append(Track("l3999", "common", "Level 3999: the Neon Paradise", L3999, e
     E("l3999-1", "Safe here", """
 Nothing hunts where the neon is lit. It's warm, the gear turns forward, faster in the lobbies, and the violet pools mend
 you while you stand in them. The faceless staff behind the counters can't be hurt and won't hurt you; ask one and it
-points the way to a lobby. Right-click a mall directory and it marks the nearest food court and lobby on your map. More
+points the way to a lobby. Right-click a mall directory and it gives the way to the nearest food court and lobby. More
 wanderers camp here than anywhere."""),
     E("l3999-2", "Tickets", """
 Every machine pays you once a day. Hold right-click and play it out. The little cabinets pay up to three tickets,
@@ -862,8 +862,8 @@ office goes to Level 4, a hotel to 5, a house to 9, the Lobby to 0; the snow goe
 ]))
 TRACKS.append(Track("rare-hub", "rare", "Folded notes", HUB, chapter=RARE_CHAPTER, entries=[
     E("r-hub-1", "Resonance", """
-M.E.G. BRIEFING, RESTRICTED. A Level Key held in the Hub chimes from its door's direction; within eight paces the door
-goes on your map. The keys for Level 1, the city and 178 are wasted: those doors open for anyone.
+M.E.G. BRIEFING, RESTRICTED. A Level Key held in the Hub chimes from its door's direction, and rings out within eight
+paces of it. The keys for Level 1, the city and 178 are wasted: those doors open for anyone.
 — Field Team 9""", w="meg"),
 ]))
 TRACKS.append(Track("rare-run", "rare", "Folded notes", RUN, chapter=RARE_CHAPTER, entries=[

@@ -994,8 +994,9 @@ public class L974System : ModSystem
         Link? wake = thresholds?.L974WakeLink(layout.L974At(house.Item1, house.Item2, 9, 8));
         if (wake is { } w && sapi.World.Rand.NextDouble() < 0.75)
         {
-            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Lang.Get("backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
+            // (The search result first: where the map setting makes no waypoints, the mark is told after it)
             Say(player, "backrooms:l974-internet-1");
+            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Lang.Get("backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
         }
         else Say(player, "backrooms:l974-internet-" + (2 + sapi.World.Rand.Next(3)));
     }

@@ -16,6 +16,9 @@ public class BackroomsMapSystem : ModSystem
     /// <summary>Save data: whether the server turned vanilla's "allowMap" off for the None setting (so it can turn it back on).</summary>
     private const string MapOffKey = "backrooms-mapoff";
 
+    /// <summary>Save data: whether the server turned vanilla's "allowDeathwaypointing" off for a setting without waypoints.</summary>
+    private const string DeathWaypointOffKey = "backrooms-deathwpoff";
+
     /// <summary>How much more chalk crumbled ceilings and backpacks give in a world with no map.</summary>
     private const float MaplessChalk = 1.5f;
 
@@ -42,24 +45,39 @@ public class BackroomsMapSystem : ModSystem
     /// <summary>
     /// None turns vanilla's "allowMap" off: no map, no minimap, no map keys, no waypoint commands. Set back to another
     /// setting (with /worldconfig and a restart), the map comes back, unless it was off before the setting turned it off.
+    /// No waypoints and None also turn off vanilla's own death waypoint ("You died here"), with its world config
+    /// "allowDeathwaypointing" (vanilla's WaypointMapLayer checks it at each death; a player's own choice, /waypoint
+    /// deathwp, is player mod data and is left alone), and turn it back on in the same way.
     /// </summary>
     private static void ApplyAllowMap(ICoreServerAPI api)
     {
         ISaveGame save = api.WorldManager.SaveGame;
         if (save.WorldType != BackroomsWorld.WorldTypeCode) return;
+        MapSetting.Mode mode = MapSetting.Of(api.World.Config);
+        Apply(api, "allowMap", MapOffKey, mode == MapSetting.Mode.None, "the world map");
+        Apply(api, "allowDeathwaypointing", DeathWaypointOffKey, mode != MapSetting.Mode.Seen, "vanilla's death waypoint");
+    }
+
+    /// <summary>
+    /// Turns a vanilla world config flag off while the map setting wants it off, and back on once it no longer does, but
+    /// only if it was this that turned it off (<paramref name="saveKey"/> remembers).
+    /// </summary>
+    private static void Apply(ICoreServerAPI api, string flag, string saveKey, bool off, string what)
+    {
+        ISaveGame save = api.WorldManager.SaveGame;
         ITreeAttribute config = api.World.Config;
-        bool none = MapSetting.Of(config) == MapSetting.Mode.None, turnedOff = save.GetData(MapOffKey, false);
-        if (none && config.GetBool("allowMap", true))
+        string setting = config.GetString(MapSetting.Code, "seen");
+        if (off && config.GetBool(flag, true))
         {
-            config.SetBool("allowMap", false);
-            save.StoreData(MapOffKey, true);
-            api.Logger.Notification("[backrooms] Map setting none: the world map is off");
+            config.SetBool(flag, false);
+            save.StoreData(saveKey, true);
+            api.Logger.Notification("[backrooms] Map setting {0}: {1} is off", setting, what);
         }
-        else if (!none && turnedOff)
+        else if (!off && save.GetData(saveKey, false))
         {
-            config.SetBool("allowMap", true);
-            save.StoreData(MapOffKey, false);
-            api.Logger.Notification("[backrooms] Map setting {0}: the world map is back on", config.GetString(MapSetting.Code, "seen"));
+            config.SetBool(flag, true);
+            save.StoreData(saveKey, false);
+            api.Logger.Notification("[backrooms] Map setting {0}: {1} is back on", setting, what);
         }
     }
 
