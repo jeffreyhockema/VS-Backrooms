@@ -8,7 +8,7 @@ Create a new world and pick the **Backrooms: Survival Story** playstyle. It only
 
 - **Map (M / F6):** the map only shows what you have actually seen. It reveals the area around you along your line of sight, so walls block it. Explored areas are remembered between sessions, so you can find your way back.
 - **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms, in the voice of the vanilla guides. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages; eight pages are added after the Progression Guide (Home and Expeditions; Finding the Way; Salvage; Food, Heat and Cold; The Levels: 0 to 11; The Levels: Beyond the Rings; Ways Between Levels; What Lives Here); and every other vanilla guide (knapping, farming, smelting, steelmaking…) keeps its text but opens with an "In the Backrooms" preface saying what is different here. Other worlds keep the vanilla handbook.
-- **Tutorial:** the Tutorials tab holds *Backrooms: First Steps*, a 15-step quick start on the game's own tutorial system (read the pocket note, open the boxes, glass, cutting, shiv, bags, flint, knife, map, handbook) that replaces the vanilla First Steps in Backrooms worlds and starts by itself the first time you join one (`.tutorial hud` hides it; your progress is kept on your own computer).
+- **Tutorial:** the Tutorials tab holds *Backrooms: First Steps*, a 15-step quick start on the game's own tutorial system (read the pocket note, open the boxes, glass, cutting, shiv, bags, scraper, tinder, torch, map, handbook) that replaces the vanilla First Steps in Backrooms worlds and starts by itself the first time you join one (`.tutorial hud` hides it; your progress is kept on your own computer).
 - **Starting waypoint:** "Where I woke up" marks your starting point.
 - **Your own waypoints:** right-click the map to add one.
 - **Waypoints made for you:** every gate you walk through, and every elevator, stairwell, door or pit you take (with the way back, where there is one), is marked on your map the first time. Reading a wanderer's note marks the place it tells of.
@@ -70,11 +70,12 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - Ceiling tiles mostly give nothing, but the void above sometimes hides scrap wire, a metal bracket or rotten wood.
 - **Walls and carpet can be cut:** right-click papered walls or carpet with a blade to cut away wallpaper strips or carpet fibres. The wall or floor stays, visibly bare.
   - A glass shard works as a blade, but may snap each time.
+  - The glass shiv and the improvised scraper are made for it: they peel the paper and lift the pile cleanly, two strips or fibres a cut, where any other knife (a flint one too) gives one. Keep one after you have flint.
 
 | Make | From |
 |---|---|
-| Glass shiv (a knife) | glass shard + wallpaper strip + carpet fibres |
-| Improvised scraper (a tougher knife) | metal bracket + wallpaper strip + 2 carpet fibres |
+| Glass shiv (a knife; cuts two a block) | glass shard + wallpaper strip + carpet fibres |
+| Improvised scraper (a tougher knife; cuts two a block) | metal bracket + wallpaper strip + 2 carpet fibres |
 | Twine | 3 carpet fibres |
 | Carpet bag (3 slots, like a hand basket) | 5 carpet fibres + twine |
 | Dry grass (tinder) | 2 wallpaper strips |
@@ -83,6 +84,8 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
 | Firewood | 3 planks + an axe |
 | 2 sticks | a plank + a knife |
 | Nails and strips | 2 metal brackets |
+| Ceramic grit | 2 pottery shards + any stone (kept) |
+| Blue clay | 2 ceramic grit + 1 soil |
 
 With tinder, sticks and firewood, the vanilla fire starter, firepit and torches work as usual.
 
@@ -90,10 +93,10 @@ With tinder, sticks and firewood, the vanilla fire starter, firepit and torches 
 
 Breaking things down feeds Vintage Story's own progression, so the usual path from knapped flint to bronze still works. What changes is where each material comes from.
 
-- **Level 0 (the Lobby):** wanderers' supply boxes hold flint, sticks and dry grass. Knap a flint knife and axe, then make a fire starter, torches and a firepit. Furniture breaks into planks, sticks and nails, so a chest or a barrel is possible before you own a saw.
-- **Level 1:** the crumbling concrete leaves loose stones and flint about. Crates and shelves hold sticks, tinder, flint, charcoal and brackets. Toolboxes (here, in Level 2's tunnels and Level 9's garages) sometimes hold a copper hammer, chisel, saw or knife.
+- **Level 0 (the Lobby):** wanderers' supply boxes hold sticks and dry grass, but flint only about one time in twenty: the Lobby's blades are the glass shiv and the scraper, and fire starts with tinder cut from the wallpaper. Make a fire starter, torches and a firepit. Furniture breaks into planks, sticks and nails, so a chest or a barrel is possible before you own a saw.
+- **Level 1:** where flint is found: the crumbling concrete leaves loose stones and flint about, and crates and shelves hold sticks, tinder, flint, charcoal and brackets. Knap a flint knife and axe. Toolboxes (here, in Level 2's tunnels and Level 9's garages) sometimes hold a copper hammer, chisel, saw or knife.
 - **Levels 2 and 3:** cable drums, pipe stacks, fans and machine cabinets give copper and lead bits. Scrap wire smelts to copper. The flooded tunnel under Level 3 is floored with clay for pottery, moulds and a crucible. The generator rooms have coal heaped beside them, enough to smelt with.
-- **Level 4:** office furniture gives lumber and paper. Fridges hold fruit and cheese. Storerooms sometimes hide a supply box.
+- **Level 4:** office furniture gives lumber and paper. Fridges hold fruit and cheese. Storerooms sometimes hide a supply box. The dead potted plants give soil and pottery shards: pounded to grit with a stone and worked into soil, about four plants make one blue clay, a slow way to clay for whoever is not ready for Level 3's tunnel.
 - **Level 5:** coal piles in the boiler halls. The beds come away as real beds you can sleep in. Wardrobes and suitcases hold clothes. Dining tables, curio cabinets and service trolleys give silver; luggage carts, ashtray stands and chandeliers give brass (candelabras stand in Level 3's Sanctums and the city).
 - **Level 7:** driftwood is firewood, and the sea has fish.
 - **Level 8:** real ore veins (copper, tin, zinc, bismuth, iron, gold, lead, sulfur, coal…; no silver) run through the strata, with loose ores and stones on the cave floors and clay in places. Limestone and chalk grind to lime, and halite grinds to salt.
@@ -326,7 +329,7 @@ The rules come from the original 2002 photos behind the 2019 creepypasta, the Ba
   - pit rooms, a grid of 2×2 shafts 30 blocks deep (falling in lands you in Level 2);
   - the Manila Room: 8×8, wooden floor, a doorway on each side, and a table under a chandelier;
   - the Red Rooms: a block of rooms papered in red and lit by a few dim red lamps, walled off but for one narrow gap in each side. Stability drains there faster than almost anywhere, and the supply boxes inside are untouched.
-- **Supplies:** two sealed supply boxes beside where you wake; elsewhere stashes of two or three boxes in the corners of rooms, about one cell in six (one in three or four in the blackout zones), and the caches at the hearts of dens. Over half are torn open already. Blackout zones are cold (10 °C).
+- **Supplies:** two sealed supply boxes beside where you wake; elsewhere stashes of two or three boxes in the corners of rooms, about one cell in six (one in three or four in the blackout zones), and the caches at the hearts of dens. Over half are torn open already. Flint is rare in them (about one box in twenty): the Lobby's blades are glass and bracket, and flint waits in Level 1. Blackout zones are cold (10 °C).
 
 ## Level 1: the Habitable Zone
 
@@ -393,7 +396,7 @@ One endless, quiet, cool (15 °C) office floor, almost completely devoid of furn
   - The drop ceiling has fluorescent troffers (about half dead), air diffusers, sprinkler heads and water-stained tiles, and the odd tile is missing; now and then a cable hangs down out of the gap from a tray in the dark above.
 - **Windows:** only in the wall where the office floor ends (the edge of the level). Most are papered over or shut behind blinds. The few left clear look out on rain and fog that never end; their grey storm light is often the main light, and you can hear the rain.
 - **Walls:** evacuation maps, fire alarms with strobes, extinguisher cabinets, stopped clocks, light switches by the doors, wall phones, framed motivational posters, and the pale marks of pictures long taken down.
-- **Open-plan floors:** columns on an 8-block grid with dead plants beside them, chairs and boxes left behind, pale rows where desks stood, and cubicle farms that run on from cell to cell, nearly all cleared out to bare partitions (a few patches untouched). Now and then a deserted reception.
+- **Open-plan floors:** columns on an 8-block grid with dead plants beside them (broken, a potted plant gives sticks, soil and now and then pottery shards, the makings of a slow clay), chairs and boxes left behind, pale rows where desks stood, and cubicle farms that run on from cell to cell, nearly all cleared out to bare partitions (a few patches untouched). Now and then a deserted reception.
 - **Office blocks:** a corridor grid of small rooms, crossed every 48 blocks by a broad, bright concourse. Most offices are emptied out and some are locked. There are also glass conference rooms, break rooms (counter, sink, microwave, fridge), copy rooms, humming server rooms, storerooms, a manager's office and restrooms.
 - **Building cores:** stairwells under EXIT signs (a stairwell takes in the corridor beside it, and has a flight up through the ceiling and a flight down through the floor, side by side from a landing inside its door, like Level 1's) and elevator lobbies with two-wide lift doors stand together with a restroom round one crossing, about one core per 2×2 cells of offices.
 - **Refuges:** the outposts of those who rest here, each round a trading wanderer: bedrolls on the carpet, a camp lantern, a folding table and chair, boxes of what they have gathered, a crate of supplies, now and then a tent, out on the open floor where there is room. The bedrolls are sleeping bags two blocks long, heads to either side of the lantern, and the tent a ridge tent two blocks by two in the corner behind them.

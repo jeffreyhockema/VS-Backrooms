@@ -1,6 +1,7 @@
 using System;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
 using Vintagestory.GameContent;
 
 namespace Backrooms;
@@ -37,8 +38,11 @@ public class BackroomsTutorial : TutorialBase
 
     private static bool Ours(ItemStack stack, string path) => Is(stack, "backrooms", path);
 
-    private static bool Knappable(ItemStack stack)
-        => Is(stack, "game", "flint") || (stack?.ItemAttributes != null && stack.ItemAttributes.IsTrue("knappable"));
+    /// <summary>
+    /// The last of the steps 11 to 13 had until flint became a Level 1 find (getflint, knapknife, craftknife): its saved
+    /// progress is still read, so a player who had finished it is not sent back.
+    /// </summary>
+    private static readonly string[] LegacyFlintSteps = { "craftknife" };
 
     /// <summary>Anything a supply box drops: proof that the player has broken one open.</summary>
     private static bool FromSupplyBox(ItemStack stack)
@@ -83,17 +87,48 @@ public class BackroomsTutorial : TutorialBase
             craftTwine,
             // 10. The carpet bag
             craftBag,
-            // 11. Flint, from sealed boxes
-            TutorialStepBase.Collect(capi, "getflint", Text(11), Knappable, 2),
-            // 12. Knap a knife blade
-            TutorialStepBase.Knap(capi, "knapknife", Text(12), s => s?.Collectible?.Code != null && s.Collectible.Code.Path.Contains("knifeblade"), 1),
-            // 13. Haft it: a knife of the game's (stone or better), not the shiv or the scraper, which are knives too
-            TutorialStepBase.Craft(capi, "craftknife", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.GetTool(new DummySlot(s)) == EnumTool.Knife, 1),
+            // 11. to 13. The rest of the Lobby's toolkit: flint is a Level 1 find (step 15 says so), so these replaced the
+            // flint, knapping and flint knife steps (getflint, knapknife, craftknife). A player who had made the flint
+            // knife before then is past them already, and they count as done
+            // 11. The scraper: a bracket's edge
+            new TutorialStepCarried(capi, "craftscraper", Text(11), s => Ours(s, "scraper"), EnumReceiveType.Craft, 1, LegacyFlintSteps),
+            // 12. Tinder from wallpaper
+            new TutorialStepCarried(capi, "crafttinder", Text(12), s => Is(s, "game", "drygrass"), EnumReceiveType.Craft, 1, LegacyFlintSteps),
+            // 13. A torch
+            new TutorialStepCarried(capi, "crafttorch", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.Code.Path.StartsWith("torch-"),
+                EnumReceiveType.Craft, 1, LegacyFlintSteps),
             // 14. The map
             TutorialStepBase.Press(capi, "map", Text(14), "worldmaphud"),
             // 15. The handbook, and the end of the tutorial
             TutorialStepBase.Press(capi, "handbook", Text(15), "handbook")
         );
+    }
+}
+
+/// <summary>
+/// A pick-up or craft step that took the place of older steps: progress is kept by step code (in
+/// ModConfig/tutorial-tutorial-backrooms-firststeps.json), so a new code starts from nothing, and this one counts as
+/// done when every one of the old codes it names was done in the saved progress.
+/// </summary>
+public class TutorialStepCarried : TutorialStepReceive
+{
+    private readonly string[] carriedFrom;
+
+    public TutorialStepCarried(ICoreClientAPI capi, string code, string text, ItemStackMatcherDelegate matcher, EnumReceiveType type, int goal, string[] carriedFrom)
+        : base(capi, text, matcher, type, goal)
+    {
+        this.code = code;
+        this.carriedFrom = carriedFrom;
+    }
+
+    public override void FromJson(JsonObject job)
+    {
+        base.FromJson(job);
+        if (Complete || job == null || carriedFrom.Length == 0) return;
+        // (Each old step was a goal of one or more; a step met at least once saved {"achieved": n})
+        foreach (string old in carriedFrom)
+            if (job[old]["achieved"].AsInt(0) <= 0) return;
+        watcher.Skip();
     }
 }
 

@@ -46,7 +46,8 @@ SALVAGE = {
     "chairstack": d(("metalbracket", 2, 1)),
     "coatstand": d((STICK, 2, 1), (PLANK, 1, 0)),
     "wastebasket": d((PAPER, 0.6, 0.4), ("rottenwood", 0.3, 0.3), ("glassshard", 0.2, 0.2)),
-    "ficus": d((STICK, 2, 1), ("game:drygrass", 1, 0.5), ("block:game:soil-low-none", 1, 0)),
+    # (The pot breaks too: shards for grit, and grit and soil for a little clay)
+    "ficus": d((STICK, 2, 1), ("game:drygrass", 1, 0.5), ("block:game:soil-low-none", 1, 0), ("potshard", 1, 1)),
     # Level 1 and 3: maintenance, storage, camps
     "cardboardboxes": d((PAPER, 1, 1), ("crackers", 0.15, 0.15), (CANDLE, 0.2, 0.2), ("game:drygrass", 0.5, 0.5)),
     "workbench": d((PLANK, 3, 1), (NAILS, 0.6, 0.4), ("prybar", 0.03, 0)),
@@ -89,7 +90,7 @@ SALVAGE = {
     "wingchair": d((PLANK, 1, 0.5), (CLOTH, 1, 0.5), (STICK, 1, 0.5)),
     "sofa": d((PLANK, 1, 0.5), (CLOTH, 1, 0.5), (STICK, 1, 0.5)),
     "longsofa": d((PLANK, 2, 0.5), (CLOTH, 2, 0.5), (STICK, 2, 0.5), (NAILS, 0.3, 0.3)),
-    "pottedpalm": d((STICK, 2, 1), ("block:game:soil-low-none", 1, 0)),
+    "pottedpalm": d((STICK, 2, 1), ("block:game:soil-low-none", 1, 0), ("potshard", 1, 1)),
     "mahjongtable": d((PLANK, 2, 1), ("game:gear-rusty", 0.2, 0)),
     "turntable": d(("scrapwire", 1, 0.5), (PLANK, 1, 0)),
     "consoletable": d((PLANK, 2, 1), (CANDLE, 0.3, 0.3)),

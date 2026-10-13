@@ -1,0 +1,22 @@
+{
+ "ingredientPattern": "GS",
+ "ingredients": {
+  "G": {
+   "type": "item",
+   "code": "ceramicgrit",
+   "quantity": 2
+  },
+  "S": {
+   "type": "block",
+   "code": "game:soil-*"
+  }
+ },
+ "width": 2,
+ "height": 1,
+ "shapeless": true,
+ "output": {
+  "type": "item",
+  "code": "game:clay-blue",
+  "quantity": 1
+ }
+}

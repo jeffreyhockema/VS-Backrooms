@@ -75,10 +75,10 @@ public static class Breakdown
     private static readonly Class Joinery = new() { Material = EnumBlockMaterial.Wood, Tier = 0, Resistance = 5, HandFactor = 0.2f, Drops = D((Plank, 0.6f, 0.4f), (Stick, 0.6f, 0.4f), (Nails, 0.2f, 0.2f)) };
 
     /// <summary>Sheet metal, poles, rails, housings: a copper pick or nothing. Bent brackets, the odd bolt.</summary>
-    private static readonly Class Metal = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 6, Drops = D((Bracket, 0.3f, 0.3f)) };
+    private static readonly Class Metal = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 6, Drops = D((Bracket, 0.15f, 0.15f)) };
 
     /// <summary>Anything wired: switchgear, cable runs, machines. A little copper wire among the scrap.</summary>
-    private static readonly Class Electrical = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 6, Drops = D((Bracket, 0.2f, 0.2f), (Wire, 0.15f, 0.15f)) };
+    private static readonly Class Electrical = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 6, Drops = D((Bracket, 0.1f, 0.1f), (Wire, 0.15f, 0.15f)) };
 
     /// <summary>Glass: anything breaks it, and it breaks into shards.</summary>
     private static readonly Class Glass = new() { Material = EnumBlockMaterial.Glass, Tier = 0, Resistance = 1, Drops = D((Shard, 0.5f, 0.5f)) };
@@ -88,13 +88,13 @@ public static class Breakdown
 
     /// <summary>A wrecked car: a copper pick and some work, for a good deal of scrap. Its invisible hull goes with it.</summary>
     private static readonly Class Wreck = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12,
-        Drops = D((Bracket, 1.5f, 0.5f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f)) };
+        Drops = D((Bracket, 0.8f, 0.4f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f)) };
 
     /// <summary>The invisible hull round a car's model: breaking it breaks the car (<see cref="BlockBehaviorWreck"/>).</summary>
     private static readonly Class WreckHull = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12, Drops = D() };
 
     /// <summary>What a light fixture comes apart into, lit or dead: the tube shatters.</summary>
-    private static readonly (string, float, float)[] LightScraps = D((Shard, 1.5f, 0.5f), (Bracket, 0.25f, 0f), (Wire, 0.3f, 0f));
+    private static readonly (string, float, float)[] LightScraps = D((Shard, 1.5f, 0.5f), (Bracket, 0.12f, 0f), (Wire, 0.3f, 0f));
 
     /// <summary>Soft stuff (the ball pit): gone when broken.</summary>
     private static readonly Class Soft = new() { Material = EnumBlockMaterial.Cloth, Tier = 0, Resistance = 1, Drops = D() };

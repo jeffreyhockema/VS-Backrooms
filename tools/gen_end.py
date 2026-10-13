@@ -1219,7 +1219,7 @@ def structure():
         "vertexFlagsByType": {"*-on": {"glowLevel": 220}, "*-lit": {"glowLevel": 220}, "*-flicker": {"glowLevel": 220}},
         "entityClassByType": {"*-flicker": "BackroomsFlicker"},
         "attributesByType": {"*-flicker": {"offBlock": "backrooms:end-troffer-off"}},
-        "dropsByType": {"*-off": drops(("glassshard", 1.5, 0.5), ("metalbracket", 0.25, 0), ("scrapwire", 0.3, 0)),
+        "dropsByType": {"*-off": drops(("glassshard", 1.5, 0.5), ("metalbracket", 0.12, 0), ("scrapwire", 0.3, 0)),
                         "*-flicker": [{"type": "block", "code": "end-troffer-off"}],
                         "*-lit": [{"type": "block", "code": "end-troffer-on"}]},
         "lightAbsorption": 0, "resistance": 0.8, "sounds": GLASS,

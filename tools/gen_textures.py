@@ -357,6 +357,36 @@ def salvage_items():
     save(img, "item/salvage/rottenwood.png")
 
 
+def pottery_items():
+    """The broken pot of a dead office plant, and the grit it pounds down to. Run on its own:
+    python -c "import gen_textures; gen_textures.pottery_items()" (from tools/), so the other sprites are left alone."""
+    terra, terra_hi, terra_lo = (176, 96, 60, 255), (206, 128, 86, 255), (118, 60, 36, 255)
+
+    # A curved piece of the pot's wall: the rolled rim along the top, the break jagged below, soil stuck inside
+    img = sprite()
+    d = ImageDraw.Draw(img)
+    d.polygon([(4, 10), (14, 6), (27, 8), (28, 13), (24, 18), (26, 23), (19, 27), (14, 24), (9, 27), (6, 21)], fill=terra, outline=terra_lo)
+    d.line([(5, 10), (14, 7), (26, 9)], fill=terra_hi, width=2)  # the rim
+    d.line([(6, 13), (14, 10), (26, 12)], fill=terra_lo)
+    for x, y in ((10, 18), (16, 20), (20, 15), (12, 23)):  # dried soil in the curve
+        d.point((x, y), fill=(74, 56, 40, 255))
+        d.point((x + 1, y), fill=(92, 70, 48, 255))
+    d.line([(17, 14), (21, 22)], fill=terra_lo)  # a crack
+    save(img, "item/salvage/potshard.png")
+
+    # A heap of pounded grit, coarse grains and dust
+    img = sprite()
+    d = ImageDraw.Draw(img)
+    d.ellipse([5, 15, 27, 28], fill=(160, 92, 62, 255))
+    d.ellipse([9, 11, 23, 24], fill=(170, 100, 68, 255))
+    rng = random.Random(52)
+    for _ in range(70):
+        x, y = rng.randint(6, 26), rng.randint(12, 27)
+        if ((x - 16) / 11) ** 2 + ((y - 21) / 7) ** 2 <= 1 or ((x - 16) / 7) ** 2 + ((y - 17) / 6.5) ** 2 <= 1:
+            d.point((x, y), fill=rng.choice([terra_hi, terra_lo, (190, 150, 120, 255), (140, 78, 50, 255)]))
+    save(img, "item/salvage/ceramicgrit.png")
+
+
 def portrait(seed):
     """A dark, unsettling oil portrait: a figure in black against murky brown, the face lit from one side, the eyes
     lost in shadow, the varnish gone yellow."""
@@ -1352,6 +1382,7 @@ if __name__ == "__main__":
         save(carpet(v), f"block/carpet-{v}.png")
     save(carpet_threadbare(), "block/carpet-threadbare.png")
     salvage_items()
+    pottery_items()
     save(ceiling_tile(), "block/ceilingtile.png")
     save(ceiling_tile(8), "block/ceilingtile2.png")
     save(ceiling_tile(9), "block/ceilingtile3.png")
