@@ -14,6 +14,19 @@ You need the .NET 10 SDK and Vintage Story 1.22. The asset generators also need 
 - **Release zip:** `dotnet build -c Release` writes `bin/backroomsss_<version>.zip`, ready to upload.
 - **Version number:** kept the same in `modinfo.json` and `Backrooms.csproj`. The build check (`src/BuildCheckSystem.cs`) compares a fingerprint of the build (the assembly's id and the names of its assets), not the version, so a server and client with different copies are warned in chat even when the version matches.
 
+## Keeping saves working
+
+The mod is released, and players have worlds made with it. Every change must leave those worlds loading and playing as before:
+
+- **Codes:** never rename or remove a block, item or entity code, or change a block's variant groups. A world stores blocks and items by code, so a missing code loses them. Add new codes beside the old ones; if something has to go, keep a stub or remap the old code to the new one.
+- **Class names:** never rename a registered block, item, block entity, entity or behaviour class that saved chunks refer to.
+- **World generation:** a change that would alter what an existing world generates goes behind a new layout version (see *Layout versions* below). Run `layouthash` before and after: the output for every older version must not change.
+- **Saved data:** `backrooms-thresholds`, `backrooms-notes`, block entity attributes, the client's explored-map store and anything else saved must still read the old format. Add fields with defaults; never change what an existing key means.
+- **World settings:** keep their codes and option values. A new setting's default must give the old behaviour, because existing worlds don't have it set.
+- **The asset domain** stays `backrooms`.
+
+When in doubt, load a world made with the last release and check it.
+
 ## Code map
 
 - **`src/Worldgen/WorldLayout.cs`:** deterministic layout with no game dependencies. Contains:
