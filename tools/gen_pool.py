@@ -10,7 +10,7 @@ import random
 
 from PIL import Image, ImageDraw
 
-from detail_kit import ASSETS, CLOTH, LANG, METAL, SIDES, STONE, ROTATE, block, bx, cube, name, prop, shape, write_json
+from detail_kit import ASSETS, CLOTH, LANG, METAL, SIDES, STONE, ROTATE, block, bx, cube, ground_storable, name, prop, shape, write_json
 from detail_textures import S, noise, rgb, save, text
 from gen_deep import TRANSFORMS, door_block, drops, threshold
 from gen_detail import cube_block
@@ -244,6 +244,7 @@ def items():
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 1700,
             "attributes": {"handbook": {"groupBy": ["epsomsalt"]}}}
     data.update(TRANSFORMS)
+    ground_storable(data, "Messy12")
     write_json(os.path.join(ASSETS, "itemtypes", "pool", "epsomsalt.json"), data, "Epsom salt, dried out of the Poolrooms' water")
     LANG["item-epsomsalt"] = "Epsom Salt"
     LANG["itemdesc-epsomsalt"] = "Dried out of the Poolrooms' water on the rims of its dark corners. Eases aches and draws out what festers: mixed with linen it makes a salt poultice."
@@ -251,6 +252,7 @@ def items():
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 1000,
             "nutritionProps": {"satiety": 40, "foodcategory": "NoNutrition"}}
     data.update(TRANSFORMS)
+    ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "pool", "redwater.json"), data, "Red water from the Sanguine Reservoir")
     LANG["item-redwater"] = "Red Water"
     LANG["itemdesc-redwater"] = "Water from where the red sprouts grow, at the bottom of the Sanguine Reservoir. Drink it and every wound closes. Everyone who has drunk it was changed for good."

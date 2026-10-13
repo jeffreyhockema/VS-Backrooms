@@ -19,7 +19,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from detail_kit import bx, turn, shift  # noqa: E402
+from detail_kit import bx, ground_storable, turn, shift  # noqa: E402
 
 import gen_974_tex  # noqa: E402
 
@@ -1046,6 +1046,8 @@ def items():
             "attributes": {"backroomsCute": True, "handbook": {"groupBy": ["l974-plush-*"]}}, "materialDensity": 200,
             "heldTpIdleAnimation": "holdbothhandslarge"}
     data.update(ITEM_TRANSFORMS)
+    # Set down with ctrl + shift: shift + right-click with something cute in hand is how you call Kitty
+    ground_storable(data, ctrl=True, height=0.5)
     write_json(os.path.join(folder, "l974-plush.json"), data, "Plush toys: a round grey cat, a bunny holding a strawberry, a teddy bear, a smiling star. Cute (backroomsCute)")
     LANG.update({"item-l974-plush-cat": "Cat Plush", "item-l974-plush-bunny": "Bunny Plush", "item-l974-plush-bear": "Teddy Bear",
                  "item-l974-plush-star": "Star Plush",
@@ -1058,6 +1060,7 @@ def items():
         d.update(SPRITE_TRANSFORMS)
         if extra:
             d.update(extra)
+        ground_storable(d)
         write_json(os.path.join(folder, code + ".json"), d, english)
         LANG[f"item-{code}"] = english
         if desc:
@@ -1075,6 +1078,7 @@ def items():
                                   "l974-meal-macaroni": {"satiety": 480, "foodcategory": "Dairy"}},
          "materialDensity": 600}
     d.update(SPRITE_TRANSFORMS)
+    ground_storable(d)
     write_json(os.path.join(folder, "l974-meal.json"), d, "A Remembered Meal: pancakes, chicken soup, macaroni and cheese, from Kitty's kitchen table")
     LANG.update({"item-l974-meal-pancakes": "A Remembered Meal (pancakes)", "item-l974-meal-soup": "A Remembered Meal (chicken soup)",
                  "item-l974-meal-macaroni": "A Remembered Meal (macaroni and cheese)",

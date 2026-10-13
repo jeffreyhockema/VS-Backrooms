@@ -222,17 +222,21 @@ def level3():
         "lightAbsorption": 0, "resistance": 4, "drops": [], "sounds": METAL,
     }
     write("level3", "ironbars", bars, "Indestructible bars: the way on is visible but out of reach")
+    # Climbing out of Level 3's flooded tunnel: the game only climbs a climbable block's collision boxes, so the rungs
+    # have a thin one, 3 px deep, and the manhole's 2 px frame is climbable too, carrying a player on up through the
+    # hole to the floor (a player against the rungs is clear of the frame). Standing on the frame never climbs: the
+    # game only looks for something to climb from the feet up.
     shaped("level3", "manhole", "block/manhole", material="Metal", sounds=METAL, oriented=False,
-           comment="An open manhole: the frame is solid, the middle drops into the flooded tunnel below",
+           comment="An open manhole: the frame is solid, the middle drops into the flooded tunnel below", climbable=True,
            collisionSelectionBoxes=[
-               {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 0.1875},
-               {"x1": 0, "y1": 0, "z1": 0.8125, "x2": 1, "y2": 1, "z2": 1},
-               {"x1": 0, "y1": 0, "z1": 0.1875, "x2": 0.1875, "y2": 1, "z2": 0.8125},
-               {"x1": 0.8125, "y1": 0, "z1": 0.1875, "x2": 1, "y2": 1, "z2": 0.8125}],
+               {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 0.125},
+               {"x1": 0, "y1": 0, "z1": 0.875, "x2": 1, "y2": 1, "z2": 1},
+               {"x1": 0, "y1": 0, "z1": 0.125, "x2": 0.125, "y2": 1, "z2": 0.875},
+               {"x1": 0.875, "y1": 0, "z1": 0.125, "x2": 1, "y2": 1, "z2": 0.875}],
            resistance=8, requiredMiningTier=3)
+    rungs = {"x1": 0.1875, "y1": 0, "z1": 0, "x2": 0.8125, "y2": 1, "z2": 0.1875}
     shaped("level3", "rungs", "block/rungs", material="Metal", sounds=METAL, oriented=False,
-           comment="Ladder rungs down the manhole shaft", climbable=True,
-           collisionbox=None, selectionbox={"x1": 0.1875, "y1": 0, "z1": 0, "x2": 0.8125, "y2": 1, "z2": 0.125})
+           comment="Ladder rungs down the manhole shaft", climbable=True, collisionbox=rungs, selectionbox=rungs)
 
 
 def level4():

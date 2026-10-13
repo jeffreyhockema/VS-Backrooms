@@ -2,6 +2,9 @@
 	code: "crackers",
 	maxstacksize: 16,
 	shape: { base: "item/crackers" },
+	behaviors: [
+		{ name: "GroundStorable", properties: { layout: "Quadrants", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
+	],
 	creativeinventory: { "general": ["*"], "items": ["*"] },
 	nutritionProps: { satiety: 300, foodcategory: "Grain" },
 	materialDensity: 400,

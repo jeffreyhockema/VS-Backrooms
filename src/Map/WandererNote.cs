@@ -3,6 +3,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Server;
+using Vintagestory.API.Util;
 
 namespace Backrooms.Map;
 
@@ -29,6 +30,12 @@ public class ItemWandererNote : Item
 
     public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
     {
+        if (blockSel != null && byEntity.Controls.ShiftKey)
+        {
+            // Shift + right-click on the floor sets the note down (its GroundStorable behaviour) instead of reading it
+            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+            if (handling != EnumHandHandling.NotHandled) return;
+        }
         if (!firstEvent) return;
         handling = EnumHandHandling.PreventDefault;
         if (api.Side != EnumAppSide.Server || (byEntity as EntityPlayer)?.Player is not IServerPlayer player) return;
@@ -40,5 +47,5 @@ public class ItemWandererNote : Item
     public override WorldInteraction[] GetHeldInteractionHelp(ItemSlot inSlot) => new[]
     {
         new WorldInteraction { ActionLangCode = "backrooms:heldhelp-readnote", MouseButton = EnumMouseButton.Right },
-    };
+    }.Append(base.GetHeldInteractionHelp(inSlot));
 }

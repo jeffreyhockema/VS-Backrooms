@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw
 
 import gen_hub_sigils as SIG
 import gen_textures as T
+from detail_kit import ground_storable
 from gen_hub_kit import ASSETS, COUNTS, LANG, S, bx, noise, rgb, save_tex, seed_of, tint, write_json
 
 # tag -> (English level name, internal level id, display number); the sigil comes from gen_hub_sigils.LEVEL_SIGIL
@@ -377,6 +378,8 @@ def generate():
         "groundTransform": {"translation": {"x": 0, "y": 0, "z": 0}, "rotation": {"x": 0, "y": 0, "z": 0},
                             "origin": {"x": 0.5, "y": 0.45, "z": 0.5}, "scale": 2.4},
     }
+    # On the floor, four to a block: shrunk to a quadrant and brought down from the middle of the block to lie on it
+    ground_storable(data, transform={"translation": {"x": 0.056, "y": -0.205, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 0.45})
     write_json(os.path.join(ASSETS, "itemtypes", "hub", "key.json"), data,
                "The Level Keys: backrooms:hub-key-<tag>, one per level the Hub has a door to. attributes.hubKey: level (internal"
                " id), tag, sigil (the door's, gen_hub_sigils.py), sub (6.1 for the Snackrooms)")

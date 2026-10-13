@@ -3,7 +3,13 @@
 	// A tangle of copper wire pulled from the ceiling.
 	maxstacksize: 16,
 	texture: { base: "item/salvage/scrapwire" },
-	// It is copper: melted down in a crucible it casts like any other (a tangle is worth two copper bits)
+	behaviors: [
+		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
+	],
+	// It is copper: melted down in a crucible it casts like any other (a tangle is worth two copper bits). A crucible
+	// takes only what is flagged for metallurgy (5, as vanilla's nuggets and bits) and no bigger than 0.125 x 0.25 x 0.125
+	storageFlags: 5,
+	size: { width: 0.125, height: 0.0625, length: 0.125 },
 	combustibleProps: {
 		meltingPoint: 1084,
 		meltingDuration: 30,
@@ -11,6 +17,7 @@
 		smeltedStack: { type: "item", code: "game:ingot-copper" }
 	},
 	creativeinventory: { "general": ["*"], "items": ["*"] },
+	attributes: { groundStorageTransform: { origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 0.8 } },
 	guiTransform: { rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1 },
 	tpHandTransform: { translation: { x: -0.75, y: -0.4, z: -0.55 }, rotation: { x: 0, y: -45, z: -10 }, scale: 0.6 },
 	groundTransform: { rotation: { x: 90, y: 0, z: 0 }, origin: { x: 0.5, y: 0, z: 0.5 }, scale: 2 }

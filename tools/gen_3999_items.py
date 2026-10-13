@@ -10,7 +10,12 @@ the user direction of 2026-10-09: the level's point is its theme-based resources
 """
 import os
 
+from detail_kit import ground_storable
 from gen_3999_kit import (COLOURS, GLASS, LANG, SIDES, bx, hang, hsv, item, recipe, variants_block)
+
+# What melts down in a crucible: the metallurgy storage flag (with general, 5, as vanilla's nuggets and bits) and a
+# size the crucible takes (it holds nothing over 0.125 x 0.25 x 0.125; an item's size is half a block unless given)
+CRUCIBLE = {"storageFlags": 5, "size": {"width": 0.125, "height": 0.0625, "length": 0.125}}
 
 SPRITE = {
     "guiTransform": {"rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0.5, "z": 0.5}, "scale": 1},
@@ -20,7 +25,8 @@ SPRITE = {
 INV = {"general": ["*"], "items": ["*"], "backrooms": ["*"]}
 
 
-def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None, by_type=None):
+def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None, by_type=None, ground="Quadrants"):
+    """A flat item; `ground` is its layout set down on the floor."""
     d = {"maxstacksize": stack, "creativeinventory": INV, "materialDensity": 400}
     if by_type:
         d["variantgroups"] = by_type[0]
@@ -30,7 +36,7 @@ def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None
     d.update(SPRITE)
     if extra:
         d.update(extra)
-    item(code, d, comment or english)
+    item(code, ground_storable(d, ground), comment or english)
     if english:
         LANG[f"item-{code}" + ("-*" if by_type else "")] = english
     if desc:
@@ -40,28 +46,28 @@ def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None
 def items():
     sprite_item("l3999-ticket", "Arcade Ticket",
                 "Won from the machines of Level 3999. Each machine pays you once a day. Trade them at a prize counter for prizes, or at a "
-                "food stall for a meal.", "ticket", stack=128,
+                "food stall for a meal.", "ticket", stack=128, ground="Messy12",
                 extra={"combustibleProps": {"burnTemperature": 300, "burnDuration": 2}, "materialDensity": 200},
                 comment="Level 3999's currency: a red ticket, ADMIT ONE. Stack 128")
 
     meals = {"burger": ("Tray of Burger", 420, "Protein"), "pizza": ("Tray of Pizza", 420, "Grain"), "noodles": ("Tray of Noodles", 420, "Grain"),
              "taco": ("Tray of Tacos", 420, "Protein"), "icecream": ("Tray of Ice Cream", 240, "Dairy"), "pretzel": ("Tray of Pretzels", 420, "Grain")}
-    item("l3999-traymeal", dict({
+    item("l3999-traymeal", ground_storable(dict({
         "variantgroups": [{"code": "meal", "states": list(meals)}], "maxstacksize": 8, "creativeinventory": INV, "materialDensity": 600,
         "textureByType": {f"l3999-traymeal-{m}": {"base": f"item/3999/traymeal-{m}"} for m in meals},
         "nutritionPropsByType": {f"l3999-traymeal-{m}": {"satiety": sat, "foodcategory": cat, "health": 2} for m, (_, sat, cat) in meals.items()},
         "attributes": {"handbook": {"groupBy": ["l3999-traymeal-*"]}},
-    }, **SPRITE), "A tray meal from a food stall in the Neon Paradise (6 tickets): satiety 420 (ice cream 240) and +2 health")
+    }, **SPRITE)), "A tray meal from a food stall in the Neon Paradise (6 tickets): satiety 420 (ice cream 240) and +2 health")
     for m, (n, _, _) in meals.items():
         LANG[f"item-l3999-traymeal-{m}"] = n
     LANG["itemdesc-l3999-traymeal-*"] = "From a stall in the Neon Paradise. It tastes almost right: a little funky, a little artificial."
 
-    item("l3999-glowband", dict({
+    item("l3999-glowband", ground_storable(dict({
         "variantgroups": [{"code": "colour", "states": ["magenta", "cyan", "lilac"]}], "maxstacksize": 16, "creativeinventory": INV,
         "materialDensity": 300, "textureByType": {f"l3999-glowband-{c}": {"base": f"item/3999/glowband-{c}"} for c in ("magenta", "cyan", "lilac")},
         "lightHsvByType": {f"l3999-glowband-{c}": hsv(c, 6) for c in ("magenta", "cyan", "lilac")},
         "attributes": {"handbook": {"groupBy": ["l3999-glowband-*"]}},
-    }, **SPRITE), "A glow bracelet (a prize): a dim coloured light while held, dimmer than a candle")
+    }, **SPRITE)), "A glow bracelet (a prize): a dim coloured light while held, dimmer than a candle")
     LANG["item-l3999-glowband-*"] = "Glow Bracelet"
     LANG["itemdesc-l3999-glowband-*"] = "A prize from the Neon Paradise. It glows, a little, for good. Not enough to keep anything away."
 
@@ -71,12 +77,12 @@ def items():
     sprite_item("l3999-cottoncandy", "Cotton Candy", "Pink and blue spun sugar on a paper cone. Gone in three bites.", "cottoncandy", stack=8,
                 extra={"nutritionProps": {"satiety": 80, "foodcategory": "NoNutrition"}})
     flavours = {"cherry": "Cherry", "lime": "Lime", "grape": "Grape"}
-    item("l3999-soda", dict({
+    item("l3999-soda", ground_storable(dict({
         "variantgroups": [{"code": "flavour", "states": list(flavours)}], "maxstacksize": 8, "creativeinventory": INV, "materialDensity": 600,
         "textureByType": {f"l3999-soda-{f}": {"base": f"item/3999/soda-{f}"} for f in flavours},
         "nutritionPropsByType": {f"l3999-soda-{f}": {"satiety": 100, "foodcategory": "Fruit" if f == "cherry" else "NoNutrition"} for f in flavours},
         "attributes": {"handbook": {"groupBy": ["l3999-soda-*"]}},
-    }, **SPRITE), "Paradise Pop: a can of neon soda from the vending machines (cherry, lime, grape)")
+    }, **SPRITE)), "Paradise Pop: a can of neon soda from the vending machines (cherry, lime, grape)")
     for f, n in flavours.items():
         LANG[f"item-l3999-soda-{f}"] = f"Paradise Pop ({n})"
     LANG["itemdesc-l3999-soda-*"] = "A can of soda in a flavour that only exists here. It fizzes like a memory of summer."
@@ -85,15 +91,15 @@ def items():
     sprite_item("l3999-neontubing", "Neon Tubing", "Glass tubing salvaged from dead neon, still holding a little gas. With a circuit board and "
                 "some plastic it makes a neon lamp again; the glow bracelet you add decides its colour.", "neontubing", stack=32)
     sprite_item("l3999-circuitboard", "Circuit Board", "From the guts of an arcade machine. Its traces are copper: melt boards down in a "
-                "crucible (ten to an ingot).", "circuitboard", stack=32,
-                extra={"combustibleProps": {"meltingPoint": 1084, "meltingDuration": 30, "smeltedRatio": 10,
-                                            "smeltedStack": {"type": "item", "code": "game:ingot-copper"}}})
+                "crucible (ten to an ingot).", "circuitboard", stack=32, ground="Messy12",
+                extra=dict(CRUCIBLE, combustibleProps={"meltingPoint": 1084, "meltingDuration": 30, "smeltedRatio": 10,
+                                                       "smeltedStack": {"type": "item", "code": "game:ingot-copper"}}))
     sprite_item("l3999-coinmech", "Coin Mechanism", "The coin door's works, solid brass. Melt it down in a crucible: five make a brass ingot. "
-                "Nobody in the Backrooms has coins anyway.", "coinmech", stack=16,
-                extra={"combustibleProps": {"meltingPoint": 920, "meltingDuration": 30, "smeltedRatio": 5,
-                                            "smeltedStack": {"type": "item", "code": "game:ingot-brass"}}})
+                "Nobody in the Backrooms has coins anyway.", "coinmech", stack=16, ground="Messy12",
+                extra=dict(CRUCIBLE, combustibleProps={"meltingPoint": 920, "meltingDuration": 30, "smeltedRatio": 5,
+                                                       "smeltedStack": {"type": "item", "code": "game:ingot-brass"}}))
     sprite_item("l3999-plastic", "Plastic Scrap", "Bright moulded plastic from cabinets, bins and light diffusers. It burns hot and foul.",
-                "plastic", stack=64, extra={"combustibleProps": {"burnTemperature": 700, "burnDuration": 20}})
+                "plastic", stack=64, ground="Messy12", extra={"combustibleProps": {"burnTemperature": 700, "burnDuration": 20}})
 
     # The neon lamp: a placeable coloured light, given as a prize and made from salvage
     def lamp(v):
