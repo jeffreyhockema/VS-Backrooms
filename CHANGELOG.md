@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fixed: scrap wire, circuit boards and coin mechanisms can go in a crucible again, as the handbook says.
+- Fixed: the ladder down a Level 3 manhole can be climbed, all the way up through the manhole to the street.
+- Every item of the mod can be set down on the ground (shift + right-click; ctrl + shift for tools, chalk and plush toys).
 - *Backrooms scarcity* now reaches all food: a new Scarce setting (about a third of the food); every food and drink in boxes, crates and fridges counts, not just a list; vending machines, water coolers, fountains and Kitty's fridge hold less and restock more slowly on Sparse and Scarce; Level 10 has less livestock; and new worlds on Sparse or Scarce have thinner gardens, fields and berry bushes in Levels 9 and 10 (fixed at world creation). Worlds are now created at layout version 7.
 - Flint is a Level 1 find: a sealed supply box holds one about one time in twenty (was two in five), a torn one one in fifty. The glass shiv and the improvised scraper carry you through the Lobby.
 - The shiv and the scraper cut wallpaper and carpet cleanly: two strips or fibres a cut, where any other knife, a flint one too, gives one.
