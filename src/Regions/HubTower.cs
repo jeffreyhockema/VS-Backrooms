@@ -351,18 +351,28 @@ public partial class HubSystem
     {
         if (layout == null) return;
         double y = geometry.FloorFor(WorldLayout.Hub) + 1.5;
+        // (Where the map setting makes no waypoints, each place is told instead: the Tower once, by its nearest door)
+        bool waypoints = MapSetting.Waypoints(sapi.World.Config);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(waypoints ? "backrooms:hub-register-read" : "backrooms:hub-register-read-nomap"), EnumChatType.Notification);
         foreach (int level in new[] { 1, 11, WorldLayout.HubSnackroomsDoor })
             if (layout.HubDoorOf(level) is { } door)
                 MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, y, door.Z + 0.5), Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6);
+        int nearest = 0;
+        double nearestD = double.MaxValue;
+        for (int k = 0; k < 10; k++)
+        {
+            var (dx, dz) = layout.HubSpokeDirection(k);
+            double ex = layout.HubOriginX + 0.5 + dx * 26 - player.Entity.Pos.X, ez = layout.HubOriginZ + 0.5 + dz * 26 - player.Entity.Pos.Z;
+            if (ex * ex + ez * ez < nearestD) { nearestD = ex * ex + ez * ez; nearest = k; }
+        }
         for (int k = 0; k < 10; k++)
         {
             var (dx, dz) = layout.HubSpokeDirection(k);
             MapMarks.Add(sapi, player, new Vec3d(layout.HubOriginX + 0.5 + dx * 26, y, layout.HubOriginZ + 0.5 + dz * 26),
-                Lang.Get("backrooms:waypoint-hubtower"), "star1", MapMarks.WayColor, 4);
+                Lang.Get("backrooms:waypoint-hubtower"), "star1", MapMarks.WayColor, 4, tell: k == nearest);
         }
         if (layout.HubMegSite() is { } site)
             MapMarks.Add(sapi, player, new Vec3d(site.X + 0.5, y, site.Z + 0.5), Lang.Get("backrooms:waypoint-hubmeg"), "home", MapMarks.NoteColor, 6);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-register-read"), EnumChatType.Notification);
     }
 }
 

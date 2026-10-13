@@ -1,4 +1,5 @@
 using System.Linq;
+using Backrooms.Notes;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -11,6 +12,7 @@ namespace Backrooms.Map;
 /// <summary>
 /// Waypoints the Backrooms puts on a player's map for them: the ways between levels they have been through, and the
 /// places a wanderer's note told them of. Ordinary vanilla waypoints, so they can be renamed, recoloured or deleted.
+/// None are made where the map setting says not (<see cref="MapSetting"/>).
 /// </summary>
 public static class MapMarks
 {
@@ -22,12 +24,26 @@ public static class MapMarks
 
     /// <summary>
     /// Adds a waypoint for a player unless they already have one within <paramref name="near"/> blocks of the spot.
-    /// Returns whether one was added.
+    /// Returns whether one was added. In a world whose map setting makes no waypoints, the player is told in chat
+    /// which way the spot lies instead, if it is not where they stand, unless <paramref name="tell"/> is false (for
+    /// marks the caller has its own words for, or where the player has just been).
     /// </summary>
-    public static bool Add(ICoreServerAPI sapi, IServerPlayer player, Vec3d at, string title, string icon, int color, double near)
+    public static bool Add(ICoreServerAPI sapi, IServerPlayer player, Vec3d at, string title, string icon, int color, double near, bool tell = true)
     {
+        if (player == null) return false;
+        if (!MapSetting.Waypoints(sapi.World.Config))
+        {
+            if (tell && player.Entity != null)
+            {
+                double dx = at.X - player.Entity.Pos.X, dz = at.Z - player.Entity.Pos.Z;
+                if (dx * dx + dz * dz >= near * near)
+                    player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:mapmark-told", title,
+                        Lang.Get("backrooms:dir-" + MarkResolver.Direction(dx, dz)), MarkResolver.Paces(dx, dz)), EnumChatType.Notification);
+            }
+            return false;
+        }
         WaypointMapLayer layer = sapi.ModLoader.GetModSystem<WorldMapManager>()?.MapLayers.OfType<WaypointMapLayer>().FirstOrDefault();
-        if (layer == null || player == null) return false;
+        if (layer == null) return false;
         foreach (Waypoint w in layer.Waypoints)
             if (w.OwningPlayerUid == player.PlayerUID && w.Position.SquareDistanceTo(at) < near * near) return false;
         layer.AddWaypoint(new Waypoint

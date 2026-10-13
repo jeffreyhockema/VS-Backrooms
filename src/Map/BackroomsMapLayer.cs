@@ -71,9 +71,13 @@ public class BackroomsMapLayer : MapLayer
         store.Load();
     }
 
+    /// <summary>Whether this player may have the map (the None map setting turns vanilla's "allowMap" off).</summary>
+    public bool MapAllowed => capi != null && (mapSink as WorldMapManager)?.mapAllowedClient() != false;
+
     public override void OnTick(float dt)
     {
-        if (capi == null) return;
+        // (With no map nothing is seen for it: what was mapped before stays as it was)
+        if (capi == null || !MapAllowed) return;
 
         revealAccum += dt;
         if (revealAccum >= RevealInterval)

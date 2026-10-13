@@ -378,8 +378,8 @@ public class L3999System : ModSystem
         if (food.Count == 0 || lobby.Count == 0) return;
         var (fx, fz) = food[0];
         var (lx, lz) = lobby[0];
-        MapMarks.Add(sapi, player, new Vec3d(fx + 0.5, pos.Y, fz + 0.5), Lang.Get("backrooms:waypoint-l3999-foodcourt"), "star1", MapMarks.NoteColor, 24);
-        MapMarks.Add(sapi, player, new Vec3d(lx + 0.5, pos.Y, lz + 0.5), Lang.Get("backrooms:waypoint-l3999-lobby"), "star1", MapMarks.NoteColor, 24);
+        MapMarks.Add(sapi, player, new Vec3d(fx + 0.5, pos.Y, fz + 0.5), Lang.Get("backrooms:waypoint-l3999-foodcourt"), "star1", MapMarks.NoteColor, 24, tell: false);
+        MapMarks.Add(sapi, player, new Vec3d(lx + 0.5, pos.Y, lz + 0.5), Lang.Get("backrooms:waypoint-l3999-lobby"), "star1", MapMarks.NoteColor, 24, tell: false);
         int Paces(int x, int z) => (int)Math.Round(Math.Sqrt((double)(x - pos.X) * (x - pos.X) + (double)(z - pos.Z) * (z - pos.Z)) / 10) * 10;
         Say(player, "backrooms:l3999-directory", Direction(fx - pos.X, fz - pos.Z), Paces(fx, fz), Direction(lx - pos.X, lz - pos.Z), Paces(lx, lz));
     }

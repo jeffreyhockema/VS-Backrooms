@@ -28,6 +28,7 @@ public class BackroomsTutorial : TutorialBase
     public BackroomsTutorial(ICoreClientAPI capi) : base(capi, "tutorial-" + Code) { }
 
     private static string Text(int n) => "backrooms:tutorial-backrooms-" + n;
+    private static string Text(string n) => "backrooms:tutorial-backrooms-" + n;
 
     // What the bag takes (recipes/grid/carpetbag.json and twine-from-carpet.json, and the texts of steps 9 and 10)
     private const int TwineFibres = 3, CarpetBagFibres = 5;
@@ -53,12 +54,26 @@ public class BackroomsTutorial : TutorialBase
         return path is "flint" or "stick" or "drygrass" or "candle";
     }
 
+    /// <summary>
+    /// Step 14, as the world's map setting has it (<see cref="Map.MapSetting"/>). With no map there is no map key to
+    /// press, so it is a step of its own ("nomap"), met with the journal key once the step before it is done.
+    /// </summary>
+    private TutorialStepBase MapStep(TutorialStepBase before)
+    {
+        if (!Map.MapSetting.HasMap(capi.World.Config))
+            return new TutorialStepPressWhenReady(capi, "nomap", Text("14-nomap"), () => before.Complete, "journal");
+        string text = Map.MapSetting.Of(capi.World.Config) == Map.MapSetting.Mode.NoWaypoints ? Text("14-nowaypoints") : Text(14);
+        return TutorialStepBase.Press(capi, "map", text, "worldmaphud");
+    }
+
     protected override void initTutorialSteps()
     {
         steps.Clear();
         TutorialStepReceive craftShiv = TutorialStepBase.Craft(capi, "craftshiv", Text(7), s => Ours(s, "glassshiv") || Ours(s, "scraper"), 1);
         TutorialStepReceive craftTwine = TutorialStepBase.Craft(capi, "crafttwine", Text(9), s => Is(s, "game", "flaxtwine"), 1);
         TutorialStepReceive craftBag = TutorialStepBase.Craft(capi, "craftbag", Text(10), s => Ours(s, "carpetbag"), 1);
+        // 13. Haft it: a knife of the game's (stone or better), not the shiv or the scraper, which are knives too
+        TutorialStepReceive craftKnife = TutorialStepBase.Craft(capi, "craftknife", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.GetTool(new DummySlot(s)) == EnumTool.Knife, 1);
         addSteps(
             // 1. Moving, and why not to run
             TutorialStepBase.Press(capi, "move", Text(1), "walkforward", "walkbackward", "walkleft", "walkright", "jump", "sneak", "sprint"),
@@ -87,10 +102,10 @@ public class BackroomsTutorial : TutorialBase
             TutorialStepBase.Collect(capi, "getflint", Text(11), Knappable, 2),
             // 12. Knap a knife blade
             TutorialStepBase.Knap(capi, "knapknife", Text(12), s => s?.Collectible?.Code != null && s.Collectible.Code.Path.Contains("knifeblade"), 1),
-            // 13. Haft it: a knife of the game's (stone or better), not the shiv or the scraper, which are knives too
-            TutorialStepBase.Craft(capi, "craftknife", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.GetTool(new DummySlot(s)) == EnumTool.Knife, 1),
+            // 13. A knife
+            craftKnife,
             // 14. The map
-            TutorialStepBase.Press(capi, "map", Text(14), "worldmaphud"),
+            MapStep(craftKnife),
             // 15. The handbook, and the end of the tutorial
             TutorialStepBase.Press(capi, "handbook", Text(15), "handbook")
         );
@@ -150,4 +165,22 @@ public class TutorialStepHold : TutorialStepReceive
         watcher.QuantityAchieved = held;
         return true;
     }
+}
+
+/// <summary>
+/// A key step whose keys only count once <c>ready</c> says it is its turn. Steps are checked side by side, so a key an
+/// earlier step already asked for (the journal) would otherwise tick it off long before it is shown.
+/// </summary>
+public class TutorialStepPressWhenReady : TutorialStepPressHotkeys
+{
+    private readonly Func<bool> ready;
+
+    public TutorialStepPressWhenReady(ICoreClientAPI capi, string code, string text, Func<bool> ready, params string[] hotkeys)
+        : base(capi, text, hotkeys)
+    {
+        this.code = code;
+        this.ready = ready;
+    }
+
+    public override bool OnHotkeyPressed(string hotkeycode, KeyCombination keyComb) => ready() && base.OnHotkeyPressed(hotkeycode, keyComb);
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- New world setting *Backrooms map* (under Survival challenges), for players who want to feel lost: *Seen areas* (the map as before, the default), *Seen areas, no waypoints* (the map fills in but marks nothing for you) or *None* (no map or minimap at all, and a little more chalk). Without waypoints, notes and the things that marked the map tell you the direction and paces instead.
+
 ## 0.512.2019 — first public release
 
 The first release on the Vintage Story mod database. Everything in the [README](README.md) and the [player guide](docs/GUIDE.md) is in it:

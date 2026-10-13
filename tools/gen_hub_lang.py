@@ -48,6 +48,7 @@ def generate():
         "waypoint-hubtower": "The Tower",
         # The outposts
         "hub-register-read": "The M.E.G. door register: the open doors and the Tower are now on your map.",
+        "hub-register-read-nomap": "The M.E.G. door register lists the open doors and the Tower, and which way they lie:",
         "blockhelp-register": "Read the door register",
         "waypoint-hubmeg": "M.E.G. Doorstep Carpet",
         "hub-camp-sign": "Camp Amber: new here? Ask us.",

@@ -11,5 +11,10 @@
 	"worldattribute-backroomsScarcity-desc": "How much food and Almond Water is left in the boxes, crates and cupboards of the Backrooms. Normal is scarce enough that scavenging matters.",
 	"worldconfig-backroomsScarcity-Plentiful": "Plentiful (twice the food)",
 	"worldconfig-backroomsScarcity-Normal": "Normal",
-	"worldconfig-backroomsScarcity-Sparse": "Sparse (about 60% of the food)"
+	"worldconfig-backroomsScarcity-Sparse": "Sparse (about 60% of the food)",
+	"worldattribute-backroomsMap": "Backrooms map",
+	"worldattribute-backroomsMap-desc": "How much the map helps you find your way. Seen areas: the map fills in with what you have seen, and marks the ways between levels you took and the places notes tell of. No waypoints: the same map, but it marks nothing for you. None: no map or minimap at all; notes and chalk are all you have to go by, and chalk is a little easier to find.",
+	"worldconfig-backroomsMap-Seen": "Seen areas",
+	"worldconfig-backroomsMap-NoWaypoints": "Seen areas, no waypoints",
+	"worldconfig-backroomsMap-None": "None (no map: get lost)"
 }
