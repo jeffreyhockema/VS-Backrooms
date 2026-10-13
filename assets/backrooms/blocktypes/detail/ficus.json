@@ -68,6 +68,14 @@
 				"avg": 1,
 				"var": 0
 			}
+		},
+		{
+			"type": "item",
+			"code": "potshard",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
 		}
 	]
 }

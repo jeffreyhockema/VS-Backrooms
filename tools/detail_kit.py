@@ -27,12 +27,12 @@ CLOTH = {"walk": "game:walk/cloth", "place": "game:block/cloth", "break": "game:
 
 DEAD_LIGHT_DROPS = [
     {"type": "item", "code": "glassshard", "quantity": {"avg": 1.5, "var": 0.5}},
-    {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.25, "var": 0}},
+    {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.12, "var": 0}},
     {"type": "item", "code": "scrapwire", "quantity": {"avg": 0.3, "var": 0}},
 ]
 CEILING_DROPS = [
     {"type": "item", "code": "scrapwire", "quantity": {"avg": 0.12, "var": 0}},
-    {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.08, "var": 0}},
+    {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.04, "var": 0}},
     {"type": "item", "code": "rottenwood", "quantity": {"avg": 0.1, "var": 0}},
 ]
 

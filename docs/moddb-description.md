@@ -130,7 +130,7 @@ There are also Flickerings out towards the edge of Level 1, the Screaming of the
 
 1. Install the mod as usual. On a server, everyone needs the same build; the mod checks on joining and warns in chat if a client's copy differs.
 2. Create a new world and pick the **Backrooms: Survival Story** playstyle. Existing worlds and other playstyles are not affected.
-3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blade, bag and flint knife.
+3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blades, bag and torch.
 4. Keep the map (M) open often. It only knows what you have seen.
 
 World settings under *Survival challenges* when creating a world: **Backrooms entities** (Off: sounds only, Low, Normal, High) and **Backrooms scarcity** (Plentiful: twice the food; Normal; Sparse: a little over half).

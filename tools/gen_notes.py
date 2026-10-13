@@ -81,15 +81,15 @@ They turn up in order. Don't ask me how.
     E("m02", "A blade", """
 You need an edge. Knock a dead light out of the ceiling for glass. A bare shard cuts, but it snaps one time in four.
 A shard, a strip of wallpaper and a carpet fibre make a shiv. A metal bracket, a strip and two fibres make a scraper,
-and that lasts three times as long.
+and that lasts three times as long. Either one peels clean, two to a cut. Keep it even once you've got flint.
 — Dez""", w="dez"),
     E("m03", "Wallpaper and carpet", """
 Blade in hand, right-click the yellow wallpaper, then the dry carpet. Strips and fibres. Two strips twist into dry
 grass. Three fibres make twine. Five fibres and a twine make a carpet bag, three slots. Make four before you go
-anywhere: that's thirty-two cuts of carpet. The floor won't mind.
+anywhere: that's thirty-two fibres, sixteen cuts with a shiv. The floor won't mind.
 — Dez""", w="dez"),
     E("m04", "Fire", """
-Flint occurs in the sealed boxes. With two: sneak, right-click one onto the floor, knap. Knife blade first, then an
+Flint is rare in the boxes here; Level 1's crates and floors have it. With two: sneak, right-click one onto the floor, knap. Knife blade first, then an
 axe head, each hafted on a stick. One rotten wood (from the ceiling voids) gives two sticks; two give a firewood. Fire
 starter: one dry grass, two sticks. Firepit: dry grass on the floor, four firewood. Expect no wood here. Level 1 has
 wood.
