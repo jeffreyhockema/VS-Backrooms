@@ -41,7 +41,7 @@ PAGES["starter"] = ("Starter Guide", """
 Note: This guide is purposely kept short. The other guides in the Guides tab are the game's own: their crafting is right, but where they say to find things is not, so each begins with a note on how it goes here. The Backrooms' own pages follow the [Progression Guide](craftinginfo-progressionguide) in the list. A step-by-step start is in the Tutorials tab, under *Backrooms: First Steps*.
 
 **Where you are**
-You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming lights, going on in every direction. Nothing grows here, it never rains, there are no seasons and no winter, and there is no one to be found. What you need was left behind by those who came before, in supply boxes, in the furniture, and in the building itself. A [wanderer's note](item-backrooms:wanderernote-door) is in your pocket: {rightmouse} with it in hand to read it. It will tell you the first three rules, and mark the nearest unopened supply box on your map.
+You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming lights, going on in every direction. Nothing grows here, it never rains, there are no seasons and no winter, and there is no one to be found. What you need was left behind by those who came before, in supply boxes, in the furniture, and in the building itself. A [wanderer's note](item-backrooms:wanderernote-door) is in your pocket: {rightmouse} with it in hand to read it. It will tell you the first three rules, and mark the nearest unopened supply box on your map (or, in a world made with less map, tell you which way it lies: see [Finding the Way](backrooms-finding)).
 
 **What is different here**
 - **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A [temporal gear](item-gear-temporal) moves where you wake, but only within Level 0. See [Home and Expeditions](backrooms-home).
@@ -241,7 +241,7 @@ Where two levels meet the wall is solid, but every few hundred blocks along it t
 - **Every note marks somewhere new.** A note never points at a place one of your earlier notes already marked while there is another to point at: the first supplies note marks the nearest unopened box, the next one the box after that, and so on outward; the same for gates, ways and refuges. Only when nothing else is in range does a note name a place again.
 - **Notes stack** by what they are about, 16 to a stack (a way through, a way out, supplies, a refuge; the folded notes together), so you can carry a bundle and read them where they will help, one at a time.
 - Some notes lie loose on the floor: at chalk-crossed dead ends, in the Manila Room and the Red Rooms, in Level 3's Sanctums and the Beverly Room, in the food courts, beside each arrival in Level !.
-- Every note you read goes into your **journal** ({journal}, or .journal): the wanderers' way, a chapter for each level, the folded notes, and the directions you have been given, each with where you read it and **Show on map** and **Mark again** for what it marked. It is kept for you, not carried: dying loses nothing.
+- Every note you read goes into your **journal** ({journal}, or .journal): the wanderers' way, a chapter for each level, the folded notes, and the directions you have been given, each with where you read it and, where the world has waypoints, **Show on map** and **Mark again** for what it marked. It is kept for you, not carried: dying loses nothing.
 - You wake with a note already in your pocket: the first page, marking the nearest sealed box.
 - Once you have read everything, a note is only its directions. Anything signed =) is a lie.
 
@@ -894,8 +894,10 @@ TUTORIAL = [
     "That is the Lobby's whole toolkit. Stone tools wait for Level 1: <a href=\"handbook://item-flint\">flint</a> is rare in the Lobby's boxes, but Level 1's crates hold it and its concrete floors have flint and stones lying loose; then <a href=\"handbook://craftinginfo-knapping\">knap</a> a knife and an axe. Fire, food, the way to Level 1, the gear by your health and what lives in the dark are all in the handbook: press {0} and read the <a href=\"handbook://craftinginfo-starterguide\">Starter Guide</a>. Good luck, and don't run.",
 ]
 
-# Step 14 where the world's Backrooms map setting is not the default (BackroomsTutorial.MapStep): keyed by the lang suffix
+# Steps 2 and 14 where the world's Backrooms map setting is not the default (BackroomsTutorial.JournalStep, MapStep):
+# keyed by the lang suffix. Step 2's stands for both No waypoints and None
 TUTORIAL_MAP = {
+    "2-nowaypoints": "There is a wanderer's note in your pocket. With it in your hand, <icon>rightmousebutton</icon> to read it: it tells you which way the nearest unopened supply box lies, and how many paces. Every note you read is kept in your journal, directions and all; press {0} to open it.",
     "14-nowaypoints": "Open the map with {0}. It shows only what you have seen, and remembers it, but in this world it marks nothing for you: <icon>rightmousebutton</icon> on it to add waypoints of your own. Where you woke up is your home: you will wake there whenever you die, wherever you are.",
     "14-nomap": "There is no map in this world: you find your way or you don't. Where you woke up is your home: you will wake there whenever you die, wherever you are, so learn the way back to it. A note gives a direction and a number of paces, and your journal ({0}) keeps them. Chalk arrows on the walls point to the ways through; leave your own with <itemstack type=\"item\">backrooms:chalk</itemstack> <a href=\"handbook://item-backrooms:chalk\">surveyor's chalk</a>, from crumbled ceiling tiles.",
 }

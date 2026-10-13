@@ -2488,6 +2488,8 @@ def lang():
         "endvent": "You crawl into the dark. The vent ends in open air, and you are falling.",
         "endterminal-on": "The screen flickers on with a low buzz. In white letters: THE END. Then static, and nothing.",
         "endterminal-marked": "Before it dies, the screen shows a plan of the floor. You remember where the doors were.",
+        # (said first instead where the map setting makes no waypoints: each way out is told after it)
+        "endterminal-marked-nomap": "Before it dies, the screen shows a plan of the floor. You fix the doors in your head:",
         "endterminal-dead": "The screen stays dark. It will not turn on again.",
         "endterminal-party": "The screen flickers on. It does not say THE END. It says =)",
         "waypoint-endterminal": "A way out of The End (from a computer)",
@@ -2503,7 +2505,7 @@ def lang():
         "note-endexit-2": "A catalogue card, filed under E: \"Exit: see {0}, {1} paces.\"",
         "note-endexit-3": "Someone has written on the back of the card: \"{0}. {1} paces. It opened for me.\"",
         "item-end-cataloguecard": "Catalogue Card",
-        "itemdesc-end-cataloguecard": "From The End's card catalogue. Read it to mark the nearest way out on your map.",
+        "itemdesc-end-cataloguecard": "From The End's card catalogue. Read it for the way to the nearest way out, marked on your map where the world has waypoints.",
         "item-end-memoryjuice": "Memory Juice",
         "itemdesc-end-memoryjuice": "An unlabelled bottle of something cloudy and amber. For a while after you drink it, everything feels like home. The Junkies of The End will trade with anyone who carries some.",
         "blockhelp-endterminal": "Turn on",

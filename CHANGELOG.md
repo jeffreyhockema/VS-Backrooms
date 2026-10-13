@@ -9,6 +9,7 @@
 - The First Steps tutorial no longer asks for flint in the Lobby: steps 11 to 13 are now the scraper, tinder and a torch, and the last step points to Level 1 for flint. Progress is kept, and anyone who had made the flint knife counts the new steps as done.
 - Pottery shards: the potted plants of Levels 4 and 5 break for them. Two shards pounded with a stone make ceramic grit, and two grit and a block of soil make a blue clay: about four plants a clay, a slow way to clay without the trip to Level 3.
 - New world setting *Backrooms map* (under Survival challenges), for players who want to feel lost: *Seen areas* (the map as before, the default), *Seen areas, no waypoints* (the map fills in but marks nothing for you) or *None* (no map or minimap at all, and a little more chalk). Without waypoints, notes and the things that marked the map tell you the direction and paces instead.
+- Without waypoints, vanilla's "You died here" waypoint is off too; the First Steps note step and The End's computers are worded for it (the way out told, not marked); Kitty's computer and Level 3999's attendants speak before the way is told; and item texts, the handbook and a few notes no longer promise a map mark.
 
 ## 0.512.2019 — first public release
 
