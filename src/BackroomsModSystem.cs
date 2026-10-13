@@ -303,9 +303,12 @@ public class BackroomsModSystem : ModSystem
         if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
-        return thresholds.Send((IServerPlayer)args.Caller.Player, level, key, null)
-            ? TextCommandResult.Success($"Sent to Level {WorldLayout.DisplayNumber(level)}")
-            : TextCommandResult.Error($"Found nowhere to arrive in Level {WorldLayout.DisplayNumber(level)}");
+        var player = (IServerPlayer)args.Caller.Player;
+        Vec3d from = player.Entity.Pos.XYZ;
+        if (!thresholds.Send(player, level, key, null)) return TextCommandResult.Error($"Found nowhere to arrive in Level {WorldLayout.DisplayNumber(level)}");
+        // (For /backrooms back)
+        sapi.ModLoader.GetModSystem<Cheats.CheatSystem>()?.RememberBack(player, from);
+        return TextCommandResult.Success($"Sent to Level {WorldLayout.DisplayNumber(level)}");
     }
 
     private TextCommandResult OnShiftCommand(TextCommandCallingArgs args)

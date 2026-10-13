@@ -1,21 +1,25 @@
 using System;
 using System.Linq;
 using Vintagestory.API.Client;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Backrooms.Entities;
+using Backrooms.Map;
+using Backrooms.Salvage;
 
 namespace Backrooms.Cheats;
 
 /// <summary>
 /// The cheat menu. Most buttons send <c>/backrooms</c> debug commands (and a few vanilla ones) as chat commands, so
-/// the server decides whether the player may use them and the replies show in chat; the View tab's act on this
-/// client only.
+/// the server decides whether the player may use them and the replies show in chat; the View tab's, and restarting
+/// the tutorial, act on this client only. A status line on every tab says where you are and how the world is set.
 /// </summary>
 public class GuiDialogCheats : GuiDialog
 {
-    private const double Width = 600, ButtonHeight = 26, Gap = 6, RowGap = 10;
+    private const double Width = 600, ButtonHeight = 26, Gap = 6, RowGap = 10, LineHeight = 18;
 
-    private static readonly string[] Tabs = { "Travel", "Creatures", "Events", "Player", "View" };
+    private static readonly string[] Tabs = { "Travel", "Player", "Creatures", "World", "View", "Dev" };
     private static readonly string[] LevelNumbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "37", "94", "!", "Fun", "End", "Hub", "974", "3999", "188" };
 
     /// <summary>A level's name on a button: "Level 37", "Level !", but "The End" and "The Hub".</summary>
@@ -25,12 +29,32 @@ public class GuiDialogCheats : GuiDialog
 
     private static readonly string[] CreatureCodes = Roster.AllCodes.Append("backrooms:wanderer-male").ToArray();
 
+    /// <summary>The <c>nearest</c> targets that are camera spots (for the screenshots), for the Dev tab.</summary>
+    private static readonly (string Code, string Name, int Radius, int MaxRadius)[] PhotoSpots =
+        CheatSystem.Targets.Where(t => !CheatSystem.GameplayTargets.Contains(t.Code) && t.Code != "manhole").ToArray();
+
+    /// <summary>The kinds of note <c>/backrooms note read</c> takes; <c>give</c> takes all but the last.</summary>
+    private static readonly string[] NoteKinds = { "door", "way", "cache", "refuge", "folded", "altered" };
+
+    /// <summary>The world settings the World tab can change, with their options (as in worldconfig.json).</summary>
+    private static readonly (string Code, string Label, string[] Values)[] Settings =
+    {
+        ("backroomsMenace", "Entities", new[] { "off", "low", "normal", "high" }),
+        (ScarcitySystem.ConfigKey, "Scarcity", new[] { "plentiful", "normal", "sparse", "scarce" }),
+        (MapSetting.Code, "Map", new[] { "seen", "nowaypoints", "none" }),
+    };
+
     private readonly CheatSystem cheats;
+    // (The dialog lives as long as the session, so the tab and choices are still there when it is opened again)
     private int tab;
     private string creature = CreatureCodes[0];
     private string encounter = EncounterKinds[0];
     private string distance = Distances[0];
     private string findLevel = "";
+    private string photoSpot = PhotoSpots[0].Code;
+    private string noteKind = NoteKinds[0];
+    private readonly string[] settingChoice = new string[Settings.Length];
+    private long statusListener;
 
     public GuiDialogCheats(ICoreClientAPI capi, CheatSystem cheats) : base(capi)
     {
@@ -43,6 +67,13 @@ public class GuiDialogCheats : GuiDialog
     {
         Compose();
         base.OnGuiOpened();
+        statusListener = capi.Event.RegisterGameTickListener(_ => SingleComposer?.GetDynamicText("status")?.SetNewText(cheats.StatusLine()), 500);
+    }
+
+    public override void OnGuiClosed()
+    {
+        base.OnGuiClosed();
+        capi.Event.UnregisterGameTickListener(statusListener);
     }
 
     private void Compose()
@@ -62,15 +93,24 @@ public class GuiDialogCheats : GuiDialog
             .BeginChildElements(bgBounds);
 
         double y = GuiStyle.TitleBarHeight + 4;
+        composer.AddDynamicText(cheats.StatusLine(), CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y, Width, LineHeight), "status");
+        y += LineHeight + 2;
+        if (!cheats.Privileged)
+        {
+            y = Note(composer, "You lack the controlserver privilege: the server refuses these commands, and the view cheats are off.", y,
+                CairoFont.WhiteDetailText().WithColor(GuiStyle.ErrorTextColor));
+        }
+        y += 4;
         switch (tab)
         {
             case 0: y = ComposeTravel(composer, y); break;
-            case 1: y = ComposeCreatures(composer, y); break;
-            case 2: y = ComposeEvents(composer, y); break;
-            case 3: y = ComposePlayer(composer, y); break;
-            default: y = ComposeView(composer, y); break;
+            case 1: y = ComposePlayer(composer, y); break;
+            case 2: y = ComposeCreatures(composer, y); break;
+            case 3: y = ComposeWorld(composer, y); break;
+            case 4: y = ComposeView(composer, y); break;
+            default: y = ComposeDev(composer, y); break;
         }
-        composer.AddStaticText("Replies show in chat. Needs the controlserver privilege. F7 or .cheats toggles this menu.",
+        composer.AddStaticText("Replies show in chat. F7 or .cheats toggles this menu.",
             CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y + 6, Width, 20));
 
         composer.EndChildElements();
@@ -83,7 +123,7 @@ public class GuiDialogCheats : GuiDialog
     private double ComposeTravel(GuiComposer c, double y)
     {
         y = Heading(c, "Go to a level", y);
-        y = ButtonGrid(c, y, LevelNumbers.Select(n => (LevelLabel(n), Cmd($"/backrooms goto {n}"))).ToArray(), 7);
+        y = ButtonGrid(c, y, LevelNumbers.Select(n => B(LevelLabel(n), $"/backrooms goto {n}")).ToArray(), 7);
 
         y = Heading(c, "Go beside a feature", y + RowGap);
         c.AddStaticText("in level", CairoFont.WhiteSmallText(), ElementBounds.Fixed(0, y + 4, 70, ButtonHeight));
@@ -92,17 +132,61 @@ public class GuiDialogCheats : GuiDialog
         c.AddDropDown(levelValues, levelNames, Math.Max(0, Array.IndexOf(levelValues, findLevel)), (code, _) => findLevel = code,
             ElementBounds.Fixed(70, y, 180, ButtonHeight), "findlevel");
         y += ButtonHeight + Gap;
-        y = ButtonGrid(c, y, CheatSystem.Features.Select(f => (f.Name, (Action)(() => Send($"/backrooms find {f.Code}" + (findLevel != "" ? " " + findLevel : ""))))).ToArray(), 3);
+        y = ButtonGrid(c, y, CheatSystem.Features.Select(f => new Button(f.Name, () => Send($"/backrooms find {f.Code}" + (findLevel != "" ? " " + findLevel : "")))).ToArray(), 3);
 
         y = Heading(c, "Nearest from here (in this level)", y + RowGap);
-        y = ButtonGrid(c, y, CheatSystem.Targets.Select(t => (t.Name, Cmd($"/backrooms nearest {t.Code}"))).ToArray(), 3);
+        y = ButtonGrid(c, y, CheatSystem.Targets.Where(t => CheatSystem.GameplayTargets.Contains(t.Code))
+            .Select(t => B(t.Name, $"/backrooms nearest {t.Code}")).ToArray(), 3);
 
         y = Heading(c, "Other", y + RowGap);
         return ButtonGrid(c, y, new[]
         {
-            ("Wake-up point", Cmd("/backrooms home")),
-            ("Where am I?", Cmd("/backrooms where")),
+            B("Back", "/backrooms back", "Back to where you were before your last goto, find, nearest, home or back (this session only)"),
+            B("Wake-up point", "/backrooms home"),
+            B("Where am I?", "/backrooms where"),
         }, 3);
+    }
+
+    private double ComposePlayer(GuiComposer c, double y)
+    {
+        y = Heading(c, "Game mode", y);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Survival", "/gm survival"),
+            B("Creative", "/gm creative"),
+            B("Spectator", "/gm spectator"),
+        }, 3);
+
+        y = Heading(c, "Survival", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Heal and rest", "/backrooms heal", "Health, food, body temperature and stability back to full, and your time out reset"),
+            B("Die (test waking)", "/backrooms die"),
+            B("Lantern in hand", "/backrooms light lantern", "A lit light in your active hotbar slot (only a light in hand lights Level 6)"),
+            B("Torch in hand", "/backrooms light torch"),
+        }, 4);
+
+        y = Heading(c, "Set your state", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Health 10%", "/backrooms stat health 0.1"),
+            B("Food 5%", "/backrooms stat food 0.05"),
+            B("Stability 0", "/backrooms stat stability 0"),
+            B("Stability 0.4", "/backrooms stat stability 0.4"),
+        }, 4);
+
+        y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Rested", "/backrooms exposure 0"),
+            B("Out 6 h", "/backrooms exposure 6"),
+            B("Out 24 h", "/backrooms exposure 24"),
+            B("Out 72 h", "/backrooms exposure 72"),
+        }, 4);
+
+        y = Heading(c, "Kits", y + RowGap);
+        return ButtonGrid(c, y, CheatSystem.Kits.Where(k => k.Code is "testing" or "explorer")
+            .Select(k => B(k.Name, $"/backrooms kit {k.Code}", KitContents(k.Things))).ToArray(), 4);
     }
 
     private double ComposeCreatures(GuiComposer c, double y)
@@ -122,125 +206,162 @@ public class GuiDialogCheats : GuiDialog
                 Math.Max(0, Array.IndexOf(Distances, distance)), (code, _) => distance = code, ElementBounds.Fixed(90, y, 220, ButtonHeight), "distance");
         c.AddSmallButton("Spawn", () => Send(SpawnCommand()), ElementBounds.Fixed(330, y, 120, ButtonHeight));
         y += ButtonHeight + Gap;
-        c.AddStaticText("Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails.",
-            CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y, Width, 18));
-        y += 18 + Gap;
+        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails.", y);
 
         y = Heading(c, "Director", y + RowGap);
         y = ButtonGrid(c, y, new[]
         {
-            ("Pause director", Cmd("/backrooms director off")),
-            ("Resume director", Cmd("/backrooms director on")),
-            ("Menace readout", Cmd("/backrooms menace")),
-            ("Make noise", Cmd("/backrooms noise")),
-        }, 4);
+            B("Pause director", "/backrooms director off", "Nothing new is put down near anyone and no distant sounds play; what is out stays"),
+            B("Resume director", "/backrooms director on"),
+            B("Make noise", "/backrooms noise", "As loud as you can be: what hunts by sound comes to see"),
+        }, 3);
 
         y = Heading(c, "Manage", y + RowGap);
         return ButtonGrid(c, y, new[]
         {
-            ("Clear nearby (64)", Cmd("/backrooms clear 64")),
-            ("Clear all (512)", Cmd("/backrooms clear 512")),
-            ("Entity log on/off", Cmd("/backrooms entitylog")),
-        }, 4);
+            B("Clear nearby (64)", "/backrooms clear 64"),
+            B("Clear all (512)", "/backrooms clear 512"),
+        }, 3);
     }
 
-    private double ComposeEvents(GuiComposer c, double y)
+    private double ComposeWorld(GuiComposer c, double y)
     {
         y = Heading(c, "Reality Shift", y);
         y = ButtonGrid(c, y, new[]
         {
-            ("Start (2 h)", Cmd("/backrooms shift 2")),
-            ("Start (8 h)", Cmd("/backrooms shift 8")),
-            ("End", Cmd("/backrooms shift 0")),
+            B("Start (2 h)", "/backrooms shift 2"),
+            B("Start (8 h)", "/backrooms shift 8"),
+            B("End", "/backrooms shift 0"),
         }, 4);
 
-        y = Heading(c, "Entity events", y + RowGap);
+        y = Heading(c, "Events", y + RowGap);
         y = ButtonGrid(c, y, new[]
         {
-            ("L1 Flickering", Cmd("/backrooms flicker")),
-            ("Rats' Screaming", Cmd("/backrooms scream")),
-            ("Mangled's weather", Cmd("/backrooms mangled")),
-        }, 3);
+            B("L1 Flickering", "/backrooms flicker", "The lights round you go out and Hounds hunt until they come back"),
+            B("Rats' Screaming", "/backrooms scream", "The lights fail in Levels 1 and 2 and a pack of Death Rats runs past"),
+            B("Mangled's weather", "/backrooms mangled", "Its cold weather comes down on you; in the Suburbs, it then comes"),
+            B("L10 fog spell", "/backrooms fogspell", "Moves the calendar on to the thick of the next spell of fog over Level 10's fields"),
+        }, 4);
 
         y = Heading(c, "Time", y + RowGap);
-        return ButtonGrid(c, y, new[]
-        {
-            ("Morning", Cmd("/time set morning")),
-            ("Day", Cmd("/time set day")),
-            ("Night", Cmd("/time set night")),
-            ("Midnight", Cmd("/time set midnight")),
-            ("+1 hour", Cmd("/time add 1 hour")),
-            ("+1 day", Cmd("/time add 1 day")),
-            ("Stop time", Cmd("/time stop")),
-            ("Resume time", Cmd("/time resume")),
-        }, 4);
-    }
-
-    private double ComposePlayer(GuiComposer c, double y)
-    {
-        y = Heading(c, "Game mode", y);
         y = ButtonGrid(c, y, new[]
         {
-            ("Survival", Cmd("/gm survival")),
-            ("Creative", Cmd("/gm creative")),
-            ("Spectator", Cmd("/gm spectator")),
+            B("Morning", "/time set morning"),
+            B("Day", "/time set day"),
+            B("Night", "/time set night"),
+            B("Midnight", "/time set midnight"),
+            B("+1 hour", "/time add 1 hour"),
+            B("+1 day", "/time add 1 day"),
+            B("Stop time", "/time stop"),
+            B("Resume time", "/time resume"),
         }, 4);
 
-        y = Heading(c, "Survival", y + RowGap);
-        y = ButtonGrid(c, y, new[]
+        y = Heading(c, "World settings", y + RowGap);
+        ITreeAttribute config = capi.World.Config;
+        for (int i = 0; i < Settings.Length; i++)
         {
-            ("Heal and rest", Cmd("/backrooms heal")),
-            ("Testing kit", Cmd("/backrooms kit")),
-            ("Lantern in hand", Cmd("/backrooms light")),
-            ("Die (test waking)", Cmd("/backrooms die")),
-            ("Column info", Cmd("/backrooms column")),
-        }, 4);
-
-        y = Heading(c, "Set your state", y + RowGap);
-        y = ButtonGrid(c, y, new[]
-        {
-            ("Health 10%", Cmd("/backrooms stat health 0.1")),
-            ("Food 5%", Cmd("/backrooms stat food 0.05")),
-            ("Stability 0", Cmd("/backrooms stat stability 0")),
-            ("Stability 0.4", Cmd("/backrooms stat stability 0.4")),
-        }, 4);
-
-        y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);
-        y = ButtonGrid(c, y, new[]
-        {
-            ("Rested", Cmd("/backrooms exposure 0")),
-            ("Out 6 h", Cmd("/backrooms exposure 6")),
-            ("Out 24 h", Cmd("/backrooms exposure 24")),
-            ("Out 72 h", Cmd("/backrooms exposure 72")),
-        }, 4);
-
-        y = Heading(c, "Wanderers' notes (J opens the journal)", y + RowGap);
-        return ButtonGrid(c, y, new[]
-        {
-            ("Read a note here", Cmd("/backrooms note read door")),
-            ("Read a folded note", Cmd("/backrooms note read folded")),
-            ("Give 4 notes", Cmd("/backrooms note give door 4")),
-            ("Give 2 folded", Cmd("/backrooms note give folded 2")),
-            ("Note status", Cmd("/backrooms note status")),
-            ("Forget all notes", Cmd("/backrooms note reset")),
-        }, 4);
+            var (code, label, values) = Settings[i];
+            string current = config?.GetString(code, "") is { Length: > 0 } set ? set : values[code == MapSetting.Code ? 0 : Array.IndexOf(values, "normal")];
+            settingChoice[i] ??= current;
+            int index = i;
+            c.AddStaticText(label, CairoFont.WhiteSmallText(), ElementBounds.Fixed(0, y + 4, 90, ButtonHeight))
+                .AddDropDown(values, values, Math.Max(0, Array.IndexOf(values, settingChoice[i])), (value, _) => settingChoice[index] = value,
+                    ElementBounds.Fixed(90, y, 160, ButtonHeight), "setting-" + code)
+                .AddSmallButton("Set", () => Send($"/worldconfig {code} {settingChoice[index]}"), ElementBounds.Fixed(260, y, 70, ButtonHeight))
+                .AddStaticText("world: " + current, CairoFont.WhiteDetailText(), ElementBounds.Fixed(345, y + 5, Width - 345, ButtonHeight));
+            y += ButtonHeight + Gap;
+        }
+        int version = config?.GetInt(BackroomsWorld.LayoutVersionKey, 1) ?? 1;
+        string food = config?.HasAttribute(BackroomsWorld.WorldgenFoodKey) == true ? $"{config.GetFloat(BackroomsWorld.WorldgenFoodKey):0.##}"
+            : version < 7 ? "1 (no thinning before layout version 7)" : "not recorded yet";
+        y = Note(c, $"Layout version {version}, worldgen food {food}: fixed when the world was made, never changed here.", y);
+        return Note(c, "Set sends /worldconfig. It takes effect after a server restart (dispensers and Kitty's fridge follow scarcity at once). "
+            + "Worldgen thinning keeps the recorded worldgen food, whatever the scarcity. This menu shows new values once you rejoin.", y, lines: 3);
     }
 
     private double ComposeView(GuiComposer c, double y)
     {
         y = Heading(c, "This client only", y);
-        y = ButtonGrid(c, y, new (string, Action)[]
+        bool hasMap = MapSetting.HasMap(capi.World.Config);
+        y = ButtonGrid(c, y, new[]
         {
-            ("Debug HUD on/off", cheats.ToggleHud),
-            ("Fog off/on", cheats.ToggleClearAir),
-            ("Reveal map (loaded)", () => cheats.RevealMap(256)),
+            new Button("Debug HUD on/off", cheats.ToggleHud, "Level, depth through it, cell and tile under your feet, Level 0's zone, dens, sanctuaries, stability, temperature"),
+            new Button("Fog off/on", cheats.ToggleClearAir, "No fog, and the scene at full brightness"),
+            hasMap ? new Button("Reveal map (loaded)", () => cheats.RevealMap(256), "Maps every loaded column within 256 blocks") : default,
         }, 3);
-        c.AddStaticText("The HUD reads the layout under your feet: level, depth through it, cell, tile, zone, dens, stability.",
-            CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y, Width, 18));
-        return y + 18 + Gap;
+        if (!hasMap) c.AddStaticText("Reveal map: no map in this world", CairoFont.WhiteDetailText().WithColor(GuiStyle.DialogDefaultTextColor),
+            ElementBounds.Fixed(2 * ((Width - 2 * Gap) / 3 + Gap), y - ButtonHeight - Gap + 5, (Width - 2 * Gap) / 3, ButtonHeight));
+        return Note(c, "The HUD reads the layout under your feet as this client works it out from the seed.", y);
+    }
+
+    private double ComposeDev(GuiComposer c, double y)
+    {
+        y = Heading(c, "Photo spots (nearest in this level)", y);
+        c.AddDropDown(PhotoSpots.Select(t => t.Code).ToArray(), PhotoSpots.Select(t => t.Name).ToArray(),
+            Math.Max(0, Array.FindIndex(PhotoSpots, t => t.Code == photoSpot)), (code, _) => photoSpot = code, ElementBounds.Fixed(0, y, 400, ButtonHeight), "photospot");
+        c.AddSmallButton("Go", () => Send($"/backrooms nearest {photoSpot}"), ElementBounds.Fixed(410, y, 90, ButtonHeight));
+        y += ButtonHeight + Gap;
+
+        y = Heading(c, "Inspect here", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Column", "/backrooms column", "The block stack, block entities and light of the column you stand in"),
+            new Button("Can break", () => SendHere("/backrooms canbreak {0} {1}"), "The tool tier each block of this column needs, and what it breaks down to"),
+            new Button("Ground", () => SendHere("/backrooms ground {0} {1}"), "Rock, ore and caves under the foundations of this chunk, by depth"),
+            new Button("Dump (32)", () => SendHere("/backrooms dump {0} {1} 32"), "Writes the blocks and light within 32 blocks to ModData/backrooms (run twice: the first loads the chunks)"),
+            B("Where", "/backrooms where"),
+        }, 5);
+
+        y = Heading(c, "Systems", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Entity log on/off", "/backrooms entitylog", "What the director and the entities decide, to the server log"),
+            B("Menace readout", "/backrooms menace"),
+            B("End loop on", "/endloop on", "The End's looping long aisles and the Turnaround"),
+            B("End loop off", "/endloop off"),
+        }, 4);
+        c.AddStaticText("Note", CairoFont.WhiteSmallText(), ElementBounds.Fixed(0, y + 4, 50, ButtonHeight))
+            .AddDropDown(NoteKinds, NoteKinds, Math.Max(0, Array.IndexOf(NoteKinds, noteKind)), (kind, _) => noteKind = kind,
+                ElementBounds.Fixed(50, y, 120, ButtonHeight), "notekind");
+        double half = (Width - 180 - Gap) / 2;
+        c.AddSmallButton("Read one here", () => Send($"/backrooms note read {noteKind}"), ElementBounds.Fixed(180, y, half, ButtonHeight))
+            .AddSmallButton("Give 4", () => noteKind == "altered" ? Say("Level Fun's altered notes can be read here, not given") : Send($"/backrooms note give {noteKind} 4"),
+                ElementBounds.Fixed(180 + half + Gap, y, half, ButtonHeight));
+        y += ButtonHeight + Gap;
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Note status", "/backrooms note status", "Where you are in each sequence of notes (J opens the journal)"),
+            new Button("Note log", () => Send($"/backrooms note log {capi.World.Player.PlayerName}"), "Every note you have read, in order"),
+            B("Forget all notes", "/backrooms note reset", "Empties your journal, so the sequence starts again"),
+        }, 3);
+
+        y = Heading(c, "Feature tests", y + RowGap);
+        var crucible = CheatSystem.Kits.First(k => k.Code == "crucible");
+        var pottery = CheatSystem.Kits.First(k => k.Code == "pottery");
+        return ButtonGrid(c, y, new[]
+        {
+            B("Crucible kit", "/backrooms kit crucible", KitContents(crucible.Things)),
+            B("Pottery kit", "/backrooms kit pottery", KitContents(pottery.Things)),
+            B("Every item (chests)", "/backrooms allitems", "One of every Backrooms item in chests round you, to set down and look at on the ground"),
+            B("Manhole ladder", "/backrooms nearest manhole", "In Level 3: down the nearest manhole, at the foot of its rungs"),
+            new Button("Restart First Steps", cheats.RestartTutorial, "Starts the Backrooms: First Steps tutorial again from its first step, on this client"),
+        }, 3);
     }
 
     // ================= Helpers =================
+
+    /// <summary>A button: its label, what it does, and the text shown while the mouse is over it (none if null).</summary>
+    private readonly record struct Button(string Label, Action OnClick, string Hover = null);
+
+    private Button B(string label, string command, string hover = null) => new(label, () => Send(command), hover);
+
+    /// <summary>What a kit holds, by the names the game gives the things, for its button's hover text.</summary>
+    private string KitContents((string Code, int Quantity)[] things) => string.Join(", ", things.Select(t =>
+    {
+        var location = new AssetLocation(t.Code);
+        CollectibleObject thing = (CollectibleObject)capi.World.GetItem(location) ?? capi.World.GetBlock(location);
+        return $"{t.Quantity} {(thing != null ? new ItemStack(thing).GetName() : location.Path)}";
+    }));
 
     private static double Heading(GuiComposer c, string text, double y)
     {
@@ -248,25 +369,30 @@ public class GuiDialogCheats : GuiDialog
         return y + 26;
     }
 
-    /// <summary>Lays out buttons, <paramref name="columns"/> to a row; returns the y below them.</summary>
-    private static double ButtonGrid(GuiComposer c, double y, (string Label, Action OnClick)[] buttons, int columns)
+    private static double Note(GuiComposer c, string text, double y, CairoFont font = null, int lines = 1)
+    {
+        c.AddStaticText(text, font ?? CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y, Width, LineHeight * lines));
+        return y + LineHeight * lines + Gap;
+    }
+
+    /// <summary>Lays out buttons, <paramref name="columns"/> to a row (a default one leaves its place empty); returns the y below them.</summary>
+    private static double ButtonGrid(GuiComposer c, double y, Button[] buttons, int columns)
     {
         double width = (Width - Gap * (columns - 1)) / columns;
         for (int i = 0; i < buttons.Length; i++)
         {
-            Action onClick = buttons[i].OnClick;
+            if (buttons[i].OnClick is not { } onClick) continue;
             double x = i % columns * (width + Gap), top = y + i / columns * (ButtonHeight + Gap);
             c.AddSmallButton(buttons[i].Label, () =>
             {
                 onClick();
                 return true;
             }, ElementBounds.Fixed(x, top, width, ButtonHeight));
+            if (buttons[i].Hover != null) c.AddAutoSizeHoverText(buttons[i].Hover, CairoFont.WhiteDetailText(), 360, ElementBounds.Fixed(x, top, width, ButtonHeight));
         }
         int rows = (buttons.Length + columns - 1) / columns;
         return y + rows * (ButtonHeight + Gap);
     }
-
-    private Action Cmd(string command) => () => Send(command);
 
     private string SpawnCommand()
     {
@@ -275,9 +401,22 @@ public class GuiDialogCheats : GuiDialog
         return distance == "auto" ? $"/backrooms encounter {code} {encounter}" : $"/backrooms encounter {code} {encounter} 0 0 {distance}";
     }
 
+    /// <summary>A command about the column you stand in, which takes its x and z (world coordinates, not the HUD's).</summary>
+    private bool SendHere(string format)
+    {
+        var pos = capi.World.Player.Entity.Pos;
+        return Send(string.Format(format, (int)Math.Floor(pos.X), (int)Math.Floor(pos.Z)));
+    }
+
     private bool Send(string command)
     {
         capi.SendChatMessage(command);
+        return true;
+    }
+
+    private bool Say(string text)
+    {
+        capi.ShowChatMessage(text);
         return true;
     }
 
