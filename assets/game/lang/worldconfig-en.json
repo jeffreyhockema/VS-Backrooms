@@ -8,8 +8,9 @@
 	"worldconfig-backroomsMenace-Normal": "Normal",
 	"worldconfig-backroomsMenace-High": "High (more often, harder hits)",
 	"worldattribute-backroomsScarcity": "Backrooms scarcity",
-	"worldattribute-backroomsScarcity-desc": "How much food and Almond Water is left in the boxes, crates and cupboards of the Backrooms. Normal is scarce enough that scavenging matters.",
+	"worldattribute-backroomsScarcity-desc": "How much food and drink the Backrooms leave you: in boxes, crates, cupboards and fridges, in vending machines, water coolers and fountains and how soon they restock, in Level 10's livestock and, in new worlds, Level 9's gardens and Level 10's fields. Normal is scarce enough that scavenging matters.",
 	"worldconfig-backroomsScarcity-Plentiful": "Plentiful (twice the food)",
 	"worldconfig-backroomsScarcity-Normal": "Normal",
-	"worldconfig-backroomsScarcity-Sparse": "Sparse (about 60% of the food)"
+	"worldconfig-backroomsScarcity-Sparse": "Sparse (about 60% of the food)",
+	"worldconfig-backroomsScarcity-Scarce": "Scarce (about a third of the food)"
 }

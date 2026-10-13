@@ -9,7 +9,7 @@ using Backrooms.Worldgen;
 /// After the overall hash it prints the same per-level hash for the regions kept as 14 and up (each world), which
 /// are not part of the overall hash: compare the lines of the levels that existed before a change.
 /// It hashes layout version 1 (every world made before versions) unless LAYOUT_VERSION is set; a fix kept behind a
-/// newer version must leave the version 1 lines alone.
+/// newer version must leave the version 1 lines alone. FOOD_SCALE (default 1) hashes a world with that Backrooms scarcity.
 /// </summary>
 static class LayoutHash
 {
@@ -35,12 +35,13 @@ static class LayoutHash
         // Worlds already made keep layout version 1 for good, so that is what is hashed unless LAYOUT_VERSION says
         // otherwise: run with LAYOUT_VERSION=1 and with the current version to cover both kinds of world
         int version = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int v) ? v : 1;
-        Console.WriteLine($"layout version {version}");
+        double food = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double f) ? f : 1;
+        Console.WriteLine(food == 1 ? $"layout version {version}" : $"layout version {version}, food {food}");
         var all = new H();
         var extra = new List<string>();
         foreach (var (seed, smx) in worlds)
         {
-            var l = new WorldLayout(seed, smx, smx, version);
+            var l = new WorldLayout(seed, smx, smx, version, food);
             // Sample cells: along 120 rays from spawn, the first few cells of each level met
             var samples = new Dictionary<int, List<(int, int)>>();
             for (int lv = 0; lv < WorldLayout.LevelCount; lv++) samples[lv] = new();

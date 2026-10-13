@@ -41,8 +41,8 @@
       "code": "backroomsScarcity",
       "dataType": "dropdown",
       "category": "survivalchallenges",
-      "values": ["plentiful", "normal", "sparse"],
-      "names": ["Plentiful", "Normal", "Sparse"],
+      "values": ["plentiful", "normal", "sparse", "scarce"],
+      "names": ["Plentiful", "Normal", "Sparse", "Scarce"],
       "default": "normal"
     }
   ]

@@ -23,7 +23,7 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, tem
 
 1. Requires **Vintage Story 1.22** or later.
 2. Download the mod from [its page on the Vintage Story mod database](https://mods.vintagestory.at/show/mod/73380), or build it yourself (see below). Put the zip in your `Mods` folder without unpacking it.
-3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High) and **Backrooms scarcity** (Plentiful, Normal, Sparse).
+3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High) and **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce).
 
 The mod only affects worlds created with its playstyle. Your other worlds are untouched.
 

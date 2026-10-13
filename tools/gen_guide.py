@@ -389,7 +389,7 @@ Only sealed boxes and crates hold food; most were found torn or prised open long
 See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties.
 
 **World settings**
-When a world is created, *Backrooms scarcity* (under Survival challenges) scales the food and Almond Water in every box, crate, cupboard and fridge: Plentiful doubles it, Sparse leaves six parts in ten. Notes and tools are not affected.
+When a world is created, *Backrooms scarcity* (under Survival challenges) sets how much food and drink the Backrooms leave you: Plentiful doubles it, Sparse leaves six parts in ten, Scarce about a third. It scales everything you can eat or drink, Almond Water among it, in every box, crate, cupboard and fridge; how much the vending machines, water coolers, fountains and Kitty's fridge and pantry hold, and how soon they refill (on Scarce, what refills does so after three weeks rather than one, and about one in three of Level 4's vending machines and water coolers is empty from the start); and how much livestock grazes in Level 10. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops, vegetable patches and berry bushes bear less too. Seeds, notes and tools are not affected.
 """)
 
 PAGES["levels"] = ("The Levels: 0 to 11", """

@@ -18,13 +18,15 @@ public static class BackroomsWorld
     public const string LayoutVersionKey = "backroomsLayoutVersion";
 
     /// <summary>
-    /// The layout of this world. It is stateless and derived from the seed and the layout version alone, so the server
-    /// and every client can each build their own and always agree.
+    /// The layout of this world. It is stateless and derived from the seed, the layout version and the world's Backrooms
+    /// scarcity alone (all in the world config, which clients are sent), so the server and every client can each build
+    /// their own and always agree.
     /// </summary>
     public static WorldLayout CreateLayout(IWorldAccessor world)
     {
         IBlockAccessor blockAccessor = world.BlockAccessor;
-        return new WorldLayout(world.Seed, WorldLayout.MacroOf(blockAccessor.MapSizeX / 2), WorldLayout.MacroOf(blockAccessor.MapSizeZ / 2), LayoutVersion(world));
+        return new WorldLayout(world.Seed, WorldLayout.MacroOf(blockAccessor.MapSizeX / 2), WorldLayout.MacroOf(blockAccessor.MapSizeZ / 2), LayoutVersion(world),
+            Salvage.ScarcitySystem.FoodScale(world));
     }
 
     /// <summary>

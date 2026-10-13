@@ -1,4 +1,5 @@
 using System.Text;
+using Backrooms.Salvage;
 using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
@@ -24,6 +25,7 @@ public class DispenserSystem : ModSystem
 /// <c>dispenses</c> attribute lists others, one picked at random each time. Blocks with <c>restock</c> fill up again
 /// a week after they run dry (the Snackrooms restock weekly). A few of Level 4's vending machines give nothing:
 /// they take whoever presses their buttons to the Snackrooms instead, every time, and always to the same food court.
+/// How much they hold, and how soon they restock, follow the world's Backrooms scarcity (<see cref="ScarcitySystem"/>).
 /// </summary>
 public class BlockDispenser : Block
 {
@@ -59,18 +61,28 @@ public class BlockEntityDispenser : BlockEntity
 
     private bool Restocks => Block?.Attributes?["restock"].AsBool() == true;
 
+    /// <summary>
+    /// A full load, scaled by the world's scarcity: 1-3 items, or 4-8 for one that restocks. On Scarce one that restocks
+    /// always gets at least one; one that doesn't may be found empty.
+    /// </summary>
+    private int RollStock() => Restocks
+        ? ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(4, 9), min: 1)
+        : ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(1, 4));
+
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        if (api.Side == EnumAppSide.Server && stock < 0) stock = api.World.Rand.Next(Restocks ? 4 : 1, Restocks ? 9 : 4);
+        // (A stock rolled before is kept, as saved)
+        if (api.Side == EnumAppSide.Server && stock < 0) stock = RollStock();
     }
 
     public void Dispense(IPlayer player)
     {
         if (Api.Side != EnumAppSide.Server) return;
-        if (stock <= 0 && Restocks && emptySinceDay >= 0 && Api.World.Calendar.TotalDays - emptySinceDay >= RestockDays)
+        // A week to restock, longer where food is scarcer (three weeks on Scarce) and half that on Plentiful
+        if (stock <= 0 && Restocks && emptySinceDay >= 0 && Api.World.Calendar.TotalDays - emptySinceDay >= RestockDays / ScarcitySystem.FoodScale(Api.World))
         {
-            stock = Api.World.Rand.Next(4, 9);
+            stock = RollStock();
             emptySinceDay = -1;
         }
         if (stock <= 0)

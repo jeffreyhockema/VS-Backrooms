@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- *Backrooms scarcity* now reaches all food: a new Scarce setting (about a third of the food); every food and drink in boxes, crates and fridges counts, not just a list; vending machines, water coolers, fountains and Kitty's fridge hold less and restock more slowly on Sparse and Scarce; Level 10 has less livestock; and new worlds on Sparse or Scarce have thinner gardens, fields and berry bushes in Levels 9 and 10. Worlds are now created at layout version 7.
+
 ## 0.512.2019 — first public release
 
 The first release on the Vintage Story mod database. Everything in the [README](README.md) and the [player guide](docs/GUIDE.md) is in it:

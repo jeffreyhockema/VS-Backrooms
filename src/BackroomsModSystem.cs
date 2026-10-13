@@ -146,7 +146,8 @@ public class BackroomsModSystem : ModSystem
         // (e.g. /setspawn) can never change the layout of chunks that are not generated yet
         int spawnMacroX = WorldLayout.MacroOf(sapi.WorldManager.MapSizeX / 2);
         int spawnMacroZ = WorldLayout.MacroOf(sapi.WorldManager.MapSizeZ / 2);
-        layout = new WorldLayout(sapi.WorldManager.Seed, spawnMacroX, spawnMacroZ, BackroomsWorld.LayoutVersion(sapi.World));
+        layout = new WorldLayout(sapi.WorldManager.Seed, spawnMacroX, spawnMacroZ, BackroomsWorld.LayoutVersion(sapi.World),
+            Salvage.ScarcitySystem.FoodScale(sapi.World));
         generator = new WorldGenerator(sapi, layout);
 
         // Y coordinates on the HUD are shown relative to sea level, so this makes the Level 0 floor read as y=0

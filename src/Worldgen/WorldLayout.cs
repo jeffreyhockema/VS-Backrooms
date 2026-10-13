@@ -204,12 +204,21 @@ public sealed partial class WorldLayout
     /// room (Levels 5, 9, 11, 94); a multi-tile prop that lost a part is removed whole (WorldLayout.Parts.cs). Level !'s
     /// hallway is packed with set pieces (barricades, supply cabinets, collapsed ceiling, lines of gurneys and
     /// wheelchairs, needles, feints), every straight kept passable at a sprint (PlanRunGauntlet, RunSprintable).</item>
+    /// <item>7: the world's Backrooms scarcity reaches the fields: where it is below Normal (<see cref="FoodScale"/>
+    /// under 1), Level 9's gardens and Level 10's crops, vegetable patches and berry bushes are thinned to that share
+    /// (ThinFood). At Normal or Plentiful a world is laid out as in 6.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 6;
+    public const int CurrentVersion = 7;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
+
+    /// <summary>
+    /// The world's food multiplier, from its Backrooms scarcity setting (1 at Normal; the game side reads the setting,
+    /// in ScarcitySystem). From layout version 7, below 1 it thins the crops of Levels 9 and 10 (ThinFood).
+    /// </summary>
+    public readonly double FoodScale;
 
     private readonly ulong seed;
     private readonly int spawnMacroX;
@@ -223,9 +232,10 @@ public sealed partial class WorldLayout
     // wide does not keep one entry for every cell it ever looked at
     private readonly LatticeMemo<byte> levelCache;
 
-    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion)
+    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1)
     {
         Version = Math.Clamp(version, 1, CurrentVersion);
+        FoodScale = foodScale > 0 ? foodScale : 1;
         this.seed = (ulong)seed;
         this.spawnMacroX = spawnMacroX;
         this.spawnMacroZ = spawnMacroZ;
@@ -667,7 +677,28 @@ public sealed partial class WorldLayout
         MarkWayToGates(b, mx, mz);
         // (Last: the tents and sleeping bags as big as the real things, and nothing left of one in part)
         if (Version >= 6) LayOutParts(b, mx, mz);
+        // (In version 7 a scarce world's fields and gardens bear less)
+        if (Version >= 7 && FoodScale < 1 && b.Level is 9 or 10) ThinFood(b, mx, mz);
         return b.Tiles;
+    }
+
+    private const ulong SaltThinFood = 0xF00D;
+
+    /// <summary>
+    /// A scarce world's crops, vegetables and berry bushes, thinned to <see cref="FoodScale"/> of them: each plant kept
+    /// or left out by a hash of where it stands, so a field is gappy rather than cut short.
+    /// </summary>
+    private void ThinFood(Builder b, int mx, int mz)
+    {
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                ref Tile t = ref b.At(lx, lz);
+                if (t.Variant is not (Props.Crop or Props.Vegetable or Props.BerryBush)) continue;
+                if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltThinFood)) < FoodScale) continue;
+                t.Variant = 0;
+                t.Stack = 0;
+            }
     }
 
     private void BuildEdges(Builder b, int mx, int mz, Edge west, Edge north)
