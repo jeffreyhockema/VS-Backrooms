@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- *Backrooms scarcity* now reaches all food: a new Scarce setting (about a third of the food); every food and drink in boxes, crates and fridges counts, not just a list; vending machines, water coolers, fountains and Kitty's fridge hold less and restock more slowly on Sparse and Scarce; Level 10 has less livestock; and new worlds on Sparse or Scarce have thinner gardens, fields and berry bushes in Levels 9 and 10. Worlds are now created at layout version 7.
+- *Backrooms scarcity* now reaches all food: a new Scarce setting (about a third of the food); every food and drink in boxes, crates and fridges counts, not just a list; vending machines, water coolers, fountains and Kitty's fridge hold less and restock more slowly on Sparse and Scarce; Level 10 has less livestock; and new worlds on Sparse or Scarce have thinner gardens, fields and berry bushes in Levels 9 and 10 (fixed at world creation). Worlds are now created at layout version 7.
 - Flint is a Level 1 find: a sealed supply box holds one about one time in twenty (was two in five), a torn one one in fifty. The glass shiv and the improvised scraper carry you through the Lobby.
 - The shiv and the scraper cut wallpaper and carpet cleanly: two strips or fibres a cut, where any other knife, a flint one too, gives one.
 - Metal brackets are about half as common from supply boxes, Level 1's crates, ceiling tiles, light fixtures and broken metal and wiring.

@@ -15,7 +15,8 @@ namespace Backrooms.Salvage;
 /// alone. The same multiplier (<see cref="FoodScale(ITreeAttribute)"/>) scales what dispensers hold and how fast they
 /// restock (src/Props/Dispensers.cs), Level 974's fridge and pantry, Level 10's livestock (src/Deep/CreatureSystem.cs),
 /// and, in worlds from layout version 7, thins the crops, vegetable patches and berry bushes of Levels 9 and 10 as
-/// they are generated (WorldLayout.ThinFood). Normal is the game as designed: scarce enough that scavenging matters.
+/// they are generated (WorldLayout.ThinFood; that one is fixed when the world is made, BackroomsWorld.WorldgenFoodScale,
+/// while the rest follows the setting as it is now). Normal is the game as designed: scarce enough that scavenging matters.
 /// </summary>
 public class ScarcitySystem : ModSystem
 {

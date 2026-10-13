@@ -215,8 +215,9 @@ public sealed partial class WorldLayout
     public readonly int Version;
 
     /// <summary>
-    /// The world's food multiplier, from its Backrooms scarcity setting (1 at Normal; the game side reads the setting,
-    /// in ScarcitySystem). From layout version 7, below 1 it thins the crops of Levels 9 and 10 (ThinFood).
+    /// The world's food multiplier, from its Backrooms scarcity setting (1 at Normal; the game side passes the one
+    /// recorded when the world was made, BackroomsWorld.WorldgenFoodScale). From layout version 7, below 1 it thins the
+    /// crops of Levels 9 and 10 (ThinFood).
     /// </summary>
     public readonly double FoodScale;
 
