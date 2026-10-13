@@ -247,6 +247,8 @@ def notes():
         "waypoint-oneway": "Way to {0} (one way)",
         "waypoint-back": "Way back to {0}",
         "waypoint-gate": "Gate: {0} / {1}",
+        # (said instead where the map setting makes no waypoints: the place, which way and how far)
+        "mapmark-told": "{0}: {1}, about {2} paces.",
         "waypoint-note-door": "Gate to {0} (a note)",
         "waypoint-note-way": "Way out (a note)",
         "waypoint-note-cache": "Something left (a note)",

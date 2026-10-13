@@ -223,6 +223,7 @@ PAGES["finding"] = ("Game Mechanic: Finding the Way", """
 
 **The map**
 Open it with {worldmaphud}. It shows only what you have actually seen: it fills in along your line of sight out to about 24 blocks, 4 in the dark (2 in Level 6), and remembers between sessions, so what you have mapped stays mapped. Walls block it. It marks "Where I woke up"; every doorway between levels you walk through and every elevator, stairwell, door or pit you take (with the way back where there is one); the places wanderers' notes tell of; chalk marks, in white; and sealed supply boxes and crates, in red. {rightmouse} the map to add waypoints of your own.
+How much the map helps is chosen when a world is created (*Backrooms map*, under Survival challenges). With *No waypoints* it fills in just the same but marks nothing for you. With *None* there is no map or minimap at all: you find your way or you don't. Without waypoints, what would have been marked is told to you instead, as a direction and a number of paces, and your journal keeps what the notes said; [chalk](item-backrooms:chalk) is how you find your way back, and with no map there is a little more of it in ceiling tiles and lost backpacks.
 
 **Gates**
 Where two levels meet the wall is solid, but every few hundred blocks along it there is a gate: two or three doorways side by side, each two blocks wide (in Level 1, under an EXIT sign). The first time you walk through one it is marked on your map. In Levels 0, 2 and 6 a hallway runs along the inside of the boundary wall: follow it and you will come to a gate, quietly, because the edge of a level is the most dangerous ground in it. The wall itself is not sacred below its roof line: a Level 0 boundary is papered drywall and breaks with any tool, a concrete one with a copper pickaxe, so with the right tool a wall is a slow way through rather than a dead end. Level 8 is solid rock, entered and left only where the 9th Road runs through it, and the open-sky levels (9, 10) have no wall between them at all.
@@ -391,7 +392,7 @@ Only sealed boxes and crates hold food; most were found torn or prised open long
 See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties.
 
 **World settings**
-When a world is created, *Backrooms scarcity* (under Survival challenges) sets how much food and drink the Backrooms leave you: Plentiful doubles it, Sparse leaves six parts in ten, Scarce about a third. It scales everything you can eat or drink, Almond Water among it, in every box, crate, cupboard and fridge; how much the vending machines, water coolers, fountains and Kitty's fridge and pantry hold, and how soon they refill (on Scarce, what refills does so after three weeks rather than one, and about one in three of Level 4's vending machines and water coolers is empty from the start); and how much livestock grazes in Level 10. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops, vegetable patches and berry bushes bear less too. Seeds, notes and tools are not affected.
+When a world is created, *Backrooms scarcity* (under Survival challenges) sets how much food and drink the Backrooms leave you: Plentiful doubles it, Sparse leaves six parts in ten, Scarce about a third. It scales everything you can eat or drink, Almond Water among it, in every box, crate, cupboard and fridge; how much the vending machines, water coolers, fountains and Kitty's fridge and pantry hold, and how soon they refill (on Scarce, what refills does so after three weeks rather than one, and about one in three of Level 4's vending machines and water coolers is empty from the start); and how much livestock grazes in Level 10. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops, vegetable patches and berry bushes bear less too. Seeds, notes and tools are not affected. *Backrooms map* sets how much the map helps (see [Finding the Way](backrooms-finding)).
 """)
 
 PAGES["levels"] = ("The Levels: 0 to 11", """
@@ -893,6 +894,12 @@ TUTORIAL = [
     "That is the Lobby's whole toolkit. Stone tools wait for Level 1: <a href=\"handbook://item-flint\">flint</a> is rare in the Lobby's boxes, but Level 1's crates hold it and its concrete floors have flint and stones lying loose; then <a href=\"handbook://craftinginfo-knapping\">knap</a> a knife and an axe. Fire, food, the way to Level 1, the gear by your health and what lives in the dark are all in the handbook: press {0} and read the <a href=\"handbook://craftinginfo-starterguide\">Starter Guide</a>. Good luck, and don't run.",
 ]
 
+# Step 14 where the world's Backrooms map setting is not the default (BackroomsTutorial.MapStep): keyed by the lang suffix
+TUTORIAL_MAP = {
+    "14-nowaypoints": "Open the map with {0}. It shows only what you have seen, and remembers it, but in this world it marks nothing for you: <icon>rightmousebutton</icon> on it to add waypoints of your own. Where you woke up is your home: you will wake there whenever you die, wherever you are.",
+    "14-nomap": "There is no map in this world: you find your way or you don't. Where you woke up is your home: you will wake there whenever you die, wherever you are, so learn the way back to it. A note gives a direction and a number of paces, and your journal ({0}) keeps them. Chalk arrows on the walls point to the ways through; leave your own with <itemstack type=\"item\">backrooms:chalk</itemstack> <a href=\"handbook://item-backrooms:chalk\">surveyor's chalk</a>, from crumbled ceiling tiles.",
+}
+
 TUTORIAL_STARTED = "Backrooms: First Steps is on screen. Hide it with .tutorial hud; find it again under Tutorials in the handbook (H)."
 
 
@@ -914,6 +921,8 @@ def fill():
     for code, text in BRIDGES.items():
         LANG[f"guide-bridge-{code}"] = to_vtml(text)
     for n, text in enumerate(TUTORIAL, 1):
+        LANG[f"tutorial-backrooms-{n}"] = text
+    for n, text in TUTORIAL_MAP.items():
         LANG[f"tutorial-backrooms-{n}"] = text
     LANG["tutorial-backrooms-started"] = TUTORIAL_STARTED
 
@@ -944,6 +953,7 @@ def check():
     bad = []
     texts = [(code, text) for code, (_, text) in PAGES.items()] + list(BRIDGES.items())
     texts += [(f"tutorial-{n}", text) for n, text in enumerate(TUTORIAL, 1)]
+    texts += [(f"tutorial-{n}", text) for n, text in TUTORIAL_MAP.items()]
     for code, text in texts:
         targets = re.findall(r"\]\(((?:item|block)-backrooms:[^)]+)\)", text)
         targets += re.findall(r'handbook://((?:item|block)-backrooms:[^"]+)', text)

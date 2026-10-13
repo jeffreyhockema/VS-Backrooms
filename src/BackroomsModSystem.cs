@@ -392,10 +392,10 @@ public class BackroomsModSystem : ModSystem
         return TextCommandResult.Success($"Level 0, zone: {zone}, stability {stability:0.00}");
     }
 
-    /// <summary>Marks where a player first woke up, so there is always one known place to find on the map.</summary>
+    /// <summary>Marks where a player first woke up, so there is always one known place to find on the map (unless the map setting makes no waypoints).</summary>
     private void OnPlayerCreate(IServerPlayer player)
     {
-        if (!isBackroomsWorld) return;
+        if (!isBackroomsWorld || !Backrooms.Map.MapSetting.Waypoints(sapi.World.Config)) return;
         WaypointMapLayer waypoints = sapi.ModLoader.GetModSystem<WorldMapManager>()?.MapLayers.OfType<WaypointMapLayer>().FirstOrDefault();
         PlayerSpawnPos spawn = sapi.WorldManager.SaveGame.DefaultSpawn;
         if (waypoints == null || spawn == null) return;

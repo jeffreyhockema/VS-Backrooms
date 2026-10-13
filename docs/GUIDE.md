@@ -12,6 +12,7 @@ Create a new world and pick the **Backrooms: Survival Story** playstyle. It only
 - **Starting waypoint:** "Where I woke up" marks your starting point.
 - **Your own waypoints:** right-click the map to add one.
 - **Waypoints made for you:** every gate you walk through, and every elevator, stairwell, door or pit you take (with the way back, where there is one), is marked on your map the first time. Reading a wanderer's note marks the place it tells of.
+- **Less map, or none:** the *Backrooms map* world setting can take the waypoints made for you away, or the whole map (see the world settings below).
 - **Notes and the journal (J):** wanderers' notes say what earlier wanderers learned, in order, and every note read is kept in your journal (see *Notes and the journal* below).
 - **Dark areas** are easier to explore with a candle.
 - **Arriving in a level** shows its name, with a word of advice for the dangerous ones.
@@ -172,7 +173,10 @@ The Backrooms are not empty, but what lives in them is there to be heard and gli
 - **Wanderers** who trade keep to camps in Level 1, outposts in Level 4, the 9th Road, the city, The End's Home rooms, the Hub's outposts and Level 3999's lobbies, about one every kilometre or two of travel: the vanilla trader (right-click to talk, then ask to trade), who never fights back, with a Backrooms trade list (salvage and hides bought; Almond Water, Firesalt, candles, bandages, seeds sold, for rusty gears). Nothing hostile closes in on someone beside one.
 - **Firesalt** is found in the coal heaped by Level 3's generators and Level 5's boilers, and from Level 8 can be made (salt + powdered sulfur = 2). Set down, it burns for half a day and nothing hostile comes within about 8 blocks.
 - **Apart from the wanderers who trade, entities are never kept with the world.** They are put down out of sight for one player and despawn once they leave.
-- **World settings** under Survival challenges when creating a world: *Backrooms entities* (Off: sounds only, Low, Normal, High) and *Backrooms scarcity* (Plentiful: twice the food, Normal, Sparse: 0.6 times the food, Scarce: about a third). It scales everything you can eat or drink in every box, crate, cupboard and fridge, how much vending machines, water coolers, fountains and Kitty's fridge hold and how soon they refill, and Level 10's livestock. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops and berry bushes are thinner too. Seeds, notes and tools are not affected.
+- **World settings** under Survival challenges when creating a world: *Backrooms entities* (Off: sounds only, Low, Normal, High), *Backrooms scarcity* (Plentiful: twice the food, Normal, Sparse: 0.6 times the food, Scarce: about a third). It scales everything you can eat or drink in every box, crate, cupboard and fridge, how much vending machines, water coolers, fountains and Kitty's fridge hold and how soon they refill, and Level 10's livestock. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops and berry bushes are thinner too. Seeds, notes and tools are not affected. And *Backrooms map*:
+  - **Seen areas** (the default): the map as described above.
+  - **Seen areas, no waypoints:** the map still fills in as you explore, but nothing is marked for you, not even where you woke up. Add your own waypoints. Notes still give a direction and a number of paces, and your journal keeps them; registers, directories and the like tell you the direction and paces in chat instead of marking the map.
+  - **None:** no world map and no minimap; the map keys do nothing and waypoints can't be made. Notes, registers and directories tell you the way as above. Chalk is how you find your way back, and crumbled ceiling tiles and lost backpacks give half as much again of it.
 
 ### The topology lies
 

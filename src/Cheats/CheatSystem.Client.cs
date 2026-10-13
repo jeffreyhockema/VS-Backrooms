@@ -96,6 +96,11 @@ public partial class CheatSystem
             capi.ShowChatMessage("No Backrooms map layer");
             return;
         }
+        if (!layer.MapAllowed)
+        {
+            capi.ShowChatMessage("There is no map in this world (map setting: none)");
+            return;
+        }
         int mapped = layer.RevealLoadedAround(radius);
         capi.ShowChatMessage($"Mapped {mapped} columns within {radius} blocks (only loaded chunks)");
     }

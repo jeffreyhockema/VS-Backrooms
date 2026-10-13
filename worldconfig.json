@@ -24,7 +24,8 @@
         "allowUndergroundFarming": "true",
         "playerHungerSpeed": "1.25",
         "backroomsMenace": "normal",
-        "backroomsScarcity": "normal"
+        "backroomsScarcity": "normal",
+        "backroomsMap": "seen"
       }
     }
   ],
@@ -44,6 +45,14 @@
       "values": ["plentiful", "normal", "sparse", "scarce"],
       "names": ["Plentiful", "Normal", "Sparse", "Scarce"],
       "default": "normal"
+    },
+    {
+      "code": "backroomsMap",
+      "dataType": "dropdown",
+      "category": "survivalchallenges",
+      "values": ["seen", "nowaypoints", "none"],
+      "names": ["Seen", "NoWaypoints", "None"],
+      "default": "seen"
     }
   ]
 }

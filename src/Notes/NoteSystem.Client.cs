@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Backrooms.Map;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -130,11 +131,18 @@ public partial class NoteSystem
             sb.Append(Lang.Get("backrooms:note-" + read.Key)).Append("<br>");
         }
         else sb.Append("<font color=\"#a89f86\">").Append(when).Append("</font><br>");
+        // (In a world whose map setting makes no waypoints, only the directions: nothing was marked, nor can be)
+        bool waypoints = MapSetting.Waypoints(capi.World.Config);
         for (int m = 0; m < read.Marks.Count; m++)
         {
             NoteMark mark = read.Marks[m];
             sb.Append("<br><i>").Append(Lang.Get("backrooms:journal-pocket")).Append("</i> ")
               .Append(Lang.Get(mark.Ps, Lang.Get("backrooms:dir-" + mark.Dir), mark.Paces)).Append("<br>");
+            if (!waypoints)
+            {
+                sb.Append("<font color=\"#e8d68c\">").Append(mark.Title).Append("</font><br>");
+                continue;
+            }
             sb.Append("<font color=\"#e8d68c\">").Append(Lang.Get("backrooms:journal-marked", mark.Title)).Append("</font> ")
               .Append($"<a href=\"backroomsnote://map/{mark.X}/{mark.Z}\">").Append(Lang.Get("backrooms:journal-showmap")).Append("</a> · ")
               .Append($"<a href=\"backroomsnote://mark/{read.Id}/{m}\">").Append(Lang.Get("backrooms:journal-markagain")).Append("</a><br>");

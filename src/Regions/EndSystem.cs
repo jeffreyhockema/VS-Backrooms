@@ -564,7 +564,7 @@ public class ItemCatalogueCard : Item
         int step = d < 60 ? 10 : d < 300 ? 25 : 50, paces = Math.Max(step, (int)Math.Round(d / step) * step);
         int variant = (int)(Hashing.Hash((ulong)api.World.Seed, ax, az, 0x16F1) % 3) + 1;
         player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get($"backrooms:note-endexit-{variant}", direction, paces), EnumChatType.Notification);
-        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Lang.Get("backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4);
+        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Lang.Get("backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4, tell: false);
         byEntity.World.PlaySoundAt(new AssetLocation("game:sounds/effect/writing"), byEntity, null, randomizePitch: true, range: 8);
         slot.TakeOut(1);
         slot.MarkDirty();
