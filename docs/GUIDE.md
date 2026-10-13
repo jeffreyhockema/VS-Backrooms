@@ -57,6 +57,7 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - Pipes, railings, poles and machinery: a copper pickaxe. Metal brackets, a little scrap wire from anything wired, now and then a copper or lead bit from pipes.
   - Glass: anything. Glass shards.
   - Vanilla rock and ore (Level 8, the cliffs) and soil break as in any world.
+- Furniture and clutter are not the building: a minibar, a cake tin or a bin breaks like any block and gives what is in it, and what you made or won (rubble masonry, a plush or neon lamp from a prize counter) comes back whole.
 - The walls between levels break like any other wall of their material: the gates are the easy way through, not the only one.
 - **Never broken** (the block info says so):
   - Each level's roof: from its ordinary ceiling height up to the mantle cap, the blocks with nothing open above them. Level 0's ceiling tiles and crawlspace can come down; the slab over the crawlspace cannot. On a level with one plain ceiling, that ceiling is the roof. None under the open sky.

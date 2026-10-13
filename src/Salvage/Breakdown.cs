@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 
 namespace Backrooms.Salvage;
@@ -199,6 +200,91 @@ public static class Breakdown
         return false;
     }
 
+    /// <summary>Made by the player from the building's scraps: theirs, and it comes back whole.</summary>
+    private static readonly HashSet<string> MadeTypes = new() { "rubblemasonry" };
+
+    /// <summary>
+    /// The blocks (by code) that keep the drops their block types give, found by <see cref="FindOwnDrops"/>. Kept apart
+    /// from the block objects because the client and the server each have their own, and both ask.
+    /// </summary>
+    private static volatile HashSet<string> ownDrops = new();
+
+    /// <summary>
+    /// A block's type: its code without its variant values (<c>l3999-plush-bear-north</c> is <c>l3999-plush</c>), so a
+    /// turned or recoloured copy counts as the same thing.
+    /// </summary>
+    private static string TypeOf(Block block)
+    {
+        string path = block.Code.Path;
+        if (block.Variant == null || block.Variant.Count == 0) return path;
+        string suffix = "-" + string.Join("-", block.Variant.Values);
+        return path.Length > suffix.Length && path.EndsWith(suffix, System.StringComparison.Ordinal) ? path[..^suffix.Length] : path;
+    }
+
+    private static bool IsOurs(Block block) => block?.Code != null && block.Code.Domain == "backrooms" && block.BlockId != 0;
+
+    /// <summary>Whether a block's own drops (as its block type gives them) are anything but the block itself.</summary>
+    private static bool HasOwnLoot(ICoreAPI api, Block block)
+    {
+        if (block.Drops == null || block.Drops.Length == 0) return false;
+        string type = TypeOf(block);
+        foreach (BlockDropItemStack drop in block.Drops)
+        {
+            if (drop?.Code == null) continue;
+            if (drop.Type != EnumItemClass.Block) return true;
+            Block dropped = api.World.GetBlock(drop.Code);
+            if (dropped == null || !IsOurs(dropped) || TypeOf(dropped) != type) return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Which of our blocks keep their own drops, worked out from the block types alone (so both sides agree), before
+    /// <see cref="Apply"/> changes any. The generators give furniture and clutter what is in it (the Level 188 minibar's
+    /// juice and Almond Water, Level 3999's bins and prize cases, Level Fun's cake tins and carnivorous balloons, the
+    /// Hub's and The End's props), and many of those share the first part of their code with their level's walls, so
+    /// no list by code would find them all. So:
+    /// <list type="bullet">
+    /// <item>A block that gives anything but itself, and has no class of its own here, is furniture or clutter: its
+    /// drops are kept.</item>
+    /// <item>A block a player can come by (dropped by any of those, or by salvage; a prize at a Level 3999 counter; made
+    /// by the player, <see cref="MadeTypes"/>) gives itself back, as anything a player puts down does, rather than
+    /// breaking down like the building.</item>
+    /// </list>
+    /// </summary>
+    private static HashSet<string> FindOwnDrops(ICoreAPI api)
+    {
+        var keep = new HashSet<string>();
+        var carried = new HashSet<string>(MadeTypes);
+        foreach (Block block in api.World.Blocks)
+        {
+            if (!IsOurs(block)) continue;
+            string first = block.FirstCodePart();
+            if (first == "run" || OwnRules.Contains(first) || Classes.ContainsKey(first)) continue;
+            bool salvage = SalvageSystem.IsSalvage(block);
+            if (!salvage && !HasOwnLoot(api, block)) continue;
+            if (!salvage) keep.Add(block.Code.Path);
+            // Whatever of ours it gives can be carried off and set down again
+            foreach (BlockDropItemStack drop in block.Drops)
+                if (drop?.Code != null && drop.Type == EnumItemClass.Block && api.World.GetBlock(drop.Code) is Block given && IsOurs(given))
+                    carried.Add(TypeOf(given));
+            JsonObject tiers = block.Attributes?["l3999prizes"];
+            if (tiers?.Exists == true)
+                foreach (JsonObject cost in tiers)
+                    foreach (JsonObject prize in tiers[cost.AsString()].AsArray() ?? System.Array.Empty<JsonObject>())
+                        if (prize["type"].AsString("item") == "block"
+                            && api.World.GetBlock(AssetLocation.Create(prize["code"].AsString(), "backrooms")) is Block won && IsOurs(won))
+                            carried.Add(TypeOf(won));
+        }
+        foreach (Block block in api.World.Blocks)
+        {
+            if (!IsOurs(block) || !carried.Contains(TypeOf(block)) || SalvageSystem.IsSalvage(block)) continue;
+            string first = block.FirstCodePart();
+            if (first != "run" && !OwnRules.Contains(first) && !Classes.ContainsKey(first)) keep.Add(block.Code.Path);
+        }
+        return keep;
+    }
+
     /// <summary>What kind of block this is, as far as breaking goes.</summary>
     public static BreakKind KindOf(Block block)
     {
@@ -213,6 +299,8 @@ public static class Breakdown
         if (block.BlockBehaviors != null)
             foreach (BlockBehavior behavior in block.BlockBehaviors)
                 if (behavior is Thresholds.BlockBehaviorThreshold or Regions.BlockBehaviorHubDoor) return BreakKind.Fixed;
+        // Furniture and clutter with what is in it, and anything a player can carry off (see FindOwnDrops)
+        if (ownDrops.Contains(block.Code.Path)) return BreakKind.None;
         return BreakKind.Structure;
     }
 
@@ -223,15 +311,25 @@ public static class Breakdown
     /// <summary>
     /// Gives every structural block of ours its class: material, tier, resistance and drops, and the bare-hands
     /// slowdown. Fixed blocks get a tier no tool reaches. Run on both sides (the client predicts the breaking).
+    /// Also says which block types keep their own drops (<see cref="FindOwnDrops"/>), and, as a check, which had drops
+    /// of their own and lose them all the same: only those with a class named here should (an arch header gives what
+    /// any papered wall gives, not the wallpaper its type names).
     /// </summary>
-    public static (int Structure, int Fixed) Apply(ICoreAPI api)
+    public static (int Structure, int Fixed, SortedSet<string> Kept, SortedSet<string> Replaced) Apply(ICoreAPI api)
     {
         int structure = 0, fixedCount = 0;
+        HashSet<string> keep = FindOwnDrops(api);
+        ownDrops = keep;
+        var kept = new SortedSet<string>();
+        var replaced = new SortedSet<string>();
         foreach (Block block in api.World.Blocks)
         {
             // A lit light used to give itself back, a lamp for life: now it shatters like a dead one
             if (SalvageSystem.IsLiveLight(block)) block.Drops = ResolveDrops(api, block, LightScraps);
-            switch (KindOf(block))
+            BreakKind kind = KindOf(block);
+            if (kind == BreakKind.None && IsOurs(block) && keep.Contains(block.Code.Path)) kept.Add(TypeOf(block));
+            if (kind == BreakKind.Structure && HasOwnLoot(api, block)) replaced.Add(TypeOf(block));
+            switch (kind)
             {
                 case BreakKind.Fixed:
                     block.RequiredMiningTier = Protection.UnbreakableTier;
@@ -252,7 +350,7 @@ public static class Breakdown
                     break;
             }
         }
-        return (structure, fixedCount);
+        return (structure, fixedCount, kept, replaced);
     }
 
     private static BlockDropItemStack[] ResolveDrops(ICoreAPI api, Block block, (string, float, float)[] baseDrops, string extraFor = null)
