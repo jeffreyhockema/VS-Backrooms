@@ -66,6 +66,8 @@ public sealed partial class WorldGenerator
     private int poolFloorId, jettyId, siloId, siloTopId, chimneyId, kelpSectionId, kelpTopId, webId, crystalUpId, crystalDownId, mushroomId, remainsId;
     private readonly int[] houseLightIds = new int[2];
     private readonly int[,,] roofSlopeIds = new int[4, 2, 4];
+    /// <summary>The pitched roof drawn course by course (graphics pass B11): cover, gable siding, form, side (see PitchRoof).</summary>
+    private readonly int[,,,] pitchRoofIds = new int[4, 8, 7, 4];
     private readonly int[,] sidingCornerIds = new int[5, 4];
     private readonly int[] flowerIds = new int[8];
     private readonly int[] vegetableIds = new int[6];
@@ -238,6 +240,17 @@ public sealed partial class WorldGenerator
             for (int hf = 0; hf < 2; hf++)
                 for (int f = 0; f < 4; f++)
                     roofSlopeIds[m, hf, f] = Id($"roofslope-{roofMaterials[m]}-{halves[hf]}-{sideNames[f]}");
+        // (a cover goes with its own gables: the houses' shingles with the five sidings, the barns' tin with their boards)
+        string[] gables = { "none", "white", "blue", "yellow", "green", "brick", "barnred", "barngrey" };
+        string[] forms = { "eave", "lower", "upper", "peaklower", "peakupper", "ridgelower", "ridgeupper" };
+        for (int m = 0; m < 4; m++)
+            for (int g = 0; g < gables.Length; g++)
+            {
+                if (g != 0 && (m == 3) != (g >= 6)) continue;
+                for (int fm = 0; fm < forms.Length; fm++)
+                    for (int f = 0; f < 4; f++)
+                        pitchRoofIds[m, g, fm, f] = Id($"pitchroof-{roofMaterials[m]}-{gables[g]}-{forms[fm]}-{sideNames[f]}");
+            }
         string[] sidingNames = { "white", "blue", "yellow", "green", "brick" }, corners = { "ne", "nw", "se", "sw" };
         for (int sd = 0; sd < 5; sd++)
             for (int c = 0; c < 4; c++)
@@ -629,7 +642,7 @@ public sealed partial class WorldGenerator
                 // A brick chimney up the side of the house and out past the roof
                 if (t.Variant == 3 && siding) return rel <= RoofBits.Height(t.Roof) + 1 ? chimneyId : 0;
                 // Under the roof: the gable ends of the house, or of a barn, rise to meet it
-                int roof = RoofAt(t, rel, material, siding ? Siding(t) : barnWall);
+                int roof = RoofAt(t, rel, material, siding ? Siding(t) : barnWall, gx, gz, siding ? 1 + (t.Pattern - WallPattern.SidingWhite) : BarnGable(t));
                 if (roof >= 0) return roof;
                 if (rel > 4) return 0;
                 if (siding)
@@ -650,7 +663,7 @@ public sealed partial class WorldGenerator
             }
             case TileKind.Door:
             {
-                int roof = RoofAt(t, rel, material, 0);
+                int roof = RoofAt(t, rel, material, 0, gx, gz);
                 if (roof >= 0) return roof;
                 if (rel > 4) return 0;
                 // A doll's house's door, onto Level 94
@@ -662,7 +675,8 @@ public sealed partial class WorldGenerator
             }
             case TileKind.Doorway:
             {
-                int roof = RoofAt(t, rel, material, 0);
+                // (an outbuilding's gable closes over its doorway)
+                int roof = RoofAt(t, rel, material, barnWall, gx, gz, BarnGable(t));
                 if (roof >= 0) return roof;
                 if (rel > 4) return 0;
                 if (rel <= 2) return 0;
@@ -674,7 +688,7 @@ public sealed partial class WorldGenerator
             {
                 // A fence, or a porch railing under the porch roof
                 if (rel == 1) return t.Pattern == WallPattern.Fence ? fenceIds[t.Stack & 15] : 0;
-                int roof = RoofAt(t, rel, material, 0);
+                int roof = RoofAt(t, rel, material, 0, gx, gz);
                 return roof > 0 ? roof : CrownOver(t, gx, gz, rel); // (a tree's crown carries on over the fence)
             }
         }
@@ -683,7 +697,7 @@ public sealed partial class WorldGenerator
         {
             if (rel == 4 && !RoofBits.IsLowered(t.Roof))
                 return t.Ceiling is CeilingKind.LightOn or CeilingKind.LightOff ? houseLightIds[t.Ceiling == CeilingKind.LightOn ? 1 : 0] : houseCeilingId;
-            int roof = RoofAt(t, rel, material, 0);
+            int roof = RoofAt(t, rel, material, 0, gx, gz);
             if (roof >= 0) return roof;
         }
         return TreeOrProp(t, gx, gz, rel, trunk: 4);
@@ -692,15 +706,41 @@ public sealed partial class WorldGenerator
     /// <summary>
     /// The pitched roof over a tile at a height: the roof block itself, air above it, and below it (down to the top
     /// of the walls) <paramref name="below"/>, which is a gable wall or the attic's air. -1 where the roof has nothing
-    /// to do with this height.
+    /// to do with this height. <paramref name="gable"/> is the siding the roof block carries down into a gable over
+    /// a wall (see <see cref="PitchRoof"/>; 0 inside the roof).
     /// </summary>
-    private int RoofAt(in Tile t, int rel, int material, int below)
+    private int RoofAt(in Tile t, int rel, int material, int below, int gx, int gz, int gable = 0)
     {
         if (!RoofBits.IsSloped(t.Roof)) return -1;
         int rise = RoofBits.Rise(t.Roof), height = RoofBits.Height(t.Roof), eaves = RoofBits.IsLowered(t.Roof) ? 4 : 5;
-        if (rel == height) return roofSlopeIds[material, rise % 2, Facing(RoofBits.Down(t.Roof))];
+        if (rel == height) return PitchRoof(t, material, gable, gx, gz);
         if (rel > height) return 0;
         return rel >= eaves ? below : -1;
+    }
+
+    /// <summary>A barn's or shed's gable siding for <see cref="PitchRoof"/>: 6 red boards, 7 grey, 0 for anything else.</summary>
+    private static int BarnGable(in Tile t) => t.Pattern == WallPattern.BarnRed ? 6 : t.Pattern == WallPattern.BarnGrey ? 7 : 0;
+
+    /// <summary>
+    /// The roof block over a tile (graphics pass B11): which of the pitched roof's forms it takes, from the rows either
+    /// side of it. Where the row up the slope falls away the other way half a block lower, this row is the ridge and
+    /// rises to a point of its own; where it falls away at the same height, the two rows meet at the ridge and each
+    /// carries half the cap; the lowest row overhangs its wall as an eave, unless a lower roof (a porch's) leans on
+    /// the wall under it. Block choice only: the layout and the roof's height are as they always were.
+    /// </summary>
+    private int PitchRoof(in Tile t, int material, int gable, int gx, int gz)
+    {
+        int rise = RoofBits.Rise(t.Roof), down = Facing(RoofBits.Down(t.Roof)), half = rise & 1;
+        bool lowered = RoofBits.IsLowered(t.Roof);
+        var (dx, dz) = PipeFaces[down];
+        Tile up = TileAt(gx - dx, gz - dz);
+        bool facing = RoofBits.IsSloped(up.Roof) && RoofBits.IsLowered(up.Roof) == lowered && Facing(RoofBits.Down(up.Roof)) == ((down + 2) & 3);
+        int form = facing && RoofBits.Rise(up.Roof) == rise - 1 ? 5 + half
+            : facing && RoofBits.Rise(up.Roof) == rise ? 3 + half
+            : rise == 0 && !RoofBits.IsSloped(TileAt(gx + dx, gz + dz).Roof) ? 0
+            : 1 + half;
+        int id = pitchRoofIds[material, gable, form, down];
+        return id != 0 ? id : roofSlopeIds[material, half, down];
     }
 
     /// <summary>
@@ -806,7 +846,7 @@ public sealed partial class WorldGenerator
                 if (t.Pattern == WallPattern.Silo) return rel <= 8 ? siloId : rel == 9 ? siloTopId : 0;
                 if (barn)
                 {
-                    int roof = RoofAt(t, rel, 3, barnWall);
+                    int roof = RoofAt(t, rel, 3, barnWall, gx, gz, BarnGable(t));
                     // A stretch of boards that isn't quite there: walk into it and you are somewhere else
                     if (t.Under == Unders.Noclip && rel <= 2) return noclipBarnId;
                     return roof >= 0 ? roof : rel <= 4 ? barnWall : 0;
@@ -815,7 +855,8 @@ public sealed partial class WorldGenerator
             case TileKind.Doorway:
                 if (barn)
                 {
-                    int roof = RoofAt(t, rel, 3, 0);
+                    // (the gable closes over the doorway)
+                    int roof = RoofAt(t, rel, 3, barnWall, gx, gz, BarnGable(t));
                     return roof >= 0 ? roof : rel <= 3 ? 0 : rel <= 4 ? barnWall : 0;
                 }
                 return rel <= 2 ? 0 : rel <= 5 ? strataIds[0] : 0;
@@ -826,7 +867,7 @@ public sealed partial class WorldGenerator
         // Barns and sheds are open inside, up to the roof
         if (RoofBits.IsSloped(t.Roof))
         {
-            int roof = RoofAt(t, rel, 3, 0);
+            int roof = RoofAt(t, rel, 3, 0, gx, gz);
             if (roof >= 0) return roof;
         }
         if (t.Kind == TileKind.Bars) return CrownOver(t, gx, gz, rel);

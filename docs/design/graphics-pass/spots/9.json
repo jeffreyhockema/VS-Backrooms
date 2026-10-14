@@ -31,6 +31,11 @@
     {"name": "streetname-wide", "tp": [512379.26, 217.05, 505220.74], "look": [45, 9], "target": "streetname", "distance": 6.0, "pre": ["/time set 12:00"]},
     {"name": "streetname-close", "tp": [512382.08, 217.05, 505217.92], "look": [45, 26], "target": "streetname", "distance": 2.0, "pre": ["/time set 12:00"]},
     {"name": "citysign-wide", "tp": [512376.5, 217.05, 505281.5], "look": [180, 9], "target": "citysign", "distance": 6.0, "pre": ["/time set 12:00"]},
-    {"name": "citysign-close", "tp": [512376.5, 217.05, 505285.5], "look": [180, 26], "target": "citysign", "distance": 2.0, "pre": ["/time set 12:00"]}
+    {"name": "citysign-close", "tp": [512376.5, 217.05, 505285.5], "look": [180, 26], "target": "citysign", "distance": 2.0, "pre": ["/time set 12:00"]},
+    {"name": "day-street", "tp": [512379.5, 217.05, 505236.5], "look": [0, 4], "pre": ["/time set 12:00", "daylight"], "note": "B11: a street at day (shotbot daylight), houses with gables on both sides"},
+    {"name": "day-front", "tp": [512399.5, 217.05, 505219.5], "look": [0, 6], "pre": ["/time set 12:00", "daylight"], "note": "B11: a house front and its eave from the street"},
+    {"name": "day-gable", "tp": [512379.5, 217.05, 505203.5], "look": [90, 22], "fov": 40, "pre": ["/time set 12:00", "daylight"], "note": "B11: close on a gable, where the siding meets the roof"},
+    {"name": "day-eave", "tp": [512398.5, 217.05, 505211.5], "look": [0, 50], "pre": ["/time set 12:00", "daylight"], "note": "B11: the front eave from below"},
+    {"name": "day-porch", "tp": [512322.26, 217.05, 505158.26], "look": [135, 0], "pre": ["/time set 12:00", "daylight"], "note": "B11: a porch with posts, rails and its lamp (sleepingbag-wide's spot at day)"}
   ]
 }

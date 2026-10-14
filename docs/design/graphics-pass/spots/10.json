@@ -17,6 +17,13 @@
     {"name": "prop-1", "tp": [512391.5, 217.05, 504563.5], "look": [0, -32], "surface": "floor prop variant 174", "pre": ["/time set 12:00"]},
     {"name": "prop-2", "tp": [512386.5, 217.05, 504517.5], "look": [0, -32], "surface": "floor prop variant 175", "pre": ["/time set 12:00"]},
     {"name": "fieldthing-wide", "tp": [512380.6, 217.05, 504517.75], "look": [60, -8], "target": "fieldthing", "distance": 4.5, "pre": ["/time set 12:00"]},
-    {"name": "fieldthing-close", "tp": [512383.09, 217.05, 504516.91], "look": [45, -17], "target": "fieldthing", "distance": 2.0, "pre": ["/time set 12:00"]}
+    {"name": "fieldthing-close", "tp": [512383.09, 217.05, 504516.91], "look": [45, -17], "target": "fieldthing", "distance": 2.0, "pre": ["/time set 12:00"]},
+    {"name": "barn-wide", "tp": [512888.5, 217.05, 504514.5], "look": [15, 10], "pre": ["/time set 12:00"], "note": "B11: a farmstead's red barn (south gable, doorway) and its silo"},
+    {"name": "barn-close", "tp": [512894.5, 217.05, 504502.5], "look": [10, 28], "pre": ["/time set 12:00"], "note": "B11: the barn's gable and roof edge, close"},
+    {"name": "silo-close", "tp": [512893.5, 217.05, 504508.5], "look": [90, 25], "pre": ["/time set 12:00"], "note": "B11: the silo, close"},
+    {"name": "tractor", "tp": [512908.5, 217.05, 504504.5], "look": [57, -8], "pre": ["/time set 12:00"], "note": "B11: the farmstead's tractor and plough"},
+    {"name": "shed-wide", "tp": [512410.5, 217.05, 504722.5], "look": [45, 8], "pre": ["/time set 12:00"], "note": "B11: a grey field shed"},
+    {"name": "shed-close", "tp": [512414.5, 217.05, 504722.5], "look": [15, 25], "pre": ["/time set 12:00"], "note": "B11: the field shed's gable and eave, close"},
+    {"name": "barn-roof", "tp": [512925.5, 217.05, 504492.5], "look": [270, 8], "pre": ["/time set 12:00"], "note": "B11: the barn's east roof slope and eave from across the yard"}
   ]
 }

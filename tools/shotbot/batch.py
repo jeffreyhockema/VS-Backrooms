@@ -179,6 +179,8 @@ def spot_commands(spot, prefix, state):
         out.append("slot 9")
         pre = ["daylight", "/backrooms light lantern"] + [p for p in pre if p not in ("daylight", "/backrooms light lantern")]
         state["daylight"] = True
+    elif "daylight" in pre:
+        state["daylight"] = True  # (an ordinary day spot: the next spot without it turns daylight off again)
     for p in pre:
         out.append(("cmd " + p) if p.startswith("/") else p)
     if "nearest" in spot:

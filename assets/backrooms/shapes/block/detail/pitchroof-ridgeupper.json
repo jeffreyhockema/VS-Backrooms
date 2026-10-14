@@ -1,0 +1,401 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cap": "backrooms:block/detail/roofcap-grey",
+		"deck": "backrooms:block/detail/soffit",
+		"edge": "backrooms:block/detail/roofedge-grey",
+		"shingle": "backrooms:block/detail/houseroof-grey"
+	},
+	"elements": [
+		{
+			"name": "DeckN",
+			"from": [
+				0,
+				7.7,
+				0.0
+			],
+			"to": [
+				16,
+				8.0,
+				8.9443
+			],
+			"rotationOrigin": [
+				0,
+				8.0,
+				0.0
+			],
+			"rotationX": -26.5651,
+			"faces": {
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0,
+						16,
+						8.9443
+					]
+				}
+			}
+		},
+		{
+			"name": "CourseN0",
+			"from": [
+				0,
+				10.0,
+				-0.4721
+			],
+			"to": [
+				16,
+				10.3,
+				4.0
+			],
+			"rotationOrigin": [
+				0,
+				10.0,
+				4.0
+			],
+			"rotationX": -22.7273,
+			"faces": {
+				"up": {
+					"texture": "#shingle",
+					"uv": [
+						0,
+						0.0,
+						16,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4721
+					]
+				}
+			}
+		},
+		{
+			"name": "CourseN1",
+			"from": [
+				0,
+				12.0,
+				3.5279
+			],
+			"to": [
+				16,
+				12.3,
+				8.0
+			],
+			"rotationOrigin": [
+				0,
+				12.0,
+				8.0
+			],
+			"rotationX": -22.7273,
+			"faces": {
+				"up": {
+					"texture": "#shingle",
+					"uv": [
+						0,
+						4.0,
+						16,
+						8.0
+					]
+				},
+				"north": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4721
+					]
+				}
+			}
+		},
+		{
+			"name": "DeckN",
+			"from": [
+				0,
+				7.7,
+				7.0557
+			],
+			"to": [
+				16,
+				8.0,
+				16.0
+			],
+			"rotationOrigin": [
+				0,
+				8.0,
+				16.0
+			],
+			"rotationX": 26.5651,
+			"faces": {
+				"down": {
+					"texture": "#deck",
+					"uv": [
+						0,
+						0,
+						16,
+						8.9443
+					],
+					"rotation": 180
+				}
+			}
+		},
+		{
+			"name": "CourseN0",
+			"from": [
+				0,
+				10.0,
+				12.0
+			],
+			"to": [
+				16,
+				10.3,
+				16.4721
+			],
+			"rotationOrigin": [
+				0,
+				10.0,
+				12.0
+			],
+			"rotationX": 22.7273,
+			"faces": {
+				"up": {
+					"texture": "#shingle",
+					"uv": [
+						0,
+						0.0,
+						16,
+						4.0
+					],
+					"rotation": 180
+				},
+				"south": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4721
+					],
+					"rotation": 180
+				}
+			}
+		},
+		{
+			"name": "CourseN1",
+			"from": [
+				0,
+				12.0,
+				8.0
+			],
+			"to": [
+				16,
+				12.3,
+				12.4721
+			],
+			"rotationOrigin": [
+				0,
+				12.0,
+				8.0
+			],
+			"rotationX": 22.7273,
+			"faces": {
+				"up": {
+					"texture": "#shingle",
+					"uv": [
+						0,
+						4.0,
+						16,
+						8.0
+					],
+					"rotation": 180
+				},
+				"south": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4721,
+						1
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4721
+					],
+					"rotation": 180
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0,
+				11.5,
+				5.8
+			],
+			"to": [
+				16,
+				12.6,
+				10.2
+			],
+			"faces": {
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"north": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						1.1
+					]
+				}
+			}
+		}
+	]
+}

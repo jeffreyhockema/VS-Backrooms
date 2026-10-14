@@ -46,6 +46,16 @@
 					{
 						"base": "block/detail/asphalt",
 						"rotation": 270
+					},
+					{
+						"base": "block/detail/asphalt-2"
+					},
+					{
+						"base": "block/detail/asphalt-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/asphalt-3"
 					}
 				]
 			}

@@ -1,5 +1,6 @@
 """Blocks, props, items and names for Levels 6 to 10 and Level 6.1. Called from gen_detail.py, which writes them out
 along with everything else (python tools/gen_detail.py)."""
+import json
 import math
 import os
 
@@ -51,6 +52,33 @@ def food(code, english, satiety, category, desc, health=0, stack=16, extra=None)
     write_json(os.path.join(ASSETS, "itemtypes", "deep", code + ".json"), data, english)
     LANG[f"item-{code}"] = english
     LANG[f"itemdesc-{code}"] = desc
+
+
+def siding_tex(siding):
+    """A house's siding on one face: the painted lap siding comes in three versions (one with chipped paint), the
+    brick in one. The gables over the walls use the same (pitch_textures)."""
+    t = {"base": f"block/detail/siding-{siding}"}
+    if siding != "brick":
+        t["alternates"] = [{"base": f"block/detail/siding-{siding}-{n}"} for n in (2, 3)]
+    return t
+
+
+def tractor_wheel(name, x1, x2, yc, zc, r):
+    """A tyre seen side on as an octagon (three crossed boxes) with a green hub (graphics pass B11; the wheels were
+    square)."""
+    k = r * 0.41  # an octagon's half side
+    return [bx(f"{name}A", (x1, yc - r, zc - k), (x2, yc + r, zc + k), "rubber"),
+            bx(f"{name}B", (x1 + 0.15, yc - k, zc - r), (x2 - 0.15, yc + k, zc + r), "rubber"),
+            bx(f"{name}C", (x1 + 0.3, yc - r * 0.77, zc - r * 0.77), (x2 - 0.3, yc + r * 0.77, zc + r * 0.77), "rubber"),
+            bx(f"{name}Hub", (x1 - 0.3, yc - r * 0.4, zc - r * 0.4), (x2 + 0.3, yc + r * 0.4, zc + r * 0.4), "tractorgreen")]
+
+
+def porch_post():
+    """A painted porch post: a plinth at its foot, a plain square shaft, and a capital of two steps under the roof
+    (graphics pass B11; it was a bare square post)."""
+    return [bx("Plinth", (5, 0, 5), (11, 1.5, 11), "windowtrim"), bx("PlinthCap", (5.25, 1.5, 5.25), (10.75, 2, 10.75), "windowtrim"),
+            bx("Post", (5.75, 2, 5.75), (10.25, 14, 10.25), "windowtrim"),
+            bx("Neck", (5.5, 14, 5.5), (10.5, 14.5, 10.5), "windowtrim"), bx("Capital", (5, 14.5, 5), (11, 16, 11), "windowtrim")]
 
 
 # ======================= Level 6 =======================
@@ -468,6 +496,12 @@ def level9():
             "doublens": "Road Marking", "doublewe": "Road Marking", "bayns": "Road Marking", "baywe": "Road Marking",
             "cracked": "Cracked Asphalt"}
     cube_block("asphalt", road, list(road), {k: "asphalt" if k == "plain" else f"asphalt-{k}" for k in road})
+    _p = os.path.join(ASSETS, "blocktypes", "detail", "asphalt.json")
+    with open(_p, encoding="utf-8") as f:
+        _data = json.load(f)
+    _data["texturesByType"]["*-plain"]["all"]["alternates"] += [
+        {"base": "block/detail/asphalt-2"}, {"base": "block/detail/asphalt-2", "rotation": 90}, {"base": "block/detail/asphalt-3"}]
+    block("asphalt", {k: v for k, v in _data.items() if k != "code"})  # (graphics pass B11)
     cube_block("sidewalk", "Pavement", ["plain"], {"plain": "sidewalk"})
     floors = {"wood": "Floorboards", "carpet": "Carpet", "tile": "Bathroom Tiles", "lino": "Linoleum", "garage": "Concrete",
               "porch": "Porch Boards", "driveway": "Concrete", "rug": "Rug"}
@@ -478,7 +512,7 @@ def level9():
     for siding in ("white", "blue", "yellow", "green", "brick"):
         for s in SIDES:
             faces = {f: {"base": "block/detail/plaster-interior"} for f in ("north", "east", "south", "west", "up", "down")}
-            faces[s] = {"base": f"block/detail/siding-{siding}"}
+            faces[s] = siding_tex(siding)
             tex_by[f"*-{siding}-{s}"] = faces
     block("housewall", {"variantgroups": [{"code": "siding", "states": ["white", "blue", "yellow", "green", "brick"]}, {"code": "side", "states": SIDES}],
                         "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]}, "blockmaterial": "Wood", "drawtype": "cube",
@@ -548,8 +582,7 @@ def level9():
         "step": [bx("Step", (0, 0, 0), (16, 1, 16), "porchstep")]},
          box=(0, 0, 0, 1, 0.125, 1), oriented=False, comment="A porch's deck of boards, and the step up to it")
     name("porchdeck-step", "Porch Step")
-    prop("porchpost", "Porch Post", [bx("Post", (5.5, 0, 5.5), (10.5, 16, 10.5), "windowtrim"),
-                                     bx("Fillet", (5, 15, 5), (11, 16, 11), "windowtrim")],
+    prop("porchpost", "Porch Post", porch_post(),
          box=(0.31, 0, 0.31, 0.69, 1, 0.69), oriented=False, comment="A painted post holding up a porch roof")
     # Its foot where it stands in the railing: the railing's two rails (vanilla aged fence wood) come in to the post from
     # the sides the railing goes on to (kinds named like the vanilla fence's)
@@ -557,7 +590,7 @@ def level9():
     detail_kit.EXT["fencewood"] = "game:block/wood/debarked/aged"
 
     def post_rails(sides):
-        els = [bx("Post", (5.5, 0, 5.5), (10.5, 16, 10.5), "windowtrim"), bx("Fillet", (5, 15, 5), (11, 16, 11), "windowtrim")]
+        els = porch_post()
         for side in sides:
             k = "nesw".index(side)
             for y in (1, 13):
@@ -643,8 +676,13 @@ def level9():
          extra={"lightHsvByType": {"*-on-*": [6, 3, 15]}, "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
                 "attributesByType": {f"*-flicker-{s}": {"offBlock": f"backrooms:streetlight-off-{s}"} for s in SIDES}})
     prop("mailbox", "Mailbox", [
-        bx("Post", (7.5, 0, 7.5), (8.5, 12, 8.5), "wood"), bx("Box", (5, 12, 4), (11, 17, 13), "mailbox"),
-        bx("Flag", (11, 14, 9), (11.5, 19, 10), "redmetal")], box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
+        bx("Post", (7.25, 0, 7.25), (8.75, 12, 8.75), "wood"), bx("Board", (6, 11.5, 5), (10, 12, 12), "wood"),
+        bx("Box", (5, 12, 4), (11, 16, 13), "mailbox"), bx("Top", (5.5, 16, 4), (10.5, 17, 13), "mailbox"),
+        bx("Crown", (6.5, 17, 4), (9.5, 17.5, 13), "mailbox"),
+        bx("Door", (5.25, 12.25, 3.6), (10.75, 16.5, 4), "mailbox", faces=("north", "east", "west", "up")),
+        bx("Latch", (7.5, 15.5, 3.3), (8.5, 16.2, 3.6), "metal"),
+        bx("Pivot", (11, 14.5, 9), (11.5, 15.5, 10), "metal"), bx("Flag", (11.5, 14, 9.25), (12, 19, 9.75), "redmetal"),
+        bx("FlagTip", (11.5, 17.5, 9.75), (12, 19, 11.5), "redmetal")], box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 0.6, 0.4), ("game:paper-parchment", 0.4, 0.4))})
     prop("seedsacks", "Seed Sacks", [
         bx("Sack1", (1, 0, 2), (8, 9, 8), "burlap"), bx("Sack2", (8.5, 0, 3), (15, 8, 9), "burlap"), bx("Sack3", (3, 0, 9), (10, 7, 15), "burlap"),
@@ -664,8 +702,14 @@ def level10():
     cube_block("dirtroad", {"plain": "Dirt Road", "tracks": "Dirt Road"}, ["plain", "tracks"], {"plain": "dirtroad", "tracks": "dirtroad-tracks"},
                material="Soil", sounds={"walk": "game:walk/gravel", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"},
                comment="Packed dirt roads with tyre tracks; nothing grows on them")
-    cube_block("barnwall", {"red": "Barn Boards", "grey": "Weathered Boards"}, ["red", "grey"], {"red": "barnwall-red", "grey": "barnwall-grey"},
-               material="Wood", sounds=WOOD)
+    # Board and batten in three versions, the third gone thin at the foot (graphics pass B11); otherwise as cube_block
+    block("barnwall", {"variantgroups": [{"code": "kind", "states": ["red", "grey"]}],
+                       "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Wood", "drawtype": "cube",
+                       "texturesByType": {f"*-{k}": {"all": {"base": f"block/detail/barnwall-{k}", "alternates": [
+                           {"base": f"block/detail/barnwall-{k}-{n}"} for n in (2, 3)]}} for k in ("red", "grey")},
+                       "lightAbsorption": 99, "resistance": 4, "sounds": WOOD})
+    name("barnwall-red", "Barn Boards")
+    name("barnwall-grey", "Weathered Boards")
     cube_block("barnroof", "Barn Roof", ["dark"], {"dark": "barnroof"}, material="Wood", sounds=WOOD)
     # Ploughed soil under the crops. Its code must start with "farmland": vanilla crops stop growing (and so stay
     # ripe instead of cycling back to seedlings) only on blocks whose code does
@@ -712,21 +756,10 @@ def refinements():
     cube_block("chimney", "Chimney", ["brick"], {"brick": "siding-brick"})
 
     # Pitched roofs: half a block of rise for every block of run, in a lower and an upper half, sloping down toward
-    # the side named. A slab of shingles tilted to the slope, with a board under its edges.
-    slope = math.degrees(math.atan2(8, 16))
-    run = math.hypot(16, 8)
+    # the side named. Since graphics pass B11 the world generator places "pitchroof" (roofs(), below); this old block
+    # stays for the roofs of saved worlds, with the new roofing over its boarded gable fill
     materials = {"grey": "houseroof-grey", "brown": "houseroof-brown", "red": "houseroof-red", "barn": "barnroof"}
-    shapes = {}
-    for mat, tex in materials.items():
-        trim = "wooddark" if mat == "barn" else "white"
-        for half, y in (("lower", 0), ("upper", 8)):
-            # Built sloping down to the north: low edge at z = 0, high edge at z = 16. Under the slab, boards fill
-            # the gap down to the block below in steps, so a gable end reads as a boarded triangle
-            fill = [bx(f"Fill{k}", (0, 0, 4 * k), (16, y + 2 * k, 4 * k + 4), trim, faces=("north", "east", "west", "up"))
-                    for k in range(4) if y + 2 * k > 0]
-            shapes[(mat, half)] = shape(f"roofslope-{mat}-{half}", fill + [
-                bx("Slab", (0, y, 0), (16, y + 1.6, run), tex, faces=("up", "down"), rot=(-slope, 0, 0), origin=(0, y, 0)),
-                bx("Edge", (0, y, 0), (16, y + 1.6, run), "wooddark", faces=("north", "south", "east", "west"), rot=(-slope, 0, 0), origin=(0, y, 0))])
+    shapes = roofslope_shapes()
     roof_by = {}
     for (mat, half), path in shapes.items():
         for s in SIDES:
@@ -749,7 +782,7 @@ def refinements():
         for corner, faces in (("ne", ("north", "east")), ("nw", ("north", "west")), ("se", ("south", "east")), ("sw", ("south", "west"))):
             tex = {f: {"base": "block/detail/plaster-interior"} for f in ("north", "east", "south", "west", "up", "down")}
             for f in faces:
-                tex[f] = {"base": f"block/detail/siding-{siding}"}
+                tex[f] = siding_tex(siding)
             corner_by[f"*-{siding}-{corner}"] = tex
     block("housecorner", {"variantgroups": [{"code": "siding", "states": ["white", "blue", "yellow", "green", "brick"]}, {"code": "corner", "states": ["ne", "nw", "se", "sw"]}],
                           "creativeinventory": {"general": ["*-ne"], "construction": ["*-ne"]}, "blockmaterial": "Wood", "drawtype": "cube",
@@ -858,8 +891,8 @@ def refinements():
     prop("tractor", "Old Tractor", [
         bx("Body", (8, 10, 6), (24, 22, 30), "tractorgreen"), bx("Hood", (10, 12, 0), (22, 20, 8), "tractorgreen"),
         bx("Grille", (10.5, 12.5, -0.2), (21.5, 19.5, 0), "grate", faces=("north",), full=True),
-        bx("WheelRL", (0, 0, 26), (7, 22, 44), "rubber"), bx("WheelRR", (25, 0, 26), (32, 22, 44), "rubber"),
-        bx("WheelFL", (3, 0, 4), (8, 11, 14), "rubber"), bx("WheelFR", (24, 0, 4), (29, 11, 14), "rubber"),
+        *tractor_wheel("WheelRL", 0, 7, 11, 35, 11), *tractor_wheel("WheelRR", 25, 32, 11, 35, 11),
+        *tractor_wheel("WheelFL", 3, 8, 5.5, 9, 5.5), *tractor_wheel("WheelFR", 24, 29, 5.5, 9, 5.5),
         bx("Fender", (0, 22, 26), (32, 23, 44), "tractorgreen"), bx("Rear", (8, 8, 30), (24, 22, 44), "tractorgreen"),
         bx("Seat", (12, 22, 34), (20, 25, 40), "blackmetal"), bx("SeatBack", (12, 25, 39), (20, 31, 40), "blackmetal"),
         bx("Column", (15.5, 22, 28), (16.5, 30, 29), "blackmetal"), bx("Wheel", (13, 30, 26), (19, 30.6, 32), "blackmetal"),
@@ -928,9 +961,283 @@ def refinements():
          extra={"drops": drops(("metalbracket", 1, 0.5))})
 
 
+
+# ======================= Graphics pass B11: pitched roofs, course by course =======================
+#
+# A roof rises half a block for each block in from its eaves (RoofBits in Tiles.cs), so every roof block holds one
+# run of 16 across and 8 up, built here sloping down to the north (low edge at z = 0) and turned by the block's side.
+# What the old roofslope block drew as one tilted slab is now:
+#   - the roofing as courses: four tilted boards to the block, each pitched a little flatter than the roof so its
+#     lower edge (the butt) stands proud of the course below, which gives a real shadow line every quarter block and a
+#     stepped edge at the gables; their tops carry the shingle texture, a course to a quarter of it;
+#   - a thin deck under them on the roof's true line, its underside the soffit (beadboard under a porch roof);
+#   - at the eaves an overhang with a fascia board, a boxed soffit back to the wall and a gutter;
+#   - at the ridge a cap, either split between the two blocks that meet there (form "peak") or, where the rows on
+#     either side are half a block lower, a ridge of its own rising to a point in the middle of the block ("ridge");
+#   - over a gable wall, the gable itself: the wall's own siding in fine steps up to the roof line, its texture laid
+#     the way the wall below lays it so boards and bricks run on unbroken, and a rake board along the edge.
+# The block "pitchroof" carries the cover (shingle colour, or the barns' tin), the gable siding ("none" inside the
+# roof), the form and the side; the world generator picks the form from the neighbouring tiles (WorldGenerator.Deep.cs,
+# RoofAt). The old "roofslope" block stays for saved worlds, with the new roofing over its old boarded gable fill.
+
+ROOF_RISE = math.atan2(8, 16)
+ROOF_RUN = math.hypot(16, 8)        # the length of the slope across one block
+COURSES = 4                          # courses to a block of roof
+COURSE = ROOF_RUN / COURSES
+COURSE_T = 0.3                       # a course's thickness
+COURSE_LIFT = 0.3                    # how far a course's butt stands off the one below
+DECK_T = 0.3
+PITCH_COVERS = ["grey", "brown", "red", "barn"]
+PITCH_GABLES = ["none", "white", "blue", "yellow", "green", "brick", "barnred", "barngrey"]
+PITCH_FORMS = ["eave", "lower", "upper", "peaklower", "peakupper", "ridgelower", "ridgeupper"]
+PITCH_LOW = ("eave", "lower", "peaklower", "ridgelower")  # the forms in the lower half of their block
+
+
+def _r(v):
+    return round(v, 4)
+
+
+def _slope_el(name, s0, s1, ya, y_lo, y_hi, x0, x1, faces, angle, about_hi=False):
+    """A box lying along the slope from s0 to s1 (distances along the roof line from the block's low edge, where the
+    line is at height ya), between y_lo and y_hi measured square to the line (negative below it), tilted by `angle`
+    degrees about its lower end on the line (or its upper end with about_hi). faces: {face: (key, uv[, rotation])}."""
+    c, s = math.cos(ROOF_RISE), math.sin(ROOF_RISE)
+    pivot = s1 if about_hi else s0
+    pz, py = pivot * c, ya + pivot * s
+    length = s1 - s0
+    z0 = pz - (length if about_hi else 0)
+    el = {"name": name, "from": [_r(x0), _r(py + y_lo), _r(z0)], "to": [_r(x1), _r(py + y_hi), _r(z0 + length)],
+          "rotationOrigin": [_r(x0), _r(py), _r(pz)], "rotationX": _r(-angle), "faces": {}}
+    for f, spec in faces.items():
+        face = {"texture": "#" + spec[0], "uv": [_r(v) for v in spec[1]]}
+        if len(spec) > 2 and spec[2]:
+            face["rotation"] = spec[2]
+        el["faces"][f] = face
+    return el
+
+
+def _box_el(name, frm, to, faces):
+    el = {"name": name, "from": [_r(v) for v in frm], "to": [_r(v) for v in to], "faces": {}}
+    for f, spec in faces.items():
+        face = {"texture": "#" + spec[0], "uv": [_r(v) for v in spec[1]]}
+        el["faces"][f] = face
+    return el
+
+
+def _mirror_z(els):
+    """The elements mirrored front to back (z -> 16 - z): a run sloping down to the north becomes one sloping down to
+    the south. Up and down faces are turned half round so their textures still read from the low edge."""
+    out = []
+    for e in json.loads(json.dumps(els)):
+        z1, z2 = e["from"][2], e["to"][2]
+        e["from"][2], e["to"][2] = _r(16 - z2), _r(16 - z1)
+        if "rotationOrigin" in e:
+            e["rotationOrigin"][2] = _r(16 - e["rotationOrigin"][2])
+            e["rotationX"] = -e["rotationX"]
+        f = e["faces"]
+        new = {}
+        for k, v in f.items():
+            k2 = {"north": "south", "south": "north"}.get(k, k)
+            if k in ("up", "down"):
+                v["rotation"] = (v.get("rotation", 0) + 180) % 360
+            new[k2] = v
+        e["faces"] = new
+        out.append(e)
+    return out
+
+
+def _run(ya, s_from, s_to, tag, eave=False):
+    """The roofing of one run sloping down to the north: the deck and the courses from s_from to s_to along the slope
+    (s = 0 at z = 0, height ya there), each course a quarter of the shingle texture."""
+    deg = math.degrees(ROOF_RISE)
+    els = [_slope_el(f"Deck{tag}", s_from, s_to, ya, -DECK_T, 0, 0, 16,
+                     {"down": ("deck", [0, 0, 16, min(16, s_to - s_from)])}, deg)]
+    k = 0
+    s = s_from
+    while s < s_to - 0.01:
+        s1 = min(s_to, s + COURSE)
+        n = int(round(s / COURSE)) % COURSES
+        tilt = deg - math.degrees(math.atan2(COURSE_LIFT, s1 - s))
+        v0 = n * 16 / COURSES
+        els.append(_slope_el(f"Course{tag}{k}", s, s1, ya, 0, COURSE_T, 0, 16, {
+            "up": ("shingle", [0, v0, 16, v0 + 16 / COURSES]),
+            "north": ("edge", [0, 0, 16, 1]), "east": ("edge", [0, 0, s1 - s, 1]), "west": ("edge", [0, 0, s1 - s, 1]),
+            "down": ("edge", [0, 0, 16, s1 - s])},
+            tilt, about_hi=True))
+        s, k = s1, k + 1
+    return els
+
+
+def _eave():
+    """The overhang under the lowest course: a fascia at its edge, a boxed soffit back to the wall, the gutter, and
+    the ends of the box where a gable comes down to it."""
+    c, s = math.cos(ROOF_RISE), math.sin(ROOF_RISE)
+    ze, ye = -COURSE * c, -COURSE * s  # the overhang's edge on the roof line: z -4, y -2
+    trim = lambda w, h: ("trim", [0, 0, min(16, w), min(16, h)])
+    return [
+        _box_el("Fascia", (0, ye - 1.6, ze - 0.5), (16, ye + COURSE_LIFT, ze), {
+            "north": trim(16, 2.15), "up": trim(16, 0.5), "down": trim(16, 0.5), "east": trim(0.5, 2.15), "west": trim(0.5, 2.15)}),
+        _box_el("Soffit", (0, ye - 1.6, ze), (16, ye - 1.3, 0), {
+            "down": ("deck", [0, 0, 16, -ze]), "east": trim(-ze, 0.3), "west": trim(-ze, 0.3)}),
+        _box_el("EaveEnd1", (0, ye - 1.3, ze), (16, ye - 0.3, 0), {"east": trim(-ze, 1), "west": trim(-ze, 1)}),
+        _box_el("EaveEnd2", (0, ye - 0.3, ze / 2), (16, ye / 2 - 0.3, 0), {"east": trim(-ze / 2, 1), "west": trim(-ze / 2, 1)}),
+        _box_el("Gutter", (0, ye - 1.5, ze - 2.0), (16, ye + 0.3, ze - 0.5), {
+            "up": ("gutter", [0, 0, 16, 1.5]), "north": ("gutter", [0, 0, 16, 1.8]), "down": ("gutter", [0, 14, 16, 15.5]),
+            "east": ("gutter", [0, 0, 1.5, 1.8]), "west": ("gutter", [0, 0, 1.5, 1.8])}),
+    ]
+
+
+def _gable(profile, yb_floor=0.0):
+    """The gable under the roof line: the wall's siding in steps of 2 px, each square to the block grid with its texture
+    laid as on the wall below (east u = 16 - z, west u = z, v = 16 - y), kept clear of the deck."""
+    els = []
+    for k in range(8):
+        z1, z2 = 2.0 * k, 2.0 * k + 2
+        top = min(profile(z1), profile(z2)) - DECK_T / math.cos(ROOF_RISE) - 0.1
+        if top <= yb_floor + 0.05:
+            continue
+        els.append(_box_el(f"Gable{k}", (0, 0, z1), (16, top, z2), {
+            "east": ("gable", [16 - z2, 16 - top, 16 - z1, 16]), "west": ("gable", [z1, 16 - top, z2, 16])}))
+    return els
+
+
+def _rake(ya, s_from, s_to, tag):
+    """The rake boards along both ends of a run (the one at the gable shows; the other lies in the attic)."""
+    deg = math.degrees(ROOF_RISE)
+    L = s_to - s_from
+    els = []
+    for side, x0, x1 in (("W", -0.25, 0.75), ("E", 15.25, 16.25)):
+        els.append(_slope_el(f"Rake{side}{tag}", s_from, s_to, ya, -1.6, -DECK_T, x0, x1, {
+            "west" if side == "W" else "east": ("trim", [0, 0, min(16, L), 1.3]),
+            "down": ("trim", [0, 0, 1, min(16, L)]), "north": ("trim", [0, 0, 1, 1.3])}, deg))
+    return els
+
+
+def pitch_shape(form, gable):
+    """The elements of one pitched-roof block (see the section's note)."""
+    yb = 8.0 if form.endswith("upper") else 0.0
+    half = ROOF_RUN / 2
+    if form.startswith("ridge"):
+        north = _run(yb, 0, half, "N")
+        els = north + _mirror_z(north)
+        els.append(_box_el("Cap", (0, yb + 3.5, 5.8), (16, yb + 4.6, 10.2), {
+            "up": ("cap", [0, 0, 16, 4.4]), "north": ("edge", [0, 0, 16, 1.1]), "south": ("edge", [0, 0, 16, 1.1]),
+            "east": ("edge", [0, 0, 4.4, 1.1]), "west": ("edge", [0, 0, 4.4, 1.1])}))
+        if gable:
+            els += _gable(lambda z: yb + min(z, 16 - z) / 2, 0)
+            rake = _rake(yb, 0, half, "N")
+            els += rake + _mirror_z(rake)
+        return els
+    els = _run(yb, -COURSE if form == "eave" else 0, ROOF_RUN, "")
+    if form == "eave":
+        els += _eave()
+    if form.startswith("peak"):
+        els.append(_box_el("Cap", (0, yb + 7.5, 13.8), (16, yb + 8.6, 16), {
+            "up": ("cap", [0, 0, 16, 2.2]), "north": ("edge", [0, 0, 16, 1.1]),
+            "east": ("edge", [0, 0, 2.2, 1.1]), "west": ("edge", [0, 0, 2.2, 1.1])}))
+    if gable:
+        els += _gable(lambda z: yb + z / 2, 0)
+        els += _rake(yb, 0, ROOF_RUN, "")
+    return els
+
+
+PITCH_DEFAULTS = {"shingle": "houseroof-grey", "edge": "roofedge-grey", "cap": "roofcap-grey", "deck": "soffit",
+                  "trim": "windowtrim", "gutter": "gutter", "gable": "siding-white"}
+
+
+def pitch_shape_file(name, els):
+    keys = sorted({f["texture"][1:] for e in els for f in e["faces"].values()})
+    data = {"textureWidth": 16, "textureHeight": 16,
+            "textures": {k: f"backrooms:block/detail/{PITCH_DEFAULTS[k]}" for k in keys}, "elements": els}
+    write_json(os.path.join(ASSETS, "shapes", "block", "detail", name + ".json"), data)
+    return "block/detail/" + name
+
+
+def _tex(base, alts=0):
+    t = {"base": f"block/detail/{base}"}
+    if alts:
+        t["alternates"] = [{"base": f"block/detail/{base}-{k}"} for k in range(2, alts + 2)]
+    return t
+
+
+def pitch_textures(cover, gable):
+    if cover == "barn":
+        t = {"shingle": _tex("barnroof", 2), "edge": _tex("roofedge-barn"), "cap": _tex("roofcap-barn"),
+             "deck": _tex("barndeck"), "trim": _tex("wooddark"), "gutter": _tex("wooddark")}
+    else:
+        t = {"shingle": _tex(f"houseroof-{cover}", 2), "edge": _tex(f"roofedge-{cover}"), "cap": _tex(f"roofcap-{cover}"),
+             "deck": _tex("soffit"), "trim": _tex("windowtrim"), "gutter": _tex("gutter")}
+    if gable in ("barnred", "barngrey"):
+        t["gable"] = _tex(f"barnwall-{gable[4:]}", 2)
+    elif gable == "brick":
+        t["gable"] = _tex("siding-brick")
+    elif gable != "none":
+        t["gable"] = _tex(f"siding-{gable}", 2)
+    return t
+
+
+def roofs():
+    """The pitched roofs of the Suburbs' houses and the farms' barns and sheds (see the section's note)."""
+    shapes = {}
+    for form in PITCH_FORMS:
+        for g in (False, True):
+            shapes[(form, g)] = pitch_shape_file(f"pitchroof-{form}" + ("-gable" if g else ""), pitch_shape(form, g))
+    allowed, shape_by, tex_by = [], {}, {}
+    for cover in PITCH_COVERS:
+        gables = ["none", "barnred", "barngrey"] if cover == "barn" else ["none", "white", "blue", "yellow", "green", "brick"]
+        for g in gables:
+            allowed.append(f"pitchroof-{cover}-{g}-*")
+            tex_by[f"*-{cover}-{g}-*"] = pitch_textures(cover, g)
+    # (first match wins: the roof's own blocks, then the ones over a gable)
+    for form in PITCH_FORMS:
+        for s in SIDES:
+            shape_by[f"*-none-{form}-{s}"] = {"base": shapes[(form, False)], "rotateY": ROTATE[s]}
+    for form in PITCH_FORMS:
+        for s in SIDES:
+            shape_by[f"*-{form}-{s}"] = {"base": shapes[(form, True)], "rotateY": ROTATE[s]}
+    half = {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.5, "z2": 1}
+    full = {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 1}
+    boxes = {f"*-{f}-*": half for f in PITCH_LOW}
+    boxes["*"] = full
+    block("pitchroof", {
+        "variantgroups": [{"code": "cover", "states": PITCH_COVERS}, {"code": "gable", "states": PITCH_GABLES},
+                          {"code": "form", "states": PITCH_FORMS}, {"code": "side", "states": SIDES}],
+        "allowedVariants": allowed,
+        "creativeinventory": {"general": ["*-none-lower-north", "*-none-eave-north"],
+                              "construction": ["*-none-lower-north", "*-none-eave-north"]},
+        "blockmaterial": "Wood", "drawtype": "json", "shapeByType": shape_by, "texturesByType": tex_by,
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 1, "resistance": 2,
+        "collisionboxByType": boxes, "selectionboxByType": boxes, "sounds": WOOD},
+        "Pitched roofs (from the graphics pass): shingled in courses, with eaves, ridges and gables in the house's siding")
+    name("pitchroof-barn-*", "Barn Roof")
+    name("pitchroof-*", "Roof Shingles")
+
+
+def roofslope_shapes():
+    """New roofing for the old roofslope block (saved worlds): the courses and deck above, and under them its boarded
+    gable fill, now in fine steps, in the trim it always had."""
+    paths = {}
+    for mat in ("grey", "brown", "red", "barn"):
+        tex = pitch_textures(mat, "none")
+        trim = "block/detail/wooddark" if mat == "barn" else "block/detail/white"
+        for half, yb in (("lower", 0.0), ("upper", 8.0)):
+            els = _run(yb, 0, ROOF_RUN, "")
+            for e in _gable(lambda z: yb + z / 2, 0):
+                e["faces"] = {f: dict(v, texture="#fill") for f, v in e["faces"].items()}
+                e["faces"]["north"] = {"texture": "#fill", "uv": [0, 0, 16, min(16, e["to"][1])]}
+                els.append(e)
+            keys = sorted({f["texture"][1:] for e in els for f in e["faces"].values()})
+            table = {k: ("backrooms:" + (trim if k == "fill" else tex[k]["base"])) for k in keys}
+            data = {"textureWidth": 16, "textureHeight": 16, "textures": table, "elements": els}
+            write_json(os.path.join(ASSETS, "shapes", "block", "detail", f"roofslope-{mat}-{half}.json"), data)
+            paths[(mat, half)] = f"block/detail/roofslope-{mat}-{half}"
+    return paths
+
+
 def generate():
     deep_textures.generate()
     refinements()
+    roofs()
     level6()
     level61()
     level7()
