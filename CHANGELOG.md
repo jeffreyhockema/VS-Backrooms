@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.513.0 — first update
+
+Fixes and balance from the first players' feedback, a mapless mode and a harsher scarcity setting. Existing worlds keep working, with the layout they were made with.
 
 - Fixed: scrap wire, circuit boards and coin mechanisms can go in a crucible, as the handbook says.
 - Fixed: the ladder down a Level 3 manhole can be climbed, all the way up through the manhole to the street.

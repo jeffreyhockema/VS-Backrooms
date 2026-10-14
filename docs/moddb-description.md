@@ -10,7 +10,7 @@ Requires Vintage Story 1.22 or later. Backrooms worlds are created with the **Ba
 
 ---
 
-## What version 0.512.2019 contains
+## What version 0.513.0 contains
 
 Everything below is in the mod now and playable.
 
@@ -19,10 +19,10 @@ Everything below is in the mod now and playable.
 - A roster of creatures with their own behaviour, each with a counter you can learn.
 - Survival progression from improvised salvage tools through Vintage Story's normal path of flint, fire, pottery, copper and bronze.
 - Scavenging, mining, farming, livestock and base building with no overworld.
-- A map that shows only what you have seen and remembers it, with every transition you have used marked.
+- A map that shows only what you have seen and remembers it, with every transition you have used marked, or no map at all if you want to be truly lost.
 - Discoverable wanderers' notes, an expedition journal, and a handbook rewritten for the Backrooms.
 - A fifteen-step tutorial for the first hour.
-- World settings for creature activity and resource scarcity.
+- World settings for creature activity, resource scarcity and the map.
 - Multiplayer: server and clients compare builds on joining and warn in chat if they differ.
 
 ---
@@ -133,7 +133,7 @@ There are also Flickerings out towards the edge of Level 1, the Screaming of the
 3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blades, bag and torch.
 4. Keep the map (M) open often. It only knows what you have seen.
 
-World settings under *Survival challenges* when creating a world: **Backrooms entities** (Off: sounds only, Low, Normal, High) and **Backrooms scarcity** (Plentiful: twice the food; Normal; Sparse: a little over half).
+World settings under *Survival challenges* when creating a world: **Backrooms entities** (Off: sounds only, Low, Normal, High) **Backrooms scarcity** (Plentiful: twice the food; Normal; Sparse: a little over half; Scarce: about a third) and **Backrooms map** (Seen areas; Seen areas, no waypoints; None: no map or minimap at all).
 
 ---
 
@@ -142,7 +142,7 @@ World settings under *Survival challenges* when creating a world: **Backrooms en
 - Built for Vintage Story 1.22 (.NET 10).
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original 2019 photo and Kane Pixels' films for Level 0's look and feel.
-- Version 0.512.2019 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- Version 0.513.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
 - Open source: the code is GPL-3.0, and the textures, models, sounds and text are CC BY-SA 4.0. Level and creature lore is adapted from the Backrooms wikis under CC BY-SA; credits are in the README.
 - Updating the mod never rearranges an existing world: each world keeps the layout it was created with.
 
