@@ -14,6 +14,19 @@ You need the .NET 10 SDK and Vintage Story 1.22. The asset generators also need 
 - **Release zip:** `dotnet build -c Release` writes `bin/backroomsss_<version>.zip`, ready to upload.
 - **Version number:** kept the same in `modinfo.json` and `Backrooms.csproj`. The build check (`src/BuildCheckSystem.cs`) compares a fingerprint of the build (the assembly's id and the names of its assets), not the version, so a server and client with different copies are warned in chat even when the version matches.
 
+## Keeping saves working
+
+The mod is released, and players have worlds made with it. Every change must leave those worlds loading and playing as before:
+
+- **Codes:** never rename or remove a block, item or entity code, or change a block's variant groups. A world stores blocks and items by code, so a missing code loses them. Add new codes beside the old ones; if something has to go, keep a stub or remap the old code to the new one.
+- **Class names:** never rename a registered block, item, block entity, entity or behaviour class that saved chunks refer to.
+- **World generation:** a change that would alter what an existing world generates goes behind a new layout version (see *Layout versions* below). Run `layouthash` before and after: the output for every older version must not change.
+- **Saved data:** `backrooms-thresholds`, `backrooms-notes`, block entity attributes, the client's explored-map store and anything else saved must still read the old format. Add fields with defaults; never change what an existing key means.
+- **World settings:** keep their codes and option values. A new setting's default must give the old behaviour, because existing worlds don't have it set.
+- **The asset domain** stays `backrooms`.
+
+When in doubt, load a world made with the last release and check it.
+
 ## Code map
 
 - **`src/Worldgen/WorldLayout.cs`:** deterministic layout with no game dependencies. Contains:
@@ -110,6 +123,10 @@ You need the .NET 10 SDK and Vintage Story 1.22. The asset generators also need 
 - `/endloop [on|off]` (admin) turns The End's looping long aisles, and the Turnaround, on or off.
 - `.tfedit` in-game lets you tweak how held and dropped items are positioned.
 - **Unattended screenshots:** `tools/shotbot/` is a small client-only helper mod that drives the game from a text file (teleport, aim, hide HUD, wait for chunks, screenshot), so the `docs/screenshots/` gallery can be retaken without anyone at the keyboard. Build it with `dotnet build tools/shotbot`, put the output folder beside the Backrooms build, set `SHOTBOT_DIR`, and launch the client straight into a world: `Vintagestory.exe --dataPath <dir> --addModPath <mods> -o shots -p backrooms` (the world is created if missing). Commands are listed at the top of `ShotBot.cs`; `pick.py` finds camera spots with long, furnished views from the layout harness, and `sheet.py` makes contact sheets.
+  - **Review batches** (the graphics pass, [design/graphics-pass/](design/graphics-pass/README.md)): `python tools/shotbot/batch.py --spots review/spots/<level>.json [more...] --build <mods dir> --out <dir>` does all of the above in one go. It keeps an isolated data dir (default `%LOCALAPPDATA%\backrooms-gfxreview`: your `clientsettings.json` with `modPaths` set to `["Mods"]` and the view distance at 256), makes the review world `gfxreview` with a dedicated server at the fixed seed 1672613597 if it is missing (the client's `-o` only makes random seeds), copies the shotbot build beside the mod in `<mods dir>`, writes `commands.txt` from the spot lists (after a header that sets creative mode, pauses the director, stops the clock at noon on a June day and sets the field of view to 70, so a retake of the same build matches pixel for pixel indoors; only swaying plants differ outdoors), waits for the last shot, copies the shots (JPEG, or `--format png`) and a `sheet.jpg` into `--out` (one folder per list when there are several), and closes the client with `/stop`. Build the mod for it with `bash tools/locked.sh mod <tag>` (`%TEMP%/backrooms-build/build-<tag>/Mods`), and close the client before the next build.
+  - **Spot lists** (`review/spots/<level>.json`, kept in `docs/design/graphics-pass/spots/`): `{"name", "tp": [x, y, z] or "nearest": "<target>" with "from": [x, y, z], "look": [heading, pitch], "fov", "pre": [...], "inspection"}`, absolute positions so a list frames the same shots every time. `tools/shotbot/mkspots.py make` writes them from the layout harness's `shotgrid` mode (`tools/mapgen/ShotGrid.cs`: a level's tiles with each tile's feet height, round its first arrival): wide views from `pick.py`, close-ups of the commonest wall, floor, ceiling and a light, and every `/backrooms nearest` target from about 6 and 2 blocks, which `mkspots.py discover --build <mods dir>` first finds by running the command in the client.
+  - `python tools/shotbot/compare.py <before> <after> --out sheet.jpg [--stats]`: before above a magenta line, after below, one column per spot; `--stats` prints how far each pair differs.
+  - The bot also has `mark name` (writes where you stand to `marks.txt`) and `waitchat` (waits for a command's reply); `ready.txt` records the seed, sea level and spawn.
 
 ## Assets
 
@@ -133,7 +150,8 @@ Textures, 3D models, block definitions and sounds are generated by scripts:
 - `tools/gen_models.py`: the entities' own animated models, built from the lore's descriptions (Smiler, Hound, Skin-Stealer, Duller, Death Rat, Deathmoths, Clump, the Mangled, The Thing), with their textures painted per face. `tools/rig.py` is the small rigging kit it uses: parts as boxes in model space, an automatic texture atlas, keyframed animations (models face -X, left is +Z).
 - `tools/gen_entities.py`: runs gen_models.py, then writes the entity types, the Facelings (the game's faceless body with a wardrobe of hair, clothing and accessory boxes, each of 14 looks painting the ones it wears), Firesalt, and their names.
 - `tools/gen_entity_sounds.py`: the entities' sounds and the noises heard down the hall (footsteps, scratching, a murmur of voices, a cough, a mimic's "hello?", knocks, a phone, a Smiler's ringing, a Duller's grab...).
-- `tools/preview_shapes.py out.png shapes/block/detail/*.json`: renders rough isometric previews of models, to check them without starting the game.
+- `tools/preview_shapes.py out.png shapes/block/detail/*.json [--flat] [--size 256]`: renders isometric previews of models with their real textures mapped through the faces' UVs (a face's own texture rotation is ignored for now), to check them without starting the game; `--flat` fills each face with its texture's average colour instead.
+- `tools/texsheet.py <folder or glob>... --out sheet.png [--ref <vanilla texture>...] [--tile]`: a contact sheet of textures at 4x nearest-neighbour with their names, vanilla references in the first row, and with `--tile` each one as a 3x3 repeat to show seams. `--all --out <dir>` does every folder under `assets/backrooms/textures`, each with its vanilla counterparts.
 - `tools/check_zfight.py [filters]`: lists z-fighting candidates in the block models: faces of one model in the same plane, facing the same way and overlapping, and faces lying exactly on a neighbouring block's face (an element reaching out of its block). Faces buried inside another element, and undersides on the floor, are left out; what is left still needs judging (a top face against the ceiling never shows).
 - `tools/entrender.py shape.json texture.png out.png [anims=walk,idle] [frames=8] [views=side,34,front,back] [scale=70]`: renders an entity model in its animations the way the game composes them, a sheet of frames per animation, to check models and animations without starting the game.
 - `tools/lineup.py out.png [yaw=65] [pitch=8] [px=150]`: the mod page's "What lives here" lineup (`docs/screenshots/42-what-lives-here.png`): every creature at its true size (the two giants at half scale), facing the viewer, named underneath. Add a new creature to its `ROSTER`.

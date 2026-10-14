@@ -72,6 +72,8 @@ if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); retur
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return; }
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
+// shotgrid and feet: camera planning for the graphics pass's spot lists (ShotGrid.cs)
+if (args.Length > 2 && ShotGrid.Run(layout, args)) return;
 // Each of the levels kept as 14-20 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats), in its own file
 if (args.Length > 2 && LevelModes.Run(layout, args)) return;
 if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); return; }

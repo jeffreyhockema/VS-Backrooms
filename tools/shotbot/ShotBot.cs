@@ -28,6 +28,8 @@ namespace ShotBot;
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
+///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
+///   mark name               append "name x y z heading pitch" (where the player stands now) to marks.txt and chat.txt
 ///   shot name               screenshot, moved to SHOTBOT_DIR/name.png
 ///   mega name               2x screenshot
 /// Every tick it also closes the escape menu, unpauses, and re-hides the HUD if it was asked to.
@@ -43,6 +45,7 @@ public class ShotBotSystem : ModSystem, IRenderer
     int done;
     DateTime waitUntil = DateTime.MinValue, lastTick = DateTime.MinValue;
     string pendingShot;
+    int chatLines, chatAtCmd;
     DateTime shotAt;
     bool hudHidden;
     // Someone at the keyboard pressing Escape must win: stop auto-closing after a burst of repeats
@@ -64,11 +67,14 @@ public class ShotBotSystem : ModSystem, IRenderer
         Log("shotbot started, dir " + dir);
         api.Event.LevelFinalize += () =>
         {
-            File.WriteAllText(Path.Combine(dir, "ready.txt"), $"seed {api.World.Seed}\nsealevel {api.World.SeaLevel}\n");
+            var spawn = api.World.DefaultSpawnPosition;
+            File.WriteAllText(Path.Combine(dir, "ready.txt"), $"seed {api.World.Seed}\nsealevel {api.World.SeaLevel}\n"
+                + (spawn == null ? "" : string.Format(CultureInfo.InvariantCulture, "spawn {0:0.##} {1:0.##} {2:0.##}\n", spawn.X, spawn.Y, spawn.Z)));
             Log("level finalized");
         };
         api.Event.ChatMessage += (int groupId, string message, EnumChatType type, string data) =>
         {
+            chatLines++;
             try { File.AppendAllText(Path.Combine(dir, "chat.txt"), message + "\n"); } catch { }
         };
         api.Event.RegisterRenderer(this, EnumRenderStage.Done, "shotbot");
@@ -98,7 +104,7 @@ public class ShotBotSystem : ModSystem, IRenderer
     {
         var e = capi.World?.Player?.Entity;
         if (e == null) return;
-        double heading = -e.Pos.Yaw * 180 / Math.PI;
+        double heading = Heading(e);
         heading = ((heading % 360) + 360) % 360;
         string guis = string.Join(",", capi.Gui.OpenedGuis.Select(g => g.GetType().Name).Where(n => !n.StartsWith("Hud")));
         File.WriteAllText(Path.Combine(dir, "status.txt"),
@@ -204,6 +210,8 @@ public class ShotBotSystem : ModSystem, IRenderer
     }
 
     static double D(string s) => double.Parse(s, CultureInfo.InvariantCulture);
+    /// <summary>The compass heading the player looks along (0 north, 90 east), from its yaw (the inverse of the look command).</summary>
+    static double Heading(EntityPlayer e) => ((180 - e.Pos.Yaw * 180 / Math.PI) % 360 + 360) % 360;
     void Wait(int ms) => waitUntil = DateTime.UtcNow.AddMilliseconds(ms);
 
     void WaitFor(string name, Func<bool> cond, int timeoutMs, Action then = null)
@@ -261,6 +269,7 @@ public class ShotBotSystem : ModSystem, IRenderer
         switch (p[0])
         {
             case "cmd":
+                chatAtCmd = chatLines;
                 capi.SendChatMessage(line.Substring(4));
                 Wait(600);
                 break;
@@ -273,8 +282,9 @@ public class ShotBotSystem : ModSystem, IRenderer
             case "look":
             {
                 // The client keeps its own mouse yaw/pitch and writes them into the entity every frame.
-                // Pitch runs from ~91 deg (straight up) through 180 (level) to ~269 (straight down).
-                float yaw = GameMath.Mod((float)(-D(p[1]) * Math.PI / 180), (float)(Math.PI * 2));
+                // Pitch runs from ~91 deg (straight up) through 180 (level) to ~269 (straight down). Compass heading h
+                // is yaw pi - h (checked against the layout harness on 2026-10-13; the -h used before looked the opposite way).
+                float yaw = GameMath.Mod((float)(Math.PI - D(p[1]) * Math.PI / 180), (float)(Math.PI * 2));
                 float pitch = (float)(Math.PI - D(p[2]) * Math.PI / 180);
                 capi.Input.MouseYaw = yaw; capi.Input.MousePitch = pitch;
                 e.Pos.Yaw = yaw; e.Pos.Pitch = pitch;
@@ -359,13 +369,28 @@ public class ShotBotSystem : ModSystem, IRenderer
             case "wait":
                 Wait((int)D(p[1]));
                 break;
+            case "waitchat":
+            {
+                int seen = chatAtCmd;
+                WaitFor("chat", () => chatLines > seen, p.Length > 1 ? (int)D(p[1]) : 30000, () => Wait(500));
+                break;
+            }
+            case "mark":
+            {
+                double heading = Heading(e);
+                string m = string.Format(CultureInfo.InvariantCulture, "{0} {1:0.00} {2:0.00} {3:0.00} {4:0.0} {5:0.0}", p.Length > 1 ? p[1] : "-",
+                    e.Pos.X, e.Pos.Y, e.Pos.Z, heading, 180 - e.Pos.Pitch * 180 / Math.PI);
+                try { File.AppendAllText(Path.Combine(dir, "marks.txt"), m + "\n"); File.AppendAllText(Path.Combine(dir, "chat.txt"), "#mark " + m + "\n"); } catch { }
+                Log("mark " + m);
+                break;
+            }
             case "shot":
             case "mega":
                 capi.Input.GetHotKeyByCode(p[0] == "mega" ? "megascreenshot" : "screenshot")?.Handler?.Invoke(new KeyCombination());
                 pendingShot = p[1];
                 shotAt = DateTime.UtcNow;
                 Log(string.Format(CultureInfo.InvariantCulture, "  at {0:0.0} {1:0.0} {2:0.0} heading {3:0} pitch {4:0}", e.Pos.X, e.Pos.Y, e.Pos.Z,
-                    ((-e.Pos.Yaw * 180 / Math.PI) % 360 + 360) % 360, 180 - e.Pos.Pitch * 180 / Math.PI));
+                    Heading(e), 180 - e.Pos.Pitch * 180 / Math.PI));
                 break;
             default:
                 Log("unknown command " + p[0]);

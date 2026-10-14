@@ -1,0 +1,30 @@
+{
+  "level": "11",
+  "seed": 1672613597,
+  "anchor": [640645.5, 169.05, 499332.5],
+  "made_by": "tools/shotbot/mkspots.py make",
+  "spots": [
+    {"name": "wide-01", "tp": [640552.5, 169.05, 499232.5], "look": [200, -4], "score": 60.9, "pre": ["/time set 12:00"]},
+    {"name": "wide-02", "tp": [640552.5, 169.05, 499202.5], "look": [230, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-03", "tp": [640538.5, 169.05, 499274.5], "look": [20, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-04", "tp": [640538.5, 169.05, 499178.5], "look": [200, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-05", "tp": [640536.5, 169.05, 499332.5], "look": [190, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-06", "tp": [640536.5, 169.05, 499218.5], "look": [310, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-07", "tp": [640520.5, 169.05, 499192.5], "look": [150, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "wide-08", "tp": [640516.5, 169.05, 499426.5], "look": [0, -4], "score": 60.8, "pre": ["/time set 12:00"]},
+    {"name": "close-wall", "tp": [640649.5, 169.05, 499309.5], "look": [0, 0], "surface": "wall pattern 46", "pre": ["/time set 12:00"]},
+    {"name": "close-wall2", "tp": [640645.5, 169.05, 499333.5], "look": [180, 0], "surface": "wall pattern 47", "pre": ["/time set 12:00"]},
+    {"name": "close-floor", "tp": [640645.5, 169.05, 499332.5], "look": [0, -62], "surface": "floor kind 70", "pre": ["/time set 12:00"]},
+    {"name": "prop-1", "tp": [640645.5, 169.05, 499313.5], "look": [0, -32], "surface": "floor prop variant 6", "pre": ["/time set 12:00"]},
+    {"name": "prop-2", "tp": [640653.5, 169.05, 499327.5], "look": [0, -32], "surface": "floor prop variant 160", "pre": ["/time set 12:00"]},
+    {"name": "close-light", "tp": [640643.5, 169.05, 499338.5], "look": [0, 52], "surface": "ceiling light kind 1", "pre": ["/time set 12:00"]},
+    {"name": "threshold-wide", "tp": [640652.5, 169.05, 499343.3], "look": [150, -6], "target": "threshold", "distance": 6.0, "pre": ["/time set 12:00"]},
+    {"name": "threshold-close", "tp": [640654.5, 169.05, 499346.77], "look": [150, -17], "target": "threshold", "distance": 2.0, "pre": ["/time set 12:00"]},
+    {"name": "refuge-wide", "tp": [640884.74, 169.05, 499284.74], "look": [315, -6], "target": "refuge", "distance": 6.0, "pre": ["/time set 12:00"]},
+    {"name": "refuge-close", "tp": [640881.91, 169.05, 499281.91], "look": [315, -17], "target": "refuge", "distance": 2.0, "pre": ["/time set 12:00"]},
+    {"name": "billboard-wide", "tp": [640536.5, 169.0, 499469.5], "look": [180, 22], "target": "billboard", "pre": ["/time set 12:00"]},
+    {"name": "billboard-close", "tp": [640536.5, 169.0, 499469.5], "look": [180, 22], "fov": 35, "target": "billboard", "pre": ["/time set 12:00"]},
+    {"name": "adpillar-wide", "tp": [640696.26, 169.05, 499318.26], "look": [135, 6], "target": "adpillar", "distance": 6.0, "pre": ["/time set 12:00"]},
+    {"name": "adpillar-close", "tp": [640699.09, 169.05, 499321.09], "look": [135, 16], "target": "adpillar", "distance": 2.0, "pre": ["/time set 12:00"]}
+  ]
+}

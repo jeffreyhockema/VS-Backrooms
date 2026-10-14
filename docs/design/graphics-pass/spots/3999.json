@@ -1,0 +1,29 @@
+{
+  "level": "3999",
+  "seed": 1672613597,
+  "anchor": [656947.5, 197.05, 654598.5],
+  "made_by": "tools/shotbot/mkspots.py make",
+  "spots": [
+    {"name": "wide-01", "tp": [657082.5, 197.05, 654684.5], "look": [0, -4], "score": 60.8},
+    {"name": "wide-02", "tp": [657082.5, 197.05, 654654.5], "look": [260, -4], "score": 60.8},
+    {"name": "wide-03", "tp": [657082.5, 197.05, 654624.5], "look": [270, -4], "score": 60.8},
+    {"name": "wide-04", "tp": [657082.5, 197.05, 654594.5], "look": [280, -4], "score": 60.8},
+    {"name": "wide-05", "tp": [657082.5, 197.05, 654564.5], "look": [180, -4], "score": 60.8},
+    {"name": "wide-06", "tp": [657082.5, 197.05, 654530.5], "look": [270, -4], "score": 60.8},
+    {"name": "wide-07", "tp": [657082.5, 197.05, 654496.5], "look": [270, -4], "score": 60.8},
+    {"name": "wide-08", "tp": [657082.5, 197.05, 654444.5], "look": [180, -4], "score": 60.8},
+    {"name": "close-wall", "tp": [656936.5, 197.05, 654598.5], "look": [270, 0], "surface": "wall pattern 162"},
+    {"name": "close-wall2", "tp": [656947.5, 197.05, 654564.5], "look": [0, 0], "surface": "wall pattern 160"},
+    {"name": "close-floor", "tp": [656918.5, 197.05, 654598.5], "look": [0, -62], "surface": "floor kind 180"},
+    {"name": "close-ceiling", "tp": [656947.5, 197.05, 654598.5], "look": [0, 62], "surface": "ceiling kind 56"},
+    {"name": "prop-1", "tp": [656915.5, 197.05, 654594.5], "look": [0, -32], "surface": "floor prop variant 480"},
+    {"name": "prop-2", "tp": [656931.5, 197.05, 654598.5], "look": [270, -32], "surface": "floor prop variant 511"},
+    {"name": "close-light", "tp": [656949.5, 197.05, 654560.5], "look": [0, 52], "surface": "ceiling light kind 58"},
+    {"name": "cache-wide", "tp": [657008.26, 197.05, 654472.26], "look": [135, -11], "target": "cache", "distance": 6.0},
+    {"name": "cache-close", "tp": [657011.09, 197.05, 654475.09], "look": [135, -29], "target": "cache", "distance": 2.0},
+    {"name": "foodcourt-wide", "tp": [657021.5, 197.0, 654589.5], "look": [30, -6], "target": "foodcourt"},
+    {"name": "foodcourt-close", "tp": [657021.5, 197.0, 654589.5], "look": [30, -6], "fov": 35, "target": "foodcourt"},
+    {"name": "neoncorner-wide", "tp": [656941.5, 197.05, 654631.5], "look": [270, -12], "target": "neoncorner", "distance": 6.0},
+    {"name": "neoncorner-close", "tp": [656937.5, 197.05, 654631.5], "look": [270, -33], "target": "neoncorner", "distance": 2.0}
+  ]
+}

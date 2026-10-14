@@ -1,0 +1,22 @@
+{
+  "level": "37",
+  "seed": 1672613597,
+  "anchor": [384236.5, 202.05, 507150.5],
+  "made_by": "tools/shotbot/mkspots.py make",
+  "spots": [
+    {"name": "wide-01", "tp": [384298.5, 202.2, 507140.5], "look": [90, -4], "score": 50.6},
+    {"name": "wide-02", "tp": [384276.5, 203.05, 507212.5], "look": [270, -4], "score": 50.6},
+    {"name": "wide-03", "tp": [384276.5, 203.05, 507116.5], "look": [270, -4], "score": 50.6},
+    {"name": "wide-04", "tp": [384324.5, 203.05, 507186.5], "look": [90, -4], "score": 50.3},
+    {"name": "wide-05", "tp": [384134.5, 203.05, 507068.5], "look": [0, -4], "score": 50.3},
+    {"name": "wide-06", "tp": [384372.5, 202.2, 507186.5], "look": [270, -4], "score": 50.0},
+    {"name": "wide-07", "tp": [384348.5, 202.2, 507140.5], "look": [270, -4], "score": 50.0},
+    {"name": "wide-08", "tp": [384344.5, 202.2, 507254.5], "look": [340, -4], "score": 50.0},
+    {"name": "close-wall", "tp": [384236.5, 203.05, 507163.5], "look": [180, 0], "surface": "wall pattern 54"},
+    {"name": "close-wall2", "tp": [384260.5, 202.05, 507180.5], "look": [0, 0], "surface": "wall pattern 56"},
+    {"name": "close-floor", "tp": [384239.5, 202.05, 507150.5], "look": [0, -62], "surface": "floor kind 83"},
+    {"name": "close-ceiling", "tp": [384236.5, 202.05, 507150.5], "look": [0, 62], "surface": "ceiling kind 0"},
+    {"name": "prop-1", "tp": [384237.5, 203.05, 507164.5], "look": [90, -32], "surface": "floor prop variant 232"},
+    {"name": "prop-2", "tp": [384229.5, 202.2, 507143.5], "look": [0, -32], "surface": "floor prop variant 231"}
+  ]
+}

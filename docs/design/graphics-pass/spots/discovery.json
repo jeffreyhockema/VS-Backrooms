@@ -1,0 +1,1718 @@
+{
+ "0": {
+  "anchor": {
+   "stand": [
+    512053.5,
+    217.0,
+    511699.5
+   ],
+   "reply": "Removed 0 creatures within 128 blocks"
+  },
+  "gate": {
+   "stand": [
+    512159.5,
+    217.0,
+    511171.5
+   ],
+   "reply": "Gate to Level 1, 537 blocks from where you were (144, -845)"
+  },
+  "threshold": {
+   "stand": [
+    512092.5,
+    217.0,
+    511840.5
+   ],
+   "reply": "Way out, 147 blocks from where you were (77, -176)"
+  },
+  "cache": {
+   "stand": [
+    512090.5,
+    217.0,
+    511674.5
+   ],
+   "reply": "Unopened cache, 45 blocks from where you were (74, -344)"
+  },
+  "refuge": {
+   "stand": [
+    512431.5,
+    217.0,
+    511471.5
+   ],
+   "reply": "Refuge, 441 blocks from where you were (416, -545)"
+  },
+  "den": {
+   "stand": [
+    512111.5,
+    217.0,
+    511631.5
+   ],
+   "reply": "Den (Dark), 89 blocks from where you were (96, -385)"
+  },
+  "tent": {
+   "stand": [
+    512053.5,
+    217.0,
+    511699.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 0"
+  },
+  "sleepingbag": {
+   "stand": [
+    512053.5,
+    217.0,
+    511699.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 0"
+  },
+  "redroom": {
+   "stand": [
+    512143.5,
+    217.0,
+    511663.5
+   ],
+   "reply": "Red Room, 97 blocks from where you were (128, -353)"
+  }
+ },
+ "1": {
+  "anchor": {
+   "stand": [
+    512123.5,
+    217.0,
+    510268.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512735.5,
+    217.0,
+    509767.5
+   ],
+   "reply": "Gate to Level 2, 791 blocks from where you were (720, -2249)"
+  },
+  "threshold": {
+   "stand": [
+    512154.5,
+    217.0,
+    510272.5
+   ],
+   "reply": "Way out, 31 blocks from where you were (138, -1744)"
+  },
+  "cache": {
+   "stand": [
+    512115.5,
+    217.0,
+    510283.5
+   ],
+   "reply": "Unopened cache, 18 blocks from where you were (101, -1732)"
+  },
+  "refuge": {
+   "stand": [
+    511952.5,
+    217.0,
+    510000.5
+   ],
+   "reply": "Refuge, 317 blocks from where you were (-65, -2017)"
+  },
+  "den": {
+   "stand": [
+    512080.5,
+    217.0,
+    510256.5
+   ],
+   "reply": "Den (Lair), 44 blocks from where you were (64, -1761)"
+  },
+  "tent": {
+   "stand": [
+    512094.5,
+    217.0,
+    510290.5
+   ],
+   "reply": "Camp tent (heading 270 looks back at its door), 36 blocks from where you were (78, -1727)"
+  },
+  "sleepingbag": {
+   "stand": [
+    512100.5,
+    217.0,
+    510290.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 31 blocks from where you were (84, -1727)"
+  },
+  "pipeend": {
+   "stand": [
+    512085.5,
+    217.0,
+    510287.5
+   ],
+   "reply": "Level 1/2/3 overhead pipes ending (heading 0 looks at it, 0, 0 away), 42 blocks from where you were (69, -1730)"
+  }
+ },
+ "2": {
+  "anchor": {
+   "stand": [
+    512176.5,
+    217.0,
+    509091.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512096.5,
+    217.0,
+    509289.5
+   ],
+   "reply": "Gate to Level 1, 213 blocks from where you were (80, -2728)"
+  },
+  "threshold": {
+   "stand": [
+    512176.5,
+    217.0,
+    509091.5
+   ],
+   "reply": "No way out within 384 blocks in Level 2"
+  },
+  "cache": {
+   "stand": [
+    512191.5,
+    217.0,
+    509096.5
+   ],
+   "reply": "Unopened cache, 17 blocks from where you were (176, -2920)"
+  },
+  "refuge": {
+   "stand": [
+    512176.5,
+    217.0,
+    509091.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 2"
+  },
+  "den": {
+   "stand": [
+    512207.5,
+    217.0,
+    509201.5
+   ],
+   "reply": "Den (Warren), 113 blocks from where you were (192, -2817)"
+  },
+  "tent": {
+   "stand": [
+    512176.5,
+    217.0,
+    509091.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 2"
+  },
+  "sleepingbag": {
+   "stand": [
+    512176.5,
+    217.0,
+    509091.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 2"
+  },
+  "tram": {
+   "stand": [
+    512199.5,
+    217.0,
+    508993.5
+   ],
+   "reply": "Level 2 dead tram (heading 270 looks back at it), 100 blocks from where you were (183, -3024)"
+  },
+  "pipecorner": {
+   "stand": [
+    512176.5,
+    217.0,
+    509107.5
+   ],
+   "reply": "Level 2/3 wall pipes, inner corner (heading 0 looks at it, 0, 0 away), 16 blocks from where you were (160, -2910)"
+  },
+  "pipewrap": {
+   "stand": [
+    512174.5,
+    217.0,
+    509088.5
+   ],
+   "reply": "Level 2/3 wall pipes, outer corner (heading 135 looks at it, 1, 1 away), 3 blocks from where you were (158, -2929)"
+  },
+  "pipeend": {
+   "stand": [
+    512130.5,
+    217.0,
+    509106.5
+   ],
+   "reply": "Level 1/2/3 overhead pipes ending (heading 0 looks at it, 0, 0 away), 47 blocks from where you were (115, -2910)"
+  }
+ },
+ "3": {
+  "anchor": {
+   "stand": [
+    512209.5,
+    217.0,
+    508454.5
+   ],
+   "reply": "Time stopped"
+  },
+  "gate": {
+   "stand": [
+    512007.5,
+    217.0,
+    508320.5
+   ],
+   "reply": "Gate to Level 4, 242 blocks from where you were (-10, -3697)"
+  },
+  "threshold": {
+   "stand": [
+    512246.5,
+    217.0,
+    508452.5
+   ],
+   "reply": "Way out, 38 blocks from where you were (231, -3564)"
+  },
+  "cache": {
+   "stand": [
+    512206.5,
+    217.0,
+    508439.5
+   ],
+   "reply": "Unopened cache, 14 blocks from where you were (190, -3577)"
+  },
+  "refuge": {
+   "stand": [
+    512368.5,
+    217.0,
+    508368.5
+   ],
+   "reply": "Refuge, 180 blocks from where you were (352, -3649)"
+  },
+  "den": {
+   "stand": [
+    512179.5,
+    217.0,
+    508368.5
+   ],
+   "reply": "Den (Pack), 92 blocks from where you were (160, -3649)"
+  },
+  "tent": {
+   "stand": [
+    512209.5,
+    217.0,
+    508454.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 3"
+  },
+  "sleepingbag": {
+   "stand": [
+    512344.5,
+    217.0,
+    508366.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 161 blocks from where you were (328, -3651)"
+  },
+  "purpified": {
+   "stand": [
+    512195.5,
+    217.0,
+    508432.5
+   ],
+   "reply": "Level 3 purpified (heading 270 looks at it), 24 blocks from where you were (180, -3584)"
+  },
+  "pipecorner": {
+   "stand": [
+    512209.5,
+    217.0,
+    508454.5
+   ],
+   "reply": "Level 2/3 wall pipes, inner corner (heading 0 looks at it, 0, 0 away), 0 blocks from where you were (193, -3563)"
+  },
+  "pipewrap": {
+   "stand": [
+    512209.5,
+    217.0,
+    508452.5
+   ],
+   "reply": "Level 2/3 wall pipes, outer corner (heading 135 looks at it, 1, 1 away), 2 blocks from where you were (193, -3565)"
+  },
+  "pipeend": {
+   "stand": [
+    512353.5,
+    217.0,
+    508739.5
+   ],
+   "reply": "Level 1/2/3 overhead pipes ending (heading 0 looks at it, 0, 0 away), 319 blocks from where you were (337, -3278)"
+  }
+ },
+ "4": {
+  "anchor": {
+   "stand": [
+    512209.5,
+    217.0,
+    507925.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512176.5,
+    217.0,
+    507776.5
+   ],
+   "reply": "Gate to Level 5, 152 blocks from where you were (160, -4241)"
+  },
+  "threshold": {
+   "stand": [
+    512180.5,
+    217.0,
+    507950.5
+   ],
+   "reply": "Way out, 38 blocks from where you were (165, -4066)"
+  },
+  "cache": {
+   "stand": [
+    512180.5,
+    217.0,
+    507939.5
+   ],
+   "reply": "Unopened cache, 33 blocks from where you were (163, -4078)"
+  },
+  "refuge": {
+   "stand": [
+    512143.5,
+    217.0,
+    508111.5
+   ],
+   "reply": "Refuge, 197 blocks from where you were (127, -3906)"
+  },
+  "den": {
+   "stand": [
+    512209.5,
+    217.0,
+    507925.5
+   ],
+   "reply": "No den within 2048 blocks in Level 4"
+  },
+  "tent": {
+   "stand": [
+    512209.5,
+    217.0,
+    507925.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 4"
+  },
+  "sleepingbag": {
+   "stand": [
+    512144.5,
+    217.0,
+    508109.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 195 blocks from where you were (128, -3908)"
+  },
+  "hotelturn": {
+   "stand": [
+    512197.5,
+    217.0,
+    507787.5
+   ],
+   "reply": "Level 4 turning to hotel (heading 2 looks on toward the hotel), 138 blocks from where you were (181, -4230)"
+  }
+ },
+ "5": {
+  "anchor": {
+   "stand": [
+    512242.5,
+    217.0,
+    507557.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512308.5,
+    217.0,
+    507520.5
+   ],
+   "reply": "Gate to Level 6, 75 blocks from where you were (292, -4497)"
+  },
+  "threshold": {
+   "stand": [
+    512240.5,
+    217.0,
+    507564.5
+   ],
+   "reply": "Way out, 8 blocks from where you were (225, -4452)"
+  },
+  "cache": {
+   "stand": [
+    512276.5,
+    217.0,
+    507533.5
+   ],
+   "reply": "Unopened cache, 40 blocks from where you were (259, -4483)"
+  },
+  "refuge": {
+   "stand": [
+    512400.5,
+    217.0,
+    507728.5
+   ],
+   "reply": "Refuge, 232 blocks from where you were (384, -4289)"
+  },
+  "den": {
+   "stand": [
+    512275.5,
+    217.0,
+    507535.5
+   ],
+   "reply": "Den (Pack), 36 blocks from where you were (256, -4481)"
+  },
+  "tent": {
+   "stand": [
+    512242.5,
+    217.0,
+    507557.5
+   ],
+   "reply": "Saving game world...."
+  },
+  "sleepingbag": {
+   "stand": [
+    512206.5,
+    217.0,
+    507735.5
+   ],
+   "reply": "Sleeping bag (heading 90 looks at its head, 1, 0 away), 181 blocks from where you were (190, -4282)"
+  },
+  "fronthall": {
+   "stand": [
+    512239.5,
+    217.0,
+    507501.5
+   ],
+   "reply": "Level 5 front hall (heading 180 looks at it), 56 blocks from where you were (223, -4516)"
+  },
+  "door666": {
+   "stand": [
+    512148.5,
+    217.0,
+    507640.5
+   ],
+   "reply": "Level 5 door 666 (heading 180 looks at it), 125 blocks from where you were (132, -4377)"
+  }
+ },
+ "6": {
+  "anchor": {
+   "stand": [
+    512262.5,
+    217.0,
+    506982.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512505.5,
+    217.0,
+    507423.5
+   ],
+   "reply": "Gate to Level 5, 504 blocks from where you were (490, -4593)"
+  },
+  "threshold": {
+   "stand": [
+    512203.5,
+    217.0,
+    507014.5
+   ],
+   "reply": "Way out, 66 blocks from where you were (188, -5002)"
+  },
+  "cache": {
+   "stand": [
+    512262.5,
+    217.0,
+    506982.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 6"
+  },
+  "refuge": {
+   "stand": [
+    512304.5,
+    217.0,
+    507088.5
+   ],
+   "reply": "Refuge, 114 blocks from where you were (288, -4929)"
+  },
+  "den": {
+   "stand": [
+    512262.5,
+    217.0,
+    506982.5
+   ],
+   "reply": "No den within 2048 blocks in Level 6"
+  },
+  "tent": {
+   "stand": [
+    512262.5,
+    217.0,
+    506982.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 6"
+  },
+  "sleepingbag": {
+   "stand": [
+    512451.5,
+    217.0,
+    507045.5
+   ],
+   "reply": "Sleeping bag (heading 90 looks at its head, 2, 0 away), 199 blocks from where you were (435, -4972)"
+  }
+ },
+ "6.1": {
+  "anchor": {
+   "stand": [
+    510154.5,
+    217.0,
+    515801.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    510144.5,
+    217.0,
+    515720.5
+   ],
+   "reply": "Gate to Level 5, 81 blocks from where you were (-1873, 3704)"
+  },
+  "threshold": {
+   "stand": [
+    510209.5,
+    217.0,
+    515775.5
+   ],
+   "reply": "Way out, 61 blocks from where you were (-1807, 3760)"
+  },
+  "cache": {
+   "stand": [
+    510154.5,
+    217.0,
+    515801.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 6"
+  },
+  "refuge": {
+   "stand": [
+    510160.5,
+    217.0,
+    515792.5
+   ],
+   "reply": "Refuge, 10 blocks from where you were (-1857, 3776)"
+  },
+  "den": {
+   "stand": [
+    510154.5,
+    217.0,
+    515801.5
+   ],
+   "reply": "No den within 2048 blocks in Level 6"
+  },
+  "tent": {
+   "stand": [
+    510154.5,
+    217.0,
+    515801.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 6"
+  },
+  "sleepingbag": {
+   "stand": [
+    510199.5,
+    217.0,
+    515787.5
+   ],
+   "reply": "Sleeping bag (heading 0 looks at its head, 0, -2 away), 47 blocks from where you were (-1818, 3771)"
+  },
+  "vendingroom": {
+   "stand": [
+    509988.5,
+    217.0,
+    515795.5
+   ],
+   "reply": "Level 6.1 vending room (heading 0 looks at it, 0, 0 away), 166 blocks from where you were (-2029, 3779)"
+  }
+ },
+ "7": {
+  "anchor": {
+   "stand": [
+    512281.5,
+    217.0,
+    506087.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512038.5,
+    217.0,
+    506303.5
+   ],
+   "reply": "Gate to Level 6, 325 blocks from where you were (23, -5713)"
+  },
+  "threshold": {
+   "stand": [
+    512281.5,
+    217.0,
+    506087.5
+   ],
+   "reply": "No way out within 384 blocks in Level 7"
+  },
+  "cache": {
+   "stand": [
+    512309.5,
+    217.0,
+    505980.5
+   ],
+   "reply": "Unopened cache, 112 blocks from where you were (295, -6038)"
+  },
+  "refuge": {
+   "stand": [
+    512281.5,
+    217.0,
+    506087.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 7"
+  },
+  "den": {
+   "stand": [
+    512281.5,
+    217.0,
+    506087.5
+   ],
+   "reply": "No den within 2048 blocks in Level 7"
+  },
+  "tent": {
+   "stand": [
+    512352.5,
+    217.0,
+    506081.5
+   ],
+   "reply": "Camp tent (heading 180 looks back at its door), 72 blocks from where you were (337, -5937)"
+  },
+  "sleepingbag": {
+   "stand": [
+    512334.5,
+    218.0,
+    506199.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 123 blocks from where you were (318, -5818)"
+  },
+  "seapillar": {
+   "stand": [
+    512335.5,
+    219.0,
+    506201.5
+   ],
+   "reply": "Level 7 rock pillar (heading 135 looks at it, 1, 1 away), 126 blocks from where you were (319, -5816)"
+  },
+  "shelter": {
+   "stand": [
+    512333.5,
+    217.0,
+    506198.5
+   ],
+   "reply": "Level 7 shelter (heading 0 looks at it, 0, 0 away), 122 blocks from where you were (317, -5819)"
+  }
+ },
+ "8": {
+  "anchor": {
+   "stand": [
+    512350.5,
+    217.0,
+    505628.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512350.5,
+    217.0,
+    505628.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 8"
+  },
+  "threshold": {
+   "stand": [
+    512350.5,
+    217.0,
+    505628.5
+   ],
+   "reply": "No way out within 384 blocks in Level 8"
+  },
+  "cache": {
+   "stand": [
+    512346.5,
+    217.0,
+    505640.5
+   ],
+   "reply": "Unopened cache, 13 blocks from where you were (331, -6376)"
+  },
+  "refuge": {
+   "stand": [
+    512454.5,
+    217.0,
+    505708.5
+   ],
+   "reply": "Refuge, 131 blocks from where you were (438, -6309)"
+  },
+  "den": {
+   "stand": [
+    512452.5,
+    217.0,
+    505627.5
+   ],
+   "reply": "Den (Warren), 114 blocks from where you were (448, -6401)"
+  },
+  "tent": {
+   "stand": [
+    512301.5,
+    217.0,
+    505637.5
+   ],
+   "reply": "Camp tent (heading 90 looks back at its door), 49 blocks from where you were (285, -6380)"
+  },
+  "sleepingbag": {
+   "stand": [
+    512344.5,
+    217.0,
+    505639.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 12 blocks from where you were (328, -6378)"
+  },
+  "glowcaps": {
+   "stand": [
+    512302.5,
+    217.0,
+    505646.5
+   ],
+   "reply": "Level 8 glowcaps (heading 135 looks at it, 1, 1 away), 51 blocks from where you were (286, -6371)"
+  }
+ },
+ "9": {
+  "anchor": {
+   "stand": [
+    512379.5,
+    217.0,
+    505237.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512379.5,
+    217.0,
+    505237.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 9"
+  },
+  "threshold": {
+   "stand": [
+    512379.5,
+    217.0,
+    505237.5
+   ],
+   "reply": "No way out within 384 blocks in Level 9"
+  },
+  "cache": {
+   "stand": [
+    512339.5,
+    217.0,
+    505166.5
+   ],
+   "reply": "Unopened cache, 81 blocks from where you were (322, -6850)"
+  },
+  "refuge": {
+   "stand": [
+    512379.5,
+    217.0,
+    505237.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 9"
+  },
+  "den": {
+   "stand": [
+    512338.5,
+    217.0,
+    505168.5
+   ],
+   "reply": "Den (Lair), 81 blocks from where you were (320, -6849)"
+  },
+  "tent": {
+   "stand": [
+    512379.5,
+    217.0,
+    505237.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 9"
+  },
+  "sleepingbag": {
+   "stand": [
+    512325.5,
+    217.0,
+    505161.5
+   ],
+   "reply": "Sleeping bag (heading 135 looks at its head, 1, 1 away), 93 blocks from where you were (309, -6856)"
+  },
+  "l9house": {
+   "stand": [
+    512395.5,
+    217.0,
+    505219.5
+   ],
+   "reply": "Level 9 two-storey house (heading 180 looks at the house), 24 blocks from where you were (379, -6798)"
+  },
+  "l9stairs": {
+   "stand": [
+    512395.5,
+    217.0,
+    505231.5
+   ],
+   "reply": "Level 9 house stairs (heading 180 looks up the stairs), 17 blocks from where you were (379, -6786)"
+  },
+  "streetname": {
+   "stand": [
+    512380.5,
+    217.0,
+    505219.5
+   ],
+   "reply": "Level 9 street sign (heading 45 looks at it), 18 blocks from where you were (364, -6798)"
+  },
+  "citysign": {
+   "stand": [
+    512376.5,
+    217.0,
+    505284.5
+   ],
+   "reply": "Level 9 DOWNTOWN sign (heading 180 looks at it), 47 blocks from where you were (360, -6733)"
+  }
+ },
+ "10": {
+  "anchor": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 10"
+  },
+  "threshold": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No way out within 384 blocks in Level 10"
+  },
+  "cache": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 10"
+  },
+  "refuge": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 10"
+  },
+  "den": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No den within 2048 blocks in Level 10"
+  },
+  "tent": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "Saving game world...."
+  },
+  "sleepingbag": {
+   "stand": [
+    512391.5,
+    217.0,
+    504563.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 10"
+  },
+  "fieldthing": {
+   "stand": [
+    512382.5,
+    217.0,
+    504517.5
+   ],
+   "reply": "Level 10 field shed, trough or gate (heading 0 looks at it), 44 blocks from where you were (368, -7498)"
+  }
+ },
+ "11": {
+  "anchor": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 11"
+  },
+  "threshold": {
+   "stand": [
+    640654.5,
+    169.0,
+    499347.5
+   ],
+   "reply": "Way out, 18 blocks from where you were (128639, -12669)"
+  },
+  "cache": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 11"
+  },
+  "refuge": {
+   "stand": [
+    640880.5,
+    169.0,
+    499280.5
+   ],
+   "reply": "Refuge, 240 blocks from where you were (128864, -12737)"
+  },
+  "den": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": "No den within 2048 blocks in Level 11"
+  },
+  "tent": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 11"
+  },
+  "sleepingbag": {
+   "stand": [
+    640645.5,
+    169.0,
+    499332.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 11"
+  },
+  "billboard": {
+   "stand": [
+    640536.5,
+    169.0,
+    499469.5
+   ],
+   "reply": "Level 11 billboard (on the roof; heading 180 looks back up at it), 175 blocks from where you were (128520, -12548)"
+  },
+  "adpillar": {
+   "stand": [
+    640699.5,
+    169.0,
+    499321.5
+   ],
+   "reply": "Level 11 advertising pillar (heading 315 looks at it), 58 blocks from where you were (128687, -12692)"
+  }
+ },
+ "37": {
+  "anchor": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 37"
+  },
+  "threshold": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No way out within 384 blocks in Level 37"
+  },
+  "cache": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 37"
+  },
+  "refuge": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 37"
+  },
+  "den": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No den within 2048 blocks in Level 37"
+  },
+  "tent": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 37"
+  },
+  "sleepingbag": {
+   "stand": [
+    384236.5,
+    202.0,
+    507150.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 37"
+  }
+ },
+ "94": {
+  "anchor": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 94"
+  },
+  "threshold": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No way out within 384 blocks in Level 94"
+  },
+  "cache": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 94"
+  },
+  "refuge": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 94"
+  },
+  "den": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No den within 2048 blocks in Level 94"
+  },
+  "tent": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "Saving game world...."
+  },
+  "sleepingbag": {
+   "stand": [
+    512040.5,
+    191.0,
+    383655.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 94"
+  },
+  "castle": {
+   "stand": [
+    512016.5,
+    187.0,
+    384466.5
+   ],
+   "reply": "Level 94 castle on the horizon (heading 0 looks at it), 811 blocks from where you were (-1, -127551)"
+  }
+ },
+ "run": {
+  "anchor": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No gate within 1024 blocks in Level !"
+  },
+  "threshold": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No way out within 384 blocks in Level !"
+  },
+  "cache": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level !"
+  },
+  "refuge": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level !"
+  },
+  "den": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No den within 2048 blocks in Level !"
+  },
+  "tent": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level !"
+  },
+  "sleepingbag": {
+   "stand": [
+    511790.5,
+    217.0,
+    639701.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level !"
+  },
+  "runhall": {
+   "stand": [
+    511792.5,
+    217.0,
+    639740.5
+   ],
+   "reply": "Level ! hallway (36 blocks down; looking on down it is heading 180), 39 blocks from where you were (-225, 127724)"
+  }
+ },
+ "fun": {
+  "anchor": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No gate within 1024 blocks in Level Fun"
+  },
+  "threshold": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No way out within 384 blocks in Level Fun"
+  },
+  "cache": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level Fun"
+  },
+  "refuge": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level Fun"
+  },
+  "den": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No den within 2048 blocks in Level Fun"
+  },
+  "tent": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level Fun"
+  },
+  "sleepingbag": {
+   "stand": [
+    625249.5,
+    217.0,
+    396445.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level Fun"
+  },
+  "funparty": {
+   "stand": [
+    625232.5,
+    217.0,
+    396455.5
+   ],
+   "reply": "Fun party room (3 guests; from its north-west corner, heading 135 looks across it), 19 blocks from where you were (113216, -115562)"
+  }
+ },
+ "end": {
+  "anchor": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No gate within 1024 blocks in Level End"
+  },
+  "threshold": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No way out within 384 blocks in Level End"
+  },
+  "cache": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level End"
+  },
+  "refuge": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level End"
+  },
+  "den": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No den within 2048 blocks in Level End"
+  },
+  "tent": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "Saving game world...."
+  },
+  "sleepingbag": {
+   "stand": [
+    398871.5,
+    211.0,
+    398760.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level End"
+  },
+  "endwall": {
+   "stand": [
+    398799.5,
+    211.0,
+    398713.5
+   ],
+   "reply": "End partition wall (heading 0 looks at it), 84 blocks from where you were (-113217, -113303)"
+  },
+  "endexit": {
+   "stand": [
+    398844.5,
+    211.0,
+    398847.5
+   ],
+   "reply": "End central EXIT (heading 0 looks into the vestibule at the door), 91 blocks from where you were (-113173, -113170)"
+  }
+ },
+ "hub": {
+  "anchor": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No gate within 1024 blocks in Level Hub"
+  },
+  "threshold": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No way out within 384 blocks in Level Hub"
+  },
+  "cache": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level Hub"
+  },
+  "refuge": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level Hub"
+  },
+  "den": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No den within 2048 blocks in Level Hub"
+  },
+  "tent": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level Hub"
+  },
+  "sleepingbag": {
+   "stand": [
+    625188.5,
+    189.5,
+    624797.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level Hub"
+  }
+ },
+ "974": {
+  "anchor": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 974"
+  },
+  "threshold": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No way out within 384 blocks in Level 974"
+  },
+  "cache": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 974"
+  },
+  "refuge": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 974"
+  },
+  "den": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No den within 2048 blocks in Level 974"
+  },
+  "tent": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 974"
+  },
+  "sleepingbag": {
+   "stand": [
+    398995.5,
+    217.0,
+    622763.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 974"
+  }
+ },
+ "3999": {
+  "anchor": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "A memory surfaces, soft at the edges: a night light, and a door left open a crack."
+  },
+  "gate": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 3999"
+  },
+  "threshold": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No way out within 384 blocks in Level 3999"
+  },
+  "cache": {
+   "stand": [
+    657011.5,
+    197.0,
+    654475.5
+   ],
+   "reply": "Unopened cache, 138 blocks from where you were (144996, 142460)"
+  },
+  "refuge": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 3999"
+  },
+  "den": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No den within 2048 blocks in Level 3999"
+  },
+  "tent": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 3999"
+  },
+  "sleepingbag": {
+   "stand": [
+    656947.5,
+    197.0,
+    654598.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 3999"
+  },
+  "foodcourt": {
+   "stand": [
+    657021.5,
+    197.0,
+    654589.5
+   ],
+   "reply": "3999 food court, 74 blocks from where you were (145005, 142573)"
+  },
+  "neoncorner": {
+   "stand": [
+    656935.5,
+    197.0,
+    654631.5
+   ],
+   "reply": "3999 neon strip corner (heading 0 looks at it, 0, 0 away), 35 blocks from where you were (144919, 142615)"
+  }
+ },
+ "188": {
+  "anchor": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": ""
+  },
+  "gate": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No gate within 1024 blocks in Level 188"
+  },
+  "threshold": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No way out within 384 blocks in Level 188"
+  },
+  "cache": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No unopened cache within 384 blocks in Level 188"
+  },
+  "refuge": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No refuge within 2048 blocks in Level 188"
+  },
+  "den": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No den within 2048 blocks in Level 188"
+  },
+  "tent": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No camp tent within 1024 blocks in Level 188"
+  },
+  "sleepingbag": {
+   "stand": [
+    565900.5,
+    217.0,
+    381909.5
+   ],
+   "reply": "No sleeping bag within 1024 blocks in Level 188"
+  },
+  "courtdoor": {
+   "stand": [
+    565884.5,
+    217.0,
+    381910.5
+   ],
+   "reply": "188 courtyard door (heading 270 looks at the door and its EXIT sign), 16 blocks from where you were (53868, -130107)"
+  },
+  "downpipe": {
+   "stand": [
+    565915.5,
+    217.0,
+    381913.5
+   ],
+   "reply": "188 downpipe head (heading 0 looks at it; its head is under the parapet, 21 blocks up), 15 blocks from where you were (53899, -130104)"
+  }
+ }
+}

@@ -12,3 +12,8 @@ __pycache__/
 # Layout harness output when run from the repo root
 /tiles.bin
 /city.bin
+
+# Graphics-pass review output (tools/shotbot/batch.py, tools/texsheet.py), and the shotbot's own scratch
+/review/
+tools/shotbot/out/
+tools/shotbot/harness/

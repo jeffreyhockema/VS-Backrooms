@@ -1,0 +1,26 @@
+{
+  "level": "end",
+  "seed": 1672613597,
+  "anchor": [398871.5, 211.05, 398760.5],
+  "made_by": "tools/shotbot/mkspots.py make",
+  "spots": [
+    {"name": "wide-01", "tp": [398958.5, 211.05, 398612.5], "look": [270, -4], "score": 62.0},
+    {"name": "wide-02", "tp": [398938.5, 211.05, 398602.5], "look": [270, -4], "score": 62.0},
+    {"name": "wide-03", "tp": [398918.5, 211.05, 398612.5], "look": [270, -4], "score": 62.0},
+    {"name": "wide-04", "tp": [398898.5, 211.05, 398602.5], "look": [270, -4], "score": 62.0},
+    {"name": "wide-05", "tp": [398878.5, 211.05, 398612.5], "look": [270, -4], "score": 62.0},
+    {"name": "wide-06", "tp": [398856.5, 211.05, 398602.5], "look": [90, -4], "score": 62.0},
+    {"name": "wide-07", "tp": [398836.5, 211.05, 398612.5], "look": [90, -4], "score": 62.0},
+    {"name": "wide-08", "tp": [398830.5, 211.05, 398676.5], "look": [270, -4], "score": 62.0},
+    {"name": "close-wall", "tp": [398879.5, 211.05, 398772.5], "look": [180, 0], "surface": "wall pattern 96"},
+    {"name": "close-floor", "tp": [398869.5, 211.05, 398760.5], "look": [0, -62], "surface": "floor kind 132"},
+    {"name": "close-ceiling", "tp": [398870.5, 211.05, 398759.5], "look": [0, 62], "surface": "ceiling kind 0"},
+    {"name": "prop-1", "tp": [398872.5, 211.05, 398758.5], "look": [0, -32], "surface": "floor prop variant 360"},
+    {"name": "prop-2", "tp": [398869.5, 211.05, 398757.5], "look": [0, -32], "surface": "floor prop variant 363"},
+    {"name": "close-light", "tp": [398869.5, 211.05, 398762.5], "look": [0, 52], "surface": "ceiling light kind 1"},
+    {"name": "endwall-wide", "tp": [398798.6, 211.05, 398716.19], "look": [18, 0], "target": "endwall", "distance": 6.0},
+    {"name": "endwall-close", "tp": [398799.87, 211.05, 398712.4], "look": [18, -1], "target": "endwall", "distance": 2.0},
+    {"name": "endexit-wide", "tp": [398844.5, 211.0, 398847.5], "look": [0, -3], "target": "endexit"},
+    {"name": "endexit-close", "tp": [398844.5, 211.0, 398847.5], "look": [0, -3], "fov": 35, "target": "endexit"}
+  ]
+}
