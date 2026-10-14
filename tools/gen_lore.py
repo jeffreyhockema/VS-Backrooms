@@ -9,11 +9,11 @@ import random
 from PIL import Image, ImageDraw
 
 from detail_kit import GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
-from detail_textures import S, noise, rgb, save, text
+from detail_textures import S, enamel_plaque, noise, rgb, save, text
 import matlib as M
 import modelkit as K
 from gen_deep import door_block, drops, threshold
-from gen_detail import carton, cube_block, plate
+from gen_detail import carton, cube_block, plate, rivets
 import fire_fx
 from detail_kit import T, seed_of
 
@@ -215,15 +215,12 @@ def textures():
     d.polygon([(5, 23), (20, 23), (20, 19), (27, 24.5), (20, 30), (20, 26), (5, 26)], fill=rgb(0xF2F2EC))
     save(img, "sign-exit")
 
-    # A plaque beside a barred way
-    img = Image.new("RGBA", (S, S), rgb(0xE6E2D4))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A1A14), width=2)
+    # A plaque beside a barred way. (B6) An enamel face with a red rule (detail_textures.enamel_plaque); its screws are
+    # geometry now (level3), where the old one painted them
+    img = enamel_plaque(seed_of("plaque"), ground=(230, 226, 212), rule=(138, 30, 24), inset=1)
     text(img, "OUT OF", (2, 4, S - 2, 13), 0x8A1A14, 6)
     text(img, "BOUNDS", (2, 12, S - 2, 21), 0x8A1A14, 6)
     text(img, "DO NOT ENTER", (2, 22, S - 2, 29), 0x202020, 4)
-    for x, y in ((2, 2), (S - 4, 2), (2, S - 4), (S - 4, S - 4)):
-        d.point((x + 1, y + 1), fill=rgb(0x505050))
     save(img, "plaque")
 
     # Almond Water seeping down a rock face (see level8): plain wet rock for a seep whose rock is unknown, the dark
@@ -513,7 +510,8 @@ def tramway():
 def level3():
     for material in ("glazed", "brick", "cinder"):
         wall_family(f"l3plaque{material}", "Level 3 Wall", {1: material},
-                    [Decor("plaque", "Warning Plaque", {2: plate("Plaque", (2, 3, -0.4), (14, 13, 0), "plaque", "white")})],
+                    [Decor("plaque", "Warning Plaque", {2: plate("Plaque", (2, 3, -0.4), (14, 13, 0), "plaque", "white")
+                                                         + rivets("Plaque", 2, 3, 14, 13, -0.4)})],
                     comment="A plaque beside one of Level 3's barred ways")
 
 

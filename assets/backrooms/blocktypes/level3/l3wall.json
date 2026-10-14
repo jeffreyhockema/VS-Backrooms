@@ -21,9 +21,45 @@
 	},
 	"blockmaterial": "Stone",
 	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level3/l3wall-{type}"
+	"texturesByType": {
+		"*-glazed": {
+			"all": {
+				"base": "block/level3/l3wall-glazed",
+				"alternates": [
+					{
+						"base": "block/level3/l3wall-glazed-2"
+					},
+					{
+						"base": "block/level3/l3wall-glazed-3"
+					}
+				]
+			}
+		},
+		"*-brick": {
+			"all": {
+				"base": "block/level3/l3wall-brick",
+				"alternates": [
+					{
+						"base": "block/level3/l3wall-brick-2"
+					},
+					{
+						"base": "block/level3/l3wall-brick-3"
+					}
+				]
+			}
+		},
+		"*-cinder": {
+			"all": {
+				"base": "block/level3/l3wall-cinder",
+				"alternates": [
+					{
+						"base": "block/level3/l3wall-cinder-2"
+					},
+					{
+						"base": "block/level3/l3wall-cinder-3"
+					}
+				]
+			}
 		}
 	},
 	"resistance": 8,

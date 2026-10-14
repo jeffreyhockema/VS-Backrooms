@@ -1,0 +1,22 @@
+{
+ "batch": "B6",
+ "title": "Level 3 (Electrical Station)",
+ "before": "review/baseline/3",
+ "after": "review/b6/final",
+ "out": "review/b6/sidebyside",
+ "note": "review/baseline/3 was reshot in B6 on a build of unchanged main (the B0 set, taken before B3, B4 and B5 were merged, is kept in review/baseline/3-b0). B6 re-spotted close-floor (the arrival room is unlit), made den-wide, den-close and pipeend-close inspections (dark by design; daylight and a lantern), and added boiler, statue, vault, fixtures, panel, fan, gauges, tray, risers, room plaque, switchgear, transformer and coal spots.",
+ "families": [
+  {"id": "walls", "name": "Walls (brick, glazed tile, cinder block)", "spots": ["close-wall", "close-wall2", "wide-04", "wide-01"]},
+  {"id": "floor-ceiling", "name": "Dusty floor, plaster ceiling, grating, hazard floor", "spots": ["close-floor", "wide-07", "wide-02", "gate-wide"]},
+  {"id": "panel-fan", "name": "Breaker panels and wall fans", "spots": ["panel-close", "fan-close", "fixtures-wide", "wide-05"]},
+  {"id": "trays", "name": "Cable trays and their lights", "spots": ["tray-close", "close-light", "pipecorner-wide"]},
+  {"id": "wall-decor", "name": "Gauges, risers, wall cables, junction boxes", "spots": ["gauges-close", "risers-close", "wide-06"]},
+  {"id": "machine-props", "name": "Switchgear, transformers, control desks, generators, floor fans", "spots": ["switchgear-close", "transformer-close", "prop-2", "sleepingbag-close"]},
+  {"id": "boiler", "name": "Boilers (shared with Level 5)", "spots": ["boiler-close", "boiler-wide"]},
+  {"id": "plaques", "name": "Room plaques, OUT OF BOUNDS plaque, danger signs", "spots": ["roomsign-close", "cache-wide", "threshold-wide"]},
+  {"id": "coal", "name": "Coal heap", "spots": ["coal-close"]},
+  {"id": "sanctum", "name": "Sanctum: ashlar, flagstones, runner, vault, candelabras", "spots": ["refuge-close", "refuge-wide", "vault-close"]},
+  {"id": "statue", "name": "Sanctum statue", "spots": ["statue-close", "statue-wide"]},
+  {"id": "purpified", "name": "The Purpified", "spots": ["purpified-close", "purpified-wide"]}
+ ]
+}

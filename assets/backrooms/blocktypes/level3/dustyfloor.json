@@ -13,7 +13,66 @@
 	"drawtype": "cube",
 	"textures": {
 		"all": {
-			"base": "block/level3/dustyfloor"
+			"base": "block/level3/dustyfloor",
+			"alternates": [
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/dustyfloor"
+				},
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/dustyfloor",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/dustyfloor-2"
+				},
+				{
+					"base": "block/level3/dustyfloor-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/dustyfloor-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/dustyfloor-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/dustyfloor-3"
+				},
+				{
+					"base": "block/level3/dustyfloor-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/dustyfloor-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/dustyfloor-3",
+					"rotation": 270
+				}
+			]
 		}
 	},
 	"resistance": 8,

@@ -13,7 +13,57 @@
 	"drawtype": "cube",
 	"textures": {
 		"all": {
-			"base": "block/level3/plasterceiling"
+			"base": "block/level3/plasterceiling",
+			"alternates": [
+				{
+					"base": "block/level3/plasterceiling",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/plasterceiling",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/plasterceiling",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/plasterceiling-2"
+				},
+				{
+					"base": "block/level3/plasterceiling-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/plasterceiling-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/plasterceiling-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/plasterceiling-3"
+				},
+				{
+					"base": "block/level3/plasterceiling-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/level3/plasterceiling-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/level3/plasterceiling-3",
+					"rotation": 270
+				},
+				{
+					"base": "block/level3/plasterceiling-4"
+				},
+				{
+					"base": "block/level3/plasterceiling-5"
+				}
+			]
 		}
 	},
 	"resistance": 8,

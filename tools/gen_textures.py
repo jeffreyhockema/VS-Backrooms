@@ -1723,69 +1723,262 @@ def bars_steel():
     return img
 
 
-def level3_textures():
-    # Two-tone glazed structural tile: darker ochre glaze below, lighter above, dark grout lines
-    img = noise_fill(hexrgb(0x8B7056), 6, 500)
-    d = ImageDraw.Draw(img)
-    for y in range(0, S, 8):
-        d.line([0, y, S - 1, y], fill=(63, 46, 21, 255))
-    for row in range(4):
-        off = 8 if row % 2 else 0
-        for x in range(off, S + 16, 16):
-            d.line([x % S, row * 8, x % S, row * 8 + 7], fill=(63, 46, 21, 255))
-    for y in range(0, 16):
+# ---------------- Level 3 (B6) ----------------
+# The user kept Level 2's original concrete over B5's restyle, so Level 3 keeps its old tones (each texture's mean
+# colour is matched to the old one's) and its old units (brick 8 x 4 px, glazed tile 16 x 8, cinder block 16 x 16);
+# what changes is structure (each unit shaded as a unit, joints recessed) and tiling (no feature in every block).
+L3_MEAN = {"brick": (96, 42, 20), "glazed": (118, 93, 65), "cinder": (51, 46, 24), "dusty": (138, 125, 108),
+           "plaster": (92, 87, 77)}
+_L3_SHIFT = {}
+
+
+def mean_rgb(img):
+    px = img.load()
+    w, h = img.size
+    tot, n = [0.0, 0.0, 0.0], 0
+    for y in range(h):
+        for x in range(w):
+            c = px[x, y]
+            if c[3]:
+                n += 1
+                for i in range(3):
+                    tot[i] += c[i]
+    return [t / max(1, n) for t in tot]
+
+
+def shift_rgb(img, d):
+    px = img.load()
+    w, h = img.size
+    for y in range(h):
+        for x in range(w):
+            c = px[x, y]
+            px[x, y] = M.rgba((c[0] + d[0], c[1] + d[1], c[2] + d[2]), c[3])
+    return img
+
+
+def match_rgb(img, target, key=None):
+    """img shifted channel by channel so its mean colour is `target`. With `key`, the shift is worked out once (on the
+    first version drawn under that key) and reused, so the versions of one surface keep the same ground where they
+    meet; the features of a version (a stain) then move its mean by the little they should."""
+    if key is None or key not in _L3_SHIFT:
+        m = mean_rgb(img)
+        d = [target[i] - m[i] for i in range(3)]
+        if key is not None:
+            _L3_SHIFT[key] = d
+    else:
+        d = _L3_SHIFT[key]
+    return shift_rgb(img, d)
+
+
+def calm_hue(img, base, k):
+    """Pulls each pixel's hue a fraction k back toward `base` at the pixel's own brightness: for a dark, dull surface
+    whose hue wander (and the cool drift of its shadows) reads as lavender patches."""
+    px = img.load()
+    w, h = img.size
+    lb = M.lum(base)
+    for y in range(h):
+        for x in range(w):
+            c = px[x, y]
+            px[x, y] = M.rgba(M.mix(c, M.lift(base, M.lum(c) - lb, 0), k), c[3])
+    return img
+
+
+def _unit_boxes(course, length, offset, mortar_w=1, size=S):
+    """The faces (x0, y0, x1, y1, end exclusive, x0 may be negative: wrap) of the units matlib.brick lays."""
+    out = []
+    for r in range(size // course):
+        shift = int(round(r * offset * length)) % length
+        for k in range(size // length + 1):
+            x0 = shift + k * length - length
+            if x0 + length - mortar_w <= 0 or x0 >= size:
+                continue
+            out.append((x0, r * course, x0 + length - mortar_w, r * course + course - mortar_w))
+    return out
+
+
+def l3_brick(alt=0):
+    """Level 3's red brick: the old units (8 x 4 px, eight courses to a block) and colours, now each brick its own
+    shade and hue (some more orange, as the old four tones were), lit along its top, dark along its foot, with the
+    bed joint under it in shadow. The three versions share every face and mortar texture and differ only in which
+    bricks are darker or warmer (matlib.brick's `tones`), so they mix without a patchwork."""
+    img = M.brick(5010, base=(112, 46, 18), mortar=(60, 32, 20), course=4, length=8, offset=0.5, mortar_w=1,
+                  jitter=11, hue=8, recess=1.0, pits=0.02, grain=4, mottle=7, tones=5010 + 7 * alt)
+    return match_rgb(img, L3_MEAN["brick"], "brick")
+
+
+def l3_glazed(alt=0):
+    """Level 3's glazed structural tile: the old 16 x 8 px units in running bond, the upper two courses of each block
+    a darker ochre as before. Each tile is now a glazed face: an even glaze with a soft sheen toward its upper left, a
+    bright lit top edge and a dark foot, the 1 px joint recessed. Faint crazing in a few tiles. Three versions differ
+    only in the tiles' shades and which ones are crazed."""
+    img = M.brick(5020, base=(140, 112, 84), mortar=(52, 38, 20), course=8, length=16, offset=0.5, mortar_w=1, jitter=5,
+                  hue=3, recess=1.0, pits=0.0, grain=2, mottle=4, tones=5020 + 7 * alt)
+    px = img.load()
+    for y in range(16):  # the two-tone band, as the old texture's
+        if y % 8 == 7:
+            continue
         for x in range(S):
-            r, g, b, a = img.getpixel((x, y))
-            if (y % 8) != 0:
-                img.putpixel((x, y), (clamp(r * 0.88), clamp(g * 0.85), clamp(b * 0.75), a))
-    save(img, "block/level3/l3wall-glazed.png")
+            r, g, b, a = px[x, y]
+            px[x, y] = (clamp(r * 0.88), clamp(g * 0.85), clamp(b * 0.76), a)
+    rng = random.Random(M.sub(5020 + 7 * alt, "craze"))
+    boxes = _unit_boxes(8, 16, 0.5)
+    crazed = set(rng.sample(range(len(boxes)), 2))
+    for i, (x0, y0, x1, y1) in enumerate(boxes):
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                t = ((x - x0) / (x1 - x0) * 0.6 + (y - y0) / (y1 - y0)) / 1.6
+                M.touch(img, x % S, y, 0.07 * (1 - t) - 0.03)
+        for x in range(x0 + 1, x1 - 1):  # the glaze catches the light along the top edge
+            M.touch(img, x % S, y0, 0.04)
+        M.touch(img, (x0 + 1) % S, y0 + 1, 0.06)
+        if i in crazed:
+            x, y = rng.uniform(x0 + 2, x1 - 2), rng.uniform(y0 + 1, y1 - 1)
+            a = rng.uniform(0, 6.3)
+            for _ in range(rng.randint(5, 9)):
+                if x0 < x < x1 - 1 and y0 < y < y1 - 1:
+                    M.touch(img, round(x) % S, round(y), -0.06)
+                a += rng.uniform(-1.0, 1.0)
+                x, y = x + math.cos(a), y + math.sin(a) * 0.6
+    return match_rgb(img, L3_MEAN["glazed"], "glazed")
 
-    img = Image.new("RGBA", (S, S), (60, 30, 18, 255))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(501)
-    for row in range(8):
-        off = 4 if row % 2 else 0
-        for col in range(-1, 5):
-            c = rng.choice([(118, 39, 5), (112, 56, 26), (96, 40, 20), (130, 60, 30)])
-            d.rectangle([col * 8 + off + 1, row * 4 + 1, col * 8 + off + 7, row * 4 + 3], fill=c + (255,))
-    save(img, "block/level3/l3wall-brick.png")
 
-    img = noise_fill(hexrgb(0x36311A), 7, 502)
-    d = ImageDraw.Draw(img)
-    for row in range(2):
-        off = 8 if row % 2 else 0
-        d.line([0, row * 16, S - 1, row * 16], fill=(28, 25, 12, 255))
-        for x in range(off, S + 16, 16):
-            d.line([x % S, row * 16, x % S, row * 16 + 15], fill=(28, 25, 12, 255))
-    save(img, "block/level3/l3wall-cinder.png")
+def l3_cinder(alt=0):
+    """Level 3's cinder block, in the machine rooms: the old 16 x 16 px units and dark olive. Each block now has the
+    open, pitted face of cinder concrete (coarse aggregate, each pore dark with a lit lip under it), its own shade, a
+    lit top and a shadowed foot, and recessed joints. Three versions differ in shades and pores only."""
+    t = 5030 + 7 * alt
+    img = M.brick(5030, base=(62, 56, 32), mortar=(34, 31, 18), course=16, length=16, offset=0.5, mortar_w=1, jitter=3,
+                  hue=1.5, recess=1.0, pits=0.0, grain=5, mottle=5, tones=t)
+    rng = random.Random(M.sub(t, "pores"))
+    for (x0, y0, x1, y1) in _unit_boxes(16, 16, 0.5):
+        for _ in range(18):
+            x, y = rng.randrange(x0, x1) % S, rng.randrange(y0 + 1, y1 - 1)
+            M.touch(img, x, y, -rng.uniform(0.07, 0.14))
+            M.touch(img, x, y + 1, 0.04)
+            if rng.random() < 0.3:
+                M.touch(img, (x + 1) % S, y, -0.06)
+        for _ in range(14):
+            x, y = rng.randrange(x0, x1) % S, rng.randrange(y0 + 1, y1 - 1)
+            M.touch(img, x, y, rng.uniform(0.06, 0.12))
+    calm_hue(img, (62, 56, 32), 0.6)  # (round 2) no olive and grey-green blocks side by side
+    return match_rgb(img, L3_MEAN["cinder"], "cinder")
 
-    img = noise_fill(hexrgb(0x8C7F6E), 9, 503)
-    blotch(img, (20, 10), 8, (76, 72, 56), 0.4, 504)
-    save(img, "block/level3/dustyfloor.png")
-    img = noise_fill(hexrgb(0x5E594F), 8, 505)
-    blotch(img, (12, 18), 10, (61, 53, 41), 0.5, 506)
-    save(img, "block/level3/plasterceiling.png")
-    save(noise_fill(hexrgb(0x1E1E20), 5, 507), "block/level3/cable.png")
-    img = noise_fill(hexrgb(0x5A6458), 6, 508)
-    d = ImageDraw.Draw(img)
-    for x in range(2, S, 4):
-        d.line([x, 0, x, S - 1], fill=(70, 78, 70, 255))
-    d.rectangle([10, 10, 21, 16], fill=(220, 200, 40, 255))  # warning label
-    save(img, "block/level3/transformer.png")
-    save(noise_fill(hexrgb(0x8A5A3A), 8, 509), "block/level3/insulator.png")
-    img = noise_fill(hexrgb(0x7C8084), 5, 510)
-    d = ImageDraw.Draw(img)
-    for i in range(4):  # breakers
-        d.rectangle([4 + i * 6, 8, 7 + i * 6, 14], fill=(30, 30, 30, 255))
-        d.rectangle([5 + i * 6, 9, 6 + i * 6, 11], fill=(200, 200, 200, 255))
-    d.rectangle([6, 20, 25, 24], fill=(180, 30, 25, 255))
-    save(img, "block/level3/panel.png")
-    img = Image.new("RGBA", (S, S), (40, 42, 44, 255))
-    d = ImageDraw.Draw(img)
-    for i in range(0, S, 4):
-        d.line([i, 0, i, S - 1], fill=(120, 124, 128, 255))
-        d.line([0, i, S - 1, i], fill=(120, 124, 128, 255))
-    save(img, "block/level3/fan.png")
+
+def dusty_floor(alt=0):
+    """Level 3's dusty concrete floor (also under Level 5's boilers). The old one put the same dark blotch in every
+    block, a polka-dot grid. Now concrete in the old tone with a film of settled dust, three versions turned at random
+    that meet without a step (`matlib.turn_safe`, as D1's floors); grit in one version and a faint scuff in another,
+    both kept inside the block."""
+    base = (140, 127, 110)
+    seed = 5040 + alt
+    img = M.concrete(seed, base=base, grain=4, mottle=5, aggregate=0.02, pores=0.01, patches=3.5, patch_hue=1.2, hue=1.4)
+    ground = M.noise_hv(base, 0, 5040, S, 5, (16,), hue=0)
+    M.turn_safe(img, ground, band=8)
+    dust = M.fbm((S, S), M.sub(seed, "dust"), (4, 2), 0.6)  # settled dust: fine, pale and soft
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            px[x, y] = M.rgba(M.mix(M.lift(px[x, y], dust[y][x] * 3), (150, 142, 128), 0.08))
+    plain = img.copy()
+    rng = random.Random(M.sub(seed, "grit"))
+    if alt == 1:
+        for _ in range(22):
+            x, y = rng.uniform(8, 24), rng.uniform(8, 24)
+            M.touch(img, round(x), round(y), -rng.uniform(0.12, 0.22))
+            M.touch(img, round(x), round(y) + 1, 0.04)
+    if alt == 2:
+        tyre_scuff(img, M.sub(seed, "scuff"), strength=0.035)
+    img = inside_block(plain, img)
+    return match_rgb(img, L3_MEAN["dusty"], "dusty")
+
+
+def plaster_ceiling(alt=0):
+    """Level 3's dark plaster ceiling (also over Level 5's boilers). The old one had the same stain in every block. Now
+    a painted plaster in the old tone, its broad clouding shared at the block edges so the versions turn and mix
+    freely: three plain versions, a fourth with a water stain and a tide line and a fifth with a fainter damp mark,
+    each mark kept inside its block and listed about one block in fourteen."""
+    base = (94, 89, 78)
+    seed = 5050 + alt
+    img = calm_hue(M.plaster(seed, base=base, grain=3, mottle=4, roller=0.35, bumps=0.015), base, 0.6)
+    # (the shared ground is only the broadest clouding: anything finer, made four-fold symmetric, would come back at
+    # the same place along every block's edge as a grid of spots)
+    ground = M.noise_hv(base, 0, 5050, S, 6, (16,), hue=0)
+    M.turn_safe(img, ground, band=8, keep=0.6)
+    plain = img.copy()
+    if alt == 3:
+        M.stain(img, M.sub(seed, "stain"), radius=10, color=(66, 56, 40), strength=0.22, at=(16, 15), ring=0.5)
+    if alt == 4:
+        M.stain(img, M.sub(seed, "damp"), radius=6, color=(72, 64, 50), strength=0.2, at=(15, 17), ring=0.3)
+    img = inside_block(plain, img)
+    return match_rgb(img, L3_MEAN["plaster"], "plaster")
+
+
+def l3_fixture_textures():
+    """(B6) Materials for Level 3's modelled fixtures (gen_shapes.level3): the breaker panel's grey enamel and dead
+    front, bakelite breakers and their toggles; the wall fan's housing, the dark well behind its blades, galvanised
+    blades and a dark wire guard; the cable trays' galvanised steel; the cables' rubber jackets; the transformer's
+    green-grey paint, its darker cooling fins and glazed porcelain bushings. Paint is matlib's, with grime and wear
+    scattered over the face (these are model parts, so nothing sits along the texture's edges)."""
+    def paint(seed, base, grime=0.2, rust=0.0, chips=5, top=False):
+        img = M.painted_metal(seed, base=base, grain=4, mottle=6, panel=False, chips=chips, under=(98, 94, 86))
+        M.grime(img, grime, seed + 1, cover=0.55)
+        if rust:
+            M.rust(img, rust, seed + 2, color=(112, 66, 40), dark=(70, 46, 32))
+        M.scratches(img, 2, seed + 3)
+        if top:
+            M.grime(img, 0.35, seed + 4, color=(70, 64, 54), cover=0.7)
+        return img
+    save(paint(5201, (116, 118, 112)), "block/level3/panel-paint.png")
+    save(paint(5205, (92, 94, 90), grime=0.15, chips=2), "block/level3/panel-face.png")
+    img = M.noise_hv((40, 37, 34), 2, 5210, S, 3, hue=0.5)
+    for y in range(0, S, 4):  # a sheen along the top of each moulded case
+        for x in range(S):
+            M.touch(img, x, y, 0.1)
+    save(img, "block/level3/breaker.png")
+    save(M.noise_hv((156, 150, 136), 2, 5211, S, 3), "block/level3/toggle.png")
+    save(paint(5220, (82, 88, 80), grime=0.3, rust=0.08), "block/level3/fan-housing.png")
+    save(M.noise_hv((22, 21, 20), 2, 5225, S, 3, hue=0.5), "block/level3/fan-well.png")
+    blade = M.galvanised(5226, base=(168, 170, 166), spangle=8)
+    M.grime(blade, 0.15, 5227, color=(60, 56, 48), cover=0.5)  # the dust a fan's blades gather
+    save(blade, "block/level3/fan-blade.png")
+    guard = M.brushed_metal(5228, base=(70, 72, 70), streak=6, sheen=6)
+    M.grime(guard, 0.2, 5229, cover=0.5)
+    save(guard, "block/level3/fan-guard.png")
+    tray = M.galvanised(5230, base=(128, 130, 128), spangle=9)
+    M.grime(tray, 0.28, 5231, color=(64, 60, 52), cover=0.6)
+    save(tray, "block/level3/tray.png")
+    cable = M.rubber(5235, base=(34, 33, 34), grain=2, mottle=3)
+    for y in range(S):  # a soft sheen along the jacket
+        for x in range(S):
+            if y % 8 in (1, 2):
+                M.touch(cable, x, y, 0.08)
+    save(cable, "block/level3/cable.png")
+    save(paint(5240, (88, 98, 84), grime=0.25, rust=0.05), "block/level3/transformer.png")
+    save(paint(5245, (70, 78, 66), grime=0.3, rust=0.1, chips=2), "block/level3/transformer-fin.png")
+    save(paint(5248, (84, 92, 80), grime=0.45, chips=2, top=True), "block/level3/transformer-top.png")
+    # Glazed porcelain: a deep brown glaze, a highlight down one side of each shed
+    img = M.noise_hv((122, 70, 40), 2, 5250, S, 3, hue=1.0)
+    for y in range(S):
+        for x in range(S):
+            M.touch(img, x, y, 0.16 if x % 8 in (2, 3) else (-0.12 if x % 8 == 7 else 0.0))
+    save(img, "block/level3/insulator.png")
+    save(cabinet_warning(5255), "block/level3/warning.png")
+    # The risers' skins: the wall pipes' own, turned so U goes round the pipe and V along it (gen_shapes.round_riser)
+    for kind, name in (("rust", "riser-rust"), ("lagging", "riser-lagging")):
+        save(wall_pipe_tex(kind).transpose(Image.Transpose.TRANSPOSE), f"block/level3/{name}.png")
+
+
+def level3_textures():
+    l3_fixture_textures()
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(l3_glazed(alt), f"block/level3/l3wall-glazed{v}.png")
+        save(l3_brick(alt), f"block/level3/l3wall-brick{v}.png")
+        save(l3_cinder(alt), f"block/level3/l3wall-cinder{v}.png")
+        save(dusty_floor(alt), f"block/level3/dustyfloor{v}.png")
+        save(plaster_ceiling(alt), f"block/level3/plasterceiling{v}.png")
+    save(plaster_ceiling(3), "block/level3/plasterceiling-4.png")
+    save(plaster_ceiling(4), "block/level3/plasterceiling-5.png")
+    # (B6: the painted breaker panel, fan grille, transformer fins and cable are gone; l3_fixture_textures above)
     save(bars_steel(), "block/level3/bars.png")
     img = noise_fill(hexrgb(0x2E2C2A), 6, 514)
     d = ImageDraw.Draw(img)
@@ -1927,6 +2120,23 @@ def damask_panel():
     return img
 
 
+def boiler_textures():
+    """(B6) The boiler's shell: riveted plates in the old brown, gone to rust at the seams, sooty and grimy; its iron
+    bands and plinth; the cast iron firebox door, sooted round its edges. The rivets sit along the plates' seams (the
+    texture's edges: each lift and face of the model is a plate) rather than in a grid over everything."""
+    shell = M.riveted_plate(5301, base=(108, 76, 46), grain=4, mottle=7, pitch=4, layout="edges", rust_amount=0.22)
+    M.grime(shell, 0.22, 5302, color=(52, 44, 36), cover=0.55)
+    M.drips(shell, 3, 5303, color=(70, 44, 28), length=(6, 16), strength=0.3)
+    save(shell, "block/level5/boiler.png")
+    band = M.painted_metal(5305, base=(58, 52, 48), grain=4, mottle=5, panel=False, chips=3, under=(96, 90, 84))
+    M.rust(band, 0.25, 5306, color=(120, 68, 38), dark=(70, 44, 30))
+    save(band, "block/level5/boiler-band.png")
+    door = M.noise_hv((50, 47, 44), 4, 5308, S, 6)
+    M.grime(door, 0.3, 5309, color=(26, 24, 22), cover=0.6)
+    M.ao_border(door, 3, 0.2)
+    save(door, "block/level5/boiler-door.png")
+
+
 def level5_textures():
     # Hotel walls: mahogany wainscot, red damask panel in a gilt frame on cream, cream frieze with a cornice
     img = noise_fill(hexrgb(0x452518), 6, 540)
@@ -2025,12 +2235,7 @@ def level5_textures():
     save(noise_fill(hexrgb(0x8A5A3A), 6, 567), "block/level5/pot.png")
     save(noise_fill(hexrgb(0x1E5A30), 5, 568), "block/level5/felt.png")
     save(noise_fill(hexrgb(0xEEE6D0), 3, 569), "block/level5/mahjong.png")
-    img = noise_fill(hexrgb(0x654729), 10, 570)
-    d = ImageDraw.Draw(img)
-    for y in range(4, S, 9):
-        for x in range(3, S, 7):
-            d.point((x, y), fill=(175, 146, 93, 255))  # rivets
-    save(img, "block/level5/boiler.png")
+    boiler_textures()
     img = noise_fill(hexrgb(0xFF8A2A), 18, 571)
     save(img, "block/level5/fire.png")
     save(noise_fill(hexrgb(0xE8C890), 4, 572), "block/level5/lampshade.png")

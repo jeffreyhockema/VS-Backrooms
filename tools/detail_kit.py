@@ -78,6 +78,23 @@ EXT = {
     "transformer": "backrooms:block/level3/transformer",
     "panel": "backrooms:block/level3/panel",
     "cratewood": "backrooms:block/level1/crate-side",
+    # (B6) Level 3's modelled wall fittings share the materials of the wall fixtures and of Level 2's cabinets
+    "l3paint": "backrooms:block/level3/panel-paint",
+    "l3face": "backrooms:block/level3/panel-face",
+    "tray": "backrooms:block/level3/tray",
+    "wallrust": "backrooms:block/level2/wallpipe-rust",
+    "flange": "backrooms:block/level2/wallpipe-flange",
+    "riserrust": "backrooms:block/level3/riser-rust",
+    "riserlag": "backrooms:block/level3/riser-lagging",
+    "cabdial": "backrooms:block/level2/cabinet-dial",
+    "cabneedle": "backrooms:block/level2/cabinet-needle",
+    "cabbezel": "backrooms:block/level2/cabinet-bezel",
+    "cablabel": "backrooms:block/level2/cabinet-label",
+    "warn3": "backrooms:block/level3/warning",
+    "fanwell": "backrooms:block/level3/fan-well",
+    "fanblade": "backrooms:block/level3/fan-blade",
+    "cablampred": "backrooms:block/level2/cabinet-lampred",
+    "cablampamber": "backrooms:block/level2/cabinet-lampamber",
 }
 for _i in range(8):
     EXT[f"roomsign{_i}"] = f"backrooms:block/level3/roomsign-{_i}"

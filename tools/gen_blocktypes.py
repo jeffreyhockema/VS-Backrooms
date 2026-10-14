@@ -130,9 +130,47 @@ def shaped(folder, code, shape, material="Wood", sounds=WOOD, oriented=True, box
     write(folder, code, block, comment)
 
 
+def _retexture(folder, code, by_type=None, textures=None):
+    """Rewrites a block type just written by cube(): its textures by type (`by_type`), or its one texture set."""
+    path = os.path.join(OUT, folder, code + ".json")
+    with open(path, encoding="utf-8") as f:
+        lines = f.read()
+    comment, _, body = lines.partition("\n") if lines.startswith("//") else ("", "", lines)
+    block = json.loads(body)
+    if by_type:
+        block.pop("textures", None)
+        out = {}
+        for k, v in block.items():
+            out[k] = v
+            if k == "drawtype":
+                out["texturesByType"] = by_type
+        block = out
+    else:
+        block["textures"] = textures
+    with open(path, "w", encoding="utf-8") as f:
+        f.write((comment + "\n" if comment else "") + json.dumps(block, indent="\t") + "\n")
+
+
+def turned(base, turns=(0, 90, 180, 270)):
+    """Alternates of one texture: the texture at each of these turns (0 is the texture as it is)."""
+    return [{"base": base, "rotation": r} if r else {"base": base} for r in turns]
+
+
+def with_alternates(textures, alts):
+    """{'all': {'base': ..., 'alternates': [...]}} for a cube: the first entry is the base, the rest its alternates."""
+    first, rest = alts[0], alts[1:]
+    return {"all": dict(first, alternates=rest)} if rest else {"all": first}
+
+
 def level3():
+    # (B6) Each wall in three versions that share their face and joint textures and differ only in which unit is
+    # darker or warmer, so they mix without a patchwork. The blocks carrying fixtures and decorations use the first.
     cube("level3", "l3wall", "block/level3/l3wall-{type}", states=["glazed", "brick", "cinder"],
          comment="Level 3 walls: two-tone glazed structural tile, red brick, and cinder block in the machine rooms")
+    walls = {}
+    for t in ("glazed", "brick", "cinder"):
+        walls[f"*-{t}"] = with_alternates(None, [{"base": f"block/level3/l3wall-{t}{v}"} for v in ("", "-2", "-3")])
+    _retexture("level3", "l3wall", walls)
     fixture = {
         "code": "l3wallfixture",
         "variantgroups": [{"code": "material", "states": ["glazed", "brick", "cinder"]}, {"code": "fixture", "states": ["pipes", "panel", "fan", "pipesjoint", "pipesbracket"]}],
@@ -158,8 +196,15 @@ def level3():
         "texturesByType": {"*-tunnel-*": {"wall": {"base": "block/level2/tunnelwall-plain"}}, "*": {"wall": {"base": "block/level3/l3wall-{wall}"}}},
         "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
     }, "Level 2 and 3 walls whose round pipes turn a corner (outer corners wrap round, inner corners meet) or end in a blind flange")
+    # (B6) Floors and ceilings in versions turned at random that meet without a seam (gen_textures.dusty_floor,
+    # plaster_ceiling): the floor's grit and scuff each in about one block in four, the ceiling's stains one in fourteen
+    floor = turned("block/level3/dustyfloor") * 2 + turned("block/level3/dustyfloor-2") + turned("block/level3/dustyfloor-3")
     cube("level3", "dustyfloor", "block/level3/dustyfloor", comment="Dusty concrete floor")
+    _retexture("level3", "dustyfloor", None, with_alternates(None, floor))
+    ceiling = (turned("block/level3/plasterceiling") + turned("block/level3/plasterceiling-2")
+               + turned("block/level3/plasterceiling-3") + [{"base": "block/level3/plasterceiling-4"}, {"base": "block/level3/plasterceiling-5"}])
     cube("level3", "plasterceiling", "block/level3/plasterceiling", comment="Peeling, stained plaster ceiling")
+    _retexture("level3", "plasterceiling", None, with_alternates(None, ceiling))
     cube("level3", "roomsign", "block/level3/roomsign-{type}", states=[str(i) for i in range(8)],
          comment="White machine-room signs with a 3-digit number and illegible text beneath")
     cube("level3", "windowglow", "block/level3/windowglow", material="Glass", sounds=GLASS,

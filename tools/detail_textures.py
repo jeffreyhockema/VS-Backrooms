@@ -639,7 +639,274 @@ def level1():
 
 # ---------------- Level 3 ----------------
 
+def grate():
+    """(B6) Level 3's steel bar grating, on the old 4 px pitch: bearing bars running north-south, each lit along its
+    top with a dark flank, and lower cross rods between them, darker and broken by the bars; the dark well beneath
+    with a faint gleam; the bar tops worn bright in patches and a few specks of rust. Mean kept (55)."""
+    seed = seed_of("grate")
+    well = M.noise_hv((24, 23, 22), 2, seed, S, 3)
+    px = well.load()
+    worn = M.fbm((S, S), M.sub(seed, "worn"), (8, 4), 0.6)
+    steel = (88, 92, 96)
+    rng = random.Random(seed)
+    for y in range(S):
+        for x in range(S):
+            if y % 4 == 0 and x % 4 not in (0, 1):  # a cross rod, below the bars' tops
+                c = M.lift(steel, 2 + rng.uniform(-3, 3))
+                if x % 4 == 2:
+                    c = M.lift(c, 6)
+                px[x, y] = M.rgba(c)
+            elif y % 4 == 1 and x % 4 not in (0, 1):  # its shadow on the well
+                px[x, y] = M.rgba(M.lift(px[x, y], -6))
+            if x % 4 == 0:  # bearing bar top
+                c = M.lift(steel, 8 + worn[y][x] * 10 + rng.uniform(-3, 3))
+                if rng.random() < 0.04:
+                    c = M.mix(c, (110, 66, 40), 0.5)
+                px[x, y] = M.rgba(c)
+            elif x % 4 == 1:  # its flank, in shade
+                c = M.lift(steel, -10 + rng.uniform(-3, 3))
+                if rng.random() < 0.06:
+                    c = M.mix(c, (84, 50, 32), 0.5)
+                px[x, y] = M.rgba(c)
+    return T.match_mean(well, 55)
+
+
+def hazard_floor():
+    """(B6) Concrete with yellow and black hazard stripes at the edges, round machinery: the stripes are paint that
+    takes the concrete's light and dark, clean at the block edges so they run on from block to block, over the dusty
+    floor's concrete. Mean kept (114)."""
+    img = T.dusty_floor(0)
+    px = img.load()
+    m = sum(M.lum(px[x, y]) for y in range(S) for x in range(S)) / (S * S)
+    rng = random.Random(seed_of("hazard"))
+    for y in list(range(0, 6)) + list(range(S - 6, S)):
+        for x in range(S):
+            colour = (212, 166, 34) if ((x + y) // 4) % 2 == 0 else (34, 32, 30)
+            d = (M.lum(px[x, y]) - m) * 0.4 + rng.uniform(-2, 2)
+            if y in (5, S - 6):
+                d -= 4  # the paint's edge, a hair darker
+            px[x, y] = M.rgba(M.lift(colour, d))
+    return T.match_mean(img, 114)
+
+
+def enamel_plaque(seed, ground=(226, 222, 208), rule=(70, 66, 60), inset=2):
+    """(B6) A small enamelled steel plaque's face: a slightly uneven cream enamel, a printed rule 1 px in from the
+    edge, the edge itself bevelled (lit along the top and left, shaded along the bottom and right), a few chips to
+    dark steel at the edge and a little grime. The screws are geometry (gen_detail.rivets), not paint."""
+    img = M.noise_hv(ground, 2, seed, S, 3, hue=1.0)
+    px = img.load()
+    for i in range(inset, S - inset):
+        for (x, y) in ((i, inset), (i, S - 1 - inset), (inset, i), (S - 1 - inset, i)):
+            px[x, y] = M.rgba(M.lift(rule, M.lum(px[x, y]) - M.lum(ground)))
+    M.bevel(img, (0, 0, S, S), 1, 0.16)
+    M.chip_edges(img, (0, 0, S - 1, S - 1), M.sub(seed, "chips"), 5, under=(64, 62, 58))
+    M.grime(img, 0.1, M.sub(seed, "grime"), cover=0.45)
+    return img
+
+
+def l3_plaques():
+    """(B6) Level 3's room-number plaques beside the doors: the old numbers on an enamel face (enamel_plaque)."""
+    out = {}
+    for i, number in enumerate(("447", "112", "318", "905", "563", "274", "781", "036")):
+        img = enamel_plaque(seed_of(f"l3plaque{i}"))
+        text(img, number, (4, 5, 28, 19), 0x26221E, 11)
+        px = img.load()
+        rng = random.Random(seed_of(f"l3plaquetext{i}"))
+        for y in (22, 25):  # a line of small print beneath, too small to read
+            x = 7
+            while x < 25:
+                n = rng.randint(1, 3)
+                for k in range(n):
+                    if x + k < 25:
+                        px[x + k, y] = M.rgba(M.lift((96, 92, 86), rng.uniform(-6, 6)))
+                x += n + 1
+        out[f"l3plaque{i}"] = img
+    return out
+
+
+def limestone(seed, base, mottle=6, pits=0.03, streaks=2):
+    """Pale carved limestone for the Sanctum's statue: an even fine-grained stone with soft clouding, a few pits, and
+    faint darker weathering run down from above."""
+    img = M.plaster(seed, base=base, grain=3, mottle=mottle, roller=0.0, bumps=0.0)
+    rng = random.Random(M.sub(seed, "pits"))
+    for _ in range(int(pits * S * S)):
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, -0.12)
+        M.touch(img, x, y + 1, 0.04)
+    if streaks:
+        M.drips(img, streaks, M.sub(seed, "weather"), color=M.lift(base, -40), length=(8, 20), strength=0.12)
+    return img
+
+
+# The Sanctum's ashlar (round 2): courses of 16 px with stones of mixed lengths, as the old wall had, on a bond that
+# comes round over the block (the old 24 px stones did not): each row's joints, as x positions
+ASHLAR_ROWS = ((0, 20), (10, 26))
+
+
+def ashlar(alt):
+    """Pale sandstone ashlar: two courses of mixed-length stones, each its own shade, its arris lit softly along the top
+    and left and shaded along the foot, the bed joints recessed, a little claw tooling. Three versions differ only in
+    the shades of the stones that lie wholly inside the block (a stone across the block edge keeps one shade)."""
+    seed = seed_of("sanctumwall")
+    base, mortar = (186, 177, 158), (146, 138, 120)
+    img = M.noise_hv(mortar, 3, M.sub(seed, "mortar"), S, 4, (8, 4))
+    face = M.noise_hv(base, 3, seed, S, 5, (8, 4, 2), hue=1.5)
+    p, fp = img.load(), face.load()
+    rng_alt = random.Random(seed + 7 * alt)
+    rng0 = random.Random(seed)
+    for r, joints in enumerate(ASHLAR_ROWS):
+        y0 = r * 16
+        js = list(joints) + [joints[0] + S]
+        for a, b in zip(js, js[1:]):
+            v0 = rng0.uniform(-6, 6)
+            v = rng_alt.uniform(-6, 6)
+            if b > S:  # across the block edge
+                v = v0
+            for y in range(y0, y0 + 15):
+                for x in range(a, b - 1):
+                    X = x % S
+                    f = 0.0
+                    if y == y0:
+                        f = 0.07
+                    elif y == y0 + 14:
+                        f = -0.08
+                    elif x == a:
+                        f = 0.03
+                    elif x == b - 2:
+                        f = -0.04
+                    p[X, y] = M.rgba(M.lift(fp[X, y], v + f * 120))
+            for x in range(a, b):  # the bed joint under the stone, in its shadow
+                M.touch(img, x % S, y0 + 15, -0.12)
+    rng = random.Random(seed_of("tooling") + alt)
+    for _ in range(60):  # the mason's claw tooling: short diagonal strokes
+        x, y = rng.randrange(S), rng.randrange(S)
+        if y % 16 in (0, 14, 15):
+            continue
+        for k in range(rng.randint(2, 3)):
+            M.touch(img, x + k, y - k, -0.03)
+    return T.match_rgb(img, (178, 170, 154), "sanctumwall")
+
+
+def sanctum_textures():
+    """(B6) The Sanctum and its statue. Ashlar: pale sandstone blocks two to a course (16 x 32 px, the old ones were
+    24 px and did not tile), each its own shade with a chamfered, lit edge and a tooled face, in three versions that
+    differ only in shades. Flagstones: four to a block on a square grid, so a turned block meets its neighbours,
+    each its own shade with worn, recessed joints; two versions. The runner: a red cut pile with a woven gold band
+    near each edge (`matlib.carpet`). The vault cells: plaster, paler toward the crown. The statue: limestone for
+    the figure, the robe's folds shaded as ridges and hollows, feathers as rows of overlapping scallops each lit on
+    its rounded edge, and a darker pedestal with a lit cornice line. The Purpified: wet violet skin with branching
+    veins and a sheen, and the wall round it stained in a ragged, veined patch."""
+    out = {}
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        out["sanctumwall" + v] = ashlar(alt)
+    # (round 2) The flagstones are the original texture again: the blind reviewer read B6's square grid as worse
+    img = noise(0x8C877C, 6, "l3stone")
+    d = ImageDraw.Draw(img)
+    for y, xs in ((0, (0, 18)), (11, (8, 26)), (21, (4, 20))):
+        d.line([0, y, S - 1, y], fill=rgb(0x5E5A52))
+        for x in xs:
+            d.line([x, y, x, y + 10], fill=rgb(0x5E5A52))
+    out["l3stone"] = img
+    # (round 2) a short, even pile: the first cut's nap made the runner read as red static at range
+    carpet = M.carpet(seed_of("sanctumcarpet"), base=(122, 34, 26), pile=3, grain=2, mottle=3)
+    px = carpet.load()
+    gold, shadow = (196, 156, 70), (70, 24, 18)
+    for y in range(S):
+        for x0 in (2, 28):
+            for dx in (0, 1):
+                c = M.lift(gold, (8 if (y + dx) % 2 == 0 else -10) + (M.lum(px[x0 + dx, y]) - 64) * 0.3)
+                px[x0 + dx, y] = M.rgba(c)
+            px[x0 - 1, y] = M.rgba(M.mix(px[x0 - 1, y], shadow, 0.25))
+            px[x0 + 2, y] = M.rgba(M.mix(px[x0 + 2, y], shadow, 0.2))
+    out["sanctumcarpet"] = T.match_mean(carpet, 64)
+    vault = M.plaster(seed_of("sanctumvault"), base=(196, 188, 172), grain=3, mottle=5, roller=0.3)
+    for y in range(S):
+        for x in range(S):
+            r = math.hypot(x - 15.5, y - 15.5) / 22
+            M.touch(vault, x, y, 0.06 * (1 - r) - 0.04)
+    out["sanctumvault"] = T.match_mean(vault, 190)
+
+    out["stone"] = T.match_mean(limestone(seed_of("stone"), (200, 196, 186)), 195)
+    fold = limestone(seed_of("stonefold"), (198, 194, 184), streaks=1)
+    for y in range(S):
+        for x in range(S):
+            t = math.cos((x + 0.5 * math.sin(y / 5.0)) / 6.0 * 2 * math.pi)  # folds a little uneven down their length
+            M.touch(fold, x, y, 0.1 * t)
+    out["stonefold"] = T.match_mean(fold, 193)
+    # Feathers: rows of rounded tips pointing down, each row overlapping the one below (drawn from the bottom up, so
+    # an upper row's tips lie over the lower row), each feather lighter along its shaft, its rounded edge lit and the
+    # shadow it casts dark under it
+    ground = limestone(seed_of("stonewing"), (198, 194, 184), streaks=0, pits=0.01)
+    wing = ground.copy()
+    gp, wp = ground.load(), wing.load()
+    # (the last row once more at the end, for the tips it wraps over the first row's top)
+    for row, wrapped in [(r, False) for r in reversed(range(S // 4))] + [(S // 4 - 1, True)]:
+        y0 = row * 4
+        off = 3 if row % 2 else 0
+        for x0 in range(-6 + off, S, 6):
+            for x in range(x0, x0 + 6):
+                u = (x - x0 - 2.5) / 3.0
+                tip = y0 + 6 - round(2.5 * u * u)  # the rounded lower edge, 2 px below the next row's top
+                for y in range(y0, tip + 2):
+                    if wrapped and y < S:
+                        continue
+                    if y <= tip:
+                        c = M.lift(gp[x % S, y % S], 7 * (1 - abs(u)) - 3 + (5 if y == tip else 0))
+                    else:
+                        c = M.lift(gp[x % S, y % S], -26)
+                    wp[x % S, y % S] = M.rgba(c)
+    out["stonewing"] = T.match_mean(wing, 191)
+    ped = limestone(seed_of("pedestal"), (112, 106, 96), mottle=7, pits=0.05, streaks=3)
+    for x in range(S):
+        M.touch(ped, x, 1, 0.16)
+        M.touch(ped, x, 2, 0.08)
+        M.touch(ped, x, S - 3, -0.16)
+    out["pedestal"] = T.match_mean(ped, 104)
+
+    # Purpification (layout version 5): what is left of the thing gone purple and glowing faintly, and the wall round it
+    skin = M.noise_hv((136, 60, 196), 4, seed_of("purpskin"), S, 10, hue=3.0)
+    rng = random.Random(seed_of("purpveins"))
+    for _ in range(4):  # veins: dark branching runs
+        x, y = rng.uniform(0, S), rng.uniform(0, S)
+        a = rng.uniform(0, 6.3)
+        for k in range(rng.randint(8, 16)):
+            M.put(skin.load(), S, S, round(x), round(y), M.mix(skin.getpixel((round(x) % S, round(y) % S)), (58, 16, 88), 0.45))
+            M.touch(skin, round(x), round(y) + 1, 0.06)
+            a += rng.uniform(-0.6, 0.6)
+            x, y = x + math.cos(a), y + math.sin(a)
+    for _ in range(22):  # a wet sheen in specks
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(skin, x, y, 0.3)
+    out["purpskin"] = T.match_mean(skin, 97)
+    for part in ("lower", "upper"):
+        img = M.noise_hv((106, 44, 156), 5, seed_of("purpwall" + part), S, 9, hue=3.0)
+        rng = random.Random(seed_of("purpwallveins" + part))
+        for _ in range(9):
+            x, y = rng.uniform(4, 28), rng.uniform(S * 0.55 if part == "lower" else S - 3, S)
+            a = rng.uniform(-2.6, -0.5)  # spreading up and out from the body
+            for k in range(rng.randint(6, 14)):
+                M.touch(img, round(x), round(y), -0.25)
+                a += rng.uniform(-0.5, 0.5)
+                x, y = x + math.cos(a), y + math.sin(a)
+        px = img.load()
+        edge = M.fbm((S, S), seed_of("purpedge" + part), (8, 4), 0.6)
+        for y in range(S):
+            for x in range(S):
+                # inside an ellipse centred on the floor at the foot of the lower block (the upper one has its top)
+                ey = (y - (S if part == "lower" else S * 2)) / (S * 1.35)
+                ex = (x - S / 2 + 0.5) / (S * 0.5)
+                d = ex * ex + ey * ey + edge[y][x] * 0.5
+                if d > 1:
+                    px[x, y] = (0, 0, 0, 0)
+                elif d > 0.85:  # the stain thins toward its edge
+                    px[x, y] = M.rgba(M.lift(px[x, y], 10), px[x, y][3])
+        out[f"purpwall-{part}"] = img
+    return out
+
+
 def level3():
+    for k, img in l3_plaques().items():
+        save(img, k)
     img = noise(0xF0C818, 3, "dangersign")
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x111111), width=2)
@@ -681,139 +948,40 @@ def level3():
     for y in range(0, S, 2):
         d.line([0, y, S - 1, y], fill=rgb(0x8A5022))
     save(img, "coil")
-    flat("switchgear", 0x7A8288, 3)
-    img = noise(0x7A8288, 3, "switchgearfront")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x4A5258), width=1)
-    d.line([0, 15, S - 1, 15], fill=rgb(0x4A5258))
-    for i, x in enumerate((5, 13, 21)):
-        d.ellipse([x, 3, x + 6, 9], fill=rgb(0xF0EEE4), outline=rgb(0x222222))
-        d.line([x + 3, 6, x + 5, 4], fill=rgb(0xC81818))
-        d.ellipse([x + 1, 11, x + 3, 13], fill=rgb(0xE83020 if i != 1 else 0x30D050))
-    d.rectangle([24, 20, 27, 27], fill=rgb(0x1A1A1A))  # handle
-    d.rectangle([4, 19, 18, 23], fill=rgb(0xF4F4F0))
-    text(img, "No. 7", (4, 19, 19, 24), 0x111111, 4)
-    save(img, "switchgearfront")
-    img = Image.new("RGBA", (S, S), rgb(0x1E2022))
-    d = ImageDraw.Draw(img)
-    for r in range(3, 16, 3):
-        d.ellipse([16 - r, 16 - r, 16 + r, 16 + r], outline=rgb(0x6A6E72))
-    d.line([16, 1, 16, 31], fill=rgb(0x6A6E72))
-    d.line([1, 16, 31, 16], fill=rgb(0x6A6E72))
-    save(img, "fancage")
-    img = noise(0xC8A030, 5, "generator")
-    d = ImageDraw.Draw(img)
+    # (B6) The machine-room props' paint: their meters, lamps, switches, vents and fan guards are geometry now
+    # (gen_detail.switchgear, floor_fan, generator_panel, control_desk), so these are plain painted metal
+    for key, base, grime in (("switchgear", (122, 130, 136), 0.2), ("switchgearpanel", (100, 106, 110), 0.15),
+                             ("switchgeartop", (112, 118, 122), 0.4), ("generatorpanel", (46, 50, 54), 0.15)):
+        img = M.painted_metal(seed_of(key), base=base, grain=4, mottle=6, panel=False, chips=4, under=(150, 146, 136))
+        M.grime(img, grime, seed_of(key + "g"), cover=0.6 if key == "switchgeartop" else 0.5)
+        M.scratches(img, 2, seed_of(key + "s"))
+        save(img, key)
+    # The generator's yellow paint, with cooling ribs pressed into its casing every 6 px
+    img = M.painted_metal(seed_of("generator"), base=(196, 156, 50), grain=4, mottle=6, panel=False, chips=6, under=(90, 84, 76))
+    M.grime(img, 0.25, seed_of("generatorg"), cover=0.55)
+    M.drips(img, 2, seed_of("generatord"), color=(70, 60, 40), length=(6, 14), strength=0.3)
     for y in range(4, S, 6):
-        d.line([0, y, S - 1, y], fill=rgb(0x9A7820))
+        for x in range(S):
+            M.touch(img, x, y, -0.2)
+            M.touch(img, x, y + 1, 0.08)
     save(img, "generator")
-    img = noise(0x2E3236, 3, "generatorpanel")
-    d = ImageDraw.Draw(img)
-    for x in (5, 17):
-        d.ellipse([x, 4, x + 9, 13], fill=rgb(0xF0EEE4))
-        d.line([x + 4, 9, x + 7, 6], fill=rgb(0xC81818))
-    for x in range(5, 27, 5):
-        d.rectangle([x, 19, x + 2, 24], fill=rgb(0xD8D8D0))
-    d.ellipse([24, 26, 28, 30], fill=rgb(0xD82020))
-    save(img, "generatorpanel")
-    img = noise(0x8E6A40, 5, "spoolwood")
-    d = ImageDraw.Draw(img)
-    for r in (5, 10, 14):
-        d.ellipse([16 - r, 16 - r, 16 + r, 16 + r], outline=rgb(0x6A4A28))
-    save(img, "spoolwood")
-    img = noise(0x5A6268, 3, "controlpanel")
-    d = ImageDraw.Draw(img)
-    for i in range(4):
-        x = 3 + i * 7
-        d.ellipse([x, 3, x + 5, 8], fill=rgb(0xF0EEE4))
-        d.line([x + 2, 6, x + 4, 4], fill=rgb(0x111111))
-    for i in range(8):
-        d.rectangle([3 + i * 3, 13, 4 + i * 3, 17], fill=rgb(0xD8D8D0 if i % 3 else 0x222222))
-    for i, c in enumerate((0xE83020, 0x30D050, 0xF0C020, 0x30D050, 0xE83020)):
-        d.ellipse([4 + i * 5, 22, 6 + i * 5, 24], fill=rgb(c))
-    save(img, "controlpanel")
+    img = M.noise_hv((60, 170, 80), 3, seed_of("lampgreen"), 16, 2)
+    for y in range(16):
+        for x in range(16):
+            d = math.hypot(x - 7.5, y - 7.5) / 7.5
+            M.touch(img, x, y, 0.18 - 0.42 * d * d + (0.3 if math.hypot(x - 4.5, y - 4.5) < 2 else 0))
+    save(img, "lampgreen")
+    save(M.noise_hv((214, 200, 168), 2, seed_of("wax"), 16, 2), "wax")
+    save(M.noise_hv((214, 150, 255), 3, seed_of("purpglow"), 16, 3), "purpglow")
     img = noise(0x26282A, 3, "conveyorbelt")
     d = ImageDraw.Draw(img)
     for x in range(0, S, 4):
         d.line([x, 0, x, S - 1], fill=rgb(0x3A3C3E))
     save(img, "conveyorbelt")
-    img = noise(0xC8C4BA, 5, "stone")
-    T.blotch(img, (8, 24), 7, (150, 146, 136), 0.3, 91)
-    save(img, "stone")
-    img = noise(0xC8C4BA, 5, "stonewing")
-    d = ImageDraw.Draw(img)
-    for y in range(3, S, 5):
-        d.arc([-8, y - 6, 40, y + 6], 20, 160, fill=rgb(0xA8A498))
-    save(img, "stonewing")
-    # The statue's pedestal, darker than the figure so the figure stands clear of it; its folds
-    img = noise(0x6E685E, 4, "pedestal")
-    d = ImageDraw.Draw(img)
-    d.line([0, 2, S - 1, 2], fill=rgb(0x8A8478))
-    d.line([0, S - 3, S - 1, S - 3], fill=rgb(0x4E4A42))
-    save(img, "pedestal")
-    img = noise(0xC8C4BA, 4, "stonefold")
-    d = ImageDraw.Draw(img)
-    for x in range(2, S, 6):
-        d.line([x, 0, x + 1, S - 1], fill=rgb(0xA49E92))
-        d.line([x + 2, 0, x + 3, S - 1], fill=rgb(0xDAD6CC))
-    save(img, "stonefold")
-    # A Sanctum's ceiling: pale ashlar ribs, and the plastered vault cells between them, paler toward their middles
-    img = noise(0xC4BCAC, 3, "sanctumvault")
-    T.blotch(img, (16, 16), 14, (214, 208, 194), 0.6, 93)
-    save(img, "sanctumvault")
-    # Purpification (layout version 5): what is left of the thing gone purple and glowing faintly, and the wall round it
-    img = noise(0x8A3CC8, 8, "purpskin")
-    T.blotch(img, (10, 12), 7, (190, 120, 240), 0.6, 94)
-    T.blotch(img, (24, 24), 6, (60, 20, 96), 0.6, 95)
-    d = ImageDraw.Draw(img)
-    for (x1, y1, x2, y2) in ((3, 4, 12, 20), (18, 2, 22, 14), (14, 22, 28, 30)):
-        d.line([x1, y1, x2, y2], fill=rgb(0x4A1470))  # veins
-    save(img, "purpskin")
-    # The wall gone purple round it, a ragged patch over two blocks: the lower block mostly, the upper only at its foot
-    rng = random.Random(seed_of("purpwall"))
-    for part in ("lower", "upper"):
-        img = noise(0x6A2C9C, 6, "purpwall" + part)
-        for k, (cx, cy, r) in enumerate(((8, 20, 9), (24, 26, 10), (14, 8, 7))):
-            T.blotch(img, (cx, cy), r, (150, 90, 210), 0.45, 96 + k)
-        px = img.load()
-        for y in range(S):
-            for x in range(S):
-                # Inside an ellipse centred on the floor at the foot of the lower block (the upper one has its top)
-                ey = (y - (S if part == "lower" else S * 2)) / (S * 1.35)
-                ex = (x - S / 2 + 0.5) / (S * 0.5)
-                if ex * ex + ey * ey + rng.uniform(-0.12, 0.12) > 1:
-                    px[x, y] = (0, 0, 0, 0)
-        save(img, f"purpwall-{part}")
-    img = Image.new("RGBA", (S, S), rgb(0x1E2022))
-    d = ImageDraw.Draw(img)
-    for k in range(0, S, 4):
-        d.line([k, 0, k, S - 1], fill=rgb(0x5A5E62))
-        d.line([0, k, S - 1, k], fill=rgb(0x4A4E52))
-    save(img, "grate")
-    img = T.noise_fill(T.hexrgb(0x857868), 6, 505)
-    stripes(img, rgb(0xE0B020), rgb(0x1E1E1E), 4, (0, 0, S, 6))
-    stripes(img, rgb(0xE0B020), rgb(0x1E1E1E), 4, (0, S - 6, S, S))
-    save(img, "l3hazard")
-    img = noise(0x8C877C, 6, "l3stone")
-    d = ImageDraw.Draw(img)
-    for y, xs in ((0, (0, 18)), (11, (8, 26)), (21, (4, 20))):
-        d.line([0, y, S - 1, y], fill=rgb(0x5E5A52))
-        for x in xs:
-            d.line([x, y, x, y + 10], fill=rgb(0x5E5A52))
-    save(img, "l3stone")
-    img = noise(0x7A1414, 4, "sanctumcarpet")
-    d = ImageDraw.Draw(img)
-    for x in (2, 29):
-        d.rectangle([x, 0, x + 1, S - 1], fill=rgb(0xC8A040))
-    save(img, "sanctumcarpet")
-    img = noise(0xB8B0A0, 4, "sanctumwall")
-    d = ImageDraw.Draw(img)
-    for r in range(2):
-        y = r * 16
-        d.line([0, y, S - 1, y], fill=rgb(0x8A8274))
-        off = 12 if r % 2 else 0
-        for x in range(off, S + 24, 24):
-            d.line([x % S, y, x % S, y + 15], fill=rgb(0x8A8274))
-    save(img, "sanctumwall")
+    for k, img in sanctum_textures().items():
+        save(img, k)
+    save(grate(), "grate")
+    save(hazard_floor(), "l3hazard")
 
 
 # ---------------- Level 4 ----------------
@@ -1262,10 +1430,20 @@ def level5():
     for x in range(1, S, 4):
         d.rectangle([x, 0, x + 1, 18], fill=rgb(0x111111))
     save(img, "pianokeys")
-    img = noise(0x1A1A1C, 12, "coal")
+    # (B6) Coal: broken faces, each a flat facet at its own shade, some catching the light with a glint
+    pts = M.points((S, S), 40, seed_of("coalfacets"), 1.0)
+    f1, f2, idx = M.worley((S, S), pts)
     rng = random.Random(77)
-    for _ in range(30):
-        img.putpixel((rng.randrange(S), rng.randrange(S)), rgb(0x4A4A50))
+    shades = [rng.uniform(-10, 14) for _ in pts]
+    img = M.noise_hv((28, 28, 30), 3, seed_of("coal"), S, 3, hue=0.5)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            d = shades[idx[y][x]] - (8 if f2[y][x] - f1[y][x] < 0.8 else 0)
+            px[x, y] = M.rgba(M.lift(px[x, y], d, 0.05))
+    for _ in range(14):
+        x, y = rng.randrange(S), rng.randrange(S)
+        px[x, y] = M.rgba((96, 98, 104))
     save(img, "coal")
 
 

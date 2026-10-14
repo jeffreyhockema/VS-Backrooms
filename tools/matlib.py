@@ -1161,17 +1161,22 @@ def asphalt(seed=0, size=S, base=(66, 65, 64), grain=5, mottle=6, aggregate=0.32
 
 
 def brick(seed=0, size=S, base=(150, 82, 62), mortar=(176, 168, 154), course=8, length=16, offset=0.5, mortar_w=1,
-          jitter=12, hue=5, recess=1.0, pits=0.03, chamfer=False, grain=5, mottle=9, drift=DRIFT):
+          jitter=12, hue=5, recess=1.0, pits=0.03, chamfer=False, grain=5, mottle=9, drift=DRIFT, tones=None):
     """Brick or block courses: each unit its own shade (+-`jitter`) and hue (+-`hue`), a fine face texture, a lit top
     edge and a darker bottom edge; the mortar recessed (`recess` 0..1: darker under each unit, lighter at the top of
     each bed joint). course/length are the unit pitch with mortar (8x16 brick; 16x32 or 8x16 for a block wall with
     chamfer=True for a bevelled face); offset is the stagger per course (0.5 running bond, 0 stack bond, 0.25 raking).
-    The stagger must come round over the texture: (h / course) * offset * length is a whole number of lengths."""
+    The stagger must come round over the texture: (h / course) * offset * length is a whole number of lengths.
+    (B6) `tones` seeds the units' shades, hues and pits on their own: versions of one wall drawn with the same `seed`
+    and different `tones` share every face and mortar texture and differ only in which unit is darker or warmer, so
+    they can be listed as alternates without a patchwork (None keeps the old behaviour). A unit that runs across the
+    texture's edge keeps the shade `seed` gives it in every version, since its two halves meet in different blocks."""
     w, h = wh(size)
     rows = h // course
     assert h % course == 0 and w % length == 0, "course and length must divide the texture"
     assert abs((rows * offset * length) % length) < 1e-6, "the stagger must come back round over the texture height"
-    rng = random.Random(sub(seed, "bricks"))
+    rng = random.Random(sub(seed if tones is None else tones, "bricks"))
+    rng0 = random.Random(sub(seed, "bricks"))
     img = noise_hv(mortar, 3, sub(seed, "mortar"), (w, h), 4, (8, 4), drift)
     face = noise_hv(base, grain, seed, (w, h), mottle, (8, 4, 2), drift, hue=3)
     p, fp = img.load(), face.load()
@@ -1183,6 +1188,10 @@ def brick(seed=0, size=S, base=(150, 82, 62), mortar=(176, 168, 154), course=8, 
             x0 = shift + k * length - length
             v, hu = rng.uniform(-jitter, jitter), rng.uniform(-hue, hue)
             bw, bh = length - mortar_w, course - mortar_w
+            if tones is not None:
+                v0, hu0 = rng0.uniform(-jitter, jitter), rng0.uniform(-hue, hue)
+                if x0 < 0 or x0 + bw > w:  # a unit across the block edge: half of it is in the next block's version
+                    v, hu = v0, hu0
             if x0 + bw <= 0 or x0 >= w:
                 continue
             for yy in range(bh):

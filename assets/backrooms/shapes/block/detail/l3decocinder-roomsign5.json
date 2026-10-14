@@ -3,7 +3,8 @@
 	"textureHeight": 16,
 	"textures": {
 		"cinder": "backrooms:block/level3/l3wall-cinder",
-		"roomsign5": "backrooms:block/level3/roomsign-5",
+		"l3plaque5": "backrooms:block/detail/l3plaque5",
+		"steel": "backrooms:block/detail/steel",
 		"white": "backrooms:block/detail/white"
 	},
 	"elements": [
@@ -90,7 +91,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#roomsign5",
+					"texture": "#l3plaque5",
 					"uv": [
 						0,
 						0,
@@ -146,6 +147,246 @@
 						0,
 						0,
 						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SignRivet0",
+			"from": [
+				3.75,
+				4.75,
+				-0.55
+			],
+			"to": [
+				4.35,
+				5.35,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SignRivet1",
+			"from": [
+				11.65,
+				4.75,
+				-0.55
+			],
+			"to": [
+				12.25,
+				5.35,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SignRivet2",
+			"from": [
+				3.75,
+				11.65,
+				-0.55
+			],
+			"to": [
+				4.35,
+				12.25,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SignRivet3",
+			"from": [
+				11.65,
+				11.65,
+				-0.55
+			],
+			"to": [
+				12.25,
+				12.25,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
 						0.5
 					]
 				}
