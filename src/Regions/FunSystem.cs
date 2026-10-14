@@ -421,7 +421,7 @@ public class FunSystem : ModSystem
         entity.WatchedAttributes.GetTreeAttribute("stats")?.GetTreeAttribute(category)?.HasAttribute(code) == true;
 
     /// <summary>Whether someone has a poultice or a bandage in hand.</summary>
-    private static bool Treating(EntityAgent entity) => IsTreatment(entity.RightHandItemSlot) || IsTreatment(entity.LeftHandItemSlot);
+    private static bool Treating(EntityAgent entity) => IsTreatment(Senses.RightHand(entity)) || IsTreatment(Senses.LeftHand(entity));
 
     private static bool IsTreatment(ItemSlot slot)
     {
@@ -455,8 +455,10 @@ public class FunSystem : ModSystem
     /// <summary>Whether someone wears a party hat and holds a red balloon. (Asked by every Partygoer that looks at them.)</summary>
     public static bool Disguised(EntityAgent entity)
     {
-        bool balloon = entity.RightHandItemSlot?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red"
-            || entity.LeftHandItemSlot?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red";
+        // (A player entity without its player, still joining or just gone, has no hands to look at: this threw every
+        // tick and kept a save from loading while someone stood in Level Fun)
+        bool balloon = Senses.RightHand(entity)?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red"
+            || Senses.LeftHand(entity)?.Itemstack?.Collectible?.Code?.Path == "fun-balloon-red";
         if (!balloon || entity is not EntityPlayer { Player: { } player }) return false;
         IInventory clothes = player.InventoryManager?.GetOwnInventory(GlobalConstants.characterInvClassName);
         if (clothes == null) return false;
