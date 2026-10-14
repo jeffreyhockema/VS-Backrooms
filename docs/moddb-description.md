@@ -35,7 +35,7 @@ The full list is in the [changelog](https://github.com/jeffreyhockema/VS-Backroo
 What version 0.513.0 contains:
 
 - Twenty-two levels, all fully built: Levels 0 to 11, the Snackrooms, Level 37, Level 94, Level !, Level Fun, The End, the Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
-- More than seventy kinds of threshold between them, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
+- More than seventy different ways between them, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
 - A roster of creatures with their own behaviour, each with a counter you can learn.
 - Survival progression from improvised salvage tools through Vintage Story's normal path of flint, fire, pottery, copper and bronze.
 - Scavenging, mining, farming, livestock and base building with no overworld.
@@ -79,10 +79,10 @@ The levels are laid out in nested regions around where you wake: Level 0 in the 
 
 That is only how the world is built. The real map is the network of ways between levels, and it follows two rules so you can learn it:
 
-1. **Every threshold always leads to the same place.** Where it leads is fixed the first time anyone goes through it and saved with the world.
+1. **Every way between levels always leads to the same place.** Where it leads is fixed the first time anyone goes through it and saved with the world.
 2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors, and that partner becomes the way back. Where there is no partner, a thin spot is left in the air to step back through. A few doors close behind you for good: the Hub's carved doors, every way out of the Snackrooms but one, the doors into Level !, and a lone doorframe in the Office.
 
-Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that aren't quite there, cinema screens, backyard pools, fountains, manholes, tripwires, hungry vending machines, posters, windows where no window should be: more than seventy kinds of threshold tie the levels together, the same way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
+Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that aren't quite there, cinema screens, backyard pools, fountains, manholes, tripwires, hungry vending machines, posters, windows where no window should be: more than seventy different ways tie the levels together, the same way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
 
 ---
 
