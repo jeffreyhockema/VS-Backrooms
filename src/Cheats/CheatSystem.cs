@@ -4,6 +4,7 @@ using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
@@ -14,7 +15,7 @@ namespace Backrooms.Cheats;
 
 /// <summary>
 /// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, allitems, clear, home, back,
-/// find, nearest, director, stat, exposure, noise, die, light, fogspell); the client side (CheatSystem.Client.cs) is a
+/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest); the client side (CheatSystem.Client.cs) is a
 /// menu (F7, or <c>.cheats</c>) whose buttons send those and the other debug commands, so every action still goes
 /// through the server's privilege check, plus a few view cheats that only touch the client.
 /// </summary>
@@ -240,6 +241,12 @@ public partial class CheatSystem : ModSystem
                     sapi.ModLoader.GetModSystem<MenaceSystem>()?.MakeNoise(args.Caller.Entity, 1);
                     return TextCommandResult.Success("CLANG");
                 })
+            .EndSubCommand()
+            .BeginSubCommand("harvesttest")
+                .WithDescription("Dev test: spawns a creature in front of you, kills it in your name and harvests it as a knife would, reporting what the body gives (default deathrat)")
+                .RequiresPlayer()
+                .WithArgs(parsers.OptionalWord("entity"))
+                .HandleWith(OnHarvestTestCommand)
             .EndSubCommand()
             .BeginSubCommand("die")
                 .WithDescription("Kills you, to test dying and waking up again")
@@ -975,5 +982,90 @@ public partial class CheatSystem : ModSystem
         double hours = Math.Max(0, (double)args[0]);
         args.Caller.Entity.Attributes.SetDouble(MenaceSystem.RestedKey, sapi.World.Calendar.TotalHours - hours);
         return TextCommandResult.Success($"Out for {hours:0.#} hours (resting by a fire, a ward or at home resets it)");
+    }
+
+    /// <summary>
+    /// Dev test for the empty-harvest report: spawns the creature three blocks ahead, kills it a second later in the
+    /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
+    /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
+    /// </summary>
+    private TextCommandResult OnHarvestTestCommand(TextCommandCallingArgs args)
+    {
+        IServerPlayer player = (IServerPlayer)args.Caller.Player;
+        string code = args[0] as string ?? "deathrat";
+        if (!code.Contains(':')) code = "backrooms:" + code;
+        EntityProperties type = sapi.World.GetEntityType(new AssetLocation(code));
+        if (type == null) return TextCommandResult.Error("No entity type " + code);
+        EntityPlayer me = player.Entity;
+        void Say(string text) => player.SendMessage(GlobalConstants.GeneralChatGroup, "harvesttest " + code + ": " + text, EnumChatType.CommandSuccess);
+
+        Entity entity = sapi.World.ClassRegistry.CreateEntity(type);
+        Vec3d at = me.Pos.XYZ.Add(Math.Sin(me.Pos.Yaw) * 3, 0, Math.Cos(me.Pos.Yaw) * 3);
+        entity.Pos.SetPos(at.X, at.Y, at.Z);
+        entity.Pos.Yaw = me.Pos.Yaw + MathF.PI;
+        // (Our creatures despawn at once unless the director prepared them)
+        EntityBehaviorMenace.Prepare(entity, me, Encounter.Ambient, passive: true, sapi.World.ElapsedMilliseconds);
+        sapi.World.SpawnEntity(entity);
+        Say($"spawned #{entity.EntityId} at {at.X:0.#} {at.Y:0.#} {at.Z:0.#}");
+
+        sapi.World.RegisterCallback(_ =>
+        {
+            try
+            {
+                var source = new DamageSource { Source = EnumDamageSource.Player, SourceEntity = me, CauseEntity = me, Type = EnumDamageType.Injury, DamageTier = 9 };
+                bool took = entity.ReceiveDamage(source, 1000f);
+                if (entity.Alive) entity.Die(EnumDespawnReason.Death, source);
+                Say($"killed (ReceiveDamage={took}): alive={entity.Alive}");
+                sapi.World.RegisterCallback(_ =>
+                {
+                    try { HarvestTestReport(player, entity, Say); }
+                    catch (Exception e) { Say("exception: " + e); }
+                }, 1000);
+            }
+            catch (Exception e) { Say("exception: " + e); }
+        }, 1000);
+        return TextCommandResult.Success("harvesttest " + code + " started");
+    }
+
+    private void HarvestTestReport(IServerPlayer player, Entity entity, Action<string> say)
+    {
+        EntityPlayer me = player.Entity;
+        var wa = entity.WatchedAttributes;
+        string Attrs() => $"harvested={wa.GetBool("harvested")} dropsgenerated={wa.GetBool("dropsgenerated")} animalWeight={wa.GetFloat("animalWeight", -1):0.##}"
+            + $" deathByEntity={wa.GetString("deathByEntity") ?? "(none)"} deathByPlayer={wa.GetString("deathByPlayer") ?? "(none)"}";
+        say($"alive={entity.Alive} {Attrs()} animalLootDropRate={me.Stats.GetBlended("animalLootDropRate"):0.##}");
+
+        var h = entity.GetBehavior<EntityBehaviorHarvestable>();
+        if (h == null) { say("the server's copy has no harvestable behaviour"); return; }
+        string Inv()
+        {
+            var items = h.Inventory.Select(s => s.Itemstack == null ? "-" : s.Itemstack.StackSize + "x " + s.Itemstack.Collectible?.Code).ToList();
+            return items.Count == 0 ? "(no slots)" : string.Join(", ", items);
+        }
+
+        // What each side thinks the harvest takes: the knife stops when the client's copy is done, the server only
+        // harvests if that is long enough for its own copy
+        float clientDuration = 5, serverDuration = h.GetHarvestDuration(null, me);
+        foreach (JsonObject b in entity.Properties.Client?.BehaviorsAsJsonObj ?? Array.Empty<JsonObject>())
+        {
+            if (b["code"].AsString() == "harvestable") clientDuration = b["duration"].AsFloat(5) * me.Stats.GetBlended("animalHarvestingTime");
+        }
+        ItemKnife knife = sapi.World.GetItem(new AssetLocation("game:knife-generic-flint")) as ItemKnife
+            ?? sapi.World.Items.OfType<ItemKnife>().FirstOrDefault(k => k.Code != null);
+        if (knife == null) { say("no knife item found; " + Attrs()); return; }
+        var slot = new DummySlot(new ItemStack(knife));
+        float speed = knife.GetKnifeHarvestingSpeed(slot);
+        float clientStopsAt = speed * clientDuration + 0.15f, serverNeeds = speed * serverDuration - 0.1f;
+        say($"harvest duration: client copy {clientDuration:0.##}s, server copy {serverDuration:0.##}s; with {knife.Code} the client stops at {clientStopsAt:0.00}s, the server harvests from {serverNeeds:0.00}s");
+
+        var selection = new EntitySelection { Entity = entity, Position = entity.Pos.XYZ, HitPosition = new Vec3d(0, 0.1, 0), SelectionBoxIndex = 0 };
+        knife.OnHeldInteractStop(clientStopsAt, slot, me, null, selection);
+        say($"knife stop at {clientStopsAt:0.00}s: {Attrs()} inventory: {Inv()}");
+        if (!wa.GetBool("harvested"))
+        {
+            h.SetHarvested(player, 1f);
+            say($"SetHarvested directly: {Attrs()} inventory: {Inv()}");
+        }
+        say("harvestableInv attribute: " + ((wa["harvestableInv"] as ITreeAttribute)?.ToJsonToken() ?? "(none)"));
     }
 }

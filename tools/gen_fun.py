@@ -2666,7 +2666,7 @@ def entities():
         bs = e["server"]["behaviors"]
         i = next(k for k, b in enumerate(bs) if b["code"] == "health")
         bs.insert(i, {"code": "backrooms-partygoer"})
-        return e
+        return E.sync_harvestable(e)
     write_entity("fun-partygoer", with_behaviour(partygoer("partygoer", "fun-partygoer", [])))
     write_entity("fun-partygoer-intern", with_behaviour(partygoer("partygoer-intern", "fun-partygoer-intern", [E.drop("fun-balloon-red", 1)])))
 

@@ -1,7 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.513.1 — fixes
 
+Two fixes from the first reports on 0.513.0. Existing worlds keep working.
+
+- Fixed: harvesting a Death Rat, Hound or Skin-stealer with a knife gave nothing (the body opened empty). The knife stopped after the client's 2 seconds while the server's copy of the body wanted 5, so the drops were never generated; both sides now take 2 seconds. Bodies that never had anything to give (Facelings, Smilers and the rest) no longer offer to be harvested.
 - Fixed: a crash every tick (and a save that would no longer load) while a player stood in Level Fun whose player object was not attached yet, as when joining; the Partygoers' disguise check and the light and moth senses now treat such a player as empty-handed.
 
 ## 0.513.0 — first update
