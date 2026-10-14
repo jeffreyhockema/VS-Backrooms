@@ -10,6 +10,8 @@ import os
 
 import detail_textures
 import fire_fx
+import modelkit as K
+from gen_shapes import louvre, round_pipe, round_riser
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
                         STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, seam_halves, shape, shift, turn, wall_family)
 
@@ -123,7 +125,9 @@ TURNED = {"asphalt", "asphalt-leaves", "asphalt-wet", "housefloor-carpet", "hous
 # Textures with other versions drawn beside them (graphics pass B4): a feature such as a scuff sits in one version
 # only, and the block picks among them (each turned too, when the texture is in TURNED), so it lands in about one
 # block in three and at a different place each time
-ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"]}
+ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"],
+        # (B6) the Sanctum's ashlar and flagstones: versions that differ only in which stone is darker
+        "sanctumwall": ["sanctumwall-2", "sanctumwall-3"]}
 
 
 def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, comment=None, **extra):
@@ -663,6 +667,169 @@ def level1():
 
 # ======================= Level 3 =======================
 
+def rivets(nm, x1, y1, x2, y2, z, inset=0.75, size=0.6, tex="steel"):
+    """(B6) A screw or rivet head 0.25 proud in each corner of a plate whose front is at z: geometry, where the old
+    signs painted them."""
+    out = []
+    for i, (x, y) in enumerate(((x1 + inset, y1 + inset), (x2 - inset - size, y1 + inset), (x1 + inset, y2 - inset - size),
+                                (x2 - inset - size, y2 - inset - size))):
+        out.append(bx(f"{nm}Rivet{i}", (x, y, z - 0.25), (x + size, y + size, z), tex, faces=("north", "east", "west", "up", "down")))
+    return out
+
+
+def cab_plate(nm, x1, y1, x2, y2, z, tex, t=0.25):
+    return [bx(nm, (x1, y1, z - t), (x2, y2, z), tex, faces=("north", "east", "west", "up", "down"), uv=[0, 0, 16, 16])]
+
+
+def wall_cables():
+    """Three cables along a wall's north face, round in section, and a saddle clip over each at x 4 and 12."""
+    out = []
+    for i, (yc, r) in enumerate(((4.75, 0.8), (7.0, 1.0), (9.5, 0.65))):
+        zc = -r - 0.05
+        out += [bx(f"C{i}", (0, yc - r, zc - r * 0.6), (16, yc + r, zc + r * 0.6), "cable", faces=("north", "up", "down")),
+                bx(f"C{i}b", (0, yc - r * 0.6, zc - r), (16, yc + r * 0.6, zc + r * 0.6), "cable", faces=("north", "up", "down"))]
+        for j, x in enumerate((4, 12)):
+            out.append(bx(f"Clip{i}{j}", (x - 0.5, yc - r - 0.3, zc - r - 0.25), (x + 0.5, yc + r + 0.3, 0), "metal",
+                          faces=("north", "east", "west", "up", "down")))
+    return out
+
+
+def risers(y0, foot=False, strut=False):
+    """Level 3's hot pipes up a wall: a lagged pipe and a bare one, round (gen_shapes.round_riser); with `foot` the
+    flanged feet they stand in, with `strut` a channel strut across the wall and a clamp round each pipe."""
+    out = round_riser("Hot", 6.0, -2.1, 2.0, "riserlag", y0) + round_riser("Rusty", 11.25, -1.5, 1.3, "riserrust", y0)
+    if foot:
+        out += round_riser("FootHot", 6.0, -2.1, 2.6, "flange", 0, 1, shaded=False, faces=("up",))
+        out += round_riser("FootRusty", 11.25, -1.5, 1.9, "flange", 0, 1, shaded=False, faces=("up",))
+    if strut:
+        out.append(bx("Strut", (2.75, 9, -0.75), (14.25, 10.5, 0), "flange", faces=("north", "east", "west", "up", "down")))
+        out += round_riser("ClampHot", 6.0, -2.1, 2.3, "flange", 9.1, 10.4, shaded=False, faces=("up", "down"))
+        out += round_riser("ClampRusty", 11.25, -1.5, 1.6, "flange", 9.1, 10.4, shaded=False, faces=("up", "down"))
+    return out
+
+
+def cab_lamp(nm, cx, cy, z, tex, glow=0):
+    """An indicator lamp on a front face at z: a bezel ring and a domed lens (as gen_shapes.cab_lamp)."""
+    f = ("north", "east", "west", "up", "down")
+    return [bx(nm + "Bezel", (cx - 0.75, cy - 0.75, z - 0.5), (cx + 0.75, cy + 0.75, z), "cabbezel", faces=f),
+            bx(nm + "Lens", (cx - 0.5, cy - 0.5, z - 1.0), (cx + 0.5, cy + 0.5, z - 0.5), tex, glow=glow, faces=f, uv=[0, 0, 16, 16])]
+
+
+def frame_front(nm, x1, y1, x2, y2, z, border, tex="switchgear"):
+    """A raised frame round a recessed front panel at z (its front at z - 0.5)."""
+    els, _ = K.frame_members(nm, x1, y1, x2, y2, z - 0.5, z, border, tex)
+    for e in els:
+        e["faces"].pop("south", None)
+    return els
+
+
+def switchgear():
+    """(B6) Level 3's switchgear cabinet, two blocks tall, front to the north: a carcass on a toe-recessed plinth under
+    a cap; the upper half an instrument panel in a frame, three meters as geometry (printed dials in octagonal bezels
+    with needles), a row of indicator lamps (two lit), a selector switch and a plate; the lower half a door with a
+    louvred vent, a bar handle, a lock and a warning decal. The old one painted all of that on its front."""
+    f = ("north", "east", "west", "up", "down")
+    els = [bx("Toe", (1.5, 0, 4.5), (14.5, 1, 15), "metaldark", faces=("north", "east", "west", "south")),
+           bx("Body", (0.5, 1, 4), (15.5, 29.5, 15.5), "switchgear", faces=("east", "west", "south", "down")),
+           bx("Panel", (0.5, 1, 4), (15.5, 29.5, 15.5), "switchgearpanel", faces=("north",)),
+           bx("Cap", (0, 29.5, 3.5), (16, 30.5, 16), "switchgeartop")]
+    els += frame_front("Upper", 0.5, 15.25, 15.5, 29.5, 4, 1.0) + frame_front("Lower", 0.5, 1, 15.5, 15.25, 4, 1.0)
+    for i, (x, a) in enumerate(((4.0, -40), (8.0, 15), (12.0, 55))):
+        els += K.dial(f"Meter{i}", x, 24.75, 4, r=2.25, angle=a, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += cab_lamp("LampA", 3.5, 20.25, 4, "cablampred", 120) + cab_lamp("LampB", 5.75, 20.25, 4, "lampgreen", 120)
+    els += cab_lamp("LampC", 8.0, 20.25, 4, "cablampamber")
+    els += K.knob("Selector", 11.75, 20.25, 4, r=1.0, depth=1.5, tex="cabbezel")
+    els += [bx("SelectorBar", (10.9, 20.0, 1.95), (12.6, 20.5, 2.35), "metaldark", faces=f)]
+    els += cab_plate("Plate", 3.0, 16.75, 13.0, 18.5, 4, "cablabel")
+    els += louvre("Vent", 3.0, 9.0, 10.0, 13.5, 4, 5, tex="switchgear", back="fanwell")
+    els += K.handle("Handle", 13.0, 8.0, 4, length=4.0, axis="y", standoff=0.75, thick=0.75, tex="cabbezel")
+    els += cab_plate("Warn", 4.5, 3.5, 7.0, 6.0, 4, "warn3")
+    els.append(bx("Lock", (12.5, 4.5, 3.0), (13.5, 5.5, 3.5), "cabbezel", faces=f))
+    return els
+
+
+def floor_fan():
+    """(B6) A floor-standing industrial fan: a motor and hub on a post and a cross foot, four pitched blades, and a
+    guard of round-cornered wire rings and a cross of bars before and behind (the old one painted its guards)."""
+    els = [bx("Feet", (3, 0, 7), (13, 1, 9), "metaldark"), bx("FeetZ", (7, 0, 4.5), (9, 1, 11.5), "metaldark"),
+           bx("Post", (7.3, 1, 7.3), (8.7, 6, 8.7), "metaldark"),
+           bx("Motor", (6, 9, 8.5), (10, 13, 12.5), "metaldark"), bx("MotorCap", (6.5, 9.5, 12.5), (9.5, 12.5, 13.25), "metaldark")]
+    els += K.bevelled_box("Hub", (7, 10, 6.25), (9, 12, 8.25), "metal", b=0.25)
+    for nm, frm, to, rot in (("BladeUp", (7.25, 12, 6.9), (8.75, 16, 7.4), (0, 28, 0)), ("BladeDown", (7.25, 6, 6.9), (8.75, 10, 7.4), (0, -28, 0)),
+                             ("BladeLeft", (3, 10.25, 6.9), (7, 11.75, 7.4), (-28, 0, 0)), ("BladeRight", (9, 10.25, 6.9), (13, 11.75, 7.4), (28, 0, 0))):
+        els.append(K.box(nm, frm, to, "fanblade", rot=rot))
+    for side, (z1, z2) in (("F", (5.5, 5.75)), ("B", (9.25, 9.5))):
+        els += [bx(f"Rim{side}T", (2, 16.5, z1), (14, 17, z2), "metaldark"), bx(f"Rim{side}B", (2, 5, z1), (14, 5.5, z2), "metaldark"),
+                bx(f"Rim{side}L", (2, 5.5, z1), (2.5, 16.5, z2), "metaldark"), bx(f"Rim{side}R", (13.5, 5.5, z1), (14, 16.5, z2), "metaldark"),
+                bx(f"Bar{side}V", (7.75, 5.5, z1 + 0.05), (8.25, 16.5, z2 - 0.05), "metaldark"),
+                bx(f"Bar{side}H", (2.5, 10.75, z1 + 0.05), (13.5, 11.25, z2 - 0.05), "metaldark")]
+        for i, (a, b) in enumerate(((4.0, 12.0), (6.0, 10.0))):
+            ya, yb = a + 3, b + 3
+            els += [bx(f"Ring{side}{i}T", (a, yb - 0.5, z1 - 0.05), (b, yb, z2 + 0.05), "metaldark"),
+                    bx(f"Ring{side}{i}B", (a, ya, z1 - 0.05), (b, ya + 0.5, z2 + 0.05), "metaldark"),
+                    bx(f"Ring{side}{i}L", (a, ya + 0.5, z1 - 0.05), (a + 0.5, yb - 0.5, z2 + 0.05), "metaldark"),
+                    bx(f"Ring{side}{i}R", (b - 0.5, ya + 0.5, z1 - 0.05), (b, yb - 0.5, z2 + 0.05), "metaldark")]
+    els += [bx("Strut1", (2, 5, 5.75), (2.5, 5.5, 9.25), "metaldark"), bx("Strut2", (13.5, 16.5, 5.75), (14, 17, 9.25), "metaldark")]
+    return els
+
+
+def generator_panel():
+    """(B6) The generator's control panel as geometry: a plate in a frame, two meters, a row of toggle switches and a
+    red stop button (the old one was a painted picture)."""
+    f = ("north", "east", "west", "up", "down")
+    els = [bx("Panel", (4, 4, 1.5), (12, 10.5, 2), "generatorpanel", faces=f)]
+    els += K.dial("MeterL", 6.0, 8.5, 1.5, r=1.4, angle=-30, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += K.dial("MeterR", 10.0, 8.5, 1.5, r=1.4, angle=40, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    for i, x in enumerate((5.25, 6.75, 8.25, 9.75)):
+        els += [bx(f"SwitchBase{i}", (x - 0.5, 5.5, 1.25), (x + 0.5, 6.5, 1.5), "metaldark", faces=f),
+                bx(f"Switch{i}", (x - 0.2, 5.9 if i % 3 else 5.3, 0.75), (x + 0.2, 6.7 if i % 3 else 6.1, 1.25), "steel", faces=f)]
+    els += [bx("StopRing", (10.75, 4.75, 1.25), (11.75, 5.75, 1.5), "metaldark", faces=f),
+            bx("Stop", (10.9, 4.9, 0.85), (11.6, 5.6, 1.25), "redmetal", faces=f)]
+    return els
+
+
+def control_desk():
+    """(B6) An operator's desk: the body and a sloping panel as before, but its buttons, switches and lamps are boxes
+    on the slope and its meters are dials on the backboard (the old ones were painted on)."""
+    rot, org = (-20, 0, 0), (8, 11, 4)
+    f = ("north", "east", "west", "up", "down")
+    els = [bx("Body", (0, 0, 4), (16, 11, 16), "switchgear"),
+           bx("Panel", (0, 11, 4), (16, 12, 14), "switchgearpanel", faces=("up",), rot=rot, origin=org),
+           bx("PanelSides", (0, 11, 4), (16, 12, 14), "metaldark", faces=("north", "east", "west", "down"), rot=rot, origin=org),
+           bx("Backboard", (0, 11, 14), (16, 22, 16), "switchgear", faces=("east", "west", "up", "south")),
+           bx("BackPanel", (0, 11, 14), (16, 22, 16), "switchgearpanel", faces=("north",))]
+    for i in range(8):  # a row of buttons
+        x = 1.5 + i * 1.75
+        els.append(bx(f"Button{i}", (x, 12, 5.0), (x + 1.0, 12.5, 6.0), "steel" if i % 3 else "metaldark", faces=f, rot=rot, origin=org))
+    for i in range(5):  # toggles
+        x = 2.5 + i * 2.75
+        els.append(bx(f"Toggle{i}", (x, 12, 8.0), (x + 0.5, 13.0, 8.5), "steel", faces=f, rot=rot, origin=org))
+    for i, (x, tex) in enumerate(((3, "cablampred"), (6.5, "lampgreen"), (10, "lampgreen"), (13, "cablampamber"))):
+        els.append(bx(f"Lamp{i}", (x - 0.5, 12, 11.0), (x + 0.5, 12.5, 12.0), tex, glow=100 if tex == "lampgreen" else 0,
+                      faces=f, rot=rot, origin=org, uv=[0, 0, 16, 16]))
+    for i, (x, a) in enumerate(((2.75, -30), (6.25, 20), (9.75, -10), (13.25, 45))):
+        els += K.dial(f"Meter{i}", x, 18.0, 14, r=1.5, angle=a, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += cab_plate("Plate", 4.0, 13.0, 12.0, 14.75, 14, "cablabel")
+    return els
+
+
+def coal_lumps():
+    """Lumps of coal on and round the heap: small boxes of a few sizes, each turned a little about its upright."""
+    import random as _r
+    from detail_kit import seed_of
+    rng = _r.Random(seed_of("coallumps"))
+    out = []
+    spots = [(rng.uniform(2, 14), 3, rng.uniform(2, 14)) for _ in range(9)] + [(rng.uniform(4, 12), 6, rng.uniform(4, 11)) for _ in range(5)]
+    spots += [(rng.uniform(5.5, 9.5), 8, rng.uniform(5.5, 9.5)) for _ in range(2)] + [(x, 0, z) for x, z in ((0.5, 6), (15.2, 10), (9, 15.3))]
+    for i, (x, y, z) in enumerate(spots):
+        a = rng.uniform(0.6, 1.4)
+        h = a * rng.uniform(0.6, 0.9)
+        x, z = min(15.6 - a / 2, max(0.4 + a / 2, x)), min(15.6 - a / 2, max(0.4 + a / 2, z))
+        out.append(bx(f"Lump{i}", (x - a / 2, y, z - a / 2), (x + a / 2, y + h, z + a / 2), "coal", rot=(0, rng.choice((-22.5, 22.5, 45)), 0),
+                      origin=(x, y, z)))
+    return out
+
+
 def level3():
     cube_block("sanctumstone", "Ashlar Stone", ["plain"], {"plain": "sanctumwall"}, comment="Pale ashlar masonry of a Sanctum")
     cube_block("l3floor", {"grate": "Steel Grating", "hazard": "Marked Concrete", "stone": "Flagstones", "carpet": "Red Carpet"},
@@ -678,22 +845,36 @@ def level3():
                      {"avg": {"north": -0.6, "south": 0.6}.get(side, 0), "var": 0.6}],
         "quantity": {"avg": 0.05, "var": 0.05}, "size": {"avg": 0.08, "var": 0.03}, "particleModel": "Cube",
         "lifeLength": {"avg": 0.5, "var": 0.2}, "vertexFlags": 255, "selfPropelled": False}]
-    # (The gauges' length of pipe is on its own: blind flanges close both its ends)
-    gauges = [bx("Pipe", (0.6, 2, -3), (15.4, 5, 0), "rust", faces=("north", "up", "down")),
-              bx("FlangeW", (0, 1.5, -3.5), (0.6, 5.5, 0), "metal"), bx("FlangeE", (15.4, 1.5, -3.5), (16, 5.5, 0), "metal"),
-              bx("Stem1", (4.5, 5, -2), (5.5, 7, -1), "metal"), bx("Stem2", (11, 5, -2), (12, 8, -1), "metal")] + \
-        plate("Gauge1", (2.5, 7, -2.6), (7.5, 12, -1.4), "gauge", "metaldark") + plate("Gauge2", (9, 8, -2.6), (14, 13, -1.4), "gauge", "metaldark")
+    # (The gauges' length of pipe is on its own: blind flanges close both its ends.) (B6) The pipe is round, as the
+    # wall pipes are, and the gauges are geometry: a bevelled case, a printed dial in an octagonal bezel, a needle and
+    # hub, each on a stem from the pipe (the old ones were painted on plates)
+    gauges = (round_pipe("Pipe", 3.5, -1.6, 1.5, "wallrust", 0.75, 15.25)
+              + round_pipe("FlangeW", 3.5, -1.6, 2.2, "flange", 0.25, 0.75, shaded=False, faces=("east", "west"))
+              + round_pipe("FlangeE", 3.5, -1.6, 2.2, "flange", 15.25, 15.75, shaded=False, faces=("east", "west"))
+              + [bx("Stem1", (4.5, 4.9, -1.85), (5.25, 7.05, -1.1), "flange"), bx("Stem2", (10.9, 4.9, -1.85), (11.65, 7.65, -1.1), "flange")]
+              + K.gauge("Gauge1", 4.875, 9.25, -0.4, r=2.2, angle=-50, face="cabdial", body="cabbezel", needle="cabneedle", depth=1.6, stem=False)
+              + K.gauge("Gauge2", 11.275, 10.25, -0.4, r=2.6, angle=35, face="cabdial", body="cabbezel", needle="cabneedle", depth=1.6, stem=False))
     decors = [
-        Decor("dangersign", "Danger Sign", {2: plate("Sign", (3, 3, -0.4), (13, 13, 0), "dangersign", "steel")}),
+        Decor("dangersign", "Danger Sign", {2: plate("Sign", (3, 3, -0.4), (13, 13, 0), "dangersign", "steel") + rivets("Sign", 3, 3, 13, 13, -0.4)}),
         Decor("gauges", "Pressure Gauges", {2: gauges}),
         Decor("knifeswitch", "Knife Switch", {2: [bx("Slate", (3, 1, -1), (13, 15, 0), "slate"),
                                                   bx("BladeL", (5, 4, -3), (6, 12, -1), "copper"), bx("BladeR", (10, 4, -3), (11, 12, -1), "copper"),
                                                   bx("Handle", (4, 11, -4), (12, 12.5, -3), "rubber"),
                                                   bx("ClipL", (4.5, 2, -1.8), (6.5, 4, -1), "copper"), bx("ClipR", (9.5, 2, -1.8), (11.5, 4, -1), "copper")]}),
+        # (B6) A cast box with a lid a size larger screwed on at the corners, the conduits in couplings
         Decor("junctionbox", "Junction Box", {
-            2: [bx("Box", (4, 2, -3), (12, 11, 0), "metaldark"), bx("ConduitL", (5, 11, -1.5), (6.5, 16, 0), "metal"),
-                bx("ConduitR", (9.5, 11, -1.5), (11, 16, 0), "metal")],
-            3: [bx("ConduitL", (5, 0, -1.5), (6.5, 16, 0), "metal"), bx("ConduitR", (9.5, 0, -1.5), (11, 16, 0), "metal")]}),
+            2: [bx("Box", (4.25, 2.25, -2.5), (11.75, 10.75, 0), "l3paint", faces=("north", "east", "west", "up", "down")),
+                bx("Lid", (4, 2, -3), (12, 11, -2.5), "l3paint", faces=("north", "east", "west", "up", "down"))]
+            + rivets("Lid", 4, 2, 12, 11, -3, inset=0.6)
+            + cab_plate("Label", 5.5, 8.25, 10.5, 9.75, -3, "cablabel")
+            + [bx("CouplingL", (4.75, 10.75, -1.75), (6.75, 11.75, 0), "metal", faces=("north", "east", "west", "up", "down")),
+               bx("CouplingR", (9.25, 10.75, -1.75), (11.25, 11.75, 0), "metal", faces=("north", "east", "west", "up", "down")),
+               bx("ConduitL", (5, 11.75, -1.5), (6.5, 16, 0), "metal", faces=("north", "east", "west")),
+               bx("ConduitR", (9.5, 11.75, -1.5), (11, 16, 0), "metal", faces=("north", "east", "west"))],
+            3: [bx("ConduitL", (5, 0, -1.5), (6.5, 16, 0), "metal", faces=("north", "east", "west")),
+                bx("ConduitR", (9.5, 0, -1.5), (11, 16, 0), "metal", faces=("north", "east", "west")),
+                bx("StrapL", (4.5, 7.5, -1.75), (7, 8.5, 0), "metal", faces=("north", "east", "west", "up", "down")),
+                bx("StrapR", (9, 7.5, -1.75), (11.5, 8.5, 0), "metal", faces=("north", "east", "west", "up", "down"))]}),
         Decor("sparkoutlet", "Sparking Outlet", {1: plate("Outlet", (5.5, 4, -0.5), (10.5, 10, 0), "outletburnt", "metaldark") +
                                                  [bx("Wire", (8, 0, -1), (8.6, 4, -0.4), "cable"), bx("Tip", (7.9, -0.3, -1.1), (8.7, 0.3, -0.3), "copper")]},
               particles=sparks),
@@ -709,23 +890,12 @@ def level3():
         Decor("alarmbell", "Alarm Bell", {3: [bx("Plate", (6, 4, -0.6), (10, 11, 0), "metaldark")] + cyl("Bell", 8, -2.2, 3, 5, 10, "redmetal") +
                                           [bx("Striker", (7.5, 4, -2.5), (8.5, 5, -1.5), "metal")]}),
         # (The cables' ends are closed: where the run stops beside a fitting they end solid, not hollow)
-        Decor("wallcables", "Cable Run", {3: [bx("C1", (0, 4, -1.5), (16, 5.5, 0), "cable", faces=("north", "up", "down", "east", "west")),
-                                              bx("C2", (0, 6, -2), (16, 8, 0), "cable", faces=("north", "up", "down", "east", "west")),
-                                              bx("C3", (0, 9, -1.2), (16, 10, 0), "cable", faces=("north", "up", "down", "east", "west")),
-                                              bx("Clamp", (7, 3.5, -2.3), (9, 10.5, 0), "metal"),
-                                              bx("Droop", (11, 1, -1.8), (12, 4, -0.8), "cable")]}),
+        # (B6) Round cables (two crossed boxes each), held to the wall by saddle clips every half block
+        Decor("wallcables", "Cable Run", {3: wall_cables() + [bx("Droop", (11, 1, -1.8), (12, 3.95, -0.8), "cable")]}),
         # (From a flanged foot on the floor up into the ceiling: a gallery's taller wall gets a fourth length)
-        Decor("risers", "Hot Pipes", {1: [bx("Hot", (4, 1, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
-                                          bx("Rusty", (10, 1, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west")),
-                                          bx("FootHot", (3.4, 0, -4.6), (8.6, 1, 0), "metal", faces=("north", "east", "west", "up")),
-                                          bx("FootRusty", (9.4, 0, -3.6), (13.1, 1, 0), "metal", faces=("north", "east", "west", "up"))],
-                                      2: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
-                                          bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west")),
-                                          bx("Clamp", (3.5, 9, -4.5), (13, 10.5, 0), "metal")],
-                                      3: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
-                                          bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west"))],
-                                      4: [bx("Hot", (4, 0, -4), (8, 16, 0), "lagging", faces=("north", "east", "west")),
-                                          bx("Rusty", (10, 0, -3), (12.5, 16, 0), "rust", faces=("north", "east", "west"))]}),
+        # (B6) Round, in the wall pipes' own skins: a lagged pipe and a bare one, standing in flanged feet, held by a
+        # strut with a clamp round each half way up the room
+        Decor("risers", "Hot Pipes", {1: risers(1, foot=True), 2: risers(0, strut=True), 3: risers(0), 4: risers(0)}),
         # Purpification (layout version 5): a dead thing, a hound by its build, half noclipped into the wall at the
         # floor, its head, shoulders and forelegs out, and it and the wall round it "completely purple" (Wikidot),
         # glowing faintly
@@ -739,10 +909,18 @@ def level3():
                 bx("EarL", (5.8, 4.8, -8), (6.8, 7, -7), "purpskin", glow=70), bx("EarR", (9.2, 4.8, -8), (10.2, 7, -7), "purpskin", glow=70),
                 bx("LegL", (3.5, 0, -9), (5, 1.4, -2.5), "purpskin", glow=70), bx("PawL", (3, 0, -10.8), (5.4, 1, -9), "purpskin", glow=70),
                 bx("LegR", (11, 2, -5), (12.5, 7.5, -3.5), "purpskin", glow=70),
-                bx("ForeR", (11, 0, -8.5), (12.5, 2.5, -4), "purpskin", glow=70), bx("PawR", (10.6, 0, -10.2), (13, 1, -8.5), "purpskin", glow=70)],
+                bx("ForeR", (11, 0, -8.5), (12.5, 2.5, -4), "purpskin", glow=70), bx("PawR", (10.6, 0, -10.2), (13, 1, -8.5), "purpskin", glow=70),
+                # (B6) the growth: swellings on the ribs and skull, and pores that glow
+                bx("LumpA", (5.5, 6.5, -4.6), (8, 8.6, -3.5), "purpskin", glow=80), bx("LumpB", (9, 3.5, -4.5), (11, 5.5, -3.6), "purpskin", glow=80),
+                bx("LumpC", (7.2, 4.8, -9.2), (9.6, 5.6, -7.2), "purpskin", glow=95), bx("LumpD", (3.8, 1.4, -6.2), (5.2, 2.6, -4.2), "purpskin", glow=80),
+                bx("Pore1", (6.4, 7.6, -4.85), (7.1, 8.3, -4.6), "purpglow", glow=200), bx("Pore2", (9.7, 4.4, -4.75), (10.3, 5.0, -4.5), "purpglow", glow=200),
+                bx("Pore3", (8.0, 3.2, -10.25), (8.7, 3.9, -10.0), "purpglow", glow=220),
+                bx("WallLump1", (1.5, 9.5, -0.6), (4, 12, 0), "purpskin", glow=60, faces=("north", "east", "west", "up", "down")),
+                bx("WallLump2", (12, 10.5, -0.5), (14.5, 12.5, 0), "purpskin", glow=60, faces=("north", "east", "west", "up", "down"))],
             2: [bx("Stain", (0, 0, -0.06), (16, 16, 0), "purpwall-upper", glow=40, faces=("north",), full=True)]},
             light=[50, 6, 5]),
-    ] + [Decor(f"roomsign{i}", "Room Sign", {2: plate("Sign", (3, 4, -0.3), (13, 13, 0), f"roomsign{i}", "white")}) for i in range(8)]
+    ] + [Decor(f"roomsign{i}", "Room Sign", {2: plate("Sign", (3, 4, -0.3), (13, 13, 0), f"l3plaque{i}", "white") + rivets("Sign", 3, 4, 13, 13, -0.3)})
+         for i in range(8)]
     for material in ("glazed", "brick", "cinder"):
         wall_family(f"l3deco{material}", "Level 3 Wall", {1: material}, decors)
     wall_family("l3decostone", "Ashlar Stone", {1: "sanctumwall"}, [d for d in decors if d.code == "bulkhead"])
@@ -753,37 +931,20 @@ def level3():
         bx("Ring1", (6.5, 16, 6.5), (9.5, 16.8, 9.5), "insulator"), bx("Ring2", (6.5, 18, 6.5), (9.5, 18.8, 9.5), "insulator"),
         bx("Terminal", (7.5, 20, 7.5), (8.5, 22, 8.5), "copper")], box=(0.12, 0, 0.12, 0.88, 1.35, 0.88), oriented=False,
          material="Metal", sounds=METAL, extra={"sounds": dict(METAL, ambient="backrooms:ambient/transformer", ambientBlockCount=6)})
-    prop("switchgear", "Switchgear Cabinet", [
-        bx("Body", (0.5, 0, 4), (15.5, 30, 15.5), "switchgear"),
-        bx("Front", (1, 1, 3.6), (15, 29, 4), "switchgearfront", glow=30, faces=("north",), full=True),
-        bx("Top", (0, 30, 3.5), (16, 31, 16), "metaldark")], box=(0.03, 0, 0.22, 0.97, 1.9, 0.97), material="Metal", sounds=METAL)
-    prop("floorfan", "Industrial Fan", [
-        bx("Feet", (3, 0, 7), (13, 1, 9), "metaldark"), bx("Post", (7.3, 1, 7.3), (8.7, 6, 8.7), "metaldark"),
-        # (the grilles a hair inside the rim's faces)
-        bx("GrilleF", (2, 5, 5.55), (14, 17, 6), "fancage", faces=("north", "south"), full=True),
-        bx("GrilleB", (2, 5, 9), (14, 17, 9.45), "fancage", faces=("north", "south"), full=True),
-        bx("RimT", (2, 16.5, 5.5), (14, 17, 9.5), "metaldark"), bx("RimB", (2, 5, 5.5), (14, 5.5, 9.5), "metaldark"),
-        bx("RimL", (2, 5, 5.5), (2.5, 17, 9.5), "metaldark"), bx("RimR", (13.5, 5, 5.5), (14, 17, 9.5), "metaldark"),
-        bx("BladeH", (4, 10.5, 7), (12, 11.5, 7.5), "metal"), bx("BladeV", (7.5, 7, 7), (8.5, 15, 7.5), "metal"),
-        bx("Hub", (7, 10, 6.5), (9, 12, 8), "metal"), bx("Motor", (6, 9, 9.5), (10, 13, 13), "metaldark")],
-         box=(0.12, 0, 0.3, 0.88, 1.1, 0.85), material="Metal", sounds=METAL)
+    prop("switchgear", "Switchgear Cabinet", switchgear(), box=(0.03, 0, 0.22, 0.97, 1.9, 0.97), material="Metal", sounds=METAL)
+    prop("floorfan", "Industrial Fan", floor_fan(), box=(0.12, 0, 0.3, 0.88, 1.1, 0.85), material="Metal", sounds=METAL)
     prop("generator", "Generator", [
         bx("Skid", (0, 0, 1), (16, 2, 15), "metaldark"), bx("Body", (1, 2, 2), (15, 12, 14), "generator"),
-        bx("Panel", (4, 4, 1.6), (12, 10, 2), "generatorpanel", faces=("north",), full=True),
         bx("Exhaust", (12, 12, 10), (14, 18, 12), "rust"), bx("Cap", (11.5, 18, 9.5), (14.5, 18.6, 12.5), "rust"),
-        bx("Filler", (3, 12, 9), (5, 13.5, 11), "metaldark"), bx("Grille", (14.9, 4, 4), (15.2, 11, 12), "fancage", faces=("east",), full=True)],
+        bx("Filler", (3, 12, 9), (5, 13.5, 11), "metaldark")] + generator_panel() +
+        K.turn(louvre("Grille", 4.5, 4, 11.5, 10.5, 1.0, 4, tex="metaldark", back="fanwell"), 3),
          box=(0, 0, 0.06, 1, 0.85, 0.94), material="Metal", sounds=METAL,
          extra={"sounds": dict(METAL, ambient="backrooms:ambient/transformer", ambientBlockCount=4)})
     prop("cablespool", "Cable Spool", [
         bx("FlangeL1", (0, 1, 3), (1.5, 14, 13), "spoolwood"), bx("FlangeL2", (0, 3, 1), (1.5, 12, 15), "spoolwood"),
         bx("FlangeR1", (14.5, 1, 3), (16, 14, 13), "spoolwood"), bx("FlangeR2", (14.5, 3, 1), (16, 12, 15), "spoolwood"),
         bx("Drum", (1.5, 2, 3), (14.5, 13, 13), "cable")], box=(0, 0, 0.06, 1, 0.88, 0.94), oriented=False)
-    prop("controldesk", "Control Desk", [
-        bx("Body", (0, 0, 4), (16, 11, 16), "switchgear"),
-        bx("Panel", (0, 11, 4), (16, 12, 14), "controlpanel", faces=("up",), full=True, rot=(-20, 0, 0), origin=(8, 11, 4)),
-        bx("PanelSides", (0, 11, 4), (16, 12, 14), "metaldark", faces=("north", "east", "west", "down"), rot=(-20, 0, 0), origin=(8, 11, 4)),
-        bx("Backboard", (0, 11, 14), (16, 22, 16), "switchgear", faces=("east", "west", "up", "south")),
-        bx("Meters", (0, 11, 14), (16, 22, 16), "switchgearfront", faces=("north",), full=True)],
+    prop("controldesk", "Control Desk", control_desk(),
          box=(0, 0, 0.25, 1, 1.35, 1), material="Metal", sounds=METAL)
     conveyor = [bx("SideL", (0, 6, 2), (16, 9, 3), "metaldark"), bx("SideR", (0, 6, 13), (16, 9, 14), "metaldark"),
                 bx("Belt", (0, 8.2, 3), (16, 9, 13), "conveyorbelt"),
@@ -792,11 +953,20 @@ def level3():
                 bx("Brace", (1, 2, 3), (2.5, 3, 13), "metaldark"), bx("Brace2", (13.5, 2, 3), (15, 3, 13), "metaldark")]
     prop("conveyor", "Conveyor Belt", {"empty": conveyor, "box": conveyor + carton("Parcel", (4, 9, 4), (12, 15, 12))},
          box=(0, 0, 0.125, 1, 0.56, 0.875), material="Metal", sounds=METAL)
+    # (B6) A stepped foot, a stem with two knops, arms that turn up into a drip pan under each candle, wax run down the
+    # candles; the candles themselves are where they were (the flames are placed on their tops)
     prop("candelabra", "Candelabra", [
-        bx("Base", (6, 0, 6), (10, 1, 10), "brass"), bx("Stem", (7.5, 1, 7.5), (8.5, 14, 8.5), "brass"),
-        bx("Arms", (3, 13, 7.5), (13, 14, 8.5), "brass"),
+        bx("Foot", (5.25, 0, 5.25), (10.75, 0.75, 10.75), "brass"), bx("FootStep", (6.25, 0.75, 6.25), (9.75, 1.5, 9.75), "brass"),
+        bx("Stem", (7.5, 1.5, 7.5), (8.5, 15, 8.5), "brass", faces=("north", "east", "south", "west")),
+        bx("Knop1", (7, 4.5, 7), (9, 5.5, 9), "brass"), bx("Knop2", (7.1, 10, 7.1), (8.9, 10.75, 8.9), "brass"),
+        bx("Arms", (3.5, 12.5, 7.6), (12.5, 13.25, 8.4), "brass"),
+        bx("RiserL", (3.1, 12.5, 7.6), (3.9, 13.5, 8.4), "brass"), bx("RiserR", (12.1, 12.5, 7.6), (12.9, 13.5, 8.4), "brass"),
+        bx("PanL", (2.25, 13.5, 6.75), (4.75, 14, 9.25), "brass"), bx("PanR", (11.25, 13.5, 6.75), (13.75, 14, 9.25), "brass"),
+        bx("PanM", (6.75, 14.5, 6.75), (9.25, 15, 9.25), "brass"),
         bx("CandleL", (3, 14, 7.5), (4, 18, 8.5), "tubewarm", glow=180), bx("CandleM", (7.5, 15, 7.5), (8.5, 19, 8.5), "tubewarm", glow=180),
-        bx("CandleR", (12, 14, 7.5), (13, 18, 8.5), "tubewarm", glow=180)],
+        bx("CandleR", (12, 14, 7.5), (13, 18, 8.5), "tubewarm", glow=180),
+        bx("WaxL", (2.8, 14, 7.3), (3.4, 16.2, 7.6), "wax"), bx("WaxM", (8.1, 15, 7.3), (8.7, 16.6, 7.6), "wax"),
+        bx("WaxR", (12.6, 14, 8.4), (13.2, 15.6, 8.7), "wax")],
          box=(0.3, 0, 0.3, 0.7, 1.1, 0.7), oriented=False, material="Metal", sounds=METAL, light=[6, 5, 10],
          extra={"particleProperties": CANDELABRA_FLAMES})
     # The Sanctum's angel: nearly three blocks tall on a darker pedestal, so it reads down the length of the nave: a
@@ -1178,8 +1348,10 @@ def level5():
         bx("LegC", (6, 0, 24), (8, 9, 26), "pianoblack"), bx("Pedals", (6, 0, 0), (10, 2, 2), "brass"),
         bx("Bench", (3, 4, -10), (13, 7, -5), "velvet"), bx("BenchLegs", (3.5, 0, -9.5), (12.5, 4, -5.5), "pianoblack")],
          box=(0, 0, 0, 1, 0.85, 1), material="Wood", sounds=WOOD)
+    # (B6) The heap's three tiers now have lumps of coal on and round them, each its own box, turned a little
     prop("coalpile", "Coal", [
-        bx("Heap1", (1, 0, 1), (15, 3, 15), "coal"), bx("Heap2", (3, 3, 3), (13, 6, 12), "coal"), bx("Heap3", (5, 6, 5), (10, 8, 10), "coal"),
+        bx("Heap1", (1, 0, 1), (15, 3, 15), "coal"), bx("Heap2", (3, 3, 3), (13, 6, 12), "coal"), bx("Heap3", (5, 6, 5), (10, 8, 10), "coal")]
+        + coal_lumps() + [
         bx("Handle", (11, 4, 10), (12, 16, 11), "wood", rot=(0, 0, 15), origin=(11.5, 4, 10.5)),
         bx("Blade", (10, 2, 9.5), (13, 6, 10.1), "metaldark")], box=(0.06, 0, 0.06, 0.94, 0.5, 0.94), oriented=False, sounds=STONE)
 

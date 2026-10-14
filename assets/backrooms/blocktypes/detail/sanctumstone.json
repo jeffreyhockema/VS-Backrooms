@@ -22,7 +22,15 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/detail/sanctumwall"
+				"base": "block/detail/sanctumwall",
+				"alternates": [
+					{
+						"base": "block/detail/sanctumwall-2"
+					},
+					{
+						"base": "block/detail/sanctumwall-3"
+					}
+				]
 			}
 		}
 	},

@@ -69,6 +69,17 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (D1) A JSON shape on a block that the generator stacks (crates) must stay inside its block, except for parts that
   lie inside the block above's own solid geometry (nail tips, straw on the rim under the next crate's walls).
 
+- (B6) The first client session after a long gap shot the whole of Level 3 25-45 levels darker than every later one (the
+  lights glowed, the rooms did not). Three spots retaken at once came out at the normal brightness, and a full reshoot
+  was then pixel-identical to them. Always retake two or three spots before trusting a run, not only a baseline.
+- (B6) A wall decoration is on one face of its wall only, the one toward its pier (West, East, North, South = 0..3 in
+  the harness grid). A spot finder that faces any open side of the wall frames a bare wall.
+- (B6) Overhead runs that repeat every block (cable trays) must read as a plain run from below: a ladder tray of rungs
+  and tall rails made every ceiling a lattice at 3-6 blocks and was graded C. Give them a solid bottom.
+- (B6) Versions of a wall drawn with `matlib.brick(tones=)` share one face and joint texture, so they mix without a
+  patchwork. A unit that runs across the block edge keeps one shade in every version, or the version beside it cuts
+  it in two. Shift every version by the same amount when matching the old mean (`gen_textures.match_rgb` with a key).
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -80,8 +91,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B4 Level 1 | gfx/B4 | merged | 2 | steel door as model, floors/ceiling C+, pillar body, tent fly, emptied crate; cars/cameras/signs/first-aid untouched | passed 2026-10-14 02:00 (Fable): floor grid gone, walls formed; Level 1 baseline reshot (B0 one was brighter) |
 | B5 Level 2 | gfx/B5 | merged | 2 | tunnel concrete/ceiling C+, door leaf painted, tram body C+; hazard panels, drums, trolley untouched | passed 2026-10-14 03:15 (Fable): gauges and tram verified as geometry on sidebyside |
 | D1 follow-up on B3, B4, B5 decisions | gfx/D1 | merged | offline only (not shot) | | | passed 2026-10-14 13:20 (Fable): wallpaper and floor mocks seamless, box/crate previews checked; user approved in play |
-| B6 Level 3 | gfx/B6 | in progress | | | |
-| B7 Level 4 | | not started | | | |
+| B6 Level 3 | gfx/B6 | merged | 2 | Purpified (C+), floor fan unseen, risers' painted roundness, OUT OF BOUNDS plaque unseen | passed 2026-10-14 15:40 (Fable): panels/fans verified as geometry, brick tone kept |
+| B7 Level 4 | gfx/B7 | in progress | | | |
 | B8 Level 5 | | not started | | | |
 | B9 Levels 6 and 6.1 | | not started | | | |
 | B10 Levels 7 and 8 | | not started | | | |
@@ -853,3 +864,109 @@ and every item still wants an in-game look before it is called done.
 - `evidence.py` and `evidence2.py`: they rebuild `review/d1/offline`.
 
 If the mock floors and walls prove useful, they would belong in `tools/texsheet.py` as a `--mix` mode.
+
+### B6
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B6` from `main`, uncommitted. Two rounds: one blind review (round 1), then a fix and a reshoot. The round-2 grades are mine.
+
+- **Final sheets:** `review/b6/compare-round2.jpg` (every spot) and `review/b6/compare-round2-detail.jpg` (24 key spots at twice the size). After shots are in `review/b6/final/`. Round 1 is in `review/b6/compare-round1*.jpg` (shots in `review/b6/after/`).
+- **Per-family pairs:** `review/b6/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B6.json`. The B6 section is added to `review/compare.html`.
+- **Decision table:** twelve rows added to `decisions.md`, decision column empty.
+- **Offline evidence** (`review/b6/offline/`):
+  - `tile-<family>-<before|after>.png`: texsheets with vanilla references;
+  - `mock-<surface>-6x3.png`: the blocktype's real mix, at 4x and averaged;
+  - `preview-<family>.png`: models before and after;
+  - `harness/`: layouthash and validate output;
+  - the scratch tools in `tools/`.
+
+**Checks**
+- Build: 0 warnings, 0 errors (`tools/locked.sh mod gfx`).
+- `layouthash`: v1 and v4 match D1's output line for line (`review/b6/offline/harness/layouthash-v*.txt`). No C# changed.
+- `validatelevel 3` (`SPAWN=16000`, 24 cells): both arrivals have 0 unreachable tiles, 0 doorways to nowhere, 0 blocked doorways and 0 bad decor (`harness/validate3.txt`).
+- No block, item or entity code, variant group or class was added, renamed or removed. No layout version. Only textures, shapes and texture lists changed, so B6 was shot in `gfxreview`. `DetailBlocks.g.cs` and `en.json` are unchanged.
+- `check_zfight` is clean on every new shape. The hits left were already there: statue arms and wings, the control desk backboard and the switchgear cap on the block edge, and the coal heap against its shovel.
+- Brightness: every final shot is within 3 levels of the new baseline except these (`review/b6/luma-final.txt`):
+  - `close-wall` (-8): the wall itself is unchanged (55.2 to 55.6). The riser in frame now wears the wall pipes' own lagging skin, which is darker than the old flat cream.
+  - `close-light` (-6), `tray-close` (-4), `risers-close` (-4): the trays and risers themselves.
+- Deleted textures, only used by the replaced shapes: `level3/panel`, `level3/fan`, `detail/switchgearfront`, `detail/fancage`, `detail/controlpanel`. Round 2 also dropped `detail/l3stone-2`. None is in the scratch Mods dir.
+
+**Baseline and spots**
+- `review/baseline/3` is reshot on `build-gfxbase`: unchanged `main`, built from a `git archive` of `main` in `%TEMP%/b6main`, because the tree held B6.
+- The B0 set is kept in `review/baseline/3-b0`. It differed by 2-6 levels except the re-spotted `close-floor` (`review/b6/drift-b0-vs-main.jpg`).
+- The first baseline run was 25-45 levels darker throughout. It is kept in `review/b6/baseline-dark-run1`; see the lessons.
+  - A retake of three spots came out at the normal brightness.
+  - A full reshoot was then pixel-identical to that retake.
+  - A Level 2 check against B5's baseline was within 3 levels.
+- Re-spotted:
+  - `close-floor` stands under a light; the arrival room is unlit.
+  - `den-wide`, `den-close` and `pipeend-close` are now `-inspection` shots (daylight and a lantern). The den and the overhead pipe end are dark by design.
+- Added, all found lit on the harness grid (`review/b6/offline/tools/findspots.py`): `boiler-wide/-close`, `statue-wide/-close`, `vault-close`, `fixtures-wide`, `panel-close`, `fan-close`, `gauges-close`, `tray-close`, `risers-close`, `roomsign-close`, `switchgear-close`, `transformer-close`, `coal-close`. 49 spots in all.
+- `gauges-close` and `roomsign-close` were moved after round 1 (see the lessons) and reshot on both builds.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Walls: brick, glazed tile, cinder | B / B / B- (blind r1: B, B, B-) | same / slightly better / better | Old tones and unit sizes kept; the blind reviewer measured the means unchanged within 1 level. Each unit is now shaded with recessed joints. Three versions per wall share one ground. Round 2 calmed the cinder's black pits and olive/grey swing. |
+| Dusty floor, plaster ceiling | B (r1: B) | better | The blotch in every block (a polka-dot grid) is gone. The floor has three turned, seamless versions; the ceiling has five, with stains about one block in fourteen. Tones kept. The ceiling is flat. |
+| Grating, hazard floor | B- / B (r1: B-, B) | same | Shaded bars; round 2 gave the bars and rods one weight (round 1 read as pinstripes). The stripes are clean at the seams. |
+| Breaker panels | B (r1: B) | much better | Breakers, toggles, label, warning decal, main switch and gland are all geometry. Round 2 dulled the white toggles, which speckled at range. |
+| Wall fans | B- (r1: B-) | better | Housing, rounded opening, four blades, hub, well and guard as geometry. Round 2 has one guard ring and lighter blades (round 1's guard read as a maze). |
+| Cable trays and lights | B- (blind r1: C) | better up close, same at range | Round 1's ladder tray made every ceiling a lattice. Round 2 is a solid trough with low rails, round cables and a strut. The tube and its light are unchanged. |
+| Gauges, risers, wall cables, junction boxes | B+ / B- / B / B | much better / better | Modelled gauges on a round pipe; round risers with feet and clamps; round cables in clips; the junction box with lid, screws and couplings. |
+| Switchgear, control desk, transformer, generator | B+ / B / B+ / B | much better | Meters, lamps, toggles, buttons, louvres and handles are geometry. The transformer has real fins (it painted fins over flat ones) and bushings. |
+| Boiler (shared with Level 5) | B (r1: B) | much better | Riveted octagonal shell, bands, crown, firebox door with hinges and latch, gauge, nameplate, safety valve. Footprint, collision box and steam position unchanged. |
+| Room plaques, OUT OF BOUNDS | B+ (r1: B+) | better | Enamel faces, bevelled and chipped; screws as geometry. |
+| Coal heap | B (r1: B) | same to slightly better | Faceted coal; lumps as boxes. |
+| Sanctum ashlar, flagstones, runner, vault, candelabras | B- / original / B- / B / B- (blind r1: B-, C, C, B, B-) | same | Round 2 restored a mixed-length ashlar bond (r1's running bond lost the character). The flagstones are the original texture again (r1's square grid was worse). The runner has a short even pile (r1 read as red static). Candelabras have drip pans and wax; candles unchanged. |
+| Statue | B (r1: B) | same | Limestone, shaded folds, scalloped feathers. Geometry unchanged. |
+| The Purpified | C+ (r1: C+) | same | Veined wet skin, lumps and glowing pores as geometry. Round 2 gave the stain a ragged edge and fewer veins. It still reads as a stain from most angles. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; asked specifically about tone and geometry):
+   - **Tone:** walls, floors and ceilings kept their original tone within about 1 level of mean; only contrast rose.
+   - **Geometry:** panels, gauges, switchgear, desk, transformer, boiler, generator and plaques read clearly as geometry ("the machine props are the clear win").
+   - **C:** the tray lattice, the runner's grain and the square flagstones.
+   - **B- / C+:** a generic ashlar bond, cinder speckle, grate pinstripes, the fan reading as a maze, and the Purpified as a stamped decal.
+2. **Round 2 fixed those items:**
+   - trays: a solid trough;
+   - runner: a short pile;
+   - flagstones: reverted;
+   - ashlar: a mixed bond;
+   - cinder: calmer;
+   - grate: even weights;
+   - fan: one guard ring and lighter blades;
+   - toggles: duller;
+   - Purpified: a ragged edge.
+
+   Reshot once.
+
+**Carried below B, with reasons**
+- **The Purpified (C+):** it is a single decal on two wall blocks plus a small carcass. Reading as a growth wants a larger lumpy model across several blocks, which means a new decoration footprint (layout).
+- **Floor fan:** in no shot (generator rooms only). Judged on the preview: the guard is dark and thin.
+- **Risers:** the roundness is the wall pipes' baked gradient, as B5's wall pipes are; it is consistent with them.
+- **Not touched:**
+  - bulkhead lights (their cage was already geometry, and lights stay as they are)
+  - iron bars (B)
+  - manhole ring (painted, rare)
+  - window glow (in no shot)
+  - coil unit, conveyor, cable spool
+  - knife switch, alarm bell, sparking outlet
+  - the tar pipe bundles' painted joint (they are Level 2's shapes)
+  - the doorway `roomsign-N` cubes
+- **Clay:** the flooded tunnel's clay is vanilla raw clay, out of scope.
+- **Shared assets that changed elsewhere:**
+  - `dustyfloor`, `plasterceiling` and the boiler: Level 5's boiler bays (B8 should re-judge the boiler there);
+  - `cable`: Level 4's cable droops;
+  - `insulator`: the coil unit;
+  - `stone`: a base in `gen_deep`;
+  - the coal heap, wherever it is placed.
+
+  None of those levels was reshot.
+
+**Tool changes**
+- `matlib.brick(tones=)`: versions that share one ground. Units across the block edge keep one shade. The default output is unchanged; every other texture regenerated byte-identical.
+- New `gen_shapes.round_riser` (vertical round pipe) and `gen_textures.calm_hue` / `match_rgb`.
+- `detail_kit.EXT` gains Level 3 and Level 2 material keys.
+
+**Lessons:** four lines added above.

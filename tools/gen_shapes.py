@@ -151,6 +151,38 @@ def round_pipe(name, yc, zc, r, tex, x1=0.0, x2=16.0, shaded=True, faces=None):
     return out
 
 
+def round_riser(name, xc, zc, r, tex, y1=0.0, y2=16.0, shaded=True, faces=None):
+    """(B6) round_pipe stood upright in front of a wall's north face: seven slabs stepped like a circle of radius `r`
+    about (xc, zc) across X, from y1 to y2. With `shaded`, each slab's front takes the band of a riser texture (the
+    wall-pipe skin turned: U once round the pipe from its east side, the lit one, to its west; V along it, following
+    the block height so a riser runs on from block to block) that its part of the circle stands for."""
+    cuts = (-1.0, -0.86, -0.6, -0.28, 0.28, 0.6, 0.86, 1.0)
+
+    def u(f):  # f = +1 at the east side (x high), seen from the north on the viewer's left
+        return round(16 * (0.5 - math.asin(max(-1.0, min(1.0, f))) / math.pi), 3)
+    out = []
+    for i in range(len(cuts) - 1):
+        lo, hi = cuts[i], cuts[i + 1]
+        mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
+        d = r * math.sqrt(1 - mid * mid)
+        fs = ["north"] + (["east"] if hi > 0 else []) + (["west"] if lo < 0 else [])
+        if faces:
+            fs += [f for f in faces if f not in fs]
+        b = box(f"{name}{i}", (xc + lo * r, y1, zc - d), (xc + hi * r, y2, zc + d), tex, faces=tuple(fs))
+        if shaded:
+            v1, v2 = 16 - y2, 16 - y1
+            b["faces"]["north"]["uv"] = [u(hi), v1, u(lo), v2]
+            if "east" in b["faces"]:
+                b["faces"]["east"]["uv"] = [0, v1, 1.2, v2] if hi >= 1 else [u(hi), v1, u(hi) + 0.3, v2]
+            if "west" in b["faces"]:
+                b["faces"]["west"]["uv"] = [14.8, v1, 16, v2] if lo <= -1 else [u(lo) - 0.3, v1, u(lo), v2]
+            for f in ("up", "down"):
+                if f in b["faces"]:
+                    b["faces"][f]["uv"] = [7, 7, 9, 9]
+        out.append(b)
+    return out
+
+
 # Horizontal pipes bolted to a wall: a rust-red steel pipe above, a canvas-lagged one below, both round and standing
 # half a pixel off the wall. Plain lengths; "joint" has the steel pipe's flanged joint (bolted flanges with a gasket
 # between) and a cladding band round the lagging; "bracket" a channel strut on the wall with a clamp round each pipe.
@@ -735,70 +767,168 @@ def oriented(name, textures, elements):
     save(name, textures, elements)
 
 
+# ---------------- Level 3 fixtures (B6: hardware as geometry, from tools/modelkit.py) ----------------
+
+L3_TEX = {k: f"backrooms:block/level3/{v}" for k, v in (
+    ("l3paint", "panel-paint"), ("l3face", "panel-face"), ("breaker", "breaker"), ("toggle", "toggle"),
+    ("fanhousing", "fan-housing"), ("fanwell", "fan-well"), ("fanblade", "fan-blade"), ("fanguard", "fan-guard"),
+    ("tray", "tray"), ("cable", "cable"), ("warn3", "warning"))}
+
+
+def breaker_panel():
+    """A breaker panel on a wall's north face (z < 0 is out of the wall): a grey enamel box with a raised rim round a
+    dead front, two columns of five bakelite breakers either side of a bus cover, each toggle pointing in toward the
+    bus (on) or out (two have tripped), a label plate and a warning decal; a red main-switch handle on its right side
+    and a conduit in a gland up into the wall above. The old panel painted its breakers on a flat box."""
+    els = [K.box("Box", (3, 1.5, -2.5), (13, 13.5, 0), {"all": "l3paint", "north": "l3face"}, faces=FRONT_ONLY)]
+    rim, _ = K.frame_members("Rim", 3, 1.5, 13, 13.5, -3.0, -2.5, 0.75, "l3paint")
+    for e in rim:
+        e["faces"].pop("south", None)
+    els += rim
+    els.append(K.box("Bus", (7.5, 3.25, -2.75), (8.5, 10.75, -2.5), "l3paint", faces=FRONT_ONLY))
+    tripped = {2, 6}
+    for col, cx in enumerate((5.75, 10.25)):
+        inward = 1 if col == 0 else -1
+        for row in range(5):
+            k, y = col * 5 + row, 4.0 + row * 1.5
+            els.append(K.box(f"Breaker{k}", (cx - 1.5, y - 0.5, -3.0), (cx + 1.5, y + 0.5, -2.5), "breaker", faces=FRONT_ONLY))
+            tx = cx + 0.5 * (-inward if k in tripped else inward)
+            els.append(K.box(f"Toggle{k}", (tx - 0.4, y - 0.25, -3.5), (tx + 0.4, y + 0.25, -3.0), "toggle", faces=FRONT_ONLY))
+    els += cab_plate("Label", 5.0, 11.4, 11.0, 12.6, -2.5, "cablabel")
+    els += cab_plate("Warn", 4.0, 2.4, 5.25, 3.65, -2.5, "warn3")
+    els.append(K.box("SwitchBoss", (13, 7, -2.0), (13.75, 9.5, -0.5), "l3paint", faces=("north", "east", "up", "down")))
+    els.append(K.box("SwitchHandle", (13.75, 7.75, -1.75), (14.5, 12.0, -0.75), "cabneedle"))
+    els.append(K.box("Gland", (6.75, 13.5, -2.25), (9.25, 14.25, 0), "metal", faces=("north", "east", "west", "up")))
+    els.append(K.box("Conduit", (7.25, 14.25, -1.75), (8.75, 16, -0.25), "metal", faces=("north", "east", "west")))
+    return els
+
+
+def wall_fan():
+    """An extract fan set in a wall's north face: a square housing standing 3 px out, its opening rounded by corner
+    fillets, four galvanised blades pitched on a hub over a dark well, behind a guard of crossed wire bars. The old
+    fan painted its guard on a flat plate."""
+    els, openings = K.frame_members("Housing", 2, 2, 14, 14, -3.0, -0.5, 1.5, "fanhousing")
+    for e in els:
+        e["faces"].pop("south", None)
+    els.append(K.box("Flange", (1.5, 1.5, -0.5), (14.5, 14.5, 0), "fanhousing", faces=FRONT_ONLY))
+    els.append(K.box("Well", (3.5, 3.5, -0.75), (12.5, 12.5, -0.5), "fanwell", faces=("north",)))
+    for i, (cx, cy) in enumerate(((3.5, 3.5), (12.5, 3.5), (3.5, 12.5), (12.5, 12.5))):
+        els.append(K.box(f"Fillet{i}", (cx - 1.5, cy - 0.6, -2.75), (cx + 1.5, cy + 0.6, -0.75), "fanhousing",
+                         faces=("north", "up", "down"), rot=(0, 0, 45 if (cx - 8) * (cy - 8) < 0 else -45), origin=(cx, cy, -1.75)))
+    els.append(K.box("Motor", (6.25, 6.25, -1.25), (9.75, 9.75, -0.75), "fanguard", faces=FRONT_ONLY))
+    els += K.bevelled_box("Hub", (7, 7, -2.25), (9, 9, -1.25), "fanguard", b=0.25)
+    for name, frm, to, rot in (("BladeUp", (7.25, 9, -1.95), (8.75, 12.25, -1.55), (0, 28, 0)),
+                               ("BladeDown", (7.25, 3.75, -1.95), (8.75, 7, -1.55), (0, -28, 0)),
+                               ("BladeLeft", (3.75, 7.25, -1.95), (7, 8.75, -1.55), (-28, 0, 0)),
+                               ("BladeRight", (9, 7.25, -1.95), (12.25, 8.75, -1.55), (28, 0, 0))):
+        els.append(K.box(name, frm, to, "fanblade", rot=rot))
+    # the guard: two square rings of wire (rounded at the corners by the fillets behind) and a cross of two bars
+    els.append(K.box("GuardV", (7.75, 3.5, -3.3), (8.25, 12.5, -3.05), "fanguard", faces=("north", "east", "west")))
+    els.append(K.box("GuardH", (3.5, 7.75, -3.05), (12.5, 8.25, -2.8), "fanguard", faces=("north", "up", "down")))
+    for i, (a, b) in enumerate(((4.75, 11.25),)):
+        z1, z2 = -3.55, -3.3
+        els += [K.box(f"Ring{i}T", (a, b - 0.5, z1), (b, b, z2), "fanguard", faces=("north", "up", "down", "east", "west")),
+                K.box(f"Ring{i}B", (a, a, z1), (b, a + 0.5, z2), "fanguard", faces=("north", "up", "down", "east", "west")),
+                K.box(f"Ring{i}L", (a, a + 0.5, z1), (a + 0.5, b - 0.5, z2), "fanguard", faces=("north", "east", "west")),
+                K.box(f"Ring{i}R", (b - 0.5, a + 0.5, z1), (b, b - 0.5, z2), "fanguard", faces=("north", "east", "west"))]
+    return els
+
+
+def tray_x(cables=True):
+    """A cable tray along X under the ceiling: a galvanised trough (a solid bottom and two low side rails; round 2:
+    the first cut's ladder of rungs and tall rails made every ceiling a lattice) with five cables of three sizes in
+    it, round in section (two crossed boxes each); hung on a strut trapeze from two rods into the ceiling."""
+    t = "tray"
+    out = [K.box("Bottom", (0, 11.5, 1.0), (16, 12.0, 15.0), t, faces=("north", "south", "up", "down")),
+           K.box("RailN", (0, 12.0, 1.0), (16, 12.75, 1.5), t, faces=("north", "south", "up")),
+           K.box("RailS", (0, 12.0, 14.5), (16, 12.75, 15.0), t, faces=("north", "south", "up"))]
+    if cables:
+        for i, (zc, r) in enumerate(((3.25, 1.2), (5.75, 1.0), (8.5, 1.45), (11.25, 1.0), (13.0, 0.7))):
+            out.append(K.box(f"Cable{i}", (0, 12.0, zc - r * 0.65), (16, 12.0 + 2 * r, zc + r * 0.65), "cable", faces=("up", "down")))
+            out.append(K.box(f"Cable{i}b", (0, 12.0 + 0.35 * r, zc - r), (16, 12.0 + 1.65 * r, zc + r), "cable",
+                             faces=("north", "south", "up", "down")))
+    out += [K.box("Strut", (7.25, 10.75, 0.25), (8.75, 11.5, 15.75), t),
+            K.box("Rod1", (7.75, 11.5, 0.25), (8.25, 16, 0.75), "metal", faces=("north", "south", "east", "west")),
+            K.box("Rod2", (7.75, 11.5, 15.25), (8.25, 16, 15.75), "metal", faces=("north", "south", "east", "west"))]
+    return out
+
+
+def cable_light(tube_tex, hung):
+    """The dim fluorescent fitting under a tray (or, with `hung`, on chains from the ceiling): a galvanised housing
+    with bevelled edges and a lamp holder at each end, and the tube under it (the same tube as before: the light comes
+    from the blocktype, not the shape)."""
+    lit = tube_tex == "tube"
+    els = K.bevelled_box("Housing", (2, 9.5, 6.5), (14, 11, 9.5), "tray", b=0.25)
+    els += [K.box("HolderW", (1.5, 8.6, 6.9), (2, 10.75, 9.1), "metal"), K.box("HolderE", (14, 8.6, 6.9), (14.5, 10.75, 9.1), "metal"),
+            box("Tube", (2, 8.8, 7), (14, 9.5, 9), tube_tex, glow=255 if lit else 0)]
+    top = 16 if hung else 11.5
+    els += [K.box("Chain1", (4, 11, 7.75), (4.5, top, 8.25), "metal"), K.box("Chain2", (11.5, 11, 7.75), (12, top, 8.25), "metal")]
+    if hung:
+        els += [K.box("Rose1", (3.5, 15.5, 7.25), (5, 16, 8.75), "metal"), K.box("Rose2", (11, 15.5, 7.25), (12.5, 16, 8.75), "metal")]
+    return els
+
+
+def transformer():
+    """Level 3's humming transformer: a tank on a skid with a bolted lid, banks of cooling fins on both sides on
+    header pipes (the old texture painted its fins over flat ones), three porcelain bushings on the lid, each a stem
+    with three sheds and a terminal, a nameplate and a warning decal on the front, and a cable box low down."""
+    body = {"all": "body", "top": "top"}
+    els = [K.box("Skid", (1.5, 0, 2.5), (14.5, 1, 13.5), "fin"),
+           K.box("Tank", (2.5, 1, 3.5), (13.5, 11.5, 12.5), body, faces=("north", "east", "west", "south")),
+           K.box("Lid", (2, 11.5, 3), (14, 12.5, 13), body)]
+    for i, x in enumerate((3, 5.5, 8, 10.5, 13)):
+        for j, z in enumerate((3.25, 12.25)):
+            els.append(K.box(f"Bolt{i}{j}", (x - 0.25, 12.5, z), (x + 0.25, 12.75, z + 0.5), "metal", faces=("north", "south", "east", "west", "up")))
+    for side, xa, xb, (ha, hb) in (("W", 0.25, 1.75, (1.0, 2.5)), ("E", 14.25, 15.75, (13.5, 15.0))):
+        els.append(K.box(f"Header{side}Lo", (ha, 1.75, 4.25), (hb, 2.5, 11.75), "fin"))
+        els.append(K.box(f"Header{side}Hi", (ha, 9.75, 4.25), (hb, 10.5, 11.75), "fin"))
+        for i in range(6):
+            z = 4.5 + i * 1.35
+            els.append(K.box(f"Fin{side}{i}", (xa, 2.0, z), (xb, 10.75, z + 0.5), "fin"))
+    for i, x in enumerate((5, 8, 11)):
+        z = 8
+        els.append(K.box(f"Stem{i}", (x - 0.5, 12.5, z - 0.5), (x + 0.5, 16.5, z + 0.5), "insulator", faces=("north", "south", "east", "west")))
+        for k, y in enumerate((13.25, 14.5, 15.75)):
+            els.append(K.box(f"Shed{i}{k}", (x - 1.1, y, z - 1.1), (x + 1.1, y + 0.5, z + 1.1), "insulator"))
+        els.append(K.box(f"Terminal{i}", (x - 0.3, 16.5, z - 0.3), (x + 0.3, 17.25, z + 0.3), "metal"))
+    els += cab_plate("Plate", 4.5, 6.5, 8.5, 8.5, 3.5, "cablabel")
+    els += cab_plate("Warn", 9.75, 6.5, 11.75, 8.5, 3.5, "warn3")
+    els.append(K.box("CableBox", (9.5, 1.75, 2.75), (12.5, 4.5, 3.5), body, faces=FRONT_ONLY))
+    els.append(K.box("Gland", (10.5, 1, 2.9), (11.5, 1.75, 3.4), "metal", faces=("north", "east", "west")))
+    return els
+
+
 def level3():
     cables = {"cable": "backrooms:block/level3/cable", "metal": "backrooms:block/props/metal",
+              "tray": "backrooms:block/level3/tray",
               "tube": "backrooms:block/props/tube-warm", "tubeoff": "backrooms:block/props/tube-off"}
 
-    def cable_x():
-        out = []
-        for i, (y, z, r) in enumerate(((12.5, 2, 1.5), (13, 5, 1), (12, 8, 2), (13.5, 11.5, 1), (12.5, 13.5, 1.5))):
-            out.append(box(f"Cable{i}", (0, y, z), (16, y + r, z + r), "cable", faces=("north", "south", "up", "down")))
-        out.append(box("Tray", (0, 11.5, 1), (16, 12, 15.5), "metal", faces=("north", "south", "up", "down")))
-        out.append(box("Hanger", (7.5, 12, 0.5), (8.5, 16, 1), "metal"))
-        out.append(box("Hanger2", (7.5, 12, 15.5), (8.5, 16, 16), "metal"))
-        return out
-
-    save("cables-run", cables, cable_x())
-    save("cables-hub", cables, cable_x() + thinner([dict(rot(b, 1), name=b["name"] + "Z") for b in cable_x()]) + [
-        box("Box", (4.95, 9, 4.95), (11.05, 16, 11.05), "metal")])  # (a hair wider than the trays' cables meeting it)
+    save("cables-run", cables, tray_x())
+    # Where two trays cross: the one along X runs through, the other's cables cross over its rails into a junction box
+    # (its own rails stop at the neighbouring blocks)
+    cross = [b for b in tray_x() if b["name"].startswith("Cable")]
+    save("cables-hub", cables, tray_x() + thinner([dict(rot(b, 1), name=b["name"] + "Z") for b in cross]) +
+         K.bevelled_box("Box", (4.95, 9, 4.95), (11.05, 16, 11.05), "tray", b=0.5))  # (a hair wider than the cables)
     # A tray ending with open hall beyond it (east end): an end plate the cables run into
-    save("cables-end", cables, cable_x() + [box("EndPlate", (15.5, 11.5, 0.8), (16, 15, 15.7), "metal")])
+    save("cables-end", cables, tray_x() + [box("EndPlate", (15.5, 11.5, 0.8), (16, 15, 15.7), "tray")])
     for state, tex in (("lit", "tube"), ("off", "tubeoff")):
-        save(f"cablelight-{state}", cables, cable_x() + [
-            box("Housing", (2, 9.5, 6.5), (14, 11, 9.5), "metal"),
-            box("Tube", (2, 8.8, 7), (14, 9.5, 9), tex, glow=255 if state == "lit" else 0),
-            box("Chain1", (4, 11, 7.75), (4.5, 11.5, 8.25), "metal"),
-            box("Chain2", (11.5, 11, 7.75), (12, 11.5, 8.25), "metal"),
-        ])
+        save(f"cablelight-{state}", cables, tray_x() + cable_light(tex, False))
         # The same fixture hanging on its chains from the ceiling, with no tray (the middle of a gallery)
-        save(f"cablelight-plain-{state}", cables, [
-            box("Housing", (2, 9.5, 6.5), (14, 11, 9.5), "metal"),
-            box("Tube", (2, 8.8, 7), (14, 9.5, 9), tex, glow=255 if state == "lit" else 0),
-            box("Chain1", (4, 11, 7.75), (4.5, 16, 8.25), "metal"),
-            box("Chain2", (11.5, 11, 7.75), (12, 16, 8.25), "metal"),
-            box("Rose1", (3.5, 15.5, 7.25), (5, 16, 8.75), "metal"),
-            box("Rose2", (11, 15.5, 7.25), (12.5, 16, 8.75), "metal"),
-        ])
+        save(f"cablelight-plain-{state}", cables, cable_light(tex, True))
 
-    save("transformer", {"body": "backrooms:block/level3/transformer", "metal": "backrooms:block/props/metal-dark",
-                         "insulator": "backrooms:block/level3/insulator"}, [
-        box("Tank", (2, 0, 3), (14, 12, 13), "body"),
-        box("FinsWest", (0.5, 1, 4), (2, 11, 12), "metal"),
-        box("FinsEast", (14, 1, 4), (15.5, 11, 12), "metal"),
-        box("Lid", (1.5, 12, 2.5), (14.5, 13, 13.5), "metal"),
-        box("Insulator1", (4, 13, 7), (6, 16, 9), "insulator"),
-        box("Insulator2", (7, 13, 7), (9, 16, 9), "insulator"),
-        box("Insulator3", (10, 13, 7), (12, 16, 9), "insulator"),
-    ])
+    save("transformer", {"body": "backrooms:block/level3/transformer", "fin": "backrooms:block/level3/transformer-fin",
+                         "top": "backrooms:block/level3/transformer-top", "metal": "backrooms:block/props/metal-dark",
+                         "insulator": "backrooms:block/level3/insulator", "cablabel": CABINET_TEX["cablabel"],
+                         "warn3": L3_TEX["warn3"]}, transformer())
 
     for material in ("glazed", "brick", "cinder"):
-        tex = {"wall": f"backrooms:block/level3/l3wall-{material}", **PIPE_TEX, **WALL_PIPE_TEX,
-               "panel": "backrooms:block/level3/panel", "fan": "backrooms:block/level3/fan"}
+        tex = {"wall": f"backrooms:block/level3/l3wall-{material}", **PIPE_TEX, **WALL_PIPE_TEX}
         save(f"l3wall-{material}-pipes", tex, [CUBE("wall")] + all_sides(WALL_PIPES))
         save(f"l3wall-{material}-pipesjoint", tex, [CUBE("wall")] + all_sides(WALL_PIPES + wall_pipe_joint()))
         save(f"l3wall-{material}-pipesbracket", tex, [CUBE("wall")] + all_sides(WALL_PIPES + wall_pipe_bracket()))
-        save(f"l3wall-{material}-panel", tex, [CUBE("wall")] + all_sides([
-            box("Panel", (3, 2, -2.5), (13, 14, 0), "panel", faces=("north", "east", "west", "up", "down")),
-            box("Conduit", (7, 14, -1.5), (9, 16, 0), "metal", faces=("north", "east", "west")),
-        ]))
-        save(f"l3wall-{material}-fan", tex, [CUBE("wall")] + all_sides([
-            box("Housing", (2, 2, -3), (14, 14, -0.5), "metal", faces=("east", "west", "up", "down")),
-            box("Grille", (2.5, 2.5, -3), (13.5, 13.5, -2.5), "fan", faces=("north",)),
-            box("Back", (2, 2, -0.5), (14, 14, 0), "metal", faces=("north",)),
-            box("Hub", (7, 7, -2.5), (9, 9, -1), "metal"),
-            box("BladeV", (7.5, 3.5, -2), (8.5, 12.5, -1.5), "metal"),
-            box("BladeH", (3.5, 7.5, -2), (12.5, 8.5, -1.5), "metal"),
-        ]))
+        ftex = dict(tex, **L3_TEX, cablabel=CABINET_TEX["cablabel"], cabneedle=CABINET_TEX["cabneedle"])
+        save(f"l3wall-{material}-panel", ftex, [CUBE("wall")] + sides_turned(breaker_panel()))
+        save(f"l3wall-{material}-fan", ftex, [CUBE("wall")] + sides_turned(wall_fan()))
 
     # Bars standing in a west-east plane across the middle of the block: round steel (two crossed boxes each), every
     # face showing the whole width of the bar texture's shading so the specular stripe runs down each; the rails take
@@ -874,6 +1004,55 @@ def level4():
         box("Top", (0, 11, 0), (16, 12.5, 16), "wood"),
         box("Leg", (6, 0, 6), (10, 11, 10), "dark"),
     ])
+
+
+# ---------------- The boiler (Level 5's boiler bays and Level 3's boiler rooms; B6) ----------------
+
+BOILER_TEX = {"shell": "backrooms:block/level5/boiler", "band": "backrooms:block/level5/boiler-band",
+              "door": "backrooms:block/level5/boiler-door", "cabdial": CABINET_TEX["cabdial"],
+              "cabneedle": CABINET_TEX["cabneedle"], "cabbezel": CABINET_TEX["cabbezel"], "cablabel": CABINET_TEX["cablabel"]}
+
+
+def octagon(name, cx, cz, a, y1, y2, tex, faces=("north", "east", "south", "west"), lift=0.0):
+    """A regular octagonal prism of apothem `a` about (cx, cz), from y1 to y2: two crossed boxes and the same two
+    turned 45 degrees. Each box's top and bottom sit `lift` x its index higher, so where they overlap their caps do
+    not lie in one plane."""
+    w = a * math.tan(math.radians(22.5))
+    out = []
+    for i, (hx, hz, r) in enumerate(((a, w, 0), (w, a, 0), (a, w, 45), (w, a, 45))):
+        out.append(K.box(f"{name}{i}", (cx - hx, y1 + lift * i, cz - hz), (cx + hx, y2 + lift * i, cz + hz), tex, faces=faces,
+                         rot=(0, r, 0) if r else None, origin=(cx, y1, cz)))
+    return out
+
+
+def boiler():
+    """A vertical coal-fired boiler, front to the north: a round riveted shell (an octagon of plates, in two lifts so
+    the plate texture keeps its scale) on a cast plinth, three iron bands, a stepped crown and the flue rising from it
+    (where the blocktype's steam leaves, 26/16 up at 8, 9), a safety valve; on the front a firebox door on hinges with
+    a latch and a peep slot, a nameplate and a pressure gauge as geometry. The old one was a box with a painted rivet
+    grid and a flat plate for the gauge."""
+    cx, cz, a = 8.0, 8.5, 6.5
+    els = octagon("Plinth", cx, cz, 7.2, 0, 1.5, "band", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("ShellLo", cx, cz, a, 1.5, 13.5, "shell")
+    els += octagon("ShellHi", cx, cz, a, 13.5, 24, "shell")
+    for k, y in enumerate((6.5, 13.1, 19.5)):
+        els += octagon(f"Band{k}", cx, cz, a + 0.3, y, y + 0.8, "band", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    els += octagon("Crown", cx, cz, a - 0.75, 24, 25, "band", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("Dome", cx, cz, a - 2.25, 25, 26, "shell", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += [K.box("Collar", (5.5, 26, 6.5), (10.5, 27, 11.5), "band"),
+            K.box("Flue", (6, 27, 7), (10, 32, 11), "rust", faces=("north", "east", "south", "west")),
+            K.box("ValveBody", (10.75, 26, 4.75), (12.25, 28, 6.25), "band"),
+            K.box("ValveLever", (9.5, 28, 5.25), (13.5, 28.5, 5.75), "rust"),
+            K.box("ValveWeight", (9, 27.25, 5), (10, 28.25, 6), "band")]
+    z = cz - a  # the front plate
+    els += K.bevelled_box("Door", (5, 3.25, z - 0.75), (11, 9.75, z), "door", b=0.25)
+    els += K.hinge("Hinge1", 11, 3.75, 5.25, z - 0.75, tex="band", side="right")
+    els += K.hinge("Hinge2", 11, 7.75, 9.25, z - 0.75, tex="band", side="right")
+    els += K.handle("Latch", 6.5, 6.5, z - 0.75, length=2.5, axis="x", standoff=0.6, thick=0.6, tex="band")
+    els.append(K.box("Peep", (7.25, 8.0, z - 1.0), (8.75, 8.75, z - 0.75), "band", faces=("north", "east", "west", "up", "down")))
+    els += cab_plate("Plate", 5.5, 11.0, 10.5, 12.75, z, "cablabel")
+    els += K.gauge("Gauge", 8, 17.25, z, r=2.0, angle=-25, face="cabdial", body="cabbezel", needle="cabneedle", depth=1.25)
+    return els
 
 
 def level5():
@@ -1016,12 +1195,7 @@ def level5():
         box("Arm", (11, 10.5, 4), (12, 11.5, 11), "brass"),
         box("Horn", (10, 10.5, 10), (15, 17, 15), "brass"),
     ])
-    oriented("boiler", t, [
-        box("Body", (1, 0, 2), (15, 26, 15), "boiler"),
-        box("Hatch", (5, 6, 1.5), (11, 12, 2), "iron"),
-        box("Gauge", (6.5, 17, 1.5), (9.5, 20, 2), "iron"),
-        box("Flue", (6, 26, 7), (10, 32, 11), "rust"),
-    ])
+    oriented("boiler", dict(t, **BOILER_TEX), boiler())
     oriented("furnace", t, [
         box("Body", (1, 0, 2), (15, 14, 15), "iron"),
         box("Door", (4, 2, 1.6), (12, 9, 2), "fire", glow=200, faces=("north",)),

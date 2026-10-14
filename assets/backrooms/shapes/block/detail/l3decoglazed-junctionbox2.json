@@ -2,9 +2,11 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"cablabel": "backrooms:block/level2/cabinet-label",
 		"glazed": "backrooms:block/level3/l3wall-glazed",
+		"l3paint": "backrooms:block/level3/panel-paint",
 		"metal": "backrooms:block/props/metal",
-		"metaldark": "backrooms:block/props/metal-dark"
+		"steel": "backrooms:block/detail/steel"
 	},
 	"elements": [
 		{
@@ -79,6 +81,66 @@
 		{
 			"name": "Box",
 			"from": [
+				4.25,
+				2.25,
+				-2.5
+			],
+			"to": [
+				11.75,
+				10.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l3paint",
+					"uv": [
+						0,
+						0,
+						7.5,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#l3paint",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#l3paint",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#l3paint",
+					"uv": [
+						0,
+						0,
+						7.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#l3paint",
+					"uv": [
+						0,
+						0,
+						7.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lid",
+			"from": [
 				4,
 				2,
 				-3
@@ -86,11 +148,11 @@
 			"to": [
 				12,
 				11,
-				0
+				-2.5
 			],
 			"faces": {
 				"north": {
-					"texture": "#metaldark",
+					"texture": "#l3paint",
 					"uv": [
 						0,
 						0,
@@ -99,48 +161,459 @@
 					]
 				},
 				"east": {
-					"texture": "#metaldark",
+					"texture": "#l3paint",
 					"uv": [
 						0,
 						0,
-						3,
-						9
-					]
-				},
-				"south": {
-					"texture": "#metaldark",
-					"uv": [
-						0,
-						0,
-						8,
+						0.5,
 						9
 					]
 				},
 				"west": {
-					"texture": "#metaldark",
+					"texture": "#l3paint",
 					"uv": [
 						0,
 						0,
-						3,
+						0.5,
 						9
 					]
 				},
 				"up": {
-					"texture": "#metaldark",
+					"texture": "#l3paint",
 					"uv": [
 						0,
 						0,
 						8,
-						3
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#metaldark",
+					"texture": "#l3paint",
 					"uv": [
 						0,
 						0,
 						8,
-						3
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRivet0",
+			"from": [
+				4.6,
+				2.6,
+				-3.25
+			],
+			"to": [
+				5.199999999999999,
+				3.2,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRivet1",
+			"from": [
+				10.8,
+				2.6,
+				-3.25
+			],
+			"to": [
+				11.4,
+				3.2,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRivet2",
+			"from": [
+				4.6,
+				9.8,
+				-3.25
+			],
+			"to": [
+				5.199999999999999,
+				10.4,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRivet3",
+			"from": [
+				10.8,
+				9.8,
+				-3.25
+			],
+			"to": [
+				11.4,
+				10.4,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Label",
+			"from": [
+				5.5,
+				8.25,
+				-3.25
+			],
+			"to": [
+				10.5,
+				9.75,
+				-3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CouplingL",
+			"from": [
+				4.75,
+				10.75,
+				-1.75
+			],
+			"to": [
+				6.75,
+				11.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.75,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.75,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "CouplingR",
+			"from": [
+				9.25,
+				10.75,
+				-1.75
+			],
+			"to": [
+				11.25,
+				11.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.75,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.75,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.75
 					]
 				}
 			}
@@ -149,7 +622,7 @@
 			"name": "ConduitL",
 			"from": [
 				5,
-				11,
+				11.75,
 				-1.5
 			],
 			"to": [
@@ -164,7 +637,7 @@
 						0,
 						0,
 						1.5,
-						5
+						4.25
 					]
 				},
 				"east": {
@@ -173,16 +646,7 @@
 						0,
 						0,
 						1.5,
-						5
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						5
+						4.25
 					]
 				},
 				"west": {
@@ -191,25 +655,7 @@
 						0,
 						0,
 						1.5,
-						5
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						1.5
-					]
-				},
-				"down": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						1.5
+						4.25
 					]
 				}
 			}
@@ -218,7 +664,7 @@
 			"name": "ConduitR",
 			"from": [
 				9.5,
-				11,
+				11.75,
 				-1.5
 			],
 			"to": [
@@ -233,7 +679,7 @@
 						0,
 						0,
 						1.5,
-						5
+						4.25
 					]
 				},
 				"east": {
@@ -242,16 +688,7 @@
 						0,
 						0,
 						1.5,
-						5
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						5
+						4.25
 					]
 				},
 				"west": {
@@ -260,25 +697,7 @@
 						0,
 						0,
 						1.5,
-						5
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						1.5
-					]
-				},
-				"down": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.5,
-						1.5
+						4.25
 					]
 				}
 			}
