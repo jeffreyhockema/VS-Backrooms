@@ -309,3 +309,48 @@ def gradient_down(ctx, top, bottom):
         c = mix(top, bottom, yy / max(1, ctx.h - 1))
         for xx in range(ctx.w):
             px[ctx.x + xx, ctx.y + yy] = c + (255,)
+
+
+def shade_fill(ctx, base, var=0.04, face_shade=True, light=0.12, dark=0.16, ao=0.2, ao_px=2, mottle=0.06,
+               drift=0.18, cap=6.0):
+    """The graphics pass's shaded fill (opt in: `fill` is unchanged). Like fill, but each face is lit as a lump in
+    light from above: a side face runs from lighter at the top to darker at the bottom, with a 1 px lit top edge and
+    a darker bottom edge; every face darkens toward its other edges over `ao_px` texture px (ambient occlusion where
+    the part meets its neighbours), the top less; a soft mottle (`mottle`) replaces most of the per-pixel speckle
+    (`var`); and lit pixels drift warm, shaded ones cool (`drift` per level, at most `cap` levels), as matlib's
+    surfaces do."""
+    k = {"up": 1.08, "down": 0.72, "north": 0.94, "south": 0.94, "east": 0.88, "west": 1.0}[ctx.face] if face_shade else 1.0
+    side = ctx.face not in ("up", "down")
+    w, h = ctx.w, ctx.h
+    # a soft mottle from a coarse lattice of random values, bilinear
+    cell = 4
+    gw, gh = w // cell + 2, h // cell + 2
+    lat = [[ctx.rng.uniform(-1, 1) for _ in range(gw)] for _ in range(gh)]
+    lum = 0.299 * base[0] + 0.587 * base[1] + 0.114 * base[2]
+    px = ctx.img.load()
+    for yy in range(h):
+        fy = yy / cell
+        j, ty = int(fy), fy - int(fy)
+        for xx in range(w):
+            fx = xx / cell
+            i, tx = int(fx), fx - int(fx)
+            a = lat[j][i] + (lat[j][i + 1] - lat[j][i]) * tx
+            b = lat[j + 1][i] + (lat[j + 1][i + 1] - lat[j + 1][i]) * tx
+            m = k * (1 + mottle * (a + (b - a) * ty) + var * (ctx.rng.random() - 0.5) * 2)
+            if side and h > 1:
+                t = yy / (h - 1)
+                m *= 1 + light * (1 - t) * 0.6 - dark * t * 0.6
+                if yy == 0:
+                    m *= 1 + light
+                elif yy == h - 1:
+                    m *= 1 - dark
+            if min(w, h) > 2 * ao_px:  # occlusion: full at a side face's foot, half at its flanks, less on tops
+                occ = 0.0
+                for d_e, wt in ((xx, 0.45), (w - 1 - xx, 0.45), (h - 1 - yy, 1.0 if side else 0.4), (yy, 0.0 if side else 0.4)):
+                    if d_e < ao_px:
+                        occ = max(occ, wt * (1 - d_e / ao_px))
+                m *= 1 - ao * occ
+            c = [v * m for v in base]
+            dlt = max(-cap, min(cap, (m - 1) * lum * drift))
+            c = (c[0] + dlt, c[1] + dlt * 0.3, c[2] - dlt)
+            px[ctx.x + xx, ctx.y + yy] = clamp(c) + (255,)

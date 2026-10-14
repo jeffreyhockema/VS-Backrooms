@@ -19,6 +19,10 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   runs. A client run of about 170 spots takes 25 minutes.
 - Shell heredocs passed through the agent's Bash tool turn an escaped `\n` (a doubled backslash) into a real newline; write files that contain backslash
   escapes with the Write/Edit tools.
+- (B2) A distinctive feature (crack, knot, joint, stain) in every texture of a surface tiles as a grid even at a random
+  spot; give it to about one alternate in three beside plain ones (`matlib.alternates`; matlib defaults such features
+  to 0). Model textures want wear scattered, not along the texture's edges.
+- (B2) `preview_shapes.py` has a depth buffer since B2; earlier previews could hide thin plates and hardware.
 
 ## Batches
 
@@ -26,8 +30,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 |---|---|---|---|---|---|
 | B0 tooling and baseline | gfx/B0 | merged | 1 | | passed 2026-10-13 (Fable): tram/close/prop shots verified, no asset changes |
 | B1 inventory | main | merged | 1 | | passed 2026-10-13 (Fable): L1 floor D confirmed on tent-close; boiler row corrected (generator exists) |
-| B2 material kit | gfx/B2 | in progress | | | |
-| B3 Level 0 | | not started | | | |
+| B2 material kit | gfx/B2 | merged | 1 | concrete B-, basket weave, Berber, glass unverified | passed 2026-10-13 (Fable): models, ceiling, paper, carpet at B; B4 must push concrete (larger pour patches, more hue) |
+| B3 Level 0 | gfx/B3 | in progress | | | |
 | B4 Level 1 | | not started | | | |
 | B5 Level 2 | | not started | | | |
 | B6 Level 3 | | not started | | | |
@@ -199,3 +203,100 @@ Some levels need more shots:
 - Level 974's wide shots all show the same plan. It needs the kitchen, the bathroom and Kitty's room.
 
 21 families appear in no shot. Each of their rows names a spot to add.
+
+### B2
+
+Worker report (Opus, 2026-10-13). Branch `gfx/B2`, uncommitted. Nothing under `assets/` changed. No generator was
+edited; `gen_models.py` (the one generator importing a changed module, `rig.py`) was re-run and wrote byte-identical
+files. Nothing was built, shot or run in the harness; this batch has no compare sheet and no blind round.
+
+**Built**
+- `tools/matlib.py` (new; `texlib.py` untouched). Pure Python and Pillow, deterministic from a seed (two full runs give
+  identical bytes), sizes checked against the 8 px grid, every field periodic so everything tiles.
+  - Base: `noise_hv` (soft periodic mottle + 3-6 level grain + slow hue wander; the replacement for `noise_fill`),
+    `lift`/`shade_px` (warm light, cool shadow, drift 0.18 per level, capped at 6 levels), `value_noise`, `fbm`,
+    `worley`, `points`, `roll`.
+  - Surfaces: `concrete` (fines and aggregate lit on top, pores, `cracks`, form-board `joints`, trowel `swirl`, slab
+    `border`), `plaster`, `paper` (fibres, strip seams with a lifted edge, per-strip hue), `painted_metal` (panel
+    bevel and seam, edge chips or worn spots, screws), `brushed_metal`, `galvanised` (spangle facets), `riveted_plate`
+    (edge rows or a vanilla-style grid, rust at the seams), `wood_planks` (per-board hue, streaks, flecks, grain lines
+    bending round knots, lit top edge, dark gap, optional butt joints, upright option), `fabric` (plain, twill, basket,
+    ripstop), `carpet` (tufts with a nap direction, two-tone, Berber loop, a `dye`d pattern, wear lanes), `tile`
+    (per-tile shade, hue and tilt, bevel, glaze highlight, recessed grout, mosaic palette, running bond, crazing,
+    speckle), `glass`, `rubber` (studs, ribs, diamond), `asphalt`, `brick` (per-unit hue and shade, lit top, shadowed
+    bed joint, any stagger, chamfered block option; the `detail_textures.block_wall` idea as a primitive), `crack`,
+    `screw`.
+  - Operations: `ao_border`, `bevel`, `inset`, `hue_jitter` (field or per box), `grime` (with a bottom/top bias),
+    `scratches`, `drips`, `rust`, `chip_edges`, `emboss_lines` (groove or rib), `stain` (seed or `at` offset, wraps,
+    tide ring), `tideline`, `multiply`, `dye`, `spread`, `alternates(fn, seed, n)`.
+  - Ceiling module: `tbar` (2 px rail split across neighbouring blocks, lit half at top/left), `ceiling_tile`
+    (fissures, pin-holes, soft tegular recess, optional stain kept inside the tile), `troffer_lens` (bevelled frame,
+    prism-cell lens, tube bands; on, dim and off by `lit`, any colour for the Red Rooms). Textures only; the T-bar
+    shape is B3's call.
+  - The module docstring gives a level batch the shading convention, the tiling rule (a feature in about one block in
+    three, at a different offset each time, via `alternates` beside plain variants) and the grid rule.
+- `tools/modelkit.py` (new; `detail_kit.py` and `gen_shapes.py` untouched). Elements in `detail_kit.bx`'s format (the
+  superset of `gen_shapes.box`: the same dicts, UV from size, plus rotation), so they go straight into
+  `detail_kit.shape`/`prop` or `gen_shapes.save`. Every face takes its key from a role spec (`top`, `side`, `front`,
+  `back`, `bottom`) and the composites default to separate top/side/front keys, against the `textures: { all: }`
+  pitfall. Helpers: `bevelled_box` (three crossed boxes, every edge stepped 1 px), `frame_members`, `inset_panel`
+  (a grid of recessed panels), `frame_and_panel` (door leaf, fielded panels on both sides), `inset_window`, `handle`,
+  `lever`, `knob`, `hinge`, `push_bar`, `kick_plate` (with screws), `grille` (upright, level or grid bars on a dark
+  backing), `dial` (octagonal bezel, set-back face, needle at an angle, hub, optional glass) and `gauge` (bevelled
+  body, stem), `keypad`, `leg` (foot, taper), `rim`; furniture: `chair` (panel, slats or stool), `table` (top, lip,
+  apron, legs), `cabinet` (plinth, drawers, inset doors, handles, overhanging top), `door` (casing, panelled leaf,
+  hinges, lever or push bar, kick plate, window). `turn` carries rotations and origins round (`detail_kit.turn` does
+  not); `move`; `textures`.
+- `tools/rig.py`: new `shade_fill(ctx, base, ...)`: vertical light on side faces, a 1 px lit top edge, a dark foot,
+  AO at part borders weighted to the foot, a soft mottle, warm/cool drift. `fill` is unchanged; gen_models can opt in.
+- `tools/preview_shapes.py`: faces now go through a per-pixel depth test instead of a mean-depth sort, which hid thin
+  plates in front of big faces (a kick plate vanished behind its door). `--flat` still works.
+- `tools/matlib_sheets.py` (new): makes every sheet below, prints a seam score per sample (the wrap edge's step over
+  the strongest inner line; 1 or under is seamless), builds the model JSON and renders it with real sample textures.
+  A later batch can add its own parameterisations to `FAMILIES`.
+- `docs/DEVELOPING.md`: three lines for the new tools, and the depth test in the preview line.
+
+**Inventory "Things that cut across batches"**
+- Covered: 1 (hue-aware `noise_hv`; `noise_fill` left alone); 2 (every listed primitive, plus brick/block); 3 (the
+  ceiling module, as textures); 4 (dial/gauge, grille, handle, kick_plate, inset_window, push_bar, keypad,
+  inset_panel, frame_and_panel, plus knob, lever, hinge, rim, leg, bevelled_box); 5 (chair and table, plus cabinet
+  and door); 6 (the tiling rule in the docstring, `stain`/`crack` take offsets, `alternates`, and the defaults for
+  knots, joints and cracks are 0); 7 (the shading convention baked into the primitives and `bevel`/`inset`/
+  `ao_border`; `rig.shade_fill` for entities).
+- Not covered: the T-bar as geometry (B3 decides texture or shape); a one-call desk with drawers (`cabinet` with
+  `drawers` beside `table` covers it); 8 (shared textures to change with care) and 9 (orphans) are level-batch work;
+  10 (`preview_shapes` still ignores face rotation).
+
+**Sheets** (`review/b2/`, indexed in `review/b2/README.md`): `<family>.png` and `<family>-tile.png` for noise,
+concrete, plaster, paper, painted_metal, brushed_metal, galvanised, riveted_plate, wood_planks, fabric, carpet, tile,
+glass, rubber, asphalt, brick, ceiling and alternates; `ops.png`; `models.png` (13 models; `check_zfight.py --root
+review/b2/shapes` finds 0 candidates); `entity-shading.png`; `run.log` (seam scores: every surface 1.15 or under
+except the panel, rivet and T-bar textures, whose seam sits on the edge by design, and two ops demos that are not
+meant to tile).
+
+**Self-review against the rubric** (my own reading; Gate 2 judges)
+- B or better beside vanilla: `wood_planks` (oak reads close to vanilla oak, a little softer in contrast), `brick`
+  (red running bond, the white block), `tile` (glazed and mosaic), `fabric` plain and twill (beside vanilla linen),
+  `galvanised`, `riveted_plate` grid, `painted_metal` panels, `ceiling_tile` and `troffer_lens` (lit rail, recess,
+  prism grid; far above today's flat square), `carpet` cut pile (tan, red patterned), and the model helpers (bevels,
+  insets, hardware, dials and grilles all read as geometry in `models.png`).
+- About B-: `concrete` (structured now, but the aggregate is still a little regular and it has less colour than
+  vanilla andesite), `plaster` (right, but plain by nature), `paper` (seams and fibre read; the print is the
+  caller's), `asphalt`, `brushed_metal`, `rubber`.
+- Short of B: `fabric` basket (burlap) is a flat checker beside vanilla burlap's coarse threads; the grey Berber
+  `carpet` is busy; `glass` is more visible than vanilla's near-invisible pane (default alpha lowered to 72; judge it
+  in game); `rig.shade_fill` is a first version for B17 to tune (its AO rims show on large faces). The large mottle
+  (16 px cells) repeats once per block: low in contrast, but it would show on a big uniform floor without rotation
+  alternates.
+
+**Lessons**
+- A feature drawn into every texture of a surface (a crack, a knot, a butt joint, a stain) shows as a grid on `--tile`
+  even when placed at random within the block: put it in about one alternate in three, beside plain variants.
+  matlib's defaults for such features are 0 for that reason.
+- An unclamped warm/cool drift turns deep shadows (cracks, gaps) blue; cap it (matlib caps it at 6 levels).
+- Wear painted along a texture's edges (chips) lands mid-face on model parts, whose faces show the texture from its
+  corner; for model textures scatter the wear instead (`painted_metal(panel=False)` does).
+- `preview_shapes.py` sorted faces by mean depth until B2 and could hide thin parts; previews made before B2
+  (`review/baseline/props/`) may be missing plates and hardware.
+- The heredoc problem above also breaks Python edit scripts with nested quotes passed through the Bash tool; write
+  such scripts to a file with the Write tool and run the file.

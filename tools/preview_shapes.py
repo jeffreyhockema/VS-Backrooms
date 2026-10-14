@@ -8,8 +8,8 @@ element's size where the face has none, as the game does) is cut out of the text
 nearest-neighbour sampling, then darkened by the face's facing. Element rotations and child elements are applied.
 First version, known gaps: a face's own "rotation" (turning its texture by 90/180/270) is ignored, so a rotated face
 shows its texture unturned; textures come from the shape's own "textures" (a blocktype that overrides them is not
-read); faces are drawn back to front by their mean depth (painter's algorithm), so interpenetrating parts can sort
-wrongly.
+read). Faces are drawn with a per-pixel depth test, so thin plates in front of big faces and parts that pass through
+each other show as the game would draw them.
 
 --flat is the old rough mode: each face filled with the average colour of its texture.
 """
@@ -147,6 +147,22 @@ def texture_patch(path, uv, tw, th, sizes):
     return patch
 
 
+def _zpaste(out, zbuf, rgb, mask, x0, y0, z0, za, zb):
+    """Pastes rgb where mask is set and the face (depth z0 + za*(x-x0) + zb*(y-y0)) is nearer than what is there."""
+    box = mask.getbbox()
+    if not box:
+        return
+    m, c = mask.load(), rgb.load()
+    for y in range(box[1], box[3]):
+        row = zbuf[y]
+        for x in range(box[0], box[2]):
+            if m[x, y]:
+                z = z0 + za * (x + 0.5 - x0) + zb * (y + 0.5 - y0)
+                if z >= row[x] - 1e-3:
+                    row[x] = z
+                    out[x, y] = c[x, y] + (255,)
+
+
 def render(shape_path, size=200, flat=False):
     data = json.load(open(shape_path, encoding="utf-8"))
     tex = data.get("textures", {})
@@ -168,21 +184,29 @@ def render(shape_path, size=200, flat=False):
             path = tex.get(info["texture"].lstrip("#"), "?")
             k = SHADE[face] if not info.get("glow") else 1.1
             uv = info.get("uv") or auto_uv(face, f0, t0)
-            faces.append((depth, [(p[0], p[1]) for p in pr], path, k, uv))
+            faces.append((depth, [(p[0], p[1]) for p in pr], path, k, uv, [p[2] for p in pr]))
     img = Image.new("RGBA", (size, size), (40, 44, 48, 255))
     d = ImageDraw.Draw(img)
-    for _, poly, path, k, uv in sorted(faces, key=lambda t: t[0]):
-        patch = None if flat else texture_patch(path, uv, tw, th, sizes)
-        if patch is None:
-            col = tex_colour(path)
-            d.polygon(poly, fill=tuple(min(255, int(v * k)) for v in col) + (255,), outline=(20, 20, 20, 255))
-            continue
-        # affine map from the screen back into the patch: TL, TR, BL corners of the face
+    zbuf = [[-1e9] * size for _ in range(size)]
+    out = img.load()
+    for _, poly, path, k, uv, zs in sorted(faces, key=lambda t: t[0]):
         (x0, y0), (x1, y1), _, (x3, y3) = poly
         ax, ay, bx, by = x1 - x0, y1 - y0, x3 - x0, y3 - y0
         det = ax * by - bx * ay
         if abs(det) < 1e-6:
             continue
+        # the face's depth as a plane over the screen, for the depth test (nearer = larger)
+        za = ((zs[1] - zs[0]) * by - (zs[3] - zs[0]) * ay) / det
+        zb = ((zs[3] - zs[0]) * ax - (zs[1] - zs[0]) * bx) / det
+        patch = None if flat else texture_patch(path, uv, tw, th, sizes)
+        if patch is None:
+            col = tex_colour(path)
+            rgb = Image.new("RGB", (size, size), tuple(min(255, int(v * k)) for v in col))
+            mask = Image.new("L", (size, size), 0)
+            ImageDraw.Draw(mask).polygon(poly, fill=255)
+            _zpaste(out, zbuf, rgb, mask, x0, y0, zs[0], za, zb)
+            continue
+        # affine map from the screen back into the patch: TL, TR, BL corners of the face
         pw, ph = patch.size
         a, b = pw * by / det, -pw * bx / det
         dd, e = -ph * ay / det, ph * ax / det
@@ -193,7 +217,7 @@ def render(shape_path, size=200, flat=False):
         ImageDraw.Draw(mask).polygon(poly, fill=255)
         alpha = warped.getchannel("A").point(lambda v: 255 if v >= 128 else 0)  # alpha-tested, as the game draws cutouts
         mask = Image.composite(alpha, mask, mask)
-        img.paste(rgb, (0, 0), mask)
+        _zpaste(out, zbuf, rgb, mask, x0, y0, zs[0], za, zb)
     # ground grid of the block's own footprint
     g = [project(p, scale, size / 2, size * 0.78) for p in ((0, 0, 0), (16, 0, 0), (16, 0, 16), (0, 0, 16))]
     d.polygon([(p[0], p[1]) for p in g], outline=(120, 200, 120, 255))
