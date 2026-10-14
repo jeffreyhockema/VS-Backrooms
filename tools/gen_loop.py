@@ -1,7 +1,8 @@
 """Assets for the survival loop (docs/design/survival-loop-plan.md): what has been picked over, what tells you where to go,
 and what a home needs. Run on its own: python tools/gen_loop.py
 
-- Torn supply boxes and prised-open crates: the three in four that wanderers went through before you.
+- The sealed supply box's shape, torn supply boxes and prised-open crates: the three in four that wanderers went
+  through before you.
 - The anchor: the messages when a temporal gear will not take hold outside Level 0.
 - Finding the way: wanderers' notes, and the names of the waypoints the Backrooms marks on your map.
 - Dens: the Deathmoth hive that marks one.
@@ -14,7 +15,8 @@ import re
 
 from PIL import Image, ImageDraw
 
-from gen_textures import box, crate, hexrgb, noise_fill, save, shade, sprite, S
+import matlib as M
+from gen_textures import box, cardboard, crate, hexrgb, noise_fill, save, shade, sprite, S
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -44,60 +46,153 @@ def drops(*items):
 
 # ======================= Picked over =======================
 
+def _proj(face, frm, to, top):
+    """The UV of a face as the supply box always mapped its textures: projected straight onto the face (u along x or
+    z, v down from the box's top `top`), so a bevel strip shows the same pixels as the face beside it."""
+    (x1, y1, z1), (x2, y2, z2) = frm, to
+    if face in ("north", "south"):
+        return [x1, top - y2, x2, top - y1]
+    if face in ("east", "west"):
+        return [z1, top - y2, z2, top - y1]
+    return [x1, z1, x2, z2]
+
+
+def _el(name, frm, to, tex, top, faces=None, **extra):
+    """One element with a texture key per face (`tex`: {face: key}) and projected UVs."""
+    out = {}
+    for f, k in tex.items():
+        if faces and f not in faces:
+            continue
+        out[f] = {"texture": "#" + k, "uv": [round(v, 4) for v in _proj(f, frm, to, top)]}
+    el = {"name": name, "from": list(frm), "to": list(to), "faces": out}
+    el.update(extra)
+    return el
+
+
+def supply_box_shape():
+    """The sealed supply box (graphics pass B3): the same 12 x 10 x 12 carton, now with its own faces
+    (gen_textures.supply_box_faces: worn edges cut to these UVs, the tape over the top and down the north and south
+    sides, the east and west sides plain). A version with bevelled edges (three crossed boxes) read in game as a lid
+    sitting on a box, so it stays one box."""
+    top = 10
+    tex = {"north": "side", "south": "side", "east": "end", "west": "end", "up": "top", "down": "end"}
+    els = [_el("Box", [2, 0, 2], [14, top, 14], tex, top)]
+    els[0]["faces"]["up"]["uv"] = [2, 2, 14, 14]
+    els[0]["faces"]["down"]["uv"] = [2, 2, 14, 14]
+    write_json({"textureWidth": 16, "textureHeight": 16,
+                "textures": {"side": "backrooms:block/supplybox-box-side", "end": "backrooms:block/supplybox-box-end",
+                             "top": "backrooms:block/supplybox-box-top"},
+                "elements": els}, "shapes", "block", "supplybox.json")
+
+
 def torn_box_textures():
-    # The side: the same cardboard, the tape slit and a flap's edge torn ragged
+    """The torn box (graphics pass B3): the same cardboard, the tape slit and the walls' top edge torn ragged with the
+    corrugation showing in it; a dark, empty inside; and the contents left behind (packing straw, a crackers wrapper)
+    as their own textures for the small pieces of geometry that lie in it."""
     img = box(False)
-    d = ImageDraw.Draw(img)
     rng = random.Random(7101)
-    d.rectangle([13, 0, 18, 7], fill=(140, 102, 62, 255))  # tape cut through
-    for x in range(0, S):
-        y = 2 + int(2.5 * abs(((x * 7) % 11) / 5.5 - 1)) + rng.randint(0, 1)
-        d.line([x, 0, x, y], fill=(64, 46, 28, 255))  # ragged top edge, the dark inside showing
-    d.line([4, 14, 9, 22], fill=(120, 86, 52, 255))  # a crease where it was trodden on
+    px = img.load()
+    for y in range(0, 8):  # the tape slit down its middle, its cut edges curling up
+        px[16, y] = M.rgba(M.lift(px[16, y], -40))
+        M.touch(img, 15, y, 0.1)
+        M.touch(img, 17, y, 0.06)
+    for x in range(S):  # the torn top edge (its teeth are geometry): pale, frayed fibre along the tear
+        M.touch(img, x, 0, 0.12 + rng.uniform(0, 0.06))
+        if rng.random() < 0.4:
+            M.touch(img, x, 1, 0.06)
+    for k in range(7):  # a crease where it was trodden on: a groove lit on its lower side
+        x, y = 4 + k * 5 // 7, 14 + k
+        M.touch(img, x, y, -0.14)
+        M.touch(img, x + 1, y, 0.08)
     save(img, "block/supplybox-torn-side.png")
 
-    # Inside: an empty box, a little packing straw and a torn wrapper
-    img = noise_fill(hexrgb(0x3E2C1A), 6, 7102)
-    d = ImageDraw.Draw(img)
-    rng = random.Random(7103)
-    for _ in range(26):
-        x, y = rng.randint(2, S - 3), rng.randint(2, S - 3)
-        d.line([x, y, x + rng.randint(-4, 4), y + rng.randint(-2, 2)], fill=shade((196, 168, 96), rng.uniform(0.7, 1.05)))
-    d.polygon([(19, 20), (26, 18), (27, 24), (21, 26)], fill=(176, 50, 40, 255))  # an empty crackers wrapper
-    d.rectangle([0, 0, S - 1, S - 1], outline=(140, 102, 62, 255), width=2)  # the cardboard walls, seen from above
+    # Inside: the cardboard seen from within, dark, with the flutes' lines and a water ring; the walls' shadow round it
+    img = cardboard(7102, base=(112, 84, 54))
+    M.ao_border(img, 4, 0.26)
+    M.stain(img, 7104, radius=6, color=(52, 38, 24), strength=0.3, at=(19, 12))
     save(img, "block/supplybox-torn-inside.png")
 
-    # The flaps: plain cardboard, inside face darker
+    # The flaps: plain cardboard
     save(box(True), "block/supplybox-flap.png")
+
+    # Packing straw: dry stalks along the texture, lit on top
+    img = M.noise_hv((196, 170, 104), 5, 7105, mottle=6)
+    for y in range(0, S, 2):
+        for x in range(S):
+            M.touch(img, x, y, 0.08)
+            M.touch(img, x, y + 1, -0.1)
+    save(img, "block/supplybox-straw.png")
+
+    # A crackers wrapper, foil-backed red film: a band of print, crinkles catching the light
+    img = M.noise_hv((176, 50, 40), 4, 7106, mottle=8)
+    p = img.load()
+    for y in range(12, 20):
+        for x in range(S):
+            p[x, y] = M.rgba(M.lift((232, 196, 120), rng.uniform(-6, 6)))
+    M.scratches(img, n=10, seed=7107, length=(3, 7), light=0.3)
+    save(img, "block/supplybox-wrapper.png")
 
 
 def torn_box_shape():
-    """A box with its lid torn back: lower walls, an open top, two flaps lolling over the sides."""
+    """A box with its lid torn back (B3): lower walls whose torn top is a row of ragged teeth (small boxes of
+    different heights, not paint), an open top, two flaps lolling over the sides, and what was left in it as geometry:
+    a few straws of packing, a crumpled wrapper, a wad of paper."""
     side, inside, flap = "#side", "#inside", "#flap"
     def face(tex, uv):
         return {"texture": tex, "uv": uv}
+    H = 8  # the walls' height below the teeth
     elements = [
         {"name": "Floor", "from": [2, 0, 2], "to": [14, 1, 14],
          "faces": {"up": face(inside, [2, 2, 14, 14]), "down": face(side, [2, 2, 14, 14])}},
-        {"name": "WallN", "from": [2, 0, 2], "to": [14, 9, 3],
-         "faces": {"north": face(side, [2, 1, 14, 10]), "south": face(inside, [2, 1, 14, 10]), "up": face(side, [2, 0, 14, 1]),
-                   "east": face(side, [0, 1, 1, 10]), "west": face(side, [0, 1, 1, 10])}},
-        {"name": "WallS", "from": [2, 0, 13], "to": [14, 9, 14],
-         "faces": {"south": face(side, [2, 1, 14, 10]), "north": face(inside, [2, 1, 14, 10]), "up": face(side, [2, 0, 14, 1]),
-                   "east": face(side, [0, 1, 1, 10]), "west": face(side, [0, 1, 1, 10])}},
-        {"name": "WallW", "from": [2, 0, 3], "to": [3, 9, 13],
-         "faces": {"west": face(side, [3, 1, 13, 10]), "east": face(inside, [3, 1, 13, 10]), "up": face(side, [3, 0, 13, 1])}},
-        {"name": "WallE", "from": [13, 0, 3], "to": [14, 9, 13],
-         "faces": {"east": face(side, [3, 1, 13, 10]), "west": face(inside, [3, 1, 13, 10]), "up": face(side, [3, 0, 13, 1])}},
+        {"name": "WallN", "from": [2, 0, 2], "to": [14, H, 3],
+         "faces": {"north": face(side, [2, 1, 14, 1 + H]), "south": face(inside, [2, 1, 14, 1 + H]), "up": face(side, [2, 0, 14, 1]),
+                   "east": face(side, [0, 1, 1, 1 + H]), "west": face(side, [0, 1, 1, 1 + H])}},
+        {"name": "WallS", "from": [2, 0, 13], "to": [14, H, 14],
+         "faces": {"south": face(side, [2, 1, 14, 1 + H]), "north": face(inside, [2, 1, 14, 1 + H]), "up": face(side, [2, 0, 14, 1]),
+                   "east": face(side, [0, 1, 1, 1 + H]), "west": face(side, [0, 1, 1, 1 + H])}},
+        {"name": "WallW", "from": [2, 0, 3], "to": [3, H, 13],
+         "faces": {"west": face(side, [3, 1, 13, 1 + H]), "east": face(inside, [3, 1, 13, 1 + H]), "up": face(side, [3, 0, 13, 1])}},
+        {"name": "WallE", "from": [13, 0, 3], "to": [14, H, 13],
+         "faces": {"east": face(side, [3, 1, 13, 1 + H]), "west": face(inside, [3, 1, 13, 1 + H]), "up": face(side, [3, 0, 13, 1])}},
         # Flaps hinged on the east and west rims, folded back down over the outside
-        {"name": "FlapE", "from": [14, 8.5, 2], "to": [19, 9, 14], "rotationOrigin": [14, 9, 8], "rotationZ": -60,
+        {"name": "FlapE", "from": [14, H - 0.5, 2], "to": [19, H, 14], "rotationOrigin": [14, H, 8], "rotationZ": -60,
          "faces": {"up": face(flap, [2, 2, 7, 14]), "down": face(inside, [2, 2, 7, 14]), "east": face(side, [0, 0, 12, 1])}},
-        {"name": "FlapW", "from": [-3, 8.5, 2], "to": [2, 9, 14], "rotationOrigin": [2, 9, 8], "rotationZ": 75,
+        {"name": "FlapW", "from": [-3, H - 0.5, 2], "to": [2, H, 14], "rotationOrigin": [2, H, 8], "rotationZ": 75,
          "faces": {"up": face(flap, [9, 2, 14, 14]), "down": face(inside, [9, 2, 14, 14]), "west": face(side, [0, 0, 12, 1])}},
     ]
+    # The torn rim: teeth along the north and south walls (the flaps' walls keep a straight fold)
+    rng = random.Random(7121)
+    for wall, z1, z2, out, inn in (("N", 2, 3, "north", "south"), ("S", 13, 14, "south", "north")):
+        x = 2.0
+        k = 0
+        while x < 14:
+            w = min(14 - x, rng.choice((1.0, 1.5, 2.0, 2.5)))
+            h = rng.choice((0.5, 0.5, 1.0))
+            if rng.random() < 0.75:
+                elements.append({"name": f"Tooth{wall}{k}", "from": [x, H, z1], "to": [x + w, H + h, z2],
+                                 "faces": {out: face(side, [x, 0, x + w, h]), inn: face(inside, [x, 0, x + w, h]),
+                                           "up": face(side, [x, 0, x + w, 1]), "east": face(side, [0, 0, 1, h]),
+                                           "west": face(side, [0, 0, 1, h])}})
+                k += 1
+            x += w
+    # What was left in it: lying on the floor (y 1), clear of the walls
+    straw = {f: face("#straw", [0, 0, 8, 0.5]) for f in ("north", "south", "east", "west", "up")}
+    for i, (x, z, ln, yaw) in enumerate(((3.5, 9.5, 6, 25), (4.5, 4, 5, -40), (8.5, 11, 4.5, 70), (4, 6.5, 5, 5),
+                                         (7, 8, 5.5, -75), (5.5, 11.5, 4, 110))):
+        elements.append({"name": f"Straw{i}", "from": [x, 1, z], "to": [x + ln, 1.5, z + 0.5],
+                         "rotationOrigin": [x + ln / 2, 1, z + 0.25], "rotationY": yaw, "faces": straw})
+    elements.append({"name": "Wrapper", "from": [8, 1, 5], "to": [12, 1.5, 8], "rotationOrigin": [10, 1, 6.5],
+                     "rotationY": -20, "rotationX": 8,
+                     "faces": {f: face("#wrapper", uv) for f, uv in (("up", [2, 4, 10, 10]), ("north", [2, 4, 10, 5]),
+                                                                     ("south", [2, 4, 10, 5]), ("east", [2, 4, 8, 5]),
+                                                                     ("west", [2, 4, 8, 5]))}})
+    elements.append({"name": "PaperWad", "from": [9.5, 1, 9], "to": [11.5, 2.5, 11], "rotationOrigin": [10.5, 1, 10],
+                     "rotationY": 30,
+                     "faces": {f: face("#flap", [0, 0, 2, 1.5 if f not in ("up",) else 2]) for f in ("north", "south", "east", "west", "up")}})
     shape = {"textureWidth": 16, "textureHeight": 16,
              "textures": {"side": "backrooms:block/supplybox-torn-side", "inside": "backrooms:block/supplybox-torn-inside",
-                          "flap": "backrooms:block/supplybox-flap"},
+                          "flap": "backrooms:block/supplybox-flap", "straw": "backrooms:block/supplybox-straw",
+                          "wrapper": "backrooms:block/supplybox-wrapper"},
              "elements": elements}
     write_json(shape, "shapes", "block", "supplybox-torn.json")
 
@@ -400,6 +495,7 @@ def merge_lang():
 
 
 def main():
+    supply_box_shape()
     torn_box_textures()
     torn_box_shape()
     torn_box_block()

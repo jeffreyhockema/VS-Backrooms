@@ -23,6 +23,17 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   spot; give it to about one alternate in three beside plain ones (`matlib.alternates`; matlib defaults such features
   to 0). Model textures want wear scattered, not along the texture's edges.
 - (B2) `preview_shapes.py` has a depth buffer since B2; earlier previews could hide thin plates and hardware.
+- (B3) A JSON shape on a light block loses the cube's glow (face `glow` via `shapeByType` did not restore it) and the
+  rooms round it went dark in the review world. Keep emissive fixtures as cubes; compare each shot's mean brightness
+  with the baseline before any review, since a lighting fault makes every texture look worse.
+- (B3) Judge large surfaces at playing distance (2-6 blocks in the wide shots), not on texsheets: low-frequency mottle
+  and seams show more than expected and fine detail averages away. A motif dyed onto structured paper needs a darker
+  print than the old flat colour.
+- (B3) Floor variants placed in patches (stained carpet) have no good per-block texture answer: a tint shows hard
+  squares, edge-faded stains a grid of spots. Keep the original look or solve it in the layout.
+- (B3) Every batch makes per-family before|after pairs with `tools/shotbot/sidebyside.py` (map in
+  `docs/design/graphics-pass/sidebyside/<batch>.json`, index `review/compare.html`) and adds its families to
+  `decisions.md` for the user.
 
 ## Batches
 
@@ -31,7 +42,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B0 tooling and baseline | gfx/B0 | merged | 1 | | passed 2026-10-13 (Fable): tram/close/prop shots verified, no asset changes |
 | B1 inventory | main | merged | 1 | | passed 2026-10-13 (Fable): L1 floor D confirmed on tent-close; boiler row corrected (generator exists) |
 | B2 material kit | gfx/B2 | merged | 1 | concrete B-, basket weave, Berber, glass unverified | passed 2026-10-13 (Fable): models, ceiling, paper, carpet at B; B4 must push concrete (larger pour patches, more hue) |
-| B3 Level 0 | gfx/B3 | in progress | | | |
+| B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
 | B4 Level 1 | | not started | | | |
 | B5 Level 2 | | not started | | | |
 | B6 Level 3 | | not started | | | |
@@ -39,7 +50,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B8 Level 5 | | not started | | | |
 | B9 Levels 6 and 6.1 | | not started | | | |
 | B10 Levels 7 and 8 | | not started | | | |
-| B11 Levels 9 and 10 | | not started | | | |
+| B11 Levels 9 and 10 | gfx/B11 | in progress | | | |
 | B12 Level 11 | | not started | | | |
 | B13 Levels 37 and 94 | | not started | | | |
 | B14 Level ! and Fun | | not started | | | |
@@ -300,3 +311,77 @@ meant to tile).
   (`review/baseline/props/`) may be missing plates and hardware.
 - The heredoc problem above also breaks Python edit scripts with nested quotes passed through the Bash tool; write
   such scripts to a file with the Write tool and run the file.
+
+### B3
+
+Worker report (Opus, 2026-10-13/14). Branch `gfx/B3` from `main`, uncommitted. Three rounds. Final sheet:
+`review/b3/compare-round3.jpg` (after shots in `review/b3/final/`).
+- **Per-family pairs** for the user's choice: `review/b3/sidebyside/<family>.jpg`, indexed in `review/compare.html`.
+- **Decision table:** `docs/design/graphics-pass/decisions.md`, with the decision column left empty.
+
+**Checks**
+- Build: 0 warnings.
+- `layouthash` is unchanged: v1 `18cfdbc1c530f039`, v4 `ca047189969b69db` (`review/b3/layouthash-*`).
+- `validatelevel 0`: 0 unreachable, 0 doorways to nowhere.
+- No C# changed. Nothing under `assets/game/` changed, and no block, item or entity code changed.
+- The final shots match the baseline in brightness (mean luma per shot within 1-4 levels).
+
+**Rounds**
+1. The reviewer graded ceiling, T-bar and trims B. It graded D for the stained carpet (a uniform tint showed hard block squares) and C for most else. It also found:
+   - a bright bar along one edge of the troffers;
+   - a supply box that read as a box with an offset lid;
+   - a chevron that did not carry past 3 blocks;
+   - manila paper that read as panelling.
+2. After the fixes, every shot came out 3-5x darker. The cause was the recessed-troffer JSON shape. Its faces lost the cube's glow, even after adding face `glow` through `shapeByType`, and the rooms went dark in the review world. The player who tried this build reported "not an improvement", which was largely this. The troffer went back to a cube.
+3. Final round, on the coordinator's brief: where the reviewer judged a change same or worse, revert toward the original look and keep only the structural gains. The stained carpet went back to the original wrapped blotches, the T-bar is darker so the grid reads as before, and the paper mottle is calmer. The final blind review (at playing distance) found brightness matching and graded the families below.
+
+**Per family: what changed, final grade, and how it compares to before at playing distance**
+- **Chevron wallpaper** (`gen_textures.paper_wall`, `motif_chevron`): C+, same.
+  - Changes: `matlib.paper` (fibre, faint strip seams every 16 px), the motif dyed in, the chevron printed darker (`CHEVRON_PRINT`), the beads at half strength.
+  - Every part has base, `-2` and `-damp` versions (`wallpaper.json`, `paperjoin.json`). The damp stain stays inside the block.
+  - Lore colours are kept; only the print is stronger.
+- **Other papers:**
+  - Pale arch paper: C+, same.
+  - Manila: C, same. It now has a 4 px dot; the old 5 px dot did not tile.
+  - Stripped: drywall with paste bands, scraps in one version of three.
+  - Dotted: same build. Dotted only generates in layout v1-3 and stripped only by players, so neither is in any shot.
+- **Baseboard and chair rail:** B-, same. A lit cap, a dark toe and a scuff band above.
+- **Outlet:** B-, better (smaller, bevelled, with a shadow). Still painted; see Carried.
+- **Carpet:** C, same. `matlib.carpet` Berber loop pile with the colour kept, two seeds matched in brightness, four turns each (`carpet.json` now lists 8).
+- **Stained carpet:** C+, same. The original wrapped blotches on the new pile. Soaked and threadbare were reworked; the old threadbare used a 3 px grid that did not tile.
+- **Ceiling tile and T-bar:** B, better. `matlib.ceiling_tile` (fissures, tegular recess, a 2 px split rail darker than the tile). Two stained tiles, each about one block in ten. A new `ceilingtile-side` for the faces seen where the ceiling layer ends.
+- **Troffers:** B- from below, better.
+  - A bevelled frame, a prismatic lens pulled toward its glow colour, and a painted dark gap round it.
+  - Still a cube. The recessed-lens shape (`gen_l0_walls.troffer`) is kept in the code but not written.
+- **Red Rooms paper:** C, worse past 3 blocks, because the paper lost its bright dashes. The red lights are the same.
+- **Arch header:** C, slightly better. The soffit and risers have their own `cream-soffit` key (plain plaster instead of printed paper).
+- **Supply box:** B-, same.
+  - The shared cardboard got fibre, tape with a sheen and this-way-up arrows.
+  - The box has its own worn-edge faces (`supplybox-box-*`).
+  - `shapes/block/supplybox.json` is now written by `gen_loop.supply_box_shape`, as one box.
+- **Torn box:** B, better, the clearest gain. The torn rim is geometry teeth, the inside is lighter, and the straw, wrapper and paper wad are boxes.
+- **Concrete:** C, same. See Carried.
+- **Shared by other generators:** `matlib.paper` has a new `seam` option (default 1.0, so B2's output is unchanged). The `item/salvage/wallpaperstrip.png` sprite follows the new paper.
+
+**Carried below B, with reasons**
+- **Chevron wallpaper, papers, carpet (C/C+, same):** the blind reviews and the player both found the big surfaces no better at playing distance. The user chooses per family in `decisions.md`.
+  - Ideas the reviewer left: drop the pale vertical streaks on the paper; a faint 2-4 texel carpet structure; a lighter second element on the Red Rooms paper.
+- **Troffer side faces:** where a light's side shows (gate-wide), the framed panel reads as a window. This needs a side texture like `ceilingtile-side`. That is a blocktype `north`/`east`/`south`/`west` override on `fluorescentlight`, and the flicker block entity tesselates the off block, so I left it to the next pass.
+- **Outlet as geometry:** the wall block would have to become a JSON shape (different lighting and culling on every outlet wall), and a real plate is about a tenth of a pixel proud. Kept painted.
+- **Gate concrete:** the gate wall is Level 1's `concretewall` (B4's `gen_textures.concrete_wall`), not the `concrete` block the inventory named. It is carried to B4.
+- **Manila Room furnishing:**
+  - The floor is vanilla `game:planks-aged-ud`.
+  - The table (`gen_detail.py:level4`) is shared with B7.
+  - The chandelier (`gen_shapes.py:level5`) is shared with B8, as the inventory row says.
+- **Small items the final reviewer named:** arch soffit edge shading, the flap seam on the closed box's top, and the dark gap round the troffer lens (near-black).
+- **Not seen in any shot:** dotted paper and stripped walls.
+- **New spots:** `arch-wide` and `arch-close` are added to `spots/0.json`. Their befores are in `review/baseline/0/`, shot on a build of unchanged `main`.
+
+**Lessons**
+- A JSON shape on a light block loses the cube's `vertexFlags` glow. Face `glow` through `shapeByType` did not bring it back in the shots, and the review world's rooms went dark around the lights. Keep emissive fixtures as cubes, or check the light level in a shot (mean luma against the baseline) before judging anything else.
+- Check every shot's mean brightness against the baseline before a review. A lighting regression makes every texture look worse, and a reviewer cannot separate the two.
+- Stained floor blocks laid in patches have no good per-block answer. A tint shows the patch as hard squares, stains faded at the block edges show a grid of spots, and one blotch per texture is the original's look. A soft outline needs edge-aware blocks (layout), not textures.
+- A motif dyed onto structured paper loses contrast against the fibre and seams. Print it darker than the old flat pixel colour, and keep seams and mottle faint on large walls, or the paper reads as stripes or panelling.
+- Judge big surfaces at playing distance (2-6 blocks in the wide shots), not on 4x texsheets. Detail that reads on a sheet averages away in game, while low-frequency mottle and seams show more than expected.
+- `tools/shotbot/sidebyside.py` with `docs/design/graphics-pass/sidebyside/<batch>.json` makes the per-family before|after pairs and appends the batch to `review/compare.html`. Later batches should add their map and their rows to `decisions.md`.
+- A single 2-spot client run can shoot its first spot before the area's light or chunks have loaded (dark or fallen camera). Shoot new spots as part of the full list, or retake.

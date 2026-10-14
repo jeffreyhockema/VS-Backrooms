@@ -28,6 +28,8 @@
     {"name": "den-wide", "tp": [512108.15, 217.05, 511631.34], "look": [105, -13], "target": "den", "distance": 4.5},
     {"name": "den-close", "tp": [512111.09, 217.05, 511631.09], "look": [135, -27], "target": "den", "distance": 2.0},
     {"name": "redroom-wide", "tp": [512139.3, 217.05, 511661.5], "look": [120, -3], "target": "redroom", "distance": 6.0},
-    {"name": "redroom-close", "tp": [512142.77, 217.05, 511663.5], "look": [120, -9], "target": "redroom", "distance": 2.0}
+    {"name": "redroom-close", "tp": [512142.77, 217.05, 511663.5], "look": [120, -9], "target": "redroom", "distance": 2.0},
+    {"name": "arch-wide", "tp": [511739.5, 217.05, 512026.5], "look": [180, -4], "surface": "arch area (B3): a room of arch windows and arch doors, near spawn"},
+    {"name": "arch-close", "tp": [511740.5, 217.05, 512028.0], "look": [90, 18], "surface": "arch area (B3): the header and soffit of an arch door from 1.5 blocks"}
   ]
 }

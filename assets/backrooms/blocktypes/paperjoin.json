@@ -53,7 +53,7 @@
 			"base": "block/wallpaper/{north}-{part}",
 			"alternates": [
 				{
-					"base": "block/wallpaper/{north}-{part}"
+					"base": "block/wallpaper/{north}-{part}-2"
 				},
 				{
 					"base": "block/wallpaper/{north}-{part}-damp"
@@ -64,7 +64,7 @@
 			"base": "block/wallpaper/{east}-{part}",
 			"alternates": [
 				{
-					"base": "block/wallpaper/{east}-{part}"
+					"base": "block/wallpaper/{east}-{part}-2"
 				},
 				{
 					"base": "block/wallpaper/{east}-{part}-damp"
@@ -75,7 +75,7 @@
 			"base": "block/wallpaper/{south}-{part}",
 			"alternates": [
 				{
-					"base": "block/wallpaper/{south}-{part}"
+					"base": "block/wallpaper/{south}-{part}-2"
 				},
 				{
 					"base": "block/wallpaper/{south}-{part}-damp"
@@ -86,7 +86,7 @@
 			"base": "block/wallpaper/{west}-{part}",
 			"alternates": [
 				{
-					"base": "block/wallpaper/{west}-{part}"
+					"base": "block/wallpaper/{west}-{part}-2"
 				},
 				{
 					"base": "block/wallpaper/{west}-{part}-damp"

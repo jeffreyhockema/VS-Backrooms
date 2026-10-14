@@ -3,8 +3,9 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
+	// Three pours; the third has a hairline crack
 	textures: {
-		all: { base: "block/concrete" }
+		all: { base: "block/concrete", alternates: [{ base: "block/concrete2" }, { base: "block/concrete3" }] }
 	},
 	resistance: 8,
 	requiredMiningTier: 3,
