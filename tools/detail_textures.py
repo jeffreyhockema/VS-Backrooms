@@ -6,6 +6,7 @@ features so they keep their scale on boxes of any size.
 import math
 import random
 
+import matlib as M
 import texlib
 
 from PIL import Image, ImageDraw
@@ -111,7 +112,9 @@ def shared():
     flat("wooddark", 0x4A3220, 5)
     flat("paper", 0xF2EEE2, 2)
     flat("string", 0xC8B48C, 4)
-    flat("exithousing", 0xE4E2DA, 2)
+    # The EXIT sign's housing: white enamelled steel (graphics pass B4: a slight orange peel and a few worn spots)
+    save(M.painted_metal(seed_of("exithousing"), base=(226, 224, 216), grain=2, mottle=3, panel=False, chips=2,
+                         under=(176, 174, 168)), "exithousing")
     flat("redmetal", 0xB42820, 6)
     flat("orange", 0xE8661C, 5)
     flat("white", 0xEEEEEA, 2)
@@ -121,10 +124,36 @@ def shared():
     # scaled down, left the letters pink at the edges). Only rows 8-23 show (the faces' UV band); the letters fill
     # rows 11-20 and are centred on the middle of the texture, where the two halves of a sign over a two-wide
     # doorway meet
+    # (B4) The face is a diffuser lit from behind: brightest in the middle, a little dimmer toward its frame, and the
+    # red light bleeding a pink halo a pixel or two round each letter; a thin bezel round the band that shows
     img = Image.new("RGBA", (S, S), rgb(0xF4F2EC))
+    glyphs(img, [EXIT_GLYPHS[c] for c in "EXIT"], 1, 11, rgb(0xD8141E), gap=2)
+    px = img.load()
+    red = [(x, y) for y in range(S) for x in range(S) if px[x, y][:3] == (0xD8, 0x14, 0x1E)]
+    near = {}
+    for (rx, ry) in red:
+        for dy in range(-2, 3):
+            for dx in range(-2, 3):
+                q = (rx + dx, ry + dy)
+                if 0 <= q[0] < S and 0 <= q[1] < S:
+                    near[q] = min(near.get(q, 9), max(abs(dx), abs(dy)))
+    for y in range(S):
+        for x in range(S):
+            if px[x, y][:3] == (0xD8, 0x14, 0x1E):
+                continue
+            c = (244, 242, 236)
+            edge = min(x, S - 1 - x, abs(y - 8), abs(y - 23)) if 8 <= y <= 23 else 0
+            c = M.lift(c, -min(10, max(0, 5 - edge) * 2.2))
+            k = near.get((x, y))
+            if k == 1:
+                c = M.mix(c, (232, 120, 118), 0.32)
+            elif k == 2:
+                c = M.mix(c, (236, 168, 164), 0.16)
+            px[x, y] = M.rgba(c)
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B6AE), width=1)
-    glyphs(img, [EXIT_GLYPHS[c] for c in "EXIT"], 1, 11, rgb(0xD8141E), gap=2)
+    d.line([0, 8, S - 1, 8], fill=rgb(0xC4C2BA))
+    d.line([0, 23, S - 1, 23], fill=rgb(0xCECCC4))
     save(img, "exitface")
 
     img = Image.new("RGBA", (S, S))
@@ -145,27 +174,82 @@ def level1():
     lintel = wall.copy()
     ImageDraw.Draw(lintel).rectangle([0, 28, S - 1, S - 1], fill=rgb(0x2A2C2E))
     save(lintel, "whiteblock-lintel")
-    img = noise(0x707370, 4, "l1hallfloor")
-    rng = random.Random(3)
-    for _ in range(6):
-        x, y = rng.randrange(S - 6), rng.randrange(S)
-        ImageDraw.Draw(img).line([x, y, x + rng.randint(3, 6), y], fill=rgb(0x5E605C))  # scuffs
-    save(img, "l1hallfloor")
+    # The halls' floor: grey floor paint over concrete, the concrete's pores and patches showing faintly through.
+    # (B4) Three versions, all turned at random (gen_detail ALTS); the heel scuffs are in the third only, at random
+    # places, so they no longer stand at the same spot in every block
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        sd = seed_of("l1hallfloor") * 10 + alt
+        img = M.concrete(sd, base=(114, 117, 114), grain=2, mottle=4, aggregate=0.0, pores=0.004, patches=3.5,
+                         patch_hue=1.0, hue=1.0)
+        if alt == 2:
+            rng = random.Random(sd)
+            for _ in range(3):
+                x, y, L = rng.uniform(0, S), rng.uniform(0, S), rng.randint(3, 7)
+                a = rng.uniform(-0.5, 0.5) + rng.choice((0, 1.57))
+                for i in range(L):
+                    t = math.sin(math.pi * (i + 0.5) / L)
+                    M.touch(img, round(x + math.cos(a) * i), round(y + math.sin(a) * i), -0.09 * t)
+        save(T.match_mean(img, 113), "l1hallfloor" + v)
 
+    # (B4) The locked steel door, still a cube (the block has no facing to hang a modelled door on): dark painted
+    # steel with an orange-peel finish, the frame lit on its top and left edges and shaded where it meets the leaf,
+    # the push bar and the window's bead shaded as raised parts, the kick plate brushed, wear at the handle
     for part in ("lower", "upper"):
-        img = noise(0x1E2022, 3, "metaldoor" + part)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x55585C), width=2)  # steel frame
+        img = M.painted_metal(seed_of("metaldoor" + part), base=(36, 38, 40), grain=2, mottle=4, panel=False, chips=3,
+                              under=(84, 86, 88))
+        px = img.load()
+        frame = (84, 86, 90)
+        for y in range(S):
+            for x in range(S):
+                if x < 2 or x >= S - 2 or (part == "upper" and y < 2) or (part == "lower" and y >= S - 2):
+                    px[x, y] = M.rgba(M.lift(frame, (2 - min(x, 2)) * 6 - (x >= S - 2) * 8 + (y < 2) * 6))
+        for y in range(S):  # the leaf's edge in the frame's shadow
+            M.touch(img, 2, y, -0.18)
+            M.touch(img, S - 3, y, 0.06)
+        if part == "upper":
+            for x in range(2, S - 2):
+                M.touch(img, x, 2, -0.18)
         if part == "lower":
-            d.rectangle([4, 18, 27, 30], outline=rgb(0x2E3134))
-            d.rectangle([5, 2, 26, 4], fill=rgb(0xA8ACB0))  # push bar
-            d.rectangle([24, 1, 26, 5], fill=rgb(0x7C8084))
+            kick = M.brushed_metal(seed_of("metaldoorkick"), base=(120, 122, 124), grain=3)
+            kp = kick.load()
+            for y in range(19, 29):
+                for x in range(4, 28):
+                    px[x, y] = kp[x, y]
+            M.bevel(img, (4, 19, 28, 29), 1, 0.2)
+            for (sx, sy) in ((5, 20), (26, 20), (5, 27), (26, 27)):
+                px[sx, sy] = M.rgba((64, 66, 68))
+            bar = (168, 172, 176)  # the push bar: a lit top, a dark underside and a shadow on the leaf below it
+            for x in range(5, 27):
+                px[x, 2] = M.rgba(M.lift(bar, 16))
+                px[x, 3] = M.rgba(bar)
+                px[x, 4] = M.rgba(M.lift(bar, -38))
+                M.touch(img, x, 5, -0.2)
+                M.touch(img, x, 6, -0.08)
+            for y in range(1, 7):
+                for x in range(24, 27):
+                    px[x, y] = M.rgba(M.lift((124, 128, 132), 10 if y == 1 else -14 if y == 6 else 0))
         else:
-            d.rectangle([9, 5, 22, 20], fill=rgb(0x1A2226))  # wired glass
-            for k in range(-12, 16, 4):
-                d.line([9 + max(0, k), 5 + max(0, -k), 22, 18 - k], fill=rgb(0x4A5258))
-            d.rectangle([7, 24, 24, 29], fill=rgb(0xE0B624))
+            # wired glass in a raised bead: dark glass with a faint diagonal sheen and the wire mesh
+            for y in range(5, 21):
+                for x in range(9, 23):
+                    c = (26, 34, 38)
+                    if (x - 9 + y - 5) % 4 == 0 or (x - 9 - (y - 5)) % 4 == 0:
+                        c = (70, 80, 86)
+                    if 6 <= (x - 9) + (20 - y) <= 9:
+                        c = M.lift(c, 14)
+                    px[x, y] = M.rgba(c)
+            for x in range(8, 24):
+                M.touch(img, x, 4, 0.3)
+                M.touch(img, x, 21, -0.3)
+            for y in range(4, 22):
+                M.touch(img, 8, y, 0.24)
+                M.touch(img, 23, y, -0.26)
+            d = ImageDraw.Draw(img)
+            d.rectangle([7, 24, 24, 29], fill=rgb(0xD8B028))
             text(img, "NO ENTRY", (7, 24, 25, 30), 0x1A1A1A, 5)
+            for x in range(7, 25):
+                M.touch(img, x, 24, 0.08)
+                M.touch(img, x, 29, -0.1)
         save(img, f"metaldoor-{part}")
     img = noise(0x1E2022, 3, "firedoor")
     d = ImageDraw.Draw(img)
@@ -173,8 +257,20 @@ def level1():
     d.rectangle([4, 20, 27, 29], outline=rgb(0x2A2D30))
     save(img, "firedoor")
 
-    img = T.concrete_base(0x9A9D9D, 320, holes=False)
-    stripes(img, rgb(0xE0B020), rgb(0x1E1E1E), 4, (0, 20, S, S))
+    # (B4) The hazard band painted on the column's own concrete: the paint takes the concrete's light and dark, and
+    # is scuffed off here and there along its foot
+    img = T.match_mean(T.pillar_concrete(), 154)
+    band = Image.new("RGBA", (S, S))
+    stripes(band, rgb(0xD8AC24), rgb(0x24221E), 4, (0, 20, S, S))
+    px, bp = img.load(), band.load()
+    rng = random.Random(seed_of("pillarbase"))
+    for y in range(20, S):
+        for x in range(S):
+            if y >= S - 2 and rng.random() < 0.25:
+                continue
+            px[x, y] = M.rgba(M.lift(bp[x, y][:3], (M.lum(px[x, y]) - 154) * 0.5 + rng.uniform(-3, 3)))
+    for x in range(S):
+        M.touch(img, x, 20, 0.05)
     save(img, "pillarbase")
 
     floor = T.concrete_floor("plain")
@@ -188,10 +284,21 @@ def level1():
     T.blotch(img, (10, 10), 4, (30, 28, 26), 0.6, 62)
     save(img, "parkoil")
     img = floor.copy()
+    # (B4) A cast grate set into a recessed frame: the frame's inner edge in shadow at the top, the bars lit on their
+    # left and dark on their right, black water below them
     d = ImageDraw.Draw(img)
-    d.rectangle([8, 8, 23, 23], fill=rgb(0x2A2C2C), outline=rgb(0x7A7C7A))
-    for x in range(10, 23, 3):
-        d.line([x, 9, x, 22], fill=rgb(0x5E605E))
+    d.rectangle([8, 8, 23, 23], fill=rgb(0x1E2020))
+    px = img.load()
+    for x in range(9, 23, 3):
+        for y in range(9, 23):
+            px[x, y] = M.rgba(M.lift((88, 90, 86), 6 - (y - 9) * 0.5))
+            px[x + 1, y] = M.rgba(M.lift((70, 72, 70), -(y - 9) * 0.5))
+    for k in range(8, 24):
+        px[k, 8] = M.rgba((52, 54, 52))
+        px[8, k] = M.rgba((58, 60, 58))
+        px[k, 23] = M.rgba((112, 114, 110))
+        px[23, k] = M.rgba((104, 106, 102))
+    M.inset(img, (7, 7, 25, 25), 1, 0.18)
     save(img, "parkdrain")
     img = Image.new("RGBA", (S, S))
     stripes(img, rgb(0xE8C020), rgb(0x202020), 8, diagonal=False)
@@ -255,45 +362,85 @@ def level1():
         y = rng.randrange(S)
         d.arc([rng.randint(-20, 10), y - 6, rng.randint(20, 50), y + 6], 0, 180, fill=rgb(0xA8844E))
     save(img, "plywood")
-    for name, c in (("tarp", 0x2A5CA8), ("tarporange", 0xD8641C)):
-        img = noise(c, 6, name)
-        d = ImageDraw.Draw(img)
+    # (B4) Woven poly tarp: a fine plain weave, a reinforcing line every 8 px, soft folds across it, a grommet;
+    # the colours a little duller (sun-faded), the old ones' brightness kept
+    for name, c, mean in (("tarp", (52, 94, 160), 88), ("tarporange", (198, 104, 44), 118)):
+        img = M.fabric(seed_of(name), base=c, weave="plain", contrast=7, grain=2, mottle=5, thread=2)
+        fold = M.fbm((S, S), seed_of(name + "fold"), (16, 8), 0.4)
+        px = img.load()
+        for y in range(S):
+            for x in range(S):
+                px[x, y] = M.rgba(M.lift(px[x, y], fold[y][x] * 9))
         for x in range(0, S, 8):
-            d.line([x, 0, x, S - 1], fill=T.shade(T.hexrgb(c), 0.85))
-        d.ellipse([2, 2, 4, 4], outline=rgb(0xC0C0C0))  # grommet
-        save(img, name)
-    img = noise(0x3E5A2E, 5, "bedroll")
-    for y in range(0, S, 6):
-        ImageDraw.Draw(img).line([0, y, S - 1, y], fill=rgb(0x2E4422))
-    save(img, "bedroll")
-    flat("bedrollpillow", 0x8C8070, 4)
+            for y in range(S):
+                M.touch(img, x, y, -0.08)
+                M.touch(img, x + 1, y, 0.04)
+        d = ImageDraw.Draw(img)
+        d.ellipse([2, 2, 4, 4], outline=rgb(0xB8B8B0))  # grommet
+        save(T.match_mean(img, mean), name)
+    # (B4) The bedroll: olive cotton canvas (a 2x2 basket weave) rolled up, so a soft shadow every 8 px where one turn
+    # meets the next; the pillow a plain-woven ticking
+    img = M.fabric(seed_of("bedroll"), base=(64, 92, 48), weave="basket", contrast=6, grain=2, mottle=5, thread=2)
+    for y0 in range(0, S, 8):
+        for x in range(S):
+            for k, f in ((0, -0.16), (1, 0.06), (2, 0.04), (6, -0.03), (7, -0.08)):
+                M.touch(img, x, y0 + k, f)
+    save(T.match_mean(img, 74), "bedroll")
+    img = M.fabric(seed_of("bedrollpillow"), base=(142, 130, 112), weave="plain", contrast=6, grain=2, mottle=6)
+    save(T.match_mean(img, 128), "bedrollpillow")
     # The two-block camp tent's fly: green ripstop nylon (a faint grid), a darker seam every half block, a grommet
-    img = noise(0x46623A, 4, "tentfly")
+    # (B4) A ripstop weave from matlib.fabric, the cloth a touch uneven where it hangs (soft broad light and dark),
+    # a flat-felled seam every half block (a dark fold with its two rows of stitching lit), and a grommet
+    img = M.fabric(seed_of("tentfly"), base=(72, 100, 60), weave="ripstop", contrast=6, grain=2, mottle=6, thread=2)
+    sag = M.fbm((S, S), seed_of("tentflysag"), (16, 8), 0.45)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            px[x, y] = M.rgba(M.lift(px[x, y], sag[y][x] * 12))
+    for x0 in (0, 16):
+        for y in range(S):
+            M.touch(img, x0, y, -0.32)
+            M.touch(img, x0 + 1, y, 0.14)
+            M.touch(img, x0 - 1, y, -0.06)
+            if y % 2 == 0:
+                M.touch(img, x0 + 2, y, 0.07)
+                M.touch(img, x0 - 2, y, 0.05)
     d = ImageDraw.Draw(img)
-    for k in range(4, S, 4):
-        d.line([k, 0, k, S - 1], fill=T.shade(T.hexrgb(0x46623A), 0.93))
-        d.line([0, k, S - 1, k], fill=T.shade(T.hexrgb(0x46623A), 0.93))
-    d.line([0, 0, 0, S - 1], fill=rgb(0x2E4426))
-    d.line([16, 0, 16, S - 1], fill=rgb(0x2E4426))
-    d.ellipse([27, 27, 30, 30], outline=rgb(0xB8B8B0))
-    save(img, "tentfly")
-    flat("tentinside", 0x1E2A1A, 3)
+    d.ellipse([27, 27, 30, 30], outline=rgb(0xB0B0A6))
+    save(T.match_mean(img, 86), "tentfly")
+    img = M.fabric(seed_of("tentinside"), base=(34, 46, 30), weave="ripstop", contrast=4, grain=2, mottle=4, thread=1)
+    save(T.match_mean(img, 38), "tentinside")
     # The two-block sleeping bag: faded red quilted nylon, its channels sewn across every three pixels' worth, and the
     # brushed flannel lining of the turned-back top (a blue tartan)
-    img = noise(0x9A3A30, 4, "sleepingbag")
-    d = ImageDraw.Draw(img)
-    for y in range(0, S, 6):
-        d.line([0, y, S - 1, y], fill=rgb(0x6E241E))
-        d.line([0, y + 1, S - 1, y + 1], fill=T.shade(T.hexrgb(0x9A3A30), 1.12))
-    save(img, "sleepingbag")
-    img = noise(0x46647A, 4, "sleepingbaglining")
-    d = ImageDraw.Draw(img)
-    for k in range(0, S, 8):
-        d.rectangle([k, 0, k + 2, S - 1], fill=rgb(0x2C4052))
-        d.rectangle([0, k, S - 1, k + 2], fill=rgb(0x2C4052))
-    for k in range(0, S, 8):
-        d.line([k + 5, 0, k + 5, S - 1], fill=rgb(0x8C7E56))
-        d.line([0, k + 5, S - 1, k + 5], fill=rgb(0x8C7E56))
+    # (B4) Quilted nylon: channels 8 px apart (the old 6 px did not tile), each puffed, lit along its upper half and
+    # shaded into the stitched seam below; a fine ripstop under it, a faint sheen in broad patches
+    img = M.fabric(seed_of("sleepingbag"), base=(150, 60, 50), weave="ripstop", contrast=3, grain=2, mottle=5, thread=1)
+    sheen = M.fbm((S, S), seed_of("sleepingbagsheen"), (16, 8), 0.4)
+    px = img.load()
+    for y in range(S):
+        t = (y % 8 + 0.5) / 8
+        puff = math.sin(math.pi * t)
+        for x in range(S):
+            d = 14 * puff - 7 + 4 * (0.5 - t) + max(0, sheen[y][x]) * 10
+            px[x, y] = M.rgba(M.lift(px[x, y], d))
+    for y0 in range(0, S, 8):
+        for x in range(S):
+            M.touch(img, x, y0, -0.16 if x % 3 else -0.1)
+    save(T.match_mean(img, 82), "sleepingbag")
+    # The lining: a brushed flannel tartan (twill, blue ground, dark bands every 8 px, a thin ochre line)
+    img = M.fabric(seed_of("sleepingbaglining"), base=(74, 102, 124), weave="twill", contrast=6, grain=2, mottle=4)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            k = 0.0
+            if x % 8 < 3:
+                k += 0.5
+            if y % 8 < 3:
+                k += 0.5
+            c = M.mix(px[x, y], M.lift(px[x, y], -34), k)
+            if x % 8 == 5 or y % 8 == 5:
+                c = M.mix(c, (148, 132, 88), 0.55)
+            px[x, y] = M.rgba(c)
     save(img, "sleepingbaglining")
     flat("sleepingbagzip", 0x2A2624, 3)
     img = noise(0xFFC060, 4, "lanternglass")
@@ -301,25 +448,31 @@ def level1():
     save(img, "lanternglass")
     # Burn barrel: a near-black steel drum, sooted at the top, thin rust runs down from the rim and rust eating
     # in from the foot; a darker band for the rim and hoops, and the burnt-out inside
-    img = noise(0x1E1A18, 4, "burnbarrel")
-    px = img.load()
+    # (B4) The drum's old black paint (matlib.painted_metal) gone to rust in patches, heaviest at the foot where it
+    # stood in the wet, rust runs down from the rim, and soot over the top where the fire licks out
     rng = random.Random(seed_of("burnbarrel"))
-    for y in range(5):
+    img = M.painted_metal(seed_of("burnbarrel"), base=(44, 40, 38), grain=3, mottle=6, panel=False, chips=6,
+                          under=(92, 70, 52))
+    M.rust(img, 0.32, seed_of("burnbarrelrust"), color=(112, 60, 32), dark=(58, 34, 22))
+    foot = M.fbm((S, S), seed_of("burnbarrelfoot"), (8, 4), 0.5)
+    px = img.load()
+    for y in range(S):
         for x in range(S):
-            px[x, y] = T.shade(px[x, y], 0.7 + 0.06 * y)
-    for _ in range(9):
-        x, length = rng.randrange(S), rng.randint(6, 22)
-        c = T.hexrgb(rng.choice((0x5A3020, 0x6E3A1E, 0x4A2818)))
-        for y in range(rng.randint(0, 4), length):
-            if rng.random() < 0.85:
-                px[x, y] = T.shade(c, 1 - 0.4 * y / length)
-    for _ in range(70):
-        x, y = rng.randrange(S), S - 1 - int(rng.random() ** 2 * 8)
-        px[x, y] = rgb(rng.choice((0x4A2A1A, 0x5E321C, 0x3A2216)))
+            t = max(0.0, (y - 20) / 11) * (0.6 + 0.4 * foot[y][x])
+            if t > 0:
+                px[x, y] = M.rgba(M.mix(px[x, y], (98, 54, 30), min(0.8, t)))
+            if y < 7:  # soot
+                px[x, y] = M.rgba(M.lift(px[x, y], -(7 - y) * 2.6))
+    M.drips(img, 6, seed_of("burnbarrelruns"), color=(104, 58, 32), length=(6, 18), strength=0.5, start=2)
     save(img, "burnbarrel")
-    img = noise(0x2A2420, 5, "burnbarrelrim")
-    for _ in range(40):
-        img.putpixel((rng.randrange(S), rng.randrange(S)), rgb(rng.choice((0x5A3020, 0x6E3A1E))))
+    # The rolled rim and hoops: the same steel worn to bare metal along the roll (a lit line) with more rust
+    img = M.painted_metal(seed_of("burnbarrelrim"), base=(52, 46, 42), grain=3, mottle=5, panel=False, chips=8,
+                          under=(104, 96, 88))
+    M.rust(img, 0.4, seed_of("burnbarrelrimrust"), color=(118, 64, 34), dark=(62, 36, 22))
+    for x in range(S):
+        for y in range(0, S, 8):
+            M.touch(img, x, y, 0.16)
+            M.touch(img, x, y + 1, 0.06)
     save(img, "burnbarrelrim")
     flat("burnbarrelinside", 0x100D0B, 3)
     img = noise(0xC8401C, 30, "embers")

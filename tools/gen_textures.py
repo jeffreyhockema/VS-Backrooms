@@ -814,7 +814,216 @@ def draw_glyph(img, ch, x0, y0, scale, color):
                         px[x0 + gx * scale + sx, y0 + gy * scale + sy] = color
 
 
+# ---- Level 1's concrete (graphics pass B4) ----
+#
+# Everything is matlib.concrete with broad pour patches and some hue (warm buff and blue-grey batches), a low grain
+# and fine aggregate, so at playing distance it reads as poured concrete rather than as static. Features a player
+# would spot twice (a crack, a tyre scuff, a rust run, a stain) are in one version of three; the floor and ceiling
+# versions are also turned at random, so each feature lands in about one block in three, at a different place. Every
+# version of a surface is brought to the same mean brightness as the old texture (match_mean), so blocks of
+# different versions do not show as a checker and the level is no lighter or darker than it was.
+
+L1_FLOOR = {"plain": (92, 93, 89), "wet": (69, 70, 66), "dark": (67, 72, 76)}
+L1_FLOOR_MEAN = {"plain": 90, "wet": 70, "dark": 71}
+L1_WALL = (142, 145, 145)
+L1_PILLAR = (154, 157, 157)
+L1_CEILING = (120, 122, 119)
+
+
+def match_mean(img, target):
+    """img shifted (with the warm/cool drift) so its mean luminance is `target`."""
+    px = img.load()
+    w, h = img.size
+    m = sum(M.lum(px[x, y]) for y in range(h) for x in range(w)) / (w * h)
+    d = target - m
+    for y in range(h):
+        for x in range(w):
+            px[x, y] = M.rgba(M.lift(px[x, y], d), px[x, y][3])
+    return img
+
+
+def l1_concrete(seed, base, pores=0.012, swirl=0.0, patches=4.5, patch_hue=1.5, aggregate=0.03):
+    return M.concrete(seed, base=base, grain=3, mottle=5, aggregate=aggregate, pores=pores, swirl=swirl,
+                      patches=patches, patch_hue=patch_hue, hue=1.5)
+
+
+def pour_line(img, y, seed):
+    """The line where one lift of the pour met the next: a faint dark seam with a little cement bleed under it."""
+    rng = random.Random(seed)
+    for x in range(S):
+        M.touch(img, x, y, -0.07)
+        M.touch(img, x, y + 1, 0.035 if rng.random() < 0.7 else 0.06)
+
+
+def tyre_scuff(img, seed, strength=0.06):
+    """A faint rubber mark: a soft band 3 px wide on a wide arc, darkest in the middle, wrapping."""
+    rng = random.Random(seed)
+    w, h = img.size
+    r = rng.uniform(40, 70)
+    cx, cy = rng.uniform(0, w), rng.uniform(0, h) + r
+    a0 = rng.uniform(-2.2, -0.9)
+    for i in range(int(r * 0.55)):
+        a = a0 + i / r
+        t = math.sin(math.pi * (i + 0.5) / (r * 0.55)) ** 0.6
+        x, y = cx + math.cos(a) * r, cy + math.sin(a) * r
+        for k, f in ((-1, 0.5), (0, 1.0), (1, 0.5)):
+            M.touch(img, round(x), round(y) + k, -strength * f * t)
+
+
+def concrete_floor(kind, alt=0):
+    """Level 1's car park floor: power-trowelled concrete (faint swirl arcs) with broad pour patches. Version 2 of 3
+    carries a hairline crack and a faint tyre scuff; the dark floor's mould and the wet floor's film change place."""
+    seed = {"plain": 3000, "wet": 3010, "dark": 3020}[kind] + alt
+    img = l1_concrete(seed, L1_FLOOR[kind], pores=0.008, swirl=0.7, aggregate=0.03 if kind == "plain" else 0.05)
+    if kind == "plain" and alt == 2:
+        M.crack(img, M.sub(seed, "crack"), length=(16, 26), strength=0.2)
+        tyre_scuff(img, M.sub(seed, "scuff"))
+    if kind == "dark" and alt:
+        M.stain(img, M.sub(seed, "mould"), radius=9, color=(70, 84, 72), strength=0.32, at=M.spread(seed, 3)[alt], ring=0.3)
+    if kind == "wet":
+        # standing water: glints of the lights on it, as the old wet floor had, each a lit pixel with a softer one
+        # beside it, scattered all over so the patch has no edge of its own inside the block
+        rng = random.Random(M.sub(seed, "glint"))
+        for _ in range(30):
+            x, y = rng.randrange(S), rng.randrange(S)
+            M.touch(img, x, y, 0.42)
+            M.touch(img, x + 1, y, 0.16)
+    return match_mean(img, L1_FLOOR_MEAN[kind])
+
+
+def tie_hole(img, x, y):
+    """A form-tie hole: a 2 px recess, dark at its top left (it is in shadow), its lower lip lit."""
+    for (dx, dy, f) in ((0, 0, -0.34), (1, 0, -0.26), (0, 1, -0.22), (1, 1, -0.12), (-1, 0, -0.06), (0, -1, -0.06),
+                        (0, 2, 0.06), (1, 2, 0.05), (2, 1, 0.04)):
+        M.touch(img, x + dx, y + dy, f)
+
+
+# Where concretewall-damaged's three rebar ends come out of the wall (gen_shapes.level1, as the north face shows them,
+# u = 16 - x): the broken-out patch is round them
+REBAR_PX = ((23, 19, 4.6), (11, 13, 4.2), (7, 25, 3.6))
+
+
+def spall(img, seed):
+    """Concrete broken out round the rebar: a recess with coarse exposed aggregate, its upper rim in shadow and its
+    lower rim lit, and a rust run below each bar."""
+    rng = random.Random(seed)
+    w, h = img.size
+    rough = M.value_noise((w, h), 4, M.sub(seed, "rough"))
+    inside = [[False] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            for (cx, cy, r) in REBAR_PX:
+                if math.hypot(x + 0.5 - cx, (y + 0.5 - cy) * 1.15) < r + rough[y][x] * 1.4:
+                    inside[y][x] = True
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if inside[y][x]:
+                c = M.lift(px[x, y], -22 + rough[y][x] * 6)
+                px[x, y] = M.rgba(M.hue_shift(c, 3))
+    for _ in range(110):  # exposed stones, lit on top
+        x, y = rng.randrange(w), rng.randrange(h)
+        if inside[y][x] and inside[min(h - 1, y + 1)][x]:
+            c = M.hue_shift(M.lift(L1_WALL, rng.uniform(-18, 6)), rng.uniform(-8, 8))
+            px[x, y] = M.rgba(M.lift(c, 6))
+            px[x, (y + 1) % h] = M.rgba(c)
+            M.touch(img, x, y + 2, -0.1)
+    for y in range(h):
+        for x in range(w):
+            if not inside[y][x]:
+                continue
+            if y == 0 or not inside[y - 1][x]:
+                M.touch(img, x, y, -0.22)
+                M.touch(img, x, y + 1, -0.1)
+            if y == h - 1 or not inside[y + 1][x]:
+                M.touch(img, x, y, 0.16)
+            if x == 0 or not inside[y][x - 1]:
+                M.touch(img, x, y, -0.12)
+    for k, (cx, cy, r) in enumerate(REBAR_PX):
+        M.drips(img, 1, M.sub(seed, f"rust{k}"), color=(128, 74, 44), length=(5, 10), strength=0.4, start=int(cy) + 1)
+    return img
+
+
+def concrete_wall(damaged, alt=0):
+    """Level 1's cast walls: plywood-formed concrete with bug holes, a pour line along the top of each block, and a
+    row of two form-tie holes. Version 3 of 3 has a hairline crack and a rust run from a tie. The damaged wall is
+    broken out round its (modelled) rebar; the old painted rebar is gone."""
+    seed = 3100 + alt + (50 if damaged else 0)
+    img = l1_concrete(seed, L1_WALL, pores=0.022, patches=3.0, patch_hue=2.0)
+    pour_line(img, 0, M.sub(seed, "lift"))
+    for x in (8, 24):
+        tie_hole(img, x, 8)
+    if alt == 2 and not damaged:
+        M.crack(img, M.sub(seed, "crack"), at=(rng_at(seed)), length=(14, 24), strength=0.22)
+        M.drips(img, 1, M.sub(seed, "tie"), color=(124, 86, 58), length=(8, 14), strength=0.3, start=10)
+    if damaged:
+        spall(img, M.sub(seed, "spall"))
+        M.crack(img, M.sub(seed, "crack1"), at=(16, 4), length=(10, 16), strength=0.24)
+        M.crack(img, M.sub(seed, "crack2"), at=(28, 14), length=(8, 14), strength=0.22)
+    return match_mean(img, 138 if damaged else 142)
+
+
+def rng_at(seed):
+    r = random.Random(seed)
+    return (r.uniform(4, 28), r.uniform(14, 28))
+
+
+def pillar_concrete(seed=3200):
+    """The columns' concrete: lighter, smoother (steel-formed), with fewer bug holes; a lit arris at the left edge of
+    each face and a shaded one at the right."""
+    img = M.concrete(seed, base=L1_PILLAR, grain=3, mottle=5, aggregate=0.045, pores=0.01, patches=5, patch_hue=3, hue=2.5)
+    for y in range(S):
+        M.touch(img, 0, y, 0.07)
+        M.touch(img, S - 1, y, -0.06)
+    return img
+
+
+def pillar(letter):
+    img = match_mean(pillar_concrete(), 154)
+    if letter:
+        # The bay letter: a painted panel over the concrete (the paint thin where the form's pores show through)
+        # and the letter stencilled on it; a little paint lost at the panel's edges
+        paint = M.noise_hv((226, 224, 214), 2, 3210, (S, S), 3)
+        px, pp = img.load(), paint.load()
+        rng = random.Random(3211)
+        for y in range(5, 28):
+            for x in range(7, 25):
+                px[x, y] = pp[x, y]
+        draw_glyph(img, letter.upper(), 9, 6, 3, (40, 58, 96, 255))
+    return img
+
+
+def pillar_light():
+    img = pillar(None)
+    d = ImageDraw.Draw(img)
+    d.rectangle([12, 0, 19, S - 1], fill=(70, 72, 72, 255))  # housing
+    d.rectangle([14, 0, 17, S - 1], fill=(240, 248, 252, 255))  # tube
+    return img
+
+
+def concrete_ceiling(alt=0):
+    """The car park's slab soffit: formed concrete with the two white conduits that run along every bay, as before
+    (graphics pass B4: now shaded as round runs, a lit line along each and a shadow on the slab beside it, clipped
+    every 16 px). Version 3 of 3 has a faint water stain with a tide ring. Not turned: the conduits keep their run."""
+    seed = 3300 + alt
+    img = l1_concrete(seed, (116, 118, 115), pores=0.016)
+    if alt == 2:
+        M.stain(img, M.sub(seed, "stain"), radius=8, color=(150, 140, 112), strength=0.22, at=(6, 24), ring=0.6)
+    px = img.load()
+    for y0 in (8, 12):
+        for x in range(S):
+            px[x, y0] = M.rgba(M.lift((214, 216, 214), 8))
+            px[x, y0 + 1] = M.rgba((190, 192, 190))
+            px[x, y0 + 2] = M.rgba((160, 162, 160))
+            M.touch(img, x, y0 + 3, -0.16)
+        for x in (3, 19):  # clips
+            for y in range(y0, y0 + 3):
+                px[x, y] = M.rgba((128, 130, 132))
+    return match_mean(img, 126)
+
+
 def concrete_base(base, seed, holes=True):
+    """The old Level 1 concrete (noise with pores and tie holes). Level 2's cage lights still use it."""
     img = noise_fill(hexrgb(base), 10, seed)
     rng = random.Random(seed + 1)
     px = img.load()
@@ -828,59 +1037,20 @@ def concrete_base(base, seed, holes=True):
     return img
 
 
-def concrete_floor(kind):
-    base = {"plain": 0x5C5D59, "wet": 0x454642, "dark": 0x43484C}[kind]
-    img = concrete_base(base, {"plain": 300, "wet": 301, "dark": 302}[kind], holes=False)
+def painted_line(img, box, colour, seed, wear=0.0):
+    """Road paint over the concrete: the paint takes the concrete's light and dark (the texture shows through), its
+    edges a little soft, worn through here and there."""
+    x0, y0, x1, y1 = box
     px = img.load()
-    if kind == "plain":
-        for y in range(S):  # faint tyre-wear band
-            for x in range(10, 16):
-                px[x, y] = shade(px[x, y], 0.92)
-    if kind == "wet":
-        rng = random.Random(9)
-        for _ in range(30):  # glints on standing water
-            px[rng.randrange(S), rng.randrange(S)] = (120, 124, 122, 255)
-    if kind == "dark":
-        blotch(img, (8, 20), 9, (70, 84, 72), 0.4, 11)  # mould
-    return img
-
-
-def concrete_wall(damaged):
-    img = concrete_base(0x8E9191, 310)
-    if damaged:
-        d = ImageDraw.Draw(img)
-        d.line([4, 3, 10, 14, 8, 22], fill=(70, 72, 72, 255))  # cracks
-        d.line([20, 0, 22, 9, 27, 13], fill=(70, 72, 72, 255))
-        for x in (12, 18):  # exposed rebar with a rust run
-            d.line([x, 18, x, 26], fill=(122, 74, 46, 255), width=2)
-            d.line([x, 27, x, 31], fill=(150, 104, 80, 255))
-    return img
-
-
-def pillar(letter):
-    img = concrete_base(0x9A9D9D, 320, holes=False)
-    d = ImageDraw.Draw(img)
-    d.line([0, 0, 0, S - 1], fill=(120, 122, 122, 255))  # arris highlight
-    if letter:
-        d.rectangle([7, 5, 24, 27], fill=(226, 224, 214, 255))
-        draw_glyph(img, letter.upper(), 9, 6, 3, (40, 58, 96, 255))
-    return img
-
-
-def pillar_light():
-    img = pillar(None)
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 0, 19, S - 1], fill=(70, 72, 72, 255))  # housing
-    d.rectangle([14, 0, 17, S - 1], fill=(240, 248, 252, 255))  # tube
-    return img
-
-
-def concrete_ceiling():
-    img = concrete_base(0x747673, 330, holes=False)
-    d = ImageDraw.Draw(img)
-    for y in (9, 12):  # white conduit
-        d.line([0, y, S - 1, y], fill=(216, 218, 218, 255))
-        d.line([0, y + 1, S - 1, y + 1], fill=(170, 172, 172, 255))
+    rng = random.Random(seed)
+    worn = M.fbm((S, S), M.sub(seed, "wear"), (8, 4, 2), 0.6)  # wear in patches (tyres, feet), not pepper
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            if wear and worn[y % S][x % S] > 1 - wear * 4:
+                continue
+            under = px[x, y]
+            d = (M.lum(under) - 90) * 0.3
+            px[x, y] = M.rgba(M.lift(colour, d + rng.uniform(-3, 3)))
     return img
 
 
@@ -904,15 +1074,62 @@ def exit_sign():
     return img
 
 
+CRATE_WOOD = (156, 116, 68)
+
+
 def crate(top):
-    img = noise_fill(hexrgb(0x9C7444), 8, 340 + top)
-    d = ImageDraw.Draw(img)
-    for y in (10, 21):  # plank seams
-        d.line([0, y, S - 1, y], fill=(110, 78, 44, 255))
-    d.rectangle([0, 0, S - 1, S - 1], outline=(92, 64, 34, 255), width=3)  # frame
-    if not top:
-        d.line([3, 3, S - 4, S - 4], fill=(110, 80, 46, 255), width=2)  # brace
-    return img
+    """Level 1's supply crate (a cube, as vanilla's crate is): three boards in a raised frame, the frame's members lit
+    on top and casting a shadow onto the boards under them, the sides braced corner to corner, a nail at each joint."""
+    boards = M.wood_planks(3400 + top, base=CRATE_WOOD, planks=3, grain=3, contrast=0.8, per_plank=9, flecks=0.8)
+    rails = M.wood_planks(3410 + top, base=M.lift(CRATE_WOOD, -10), planks=[4, 4, 4, 4, 4, 4, 4, 4], grain=3,
+                          contrast=0.7, per_plank=6)
+    stiles = M.wood_planks(3420 + top, base=M.lift(CRATE_WOOD, -10), planks=[4, 4, 4, 4, 4, 4, 4, 4], grain=3,
+                           contrast=0.7, per_plank=6, direction="v")
+    brace = M.wood_planks(3430 + top, base=M.lift(CRATE_WOOD, -4), planks=[10, 6, 16], grain=3, contrast=0.7, per_plank=4)
+    img = boards.copy()
+    px, rp, sp, bp = img.load(), rails.load(), stiles.load(), brace.load()
+    F = 3  # frame width
+    # the boards: shadowed under the top rail and beside the left stile, lit along the foot rail
+    for x in range(S):
+        for k, f in ((F, -0.16), (F + 1, -0.08), (F + 2, -0.03)):
+            M.touch(img, x, k, f)
+        M.touch(img, x, S - F - 1, 0.05)
+    for y in range(S):
+        for k, f in ((F, -0.1), (F + 1, -0.04)):
+            M.touch(img, k, y, f)
+    if not top:  # the brace, bottom left to top right, raised like the frame
+        for y in range(F, S - F):
+            for x in range(F, S - F):
+                d = (x + y - (S - 1))  # 0 on the diagonal
+                if -2 <= d <= 2:
+                    c = bp[x % S, 12 + d]
+                    if d == -2:
+                        c = M.lift(c, 12)
+                    elif d == 2:
+                        c = M.lift(c, -14)
+                    px[x, y] = M.rgba(c)
+                elif d == 3:
+                    M.touch(img, x, y, -0.14)
+                elif d == 4:
+                    M.touch(img, x, y, -0.05)
+    for y in range(S):
+        for x in range(S):
+            if y < F or y >= S - F:
+                px[x, y] = rp[x, y % 4 + (4 if y < F else 12)]
+            elif x < F or x >= S - F:
+                px[x, y] = sp[x % 4 + (4 if x < F else 12), y]
+    for x in range(S):  # rails: lit top edge, dark lower edge
+        for y0 in (0, S - F):
+            M.touch(img, x, y0, 0.12)
+            M.touch(img, x, y0 + F - 1, -0.14)
+    for y in range(F, S - F):  # stiles: lit left edge, dark right
+        for x0 in (0, S - F):
+            M.touch(img, x0, y, 0.08)
+            M.touch(img, x0 + F - 1, y, -0.12)
+    for (nx, ny) in ((1, 1), (S - 2, 1), (1, S - 2), (S - 2, S - 2), (1, 15), (S - 2, 15), (15, 1), (15, S - 2)):
+        px[nx, ny] = M.rgba((58, 54, 50))
+        M.touch(img, nx, ny + 1, 0.1)
+    return match_mean(img, 101 if top else 99)
 
 
 # ---------------- Level 2: utility tunnels ----------------
@@ -1180,28 +1397,25 @@ def props_textures():
 
     for axis in ("ns", "we"):
         img = concrete_floor("plain")
-        d = ImageDraw.Draw(img)
-        if axis == "ns":
-            d.rectangle([15, 0, 16, S - 1], fill=(222, 222, 210, 255))
-        else:
-            d.rectangle([0, 15, S - 1, 16], fill=(222, 222, 210, 255))
+        box = (15, 0, 16, S - 1) if axis == "ns" else (0, 15, S - 1, 16)
+        painted_line(img, box, (214, 214, 202), 3500 + len(axis) + (axis == "ns"))
         save(img, f"block/level1/concretefloor-line{axis}.png")
 
 
 def parking_textures():
     for axis in ("we", "ns"):
-        img = concrete_floor("plain")
-        d = ImageDraw.Draw(img)
-        if axis == "we":
-            d.rectangle([0, 14, S - 1, 17], fill=(222, 186, 40, 255))
-        else:
-            d.rectangle([14, 0, 17, S - 1], fill=(222, 186, 40, 255))
+        img = concrete_floor("plain", 1)
+        box = (0, 14, S - 1, 17) if axis == "we" else (14, 0, 17, S - 1)
+        painted_line(img, box, (212, 178, 48), 3510 + (axis == "ns"))
         save(img, f"block/level1/concretefloor-dash{axis}.png")
 
-    stop = concrete_base(0x9A9D9D, 420, holes=False)
-    d = ImageDraw.Draw(stop)
+    # The wheel stop: precast concrete painted in yellow and grey bands, the paint chipped at the arrises
+    stop = pillar_concrete(3520)
     for x in range(0, S, 8):  # yellow-and-grey striped wheel stop
-        d.rectangle([x, 0, x + 3, S - 1], fill=(214, 180, 50, 255))
+        painted_line(stop, (x, 0, x + 3, S - 1), (210, 178, 56), 3521 + x, wear=0.06)
+    for x in range(S):
+        M.touch(stop, x, 0, 0.1)
+        M.touch(stop, x, S - 1, -0.12)
     save(stop, "block/level1/wheelstop.png")
 
     for name, colour in (("red", 0x8E2222), ("blue", 0x2A4A7E), ("white", 0xD8D8D2), ("black", 0x26282A)):
@@ -1606,14 +1820,16 @@ def level_textures():
     level4_textures()
     level5_textures()
     for k in ("plain", "wet", "dark"):
-        save(concrete_floor(k), f"block/level1/concretefloor-{k}.png")
-    save(concrete_wall(False), "block/level1/concretewall-plain.png")
+        for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+            save(concrete_floor(k, alt), f"block/level1/concretefloor-{k}{v}.png")
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(concrete_wall(False, alt), f"block/level1/concretewall-plain{v}.png")
+        save(concrete_ceiling(alt), f"block/level1/concreteceiling{v}.png")
     save(concrete_wall(True), "block/level1/concretewall-damaged.png")
     save(pillar(None), "block/level1/concretepillar-plain.png")
     for letter in "abcdef":
         save(pillar(letter), f"block/level1/concretepillar-{letter}.png")
     save(pillar_light(), "block/level1/pillarlight.png")
-    save(concrete_ceiling(), "block/level1/concreteceiling.png")
     save(exit_sign(), "block/level1/exitsign.png")
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")

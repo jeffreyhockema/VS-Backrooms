@@ -1,0 +1,21 @@
+{
+ "batch": "B4",
+ "title": "Level 1 and the camp kit",
+ "before": "review/baseline/1",
+ "after": "review/b4/final",
+ "out": "review/b4/sidebyside",
+ "note": "review/baseline/1 was reshot in B4 on a build of unchanged main: the B0 shots of the rooms and car park were 8-15 levels brighter than the same build shoots today (the B0 set is kept in review/baseline/1-b0). close-wall, close-wall2 and close-ceiling were re-spotted (lit), and park-wide and firewall-wide added.",
+ "families": [
+  {"id": "carpark-floor", "name": "Car park concrete floor (plain, wet, dark; three versions each)", "spots": ["close-floor", "refuge-close", "park-wide"]},
+  {"id": "floor-markings", "name": "Floor markings (bay lines, aisle dashes, arrows, drain)", "spots": ["park-wide", "firewall-wide"]},
+  {"id": "hall-floor", "name": "Painted hall floor (three versions, scuffs in one)", "spots": ["sleepingbag-close", "tent-close", "wide-01"]},
+  {"id": "concrete-walls", "name": "Concrete walls (plain in three versions, damaged)", "spots": ["close-wall2", "firewall-wide", "refuge-wide"]},
+  {"id": "ceiling", "name": "Car park ceiling (conduits shaded, three versions)", "spots": ["close-ceiling", "park-wide"]},
+  {"id": "pillars", "name": "Pillars, bay letters, striped base, wheel stops", "spots": ["refuge-close", "prop-1"]},
+  {"id": "camp-tent", "name": "Camp tent (fly, gable ends, groundsheet)", "spots": ["tent-close", "tent-wide"]},
+  {"id": "sleeping-bag", "name": "Sleeping bag, lining, bedroll", "spots": ["sleepingbag-close", "sleepingbag-wide"]},
+  {"id": "burn-barrel", "name": "Burn barrel", "spots": ["den-close", "den-wide"]},
+  {"id": "crates", "name": "Crates (closed and emptied)", "spots": ["prop-1", "den-close", "cache-close"]},
+  {"id": "exit-door", "name": "EXIT sign and steel door", "spots": ["close-light", "wide-03"]}
+ ]
+}
