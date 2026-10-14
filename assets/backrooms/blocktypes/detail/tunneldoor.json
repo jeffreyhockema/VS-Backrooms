@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/tunneldoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/tunneldoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/tunneldoor-upper"
 		}
 	},
 	"lightAbsorption": 99,

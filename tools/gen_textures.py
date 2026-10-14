@@ -1135,27 +1135,57 @@ def crate(top):
 # ---------------- Level 2: utility tunnels ----------------
 
 def tunnel_concrete(seed):
-    """Level 2's dark grey cast concrete: a quiet grain with a few broad stains and water streaks run down from the
-    ceiling, so it does not read as static up close. Streaks fade in and out along y but wrap, so walls stack."""
-    img = noise_fill(hexrgb(0x43484D), 4, seed)
+    """Level 2's dark grey cast concrete (B5: `tunnel_cast`, the plain wall's first version), for the textures painted
+    over it (the warning sign, the old cube faces of the pipe and machinery walls)."""
+    return tunnel_cast(seed)
+
+
+TUNNEL_GREY = (67, 72, 77)
+
+
+def tunnel_cast(seed, alt=0):
+    """(B5) Level 2's walls: dark grey cast concrete (`matlib.concrete`, quiet aggregate, grey patches as B4 found
+    best), plywood-formed with a faint lift line and four form-tie holes, and water run down from the ceiling. The
+    old texture's broad stain, damp patch and efflorescence sat in the same place in every block; here the damp
+    patch and a rust run from a tie are in one version of three (`tunnelwall-plain-3`), efflorescence at the lift
+    line in the second. Mean brightness is kept (69)."""
+    # (round 2) every version shares one concrete ground, so neighbouring blocks in different versions meet without a
+    # seam (the round-2 shots showed block squares where the ground differed); only the features differ
+    ground = 352
+    img = M.concrete(ground, base=TUNNEL_GREY, grain=2, mottle=6, aggregate=0.012, pores=0.005, patches=4.0,
+                     patch_hue=1.2, hue=1.2)
+    M.grime(img, 0.16, M.sub(ground, "soot"), color=(40, 40, 38), cells=(16, 8), cover=0.55)  # soot and damp
+    for (x, y) in ((6, 8), (24, 8), (6, 24), (24, 24)):
+        tie_hole(img, x, y)
     rng = random.Random(seed + 1)
     px = img.load()
-    for _ in range(18):  # pores and aggregate
-        x, y = rng.randrange(S), rng.randrange(S)
-        px[x, y] = shade(px[x, y], 0.86)
-    for (x, y) in ((6, 8), (25, 8), (6, 24), (25, 24)):  # form-tie holes from the casting
-        px[x, y] = shade(px[x, y], 0.6)
-        px[x + 1, y] = shade(px[x + 1, y], 0.75)
-    blotch(img, (24, 26), 11, (78, 86, 74), 0.4, seed + 2)  # grime
-    blotch(img, (rng.randrange(S), rng.randrange(S)), 9, (34, 32, 28), 0.5, seed + 3)  # damp stain
-    blotch(img, (rng.randrange(S), rng.randrange(S)), 6, (96, 98, 92), 0.3, seed + 4)  # efflorescence
     for sx in (rng.randrange(2, 12), rng.randrange(18, 29)):  # water streaks, each showing over half the tile
         phase = rng.random() * 6.283
         for y in range(S):
             k = max(0.0, math.sin(y * 6.283 / S + phase)) ** 2 * 0.2
             for x, w in ((sx, 1.0), (sx + 1, 0.5)):
                 px[x, y] = shade(px[x, y], 1 - k * w)
-    return img
+    if alt == 1:
+        pour_line(img, 0, M.sub(seed, "lift"))  # a lift line with lime bloom weeping out of it, in one version only
+        for x in range(S):
+            if rng.random() < 0.55:
+                M.touch(img, x, 1, 0.08)
+                if rng.random() < 0.4:
+                    M.touch(img, x, 2, 0.05)
+    if alt == 2:
+        M.stain(img, M.sub(seed, "damp"), radius=8, color=(40, 40, 38), strength=0.35)
+        M.drips(img, 1, M.sub(seed, "tie"), color=(104, 70, 48), length=(7, 12), strength=0.28, start=10)
+    return match_mean(img, 69)
+
+
+def tunnel_brick(seed=360):
+    """(B5) The brick panels in Level 2's walls: dark, sooty engineering brick in running bond (`matlib.brick`), each
+    brick its own shade and a little hue, lit on top, the 2 px joints recessed and darker than the brick, as the old
+    one's were. Mean kept (50)."""
+    img = M.brick(seed, base=(66, 52, 44), mortar=(40, 36, 34), course=8, length=16, offset=0.5, mortar_w=2,
+                  jitter=9, hue=4, recess=1.0, pits=0.03, grain=4, mottle=6)
+    M.grime(img, 0.12, M.sub(seed, "soot"), color=(30, 28, 28), cover=0.45)
+    return match_mean(img, 50)
 
 
 def tunnel_wall(variant):
@@ -1189,11 +1219,131 @@ def tunnel_wall(variant):
     return img
 
 
-def tunnel_ceiling():
-    img = concrete_base(0x3E4348, 370, holes=False)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 20, S - 1, 25], fill=(107, 62, 42, 255))
+def tunnel_ceiling(alt=0):
+    """(B5) The tunnel soffit: the same cast concrete, darker (it is seldom lit from below), soot-stained, two tie
+    holes. The old painted rust pipe band is gone: the real pipe runs hang beside it, and the blind review read the
+    painted one (shaded, in round 1) as a ladder of painted pipes across every corridor. Three versions
+    (alternates in blocktypes/level2/tunnelceiling.json); the third has a water stain."""
+    seed = 370 + alt
+    img = M.concrete(370, base=(62, 67, 72), grain=2, mottle=6, aggregate=0.012, pores=0.005, patches=4.0,
+                     patch_hue=1.2, hue=1.2)  # one ground for all three versions, so they meet without a seam
+    M.grime(img, 0.2, M.sub(370, "soot"), color=(36, 36, 34), cells=(16, 8), cover=0.6)
+    for x in (8, 24):
+        tie_hole(img, x, 6)
+    if alt == 1:
+        M.crack(img, M.sub(seed, "crack"), at=(12, 20), length=(10, 16), strength=0.2)
+    if alt == 2:
+        M.stain(img, M.sub(seed, "leak"), radius=8, color=(44, 42, 36), strength=0.3)
+    return match_mean(img, 67)
+
+
+# ---------------- Level 2: the machine cabinets (B5) ----------------
+# The cabinets' gauges, lamps, vents, handles and labels are geometry (gen_shapes.level2, tools/modelkit.py); these are
+# their materials, one texture key each. The old painted front (props/cabinet-front) is still written for anything
+# else that uses it.
+
+CAB_PAINT = (70, 79, 74)
+
+
+def dial_face(size=16):
+    """A printed gauge dial: a cream face with a dark rim, ticks round the scale and the last two in red. Outside the
+    disc it is the bezel's dark, so the square face reads round behind the octagonal bezel."""
+    paper = (222, 216, 196)
+    img = M.noise_hv(paper, 2, 5110, size, 2)
+    p = img.load()
+    c = (size - 1) / 2
+    for y in range(size):
+        for x in range(size):
+            d = math.hypot(x - c, y - c)
+            if d > c + 0.3:
+                p[x, y] = M.rgba((48, 50, 50))
+            elif d > c - 0.9:
+                p[x, y] = M.rgba(M.lift(paper, -60))
+            elif y < c and d > c * 0.5:
+                p[x, y] = M.rgba(M.lift(p[x, y][:3], 4))  # the old glass's sheen on the upper half
+    for k in range(9):
+        a = math.radians(-120 + 30 * k)
+        for r in (c * 0.6, c * 0.76):
+            x, y = round(c + r * math.sin(a)), round(c - r * math.cos(a))
+            p[x, y] = M.rgba((176, 40, 30) if k >= 7 else (48, 44, 40))
     return img
+
+
+def lamp_lens(colour, seed, size=16):
+    """An indicator lamp's domed lens: lighter in the middle, a hot spot up and to the left, darker at the rim."""
+    img = M.noise_hv(colour, 3, seed, size, 2)
+    c = (size - 1) / 2
+    for y in range(size):
+        for x in range(size):
+            d = math.hypot(x - c, y - c) / c
+            hot = math.hypot(x - c + 3, y - c + 3)
+            M.touch(img, x, y, 0.18 - 0.42 * d * d + (0.3 if hot < 2 else 0))
+    return img
+
+
+def cabinet_label(seed=5120):
+    """A riveted equipment plate, 16x8: cream enamel, a dark border, two lines of dark print and a red rule."""
+    img = M.noise_hv((206, 198, 172), 2, seed, (16, 8), 3)
+    p = img.load()
+    rng = random.Random(seed)
+    for x in range(16):
+        for y in (0, 7):
+            p[x, y] = M.rgba((70, 66, 58))
+    for y in range(8):
+        for x in (0, 15):
+            p[x, y] = M.rgba((70, 66, 58))
+    for y, x0, x1 in ((2, 3, 13), (4, 3, 10)):
+        x = x0
+        while x < x1:
+            n = rng.randint(1, 3)
+            for k in range(n):
+                if x + k < x1:
+                    p[x + k, y] = M.rgba((52, 48, 44))
+            x += n + 1
+    for x in range(3, 13):
+        p[x, 6] = M.rgba((150, 52, 40))
+    for (x, y) in ((1, 1), (14, 1), (1, 6), (14, 6)):
+        p[x, y] = M.rgba((150, 146, 132))
+    return img
+
+
+def cabinet_warning(seed=5121):
+    """A small warning decal, 8x8: yellow with a black border and an exclamation mark."""
+    img = M.noise_hv((210, 176, 52), 2, seed, (8, 8), 2)
+    p = img.load()
+    for i in range(8):
+        for (x, y) in ((i, 0), (i, 7), (0, i), (7, i)):
+            p[x, y] = M.rgba((34, 32, 30))
+    for y in (2, 3, 5):
+        for x in (3, 4):
+            p[x, y] = M.rgba((34, 32, 30))
+    return img
+
+
+def cabinet_textures():
+    paint = M.painted_metal(5101, base=CAB_PAINT, grain=4, mottle=7, panel=False, chips=6, under=(96, 92, 84))
+    M.grime(paint, 0.22, 5102, cover=0.55)
+    M.rust(paint, 0.06, 5109, color=(112, 66, 40), dark=(70, 46, 32))
+    M.scratches(paint, 3, 5113)
+    save(paint, "block/level2/cabinet-paint.png")
+    panel = M.painted_metal(5103, base=M.lift(CAB_PAINT, -10), grain=4, mottle=7, panel=False, chips=4, under=(96, 92, 84))
+    M.grime(panel, 0.24, 5104, cover=0.55)
+    M.drips(panel, 3, 5114, color=(44, 42, 36), length=(8, 18), strength=0.3)
+    save(panel, "block/level2/cabinet-panel.png")
+    top = M.painted_metal(5115, base=M.lift(CAB_PAINT, -6), grain=4, mottle=7, panel=False, chips=4, under=(96, 92, 84))
+    M.grime(top, 0.4, 5116, color=(58, 54, 46), cover=0.75)  # dust settled on the lid
+    save(top, "block/level2/cabinet-top.png")
+    save(M.painted_metal(5105, base=(48, 52, 52), panel=False, chips=0), "block/level2/cabinet-dark.png")
+    save(M.noise_hv((24, 26, 26), 3, 5106, mottle=4), "block/level2/cabinet-vent.png")
+    bezel = M.brushed_metal(5107, base=(112, 112, 108), direction="h", streak=8, sheen=10)
+    M.grime(bezel, 0.15, 5117, cover=0.5)
+    save(bezel, "block/level2/cabinet-bezel.png")
+    save(M.noise_hv((176, 44, 34), 3, 5108, mottle=2), "block/level2/cabinet-needle.png")
+    save(dial_face(), "block/level2/cabinet-dial.png")
+    save(lamp_lens((190, 48, 34), 5111), "block/level2/cabinet-lampred.png")
+    save(lamp_lens((206, 146, 44), 5112), "block/level2/cabinet-lampamber.png")
+    save(cabinet_label(), "block/level2/cabinet-label.png")
+    save(cabinet_warning(), "block/level2/cabinet-warning.png")
 
 
 def cage_light(state):
@@ -1347,11 +1497,18 @@ def wall_pipe_tex(kind):
 
 
 def wall_pipe_flange():
-    """A flanged joint and the clamps of the wall pipes: dark, rust-bloomed steel, its bolt heads picked out."""
-    img = noise_fill((70, 58, 50), 4, 719)
-    for (cx, cy, r, s) in ((8, 6, 6, 0.4), (24, 22, 7, 0.45), (20, 8, 4, 0.35)):
-        blotch(img, (cx, cy), r, (120, 66, 34), s, 720 + cx)
-    return img
+    """A flanged joint and the clamps of the wall pipes: dark, rust-bloomed steel. (B5) Painted steel gone to rust in
+    scattered patches with pits, a lit top edge and a dark foot on every 8 px band (the flange rings and straps take
+    their own slice of it, so each reads as a shaded ring), bolt heads picked out. Mean kept (61)."""
+    img = M.painted_metal(719, base=(74, 62, 54), grain=3, mottle=5, panel=False, chips=3, under=(96, 90, 84))
+    M.rust(img, 0.35, 720, color=(126, 70, 38), dark=(70, 44, 30))
+    for y0 in range(0, S, 8):
+        for x in range(S):
+            M.touch(img, x, y0, 0.16)
+            M.touch(img, x, y0 + 7, -0.18)
+    for (x, y) in ((3, 3), (13, 3), (23, 3), (8, 19), (18, 19), (28, 19)):
+        M.screw(img, x, y, slot=False)
+    return match_mean(img, 61)
 
 
 def drum(top):
@@ -1833,9 +1990,14 @@ def level_textures():
     save(exit_sign(), "block/level1/exitsign.png")
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")
-    for v in ("plain", "machinery", "brick"):
-        save(tunnel_wall(v), f"block/level2/tunnelwall-{v}.png")
-    save(tunnel_ceiling(), "block/level2/tunnelceiling.png")
+    # (B5) the plain wall in three versions (alternates in blocktypes/level2/tunnelwall.json), the brick from matlib
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(tunnel_cast(352 + alt, alt), f"block/level2/tunnelwall-plain{v}.png")
+    save(tunnel_brick(), "block/level2/tunnelwall-brick.png")
+    save(tunnel_wall("machinery"), "block/level2/tunnelwall-machinery.png")
+    cabinet_textures()
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(tunnel_ceiling(alt), f"block/level2/tunnelceiling{v}.png")
     save(pipe_tex("rust"), "block/level2/pipe-rust.png")
     save(pipe_tex("lagging"), "block/level2/pipe-lagging.png")
     save(pipe_tex("red"), "block/level2/pipe-red.png")

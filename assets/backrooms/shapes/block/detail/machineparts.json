@@ -3,47 +3,22 @@
 	"textureHeight": 16,
 	"textures": {
 		"copper": "backrooms:block/detail/copper",
-		"gearflat": "backrooms:block/detail/gearflat",
 		"rust": "backrooms:block/level2/pipe-rust",
 		"steel": "backrooms:block/detail/steel",
 		"steeldark": "backrooms:block/detail/steeldark"
 	},
 	"elements": [
 		{
-			"name": "Gear",
+			"name": "GearDisc",
 			"from": [
-				1,
+				2.0,
 				0,
-				2
+				3.0
 			],
 			"to": [
-				9,
-				1.2,
-				10
-			],
-			"faces": {
-				"up": {
-					"texture": "#gearflat",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					]
-				}
-			}
-		},
-		{
-			"name": "GearEdge",
-			"from": [
-				2.5,
-				0,
-				3.5
-			],
-			"to": [
-				7.5,
-				1.1,
-				8.5
+				8.0,
+				1.0,
+				9.0
 			],
 			"faces": {
 				"north": {
@@ -51,17 +26,8 @@
 					"uv": [
 						0,
 						0,
-						5.0,
-						1.1
-					]
-				},
-				"south": {
-					"texture": "#rust",
-					"uv": [
-						0,
-						0,
-						5.0,
-						1.1
+						6.0,
+						1.0
 					]
 				},
 				"east": {
@@ -69,8 +35,17 @@
 					"uv": [
 						0,
 						0,
-						5.0,
-						1.1
+						6.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						6.0,
+						1.0
 					]
 				},
 				"west": {
@@ -78,8 +53,608 @@
 					"uv": [
 						0,
 						0,
-						5.0,
-						1.1
+						6.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "GearDisc45",
+			"from": [
+				2.05,
+				0,
+				3.05
+			],
+			"to": [
+				7.95,
+				0.95,
+				8.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.9,
+						0.95
+					]
+				},
+				"south": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.9,
+						0.95
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.8999999999999995,
+						0.95
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.8999999999999995,
+						0.95
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						5.9,
+						5.8999999999999995
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Tooth0",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 22.5
+		},
+		{
+			"name": "Tooth1",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 67.5
+		},
+		{
+			"name": "Tooth2",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 112.5
+		},
+		{
+			"name": "Tooth3",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 157.5
+		},
+		{
+			"name": "Tooth4",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 202.5
+		},
+		{
+			"name": "Tooth5",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 247.5
+		},
+		{
+			"name": "Tooth6",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 292.5
+		},
+		{
+			"name": "Tooth7",
+			"from": [
+				4.5,
+				0,
+				2.1
+			],
+			"to": [
+				5.5,
+				0.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.1999999999999997,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#rust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.1999999999999997
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				0,
+				6
+			],
+			"rotationY": 337.5
+		},
+		{
+			"name": "GearHub",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				6,
+				1.4,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
 					]
 				}
 			}

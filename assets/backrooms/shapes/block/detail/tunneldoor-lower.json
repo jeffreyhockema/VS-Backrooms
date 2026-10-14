@@ -1,0 +1,3031 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"doorsteel": "backrooms:block/detail/doorsteel",
+		"tunneldoor-lower": "backrooms:block/detail/tunneldoor-lower"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#tunneldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverRose0",
+			"from": [
+				2.5,
+				12.5,
+				-0.5
+			],
+			"to": [
+				4.5,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverNeck0",
+			"from": [
+				3.0,
+				13.0,
+				-1.5
+			],
+			"to": [
+				4.0,
+				14.0,
+				-0.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverLever0",
+			"from": [
+				3.0,
+				13.0,
+				-2.0
+			],
+			"to": [
+				6.0,
+				14.0,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick0",
+			"from": [
+				2.0,
+				2.5,
+				-0.25
+			],
+			"to": [
+				14.0,
+				6.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew00",
+			"from": [
+				2.5,
+				3.0,
+				-0.4
+			],
+			"to": [
+				3.0,
+				3.5,
+				-0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew10",
+			"from": [
+				13.0,
+				3.0,
+				-0.4
+			],
+			"to": [
+				13.5,
+				3.5,
+				-0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew20",
+			"from": [
+				2.5,
+				5.0,
+				-0.4
+			],
+			"to": [
+				3.0,
+				5.5,
+				-0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew30",
+			"from": [
+				13.0,
+				5.0,
+				-0.4
+			],
+			"to": [
+				13.5,
+				5.5,
+				-0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeLeaf0",
+			"from": [
+				13.75,
+				2.0,
+				-0.25
+			],
+			"to": [
+				15.25,
+				5.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle00",
+			"from": [
+				14.75,
+				2.0,
+				-1.0
+			],
+			"to": [
+				15.75,
+				3.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle10",
+			"from": [
+				14.75,
+				3.75,
+				-1.0
+			],
+			"to": [
+				15.75,
+				5.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingePin0",
+			"from": [
+				15.0,
+				5.0,
+				-0.75
+			],
+			"to": [
+				15.5,
+				5.5,
+				-0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverRose1",
+			"from": [
+				16,
+				12.5,
+				2.5
+			],
+			"to": [
+				16.5,
+				14.5,
+				4.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverNeck1",
+			"from": [
+				16.5,
+				13.0,
+				3.0
+			],
+			"to": [
+				17.5,
+				14.0,
+				4.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverLever1",
+			"from": [
+				17.5,
+				13.0,
+				3.0
+			],
+			"to": [
+				18.0,
+				14.0,
+				6.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick1",
+			"from": [
+				16,
+				2.5,
+				2.0
+			],
+			"to": [
+				16.25,
+				6.0,
+				14.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew01",
+			"from": [
+				16.25,
+				3.0,
+				2.5
+			],
+			"to": [
+				16.4,
+				3.5,
+				3.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew11",
+			"from": [
+				16.25,
+				3.0,
+				13.0
+			],
+			"to": [
+				16.4,
+				3.5,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew21",
+			"from": [
+				16.25,
+				5.0,
+				2.5
+			],
+			"to": [
+				16.4,
+				5.5,
+				3.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew31",
+			"from": [
+				16.25,
+				5.0,
+				13.0
+			],
+			"to": [
+				16.4,
+				5.5,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeLeaf1",
+			"from": [
+				16,
+				2.0,
+				13.75
+			],
+			"to": [
+				16.25,
+				5.0,
+				15.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle01",
+			"from": [
+				16,
+				2.0,
+				14.75
+			],
+			"to": [
+				17.0,
+				3.25,
+				15.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle11",
+			"from": [
+				16,
+				3.75,
+				14.75
+			],
+			"to": [
+				17.0,
+				5.0,
+				15.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingePin1",
+			"from": [
+				16.25,
+				5.0,
+				15.0
+			],
+			"to": [
+				16.75,
+				5.5,
+				15.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverRose2",
+			"from": [
+				11.5,
+				12.5,
+				16
+			],
+			"to": [
+				13.5,
+				14.5,
+				16.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverNeck2",
+			"from": [
+				12.0,
+				13.0,
+				16.5
+			],
+			"to": [
+				13.0,
+				14.0,
+				17.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverLever2",
+			"from": [
+				10.0,
+				13.0,
+				17.5
+			],
+			"to": [
+				13.0,
+				14.0,
+				18.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick2",
+			"from": [
+				2.0,
+				2.5,
+				16
+			],
+			"to": [
+				14.0,
+				6.0,
+				16.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew02",
+			"from": [
+				13.0,
+				3.0,
+				16.25
+			],
+			"to": [
+				13.5,
+				3.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew12",
+			"from": [
+				2.5,
+				3.0,
+				16.25
+			],
+			"to": [
+				3.0,
+				3.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew22",
+			"from": [
+				13.0,
+				5.0,
+				16.25
+			],
+			"to": [
+				13.5,
+				5.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew32",
+			"from": [
+				2.5,
+				5.0,
+				16.25
+			],
+			"to": [
+				3.0,
+				5.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeLeaf2",
+			"from": [
+				0.75,
+				2.0,
+				16
+			],
+			"to": [
+				2.25,
+				5.0,
+				16.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle02",
+			"from": [
+				0.25,
+				2.0,
+				16
+			],
+			"to": [
+				1.25,
+				3.25,
+				17.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle12",
+			"from": [
+				0.25,
+				3.75,
+				16
+			],
+			"to": [
+				1.25,
+				5.0,
+				17.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingePin2",
+			"from": [
+				0.5,
+				5.0,
+				16.25
+			],
+			"to": [
+				1.0,
+				5.5,
+				16.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverRose3",
+			"from": [
+				-0.5,
+				12.5,
+				11.5
+			],
+			"to": [
+				0,
+				14.5,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverNeck3",
+			"from": [
+				-1.5,
+				13.0,
+				12.0
+			],
+			"to": [
+				-0.5,
+				14.0,
+				13.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverLever3",
+			"from": [
+				-2.0,
+				13.0,
+				10.0
+			],
+			"to": [
+				-1.5,
+				14.0,
+				13.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick3",
+			"from": [
+				-0.25,
+				2.5,
+				2.0
+			],
+			"to": [
+				0,
+				6.0,
+				14.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						12.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew03",
+			"from": [
+				-0.3999999999999986,
+				3.0,
+				13.0
+			],
+			"to": [
+				-0.25,
+				3.5,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew13",
+			"from": [
+				-0.3999999999999986,
+				3.0,
+				2.5
+			],
+			"to": [
+				-0.25,
+				3.5,
+				3.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew23",
+			"from": [
+				-0.3999999999999986,
+				5.0,
+				13.0
+			],
+			"to": [
+				-0.25,
+				5.5,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew33",
+			"from": [
+				-0.3999999999999986,
+				5.0,
+				2.5
+			],
+			"to": [
+				-0.25,
+				5.5,
+				3.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeLeaf3",
+			"from": [
+				-0.25,
+				2.0,
+				0.75
+			],
+			"to": [
+				0,
+				5.0,
+				2.25
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3.0
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle03",
+			"from": [
+				-1.0,
+				2.0,
+				0.25
+			],
+			"to": [
+				0,
+				3.25,
+				1.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeKnuckle13",
+			"from": [
+				-1.0,
+				3.75,
+				0.25
+			],
+			"to": [
+				0,
+				5.0,
+				1.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingePin3",
+			"from": [
+				-0.75,
+				5.0,
+				0.5
+			],
+			"to": [
+				-0.25,
+				5.5,
+				1.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

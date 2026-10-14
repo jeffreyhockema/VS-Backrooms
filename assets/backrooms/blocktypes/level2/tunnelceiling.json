@@ -3,7 +3,8 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
-	textures: { all: { base: "block/level2/tunnelceiling" } },
+	// Three versions (B5), the third with a water stain
+	textures: { all: { base: "block/level2/tunnelceiling", alternates: [{ base: "block/level2/tunnelceiling-2" }, { base: "block/level2/tunnelceiling-3" }] } },
 	resistance: 8,
 	requiredMiningTier: 3,
 	lightAbsorption: 99,

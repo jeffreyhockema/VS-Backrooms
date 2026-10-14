@@ -27,10 +27,25 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/tunneldoor-{paint}-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/tunneldoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/tunneldoor-upper"
+		}
+	},
+	"texturesByType": {
+		"*-lower": {
+			"tunneldoor-lower": {
+				"base": "block/detail/tunneldoor-{paint}-lower"
+			}
+		},
+		"*-upper": {
+			"tunneldoor-upper": {
+				"base": "block/detail/tunneldoor-{paint}-upper"
+			}
 		}
 	},
 	"lightAbsorption": 99,
