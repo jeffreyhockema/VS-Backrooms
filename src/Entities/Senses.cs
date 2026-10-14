@@ -20,8 +20,17 @@ public static class Senses
     {
         if (entity is not EntityAgent agent) return 0;
         // (Players also glow for a while after respawning; only what is in the hands counts here)
-        return Math.Max(LightOf(entity.World, agent.RightHandItemSlot), LightOf(entity.World, agent.LeftHandItemSlot));
+        return Math.Max(LightOf(entity.World, RightHand(agent)), LightOf(entity.World, LeftHand(agent)));
     }
+
+    /// <summary>
+    /// What an agent holds in its right hand, or nothing. A player entity whose player is not attached (still joining,
+    /// or just gone) throws on its hand slots, so it counts as empty-handed here.
+    /// </summary>
+    public static ItemSlot RightHand(EntityAgent agent) => agent is EntityPlayer { Player: null } ? null : agent.RightHandItemSlot;
+
+    /// <summary>What an agent holds in its left hand, or nothing (see <see cref="RightHand"/>).</summary>
+    public static ItemSlot LeftHand(EntityAgent agent) => agent is EntityPlayer { Player: null } ? null : agent.LeftHandItemSlot;
 
     /// <summary>How bright what lies in a slot burns (0 for nothing, or nothing alight).</summary>
     private static int LightOf(IWorldAccessor world, ItemSlot slot)
@@ -76,7 +85,7 @@ public static class Senses
     /// not at all.
     /// </summary>
     public static double MothDraw(EntityAgent player) =>
-        Math.Max(MothDraw(player.World, player.RightHandItemSlot), MothDraw(player.World, player.LeftHandItemSlot));
+        Math.Max(MothDraw(player.World, RightHand(player)), MothDraw(player.World, LeftHand(player)));
 
     private static double MothDraw(IWorldAccessor world, ItemSlot slot)
     {

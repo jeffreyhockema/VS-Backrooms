@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: a crash every tick (and a save that would no longer load) while a player stood in Level Fun whose player object was not attached yet, as when joining; the Partygoers' disguise check and the light and moth senses now treat such a player as empty-handed.
+
 ## 0.513.0 — first update
 
 Fixes and balance from the first players' feedback, a mapless mode and a harsher scarcity setting. Existing worlds keep working, with the layout they were made with.
