@@ -77,6 +77,7 @@ public class L3999System : ModSystem
         api.RegisterBlockBehaviorClass("BackroomsArcadeDirectory", typeof(BlockBehaviorL3999Directory));
         api.RegisterBlockBehaviorClass("BackroomsL3999Vending", typeof(BlockBehaviorL3999Vending));
         api.RegisterBlockBehaviorClass("BackroomsWindmillGenerator", typeof(BlockBehaviorL3999Generator));
+        api.RegisterBlockBehaviorClass("BackroomsHorizontalOrientable", typeof(BlockBehaviorOrientable));
         api.RegisterEntity("BackroomsAttendant", typeof(EntityL3999Attendant));
     }
 
@@ -547,7 +548,7 @@ public class L3999System : ModSystem
             return;
         }
         IBlockAccessor blocks = sapi.World.BlockAccessor;
-        Block on = sapi.World.GetBlock(block.CodeWithVariant("state", "on"));
+        Block on = sapi.World.GetBlock(BlockCodes.WithVariant(block, "state", "on"));
         if (on != null && on.BlockId != 0) blocks.ExchangeBlock(on.BlockId, pos);
         // The beacon: on the windmill's middle, four blocks behind the generator, up on the cap
         string facing = block.Variant?["facing"] ?? "north";

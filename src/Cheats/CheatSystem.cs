@@ -15,7 +15,7 @@ namespace Backrooms.Cheats;
 
 /// <summary>
 /// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, allitems, clear, home, back,
-/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest); the client side (CheatSystem.Client.cs) is a
+/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest, blocksweep); the client side (CheatSystem.Client.cs) is a
 /// menu (F7, or <c>.cheats</c>) whose buttons send those and the other debug commands, so every action still goes
 /// through the server's privilege check, plus a few view cheats that only touch the client.
 /// </summary>
@@ -247,6 +247,12 @@ public partial class CheatSystem : ModSystem
                 .RequiresPlayer()
                 .WithArgs(parsers.OptionalWord("entity"))
                 .HandleWith(OnHarvestTestCommand)
+            .EndSubCommand()
+            .BeginSubCommand("blocksweep")
+                .WithDescription("Dev test: puts one of every Backrooms block down in turn (where you stand, or at the spawn from the console) and asks it what the block-info HUD asks a looked-at block; reports any that throw")
+                // (A console line ends in a carriage return the parser keeps as an argument; it is taken and ignored)
+                .WithArgs(sapi.ChatCommands.Parsers.OptionalWord("ignored"))
+                .HandleWith(OnBlockSweepCommand)
             .EndSubCommand()
             .BeginSubCommand("die")
                 .WithDescription("Kills you, to test dying and waking up again")
@@ -989,6 +995,46 @@ public partial class CheatSystem : ModSystem
     /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
     /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
     /// </summary>
+    /// <summary>
+    /// Dev test: puts one of every Backrooms block down in turn and asks it what the block-info HUD asks a looked-at
+    /// block (its placed name, its pick stack and its drops). A block that throws is reported: the Level Fun supply shelf
+    /// crashed clients that way, by a code rebuilt from the wrong part.
+    /// </summary>
+    private TextCommandResult OnBlockSweepCommand(TextCommandCallingArgs args)
+    {
+        IWorldAccessor world = sapi.World;
+        IBlockAccessor blocks = world.BlockAccessor;
+        BlockPos at = (args.Caller.Entity?.Pos.AsBlockPos ?? world.DefaultSpawnPosition.AsBlockPos).UpCopy(2);
+        for (int i = 0; i < 12 && blocks.GetBlock(at).Id != 0; i++) at = at.UpCopy();
+        if (blocks.GetBlock(at).Id != 0) return TextCommandResult.Error("No air to put the blocks in here");
+        int tried = 0;
+        var failed = new List<string>();
+        foreach (Block block in world.Blocks)
+        {
+            if (block?.Code == null || block.Code.Domain != "backrooms" || block.Id == 0) continue;
+            tried++;
+            try
+            {
+                blocks.SetBlock(block.Id, at);
+                block.GetPlacedBlockName(world, at);
+                block.OnPickBlock(world, at);
+                block.GetDrops(world, at, null, 1f);
+            }
+            catch (Exception e)
+            {
+                failed.Add($"{block.Code}: {e.GetType().Name}: {e.Message}");
+            }
+            finally
+            {
+                try { blocks.SetBlock(0, at); } catch (Exception) { }
+            }
+        }
+        foreach (string f in failed) sapi.Logger.Warning("[backrooms] blocksweep: {0}", f);
+        string summary = $"blocksweep: {tried} blocks tried, {failed.Count} threw" + (failed.Count > 0 ? ": " + string.Join(" | ", failed.Take(20)) : "");
+        sapi.Logger.Notification("[backrooms] " + summary);
+        return failed.Count == 0 ? TextCommandResult.Success(summary) : TextCommandResult.Error(summary);
+    }
+
     private TextCommandResult OnHarvestTestCommand(TextCommandCallingArgs args)
     {
         IServerPlayer player = (IServerPlayer)args.Caller.Player;

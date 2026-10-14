@@ -112,7 +112,7 @@ def items():
 
     variants_block("l3999-neonlamp", "Neon Lamp", [("colour", COLOURS), ("facing", SIDES)], lamp, rot="facing",
                    box=(0.05, 0.35, 0.72, 0.95, 0.62, 1), collide=False, material="Glass", sounds=GLASS,
-                   data={"behaviors": [{"name": "HorizontalOrientable", "properties": {"dropBlockFace": "north"}}],
+                   data={"behaviors": [{"name": "BackroomsHorizontalOrientable", "properties": {"dropBlockFace": "north"}}],
                          "lightHsvByType": {f"*-{c}-*": hsv(c, 9) for c in COLOURS}, "resistance": 0.5,
                          "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
                          "drops": [{"type": "block", "code": "l3999-neonlamp-{colour}-north", "quantity": {"avg": 1, "var": 0}}]},

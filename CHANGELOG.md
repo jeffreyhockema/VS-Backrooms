@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.513.2 — fixes
+
+- Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
+- Fixed: The End's computers never went dead after a party was carried off, and Level 3999's generator never switched on: both looked for their next block by the same wrong name. Existing worlds keep working.
+
 ## 0.513.1 — fixes
 
 Two fixes from the first reports on 0.513.0. Existing worlds keep working.

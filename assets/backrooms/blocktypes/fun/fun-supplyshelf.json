@@ -12,7 +12,7 @@
 			]
 		}
 	],
-	"class": "BlockGenericTypedContainer",
+	"class": "BackroomsFunSupplyShelf",
 	"entityClass": "GenericTypedContainer",
 	"behaviors": [
 		{
@@ -55,6 +55,26 @@
 	},
 	"blockmaterial": "Metal",
 	"drawtype": "json",
+	"textures": {
+		"steel": {
+			"base": "block/fun/steel"
+		},
+		"shelf-steel": {
+			"base": "block/fun/steel"
+		},
+		"supplybox-balloons": {
+			"base": "block/fun/supplybox-balloons"
+		},
+		"shelf-supplybox-balloons": {
+			"base": "block/fun/supplybox-balloons"
+		},
+		"supplybox-hats": {
+			"base": "block/fun/supplybox-hats"
+		},
+		"shelf-supplybox-hats": {
+			"base": "block/fun/supplybox-hats"
+		}
+	},
 	"shapeByType": {
 		"*-north": {
 			"base": "block/fun/fun-supplyshelf",

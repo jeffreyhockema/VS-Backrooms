@@ -79,6 +79,7 @@ public class FunSystem : ModSystem
         api.RegisterBlockClass("BackroomsFunGift", typeof(BlockFunGift));
         api.RegisterBlockClass("BackroomsCarnivorousBalloon", typeof(BlockCarnivorousBalloon));
         api.RegisterBlockClass("BackroomsFunPoster", typeof(BlockFunPoster));
+        api.RegisterBlockClass("BackroomsFunSupplyShelf", typeof(BlockFunSupplyShelf));
         api.RegisterItemClass("BackroomsVelvetCake", typeof(ItemVelvetCake));
         api.RegisterEntityBehaviorClass("backrooms-partygoer", typeof(EntityBehaviorPartygoer));
         api.RegisterEntity("BackroomsPartyHost", typeof(EntityPartyHost));
