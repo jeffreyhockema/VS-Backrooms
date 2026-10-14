@@ -3,15 +3,24 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Ceramic",
 	drawtype: "cube",
-	// Every tile a little different, and now and then one stained by water from above
+	// Every tile a little different, and now and then one stained by water from above (two stains, at different
+	// places, so the same blot does not recur); the sides, seen where the ceiling's layer ends, show the board's cut edge
 	textures: {
 		all: { base: "block/ceilingtile", alternates: [
 			{ base: "block/ceilingtile2" },
 			{ base: "block/ceilingtile3" },
 			{ base: "block/ceilingtile" },
 			{ base: "block/ceilingtile2" },
-			{ base: "block/ceilingtile-stain" }
-		] }
+			{ base: "block/ceilingtile-stain" },
+			{ base: "block/ceilingtile3" },
+			{ base: "block/ceilingtile" },
+			{ base: "block/ceilingtile2" },
+			{ base: "block/ceilingtile-stain2" }
+		] },
+		north: { base: "block/ceilingtile-side" },
+		east: { base: "block/ceilingtile-side" },
+		south: { base: "block/ceilingtile-side" },
+		west: { base: "block/ceilingtile-side" }
 	},
 	// Mostly nothing, but ceiling voids hide wire, brackets and rotten battens
 	drops: [

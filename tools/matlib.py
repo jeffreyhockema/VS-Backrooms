@@ -649,11 +649,13 @@ def plaster(seed=0, size=S, base=(212, 206, 194), grain=3, mottle=8, roller=0.5,
     return img
 
 
-def paper(seed=0, size=S, base=(214, 206, 160), grain=3, mottle=5, fibre=0.6, seams=16, strip=3.0, drift=DRIFT):
+def paper(seed=0, size=S, base=(214, 206, 160), grain=3, mottle=5, fibre=0.6, seams=16, strip=3.0, drift=DRIFT,
+          seam=1.0):
     """Wallpaper or paper: a fine fibre grain (short pale and dark fibres in all directions), soft mottle, and, with
     `seams` (px between strips, None for none), a butt seam: a dark line with the paper edge beside it lifted (lit),
     and each strip a touch different in hue and value (+-`strip` levels), as rolls from different batches are.
-    Print a motif on it with `dye` (it keeps the fibre)."""
+    `seam` scales how strongly the butt seam shows (1.0 a fresh hang seen close; about 0.5 for a large wall, where
+    a seam every half block would otherwise read as a stripe). Print a motif on it with `dye` (it keeps the fibre)."""
     w, h = wh(size)
     img = noise_hv(base, grain, seed, (w, h), mottle, (8, 4), drift, hue=1.5)
     rng = random.Random(sub(seed, "fibre"))
@@ -672,9 +674,9 @@ def paper(seed=0, size=S, base=(214, 206, 160), grain=3, mottle=5, fibre=0.6, se
                 for x in range(s0, min(w, s0 + seams)):
                     p[x, y] = rgba(hue_shift(lift(p[x, y], v, drift), hu))
             for y in range(h):
-                touch(img, s0, y, -0.12)
-                touch(img, s0 + 1, y, 0.06 if rng.random() < 0.85 else 0.1)
-                touch(img, s0 - 1, y, -0.03)
+                touch(img, s0, y, -0.12 * seam)
+                touch(img, s0 + 1, y, (0.06 if rng.random() < 0.85 else 0.1) * seam)
+                touch(img, s0 - 1, y, -0.03 * seam)
     return img
 
 
@@ -1140,7 +1142,7 @@ def brick(seed=0, size=S, base=(150, 82, 62), mortar=(176, 168, 154), course=8, 
     return img
 
 
-# ---------------- Ceiling module (textures; the T-bar geometry comes in B3) ----------------
+# ---------------- Ceiling module (textures; B3 kept the T-bar and the troffer painted, see gen_textures) ----------------
 
 TBAR = (198, 196, 190)
 

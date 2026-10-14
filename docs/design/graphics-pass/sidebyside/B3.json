@@ -1,0 +1,21 @@
+{
+ "batch": "B3",
+ "title": "Level 0",
+ "before": "review/baseline/0",
+ "after": "review/b3/final",
+ "out": "review/b3/sidebyside",
+ "families": [
+  {"id": "wallpaper", "name": "Chevron wallpaper (all parts, damp)", "spots": ["close-wall", "wide-02"]},
+  {"id": "other-papers", "name": "Other papers (pale arch paper, manila)", "spots": ["arch-wide", "refuge-close"]},
+  {"id": "trims-outlet", "name": "Baseboard, chair rail, outlet", "spots": ["prop-1", "wide-03"]},
+  {"id": "carpet", "name": "Carpet (normal)", "spots": ["close-floor", "wide-01"]},
+  {"id": "carpet-variants", "name": "Carpet stained, soaked, threadbare", "spots": ["wide-02", "arch-wide"]},
+  {"id": "ceiling", "name": "Ceiling tile and T-bar", "spots": ["close-ceiling", "wide-01"]},
+  {"id": "troffers", "name": "Troffer lights (on, off, dim, red)", "spots": ["close-light", "wide-04"]},
+  {"id": "redrooms", "name": "Red Rooms paper and red troffer", "spots": ["redroom-close", "redroom-wide"]},
+  {"id": "arch-header", "name": "Arch header (soffit)", "spots": ["arch-close"]},
+  {"id": "supply-box", "name": "Supply box (sealed)", "spots": ["cache-close", "den-close"]},
+  {"id": "torn-box", "name": "Torn supply box", "spots": ["cache-close", "cache-wide"]},
+  {"id": "concrete", "name": "Concrete (gate surround; see note)", "spots": ["gate-close"]}
+ ]
+}

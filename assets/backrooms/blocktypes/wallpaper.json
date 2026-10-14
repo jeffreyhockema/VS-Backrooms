@@ -15,10 +15,10 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
-	// One stretch of wall in three is older and damp-stained
+	// One stretch of wall in three is older and damp-stained; the other two are two hangings of the same paper
 	textures: {
 		all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
-			{ base: "block/wallpaper/{pattern}-{part}" },
+			{ base: "block/wallpaper/{pattern}-{part}-2" },
 			{ base: "block/wallpaper/{pattern}-{part}-damp" }
 		] }
 	},

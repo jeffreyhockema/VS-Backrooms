@@ -11,6 +11,7 @@ import math
 import os
 import random
 
+import matlib as M
 import texlib
 
 from PIL import Image, ImageDraw
@@ -107,180 +108,386 @@ def blotch(img, center, radius, color, strength, seed):
 
 
 # ---------------- Wallpaper ----------------
+#
+# Level 0's papers (graphics pass B3). Each is printed paper built with matlib: a fibre ground with a butt seam every
+# 16 px (two strips to a block, each from a slightly different roll), the motif dyed into it so it keeps the fibre and
+# the seam's shading, and the ink a little uneven. The trims (baseboard, chair rail, outlet) are drawn as relief, lit
+# from above. Every part comes in three versions the blocktype mixes at random: two plain ones (`-2` is a second seed)
+# and `-damp`, an older stretch with a contained water stain, so the stain lands on about one block in three.
 
 GROUND = hexrgb(0xD7D48A)
 CHEVRON = hexrgb(0xB3AE7A)
 BEAD = hexrgb(0xE8E4BE)
+# The chevron as printed (B3): the same hue as CHEVRON, about 48 levels below the ground rather than 34, so the motif
+# still reads from a few blocks away once the paper's fibre and seams are under it (the lore paper's chevron is plain
+# to see). The beads print at about half strength, so the chevrons lead.
+CHEVRON_PRINT = (165, 160, 108)
+BEAD_ALPHA = 0.5
 
 
-def pattern_chevron(seed, ground=GROUND, chevron=CHEVRON, bead=BEAD, grain=3):
-    """Columns of beaded lines alternating with columns of stacked upward chevrons, offset by half a step."""
-    img = noise_fill(ground, grain, seed)
+def _ink(rng, wear, k=1.0):
+    """The alpha of one printed pixel: mostly full, a little uneven, now and then nearly missed by the roller."""
+    return int(255 * k * (rng.uniform(0.4, 0.65) if rng.random() < wear else rng.uniform(0.9, 1.0)))
+
+
+def motif_chevron(seed, chevron=CHEVRON_PRINT, bead=BEAD, wear=0.03):
+    """The 2002 photo's print: columns of beaded lines alternating with columns of stacked upward chevrons, offset by
+    half a step, on an 8 px column. Transparent where there is no ink."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     px = img.load()
+    rng = random.Random(seed)
     for col in range(S // 8):
         x0 = col * 8
         offset = (col % 2) * 4
         for y in range(S):
             if (y // 2) % 2 == 0:
-                px[x0, y] = bead + (255,)  # beaded / dashed line
+                px[x0, y] = bead + (_ink(rng, wear, BEAD_ALPHA),)  # beaded / dashed line
             row = (y + offset) % 8
             # "^" three rows tall, five pixels wide, centred in the column
             for dx, r in ((4, 0), (3, 1), (5, 1), (2, 2), (6, 2)):
                 if row == r:
-                    px[x0 + dx, y] = chevron + (255,)
+                    px[x0 + dx, y] = chevron + (_ink(rng, wear),)
     return img
 
 
-def pattern_dotted(seed):
-    img = noise_fill(hexrgb(0xDCD89C), 3, seed)
+def motif_dots(seed, colour, pitch, stagger, wear=0.08):
+    """A dot grid every `pitch` px, alternate rows shifted by `stagger` (pitch divides 32, so it tiles)."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     px = img.load()
-    for y in range(0, S, 4):
-        for x in range(0, S, 4):
-            px[(x + (2 if (y // 4) % 2 else 0)) % S, y] = hexrgb(0xB5AE78) + (255,)
+    rng = random.Random(seed)
+    for y in range(0, S, pitch):
+        for x in range(0, S, pitch):
+            px[(x + (stagger if (y // pitch) % 2 else 0) + pitch // 2 - 1) % S, (y + pitch // 2 - 1) % S] = colour + (_ink(rng, wear),)
     return img
 
 
-def pattern_cream(seed):
+def paper_wall(seed, ground, motif=None, strip=1.0, mottle=3, fibre=0.6, grain=3, seam=0.3):
+    """A printed paper wall: matlib.paper (fibre, strips with butt seams every 16 px, kept faint: on a whole wall a
+    stronger seam reads as a stripe) with the motif dyed in."""
+    img = M.paper(seed, base=ground, grain=grain, mottle=mottle, fibre=fibre, seams=16, strip=strip, seam=seam)
+    if motif is not None:
+        M.dye(img, motif, ground)
+    M.hue_jitter(img, 1.0, seed + 5, cell=16)
+    return img
+
+
+def pattern_chevron(seed, alt=0, ground=GROUND, chevron=CHEVRON_PRINT, bead=BEAD, grain=3):
+    return paper_wall(seed, ground, motif_chevron(seed + 1, chevron, bead), grain=grain)
+
+
+def pattern_dotted(seed, alt=0):
+    return paper_wall(seed, hexrgb(0xDCD89C), motif_dots(seed + 1, hexrgb(0xB5AE78), 4, 2))
+
+
+def pattern_cream(seed, alt=0):
     """The pale walls of the arched areas: the same paper, bleached until the pattern is only just there."""
-    return pattern_chevron(seed, hexrgb(0xE9E1BA), hexrgb(0xD8CEA2), hexrgb(0xF1EBCF), grain=3)
+    return paper_wall(seed, hexrgb(0xE9E1BA), motif_chevron(seed + 1, hexrgb(0xCFC497), hexrgb(0xF1EBCF), wear=0.12),
+                      strip=1.2, mottle=6)
 
 
-def pattern_manila(seed):
-    img = noise_fill(hexrgb(0xD5BE8A), 4, seed)
-    px = img.load()
-    for y in range(1, S, 5):
-        for x in range(1, S, 5):
-            px[(x + (y // 5) % 2 * 2) % S, y] = hexrgb(0xBDA470) + (255,)
-    return img
+def pattern_manila(seed, alt=0):
+    """The Manila Room: plain manila paper with a fine staggered dot (every 4 px, so it tiles); the seams kept fainter
+    than on the printed papers, since with no motif over them they read as panel joints."""
+    return paper_wall(seed, hexrgb(0xD5BE8A), motif_dots(seed + 1, hexrgb(0xB49A64), 4, 2, wear=0.1), strip=0.8,
+                      mottle=5, fibre=0.8, seam=0.15)
 
 
-def pattern_stripped(seed):
-    img = noise_fill(hexrgb(0xC9C3B2), 5, seed)
+def pattern_stripped(seed, alt=0):
+    """Bare drywall where the paper was cut away: the drywall's own paper face and the dried paste in bands along the
+    old strip seams; the second version (alt) also has a few small scraps of the yellow paper that would not come
+    away, each with a torn pale edge and its own thickness (lit on top, a shadow under it). Scraps in every block
+    would repeat as a grid, so they are in one version of three."""
     rng = random.Random(seed + 7)
-    d = ImageDraw.Draw(img)
-    for _ in range(7):  # dried glue streaks
-        x = rng.randrange(S)
-        d.line([x, rng.randrange(S), x + rng.randint(-2, 2), rng.randrange(S)], fill=(176, 168, 146, 255))
-    for _ in range(5):  # scraps of yellow paper that would not come away
-        x, y = rng.randrange(S - 4), rng.randrange(S - 3)
-        d.rectangle([x, y, x + rng.randint(1, 4), y + rng.randint(1, 2)], fill=GROUND + (255,))
+    img = M.plaster(seed, base=hexrgb(0xC9C3B2), grain=3, mottle=4, roller=0.3, bumps=0.004)
+    px = img.load()
+    paste = (186, 172, 132)
+    for s0 in (0, 16):  # paste left along the old seams: a soft yellowish band with streaks of the brush in it
+        w = rng.uniform(3.0, 5.0)
+        for y in range(S):
+            for dx in range(-6, 7):
+                t = max(0.0, 1 - abs(dx + rng.uniform(-0.6, 0.6)) / w) * 0.22
+                if t > 0:
+                    x = (s0 + dx) % S
+                    px[x, y] = M.rgba(M.mix(px[x, y], paste, t))
+        for _ in range(3):
+            x = (s0 + rng.randint(-3, 3)) % S
+            y0 = rng.randrange(S)
+            for y in range(y0, y0 + rng.randint(6, 16)):
+                M.touch(img, x, y, -0.05)
+    scrap = pattern_chevron(seed + 20)
+    sp = scrap.load()
+    for _ in range(rng.randint(2, 3) if alt else 0):  # scraps, irregular, 2-5 px
+        cx, cy = rng.randrange(S), rng.randrange(S)
+        cells = {(cx, cy)}
+        for _ in range(rng.randint(3, 9)):
+            ax, ay = rng.choice(sorted(cells))
+            cells.add((ax + rng.choice((-1, 0, 1)), ay + rng.choice((-1, 0, 0, 1))))
+        cells = {(x % S, y % S) for x, y in cells}
+        for (x, y) in cells:
+            px[x, y] = M.rgba(M.lift(sp[x, y], -6))
+        for (x, y) in cells:
+            if ((x, (y - 1) % S)) not in cells:
+                M.touch(img, x, y, 0.08)  # the scrap's top edge catches the light
+            if ((x, (y + 1) % S)) not in cells:
+                M.touch(img, x, y + 1, -0.14)  # and throws a hairline shadow under it
+            for nx, ny in ((x + 1, y), (x - 1, y)):
+                if ((nx % S, ny % S)) not in cells and rng.random() < 0.4:
+                    M.touch(img, nx, ny, 0.06)  # torn white fibre at the edge
     return img
 
 
-def pattern_red(seed):
-    """The Red Rooms: the same beaded lines and chevrons as the yellow paper, in dried-blood red."""
-    ground, chevron, bead = hexrgb(0x8A2A22), hexrgb(0x5A1412), hexrgb(0xB45C4A)
-    img = noise_fill(ground, 4, seed)
-    px = img.load()
-    for col in range(S // 8):
-        x0 = col * 8
-        offset = (col % 2) * 4
-        for y in range(S):
-            if (y // 2) % 2 == 0:
-                px[x0, y] = bead + (255,)
-            row = (y + offset) % 8
-            for dx, r in ((4, 0), (3, 1), (5, 1), (2, 2), (6, 2)):
-                if row == r:
-                    px[x0 + dx, y] = chevron + (255,)
+def pattern_red(seed, alt=0):
+    """The Red Rooms: the same beaded lines and chevrons as the yellow paper, in dried-blood red, with darker runs
+    down it (faint and frequent, so they read as the paper's state rather than one mark per block)."""
+    ground = hexrgb(0x8A2A22)
+    img = paper_wall(seed, ground, motif_chevron(seed + 1, hexrgb(0x5A1412), hexrgb(0xB45C4A), wear=0.12),
+                     strip=2.0, mottle=8, grain=4)
+    M.drips(img, n=4, seed=seed + 3, color=(70, 14, 12), length=(10, 30), strength=0.22)
+    M.grime(img, 0.12, seed + 4, color=(60, 12, 10), cells=(8, 4, 2), cover=0.45)
     return img
 
 
 PATTERNS = {"stripped": pattern_stripped, "chevron": pattern_chevron, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
             "red": pattern_red}
 
+VINYL = (80, 68, 52)     # the baseboard: dark brown vinyl cove base
+RAIL_WOOD = (126, 92, 56)
 
-def add_baseboard(img):
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, S - 3, S - 1, S - 1], fill=(74, 63, 46, 255))  # dark vinyl
-    d.line([0, S - 4, S - 1, S - 4], fill=(96, 84, 64, 255))
+
+def scuff_band(img, seed, top, bottom, n=3, dirt=(118, 104, 70)):
+    """The foot of a wall: a little dirt gathering toward the floor, and a few short shoe and mop scuffs above the
+    trim (small and several, so they read as wear, not as a mark)."""
+    rng = random.Random(seed)
+    px = img.load()
+    for y in range(top, bottom):
+        t = ((y - top) / max(1, bottom - top)) ** 1.6 * 0.12
+        for x in range(S):
+            px[x, y] = M.rgba(M.mix(px[x, y], dirt, t * rng.uniform(0.6, 1.2)))
+    for _ in range(n):
+        x, y = rng.randrange(S), rng.randint(bottom - 5, bottom - 1)
+        for k in range(rng.randint(2, 5)):
+            M.touch(img, x + k, y + (1 if k > 2 and rng.random() < 0.3 else 0), -rng.uniform(0.05, 0.1))
     return img
 
 
-def add_rail(img):
-    # Thin brown chair rail about 0.4 m up the wall
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 19, S - 1, 20], fill=(122, 90, 54, 255))
-    d.line([0, 18, S - 1, 18], fill=(150, 116, 74, 255))
+def add_baseboard(img, seed=0):
+    """A 4 px vinyl cove base: the rounded cap lit from above, the face, and the toe darkest where it meets the carpet,
+    with a hairline of shade on the wall where the cap meets it."""
+    rng = random.Random(seed + 77)
+    scuff_band(img, seed + 78, 18, 27)
+    px = img.load()
+    for x in range(S):
+        px[x, 27] = M.rgba(M.lift(px[x, 27], -7))
+        px[x, 28] = M.rgba(M.lift(VINYL, 26 + rng.uniform(-2, 2)))
+        px[x, 29] = M.rgba(M.lift(VINYL, 9 + rng.uniform(-2, 2)))
+        px[x, 30] = M.rgba(M.lift(VINYL, rng.uniform(-2, 2)))
+        px[x, 31] = M.rgba(M.lift(VINYL, -16 + rng.uniform(-2, 2)))
+    for _ in range(2):  # pale scuffs on the vinyl, where a shoe caught it
+        x, y = rng.randrange(S), rng.choice((29, 30))
+        for k in range(rng.randint(2, 4)):
+            M.touch(img, x + k, y, 0.18)
     return img
 
 
-def add_outlet(img, name):
-    # Same trim as the wall it sits on: under the rail on dotted paper, above the baseboard elsewhere
+def add_rail(img, seed=0):
+    """A wooden chair rail about 0.4 m up the wall: a lit rounded top, the moulding face with a little grain, a darker
+    bead below, and its shadow on the paper under it."""
+    rng = random.Random(seed + 91)
+    px = img.load()
+    streak = [rng.uniform(-5, 5) for _ in range(S)]
+    for x in range(S):
+        g = streak[x] * 0.5 + streak[(x + 1) % S] * 0.5
+        px[x, 17] = M.rgba(M.lift(px[x, 17], -6))
+        px[x, 18] = M.rgba(M.lift(RAIL_WOOD, 26 + g * 0.4))
+        px[x, 19] = M.rgba(M.lift(RAIL_WOOD, 6 + g))
+        px[x, 20] = M.rgba(M.lift(RAIL_WOOD, -4 + g))
+        px[x, 21] = M.rgba(M.lift(RAIL_WOOD, -22 + g * 0.5))
+        px[x, 22] = M.rgba(M.shade_px(px[x, 22], -0.16))
+        px[x, 23] = M.rgba(M.shade_px(px[x, 23], -0.06))
+    scuff_band(img, seed + 92, 24, 32, n=2)
+    return img
+
+
+def add_outlet(img, name, seed=0):
+    """A duplex outlet: an ivory plate standing proud of the wall, its top and left edges lit and its bottom and right
+    in shade, a soft shadow on the paper to its lower right, two receptacles (slots dark, each with a lit lip under it)
+    and the screw between them. Same trim as the wall it sits on: under the rail on dotted paper, above the baseboard
+    elsewhere."""
     if name == "dotted":
-        add_rail(img)
+        add_rail(img, seed)
+        top = 24
     else:
-        add_baseboard(img)
-    d = ImageDraw.Draw(img)
-    d.rectangle([13, 21, 18, 28], fill=(236, 232, 218, 255), outline=(190, 186, 170, 255))
-    for y in (23, 26):
-        d.line([15, y, 15, y], fill=(80, 76, 70, 255))
-        d.line([17, y, 17, y], fill=(80, 76, 70, 255))
+        add_baseboard(img, seed)
+        top = 19
+    x0, x1, y0, y1 = 14, 19, top, top + 7  # 5 x 7 px (about 15 x 21 cm), end exclusive
+    plate = (232, 228, 212)
+    rng = random.Random(seed + 5)
+    px = img.load()
+    for y in range(y0 + 1, y1 + 1):  # the shadow first, offset by one to the lower right
+        for x in range(x0 + 1, x1 + 1):
+            px[x, y] = M.rgba(M.shade_px(px[x, y], -0.2 if (x == x1 or y == y1) else 0))
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            px[x, y] = M.rgba(M.lift(plate, rng.uniform(-1.5, 1.5)))
+    M.bevel(img, (x0, y0, x1, y1), 1, 0.07)
+    for ry in (y0 + 1, y0 + 4):  # the two receptacles: two dark slots each, a lit lip under them
+        for sx in (x0 + 1, x1 - 2):
+            for sy in (ry, ry + 1):
+                px[sx, sy] = M.rgba((86, 82, 74))
+            M.touch(img, sx, ry + 2, 0.03)
+    px[(x0 + x1) // 2, y0 + 3] = M.rgba((200, 196, 184))  # the screw between them
     return img
 
 
-def damp(img, seed):
-    """The same wall, older: a faint water stain run down from the ceiling, and a tide mark of yellowed paste. Both
-    are more yellowing than darkening, so a damp block beside a plain one reads as the same paper aged, not a patch."""
+def _window(x, edge=6):
+    """0 at the texture's left and right edges, rising to 1 by `edge` px in: keeps a feature inside its own block, so
+    a damp block beside a plain one shows no cut-off mark."""
+    d = min(x + 0.5, S - x - 0.5)
+    return max(0.0, min(1.0, (d - 1) / edge)) ** 1.5
+
+
+def damp(img, seed, part="upper", stain_c=(176, 150, 86)):
+    """The same wall, older: a water run down from above and a soft tide-ringed stain (upper blocks), or a rising-damp
+    tide mark from the floor (bottom blocks), with one seam lifting. Kept inside the block (they fade before its edges)
+    so a damp block beside a plain one reads as the same paper aged, not as a patch; more yellowing than darkening."""
     img = img.copy()
     rng = random.Random(seed)
     px = img.load()
-    x0, w = rng.randrange(2, S - 10), rng.randint(5, 10)
-    for y in range(S):
-        for x in range(x0, min(S, x0 + w)):
-            t = 0.12 * (1 - abs((x - x0 - w / 2) / (w / 2))) * (1 - y / (S * 1.8))
-            r, g, b, a = px[x, y]
-            px[x, y] = (clamp(r * (1 - t) + 168 * t), clamp(g * (1 - t) + 150 * t), clamp(b * (1 - t) + 82 * t), a)
-    blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (200, 186, 112), 0.2, seed + 1)
+    if part == "upper":
+        xc, w, L = rng.uniform(10, 22), rng.uniform(2.5, 3.5), rng.uniform(20, 28)
+        wob = [rng.uniform(-0.6, 0.6) for _ in range(S)]
+        for y in range(S):
+            for x in range(S):
+                u = (x + 0.5 - xc - wob[y]) / (w * (1 + 0.5 * y / S))
+                t = 0.13 * math.exp(-u * u) * min(1.0, (y + 1) / 6) * max(0.0, 1 - y / L) * _window(x, 4)
+                if t > 0.005:
+                    px[x, y] = M.rgba(M.mix(px[x, y], stain_c, t))
+        st = img.copy()
+        M.stain(st, seed + 1, radius=rng.uniform(6.5, 8.5), color=stain_c, strength=0.2, ring=0.9,
+                at=(rng.uniform(13, 19), rng.uniform(12, 19)))
+        img = st
+        px = img.load()
+    else:
+        tide = img.copy()
+        M.tideline(tide, rng.uniform(19, 22), seed + 2, color=stain_c, amount=0.24, wave=1.6, below=0.45)
+        tp = tide.load()
+        for y in range(27 if part in ("baseboard", "outlet") else S):
+            for x in range(S):
+                t = _window(x, 7)
+                if t:
+                    px[x, y] = M.rgba(M.mix(px[x, y], tp[x, y], t))
+    # one seam lifting: a dark gap opening from the top of a run, the lifted edge catching the light
+    y0, L = rng.randint(3, 10), rng.randint(6, 12)
+    for k in range(L):
+        y = y0 + k
+        if part != "upper" and y > 24:
+            break
+        M.touch(img, 16, y, -0.16 * (1 - k / L))
+        M.touch(img, 17, y, 0.08 * (1 - k / L))
     return img
 
 
 def wallpapers(only=None):
+    """Every paper in every part, each in its three versions (see the section comment)."""
     for i, (name, fn) in enumerate(PATTERNS.items()):
         if only and name not in only:
             continue
-        parts = {"upper": fn(100 + i), "plain": fn(110 + i), "baseboard": add_baseboard(fn(120 + i)),
-                 "rail": add_rail(fn(130 + i)), "outlet": add_outlet(fn(140 + i), name)}
-        for part, img in parts.items():
-            save(img, f"block/wallpaper/{name}-{part}.png")
-            # An older, damp-stained stretch of the same wall, mixed in at random
-            save(damp(img, 300 + i * 10 + len(part)), f"block/wallpaper/{name}-{part}-damp.png")
+        for v, seed0 in (("", 100), ("-2", 500)):
+            s = seed0 + i
+            a = 1 if v else 0
+            parts = {"upper": fn(s, a), "plain": scuff_band(fn(s + 10, a), s + 11, 22, 32),
+                     "baseboard": add_baseboard(fn(s + 20, a), s + 21), "rail": add_rail(fn(s + 30, a), s + 31),
+                     "outlet": add_outlet(fn(s + 40, a), name, s + 41)}
+            for part, img in parts.items():
+                save(img, f"block/wallpaper/{name}-{part}{v}.png")
+                if not v:
+                    stain_c = {"red": (66, 18, 14), "stripped": (170, 154, 116), "cream": (204, 186, 126),
+                               "manila": (166, 136, 84)}.get(name, (176, 150, 86))
+                    save(damp(img, 300 + i * 10 + len(part), part, stain_c), f"block/wallpaper/{name}-{part}-damp.png")
+    # The arch soffits and risers: painted plaster in the pale paper's colour, without the print
+    save(M.plaster(61, base=(232, 224, 190), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
 
 
 # ---------------- Floor, ceiling, lights ----------------
 
-def carpet(variant):
-    base = {"normal": 0xA8956A, "stained": 0xA8956A, "soaked": 0x857356}[variant]
-    img = noise_fill(hexrgb(base), 9, 1)
-    rng = random.Random(2)
-    px = img.load()
-    # Berber loops: a faint diagonal weave plus darker flecks
-    for y in range(S):
-        for x in range(S):
-            if (x + y) % 4 == 0:
-                px[x, y] = shade(px[x, y], 0.93)
-    for _ in range(70):
-        x, y = rng.randrange(S), rng.randrange(S)
-        px[x, y] = shade(px[x, y], 0.8)
-    if variant == "stained":
-        blotch(img, (12, 18), 12, (96, 80, 50), 0.6, 3)
-        blotch(img, (27, 5), 6, (110, 92, 58), 0.4, 4)
-    if variant == "soaked":
-        blotch(img, (16, 16), 18, (92, 82, 62), 0.4, 5)
+CARPET = hexrgb(0xA8956A)  # the beige of Level 0's carpet (lore: keep)
+
+
+def carpet(variant, alt=0):
+    img = _carpet(variant, alt)
+    if alt:  # the two seeds at the same mean brightness, or blocks of one read lighter than the other at a distance
+        ref = _carpet(variant, 0)
+        d = _mean_lum(ref) - _mean_lum(img)
+        px = img.load()
+        for y in range(S):
+            for x in range(S):
+                px[x, y] = M.rgba(M.lift(px[x, y], d, 0))
     return img
 
 
-def carpet_threadbare():
-    """The pile cut away: grey-brown backing mesh with a few tufts left."""
-    img = noise_fill(hexrgb(0x7C6F58), 6, 40)
+def _mean_lum(img):
     px = img.load()
-    for y in range(S):
-        for x in range(S):
-            if x % 3 == 0 or y % 3 == 0:
-                px[x, y] = shade(px[x, y], 0.82)
-    rng = random.Random(41)
-    for _ in range(18):
-        x, y = rng.randrange(S - 1), rng.randrange(S - 1)
-        px[x, y] = px[x + 1, y] = hexrgb(0xA8956A) + (255,)
+    return sum(M.lum(px[x, y]) for y in range(img.height) for x in range(img.width)) / (img.width * img.height)
+
+
+def _carpet(variant, alt=0):
+    """Level 0's carpet (graphics pass B3), from matlib.carpet: a beige Berber (loop pile, so its structure is at the
+    texel, as vanilla's cloth is), two yarn tones, trodden patches. The blocktype turns each block at random and
+    mixes the two seeds (`alt`), so neither the pile's mottle nor a stain lines up into a grid.
+    - normal: the beige pile.
+    - stained: the same carpet with the original soft brown blotches (wrapping across the block's edges) and small
+      dark spots; the second seed places them elsewhere.
+    - soaked: dark, wet and flattened, a few wet highlights."""
+    seed = (1, 2, 3)[("normal", "stained", "soaked").index(variant)] * 10 + alt
+    if variant in ("normal", "stained"):
+        img = M.carpet(10 + alt, base=CARPET, tone2=M.hue_shift(M.lift(CARPET, -13), 3), mix2=0.35, loop=True,
+                       pile=6, grain=4, mottle=5)
+        if variant == "normal":
+            return img
+        rng = random.Random(seed + 1)
+        # The original soft blotches, wrapping across the edges, placed differently in the second seed (B3 round 2:
+        # a tint showed hard squares round each patch, and stains faded at the block edges a grid of spots)
+        for (cx, cy, r, c, k, sd) in (((12, 18, 12, (96, 80, 50), 0.6, 3), (27, 5, 6, (110, 92, 58), 0.4, 4)) if not alt
+                                       else ((20, 9, 11, (96, 80, 50), 0.55, 5), (4, 25, 7, (110, 92, 58), 0.4, 6))):
+            blotch(img, (cx, cy), r, c, k, sd)
+        for _ in range(14):  # small dark spots of old spills
+            x, y = rng.randrange(S), rng.randrange(S)
+            M.touch(img, x, y, -rng.uniform(0.06, 0.12))
+        return img
+    base = hexrgb(0x857356)
+    img = M.carpet(seed, base=base, tone2=M.hue_shift(M.lift(base, -12), 3), mix2=0.45, loop=True, pile=4, grain=3,
+                   mottle=5)
+    rng = random.Random(seed + 4)
+    M.grime(img, 0.16, seed + 5, color=(70, 62, 48), cells=(4, 2), cover=0.5)
+    for _ in range(14):  # a wet fibre catching the light here and there
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, 0.16)
+        M.touch(img, x, y + 1, -0.08)
+    return img
+
+
+def carpet_threadbare(alt=0):
+    """The pile cut away for its fibres: the woven jute backing (a 2 px plain weave), rows of cut tuft stubs where the
+    yarn went through it (on a 4 px gauge), the odd tuft left standing, and dark patches of latex glue."""
+    seed = 40 + alt
+    img = M.fabric(seed, base=hexrgb(0x7C6F58), weave="plain", tone2=hexrgb(0x6E624C), contrast=3, grain=3, mottle=6)
+    rng = random.Random(seed + 1)
+    px = img.load()
+    stub = M.lift(CARPET, -18)
+    for y in range(1, S, 4):  # the tufting rows: short cut stubs, some missing
+        for x in range(0, S):
+            if rng.random() < 0.6:
+                px[x, y] = M.rgba(M.lift(stub, rng.uniform(-10, 8)))
+                M.touch(img, x, y + 1, -0.07)
+    for _ in range(rng.randint(3, 5)):  # tufts the blade missed: a small clump of pile, lit on top, a shadow under
+        x, y = rng.randrange(S), rng.randrange(S)
+        cells = [(0, 0), (1, 0), (0, 1), (1, 1), (2, 0), (-1, 1)][:rng.randint(2, 6)]
+        for dx, dy in cells:
+            px[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(CARPET, (8 if dy == 0 else -4) + rng.uniform(-4, 4)))
+        for dx, dy in cells:
+            if (dx, dy + 1) not in cells:
+                M.touch(img, x + dx, y + dy + 1, -0.12)
+    M.grime(img, 0.25, seed + 2, color=(62, 54, 40), cells=(8, 4, 2), cover=0.35)
     return img
 
 
@@ -418,63 +625,167 @@ def portrait(seed):
     return img
 
 
+# ---------------- The ceiling module (graphics pass B3) ----------------
+#
+# Level 0's drop ceiling sets the convention the other painted T-bar ceilings (Levels 4, 6.1, !, Fun, The End, 3999)
+# reuse: the T-bar is painted, not modelled (the ceiling is a plain cube everywhere, and a shape on every ceiling
+# block would cost far more than it shows): a 2 px rail split across neighbouring blocks (matlib.tbar: the lit half on
+# a block's left and top edges, the other half on its right and bottom, so tiled blocks meet in one rail), the tile
+# stepping up into the grid with a soft tegular recess, and the troffer as a bevelled housing frame round a prismatic
+# lens, all painted; the troffer stays a cube (a recessed-lens shape lost the cube's glow, see gen_l0_walls.troffer).
+
+CEILING = hexrgb(0xD6CFA6)  # the cream mineral-fibre tile (keep)
+TBAR_RAIL = (176, 170, 146)  # darker than the tile, so the grid reads at a distance as the old one did
+
+
 def ceiling_tile(seed=6, stain=False):
-    img = noise_fill(hexrgb(0xD6CFA6), 4, seed)
-    rng = random.Random(seed + 1)
+    return M.ceiling_tile(seed, base=CEILING, rail=TBAR_RAIL, fissures=0.65, recess=2,
+                          stain_color=(192, 168, 116) if stain else None)
+
+
+def ceiling_side(seed=21):
+    """The cut edge of the ceiling where the drop ceiling's layer ends (seen at level edges and gates): the board's
+    material without the grid (the `all` texture's rail and recess on a vertical face read as tiles stood on end),
+    and the T-bar's flange along its foot."""
+    img = M.noise_hv(CEILING, 3, seed, mottle=4)
+    rng = random.Random(seed)
+    for _ in range(40):
+        M.touch(img, rng.randrange(S), rng.randrange(S - 3), -0.08)
     px = img.load()
-    # Fissured mineral fibre: short dark worm-like marks
-    for _ in range(26):
-        x, y = rng.randrange(2, S - 2), rng.randrange(2, S - 2)
-        for _ in range(rng.randint(1, 3)):
-            px[x, y] = hexrgb(0xB2AA84) + (255,)
-            x = min(S - 3, max(2, x + rng.choice((-1, 0, 1))))
-            y = min(S - 3, max(2, y + rng.choice((0, 1))))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=(150, 144, 118, 255))  # grid T-bar
-    d.line([1, S - 2, S - 2, S - 2], fill=(184, 177, 146, 255))  # tegular edge shadow
-    d.line([S - 2, 1, S - 2, S - 2], fill=(184, 177, 146, 255))
-    if stain:
-        # A brown ring where water came through from above, and the paler tile inside it
-        blotch(img, (12 + seed % 9, 13 + seed % 7), 10, (186, 160, 104), 0.35, seed + 2)
-        blotch(img, (12 + seed % 9, 13 + seed % 7), 6, (214, 206, 168), 0.4, seed + 3)
+    for x in range(S):
+        px[x, S - 4] = M.rgba(M.lift(px[x, S - 4], -8))
+        px[x, S - 3] = M.rgba(M.lift(TBAR_RAIL, 14))
+        px[x, S - 2] = M.rgba(TBAR_RAIL)
+        px[x, S - 1] = M.rgba(M.lift(TBAR_RAIL, -12))
     return img
+
+
+TROFFER = {  # lens colour, glow colour, how lit
+    "on": ((252, 252, 244), (255, 254, 246), 1.0),
+    "off": ((214, 214, 204), (214, 214, 204), 0.0),
+    "dim": ((236, 196, 140), (250, 210, 150), 0.85),  # the Manila Room's old orange-tinted lamp
+    "red": ((240, 72, 52), (255, 112, 86), 1.0),
+}
 
 
 def troffer(state):
-    lens = {"on": (255, 253, 240), "off": (168, 166, 152), "dim": (246, 196, 128), "red": (236, 58, 40)}[state]
-    img = Image.new("RGBA", (S, S), (204, 200, 184, 255))
-    d = ImageDraw.Draw(img)
-    d.rectangle([2, 2, S - 3, S - 3], fill=lens + (255,))
+    """matlib.troffer_lens, then (B3) the lens of a lit panel pulled 35% toward its glow colour so it reads as emissive,
+    and a dark 1 px gap between the housing frame and the lens, painting the recess (the troffer stays a cube: see
+    gen_l0_walls.troffer for the shape that was tried)."""
+    lens, glow, lit = TROFFER[state]
+    img = M.troffer_lens(seed={"on": 1, "off": 2, "dim": 3, "red": 4}[state], lit=lit, lens=lens, glow=glow,
+                         frame=(214, 210, 198), frame_px=2, rail=TBAR_RAIL)
     px = img.load()
-    # Prismatic lens texture
-    for y in range(3, S - 3):
-        for x in range(3, S - 3):
-            if (x + y) % 3 == 0:
-                px[x, y] = shade(px[x, y], 0.95)
-    d.rectangle([0, 0, S - 1, S - 1], outline=(150, 144, 118, 255))
+    if lit:
+        for y in range(3, S - 3):
+            for x in range(3, S - 3):
+                px[x, y] = M.rgba(M.mix(px[x, y], glow, 0.35))
+    gap = (96, 94, 88) if state != "red" else (88, 40, 34)
+    for i in range(2, S - 2):
+        for (x, y) in ((i, 2), (i, S - 3), (2, i), (S - 3, i)):
+            px[x, y] = M.rgba(M.lift(gap, (x + y) % 3 - 1))
     return img
 
 
-def concrete():
-    img = noise_fill(hexrgb(0x80807C), 12, 10)
-    rng = random.Random(11)
-    px = img.load()
-    for _ in range(25):
-        px[rng.randrange(S), rng.randrange(S)] = (96, 96, 94, 255)
+def concrete(alt=0):
+    """Plain cast concrete (the Level 0 gate's surround, Level !'s void): matlib.concrete, with a broad pour mottle
+    and some hue in it; the third version carries a hairline crack (one block in three)."""
+    return M.concrete(70 + alt, base=(128, 127, 121), grain=4, mottle=9, aggregate=0.07, pores=0.012,
+                      cracks=1 if alt == 2 else 0)
+
+
+# ---------------- Supply boxes (graphics pass B3) ----------------
+#
+# Kraft cardboard: a fibre ground, faint vertical pressure lines from the flutes inside, and the tape with a sheen.
+# supplybox-side and supplybox-top are also the mod's shared cardboard (detail_kit "cardboard", the shelves, the
+# End's stock, 3999), so their tape stays where it always was (top centre, 6 px) and their wear is scattered rather
+# than along the edges; the supply box's own crushed edges are geometry (gen_loop.supply_box_shape).
+
+KRAFT = hexrgb(0xAA8052)
+TAPE = (214, 188, 136)
+
+
+def cardboard(seed, base=KRAFT, flutes=True):
+    img = M.paper(seed, base=base, grain=3, mottle=6, fibre=0.9, seams=None)
+    if flutes:
+        px = img.load()
+        for x in range(0, S, 4):  # the flutes press through as faint vertical lines
+            for y in range(S):
+                px[x, y] = M.rgba(M.lift(px[x, y], -2.5))
+                px[(x + 1) % S, y] = M.rgba(M.lift(px[(x + 1) % S, y], 1.5))
+    M.grime(img, 0.08, seed + 1, color=(110, 80, 50), cells=(8, 4), cover=0.4)
     return img
 
 
-def box(top):
-    img = noise_fill(hexrgb(0xAA8052), 7, 12 if top else 13)
-    d = ImageDraw.Draw(img)
-    tape = (206, 180, 130, 255)
+def tape(img, x0, x1, y0, y1, seed):
+    """Brown packing tape over the board: semi-opaque (the fibre shows through), a sheen streak along it, its edges
+    a hair lighter where they lift, a wrinkle or two."""
+    rng = random.Random(seed)
+    px = img.load()
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            c = M.mix(px[x, y], TAPE, 0.72)
+            if x == x0 + 1:
+                c = M.lift(c, 10)  # the sheen
+            px[x, y] = M.rgba(c)
+        M.touch(img, x0 - 1, y, -0.05)
+        M.touch(img, x1, y, -0.07)
+    for x in range(x0, x1):
+        M.touch(img, x, y0, 0.05)
+    for _ in range(2):
+        y = rng.randint(y0 + 1, max(y0 + 1, y1 - 2))
+        for x in range(x0, x1):
+            M.touch(img, x, y, 0.07)
+            M.touch(img, x, y + 1, -0.06)
+    return img
+
+
+def box(top, seed=None):
+    """The shared cardboard: top (two flaps meeting under a strip of tape) or side (the tape coming down over the top
+    edge, a printed pair of this-way-up arrows)."""
+    img = cardboard(12 if top else 13)
+    px = img.load()
     if top:
-        d.rectangle([13, 0, 18, 31], fill=tape)
-        d.line([0, 16, 31, 16], fill=(140, 102, 62, 255))
+        tape(img, 13, 19, 0, S, 14)
+        for y in range(S):  # the flaps' seam under the tape
+            M.touch(img, 16, y, -0.1)
+            M.touch(img, 17, y, 0.04)
     else:
-        d.rectangle([13, 0, 18, 7], fill=tape)
-        d.rectangle([0, 0, 31, 31], outline=(140, 102, 62, 255))
+        tape(img, 13, 19, 0, 8, 15)
+        ink = (74, 56, 40)
+        for ax in (21, 27):  # two this-way-up arrows over a bar, faded (y 9-15: what the supply box's sides show)
+            for dx, dy in ((0, 0), (-1, 1), (1, 1), (-2, 2), (2, 2), (0, 1), (0, 2), (0, 3), (0, 4)):
+                x, y = ax + dx, 9 + dy
+                px[x, y] = M.rgba(M.mix(px[x, y], ink, 0.5))
+        for x in range(18, 31):
+            px[x, 15] = M.rgba(M.mix(px[x, 15], ink, 0.42))
     return img
+
+
+def supply_box_faces():
+    """The sealed supply box's own faces (B3), cut for its UVs (sides show x 4-28, y 0-20 of the texture; the top
+    x 4-28, y 4-28): the shared cardboard with the carton's edges worn: a lit rim along the top edge, the corners and
+    the foot scuffed darker where it has been dragged and stacked."""
+    def edges(img, box, seed, top_lit=True):
+        x0, y0, x1, y1 = box
+        M.ao_border(img, 2, 0.14, box, "lrb")
+        if top_lit:
+            for x in range(x0, x1):
+                M.touch(img, x, y0, 0.07)
+        rng = random.Random(seed)
+        for _ in range(7):  # scuffs and crushed spots along the edges
+            side = rng.choice("lrb")
+            if side == "b":
+                x, y = rng.randrange(x0, x1), y1 - 1 - rng.randrange(2)
+            else:
+                x, y = (x0 + rng.randrange(2)) if side == "l" else (x1 - 1 - rng.randrange(2)), rng.randrange(y0, y1)
+            M.touch(img, x, y, -rng.uniform(0.06, 0.12))
+        return img
+    side = edges(box(False), (4, 0, 28, 20), 31)
+    end = edges(cardboard(17), (4, 0, 28, 20), 32)
+    top = box(True)
+    M.ao_border(top, 2, 0.12, (4, 4, 28, 28))
+    return side, end, top
 
 
 # ---------------- Level 1: concrete car park ----------------
@@ -1378,20 +1689,27 @@ def mod_icon():
 
 if __name__ == "__main__":
     wallpapers()
-    for v in ("normal", "stained", "soaked"):
-        save(carpet(v), f"block/carpet-{v}.png")
-    save(carpet_threadbare(), "block/carpet-threadbare.png")
+    for alt, v in ((0, ""), (1, "-2")):
+        for kind in ("normal", "stained", "soaked"):
+            save(carpet(kind, alt), f"block/carpet-{kind}{v}.png")
+        save(carpet_threadbare(alt), f"block/carpet-threadbare{v}.png")
     salvage_items()
     pottery_items()
     save(ceiling_tile(), "block/ceilingtile.png")
     save(ceiling_tile(8), "block/ceilingtile2.png")
     save(ceiling_tile(9), "block/ceilingtile3.png")
     save(ceiling_tile(11, stain=True), "block/ceilingtile-stain.png")
+    save(ceiling_tile(12, stain=True), "block/ceilingtile-stain2.png")
+    save(ceiling_side(), "block/ceilingtile-side.png")
     for st in ("on", "off", "dim", "red"):
         save(troffer(st), f"block/fluorescentlight-{st}.png")
     save(concrete(), "block/concrete.png")
+    save(concrete(1), "block/concrete2.png")
+    save(concrete(2), "block/concrete3.png")
     save(box(True), "block/supplybox-top.png")
     save(box(False), "block/supplybox-side.png")
+    for name, img in zip(("side", "end", "top"), supply_box_faces()):
+        save(img, f"block/supplybox-box-{name}.png")
     level_textures()
     save(almond_water(), "item/almondwater.png")
     save(crackers(), "item/crackers.png")
