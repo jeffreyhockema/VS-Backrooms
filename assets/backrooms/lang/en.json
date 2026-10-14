@@ -2531,5 +2531,8 @@
 	"block-run-barricade-cabinet-*": "Supply Cabinet",
 	"block-run-barricade-tipped-*": "Overturned Gurney",
 
-	"block-longsofa-*": "Sofa"
+	"block-longsofa-*": "Sofa",
+
+	"block-pitchroof-barn-*": "Barn Roof",
+	"block-pitchroof-*": "Roof Shingles"
 }

@@ -22,12 +22,28 @@
 	"texturesByType": {
 		"*-red": {
 			"all": {
-				"base": "block/detail/barnwall-red"
+				"base": "block/detail/barnwall-red",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-red-2"
+					},
+					{
+						"base": "block/detail/barnwall-red-3"
+					}
+				]
 			}
 		},
 		"*-grey": {
 			"all": {
-				"base": "block/detail/barnwall-grey"
+				"base": "block/detail/barnwall-grey",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-grey-2"
+					},
+					{
+						"base": "block/detail/barnwall-grey-3"
+					}
+				]
 			}
 		}
 	},

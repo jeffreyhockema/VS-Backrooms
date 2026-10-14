@@ -34,6 +34,11 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B3) Every batch makes per-family before|after pairs with `tools/shotbot/sidebyside.py` (map in
   `docs/design/graphics-pass/sidebyside/<batch>.json`, index `review/compare.html`) and adds its families to
   `decisions.md` for the user.
+- (B11) A change to which block the world generator places does not show in a review world whose chunks already exist:
+  shoot it in a fresh world (`batch.py --world <new name>` makes one at the same seed) and keep the baselines from `gfxreview`.
+- (B11) Roofing built as tilted course boxes is seen at a grazing angle from the street, so the butt faces fill half the
+  roof: keep them thin and in the shingle's own tone. Faces that must continue a wall's texture need world-aligned UVs
+  (east u = 16 - z, west u = z, v = 16 - y; `preview_shapes.auto_uv`).
 
 ## Batches
 
@@ -43,14 +48,14 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B1 inventory | main | merged | 1 | | passed 2026-10-13 (Fable): L1 floor D confirmed on tent-close; boiler row corrected (generator exists) |
 | B2 material kit | gfx/B2 | merged | 1 | concrete B-, basket weave, Berber, glass unverified | passed 2026-10-13 (Fable): models, ceiling, paper, carpet at B; B4 must push concrete (larger pour patches, more hue) |
 | B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
-| B4 Level 1 | | not started | | | |
+| B4 Level 1 | gfx/B4 | in progress | | | |
 | B5 Level 2 | | not started | | | |
 | B6 Level 3 | | not started | | | |
 | B7 Level 4 | | not started | | | |
 | B8 Level 5 | | not started | | | |
 | B9 Levels 6 and 6.1 | | not started | | | |
 | B10 Levels 7 and 8 | | not started | | | |
-| B11 Levels 9 and 10 | gfx/B11 | in progress | | | |
+| B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | | not started | | | |
 | B13 Levels 37 and 94 | | not started | | | |
 | B14 Level ! and Fun | | not started | | | |
@@ -385,3 +390,119 @@ Worker report (Opus, 2026-10-13/14). Branch `gfx/B3` from `main`, uncommitted. T
 - Judge big surfaces at playing distance (2-6 blocks in the wide shots), not on 4x texsheets. Detail that reads on a sheet averages away in game, while low-frequency mottle and seams show more than expected.
 - `tools/shotbot/sidebyside.py` with `docs/design/graphics-pass/sidebyside/<batch>.json` makes the per-family before|after pairs and appends the batch to `review/compare.html`. Later batches should add their map and their rows to `decisions.md`.
 - A single 2-spot client run can shoot its first spot before the area's light or chunks have loaded (dark or fallen camera). Shoot new spots as part of the full list, or retake.
+
+### B11
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B11` from `main`, uncommitted. Two rounds. Final sheets:
+`review/b11/compare-9-round2.jpg` and `review/b11/compare-10-round2.jpg` (every spot), with the new day and farm spots in
+`review/b11/compare-9-day-round2.jpg` and `review/b11/compare-10-farm-round2.jpg`. After shots are in `review/b11/final/<level>/`.
+- **Per-family pairs:** `review/b11/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B11.json`. The B11 section is added to `review/compare.html`.
+- **Decision table:** nine rows added to `decisions.md`, decision column empty.
+- **Playtest:** both Level 9 rows point at `sidebyside/gables.jpg` and `sidebyside/roofs.jpg`.
+
+**Checks**
+- Build: 0 warnings.
+- `layouthash` is unchanged: v1 and v4 match B3's final output line for line (`review/b11/layouthash-v*.txt`). No `WorldLayout*` or `Tiles.cs` file changed.
+- `validatelevel 9` and `validatelevel 10`: 0 doorways to nowhere, 0 blocked (`review/b11/validate*.txt`).
+- Nothing under `assets/game/` changed. No code, variant group or class was renamed or removed.
+- Brightness: every final shot is within 4.3 levels of its baseline, except `day-eave` (-16). That spot looks up at the eave, and the eave now has an overhang with a soffit in shade where there was sky and wall before. Its lighting is unchanged (`review/b11/luma-final.txt`).
+
+**New spots** (added to `review/spots/` and `docs/design/graphics-pass/spots/`; their befores were shot on a fresh build of unchanged `main` into `review/baseline/9` and `/10`)
+- Level 9, at day (`pre: /time set 12:00, daylight`):
+  - `day-street`
+  - `day-front`
+  - `day-gable`: close on a gable.
+  - `day-eave`: the eave from below.
+  - `day-porch`
+- Level 10:
+  - `barn-wide`, `barn-close`, `barn-roof`: a farmstead about 500 blocks east of the anchor, the nearest one with a red barn.
+  - `silo-close`
+  - `tractor`
+  - `shed-wide`, `shed-close`: the field shed nearest the anchor.
+- `batch.py` now records daylight from a spot's `pre`, so the next spot turns it off again. Before, only inspection spots did.
+
+**What changed, per family**
+
+*Gable ends* (playtest note 1). Final grade B; much better. The blind reviewer said yes, they match the walls.
+- A new block, `pitchroof-<cover>-<gable>-<form>-<side>`, sits beside `roofslope`. Its `gable` group is the wall's siding (white, blue, yellow, green, brick, barnred, barngrey) or `none`. `allowedVariants` limits it to 21 cover-and-gable pairs.
+- Over a gable wall, the roof block fills down to the wall with that siding in 2 px steps. The texture is laid on the wall's own grid (east u = 16 - z, west u = z, v = 16 - y), so boards and bricks run on unbroken. A white rake board runs along the edge.
+- `WorldGenerator.Deep.cs` `RoofAt` and the new `PitchRoof` place it at the same positions where `roofslope` went. This is block choice only, with no layout version.
+- The gable over a barn's or shed's doorway now closes with the barn's boards. Before, it was air from the top of the door to the roof: the "hayloft hole" in the stepped gable.
+
+*Roofs* (playtest note 2). Final grade B; better. The reviewer: they read as pitched, shingled roofs with an eave.
+- Shingles are courses of geometry: four to the block. Each course is pitched slightly flatter than the roof, so its butt stands 0.3 above the course below.
+- There is a thin deck under the courses, and its underside is the soffit. Porch ceilings show it.
+- `PitchRoof` picks the form from the neighbouring tiles:
+  - *Eave*: the lowest row, when no lower roof leans on the wall. It has an overhang, a fascia, a boxed light soffit and a gutter.
+  - *Peak*: two rows meeting at the ridge. Each carries half the cap.
+  - *Ridge*: a ridge row of its own where both neighbours are half a block lower. It used to end in a half-block step.
+- Collision is unchanged: half a block for a lower block, a full block for an upper one.
+- Textures: `deep_textures.shingle_courses` (laminated tabs, three versions per colour), `roof_edge`, `ridge_cap`, `soffit` (light, vented) and `gutter`.
+- The old `roofslope` block gets the same courses over its old fill, now in fine steps. Its gable fill in saved chunks stays trim-coloured, because that block has no siding variant.
+
+*House siding*: B, slightly better.
+- `lap_siding`: eight boards of 4 px to the block, a shadow under each butt, per-board shade.
+- The old 5 px boards left a 2 px board at every block edge.
+- Three versions per colour, used by walls, corners and gables alike. Colours are kept.
+- Paint chips in the third version read as a grid of dots in round 1, so they were removed.
+
+*Smaller families*
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Porch posts | B | better | Plinth, shaft and a stepped capital (`porch_post`). |
+| Front door | B | better | Raised panels in an inset frame, casing, a brass knob, set-back glazing. The house number is gone (every house showed the same one). |
+| Garage door | B- | better | Inset and bevelled panels. |
+| Mailbox | B | better | Rounded top, door, latch and a flag on a pivot as geometry. |
+| Asphalt | C+ | slightly better | One `matlib.asphalt` base for the road and all its markings (it was painted twice). Calmer speckle. A sealed crack and a patch as alternates among the turns. |
+| Pavement | B | same | Concrete slabs with tooled joints. |
+| Barn and shed boards | B- | better | Board and batten, uneven boards, three versions, a duller red. |
+| Barn roof | B- | better | Corrugated tin courses with a galvanised ridge and a rough-board underside. One version in three has rust. |
+| Silo | C | slightly better | Corrugated galvanised texture. The old 3 px ribs did not tile. |
+| Tractor | C+ | better | Rounded wheels with hubs, a duller green. |
+
+**Rounds**
+1. **Round 1** found:
+   - Tractor and silo at C.
+   - Asphalt same.
+   - The soffit read as more siding.
+   - A ridge-cap stub at the apex.
+   - Chip dots repeating on the siding.
+   - Barn red too saturated.
+   - The barn roof was not in any shot.
+
+   No lighting change was found.
+2. **Round 2** fixed:
+   - A light vented soffit.
+   - A lower cap.
+   - No chips on the siding.
+   - Warmer grey shingles.
+   - Duller barn red and uneven boards.
+   - Deeper garage panels.
+   - Asphalt alternates.
+   - A painted-steel tractor green.
+   - A new `barn-roof` spot.
+
+   The round-2 grades above are mine. Per the brief, there was no second blind review.
+
+**Carried below B, with reasons**
+- **Silo (C):** the footprint is layout. It is a ring of full cube blocks, so it stays square-ish.
+- **Tractor (C+):** it still needs a modelled hood, grille and treads.
+- **Asphalt (C+):** a flat road surface has no good per-block answer for wheel tracks. The blocks are turned at random (B3's lesson on floors).
+- **Rake edge:** the course ends show as a fine sawtooth above the rake board. A taller rake would stand proud of the neighbouring block's roof.
+- **Not touched, for budget:**
+  - House interiors: wallpapers, the painted dresser, TV and cabinets, the ceiling light.
+  - Windows (already B) and the coach lamp (kept; visible in `day-porch`).
+  - Street signs (already B).
+  - Yard props.
+  - Level 10's trough, pump, gates, hay and the field textures.
+- **Saved worlds:** chunks generated before this batch keep `roofslope`, now with the new courses but their old trim-coloured gable fill. A house that straddles old and new chunks shows both.
+- **Shared with other batches:** Level 94's houses and The End use `Level9Block`, so they get the new roofs and gables too. `gen_city.py`'s `barnwall-noclip` derives from `barnwall-red` and follows it. Level 11's road markings (`asphalt-doublens`, `-bayns` and others) derive from `asphalt.png`, so the city's roads change too: about 5 levels lighter. Level 11 was not reshot; that is B12's to judge.
+- **Small engine-side change:** `Breakdown.cs` lists `pitchroof` with the timber blocks beside `roofslope`.
+
+**Lessons**
+- A change to which block the world generator places does not show in a review world whose chunks already exist; they keep the old blocks. Shoot such a batch in a fresh world. This batch used `--world gfxb11`, made by `batch.py` at the same seed, and its baselines came from `gfxreview`.
+- Roofing as tilted course boxes: from the street you look up the slope at a grazing angle, so the courses' butt faces take up nearly half the roof. Keep them thin (0.3) and in a shingle tone, not a dark edge colour, or the roof goes dark (round 1's test shot).
+- A gable fill that must match the wall needs world-aligned UVs on the step faces (east u = 16 - z, west u = z, v = 16 - y). `preview_shapes.auto_uv` documents the same convention.
+- `tools/shotbot/compare.py --only` takes exact names, not patterns. `sidebyside.py` reads one folder each side, so a two-level batch copies its shots into prefixed folders first (`review/b11/sbs/`).
+- The client now writes 3840x2160 shots, while older baselines are 1920x1080. `compare.py` and `sidebyside.py` scale them, but compare brightness on resized copies.

@@ -1,0 +1,1161 @@
+// Pitched roofs (from the graphics pass): shingled in courses, with eaves, ridges and gables in the house's siding
+{
+	"code": "pitchroof",
+	"variantgroups": [
+		{
+			"code": "cover",
+			"states": [
+				"grey",
+				"brown",
+				"red",
+				"barn"
+			]
+		},
+		{
+			"code": "gable",
+			"states": [
+				"none",
+				"white",
+				"blue",
+				"yellow",
+				"green",
+				"brick",
+				"barnred",
+				"barngrey"
+			]
+		},
+		{
+			"code": "form",
+			"states": [
+				"eave",
+				"lower",
+				"upper",
+				"peaklower",
+				"peakupper",
+				"ridgelower",
+				"ridgeupper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"allowedVariants": [
+		"pitchroof-grey-none-*",
+		"pitchroof-grey-white-*",
+		"pitchroof-grey-blue-*",
+		"pitchroof-grey-yellow-*",
+		"pitchroof-grey-green-*",
+		"pitchroof-grey-brick-*",
+		"pitchroof-brown-none-*",
+		"pitchroof-brown-white-*",
+		"pitchroof-brown-blue-*",
+		"pitchroof-brown-yellow-*",
+		"pitchroof-brown-green-*",
+		"pitchroof-brown-brick-*",
+		"pitchroof-red-none-*",
+		"pitchroof-red-white-*",
+		"pitchroof-red-blue-*",
+		"pitchroof-red-yellow-*",
+		"pitchroof-red-green-*",
+		"pitchroof-red-brick-*",
+		"pitchroof-barn-none-*",
+		"pitchroof-barn-barnred-*",
+		"pitchroof-barn-barngrey-*"
+	],
+	"creativeinventory": {
+		"general": [
+			"*-none-lower-north",
+			"*-none-eave-north"
+		],
+		"construction": [
+			"*-none-lower-north",
+			"*-none-eave-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-none-eave-north": {
+			"base": "block/detail/pitchroof-eave",
+			"rotateY": 0
+		},
+		"*-none-eave-east": {
+			"base": "block/detail/pitchroof-eave",
+			"rotateY": 270
+		},
+		"*-none-eave-south": {
+			"base": "block/detail/pitchroof-eave",
+			"rotateY": 180
+		},
+		"*-none-eave-west": {
+			"base": "block/detail/pitchroof-eave",
+			"rotateY": 90
+		},
+		"*-none-lower-north": {
+			"base": "block/detail/pitchroof-lower",
+			"rotateY": 0
+		},
+		"*-none-lower-east": {
+			"base": "block/detail/pitchroof-lower",
+			"rotateY": 270
+		},
+		"*-none-lower-south": {
+			"base": "block/detail/pitchroof-lower",
+			"rotateY": 180
+		},
+		"*-none-lower-west": {
+			"base": "block/detail/pitchroof-lower",
+			"rotateY": 90
+		},
+		"*-none-upper-north": {
+			"base": "block/detail/pitchroof-upper",
+			"rotateY": 0
+		},
+		"*-none-upper-east": {
+			"base": "block/detail/pitchroof-upper",
+			"rotateY": 270
+		},
+		"*-none-upper-south": {
+			"base": "block/detail/pitchroof-upper",
+			"rotateY": 180
+		},
+		"*-none-upper-west": {
+			"base": "block/detail/pitchroof-upper",
+			"rotateY": 90
+		},
+		"*-none-peaklower-north": {
+			"base": "block/detail/pitchroof-peaklower",
+			"rotateY": 0
+		},
+		"*-none-peaklower-east": {
+			"base": "block/detail/pitchroof-peaklower",
+			"rotateY": 270
+		},
+		"*-none-peaklower-south": {
+			"base": "block/detail/pitchroof-peaklower",
+			"rotateY": 180
+		},
+		"*-none-peaklower-west": {
+			"base": "block/detail/pitchroof-peaklower",
+			"rotateY": 90
+		},
+		"*-none-peakupper-north": {
+			"base": "block/detail/pitchroof-peakupper",
+			"rotateY": 0
+		},
+		"*-none-peakupper-east": {
+			"base": "block/detail/pitchroof-peakupper",
+			"rotateY": 270
+		},
+		"*-none-peakupper-south": {
+			"base": "block/detail/pitchroof-peakupper",
+			"rotateY": 180
+		},
+		"*-none-peakupper-west": {
+			"base": "block/detail/pitchroof-peakupper",
+			"rotateY": 90
+		},
+		"*-none-ridgelower-north": {
+			"base": "block/detail/pitchroof-ridgelower",
+			"rotateY": 0
+		},
+		"*-none-ridgelower-east": {
+			"base": "block/detail/pitchroof-ridgelower",
+			"rotateY": 270
+		},
+		"*-none-ridgelower-south": {
+			"base": "block/detail/pitchroof-ridgelower",
+			"rotateY": 180
+		},
+		"*-none-ridgelower-west": {
+			"base": "block/detail/pitchroof-ridgelower",
+			"rotateY": 90
+		},
+		"*-none-ridgeupper-north": {
+			"base": "block/detail/pitchroof-ridgeupper",
+			"rotateY": 0
+		},
+		"*-none-ridgeupper-east": {
+			"base": "block/detail/pitchroof-ridgeupper",
+			"rotateY": 270
+		},
+		"*-none-ridgeupper-south": {
+			"base": "block/detail/pitchroof-ridgeupper",
+			"rotateY": 180
+		},
+		"*-none-ridgeupper-west": {
+			"base": "block/detail/pitchroof-ridgeupper",
+			"rotateY": 90
+		},
+		"*-eave-north": {
+			"base": "block/detail/pitchroof-eave-gable",
+			"rotateY": 0
+		},
+		"*-eave-east": {
+			"base": "block/detail/pitchroof-eave-gable",
+			"rotateY": 270
+		},
+		"*-eave-south": {
+			"base": "block/detail/pitchroof-eave-gable",
+			"rotateY": 180
+		},
+		"*-eave-west": {
+			"base": "block/detail/pitchroof-eave-gable",
+			"rotateY": 90
+		},
+		"*-lower-north": {
+			"base": "block/detail/pitchroof-lower-gable",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/detail/pitchroof-lower-gable",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/detail/pitchroof-lower-gable",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/detail/pitchroof-lower-gable",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/detail/pitchroof-upper-gable",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/detail/pitchroof-upper-gable",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/detail/pitchroof-upper-gable",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/detail/pitchroof-upper-gable",
+			"rotateY": 90
+		},
+		"*-peaklower-north": {
+			"base": "block/detail/pitchroof-peaklower-gable",
+			"rotateY": 0
+		},
+		"*-peaklower-east": {
+			"base": "block/detail/pitchroof-peaklower-gable",
+			"rotateY": 270
+		},
+		"*-peaklower-south": {
+			"base": "block/detail/pitchroof-peaklower-gable",
+			"rotateY": 180
+		},
+		"*-peaklower-west": {
+			"base": "block/detail/pitchroof-peaklower-gable",
+			"rotateY": 90
+		},
+		"*-peakupper-north": {
+			"base": "block/detail/pitchroof-peakupper-gable",
+			"rotateY": 0
+		},
+		"*-peakupper-east": {
+			"base": "block/detail/pitchroof-peakupper-gable",
+			"rotateY": 270
+		},
+		"*-peakupper-south": {
+			"base": "block/detail/pitchroof-peakupper-gable",
+			"rotateY": 180
+		},
+		"*-peakupper-west": {
+			"base": "block/detail/pitchroof-peakupper-gable",
+			"rotateY": 90
+		},
+		"*-ridgelower-north": {
+			"base": "block/detail/pitchroof-ridgelower-gable",
+			"rotateY": 0
+		},
+		"*-ridgelower-east": {
+			"base": "block/detail/pitchroof-ridgelower-gable",
+			"rotateY": 270
+		},
+		"*-ridgelower-south": {
+			"base": "block/detail/pitchroof-ridgelower-gable",
+			"rotateY": 180
+		},
+		"*-ridgelower-west": {
+			"base": "block/detail/pitchroof-ridgelower-gable",
+			"rotateY": 90
+		},
+		"*-ridgeupper-north": {
+			"base": "block/detail/pitchroof-ridgeupper-gable",
+			"rotateY": 0
+		},
+		"*-ridgeupper-east": {
+			"base": "block/detail/pitchroof-ridgeupper-gable",
+			"rotateY": 270
+		},
+		"*-ridgeupper-south": {
+			"base": "block/detail/pitchroof-ridgeupper-gable",
+			"rotateY": 180
+		},
+		"*-ridgeupper-west": {
+			"base": "block/detail/pitchroof-ridgeupper-gable",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"*-grey-none-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			}
+		},
+		"*-grey-white-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
+			}
+		},
+		"*-grey-blue-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
+			}
+		},
+		"*-grey-yellow-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
+			}
+		},
+		"*-grey-green-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
+			}
+		},
+		"*-grey-brick-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-grey",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-grey-2"
+					},
+					{
+						"base": "block/detail/houseroof-grey-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-grey"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-grey"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-brick"
+			}
+		},
+		"*-brown-none-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			}
+		},
+		"*-brown-white-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
+			}
+		},
+		"*-brown-blue-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
+			}
+		},
+		"*-brown-yellow-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
+			}
+		},
+		"*-brown-green-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
+			}
+		},
+		"*-brown-brick-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-brown",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-brown-2"
+					},
+					{
+						"base": "block/detail/houseroof-brown-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-brown"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-brown"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-brick"
+			}
+		},
+		"*-red-none-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			}
+		},
+		"*-red-white-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
+			}
+		},
+		"*-red-blue-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
+			}
+		},
+		"*-red-yellow-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
+			}
+		},
+		"*-red-green-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
+			}
+		},
+		"*-red-brick-*": {
+			"shingle": {
+				"base": "block/detail/houseroof-red",
+				"alternates": [
+					{
+						"base": "block/detail/houseroof-red-2"
+					},
+					{
+						"base": "block/detail/houseroof-red-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-red"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-red"
+			},
+			"deck": {
+				"base": "block/detail/soffit"
+			},
+			"trim": {
+				"base": "block/detail/windowtrim"
+			},
+			"gutter": {
+				"base": "block/detail/gutter"
+			},
+			"gable": {
+				"base": "block/detail/siding-brick"
+			}
+		},
+		"*-barn-none-*": {
+			"shingle": {
+				"base": "block/detail/barnroof",
+				"alternates": [
+					{
+						"base": "block/detail/barnroof-2"
+					},
+					{
+						"base": "block/detail/barnroof-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-barn"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-barn"
+			},
+			"deck": {
+				"base": "block/detail/barndeck"
+			},
+			"trim": {
+				"base": "block/detail/wooddark"
+			},
+			"gutter": {
+				"base": "block/detail/wooddark"
+			}
+		},
+		"*-barn-barnred-*": {
+			"shingle": {
+				"base": "block/detail/barnroof",
+				"alternates": [
+					{
+						"base": "block/detail/barnroof-2"
+					},
+					{
+						"base": "block/detail/barnroof-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-barn"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-barn"
+			},
+			"deck": {
+				"base": "block/detail/barndeck"
+			},
+			"trim": {
+				"base": "block/detail/wooddark"
+			},
+			"gutter": {
+				"base": "block/detail/wooddark"
+			},
+			"gable": {
+				"base": "block/detail/barnwall-red",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-red-2"
+					},
+					{
+						"base": "block/detail/barnwall-red-3"
+					}
+				]
+			}
+		},
+		"*-barn-barngrey-*": {
+			"shingle": {
+				"base": "block/detail/barnroof",
+				"alternates": [
+					{
+						"base": "block/detail/barnroof-2"
+					},
+					{
+						"base": "block/detail/barnroof-3"
+					}
+				]
+			},
+			"edge": {
+				"base": "block/detail/roofedge-barn"
+			},
+			"cap": {
+				"base": "block/detail/roofcap-barn"
+			},
+			"deck": {
+				"base": "block/detail/barndeck"
+			},
+			"trim": {
+				"base": "block/detail/wooddark"
+			},
+			"gutter": {
+				"base": "block/detail/wooddark"
+			},
+			"gable": {
+				"base": "block/detail/barnwall-grey",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-grey-2"
+					},
+					{
+						"base": "block/detail/barnwall-grey-3"
+					}
+				]
+			}
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 2,
+	"collisionboxByType": {
+		"*-eave-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-lower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-peaklower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-ridgelower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-eave-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-lower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-peaklower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*-ridgelower-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

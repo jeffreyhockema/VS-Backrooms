@@ -142,7 +142,7 @@ public static class Breakdown
         Add(Drywall, "drywallbase", "officewall", "officedeco", "plasterwall", "plasterdeco", "plasterceiling", "cityplaster",
             "houseinterior", "housedeco", "nooutletsign");
         Add(Timber, "hotelwall", "hotelwood", "hotelfixture", "hotelceiling", "hoteldeco", "housewall", "housecorner", "housefloor",
-            "houseceiling", "houseroof", "roofslope", "barnwall", "barnroof", "jetty", "cityfascia", "storefrontdeco", "storefrontsign", "staffsign", "staffplaque",
+            "houseceiling", "houseroof", "roofslope", "pitchroof", "barnwall", "barnroof", "jetty", "cityfascia", "storefrontdeco", "storefrontsign", "staffsign", "staffplaque",
             "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan",
             "housestorey", "housestairs", "porchdeck", "porchpost");
         Add(Joinery, "kitchencounter", "hotelreception", "thronetable", "grandfatherclock", "grandpiano");

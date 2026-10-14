@@ -35,10 +35,26 @@
 	"texturesByType": {
 		"*-white-ne": {
 			"north": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/plaster-interior"
@@ -55,7 +71,15 @@
 		},
 		"*-white-nw": {
 			"north": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/plaster-interior"
@@ -64,7 +88,15 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"west": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -78,10 +110,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"east": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/plaster-interior"
@@ -101,10 +149,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"south": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/detail/siding-white"
+				"base": "block/detail/siding-white",
+				"alternates": [
+					{
+						"base": "block/detail/siding-white-2"
+					},
+					{
+						"base": "block/detail/siding-white-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -115,10 +179,26 @@
 		},
 		"*-blue-ne": {
 			"north": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/plaster-interior"
@@ -135,7 +215,15 @@
 		},
 		"*-blue-nw": {
 			"north": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/plaster-interior"
@@ -144,7 +232,15 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"west": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -158,10 +254,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"east": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/plaster-interior"
@@ -181,10 +293,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"south": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/detail/siding-blue"
+				"base": "block/detail/siding-blue",
+				"alternates": [
+					{
+						"base": "block/detail/siding-blue-2"
+					},
+					{
+						"base": "block/detail/siding-blue-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -195,10 +323,26 @@
 		},
 		"*-yellow-ne": {
 			"north": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/plaster-interior"
@@ -215,7 +359,15 @@
 		},
 		"*-yellow-nw": {
 			"north": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/plaster-interior"
@@ -224,7 +376,15 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"west": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -238,10 +398,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"east": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/plaster-interior"
@@ -261,10 +437,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"south": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/detail/siding-yellow"
+				"base": "block/detail/siding-yellow",
+				"alternates": [
+					{
+						"base": "block/detail/siding-yellow-2"
+					},
+					{
+						"base": "block/detail/siding-yellow-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -275,10 +467,26 @@
 		},
 		"*-green-ne": {
 			"north": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/plaster-interior"
@@ -295,7 +503,15 @@
 		},
 		"*-green-nw": {
 			"north": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/plaster-interior"
@@ -304,7 +520,15 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"west": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"
@@ -318,10 +542,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"east": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/plaster-interior"
@@ -341,10 +581,26 @@
 				"base": "block/detail/plaster-interior"
 			},
 			"south": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/detail/siding-green"
+				"base": "block/detail/siding-green",
+				"alternates": [
+					{
+						"base": "block/detail/siding-green-2"
+					},
+					{
+						"base": "block/detail/siding-green-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/plaster-interior"

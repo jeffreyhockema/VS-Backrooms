@@ -4,6 +4,7 @@ import random
 
 from PIL import Image, ImageDraw
 
+import matlib as M
 from detail_kit import T, seed_of
 from detail_textures import S, block_wall, flat, grime, noise, rgb, save, stripes, text
 
@@ -497,10 +498,36 @@ def level8():
 
 # ---------------- Level 9 ----------------
 
+def asphalt_base():
+    """The Suburbs' road (graphics pass B11): matlib asphalt, dark as it always was, the markings painted over it."""
+    return M.asphalt(seed=seed_of("asphalt"), base=(46, 47, 48), grain=3, mottle=6, aggregate=0.2, binder=0.5)
+
+
+def asphalt_features():
+    """asphalt-2, a crack sealed with a glossy tar line; asphalt-3, an old square patch, smoother and darker, its
+    edge a little proud. Listed as alternates of the plain road beside its four turns (gen_deep.level9)."""
+    img = asphalt_base()
+    rng = random.Random(seed_of("asphalt-crack"))
+    x, y = rng.uniform(4, 28), 0.0
+    while y < S:
+        for dx in (0, 1):
+            M.put(img.load(), S, S, int(x) + dx, int(y), (30, 30, 31))
+        M.touch(img, int(x) + 2, int(y), 0.06)
+        y += 1
+        x += rng.choice((-1, 0, 0, 1)) * 0.8
+    save(img, "asphalt-2")
+    img = asphalt_base()
+    patch = M.asphalt(seed=seed_of("asphalt-patch"), base=(40, 41, 42), grain=2, mottle=3, aggregate=0.12, binder=0.7)
+    box = (7, 5, 27, 23)
+    img.paste(patch.crop(box), box[:2])
+    M.bevel(img, box, strength=0.1)
+    save(img, "asphalt-3")
+
+
 def level9():
-    img = noise(0x2A2C2E, 6, "asphalt")
-    specks(img, [0x3E4042, 0x1E2022, 0x4A4A48], 90, "asphalt")
+    img = asphalt_base()
     save(img, "asphalt")
+    asphalt_features()
     leaves = img.copy()
     rng = random.Random(101)
     d = ImageDraw.Draw(leaves)
@@ -523,11 +550,8 @@ def level9():
     for _ in range(5):
         wet.putpixel((rng.randrange(S), rng.randrange(S)), (128, 138, 156, 255))
     save(wet, "asphalt-wet")
-    img = noise(0x9A9890, 5, "sidewalk")
-    d = ImageDraw.Draw(img)
-    d.line([0, 0, S - 1, 0], fill=rgb(0x6E6C66))
-    d.line([0, 0, 0, S - 1], fill=rgb(0x6E6C66))
-    d.line([0, 16, S - 1, 16], fill=rgb(0x7E7C76))
+    img = M.concrete(seed=seed_of("sidewalk"), base=(156, 153, 144), grain=3, mottle=5, aggregate=0.05, pores=0.01)
+    M.emboss_lines(img, xs=(0,), ys=(0, 16), strength=0.3)
     save(img, "sidewalk")
     img = noise(0x8A5E38, 5, "housewood")
     for y in range(0, S, 5):
@@ -546,13 +570,7 @@ def level9():
             img.putpixel((x, y), rgb(0xE8DCC0 if (x // 8 + y // 8) % 2 == 0 else 0xC89A6A))
     save(img, "housefloor-lino")
     save(T.concrete_floor("plain"), "housefloor-garage")
-    for name, c in (("white", 0xE4E2DA), ("blue", 0x7A98B8), ("yellow", 0xE0CC88), ("green", 0x8AA88A)):
-        img = noise(c, 3, "siding" + name)
-        d = ImageDraw.Draw(img)
-        for y in range(0, S, 5):
-            d.line([0, y, S - 1, y], fill=T.shade(T.hexrgb(c), 0.72))
-            d.line([0, y + 1, S - 1, y + 1], fill=T.shade(T.hexrgb(c), 1.08))
-        save(img, f"siding-{name}")
+    # (the painted siding: exteriors_b11)
     save(grime(block_wall(0x9A4A34, 0xC8B8A8, "brick", rows=8), "brick", 0.15), "siding-brick")
     save(noise(0xE6DCC8, 2, "plaster-interior"), "plaster-interior")
     img = noise(0xE8DCC8, 2, "paper-floral")
@@ -651,27 +669,43 @@ def level9():
         k = -1 if side == "right" else 1
         d.polygon([(tip - k, 22), (tip + k * 5, 17), (tip + k * 5, 27)], fill=rgb(0xFFFFFF))
         save(img, f"citysign-{side}")
-    for name, c in (("grey", 0x55575C), ("brown", 0x5E4430), ("red", 0x7A3328)):
-        save(shingles(c, "roof" + name), f"houseroof-{name}")
+    # (the roofing: exteriors_b11)
     img = noise(0xF0EEE8, 6, "popcorn")
     save(img, "houseceiling")
     for part in ("lower", "upper"):
-        img = noise(0x7A2A20, 3, "housedoor" + part)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xE8E4DA), width=2)
-        d.rectangle([6, 4, 14, 26 if part == "lower" else 28], outline=rgb(0x5A1E16))
-        d.rectangle([18, 4, 26, 26 if part == "lower" else 28], outline=rgb(0x5A1E16))
+        img = M.noise_hv((136, 48, 36), amp=3, seed=seed_of("housedoor" + part), mottle=4, hue=2)
+        # the casing round the door, painted like the windows
+        trim = M.noise_hv(TRIM, amp=2, seed=seed_of("doortrim" + part), mottle=2, hue=1)
+        for y in range(S):
+            for x in list(range(0, 2)) + list(range(S - 2, S)):
+                img.putpixel((x, y), trim.getpixel((x, y)))
+        if part == "upper":
+            for x in range(S):
+                for y in (0, 1):
+                    img.putpixel((x, y), trim.getpixel((x, y)))
+        M.inset(img, (2, 0 if part == "lower" else 2, S - 2, S), strength=0.3)
+        panels = ((5, 3, 15, 28), (17, 3, 27, 28)) if part == "lower" else ((5, 18, 15, 30), (17, 18, 27, 30))
+        for box in panels:
+            M.inset(img, box, strength=0.24)
+            M.bevel(img, (box[0] + 1, box[1] + 1, box[2] - 1, box[3] - 1), strength=0.14)
         if part == "lower":
-            d.ellipse([22, 1, 25, 4], fill=rgb(0xD8B050))
+            for x, y, f in ((22, 1, 0.5), (23, 1, 0.7), (22, 2, 0.3), (23, 2, 0.2), (24, 2, 0.0), (23, 3, -0.2)):
+                img.putpixel((x, y), M.rgba(M.shade_px((200, 160, 70), f)))
         else:
-            d.rectangle([10, 6, 22, 14], fill=rgb(0x1A2028))
-            text(img, "4312"[random.Random(5).randint(0, 3):], (8, 18, 24, 26), 0xD8B050, 5)
+            glass = Image.new("RGBA", (12, 10), (26, 32, 40, 255))
+            for y in range(10):
+                for x in range(12):
+                    sheen = max(0.0, 1 - abs((x + y * 0.6) - 7) / 3) * 0.25
+                    glass.putpixel((x, y), M.rgba(M.mix((26, 32, 40), (70, 84, 100), sheen + 0.1 * (1 - y / 10))))
+            img.paste(glass, (10, 5))
+            M.inset(img, (9, 4, 23, 16), strength=0.3)
         save(img, f"housedoor-{part}")
-        img = noise(0xE4E2DA, 3, "garage" + part)
-        d = ImageDraw.Draw(img)
-        for y in range(0, S, 8):
-            d.line([0, y, S - 1, y], fill=rgb(0xA8A6A0))
-            d.rectangle([3, y + 2, S - 4, y + 6], outline=rgb(0xC8C6C0))
+        img = M.noise_hv((226, 224, 214), amp=2, seed=seed_of("garage" + part), mottle=3, hue=1)
+        for y0 in range(0, S, 8):
+            M.emboss_lines(img, ys=(y0,), strength=0.28)
+            for x0 in (2, 17):
+                M.inset(img, (x0, y0 + 2, x0 + 13, y0 + 7), strength=0.2)
+                M.bevel(img, (x0 + 1, y0 + 3, x0 + 12, y0 + 6), strength=0.16)
         save(img, f"garagedoor-{part}")
     flat("tvwood", 0x5A3A22, 4)
     img = Image.new("RGBA", (S, S), rgb(0x1A1A1C))
@@ -692,7 +726,7 @@ def level9():
     img = noise(0xFFF0C0, 3, "streetlamp")
     save(img, "streetlamp")
     save(noise(0x8A9094, 3, "streetlampoff"), "streetlampoff")
-    flat("mailbox", 0x2A3A5A, 4)
+    save(M.painted_metal(seed=seed_of("mailbox"), base=(44, 60, 92), panel=False, chips=0), "mailbox")
     img = noise(0xA88A5A, 10, "burlap")
     for k in range(0, S, 3):
         ImageDraw.Draw(img).line([0, k, S - 1, k], fill=rgb(0x8A6E44))
@@ -738,16 +772,7 @@ def level10():
         for y in range(0, S, 4):
             d.line([x, y, x + 3, y + 1], fill=rgb(0x4E3C28))
     save(tracks, "dirtroad-tracks")
-    for name, c in (("red", 0x8A2A1E), ("grey", 0x8A8478)):
-        img = noise(c, 6, "barn" + name)
-        d = ImageDraw.Draw(img)
-        for x in range(0, S, 6):
-            d.line([x, 0, x, S - 1], fill=T.shade(T.hexrgb(c), 0.7))
-        save(img, f"barnwall-{name}")
-    img = noise(0x3A3C3E, 5, "barnroof")
-    for y in range(0, S, 4):
-        ImageDraw.Draw(img).line([0, y, S - 1, y], fill=rgb(0x2A2C2E))
-    save(img, "barnroof")
+    # (the barns' boards and tin: exteriors_b11)
     img = noise(0x8A4A4A, 10, "wormmass")
     d = ImageDraw.Draw(img)
     rng = random.Random(131)
@@ -772,28 +797,6 @@ def level10():
 
 # ---------------- Refinements: Levels 5 to 10 in more detail ----------------
 
-def shingles(color, key):
-    """Asphalt shingles: courses of tabs, each a little different in shade, the slots between them and the shadow
-    under each course, over a gritty surface."""
-    rng = random.Random(seed_of(key))
-    base = T.hexrgb(color)
-    img = Image.new("RGBA", (S, S))
-    px = img.load()
-    for y in range(S):
-        course = y // 8
-        offset = 5 if course % 2 else 0
-        for x in range(S):
-            tab = (x + offset) // 10
-            tab_shade = 0.86 + 0.28 * random.Random(seed_of(f"{key}-{course}-{tab}")).random()
-            yy = y % 8
-            f = tab_shade * (0.72 if yy == 7 else 0.86 if yy == 6 else 1.0)  # the shadow at the foot of each course
-            if (x + offset) % 10 == 0 and yy < 6:
-                f *= 0.6  # the slot between two tabs
-            grit = 0.9 + 0.2 * rng.random()
-            px[x, y] = tuple(max(0, min(255, int(c * f * grit))) for c in base) + (255,)
-    return img
-
-
 def refinements():
     # Level 6: standing water on the cold floor
     img = noise(0x1E2024, 2, "l6wet")
@@ -811,8 +814,7 @@ def refinements():
     save(img, "jetty")
 
     # Level 9: road markings, a manhole, a porch, a drive, a rug, a drained pool, ceiling lights
-    asphalt = noise(0x2A2C2E, 6, "asphalt")
-    specks(asphalt, [0x3E4042, 0x1E2022, 0x4A4A48], 90, "asphalt")
+    asphalt = asphalt_base()
     line = asphalt.copy()
     ImageDraw.Draw(line).rectangle([0, 13, S - 1, 18], fill=rgb(0xD8B830))
     save(line, "asphalt-line")
@@ -866,7 +868,7 @@ def refinements():
     img = noise(0xF0F0EC, 2, "backboard")
     ImageDraw.Draw(img).rectangle([10, 14, 21, 25], outline=rgb(0xD04A18), width=2)
     save(img, "backboard")
-    flat("tractorgreen", 0x2E6A2A, 5)
+    save(M.painted_metal(seed=seed_of("tractorgreen"), base=(62, 98, 54), panel=False, chips=4, under=(70, 66, 60)), "tractorgreen")
     img = noise(0xC8A850, 8, "hayside")
     d = ImageDraw.Draw(img)
     for y in range(0, S, 3):
@@ -911,9 +913,7 @@ def refinements():
     for x, c in ((5, 0xD8C030), (14, 0x3A6AC8), (23, 0x3A9A4A)):
         d.rectangle([x, 12, x + 5, 20], fill=rgb(c))
     save(img, "toybox")
-    img = noise(0xB0A8A0, 5, "silo")
-    for x in range(0, S, 3):
-        ImageDraw.Draw(img).line([x, 0, x, S - 1], fill=rgb(0x8A847C))
+    img = corrugated((172, 168, 160), seed_of("silo"))
     save(img, "silo")
     flat("silotop", 0x6A6E72, 4)
     img = noise(0xA88A52, 8, "stubble")
@@ -925,6 +925,190 @@ def refinements():
     save(img, "stubble")
 
 
+
+# ---------------- Graphics pass B11: the Suburbs' and the farms' outsides ----------------
+#
+# One material family per surface, shared by every block that shows it: the lap siding on a house's walls, corners and
+# gable ends (the roof blocks over a gable wall carry the same siding: gen_deep.roofs), the roofing courses, the eave's
+# soffit, fascia and gutter, and the barns' boards and tin. Built from tools/matlib.py: structure, then the light from
+# above, then a low grain; seamless, with the odd feature (a paint chip, a rust streak) in one alternate of three.
+
+SIDING = {"white": (226, 224, 214), "blue": (120, 150, 182), "yellow": (222, 202, 136), "green": (136, 166, 136)}
+ROOFING = {"grey": (92, 90, 88), "brown": (96, 70, 50), "red": (124, 54, 42)}
+TRIM = (236, 234, 226)
+
+
+def lap_siding(base, seed, wear=0):
+    """Painted lap siding: eight boards of 4 px to the block, each a touch its own shade and hue; under the butt of the
+    board above, a dark shadow line, then the face catching more light toward its lower edge, which stands proud.
+    `wear` scatters that many paint chips (for one alternate in three)."""
+    img = M.noise_hv(base, amp=3, seed=seed, mottle=2, cells=(16, 8), hue=1.0)
+    px = img.load()
+    rng = random.Random(M.sub(seed, "boards"))
+    streak = M.value_noise((S, S), (8, 1), M.sub(seed, "streak"))
+    rows = (-0.26, -0.07, 0.0, 0.05)
+    for b in range(S // 4):
+        dv, dh = rng.uniform(-3, 3), rng.uniform(-2, 2)
+        for r in range(4):
+            y = b * 4 + r
+            for x in range(S):
+                c = M.hue_shift(M.lift(px[x, y], dv + streak[y][x] * 3), dh)
+                px[x, y] = M.rgba(M.shade_px(c, rows[r]))
+    for _ in range(wear):
+        x, b = rng.randrange(S), rng.randrange(S // 4)
+        y = b * 4 + 3  # paint lifts at the proud lower edge first
+        for k in range(rng.randint(1, 3)):
+            M.put(px, S, S, x + k, y, M.lift(M.mix(px[(x + k) % S, y], (150, 132, 104), 0.4), -4))
+        M.touch(img, x, y - 1, -0.06)
+    return img
+
+
+def shingle_courses(base, seed, courses=4, dark_tabs=0.2):
+    """Laminated roofing shingles for the course-by-course roof (gen_deep.roofs). Each band of 32/courses px is one
+    course; its top row is the butt (the lower, down-slope edge: an up face's v runs north to south and the roof is
+    built sloping down to the north), its last rows sit in the shadow of the next course's butt, which the shape raises
+    as geometry. Tabs of uneven width (as dimensional shingles have) each take their own shade and hue, a slot of the
+    dark underlayer between them, granules over all."""
+    img = M.noise_hv(base, amp=5, seed=seed, mottle=4, cells=(16, 8), hue=2.5)
+    px = img.load()
+    rng = random.Random(M.sub(seed, "tabs"))
+    ch = S // courses
+    for c in range(courses):
+        widths = []
+        while sum(widths) < S:
+            widths.append(rng.choice((6, 7, 8, 9, 10, 12)))
+        widths[-1] -= sum(widths) - S
+        if widths[-1] < 3:
+            widths[-2] += widths.pop()
+        x0 = rng.randrange(S)
+        for w in widths:
+            tone, hue = rng.uniform(-6, 6), rng.uniform(-3, 3)
+            band = rng.random() < dark_tabs  # a darker laminate tab
+            for r in range(ch):
+                y = c * ch + r
+                f = 0.06 if r == 0 else -0.10 if r == ch - 2 else -0.24 if r == ch - 1 else 0.0
+                for k in range(w):
+                    x = (x0 + k) % S
+                    col = M.hue_shift(M.lift(px[x, y], tone - (10 if band and r >= ch // 2 else 0)), hue)
+                    if k == 0 and r < ch - 1:
+                        col = M.lift(col, -32)  # the slot
+                    elif k == w - 1:
+                        col = M.lift(col, -5)
+                    px[x, y] = M.rgba(M.shade_px(col, f))
+            x0 += w
+    # granules: the odd light and dark grain
+    g = random.Random(M.sub(seed, "granules"))
+    for _ in range(90):
+        M.touch(img, g.randrange(S), g.randrange(S), g.choice((-0.12, -0.08, 0.1)))
+    return img
+
+
+def roof_edge(base, seed):
+    """The butt and cut ends of the courses, and the edge of a ridge cap: the shingle's thickness, in shade."""
+    img = M.noise_hv(M.lift(base, -10), amp=4, seed=seed, mottle=3, hue=2)
+    for y in range(0, S, 4):
+        for x in range(S):
+            M.touch(img, x, y, 0.08)
+    return img
+
+
+def ridge_cap(base, seed):
+    """Cap shingles along a ridge, each lapping the next: a dark butt line every 8 px across the ridge (the cap's up
+    face runs u along the ridge), lit on its upper side."""
+    img = M.noise_hv(M.lift(base, -6), amp=5, seed=seed, mottle=3, hue=2)
+    for x0 in range(0, S, 8):
+        for y in range(S):
+            M.touch(img, x0, y, -0.28)
+            M.touch(img, x0 + 1, y, 0.08)
+            M.touch(img, x0 + 7, y, -0.08)
+    return img
+
+
+def soffit(base, seed, board=16):
+    """The painted soffit under the eaves and the porch roofs: light panels with a fine vent perforation in a band
+    along each, a shallow joint every `board` px. It is seen from below and in shade, so it is painted light and
+    keeps its lines faint, or it reads as more siding."""
+    img = M.noise_hv(M.lift(base, 10), amp=2, seed=seed, mottle=2, hue=1)
+    for y0 in range(0, S, board):
+        for x in range(S):
+            M.touch(img, x, y0, -0.1)
+        for x in range(1, S, 2):
+            for y in (y0 + 6, y0 + 9):
+                M.touch(img, x, y, -0.12)
+    return img
+
+
+def gutter(seed):
+    """A painted aluminium gutter: the rolled lip lit along the top, the face, its shadowed underside; seen from above
+    (its up face), the dark trough between two lips."""
+    img = M.noise_hv((214, 214, 206), amp=2, seed=seed, mottle=2, hue=1)
+    shade = {0: 0.12, 1: 0.04, 2: -0.1, 13: -0.06, 14: -0.14, 15: -0.2}
+    for y in range(S):
+        f = shade.get(y % 16, 0.0)
+        for x in range(S):
+            M.touch(img, x, y, f)
+    for x in range(0, S, 16):  # a joint strap now and then
+        for y in range(S):
+            M.touch(img, x, y, -0.08)
+    return img
+
+
+def corrugated(base, seed, rust=0):
+    """Corrugated tin for the barns' roofs: ribs every 4 px running down the slope (along v), each lit on its left
+    flank and dark on its right; galvanising worn to grey, a rust streak down from a nail line in `rust` places."""
+    img = M.noise_hv(base, amp=3, seed=seed, mottle=6, cells=(16, 8), hue=1.5)
+    prof = (0.12, 0.04, -0.06, -0.16)
+    for x in range(S):
+        for y in range(S):
+            M.touch(img, x, y, prof[x % 4])
+    for y in (0, 16):  # the nail lines across the sheets
+        for x in range(1, S, 4):
+            M.touch(img, x, y + 3, -0.3)
+    if rust:
+        M.drips(img, n=rust, seed=M.sub(seed, "rust"), color=(122, 70, 40), length=(8, 20), strength=0.35, width=1)
+    return img
+
+
+def barn_boards(base, seed, wear=False):
+    """Board and batten for the barns and sheds: three boards to the block, grain upright, and a batten every
+    10-11 px as a raised strip lit on its left edge and shadowed to its right; paint gone thin at the foot in one
+    alternate."""
+    img = M.wood_planks(seed=seed, base=base, planks=(12, 9, 11), direction="v", grain=3, contrast=0.4, flecks=0.4,
+                        per_plank=5, gap=M.lift(base, -40))
+    for x0 in (0, 12, 21):  # battens over the gaps
+        for y in range(S):
+            M.touch(img, (x0 - 1) % S, y, 0.16)
+            M.touch(img, x0, y, 0.1)
+            M.touch(img, (x0 + 2) % S, y, -0.18)
+    if wear:
+        M.grime(img, 0.18, seed=M.sub(seed, "wear"), color=(118, 104, 86), cover=0.35)
+    return img
+
+
+def exteriors_b11():
+    """The Suburbs' siding (every colour, three alternates each), roofing, eaves, and the barns' boards and tin."""
+    for name, c in SIDING.items():
+        for k, wear in enumerate((0, 0, 0)):
+            save(lap_siding(c, seed_of(f"siding-{name}-{k}"), wear), f"siding-{name}" + ("" if k == 0 else f"-{k + 1}"))
+    for name, c in ROOFING.items():
+        for k in range(3):
+            save(shingle_courses(c, seed_of(f"roof-{name}-{k}")), f"houseroof-{name}" + ("" if k == 0 else f"-{k + 1}"))
+        save(roof_edge(c, seed_of(f"roofedge-{name}")), f"roofedge-{name}")
+        save(ridge_cap(c, seed_of(f"roofcap-{name}")), f"roofcap-{name}")
+    save(soffit(TRIM, seed_of("soffit")), "soffit")
+    save(gutter(seed_of("gutter")), "gutter")
+    tin = (128, 130, 128)
+    for k, rust in enumerate((0, 0, 3)):
+        save(corrugated(tin, seed_of(f"barnroof-{k}"), rust), "barnroof" + ("" if k == 0 else f"-{k + 1}"))
+    save(roof_edge(tin, seed_of("barnroofedge")), "roofedge-barn")
+    img = M.brushed_metal(seed=seed_of("barnroofcap"), base=(140, 142, 140), direction="h")
+    save(img, "roofcap-barn")
+    save(M.wood_planks(seed=seed_of("barndeck"), base=(96, 82, 66), planks=4, grain=4, contrast=0.8, per_plank=8), "barndeck")
+    for name, c in (("red", (124, 44, 34)), ("grey", (134, 128, 118))):
+        for k in range(3):
+            save(barn_boards(c, seed_of(f"barnwall-{name}-{k}"), wear=k == 2), f"barnwall-{name}" + ("" if k == 0 else f"-{k + 1}"))
+
+
 def generate():
     refinements()
     level6()
@@ -933,3 +1117,4 @@ def generate():
     level8()
     level9()
     level10()
+    exteriors_b11()

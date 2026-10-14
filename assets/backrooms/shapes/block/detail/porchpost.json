@@ -6,15 +6,222 @@
 	},
 	"elements": [
 		{
+			"name": "Plinth",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				1.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthCap",
+			"from": [
+				5.25,
+				1.5,
+				5.25
+			],
+			"to": [
+				10.75,
+				2,
+				10.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						5.5,
+						5.5
+					]
+				}
+			}
+		},
+		{
 			"name": "Post",
 			"from": [
+				5.75,
+				2,
+				5.75
+			],
+			"to": [
+				10.25,
+				14,
+				10.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						12
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						12
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						4.5
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						4.5,
+						4.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck",
+			"from": [
 				5.5,
-				0,
+				14,
 				5.5
 			],
 			"to": [
 				10.5,
-				16,
+				14.5,
 				10.5
 			],
 			"faces": {
@@ -24,7 +231,7 @@
 						0,
 						0,
 						5.0,
-						16
+						0.5
 					]
 				},
 				"east": {
@@ -33,7 +240,7 @@
 						0,
 						0,
 						5.0,
-						16
+						0.5
 					]
 				},
 				"south": {
@@ -42,7 +249,7 @@
 						0,
 						0,
 						5.0,
-						16
+						0.5
 					]
 				},
 				"west": {
@@ -51,7 +258,7 @@
 						0,
 						0,
 						5.0,
-						16
+						0.5
 					]
 				},
 				"up": {
@@ -75,10 +282,10 @@
 			}
 		},
 		{
-			"name": "Fillet",
+			"name": "Capital",
 			"from": [
 				5,
-				15,
+				14.5,
 				5
 			],
 			"to": [
@@ -93,7 +300,7 @@
 						0,
 						0,
 						6,
-						1
+						1.5
 					]
 				},
 				"east": {
@@ -102,7 +309,7 @@
 						0,
 						0,
 						6,
-						1
+						1.5
 					]
 				},
 				"south": {
@@ -111,7 +318,7 @@
 						0,
 						0,
 						6,
-						1
+						1.5
 					]
 				},
 				"west": {
@@ -120,7 +327,7 @@
 						0,
 						0,
 						6,
-						1
+						1.5
 					]
 				},
 				"up": {

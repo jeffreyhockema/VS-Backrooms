@@ -1,0 +1,19 @@
+{
+ "batch": "B11",
+ "title": "Levels 9 and 10",
+ "before": "review/b11/sbs/before",
+ "after": "review/b11/sbs/after",
+ "out": "review/b11/sidebyside",
+ "note": "Levels 9 and 10 in one batch: tools/shotbot/sidebyside.py reads one folder each side, so the shots are copied into review/b11/sbs/<before|after>/ with a 9- or 10- prefix (from review/baseline/<level> and review/b11/final/<level>) before it runs.",
+ "families": [
+  {"id": "gables", "name": "Gable ends (the house's own siding up to the roof)", "spots": ["9-day-gable", "9-den-wide"]},
+  {"id": "roofs", "name": "Pitched roofs (shingle courses, eave, gutter, ridge, rake)", "spots": ["9-day-front", "9-day-street", "9-day-eave"]},
+  {"id": "siding", "name": "House siding (lap boards, three versions)", "spots": ["9-close-wall", "9-day-gable"]},
+  {"id": "porch", "name": "Porch posts and the front door", "spots": ["9-day-porch"]},
+  {"id": "garage-mailbox", "name": "Garage door and mailbox", "spots": ["9-day-front"]},
+  {"id": "street", "name": "Road asphalt and pavement", "spots": ["9-day-street", "9-day-porch"]},
+  {"id": "barns", "name": "Barn and shed boards, barn gable closed over the doorway", "spots": ["10-barn-wide", "10-barn-close", "10-shed-close"]},
+  {"id": "barn-roof", "name": "Barn roof (tin in courses)", "spots": ["10-barn-roof"]},
+  {"id": "silo-tractor", "name": "Silo and tractor", "spots": ["10-silo-close", "10-tractor"]}
+ ]
+}
