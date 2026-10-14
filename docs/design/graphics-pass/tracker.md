@@ -25,8 +25,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
 |---|---|---|---|---|---|
 | B0 tooling and baseline | gfx/B0 | merged | 1 | | passed 2026-10-13 (Fable): tram/close/prop shots verified, no asset changes |
-| B1 inventory | main | in progress | | | |
-| B2 material kit | | not started | | | |
+| B1 inventory | main | merged | 1 | | passed 2026-10-13 (Fable): L1 floor D confirmed on tent-close; boiler row corrected (generator exists) |
+| B2 material kit | gfx/B2 | in progress | | | |
 | B3 Level 0 | | not started | | | |
 | B4 Level 1 | | not started | | | |
 | B5 Level 2 | | not started | | | |
@@ -156,3 +156,46 @@ What the columns mean:
   - Level 2's close shots often have the wall pipes in front.
   - B1 can name spots to add; `mkspots.py make <level>` regenerates a list without the client.
 - `preview_shapes.py` ignores face rotation (see above).
+
+### B1
+
+Worker report (Opus, 2026-10-13). Nothing under `assets/`, `tools/` or `src/` changed, and nothing was built, generated
+or run. Scratch notes and the hero contact sheets are in `review/b1/`.
+
+**What was graded.** I graded every level sheet and its individual shots: 22 levels, including the `-inspection`
+shots for Levels 6 and 7. I also graded the texsheets for every block folder, the textured prop previews, the 41
+gallery shots, the "What lives here" lineup (hero 42), and the item and entity texsheets. Four read-only subagents
+mapped each texture and shape to its generator function. The result is 180 asset families across B3 to B17, plus a
+few cross-reference rows.
+
+**Counts.**
+
+| A | B | C | D | not seen |
+|---|---|---|---|---|
+| 0 | 29 | 113 | 17 | 21 |
+
+- Hero rows: 16 B, 63 C, 8 D.
+- The D rows are painted-on 3D (gauges, grilles, door hardware, the tram) and single features stamped once per
+  texture: Level 1 floor scuffs, stained carpet, Level 7 rock, Level 94 turf, 3999 marble.
+
+**File.** `docs/design/graphics-pass/inventory.md`. It is a copy of `review/inventory.md`, written now rather than
+after Gate 1 as the batch prompt asked. The file ends with:
+- the counts per batch;
+- the ten highest-priority rows;
+- ten things that cut across batches, for B2. These are a hue-aware noise to replace grey `noise_fill`, a set of
+  shared surface primitives, one ceiling module, hardware and furniture kits, a tiling rule against features stamped
+  once per texture, and the lit-from-above shading convention.
+
+**Spots to fix before shooting.** Some baseline frames are black or useless:
+- Level 1: close-wall, close-wall2, close-ceiling.
+- Level 3: close-floor, den-*, pipeend-close.
+- Level 6.1: gate-*, threshold-*, sleepingbag-*.
+- Level 7: gate-*, tent-close, close-water.
+- Level 11: refuge-*.
+- Level !: wide-07, prop-1, prop-2.
+
+Some levels need more shots:
+- Level 9 has no day shot of a house. It needs two or three day spots on a street.
+- Level 974's wide shots all show the same plan. It needs the kitchen, the bathroom and Kitty's room.
+
+21 families appear in no shot. Each of their rows names a spot to add.
