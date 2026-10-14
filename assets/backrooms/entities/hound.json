@@ -158,6 +158,7 @@
 			},
 			{
 				"code": "harvestable",
+				"duration": 2,
 				"drops": [
 					{
 						"type": "item",

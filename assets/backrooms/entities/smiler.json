@@ -38,10 +38,6 @@
 			},
 			{
 				"code": "interpolateposition"
-			},
-			{
-				"code": "harvestable",
-				"duration": 2
 			}
 		],
 		"animations": [

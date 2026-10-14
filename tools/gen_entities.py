@@ -664,6 +664,22 @@ def faceling_textures():
 
 # ---------------------------------------------------------------- Entity types
 
+# How long a knife takes over a body, on both sides. The knife stops when the client's copy of "harvestable" says it
+# is done, and the server only generates the drops if that was long enough for its own copy, so a client copy shorter
+# than the server's (2 s against the default 5 s, as it was up to 0.513.0) left every body empty.
+HARVEST_SECONDS = 2
+
+
+def sync_harvestable(entity):
+    """Drops the client's "harvestable" from a creature whose server side has none: the knife would offer to harvest
+    the body and then open it empty."""
+    server = entity.get("server", {}).get("behaviors", [])
+    if not any(b["code"] == "harvestable" for b in server):
+        client = entity.get("client", {})
+        client["behaviors"] = [b for b in client.get("behaviors", []) if b["code"] != "harvestable"]
+    return entity
+
+
 def anim(code, animation=None, speed=1.0, **extra):
     a = {"code": code, "animation": animation or code, "animationSpeed": speed, "blendMode": "Average"}
     a.update(extra)
@@ -681,8 +697,9 @@ def common_client(shape, texture, animations, size=1.0, step=1.1251, movable=Tru
             {"code": "controlledphysics", "stepHeight": step},
             {"code": "floatupwhenstuck", "onlyWhenDead": True},
             {"code": "interpolateposition"},
-            # (The knife asks the client's copy whether a body can be harvested)
-            {"code": "harvestable", "duration": 2},
+            # (The knife asks the client's copy whether a body can be harvested and how long it takes; the server's
+            # copy, with the drops, must say the same: see sync_harvestable)
+            {"code": "harvestable", "duration": HARVEST_SECONDS},
         ],
         "animations": animations,
     }
@@ -704,7 +721,7 @@ def server_(health, tasks, drops=None, menace=None, step=1.1251, decay="game:car
         behaviors.append(dict({"code": "deaddecay", "hoursToDecay": 24}, **({"decayedBlock": decay} if decay else {})))
     behaviors.append({"code": "floatupwhenstuck", "onlyWhenDead": True})
     if drops:
-        behaviors.append({"code": "harvestable", "drops": drops})
+        behaviors.append({"code": "harvestable", "duration": HARVEST_SECONDS, "drops": drops})
     behaviors.extend(extra)
     behaviors.append(dict({"code": "backrooms-menace"}, **(menace or {})))
     behaviors.append({"code": "taskai", "aiCreatureType": "LandCreature", "aitasks": tasks})
@@ -1471,7 +1488,7 @@ def main():
     faceling_textures()
     for entity in (hound(), smiler(), faceling(), faceling(child=True), skinstealer(), duller(), deathrat(), deathmoth(), wanderer(), clump(), mangled(), thething(), bacteria(), wretch(),
                    animation_clay(), animation_wooden(), animation_paper(), roboman()):
-        write_json(entity, "entities", entity["code"] + ".json")
+        write_json(sync_harvestable(entity), "entities", entity["code"] + ".json")
     firesalt()
     merge_lang()
 
