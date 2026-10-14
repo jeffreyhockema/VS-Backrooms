@@ -24,7 +24,6 @@ The first update, built from the first players' feedback. Existing worlds carry 
 - **Pottery shards.** The potted plants of Levels 4 and 5 break for shards; shards pounded with a stone make ceramic grit, and grit with soil makes clay. Slow, but it saves the trip to Level 3.
 - **Everything can be set down.** Every item of the mod can be placed on the ground (shift + right-click).
 - **Fixes.** Scrap wire, circuit boards and coin mechanisms go in a crucible, as the handbook always said. The ladders down Level 3's manholes can be climbed. The furniture of the far levels gives what is in it again.
-- **For admins.** The F7 cheat menu is reorganised, with the world settings and a Dev tab of tests.
 
 The full list is in the [changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md).
 
@@ -51,11 +50,11 @@ What version 0.513.0 contains:
 
 **You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. The shiv and the scraper cut cleanly, two strips or fibres at a time, where any other knife cuts one. From there the normal Vintage Story path carries on with materials found level by level: flint in the car park and crates of Level 1, copper and lead in the pipe tunnels, clay in the flooded tunnels under the Electrical Station (or, slowly, from the pottery shards of Level 4's potted plants), coal beside the generators and boilers, real ore veins in the caves, crops and livestock in the farmland.
 
-**The building breaks down, never up.** Drywall and wallpaper break with any tool. Concrete, brick and tile want a copper pickaxe, like rock, and give rubble you can build with. Pipes and machinery give brackets, wire and the odd copper bit, and the wire melts down in a crucible. Each level's roof, the wall between two levels above a certain height, and every door, elevator and vent are indestructible. Under every floor lie eight blocks of concrete and then the ground Vintage Story lays down in any world, with its strata, caves and ore.
+**What you can break, and what you cannot.** Drywall, plaster and wallpaper give way to any tool, and give almost nothing. Concrete, brick, tile and every floor slab need a copper pickaxe, like rock, and break into rubble; four rubble make a block of masonry to build with. Pipes, railings and machinery take a pickaxe too and give metal brackets, scrap wire and now and then a copper or lead bit, and the wire melts down in a crucible. Some things never break: each level's roof, the wall between two levels above a certain height, and every door, elevator and vent. Under every floor lie eight blocks of concrete, and under that the ordinary ground Vintage Story lays down in any world, with its strata, caves and ore.
 
-**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket. Anything you carry can be set down on the floor, so a home fills up with what you found.
+**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
 
-**Food is scarce.** Most boxes and crates were gone through long ago, and a torn box can be told from across the room. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
+**Food is scarce.** Most supply boxes and crates were gone through long ago. A box with its lid torn open or a crate already emptied holds no food, and you can spot one from across the room, so you learn where to look: the deeper the level, the less has been picked over, and the rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
 
 **Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography. Each area has its own stability. Where it is low the gear turns backwards and yours drains; when yours is low the world distorts. Almond Water restores it. Once in every thirty in-game hours or so the lights fail for a few hours in a Reality Shift, and stability drains everywhere.
 
@@ -96,23 +95,29 @@ Every creature has a counter you earn as you go; the handbook page *What Lives H
 
 | Creature | What it does | What keeps it back |
 |---|---|---|
-| Smiler | Eyes and a grin in the dark; cannot be killed | A torch's light; holding its gaze without running |
-| Hound | Packs of two or three, heard before seen | Fire, Firesalt, a steady stare, weapons and armour |
-| Faceling | Wanders and sits; right-click one and it points to the nearest way out | Harmless unless hurt |
-| Deathmoth | Circles open flame; females bite near the edge | A closed lantern; smoke |
-| Skin-Stealer | Slow and strong, coughs and calls out from out of sight; it opens doors | Distance, fire, a door barred from the inside |
-| Duller | Scrapes inside the walls and reaches through them | Almond Water; keeping off the walls |
-| Death Rat | Packs that nip at your legs | A carried torch; they are edible |
-| Clump | Buried with one arm out of the floor | Watching the floor; staying quiet |
-| The Thing | Circles divers in Level 7 | Surfacing |
-| The Mangled | A fog, voices, then a pillar of faces walking the streets of Level 9 | Indoors; waiting it out |
-| Bacteria | A tall figure of black wires far off down Level 0's outer halls; it runs down whoever runs near the way out | Walking, not running |
-| Wretch | Wanderers worn down to nothing, gurgling as they follow | Keeping fed; fighting them one at a time; the 9th Road's lamps |
-| Animations, Robo-Men | Level 94's night, and its castle | Indoors by dusk; standing still; leaving the castle's things alone |
-| Partygoers, Carnivorous Balloons | Level Fun's guests and its dark corridors | Running, fire, a poultice after a bite, a party hat and a red balloon |
-| The Windows, Kitty, the Keymaster, the Arcade Attendant | Each far level's own | Each its own |
+| Smiler | Eyes and a grin in the dark, and it cannot be killed | Light: a torch or a lantern, not a candle; holding its gaze without running |
+| Hound | Packs of two or three that follow at a distance and hunt anyone who runs | Fire and Firesalt; weapons and armour. A hard stare only buys a few seconds |
+| Faceling | Wanders and sits; right-click one and it points to the nearest way out | Harmless unless hurt. Hurt one, and every Faceling nearby turns on you |
+| Deathmoth | Drawn to open flame; the females bite whoever carries it | A closed lantern; the smoke of a fire |
+| Skin-Stealer | Slow and strong; it mimics voices from out of sight, and it opens doors | Fire; a door barred from the inside; distance |
+| Duller | Reaches through the wall at anyone close to it, to hurt or to steal | Almond Water; facing it; keeping off the walls |
+| Death Rat | Packs that nip at your legs | A carried torch or lantern; fire. They are edible |
+| Clump | Buried with one arm out of the floor; footsteps and noise wake it | Watching the floor; staying quiet; a blow sends it off |
+| The Thing | Circles divers in Level 7 and strikes whoever stays deep too long | Surfacing |
+| The Mangled | Cold and fog, then voices, then a pillar of faces walking Level 9's streets | Indoors, where it does not fit through the door; waiting it out |
+| Bacteria | A tall figure of black wires down Level 0's outer halls; it runs down whoever runs | Walking, not running |
+| Wretch | Wanderers worn down to nothing: they gurgle as they follow, then charge | Keeping fed; the 9th Road and its camps; a wanderer's company |
+| The Windows | Some of Level 188's windows whisper and beckon; an arm drags you to the glass | Two blows to the arm; keeping your distance; a shut door |
+| Animations | Level 94's night: figures of clay, wood and paper that walk the hills | Indoors by dusk; standing still; fire, for the wooden and paper ones |
+| Robo-Men | The guards of Level 94's castle; touch its things and they come | Leaving the castle's things alone |
+| Partygoers | Level Fun's guests: one that sees you brings the rest, and their bite spreads Party Fever | Running; doors; fire; a poultice within half a minute of a bite; a party hat and a red balloon |
+| Carnivorous Balloons | In Level Fun's corridors: touching one poisons and slows you, and popping one calls the guests | Pop them from a distance, and be ready for what comes |
+| Kitty | Level 974's host: it sneaks up behind you, watches you sleep, and never attacks | Manners. Bring something cute, and don't break its things |
+| The Keymaster | In the Hub's Tower: it offers a Level Key, then shows you the door | Don't break anything in the Tower |
+| The Arcade Attendant | Behind Level 3999's counters and desks; right-click one for directions | Nothing needed |
+| The horde | Level !: it runs at nearly your sprint, and anything it catches is dead | Sprinting; an Energy Bar; the Safe Zone, or the true exit |
 
-There are also Flickerings out towards the edge of Level 1, the Screaming of the rats, and the horde of Level !. Wanderers who trade keep camps along the way, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, keeps Hounds, Skin-Stealers, rats, moths and Partygoers eight blocks off for half a day.
+There are also Flickerings out towards the edge of Level 1, the Screaming of the rats, and the horde of Level !. Wanderers who trade keep camps along the way, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, burns for half a day and, like a lit firepit, keeps Hounds, Skin-Stealers, rats, moths, Partygoers and the wooden and paper Animations eight blocks off; its light holds Smilers too.
 
 ---
 
