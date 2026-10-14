@@ -130,7 +130,7 @@ def _ink(rng, wear, k=1.0):
     return int(255 * k * (rng.uniform(0.4, 0.65) if rng.random() < wear else rng.uniform(0.9, 1.0)))
 
 
-def motif_chevron(seed, chevron=CHEVRON_PRINT, bead=BEAD, wear=0.03):
+def motif_chevron(seed, chevron=CHEVRON_PRINT, bead=BEAD, wear=0.03, bead_alpha=BEAD_ALPHA):
     """The 2002 photo's print: columns of beaded lines alternating with columns of stacked upward chevrons, offset by
     half a step, on an 8 px column. Transparent where there is no ink."""
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
@@ -141,7 +141,7 @@ def motif_chevron(seed, chevron=CHEVRON_PRINT, bead=BEAD, wear=0.03):
         offset = (col % 2) * 4
         for y in range(S):
             if (y // 2) % 2 == 0:
-                px[x0, y] = bead + (_ink(rng, wear, BEAD_ALPHA),)  # beaded / dashed line
+                px[x0, y] = bead + (_ink(rng, wear, bead_alpha),)  # beaded / dashed line
             row = (y + offset) % 8
             # "^" three rows tall, five pixels wide, centred in the column
             for dx, r in ((4, 0), (3, 1), (5, 1), (2, 2), (6, 2)):
@@ -173,6 +173,37 @@ def paper_wall(seed, ground, motif=None, strip=1.0, mottle=3, fibre=0.6, grain=3
 
 def pattern_chevron(seed, alt=0, ground=GROUND, chevron=CHEVRON_PRINT, bead=BEAD, grain=3):
     return paper_wall(seed, ground, motif_chevron(seed + 1, chevron, bead), grain=grain)
+
+
+# (D1) The yellow wall's paper. The user preferred the old paper's seamless look but liked the new one's mustier tone.
+# B3's paper gave every block (each part, each version) its own mottle, strip shades and a hue drift, and a butt seam
+# every 16 px: on a long wall those repeated block by block, so the wall read as panels. Now every block of the yellow
+# wall shares one paper ground (the same soft mottle and hue, CHEVRON_PAPER), so blocks meet without a step; what
+# differs block to block is fine (the fibres, the ink). The butt seam is gone from the plain versions; the second
+# version (`-2`, one block in three) has one, faint, on its edge, so a strip join turns up now and then rather than
+# twice in every block. The chevron rows are on the 8 px grid and line up across every edge, as the old paper's did,
+# and the bead lines are printed nearer the old paper's strength. The damp version is listed less often for this paper
+# (blocktypes/wallpaper.json), since its stain is the one mark that sits in the same place each time.
+CHEVRON_PAPER = 100
+CHEVRON_BEADS = 0.8  # the bead lines nearer the old paper's (B3 printed them at half strength)
+
+
+def chevron_wall(seed, alt=0):
+    img = M.noise_hv(GROUND, 3, CHEVRON_PAPER, (S, S), mottle=2.5, cells=(8, 4), hue=1.5)
+    rng = random.Random(M.sub(seed, "fibre"))
+    for _ in range(int(0.6 * S * S / 6)):  # matlib.paper's fibre: short pale and dark strokes in all directions
+        x, y = rng.uniform(0, S), rng.uniform(0, S)
+        a = rng.uniform(0, math.pi)
+        L = rng.uniform(1.5, 4)
+        f = rng.choice((0.035, -0.04))
+        for (px_, py_) in M._line(x, y, x + math.cos(a) * L, y + math.sin(a) * L):
+            M.touch(img, px_, py_, f)
+    if alt:  # a butt seam on the block's edge, faint
+        for y in range(S):
+            M.touch(img, 0, y, -0.035)
+            M.touch(img, 1, y, 0.018 if rng.random() < 0.85 else 0.03)
+    M.dye(img, motif_chevron(seed + 1, bead_alpha=CHEVRON_BEADS), GROUND)
+    return img
 
 
 def pattern_dotted(seed, alt=0):
@@ -247,7 +278,7 @@ def pattern_red(seed, alt=0):
     return img
 
 
-PATTERNS = {"stripped": pattern_stripped, "chevron": pattern_chevron, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
+PATTERNS = {"stripped": pattern_stripped, "chevron": chevron_wall, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
             "red": pattern_red}
 
 VINYL = (80, 68, 52)     # the baseboard: dark brown vinyl cove base
@@ -346,7 +377,7 @@ def _window(x, edge=6):
     return max(0.0, min(1.0, (d - 1) / edge)) ** 1.5
 
 
-def damp(img, seed, part="upper", stain_c=(176, 150, 86)):
+def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16):
     """The same wall, older: a water run down from above and a soft tide-ringed stain (upper blocks), or a rising-damp
     tide mark from the floor (bottom blocks), with one seam lifting. Kept inside the block (they fade before its edges)
     so a damp block beside a plain one reads as the same paper aged, not as a patch; more yellowing than darkening."""
@@ -382,8 +413,8 @@ def damp(img, seed, part="upper", stain_c=(176, 150, 86)):
         y = y0 + k
         if part != "upper" and y > 24:
             break
-        M.touch(img, 16, y, -0.16 * (1 - k / L))
-        M.touch(img, 17, y, 0.08 * (1 - k / L))
+        M.touch(img, seam_x, y, -0.16 * (1 - k / L))
+        M.touch(img, seam_x + 1, y, 0.08 * (1 - k / L))
     return img
 
 
@@ -403,7 +434,8 @@ def wallpapers(only=None):
                 if not v:
                     stain_c = {"red": (66, 18, 14), "stripped": (170, 154, 116), "cream": (204, 186, 126),
                                "manila": (166, 136, 84)}.get(name, (176, 150, 86))
-                    save(damp(img, 300 + i * 10 + len(part), part, stain_c), f"block/wallpaper/{name}-{part}-damp.png")
+                    save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16),
+                         f"block/wallpaper/{name}-{part}-damp.png")
     # The arch soffits and risers: painted plaster in the pale paper's colour, without the print
     save(M.plaster(61, base=(232, 224, 190), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
 
@@ -411,6 +443,28 @@ def wallpapers(only=None):
 # ---------------- Floor, ceiling, lights ----------------
 
 CARPET = hexrgb(0xA8956A)  # the beige of Level 0's carpet (lore: keep)
+
+
+def dingy(img, seed, dull=0.1, dim=3.0, grime=0.07, flecks=9):
+    """(D1) A carpet nobody has vacuumed in a while: the colour a little duller (`dull` of the way to its own grey) and
+    `dim` levels darker, a faint tracked-in grime at the scale of a few tufts (fine, so turned blocks still meet), and
+    a few flecks: grit and crumbs (dark) and lint (pale). Subtle by design: it should read as unloved, not stained."""
+    px = img.load()
+    w, h = img.size
+    for y in range(h):
+        for x in range(w):
+            c = px[x, y]
+            g = M.lum(c)
+            px[x, y] = M.rgba(M.lift(M.mix(c, (g, g, g), dull), -dim, 0), c[3])
+    M.grime(img, grime, M.sub(seed, "tracked"), color=(84, 72, 54), cells=(4, 2), cover=0.45)
+    rng = random.Random(M.sub(seed, "flecks"))
+    for _ in range(flecks):
+        x, y = rng.randrange(w), rng.randrange(h)
+        if rng.random() < 0.7:
+            M.touch(img, x, y, -rng.uniform(0.12, 0.2))  # grit, a crumb
+        else:
+            M.touch(img, x, y, rng.uniform(0.1, 0.16))  # a bit of lint
+    return img
 
 
 def carpet(variant, alt=0):
@@ -442,6 +496,7 @@ def _carpet(variant, alt=0):
     if variant in ("normal", "stained"):
         img = M.carpet(10 + alt, base=CARPET, tone2=M.hue_shift(M.lift(CARPET, -13), 3), mix2=0.35, loop=True,
                        pile=6, grain=4, mottle=5)
+        dingy(img, 10 + alt)  # (D1) the user found it a little too pristine
         if variant == "normal":
             return img
         rng = random.Random(seed + 1)
@@ -463,7 +518,7 @@ def _carpet(variant, alt=0):
         x, y = rng.randrange(S), rng.randrange(S)
         M.touch(img, x, y, 0.16)
         M.touch(img, x, y + 1, -0.08)
-    return img
+    return dingy(img, seed, dull=0.06, dim=1.5, grime=0.04, flecks=6)
 
 
 def carpet_threadbare(alt=0):
@@ -488,7 +543,7 @@ def carpet_threadbare(alt=0):
             if (dx, dy + 1) not in cells:
                 M.touch(img, x + dx, y + dy + 1, -0.12)
     M.grime(img, 0.25, seed + 2, color=(62, 54, 40), cells=(8, 4, 2), cover=0.35)
-    return img
+    return dingy(img, seed, dull=0.06, dim=1.5, grime=0.04, flecks=6)
 
 
 def sprite():
@@ -670,8 +725,10 @@ TROFFER = {  # lens colour, glow colour, how lit
 
 def troffer(state):
     """matlib.troffer_lens, then (B3) the lens of a lit panel pulled 35% toward its glow colour so it reads as emissive,
-    and a dark 1 px gap between the housing frame and the lens, painting the recess (the troffer stays a cube: see
-    gen_l0_walls.troffer for the shape that was tried)."""
+    and the step down from the housing frame to the lens (the troffer stays a cube: see gen_l0_walls.troffer for the
+    shape that was tried). (D1) B3 painted that step as a near-black 1 px gap all round, which the user read as a black
+    ring; it is now the frame's inner edge in soft shade, deeper on the top and left (in the frame's shadow) than on
+    the bottom and right."""
     lens, glow, lit = TROFFER[state]
     img = M.troffer_lens(seed={"on": 1, "off": 2, "dim": 3, "red": 4}[state], lit=lit, lens=lens, glow=glow,
                          frame=(214, 210, 198), frame_px=2, rail=TBAR_RAIL)
@@ -680,10 +737,9 @@ def troffer(state):
         for y in range(3, S - 3):
             for x in range(3, S - 3):
                 px[x, y] = M.rgba(M.mix(px[x, y], glow, 0.35))
-    gap = (96, 94, 88) if state != "red" else (88, 40, 34)
     for i in range(2, S - 2):
-        for (x, y) in ((i, 2), (i, S - 3), (2, i), (S - 3, i)):
-            px[x, y] = M.rgba(M.lift(gap, (x + y) % 3 - 1))
+        for (x, y, f) in ((i, 2, -0.16), (2, i, -0.16), (i, S - 3, -0.06), (S - 3, i, -0.06)):
+            M.touch(img, x, y, f)
     return img
 
 
@@ -870,16 +926,41 @@ def tyre_scuff(img, seed, strength=0.06):
             M.touch(img, round(x), round(y) + k, -strength * f * t)
 
 
+def inside_block(plain, featured, band=5):
+    """`featured` where it differs from `plain`, faded out over the last `band` px toward each edge: a feature (a crack,
+    a scuff, a stain) on a surface whose versions are turned and mixed at random must not run into the edge, where the
+    neighbour would cut it off. Returns `plain`, changed."""
+    p, f = plain.load(), featured.load()
+    w, h = plain.size
+
+    def ramp(d):
+        t = max(0.0, min(1.0, (d - 0.5) / band))
+        return t * t * (3 - 2 * t)
+    for y in range(h):
+        for x in range(w):
+            k = ramp(min(x + 0.5, w - x - 0.5)) * ramp(min(y + 0.5, h - y - 0.5))
+            p[x, y] = M.rgba(M.mix(p[x, y], f[x, y], k), p[x, y][3])
+    return plain
+
+
 def concrete_floor(kind, alt=0):
     """Level 1's car park floor: power-trowelled concrete (faint swirl arcs) with broad pour patches. Version 2 of 3
-    carries a hairline crack and a faint tyre scuff; the dark floor's mould and the wet floor's film change place."""
+    carries a hairline crack and a faint tyre scuff; the dark floor's mould and the wet floor's film change place.
+    (D1) Every version is turned and mixed at random, and the user saw the block edges: a turned block's pour patches
+    did not continue into its neighbour's. Each version keeps its own patches inside the block, but toward the edges
+    they blend into one shared field that is the same at every turn (`matlib.turn_safe`), and the features fade out
+    before the edge, so no version at any turn shows a step against any other."""
     seed = {"plain": 3000, "wet": 3010, "dark": 3020}[kind] + alt
     img = l1_concrete(seed, L1_FLOOR[kind], pores=0.008, swirl=0.7, aggregate=0.03 if kind == "plain" else 0.05)
+    ground = l1_concrete(seed - alt, L1_FLOOR[kind], pores=0.0, swirl=0.0, aggregate=0.0)
+    M.turn_safe(img, ground, band=8)
+    plain = img.copy()
     if kind == "plain" and alt == 2:
-        M.crack(img, M.sub(seed, "crack"), length=(16, 26), strength=0.2)
+        M.crack(img, M.sub(seed, "crack"), at=(15, 12), length=(14, 20), strength=0.2)
         tyre_scuff(img, M.sub(seed, "scuff"))
     if kind == "dark" and alt:
-        M.stain(img, M.sub(seed, "mould"), radius=9, color=(70, 84, 72), strength=0.32, at=M.spread(seed, 3)[alt], ring=0.3)
+        M.stain(img, M.sub(seed, "mould"), radius=8, color=(70, 84, 72), strength=0.32, at=(13 + 6 * alt, 19 - 5 * alt), ring=0.3)
+    img = inside_block(plain, img)
     if kind == "wet":
         # standing water: glints of the lights on it, as the old wet floor had, each a lit pixel with a softer one
         # beside it, scattered all over so the patch has no edge of its own inside the block
@@ -946,7 +1027,7 @@ def spall(img, seed):
 
 def concrete_wall(damaged, alt=0):
     """Level 1's cast walls: plywood-formed concrete with bug holes, a pour line along the top of each block, and a
-    row of two form-tie holes. Version 3 of 3 has a hairline crack and a rust run from a tie. The damaged wall is
+    row of two form-tie holes. Version 3 has a hairline crack and a rust run from a tie (one block in eight). The damaged wall is
     broken out round its (modelled) rebar; the old painted rebar is gone."""
     seed = 3100 + alt + (50 if damaged else 0)
     img = l1_concrete(seed, L1_WALL, pores=0.022, patches=3.0, patch_hue=2.0)
@@ -954,7 +1035,9 @@ def concrete_wall(damaged, alt=0):
     for x in (8, 24):
         tie_hole(img, x, 8)
     if alt == 2 and not damaged:
-        M.crack(img, M.sub(seed, "crack"), at=(rng_at(seed)), length=(14, 24), strength=0.22)
+        # (D1) the user saw this crack over and over: it is now a shorter, fainter hairline, and the blocktype lists
+        # this version once in eight (blocktypes/level1/concretewall.json)
+        M.crack(img, M.sub(seed, "crack"), at=(rng_at(seed)), length=(9, 14), strength=0.14)
         M.drips(img, 1, M.sub(seed, "tie"), color=(124, 86, 58), length=(8, 14), strength=0.3, start=10)
     if damaged:
         spall(img, M.sub(seed, "spall"))
@@ -1135,47 +1218,29 @@ def crate(top):
 # ---------------- Level 2: utility tunnels ----------------
 
 def tunnel_concrete(seed):
-    """Level 2's dark grey cast concrete (B5: `tunnel_cast`, the plain wall's first version), for the textures painted
-    over it (the warning sign, the old cube faces of the pipe and machinery walls)."""
-    return tunnel_cast(seed)
-
-
-TUNNEL_GREY = (67, 72, 77)
-
-
-def tunnel_cast(seed, alt=0):
-    """(B5) Level 2's walls: dark grey cast concrete (`matlib.concrete`, quiet aggregate, grey patches as B4 found
-    best), plywood-formed with a faint lift line and four form-tie holes, and water run down from the ceiling. The
-    old texture's broad stain, damp patch and efflorescence sat in the same place in every block; here the damp
-    patch and a rust run from a tie are in one version of three (`tunnelwall-plain-3`), efflorescence at the lift
-    line in the second. Mean brightness is kept (69)."""
-    # (round 2) every version shares one concrete ground, so neighbouring blocks in different versions meet without a
-    # seam (the round-2 shots showed block squares where the ground differed); only the features differ
-    ground = 352
-    img = M.concrete(ground, base=TUNNEL_GREY, grain=2, mottle=6, aggregate=0.012, pores=0.005, patches=4.0,
-                     patch_hue=1.2, hue=1.2)
-    M.grime(img, 0.16, M.sub(ground, "soot"), color=(40, 40, 38), cells=(16, 8), cover=0.55)  # soot and damp
-    for (x, y) in ((6, 8), (24, 8), (6, 24), (24, 24)):
-        tie_hole(img, x, y)
+    """Level 2's dark grey cast concrete: a quiet grain with a few broad stains and water streaks run down from the
+    ceiling, so it does not read as static up close. Streaks fade in and out along y but wrap, so walls stack.
+    (D1) The user kept this original wall over B5's `matlib.concrete` version (`tunnel_cast`, removed with its two
+    alternates); B5's brick panels stay."""
+    img = noise_fill(hexrgb(0x43484D), 4, seed)
     rng = random.Random(seed + 1)
     px = img.load()
+    for _ in range(18):  # pores and aggregate
+        x, y = rng.randrange(S), rng.randrange(S)
+        px[x, y] = shade(px[x, y], 0.86)
+    for (x, y) in ((6, 8), (25, 8), (6, 24), (25, 24)):  # form-tie holes from the casting
+        px[x, y] = shade(px[x, y], 0.6)
+        px[x + 1, y] = shade(px[x + 1, y], 0.75)
+    blotch(img, (24, 26), 11, (78, 86, 74), 0.4, seed + 2)  # grime
+    blotch(img, (rng.randrange(S), rng.randrange(S)), 9, (34, 32, 28), 0.5, seed + 3)  # damp stain
+    blotch(img, (rng.randrange(S), rng.randrange(S)), 6, (96, 98, 92), 0.3, seed + 4)  # efflorescence
     for sx in (rng.randrange(2, 12), rng.randrange(18, 29)):  # water streaks, each showing over half the tile
         phase = rng.random() * 6.283
         for y in range(S):
             k = max(0.0, math.sin(y * 6.283 / S + phase)) ** 2 * 0.2
             for x, w in ((sx, 1.0), (sx + 1, 0.5)):
                 px[x, y] = shade(px[x, y], 1 - k * w)
-    if alt == 1:
-        pour_line(img, 0, M.sub(seed, "lift"))  # a lift line with lime bloom weeping out of it, in one version only
-        for x in range(S):
-            if rng.random() < 0.55:
-                M.touch(img, x, 1, 0.08)
-                if rng.random() < 0.4:
-                    M.touch(img, x, 2, 0.05)
-    if alt == 2:
-        M.stain(img, M.sub(seed, "damp"), radius=8, color=(40, 40, 38), strength=0.35)
-        M.drips(img, 1, M.sub(seed, "tie"), color=(104, 70, 48), length=(7, 12), strength=0.28, start=10)
-    return match_mean(img, 69)
+    return img
 
 
 def tunnel_brick(seed=360):
@@ -1990,9 +2055,8 @@ def level_textures():
     save(exit_sign(), "block/level1/exitsign.png")
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")
-    # (B5) the plain wall in three versions (alternates in blocktypes/level2/tunnelwall.json), the brick from matlib
-    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
-        save(tunnel_cast(352 + alt, alt), f"block/level2/tunnelwall-plain{v}.png")
+    # The plain wall as it was before B5 (D1: the user's choice), the brick from matlib (B5)
+    save(tunnel_wall("plain"), "block/level2/tunnelwall-plain.png")
     save(tunnel_brick(), "block/level2/tunnelwall-brick.png")
     save(tunnel_wall("machinery"), "block/level2/tunnelwall-machinery.png")
     cabinet_textures()

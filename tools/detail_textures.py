@@ -181,6 +181,13 @@ def level1():
         sd = seed_of("l1hallfloor") * 10 + alt
         img = M.concrete(sd, base=(114, 117, 114), grain=2, mottle=4, aggregate=0.0, pores=0.004, patches=3.5,
                          patch_hue=1.0, hue=1.0)
+        # (D1) the versions are turned and mixed at random: their broad mottle blends into one shared field toward the
+        # edges (matlib.turn_safe), and the scuffs fade out before the edge, so the blocks meet without a seam. The paint
+        # has almost no grain to hide a calm border round a mottled middle, so only a quarter of each version's own
+        # mottle is kept
+        M.turn_safe(img, M.concrete(sd - alt, base=(114, 117, 114), grain=2, mottle=4, aggregate=0.0, pores=0.0,
+                                    patches=3.5, patch_hue=1.0, hue=1.0), band=12, keep=0.25)
+        plain = img.copy()
         if alt == 2:
             rng = random.Random(sd)
             for _ in range(3):
@@ -189,6 +196,7 @@ def level1():
                 for i in range(L):
                     t = math.sin(math.pi * (i + 0.5) / L)
                     M.touch(img, round(x + math.cos(a) * i), round(y + math.sin(a) * i), -0.09 * t)
+        img = T.inside_block(plain, img)
         save(T.match_mean(img, 113), "l1hallfloor" + v)
 
     # (B4) The locked steel door, still a cube (the block has no facing to hang a modelled door on): dark painted

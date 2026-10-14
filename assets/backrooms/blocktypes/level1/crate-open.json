@@ -10,17 +10,16 @@
 		]
 	},
 	"blockmaterial": "Wood",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level1/crate-open-side"
-		},
-		"up": {
-			"base": "block/level1/crate-open-top"
-		},
-		"down": {
-			"base": "block/level1/crate-top"
-		}
+	"drawtype": "json",
+	"shape": {
+		"base": "block/crate-open"
+	},
+	"sidesolid": {
+		"all": false,
+		"down": true
+	},
+	"sideopaque": {
+		"all": false
 	},
 	"resistance": 1.0,
 	"lightAbsorption": 99,

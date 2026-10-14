@@ -55,6 +55,20 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B5) A block with no facing can carry modelled hardware on all four sides (`modelkit.turn`); against walls it is
   buried. Small vents want tilted louvres (`gen_shapes.louvre`), not `modelkit.grille` bars.
 
+- (D1) A floor whose versions are turned at random shows every block edge if it has any broad mottle: a turned block's
+  patches do not continue into its neighbour's, whatever the seed. `matlib.turn_safe` keeps each version's own broad
+  field inside the block and blends it, toward the edges, into one shared field made four-fold symmetric, so any version
+  at any turn meets any other. Build the shared `ground` without aggregate, pores or swirl (their ghosts symmetrise into
+  a star), and on a grainless surface keep only part of the own mottle (`keep`), or a calm border round a mottled middle
+  reads as cushions. Features on such a floor must fade out before the edge (`gen_textures.inside_block`).
+- (D1) Judge tiling with a mock of the blocktype's real mix (versions and turns at random, 6x3 blocks or more) and the
+  same mock averaged down 4x; a 3x3 repeat of one texture hides exactly the seams the player sees. The scratch helpers
+  for this are described in the D1 report.
+- (D1) A weighted alternates list is just the same texture listed more than once (`concretewall.json`: the cracked
+  version once in eight). A per-pattern list on a shared blocktype goes in `texturesByType` (`wallpaper.json`).
+- (D1) A JSON shape on a block that the generator stacks (crates) must stay inside its block, except for parts that
+  lie inside the block above's own solid geometry (nail tips, straw on the rim under the next crate's walls).
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -65,6 +79,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
 | B4 Level 1 | gfx/B4 | merged | 2 | steel door as model, floors/ceiling C+, pillar body, tent fly, emptied crate; cars/cameras/signs/first-aid untouched | passed 2026-10-14 02:00 (Fable): floor grid gone, walls formed; Level 1 baseline reshot (B0 one was brighter) |
 | B5 Level 2 | gfx/B5 | merged | 2 | tunnel concrete/ceiling C+, door leaf painted, tram body C+; hazard panels, drums, trolley untouched | passed 2026-10-14 03:15 (Fable): gauges and tram verified as geometry on sidebyside |
+| D1 follow-up on B3, B4, B5 decisions | gfx/D1 | review | offline only (not shot) | | |
 | B6 Level 3 | | not started | | | |
 | B7 Level 4 | | not started | | | |
 | B8 Level 5 | | not started | | | |
@@ -687,3 +702,154 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B5` from `main`, uncommitted. Two 
 - A painted copy of a 3D feature that hangs right beside the real one (the ceiling's pipe band under the pipe runs) reads as D painted-3D. Shading it makes it worse. B4's "keep and shade" lesson holds only where nothing modelled stands next to it.
 - A block with no facing (a door, a wall prop) can still carry modelled hardware. Put it on all four sides with `modelkit.turn`, as the pipe walls do; on the sides against walls it is buried. This is the way to model B4's `metaldoor` hardware without a new code, and it needs a fresh look at lighting in the shots (the doors here lit the same as the cubes).
 - `modelkit.grille`'s bars overlap into a solid plate when the opening is under about 3 units tall. Small vents want tilted louvre blades (`gen_shapes.louvre`).
+
+### D1
+
+Worker report (Opus, 2026-10-14). Follow-up batch on the user's per-family decisions for B3, B4 and B5 (`decisions.md`,
+each acted-on row now ends with a "D1:" note). Branch `gfx/D1` from `main`, uncommitted. **Offline only: nothing was
+shot** (the user's game was running). The grades below are my own reading of the offline sheets, not a blind review,
+and every item still wants an in-game look before it is called done.
+
+**Evidence** (all in `review/d1/offline/`)
+- `tile-<family>-<before|after>.png`: `texsheet.py --tile` for every changed family. "Before" is `main`, plus the
+  parent of the batch that changed it (`pre-B3` for papers, troffers and the box; `pre-B4` for floors; `pre-B5` for the
+  tunnel walls). The source PNGs are in `tex/<family>/<label>/`.
+- `mock-wall-6x3.png`: the yellow wall as 6x3 blocks (two upper rows over a baseboard row, versions at random with the
+  new weighting), pre-B3, main and D1, each at 4x and averaged down 4x for playing distance.
+- `mock-floor-<plain|wet|dark|hall>-6x3.png`: each floor as 6x3 blocks with versions and turns at random, as the
+  blocktype picks them, pre-B4, main and D1, at 4x and averaged down. The label gives a seam ratio: the colour step
+  across a block edge over the step inside a block, where 1.0 is seamless. "Broad" is the same on 4 px averages.
+- `preview-crates.png`, `preview-boxes.png`: `preview_shapes` renders from the north-west, from the south-east, and
+  tipped toward the camera to see inside. The closed crate, main's emptied cube and D1's emptied crate; the sealed box,
+  the pre-B3 torn box, main's B3 torn box and D1's opened box.
+- `layouthash-v1.txt`, `layouthash-v4.txt`.
+
+**Checks**
+- Build (`tools/locked.sh mod gfx`): 0 warnings, 0 errors. The deleted `tunnelwall-plain-2/-3` were also removed from
+  the scratch Mods dir.
+- `layouthash` v1 `18cfdbc1c530f039` and v4 `ca047189969b69db`: identical to B5's files line for line (the
+  existing `mapgen-gfx` harness; no C# changed).
+- `check_zfight`: clean on `crate-open.json` and `supplybox-torn.json`.
+- No code, variant group or class renamed or removed. `crate-open` changes from `drawtype: cube` to `json` with the same
+  code, as B5's doors did. Generator JSON churn was restored from git: `exitlintel*.json` key order, and
+  line-ending-only rewrites from `gen_loop` and `gen_detail`.
+
+**Per item**
+1. **Tunnel walls: done, meets the request.**
+   - `gen_textures.tunnel_concrete` is the pre-B5 function again; `tunnel_cast` is removed.
+   - `tunnelwall-plain.png` is byte-identical to `cce3222^`. So are `tunnelwall-warning.png` and the old
+     `tunnelwall-machinery.png` cube texture, which are drawn on the same concrete.
+   - `tunnelwall-plain-2/-3.png` are deleted.
+   - `blocktypes/level2/tunnelwall.json` is restored to its pre-B5 text, so it has no `*-plain` alternates line.
+   - Brick (`tunnel_brick`) and the B5 ceiling are kept.
+2. **Emptied crate: re-imagined as a model. My grade B; meets the request, to be confirmed in game.**
+   - `gen_loop.open_crate_shape`, `shapes/block/crate-open.json`.
+   - Outside, it is the closed crate's own sides, as walls 1.5 thick (the frame's width). Their tops are the closed
+     crate's top frame, so from above it reads as the same box with the lid boards gone.
+   - Inside: dark board backs with nail points, darkest at the foot, and a floor with the walls' shadow.
+   - One lid board has been thrown back in and leans against the east wall, its torn ends in pale split wood.
+   - The middle board of the north side is broken out at its west end, clear of the painted brace: a stepped break with
+     a splinter, and you see into the crate there.
+   - Two of the lid's nails are bent up on the rim.
+   - Straw is geometry: two heaps on the floor, and tufts pulled up over the north and west rims that droop inside.
+     There is also a crumpled newspaper wad.
+   - It is placed in stacks, so nothing stands above the block except the nail tips and the rim straw. Those lie inside
+     the next crate's walls and floor.
+   - Blocktype: `sidesolid` all false except down, `sideopaque` false, `lightAbsorption` kept at 99 (as B5's doors).
+     The blocktype `textures` were dropped, since an `all` would paint every part.
+   - Risk: the inside is lit by the neighbours in each face's direction, so it may read lighter in game than the dark
+     textures suggest. The floor contents only show from fairly close and above, so at a distance the read rests on the
+     open top, the rim straw, the board leaning inside and the broken side.
+3. **Opened supply box: rebuilt from the pre-B3 design. My grade B; meets the request.**
+   - `gen_loop.torn_box_textures`, `torn_box_shape`.
+   - It has the sealed box's footprint, its 10 high walls, and its own faces outside (`supply_box_faces`: the worn
+     sides with the tape and arrows, the plain ends).
+   - It is opened the way it was sealed: the tape is slit along the seam at x 8, the stub on each side is cut through,
+     and a ragged half of the tape stays on each flap's free edge (`supplybox-flap`, made from the sealed top).
+   - The east flap stands up leaning out, with its south corner torn away (as geometry). The west flap is folded right
+     back and hangs down the side. The two short inner flaps are bent up.
+   - The inside is dark kraft like the original's: the walls darken toward the foot, and the floor shows the bottom
+     flaps' seam and a water ring.
+   - The contents are geometry: a straw heap, a tuft over the north rim, a few stalks dropped on the ground outside, the
+     crackers wrapper crumpled in two pieces, and a newspaper wad.
+   - There are no torn teeth. Everything stays inside the block.
+   - The collision and selection boxes are 10/16 tall now, matching the walls; they were 9/16.
+4. **Concrete walls: done, meets the request.**
+   - The cracked version (`-3`) is listed once in eight in `blocktypes/level1/concretewall.json`.
+   - Its crack is shorter (9-14 px) and fainter (0.14).
+5. **Car park and hall floors: seamless offline. My grade: meets the request, pending the in-game look.**
+   - The seam was not an edge darkening; there is none. Each texture wrapped on its own (unturned seam ratio 0.70).
+     The edges came from two things:
+     - the blocktype turns every version and mixes three seeds, and a turned block's broad pour patches do not
+       continue into its neighbour's;
+     - the hall floor has almost no grain to hide this.
+   - The fix is a new `matlib.turn_safe`:
+     - each version keeps its own broad patches in the middle;
+     - toward the edges they blend into one shared field, made four-fold symmetric, so the edge is the same at every
+       turn and in every version;
+     - the crack, the scuff and the mould fade out before the edge (`gen_textures.inside_block`).
+   - The hall floor keeps a quarter of its own mottle (`keep=0.25`). With all of it, a calm border round a mottled
+     middle read as cushions.
+   - Seam ratios, main to D1 (pixel / broad):
+
+     | floor | main | D1 |
+     |---|---|---|
+     | plain | 1.41 / 1.19 | 1.05 / 0.69 |
+     | wet | 1.04 / 1.22 | 0.97 / 1.00 |
+     | dark | 1.25 / 1.51 | 1.20 / 0.97 |
+     | hall | 1.95 / 2.04 | 1.24 / 1.32 |
+
+   - On the mocks no block squares show in any of the four. The hall's ratio stays above 1 because its paint is so
+     even inside a block that any fine difference counts.
+   - The pour patches are a little calmer near the block edges than B4's.
+   - Following the plain floor, these changed too: the line and dash blocks, `parkarrow`, `parkoil`, `parkdrain`, and
+     Level 9's `housefloor-garage`.
+6. **Troffers: done, meets the request.**
+   - The near-black 1 px gap is gone. The frame's inner edge is now in soft shade: -0.16 on the top and left,
+     -0.06 on the bottom and right.
+   - The bevelled frame is kept, and the lights are still cubes.
+7. **Ceiling tiles:** kept, untouched.
+8. **Wallpaper: made seamless, not restored.** Musty tone and grain kept. My grade B; it meets the request on the mocks,
+   to be judged at playing distance in game.
+   - The chevron paper is a new `gen_textures.chevron_wall`. Every block of the yellow wall, every part and every
+     version, shares one paper ground (`CHEVRON_PAPER`); only the fibre and the ink differ per block.
+   - Gone from B3's paper:
+     - each block's own mottle, strip shades and hue drift;
+     - the butt seams every 16 px;
+     - the 16 px hue jitter.
+   - One faint seam is on the block edge in the `-2` version only. The yellow wall lists `-2` two blocks in five.
+   - The chevron rows sit on the 8 px grid and line up across every edge.
+   - Two calls of my own, each easy to undo:
+     - The bead lines print at 0.8 (`CHEVRON_BEADS`; B3 had 0.5), nearer the old paper the user preferred.
+     - The damp version, whose stain is the one mark that sits in the same place each time, is listed one block in five
+       for this paper only (`texturesByType` in `blocktypes/wallpaper.json`). Its lifting seam moved to the block edge.
+   - Seam ratio, B3 to D1: 0.81 / 1.08 to 0.98 / 1.01.
+   - The other papers are byte-identical.
+9. **Carpets: done, subtle. Meets the request.**
+   - `gen_textures.dingy` on the normal and stained pile:
+     - 10% duller and 3-4 levels darker (mean 145 to 141);
+     - a faint tracked-in grime at tuft scale, so turned blocks still meet;
+     - nine flecks of grit and lint.
+   - Soaked and threadbare get a lighter dose.
+10. **Outlet:** kept, untouched.
+
+**Shared assets that changed with these**
+- `supplybox-straw` (a little more muted) and `supplybox-paper` (new) are used by both the opened box and the emptied
+  crate.
+- The floor changes reach Level 9's garage floor and every Level 1 marking block built on the plain floor.
+
+**Not done, for the overseer**
+- No in-game shots or side-by-sides: they need the user's screen.
+- To shoot:
+  - Level 0: a long yellow wall at 2-6 blocks, a cache with sealed and opened boxes, troffers from below, the carpet.
+  - Level 1: a car park floor and a hall floor at 3-8 blocks, a fire wall, a cache with closed and emptied crates
+    (including a stack).
+  - Level 2: a wall with brick and a warning panel.
+- Mean brightness: the carpets are 3-4 levels darker by design; nothing else moved in mean.
+
+**Scratch tooling** (not committed; copied to `review/d1/offline/tools/`):
+- `d1kit.py`: mock walls and floors in the blocktype's real mix, and the seam ratios.
+- `prev.py`: previews from any commit, with turned and tipped views.
+- `evidence.py` and `evidence2.py`: they rebuild `review/d1/offline`.
+
+If the mock floors and walls prove useful, they would belong in `tools/texsheet.py` as a `--mix` mode.
