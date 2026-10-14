@@ -10,8 +10,8 @@
 	texturesByType: {
 		"*-damaged": { wall: { base: "block/level1/concretewall-damaged" } },
 		// Plain walls in three versions (the third with a crack and a rust run from a tie), not turned: the pour line
-		// and the tie holes keep their place
-		"*-plain": { all: { base: "block/level1/concretewall-plain", alternates: [{ base: "block/level1/concretewall-plain-2" }, { base: "block/level1/concretewall-plain-3" }] } },
+		// and the tie holes keep their place. The cracked one is listed once in eight (D1: it repeated too visibly)
+		"*-plain": { all: { base: "block/level1/concretewall-plain", alternates: [{ base: "block/level1/concretewall-plain-2" }, { base: "block/level1/concretewall-plain" }, { base: "block/level1/concretewall-plain-2" }, { base: "block/level1/concretewall-plain" }, { base: "block/level1/concretewall-plain-2" }, { base: "block/level1/concretewall-plain" }, { base: "block/level1/concretewall-plain-3" }] } },
 		"*": { all: { base: "block/level1/concretewall-{type}" } }
 	},
 	resistance: 8,

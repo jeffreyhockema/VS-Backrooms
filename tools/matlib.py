@@ -556,6 +556,62 @@ def alternates(fn, seed, n=3, size=S):
     return [fn(sub(seed, f"alt{k}"), at) for k, at in enumerate(spread(seed, n, size))]
 
 
+def _blur_wrap(f, r):
+    """A periodic box blur, run twice (about a gaussian of r px), of a 2D list."""
+    h, w = len(f), len(f[0])
+    n = 2 * r + 1
+    for _ in range(2):
+        f = [[sum(row[(x + k) % w] for k in range(-r, r + 1)) / n for x in range(w)] for row in f]
+        f = [[sum(f[(y + k) % h][x] for k in range(-r, r + 1)) / n for x in range(w)] for y in range(h)]
+    return f
+
+
+def _broad(img, r):
+    """img's broad field (each channel blurred, wrapping) and its fine rest, as 3 + 3 lists."""
+    p, (w, h) = img.load(), img.size
+    ch = [[[p[x, y][c] for x in range(w)] for y in range(h)] for c in range(3)]
+    return ch, [_blur_wrap(c, r) for c in ch]
+
+
+def turn_safe(img, ground, band=8, radius=3, keep=1.0):
+    """(D1) Makes the versions of a floor that the blocktype turns and mixes at random meet without a step at the block
+    edges. A tileable texture meets itself, but turned by 90 degrees, or beside another seed's version, its broad
+    mottle (pour patches, a darker trowel pass) no longer continues across the edge, and the floor reads as a grid of
+    squares at playing distance. Here the broad field of `img` (a blur of `radius` px) is kept inside the block, and
+    over the last `band` px toward each edge it blends into the broad field of `ground` made four-fold symmetric
+    (the mean of its four turns): every version built on the same `ground`, at any turn, then has the same broad
+    field along its edges, and that field continues round the wrap. The fine grain, aggregate and features of `img`
+    are kept everywhere. `ground` should be the plain ground alone (no swirl, aggregate or pores), or the symmetric
+    field picks up their ghosts as a repeating star. The symmetric field is calmer than one version's own (four turns
+    averaged); on a surface with little grain to hide that, a calm border round a mottled middle reads as a grid of
+    cushions, so `keep` (0..1) scales how much of the version's own broad mottle stays in the middle. The surface
+    must be square."""
+    w, h = img.size
+    if w != h or ground.size != img.size:
+        raise ValueError("turn_safe needs square textures of one size")
+    _, gl = _broad(ground, radius)
+    sym = []
+    for f in gl:
+        turns = [f]
+        for _ in range(3):
+            f = [[f[w - 1 - x][y] for x in range(w)] for y in range(h)]
+            turns.append(f)
+        sym.append([[sum(t[y][x] for t in turns) / 4 for x in range(w)] for y in range(h)])
+    ch, own = _broad(img, radius)
+
+    def ramp(d):
+        t = max(0.0, min(1.0, (d - 0.5) / band))
+        return t * t * (3 - 2 * t)
+    p = img.load()
+    for y in range(h):
+        wy = ramp(min(y + 0.5, h - y - 0.5))
+        for x in range(w):
+            k = wy * ramp(min(x + 0.5, w - x - 0.5)) * keep
+            p[x, y] = rgba(tuple(sym[i][y][x] + k * (own[i][y][x] - sym[i][y][x]) + ch[i][y][x] - own[i][y][x]
+                                 for i in range(3)), p[x, y][3])
+    return img
+
+
 # ---------------- Surfaces ----------------
 
 def concrete(seed=0, size=S, base=(130, 128, 122), grain=4, mottle=7, aggregate=0.07, pores=0.012, cracks=0,

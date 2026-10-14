@@ -15,12 +15,24 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
-	// One stretch of wall in three is older and damp-stained; the other two are two hangings of the same paper
-	textures: {
-		all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
-			{ base: "block/wallpaper/{pattern}-{part}-2" },
-			{ base: "block/wallpaper/{pattern}-{part}-damp" }
-		] }
+	// One stretch of wall in three is older and damp-stained; the other two are two hangings of the same paper.
+	// The yellow paper (D1): one block in five is damp (its stain is the one mark that sits in the same place each
+	// time), two in five carry a faint strip seam on their edge
+	texturesByType: {
+		"*-chevron-*": {
+			all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
+				{ base: "block/wallpaper/{pattern}-{part}-2" },
+				{ base: "block/wallpaper/{pattern}-{part}" },
+				{ base: "block/wallpaper/{pattern}-{part}-2" },
+				{ base: "block/wallpaper/{pattern}-{part}-damp" }
+			] }
+		},
+		"*": {
+			all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
+				{ base: "block/wallpaper/{pattern}-{part}-2" },
+				{ base: "block/wallpaper/{pattern}-{part}-damp" }
+			] }
+		}
 	},
 	resistance: 2.5,
 	lightAbsorption: 99,
