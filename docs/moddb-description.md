@@ -1,25 +1,43 @@
 # Backrooms: Survival Story
 
+<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms). moddb-description.html is the same text with the page's styling and images; keep both in sync. -->
+
 **Wake up in the Backrooms with nothing.** No tools, no food, no daylight. A folded note in your pocket, two supply boxes beside you, and an endless expanse of mono-yellow rooms under buzzing fluorescent lights. The carpet is damp. The hum never stops. Somewhere down the hall a light is failing.
 
 This is not a maze you escape. It is a world you learn to survive in.
 
 Backrooms: Survival Story is a complete survival game built on Vintage Story's own systems and moved into a building with no outside. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work. What changes is where everything comes from. There are no trees, no rivers, no sunrise. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
-Requires Vintage Story 1.22 or later. Backrooms worlds are created with the **Backrooms: Survival Story** playstyle; your normal worlds are untouched.
+**Requires Vintage Story 1.22 or later.** Backrooms worlds are created with the **Backrooms: Survival Story** playstyle; your normal worlds are untouched. Updating the mod never rearranges a world you have already started.
 
 ---
 
-## What version 0.513.0 contains
+## What's new in 0.513.0
 
-Everything below is in the mod now and playable.
+The first update, built from the first players' feedback. Existing worlds carry on as they are.
+
+- **Mapless mode.** A new world setting, *Backrooms map*: keep the map as it was, keep it but with nothing marked for you, or have no map at all and find your way by notes and chalk.
+- **Scarcer food.** A new *Scarce* setting (about a third of the food). Scarcity now reaches every food and drink, the vending machines and water coolers, Level 10's livestock, and, in new worlds, the fields and berry bushes of Levels 9 and 10.
+- **The early tools matter.** Flint is now a Level 1 find, so the glass shiv and the improvised scraper carry you through the Lobby, and they cut wallpaper and carpet two strips at a time. Metal brackets are rarer. The First Steps tutorial no longer asks for flint in Level 0.
+- **Pottery shards.** The potted plants of Levels 4 and 5 break for shards; shards pounded with a stone make ceramic grit, and grit with soil makes clay. Slow, but it saves the trip to Level 3.
+- **Everything can be set down.** Every item of the mod can be placed on the ground (shift + right-click).
+- **Fixes.** Scrap wire, circuit boards and coin mechanisms go in a crucible, as the handbook always said. The ladders down Level 3's manholes can be climbed. The furniture of the far levels gives what is in it again.
+- **For admins.** The F7 cheat menu is reorganised, with the world settings and a Dev tab of tests.
+
+The full list is in the [changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md).
+
+---
+
+## Work in Progress
+
+What version 0.513.0 contains:
 
 - Twenty-two levels, all fully built: Levels 0 to 11, the Snackrooms, Level 37, Level 94, Level !, Level Fun, The End, the Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 - More than seventy kinds of threshold between them, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
 - A roster of creatures with their own behaviour, each with a counter you can learn.
 - Survival progression from improvised salvage tools through Vintage Story's normal path of flint, fire, pottery, copper and bronze.
 - Scavenging, mining, farming, livestock and base building with no overworld.
-- A map that shows only what you have seen and remembers it, with every transition you have used marked, or no map at all if you want to be truly lost.
+- A map that shows only what you have seen and remembers it, with every transition you have used marked; or a map that marks nothing; or no map at all.
 - Discoverable wanderers' notes, an expedition journal, and a handbook rewritten for the Backrooms.
 - A fifteen-step tutorial for the first hour.
 - World settings for creature activity, resource scarcity and the map.
@@ -29,11 +47,11 @@ Everything below is in the mod now and playable.
 
 ## Surviving
 
-**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. From there the normal Vintage Story path carries on with materials found level by level: flint in the Lobby's boxes, copper and lead in the pipe tunnels, clay in the flooded tunnels under the Electrical Station, coal beside the generators and boilers, real ore veins in the caves, crops and livestock in the farmland.
+**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. The shiv and the scraper cut cleanly, two strips or fibres at a time, where any other knife cuts one. From there the normal Vintage Story path carries on with materials found level by level: flint in the car park and crates of Level 1, copper and lead in the pipe tunnels, clay in the flooded tunnels under the Electrical Station (or, slowly, from the pottery shards of Level 4's potted plants), coal beside the generators and boilers, real ore veins in the caves, crops and livestock in the farmland.
 
-**The building breaks down, never up.** Drywall and wallpaper break with any tool. Concrete, brick and tile want a copper pickaxe, like rock, and give rubble you can build with. Pipes and machinery give brackets, wire and the odd copper bit. Each level's roof, the wall between two levels above a certain height, and every door, elevator and vent are indestructible. Under every floor lie eight blocks of concrete and then the ground Vintage Story lays down in any world, with its strata, caves and ore.
+**The building breaks down, never up.** Drywall and wallpaper break with any tool. Concrete, brick and tile want a copper pickaxe, like rock, and give rubble you can build with. Pipes and machinery give brackets, wire and the odd copper bit, and the wire melts down in a crucible. Each level's roof, the wall between two levels above a certain height, and every door, elevator and vent are indestructible. Under every floor lie eight blocks of concrete and then the ground Vintage Story lays down in any world, with its strata, caves and ore.
 
-**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
+**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket. Anything you carry can be set down on the floor, so a home fills up with what you found.
 
 **Food is scarce.** Most boxes and crates were gone through long ago, and a torn box can be told from across the room. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
 
@@ -45,7 +63,9 @@ Everything below is in the mod now and playable.
 
 **A map that only shows what you have seen.** The map reveals what is in your line of sight, so walls block it, and it remembers between sessions. Every gate you walk through and every elevator, stairwell, door or pit you take is marked the first time, with the way back where there is one. Surveyor's chalk marks walls with arrows, crosses and circles that show on the map.
 
-**Notes and the journal.** Earlier wanderers left notes in boxes, desks, backpacks and bedrolls. They come in order, carrying you from waking to the far levels, and each one marks the nearest gate, way out, cache or refuge on your map. Everything you read is kept in your journal. Folded notes, rarer, give exact routes, odds and rules.
+If that is too much help, the *Backrooms map* world setting can keep the map but mark nothing for you, or take the map away altogether. Then the notes tell you a direction and a number of paces, and chalk is how you find your way home.
+
+**Notes and the journal.** Earlier wanderers left notes in boxes, desks, backpacks and bedrolls. They come in order, carrying you from waking to the far levels, and each one points you to the nearest gate, way out, cache or refuge: marked on your map, or told as a direction and paces. Everything you read is kept in your journal. Folded notes, rarer, give exact routes, odds and rules.
 
 **The handbook is rewritten.** In a Backrooms world the Guides tab is written for the Backrooms: the Starter Guide; the Progression Guide; Reality Stability; Home and Expeditions; Finding the Way; Salvage; Food, Heat and Cold; The Levels, in two pages; Ways Between Levels; and What Lives Here. Every vanilla guide opens with an "In the Backrooms" preface saying what is different here. A fifteen-step First Steps tutorial starts the first time you join.
 
@@ -73,12 +93,12 @@ How bold they come depends on where you are and what you do: the dark, low stabi
 Every creature has a counter you earn as you go; the handbook page *What Lives Here* has the details.
 
 | Creature | What it does | What keeps it back |
-| --- | --- | --- |
+|---|---|---|
 | Smiler | Eyes and a grin in the dark; cannot be killed | A torch's light; holding its gaze without running |
 | Hound | Packs of two or three, heard before seen | Fire, Firesalt, a steady stare, weapons and armour |
 | Faceling | Wanders and sits; right-click one and it points to the nearest way out | Harmless unless hurt |
 | Deathmoth | Circles open flame; females bite near the edge | A closed lantern; smoke |
-| Skin-Stealer | Slow and strong, coughs and calls out from out of sight | Distance, doors, fire |
+| Skin-Stealer | Slow and strong, coughs and calls out from out of sight; it opens doors | Distance, fire, a door barred from the inside |
 | Duller | Scrapes inside the walls and reaches through them | Almond Water; keeping off the walls |
 | Death Rat | Packs that nip at your legs | A carried torch; they are edible |
 | Clump | Buried with one arm out of the floor | Watching the floor; staying quiet |
@@ -130,20 +150,24 @@ There are also Flickerings out towards the edge of Level 1, the Screaming of the
 
 1. Install the mod as usual. On a server, everyone needs the same build; the mod checks on joining and warns in chat if a client's copy differs.
 2. Create a new world and pick the **Backrooms: Survival Story** playstyle. Existing worlds and other playstyles are not affected.
-3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blades, bag and torch.
+3. Read the folded note in your pocket, open the two boxes beside you, and press H for the handbook. The First Steps tutorial walks you through your first blades, your bag and your first torch.
 4. Keep the map (M) open often. It only knows what you have seen.
 
-World settings under *Survival challenges* when creating a world: **Backrooms entities** (Off: sounds only, Low, Normal, High) **Backrooms scarcity** (Plentiful: twice the food; Normal; Sparse: a little over half; Scarce: about a third) and **Backrooms map** (Seen areas; Seen areas, no waypoints; None: no map or minimap at all).
+World settings under *Survival challenges* when creating a world:
+
+- **Backrooms entities:** Off (sounds only), Low, Normal, High.
+- **Backrooms scarcity:** Plentiful (twice the food), Normal, Sparse (about 60%), Scarce (about a third).
+- **Backrooms map:** Seen areas; Seen areas, no waypoints; None (no map or minimap at all).
 
 ---
 
 ## Notes
 
 - Built for Vintage Story 1.22 (.NET 10).
-- The levels are generated as you walk; the first chunks of a new region take a moment.
-- Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original 2019 photo and Kane Pixels' films for Level 0's look and feel.
 - Version 0.513.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- The levels are generated as you walk; the first chunks of a new region take a moment.
+- Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original photo posted in 2019 and Kane Pixels' films for Level 0's look and feel.
 - Open source: the code is GPL-3.0, and the textures, models, sounds and text are CC BY-SA 4.0. Level and creature lore is adapted from the Backrooms wikis under CC BY-SA; credits are in the README.
-- Updating the mod never rearranges an existing world: each world keeps the layout it was created with.
+- Yes, this was "Built by AI", but it didn't do it alone.
 
 Bug reports, screenshots of what you found, and notes from your own expeditions are very welcome.
