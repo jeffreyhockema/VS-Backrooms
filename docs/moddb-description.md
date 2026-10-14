@@ -8,6 +8,8 @@ This is not a maze you escape. It is a world you learn to survive in.
 
 Backrooms: Survival Story is a complete survival game built on Vintage Story's own systems and moved into a building with no outside. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work. What changes is where everything comes from. There are no trees, no rivers, no sunrise. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
+Links: [Player guide (spoilers)](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/docs/GUIDE.md) · [Changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md) · [Source on GitHub](https://github.com/jeffreyhockema/VS-Backrooms) · [Report a bug](https://github.com/jeffreyhockema/VS-Backrooms/issues)
+
 **Requires Vintage Story 1.22 or later.** Backrooms worlds are created with the **Backrooms: Survival Story** playstyle; your normal worlds are untouched. Updating the mod never rearranges a world you have already started.
 
 ---
