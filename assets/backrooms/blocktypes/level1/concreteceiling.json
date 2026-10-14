@@ -3,7 +3,8 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
-	textures: { all: { base: "block/level1/concreteceiling" } },
+	// Three versions (the third with a water stain), not turned: the painted conduits keep their run
+	textures: { all: { base: "block/level1/concreteceiling", alternates: [{ base: "block/level1/concreteceiling-2" }, { base: "block/level1/concreteceiling-3" }] } },
 	resistance: 8,
 	requiredMiningTier: 3,
 	lightAbsorption: 99,

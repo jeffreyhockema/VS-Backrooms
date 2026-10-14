@@ -40,6 +40,13 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   roof: keep them thin and in the shingle's own tone. Faces that must continue a wall's texture need world-aligned UVs
   (east u = 16 - z, west u = z, v = 16 - y; `preview_shapes.auto_uv`).
 
+- (B4) Check a level's baseline before trusting it: retake two or three spots on a fresh build of unchanged `main`. Level 1's B0
+  baseline had drifted 8-15 levels brighter than today's client; B4 reshot it (`review/baseline/1`, B0 set in `1-b0`).
+- (B4) Painted lines across tiling blocks must be clean at the seams; wear on them breaks the line at every block edge.
+- (B4) Removing a repeated painted feature reads as lost structure to a reviewer; keep it and shade it, let the user decide.
+- (B4) On grey concrete keep `matlib.concrete`'s `patch_hue` and `hue` at 1.5 or less and aggregate at about 0.03, or it
+  goes teal and olive with a coloured speckle at 2 blocks.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -48,8 +55,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B1 inventory | main | merged | 1 | | passed 2026-10-13 (Fable): L1 floor D confirmed on tent-close; boiler row corrected (generator exists) |
 | B2 material kit | gfx/B2 | merged | 1 | concrete B-, basket weave, Berber, glass unverified | passed 2026-10-13 (Fable): models, ceiling, paper, carpet at B; B4 must push concrete (larger pour patches, more hue) |
 | B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
-| B4 Level 1 | gfx/B4 | in progress | | | |
-| B5 Level 2 | | not started | | | |
+| B4 Level 1 | gfx/B4 | merged | 2 | steel door as model, floors/ceiling C+, pillar body, tent fly, emptied crate; cars/cameras/signs/first-aid untouched | passed 2026-10-14 02:00 (Fable): floor grid gone, walls formed; Level 1 baseline reshot (B0 one was brighter) |
+| B5 Level 2 | gfx/B5 | in progress | | | |
 | B6 Level 3 | | not started | | | |
 | B7 Level 4 | | not started | | | |
 | B8 Level 5 | | not started | | | |
@@ -390,6 +397,83 @@ Worker report (Opus, 2026-10-13/14). Branch `gfx/B3` from `main`, uncommitted. T
 - Judge big surfaces at playing distance (2-6 blocks in the wide shots), not on 4x texsheets. Detail that reads on a sheet averages away in game, while low-frequency mottle and seams show more than expected.
 - `tools/shotbot/sidebyside.py` with `docs/design/graphics-pass/sidebyside/<batch>.json` makes the per-family before|after pairs and appends the batch to `review/compare.html`. Later batches should add their map and their rows to `decisions.md`.
 - A single 2-spot client run can shoot its first spot before the area's light or chunks have loaded (dark or fallen camera). Shoot new spots as part of the full list, or retake.
+
+### B4
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B4` from `main`, uncommitted. Two rounds: one blind review, then a fix and a reshoot. Final sheet:
+`review/b4/compare-round2.jpg`, with the after shots in `review/b4/final/`. The round-1 sheet is `review/b4/compare-round1.jpg`.
+- **Per-family pairs:** `review/b4/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B4.json`. The B4 section is added to `review/compare.html`.
+- **Decision table:** eleven rows added to `decisions.md`, decision column empty.
+
+**Checks**
+- Build: 0 warnings.
+- `layouthash` is unchanged: v1 and v4 match B11's output line for line (`review/b4/layouthash-v*.txt`).
+- `validatelevel 1`: Level 1 has 0 unreachable tiles and 0 doorways to nowhere (`review/b4/validate1.txt`).
+- No C#, no `assets/game/`, and no block, item or entity code, variant group or class changed. New texture files sit beside the old ones, and the alternates are listed in the hand-written `blocktypes/level1/concrete{floor,wall,ceiling}.json`.
+- Brightness: every final shot is within 0.6 levels of the refreshed baseline (`review/b4/luma-final.txt`).
+
+**Baseline refreshed (read this before comparing anything with `review/baseline/1`)**
+- The B0 baseline of Level 1 was 8-15 levels brighter than a build of unchanged `main` shoots today, in the rooms and the car park: den, tent, refuge, gate, threshold and prop-1.
+- Shot again on unchanged `main` (`review/b4/base-check`), those spots matched B4's after shots within 0.6 levels. So the change was in the baseline, not in this batch.
+- `review/baseline/1` is now the whole list reshot on `build-gfxbase` (unchanged `main`, built at the start of this batch). The B0 set is kept in `review/baseline/1-b0`.
+- Other levels' baselines may have drifted the same way.
+
+**Spots**
+- Re-spotted: `close-wall` (white block, in a lit hall), `close-wall2` (concrete, the car park's fire wall) and `close-ceiling` (car park slab, under the lights).
+  - The old spots were inside the unlit room round Level 1's arrival point; the B0 shots are in `review/b4/old-black/`.
+- Added: `park-wide` and `firewall-wide`: the floor, the concrete wall and the ceiling at playing distance.
+- These changes are in `review/spots/1.json` and `docs/design/graphics-pass/spots/1.json`.
+
+**What changed, per family** (round-2 grades are mine; the round-1 blind grade is given where it differs)
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Car park floor (plain, wet, dark) | C+ (blind r1: C) | better | `matlib.concrete` with pour patches, three versions per kind, all turned. The crack and tyre scuff are in one plain version only, so the old grid of tyre-band crosses is gone. Hue pulled back to grey in round 2. Wet keeps its glints: round 1's smoothed water film read as flat squares. |
+| Floor markings | B- | same (r1: D, worse) | Round 1's worn paint broke every dash at the block seams. The lines are clean now and take the concrete's tone. The drain is a recessed frame with shaded bars. |
+| Painted hall floor | C+ (r1: C) | better | The six scuffs that sat in the same place in every block are gone. Three plain versions, all turned; scuffs are in one version only. No aggregate (it is painted). |
+| Concrete walls | B- | better | Formed concrete with bug holes, a pour line and two tie holes per block. Three versions; the third has a crack and a rust run. |
+| Damaged wall | B- | better | Spalled round the modelled rebar; no painted rebar. |
+| Car park ceiling | C+ (r1: C, worse) | same | Round 1 dropped the painted conduits and the blind reviewer read that as lost structure. Round 2 brings them back, shaded as round runs with clips and a shadow. Three versions. |
+| Pillars, letters, base, wheel stops | C+ / B- | same (r1: letters and base worse) | Smoother column concrete with lit and shaded arrises. Round 2 made the letter panel clean and wears the hazard band only at its foot. |
+| Camp tent | C+ | slightly better (r1: same) | Ripstop fly with soft unevenness and stronger seams. Gable ends stepped 1 px at a time, not 16 steps. Woven poly groundsheet with folds, a little duller. |
+| Sleeping bag, lining, bedroll | B- | better | Puffed 8 px channels with soft seams (the old 6 px did not tile), flannel tartan lining, rolled canvas bedroll, woven pillow. |
+| Burn barrel | B- | same | Painted metal gone to rust (heaviest at the foot), runs from the rim, soot at the top. Geometry unchanged. |
+| Crates (closed, emptied) | B- (emptied C+) | better | Grained boards in a raised, shaded frame, a brace sampled along its grain (round 1's brace broke up), nails. Still a cube, as vanilla's crate is. |
+| EXIT signs | B | same | The face is lit from behind with a pink halo round the letters; the housing is enamelled steel. |
+| Steel door | C (push bar still painted) | better | Shaded frame, raised push bar, kick plate and window bead. |
+
+**Carried below B, with reasons**
+- **Steel door as geometry (D to C):**
+  - `metaldoor` has no facing variant, so a modelled door could not be turned to its wall.
+  - It would need a new code with an `axis` group beside the old one, placed by the generator, and a fresh review world.
+- **Car park floor, hall floor, ceiling (C+):** the per-block limit of B3's lesson on floors.
+  - Saw-cut joints every few blocks, tyre-wear lanes and oil trails are layout-scale features.
+  - A texture can only add them in every block or at random.
+- **Pillar body (C+):** plain concrete that is mostly behind the letter and the band. It is noise-quiet now, but has no structure of its own.
+- **Tent (C+):** still reads as a toy from 2 blocks, because the fly is a single flat slope. The next step is a sagging fly (two or three facets per side) and a smooth gable. That is a reshape of the 2x2 model, so it was left for budget.
+- **Emptied crate (C+):** the straw and the missing plank are still painted. A modelled version needs a JSON shape on a block that is placed in stacks.
+- **Not touched, for budget:**
+  - cars and wrecks (already B)
+  - cameras and traffic signs (in no shot)
+  - first-aid rooms (in no shot)
+  - metal shelving
+  - wall decorations (breaker, hose cabinet, alarm)
+  - pay station, cones
+  - camp lantern, folding table and chair, workbench, toolbox
+  - white block wall (B)
+- **Shared assets that changed:**
+  - `concretewall-plain` also shows behind Level 0's gates, in The End, in Level ! (its fallback) and in 188's Level 1 window.
+  - `concretefloor-plain` is `FloorKind.Concrete` everywhere, and Level 9's `housefloor-garage` is drawn from it.
+  - The camp kit textures appear in Levels 0, 3, 4, 7 and 8.
+  - None of these levels was reshot.
+
+**Lessons**
+- Before trusting a level's baseline, retake two or three of its spots on a fresh build of unchanged `main` and compare mean brightness. Level 1's B0 baseline had drifted 8-15 levels brighter than today's client shoots the same build, which would have read as a lighting regression in this batch. Reshoot the level's baseline if it has drifted.
+- Painted lines that run across tiling blocks (road markings, stripes) must be clean at the seams. Any wear on them shows as a break at every block edge at playing distance.
+- Taking out a repeated painted feature, even a "painted 3D" one the inventory names (the ceiling conduits), reads to a blind reviewer as lost structure. Keep the structure and shade it, and leave the removal to the user's decision.
+- On grey concrete, keep `matlib.concrete`'s `patch_hue` and `hue` at 1.5 or less, and aggregate at about 0.03 or less. More turns into teal and olive blotches and a coloured speckle at 2 blocks.
+- Wood sampled for a diagonal part (a brace) must follow the board's length (x), not the diagonal. Otherwise the grain streaks alternate and the brace reads as a rope.
+- Level 1's arrival point is inside an unlit room. When re-spotting with `mkspots.Grid`, count only `LightOn` ceiling tiles (kind 1) near the spot; `LightLit` glows but does not light the walls.
 
 ### B11
 

@@ -118,7 +118,12 @@ def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wo
 
 
 TURNED = {"asphalt", "asphalt-leaves", "asphalt-wet", "housefloor-carpet", "housefloor-garage", "housefloor-driveway", "l6floor",
-          "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone"}
+          "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone",
+          "l1hallfloor"}
+# Textures with other versions drawn beside them (graphics pass B4): a feature such as a scuff sits in one version
+# only, and the block picks among them (each turned too, when the texture is in TURNED), so it lands in about one
+# block in three and at a different place each time
+ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"]}
 
 
 def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, comment=None, **extra):
@@ -133,6 +138,10 @@ def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, c
         tex = {"base": f"block/detail/{t}"} if isinstance(t, str) else {"base": f"block/detail/{t[0]}", "rotation": t[1]}
         if isinstance(t, str) and t in TURNED:
             tex["alternates"] = [{"base": f"block/detail/{t}", "rotation": r} for r in (90, 180, 270)]
+        if isinstance(t, str) and t in ALTS:
+            turns = (0, 90, 180, 270) if t in TURNED else (0,)
+            tex.setdefault("alternates", []).extend(
+                {"base": f"block/detail/{a}", "rotation": r} if r else {"base": f"block/detail/{a}"} for a in ALTS[t] for r in turns)
         data["texturesByType"][f"*-{k}"] = {"all": tex}
     data.update(extra)
     block(code, data, comment or (english if isinstance(english, str) else None))
@@ -351,9 +360,10 @@ def camp_tent():
             bx("Floor", (2.6, 0, 1.2), (29.4, 0.25, 30.8), "tarporange", faces=("up", "north", "south", "east", "west"))]
 
     # The ends: stepped to the slope of the fly, each step's top corners just inside the fly's thickness (so neither
-    # they show through it nor the gaps under them much)
+    # they show through it nor the gaps under them much). (B4) One texture pixel to a step, so the edge reads as the
+    # cloth's own edge and not as a staircase
     def gable(nm, z1, z2, door):
-        out, steps = [], 16
+        out, steps = [], 44
         for k in range(steps):
             y1, y2 = ridge * k / steps, ridge * (k + 1) / steps
             hw = (16 - base_l) * (1 - y2 / ridge) + 0.3

@@ -22,7 +22,51 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/detail/l1hallfloor"
+				"base": "block/detail/l1hallfloor",
+				"alternates": [
+					{
+						"base": "block/detail/l1hallfloor",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l1hallfloor",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l1hallfloor",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/l1hallfloor-2"
+					},
+					{
+						"base": "block/detail/l1hallfloor-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l1hallfloor-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l1hallfloor-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/l1hallfloor-3"
+					},
+					{
+						"base": "block/detail/l1hallfloor-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l1hallfloor-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l1hallfloor-3",
+						"rotation": 270
+					}
+				]
 			}
 		}
 	},

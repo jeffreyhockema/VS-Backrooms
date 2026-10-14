@@ -559,13 +559,25 @@ def alternates(fn, seed, n=3, size=S):
 # ---------------- Surfaces ----------------
 
 def concrete(seed=0, size=S, base=(130, 128, 122), grain=4, mottle=7, aggregate=0.07, pores=0.012, cracks=0,
-             border=0, joints=(), swirl=0, drift=DRIFT):
+             border=0, joints=(), swirl=0, drift=DRIFT, patches=0, patch_hue=0, hue=2.0):
     """Concrete: a mottled cement ground with aggregate (1-2 px stones, each lit on top with a shadow under it, some
     warm, some cool), pin-hole pores, `cracks` hairline cracks (random walks with a lit lower edge: a crack repeats
     visibly block after block, so give them only to alternates), darker borders (`border` px of ao_border, for slabs),
-    form-board `joints` (grooves at these y) and power-trowel `swirl` (0..1, faint arcs, for floors)."""
+    form-board `joints` (grooves at these y) and power-trowel `swirl` (0..1, faint arcs, for floors).
+    Added in B4 (all off by default, so earlier callers are unchanged): `patches` levels of broad pour patches (a soft
+    field on a 16 px lattice, the size of a batch of mix or a trowel pass, larger than the mottle), `patch_hue` levels
+    of warm/cool hue that follows its own broad field (cement from different batches: some patches buff, some blue
+    grey), and `hue` for the fine hue wander of the ground (noise_hv's, 2 by default)."""
     w, h = wh(size)
-    img = noise_hv(base, grain, seed, (w, h), mottle, (16, 8, 4), drift)
+    img = noise_hv(base, grain, seed, (w, h), mottle, (16, 8, 4), drift, hue)
+    if patches or patch_hue:
+        pf = fbm((w, h), sub(seed, "pour"), (16, 8), 0.35)
+        hf = fbm((w, h), sub(seed, "pourhue"), (16,), 0.5)
+        q = img.load()
+        for y in range(h):
+            for x in range(w):
+                c = lift(q[x, y], pf[y][x] * patches, drift)
+                q[x, y] = rgba(hue_shift(c, hf[y][x] * patch_hue))
     rng = random.Random(sub(seed, "agg"))
     p = img.load()
     if swirl:
