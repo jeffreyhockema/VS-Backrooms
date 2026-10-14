@@ -469,7 +469,7 @@ public class BlockBehaviorEndTerminal : BlockBehavior
             sapi.Event.RegisterCallback(_ =>
             {
                 threshold.EndCarry(player, party);
-                if (trueEnd) SwapTo(sapi, pos, block.CodeWithVariant("state", "dead").Path);
+                if (trueEnd) SwapTo(sapi, pos, BlockCodes.WithVariant(block, "state", "dead").Path);
                 else Swap(sapi, pos, "dead");
             }, 3000);
             return true;
@@ -504,7 +504,7 @@ public class BlockBehaviorEndTerminal : BlockBehavior
     {
         Block here = sapi.World.BlockAccessor.GetBlock(pos);
         if (here.Code?.Path.StartsWith("end-terminal-") != true) return;
-        Block next = sapi.World.GetBlock(here.CodeWithVariant("state", state));
+        Block next = sapi.World.GetBlock(BlockCodes.WithVariant(here, "state", state));
         if (next != null && next.BlockId != 0) sapi.World.BlockAccessor.ExchangeBlock(next.BlockId, pos);
     }
 }

@@ -2353,12 +2353,15 @@ def service():
     by_type = {f"*-{s_}": {"base": path, "rotateY": ROTATE[s_]} for s_ in SIDES}
     block("fun-supplyshelf", {
         "code": "fun-supplyshelf", "variantgroups": [{"code": "side", "states": SIDES}],
-        "class": "BlockGenericTypedContainer", "entityClass": "GenericTypedContainer", "behaviors": [{"name": "Container"}],
+        # (Our subclass of the game's typed container: the game's own picks itself by its first code part, which is "fun";
+        # and that container reads textures as "<type>-<code>", so each is given under both names)
+        "class": "BackroomsFunSupplyShelf", "entityClass": "GenericTypedContainer", "behaviors": [{"name": "Container"}],
         "attributes": {"inventoryClassName": "fun-supplyshelf", "defaultType": "shelf", "types": ["shelf"], "drop": {"shelf": False},
                        "quantitySlots": {"shelf": 8}, "dialogTitleLangCode": {"shelf": "backrooms:fun-suppliescontents"},
                        "storageType": {"shelf": 189}, "retrieveOnly": {"shelf": False}, "shape": {"shelf": "backrooms:" + path},
                        "variantByGroup": "side"},
         "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]}, "blockmaterial": "Metal", "drawtype": "json",
+        "textures": {k: {"base": "block/fun/" + t} for t in ("steel", "supplybox-balloons", "supplybox-hats") for k in (t, "shelf-" + t)},
         "shapeByType": by_type, "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 2, "sounds": METAL,
         "collisionboxByType": {f"*-{s_}": cuboid((0, 0, 0.5, 1, 1, 1), s_) for s_ in SIDES},
         "selectionboxByType": {f"*-{s_}": cuboid((0, 0, 0.5, 1, 1, 1), s_) for s_ in SIDES},

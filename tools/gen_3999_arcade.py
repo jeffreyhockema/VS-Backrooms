@@ -394,7 +394,7 @@ def games():
 
     variants_block("l3999-plush", "Plush", [("kind", ["bear", "cat", "alien", "smiley"]), ("facing", SIDES)], plush_block, rot="facing",
                    box=(0.25, 0, 0.25, 0.75, 0.56, 0.75), material="Cloth", sounds=CLOTH,
-                   data={"behaviors": [{"name": "HorizontalOrientable", "properties": {"dropBlockFace": "north"}}], "resistance": 0.5,
+                   data={"behaviors": [{"name": "BackroomsHorizontalOrientable", "properties": {"dropBlockFace": "north"}}], "resistance": 0.5,
                          "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]}, "attributes": {"backroomsCute": True},
                          "heldTpIdleAnimation": "holdbothhandslarge"},
                    comment="Level 3999's prizes: a plush toy 8 px tall (a brown bear, an orange cat, a green alien, a yellow smiley ball), "

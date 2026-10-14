@@ -354,7 +354,7 @@
 	"collisionbox": null,
 	"behaviors": [
 		{
-			"name": "HorizontalOrientable",
+			"name": "BackroomsHorizontalOrientable",
 			"properties": {
 				"dropBlockFace": "north"
 			}
