@@ -79,8 +79,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
 | B4 Level 1 | gfx/B4 | merged | 2 | steel door as model, floors/ceiling C+, pillar body, tent fly, emptied crate; cars/cameras/signs/first-aid untouched | passed 2026-10-14 02:00 (Fable): floor grid gone, walls formed; Level 1 baseline reshot (B0 one was brighter) |
 | B5 Level 2 | gfx/B5 | merged | 2 | tunnel concrete/ceiling C+, door leaf painted, tram body C+; hazard panels, drums, trolley untouched | passed 2026-10-14 03:15 (Fable): gauges and tram verified as geometry on sidebyside |
-| D1 follow-up on B3, B4, B5 decisions | gfx/D1 | review | offline only (not shot) | | |
-| B6 Level 3 | | not started | | | |
+| D1 follow-up on B3, B4, B5 decisions | gfx/D1 | merged | offline only (not shot) | | | passed 2026-10-14 13:20 (Fable): wallpaper and floor mocks seamless, box/crate previews checked; user approved in play |
+| B6 Level 3 | gfx/B6 | in progress | | | |
 | B7 Level 4 | | not started | | | |
 | B8 Level 5 | | not started | | | |
 | B9 Levels 6 and 6.1 | | not started | | | |
