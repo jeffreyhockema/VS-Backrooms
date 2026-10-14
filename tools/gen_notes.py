@@ -31,6 +31,8 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from PIL import Image, ImageDraw  # noqa: E402
 
+from detail_kit import ground_storable  # noqa: E402
+
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
 LANG = {}
@@ -81,15 +83,15 @@ They turn up in order. Don't ask me how.
     E("m02", "A blade", """
 You need an edge. Knock a dead light out of the ceiling for glass. A bare shard cuts, but it snaps one time in four.
 A shard, a strip of wallpaper and a carpet fibre make a shiv. A metal bracket, a strip and two fibres make a scraper,
-and that lasts three times as long.
+and that lasts three times as long. Either one peels clean, two to a cut. Keep it even once you've got flint.
 — Dez""", w="dez"),
     E("m03", "Wallpaper and carpet", """
 Blade in hand, right-click the yellow wallpaper, then the dry carpet. Strips and fibres. Two strips twist into dry
 grass. Three fibres make twine. Five fibres and a twine make a carpet bag, three slots. Make four before you go
-anywhere: that's thirty-two cuts of carpet. The floor won't mind.
+anywhere: that's thirty-two fibres, sixteen cuts with a shiv. The floor won't mind.
 — Dez""", w="dez"),
     E("m04", "Fire", """
-Flint occurs in the sealed boxes. With two: sneak, right-click one onto the floor, knap. Knife blade first, then an
+Flint is rare in the boxes here; Level 1's crates and floors have it. With two: sneak, right-click one onto the floor, knap. Knife blade first, then an
 axe head, each hafted on a stick. One rotten wood (from the ceiling voids) gives two sticks; two give a firewood. Fire
 starter: one dry grass, two sticks. Firepit: dry grass on the floor, four firewood. Expect no wood here. Level 1 has
 wood.
@@ -670,7 +672,7 @@ take it. He walks you to its door. He never lets you in again, and if you break 
 nothing."""),
     E("hub-5", "The doorstep", """
 By the city door the M.E.G. keep a doorstep carpet: their man sells two keys a week for rusty gears, and their register
-marks the open doors on your map. The pink door with the ribbon opens for anyone carrying something cute. A hole in the
+shows where the open doors are. The pink door with the ribbon opens for anyone carrying something cute. A hole in the
 road drops you out of the sky over green hills. Where a wall's seams don't meet, walk through: the office.
 — Dez""", mark="way", w="dez"),
 ]))
@@ -692,7 +694,7 @@ TRACKS.append(Track("l3999", "common", "Level 3999: the Neon Paradise", L3999, e
     E("l3999-1", "Safe here", """
 Nothing hunts where the neon is lit. It's warm, the gear turns forward, faster in the lobbies, and the violet pools mend
 you while you stand in them. The faceless staff behind the counters can't be hurt and won't hurt you; ask one and it
-points the way to a lobby. Right-click a mall directory and it marks the nearest food court and lobby on your map. More
+points the way to a lobby. Right-click a mall directory and it gives the way to the nearest food court and lobby. More
 wanderers camp here than anywhere."""),
     E("l3999-2", "Tickets", """
 Every machine pays you once a day. Hold right-click and play it out. The little cabinets pay up to three tickets,
@@ -860,8 +862,8 @@ office goes to Level 4, a hotel to 5, a house to 9, the Lobby to 0; the snow goe
 ]))
 TRACKS.append(Track("rare-hub", "rare", "Folded notes", HUB, chapter=RARE_CHAPTER, entries=[
     E("r-hub-1", "Resonance", """
-M.E.G. BRIEFING, RESTRICTED. A Level Key held in the Hub chimes from its door's direction; within eight paces the door
-goes on your map. The keys for Level 1, the city and 178 are wasted: those doors open for anyone.
+M.E.G. BRIEFING, RESTRICTED. A Level Key held in the Hub chimes from its door's direction, and rings out within eight
+paces of it. The keys for Level 1, the city and 178 are wasted: those doors open for anyone.
 — Field Team 9""", w="meg"),
 ]))
 TRACKS.append(Track("rare-run", "rare", "Folded notes", RUN, chapter=RARE_CHAPTER, entries=[
@@ -1182,6 +1184,7 @@ def write_assets():
         "groundTransform": {"rotation": {"x": 90, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2},
         "materialDensity": 300, "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
     }
+    ground_storable(item)
     write_json(item, "itemtypes", "wanderernote-folded.json", "A rare note (gen_notes.py): read it for one of the folded notes.")
 
     shape = {

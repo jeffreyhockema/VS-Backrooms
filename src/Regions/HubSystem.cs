@@ -277,7 +277,7 @@ public partial class HubSystem : ModSystem
                     player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-key-near"), EnumChatType.Notification);
                 sapi.World.PlaySoundAt(chime, door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 2.5, door.Z + 0.5, null, false, 24, 1f);
                 MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 1.5, door.Z + 0.5),
-                    Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6);
+                    Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6, tell: false);
                 continue;
             }
             // From its door's direction, louder the nearer

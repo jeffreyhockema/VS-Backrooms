@@ -86,10 +86,16 @@ public class SalvageSystem : ModSystem
 /// allowed: ...and the values of it that can
 /// </code>
 /// Knives work, as does any item with the attribute <c>crudeCutter</c> (a glass shard), which may snap in use.
+/// The glass shiv and the improvised scraper were made for this: they peel the paper and lift the pile cleanly, and
+/// give two of the stripped item a cut where any other knife (a flint one too) tears off one.
 /// </summary>
 public class BlockBehaviorStrippable : BlockBehavior
 {
     private const double CrudeCutterBreakChance = 0.25;
+
+    /// <summary>The Lobby's own blades, and what each cut gives with one of them.</summary>
+    private static readonly HashSet<string> CleanCutters = new() { "backrooms:glassshiv", "backrooms:scraper" };
+    private const int CleanCutYield = 2;
 
     private string result;
     private AssetLocation item;
@@ -147,8 +153,10 @@ public class BlockBehaviorStrippable : BlockBehavior
         world.BlockAccessor.ExchangeBlock(bare.BlockId, pos);
         world.PlaySoundAt(new AssetLocation("game:sounds/effect/clothrip"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 12);
 
-        var stack = new ItemStack(stripped);
-        if (!byPlayer.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true))
+        var stack = new ItemStack(stripped, CleanCutters.Contains(slot.Itemstack.Collectible.Code.ToString()) ? CleanCutYield : 1);
+        // (What does not fit, all of it or the rest, falls at the player's feet)
+        byPlayer.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true);
+        if (stack.StackSize > 0)
         {
             world.SpawnItemEntity(stack, pos.ToVec3d().Add(0.5 + blockSel.Face.Normalf.X, 0.5 + blockSel.Face.Normalf.Y, 0.5 + blockSel.Face.Normalf.Z));
         }

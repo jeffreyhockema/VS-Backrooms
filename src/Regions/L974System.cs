@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Backrooms.Entities;
 using Backrooms.Map;
+using Backrooms.Salvage;
 using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
@@ -400,7 +401,7 @@ public class L974System : ModSystem
                 int smell = sapi.World.Rand.Next(5);
                 Say(player, "backrooms:l974-smell-" + (smell + 1));
                 // Mostly the smell is all there is; now and then the meal is really on the table
-                if (smell < 3 && !offended && Now - s.LastMeal >= MealEveryHours && sapi.World.Rand.NextDouble() < 0.2
+                if (smell < 3 && !offended && Now - s.LastMeal >= MealEveryHours && sapi.World.Rand.NextDouble() < 0.2 * ScarcitySystem.FoodScale(sapi.World)
                     && sapi.World.GetItem(new AssetLocation("backrooms:l974-meal-" + Meals[smell])) is { } meal)
                 {
                     s.LastMeal = Now;
@@ -922,13 +923,19 @@ public class L974System : ModSystem
         var house = CellOf(pos.X, pos.Z);
         HouseState s = StateOf(house);
         if (s.RefilledAt < 0) s.RefilledAt = Now;
-        int refills = (int)Math.Floor((Now - s.RefilledAt) / RefillHours);
+        // The world's Backrooms scarcity sets how much each holds and how soon it refills (Scarce: two, every six hours)
+        float food = ScarcitySystem.FoodScale(sapi.World);
+        int max = Math.Max(1, (int)Math.Round(StockMax * food));
+        double every = RefillHours / food;
+        int refills = (int)Math.Floor((Now - s.RefilledAt) / every);
         if (refills > 0 && s.OffendedUntil <= Now)
         {
-            s.Fridge = Math.Min(StockMax, s.Fridge + refills);
-            s.Pantry = Math.Min(StockMax, s.Pantry + refills);
-            s.RefilledAt += refills * RefillHours;
+            s.Fridge = Math.Min(max, s.Fridge + refills);
+            s.Pantry = Math.Min(max, s.Pantry + refills);
+            s.RefilledAt += refills * every;
         }
+        s.Fridge = Math.Min(max, s.Fridge);
+        s.Pantry = Math.Min(max, s.Pantry);
         bool fridge = kind != "pantry";
         double stock = fridge ? s.Fridge : s.Pantry;
         if (stock < 1)
@@ -987,8 +994,9 @@ public class L974System : ModSystem
         Link? wake = thresholds?.L974WakeLink(layout.L974At(house.Item1, house.Item2, 9, 8));
         if (wake is { } w && sapi.World.Rand.NextDouble() < 0.75)
         {
-            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Lang.Get("backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
+            // (The search result first: where the map setting makes no waypoints, the mark is told after it)
             Say(player, "backrooms:l974-internet-1");
+            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Lang.Get("backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
         }
         else Say(player, "backrooms:l974-internet-" + (2 + sapi.World.Rand.Next(3)));
     }

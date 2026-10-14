@@ -83,7 +83,7 @@
 			"type": "item",
 			"code": "game:flint",
 			"quantity": {
-				"avg": 0.1,
+				"avg": 0.02,
 				"var": 0
 			}
 		},

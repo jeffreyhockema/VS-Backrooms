@@ -4,6 +4,9 @@
 	class: "BackroomsAlmondWater",
 	maxstacksize: 8,
 	shape: { base: "item/almondwater" },
+	behaviors: [
+		{ name: "GroundStorable", properties: { layout: "Quadrants", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 }, selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.6875, z2: 1 } } }
+	],
 	creativeinventory: { "general": ["*"], "items": ["*"] },
 	// Drunk like food: holding right click consumes it
 	nutritionProps: { satiety: 120, health: 1, foodcategory: "NoNutrition" },

@@ -26,7 +26,7 @@ import sys
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(__file__))
-from detail_kit import ASSETS, CLOTH, GLASS, METAL, ROTATE, SIDES, STONE, WOOD, T, bx, cuboid, seed_of, turn, write_json  # noqa: E402
+from detail_kit import ASSETS, CLOTH, GLASS, METAL, ROTATE, SIDES, STONE, WOOD, T, bx, cuboid, ground_storable, seed_of, turn, write_json  # noqa: E402
 
 S = 32
 LANG = {}
@@ -1219,7 +1219,7 @@ def structure():
         "vertexFlagsByType": {"*-on": {"glowLevel": 220}, "*-lit": {"glowLevel": 220}, "*-flicker": {"glowLevel": 220}},
         "entityClassByType": {"*-flicker": "BackroomsFlicker"},
         "attributesByType": {"*-flicker": {"offBlock": "backrooms:end-troffer-off"}},
-        "dropsByType": {"*-off": drops(("glassshard", 1.5, 0.5), ("metalbracket", 0.25, 0), ("scrapwire", 0.3, 0)),
+        "dropsByType": {"*-off": drops(("glassshard", 1.5, 0.5), ("metalbracket", 0.12, 0), ("scrapwire", 0.3, 0)),
                         "*-flicker": [{"type": "block", "code": "end-troffer-off"}],
                         "*-lit": [{"type": "block", "code": "end-troffer-on"}]},
         "lightAbsorption": 0, "resistance": 0.8, "sounds": GLASS,
@@ -2288,11 +2288,11 @@ def itm(code, data, comment):
 
 def items():
     item_textures()
-    itm("end-cataloguecard", dict({
+    itm("end-cataloguecard", ground_storable(dict({
         "class": "BackroomsCatalogueCard", "maxstacksize": 16, "texture": {"base": "item/end/cataloguecard"},
         "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 300,
         "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
-    }, **ITEM_TRANSFORMS), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
+    }, **ITEM_TRANSFORMS)), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
 
     # Memory Juice: a small unlabelled bottle, cloudy amber, a cork; a few boxes in item space (0-16)
     def box(nm, frm, to, tex, top=True):
@@ -2307,11 +2307,11 @@ def items():
                {"textureWidth": 16, "textureHeight": 16,
                 "textures": {"glass": "backrooms:item/end/memoryjuice-glass", "cork": "backrooms:item/end/memoryjuice-cork"},
                 "elements": els})
-    itm("end-memoryjuice", dict({
+    itm("end-memoryjuice", ground_storable(dict({
         "class": "BackroomsMemoryJuice", "maxstacksize": 8, "shape": {"base": "item/end/memoryjuice"},
         "creativeinventory": {"general": ["*"], "items": ["*"]},
         "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
-    }, **BOTTLE_TRANSFORMS), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
+    }, **BOTTLE_TRANSFORMS), height=0.625), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
 
 
 # ======================= Sounds =======================
@@ -2488,6 +2488,8 @@ def lang():
         "endvent": "You crawl into the dark. The vent ends in open air, and you are falling.",
         "endterminal-on": "The screen flickers on with a low buzz. In white letters: THE END. Then static, and nothing.",
         "endterminal-marked": "Before it dies, the screen shows a plan of the floor. You remember where the doors were.",
+        # (said first instead where the map setting makes no waypoints: each way out is told after it)
+        "endterminal-marked-nomap": "Before it dies, the screen shows a plan of the floor. You fix the doors in your head:",
         "endterminal-dead": "The screen stays dark. It will not turn on again.",
         "endterminal-party": "The screen flickers on. It does not say THE END. It says =)",
         "waypoint-endterminal": "A way out of The End (from a computer)",
@@ -2503,7 +2505,7 @@ def lang():
         "note-endexit-2": "A catalogue card, filed under E: \"Exit: see {0}, {1} paces.\"",
         "note-endexit-3": "Someone has written on the back of the card: \"{0}. {1} paces. It opened for me.\"",
         "item-end-cataloguecard": "Catalogue Card",
-        "itemdesc-end-cataloguecard": "From The End's card catalogue. Read it to mark the nearest way out on your map.",
+        "itemdesc-end-cataloguecard": "From The End's card catalogue. Read it for the way to the nearest way out, marked on your map where the world has waypoints.",
         "item-end-memoryjuice": "Memory Juice",
         "itemdesc-end-memoryjuice": "An unlabelled bottle of something cloudy and amber. For a while after you drink it, everything feels like home. The Junkies of The End will trade with anyone who carries some.",
         "blockhelp-endterminal": "Turn on",

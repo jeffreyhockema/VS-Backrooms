@@ -41,7 +41,7 @@ PAGES["starter"] = ("Starter Guide", """
 Note: This guide is purposely kept short. The other guides in the Guides tab are the game's own: their crafting is right, but where they say to find things is not, so each begins with a note on how it goes here. The Backrooms' own pages follow the [Progression Guide](craftinginfo-progressionguide) in the list. A step-by-step start is in the Tutorials tab, under *Backrooms: First Steps*.
 
 **Where you are**
-You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming lights, going on in every direction. Nothing grows here, it never rains, there are no seasons and no winter, and there is no one to be found. What you need was left behind by those who came before, in supply boxes, in the furniture, and in the building itself. A [wanderer's note](item-backrooms:wanderernote-door) is in your pocket: {rightmouse} with it in hand to read it. It will tell you the first three rules, and mark the nearest unopened supply box on your map.
+You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming lights, going on in every direction. Nothing grows here, it never rains, there are no seasons and no winter, and there is no one to be found. What you need was left behind by those who came before, in supply boxes, in the furniture, and in the building itself. A [wanderer's note](item-backrooms:wanderernote-door) is in your pocket: {rightmouse} with it in hand to read it. It will tell you the first three rules, and mark the nearest unopened supply box on your map (or, in a world made with less map, tell you which way it lies: see [Finding the Way](backrooms-finding)).
 
 **What is different here**
 - **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A [temporal gear](item-gear-temporal) moves where you wake, but only within Level 0. See [Home and Expeditions](backrooms-home).
@@ -51,15 +51,15 @@ You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming 
 - **The gear by your health** is your [Reality Stability](gamemechanicinfo-temporalstability). Where it turns backwards, the place is draining you.
 
 **First tools**
-There are no stones lying about in the Lobby, but there is glass: break a dead (dark) [light fixture](block-backrooms:fluorescentlight-off) out of the ceiling with your bare hands for a [glass shard](item-backrooms:glassshard) or two. A lit one breaks too, but takes its light with it. A bare shard cuts wallpaper and carpet, but snaps about one time in four. Make a proper blade as soon as you have the parts: a [glass shiv](item-backrooms:glassshiv) is a shard, a wallpaper strip and a carpet fibre (a knife, 60 uses); an [improvised scraper](item-backrooms:scraper) is a metal bracket, a wallpaper strip and 2 carpet fibres (a knife, 180 uses).
+There are no stones lying about in the Lobby, but there is glass: break a dead (dark) [light fixture](block-backrooms:fluorescentlight-off) out of the ceiling with your bare hands for a [glass shard](item-backrooms:glassshard) or two. A lit one breaks too, but takes its light with it. A bare shard cuts wallpaper and carpet, but snaps about one time in four. Make a proper blade as soon as you have the parts: a [glass shiv](item-backrooms:glassshiv) is a shard, a wallpaper strip and a carpet fibre (a knife, 60 uses); an [improvised scraper](item-backrooms:scraper) is a metal bracket, a wallpaper strip and 2 carpet fibres (a knife, 180 uses). Brackets come from dead lights, ceiling tiles and supply boxes, now and then. The shiv and the scraper are the Lobby's own blades, made for its walls and floors: they peel wallpaper and carpet cleanly, two strips or fibres a cut, where any other knife, a flint one too, tears off one.
 
-For real stone tools you need [flint](item-flint): sealed supply boxes hold it about two times in five, and Level 1's broken concrete has flint and hard stones lying loose. With 2 flints, {shift} + {rightmouse} one onto the floor to begin [knapping](craftinginfo-knapping). A knife blade and an axe head first; each needs a [stick](item-stick) for a handle.
+For real stone tools you need [flint](item-flint), and flint is a Level 1 find: a sealed supply box holds one only about one time in twenty, but Level 1's crates hold it and its broken concrete has flint and hard stones lying loose. With 2 flints, {shift} + {rightmouse} one onto the floor to begin [knapping](craftinginfo-knapping). A knife blade and an axe head first; each needs a [stick](item-stick) for a handle.
 
 **Supply boxes**
-Two [supply boxes](block-backrooms:supplybox) stand beside where you woke. Break them (hold {leftmouse}): a sealed box, its lid still taped down, holds a few of Almond Water, crackers, canned beans, carpet fibres, wallpaper strips, a glass shard, flint, sticks and dry grass, and now and then a candle, a metal bracket, a wanderer's note, a seed packet, a rusty gear or a ready-made shiv. A torn box, lid hanging open, was gone through long ago: scraps and paper, never food, and you can tell from across the room. Sealed boxes and crates show red on your map. Boxes were left in twos and threes at the inside corners of rooms, about one room in six, and over half of them were torn open before you came. Rooms papered in red and the hearts of dens hold boxes nobody dared to touch (see [What Lives Here](backrooms-entities)).
+Two [supply boxes](block-backrooms:supplybox) stand beside where you woke. Break them (hold {leftmouse}): a sealed box, its lid still taped down, holds a few of Almond Water, crackers, canned beans, carpet fibres, wallpaper strips, a glass shard, sticks and dry grass, and now and then a candle, a metal bracket, a wanderer's note, a seed packet, a rusty gear, a ready-made shiv or, rarely, a flint. A torn box, lid hanging open, was gone through long ago: scraps and paper, never food, and you can tell from across the room. Sealed boxes and crates show red on your map. Boxes were left in twos and threes at the inside corners of rooms, about one room in six, and over half of them were torn open before you came. Rooms papered in red and the hearts of dens hold boxes nobody dared to touch (see [What Lives Here](backrooms-entities)).
 
 **Expanding inventory**
-Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (3 slots): 5 carpet fibres + 1 flax twine, and 3 carpet fibres make the twine. Hold a blade and {rightmouse} the dry carpet for one [carpet fibre](item-backrooms:carpetfibre) per block (the block is left bare). Four bags cost 32 cuts of carpet: make them before you go anywhere. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
+Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (3 slots): 5 carpet fibres + 1 flax twine, and 3 carpet fibres make the twine. Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left bare). Four bags cost 32 carpet fibres, 16 cuts with a shiv: make them before you go anywhere. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
 
 **Finding food**
 Food in the Lobby is what is in the sealed boxes, and nothing else. [Almond Water](item-backrooms:almondwater) fills you a little, heals 1 and steadies you (see [Reality Stability](gamemechanicinfo-temporalstability)); [crackers](item-backrooms:crackers) and [canned beans](item-backrooms:cannedbeans) fill you properly. You burn food walking, more running, and hardly at all standing still, so do not wander for the sake of it. The nearest plentiful food is Level 1's sealed crates: the first expedition out is for those. The dark, cold blackout zones of Level 0 keep food fresh (10 °C), so store it there. See [Food, Heat and Cold](backrooms-food).
@@ -87,13 +87,13 @@ PAGES["progression"] = ("Progression Guide", """
 *The way from a shard of glass to bronze is the usual one. Only the places are strange.*
 
 **Scavenger Age**
-Supply boxes, a glass blade, wallpaper strips and carpet fibres, four carpet bags, two flints: see the [Starter Survival Guide](craftinginfo-starterguide). Then the first expedition, to Level 1: bring back planks and food, and [make a home](backrooms-home) of the Lobby.
+Supply boxes, a glass shiv and a scraper, wallpaper strips and carpet fibres, four carpet bags, a torch: see the [Starter Survival Guide](craftinginfo-starterguide). Then the first expedition, to Level 1: bring back flint, planks and food, and [make a home](backrooms-home) of the Lobby.
 
 **Stone Age**
-[Knap](craftinginfo-knapping) a knife, an axe, a spear and a shovel from flint, or from the chert, andesite and granite lying loose on Level 1's concrete. Level 1's crates, pallets, plywood and workbenches are your first planks: split them for firewood, build a firepit and cook. Build a chest. Wood is the shortage of the early levels: there are no trees until the open-sky levels, and firewood comes from rotten wood (Level 0's ceiling voids), planks (furniture, from Level 1 on) and driftwood (Level 7).
+[Knap](craftinginfo-knapping) a knife, an axe, a spear and a shovel from flint (Level 1's crates and floors), or from the chert, andesite and granite lying loose on Level 1's concrete. Keep the shiv or the scraper for the wallpaper and carpet: they cut twice what a flint knife does. Level 1's crates, pallets, plywood and workbenches are your first planks: split them for firewood, build a firepit and cook. Build a chest. Wood is the shortage of the early levels: there are no trees until the open-sky levels, and firewood comes from rotten wood (Level 0's ceiling voids), planks (furniture, from Level 1 on) and driftwood (Level 7).
 
 **Pottery Age**
-Clay is the first thing you have to travel for. The nearest is the flooded tunnel under Level 3: climb down a manhole; the water is freezing and the tunnel drains your stability about as badly as anywhere, so dig and get out. Later sources: the beds of Level 10's ponds, rare pockets in Level 8's rock, and best of all Level 94, whose whole ground is modelling clay under a skin of turf. [Form](craftinginfo-clayforming) a crucible, tool moulds, a cooking pot, bowls, a watering can and storage vessels, and fire them in a pit kiln. Fire clay, for fire bricks, lies only in Level 94: see the Iron Age below. This is also the time to start [farming](gamemechanicinfo-farming) at home.
+Clay is the first thing you have to travel for. The nearest is the flooded tunnel under Level 3: climb down a manhole; the water is freezing and the tunnel drains your stability about as badly as anywhere, so dig and get out. Later sources: the beds of Level 10's ponds, rare pockets in Level 8's rock, and best of all Level 94, whose whole ground is modelling clay under a skin of turf. If you cannot face the tunnel yet, there is a slow way: the potted plants of Levels 4 and 5 break for soil and [pottery shards](item-backrooms:potshard) (about one a pot); 2 shards pounded with a stone make [ceramic grit](item-backrooms:ceramicgrit), and 2 grit + 1 soil make 1 blue clay, so some four plants to a clay. [Form](craftinginfo-clayforming) a crucible, tool moulds, a cooking pot, bowls, a watering can and storage vessels, and fire them in a pit kiln. Fire clay, for fire bricks, lies only in Level 94: see the Iron Age below. This is also the time to start [farming](gamemechanicinfo-farming) at home.
 
 **Early Copper Age**
 No mining needed. Break these for copper bits (20 metal bits = 1 ingot in the crucible):
@@ -223,6 +223,7 @@ PAGES["finding"] = ("Game Mechanic: Finding the Way", """
 
 **The map**
 Open it with {worldmaphud}. It shows only what you have actually seen: it fills in along your line of sight out to about 24 blocks, 4 in the dark (2 in Level 6), and remembers between sessions, so what you have mapped stays mapped. Walls block it. It marks "Where I woke up"; every doorway between levels you walk through and every elevator, stairwell, door or pit you take (with the way back where there is one); the places wanderers' notes tell of; chalk marks, in white; and sealed supply boxes and crates, in red. {rightmouse} the map to add waypoints of your own.
+How much the map helps is chosen when a world is created (*Backrooms map*, under Survival challenges). With *No waypoints* it fills in just the same but marks nothing for you. With *None* there is no map or minimap at all: you find your way or you don't. Without waypoints, what would have been marked is told to you instead, as a direction and a number of paces, and your journal keeps what the notes said; [chalk](item-backrooms:chalk) is how you find your way back, and with no map there is a little more of it in ceiling tiles and lost backpacks.
 
 **Gates**
 Where two levels meet the wall is solid, but every few hundred blocks along it there is a gate: two or three doorways side by side, each two blocks wide (in Level 1, under an EXIT sign). The first time you walk through one it is marked on your map. In Levels 0, 2 and 6 a hallway runs along the inside of the boundary wall: follow it and you will come to a gate, quietly, because the edge of a level is the most dangerous ground in it. The wall itself is not sacred below its roof line: a Level 0 boundary is papered drywall and breaks with any tool, a concrete one with a copper pickaxe, so with the right tool a wall is a slow way through rather than a dead end. Level 8 is solid rock, entered and left only where the 9th Road runs through it, and the open-sky levels (9, 10) have no wall between them at all.
@@ -240,7 +241,7 @@ Where two levels meet the wall is solid, but every few hundred blocks along it t
 - **Every note marks somewhere new.** A note never points at a place one of your earlier notes already marked while there is another to point at: the first supplies note marks the nearest unopened box, the next one the box after that, and so on outward; the same for gates, ways and refuges. Only when nothing else is in range does a note name a place again.
 - **Notes stack** by what they are about, 16 to a stack (a way through, a way out, supplies, a refuge; the folded notes together), so you can carry a bundle and read them where they will help, one at a time.
 - Some notes lie loose on the floor: at chalk-crossed dead ends, in the Manila Room and the Red Rooms, in Level 3's Sanctums and the Beverly Room, in the food courts, beside each arrival in Level !.
-- Every note you read goes into your **journal** ({journal}, or .journal): the wanderers' way, a chapter for each level, the folded notes, and the directions you have been given, each with where you read it and **Show on map** and **Mark again** for what it marked. It is kept for you, not carried: dying loses nothing.
+- Every note you read goes into your **journal** ({journal}, or .journal): the wanderers' way, a chapter for each level, the folded notes, and the directions you have been given, each with where you read it and, where the world has waypoints, **Show on map** and **Mark again** for what it marked. It is kept for you, not carried: dying loses nothing.
 - You wake with a note already in your pocket: the first page, marking the nearest sealed box.
 - Once you have read everything, a note is only its directions. Anything signed =) is a lie.
 
@@ -264,7 +265,7 @@ The Backrooms are a scavenger's world: nothing is mined or grown in the first si
 Supply boxes, crates, furniture, machines, ceiling tiles and light fixtures break like any block (hold {leftmouse}) and drop what is in them. Boxes and crates hold food; furniture holds planks, cloth, paper and metal; machines hold wire and copper. A sealed box or crate (lid on) is untouched; a torn or opened one was picked over long ago and never holds food. The list of what gives what is below.
 
 **Cutting (hold a blade, {rightmouse})**
-With any knife in hand (a [glass shiv](item-backrooms:glassshiv), an [improvised scraper](item-backrooms:scraper) or a flint knife), {rightmouse} a block to cut it. Each block gives one item and is left bare. A bare [glass shard](item-backrooms:glassshard) works too, but snaps one time in four.
+With any knife in hand (a [glass shiv](item-backrooms:glassshiv), an [improvised scraper](item-backrooms:scraper) or a flint knife), {rightmouse} a block to cut it, and it is left bare. The shiv and the scraper cut cleanly and give two of the item; any other knife gives one. A bare [glass shard](item-backrooms:glassshard) works too (one item), but snaps one time in four.
 - Level 0's wallpaper (yellow, pale, dotted, manila or red): a [wallpaper strip](item-backrooms:wallpaperstrip).
 - Level 0's dry carpet (normal or stained; not the soaked carpet of the blackouts, nor threadbare carpet): [carpet fibres](item-backrooms:carpetfibre).
 - The End's carpet: carpet fibres.
@@ -283,8 +284,8 @@ Walls, floors and fixtures break with the tool their material calls for, but the
 - **Never:** each level's roof (the solid top of it with nothing open above; in Level 0, the slab over the crawlspace, while the ceiling tiles and the crawlspace come down); the wall between two levels from that height up (below it, the wall breaks like any other); doors, elevators, vents, vending machines, fountains and anything else that leads elsewhere or gives something; Level 188's building; Level 3999's working machines, counters, doors and windows. The block info says so when you look at one.
 
 **Backrooms recipes**
-- [Glass shiv](item-backrooms:glassshiv) (knife, 60 uses) = glass shard + wallpaper strip + carpet fibre
-- [Improvised scraper](item-backrooms:scraper) (knife, 180 uses) = metal bracket + wallpaper strip + 2 carpet fibres
+- [Glass shiv](item-backrooms:glassshiv) (knife, 60 uses, cuts two a block) = glass shard + wallpaper strip + carpet fibre
+- [Improvised scraper](item-backrooms:scraper) (knife, 180 uses, cuts two a block) = metal bracket + wallpaper strip + 2 carpet fibres
 - 1 dry grass = 2 wallpaper strips
 - 1 flax twine = 3 carpet fibres
 - [Carpet bag](item-backrooms:carpetbag) (3 slots) = 5 carpet fibres + 1 flax twine
@@ -300,6 +301,8 @@ Walls, floors and fixtures break with the tool their material calls for, but the
 - 2 [neon lamps](block-backrooms:l3999-neonlamp-magenta-north) (the glow bracelet's colour) = 2 neon tubing + 1 glow bracelet + 2 plastic scrap + 1 circuit board
 - 2 [glow bracelets](item-backrooms:l3999-glowband-lilac) (lilac) = 1 plastic scrap + 1 neon tubing
 - [Rubble masonry](block-backrooms:rubblemasonry) = 4 [rubble](item-backrooms:rubble) (2 by 2): a rough block to build with
+- [Ceramic grit](item-backrooms:ceramicgrit) = 2 [pottery shards](item-backrooms:potshard) + any stone (the stone is kept)
+- 1 blue clay = 2 ceramic grit + 1 soil: about four potted plants' worth, so a slow clay for those not yet ready for Level 3's tunnel
 Knives and axes are not used up by these, only worn.
 
 **Vanilla recipes you will want early**
@@ -328,7 +331,7 @@ Knives and axes are not used up by these, only worn.
 - **Rope and twine:** crates, toolboxes, tents, tool shelves, lost backpacks.
 - **Bandages:** medical cabinets, hospital beds, lost backpacks.
 - **Coal:** coal piles (about 6), by Level 3's generators and in Level 5's boiler halls; they also hold Firesalt. **Charcoal:** crates, barbecue grills.
-- **Seeds:** seed sacks (Level 9's sheds, Level 10's barns); seed packets (tool shelves, kitchen cupboards, now and then a supply box). **Soil:** potted plants.
+- **Seeds:** seed sacks (Level 9's sheds, Level 10's barns); seed packets (tool shelves, kitchen cupboards, now and then a supply box). **Soil:** potted plants, which also give pottery shards.
 - **Pry bars:** tool shelves, toolboxes, workbenches; or make one.
 - **Wanderers' notes:** supply boxes, torn boxes, desks, filing cabinets, writing desks, tents, bedrolls, and above all lost backpacks. Folded notes from the places named in [Finding the Way](backrooms-finding).
 - **A real bed:** a hotel bed's head end.
@@ -389,7 +392,7 @@ Only sealed boxes and crates hold food; most were found torn or prised open long
 See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties.
 
 **World settings**
-When a world is created, *Backrooms scarcity* (under Survival challenges) scales the food and Almond Water in every box, crate, cupboard and fridge: Plentiful doubles it, Sparse leaves six parts in ten. Notes and tools are not affected.
+When a world is created, *Backrooms scarcity* (under Survival challenges) sets how much food and drink the Backrooms leave you: Plentiful doubles it, Sparse leaves six parts in ten, Scarce about a third. It scales everything you can eat or drink, Almond Water among it, in every box, crate, cupboard and fridge; how much the vending machines, water coolers, fountains and Kitty's fridge and pantry hold, and how soon they refill (on Scarce, what refills does so after three weeks rather than one, and about one in three of Level 4's vending machines and water coolers is empty from the start); and how much livestock grazes in Level 10. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops, vegetable patches and berry bushes bear less too (by the scarcity the world was created with, even if it is changed later). Seeds, notes and tools are not affected. *Backrooms map* sets how much the map helps (see [Finding the Way](backrooms-finding)).
 """)
 
 PAGES["levels"] = ("The Levels: 0 to 11", """
@@ -406,7 +409,7 @@ The levels nest around the place you woke: Level 0 at the centre, Level 1 around
 
 **Level 3, the Electrical Station.** Hot (35 °C) brick, tile and machinery: carry food. Cramped tangles and stooping squeezes, wide galleries, vast transformer halls, and Sanctums of ashlar stone where nothing hostile goes. Cable spools, stacked pipes, industrial fans, coal heaped by the generators (with Firesalt in it), clay in the flooded tunnels below the manholes (which drain you nearly as fast as a Red Room: dig and get out). Drains you. Elevators. Dullers in the walls, Clumps, Skin-Stealers.
 
-**Level 4, the Abandoned Office.** Quiet and safe, and it restores you. Furniture for planks and paper, fridges, Almond Water on tap from the fountains and coolers, toolboxes with the odd copper tool, potted plants for soil. A few vending machines take you instead of serving you. Elevators and stairwells stand together in building cores, with restrooms. Wanderers' outposts. Dullers reach through its walls.
+**Level 4, the Abandoned Office.** Quiet and safe, and it restores you. Furniture for planks and paper, fridges, Almond Water on tap from the fountains and coolers, toolboxes with the odd copper tool, potted plants for soil and pottery shards (a slow clay: see [Salvage](backrooms-salvage)). A few vending machines take you instead of serving you. Elevators and stairwells stand together in building cores, with restrooms. Wanderers' outposts. Dullers reach through its walls.
 
 **Level 5, the Terror Hotel.** Beds (the head end comes away as a real bed), clothes, linen, silver and brass, coal in the boiler halls (42 °C, with scalding sumps underfoot). The lobby is neutral, the corridors wear on you, the boiler halls badly; the Beverly Room is safe and restores you. Elevators; a few of its locked doors open; the staff stairs behind an open STAFF door lead to Level 6, and the grand staircases by a lobby's front desk back up to Level 4. Hounds, Skin-Stealers, moths.
 
@@ -736,11 +739,11 @@ Shapes at the very edge of your sight in the corridors and the courtyard, gone w
 # ====================================================================================================================
 
 BRIDGES["knapping"] = """
-**In the Backrooms:** there are no stones lying about in the Lobby. [Flint](item-flint) comes from sealed supply boxes (about two in five hold one), and Level 1's broken concrete has flint, chert, andesite and granite lying loose; Level 8's cave floors have stones too, and the ground under every floor holds flint as any world does. Knapping itself is unchanged. Until you have two flints, a [glass shiv](item-backrooms:glassshiv) is your knife: see [Salvage](backrooms-salvage).
+**In the Backrooms:** there are no stones lying about in the Lobby, and [flint](item-flint) is a Level 1 find: Level 1's crates hold it and its broken concrete has flint, chert, andesite and granite lying loose (a Lobby supply box holds one only about one time in twenty); Level 8's cave floors have stones too, and the ground under every floor holds flint as any world does. Knapping itself is unchanged. Until you have two flints, a [glass shiv](item-backrooms:glassshiv) or an [improvised scraper](item-backrooms:scraper) is your knife, and for wallpaper and carpet it stays the better one: see [Salvage](backrooms-salvage).
 """
 
 BRIDGES["clayforming"] = """
-**In the Backrooms:** clay is the first thing you have to travel for. The nearest is the flooded tunnel under Level 3 (down a manhole; cold, and it drains your stability badly), then the beds of Level 10's ponds, rare pockets in Level 8's rock, and above all Level 94, whose hills are modelling clay under a skin of turf (about 3 clay a block, blue clay a little way down). Clay forming itself is unchanged. Fire clay, for fire bricks, the bloomery and the kilns, lies only in Level 94, in pale seams three to seven blocks under the turf: see the [Progression Guide](craftinginfo-progressionguide).
+**In the Backrooms:** clay is the first thing you have to travel for. The nearest is the flooded tunnel under Level 3 (down a manhole; cold, and it drains your stability badly), then the beds of Level 10's ponds, rare pockets in Level 8's rock, and above all Level 94, whose hills are modelling clay under a skin of turf (about 3 clay a block, blue clay a little way down). The potted plants of Levels 4 and 5 give a slow trickle without the trip: their pottery shards, pounded to grit with a stone and worked into soil, make about one clay for every four plants (see [Salvage](backrooms-salvage)). Clay forming itself is unchanged. Fire clay, for fire bricks, the bloomery and the kilns, lies only in Level 94, in pale seams three to seven blocks under the turf: see the [Progression Guide](craftinginfo-progressionguide).
 """
 
 BRIDGES["mealcooking"] = """
@@ -874,22 +877,30 @@ TUTORIAL = [
     # 7 shiv
     "Craft a <itemstack type=\"item\">backrooms:glassshiv</itemstack> <a href=\"handbook://item-backrooms:glassshiv\">glass shiv</a> in your crafting grid (open your inventory with <hk>inventorydialog</hk>): a glass shard, a wallpaper strip and a carpet fibre. It is a knife, and it does not snap.",
     # 8 fibres
-    "Bags next. With the shiv, cut {0} more <itemstack type=\"item\">backrooms:carpetfibre</itemstack> carpet fibres from the carpet.",
+    "Bags next. With the shiv, cut {0} more <itemstack type=\"item\">backrooms:carpetfibre</itemstack> carpet fibres from the carpet. It cuts cleanly: two fibres a block.",
     # 9 twine
     "Craft <itemstack type=\"item\">flaxtwine</itemstack> <a href=\"handbook://item-flaxtwine\">twine</a> from 3 carpet fibres.",
     # 10 bag
-    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 5 carpet fibres and the twine. Put it in one of the 4 bag slots on the right of your inventory. You will want four of them, which is 32 cuts of carpet.",
-    # 11 flint
-    "Stone tools need <itemstack type=\"item\">flint</itemstack> <a href=\"handbook://item-flint\">flint</a>, and the Lobby has none lying about: find {0} in sealed supply boxes (lid taped down, red on your map; your note marked one). Level 1's concrete has flint and stones loose on the floor.",
-    # 12 knap
-    "<hk>shift</hk> + <icon>rightmousebutton</icon> a flint onto the floor, then again with the second flint, choose the knife blade and tap it out: <a href=\"handbook://craftinginfo-knapping\">knapping</a>, as in any world. Make {0} <itemstack type=\"item\">knifeblade-flint</itemstack> knife blade.",
-    # 13 knife
-    "Craft a <itemstack type=\"item\">knife-generic-flint</itemstack> <a href=\"handbooksearch://knife\">flint knife</a>: the blade and a stick. Sticks come from supply boxes, from rotten wood out of broken ceiling tiles, and now and then from a broken wall.",
+    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 5 carpet fibres and the twine. Put it in one of the 4 bag slots on the right of your inventory. You will want four of them, which is 32 carpet fibres.",
+    # 11 scraper
+    "Craft an <itemstack type=\"item\">backrooms:scraper</itemstack> <a href=\"handbook://item-backrooms:scraper\">improvised scraper</a>: a <itemstack type=\"item\">backrooms:metalbracket</itemstack> metal bracket, a wallpaper strip and 2 carpet fibres. Brackets fall now and then from dead lights, ceiling tiles and supply boxes. Like the shiv it cuts two strips or fibres a block, and it lasts three times as long.",
+    # 12 tinder
+    "Tinder: craft {0} <itemstack type=\"item\">drygrass</itemstack> <a href=\"handbook://item-drygrass\">dry grass</a> from 2 wallpaper strips. The Lobby has almost no firewood, and no flint either: dry grass and sticks are what fire starts with here.",
+    # 13 torch
+    "Craft a <itemstack type=\"block\">torch-basic-extinct-up</itemstack> torch: 2 dry grass above a stick. Sticks come from supply boxes, from rotten wood out of broken ceiling tiles, and now and then from a broken wall. Light it at a fire; a lit torch keeps things back where a candle only lights the dark.",
     # 14 map
     "Open the map with {0}. It shows only what you have seen, and remembers it. 'Where I woke up' is your home: you will wake there whenever you die, wherever you are.",
     # 15 handbook
-    "That is the Lobby's whole toolkit. Fire, food, the way to Level 1, the gear by your health and what lives in the dark are all in the handbook: press {0} and read the <a href=\"handbook://craftinginfo-starterguide\">Starter Guide</a>. Good luck, and don't run.",
+    "That is the Lobby's whole toolkit. Stone tools wait for Level 1: <a href=\"handbook://item-flint\">flint</a> is rare in the Lobby's boxes, but Level 1's crates hold it and its concrete floors have flint and stones lying loose; then <a href=\"handbook://craftinginfo-knapping\">knap</a> a knife and an axe. Fire, food, the way to Level 1, the gear by your health and what lives in the dark are all in the handbook: press {0} and read the <a href=\"handbook://craftinginfo-starterguide\">Starter Guide</a>. Good luck, and don't run.",
 ]
+
+# Steps 2 and 14 where the world's Backrooms map setting is not the default (BackroomsTutorial.JournalStep, MapStep):
+# keyed by the lang suffix. Step 2's stands for both No waypoints and None
+TUTORIAL_MAP = {
+    "2-nowaypoints": "There is a wanderer's note in your pocket. With it in your hand, <icon>rightmousebutton</icon> to read it: it tells you which way the nearest unopened supply box lies, and how many paces. Every note you read is kept in your journal, directions and all; press {0} to open it.",
+    "14-nowaypoints": "Open the map with {0}. It shows only what you have seen, and remembers it, but in this world it marks nothing for you: <icon>rightmousebutton</icon> on it to add waypoints of your own. Where you woke up is your home: you will wake there whenever you die, wherever you are.",
+    "14-nomap": "There is no map in this world: you find your way or you don't. Where you woke up is your home: you will wake there whenever you die, wherever you are, so learn the way back to it. A note gives a direction and a number of paces, and your journal ({0}) keeps them. Chalk arrows on the walls point to the ways through; leave your own with <itemstack type=\"item\">backrooms:chalk</itemstack> <a href=\"handbook://item-backrooms:chalk\">surveyor's chalk</a>, from crumbled ceiling tiles.",
+}
 
 TUTORIAL_STARTED = "Backrooms: First Steps is on screen. Hide it with .tutorial hud; find it again under Tutorials in the handbook (H)."
 
@@ -912,6 +923,8 @@ def fill():
     for code, text in BRIDGES.items():
         LANG[f"guide-bridge-{code}"] = to_vtml(text)
     for n, text in enumerate(TUTORIAL, 1):
+        LANG[f"tutorial-backrooms-{n}"] = text
+    for n, text in TUTORIAL_MAP.items():
         LANG[f"tutorial-backrooms-{n}"] = text
     LANG["tutorial-backrooms-started"] = TUTORIAL_STARTED
 
@@ -942,6 +955,7 @@ def check():
     bad = []
     texts = [(code, text) for code, (_, text) in PAGES.items()] + list(BRIDGES.items())
     texts += [(f"tutorial-{n}", text) for n, text in enumerate(TUTORIAL, 1)]
+    texts += [(f"tutorial-{n}", text) for n, text in TUTORIAL_MAP.items()]
     for code, text in texts:
         targets = re.findall(r"\]\(((?:item|block)-backrooms:[^)]+)\)", text)
         targets += re.findall(r'handbook://((?:item|block)-backrooms:[^"]+)', text)

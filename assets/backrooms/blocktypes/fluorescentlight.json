@@ -35,7 +35,7 @@
 	},
 	// Only dead fixtures can be pulled down, for their glass
 	dropsByType: {
-		"*-off": [{ type: "item", code: "glassshard", quantity: { avg: 1.5, var: 0.5 } }, { type: "item", code: "metalbracket", quantity: { avg: 0.25, var: 0 } }, { type: "item", code: "scrapwire", quantity: { avg: 0.3, var: 0 } }],
+		"*-off": [{ type: "item", code: "glassshard", quantity: { avg: 1.5, var: 0.5 } }, { type: "item", code: "metalbracket", quantity: { avg: 0.12, var: 0 } }, { type: "item", code: "scrapwire", quantity: { avg: 0.3, var: 0 } }],
 		"*-flicker": [{ type: "block", code: "fluorescentlight-off" }],
 		"*-lit": [{ type: "block", code: "fluorescentlight-on" }]
 	},

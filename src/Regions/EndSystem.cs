@@ -426,7 +426,8 @@ public class EndSystem : ModSystem
 
 /// <summary>
 /// One of The End's computers: right-click to turn it on. It buzzes, shows THE END in white, turns to static, and is
-/// dead for good. Before it dies it marks on your map the nearest ways out of The End that open (up to three). One in
+/// dead for good. Before it dies it marks on your map the nearest ways out of The End that open (up to three; told as
+/// which way and how far where the map setting makes no waypoints). One in
 /// four (never the central hall's) says "=)" instead, and whoever turned it on is taken to Level Fun.
 /// </summary>
 public class BlockBehaviorEndTerminal : BlockBehavior
@@ -473,11 +474,13 @@ public class BlockBehaviorEndTerminal : BlockBehavior
             }, 3000);
             return true;
         }
-        // Before it dies, it shows the floor plan: the nearest ways out that open
+        // Before it dies, it shows the floor plan: the nearest ways out that open. (Where the map setting makes no
+        // waypoints, the plan line comes first and each way is told after it, as which way and how far)
         var exits = layout.EndExitsNear(pos.X, pos.Z, 400, (x, z) => threshold?.EndExitOpens(x, z) ?? true, 3);
+        if (exits.Count > 0)
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(MapSetting.Waypoints(sapi.World.Config) ? "backrooms:endterminal-marked" : "backrooms:endterminal-marked-nomap"), EnumChatType.Notification);
         foreach (var (x, z) in exits)
             MapMarks.Add(sapi, player, new Vec3d(x + 0.5, pos.Y, z + 0.5), Lang.Get("backrooms:waypoint-endterminal"), "star1", MapMarks.NoteColor, 4);
-        if (exits.Count > 0) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:endterminal-marked"), EnumChatType.Notification);
         sapi.Event.RegisterCallback(_ =>
         {
             Swap(sapi, pos, "static");
@@ -543,6 +546,12 @@ public class ItemCatalogueCard : Item
 {
     public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
     {
+        if (blockSel != null && byEntity.Controls.ShiftKey)
+        {
+            // Shift + right-click on the floor sets the card down (its GroundStorable behaviour) instead of reading it
+            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+            if (handling != EnumHandHandling.NotHandled) return;
+        }
         if (!firstEvent) return;
         handling = EnumHandHandling.PreventDefault;
         if (api.Side != EnumAppSide.Server || (byEntity as EntityPlayer)?.Player is not IServerPlayer player || api is not ICoreServerAPI sapi) return;
@@ -564,7 +573,7 @@ public class ItemCatalogueCard : Item
         int step = d < 60 ? 10 : d < 300 ? 25 : 50, paces = Math.Max(step, (int)Math.Round(d / step) * step);
         int variant = (int)(Hashing.Hash((ulong)api.World.Seed, ax, az, 0x16F1) % 3) + 1;
         player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get($"backrooms:note-endexit-{variant}", direction, paces), EnumChatType.Notification);
-        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Lang.Get("backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4);
+        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Lang.Get("backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4, tell: false);
         byEntity.World.PlaySoundAt(new AssetLocation("game:sounds/effect/writing"), byEntity, null, randomizePitch: true, range: 8);
         slot.TakeOut(1);
         slot.MarkDirty();

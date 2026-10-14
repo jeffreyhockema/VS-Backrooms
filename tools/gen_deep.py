@@ -4,8 +4,8 @@ import math
 import os
 
 import deep_textures
-from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, name,
-                        prop, shape, wall_family, write_json)
+from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
+                        name, prop, shape, wall_family, write_json)
 from gen_detail import carton, cube_block, plate
 
 
@@ -47,6 +47,7 @@ def food(code, english, satiety, category, desc, health=0, stack=16, extra=None)
     data.update(TRANSFORMS)
     if extra:
         data.update(extra)
+    ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "deep", code + ".json"), data, english)
     LANG[f"item-{code}"] = english
     LANG[f"itemdesc-{code}"] = desc
@@ -98,9 +99,10 @@ def level6():
     data = {"code": "chalk", "class": "BackroomsChalk", "maxstacksize": 1, "durability": 48,
             "texture": {"base": "item/chalk"}, "creativeinventory": {"general": ["*"], "items": ["*"]}}
     data.update(TRANSFORMS)
+    ground_storable(data, "Halves", ctrl=True)  # a tool: set down with ctrl + shift, as vanilla's are
     write_json(os.path.join(ASSETS, "itemtypes", "deep", "chalk.json"), data, "Surveyor's chalk: marks walls. The one thing in Level 6 that stays where you left it")
     LANG["item-chalk"] = "Surveyor's Chalk"
-    LANG["itemdesc-chalk"] = "Right-click a wall to leave a mark: an arrow, a cross or a circle. Choose which with the tool mode key (F). Marks show on your map. Found in crumbled ceiling tiles, or made from a chalk stone."
+    LANG["itemdesc-chalk"] = "Right-click a wall to leave a mark: an arrow, a cross or a circle. Choose which with the tool mode key (F). Marks show on your map, if the world has one. Found in crumbled ceiling tiles, or made from a chalk stone."
     write_json(os.path.join(ASSETS, "recipes", "grid", "chalk.json"), {
         "ingredientPattern": "T", "ingredients": {"T": {"type": "item", "code": "game:stone-chalk", "quantity": 1}},
         "width": 1, "height": 1, "output": {"type": "item", "code": "chalk", "quantity": 1}})

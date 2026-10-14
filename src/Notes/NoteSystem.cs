@@ -422,14 +422,18 @@ public partial class NoteSystem : ModSystem
             dirty = true;
         }
         if (!online) return; // (the marks are in their journal, to mark again)
+        // (The note's own words give the way, so a world without waypoints needs no more telling)
         foreach (NoteMark m in found)
-            MapMarks.Add(sapi, player, new Vec3d(m.X + 0.5, player.Entity.Pos.Y, m.Z + 0.5), m.Title, m.Icon, rare ? RareColor : MapMarks.NoteColor, 4);
+            MapMarks.Add(sapi, player, new Vec3d(m.X + 0.5, player.Entity.Pos.Y, m.Z + 0.5), m.Title, m.Icon, rare ? RareColor : MapMarks.NoteColor, 4, tell: false);
         SendLog(player);
         foreach (NoteMark m in found)
             player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(m.Ps, Lang.Get("backrooms:dir-" + m.Dir), m.Paces), EnumChatType.Notification);
         // ("Marked: ...", now that the marks are on the map, a moment after the note itself)
         if (request.ReadId > 0)
-            foreach (NoteMark m in found) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:journal-marked", m.Title), EnumChatType.Notification);
+        {
+            if (MapSetting.Waypoints(sapi.World.Config))
+                foreach (NoteMark m in found) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:journal-marked", m.Title), EnumChatType.Notification);
+        }
         else
         {
             serverChannel.SendPacket(new ShowNotePacket { Id = read.Id }, player);
@@ -490,7 +494,7 @@ public partial class NoteSystem : ModSystem
     /// </summary>
     private void OnMarkAgain(IServerPlayer player, MarkAgainPacket packet)
     {
-        if (player?.Entity == null || packet == null) return;
+        if (player?.Entity == null || packet == null || !MapSetting.Waypoints(sapi.World.Config)) return;
         if (!logs.TryGetValue(player.PlayerUID, out NoteLog log) || log.Find(packet.Id) is not { } read) return;
         List<NoteMark> ms = read.Marks;
         if (packet.Mark < 0 || packet.Mark >= ms.Count) return;

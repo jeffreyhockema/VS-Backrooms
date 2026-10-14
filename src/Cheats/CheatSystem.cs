@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using Backrooms.Entities;
@@ -10,10 +13,10 @@ using Backrooms.Worldgen;
 namespace Backrooms.Cheats;
 
 /// <summary>
-/// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, clear, home, find, nearest,
-/// director, stat, exposure, noise, die, light); the client side (CheatSystem.Client.cs) is a menu (F7, or <c>.cheats</c>)
-/// whose buttons send those and the other debug commands, so every action still goes through the server's privilege
-/// check, plus a few view cheats that only touch the client.
+/// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, allitems, clear, home, back,
+/// find, nearest, director, stat, exposure, noise, die, light, fogspell); the client side (CheatSystem.Client.cs) is a
+/// menu (F7, or <c>.cheats</c>) whose buttons send those and the other debug commands, so every action still goes
+/// through the server's privilege check, plus a few view cheats that only touch the client.
 /// </summary>
 public partial class CheatSystem : ModSystem
 {
@@ -55,6 +58,8 @@ public partial class CheatSystem : ModSystem
         // purpified thing in a Level 3 wall, from two blocks in front of it, looking at it)
         ("tram", "Level 2 dead tram", 384, 1024),
         ("purpified", "Level 3 purpified", 384, 1024),
+        // (Down a Level 3 manhole: in the flooded tunnel at the foot of the rungs, looking at them, to test the ladder)
+        ("manhole", "Level 3 manhole ladder", 384, 1024),
         // (Layout version 5: a Level 10 field's shed, trough or fallen gate, from four blocks south of it; a Level 11
         // billboard, from the street in front of its building; an advertising pillar, from three blocks south-east of
         // it; Level 94's castle, from the radius blocks south of it, looking north at it on the horizon)
@@ -95,20 +100,45 @@ public partial class CheatSystem : ModSystem
         ("sleepingbag", "Sleeping bag", 1024, 4096),
     };
 
+    /// <summary>The targets that are part of play; the rest are camera spots for the screenshots, and the manhole test.</summary>
+    public static readonly string[] GameplayTargets = { "gate", "threshold", "cache", "refuge", "den", "redroom" };
+
     public static readonly string[] Stats = { "health", "food", "stability" };
 
-    // A modest kit for getting about and testing the survival systems
-    private static readonly (string Code, int Quantity)[] Kit =
+    /// <summary>What <c>/backrooms kit</c> gives, by kind (testing when none is given).</summary>
+    public static readonly (string Code, string Name, (string Code, int Quantity)[] Things)[] Kits =
     {
-        ("game:torch-basic-lit-up", 8),
-        ("game:candle", 4),
-        ("backrooms:almondwater", 8),
-        ("backrooms:cannedbeans", 4),
-        ("backrooms:prybar", 1),
-        ("backrooms:chalk", 1),
-        ("backrooms:glassshiv", 1),
-        ("backrooms:firesalt", 4),
+        // A modest kit for getting about and testing the survival systems
+        ("testing", "Testing kit", new[]
+        {
+            ("game:torch-basic-lit-up", 8), ("game:candle", 4), ("backrooms:almondwater", 8), ("backrooms:cannedbeans", 4),
+            ("backrooms:prybar", 1), ("backrooms:chalk", 1), ("backrooms:glassshiv", 1), ("backrooms:scraper", 1), ("backrooms:firesalt", 4),
+        }),
+        // For a long walk: a bag, and light, water and food for a few days
+        ("explorer", "Explorer kit", new[]
+        {
+            ("backrooms:carpetbag", 1), ("game:torch-basic-lit-up", 16), ("backrooms:almondwater", 12), ("backrooms:cannedbeans", 6),
+            ("backrooms:crackers", 6), ("backrooms:prybar", 1), ("backrooms:chalk", 2), ("backrooms:glassshiv", 1), ("backrooms:scraper", 1),
+            ("backrooms:firesalt", 6), ("game:firestarter", 1),
+        }),
+        // Scrap metal in a crucible: the scrap, a fired crucible and ingot mould, and firewood and charcoal for a firepit
+        ("crucible", "Crucible test kit", new[]
+        {
+            ("backrooms:scrapwire", 10), ("backrooms:l3999-circuitboard", 2), ("backrooms:l3999-coinmech", 5), ("game:crucible-blue-fired", 1),
+            ("game:ingotmold-blue-fired", 1), ("game:firewood", 4), ("game:charcoal", 16), ("game:firestarter", 1),
+        }),
+        // Pottery shards to clay: shards, grit, soil and a stone, and two ficus to break for more shards
+        ("pottery", "Pottery test kit", new[]
+        {
+            ("backrooms:potshard", 8), ("backrooms:ceramicgrit", 2), ("game:soil-low-none", 2), ("game:stone-granite", 1), ("backrooms:ficus", 2),
+        }),
     };
+
+    /// <summary>
+    /// Where each player was before their last cheat teleport (goto, find, nearest, home, back), for
+    /// <c>/backrooms back</c>. Kept for the session only.
+    /// </summary>
+    private readonly Dictionary<string, Vec3d> backs = new();
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
@@ -141,9 +171,20 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnHealCommand)
             .EndSubCommand()
             .BeginSubCommand("kit")
-                .WithDescription("Gives you a testing kit: light, food, a pry bar, chalk, a shiv and Firesalt")
+                .WithDescription("Gives you a kit: testing (the default: light, food, a pry bar, chalk, a shiv, a scraper and Firesalt), explorer (a bag and supplies for a long walk), crucible (scrap metal, a fired crucible and what heats it) or pottery (shards, grit, soil, a stone, ficus)")
                 .RequiresPlayer()
+                .WithArgs(parsers.OptionalWordRange("kind", Kits.Select(k => k.Code).ToArray()))
                 .HandleWith(OnKitCommand)
+            .EndSubCommand()
+            .BeginSubCommand("allitems")
+                .WithDescription("Puts one of every Backrooms item into chests beside you (or beside the floor at x z), for checking how they look set down on the ground")
+                .WithArgs(parsers.OptionalInt("x"), parsers.OptionalInt("z"))
+                .HandleWith(OnAllItemsCommand)
+            .EndSubCommand()
+            .BeginSubCommand("back")
+                .WithDescription("Takes you back to where you were before your last cheat teleport (goto, find, nearest, home or back)")
+                .RequiresPlayer()
+                .HandleWith(OnBackCommand)
             .EndSubCommand()
             .BeginSubCommand("light")
                 .WithDescription("Puts a lit light in your hand (the active hotbar slot; what was there goes to your bags): candle, torch or lantern (default)")
@@ -225,8 +266,9 @@ public partial class CheatSystem : ModSystem
     private TextCommandResult OnKitCommand(TextCommandCallingArgs args)
     {
         IPlayer player = args.Caller.Player;
+        var kit = Kits.First(k => k.Code == (args.Parsers[0].IsMissing ? "testing" : (string)args[0]));
         int given = 0;
-        foreach ((string code, int quantity) in Kit)
+        foreach ((string code, int quantity) in kit.Things)
         {
             var location = new AssetLocation(code);
             CollectibleObject collectible = (CollectibleObject)sapi.World.GetItem(location) ?? sapi.World.GetBlock(location);
@@ -239,7 +281,86 @@ public partial class CheatSystem : ModSystem
             if (!player.InventoryManager.TryGiveItemstack(stack, true)) sapi.World.SpawnItemEntity(stack, player.Entity.Pos.XYZ);
             given++;
         }
-        return TextCommandResult.Success($"Gave {given} kinds of things");
+        return TextCommandResult.Success($"{kit.Name}: gave {given} kinds of things");
+    }
+
+    /// <summary>
+    /// One of every item in the backrooms domain (every variant), in chests put down round a spot on the floor, for
+    /// looking at them set down on the ground. What finds no room in a chest is dropped there.
+    /// </summary>
+    private TextCommandResult OnAllItemsCommand(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
+        Entity caller = args.Caller.Entity;
+        BlockPos at;
+        if (!args.Parsers[0].IsMissing && !args.Parsers[1].IsMissing)
+        {
+            int x = (int)args[0], z = (int)args[1];
+            int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
+            at = new BlockPos(x, geometry.FloorFor(level) + (int)Math.Floor(layout.ArrivalHeight(x, z)), z);
+        }
+        else if (caller != null) at = caller.Pos.AsBlockPos;
+        else return TextCommandResult.Error("From the console, give x and z");
+
+        if (sapi.World.BlockAccessor.GetChunkAtBlockPos(at) != null) return PutAllItems(at);
+        // Not loaded (from the console): load it, and put them down once it is
+        IServerPlayer player = args.Caller.Player as IServerPlayer;
+        int group = args.Caller.FromChatGroupId;
+        sapi.WorldManager.LoadChunkColumnPriority(at.X / GlobalConstants.ChunkSize, at.Z / GlobalConstants.ChunkSize, new ChunkLoadOptions
+        {
+            OnLoaded = () =>
+            {
+                TextCommandResult result = PutAllItems(at);
+                if (player != null) player.SendMessage(group, result.StatusMessage, EnumChatType.CommandSuccess);
+                else sapi.Logger.Notification("[backrooms] allitems: {0}", result.StatusMessage);
+            },
+        });
+        return TextCommandResult.Success("That column is not loaded yet. Loading it; the chests follow once it is.");
+    }
+
+    private TextCommandResult PutAllItems(BlockPos at)
+    {
+        Block chest = sapi.World.GetBlock(new AssetLocation("game:chest-east"));
+        if (chest == null) return TextCommandResult.Error("No game:chest-east in this game");
+        IBlockAccessor ba = sapi.World.BlockAccessor;
+        var stacks = new Queue<ItemStack>(sapi.World.Items.Where(i => i?.Code?.Domain == "backrooms").OrderBy(i => i.Code.Path).Select(i => new ItemStack(i)));
+        int items = stacks.Count, chests = 0;
+        // Round the spot, ring by ring: any open block with a solid floor under it, never the spot itself
+        for (int r = 1; r <= 4 && stacks.Count > 0; r++)
+            for (int dz = -r; dz <= r && stacks.Count > 0; dz++)
+                for (int dx = -r; dx <= r && stacks.Count > 0; dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
+                    BlockPos pos = at.AddCopy(dx, 0, dz);
+                    if (ba.GetBlock(pos).Id != 0 || ba.GetBlock(pos, BlockLayersAccess.Fluid).Id != 0 || !ba.GetBlock(pos.DownCopy()).SideSolid[BlockFacing.UP.Index]) continue;
+                    ba.SetBlock(chest.Id, pos);
+                    if (ba.GetBlockEntity(pos) == null) ba.SpawnBlockEntity(chest.EntityClass, pos);
+                    if (ba.GetBlockEntity(pos) is not BlockEntityContainer container) continue;
+                    chests++;
+                    for (int slot = 0; slot < container.Inventory.Count && stacks.Count > 0; slot++)
+                    {
+                        container.Inventory[slot].Itemstack = stacks.Dequeue();
+                        container.Inventory[slot].MarkDirty();
+                    }
+                    container.MarkDirty(true);
+                }
+        int dropped = stacks.Count;
+        foreach (ItemStack stack in stacks) sapi.World.SpawnItemEntity(stack, at.ToVec3d().Add(0.5, 0.5, 0.5));
+        return TextCommandResult.Success($"{items} items in {chests} chests round {FromSpawn(at.X, at.Z)}" + (dropped > 0 ? $"; {dropped} found no room and were dropped" : ""));
+    }
+
+    /// <summary>Notes where a player is, for <c>/backrooms back</c>, before a cheat teleport takes them away.</summary>
+    public void RememberBack(IServerPlayer player, Vec3d from)
+    {
+        if (player?.PlayerUID != null && from != null) backs[player.PlayerUID] = from.Clone();
+    }
+
+    private TextCommandResult OnBackCommand(TextCommandCallingArgs args)
+    {
+        var player = (IServerPlayer)args.Caller.Player;
+        if (!backs.TryGetValue(player.PlayerUID, out Vec3d to)) return TextCommandResult.Error("No cheat teleport to go back from this session");
+        Teleport(player, to.X, to.Y, to.Z);
+        return TextCommandResult.Success($"Back at {FromSpawn((int)Math.Floor(to.X), (int)Math.Floor(to.Z))} (back again returns you)");
     }
 
     /// <summary>
@@ -292,7 +413,7 @@ public partial class CheatSystem : ModSystem
         var player = (IServerPlayer)args.Caller.Player;
         FuzzyEntityPos home = player.GetSpawnPosition(false);
         if (home == null) return TextCommandResult.Error("You have nowhere to wake up");
-        player.Entity.TeleportToDouble(home.X, home.Y, home.Z);
+        Teleport(player, home.X, home.Y, home.Z);
         return TextCommandResult.Success("Back where you woke up");
     }
 
@@ -452,6 +573,16 @@ public partial class CheatSystem : ModSystem
                     detail = $" (heading {PierHeading(wall.Pier, true)} looks at it)";
                 }
                 break;
+            case "manhole":
+            {
+                if (level != 3) return TextCommandResult.Error("Manholes are in Level 3");
+                if (layout.NearestManhole(gx, gz, radius) is not { } m) { found = null; break; }
+                // Down in the shaft itself, on the tunnel's clay floor (rel -5) in its knee-deep water, the rungs on the
+                // shaft's north side in front of you (WorldGenerator.BelowFloor): walk forward to climb
+                int md = (int)Math.Sqrt((double)(m.X - gx) * (m.X - gx) + (double)(m.Z - gz) * (m.Z - gz));
+                Teleport((IServerPlayer)args.Caller.Player, m.X + 0.5, geometry.FloorFor(level) - 4 + 0.05, m.Z + 0.5);
+                return TextCommandResult.Success($"{target.Name} (heading 0 looks at the rungs), {md} blocks from where you were ({FromSpawn(m.X, m.Z)})");
+            }
             case "fieldthing":
                 if (level != 10) return TextCommandResult.Error("That is in Level 10");
                 found = NearestTile(gx, gz, radius, level, t => t.Variant is Worldgen.Props.WaterTrough or Worldgen.Props.FallenGate
@@ -798,7 +929,14 @@ public partial class CheatSystem : ModSystem
     }
 
     private void Teleport(IServerPlayer player, int x, int z, int level) =>
-        player.Entity.TeleportToDouble(x + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(x, z), z + 0.5);
+        Teleport(player, x + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(x, z), z + 0.5);
+
+    /// <summary>Every cheat teleport goes through here, so <c>/backrooms back</c> can undo it.</summary>
+    private void Teleport(IServerPlayer player, double x, double y, double z)
+    {
+        RememberBack(player, player.Entity.Pos.XYZ);
+        player.Entity.TeleportToDouble(x, y, z);
+    }
 
     /// <summary>A position as the HUD shows it, relative to spawn.</summary>
     private string FromSpawn(int x, int z) => $"{x - sapi.World.DefaultSpawnPosition.X:0}, {z - sapi.World.DefaultSpawnPosition.Z:0}";

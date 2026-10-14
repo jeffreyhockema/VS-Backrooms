@@ -63,8 +63,11 @@ public class ProtectionSystem : ModSystem
 
     public override void AssetsFinalize(ICoreAPI api)
     {
-        (int structure, int fixedCount) = Breakdown.Apply(api);
-        if (api.Side == EnumAppSide.Server) api.Logger.Notification("[backrooms] {0} structural block types break down; {1} never break", structure, fixedCount);
+        (int structure, int fixedCount, var kept, var replaced) = Breakdown.Apply(api);
+        if (api.Side != EnumAppSide.Server) return;
+        api.Logger.Notification("[backrooms] {0} structural block types break down; {1} never break", structure, fixedCount);
+        api.Logger.Notification("[backrooms] Breakdown: {0} block types keep their own drops ({1}); {2} with drops of their own break down by their class ({3})",
+            kept.Count, string.Join(", ", kept), replaced.Count, string.Join(", ", replaced));
     }
 
     public override void StartServerSide(ICoreServerAPI api)

@@ -146,7 +146,11 @@ public class BackroomsModSystem : ModSystem
         // (e.g. /setspawn) can never change the layout of chunks that are not generated yet
         int spawnMacroX = WorldLayout.MacroOf(sapi.WorldManager.MapSizeX / 2);
         int spawnMacroZ = WorldLayout.MacroOf(sapi.WorldManager.MapSizeZ / 2);
-        layout = new WorldLayout(sapi.WorldManager.Seed, spawnMacroX, spawnMacroZ, BackroomsWorld.LayoutVersion(sapi.World));
+        layout = new WorldLayout(sapi.WorldManager.Seed, spawnMacroX, spawnMacroZ, BackroomsWorld.LayoutVersion(sapi.World),
+            BackroomsWorld.WorldgenFoodScale(sapi.World));
+        if (layout.Version >= 7)
+            sapi.Logger.Notification("[backrooms] Worldgen thins crops by {0} (fixed for this world); scarcity {1} scales food by {2}",
+                (float)layout.FoodScale, sapi.World.Config.GetString(Salvage.ScarcitySystem.ConfigKey, "normal"), Salvage.ScarcitySystem.FoodScale(sapi.World));
         generator = new WorldGenerator(sapi, layout);
 
         // Y coordinates on the HUD are shown relative to sea level, so this makes the Level 0 floor read as y=0
@@ -299,9 +303,12 @@ public class BackroomsModSystem : ModSystem
         if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
-        return thresholds.Send((IServerPlayer)args.Caller.Player, level, key, null)
-            ? TextCommandResult.Success($"Sent to Level {WorldLayout.DisplayNumber(level)}")
-            : TextCommandResult.Error($"Found nowhere to arrive in Level {WorldLayout.DisplayNumber(level)}");
+        var player = (IServerPlayer)args.Caller.Player;
+        Vec3d from = player.Entity.Pos.XYZ;
+        if (!thresholds.Send(player, level, key, null)) return TextCommandResult.Error($"Found nowhere to arrive in Level {WorldLayout.DisplayNumber(level)}");
+        // (For /backrooms back)
+        sapi.ModLoader.GetModSystem<Cheats.CheatSystem>()?.RememberBack(player, from);
+        return TextCommandResult.Success($"Sent to Level {WorldLayout.DisplayNumber(level)}");
     }
 
     private TextCommandResult OnShiftCommand(TextCommandCallingArgs args)
@@ -391,10 +398,10 @@ public class BackroomsModSystem : ModSystem
         return TextCommandResult.Success($"Level 0, zone: {zone}, stability {stability:0.00}");
     }
 
-    /// <summary>Marks where a player first woke up, so there is always one known place to find on the map.</summary>
+    /// <summary>Marks where a player first woke up, so there is always one known place to find on the map (unless the map setting makes no waypoints).</summary>
     private void OnPlayerCreate(IServerPlayer player)
     {
-        if (!isBackroomsWorld) return;
+        if (!isBackroomsWorld || !Backrooms.Map.MapSetting.Waypoints(sapi.World.Config)) return;
         WaypointMapLayer waypoints = sapi.ModLoader.GetModSystem<WorldMapManager>()?.MapLayers.OfType<WaypointMapLayer>().FirstOrDefault();
         PlayerSpawnPos spawn = sapi.WorldManager.SaveGame.DefaultSpawn;
         if (waypoints == null || spawn == null) return;

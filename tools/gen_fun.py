@@ -2533,8 +2533,9 @@ def item_shapes():
         "elements": [hat]})
 
 
-def write_item(code, data, comment):
-    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), data, comment)
+def write_item(code, data, comment, **ground):
+    """Writes an item type, set down on the floor as `ground` says (detail_kit.ground_storable's arguments)."""
+    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), detail_kit.ground_storable(data, **ground), comment)
     WRITTEN["itemtypes"].append(code)
 
 
@@ -2581,7 +2582,9 @@ def items():
         "tpHandTransform": {"translation": {"x": -0.75, "y": -0.1, "z": -0.6}, "rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 0.9},
         "fpHandTransform": {"translation": {"x": 0.1, "y": -0.6, "z": 0}, "rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 1.6},
         "groundTransform": {"translation": {"x": 0, "y": 0, "z": 0}, "rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2.4},
-    }, "A red balloon on a string: what the Partygoers' new interns carry")
+    }, "A red balloon on a string: what the Partygoers' new interns carry",
+        # Tied to the floor, a block high (it is two as modelled)
+        layout="SingleCenter", scale=0.5, box=(0, 0, 0, 0, 0, 0), select=(0.3, 0, 0.3, 0.7, 1, 0.7))
     LANG["item-fun-balloon-red"] = "Red Balloon"
     LANG["itemdesc-fun-balloon-red"] = "A red balloon on a string. With a party hat on, from a few steps away, you could pass for one of them. Don't run."
 
@@ -2598,7 +2601,9 @@ def items():
         "tpHandTransform": {"translation": {"x": -0.97, "y": -3, "z": -1}, "rotation": {"x": -13, "y": -80, "z": 12}, "origin": {"x": 0.5, "y": 1.5, "z": 0.5}, "scale": 0.55},
         "guiTransform": {"translation": {"x": 0, "y": 0, "z": 19}, "rotation": {"x": 174, "y": -45, "z": 23}, "origin": {"x": 0.52, "y": 1.6, "z": 0.5}, "scale": 1.99},
         "groundTransform": {"translation": {"x": 0.05, "y": -1.1, "z": 0}, "rotation": {"x": -2, "y": 0, "z": -4}, "origin": {"x": 0.5, "y": 0.5, "z": 0.53}, "scale": 4},
-    }, "A paper party hat with an elastic and a pompom: head-slot clothing")
+    }, "A paper party hat with an elastic and a pompom: head-slot clothing",
+        # Modelled on the head: brought to the middle of the block with its brim on the floor (the elastic hangs under it)
+        height=0.6, transform={"translation": {"x": 0.328, "y": -0.303, "z": 0.344}})
     LANG["item-fun-partyhat-*"] = "Party Hat"
     LANG["itemdesc-fun-partyhat-*"] = "A paper cone hat on an elastic, with a pompom. Wear it with a red balloon in hand and, beyond a few steps, they may take you for one of their own."
 

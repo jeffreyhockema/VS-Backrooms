@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Backrooms.Salvage;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -13,8 +14,9 @@ namespace Backrooms.Deep;
 /// Living things, only where they belong: fish in Level 7's sea, raccoons, foxes and hares in the Suburbs, and
 /// livestock in Level 10's pastures. The other levels have no animals (Level 8's caves had drifters once; the code
 /// for finding a dark cave floor is kept for a level that wants it). Spawning is kept to a small number around each
-/// player, and the vanilla creatures despawn by their own rules. The Backrooms' own entities (Smilers, Hounds and the
-/// rest) are put down by <see cref="Backrooms.Entities.MenaceSystem"/>.
+/// player, and the vanilla creatures despawn by their own rules. Livestock is food, so the world's Backrooms scarcity
+/// (<see cref="ScarcitySystem"/>) scales how many stand about and how often more come. The Backrooms' own entities
+/// (Smilers, Hounds and the rest) are put down by <see cref="Backrooms.Entities.MenaceSystem"/>.
 /// </summary>
 public class CreatureSystem : ModSystem
 {
@@ -27,6 +29,8 @@ public class CreatureSystem : ModSystem
     private sealed class Spawns
     {
         public int Cap;
+        /// <summary>Kept as food: the cap and the odds of more coming follow the world's Backrooms scarcity.</summary>
+        public bool Food;
         public (string Prefix, double Weight)[] Kinds;
         public EntityProperties[][] Resolved;
         public HashSet<string> Codes;
@@ -45,6 +49,7 @@ public class CreatureSystem : ModSystem
         [10] = new Spawns
         {
             Cap = 6,
+            Food = true,
             Kinds = new[] { ("chicken-hen", 0.3), ("chicken-rooster", 0.05), ("pig-eurasian-adult-", 0.2), ("sheep-mouflon-adult-", 0.25), ("goat-nubian-adult-", 0.2) },
         },
         // (The five kept as 14-18, and Levels 3999 and 188, have no animals. A level that should gives itself an entry here, keyed by its
@@ -54,6 +59,7 @@ public class CreatureSystem : ModSystem
     private ICoreServerAPI sapi;
     private WorldLayout layout;
     private WorldGeometry geometry;
+    private float foodScale = 1;
     private readonly BlockPos tmp = new(0);
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
@@ -66,6 +72,7 @@ public class CreatureSystem : ModSystem
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
+            foodScale = ScarcitySystem.FoodScale(api.World);
             Resolve();
             api.Event.RegisterGameTickListener(OnTick, (int)(IntervalSeconds * 1000));
         });
@@ -93,10 +100,14 @@ public class CreatureSystem : ModSystem
             if (player.WorldData.CurrentGameMode == EnumGameMode.Spectator) continue;
             EntityPos pos = player.Entity.Pos;
             int level = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(pos.X)), WorldLayout.MacroOf((int)Math.Floor(pos.Z)));
-            if (!ByLevel.TryGetValue(level, out Spawns spawns) || sapi.World.Rand.NextDouble() < 0.4) continue;
+            if (!ByLevel.TryGetValue(level, out Spawns spawns)) continue;
+            // Livestock: on Scarce two at most round a player, coming a third as often (on Plentiful, twice as many)
+            float food = spawns.Food ? foodScale : 1;
+            if (sapi.World.Rand.NextDouble() >= 0.6 * Math.Min(1, food)) continue;
+            int cap = spawns.Food ? Math.Max(1, (int)Math.Round(spawns.Cap * food)) : spawns.Cap;
 
             int count = sapi.World.GetEntitiesAround(pos.XYZ, CountRadius, 64, e => e.Alive && spawns.Codes.Contains(e.Code.ToString())).Length;
-            if (count >= spawns.Cap) continue;
+            if (count >= cap) continue;
             TrySpawn(level, spawns, pos);
         }
     }
