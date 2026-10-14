@@ -47,6 +47,14 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B4) On grey concrete keep `matlib.concrete`'s `patch_hue` and `hue` at 1.5 or less and aggregate at about 0.03, or it
   goes teal and olive with a coloured speckle at 2 blocks.
 
+- (B5) A Reality Shift started in the review world never ends with the clock stopped and blacks out enclosed levels in
+  every later session; `batch.py`'s header now runs `/backrooms shift 0` and `/backrooms stat stability 1`.
+- (B5) Alternates of a large plain surface must share their low-frequency ground (same seed), only features differ,
+  or the wall reads as a patchwork of block squares.
+- (B5) A painted copy of a 3D feature beside the real one (a pipe band under pipe runs) reads as D; remove it.
+- (B5) A block with no facing can carry modelled hardware on all four sides (`modelkit.turn`); against walls it is
+  buried. Small vents want tilted louvres (`gen_shapes.louvre`), not `modelkit.grille` bars.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -56,7 +64,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B2 material kit | gfx/B2 | merged | 1 | concrete B-, basket weave, Berber, glass unverified | passed 2026-10-13 (Fable): models, ceiling, paper, carpet at B; B4 must push concrete (larger pour patches, more hue) |
 | B3 Level 0 | gfx/B3 | merged | 3 | papers, carpet, Red Rooms (same/worse: user decides in decisions.md); troffer sides; gate concrete to B4 | passed 2026-10-13 23:30 (Fable): merged for per-family decision; round-2 troffer darkening was what the user played |
 | B4 Level 1 | gfx/B4 | merged | 2 | steel door as model, floors/ceiling C+, pillar body, tent fly, emptied crate; cars/cameras/signs/first-aid untouched | passed 2026-10-14 02:00 (Fable): floor grid gone, walls formed; Level 1 baseline reshot (B0 one was brighter) |
-| B5 Level 2 | gfx/B5 | in progress | | | |
+| B5 Level 2 | gfx/B5 | merged | 2 | tunnel concrete/ceiling C+, door leaf painted, tram body C+; hazard panels, drums, trolley untouched | passed 2026-10-14 03:15 (Fable): gauges and tram verified as geometry on sidebyside |
 | B6 Level 3 | | not started | | | |
 | B7 Level 4 | | not started | | | |
 | B8 Level 5 | | not started | | | |
@@ -590,3 +598,92 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B11` from `main`, uncommitted. Two
 - A gable fill that must match the wall needs world-aligned UVs on the step faces (east u = 16 - z, west u = z, v = 16 - y). `preview_shapes.auto_uv` documents the same convention.
 - `tools/shotbot/compare.py --only` takes exact names, not patterns. `sidebyside.py` reads one folder each side, so a two-level batch copies its shots into prefixed folders first (`review/b11/sbs/`).
 - The client now writes 3840x2160 shots, while older baselines are 1920x1080. `compare.py` and `sidebyside.py` scale them, but compare brightness on resized copies.
+
+### B5
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B5` from `main`, uncommitted. Two rounds: one blind review (round 1), then a fix and a reshoot. The round-2 grades are mine.
+
+- **Final sheets:** `review/b5/compare-round2.jpg` (every spot) and `review/b5/compare-round2-detail.jpg` (18 key spots at twice the size). After shots are in `review/b5/final/`. Round 1 is in `review/b5/compare-round1*.jpg`.
+- **Per-family pairs:** `review/b5/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B5.json`. The B5 section is added to `review/compare.html`.
+- **Decision table:** seven rows added to `decisions.md`, decision column empty.
+- **Texsheets and model previews:** `review/b5/texsheets/`.
+
+**Checks**
+- Build: 0 warnings.
+- `layouthash`: v1 and v4 match B4's output line for line (`review/b5/layouthash-v*.txt`).
+- `validatelevel 2`: 0 unreachable, 0 doorways to nowhere, 0 blocked (`review/b5/validate2.txt`).
+- No C# changed. Nothing under `assets/game/` changed. No block, item or entity code, variant group or class was renamed or removed, and no generator-placed block changed. The doors keep their codes and switch from `drawtype: cube` to `json`, so the batch was shot in `gfxreview`.
+- `check_zfight` is clean on every new shape. The one hit left, `deadtram-front` Cab/Roof south faces, was already there.
+- Brightness: every final shot is within 1.7 levels of the new baseline (`review/b5/luma-final.txt`).
+
+**Baseline and spots**
+- `review/baseline/2` was reshot on `build-gfxbase` (unchanged `main`) at the start. The B0 set is kept in `review/baseline/2-b0`. It differed by 2-6 levels, mostly from B4's shared floor (`review/b5/drift-b0-vs-main.jpg`).
+- Six spots were added to `spots/2.json`, found lit with the harness `shotgrid`:
+  - `machinery-close` and `machinery-wide` (the hero 07 view)
+  - `cabinet-close`
+  - `door-close`
+  - `brick-close`
+  - `tram-inspection`: daylight and lantern. The tram stands in an unlit stretch, so this shot judges the model only.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Machinery wall cabinets (hero 07) | B (blind r1: B-) | better | All hardware is geometry from `modelkit`:<br>- two dials (printed face, octagonal bezel, needle, hub)<br>- red and amber lamps<br>- an equipment plate<br>- a louvred vent with tilted blades (`gen_shapes.louvre`)<br>- a bar handle, a lock and a warning decal<br>- a cap, a gland and conduits<br>- a frame-and-panel door on a toe-recessed plinth<br>The blind reviewer: "now read as geometry". Round 2 made the paint grimy and darker. |
+| Free-standing machine cabinets | B- (blind r1: C) | better | The same kit, in one block. Round 1's body was lighter and too clean ("green appliances"). Round 2 darkened and dirtied it, gave the top a dusty texture of its own, and made the bezels smaller and darker. In Level 3 too (not reshot). |
+| Dead tram, cab front (hero 06) | B- | better | Windows set back in the frame, with seals and wipers; a barred grille; two headlamps in bezels under visors. The band has its own key, so it lines up with the sides. The blind reviewer: "read clearly at 4-6 blocks". |
+| Tram body, hood, wheels, rails | C+ | better | Painted metal gone to rust, with grime and runs. The hood's painted grilles are louvred grilles now. Wheels read round (a square plus the square turned 45 degrees). Rails have a foot, web and head. The logo and the window glare are still painted. |
+| Tunnel concrete walls | C+ (blind r1: C, same/worse) | same to slightly better | Round 1 was noisier. Round 2 has a quieter aggregate and broad soot. The three versions share one ground, so the round-2 test's block squares are gone. The lift line is in one version only. |
+| Brick panels | B- | better | `matlib.brick`: shaded bricks, a hue for each, recessed 2 px joints, soot. Same mean. |
+| Ceiling | C+ (blind r1: D) | better | The painted pipe band is removed (round 1 had shaded it). It is plain soot-stained concrete in three versions. |
+| Wall-pipe flanges and brackets | B- | same | Rusted paint, banded light and dark, bolt heads. Hardly visible at distance. The pipes are unchanged. |
+| Steel doors | C+ (blind r1: C) | better | Lever, kick plate, hinges and window bead are geometry, on all four sides of the leaf (no facing needed). The leaf is repainted with rust at the foot only. Round 2 made the hardware dark scuffed steel and the number larger. |
+| Candle stubs, machine parts | C | slightly better | The gear is a toothed disc in geometry. Candles have a pool, a run and a hollow top. They are too small in every shot to judge. |
+
+**Rounds**
+1. **Round 1, blind:**
+   - Better: the cabinets' hardware, the tram front, the brick and the door handle.
+   - D for the ceiling's painted pipe band.
+   - C for the free-standing cabinet body (lighter and clean).
+   - C for the concrete (noisier, the one-block repeat showing).
+   - Doors: the kick plate did not read and the number was a blur.
+   - No layout change. Brightness matched except the cabinets.
+2. **Round 2 fixed those items:**
+   - Pipe band removed.
+   - Darker, grimy cabinet paint and smaller, darker bezels.
+   - Quieter concrete with soot.
+   - Seam-free versions.
+   - Dark kick plate and a larger number.
+   - Grime and rust runs on the tram.
+
+**Carried below B, with reasons**
+- **Tunnel concrete and ceiling (C+):** a dark, plain cast surface. The tie holes sit on the block grid, as they did before, and moving them is the next step. B4's lesson on large surfaces applies.
+- **Steel doors (C+):** the leaf is a cube with paint, as vanilla's iron door is. The four-sided hardware is the most a facing-less block allows.
+- **Tram body (C+):**
+  - The logo is lettering at 6 px, stretched over the side.
+  - The window glare is painted.
+  - The rear is in no shot.
+- **Not touched, for budget:**
+  - hazard warning panels (C; a stair-step halo; the blind reviewer flagged them)
+  - oil drums (C)
+  - tunnel lights (kept as before, B3's lesson)
+  - overhead pipe bundles (B)
+  - the trolley and the wagon's load
+- **Shared assets:**
+  - The floor is `concretefloor-plain` (B4's), unchanged here.
+  - `machinecabinet` also stands in Level 3.
+  - `wallpipe-flange` is also on Level 3's wall pipes.
+  - Neither of those levels was reshot.
+- **The old cube textures** `tunnelwall-machinery.png` and `props/cabinet-front.png` are still written, but no Level 2 face uses them. The blind reviewer saw the first on the texsheet only.
+
+**Tool change:** `tools/shotbot/batch.py` header now also runs `/backrooms shift 0` and `/backrooms stat stability 1` (see Lessons).
+
+**Lessons**
+- A Reality Shift that starts in the review world never ends while `batch.py` holds the clock stopped, because it runs in in-game hours. It blacks out every enclosed level, and the save keeps it, so later sessions inherit it.
+  - Two later Level 2 runs came out 10-45 levels darker, and one came out 4-10 levels brighter as the shift changed state.
+  - The header now ends any shift and fills stability.
+  - Before a review, compare every shot's mean brightness. If a whole run moves, retake it before judging anything.
+- Alternates of a large plain surface must share their low-frequency ground (the same `matlib.concrete` seed), with only the features differing. Otherwise each block's mottle differs and the wall reads as a patchwork of squares at 2-3 blocks.
+- A painted copy of a 3D feature that hangs right beside the real one (the ceiling's pipe band under the pipe runs) reads as D painted-3D. Shading it makes it worse. B4's "keep and shade" lesson holds only where nothing modelled stands next to it.
+- A block with no facing (a door, a wall prop) can still carry modelled hardware. Put it on all four sides with `modelkit.turn`, as the pipe walls do; on the sides against walls it is buried. This is the way to model B4's `metaldoor` hardware without a new code, and it needs a fresh look at lighting in the shots (the doors here lit the same as the cubes).
+- `modelkit.grille`'s bars overlap into a solid plate when the opening is under about 3 units tall. Small vents want tilted louvre blades (`gen_shapes.louvre`).

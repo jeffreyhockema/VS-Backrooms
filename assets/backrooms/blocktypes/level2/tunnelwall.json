@@ -37,6 +37,9 @@
 		"*-machinerybase": { wall: { base: "block/level2/tunnelwall-plain" } },
 		"*-pipesjoint": { wall: { base: "block/level2/tunnelwall-plain" } },
 		"*-pipesbracket": { wall: { base: "block/level2/tunnelwall-plain" } },
+		// Plain walls in three versions (B5: the second with lime bloom at the lift line, the third with a damp patch and a
+		// rust run from a tie), not turned: the lift line and the tie holes keep their place
+		"*-plain": { all: { base: "block/level2/tunnelwall-plain", alternates: [{ base: "block/level2/tunnelwall-plain-2" }, { base: "block/level2/tunnelwall-plain-3" }] } },
 		"*": { all: { base: "block/level2/tunnelwall-{type}" } }
 	},
 	resistance: 8,

@@ -31,6 +31,12 @@
     {"name": "pipewrap-wide", "tp": [512176.92, 217.05, 509084.19], "look": [195, 8], "target": "pipewrap", "distance": 5.5},
     {"name": "pipewrap-close", "tp": [512174.5, 217.05, 509087.77], "look": [150, 21], "target": "pipewrap", "distance": 2.0},
     {"name": "pipeend-wide", "tp": [512130.5, 217.05, 509100.5], "look": [180, 11], "target": "pipeend", "distance": 6.0},
-    {"name": "pipeend-close", "tp": [512130.5, 217.05, 509104.5], "look": [180, 31], "target": "pipeend", "distance": 2.0}
+    {"name": "pipeend-close", "tp": [512130.5, 217.05, 509104.5], "look": [180, 31], "target": "pipeend", "distance": 2.0},
+    {"name": "machinery-close", "tp": [512193.5, 217.05, 509080.5], "look": [270, -4], "target": "machinery wall (B5)", "distance": 2.4},
+    {"name": "machinery-wide", "tp": [512192.5, 217.05, 509094.5], "look": [0, -4], "target": "machinery row (B5, as hero 07)"},
+    {"name": "cabinet-close", "tp": [512130.5, 217.05, 509071.5], "look": [90, -30], "target": "machine cabinet (B5)", "distance": 1.5},
+    {"name": "door-close", "tp": [512113.5, 217.05, 509105.5], "look": [180, -6], "target": "steel door (B5)", "distance": 2.5},
+    {"name": "brick-close", "tp": [512185.5, 217.05, 509124.5], "look": [0, -2], "target": "brick wall (B5)", "distance": 2.5},
+    {"name": "tram-inspection", "tp": [512199.5, 217.05, 508993.5], "look": [270, -8], "target": "tram (B5)", "distance": 2.5, "inspection": true}
   ]
 }

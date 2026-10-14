@@ -10,6 +10,8 @@ from PIL import Image, ImageDraw
 
 from detail_kit import GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
 from detail_textures import S, noise, rgb, save, text
+import matlib as M
+import modelkit as K
 from gen_deep import door_block, drops, threshold
 from gen_detail import carton, cube_block, plate
 import fire_fx
@@ -33,65 +35,144 @@ DOOR_PAINTS = {
 
 
 def tunnel_door(paint, body, edge, kick, ink, number):
+    """(B5) A steel door's leaf, painted: `matlib.painted_metal` in the door's paint with chips to grey primer, the
+    2 px edge shaded as a frame (lit top and left, dark where it meets the leaf), rust creeping up from the floor on the
+    lower half and weeping from the hinges on the upper, the wired glass and the stencilled number. The lever handle,
+    the kick plate, the hinges and the window's bead are geometry now (`tunnel_door_shape`); `kick` is no longer
+    painted."""
     suffix = f"-{paint}" if paint else ""
+    base = T.hexrgb(body)
     for part in ("lower", "upper"):
-        img = noise(body, 5, "tunneldoor" + paint + part)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(edge), width=2)
+        img = M.painted_metal(seed_of("tunneldoor" + paint + part), base=base, grain=3, mottle=5, panel=False, chips=3,
+                              under=(118, 116, 108))
+        px = img.load()
+        frame = T.hexrgb(edge)
+        for y in range(S):
+            for x in range(S):
+                if x < 2 or x >= S - 2 or (part == "upper" and y < 2) or (part == "lower" and y >= S - 2):
+                    px[x, y] = M.rgba(M.lift(frame, (x < 2) * 6 - (x >= S - 2) * 6 + (y < 2) * 6))
+        for y in range(S):  # the leaf's edge in the frame's shadow
+            M.touch(img, 2, y, -0.12)
+            M.touch(img, S - 3, y, 0.05)
+        if part == "upper":
+            for x in range(2, S - 2):
+                M.touch(img, x, 2, -0.12)
         if part == "lower":
-            d.rectangle([4, 20, S - 5, 27], fill=rgb(kick))                     # kick plate
-            d.rectangle([22, 2, 27, 5], fill=rgb(0x9A9A92))                     # lever handle
-            d.rectangle([25, 5, 27, 8], fill=rgb(0x7A7A72))
-            T.blotch(img, (8, 30), 9, (120, 66, 34), 0.75, seed_of("tdr1"))     # rust
-            T.blotch(img, (24, 31), 6, (96, 52, 28), 0.7, seed_of("tdr2"))
+            clean = img.copy()
+            M.grime(img, 0.5, seed_of("tdr1" + paint), color=(120, 66, 34), bias="bottom", cover=0.45)  # rust from the floor
+            cp = clean.load()
+            for y in range(24):  # ... only up the lowest third of the leaf, fading out
+                t = max(0.0, (y - 14) / 10)
+                for x in range(S):
+                    px[x, y] = M.rgba(M.mix(cp[x, y][:3], px[x, y][:3], t))
+            M.grime(img, 0.14, seed_of("tdgrime" + paint), bias="bottom", cover=0.5)
         else:
-            d.rectangle([11, 6, 20, 17], fill=rgb(0x14181A))                    # wired glass, dark behind
-            for k in range(11, 21, 3):
-                d.line([k, 6, k, 17], fill=rgb(0x39403C))
-            for k in range(6, 18, 3):
-                d.line([11, k, 20, k], fill=rgb(0x39403C))
-            d.rectangle([10, 5, 21, 18], outline=rgb(edge))
-            text(img, "B-%02d" % number, (4, 21, S - 4, 29), ink, 6)
+            for y in range(6, 18):  # wired glass, dark behind, a faint sheen across it (its bead is geometry)
+                for x in range(11, 21):
+                    c = (22, 26, 28)
+                    if (x - 11) % 3 == 0 or (y - 6) % 3 == 0:
+                        c = (58, 64, 62)
+                    if 5 <= (x - 11) + (17 - y) <= 7:
+                        c = M.lift(c, 12)
+                    px[x, y] = M.rgba(c)
+            text(img, "B-%02d" % number, (3, 19, S - 3, 30), ink, 8)
             rng = random.Random(seed_of("tdstreak" + paint))
-            px = img.load()
             for _ in range(5):                                                  # rust weeping from the hinges
                 x = rng.choice((2, 3, 28, 29))
                 for y in range(rng.randint(0, 6), rng.randint(12, 26)):
                     px[x, y] = shade((110, 62, 34), rng.uniform(0.8, 1.1))
+        M.grime(img, 0.14, seed_of("tdage" + paint + part), cover=0.5)  # (round 2) older, dirtier paint
         save(img, f"tunneldoor{suffix}-{part}")
+
+
+def tunnel_door_shape(part):
+    """(B5) A steel door as a cube leaf with its hardware standing out of it. The block has no facing, so, as Level 2's
+    pipe walls do, the hardware is on all four sides; on the two that face the doorway's jambs it is buried in the wall.
+    Lower: a lever handle on its rose, a brushed kick plate with screws, a hinge. Upper: a steel bead round the wired
+    glass, a hinge. The leaf keeps the cube's texture key, named after its texture so the painted doors can swap it."""
+    key = f"tunneldoor-{part}"
+    if part == "lower":
+        hw = K.lever("Lever", 3.5, 13.5, 0, length=3.0, tex="doorsteel", side=1)
+        hw += K.kick_plate("Kick", 2.0, 14.0, 2.5, 6.0, 0, tex="doorsteel")
+        hw += K.hinge("Hinge", 15.25, 2.0, 5.0, 0, tex="doorsteel", side="right")
+    else:
+        hw = [K.box("BeadT", (5.0, 13.0, -0.5), (11.0, 13.5, 0), "doorsteel", faces=("north", "east", "west", "up", "down")),
+              K.box("BeadB", (5.0, 7.0, -0.5), (11.0, 7.5, 0), "doorsteel", faces=("north", "east", "west", "up", "down")),
+              K.box("BeadL", (5.0, 7.5, -0.5), (5.5, 13.0, 0), "doorsteel", faces=("north", "east", "west")),
+              K.box("BeadR", (10.5, 7.5, -0.5), (11.0, 13.0, 0), "doorsteel", faces=("north", "east", "west"))]
+        hw += K.hinge("Hinge", 15.25, 10.0, 13.0, 0, tex="doorsteel", side="right")
+    els = [bx("Leaf", (0, 0, 0), (16, 16, 16), key, full=True)]
+    for i in range(4):
+        els += [dict(e, name=f"{e['name']}{i}") for e in K.turn(hw, i)]
+    return shape(f"tunneldoor-{part}", els)
 
 
 def tram_textures():
     """Level 2's tramway (layout version 5): rusted rail, the B.N.T.G.'s locomotive in faded green with a yellow band
-    and its initials, its grimy cab glass and grilles; the candle stubs a den's visitors left."""
-    img = noise(0x5A3A26, 6, "tramrail")
-    T.blotch(img, (10, 10), 8, (120, 66, 34), 0.6, seed_of("tramrail1"))
-    T.blotch(img, (24, 24), 7, (70, 46, 30), 0.5, seed_of("tramrail2"))
-    save(img, "tramrail")
-    body = noise(0x3E5A44, 5, "trambody")
-    d = ImageDraw.Draw(body)
-    d.rectangle([0, 19, S - 1, 22], fill=rgb(0xC8A030))                       # the yellow band
-    d.line([0, 18, S - 1, 18], fill=rgb(0x283A2C))
-    for x in (0, 15, 31):                                                     # panel seams
-        d.line([x, 0, x, S - 1], fill=rgb(0x2C4032))
-    for k, (cx, cy, r) in enumerate(((6, 27, 6), (24, 8, 5), (20, 29, 7))):
-        T.blotch(body, (cx, cy), r, (110, 62, 32), 0.6, seed_of("tramrust%d" % k))
+    and its initials, its grimy cab glass and grilles; the candle stubs a den's visitors left.
+    (B5) The paint is `matlib.painted_metal` gone to rust in scattered patches (the model's faces show the texture from
+    its corner, so nothing is tied to the texture's edges), the band and lettering kept; the cab front's lower panel has
+    its own key (`tramfront`) so the band lines up with the sides; the glass is darker at the foot with a soft sheen; the
+    headlamp lens is its own key. The grilles, windows and lamps are geometry (`tramway`)."""
+    img = M.noise_hv((98, 60, 40), 4, seed_of("tramrail"), mottle=6)
+    M.rust(img, 0.45, seed_of("tramrail1"), pits=True)
+    save(T.match_mean(img, 66), "tramrail")
+    green = (62, 90, 68)
+
+    def paint(key, mean):
+        im = M.painted_metal(seed_of(key), base=green, grain=3, mottle=6, panel=False, chips=4, under=(92, 84, 72))
+        M.rust(im, 0.1, seed_of(key + "rust"), color=(122, 70, 40), dark=(78, 48, 32))
+        M.grime(im, 0.22, seed_of(key + "grime"), cover=0.55)
+        M.drips(im, 4, seed_of(key + "runs"), color=(104, 64, 40), length=(6, 16), strength=0.35)
+        return T.match_mean(im, mean)
+
+    def band(im, y0, y1):
+        px = im.load()
+        for y in range(y0, y1 + 1):
+            for x in range(S):
+                under = px[x, y]
+                d = (M.lum(under) - 84) * 0.5
+                px[x, y] = M.rgba(M.lift((196, 156, 52), d + (8 if y == y0 else -14 if y == y1 else 0)))
+        for x in range(S):
+            M.touch(im, x, y0 - 1, -0.25)
+            M.touch(im, x, y1 + 1, -0.12)
+
+    body = paint("trambody", 82)
     save(body, "trambody")
-    side = body.copy()
+    front = paint("tramfront", 82)
+    band(front, 18, 21)
+    save(front, "tramfront")
+    side = paint("trambodylogo", 82)
+    band(side, 19, 22)
+    M.emboss_lines(side, xs=(15,), strength=0.16)
+    for y in range(3, 17, 4):  # rivets down the panel seam
+        M.screw(side, 13, y, slot=False)
     text(side, "B.N.T.G.", (2, 24, S - 2, 31), 0xD8C890, 6)                # under the band, below the cab windows
     save(side, "trambodylogo")
-    glass = noise(0x1A2224, 4, "tramglass")
-    d = ImageDraw.Draw(glass)
-    d.line([3, 3, 12, 12], fill=rgb(0x3E4A4E), width=2)
-    T.blotch(glass, (24, 26), 7, (70, 66, 54), 0.5, seed_of("tramgrime"))
+    glass = M.noise_hv((24, 32, 34), 2, seed_of("tramglass"), mottle=3)
+    gp = glass.load()
+    for y in range(S):
+        for x in range(S):
+            k = (x + (S - y)) % 40
+            if 10 <= k <= 15:  # a soft sheen across the pane
+                M.touch(glass, x, y, 0.35 - abs(k - 12.5) * 0.08)
+            if y > 22:  # grime settled at the foot of the pane
+                gp[x, y] = M.rgba(M.mix(gp[x, y][:3], (64, 60, 50), (y - 22) / 18))
     save(glass, "tramglass")
+    lens = M.noise_hv((170, 166, 140), 2, seed_of("tramlens"), (16, 16), 2)
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5 / 7.5
+            M.touch(lens, x, y, 0.12 - 0.4 * d * d + (0.3 if (x - 5) ** 2 + (y - 5) ** 2 < 4 else 0))
+    save(lens, "tramlens")
     grille = noise(0x3E5A44, 4, "tramgrille")
     d = ImageDraw.Draw(grille)
     for y in range(3, S - 2, 4):
         d.rectangle([3, y, S - 4, y + 1], fill=rgb(0x14181A))
     save(grille, "tramgrille")
-    wax = noise(0xE6DCC0, 3, "candlewax")
-    T.blotch(wax, (16, 4), 8, (200, 186, 150), 0.4, seed_of("candlewax"))
+    # (B5) tallow, yellowed: a soft mottle with faint runs down it and a darker skin where it has been handled
+    wax = M.noise_hv((228, 216, 186), 2, seed_of("candlewax"), mottle=5)
+    M.drips(wax, 5, seed_of("candleruns"), color=(206, 190, 150), length=(8, 20), strength=0.3)
     save(wax, "candlewax")
 
 
@@ -100,6 +181,10 @@ def textures():
     # and the same doors "in various shades of white, grey and cream" (Wikidot), their numbers stencilled dark
     for paint, (body, edge, kick, ink, number) in DOOR_PAINTS.items():
         tunnel_door(paint, body, edge, kick, ink, number)
+    steel = M.brushed_metal(seed_of("doorsteel"), base=(92, 94, 92), grain=3)  # (B5) its hardware: dark, scuffed
+    M.scratches(steel, 6, seed_of("doorsteelscratch"))
+    M.grime(steel, 0.2, seed_of("doorsteelgrime"), cover=0.5)
+    save(steel, "doorsteel")
 
     # A dead security camera's housing, and its lens
     img = noise(0xD8D6CC, 3, "camerabody")
@@ -226,15 +311,26 @@ def level1():
 
 
 def level2():
-    door_block("tunneldoor", "Steel Door", "tunneldoor", "tunneldoor",
-               comment="A steel door off one of Level 2's tunnels. Most are locked. A few open, onto another level")
+    # (B5) Drawn from a shape (the leaf and its hardware), not as a cube; codes, groups and behaviour as before
+    shapes = {part: tunnel_door_shape(part) for part in ("lower", "upper")}
+    block("tunneldoor", {
+        "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
+        "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL,
+        "behaviors": threshold("tunneldoor")},
+        "A steel door off one of Level 2's tunnels. Most are locked. A few open, onto another level")
+    name("tunneldoor-*", "Steel Door")
     # The same door in white, grey or cream paint (the generator picks the paint by the door's place)
     paints = [p for p in DOOR_PAINTS if p]
     block("tunneldoorpaint", {
         "variantgroups": [{"code": "paint", "states": paints}, {"code": "part", "states": ["lower", "upper"]}],
         "creativeinventory": {"general": ["*"], "construction": ["*"]},
-        "blockmaterial": "Metal", "drawtype": "cube",
-        "textures": {"all": {"base": "block/detail/tunneldoor-{paint}-{part}"}},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
+        "texturesByType": {f"*-{part}": {f"tunneldoor-{part}": {"base": f"block/detail/tunneldoor-{{paint}}-{part}"}}
+                           for part in ("lower", "upper")},
         "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL,
         "behaviors": threshold("tunneldoor")},
         "A steel door off one of Level 2's tunnels, painted white, grey or cream. Most are locked. A few open, onto another level")
@@ -250,8 +346,8 @@ def level2():
          extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("metalbracket", 1.5, 0.5))},
          comment="A flatbed trolley left in a tunnel")
     prop("machineparts", "Machine Parts", [
-        bx("Gear", (1, 0, 2), (9, 1.2, 10), "gearflat", faces=("up",), full=True),
-        bx("GearEdge", (2.5, 0, 3.5), (7.5, 1.1, 8.5), "rust", faces=("north", "south", "east", "west")),
+    ] + gear(5, 6) + [  # (B5) the gear as a toothed disc, not a picture of one
+
         bx("Pipe", (9, 0, 3), (11.5, 2.5, 13), "rust", rot=(0, 25, 0), origin=(10, 1, 8)),
         bx("Plate", (3, 0, 10.5), (10, 0.6, 14.5), "steeldark", rot=(0, -12, 0), origin=(6.5, 0, 12.5)),
         bx("Coil", (12, 0, 10), (15, 2, 13), "copper"), bx("Bolt1", (12.5, 0, 4), (13.5, 1, 5), "steel"),
@@ -264,9 +360,76 @@ def level2():
 def track(z1=0.0, z2=16.0, sleepers=(1.5, 5.5, 9.5, 13.5), gone=()):
     """Narrow-gauge track along Z: two rails on sleepers, laid straight on the tunnel floor."""
     els = [bx(f"Sleeper{i}", (1.5, 0, z), (14.5, 0.8, z + 2), "wooddark") for i, z in enumerate(sleepers) if i not in gone]
-    for nm, x in (("RailL", 3.2), ("RailR", 11.8)):
+    for nm, x in (("RailL", 3.2), ("RailR", 11.8)):  # (B5) a rail profile: foot, web and head
         els += [bx(nm + "Foot", (x - 0.4, 0.8, z1), (x + 1.4, 1.1, z2), "tramrail"),
-                bx(nm, (x, 1.1, z1), (x + 1, 2.2, z2), "tramrail")]
+                bx(nm + "Web", (x + 0.25, 1.1, z1), (x + 0.75, 1.7, z2), "tramrail", faces=("east", "west")),
+                bx(nm, (x, 1.7, z1), (x + 1, 2.2, z2), "tramrail")]
+    return els
+
+
+def cab_front():
+    """(B5) The locomotive's cab front (north), as geometry: a lower panel carrying the livery band (`tramfront`, its
+    band level with the sides'), a vertical-barred grille between two headlamps in bezels under visors, and above it
+    two windows set back in the cab's frame (posts, sill and header lining the recess), each glass in a dark rubber
+    seal with a wiper parked on it."""
+    els = [bx("FrontPanel", (2, 5, 0.6), (14, 13, 2.0), "tramfront", faces=("north",), uv=[0, 8, 12, 16]),
+           bx("FrontSill", (2, 5, 0.6), (14, 13, 2.0), "trambody", faces=("up", "down")),
+           bx("Header", (2, 19.5, 0.6), (14, 22, 2.0), "trambody", faces=("north", "down"))]
+    for nm, (a, b), faces in (("PostL", (2, 3), ("north", "east")), ("PostM", (7.5, 8.5), ("north", "east", "west")),
+                              ("PostR", (13, 14), ("north", "west"))):  # (the outer posts' sides are the cab's sides)
+        els.append(bx(nm, (a, 13, 0.6), (b, 19.5, 2.0), "trambody", faces=faces))
+    for nm, (a, b) in (("L", (3, 7.5)), ("R", (8.5, 13))):
+        els.append(bx("Glass" + nm, (a, 13, 1.5), (b, 19.5, 1.75), "tramglass", faces=("north",), full=True))
+        els += [bx(f"Seal{nm}B", (a, 13, 1.0), (b, 13.5, 1.5), "blackmetal", faces=("north", "up")),
+                bx(f"Seal{nm}T", (a, 19.0, 1.0), (b, 19.5, 1.5), "blackmetal", faces=("north", "down")),
+                bx(f"Seal{nm}L", (a, 13.5, 1.0), (a + 0.5, 19.0, 1.5), "blackmetal", faces=("north", "east")),
+                bx(f"Seal{nm}R", (b - 0.5, 13.5, 1.0), (b, 19.0, 1.5), "blackmetal", faces=("north", "west"))]
+        wx = (a + b) / 2
+        els.append(bx("Wiper" + nm, (wx - 0.25, 13.6, 0.75), (wx + 0.25, 17.6, 1.0), "steeldark",
+                      faces=("north", "east", "west", "up"), rot=(0, 0, -28), origin=(wx, 13.85, 0.85)))
+    for nm, cx in (("L", 12.6), ("R", 3.4)):
+        cy = 8.0
+        els += K.bevelled_box("Lamp" + nm, (cx - 1.25, cy - 1.25, -0.6), (cx + 1.25, cy + 1.25, 0.6), "steeldark")
+        els.append(bx("Lens" + nm, (cx - 0.85, cy - 0.85, -0.85), (cx + 0.85, cy + 0.85, -0.6), "tramlens",
+                      faces=("north", "east", "west", "up", "down"), uv=[0, 0, 16, 16]))
+        els.append(bx("Visor" + nm, (cx - 1.5, cy + 1.25, -1.25), (cx + 1.5, cy + 1.75, 0.6), "steeldark",
+                      faces=("north", "east", "west", "up", "down")))
+    els += K.grille("Grille", (5.5, 6.25, -0.4), (10.5, 9.75, 0.6), "steeldark", bars=4, axis="v", frame=0.5,
+                    back="blackmetal")
+    return els
+
+
+def side_windows():
+    """(B5) A bead round each side window of the cab, standing out of the side, so the glass sits back in it."""
+    els = []
+    for nm, (x1, x2) in (("L", (1.45, 2.0)), ("R", (14.0, 14.55))):
+        els += [bx(f"Bead{nm}T", (x1, 19.5, 2.5), (x2, 20.0, 9.5), "steeldark"),
+                bx(f"Bead{nm}B", (x1, 12.5, 2.5), (x2, 13.0, 9.5), "steeldark"),
+                bx(f"Bead{nm}F", (x1, 13.0, 2.5), (x2, 19.5, 3.0), "steeldark", faces=("north", "south", "east", "west")),
+                bx(f"Bead{nm}A", (x1, 13.0, 9.0), (x2, 19.5, 9.5), "steeldark", faces=("north", "south", "east", "west"))]
+    return els
+
+
+def hood_grilles():
+    """(B5) The louvred grilles down both sides of the locomotive's hood, as geometry: a grille built facing north and
+    turned to the east side, and one turned to the west."""
+    east = K.turn(K.grille("GrilleE", (2, 10.5, 2), (11.5, 15, 3), "steeldark", bars=6, axis="v", frame=0.5,
+                           back="blackmetal"), 1)
+    west = K.turn(K.grille("GrilleW", (4.5, 10.5, 2), (14, 15, 3), "steeldark", bars=6, axis="v", frame=0.5,
+                           back="blackmetal"), 3)
+    return east + west
+
+
+def gear(cx, cz, r=3.0, y=1.0):
+    """(B5) A rusty gear lying flat at (cx, cz): a disc (a square and the same square turned 45 degrees), eight teeth
+    round it, each turned to face out, and a raised hub."""
+    els = [bx("GearDisc", (cx - r, 0, cz - r), (cx + r, y, cz + r), "rust"),
+           bx("GearDisc45", (cx - r + 0.05, 0, cz - r + 0.05), (cx + r - 0.05, y - 0.05, cz + r - 0.05), "rust",
+              faces=("north", "south", "east", "west", "up"), rot=(0, 45, 0), origin=(cx, 0, cz))]
+    for k in range(8):
+        els.append(bx(f"Tooth{k}", (cx - 0.5, 0, cz - r - 0.9), (cx + 0.5, y - 0.1, cz - r + 0.3), "rust",
+                      faces=("north", "east", "west", "up"), rot=(0, 22.5 + 45 * k, 0), origin=(cx, 0, cz)))
+    els.append(bx("GearHub", (cx - 1, 0, cz - 1), (cx + 1, y + 0.4, cz + 1), "steeldark", faces=("north", "south", "east", "west", "up")))
     return els
 
 
@@ -293,29 +456,29 @@ def tramway():
     name("tramrails-*", "Tram Rails")
 
     def bogie(z):
+        # (B5) each wheel a square and the same square turned 45 degrees (a hair thinner), so it reads round
+        cy, cz = 2.65, z + 1.75
         return [bx(f"Wheel{z}L", (2.6, 0.9, z), (3.6, 4.4, z + 3.5), "blackmetal"), bx(f"Wheel{z}R", (12.4, 0.9, z), (13.4, 4.4, z + 3.5), "blackmetal"),
+                bx(f"Wheel{z}L45", (2.65, 0.9, z), (3.55, 4.4, z + 3.5), "blackmetal", faces=("north", "south", "up", "down", "west"),
+                   rot=(45, 0, 0), origin=(3.1, cy, cz)),
+                bx(f"Wheel{z}R45", (12.45, 0.9, z), (13.35, 4.4, z + 3.5), "blackmetal", faces=("north", "south", "up", "down", "east"),
+                   rot=(45, 0, 0), origin=(12.9, cy, cz)),
                 bx(f"Axlebox{z}L", (1.8, 2, z + 1), (2.6, 3.4, z + 2.5), "rust"), bx(f"Axlebox{z}R", (13.4, 2, z + 1), (14.2, 3.4, z + 2.5), "rust")]
     frame = [bx("Frame", (2, 3.4, 0.4), (14, 5, 16), "steeldark")] + bogie(2) + bogie(10.5)
     front = track() + frame + [
         bx("Buffer", (1, 3, -0.2), (15, 6, 0.6), "redmetal"), bx("Coupler", (7, 3.6, -1.2), (9, 5, -0.2), "steeldark"),
-        bx("Cab", (2, 5, 0.6), (14, 22, 16), "trambody", faces=("north", "up", "down", "south")),
+        bx("Cab", (2, 5, 2.0), (14, 22, 16), "trambody", faces=("up", "down", "south")),
         bx("CabSideL", (2, 5, 0.6), (2.01, 22, 16), "trambodylogo", faces=("west",), full=True),
         bx("CabSideR", (13.99, 5, 0.6), (14, 22, 16), "trambodylogo", faces=("east",), full=True),
-        bx("WindowL", (3.2, 13, 0.3), (7.6, 19.5, 0.6), "tramglass", full=True),
-        bx("WindowR", (8.4, 13, 0.3), (12.8, 19.5, 0.6), "tramglass", full=True),
-        bx("SideWinL", (1.7, 13, 3), (2, 19.5, 9), "tramglass", full=True),
-        bx("SideWinR", (14, 13, 3), (14.3, 19.5, 9), "tramglass", full=True),
         bx("Roof", (1.5, 22, 0.2), (14.5, 23.2, 16), "steeldark"), bx("RoofTop", (3, 23.2, 0.8), (13, 24.2, 16), "steeldark"),
-        bx("Lamp", (6.5, 8, 0.2), (9.5, 11, 0.6), "steel"), bx("LampGlass", (7, 8.5, 0), (9, 10.5, 0.2), "tubeoff"),
-        bx("Step", (0.8, 3, 11), (2, 3.6, 14), "steeldark"), bx("Handrail", (1.4, 6, 10.6), (1.8, 14, 11), "steel")]
+        bx("Step", (0.8, 3, 11), (2, 3.6, 14), "steeldark"), bx("Handrail", (1.4, 6, 10.6), (1.8, 14, 11), "steel")] + cab_front() + side_windows()
     rear = track() + frame + [
-        bx("Hood", (3, 5, 0), (13, 16, 13.5), "tramgrille", faces=("east", "west"), full=True),
-        bx("HoodTop", (3, 5, 0), (13, 16, 13.5), "trambody", faces=("up", "south")),
+        bx("Hood", (3, 5, 0), (13, 16, 13.5), "trambody", faces=("east", "west", "up", "south")),
         bx("Battery", (2.2, 5, 2), (3, 10, 11), "blackmetal"), bx("Battery2", (13, 5, 2), (13.8, 10, 11), "blackmetal"),
         bx("Buffer", (1, 3, 15.4), (15, 6, 16.2), "redmetal"), bx("Coupler", (7, 3.6, 16.2), (9, 5, 17.2), "steeldark"),
         bx("PoleBase", (7, 16, 4), (9, 17.5, 6), "steeldark"),
         bx("Pole", (7.6, 16.5, 4.5), (8.4, 17.3, 22), "steel", rot=(28, 0, 0), origin=(8, 17, 5)),
-        bx("PoleHead", (7, 16, 21), (9, 18, 23), "blackmetal", rot=(28, 0, 0), origin=(8, 17, 5))]
+        bx("PoleHead", (7, 16, 21), (9, 18, 23), "blackmetal", rot=(28, 0, 0), origin=(8, 17, 5))] + hood_grilles()
     prop("deadtram", "Dead Tram", {"front": front, "rear": rear}, box=(0.06, 0, 0, 0.94, 1.45, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 3, 1), ("scrapwire", 2, 1), ("game:metalbit-copper", 1, 0.5))},
          comment="The B.N.T.G.'s little electric locomotive, two blocks long, dead on its rails since the power went")
@@ -335,8 +498,12 @@ def tramway():
     els = [bx("Plate", (4, 0, 4), (12, 0.5, 12), "steeldark"), bx("Puddle", (8.5, 0.5, 9), (11, 0.7, 11.5), "candlewax")]
     flames = []
     for i, (x, z, h) in enumerate(candles):
-        els += [bx(f"Candle{i}", (x, 0.5, z), (x + 1.4, 0.5 + h, z + 1.4), "candlewax"),
-                bx(f"Wick{i}", (x + 0.55, 0.5 + h, z + 0.55), (x + 0.85, 1.1 + h, z + 0.85), "blackmetal")]
+        # (B5) each stub stands in its own pool of wax, a run of wax down its front, its top hollowed round the wick
+        els += [bx(f"Candle{i}", (x, 0.5, z), (x + 1.4, 0.3 + h, z + 1.4), "candlewax"),
+                bx(f"Rim{i}", (x, 0.3 + h, z), (x + 1.4, 0.5 + h, z + 1.4), "candlewax", faces=("north", "south", "east", "west")),
+                bx(f"Pool{i}", (x - 0.45, 0.5, z - 0.45), (x + 1.85, 0.75, z + 1.85), "candlewax", faces=("north", "south", "east", "west", "up")),
+                bx(f"Run{i}", (x + 0.3, 0.75, z - 0.25), (x + 0.8, 0.2 + h, z), "candlewax", faces=("north", "east", "west", "up")),
+                bx(f"Wick{i}", (x + 0.55, 0.3 + h, z + 0.55), (x + 0.85, 1.1 + h, z + 0.85), "blackmetal")]
         flames.append(fire_fx.flame((x + 0.7) / 16 - 0.5, (1.1 + h) / 16 - 0.25, (z + 0.7) / 16 - 0.5, quantity=0.06, size=0.04))
     prop("candlestubs", "Candle Stubs", els, box=(0.25, 0, 0.25, 0.75, 0.25, 0.75), oriented=False, material="Metal", sounds=METAL,
          light=[7, 5, 7], extra={"particleProperties": flames, "drops": drops(("game:candle", 1, 0.5))},

@@ -9,6 +9,8 @@ import json
 import math
 import os
 
+import modelkit as K
+
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "assets", "backrooms", "shapes", "block")
 
@@ -363,6 +365,110 @@ def fixture_hub(tube_tex):
     ]
 
 
+# ---------------- Level 2 machine cabinets (B5: hardware as geometry, from tools/modelkit.py) ----------------
+
+CABINET_TEX = {k: f"backrooms:block/level2/cabinet-{v}" for k, v in (
+    ("cabpaint", "paint"), ("cabpanel", "panel"), ("cabdark", "dark"), ("cabvent", "vent"), ("cabbezel", "bezel"),
+    ("cabneedle", "needle"), ("cabdial", "dial"), ("cablampred", "lampred"), ("cablampamber", "lampamber"),
+    ("cablabel", "label"), ("cabwarn", "warning"), ("cabtop", "top"))}
+CAB = {"all": "cabpaint", "north": "cabpanel"}  # the carcass: the darker panel shows on its front, in the frame's recess
+FRONT_ONLY = ("north", "east", "west", "up", "down")
+
+
+def sides_turned(els):
+    """all_sides for parts with rotations (the dials' bezels and needles): modelkit.turn carries them round."""
+    out = []
+    for i in range(4):
+        out += [dict(e, name=f"{e['name']}{i}") for e in K.turn(els, i)]
+    return out
+
+
+def cab_lamp(name, cx, cy, z, tex):
+    """An indicator lamp on a panel face at z: a bezel ring 1 px proud, a domed lens a further 1 px proud."""
+    return [K.box(name + "Bezel", (cx - 0.75, cy - 0.75, z - K.PX), (cx + 0.75, cy + 0.75, z), "cabbezel", faces=FRONT_ONLY),
+            K.box(name + "Lens", (cx - 0.5, cy - 0.5, z - 1.0), (cx + 0.5, cy + 0.5, z - K.PX), tex, faces=FRONT_ONLY,
+                  uv=[0, 0, 16, 16])]
+
+
+def cab_plate(name, x1, y1, x2, y2, z, tex, t=0.25):
+    """A label or decal plate `t` proud of a face at z, its whole texture on its front."""
+    return [K.box(name, (x1, y1, z - t), (x2, y2, z), tex, faces=FRONT_ONLY, uv=[0, 0, 16, 16])]
+
+
+def louvre(name, x1, y1, x2, y2, z, n, tex="cabpaint", back="cabvent", frame=0.5, proud=1.0):
+    """A louvred vent on a front face at z: a frame `frame` wide standing `proud` out, a dark backing, and n blades
+    tilted 40 degrees across the opening, so each shows a lit top and a dark underside over the gap behind it."""
+    els, openings = K.frame_members(name, x1, y1, x2, y2, z - proud, z, frame, tex)
+    for e in els:
+        e["faces"].pop("south", None)
+    ox1, oy1, ox2, oy2 = openings[0]
+    els.append(K.box(name + "Back", (ox1, oy1, z - 0.25), (ox2, oy2, z), back, faces=("north",)))
+    pitch = (oy2 - oy1) / n
+    for i in range(n):
+        cy, cz = oy1 + (i + 0.5) * pitch, z - proud / 2 - 0.1
+        els.append(K.box(f"{name}Blade{i}", (ox1, cy - 0.25, cz - 0.4), (ox2, cy + 0.25, cz + 0.4), tex,
+                         faces=("north", "up", "down", "south"), rot=(-40, 0, 0), origin=(ox1, cy, cz)))
+    return els
+
+
+def cab_frame(name, x1, y1, x2, y2, z1, z2, border, grid=(1, 1), mid=None):
+    els, openings = K.frame_members(name, x1, y1, x2, y2, z1, z2, border, "cabpaint", grid, mid)
+    for e in els:
+        e["faces"].pop("south", None)  # against the carcass
+    return els, openings
+
+
+def machinery_head():
+    """The wall cabinet's upper block, its front to the north (z < 0 is out of the wall, in the tunnel): a framed
+    instrument panel with two dial gauges in chrome bezels, a red and an amber lamp and an equipment plate, under a
+    cap; a conduit in a gland and a rusty pipe run on up into the ceiling."""
+    els = [K.box("Body", (1.5, 0, -2.0), (14.5, 11.5, 0), CAB, faces=("north", "east", "west"))]
+    frame = cab_frame("Bezel", 1.5, 0, 14.5, 11.5, -2.5, -2.0, 1.0)[0]
+    frame[0]["faces"].pop("down")  # on the door's top rail, at the block seam
+    els += frame
+    els.append(K.box("Cap", (1.25, 11.5, -2.75), (14.75, 12.25, 0), {"all": "cabpaint", "top": "cabtop"}, faces=FRONT_ONLY))
+    els += K.dial("DialL", 5.0, 7.25, -2.0, r=2.25, angle=-35, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += K.dial("DialR", 11.0, 7.25, -2.0, r=2.25, angle=28, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += cab_lamp("LampR", 3.5, 2.75, -2.0, "cablampred") + cab_lamp("LampA", 5.5, 2.75, -2.0, "cablampamber")
+    els += cab_plate("Plate", 8.0, 1.75, 13.0, 4.0, -2.0, "cablabel")
+    els += [K.box("Gland", (3.75, 12.25, -1.75), (5.75, 12.75, 0), "metal", faces=("north", "east", "west", "up")),
+            K.box("Conduit", (4.0, 12.75, -1.5), (5.5, 16, 0), "metal", faces=("north", "east", "west")),
+            K.box("Conduit2", (10.0, 12.25, -1.2), (11.0, 16, 0), "rust", faces=("north", "east", "west"))]
+    return els
+
+
+def machinery_door():
+    """The wall cabinet's lower block: a door of frame and recessed panel with a louvred vent, a bar handle, a lock and
+    a warning decal, over a toe-recessed plinth."""
+    els = [K.box("Toe", (2.0, 0, -1.75), (14.0, 1.0, 0), "cabdark", faces=("north", "east", "west")),
+           K.box("Body", (1.5, 1.0, -2.0), (14.5, 16, 0), CAB, faces=("north", "east", "west", "down"))]
+    frame = cab_frame("Door", 1.5, 1.0, 14.5, 16, -2.5, -2.0, 1.25)[0]
+    frame[1]["faces"].pop("up")  # the top rail meets the instrument head's bottom rail at the block seam
+    els += frame
+    els += louvre("Vent", 3.75, 8.5, 10.75, 13.75, -2.0, 5)
+    els += K.handle("Handle", 12.25, 8.0, -2.0, length=4.0, axis="y", standoff=0.75, thick=0.75, tex="cabbezel")
+    els += cab_plate("Warn", 4.5, 4.0, 7.5, 7.0, -2.0, "cabwarn")
+    els.append(K.box("Lock", (11.75, 4.5, -2.5), (12.75, 5.5, -2.0), "cabbezel", faces=FRONT_ONLY))
+    return els
+
+
+def machine_cabinet():
+    """The free-standing machine cabinet (Levels 2 and 3), front to the north: carcass and cap, a framed front with an
+    instrument panel (two gauges, two lamps) over a louvred door with a bar handle, on a toe-recessed plinth; a pipe
+    stub out of the top at the back."""
+    els = [K.box("Toe", (2.0, 0, 5.25), (14.0, 1.0, 15.5), "cabdark", faces=("north", "east", "west", "south")),
+           K.box("Body", (1.0, 1.0, 4.5), (15.0, 14.25, 16), CAB, faces=("north", "east", "west", "south", "down")),
+           K.box("Cap", (0.75, 14.25, 4.0), (15.25, 15.0, 16), {"all": "cabpaint", "top": "cabtop"})]
+    els += cab_frame("Front", 1.0, 1.0, 15.0, 14.25, 4.0, 4.5, 1.0, grid=(1, 2))[0]
+    els += K.dial("DialL", 4.6, 10.7, 4.5, r=1.75, angle=-30, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += K.dial("DialR", 11.4, 10.7, 4.5, r=1.75, angle=40, face="cabdial", bezel="cabbezel", needle="cabneedle")
+    els += cab_lamp("LampR", 8.0, 11.9, 4.5, "cablampred") + cab_lamp("LampA", 8.0, 9.6, 4.5, "cablampamber")
+    els += louvre("Vent", 2.75, 2.5, 9.75, 6.625, 4.5, 3)
+    els += K.handle("Handle", 12.0, 4.5, 4.5, length=3.0, axis="y", standoff=0.75, thick=0.75, tex="cabbezel")
+    els.append(K.box("Pipe", (11, 15.0, 11), (14, 16, 14), "rust", faces=("north", "east", "west", "south", "up")))
+    return els
+
+
 def level2():
     save("pipes-run", PIPE_TEX, bundle_x())
     save("pipes-hub", PIPE_TEX, hub_pipes())
@@ -408,40 +514,16 @@ def level2():
         box("SpokeH", (5, 7.5, -3.8), (11, 8.5, -3.2), "valve"),
     ]))
 
-    # A control cabinet bolted to the wall, two blocks high: labels and two dial gauges standing proud of its front
-    # (Level 3's gauge plates) in the upper block with a conduit up into the ceiling, the vents and a plinth in the
-    # lower. Each half shows its own part of the cabinet front texture, so the two read as one door.
-    def front(b, v1, v2):
-        for f in b["faces"].values():
-            f["uv"] = [0, v1, 16, v2]
-        return b
-    save("tunnelwall-machinery", wall, [CUBE("wall")] + all_sides([
-        front(box("Front", (1.5, 0, -2.5), (14.5, 12, -2), "panel", faces=("north",)), 0, 10),
-        box("Body", (1.5, 0, -2.5), (14.5, 12, 0), "dark", faces=("east", "west", "up")),
-        front(box("Gauge1", (3, 1, -3.6), (7.5, 5.5, -2.5), "gauge", faces=("north",)), 0, 16),
-        box("Gauge1Rim", (3, 1, -3.6), (7.5, 5.5, -2.5), "dark", faces=("east", "west", "up", "down")),
-        front(box("Gauge2", (8.5, 1, -3.6), (13, 5.5, -2.5), "gauge", faces=("north",)), 0, 16),
-        box("Gauge2Rim", (8.5, 1, -3.6), (13, 5.5, -2.5), "dark", faces=("east", "west", "up", "down")),
-        box("Conduit", (4, 12, -1.5), (5.5, 16, 0), "metal", faces=("north", "east", "west")),
-        box("Conduit2", (10, 12, -1.2), (11, 16, 0), "rust", faces=("north", "east", "west")),
-    ]))
-    save("tunnelwall-machinerybase", wall, [CUBE("wall")] + all_sides([
-        front(box("Front", (1.5, 1, -2.5), (14.5, 16, -2), "panel", faces=("north",)), 6.6, 16),
-        box("Body", (1.5, 1, -2.5), (14.5, 16, 0), "dark", faces=("east", "west")),
-        box("Plinth", (1, 0, -2.8), (15, 1, 0), "dark", faces=("north", "east", "west", "up")),
-        box("Handle", (12.2, 10, -3.2), (13, 14, -2.5), "metal"),
-    ]))
+    # A control cabinet bolted to the wall, two blocks high (B5: its hardware is geometry, tools/modelkit.py). The
+    # upper block is the instrument head: a framed panel with two dial gauges in bezels, two indicator lamps and an
+    # equipment plate, under a cap with conduits up into the ceiling. The lower block is the door: frame and recessed
+    # panel, a louvred vent, a bar handle and a warning decal, on a toe-recessed plinth.
+    mwall = dict(wall, **CABINET_TEX)
+    save("tunnelwall-machinery", mwall, [CUBE("wall")] + sides_turned(machinery_head()))
+    save("tunnelwall-machinerybase", mwall, [CUBE("wall")] + sides_turned(machinery_door()))
 
     # Machine cabinet, front panel facing north, back against the wall to the south
-    save("machinecabinet", {"body": "backrooms:block/props/metal-dark", "front": "backrooms:block/props/cabinet-front",
-                            "metal": "backrooms:block/props/metal", "rust": PIPE_TEX["rust"]}, [
-        box("Body", (1, 0, 4), (15, 15, 16), "body"),
-        box("Front", (1.5, 1, 3.5), (14.5, 14, 4), "front", faces=("north",)),
-        box("Gauge1", (3, 10, 2.8), (6, 13, 3.5), "metal"),
-        box("Gauge2", (10, 10, 2.8), (13, 13, 3.5), "metal"),
-        box("Handle", (11, 5, 2.8), (12, 8, 3.5), "metal"),
-        box("Pipe", (11, 15, 11), (14, 16, 14), "rust"),
-    ])
+    save("machinecabinet", dict(CABINET_TEX, metal="backrooms:block/props/metal", rust=PIPE_TEX["rust"]), machine_cabinet())
 
 
 # ---------------- Level 1 fixtures and props ----------------

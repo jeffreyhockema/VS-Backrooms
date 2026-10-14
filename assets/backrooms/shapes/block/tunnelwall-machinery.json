@@ -13,7 +13,19 @@
   "flange": "backrooms:block/level2/wallpipe-flange",
   "valve": "backrooms:block/props/valve",
   "panel": "backrooms:block/props/cabinet-front",
-  "gauge": "backrooms:block/detail/gauge"
+  "gauge": "backrooms:block/detail/gauge",
+  "cabpaint": "backrooms:block/level2/cabinet-paint",
+  "cabpanel": "backrooms:block/level2/cabinet-panel",
+  "cabdark": "backrooms:block/level2/cabinet-dark",
+  "cabvent": "backrooms:block/level2/cabinet-vent",
+  "cabbezel": "backrooms:block/level2/cabinet-bezel",
+  "cabneedle": "backrooms:block/level2/cabinet-needle",
+  "cabdial": "backrooms:block/level2/cabinet-dial",
+  "cablampred": "backrooms:block/level2/cabinet-lampred",
+  "cablampamber": "backrooms:block/level2/cabinet-lampamber",
+  "cablabel": "backrooms:block/level2/cabinet-label",
+  "cabwarn": "backrooms:block/level2/cabinet-warning",
+  "cabtop": "backrooms:block/level2/cabinet-top"
  },
  "elements": [
   {
@@ -86,86 +98,317 @@
    }
   },
   {
-   "name": "Front0",
-   "from": [
-    1.5,
-    0,
-    -2.5
-   ],
-   "to": [
-    14.5,
-    12,
-    -2
-   ],
-   "faces": {
-    "north": {
-     "texture": "#panel",
-     "uv": [
-      0,
-      0,
-      16,
-      10
-     ]
-    }
-   }
-  },
-  {
    "name": "Body0",
    "from": [
     1.5,
     0,
-    -2.5
+    -2.0
    ],
    "to": [
     14.5,
-    12,
+    11.5,
     0
    ],
    "faces": {
-    "east": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "west": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "up": {
-     "texture": "#dark",
+    "north": {
+     "texture": "#cabpanel",
      "uv": [
       0,
       0,
       13.0,
-      2.5
+      11.5
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
      ]
     }
    }
   },
   {
-   "name": "Gauge10",
+   "name": "BezelRail00",
    "from": [
-    3,
-    1,
-    -3.6
+    1.5,
+    0,
+    -2.5
    ],
    "to": [
-    7.5,
-    5.5,
-    -2.5
+    14.5,
+    1.0,
+    -2.0
    ],
    "faces": {
     "north": {
-     "texture": "#gauge",
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelRail10",
+   "from": [
+    1.5,
+    10.5,
+    -2.5
+   ],
+   "to": [
+    14.5,
+    11.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_00",
+   "from": [
+    1.5,
+    1.0,
+    -2.5
+   ],
+   "to": [
+    2.5,
+    10.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_10",
+   "from": [
+    13.5,
+    1.0,
+    -2.5
+   ],
+   "to": [
+    14.5,
+    10.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap0",
+   "from": [
+    1.25,
+    11.5,
+    -2.75
+   ],
+   "to": [
+    14.75,
+    12.25,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#cabtop",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLFace0",
+   "from": [
+    2.75,
+    5.0,
+    -2.1
+   ],
+   "to": [
+    7.25,
+    9.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -176,71 +419,641 @@
    }
   },
   {
-   "name": "Gauge1Rim0",
+   "name": "DialLBezel00",
    "from": [
-    3,
-    1,
-    -3.6
+    3.8185,
+    9.0,
+    -3.0
    ],
    "to": [
-    7.5,
-    5.5,
-    -2.5
+    6.1815,
+    9.5,
+    -2.0
    ],
    "faces": {
-    "east": {
-     "texture": "#dark",
+    "north": {
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     }
    }
   },
   {
-   "name": "Gauge20",
+   "name": "DialLBezel10",
    "from": [
-    8.5,
-    1,
-    -3.6
+    3.8185,
+    5.0,
+    -3.0
    ],
    "to": [
-    13,
+    6.1815,
     5.5,
-    -2.5
+    -2.0
    ],
    "faces": {
     "north": {
-     "texture": "#gauge",
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel20",
+   "from": [
+    2.75,
+    6.0685,
+    -3.0
+   ],
+   "to": [
+    3.25,
+    8.4315,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel30",
+   "from": [
+    6.75,
+    6.0685,
+    -3.0
+   ],
+   "to": [
+    7.25,
+    8.4315,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezelD00",
+   "from": [
+    5.2327,
+    8.4142,
+    -2.9
+   ],
+   "to": [
+    7.5957,
+    8.9142,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    6.4142,
+    8.6642,
+    -2.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLBezelD10",
+   "from": [
+    2.4043,
+    8.4142,
+    -2.9
+   ],
+   "to": [
+    4.7673,
+    8.9142,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5858,
+    8.6642,
+    -2.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLBezelD20",
+   "from": [
+    5.2327,
+    5.5858,
+    -2.9
+   ],
+   "to": [
+    7.5957,
+    6.0858,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    6.4142,
+    5.8358,
+    -2.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLBezelD30",
+   "from": [
+    2.4043,
+    5.5858,
+    -2.9
+   ],
+   "to": [
+    4.7673,
+    6.0858,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5858,
+    5.8358,
+    -2.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLNeedle0",
+   "from": [
+    4.75,
+    6.89,
+    -2.35
+   ],
+   "to": [
+    5.25,
+    9.05,
+    -2.2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    5.0,
+    7.25,
+    -2.0
+   ],
+   "rotationZ": -35
+  },
+  {
+   "name": "DialLHub0",
+   "from": [
+    4.5,
+    6.75,
+    -2.6
+   ],
+   "to": [
+    5.5,
+    7.75,
+    -2.35
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRFace0",
+   "from": [
+    8.75,
+    5.0,
+    -2.1
+   ],
+   "to": [
+    13.25,
+    9.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -251,52 +1064,973 @@
    }
   },
   {
-   "name": "Gauge2Rim0",
+   "name": "DialRBezel00",
    "from": [
-    8.5,
-    1,
-    -3.6
+    9.8185,
+    9.0,
+    -3.0
    ],
    "to": [
-    13,
-    5.5,
-    -2.5
+    12.1815,
+    9.5,
+    -2.0
    ],
    "faces": {
-    "east": {
-     "texture": "#dark",
+    "north": {
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel10",
+   "from": [
+    9.8185,
+    5.0,
+    -3.0
+   ],
+   "to": [
+    12.1815,
+    5.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel20",
+   "from": [
+    8.75,
+    6.0685,
+    -3.0
+   ],
+   "to": [
+    9.25,
+    8.4315,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel30",
+   "from": [
+    12.75,
+    6.0685,
+    -3.0
+   ],
+   "to": [
+    13.25,
+    8.4315,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezelD00",
+   "from": [
+    11.2327,
+    8.4142,
+    -2.9
+   ],
+   "to": [
+    13.5957,
+    8.9142,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.4142,
+    8.6642,
+    -2.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRBezelD10",
+   "from": [
+    8.4043,
+    8.4142,
+    -2.9
+   ],
+   "to": [
+    10.7673,
+    8.9142,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    9.5858,
+    8.6642,
+    -2.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRBezelD20",
+   "from": [
+    11.2327,
+    5.5858,
+    -2.9
+   ],
+   "to": [
+    13.5957,
+    6.0858,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.4142,
+    5.8358,
+    -2.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRBezelD30",
+   "from": [
+    8.4043,
+    5.5858,
+    -2.9
+   ],
+   "to": [
+    10.7673,
+    6.0858,
+    -2.05
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    9.5858,
+    5.8358,
+    -2.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRNeedle0",
+   "from": [
+    10.75,
+    6.89,
+    -2.35
+   ],
+   "to": [
+    11.25,
+    9.05,
+    -2.2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    11.0,
+    7.25,
+    -2.0
+   ],
+   "rotationZ": 28
+  },
+  {
+   "name": "DialRHub0",
+   "from": [
+    10.5,
+    6.75,
+    -2.6
+   ],
+   "to": [
+    11.5,
+    7.75,
+    -2.35
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRBezel0",
+   "from": [
+    2.75,
+    2.0,
+    -2.5
+   ],
+   "to": [
+    4.25,
+    3.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRLens0",
+   "from": [
+    3.0,
+    2.25,
+    -3.0
+   ],
+   "to": [
+    4.0,
+    3.25,
+    -2.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampABezel0",
+   "from": [
+    4.75,
+    2.0,
+    -2.5
+   ],
+   "to": [
+    6.25,
+    3.5,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampALens0",
+   "from": [
+    5.0,
+    2.25,
+    -3.0
+   ],
+   "to": [
+    6.0,
+    3.25,
+    -2.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate0",
+   "from": [
+    8.0,
+    1.75,
+    -2.25
+   ],
+   "to": [
+    13.0,
+    4.0,
+    -2.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gland0",
+   "from": [
+    3.75,
+    12.25,
+    -1.75
+   ],
+   "to": [
+    5.75,
+    12.75,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.75
      ]
     }
    }
@@ -304,8 +2038,8 @@
   {
    "name": "Conduit0",
    "from": [
-    4,
-    12,
+    4.0,
+    12.75,
     -1.5
    ],
    "to": [
@@ -320,7 +2054,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "east": {
@@ -329,7 +2063,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "west": {
@@ -338,7 +2072,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     }
    }
@@ -346,12 +2080,12 @@
   {
    "name": "Conduit20",
    "from": [
-    10,
-    12,
+    10.0,
+    12.25,
     -1.2
    ],
    "to": [
-    11,
+    11.0,
     16,
     0
    ],
@@ -361,8 +2095,8 @@
      "uv": [
       0,
       0,
-      1,
-      4
+      1.0,
+      3.75
      ]
     },
     "east": {
@@ -371,7 +2105,7 @@
       0,
       0,
       1.2,
-      4
+      3.75
      ]
     },
     "west": {
@@ -380,31 +2114,7 @@
       0,
       0,
       1.2,
-      4
-     ]
-    }
-   }
-  },
-  {
-   "name": "Front1",
-   "from": [
-    18,
-    0,
-    1.5
-   ],
-   "to": [
-    18.5,
-    12,
-    14.5
-   ],
-   "faces": {
-    "east": {
-     "texture": "#panel",
-     "uv": [
-      0,
-      0,
-      16,
-      10
+      3.75
      ]
     }
    }
@@ -417,55 +2127,310 @@
     1.5
    ],
    "to": [
-    18.5,
-    12,
+    18.0,
+    11.5,
     14.5
    ],
    "faces": {
-    "south": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "north": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "up": {
-     "texture": "#dark",
+    "east": {
+     "texture": "#cabpanel",
      "uv": [
       0,
       0,
       13.0,
-      2.5
+      11.5
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
      ]
     }
    }
   },
   {
-   "name": "Gauge11",
+   "name": "BezelRail01",
    "from": [
-    18.5,
-    1,
-    3
+    18.0,
+    0,
+    1.5
    ],
    "to": [
-    19.6,
-    5.5,
-    7.5
+    18.5,
+    1.0,
+    14.5
    ],
    "faces": {
     "east": {
-     "texture": "#gauge",
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelRail11",
+   "from": [
+    18.0,
+    10.5,
+    1.5
+   ],
+   "to": [
+    18.5,
+    11.5,
+    14.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_01",
+   "from": [
+    18.0,
+    1.0,
+    1.5
+   ],
+   "to": [
+    18.5,
+    10.5,
+    2.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_11",
+   "from": [
+    18.0,
+    1.0,
+    13.5
+   ],
+   "to": [
+    18.5,
+    10.5,
+    14.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap1",
+   "from": [
+    16,
+    11.5,
+    1.25
+   ],
+   "to": [
+    18.75,
+    12.25,
+    14.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#cabtop",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLFace1",
+   "from": [
+    18.0,
+    5.0,
+    2.75
+   ],
+   "to": [
+    18.1,
+    9.5,
+    7.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -476,71 +2441,641 @@
    }
   },
   {
-   "name": "Gauge1Rim1",
+   "name": "DialLBezel01",
    "from": [
-    18.5,
-    1,
-    3
+    18.0,
+    9.0,
+    3.8185
    ],
    "to": [
-    19.6,
-    5.5,
-    7.5
+    19.0,
+    9.5,
+    6.1815
    ],
    "faces": {
-    "south": {
-     "texture": "#dark",
+    "east": {
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
      ]
     },
     "north": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     }
    }
   },
   {
-   "name": "Gauge21",
+   "name": "DialLBezel11",
    "from": [
-    18.5,
-    1,
-    8.5
+    18.0,
+    5.0,
+    3.8185
    ],
    "to": [
-    19.6,
+    19.0,
     5.5,
-    13
+    6.1815
    ],
    "faces": {
     "east": {
-     "texture": "#gauge",
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel21",
+   "from": [
+    18.0,
+    6.0685,
+    2.75
+   ],
+   "to": [
+    19.0,
+    8.4315,
+    3.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel31",
+   "from": [
+    18.0,
+    6.0685,
+    6.75
+   ],
+   "to": [
+    19.0,
+    8.4315,
+    7.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezelD01",
+   "from": [
+    18.05,
+    8.4142,
+    5.2327
+   ],
+   "to": [
+    18.9,
+    8.9142,
+    7.5957
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    8.6642,
+    6.4142
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialLBezelD11",
+   "from": [
+    18.05,
+    8.4142,
+    2.4043
+   ],
+   "to": [
+    18.9,
+    8.9142,
+    4.7673
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    8.6642,
+    3.5858
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialLBezelD21",
+   "from": [
+    18.05,
+    5.5858,
+    5.2327
+   ],
+   "to": [
+    18.9,
+    6.0858,
+    7.5957
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    5.8358,
+    6.4142
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialLBezelD31",
+   "from": [
+    18.05,
+    5.5858,
+    2.4043
+   ],
+   "to": [
+    18.9,
+    6.0858,
+    4.7673
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    5.8358,
+    3.5858
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialLNeedle1",
+   "from": [
+    18.2,
+    6.89,
+    4.75
+   ],
+   "to": [
+    18.35,
+    9.05,
+    5.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    7.25,
+    5.0
+   ],
+   "rotationX": 35
+  },
+  {
+   "name": "DialLHub1",
+   "from": [
+    18.35,
+    6.75,
+    4.5
+   ],
+   "to": [
+    18.6,
+    7.75,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRFace1",
+   "from": [
+    18.0,
+    5.0,
+    8.75
+   ],
+   "to": [
+    18.1,
+    9.5,
+    13.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -551,52 +3086,973 @@
    }
   },
   {
-   "name": "Gauge2Rim1",
+   "name": "DialRBezel01",
    "from": [
-    18.5,
-    1,
-    8.5
+    18.0,
+    9.0,
+    9.8185
    ],
    "to": [
-    19.6,
-    5.5,
-    13
+    19.0,
+    9.5,
+    12.1815
    ],
    "faces": {
-    "south": {
-     "texture": "#dark",
+    "east": {
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
      ]
     },
     "north": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel11",
+   "from": [
+    18.0,
+    5.0,
+    9.8185
+   ],
+   "to": [
+    19.0,
+    5.5,
+    12.1815
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel21",
+   "from": [
+    18.0,
+    6.0685,
+    8.75
+   ],
+   "to": [
+    19.0,
+    8.4315,
+    9.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel31",
+   "from": [
+    18.0,
+    6.0685,
+    12.75
+   ],
+   "to": [
+    19.0,
+    8.4315,
+    13.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezelD01",
+   "from": [
+    18.05,
+    8.4142,
+    11.2327
+   ],
+   "to": [
+    18.9,
+    8.9142,
+    13.5957
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    8.6642,
+    12.4142
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialRBezelD11",
+   "from": [
+    18.05,
+    8.4142,
+    8.4043
+   ],
+   "to": [
+    18.9,
+    8.9142,
+    10.7673
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    8.6642,
+    9.5858
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialRBezelD21",
+   "from": [
+    18.05,
+    5.5858,
+    11.2327
+   ],
+   "to": [
+    18.9,
+    6.0858,
+    13.5957
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    5.8358,
+    12.4142
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialRBezelD31",
+   "from": [
+    18.05,
+    5.5858,
+    8.4043
+   ],
+   "to": [
+    18.9,
+    6.0858,
+    10.7673
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    5.8358,
+    9.5858
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialRNeedle1",
+   "from": [
+    18.2,
+    6.89,
+    10.75
+   ],
+   "to": [
+    18.35,
+    9.05,
+    11.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    18.0,
+    7.25,
+    11.0
+   ],
+   "rotationX": -28
+  },
+  {
+   "name": "DialRHub1",
+   "from": [
+    18.35,
+    6.75,
+    10.5
+   ],
+   "to": [
+    18.6,
+    7.75,
+    11.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRBezel1",
+   "from": [
+    18.0,
+    2.0,
+    2.75
+   ],
+   "to": [
+    18.5,
+    3.5,
+    4.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRLens1",
+   "from": [
+    18.5,
+    2.25,
+    3.0
+   ],
+   "to": [
+    19.0,
+    3.25,
+    4.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampABezel1",
+   "from": [
+    18.0,
+    2.0,
+    4.75
+   ],
+   "to": [
+    18.5,
+    3.5,
+    6.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampALens1",
+   "from": [
+    18.5,
+    2.25,
+    5.0
+   ],
+   "to": [
+    19.0,
+    3.25,
+    6.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate1",
+   "from": [
+    18.0,
+    1.75,
+    8.0
+   ],
+   "to": [
+    18.25,
+    4.0,
+    13.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gland1",
+   "from": [
+    16,
+    12.25,
+    3.75
+   ],
+   "to": [
+    17.75,
+    12.75,
+    5.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.75
      ]
     }
    }
@@ -605,8 +4061,8 @@
    "name": "Conduit1",
    "from": [
     16,
-    12,
-    4
+    12.75,
+    4.0
    ],
    "to": [
     17.5,
@@ -620,7 +4076,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "south": {
@@ -629,7 +4085,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "north": {
@@ -638,7 +4094,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     }
    }
@@ -647,13 +4103,13 @@
    "name": "Conduit21",
    "from": [
     16,
-    12,
-    10
+    12.25,
+    10.0
    ],
    "to": [
     17.2,
     16,
-    11
+    11.0
    ],
    "faces": {
     "east": {
@@ -661,8 +4117,8 @@
      "uv": [
       0,
       0,
-      1,
-      4
+      1.0,
+      3.75
      ]
     },
     "south": {
@@ -671,7 +4127,7 @@
       0,
       0,
       1.2,
-      4
+      3.75
      ]
     },
     "north": {
@@ -680,31 +4136,7 @@
       0,
       0,
       1.2,
-      4
-     ]
-    }
-   }
-  },
-  {
-   "name": "Front2",
-   "from": [
-    1.5,
-    0,
-    18
-   ],
-   "to": [
-    14.5,
-    12,
-    18.5
-   ],
-   "faces": {
-    "south": {
-     "texture": "#panel",
-     "uv": [
-      0,
-      0,
-      16,
-      10
+      3.75
      ]
     }
    }
@@ -718,54 +4150,309 @@
    ],
    "to": [
     14.5,
-    12,
-    18.5
+    11.5,
+    18.0
    ],
    "faces": {
     "east": {
-     "texture": "#dark",
+     "texture": "#cabpaint",
      "uv": [
       0,
       0,
-      2.5,
-      12
+      2.0,
+      11.5
      ]
     },
-    "west": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "up": {
-     "texture": "#dark",
+    "south": {
+     "texture": "#cabpanel",
      "uv": [
       0,
       0,
       13.0,
-      2.5
+      11.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
      ]
     }
    }
   },
   {
-   "name": "Gauge12",
+   "name": "BezelRail02",
    "from": [
-    8.5,
-    1,
-    18.5
+    1.5,
+    0,
+    18.0
    ],
    "to": [
-    13,
-    5.5,
-    19.6
+    14.5,
+    1.0,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelRail12",
+   "from": [
+    1.5,
+    10.5,
+    18.0
+   ],
+   "to": [
+    14.5,
+    11.5,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_02",
+   "from": [
+    13.5,
+    1.0,
+    18.0
+   ],
+   "to": [
+    14.5,
+    10.5,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_12",
+   "from": [
+    1.5,
+    1.0,
+    18.0
+   ],
+   "to": [
+    2.5,
+    10.5,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap2",
+   "from": [
+    1.25,
+    11.5,
+    16
+   ],
+   "to": [
+    14.75,
+    12.25,
+    18.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#cabtop",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLFace2",
+   "from": [
+    8.75,
+    5.0,
+    18.0
+   ],
+   "to": [
+    13.25,
+    9.5,
+    18.1
    ],
    "faces": {
     "south": {
-     "texture": "#gauge",
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -776,71 +4463,641 @@
    }
   },
   {
-   "name": "Gauge1Rim2",
+   "name": "DialLBezel02",
    "from": [
-    8.5,
-    1,
-    18.5
+    9.8185,
+    9.0,
+    18.0
    ],
    "to": [
-    13,
-    5.5,
-    19.6
+    12.1815,
+    9.5,
+    19.0
    ],
    "faces": {
     "east": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     }
    }
   },
   {
-   "name": "Gauge22",
+   "name": "DialLBezel12",
    "from": [
-    3,
-    1,
-    18.5
+    9.8185,
+    5.0,
+    18.0
    ],
    "to": [
-    7.5,
+    12.1815,
     5.5,
-    19.6
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel22",
+   "from": [
+    12.75,
+    6.0685,
+    18.0
+   ],
+   "to": [
+    13.25,
+    8.4315,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel32",
+   "from": [
+    8.75,
+    6.0685,
+    18.0
+   ],
+   "to": [
+    9.25,
+    8.4315,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezelD02",
+   "from": [
+    8.4043,
+    8.4142,
+    18.05
+   ],
+   "to": [
+    10.767299999999999,
+    8.9142,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    9.585799999999999,
+    8.6642,
+    18.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLBezelD12",
+   "from": [
+    11.232700000000001,
+    8.4142,
+    18.05
+   ],
+   "to": [
+    13.5957,
+    8.9142,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.414200000000001,
+    8.6642,
+    18.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLBezelD22",
+   "from": [
+    8.4043,
+    5.5858,
+    18.05
+   ],
+   "to": [
+    10.767299999999999,
+    6.0858,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    9.585799999999999,
+    5.8358,
+    18.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLBezelD32",
+   "from": [
+    11.232700000000001,
+    5.5858,
+    18.05
+   ],
+   "to": [
+    13.5957,
+    6.0858,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.414200000000001,
+    5.8358,
+    18.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLNeedle2",
+   "from": [
+    10.75,
+    6.89,
+    18.2
+   ],
+   "to": [
+    11.25,
+    9.05,
+    18.35
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    11.0,
+    7.25,
+    18.0
+   ],
+   "rotationZ": 35
+  },
+  {
+   "name": "DialLHub2",
+   "from": [
+    10.5,
+    6.75,
+    18.35
+   ],
+   "to": [
+    11.5,
+    7.75,
+    18.6
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRFace2",
+   "from": [
+    2.75,
+    5.0,
+    18.0
+   ],
+   "to": [
+    7.25,
+    9.5,
+    18.1
    ],
    "faces": {
     "south": {
-     "texture": "#gauge",
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -851,52 +5108,973 @@
    }
   },
   {
-   "name": "Gauge2Rim2",
+   "name": "DialRBezel02",
    "from": [
-    3,
-    1,
-    18.5
+    3.8185000000000002,
+    9.0,
+    18.0
    ],
    "to": [
-    7.5,
-    5.5,
-    19.6
+    6.1815,
+    9.5,
+    19.0
    ],
    "faces": {
     "east": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel12",
+   "from": [
+    3.8185000000000002,
+    5.0,
+    18.0
+   ],
+   "to": [
+    6.1815,
+    5.5,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel22",
+   "from": [
+    6.75,
+    6.0685,
+    18.0
+   ],
+   "to": [
+    7.25,
+    8.4315,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel32",
+   "from": [
+    2.75,
+    6.0685,
+    18.0
+   ],
+   "to": [
+    3.25,
+    8.4315,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezelD02",
+   "from": [
+    2.404299999999999,
+    8.4142,
+    18.05
+   ],
+   "to": [
+    4.7673000000000005,
+    8.9142,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5858000000000008,
+    8.6642,
+    18.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRBezelD12",
+   "from": [
+    5.2326999999999995,
+    8.4142,
+    18.05
+   ],
+   "to": [
+    7.595700000000001,
+    8.9142,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    6.414199999999999,
+    8.6642,
+    18.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRBezelD22",
+   "from": [
+    2.404299999999999,
+    5.5858,
+    18.05
+   ],
+   "to": [
+    4.7673000000000005,
+    6.0858,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5858000000000008,
+    5.8358,
+    18.0
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRBezelD32",
+   "from": [
+    5.2326999999999995,
+    5.5858,
+    18.05
+   ],
+   "to": [
+    7.595700000000001,
+    6.0858,
+    18.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    6.414199999999999,
+    5.8358,
+    18.0
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRNeedle2",
+   "from": [
+    4.75,
+    6.89,
+    18.2
+   ],
+   "to": [
+    5.25,
+    9.05,
+    18.35
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    5.0,
+    7.25,
+    18.0
+   ],
+   "rotationZ": -28
+  },
+  {
+   "name": "DialRHub2",
+   "from": [
+    4.5,
+    6.75,
+    18.35
+   ],
+   "to": [
+    5.5,
+    7.75,
+    18.6
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRBezel2",
+   "from": [
+    11.75,
+    2.0,
+    18.0
+   ],
+   "to": [
+    13.25,
+    3.5,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRLens2",
+   "from": [
+    12.0,
+    2.25,
+    18.5
+   ],
+   "to": [
+    13.0,
+    3.25,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampABezel2",
+   "from": [
+    9.75,
+    2.0,
+    18.0
+   ],
+   "to": [
+    11.25,
+    3.5,
+    18.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampALens2",
+   "from": [
+    10.0,
+    2.25,
+    18.5
+   ],
+   "to": [
+    11.0,
+    3.25,
+    19.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate2",
+   "from": [
+    3.0,
+    1.75,
+    18.0
+   ],
+   "to": [
+    8.0,
+    4.0,
+    18.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gland2",
+   "from": [
+    10.25,
+    12.25,
+    16
+   ],
+   "to": [
+    12.25,
+    12.75,
+    17.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.75
      ]
     }
    }
@@ -905,11 +6083,11 @@
    "name": "Conduit2",
    "from": [
     10.5,
-    12,
+    12.75,
     16
    ],
    "to": [
-    12,
+    12.0,
     16,
     17.5
    ],
@@ -920,7 +6098,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "south": {
@@ -929,7 +6107,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "west": {
@@ -938,7 +6116,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     }
    }
@@ -946,12 +6124,12 @@
   {
    "name": "Conduit22",
    "from": [
-    5,
-    12,
+    5.0,
+    12.25,
     16
    ],
    "to": [
-    6,
+    6.0,
     16,
     17.2
    ],
@@ -962,7 +6140,7 @@
       0,
       0,
       1.2,
-      4
+      3.75
      ]
     },
     "south": {
@@ -970,8 +6148,8 @@
      "uv": [
       0,
       0,
-      1,
-      4
+      1.0,
+      3.75
      ]
     },
     "west": {
@@ -980,31 +6158,7 @@
       0,
       0,
       1.2,
-      4
-     ]
-    }
-   }
-  },
-  {
-   "name": "Front3",
-   "from": [
-    -2.5,
-    0,
-    1.5
-   ],
-   "to": [
-    -2,
-    12,
-    14.5
-   ],
-   "faces": {
-    "west": {
-     "texture": "#panel",
-     "uv": [
-      0,
-      0,
-      16,
-      10
+      3.75
      ]
     }
    }
@@ -1012,60 +6166,315 @@
   {
    "name": "Body3",
    "from": [
-    -2.5,
+    -2.0,
     0,
     1.5
    ],
    "to": [
     0,
-    12,
+    11.5,
     14.5
    ],
    "faces": {
     "south": {
-     "texture": "#dark",
+     "texture": "#cabpaint",
      "uv": [
       0,
       0,
-      2.5,
-      12
+      2.0,
+      11.5
      ]
     },
-    "north": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      2.5,
-      12
-     ]
-    },
-    "up": {
-     "texture": "#dark",
+    "west": {
+     "texture": "#cabpanel",
      "uv": [
       0,
       0,
       13.0,
-      2.5
+      11.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.0,
+      11.5
      ]
     }
    }
   },
   {
-   "name": "Gauge13",
+   "name": "BezelRail03",
    "from": [
-    -3.6000000000000014,
-    1,
-    8.5
+    -2.5,
+    0,
+    1.5
    ],
    "to": [
+    -2.0,
+    1.0,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelRail13",
+   "from": [
     -2.5,
-    5.5,
-    13
+    10.5,
+    1.5
+   ],
+   "to": [
+    -2.0,
+    11.5,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_03",
+   "from": [
+    -2.5,
+    1.0,
+    13.5
+   ],
+   "to": [
+    -2.0,
+    10.5,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelStile0_13",
+   "from": [
+    -2.5,
+    1.0,
+    1.5
+   ],
+   "to": [
+    -2.0,
+    10.5,
+    2.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9.5
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      9.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap3",
+   "from": [
+    -2.75,
+    11.5,
+    1.25
+   ],
+   "to": [
+    0,
+    12.25,
+    14.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      2.75,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#cabtop",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      13.5,
+      2.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLFace3",
+   "from": [
+    -2.1000000000000014,
+    5.0,
+    8.75
+   ],
+   "to": [
+    -2.0,
+    9.5,
+    13.25
    ],
    "faces": {
     "west": {
-     "texture": "#gauge",
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -1076,71 +6485,641 @@
    }
   },
   {
-   "name": "Gauge1Rim3",
+   "name": "DialLBezel03",
    "from": [
-    -3.6000000000000014,
-    1,
-    8.5
+    -3.0,
+    9.0,
+    9.8185
    ],
    "to": [
-    -2.5,
-    5.5,
-    13
+    -2.0,
+    9.5,
+    12.1815
    ],
    "faces": {
     "south": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
      ]
     },
     "north": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     }
    }
   },
   {
-   "name": "Gauge23",
+   "name": "DialLBezel13",
    "from": [
-    -3.6000000000000014,
-    1,
-    3
+    -3.0,
+    5.0,
+    9.8185
    ],
    "to": [
-    -2.5,
+    -2.0,
     5.5,
-    7.5
+    12.1815
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel23",
+   "from": [
+    -3.0,
+    6.0685,
+    12.75
+   ],
+   "to": [
+    -2.0,
+    8.4315,
+    13.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel33",
+   "from": [
+    -3.0,
+    6.0685,
+    8.75
+   ],
+   "to": [
+    -2.0,
+    8.4315,
+    9.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezelD03",
+   "from": [
+    -2.8999999999999986,
+    8.4142,
+    8.4043
+   ],
+   "to": [
+    -2.0500000000000007,
+    8.9142,
+    10.767299999999999
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    8.6642,
+    9.585799999999999
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialLBezelD13",
+   "from": [
+    -2.8999999999999986,
+    8.4142,
+    11.232700000000001
+   ],
+   "to": [
+    -2.0500000000000007,
+    8.9142,
+    13.5957
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    8.6642,
+    12.414200000000001
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialLBezelD23",
+   "from": [
+    -2.8999999999999986,
+    5.5858,
+    8.4043
+   ],
+   "to": [
+    -2.0500000000000007,
+    6.0858,
+    10.767299999999999
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    5.8358,
+    9.585799999999999
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialLBezelD33",
+   "from": [
+    -2.8999999999999986,
+    5.5858,
+    11.232700000000001
+   ],
+   "to": [
+    -2.0500000000000007,
+    6.0858,
+    13.5957
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    5.8358,
+    12.414200000000001
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialLNeedle3",
+   "from": [
+    -2.3500000000000014,
+    6.89,
+    10.75
+   ],
+   "to": [
+    -2.1999999999999993,
+    9.05,
+    11.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    7.25,
+    11.0
+   ],
+   "rotationX": -35
+  },
+  {
+   "name": "DialLHub3",
+   "from": [
+    -2.6000000000000014,
+    6.75,
+    10.5
+   ],
+   "to": [
+    -2.3500000000000014,
+    7.75,
+    11.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRFace3",
+   "from": [
+    -2.1000000000000014,
+    5.0,
+    2.75
+   ],
+   "to": [
+    -2.0,
+    9.5,
+    7.25
    ],
    "faces": {
     "west": {
-     "texture": "#gauge",
+     "texture": "#cabdial",
      "uv": [
       0,
       0,
@@ -1151,52 +7130,973 @@
    }
   },
   {
-   "name": "Gauge2Rim3",
+   "name": "DialRBezel03",
    "from": [
-    -3.6000000000000014,
-    1,
-    3
+    -3.0,
+    9.0,
+    3.8185000000000002
    ],
    "to": [
-    -2.5,
-    5.5,
-    7.5
+    -2.0,
+    9.5,
+    6.1815
    ],
    "faces": {
     "south": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
      ]
     },
     "north": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      1.1,
-      4.5
+      1.0,
+      0.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#cabbezel",
      "uv": [
       0,
       0,
-      4.5,
-      1.1
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel13",
+   "from": [
+    -3.0,
+    5.0,
+    3.8185000000000002
+   ],
+   "to": [
+    -2.0,
+    5.5,
+    6.1815
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel23",
+   "from": [
+    -3.0,
+    6.0685,
+    6.75
+   ],
+   "to": [
+    -2.0,
+    8.4315,
+    7.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel33",
+   "from": [
+    -3.0,
+    6.0685,
+    2.75
+   ],
+   "to": [
+    -2.0,
+    8.4315,
+    3.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.363
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.363
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezelD03",
+   "from": [
+    -2.8999999999999986,
+    8.4142,
+    2.404299999999999
+   ],
+   "to": [
+    -2.0500000000000007,
+    8.9142,
+    4.7673000000000005
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    8.6642,
+    3.5858000000000008
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialRBezelD13",
+   "from": [
+    -2.8999999999999986,
+    8.4142,
+    5.2326999999999995
+   ],
+   "to": [
+    -2.0500000000000007,
+    8.9142,
+    7.595700000000001
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    8.6642,
+    6.414199999999999
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialRBezelD23",
+   "from": [
+    -2.8999999999999986,
+    5.5858,
+    2.404299999999999
+   ],
+   "to": [
+    -2.0500000000000007,
+    6.0858,
+    4.7673000000000005
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    5.8358,
+    3.5858000000000008
+   ],
+   "rotationX": 45
+  },
+  {
+   "name": "DialRBezelD33",
+   "from": [
+    -2.8999999999999986,
+    5.5858,
+    5.2326999999999995
+   ],
+   "to": [
+    -2.0500000000000007,
+    6.0858,
+    7.595700000000001
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      2.363,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    5.8358,
+    6.414199999999999
+   ],
+   "rotationX": -45
+  },
+  {
+   "name": "DialRNeedle3",
+   "from": [
+    -2.3500000000000014,
+    6.89,
+    4.75
+   ],
+   "to": [
+    -2.1999999999999993,
+    9.05,
+    5.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.16
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    -2.0,
+    7.25,
+    5.0
+   ],
+   "rotationX": 28
+  },
+  {
+   "name": "DialRHub3",
+   "from": [
+    -2.6000000000000014,
+    6.75,
+    4.5
+   ],
+   "to": [
+    -2.3500000000000014,
+    7.75,
+    5.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRBezel3",
+   "from": [
+    -2.5,
+    2.0,
+    11.75
+   ],
+   "to": [
+    -2.0,
+    3.5,
+    13.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRLens3",
+   "from": [
+    -3.0,
+    2.25,
+    12.0
+   ],
+   "to": [
+    -2.5,
+    3.25,
+    13.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampABezel3",
+   "from": [
+    -2.5,
+    2.0,
+    9.75
+   ],
+   "to": [
+    -2.0,
+    3.5,
+    11.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampALens3",
+   "from": [
+    -3.0,
+    2.25,
+    10.0
+   ],
+   "to": [
+    -2.5,
+    3.25,
+    11.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate3",
+   "from": [
+    -2.25,
+    1.75,
+    3.0
+   ],
+   "to": [
+    -2.0,
+    4.0,
+    8.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablabel",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gland3",
+   "from": [
+    -1.75,
+    12.25,
+    10.25
+   ],
+   "to": [
+    0,
+    12.75,
+    12.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.75,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.75
      ]
     }
    }
@@ -1205,13 +8105,13 @@
    "name": "Conduit3",
    "from": [
     -1.5,
-    12,
+    12.75,
     10.5
    ],
    "to": [
     0,
     16,
-    12
+    12.0
    ],
    "faces": {
     "south": {
@@ -1220,7 +8120,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "west": {
@@ -1229,7 +8129,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     },
     "north": {
@@ -1238,7 +8138,7 @@
       0,
       0,
       1.5,
-      4
+      3.25
      ]
     }
    }
@@ -1247,13 +8147,13 @@
    "name": "Conduit23",
    "from": [
     -1.1999999999999993,
-    12,
-    5
+    12.25,
+    5.0
    ],
    "to": [
     0,
     16,
-    6
+    6.0
    ],
    "faces": {
     "south": {
@@ -1262,7 +8162,7 @@
       0,
       0,
       1.2,
-      4
+      3.75
      ]
     },
     "west": {
@@ -1270,8 +8170,8 @@
      "uv": [
       0,
       0,
-      1,
-      4
+      1.0,
+      3.75
      ]
     },
     "north": {
@@ -1280,7 +8180,7 @@
       0,
       0,
       1.2,
-      4
+      3.75
      ]
     }
    }

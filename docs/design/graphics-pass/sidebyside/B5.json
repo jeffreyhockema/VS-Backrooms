@@ -1,0 +1,17 @@
+{
+ "batch": "B5",
+ "title": "Level 2 (Pipe Dreams)",
+ "before": "review/baseline/2",
+ "after": "review/b5/final",
+ "out": "review/b5/sidebyside",
+ "note": "review/baseline/2 was reshot in B5 on a build of unchanged main (the B0 set, taken before B3, B4 and B11 were merged, is kept in review/baseline/2-b0; it differed by 2-6 levels, mostly B4's shared concrete floor). Six spots were added for B5: machinery-close, machinery-wide, cabinet-close, door-close, brick-close and tram-inspection (daylight and a lantern: it judges the tram, not the level's light).",
+ "families": [
+  {"id": "machinery-wall", "name": "Machinery wall cabinets", "spots": ["machinery-close", "den-wide", "machinery-wide"]},
+  {"id": "machine-cabinet", "name": "Machine cabinets (also Level 3)", "spots": ["cabinet-close", "prop-1", "wide-01"]},
+  {"id": "tram", "name": "Dead tram and rails", "spots": ["tram-inspection", "tram-wide", "tram-close"]},
+  {"id": "tunnel-walls", "name": "Tunnel walls (concrete, brick)", "spots": ["close-wall", "brick-close", "machinery-close"]},
+  {"id": "ceiling-pipes", "name": "Ceiling, pipe flanges", "spots": ["wide-01", "close-ceiling", "pipewrap-close"]},
+  {"id": "steel-door", "name": "Steel doors", "spots": ["door-close"]},
+  {"id": "clutter", "name": "Candle stubs, machine parts", "spots": ["den-wide", "gate-wide"]}
+ ]
+}

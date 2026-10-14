@@ -63,6 +63,10 @@ HEADER = [
     "cmd /gm creative",
     "cmd /backrooms director off",
     "cmd /backrooms clear 128",
+    # (B5) a Reality Shift that started in the review world never ends with the clock stopped (it runs in in-game
+    # hours), and it blacks out every enclosed level: end one, and keep the player's stability full
+    "cmd /backrooms shift 0",
+    "cmd /backrooms stat stability 1",
     "cmd /time setmonth jun",
     "cmd /time set 12:00",
     "cmd /time stop",
