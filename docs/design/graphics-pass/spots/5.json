@@ -34,6 +34,16 @@
     {"name": "fronthall-wide", "tp": [512239.5, 217.0, 507501.5], "look": [180, -2], "target": "fronthall"},
     {"name": "fronthall-close", "tp": [512239.5, 217.0, 507501.5], "look": [180, -2], "fov": 35, "target": "fronthall"},
     {"name": "door666-wide", "tp": [512148.5, 217.0, 507640.5], "look": [180, -3], "target": "door666"},
-    {"name": "door666-close", "tp": [512148.5, 217.0, 507640.5], "look": [180, -3], "fov": 35, "target": "door666"}
+    {"name": "door666-close", "tp": [512148.5, 217.0, 507640.5], "look": [180, -3], "fov": 35, "target": "door666"},
+    {"name": "door-close", "tp": [512199.5, 217.05, 507464.5], "look": [0, -2], "target": "guest-room door with its number plate (B8)"},
+    {"name": "sconce-close", "tp": [512202.5, 217.05, 507464.5], "look": [0, 2], "target": "candle sconce on the damask (B8)"},
+    {"name": "portrait-close", "tp": [512203.5, 217.05, 507464.5], "look": [0, 2], "target": "portrait (B8)"},
+    {"name": "chandelier-close", "tp": [512239.62, 217.05, 507529.62], "look": [315, 30], "target": "chandelier (B8)"},
+    {"name": "desk-close", "tp": [512236.5, 217.05, 507510.5], "look": [180, -15], "target": "front desk (B8)"},
+    {"name": "keyrack-close", "tp": [512237.5, 217.05, 507512.5], "look": [180, 0], "target": "key rack behind the front desk (B8)"},
+    {"name": "stairs-close", "tp": [512229.5, 217.05, 507510.5], "look": [180, 8], "target": "grand staircase (B8)"},
+    {"name": "elevator-close", "tp": [512175.5, 217.05, 507501.5], "look": [90, 8], "target": "cage elevator beside its call plate (B8)"},
+    {"name": "callplate-close", "tp": [512176.5, 217.05, 507503.5], "look": [90, 0], "target": "elevator call plate (B8)"},
+    {"name": "boiler-inspection", "tp": [512176.27, 217.05, 507482.73], "look": [225, -8], "inspection": true, "target": "boiler bay, dark by design: daylight and a lantern (B8)"}
   ]
 }

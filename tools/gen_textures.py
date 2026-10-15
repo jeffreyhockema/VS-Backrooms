@@ -2364,53 +2364,445 @@ def level4_textures():
         save(img, f"block/level4/elevatordoor-{part}.png")
 
 
-def damask_panel():
-    """The hotel's red damask panel in a gilt frame on cream, at 64 px: a diamond lattice with a fleur in every cell,
-    woven in two reds about 10% apart (drawn 4x large and scaled down, so the curves come out smooth)."""
-    N, k = 64, 4
-    ground, motif = (98, 12, 8), (116, 22, 14)
-    big = Image.new("RGBA", (N * k, N * k), ground + (255,))
+# ---------------- Level 5: the Terror Hotel (graphics pass B8) ----------------
+#
+# Old tones kept: each surface's mean colour is matched to the texture it replaces (L5_MEAN, measured on main before
+# B8), and the damask's two reds, the cream and the gilt are the old ones. Structure first: mahogany has grain and
+# pores, brass is brushed and tarnished, gilt is burnished on its high points; the wall's mouldings are shaded as
+# relief lit from above; the carpets are a short pile with the old patterns dyed into it.
+
+L5_MEAN = {
+    "mahogany": (89.8, 45.8, 25.8), "brass": (176.0, 138.0, 60.0), "gilt": (200.7, 159.7, 63.7),
+    "wainscot": (79.5, 45.6, 29.4), "frieze": (218.0, 196.2, 160.9),
+    "damask": (110.5, 50.4, 17.9), "maroon": (46.1, 12.1, 10.1), "lobby": (177.5, 124.7, 72.1),
+    "hotelwood": (70.0, 39.4, 24.9), "cream": (225.9, 209.9, 179.9), "door": (76.0, 42.5, 27.5),
+    "crystal": (240.2, 244.2, 253.5),
+}
+DAMASK_GROUND, DAMASK_MOTIF = (98, 12, 8), (116, 22, 14)
+PANEL_CREAM = hexrgb(0xD9C3A0)
+GILT = (196, 160, 72)
+DOOR_WOOD = (74, 40, 25)
+# The red field inside the panel's gilt frame (64 px, inclusive), and the frame's width round it
+PANEL_FIELD, FRAME_W = (11, 7, 52, 56), 4
+
+
+def wood_grain(seed, base, direction="h", figure=1.0, pores=0.4, size=S):
+    """(B8) Mahogany or walnut as a material for models and mouldings: one board with no edges or seams (the boxes it
+    goes on make the edges), long streaks along the grain, wavy darker grain lines in short runs, open pores (short
+    dark dashes along the grain, as mahogany has) and a faint satin sheen. Tileable."""
+    img = M.brushed_metal(seed, size=size, base=base, grain=3, direction="h", streak=9 * figure, sheen=3, drift=M.DRIFT)
+    w, h = img.size
+    wave = M.value_noise((w, h), (w // 2, h // 4), M.sub(seed, "wave"))
+    lines = M.value_noise((w, h), (w // 2, 1), M.sub(seed, "lines"))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            k = lines[int(y + wave[y][x] * 2.0) % h][x]
+            if k > 0.5:  # long, gently wavy grain lines (short ones read as a pattern of arcs)
+                px[x, y] = M.rgba(M.lift(px[x, y], -(k - 0.5) * 34 * figure))
+    rng = random.Random(M.sub(seed, "pores"))
+    for _ in range(int(pores * w * h / 8)):
+        x, y = rng.randrange(w), rng.randrange(h)
+        for i in range(rng.randint(1, 3)):
+            M.touch(img, x + i, y, -0.1)
+    return img.transpose(Image.TRANSPOSE) if direction == "v" else img
+
+
+def brass_metal(seed=5500, base=(176, 138, 60), mean=None):
+    """Old brass: brushed, a soft sheen band, tarnish gathering in broad patches."""
+    img = M.brushed_metal(seed, base=base, grain=3, direction="h", streak=8, sheen=9, drift=M.DRIFT)
+    M.grime(img, 0.1, M.sub(seed, "tarnish"), color=(98, 78, 40), cells=(4, 2), cover=0.45)
+    return match_rgb(img, mean or L5_MEAN["brass"])
+
+
+def gilt_leaf(seed=5510):
+    """Gilded wood: the leaf's soft clouding, burnished high points catching the light, tarnish in the hollows. (No
+    specks rubbed through to the bole: on a frame tiled down a corridor they read as a row of nail heads.)"""
+    img = M.noise_hv(GILT, 4, seed, S, 8, (8, 4), hue=3.0)
+    burn = M.fbm((S, S), M.sub(seed, "burnish"), (8, 4))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if burn[y][x] > 0.25:
+                px[x, y] = M.rgba(M.lift(px[x, y], (burn[y][x] - 0.25) * 26))
+    M.grime(img, 0.2, M.sub(seed, "tarnish"), color=(110, 82, 36), cells=(4, 2), cover=0.4)
+    return match_rgb(img, L5_MEAN["gilt"])
+
+
+def layered_pattern(layers, size=S, k=4, crisp=False):
+    """A dyeable pattern (RGBA, transparent where there is none) from layers of (colour, paint): paint(draw, k) fills
+    a mask drawn k times larger, which is scaled down, so curves and rings come out smooth (or, `crisp`, cut at half
+    cover: whole pixels, as a woven carpet's pattern is). Later layers lie on top."""
+    w, h = (size, size) if isinstance(size, int) else size
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    for colour, paint in layers:
+        m = Image.new("L", (w * k, h * k), 0)
+        paint(ImageDraw.Draw(m), k)
+        layer = Image.new("RGBA", (w, h), tuple(colour) + (255,))
+        m = m.resize((w, h), Image.BOX)
+        if crisp:
+            m = m.point(lambda a: 255 if a >= 110 else 0)
+        layer.putalpha(m)
+        out.alpha_composite(layer)
+    return out
+
+
+def damask_print(phase=(0.0, 0.0), N=64):
+    """The hotel's red damask over the whole 64 px square (the frame shows the middle of it): a diamond lattice with
+    a fleur in every cell in two reds about 10% apart, drawn 4x large and scaled down. `phase` shifts the print, as a
+    paperhanger cuts each panel from the roll wherever it falls. Woven: the motif a satin with a faint sheen, the
+    ground a matte rib."""
+    k = 4
+    big = Image.new("RGBA", (N * k, N * k), DAMASK_GROUND + (255,))
     d = ImageDraw.Draw(big)
-    x0, y0, x1, y1 = 11, 7, 52, 56  # the red field inside the frame
     cw, ch = 20, 26  # one diamond of the lattice
 
     def fleur(cx, cy, w, h):
         cx, cy, w, h = cx * k, cy * k, w * k, h * k
         d.polygon([(cx, cy - h * 0.5), (cx + w * 0.17, cy - h * 0.18), (cx + w * 0.1, cy + h * 0.08),
-                   (cx, cy + h * 0.14), (cx - w * 0.1, cy + h * 0.08), (cx - w * 0.17, cy - h * 0.18)], fill=motif)
+                   (cx, cy + h * 0.14), (cx - w * 0.1, cy + h * 0.08), (cx - w * 0.17, cy - h * 0.18)], fill=DAMASK_MOTIF)
         for sx in (1, -1):  # the two curling side leaves
             d.polygon([(cx + sx * w * 0.08, cy + h * 0.06), (cx + sx * w * 0.3, cy - h * 0.12), (cx + sx * w * 0.5, cy - h * 0.34),
-                       (cx + sx * w * 0.52, cy - h * 0.12), (cx + sx * w * 0.4, cy + h * 0.06), (cx + sx * w * 0.2, cy + h * 0.14)], fill=motif)
-            d.ellipse([cx + sx * w * 0.42 - w * 0.07, cy - h * 0.4, cx + sx * w * 0.42 + w * 0.07, cy - h * 0.3], fill=motif)
-        d.rectangle([cx - w * 0.24, cy + h * 0.14, cx + w * 0.24, cy + h * 0.22], fill=motif)  # the band
-        d.polygon([(cx - w * 0.14, cy + h * 0.22), (cx + w * 0.14, cy + h * 0.22), (cx, cy + h * 0.46)], fill=motif)  # the foot
+                       (cx + sx * w * 0.52, cy - h * 0.12), (cx + sx * w * 0.4, cy + h * 0.06), (cx + sx * w * 0.2, cy + h * 0.14)], fill=DAMASK_MOTIF)
+            d.ellipse([cx + sx * w * 0.42 - w * 0.07, cy - h * 0.4, cx + sx * w * 0.42 + w * 0.07, cy - h * 0.3], fill=DAMASK_MOTIF)
+        d.rectangle([cx - w * 0.24, cy + h * 0.14, cx + w * 0.24, cy + h * 0.22], fill=DAMASK_MOTIF)  # the band
+        d.polygon([(cx - w * 0.14, cy + h * 0.22), (cx + w * 0.14, cy + h * 0.22), (cx, cy + h * 0.46)], fill=DAMASK_MOTIF)
 
-    ox, oy = (x0 + x1) / 2, (y0 + y1) / 2
-    for i in range(-3, 4):
-        for j in range(-4, 5):
+    ox, oy = 31.5 + phase[0], 31.5 + phase[1]
+    for i in range(-4, 5):
+        for j in range(-6, 7):
             fleur(ox + i * cw + (cw / 2 if j % 2 else 0), oy + j * ch / 2, cw * 0.56, ch * 0.6)
-    for i in range(-6, 7):  # the lattice: lines through the diamonds' side corners
+    for i in range(-7, 8):  # the lattice: lines through the diamonds' side corners
         px0, py0 = ox + cw / 2 + i * cw, oy
         for sgn in (1, -1):
-            d.line([((px0 - 4 * cw) * k, (py0 - sgn * 4 * ch) * k), ((px0 + 4 * cw) * k, (py0 + sgn * 4 * ch) * k)], fill=motif, width=k)
-    field = big.resize((N, N), Image.LANCZOS)
-
-    img = noise_fill(hexrgb(0xD9C3A0), 3, 541, size=N)
-    img.paste(field.crop((x0, y0, x1 + 1, y1 + 1)), (x0, y0))
-    rng = random.Random(541)
+            d.line([((px0 - 5 * cw) * k, (py0 - sgn * 5 * ch) * k), ((px0 + 5 * cw) * k, (py0 + sgn * 5 * ch) * k)],
+                   fill=DAMASK_MOTIF, width=k)
+    img = big.resize((N, N), Image.LANCZOS)
     px = img.load()
-    for y in range(y0, y1 + 1):  # a little weave noise
-        for x in range(x0, x1 + 1):
-            px[x, y] = shade(px[x, y], 1 + rng.uniform(-0.04, 0.04))
-    d = ImageDraw.Draw(img)
-    gilt, light, dark = (196, 160, 72, 255), (232, 204, 120, 255), (124, 92, 36, 255)
-    d.rectangle([x0 - 4, y0 - 4, x1 + 4, y1 + 4], outline=gilt, width=4)
-    d.line([x0 - 4, y0 - 4, x1 + 4, y0 - 4], fill=light)  # bevel: lit from above
-    d.line([x0 - 4, y0 - 4, x0 - 4, y1 + 4], fill=light)
-    d.line([x0 - 4, y1 + 4, x1 + 4, y1 + 4], fill=dark)
-    d.line([x1 + 4, y0 - 4, x1 + 4, y1 + 4], fill=dark)
-    d.rectangle([x0 - 1, y0 - 1, x1 + 1, y1 + 1], outline=dark)  # the inner sight edge
+    rng = random.Random(541)
+    sheen = M.value_noise((N, N), (32, 16), 5410)
+    mid = (M.lum(DAMASK_GROUND) + M.lum(DAMASK_MOTIF)) / 2
+    for y in range(N):
+        for x in range(N):
+            c = px[x, y]
+            if M.lum(c) > mid:  # satin: a soft sheen across the motif, its floats running upright
+                c = M.lift(c, 2.5 + sheen[y][x] * 3 + (1.0 if x % 2 else -0.5))
+            else:  # matte ground: a fine horizontal rib
+                c = M.lift(c, 0.8 if y % 2 else -0.8)
+            px[x, y] = M.rgba(M.lift(c, rng.uniform(-1.6, 1.6)))
     return img
+
+
+MOULD = {  # a gilt ogee moulding's profile, outer px first, per member: lit where it faces up (and a little left)
+    "t": (0.20, 0.10, -0.04, -0.16), "b": (-0.24, -0.10, 0.04, 0.12),
+    "l": (0.12, 0.05, -0.02, -0.10), "r": (-0.16, -0.07, 0.02, 0.08)}
+
+
+def gilt_frame(img, box, gilt, width=FRAME_W):
+    """Paints a raised gilt moulding of `width` px round box (x0, y0, x1, y1 inclusive, the inside of the frame):
+    each member shaded across its profile by which way it faces (MOULD), mitred at the corners; the shadow it casts
+    on the field under its top member and on the wall under and right of it."""
+    x0, y0, x1, y1 = box
+    ox0, oy0, ox1, oy1 = x0 - width, y0 - width, x1 + width, y1 + width
+    p, g = img.load(), gilt.load()
+    for y in range(oy0, oy1 + 1):
+        for x in range(ox0, ox1 + 1):
+            if x0 <= x <= x1 and y0 <= y <= y1:
+                continue
+            dist = {"t": y - oy0, "b": oy1 - y, "l": x - ox0, "r": ox1 - x}
+            m = min(dist, key=lambda k: (dist[k], "tlbr".index(k)))
+            f = MOULD[m][min(width - 1, dist[m]) * 4 // width]
+            p[x, y] = M.rgba(M.shade_px(g[x % gilt.width, y % gilt.height], f))
+    for x in range(x0, x1 + 1):  # the shadow under the top member, on the field
+        M.touch(img, x, y0, -0.18)
+        M.touch(img, x, y0 + 1, -0.07)
+    for y in range(y0 + 2, y1 + 1):
+        M.touch(img, x0, y, -0.08)
+    for x in range(ox0 + 1, ox1 + 2):  # and on the wall under the frame and to its right
+        M.touch(img, x, oy1 + 1, -0.14)
+        M.touch(img, x, oy1 + 2, -0.05)
+    for y in range(oy0 + 1, oy1 + 2):
+        M.touch(img, ox1 + 1, y, -0.1)
+        M.touch(img, ox1 + 2, y, -0.04)
+    return img
+
+
+def hotel_panel(alt=0):
+    """The hotel's damask panel, at 64 px: cream plaster round a gilt-framed panel of red damask (the old layout,
+    tones and print). The frame is a moulding shaded as relief and casts its shadow; the plaster is plain and
+    seamless, so a corridor's walls run on from block to block. Versions (the blocktype lists them): the print cut
+    at three different places of the roll, and (`alt` 3, one block in eight) an old water mark down the damask."""
+    N = 64
+    img = M.plaster(5620, size=N, base=PANEL_CREAM, grain=2, mottle=3, roller=0.4, bumps=0.0)
+    phase = ((0.0, 0.0), (10.0, 0.0), (5.0, 6.5), (0.0, 0.0))[alt]
+    field = damask_print(phase, N)
+    if alt == 3:
+        M.stain(field, 5631, radius=10, color=(70, 18, 10), strength=0.3, at=(36, 44), ring=0.6)
+    x0, y0, x1, y1 = PANEL_FIELD
+    img.paste(field.crop((x0, y0, x1 + 1, y1 + 1)), (x0, y0))
+    gilt = gilt_leaf()
+    return gilt_frame(img, PANEL_FIELD, gilt)
+
+
+def wainscot(alt=0):
+    """The mahogany wainscot (32 px): a moulded cap (the chair rail), a top rail, a raised and fielded panel in a
+    recess, a bottom rail and a skirting with a dark toe; the stiles are split across the block's edges (2 px each
+    side), so neighbouring blocks make one 4 px stile and the run reads as panelling, not as boxes. The rails have
+    grain along them, the stiles and panels up them. Old tone. One version: a second grain read as a
+    patchwork of lighter and darker blocks."""
+    seed = 5600 + alt * 10
+    vt = wood_grain(seed, (82, 47, 30), "v", figure=0.6, pores=0.15)
+    ht = wood_grain(seed + 3, (82, 47, 30), "h", figure=0.7, pores=0.15)
+    img = Image.new("RGBA", (S, S))
+    p, v, h = img.load(), vt.load(), ht.load()
+    shade = [[0.0] * S for _ in range(S)]
+    for y in range(S):
+        for x in range(S):
+            stile = (x < 2 or x >= 30) and 3 <= y <= 27
+            panel = 2 <= x <= 29 and 7 <= y <= 24
+            upright = stile or panel
+            p[x, y] = (v if upright else h)[x, y]
+    for x in range(S):  # the cap: a rounded top lit, its underside dark, its shadow on the rail
+        for y, f in ((0, 0.18), (1, 0.05), (2, -0.2), (3, -0.12), (27, -0.07), (28, 0.15), (29, 0.02), (30, -0.05), (31, -0.22)):
+            shade[y][x] += f
+    for y in range(7, 25):  # the panel's recess: its top and left walls in shadow, bottom and right lit
+        for x in range(2, 30):
+            if y == 7 or x == 2:
+                shade[y][x] += -0.18
+            elif y == 24 or x == 29:
+                shade[y][x] += 0.09
+            elif 4 <= x <= 27 and 9 <= y <= 22:  # the raised field's bevel, mitred
+                dist = {"t": y - 9, "b": 22 - y, "l": x - 4, "r": 27 - x}
+                m = min(dist, key=lambda k: (dist[k], "tlbr".index(k)))
+                if dist[m] < 2:
+                    shade[y][x] += {"t": (0.14, 0.06), "b": (-0.16, -0.07), "l": (0.08, 0.03), "r": (-0.12, -0.05)}[m][dist[m]]
+            else:
+                shade[y][x] += -0.03
+    for y in range(S):
+        for x in range(S):
+            if shade[y][x]:
+                p[x, y] = M.rgba(M.shade_px(p[x, y], shade[y][x]))
+    M.grime(img, 0.08, M.sub(seed, "dust"), color=(54, 40, 30), cells=(4, 2), bias="bottom", cover=0.4)
+    return match_rgb(img, L5_MEAN["wainscot"], "l5wainscot")
+
+
+def frieze():
+    """The cream frieze over the damask (32 px): plain plaster, and at its top a picture-rail moulding shaded as
+    relief: a shadow line where it meets what is above, a lit cove, a fillet, its dark underside and the soft shadow
+    it casts on the wall. In the grand rooms (two frieze blocks high) it reads as a picture rail."""
+    img = M.plaster(5620, base=PANEL_CREAM, grain=2, mottle=3, roller=0.4, bumps=0.0)
+    p = img.load()
+    for y, f, k in ((0, -0.22, 0.3), (1, 0.13, 0.6), (2, 0.08, 0.6), (3, 0.02, 0.6), (4, 0.10, 0.5), (5, -0.17, 0.4),
+                    (6, -0.08, 0), (7, -0.03, 0)):
+        for x in range(S):
+            c = M.mix(p[x, y], (236, 220, 188), k)
+            p[x, y] = M.rgba(M.shade_px(c, f))
+    return match_rgb(img, L5_MEAN["frieze"], "l5frieze")
+
+
+def hotel_ceiling():
+    """The corridors' cream ceiling: plaster with the faintest clouding."""
+    img = M.plaster(5640, base=(226, 210, 180), grain=2, mottle=2, roller=0.3, bumps=0.0)
+    return match_rgb(img, L5_MEAN["cream"], "l5cream")
+
+
+def hotel_pile(seed, base, pile=4):
+    """The hotel's carpets: a short, even cut pile (B6's runner lesson: a long nap reads as red static at range), two
+    tones of yarn."""
+    return M.carpet(seed, base=base, tone2=M.hue_shift(M.lift(base, -8), 2), mix2=0.35, pile=pile, grain=2, mottle=2)
+
+
+def _medallion():
+    """The corridor carpet's medallions as the old ones (a 1 px ring and a small heart, drawn at 1:1 so they come out as
+    clean pixel octagons), but an even number of pixels across and centred on the half pixel (7.5, 23.5), so a block
+    turned by the blocktype keeps every ring where it was (the old odd-sized rings would jump a pixel). (Round 2) A
+    small gold rosette in each gap between four medallions, so it reads as a woven pattern rather than a grid of dots."""
+    def ring(d, k):
+        for cx, cy in ((2, 2), (18, 2), (2, 18), (18, 18)):
+            d.ellipse([cx, cy, cx + 11, cy + 11], outline=255)
+
+    def dot(d, k):
+        for cx, cy in ((6, 6), (22, 6), (6, 22), (22, 22)):
+            d.ellipse([cx - 0.5, cy - 0.5, cx + 3.5, cy + 3.5], fill=255)
+    def rosette(d, k):  # (round 2) a small gold rosette in the middle of each gap between four medallions
+        for cx in (-2, 14, 30):
+            for cy in (-2, 14, 30):
+                d.rectangle([cx + 1, cy, cx + 2, cy + 3], fill=255)
+                d.rectangle([cx, cy + 1, cx + 3, cy + 2], fill=255)
+    return [((196, 150, 60), ring), ((160, 40, 20), dot), ((186, 140, 56), rosette)]
+
+
+def hotel_carpet(kind, alt=0):
+    """The hotel's carpets on a short pile, the old patterns dyed in (so they keep the pile), a little dingy. Three
+    versions of each share one ground and are turned at random by the blocktype (matlib.turn_safe), so they meet
+    without a seam; the patterns are four-fold symmetric, so a turned block keeps the pattern's rhythm.
+    - damask: the corridors' red-brown carpet with its gold rings and red centres, on every half block as before;
+    - maroon: the ballroom's plain near-black maroon;
+    - lobby: tan with its red border line."""
+    base = {"damask": (100, 42, 14), "maroon": (48, 13, 10), "lobby": (181, 133, 76)}[kind]
+    seed = {"damask": 5660, "maroon": 5670, "lobby": 5680}[kind] + alt
+    img = hotel_pile(seed, base, pile=2 if kind == "maroon" else 4)  # (round 2) the dark maroon's pile calmer: it read coarse
+    M.turn_safe(img, M.noise_hv(base, 0, seed - alt, S, 2, (16,), hue=0), band=8, keep=0.5)
+    if kind == "damask":
+        M.dye(img, layered_pattern(_medallion(), k=1), base)
+    elif kind == "lobby":
+        def border(d, k):
+            d.rectangle([2 * k, 2 * k, 30 * k - 1, 30 * k - 1], fill=255)
+            d.rectangle([3.2 * k, 3.2 * k, 28.8 * k - 1, 28.8 * k - 1], fill=0)
+        M.dye(img, layered_pattern([((150, 40, 24), border)], crisp=True), base)
+    dingy(img, seed, dull=0.05, dim=1.0, grime=0.05 if kind != "maroon" else 0.03, flecks=6 if kind != "maroon" else 2)
+    return match_rgb(img, L5_MEAN[kind], "l5carpet-" + kind)
+
+
+def hotel_floorboards(alt=0):
+    """The dining rooms' dark walnut floor: four boards of 8 px to the block (the old 6 px lines did not tile), each
+    its own shade with grain and a dark gap; the versions share every board's shade and grain and differ only in the
+    one butt joint each has (none in the first), in a different board and place, so the floor mixes without a seam and
+    no joint stands at the same place block after block. Not turned (the boards keep their direction)."""
+    img = M.wood_planks(5690, base=(78, 44, 28), planks=4, direction="h", grain=3, contrast=0.8, per_plank=6,
+                        joints=0.0, gap=(30, 18, 12))
+    p = img.load()
+    if alt:
+        board, jx = ((0, 0), (2, 21), (1, 9), (3, 27), (0, 15))[alt]
+        for y in range(board * 8, board * 8 + 7):
+            p[jx, y] = M.rgba(M.lift((30, 18, 12), 0))
+            M.touch(img, jx + 1, y, 0.06)
+    return match_rgb(img, L5_MEAN["hotelwood"], "l5wood")
+
+
+def door_plate(number, tarnish=0.12, size=(32, 16)):
+    """A room door's brass number plate (the plate is a box on the door; this is its face): brushed brass, its edge
+    bevelled, the number engraved: dark in the cut, lit on the cut's lower right wall."""
+    img = M.brushed_metal(5710, size=size, base=(206, 170, 84), grain=3, direction="h", streak=7, sheen=10, drift=M.DRIFT)
+    M.grime(img, tarnish, 5711, color=(110, 84, 36), cells=(8, 4), cover=0.5)
+    w, h = size
+    M.bevel(img, (0, 0, w, h), 1, 0.22)
+    if number:  # tall, narrow numerals (a 5 x 7 face drawn twice as tall), centred
+        ink = Image.new("RGBA", size, (0, 0, 0, 0))
+        x0, tall = (w - (len(number) * 6 - 1)) // 2, (h - 2) // 7
+        top = (h - 7 * tall) // 2
+        for i, ch in enumerate(number):
+            for j, row in enumerate(PLACARD_FONT[ch]):
+                for k, bit in enumerate(row):
+                    if bit == "1":
+                        for t in range(tall):
+                            ink.putpixel((x0 + i * 6 + k, top + j * tall + t), (255, 255, 255, 255))
+        a, p = ink.load(), img.load()
+        cut = {(x, y) for y in range(h) for x in range(w) if a[x, y][3] > 110}
+        for (x, y) in cut:
+            p[x, y] = M.rgba(M.mix(p[x, y], (44, 26, 10), 0.8))
+        for (x, y) in cut:
+            if (x + 1, y + 1) not in cut and x + 1 < w and y + 1 < h:
+                M.touch(img, x + 1, y + 1, 0.18)
+    return img
+
+
+def oil_portrait(kind):
+    """(B8) The corridor portraits: dark, unsettling oils in yellowed varnish, the eyes lost in shadow. Print 0 is the
+    old one (a man in black); the others are listed beside it as texture alternates, so a corridor of portraits is
+    not one face over and over: a woman in a dark gown with a high collar, an old man with a grey beard, a pale
+    child."""
+    if kind == 0:
+        return portrait(557)
+    rng = random.Random(5720 + kind)
+    bg = {1: ((40, 46, 32), (20, 22, 16)), 2: ((58, 40, 26), (26, 20, 14)), 3: ((44, 36, 40), (20, 16, 20))}[kind]
+    img = texlib.vertical_gradient(*bg)
+    px = img.load()
+    fy, fr = {1: (13, (4.6, 6.2)), 2: (12, (5.2, 6.6)), 3: (15, (4.2, 5.0))}[kind]
+    coat = {1: (24, 16, 22), 2: (30, 24, 20), 3: (40, 34, 30)}[kind]
+    skin = {1: (190, 160, 136), 2: (168, 136, 110), 3: (200, 184, 168)}[kind]
+    for y in range(S):
+        for x in range(S):
+            r, g, b, _ = px[x, y]
+            n = rng.uniform(-5, 5)
+            body = y > fy + 7 and abs(x - 16) < 5 + (y - fy - 7) * (1.1 if kind == 1 else 0.9)
+            if body:
+                r, g, b = coat
+                if kind == 1 and y < fy + 11 and abs(x - 16) < 3:
+                    r, g, b = 150, 138, 116  # the high lace collar
+                if kind == 3 and abs(x - 16) < 2 and y < fy + 10:
+                    r, g, b = 168, 160, 146  # a pinafore's bib
+            dx, dy = (x - 16) / fr[0], (y - fy) / fr[1]
+            if dx * dx + dy * dy < 1:
+                light = 0.5 + 0.5 * max(0.0, -dx)
+                r, g, b = (int(c * light) for c in skin)
+                if fy - 2 <= y <= fy - 1 and (13 <= x <= 14 or 18 <= x <= 19):
+                    r, g, b = 34, 26, 22  # the eyes, in shadow
+                if kind == 2 and y > fy + 2 and abs(dx) < 0.9:  # the grey beard over the chin
+                    r, g, b = (int(c * (0.7 + 0.3 * light)) for c in (150, 146, 136))
+            hair = 0.75 < dx * dx + dy * dy < 1.35 and y < fy - 1
+            if kind == 1 and 0.8 < dx * dx + dy * dy < 1.6 and y < fy + 4:
+                hair = True  # hair drawn down over the ears
+            if hair:
+                r, g, b = {1: (30, 22, 18), 2: (118, 114, 106), 3: (70, 50, 30)}[kind]
+            px[x, y] = (clamp(r + n), clamp(g + n), clamp(b + n), 255)
+    blotch(img, (16, 14), 14, (120, 96, 40), 0.18, 5730 + kind)  # the varnish, yellowed toward the middle
+    return img
+
+
+PLACARD_FONT = {
+    "T": ("11111", "00100", "00100", "00100", "00100", "00100", "00100"),
+    "H": ("10001", "10001", "10001", "11111", "10001", "10001", "10001"),
+    "E": ("11111", "10000", "10000", "11110", "10000", "10000", "11111"),
+    "B": ("11110", "10001", "10001", "11110", "10001", "10001", "11110"),
+    "V": ("10001", "10001", "10001", "10001", "01010", "01010", "00100"),
+    "R": ("11110", "10001", "10001", "11110", "10100", "10010", "10001"),
+    "L": ("10000", "10000", "10000", "10000", "10000", "10000", "11111"),
+    "Y": ("10001", "10001", "01010", "00100", "00100", "00100", "00100"),
+    "O": ("01110", "10001", "10001", "10001", "10001", "10001", "01110"),
+    "M": ("10001", "11011", "10101", "10101", "10001", "10001", "10001"),
+    "0": ("01110", "10001", "10001", "10001", "10001", "10001", "01110"),
+    "1": ("00100", "01100", "00100", "00100", "00100", "00100", "01110"),
+    "2": ("01110", "10001", "00001", "00010", "00100", "01000", "11111"),
+    "3": ("11110", "00001", "00001", "01110", "00001", "00001", "11110"),
+    "4": ("00010", "00110", "01010", "10010", "11111", "00010", "00010"),
+    "5": ("11111", "10000", "11110", "00001", "00001", "10001", "01110"),
+    "6": ("00110", "01000", "10000", "11110", "10001", "10001", "01110"),
+    "7": ("11111", "00001", "00010", "00100", "01000", "01000", "01000"),
+    "8": ("01110", "10001", "10001", "01110", "10001", "10001", "01110"),
+    "9": ("01110", "10001", "10001", "01111", "00001", "00010", "01100"),
+}
+
+
+def beverly_placard():
+    """The Beverly Room's placard (the face of a plate on its wall, 64 x 32): nickel silver, brushed, its edge
+    bevelled, the name engraved in three lines."""
+    w, h = 64, 32
+    img = M.brushed_metal(5740, size=(w, h), base=(184, 188, 192), grain=3, direction="h", streak=6, sheen=10, drift=0.1)
+    M.grime(img, 0.12, 5741, color=(120, 116, 104), cells=(8, 4), cover=0.5)
+    M.bevel(img, (0, 0, w, h), 1, 0.2)
+    rows = []  # the engraved letters, a 5 x 7 pixel face (the font scaled down lost ROOM's O's), BEVERLY drawn twice as tall
+    for word, top, tall in (("THE", 1, 1), ("BEVERLY", 9, 2), ("ROOM", 24, 1)):
+        x0 = (w - (len(word) * 6 - 1)) // 2
+        for i, ch in enumerate(word):
+            for j, row in enumerate(PLACARD_FONT[ch]):
+                for k, bit in enumerate(row):
+                    if bit == "1":
+                        rows += [(x0 + i * 6 + k, top + j * tall + t) for t in range(tall)]
+    ink = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    for (x, y) in rows:
+        ink.putpixel((x, y), (255, 255, 255, 255))
+    a, p = ink.load(), img.load()
+    cut = {(x, y) for y in range(h) for x in range(w) if a[x, y][3] > 110}
+    for (x, y) in cut:
+        p[x, y] = M.rgba(M.mix(p[x, y], (40, 30, 20), 0.85))
+    for (x, y) in cut:
+        if (x + 1, y + 1) not in cut and x + 1 < w and y + 1 < h:
+            M.touch(img, x + 1, y + 1, 0.16)
+    return img
+
+
+def crystal_glass():
+    """The chandelier's cut crystal: pale, with bright and shaded facets in small diamonds."""
+    img = M.noise_hv((232, 238, 250), 3, 5750, S, 2, (8, 4), hue=1.0)
+    for y in range(S):
+        for x in range(S):
+            u, v = (x + y) % 16, (x - y) % 16
+            f = 0.08 if (u < 8) != (v < 8) else -0.05
+            if u == 0 or v == 0:
+                f = 0.12
+            M.touch(img, x, y, f, 0.05)
+    return match_rgb(img, L5_MEAN["crystal"], "l5crystal")
 
 
 def boiler_textures():
@@ -2431,36 +2823,21 @@ def boiler_textures():
 
 
 def level5_textures():
-    # Hotel walls: mahogany wainscot, red damask panel in a gilt frame on cream, cream frieze with a cornice
-    img = noise_fill(hexrgb(0x452518), 6, 540)
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 4, 28, 27], outline=(115, 74, 48, 255), width=2)
-    d.line([0, 1, S - 1, 1], fill=(140, 100, 60, 255))
-    save(img, "block/level5/hotelwall-wainscot.png")
-    save(damask_panel(), "block/level5/hotelwall-panel.png")
-    img = noise_fill(hexrgb(0xD9C3A0), 4, 542)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, 5], fill=(232, 214, 180, 255))
-    d.line([0, 6, S - 1, 6], fill=(160, 120, 70, 255))
-    save(img, "block/level5/hotelwall-frieze.png")
+    # (B8) Hotel walls: the damask panel cut from the roll at three places, and a fourth with an old water mark (one
+    # block in eight, gen_blocktypes); the wainscot; the frieze with its picture rail
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3"), (3, "-4")):
+        save(hotel_panel(alt), f"block/level5/hotelwall-panel{v}.png")
+    save(wainscot(0), "block/level5/hotelwall-wainscot.png")
+    save(frieze(), "block/level5/hotelwall-frieze.png")
 
-    img = noise_fill(hexrgb(0x5E260C), 6, 543)
-    d = ImageDraw.Draw(img)
-    for cx, cy in ((8, 8), (24, 24), (24, 8), (8, 24)):  # gold medallions
-        d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], outline=(196, 150, 60, 255))
-        d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(160, 40, 20, 255))
-    save(img, "block/level5/hotelcarpet-damask.png")
-    save(noise_fill(hexrgb(0x2E0C0A), 5, 544), "block/level5/hotelcarpet-maroon.png")
-    img = noise_fill(hexrgb(0xB5874E), 6, 545)
-    d = ImageDraw.Draw(img)
-    d.rectangle([2, 2, S - 3, S - 3], outline=(150, 40, 24, 255))
-    save(img, "block/level5/hotelcarpet-lobby.png")
-    img = noise_fill(hexrgb(0x4E2C1C), 6, 546)
-    d = ImageDraw.Draw(img)
-    for y in range(0, S, 6):
-        d.line([0, y, S - 1, y], fill=(36, 20, 12, 255))
-    save(img, "block/level5/hotelwood.png")
-    save(noise_fill(hexrgb(0xE2D2B4), 3, 547), "block/level5/hotelceiling-cream.png")
+    # (B8) Carpets on a short pile, three versions each (turned at random); the walnut floor in five versions
+    for kind in ("damask", "maroon", "lobby"):
+        for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+            save(hotel_carpet(kind, alt), f"block/level5/hotelcarpet-{kind}{v}.png")
+    for alt in range(5):
+        save(hotel_floorboards(alt), "block/level5/hotelwood" + (f"-{alt + 1}" if alt else "") + ".png")
+    save(hotel_ceiling(), "block/level5/hotelceiling-cream.png")
+    # The old painted beam ceiling (rooms generated before the beams were modelled)
     img = noise_fill(hexrgb(0x9E5720), 6, 548)
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, 6], fill=(221, 163, 65, 255))
@@ -2474,28 +2851,16 @@ def level5_textures():
     blotch(img, (16, 28), 12, (60, 44, 26), 0.5, 552)
     save(img, "block/level5/plaster.png")
 
-    # The doors are drawn at 64 px (the wood and mouldings at 32 px, doubled) so the room number on its brass plate
-    # can be read from across the corridor
-    img = noise_fill(hexrgb(0x452518), 5, 553)
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 3, 27, 28], outline=(115, 74, 48, 255), width=2)
-    d.rectangle([24, 10, 27, 13], fill=(196, 160, 72, 255))  # knob
-    save(img.resize((2 * S, 2 * S), Image.NEAREST), "block/level5/hoteldoor-lower.png")
-    # Consecutive numbers: odd doors down one side of a corridor, even down the other, counting up and then,
-    # every few doors, starting again
-    # Then (layout 5) a blank plate for the Beverly Room's doors, which are no guest rooms', and the odd 666
+    # (B8) The guest-room doors are geometry now (gen_shapes.hotel_door): the leaf's wood (grain up it, and along the
+    # rails), the casing, a near-black for the keyhole, and each door's brass number plate as the face of a plate.
+    # Consecutive numbers: odd doors down one side of a corridor, even down the other; then (layout 5) a blank plate
+    # for the Beverly Room's doors, and the odd 666 (its brass a little more tarnished)
+    save(match_rgb(wood_grain(5700, DOOR_WOOD, "v"), L5_MEAN["door"], "l5door"), "block/level5/hoteldoor-wood.png")
+    save(match_rgb(wood_grain(5701, DOOR_WOOD, "h"), L5_MEAN["door"]), "block/level5/hoteldoor-rail.png")
+    save(wood_grain(5702, (98, 60, 40), "v"), "block/level5/hoteldoor-casing.png")
+    save(M.noise_hv((26, 16, 10), 2, 5703, S, 2), "block/level5/hoteldoor-dark.png")
     for i, number in enumerate(("201", "202", "203", "204", "205", "206", "207", "208", "", "666")):
-        img = noise_fill(hexrgb(0x452518), 5, 554)
-        d = ImageDraw.Draw(img)
-        d.rectangle([4, 3, 27, 31], outline=(115, 74, 48, 255), width=2)
-        img = img.resize((2 * S, 2 * S), Image.NEAREST)
-        d = ImageDraw.Draw(img)
-        d.rectangle([17, 13, 46, 30], fill=(206, 170, 84, 255), outline=(120, 86, 32, 255))  # brass plate
-        d.line([18, 14, 45, 14], fill=(236, 210, 140, 255))
-        d.point([(19, 16), (44, 16), (19, 27), (44, 27)], fill=(120, 86, 32, 255))  # screws
-        if number:
-            text_img(img, number, (17, 14, 47, 31), (40, 22, 6, 255), 13)
-        save(img, f"block/level5/hoteldoor-upper{i}.png")
+        save(door_plate(number, 0.3 if number == "666" else 0.12), f"block/level5/hoteldoor-plate{i}.png")
     for part in ("lower", "upper"):
         img = Image.new("RGBA", (S, S), (40, 24, 14, 255))
         d = ImageDraw.Draw(img)
@@ -2510,17 +2875,16 @@ def level5_textures():
     text_img(img, "STAFF", (3, 9, 29, 16), (230, 200, 120, 255), 6)
     text_img(img, "ONLY", (3, 15, 29, 22), (230, 200, 120, 255), 6)
     save(img, "block/level5/staffsign.png")
-    img = noise_fill(hexrgb(0xB8BCC0), 4, 556)
-    text_img(img, "THE", (0, 0, S, 11), (40, 30, 20, 255), 7)
-    text_img(img, "BEVERLY", (0, 10, S, 21), (40, 30, 20, 255), 7)
-    text_img(img, "ROOM", (0, 20, S, 31), (40, 30, 20, 255), 7)
-    save(img, "block/level5/beverly.png")
-    save(portrait(557), "block/level5/portrait.png")
-    save(noise_fill(hexrgb(0xC9A040), 8, 558), "block/level5/gilt.png")
-    save(noise_fill(hexrgb(0xB08A3C), 6, 559), "block/level5/brass.png")
+    save(beverly_placard(), "block/level5/beverly.png")
+    # (B8) Four portraits, listed as alternates on the portrait fixture
+    for k, v in ((0, ""), (1, "-2"), (2, "-3"), (3, "-4")):
+        save(oil_portrait(k), f"block/level5/portrait{v}.png")
+    # (B8) The shared materials: gilt, brass, mahogany and crystal have structure now (old means kept)
+    save(gilt_leaf(), "block/level5/gilt.png")
+    save(brass_metal(), "block/level5/brass.png")
     save(noise_fill(hexrgb(0xFFF0C8), 3, 560), "block/level5/domeglass.png")
-    save(noise_fill(hexrgb(0xF0F4FF), 6, 561), "block/level5/crystal.png")
-    save(noise_fill(hexrgb(0x5A2E1A), 5, 562), "block/level5/mahogany.png")
+    save(crystal_glass(), "block/level5/crystal.png")
+    save(match_rgb(wood_grain(5650, (90, 46, 26), "h"), L5_MEAN["mahogany"]), "block/level5/mahogany.png")
     save(noise_fill(hexrgb(0xEDE8DC), 3, 563), "block/level5/linen.png")
     save(noise_fill(hexrgb(0x7A1A14), 5, 564), "block/level5/blanket.png")
     save(noise_fill(hexrgb(0x6E1420), 6, 565), "block/level5/velvet.png")

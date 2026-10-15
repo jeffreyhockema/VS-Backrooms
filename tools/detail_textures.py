@@ -1212,18 +1212,18 @@ def level4():
         save(img, f"officedoor-{part}")
 
     # Modern elevator: brushed steel leaves meeting in the middle of a 2-wide opening, an indicator above
+    # (B8) The leaves are plain brushed steel: their panels' stiles and rails are geometry (gen_detail.lift_leaf_panels),
+    # and only the meeting edge is painted, a dark gap with the lit arris of each leaf beside it
     for half in ("l", "r"):
-        seam, frame = (S - 1, 0) if half == "l" else (0, S - 1)
+        seam = S - 1 if half == "l" else 0
         for part in ("lower", "upper"):
-            img = noise(0xA8ACB0, 3, f"lift{part}{half}")
-            d = ImageDraw.Draw(img)
-            for x in range(1, S, 3):
-                d.line([x, 0, x, S - 1], fill=rgb(0x9CA0A4))
-            d.line([seam, 0, seam, S - 1], fill=rgb(0x3A3E42))
-            d.rectangle([frame - 1 if half == "r" else 0, 0, frame if half == "r" else 1, S - 1], fill=rgb(0x6A6E72))
-            if part == "upper":
-                d.rectangle([0, 0, S - 1, 1], fill=rgb(0x6A6E72))
+            img = M.brushed_metal(seed_of(f"lift{part}{half}"), base=(172, 170, 166), grain=3, direction="v", streak=7, sheen=8)
+            for y in range(S):
+                img.putpixel((seam, y), M.rgba(M.lift((58, 62, 66), 0)))
+                M.touch(img, seam - 1 if half == "l" else 1, y, 0.12, 0.1)
             save(img, f"liftdoor-{part}-{half}")
+    save(M.brushed_metal(seed_of("liftsteel"), base=(180, 178, 174), grain=3, direction="v", streak=7, sheen=8), "liftsteel")
+    for half in ("l", "r"):
         img = noise(0x6A6E72, 3, f"liftheader{half}")
         d = ImageDraw.Draw(img)
         d.rectangle([2, 8, S - 3, 23], fill=rgb(0x141414))
@@ -1232,7 +1232,7 @@ def level4():
         else:
             text(img, "13", (2, 8, S - 2, 24), 0xF0A020, 11)
         save(img, f"liftheader-{half}")
-    flat("liftframe", 0x6A6E72, 3)
+    save(M.brushed_metal(seed_of("liftframe"), base=(106, 110, 114), grain=3, direction="v", streak=6, sheen=6), "liftframe")
     img = noise(0xA8ACB0, 3, "callpanel")
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x6A6E72), width=2)
@@ -1414,18 +1414,32 @@ def level5():
     save(img, "staffplaque")
 
     # Antique elevator: a brass scissor gate across a 2-wide opening, a dial above showing the floor
-    for half in ("l", "r"):
-        img = Image.new("RGBA", (S, S), rgb(0x1E120A))
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], fill=rgb(0x2A1A10))
-        for k in range(-S, 2 * S, 8):
-            d.line([k, 0, k + S, S], fill=rgb(0xC89A40), width=1)
-            d.line([k + S, 0, k, S], fill=rgb(0xC89A40), width=1)
-        for x in range(0, S, 8):
-            d.line([x, 0, x, S - 1], fill=rgb(0xA87A30))
-        edge = 0 if half == "l" else S - 2
-        d.rectangle([edge, 0, edge + 1, S - 1], fill=rgb(0x8A6020))
-        save(img, f"cagegate-{half}")
+    # (B8) The gate is geometry (gen_detail.cage_gate); behind it the shaft: near black, a little lighter toward the
+    # top, two cables hanging in it
+    img = M.noise_hv((22, 16, 12), 2, seed_of("cageshaft"), S, 3, (16, 8), hue=0.5)
+    for y in range(S):
+        for x in range(S):
+            M.touch(img, x, y, 0.25 * (1 - y / S) - 0.1, 0.05)
+        for x in (9, 22):
+            img.putpixel((x, y), M.rgba(M.lift(img.getpixel((x, y)), 16)))
+            M.touch(img, x + 1, y, -0.15)
+    save(img, "cageshaft")
+    # The call plate's ivory pushes, a highlight on their upper left
+    img = M.noise_hv((232, 222, 196), 2, seed_of("callbutton"), S, 2, (16, 8), hue=1.0)
+    M.bevel(img, None, 3, 0.12)
+    save(img, "callbutton")
+    # The room keys' oval brass fobs, numbers stamped on (four fobs to the texture, one per quarter)
+    img = T.brass_metal(seed_of("keytag"))
+    for qx in (0, 16):
+        for qy in (0, 16):
+            M.bevel(img, (qx, qy, qx + 16, qy + 16), 1, 0.2)
+            for k, x in enumerate(range(qx + 4, qx + 12, 3)):
+                for y in range(qy + 6, qy + 10):
+                    if (y + k) % 4:
+                        M.touch(img, x, y, -0.3)
+    save(img, "keytag")
+    # (B8) The front desk's plinth: the mahogany, darker
+    save(T.match_rgb(T.wood_grain(seed_of("mahoganydark"), (60, 32, 20), "h"), (56, 30, 18)), "mahoganydark")
     big = Image.new("RGBA", (2 * S, S), rgb(0x452518))
     d = ImageDraw.Draw(big)
     d.pieslice([6, 4, 58, 56], 180, 360, fill=rgb(0xC9A040), outline=rgb(0x8A6A20))
@@ -1478,24 +1492,7 @@ def level5():
     d.line([16, 16, 16, 6], fill=rgb(0x111111))
     d.line([16, 16, 10, 20], fill=rgb(0x111111), width=2)
     save(img, "ornateclock")
-    img = noise(0x5A2E1A, 4, "keyrack")
-    d = ImageDraw.Draw(img)
-    for y in range(0, S, 8):
-        d.line([0, y, S - 1, y], fill=rgb(0x3A1C0E))
-    for x in range(0, S, 8):
-        d.line([x, 0, x, S - 1], fill=rgb(0x3A1C0E))
-    rng = random.Random(55)
-    for y in range(0, S, 8):
-        for x in range(0, S, 8):
-            if rng.random() < 0.6:
-                d.line([x + 4, y + 1, x + 4, y + 5], fill=rgb(0xD8B050))
-                d.rectangle([x + 3, y + 5, x + 5, y + 7], fill=rgb(0xE8DCC0))
-    save(img, "keyrack")
-    img = noise(0xC9A040, 4, "callplate")
-    d = ImageDraw.Draw(img)
-    d.ellipse([11, 5, 20, 14], fill=rgb(0xF0E6C8), outline=rgb(0x6A4A10))
-    d.ellipse([11, 18, 20, 27], fill=rgb(0xF0E6C8), outline=rgb(0x6A4A10))
-    save(img, "callplate")
+    # (B8) The key rack's old painted picture (unused since the rack was modelled) and the painted call plate are gone
     # A pastoral landscape: an evening sky, a line of blue hills, green fields, a tree, a road toward a house
     img = texlib.vertical_gradient((232, 196, 140), (150, 170, 190), height=S)
     d = ImageDraw.Draw(img)
@@ -1517,24 +1514,54 @@ def level5():
         d.polygon([(x - 4, y), (x, y - 4), (x + 4, y), (x, y + 4)], fill=rgb(0x1E1C1A))
     save(img, "marble")
     save(texlib.marble((236, 232, 224), (160, 154, 146), 67, sharpness=7, mottle=0.04), "marbletop")
-    wood = T.noise_fill(T.hexrgb(0x3A2014), 5, 546)
+    # (B8) The runner: a short red pile with its gold bands woven in, a dark binding along each edge and a small gold
+    # lozenge every half block, laid over the dining rooms' walnut boards (gen_textures.hotel_floorboards, so it
+    # meets the bare floor beside it), the boards in shadow along the runner's edges
+    red = (138, 28, 20)
+    pile = T.hotel_pile(seed_of("runner"), red)
+
+    def bands(d, k):
+        for x in (5, 25):
+            d.rectangle([x * k, 0, (x + 2) * k - 1, S * k - 1], fill=255)
+        for cy in (8, 24):
+            d.polygon([(16 * k, (cy - 3) * k), (19 * k, cy * k), (16 * k, (cy + 3) * k), (13 * k, cy * k)], fill=255)
+
+    def binding(d, k):
+        for x in (3, 28):
+            d.rectangle([x * k, 0, (x + 1) * k - 1, S * k - 1], fill=255)
+    M.dye(pile, T.layered_pattern([((201, 160, 64), bands), ((84, 14, 10), binding)], crisp=True), red)
+    T.dingy(pile, seed_of("runner"), dull=0.05, dim=1.0, grime=0.05, flecks=5)
     for axis in ("ns", "we"):
-        img = wood.copy()
-        d = ImageDraw.Draw(img)
-        if axis == "ns":
-            d.rectangle([3, 0, 28, S - 1], fill=rgb(0x8A1C14))
-            d.rectangle([5, 0, 6, S - 1], fill=rgb(0xC9A040))
-            d.rectangle([25, 0, 26, S - 1], fill=rgb(0xC9A040))
-        else:
-            d.rectangle([0, 3, S - 1, 28], fill=rgb(0x8A1C14))
-            d.rectangle([0, 5, S - 1, 6], fill=rgb(0xC9A040))
-            d.rectangle([0, 25, S - 1, 26], fill=rgb(0xC9A040))
+        img = T.hotel_floorboards(0)
+        lay = pile if axis == "ns" else pile.transpose(Image.Transpose.ROTATE_90)
+        for y in range(S):
+            for x in range(S):
+                u = x if axis == "ns" else y
+                if 3 <= u <= 28:
+                    img.putpixel((x, y), lay.getpixel((x, y)))
+                elif u in (2, 29):
+                    M.touch(img, x, y, -0.18)
         save(img, f"runner-{axis}")
-    img = noise(0x7A1A18, 5, "rug")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x1E2A4A), width=3)
-    d.polygon([(16, 5), (27, 16), (16, 27), (5, 16)], fill=rgb(0x1E2A4A), outline=rgb(0xC9A040))
-    d.polygon([(16, 10), (22, 16), (16, 22), (10, 16)], fill=rgb(0xC9A040))
+    # (B8) The Persian rug on the same short pile: its red field, navy border with a row of gold knots, the navy
+    # medallion edged in gold with a gold heart, gold corner squares
+    field = (122, 26, 24)
+    img = T.hotel_pile(seed_of("rug"), field)
+
+    def border(d, k):
+        d.rectangle([0, 0, S * k - 1, S * k - 1], fill=255)
+        d.rectangle([3 * k, 3 * k, (S - 3) * k - 1, (S - 3) * k - 1], fill=0)
+        d.polygon([(16 * k, 5 * k), (27 * k, 16 * k), (16 * k, 27 * k), (5 * k, 16 * k)], fill=255)
+
+    def gold(d, k):
+        d.polygon([(16 * k, 4 * k), (28 * k, 16 * k), (16 * k, 28 * k), (4 * k, 16 * k)], outline=255, width=k)
+        d.polygon([(16 * k, 10 * k), (22 * k, 16 * k), (16 * k, 22 * k), (10 * k, 16 * k)], fill=255)
+        for i in range(2, S, 4):
+            for (x, y) in ((i, 1), (i, S - 2), (1, i), (S - 2, i)):
+                d.rectangle([x * k, y * k, (x + 1) * k - 1, (y + 1) * k - 1], fill=255)
+        for (x, y) in ((4, 4), (26, 4), (4, 26), (26, 26)):
+            d.rectangle([x * k, y * k, (x + 2) * k - 1, (y + 2) * k - 1], fill=255)
+    M.dye(img, T.layered_pattern([((30, 42, 74), border), ((201, 160, 64), gold)], crisp=True), field)
+    T.dingy(img, seed_of("rug"), dull=0.05, dim=1.0, grime=0.05, flecks=5)
     save(img, "rug")
 
     img = noise(0xE8ECF4, 3, "vase")
@@ -1591,12 +1618,7 @@ def level5():
     d.line([16, 16, 16, 7], fill=rgb(0x111111))
     d.line([16, 16, 22, 19], fill=rgb(0x111111), width=2)
     save(img, "clockface-old")
-    img = noise(0x5A2E1A, 4, "receptionmahogany")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, 2], fill=rgb(0xC9A040))
-    d.rectangle([3, 6, 13, 28], outline=rgb(0xC9A040))
-    d.rectangle([18, 6, 28, 28], outline=rgb(0xC9A040))
-    save(img, "receptionmahogany")
+    # (B8) The front desk's panels are geometry now (gen_detail level5); its painted front is gone
     img = noise(0x5A1A14, 3, "guestbook")
     d = ImageDraw.Draw(img)
     d.rectangle([2, 2, 29, 29], fill=rgb(0xF0E8D0))

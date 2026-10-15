@@ -21,9 +21,153 @@
 	},
 	"blockmaterial": "Cloth",
 	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level5/hotelcarpet-{type}"
+	"texturesByType": {
+		"*-damask": {
+			"all": {
+				"base": "block/level5/hotelcarpet-damask",
+				"alternates": [
+					{
+						"base": "block/level5/hotelcarpet-damask",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-2"
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-3"
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-damask-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-maroon": {
+			"all": {
+				"base": "block/level5/hotelcarpet-maroon",
+				"alternates": [
+					{
+						"base": "block/level5/hotelcarpet-maroon",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-2"
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-3"
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-maroon-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-lobby": {
+			"all": {
+				"base": "block/level5/hotelcarpet-lobby",
+				"alternates": [
+					{
+						"base": "block/level5/hotelcarpet-lobby",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-2"
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-3"
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level5/hotelcarpet-lobby-3",
+						"rotation": 270
+					}
+				]
+			}
 		}
 	},
 	"resistance": 2,

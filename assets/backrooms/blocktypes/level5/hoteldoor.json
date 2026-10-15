@@ -28,10 +28,65 @@
 		]
 	},
 	"blockmaterial": "Wood",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level5/hoteldoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/hoteldoor-lower"
+		},
+		"*": {
+			"base": "block/hoteldoor-upper"
+		}
+	},
+	"texturesByType": {
+		"*-upper0": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate0"
+			}
+		},
+		"*-upper1": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate1"
+			}
+		},
+		"*-upper2": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate2"
+			}
+		},
+		"*-upper3": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate3"
+			}
+		},
+		"*-upper4": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate4"
+			}
+		},
+		"*-upper5": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate5"
+			}
+		},
+		"*-upper6": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate6"
+			}
+		},
+		"*-upper7": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate7"
+			}
+		},
+		"*-upper8": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate8"
+			}
+		},
+		"*-upper9": {
+			"plate": {
+				"base": "block/level5/hoteldoor-plate9"
+			}
 		}
 	},
 	"behaviors": [

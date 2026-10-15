@@ -1,0 +1,5074 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade",
+  "bottle": "backrooms:block/detail/bankergreen",
+  "doorwood": "backrooms:block/level5/hoteldoor-wood",
+  "doorrail": "backrooms:block/level5/hoteldoor-rail",
+  "casing": "backrooms:block/level5/hoteldoor-casing",
+  "doordark": "backrooms:block/level5/hoteldoor-dark",
+  "plate": "backrooms:block/level5/hoteldoor-plate0"
+ },
+ "elements": [
+  {
+   "name": "Leaf",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL0",
+   "from": [
+    0.05,
+    3.5,
+    -1
+   ],
+   "to": [
+    1.5,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR0",
+   "from": [
+    14.5,
+    3.5,
+    -1
+   ],
+   "to": [
+    15.95,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthL0",
+   "from": [
+    0.05,
+    0,
+    -1.25
+   ],
+   "to": [
+    1.75,
+    3.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthR0",
+   "from": [
+    14.25,
+    0,
+    -1.25
+   ],
+   "to": [
+    15.95,
+    3.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL0",
+   "from": [
+    1.75,
+    0,
+    -0.5
+   ],
+   "to": [
+    3.25,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR0",
+   "from": [
+    12.75,
+    0,
+    -0.5
+   ],
+   "to": [
+    14.25,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailBottom0",
+   "from": [
+    3.25,
+    0,
+    -0.5
+   ],
+   "to": [
+    12.75,
+    3.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailLock0",
+   "from": [
+    3.25,
+    12.5,
+    -0.5
+   ],
+   "to": [
+    12.75,
+    15,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field0",
+   "from": [
+    4.25,
+    4.5,
+    -0.25
+   ],
+   "to": [
+    11.75,
+    11.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      7.0
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Kick0",
+   "from": [
+    2.0,
+    0.5,
+    -0.75
+   ],
+   "to": [
+    14.0,
+    3.0,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      2.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew00",
+   "from": [
+    2.5,
+    1.0,
+    -0.9
+   ],
+   "to": [
+    3.0,
+    1.5,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew10",
+   "from": [
+    13.0,
+    1.0,
+    -0.9
+   ],
+   "to": [
+    13.5,
+    1.5,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew20",
+   "from": [
+    2.5,
+    2.0,
+    -0.9
+   ],
+   "to": [
+    3.0,
+    2.5,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew30",
+   "from": [
+    13.0,
+    2.0,
+    -0.9
+   ],
+   "to": [
+    13.5,
+    2.5,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Escutcheon0",
+   "from": [
+    13.05,
+    11.25,
+    -0.75
+   ],
+   "to": [
+    14.15,
+    15.25,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      4.0
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Keyhole0",
+   "from": [
+    13.45,
+    11.8,
+    -0.8
+   ],
+   "to": [
+    13.75,
+    12.6,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobRose0",
+   "from": [
+    13.05,
+    13.35,
+    -0.9
+   ],
+   "to": [
+    14.15,
+    14.45,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      1.1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobNeck0",
+   "from": [
+    13.4,
+    13.7,
+    -1.45
+   ],
+   "to": [
+    13.8,
+    14.1,
+    -0.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadA0",
+   "from": [
+    12.95,
+    13.55,
+    -2.25
+   ],
+   "to": [
+    14.25,
+    14.25,
+    -1.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadB0",
+   "from": [
+    13.25,
+    13.25,
+    -2.2
+   ],
+   "to": [
+    13.95,
+    14.55,
+    -1.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobFace0",
+   "from": [
+    13.3,
+    13.6,
+    -2.35
+   ],
+   "to": [
+    13.9,
+    14.2,
+    -2.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA0",
+   "from": [
+    1.5,
+    4.0,
+    -0.95
+   ],
+   "to": [
+    1.95,
+    5.1,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB0",
+   "from": [
+    1.5,
+    5.4,
+    -0.95
+   ],
+   "to": [
+    1.95,
+    6.5,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin0",
+   "from": [
+    1.6,
+    6.5,
+    -0.85
+   ],
+   "to": [
+    1.85,
+    6.8,
+    -0.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL1",
+   "from": [
+    16,
+    3.5,
+    0.05
+   ],
+   "to": [
+    17,
+    16,
+    1.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR1",
+   "from": [
+    16,
+    3.5,
+    14.5
+   ],
+   "to": [
+    17,
+    16,
+    15.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthL1",
+   "from": [
+    16,
+    0,
+    0.05
+   ],
+   "to": [
+    17.25,
+    3.5,
+    1.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthR1",
+   "from": [
+    16,
+    0,
+    14.25
+   ],
+   "to": [
+    17.25,
+    3.5,
+    15.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL1",
+   "from": [
+    16,
+    0,
+    1.75
+   ],
+   "to": [
+    16.5,
+    16,
+    3.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR1",
+   "from": [
+    16,
+    0,
+    12.75
+   ],
+   "to": [
+    16.5,
+    16,
+    14.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailBottom1",
+   "from": [
+    16,
+    0,
+    3.25
+   ],
+   "to": [
+    16.5,
+    3.5,
+    12.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailLock1",
+   "from": [
+    16,
+    12.5,
+    3.25
+   ],
+   "to": [
+    16.5,
+    15,
+    12.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field1",
+   "from": [
+    16,
+    4.5,
+    4.25
+   ],
+   "to": [
+    16.25,
+    11.5,
+    11.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      7.0
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Kick1",
+   "from": [
+    16.5,
+    0.5,
+    2.0
+   ],
+   "to": [
+    16.75,
+    3.0,
+    14.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      2.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew01",
+   "from": [
+    16.75,
+    1.0,
+    2.5
+   ],
+   "to": [
+    16.9,
+    1.5,
+    3.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew11",
+   "from": [
+    16.75,
+    1.0,
+    13.0
+   ],
+   "to": [
+    16.9,
+    1.5,
+    13.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew21",
+   "from": [
+    16.75,
+    2.0,
+    2.5
+   ],
+   "to": [
+    16.9,
+    2.5,
+    3.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew31",
+   "from": [
+    16.75,
+    2.0,
+    13.0
+   ],
+   "to": [
+    16.9,
+    2.5,
+    13.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Escutcheon1",
+   "from": [
+    16.5,
+    11.25,
+    13.05
+   ],
+   "to": [
+    16.75,
+    15.25,
+    14.15
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      4.0
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Keyhole1",
+   "from": [
+    16.75,
+    11.8,
+    13.45
+   ],
+   "to": [
+    16.8,
+    12.6,
+    13.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobRose1",
+   "from": [
+    16.75,
+    13.35,
+    13.05
+   ],
+   "to": [
+    16.9,
+    14.45,
+    14.15
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobNeck1",
+   "from": [
+    16.9,
+    13.7,
+    13.4
+   ],
+   "to": [
+    17.45,
+    14.1,
+    13.8
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadA1",
+   "from": [
+    17.45,
+    13.55,
+    12.95
+   ],
+   "to": [
+    18.25,
+    14.25,
+    14.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadB1",
+   "from": [
+    17.5,
+    13.25,
+    13.25
+   ],
+   "to": [
+    18.2,
+    14.55,
+    13.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobFace1",
+   "from": [
+    18.25,
+    13.6,
+    13.3
+   ],
+   "to": [
+    18.35,
+    14.2,
+    13.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA1",
+   "from": [
+    16.5,
+    4.0,
+    1.5
+   ],
+   "to": [
+    16.95,
+    5.1,
+    1.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB1",
+   "from": [
+    16.5,
+    5.4,
+    1.5
+   ],
+   "to": [
+    16.95,
+    6.5,
+    1.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin1",
+   "from": [
+    16.6,
+    6.5,
+    1.6
+   ],
+   "to": [
+    16.85,
+    6.8,
+    1.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL2",
+   "from": [
+    14.5,
+    3.5,
+    16
+   ],
+   "to": [
+    15.95,
+    16,
+    17
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR2",
+   "from": [
+    0.05000000000000071,
+    3.5,
+    16
+   ],
+   "to": [
+    1.5,
+    16,
+    17
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthL2",
+   "from": [
+    14.25,
+    0,
+    16
+   ],
+   "to": [
+    15.95,
+    3.5,
+    17.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthR2",
+   "from": [
+    0.05000000000000071,
+    0,
+    16
+   ],
+   "to": [
+    1.75,
+    3.5,
+    17.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL2",
+   "from": [
+    12.75,
+    0,
+    16
+   ],
+   "to": [
+    14.25,
+    16,
+    16.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR2",
+   "from": [
+    1.75,
+    0,
+    16
+   ],
+   "to": [
+    3.25,
+    16,
+    16.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailBottom2",
+   "from": [
+    3.25,
+    0,
+    16
+   ],
+   "to": [
+    12.75,
+    3.5,
+    16.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailLock2",
+   "from": [
+    3.25,
+    12.5,
+    16
+   ],
+   "to": [
+    12.75,
+    15,
+    16.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field2",
+   "from": [
+    4.25,
+    4.5,
+    16
+   ],
+   "to": [
+    11.75,
+    11.5,
+    16.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      7.0
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Kick2",
+   "from": [
+    2.0,
+    0.5,
+    16.5
+   ],
+   "to": [
+    14.0,
+    3.0,
+    16.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew02",
+   "from": [
+    13.0,
+    1.0,
+    16.75
+   ],
+   "to": [
+    13.5,
+    1.5,
+    16.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew12",
+   "from": [
+    2.5,
+    1.0,
+    16.75
+   ],
+   "to": [
+    3.0,
+    1.5,
+    16.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew22",
+   "from": [
+    13.0,
+    2.0,
+    16.75
+   ],
+   "to": [
+    13.5,
+    2.5,
+    16.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew32",
+   "from": [
+    2.5,
+    2.0,
+    16.75
+   ],
+   "to": [
+    3.0,
+    2.5,
+    16.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Escutcheon2",
+   "from": [
+    1.8499999999999996,
+    11.25,
+    16.5
+   ],
+   "to": [
+    2.9499999999999993,
+    15.25,
+    16.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      4.0
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Keyhole2",
+   "from": [
+    2.25,
+    11.8,
+    16.75
+   ],
+   "to": [
+    2.5500000000000007,
+    12.6,
+    16.8
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobRose2",
+   "from": [
+    1.8499999999999996,
+    13.35,
+    16.75
+   ],
+   "to": [
+    2.9499999999999993,
+    14.45,
+    16.9
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobNeck2",
+   "from": [
+    2.1999999999999993,
+    13.7,
+    16.9
+   ],
+   "to": [
+    2.5999999999999996,
+    14.1,
+    17.45
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadA2",
+   "from": [
+    1.75,
+    13.55,
+    17.45
+   ],
+   "to": [
+    3.0500000000000007,
+    14.25,
+    18.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadB2",
+   "from": [
+    2.0500000000000007,
+    13.25,
+    17.5
+   ],
+   "to": [
+    2.75,
+    14.55,
+    18.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobFace2",
+   "from": [
+    2.0999999999999996,
+    13.6,
+    18.25
+   ],
+   "to": [
+    2.6999999999999993,
+    14.2,
+    18.35
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA2",
+   "from": [
+    14.05,
+    4.0,
+    16.5
+   ],
+   "to": [
+    14.5,
+    5.1,
+    16.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB2",
+   "from": [
+    14.05,
+    5.4,
+    16.5
+   ],
+   "to": [
+    14.5,
+    6.5,
+    16.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin2",
+   "from": [
+    14.15,
+    6.5,
+    16.6
+   ],
+   "to": [
+    14.4,
+    6.8,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL3",
+   "from": [
+    -1,
+    3.5,
+    14.5
+   ],
+   "to": [
+    0,
+    16,
+    15.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR3",
+   "from": [
+    -1,
+    3.5,
+    0.05000000000000071
+   ],
+   "to": [
+    0,
+    16,
+    1.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      12.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      12.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthL3",
+   "from": [
+    -1.25,
+    0,
+    14.25
+   ],
+   "to": [
+    0,
+    3.5,
+    15.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlinthR3",
+   "from": [
+    -1.25,
+    0,
+    0.05000000000000071
+   ],
+   "to": [
+    0,
+    3.5,
+    1.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      3.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.25,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.7,
+      1.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL3",
+   "from": [
+    -0.5,
+    0,
+    12.75
+   ],
+   "to": [
+    0,
+    16,
+    14.25
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR3",
+   "from": [
+    -0.5,
+    0,
+    1.75
+   ],
+   "to": [
+    0,
+    16,
+    3.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailBottom3",
+   "from": [
+    -0.5,
+    0,
+    3.25
+   ],
+   "to": [
+    0,
+    3.5,
+    12.75
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailLock3",
+   "from": [
+    -0.5,
+    12.5,
+    3.25
+   ],
+   "to": [
+    0,
+    15,
+    12.75
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field3",
+   "from": [
+    -0.25,
+    4.5,
+    4.25
+   ],
+   "to": [
+    0,
+    11.5,
+    11.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      7.0
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Kick3",
+   "from": [
+    -0.75,
+    0.5,
+    2.0
+   ],
+   "to": [
+    -0.5,
+    3.0,
+    14.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      2.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew03",
+   "from": [
+    -0.8999999999999986,
+    1.0,
+    13.0
+   ],
+   "to": [
+    -0.75,
+    1.5,
+    13.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew13",
+   "from": [
+    -0.8999999999999986,
+    1.0,
+    2.5
+   ],
+   "to": [
+    -0.75,
+    1.5,
+    3.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew23",
+   "from": [
+    -0.8999999999999986,
+    2.0,
+    13.0
+   ],
+   "to": [
+    -0.75,
+    2.5,
+    13.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KickScrew33",
+   "from": [
+    -0.8999999999999986,
+    2.0,
+    2.5
+   ],
+   "to": [
+    -0.75,
+    2.5,
+    3.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Escutcheon3",
+   "from": [
+    -0.75,
+    11.25,
+    1.8499999999999996
+   ],
+   "to": [
+    -0.5,
+    15.25,
+    2.9499999999999993
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      4.0
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Keyhole3",
+   "from": [
+    -0.8000000000000007,
+    11.8,
+    2.25
+   ],
+   "to": [
+    -0.75,
+    12.6,
+    2.5500000000000007
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobRose3",
+   "from": [
+    -0.8999999999999986,
+    13.35,
+    1.8499999999999996
+   ],
+   "to": [
+    -0.75,
+    14.45,
+    2.9499999999999993
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.1,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobNeck3",
+   "from": [
+    -1.4499999999999993,
+    13.7,
+    2.1999999999999993
+   ],
+   "to": [
+    -0.8999999999999986,
+    14.1,
+    2.5999999999999996
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.55,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadA3",
+   "from": [
+    -2.25,
+    13.55,
+    1.75
+   ],
+   "to": [
+    -1.4499999999999993,
+    14.25,
+    3.0500000000000007
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.7
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      1.3,
+      0.8
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobHeadB3",
+   "from": [
+    -2.1999999999999993,
+    13.25,
+    2.0500000000000007
+   ],
+   "to": [
+    -1.5,
+    14.55,
+    2.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.3
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "KnobFace3",
+   "from": [
+    -2.3500000000000014,
+    13.6,
+    2.0999999999999996
+   ],
+   "to": [
+    -2.25,
+    14.2,
+    2.6999999999999993
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA3",
+   "from": [
+    -0.9499999999999993,
+    4.0,
+    14.05
+   ],
+   "to": [
+    -0.5,
+    5.1,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB3",
+   "from": [
+    -0.9499999999999993,
+    5.4,
+    14.05
+   ],
+   "to": [
+    -0.5,
+    6.5,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin3",
+   "from": [
+    -0.8500000000000014,
+    6.5,
+    14.15
+   ],
+   "to": [
+    -0.6000000000000014,
+    6.8,
+    14.4
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}

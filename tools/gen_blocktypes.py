@@ -356,13 +356,24 @@ def level4():
 def level5():
     cube("level5", "hotelwall", "block/level5/hotelwall-{type}", material="Wood", sounds=WOOD, states=["wainscot", "panel", "frieze"],
          comment="Hotel walls: mahogany wainscot, a red damask panel in a gilt frame, a cream frieze")
+    # (B8) The damask panel cut from the roll at three places (and one in eight with an old water mark), picked at
+    # random block by block
+    L5 = "block/level5/"
+    panel = [{"base": L5 + "hotelwall-panel" + v} for v in ("", "-2", "-3", "", "-2", "-3", "", "-4")]
+    _retexture("level5", "hotelwall", by_type={
+        "*-wainscot": {"all": {"base": L5 + "hotelwall-wainscot"}},
+        "*-panel": with_alternates(None, panel),
+        "*-frieze": {"all": {"base": L5 + "hotelwall-frieze"}}})
     fixture = {
         "code": "hotelfixture",
         "variantgroups": [{"code": "type", "states": ["sconce", "portrait", "beverly"]}],
         "creativeinventory": {"general": ["*"], "decorative": ["*"]},
         "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": {"*": {"base": "block/hotelfixture-{type}"}},
-        "textures": {"panel": {"base": "block/level5/hotelwall-panel"}},
+        # (B8) four portraits, picked at random
+        "textures": {"panel": {"base": "block/level5/hotelwall-panel"},
+                     "portrait": {"base": "block/level5/portrait",
+                                  "alternates": [{"base": f"block/level5/portrait-{k}"} for k in (2, 3, 4)]}},
         "lightHsvByType": {"*-sconce": [6, 5, 11]},
         "resistance": 2, "lightAbsorption": 99, "lightAbsorptionByType": {"*-sconce": 0}, "sounds": WOOD,
         "particlePropertiesByType": {"*-sconce": _sconce_flames()},
@@ -370,7 +381,14 @@ def level5():
     write("level5", "hotelfixture", fixture, "Hotel wall panels with a candle sconce, a portrait, or The Beverly Room's placard")
     cube("level5", "hotelcarpet", "block/level5/hotelcarpet-{type}", material="Cloth", sounds=CLOTH, states=["damask", "maroon", "lobby"],
          comment="Red and gold damask, near-black ballroom maroon, and tan lobby carpet")
+    # (B8) Three versions of each carpet, each turned at random (they share one ground: gen_textures.hotel_carpet)
+    _retexture("level5", "hotelcarpet", by_type={
+        f"*-{k}": with_alternates(None, [t for v in ("", "-2", "-3") for t in turned(f"{L5}hotelcarpet-{k}{v}")])
+        for k in ("damask", "maroon", "lobby")})
     cube("level5", "hotelwood", "block/level5/hotelwood", material="Wood", sounds=WOOD, comment="Dark walnut floorboards")
+    # (B8) Five versions of the boards (the plain one twice; each other has one butt joint, elsewhere), never turned:
+    # the boards keep their direction
+    _retexture("level5", "hotelwood", textures=with_alternates(None, [{"base": f"{L5}hotelwood{v}"} for v in ("", "-2", "-3", "", "-4", "-5")]))
     # The grand rooms' coffered ceiling is drawn from shapes (coffer, a beam along X or Z, two beams crossing) that let
     # light through, so the beams hanging under it are lit on their sides; "beams" is the old painted ceiling, kept
     # for rooms generated before
@@ -394,12 +412,15 @@ def level5():
     cube("level5", "marblecolumn", "block/level5/marble", comment="Red faux-marble column")
     cube("level5", "plasterwall", "block/level5/plaster", comment="Stained plaster of the boiler halls")
     cube("level5", "staffsign", "block/level5/staffsign", material="Wood", sounds=WOOD, comment="STAFF ONLY sign above the doors to the boiler halls")
+    # (B8) The doors are geometry (gen_shapes.hotel_door): the same codes and parts; each upper part gives the shape's
+    # brass plate its own number
     door = {
         "code": "hoteldoor",
         "variantgroups": [{"code": "part", "states": ["lower"] + [f"upper{i}" for i in range(10)]}],
         "creativeinventory": {"general": ["*"], "decorative": ["*"]},
-        "blockmaterial": "Wood", "drawtype": "cube",
-        "textures": {"all": {"base": "block/level5/hoteldoor-{part}"}},
+        "blockmaterial": "Wood", "drawtype": "json",
+        "shapeByType": {"*-lower": {"base": "block/hoteldoor-lower"}, "*": {"base": "block/hoteldoor-upper"}},
+        "texturesByType": {f"*-upper{i}": {"plate": {"base": f"block/level5/hoteldoor-plate{i}"}} for i in range(10)},
         "behaviors": threshold("door"),
         "resistance": 2, "drops": [], "lightAbsorption": 99, "sounds": WOOD,
     }

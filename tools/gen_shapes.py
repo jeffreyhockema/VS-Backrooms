@@ -1193,6 +1193,125 @@ def boiler():
     return els
 
 
+# ---------------- Level 5 (graphics pass B8) ----------------
+
+def four_sides(els):
+    """Parts modelled on the north face of a block, copied onto all four faces (modelkit.turn: rotated parts, such as
+    an octagon's turned boxes, keep their rotation about their own moved origin)."""
+    out = []
+    for i in range(4):
+        out += [dict(e, name=f"{e['name']}{i}") for e in K.turn(els, i)]
+    return out
+
+
+HOTEL_DOOR_TEX = {k: f"backrooms:block/level5/{v}" for k, v in (
+    ("doorwood", "hoteldoor-wood"), ("doorrail", "hoteldoor-rail"), ("casing", "hoteldoor-casing"),
+    ("doordark", "hoteldoor-dark"), ("plate", "hoteldoor-plate0"), ("brass", "brass"))}
+
+
+def slim_hinge(name, y1, y2):
+    """(B8 round 2) A door's butt hinge seen from the front: two slim barrels at the hinge edge, between the casing and
+    the stile, with a pin cap (modelkit.hinge's leaf and knuckles read as a brass patch on the door from a few blocks)."""
+    mid = (y1 + y2) / 2
+    return [K.box(name + "BarrelA", (1.5, y1, -0.95), (1.95, mid - 0.15, -0.5), "brass", faces=("north", "east", "west", "up", "down")),
+            K.box(name + "BarrelB", (1.5, mid + 0.15, -0.95), (1.95, y2, -0.5), "brass", faces=("north", "east", "west", "up", "down")),
+            K.box(name + "Pin", (1.6, y2, -0.85), (1.85, y2 + 0.3, -0.6), "brass", faces=("north", "east", "west", "up"))]
+
+
+def door_knob(name, x, y, z):
+    """(B8 round 2) A round brass knob as one piece: a thin rose, a short neck, and a head of two crossed boxes (an
+    eight-sided round) with a smaller face on it, so it reads as a knob and not as stacked cubes."""
+    return [K.box(name + "Rose", (x - 0.55, y - 0.55, z - 0.15), (x + 0.55, y + 0.55, z), "brass", faces=("north", "east", "west", "up", "down")),
+            K.box(name + "Neck", (x - 0.2, y - 0.2, z - 0.7), (x + 0.2, y + 0.2, z - 0.15), "brass", faces=("east", "west", "up", "down")),
+            K.box(name + "HeadA", (x - 0.65, y - 0.35, z - 1.5), (x + 0.65, y + 0.35, z - 0.7), "brass"),
+            K.box(name + "HeadB", (x - 0.35, y - 0.65, z - 1.45), (x + 0.35, y + 0.65, z - 0.75), "brass"),
+            K.box(name + "Face", (x - 0.3, y - 0.3, z - 1.6), (x + 0.3, y + 0.3, z - 1.5), "brass", faces=("north", "east", "west", "up", "down"))]
+
+
+def hotel_door(part):
+    """(B8) A guest-room door, two blocks high, as geometry (it was a cube with its mouldings and brass plate painted
+    on). A mahogany casing round the opening, with plinth blocks at its foot and a capped head; a frame-and-panel leaf:
+    stiles and rails standing out of the leaf, a raised field in each of its two panels; a brass kick plate with its
+    screws, a knob on a tall escutcheon with a keyhole, two butt hinges, a peephole, and on the upper field the brass
+    number plate (its face, `plate`, is the number: the blocktype gives each door its own, gen_blocktypes).
+    The block has no facing (it stands in the wall line between a corridor and a room), so, as Level 2's steel doors
+    (B5), the leaf is the cube itself and everything else stands out of it on all four sides; on the two sides along
+    the wall it is buried in the wall blocks."""
+    # (round 2) The casing stops E short of the block's sides: the copies of it on the buried sides would otherwise put
+    # a face exactly on the neighbouring wall's face, which shimmered beside every door
+    E = 0.05
+    hw = []
+    if part == "lower":
+        hw += [K.box("CasingL", (E, 3.5, -1), (1.5, 16, 0), "casing", faces=("north", "east", "west")),
+               K.box("CasingR", (14.5, 3.5, -1), (16 - E, 16, 0), "casing", faces=("north", "east", "west")),
+               K.box("PlinthL", (E, 0, -1.25), (1.75, 3.5, 0), "casing", faces=("north", "east", "west", "up")),
+               K.box("PlinthR", (14.25, 0, -1.25), (16 - E, 3.5, 0), "casing", faces=("north", "east", "west", "up")),
+               K.box("StileL", (1.75, 0, -0.5), (3.25, 16, 0), "doorwood", faces=("north", "east")),
+               K.box("StileR", (12.75, 0, -0.5), (14.25, 16, 0), "doorwood", faces=("north", "west")),
+               K.box("RailBottom", (3.25, 0, -0.5), (12.75, 3.5, 0), "doorrail", faces=("north", "up")),
+               K.box("RailLock", (3.25, 12.5, -0.5), (12.75, 15, 0), "doorrail", faces=("north", "up", "down")),
+               K.box("Field", (4.25, 4.5, -0.25), (11.75, 11.5, 0), "doorwood", faces=("north", "east", "west", "up", "down"))]
+        hw += K.kick_plate("Kick", 2.0, 14.0, 0.5, 3.0, -0.5, tex="brass")
+        hw += [K.box("Escutcheon", (13.05, 11.25, -0.75), (14.15, 15.25, -0.5), "brass", faces=("north", "east", "west", "up", "down")),
+               K.box("Keyhole", (13.45, 11.8, -0.8), (13.75, 12.6, -0.75), "doordark", faces=("north",))]
+        hw += door_knob("Knob", 13.6, 13.9, -0.75)
+        hw += slim_hinge("Hinge", 4.0, 6.5)
+    else:
+        hw += [K.box("CasingL", (E, 0, -1), (1.5, 14.5, 0), "casing", faces=("north", "east", "west")),
+               K.box("CasingR", (14.5, 0, -1), (16 - E, 14.5, 0), "casing", faces=("north", "east", "west")),
+               K.box("Head", (E, 14.5, -1), (16 - E, 15.25, 0), "casing", faces=("north", "east", "west", "down")),
+               K.box("HeadCap", (E, 15.25, -1.5), (16 - E, 16, 0), "casing", faces=("north", "east", "west", "up", "down")),
+               K.box("StileL", (1.75, 0, -0.5), (3.25, 14.5, 0), "doorwood", faces=("north", "east")),
+               K.box("StileR", (12.75, 0, -0.5), (14.25, 14.5, 0), "doorwood", faces=("north", "west")),
+               K.box("RailTop", (3.25, 11, -0.5), (12.75, 14.5, 0), "doorrail", faces=("north", "down")),
+               K.box("Field", (4.25, 0, -0.25), (11.75, 10, 0), "doorwood", faces=("north", "east", "west", "up", "down")),
+               K.box("Plate", (4, 5.5, -0.75), (12, 9.5, -0.25), "plate", faces=("north",), uv=[0, 0, 16, 16]),
+               K.box("PlateEdge", (4, 5.5, -0.75), (12, 9.5, -0.25), "brass", faces=("east", "west", "up", "down")),
+               K.box("Peephole", (7.6, 12.35, -0.75), (8.4, 13.15, -0.5), "brass", faces=("north", "east", "west", "up", "down")),
+               K.box("PeepLens", (7.8, 12.55, -0.8), (8.2, 12.95, -0.75), "doordark", faces=("north",))]
+        for i, (x, y) in enumerate(((4.3, 5.8), (11.3, 5.8), (4.3, 8.8), (11.3, 8.8))):
+            hw.append(K.box(f"Screw{i}", (x, y, -0.85), (x + 0.4, y + 0.4, -0.75), "brass", faces=("north", "east", "west", "up", "down")))
+        hw += slim_hinge("Hinge", 9.0, 11.5)
+    leaf = box("Leaf", (0, 0, 0), (16, 16, 16), "doorwood")
+    return [leaf] + four_sides(hw)
+
+
+def chandelier():
+    """(B8) The grand rooms' chandelier (drawn larger than its block, the flames where they were: gen_blocktypes
+    `_chandelier_flames`): a canopy at the ceiling, a chain of links, a turned brass column with knops over a bowl and
+    a crystal finial; eight arms out from the hub (two straight across and two diagonals), each turning up at its end
+    into a drip pan and a candle cup; crystal drops hanging from the arms. It was a flat gold plate with candles on it."""
+    els = octagon("Canopy", 8, 8, 2.0, 15.25, 16, "brass", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    for i, y in enumerate((14.0, 12.6, 11.2, 9.8)):  # chain links, alternately across and along
+        if i % 2:
+            els.append(K.box(f"Link{i}", (7.65, y, 7.2), (8.35, y + 1.4, 8.8), "brass", faces=("north", "east", "south", "west")))
+        else:
+            els.append(K.box(f"Link{i}", (7.2, y, 7.65), (8.8, y + 1.4, 8.35), "brass", faces=("north", "east", "south", "west")))
+    els.append(K.box("Ring", (7.5, 9.2, 7.5), (8.5, 9.8, 8.5), "brass"))
+    els += octagon("Knop", 8, 8, 1.1, 8.4, 9.2, "brass", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    els += octagon("Stem", 8, 8, 0.55, 6.6, 8.4, "brass", lift=0.01)
+    els += octagon("Hub", 8, 8, 1.7, 4.4, 6.6, "brass", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("Bowl", 8, 8, 1.2, 3.2, 4.4, "brass", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    els += octagon("Finial", 8, 8, 0.7, 1.4, 3.2, "crystal", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    els.append(K.box("Drop", (7.6, 0.4, 7.6), (8.4, 1.4, 8.4), "crystal", glow=120, faces=("north", "east", "south", "west", "down")))
+    # the arms: two straight across, two diagonals (their ends at the diagonal candles, 15.56 out)
+    els += [K.box("ArmX", (-4, 4.8, 7.6), (20, 5.4, 8.4), "brass"),
+            K.box("ArmZ", (7.6, 4.81, -4), (8.4, 5.39, 20), "brass")]
+    d = 15.56
+    for k, r in enumerate((45, -45)):
+        els.append(K.box(f"ArmD{k}", (8 - d, 4.82 + 0.01 * k, 7.6), (8 + d, 5.38 - 0.01 * k, 8.4), "brass", rot=(0, r, 0), origin=(8, 5.1, 8)))
+    for i, (x, z) in enumerate(((-3, -3), (8, -4), (19, -3), (-4, 8), (20, 8), (-3, 19), (8, 20), (19, 19))):
+        els.append(K.box(f"Riser{i}", (x - 0.35, 5.4, z - 0.35), (x + 0.35, 5.6, z + 0.35), "brass", faces=("north", "east", "south", "west")))
+        els += octagon(f"Pan{i}", x, z, 1.3, 5.6, 5.85, "brass", faces=("north", "east", "south", "west", "up", "down"), lift=0.005)
+        els += octagon(f"Cup{i}", x, z, 0.85, 5.85, 6.3, "brass", faces=("north", "east", "south", "west"), lift=0.005)
+        els.append(K.box(f"Candle{i}", (x - 0.6, 6, z - 0.6), (x + 0.6, 8.5, z + 0.6), "candle", glow=220))
+        # a crystal drop hanging from the arm halfway out
+        mx, mz = 8 + (x - 8) * 0.5, 8 + (z - 8) * 0.5
+        els.append(K.box(f"Drop{i}", (mx - 0.4, 2.8, mz - 0.4), (mx + 0.4, 4.8, mz + 0.4), "crystal", glow=90,
+                         faces=("north", "east", "south", "west", "down"), rot=(0, 45, 0), origin=(mx, 2.8, mz)))
+    return els
+
+
 def level5():
     t = {"panel": "backrooms:block/level5/hotelwall-panel", "brass": "backrooms:block/level5/brass",
          "candle": "backrooms:block/props/tube-warm", "gilt": "backrooms:block/level5/gilt",
@@ -1206,29 +1325,39 @@ def level5():
          "iron": "backrooms:block/props/metal-dark", "fire": "backrooms:block/level5/fire", "rust": PIPE_TEX["rust"],
          "lampshade": "backrooms:block/level5/lampshade", "bottle": "backrooms:block/detail/bankergreen"}
 
-    save("hotelfixture-sconce", t, [CUBE("panel")] + all_sides([
-        box("Plate", (6.5, 4, -0.5), (9.5, 10, 0), "brass", faces=("north", "east", "west", "up", "down")),
-        box("Arm", (7.5, 7, -3), (8.5, 8, -0.5), "brass"),
-        box("Cup", (6.5, 8, -4), (9.5, 9, -2), "brass"),
-        box("Candle", (7.25, 9, -3.25), (8.75, 12, -2.75), "candle", glow=180),
-    ]))
-    save("hotelfixture-portrait", t, [CUBE("panel")] + all_sides([
-        box("Frame", (2, 2, -1), (14, 15, 0), "gilt", faces=("east", "west", "up", "down")),
-        box("Canvas", (3, 3, -1), (13, 14, -0.8), "portrait", faces=("north",)),
-        box("FrameFront", (2, 2, -1.1), (14, 15, -1), "gilt", faces=("north",)),
-    ]))
-    # Portrait canvas sits behind the frame front: draw the frame as four strips instead
-    portrait = [CUBE("panel")] + all_sides([
-        box("Canvas", (3, 3, -0.8), (13, 14, -0.5), "portrait", faces=("north",)),
-        box("FrameTop", (2, 14, -1.2), (14, 15, 0), "gilt"),
-        box("FrameBottom", (2, 2, -1.2), (14, 3, 0), "gilt"),
-        box("FrameLeft", (2, 3, -1.2), (3, 14, 0), "gilt"),
-        box("FrameRight", (13, 3, -1.2), (14, 14, 0), "gilt"),
-    ])
-    save("hotelfixture-portrait", t, portrait)
-    save("hotelfixture-beverly", t, [CUBE("panel")] + all_sides([
-        box("Placard", (2, 5, -0.6), (14, 11, 0), "placard", faces=("north", "east", "west", "up", "down")),
-    ]))
+    # (B8) The sconce: a bevelled brass backplate with a boss, an arm out from it turning up under a drip pan, a cup,
+    # and the candle with a run of wax down its side (the candle stays where it was: the flames are placed there,
+    # gen_blocktypes._sconce_flames)
+    sconce = K.bevelled_box("Plate", (6.25, 3.5, -0.75), (9.75, 10.5, 0), "brass", b=0.25)
+    sconce += [K.box("Boss", (7.25, 6.25, -1.5), (8.75, 7.75, -0.75), "brass", faces=("north", "east", "west", "up", "down")),
+               K.box("Arm", (7.6, 6.6, -3.4), (8.4, 7.4, -1.5), "brass", faces=("north", "east", "west", "up", "down")),
+               K.box("Riser", (7.6, 7.4, -3.4), (8.4, 8.0, -2.6), "brass", faces=("north", "east", "south", "west"))]
+    sconce += octagon("Pan", 8, -3, 1.6, 8.0, 8.4, "brass", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    sconce += octagon("Cup", 8, -3, 0.95, 8.45, 9.2, "brass", faces=("north", "east", "south", "west"), lift=0.01)
+    sconce += [K.box("Candle", (7.5, 9.2, -3.5), (8.5, 12, -2.5), "candle", glow=180),
+               K.box("Drip", (8.5, 10.1, -3.25), (8.8, 11.7, -2.95), "candle", glow=180, faces=("north", "east", "south", "down")),
+               K.box("Wick", (7.9, 12, -3.1), (8.1, 12.5, -2.9), "wick", faces=("north", "east", "south", "west", "up"))]
+    save("hotelfixture-sconce", dict(t, wick="backrooms:block/level5/hoteldoor-dark"), [CUBE("panel")] + four_sides(sconce))
+
+    # (B8) The portrait's frame as a moulding in three steps: the frame proud of the wall, a bead along its middle and
+    # an inner lip, the canvas set back behind them. The canvas key has other prints as alternates (gen_blocktypes)
+    def frame(name, x1, y1, x2, y2, w, z1, z2, tex):
+        return [K.box(name + "T", (x1, y2 - w, z1), (x2, y2, z2), tex, faces=("north", "east", "west", "up", "down")),
+                K.box(name + "B", (x1, y1, z1), (x2, y1 + w, z2), tex, faces=("north", "east", "west", "up", "down")),
+                K.box(name + "L", (x1, y1 + w, z1), (x1 + w, y2 - w, z2), tex, faces=("north", "east", "west")),
+                K.box(name + "R", (x2 - w, y1 + w, z1), (x2, y2 - w, z2), tex, faces=("north", "east", "west"))]
+    portrait = frame("Frame", 2, 2, 14, 15, 1.25, -1.0, 0, "gilt") + frame("Bead", 2.4, 2.4, 13.6, 14.6, 0.5, -1.35, -1.0, "gilt")
+    portrait += frame("Lip", 3.25, 3.25, 12.75, 13.75, 0.5, -0.6, 0, "gilt")
+    portrait.append(K.box("Canvas", (3.75, 3.75, -0.35), (12.25, 13.25, -0.25), "portrait", faces=("north",), uv=[0, 0, 16, 16]))
+    save("hotelfixture-portrait", t, [CUBE("panel")] + four_sides(portrait))
+    # (B8) The Beverly Room's placard: an engraved nickel plate on a bevelled mahogany mount, four brass screws
+    beverly = K.bevelled_box("Mount", (1.5, 4.5, -0.5), (14.5, 11.5, 0), "wood", b=0.2)
+    beverly += [K.box("Placard", (2.25, 5.25, -0.85), (13.75, 10.75, -0.5), "placard", faces=("north",), uv=[0, 0, 16, 16]),
+                K.box("PlacardEdge", (2.25, 5.25, -0.85), (13.75, 10.75, -0.5), "placard", faces=("east", "west", "up", "down"),
+                      uv=[0, 0, 0.5, 0.5])]
+    for i, (x, y) in enumerate(((2.6, 5.6), (13.0, 5.6), (2.6, 10.0), (13.0, 10.0))):
+        beverly.append(K.box(f"Screw{i}", (x, y, -0.95), (x + 0.4, y + 0.4, -0.85), "brass", faces=("north", "east", "west", "up", "down")))
+    save("hotelfixture-beverly", t, [CUBE("panel")] + four_sides(beverly))
 
     for state, glow in (("lit", 200), ("off", 0)):
         save(f"domelight-{state}", t, [CUBE("cream"),
@@ -1238,42 +1367,53 @@ def level5():
     # The grand rooms' coffered ceiling: cream slabs, and every fourth row and column a mahogany beam hanging 4 px
     # under them with a moulded bead along its foot. Only the faces that can be seen are drawn; the blocks let light
     # through, so the beams' sides are lit by the room rather than by the dark slab beside them.
+    # (B8) A fillet runs along both sides of each beam where it meets the slab, so every coffer has a moulding round
+    # it; the beams' mahogany has grain along them (gen_textures.wood_grain)
     slab = box("Slab", (0, 0, 0), (16, 16, 16), "cream", faces=("down",))
 
-    def beam_x(x1=0, x2=16):
+    def beam_x(x1=0, x2=16, f1=None, f2=None):
+        f1, f2 = x1 if f1 is None else f1, x2 if f2 is None else f2
         return [box("Beam", (x1, -4, 5.5), (x2, 0, 10.5), "wood", faces=("north", "south", "down")),
-                box("Bead", (x1, -4.6, 6.5), (x2, -4, 9.5), "wood", faces=("north", "south", "down"))]
+                box("Bead", (x1, -4.6, 6.5), (x2, -4, 9.5), "wood", faces=("north", "south", "down")),
+                box("FilletN", (f1, -0.75, 4.75), (f2, 0, 5.5), "wood", faces=("north", "down")),
+                box("FilletS", (f1, -0.75, 10.5), (f2, 0, 11.25), "wood", faces=("south", "down"))]
 
     save("hotelceiling-coffer", t, [slab])
     save("hotelceiling-beam", t, [slab] + beam_x())
-    # Where two beams cross, the one along Z stops at the sides of the one along X
+    # Where two beams cross, the one along Z stops at the sides of the one along X (its fillets at the X beam's)
     save("hotelceiling-beamcross", t, [slab] + beam_x() + [
-        dict(rot(b, 1), name=b["name"] + "Z" + str(i)) for i, (x1, x2) in enumerate(((0, 5.5), (10.5, 16))) for b in beam_x(x1, x2)])
+        dict(rot(b, 1), name=b["name"] + "Z" + str(i)) for i, (x1, x2, f1, f2) in enumerate(((0, 5.5, 0, 4.75), (10.5, 16, 11.25, 16)))
+        for b in beam_x(x1, x2, f1, f2)])
 
-    # A great chandelier hanging from the grand ceilings (drawn larger than its block)
-    chandelier = [box("Chain", (7.5, 8, 7.5), (8.5, 16, 8.5), "brass"),
-                  box("Hub", (6, 4, 6), (10, 8, 10), "brass"),
-                  box("Ring", (-4, 5, -4), (20, 6, 20), "brass", faces=("up", "down", "north", "south", "east", "west"))]
-    for i, (x, z) in enumerate(((-3, -3), (8, -4), (19, -3), (-4, 8), (20, 8), (-3, 19), (8, 20), (19, 19))):
-        chandelier.append(box(f"Candle{i}", (x - 0.75, 6, z - 0.75), (x + 0.75, 8.5, z + 0.75), "candle", glow=220))
-    for i, (x, z) in enumerate(((2, 2), (14, 2), (2, 14), (14, 14))):
-        chandelier.append(box(f"Crystal{i}", (x - 1, 0, z - 1), (x + 1, 4, z + 1), "crystal", glow=120))
-    save("chandelier", t, chandelier)
+    save("chandelier", t, chandelier())
 
     # A front hall's grand staircase (layout 5), climbing toward the north like the concrete stairs: white marble
     # steps, and on the middle one of a flight a red runner over treads and risers, held by brass stair rods
-    stairs = {"marble": "backrooms:block/detail/marble", "carpet": "backrooms:block/level5/hotelcarpet-damask",
+    # (B8) Plain veined marble (the floor's black keystones showed as dark triangles on the steps), a rounded nosing
+    # standing out over each riser, and the stair rods with finials at their ends
+    stairs = {"marble": "backrooms:block/detail/marbletop", "carpet": "backrooms:block/level5/hotelcarpet-damask",
               "brass": "backrooms:block/level5/brass"}
     steps = [box("Lower", (0, 0, 0), (16, 8, 16), "marble"), box("Upper", (0, 8, 0), (16, 16, 8), "marble")]
-    save("hotelstairs-marble", stairs, steps)
+
+    def nosing(x1, x2, y, z, tag):
+        return [box("Nosing" + tag, (x1, y - 0.75, z), (x2, y, z + 0.6), "marble", faces=("south", "up", "down", "east", "west")),
+                box("NosingRound" + tag, (x1, y - 0.5, z + 0.6), (x2, y - 0.25, z + 0.75), "marble", faces=("south", "up", "down", "east", "west"))]
+    save("hotelstairs-marble", stairs, steps + nosing(0, 16, 8, 16, "L") + nosing(0, 16, 16, 8, "U"))
+
+    def rod(tag, y, z):
+        return [box("Rod" + tag, (1.5, y, z), (14.5, y + 0.6, z + 0.6), "brass"),
+                box("FinialL" + tag, (1.0, y - 0.1, z - 0.1), (1.5, y + 0.7, z + 0.7), "brass"),
+                box("FinialR" + tag, (14.5, y - 0.1, z - 0.1), (15.0, y + 0.7, z + 0.7), "brass")]
     save("hotelstairs-runner", stairs, steps + [
         box("TreadLower", (2, 8, 8.4), (14, 8.4, 16), "carpet", faces=("up", "east", "west")),
         box("RiserLower", (2, 0, 16), (14, 8.4, 16.4), "carpet", faces=("south", "up", "east", "west")),
         box("RiserUpper", (2, 8, 8), (14, 16.4, 8.4), "carpet", faces=("south", "up", "east", "west")),
         box("TreadUpper", (2, 16, 0), (14, 16.4, 8), "carpet", faces=("up", "east", "west")),
-        box("RodUpper", (1.5, 8.4, 8.4), (14.5, 9, 9), "brass"),
-        box("RodLower", (1.5, 0, 16.4), (14.5, 0.6, 17), "brass"),
-    ])
+    ] + rod("Upper", 8.4, 8.4) + rod("Lower", 0, 16.4)
+        + nosing(0, 1.6, 8, 16, "LW") + nosing(14.4, 16, 8, 16, "LE") + nosing(0, 1.6, 16, 8, "UW") + nosing(14.4, 16, 16, 8, "UE"))
+
+    for part in ("lower", "upper"):
+        save(f"hoteldoor-{part}", dict(t, **HOTEL_DOOR_TEX), hotel_door(part))
 
     oriented("bed-head", t, [
         box("Frame", (1, 2, 0), (15, 6, 16), "wood"),

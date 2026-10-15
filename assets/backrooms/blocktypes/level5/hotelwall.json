@@ -21,9 +21,44 @@
 	},
 	"blockmaterial": "Wood",
 	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level5/hotelwall-{type}"
+	"texturesByType": {
+		"*-wainscot": {
+			"all": {
+				"base": "block/level5/hotelwall-wainscot"
+			}
+		},
+		"*-panel": {
+			"all": {
+				"base": "block/level5/hotelwall-panel",
+				"alternates": [
+					{
+						"base": "block/level5/hotelwall-panel-2"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-3"
+					},
+					{
+						"base": "block/level5/hotelwall-panel"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-2"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-3"
+					},
+					{
+						"base": "block/level5/hotelwall-panel"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-4"
+					}
+				]
+			}
+		},
+		"*-frieze": {
+			"all": {
+				"base": "block/level5/hotelwall-frieze"
+			}
 		}
 	},
 	"resistance": 2,
