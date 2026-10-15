@@ -23,6 +23,15 @@ def plate(nm, frm, to, front, side, glow=0):
             bx(nm + "Sides", frm, to, side, faces=("east", "west", "up", "down"))]
 
 
+def gilt_frame(nm, x1, y1, x2, y2, w, z1, z2, tex="gilt"):
+    """(B8) A picture frame's member ring: four boxes w wide round x1..x2, y1..y2, from z1 to z2 (as gen_shapes
+    level5's portrait frame)."""
+    return [bx(nm + "T", (x1, y2 - w, z1), (x2, y2, z2), tex, faces=("north", "east", "west", "up", "down")),
+            bx(nm + "B", (x1, y1, z1), (x2, y1 + w, z2), tex, faces=("north", "east", "west", "up", "down")),
+            bx(nm + "L", (x1, y1 + w, z1), (x1 + w, y2 - w, z2), tex, faces=("north", "east", "west")),
+            bx(nm + "R", (x2 - w, y1 + w, z1), (x2, y2 - w, z2), tex, faces=("north", "east", "west"))]
+
+
 def carton(nm, frm, to):
     return [bx(nm, frm, to, "cardboard", faces=("north", "east", "south", "west", "down")),
             bx(nm + "Top", frm, to, "cardboardtop", faces=("up",))]
@@ -253,6 +262,42 @@ def staff_plaques():
     name("staffplaque-*", "Staff Only Sign")
 
 
+def lift_leaf_panels(part, half):
+    """(B8) A modern lift leaf's two inset panels as geometry: stiles, rails and a mid rail of brushed steel standing
+    0.4 out of the leaf, the panels the leaf's face between them (the leaf of a 2-wide lift is one block wide; `half`
+    l is the west leaf seen from the front, its jamb on the east). The leaf's face texture is plain brushed steel."""
+    jamb_lo, jamb_hi = (0, 14.5) if half == "l" else (1.5, 16)
+    x1, x2 = (jamb_lo + 0.5, jamb_hi - 0.25) if half == "l" else (jamb_lo + 0.25, jamb_hi - 0.5)
+    z1, z2 = -0.9, -0.5
+    els = [bx("StileA", (x1, 0, z1), (x1 + 1.5, 16 if part == "lower" else 14.5, z2), "liftsteel", faces=("north", "east", "west")),
+           bx("StileB", (x2 - 1.5, 0, z1), (x2, 16 if part == "lower" else 14.5, z2), "liftsteel", faces=("north", "east", "west"))]
+    if part == "lower":
+        els += [bx("RailBottom", (x1 + 1.5, 0, z1), (x2 - 1.5, 2.5, z2), "liftsteel", faces=("north", "up")),
+                bx("RailMid", (x1 + 1.5, 12.5, z1), (x2 - 1.5, 14.5, z2), "liftsteel", faces=("north", "up", "down"))]
+    else:
+        els += [bx("RailTop", (x1 + 1.5, 12, z1), (x2 - 1.5, 14.5, z2), "liftsteel", faces=("north", "down"))]
+    return els
+
+
+def cage_gate(half):
+    """(B8) The antique lift's brass scissor gate as geometry: upright bars every 4 units and between each pair two
+    diagonal straps crossing, so the gate is a lattice of diamonds; behind it the dark of the shaft (it was a picture of
+    a lattice on a plate)."""
+    els = [bx("Shaft", (0, 0, -0.8), (16, 16, -0.7), "cageshaft", faces=("north",), full=True)]
+    for i, x in enumerate((0.25, 4, 8, 12, 15.75)):
+        a, b = max(0, x - 0.3), min(16, x + 0.3)
+        els.append(bx(f"Bar{i}", (a, 0, -1.4), (b, 16, -0.9), "brass", faces=("north", "east", "west")))
+    L = math.hypot(4, 8) - 0.5  # (a little short, so the turned straps' corners stay inside the block)
+    ang = math.degrees(math.atan2(8, 4))
+    for c in range(4):
+        cx = c * 4 + 2
+        for r, cy in enumerate((4, 12)):
+            for k, sgn in enumerate((1, -1)):
+                els.append(bx(f"Strap{c}{r}{k}", (cx - L / 2, cy - 0.25, -1.3 + 0.1 * k), (cx + L / 2, cy + 0.25, -1.0 + 0.1 * k), "brass",
+                              faces=("north", "up", "down"), rot=(0, 0, sgn * ang), origin=(cx, cy, -1.15)))
+    return els
+
+
 def doors():
     for code, english, tex in (("metaldoor", "Steel Door", "metaldoor"), ("officedoor", "Office Door", "officedoor")):
         block(code, {
@@ -317,7 +362,7 @@ def doors():
                bx("Jamb", (outer[0], 0, -1.2), (outer[1], 16, 0), "liftframe")]
         if part == "upper":
             els.append(bx("Head", (0, 14.5, -1.2), (16, 16, 0), "liftframe"))
-        return els
+        return els + lift_leaf_panels(part, half)
 
     lift("liftdoor", "Elevator", {
         "drywall": {"lower": "drywall-base", "upper": "drywall", "header": "drywall"},
@@ -329,8 +374,7 @@ def doors():
         if part == "dial":
             return [bx("Dial", (0, 2, -0.8), (16, 15, 0), f"cagedial-{half}", glow=20, faces=("north",), full=True),
                     bx("Rim", (0, 1.5, -1.2), (16, 2.5, 0), "brass")]
-        els = [bx("Gate", (0, 0, -1.4), (16, 16, -0.9), f"cagegate-{half}", faces=("north", "south"), full=True),
-               bx("Column", (outer[0], 0, -2), (outer[1], 16, 0), "brass")]
+        els = cage_gate(half) + [bx("Column", (outer[0], 0, -2), (outer[1], 16, 0), "brass")]
         els.append(bx("Rail", (0, 0 if part == "lower" else 14.5, -1.8), (16, 1.5 if part == "lower" else 16, -0.5), "brass"))
         if part == "lower":
             els.append(bx("Handle", (6 if half == "r" else 9, 7, -2.6), (7 if half == "r" else 10, 11, -1.4), "brass"))
@@ -1311,15 +1355,22 @@ def level5():
               bx("Stem1", (4.5, 5, -2), (5.5, 7, -1), "metal")] + plate("Gauge1", (2.5, 7, -2.6), (7.5, 12, -1.4), "gauge", "metaldark")
     # The key board behind a front desk: a mahogany board with a moulded top, three rows of brass hooks, and on most of
     # them a room key with its brass tag hanging down (the keys of rooms whose guests are out: nearly all of them)
+    # (B8) A moulded frame round the board, a stepped cornice, each hook turned up at its tip, and on the keys oval
+    # brass fobs with the room number stamped on (`keytag`)
     keyrack = [bx("Board", (1, 1, -1), (15, 14.5, 0), "mahogany"),
-               bx("Cornice", (0.5, 14.5, -2), (15.5, 16, 0), "mahogany"), bx("Rail", (0.5, 0.5, -1.6), (15.5, 1.5, 0), "mahogany")]
+               bx("Cornice", (0.5, 14.5, -2), (15.5, 15.25, 0), "mahogany"), bx("CorniceCap", (0.25, 15.25, -2.4), (15.75, 16, 0), "mahogany"),
+               bx("Rail", (0.5, 0.5, -1.6), (15.5, 1.5, 0), "mahogany")]
+    keyrack += [bx("FrameL", (1, 1.5, -1.4), (1.75, 14.5, -1), "mahogany", faces=("north", "east", "west")),
+                bx("FrameR", (14.25, 1.5, -1.4), (15, 14.5, -1), "mahogany", faces=("north", "east", "west"))]
     for row, y in enumerate((13, 9, 5)):
         for col, x in enumerate((3, 6.3, 9.7, 13)):
-            keyrack.append(bx(f"Hook{row}{col}", (x - 0.3, y - 0.3, -2), (x + 0.3, y + 0.3, -1), "brass"))
+            keyrack += [bx(f"Hook{row}{col}", (x - 0.25, y - 0.25, -2.2), (x + 0.25, y + 0.25, -1), "brass"),
+                        bx(f"HookTip{row}{col}", (x - 0.25, y + 0.25, -2.45), (x + 0.25, y + 0.85, -2.0), "brass")]
             if (row * 4 + col) % 5 == 2:
                 continue  # an empty hook
             keyrack += [bx(f"Key{row}{col}", (x - 0.25, y - 2.2, -1.9), (x + 0.25, y - 0.2, -1.5), "brass"),
-                        bx(f"Tag{row}{col}", (x - 0.8, y - 3.6, -1.8), (x + 0.8, y - 2.2, -1.4), "brass")]
+                        bx(f"Tag{row}{col}", (x - 0.8, y - 3.4, -1.8), (x + 0.8, y - 2.2, -1.4), "keytag",
+                           uv=[0, 0, 8, 8] if (row + col) % 2 else [8, 8, 16, 16])]
     decors = [
         Decor("mirror", "Gilt Mirror", {2: [bx("Frame", (3, 0, -1), (13, 16, 0), "gilt"),
                                             bx("Glass", (3.8, 0.8, -1.1), (12.2, 15.2, -1), "mirrorglass", faces=("north",), full=True)]}),
@@ -1333,10 +1384,14 @@ def level5():
         Decor("firehose", "Fire Hose Cabinet", {2: plate("Cabinet", (2, 0, -2), (14, 15, 0), "hotelhosecab", "brass")}),
         Decor("clock", "Wall Clock", {3: plate("Clock", (4, 1, -1.5), (12, 12, 0), "ornateclock", "gilt")}),
         Decor("keyrack", "Key Rack", {2: keyrack}),
-        Decor("callplate", "Elevator Call Plate", {2: plate("Plate", (6, 3, -0.6), (10, 11, 0), "callplate", "brass")}),
-        Decor("landscape", "Painting", {2: [bx("Canvas", (3, 3, -0.6), (13, 13, -0.4), "landscape", faces=("north",), full=True),
-                                            bx("FrameT", (2, 13, -1.2), (14, 14, 0), "gilt"), bx("FrameB", (2, 2, -1.2), (14, 3, 0), "gilt"),
-                                            bx("FrameL", (2, 3, -1.2), (3, 13, 0), "gilt"), bx("FrameR", (13, 3, -1.2), (14, 13, 0), "gilt")]}),
+        # (B8) The call plate's two buttons are geometry: ivory pushes in brass bezels on a bevelled plate
+        Decor("callplate", "Elevator Call Plate", {2: K.bevelled_box("Plate", (6, 3, -0.6), (10, 11, 0), "brass", b=0.2) + [
+            e for y in (8.5, 5.5) for e in (K.box(f"Bezel{y}", (6.9, y - 1.1, -0.95), (9.1, y + 1.1, -0.6), "brass"),
+                                             K.box(f"Push{y}", (7.35, y - 0.65, -1.25), (8.65, y + 0.65, -0.95), "callbutton"))]}),
+        # (B8) The painting's frame as the portraits' (gen_shapes level5): a frame, a bead along it and an inner lip
+        Decor("landscape", "Painting", {2: [bx("Canvas", (3.5, 3.5, -0.35), (12.5, 12.5, -0.25), "landscape", faces=("north",), full=True)]
+                                        + gilt_frame("Frame", 2, 2, 14, 14, 1.25, -1.0, 0) + gilt_frame("Bead", 2.4, 2.4, 13.6, 13.6, 0.5, -1.35, -1.0)
+                                        + gilt_frame("Lip", 3.0, 3.0, 13.0, 13.0, 0.5, -0.6, 0)}),
     ]
     wall_family("hoteldeco", "Hotel Wall", {1: "wainscot", 2: "hotelpanel", 3: "frieze"}, decors, material="Wood", sounds=WOOD)
     pipesv = [bx("Rusty", (2, 0, -4), (5, 16, 0), "rust", faces=("north", "east", "west")),
@@ -1434,9 +1489,20 @@ def level5():
         bx("Face", (4.5, 25, 5.8), (11.5, 31, 6), "clockface-old", faces=("north",), full=True),
         bx("Finial", (7.5, 32, 9.5), (8.5, 34, 10.5), "brass")],
          box=(0.18, 0, 0.36, 0.82, 1.95, 0.88), extra={"sounds": dict(WOOD, ambient="backrooms:ambient/clock", ambientBlockCount=1)})
-    prop("hotelreception", "Front Desk", [
-        bx("Front", (0, 0, 2), (16, 17, 5), "receptionmahogany", faces=("north",), full=True),
-        bx("FrontSides", (0, 0, 2), (16, 17, 5), "mahogany", faces=("east", "west", "south")),
+    # (B8) The front desk's front is frame and panel as geometry (it was painted): a toe-recessed plinth, two raised and
+    # fielded panels per block between stiles that meet the next block's, a brass rail under the counter's edge
+    front = K.inset_panel("Front", (0, 1.5, 2), (16, 15.75, 5), "mahogany", border=1.25, depth=0.5, grid=(2, 1), mid=2.0)
+    front = [e for e in front if not e["name"].startswith("FrontBody")] + [
+        bx("FrontBody", (0, 1.5, 2.5), (16, 15.75, 5), "mahogany", faces=("north", "east", "west", "south"))]
+    fields = [bx(f"Field{i}", (a + 0.75, b + 0.75, 2.25), (c - 0.75, d - 0.75, 2.5), "mahogany", faces=("north", "east", "west", "up", "down"))
+              for i, (a, b, c, d) in enumerate(K.inset_panel.openings)]
+    # a brass bead round each field, where the old front had its painted gold lines
+    fields += [e for i, (a, b, c, d) in enumerate(K.inset_panel.openings)
+               for e in gilt_frame(f"Inlay{i}", a + 0.2, b + 0.2, c - 0.2, d - 0.2, 0.35, 2.4, 2.5, "brass")]
+    prop("hotelreception", "Front Desk", front + fields + [
+        bx("Plinth", (0, 0, 2.75), (16, 1.5, 5), "mahoganydark", faces=("north", "east", "west", "south", "up")),
+        bx("Frieze", (0, 15.75, 1.75), (16, 17, 5), "mahogany", faces=("north", "east", "west", "south", "down")),
+        bx("Rail", (0, 16.1, 1.45), (16, 16.6, 1.75), "brass", faces=("north", "up", "down", "east", "west")),
         bx("Top", (0, 17, 1), (16, 18.5, 8), "marbletop"), bx("Shelf", (0, 10, 5), (16, 11, 14), "mahogany"),
         bx("Bell", (11, 18.5, 3), (13, 19.5, 5), "brass"), bx("Button", (11.8, 19.5, 3.8), (12.2, 20, 4.2), "brass"),
         bx("Book", (3, 18.5, 2.5), (8, 19, 6), "guestbook", faces=("up",), full=True),

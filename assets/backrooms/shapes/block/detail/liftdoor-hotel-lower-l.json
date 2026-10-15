@@ -4,6 +4,7 @@
 	"textures": {
 		"liftdoor-lower-l": "backrooms:block/detail/liftdoor-lower-l",
 		"liftframe": "backrooms:block/detail/liftframe",
+		"liftsteel": "backrooms:block/detail/liftsteel",
 		"wainscot": "backrooms:block/level5/hotelwall-wainscot"
 	},
 	"elements": [
@@ -165,6 +166,165 @@
 						0,
 						1.5,
 						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "StileA",
+			"from": [
+				0.5,
+				0,
+				-0.9
+			],
+			"to": [
+				2.0,
+				16,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileB",
+			"from": [
+				12.75,
+				0,
+				-0.9
+			],
+			"to": [
+				14.25,
+				16,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailBottom",
+			"from": [
+				2.0,
+				0,
+				-0.9
+			],
+			"to": [
+				12.75,
+				2.5,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailMid",
+			"from": [
+				2.0,
+				12.5,
+				-0.9
+			],
+			"to": [
+				12.75,
+				14.5,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
 					]
 				}
 			}

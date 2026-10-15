@@ -93,6 +93,16 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   openings such as air slots in crisp pixels on a face plate. Cut-out foliage (a dead plant) reads as debris unless
   about half of each face is leaf, close round branches.
 
+- (B8) Hardware copied onto all four sides of a block with no facing (`modelkit.turn`) must not reach the block's own
+  side planes: a part flush with x 0 or 16 on the front becomes, on a buried side, a face exactly on the neighbouring
+  wall's face, and it shimmers beside the door in the client. `check_zfight` lists these as "north-facing, on the north
+  face of the block east"; stop such parts 0.05 short of the edge.
+- (B8) A pattern on a floor that the blocktype turns at random must be four-fold symmetric about the block centre at the
+  pixel: centre motifs on the half pixel (7.5, 23.5) with an even size. Odd-sized ones at whole pixels jump a pixel in a
+  turned block, and the rows wobble.
+- (B8) A spot found on the harness grid for a wall decoration can frame the wrong block (the pier convention): look at
+  the first base frames of every new spot and re-spot before the after run. Dark rooms (boiler bays) get `-inspection`.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -106,8 +116,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | D1 follow-up on B3, B4, B5 decisions | gfx/D1 | merged | offline only (not shot) | | | passed 2026-10-14 13:20 (Fable): wallpaper and floor mocks seamless, box/crate previews checked; user approved in play |
 | B6 Level 3 | gfx/B6 | merged | 2 | Purpified (C+), floor fan unseen, risers' painted roundness, OUT OF BOUNDS plaque unseen | passed 2026-10-14 15:40 (Fable): panels/fans verified as geometry, brick tone kept |
 | B7 Level 4 (and Level 9's asphalt, after B11) | gfx/B7 | merged | 2 | ficus (C+), windows (C+), ghost-carpet patches (layout), elevator doors and small wall decor untouched; Level 11's asphalt-cracked square (B12) | passed 2026-10-14 17:45 (Fable): furniture verified as geometry, surfaces kept tone, asphalt fine and even |
-| B8 Level 5 | gfx/B8 | in progress | | | |
-| B9 Levels 6 and 6.1 | | not started | | | |
+| B8 Level 5 | gfx/B8 | merged | 2 | boiler bay C (B6's boiler: clay-orange shell, box flue; fix in a follow-up), red marble pillars repeat, furniture untouched | passed 2026-10-14 19:35 (Fable): doors and chandelier verified as geometry, damask tone kept |
+| B9 Levels 6 and 6.1 | gfx/B9 | in progress | | | |
 | B10 Levels 7 and 8 | | not started | | | |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | | not started | | | |
@@ -1091,5 +1101,70 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B7` from `main`, uncommitted. Leve
 - `gen_textures.troffer`: new `rail`, `frame`, `table` and `tubes` options; the defaults are unchanged.
 - `detail_kit.wall_family`: a `textures` option (texture alternates for a decoration's keys).
 - `detail_kit.EXT`: the Level 4 furniture keys.
+
+**Lessons:** three lines added above.
+
+### B8
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B8` from `main` (fe39cf5), uncommitted. Phase 1 was offline; phase 2 was one blind review (round 1), then a fix and one reshoot. The round-2 grades are mine, from the round-1 review and the fixes.
+
+- **Final sheets:** `review/b8/compare-round2.jpg` (every spot) and `review/b8/compare-round2-detail.jpg` (20 key spots at twice the size). After shots: `review/b8/final/`. Round 1: `review/b8/compare-round1*.jpg`, shots in `review/b8/after/`.
+- **Per-family pairs:** `review/b8/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B8.json`. The B8 section is added to `review/compare.html`.
+- **Decision table:** nine rows added to `decisions.md`, decision column empty.
+- **Offline evidence** (`review/b8/offline/`):
+  - `tile-<n>-<family>-{before,after}.png`: walls, floors, materials and doors, lifts and desk;
+  - `mock-{wall,carpet,maroon,wood}-6x3.png`: the blocktype's real mix, at 2x and averaged;
+  - `preview-*.png`: the models beside main's, and small scenes (`preview-door-scene.png`, `preview-door666-scene.png`, `preview-wall-scene.png`, `preview-chandelier-big.png`, `preview-desk.png`);
+  - `harness/`; the scratch tools in `tools/` (a multi-block scene renderer `scene.py`, `mocks.py`, `findspots.py`, `churn.py`).
+
+**Checks**
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir).
+- **`layouthash`:** v1 and v4 match B7's output line for line (`review/b8/offline/harness/`). No C# changed; `DetailBlocks.g.cs` and `lang/en.json` are unchanged.
+- **`validatelevel 5`** (`SPAWN=16000`, 24 cells): Level 5 has 8 unreachable tiles of 88,887 and no blocked doorways; the 27 blocked doorways reported are Level 6's. Main's output (no C# changed).
+- **Saves:** no code, variant group or class was added, renamed or removed. No layout version. `hoteldoor` keeps its parts and draws as JSON; otherwise only shapes and texture lists changed. Shot in `gfxreview`.
+- **`check_zfight`:** no same-shape pairs on any new shape. Round 1's door casing put faces on the neighbouring wall's plane on the buried sides (see the lessons); round 2 fixed it. The flags left are faces in corridor air or inside the neighbour.
+- **Churn:** line-ending churn and the `exitlintel*` key order restored from git; full runs of `gen_textures.py` and `gen_shapes.py` leave every other texture and shape byte-identical.
+- **Brightness:** every final shot is within 2.5 levels of the new baseline (`review/b8/luma-final.txt`).
+- **Textures removed** (no longer referenced): `level5/hoteldoor-lower`, `-upper0..9`; `detail/receptionmahogany`, `detail/keyrack` (the orphan), `detail/callplate`, `detail/cagegate-l/-r`.
+
+**Baseline and spots**
+- `review/baseline/5` is reshot on `build-gfxbase` (unchanged `main`, built at the start of the batch). The B0 set is kept in `review/baseline/5-b0`; it had drifted 0-7 levels brighter, most in the dim rooms. A retake of three spots first (`review/b8/base-check`) matched the full run.
+- Added to `spots/5.json` (found on the harness grid, `review/b8/offline/tools/findspots.py`): `door-close`, `sconce-close`, `portrait-close`, `chandelier-close`, `desk-close`, `keyrack-close`, `stairs-close`, `elevator-close`, `callplate-close`, `boiler-inspection`. After the first base frames, `portrait-close` and `elevator-close` were moved (they framed the wrong block) and the boiler bay became an inspection shot (13 levels mean: dark by design).
+- `den-wide`/`den-close` press the camera into a panel and `prop-1` is too dark to judge (as on main).
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Guest-room doors, number plates | B (blind r1: body geometry, hardware D) | much better | Casing with plinths and a capped head, frame-and-panel leaf with raised fields, kick plate, knob and escutcheon, hinges, peephole; the brass plate a box with engraved numerals (per `upperN`). Round 2: slim hinges, a rounder knob, and the casing kept off the block's sides (its buried copies shimmered on the wall). |
+| Damask panels, gilt frames | B (r1: B) | same / slightly better | Tone exact; the frame shaded as a moulding with its shadow; three cuts of the print and a rare water mark. Still 64 px. |
+| Wainscot, frieze | B / B- (r1: B, B-) | better | Raised and fielded panels with grain; stiles across block edges; a picture-rail moulding on the frieze. One version (a second grain read as a patchwork). |
+| Corridor carpet | B- (r1: C, a dot grid) | better | Pile with the old rings and hearts dyed in, seamless turned versions; round 2 adds gold rosettes between the medallions. |
+| Maroon, lobby carpets, runner, rug | B- / C / B / B (r1: C, -, -, B) | same / better | Pile, dingy; round 2 calmed the maroon's noise. The lobby keeps its per-block red border (design; not in a shot). |
+| Walnut floor | B (r1: B) | better | 8 px boards, grain, single butt joints in five versions. |
+| Beams, coffers, ceiling | B- (r1: beams B-; ceiling C) | better (beams) / same | Grained beams with fillets round each coffer; the cream ceiling is plain plaster (the reviewer still reads it as flat). |
+| Chandelier | B+ (r1: B+) | much better | Arms, cups, pans, column, chain and crystal drops as geometry. The drops are plain pale bars (what keeps it from A). |
+| Sconces | B- (r1: C) | better | Backplate, boss, arm, pan and cup as geometry; round 2 made the candle slimmer (r1: twice too wide). |
+| Portraits, painting, Beverly placard | B- / B- / B (r1: B-, B-, B) | better | Stepped gilt frames, recessed canvases, four prints as alternates; an engraved placard (it showed only "THE"). |
+| Front desk, key rack | B / B- (r1: B, C) | better | Raised panels with brass beads, plinth, rail; the rack's frame, cornice, hooks and fobs (round 2: the fobs no longer clip the hook below). |
+| Grand stairs | B- (r1: B-) | better | Plain veined marble with nosings (the black keystone triangles are gone), rods with finials. The runner's rings are cut at each riser. |
+| Cage lift, call plate | B+ / B- (r1: B+, B-) | much better / better | Scissor gate as geometry over the dark shaft; buttons as geometry. The floor dial and the arrow sign are unchanged paint. |
+| Modern lift leaves | not in a shot | - | Brushed steel with inset panels as geometry; round 2 warmed the steel a little. Shared with Levels 4 and 11. |
+| Boiler bay | C (blind) | same | Not changed (B6's boiler and pipes); see carried. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; asked about tone, per-block repetition, the doors and chandelier as geometry, and the boiler):
+   - **Tone:** damask, wainscot, frieze and carpets within 1-4 levels of mean; no block-seam grid on wall, wood or carpet at playing distance.
+   - **Geometry:** the chandelier "the best change in the batch"; the door body real geometry, its hardware wrong (D): oversized hinges, a stacked-cube knob, a shimmer down both casing sides.
+   - **C:** the medallion carpet as a polka-dot grid, the sconce candle too wide, the key fobs clipping, the maroon's coarse noise; and, outside the batch's changes, the boiler bay, the marble pillars, the ceiling light and the lift dial.
+2. **Round 2 fixed:** the casing shimmer (z-fighting on the buried sides), slim hinges and a round knob, gold rosettes in the carpet, a slimmer candle, shorter fobs, a calmer maroon, a warmer lift steel. Reshot once; the round-2 grades are my reading of the final frames.
+
+**Carried below B, with reasons**
+- **Boiler bay (C):** B6's boiler shell texture (clay-orange at a low density), box flue and large gauge, and the bay's white pipes with painted roundness. They are B6's generators (`boiler_textures`, `gen_shapes.boiler`, the wall pipes), shared with Level 3; left for a pass of their own.
+- **Red marble pillars (C; B1 graded them B):** the veins repeat every block upward; `texlib.marble` is shared.
+- **Not touched:** the furniture (dining chairs and tables, bed, wardrobe, wing chair, sofa, palm, mahjong table, turntable) and the hotel props (console table, bookshelf, curio, trolley, radiator, writing desk, grandfather clock, piano), except that their mahogany, brass and gilt now have grain; the dome lights; the boiler halls' plaster walls; the floor dial and arrow sign; the marble floor's keystones; the lobby carpet's per-block border.
+- **Shared assets that changed elsewhere** (not reshot): `hotelreception` is Level 11's lobby desk; the `liftdoor` leaves are Levels 4's and 11's drywall lifts; `hotelcarpet-damask` and the hotel walls are Level 4's hotel ramp; mahogany, brass, gilt and crystal are on every Level 5 prop.
+
+**Tool changes:** none to shared tools. New in `gen_textures`: `wood_grain`, `brass_metal`, `gilt_leaf`, `layered_pattern`, `PLACARD_FONT` (a 5x7 face for engraved plates); in `gen_shapes`: `four_sides`, `hotel_door`, `slim_hinge`, `door_knob`, `chandelier`; in `gen_detail`: `gilt_frame`, `lift_leaf_panels`, `cage_gate`.
 
 **Lessons:** three lines added above.

@@ -29,6 +29,20 @@
 	"textures": {
 		"panel": {
 			"base": "block/level5/hotelwall-panel"
+		},
+		"portrait": {
+			"base": "block/level5/portrait",
+			"alternates": [
+				{
+					"base": "block/level5/portrait-2"
+				},
+				{
+					"base": "block/level5/portrait-3"
+				},
+				{
+					"base": "block/level5/portrait-4"
+				}
+			]
 		}
 	},
 	"lightHsvByType": {

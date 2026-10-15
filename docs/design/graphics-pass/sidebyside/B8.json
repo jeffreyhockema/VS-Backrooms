@@ -1,0 +1,19 @@
+{
+ "batch": "B8",
+ "title": "Level 5 (Terror Hotel)",
+ "before": "review/baseline/5",
+ "after": "review/b8/final",
+ "out": "review/b8/sidebyside",
+ "note": "review/baseline/5 was reshot in B8 on a build of unchanged main (the B0 set is kept in review/baseline/5-b0). B8 added close spots for a guest-room door, a sconce, a portrait, the chandelier, the front desk, the key rack, the grand stairs, an elevator, its call plate and a boiler bay.",
+ "families": [
+  {"id": "doors", "name": "Guest-room doors and number plates (door 666, the Beverly Room's blank plate)", "spots": ["door-close", "door666-close", "door666-wide"]},
+  {"id": "walls", "name": "Damask panels, gilt frames, wainscot and frieze", "spots": ["close-wall", "gate-wide", "cache-wide"]},
+  {"id": "carpet", "name": "Hotel carpets (corridor medallion, maroon), runner and rug", "spots": ["close-floor", "gate-close", "refuge-wide"]},
+  {"id": "floor-ceiling", "name": "Walnut floorboards, coffered ceiling and beams", "spots": ["wide-01", "wide-04", "close-ceiling"]},
+  {"id": "sconce-portrait", "name": "Candle sconces, portraits, the painting and the Beverly placard", "spots": ["sconce-close", "portrait-close", "sleepingbag-wide"]},
+  {"id": "chandelier", "name": "Chandelier", "spots": ["chandelier-close", "wide-02"]},
+  {"id": "front-hall", "name": "Front desk, key rack and grand staircases", "spots": ["desk-close", "keyrack-close", "stairs-close", "fronthall-wide"]},
+  {"id": "elevators", "name": "Elevators and call plate", "spots": ["elevator-close", "callplate-close"]},
+  {"id": "boiler", "name": "Boiler bay (B6's boiler, re-judged)", "spots": ["boiler-close"]}
+ ]
+}

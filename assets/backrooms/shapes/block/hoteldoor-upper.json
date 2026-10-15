@@ -1,0 +1,3802 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "panel": "backrooms:block/level5/hotelwall-panel",
+  "brass": "backrooms:block/level5/brass",
+  "candle": "backrooms:block/props/tube-warm",
+  "gilt": "backrooms:block/level5/gilt",
+  "portrait": "backrooms:block/level5/portrait",
+  "placard": "backrooms:block/level5/beverly",
+  "cream": "backrooms:block/level5/hotelceiling-cream",
+  "glass": "backrooms:block/level5/domeglass",
+  "crystal": "backrooms:block/level5/crystal",
+  "wood": "backrooms:block/level5/mahogany",
+  "linen": "backrooms:block/level5/linen",
+  "blanket": "backrooms:block/level5/blanket",
+  "velvet": "backrooms:block/level5/velvet",
+  "leaf": "backrooms:block/level5/palmleaf",
+  "pot": "backrooms:block/level5/pot",
+  "felt": "backrooms:block/level5/felt",
+  "tile": "backrooms:block/level5/mahjong",
+  "record": "backrooms:block/props/metal-dark",
+  "boiler": "backrooms:block/level5/boiler",
+  "iron": "backrooms:block/props/metal-dark",
+  "fire": "backrooms:block/level5/fire",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lampshade": "backrooms:block/level5/lampshade",
+  "bottle": "backrooms:block/detail/bankergreen",
+  "doorwood": "backrooms:block/level5/hoteldoor-wood",
+  "doorrail": "backrooms:block/level5/hoteldoor-rail",
+  "casing": "backrooms:block/level5/hoteldoor-casing",
+  "doordark": "backrooms:block/level5/hoteldoor-dark",
+  "plate": "backrooms:block/level5/hoteldoor-plate0"
+ },
+ "elements": [
+  {
+   "name": "Leaf",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL0",
+   "from": [
+    0.05,
+    0,
+    -1
+   ],
+   "to": [
+    1.5,
+    14.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR0",
+   "from": [
+    14.5,
+    0,
+    -1
+   ],
+   "to": [
+    15.95,
+    14.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Head0",
+   "from": [
+    0.05,
+    14.5,
+    -1
+   ],
+   "to": [
+    15.95,
+    15.25,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "HeadCap0",
+   "from": [
+    0.05,
+    15.25,
+    -1.5
+   ],
+   "to": [
+    15.95,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL0",
+   "from": [
+    1.75,
+    0,
+    -0.5
+   ],
+   "to": [
+    3.25,
+    14.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR0",
+   "from": [
+    12.75,
+    0,
+    -0.5
+   ],
+   "to": [
+    14.25,
+    14.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailTop0",
+   "from": [
+    3.25,
+    11,
+    -0.5
+   ],
+   "to": [
+    12.75,
+    14.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field0",
+   "from": [
+    4.25,
+    0,
+    -0.25
+   ],
+   "to": [
+    11.75,
+    10,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      10
+     ]
+    },
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate0",
+   "from": [
+    4,
+    5.5,
+    -0.75
+   ],
+   "to": [
+    12,
+    9.5,
+    -0.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#plate",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlateEdge0",
+   "from": [
+    4,
+    5.5,
+    -0.75
+   ],
+   "to": [
+    12,
+    9.5,
+    -0.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Peephole0",
+   "from": [
+    7.6,
+    12.35,
+    -0.75
+   ],
+   "to": [
+    8.4,
+    13.15,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PeepLens0",
+   "from": [
+    7.8,
+    12.55,
+    -0.8
+   ],
+   "to": [
+    8.2,
+    12.95,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw00",
+   "from": [
+    4.3,
+    5.8,
+    -0.85
+   ],
+   "to": [
+    4.7,
+    6.2,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw10",
+   "from": [
+    11.3,
+    5.8,
+    -0.85
+   ],
+   "to": [
+    11.7,
+    6.2,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw20",
+   "from": [
+    4.3,
+    8.8,
+    -0.85
+   ],
+   "to": [
+    4.7,
+    9.2,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw30",
+   "from": [
+    11.3,
+    8.8,
+    -0.85
+   ],
+   "to": [
+    11.7,
+    9.2,
+    -0.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA0",
+   "from": [
+    1.5,
+    9.0,
+    -0.95
+   ],
+   "to": [
+    1.95,
+    10.1,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB0",
+   "from": [
+    1.5,
+    10.4,
+    -0.95
+   ],
+   "to": [
+    1.95,
+    11.5,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin0",
+   "from": [
+    1.6,
+    11.5,
+    -0.85
+   ],
+   "to": [
+    1.85,
+    11.8,
+    -0.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL1",
+   "from": [
+    16,
+    0,
+    0.05
+   ],
+   "to": [
+    17,
+    14.5,
+    1.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR1",
+   "from": [
+    16,
+    0,
+    14.5
+   ],
+   "to": [
+    17,
+    14.5,
+    15.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Head1",
+   "from": [
+    16,
+    14.5,
+    0.05
+   ],
+   "to": [
+    17,
+    15.25,
+    15.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "HeadCap1",
+   "from": [
+    16,
+    15.25,
+    0.05
+   ],
+   "to": [
+    17.5,
+    16,
+    15.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL1",
+   "from": [
+    16,
+    0,
+    1.75
+   ],
+   "to": [
+    16.5,
+    14.5,
+    3.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR1",
+   "from": [
+    16,
+    0,
+    12.75
+   ],
+   "to": [
+    16.5,
+    14.5,
+    14.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailTop1",
+   "from": [
+    16,
+    11,
+    3.25
+   ],
+   "to": [
+    16.5,
+    14.5,
+    12.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field1",
+   "from": [
+    16,
+    0,
+    4.25
+   ],
+   "to": [
+    16.25,
+    10,
+    11.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate1",
+   "from": [
+    16.25,
+    5.5,
+    4
+   ],
+   "to": [
+    16.75,
+    9.5,
+    12
+   ],
+   "faces": {
+    "east": {
+     "texture": "#plate",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlateEdge1",
+   "from": [
+    16.25,
+    5.5,
+    4
+   ],
+   "to": [
+    16.75,
+    9.5,
+    12
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Peephole1",
+   "from": [
+    16.5,
+    12.35,
+    7.6
+   ],
+   "to": [
+    16.75,
+    13.15,
+    8.4
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PeepLens1",
+   "from": [
+    16.75,
+    12.55,
+    7.8
+   ],
+   "to": [
+    16.8,
+    12.95,
+    8.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw01",
+   "from": [
+    16.75,
+    5.8,
+    4.3
+   ],
+   "to": [
+    16.85,
+    6.2,
+    4.7
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw11",
+   "from": [
+    16.75,
+    5.8,
+    11.3
+   ],
+   "to": [
+    16.85,
+    6.2,
+    11.7
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw21",
+   "from": [
+    16.75,
+    8.8,
+    4.3
+   ],
+   "to": [
+    16.85,
+    9.2,
+    4.7
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw31",
+   "from": [
+    16.75,
+    8.8,
+    11.3
+   ],
+   "to": [
+    16.85,
+    9.2,
+    11.7
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA1",
+   "from": [
+    16.5,
+    9.0,
+    1.5
+   ],
+   "to": [
+    16.95,
+    10.1,
+    1.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB1",
+   "from": [
+    16.5,
+    10.4,
+    1.5
+   ],
+   "to": [
+    16.95,
+    11.5,
+    1.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin1",
+   "from": [
+    16.6,
+    11.5,
+    1.6
+   ],
+   "to": [
+    16.85,
+    11.8,
+    1.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL2",
+   "from": [
+    14.5,
+    0,
+    16
+   ],
+   "to": [
+    15.95,
+    14.5,
+    17
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR2",
+   "from": [
+    0.05000000000000071,
+    0,
+    16
+   ],
+   "to": [
+    1.5,
+    14.5,
+    17
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Head2",
+   "from": [
+    0.05000000000000071,
+    14.5,
+    16
+   ],
+   "to": [
+    15.95,
+    15.25,
+    17
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "HeadCap2",
+   "from": [
+    0.05000000000000071,
+    15.25,
+    16
+   ],
+   "to": [
+    15.95,
+    16,
+    17.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL2",
+   "from": [
+    12.75,
+    0,
+    16
+   ],
+   "to": [
+    14.25,
+    14.5,
+    16.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR2",
+   "from": [
+    1.75,
+    0,
+    16
+   ],
+   "to": [
+    3.25,
+    14.5,
+    16.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailTop2",
+   "from": [
+    3.25,
+    11,
+    16
+   ],
+   "to": [
+    12.75,
+    14.5,
+    16.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field2",
+   "from": [
+    4.25,
+    0,
+    16
+   ],
+   "to": [
+    11.75,
+    10,
+    16.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate2",
+   "from": [
+    4,
+    5.5,
+    16.25
+   ],
+   "to": [
+    12,
+    9.5,
+    16.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#plate",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlateEdge2",
+   "from": [
+    4,
+    5.5,
+    16.25
+   ],
+   "to": [
+    12,
+    9.5,
+    16.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Peephole2",
+   "from": [
+    7.6,
+    12.35,
+    16.5
+   ],
+   "to": [
+    8.4,
+    13.15,
+    16.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PeepLens2",
+   "from": [
+    7.800000000000001,
+    12.55,
+    16.75
+   ],
+   "to": [
+    8.2,
+    12.95,
+    16.8
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw02",
+   "from": [
+    11.3,
+    5.8,
+    16.75
+   ],
+   "to": [
+    11.7,
+    6.2,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw12",
+   "from": [
+    4.300000000000001,
+    5.8,
+    16.75
+   ],
+   "to": [
+    4.699999999999999,
+    6.2,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw22",
+   "from": [
+    11.3,
+    8.8,
+    16.75
+   ],
+   "to": [
+    11.7,
+    9.2,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw32",
+   "from": [
+    4.300000000000001,
+    8.8,
+    16.75
+   ],
+   "to": [
+    4.699999999999999,
+    9.2,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA2",
+   "from": [
+    14.05,
+    9.0,
+    16.5
+   ],
+   "to": [
+    14.5,
+    10.1,
+    16.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB2",
+   "from": [
+    14.05,
+    10.4,
+    16.5
+   ],
+   "to": [
+    14.5,
+    11.5,
+    16.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin2",
+   "from": [
+    14.15,
+    11.5,
+    16.6
+   ],
+   "to": [
+    14.4,
+    11.8,
+    16.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingL3",
+   "from": [
+    -1,
+    0,
+    14.5
+   ],
+   "to": [
+    0,
+    14.5,
+    15.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CasingR3",
+   "from": [
+    -1,
+    0,
+    0.05000000000000071
+   ],
+   "to": [
+    0,
+    14.5,
+    1.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.45,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Head3",
+   "from": [
+    -1,
+    14.5,
+    0.05000000000000071
+   ],
+   "to": [
+    0,
+    15.25,
+    15.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "HeadCap3",
+   "from": [
+    -1.5,
+    15.25,
+    0.05000000000000071
+   ],
+   "to": [
+    0,
+    16,
+    15.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#casing",
+     "uv": [
+      0,
+      0,
+      15.9,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileL3",
+   "from": [
+    -0.5,
+    0,
+    12.75
+   ],
+   "to": [
+    0,
+    14.5,
+    14.25
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StileR3",
+   "from": [
+    -0.5,
+    0,
+    1.75
+   ],
+   "to": [
+    0,
+    14.5,
+    3.25
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14.5
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      1.5,
+      14.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "RailTop3",
+   "from": [
+    -0.5,
+    11,
+    3.25
+   ],
+   "to": [
+    0,
+    14.5,
+    12.75
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#doorrail",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Field3",
+   "from": [
+    -0.25,
+    0,
+    4.25
+   ],
+   "to": [
+    0,
+    10,
+    11.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      10
+     ]
+    },
+    "north": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      0.5,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#doorwood",
+     "uv": [
+      0,
+      0,
+      7.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate3",
+   "from": [
+    -0.75,
+    5.5,
+    4
+   ],
+   "to": [
+    -0.25,
+    9.5,
+    12
+   ],
+   "faces": {
+    "west": {
+     "texture": "#plate",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "PlateEdge3",
+   "from": [
+    -0.75,
+    5.5,
+    4
+   ],
+   "to": [
+    -0.25,
+    9.5,
+    12
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      4.0
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Peephole3",
+   "from": [
+    -0.75,
+    12.35,
+    7.6
+   ],
+   "to": [
+    -0.5,
+    13.15,
+    8.4
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.8
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PeepLens3",
+   "from": [
+    -0.8000000000000007,
+    12.55,
+    7.800000000000001
+   ],
+   "to": [
+    -0.75,
+    12.95,
+    8.2
+   ],
+   "faces": {
+    "west": {
+     "texture": "#doordark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw03",
+   "from": [
+    -0.8500000000000014,
+    5.8,
+    11.3
+   ],
+   "to": [
+    -0.75,
+    6.2,
+    11.7
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw13",
+   "from": [
+    -0.8500000000000014,
+    5.8,
+    4.300000000000001
+   ],
+   "to": [
+    -0.75,
+    6.2,
+    4.699999999999999
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw23",
+   "from": [
+    -0.8500000000000014,
+    8.8,
+    11.3
+   ],
+   "to": [
+    -0.75,
+    9.2,
+    11.7
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw33",
+   "from": [
+    -0.8500000000000014,
+    8.8,
+    4.300000000000001
+   ],
+   "to": [
+    -0.75,
+    9.2,
+    4.699999999999999
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelA3",
+   "from": [
+    -0.9499999999999993,
+    9.0,
+    14.05
+   ],
+   "to": [
+    -0.5,
+    10.1,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingeBarrelB3",
+   "from": [
+    -0.9499999999999993,
+    10.4,
+    14.05
+   ],
+   "to": [
+    -0.5,
+    11.5,
+    14.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.1
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "HingePin3",
+   "from": [
+    -0.8500000000000014,
+    11.5,
+    14.15
+   ],
+   "to": [
+    -0.6000000000000014,
+    11.8,
+    14.4
+   ],
+   "faces": {
+    "south": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "north": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#brass",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}
