@@ -1,0 +1,18 @@
+{
+ "batch": "B10",
+ "title": "Levels 7 (Thalassophobia) and 8 (Cave Systems)",
+ "before": "review/b10/sbs/before",
+ "after": "review/b10/sbs/after",
+ "out": "review/b10/sidebyside",
+ "note": "Both levels in one map: Level 7's shots carry a '7-' prefix, Level 8's an '8-' prefix. Level 7 is judged on its inspection shots (daylight and a lantern; the level is dark by design), which judge the asset, not the level's look. review/baseline/7 and /8 were reshot in B10 on a build of unchanged main (the B0 sets, 8-25 levels brighter than today's client, are kept as 7-b0 and 8-b0). B10 added Level 7's entryroom-inspection and shelter-inside-inspection, and Level 8's lamp-close, meg-close and seep-close.",
+ "families": [
+  {"id": "l7-rock", "name": "Level 7's island rock, pillars and sea stacks (inspection)", "spots": ["7-seapillar-close-inspection", "7-wide-04-inspection", "7-close-floor-inspection", "7-wide-01-inspection"]},
+  {"id": "l7-ceiling", "name": "The concrete ceiling over the sea (inspection)", "spots": ["7-wide-02-inspection", "7-wide-03-inspection"]},
+  {"id": "l7-shelter", "name": "Fort Surrender's shelters: tar lumps and the furniture (also Level 5's wardrobe, wing chair, side chair and bookcase)", "spots": ["7-shelter-inside-inspection", "7-sleepingbag-close-inspection", "7-shelter-close-inspection"]},
+  {"id": "l7-entryroom", "name": "The entry room: bookcase, coffee table, side chair (soaked carpet and walls unchanged)", "spots": ["7-entryroom-inspection"]},
+  {"id": "l8-lamp", "name": "Level 8's road lamps", "spots": ["8-lamp-close", "8-prop-1", "8-wide-03"]},
+  {"id": "l8-meg", "name": "The M.E.G. markers", "spots": ["8-meg-close", "8-prop-2"]},
+  {"id": "l8-glowcaps", "name": "Glowcaps", "spots": ["8-glowcaps-close", "8-glowcaps-wide"]},
+  {"id": "l8-seep", "name": "Almond Water seep (unchanged; for reference)", "spots": ["8-seep-close"]}
+ ]
+}

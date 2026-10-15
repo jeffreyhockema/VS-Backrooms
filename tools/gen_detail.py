@@ -7,6 +7,7 @@ Everything is written to block/detail/ folders (textures, shapes, blocktypes); n
 import json
 import math
 import os
+import random
 
 import detail_textures
 import fire_fx
@@ -130,7 +131,7 @@ def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wo
 
 
 TURNED = {"asphalt", "asphalt-leaves", "asphalt-wet", "housefloor-carpet", "housefloor-garage", "housefloor-driveway", "l6floor",
-          "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone",
+          "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone", "oceanceiling",
           "l1hallfloor", "officecarpet-papers", "officecarpet-stain"}
 # Textures with other versions drawn beside them (graphics pass B4): a feature such as a scuff sits in one version
 # only, and the block picks among them (each turned too, when the texture is in TURNED), so it lands in about one
@@ -149,7 +150,11 @@ ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"],
         "snackfloor-terrazzo": ["snackfloor-terrazzo-2", "snackfloor-terrazzo-3"],
         "snackfloor-checker": ["snackfloor-checker"] * 5 + ["snackfloor-checker-2", "snackfloor-checker-3"],
         "snackfloor-quarry": ["snackfloor-quarry-2", "snackfloor-quarry-3"],
-        "snackceiling-grid": ["snackceiling-grid-2", "snackceiling-grid-3"]}
+        "snackceiling-grid": ["snackceiling-grid-2", "snackceiling-grid-3"],
+        # (B10) Level 7's island rock: three versions of its facets on one ground, and a fourth with a faint fracture
+        # and lichen one block in eight; the ceiling over the sea, a damp stain and a few runs one block in seven each
+        "islandrock": ["islandrock-2", "islandrock-3", "islandrock", "islandrock-2", "islandrock-3", "islandrock-4", "islandrock-2"],
+        "oceanceiling": ["oceanceiling"] * 4 + ["oceanceiling-2", "oceanceiling-3"]}
 
 
 def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, comment=None, **extra):
@@ -1353,6 +1358,114 @@ def long_sofa():
         comment="The hotel's velvet sofa, two blocks long, its seat to the north (l, r: left and right as you sit on it)")
 
 
+
+# ======================= Graphics pass B10: the furniture of Fort Surrender =======================
+#
+# Level 7's shelters (and its entry rooms) are furnished from Level 5: the side chair, the bookshelf and the coffee
+# table, held together with tar. They are re-made here as geometry and keep their codes, footprints and boxes, so
+# Level 5's rooms get them too. (The wardrobe and the wing chair are in gen_shapes, wardrobe_b10 and wing_chair_b10.)
+
+def _book(name, x1, x2, y1, h, z1, z2, col, rot=None, origin=None):
+    """One book standing on a shelf, its spine to the north: the spine and boards from column `col` of the
+    hotelbookspines atlas (two rows of eight colours, a spine 6 units tall in each row), the top the page block."""
+    u = (col % 8) * 2
+    v = 0 if col < 8 else 8
+    cover = {"texture": "#hotelbookspines", "uv": [u, v, u + 2, v + 6]}
+    faces = {"north": dict(cover), "east": dict(cover), "west": dict(cover),
+             "up": {"texture": "#hotelbookpages", "uv": [0, 0, round(x2 - x1, 4), round(z2 - z1, 4)]}}
+    el = {"name": name, "from": [round(x1, 4), round(y1, 4), round(z1, 4)], "to": [round(x2, 4), round(y1 + h, 4), round(z2, 4)],
+          "faces": faces}
+    if rot:
+        el["rotationOrigin"] = [round(v, 4) for v in origin]
+        el["rotationZ"] = rot
+    return el
+
+
+def shelf_books(seed, y, x1=1.0, x2=15.0, z1=9.25, z2=15.25, top=6.5):
+    """A row of books on a shelf at height y: widths and heights of their own, a gap now and then with the last book
+    before it leaning into it, and a short stack lying flat in one row in three."""
+    rng = random.Random(seed)
+    out = []
+    x = x1 + rng.uniform(0, 0.5)
+    k = 0
+    flat_at = rng.uniform(x1 + 3, x2 - 5) if rng.random() < 0.4 else None
+    while x < x2 - 0.75:
+        if flat_at is not None and x >= flat_at:
+            for j in range(rng.randint(2, 3)):  # a few lying flat, one on another
+                wdt = rng.uniform(3.2, 4.2)
+                out.append(_book(f"Flat{seed}_{j}", x, min(x2, x + wdt), y + j * 0.9, 0.9, z1 + 0.5, z2 - 0.25 - j * 0.3,
+                                 rng.randrange(16)))
+            x += 4.4
+            flat_at = None
+            continue
+        w = rng.choice((0.75, 1.0, 1.0, 1.25, 1.5))
+        if x + w > x2:
+            break
+        h = rng.uniform(4.6, top - 0.2)
+        gap = rng.random() < 0.12 and x + w + 3.4 < x2
+        if gap:
+            # the book before a gap leans over into it, resting on its neighbour
+            out.append(_book(f"Book{seed}_{k}", x + 0.6, x + 0.6 + w, y, min(h, top - 1.2), z1 + rng.uniform(0, 0.6), z2,
+                             rng.randrange(16), rot=-22.5, origin=(x + 0.6 + w, y, 12)))
+            x += w + 3.0
+        else:
+            out.append(_book(f"Book{seed}_{k}", x, x + w, y, h, z1 + rng.uniform(0, 0.75), z2, rng.randrange(16)))
+            x += w
+        k += 1
+    return out
+
+
+def hotel_bookshelf_b10():
+    """The hotel's open bookcase: mahogany sides, back and crown, four shelves with a lip, and the books as geometry, each
+    its own colour, height and depth, a gap here and there with a book leaning into it (was a painted picture of books
+    on each shelf)."""
+    m = "mahogany"
+    els = [bx("SideL", (0, 0, 8), (1, 30, 16), m), bx("SideR", (15, 0, 8), (16, 30, 16), m),
+           bx("Back", (1, 0, 15.5), (15, 30, 16), m, faces=("north", "south")),
+           bx("Crown", (-0.5, 30, 7.5), (16.5, 31, 16), m), bx("CrownTop", (0, 31, 8), (16, 31.5, 16), m, faces=("north", "east", "west", "up")),
+           bx("Plinth", (1, 0, 8), (15, 1, 15.5), m)]
+    for i, y in enumerate((7.5, 15, 22.5)):
+        els += [bx(f"Shelf{i}", (1, y, 8.5), (15, y + 0.75, 15.5), m), bx(f"Lip{i}", (1, y, 8), (15, y + 1, 8.5), m)]
+    for i, y in enumerate((1, 8.5, 16, 23.5)):
+        els += shelf_books(1460 + i, y, top=6.5 if i < 3 else 6.5)
+    return els
+
+
+def hotel_chair_b10():
+    """The hotel's side chair: mahogany legs tapering to the floor, seat rails, a padded red velvet seat with a soft edge,
+    and a back of two stiles (the back legs carried up), a shaped crest rail and an upholstered panel in a frame."""
+    m, v = "mahogany", "velvet"
+    els = []
+    for i, (x, z) in enumerate(((3.5, 3.5), (11.25, 3.5))):
+        els += [bx(f"LegF{i}", (x, 2.5, z), (x + 1.25, 6.5, z + 1.25), m),
+                bx(f"FootF{i}", (x + 0.15, 0, z + 0.15), (x + 1.1, 2.5, z + 1.1), m)]
+    for i, x in enumerate((3.5, 11.25)):
+        els += [bx(f"LegB{i}", (x, 0, 11.5), (x + 1.25, 21, 12.75), m)]
+    els += [bx("RailF", (4.75, 5.25, 3.6), (11.25, 6.75, 4.6), m), bx("RailB", (4.75, 5.25, 11.6), (11.25, 6.75, 12.6), m),
+            bx("RailL", (3.6, 5.25, 4.75), (4.6, 6.75, 11.5), m), bx("RailR", (11.4, 5.25, 4.75), (12.4, 6.75, 11.5), m)]
+    els += K.bevelled_box("Seat", (3.25, 6.75, 3.25), (12.75, 8.5, 12.25), v, b=0.5)
+    els += [bx("Crest", (4.75, 19, 11.6), (11.25, 20.5, 12.6), m), bx("CrestTop", (6, 20.5, 11.6), (10, 21.25, 12.6), m,
+                                                                   faces=("north", "south", "east", "west", "up")),
+            bx("BackRail", (4.75, 10.5, 11.75), (11.25, 11.5, 12.5), m),
+            bx("BackPad", (5.25, 11.5, 11.4), (10.75, 18.5, 12.4), v)]
+    return els
+
+
+def coffee_table_b10():
+    """The low mahogany table: a top with a moulded edge round its marble inlay, an apron, and four square legs tapering
+    to the floor (the ashtray stays)."""
+    m = "mahogany"
+    els = K.bevelled_box("Top", (1, 7, 3), (15, 8, 13), m, b=0.25)
+    els += [bx("Inlay", (3, 8, 5), (13, 8.05, 11), "marbletop", faces=("up",)),
+            bx("ApronN", (2.5, 5.5, 4), (13.5, 7, 4.75), m), bx("ApronS", (2.5, 5.5, 11.25), (13.5, 7, 12), m),
+            bx("ApronW", (2.5, 5.5, 4.75), (3.25, 7, 11.25), m), bx("ApronE", (12.75, 5.5, 4.75), (13.5, 7, 11.25), m),
+            bx("Ashtray", (9, 8, 6), (11, 8.6, 8), "crystal")]
+    for i, (x, z) in enumerate(((2, 3.5), (12.75, 3.5), (2, 11.25), (12.75, 11.25))):
+        els += [bx(f"Leg{i}", (x, 3, z), (x + 1.25, 7, z + 1.25), m),
+                bx(f"Foot{i}", (x + 0.2, 0, z + 0.2), (x + 1.05, 3, z + 1.05), m)]
+    return els
+
+
 def level5():
     long_sofa()
     cube_block("hotelfloor", {"marble": "Marble Floor", "runnerns": "Carpet Runner", "runnerwe": "Carpet Runner", "rug": "Rug"},
@@ -1428,14 +1541,7 @@ def level5():
         bx("Shelf", (2, 2, 10), (14, 2.8, 14), "mahogany"),
         bx("Vase", (10, 13, 11), (13, 18, 14), "vase"), bx("Flowers", (10.3, 18, 11.3), (12.7, 22, 13.7), "driedflowers")] + lamp,
          box=(0.06, 0, 0.55, 0.94, 0.82, 0.94), light=[6, 5, 8])
-    books = [bx("Books1", (1, 1, 9), (15, 7, 15), "books", faces=("north",), full=True),
-             bx("Books2", (1, 8.5, 9), (15, 14.5, 15), "books", faces=("north",), full=True),
-             bx("Books3", (1, 16, 9), (15, 22, 15), "books", faces=("north",), full=True),
-             bx("Books4", (1, 23.5, 9), (15, 29, 15), "books", faces=("north",), full=True)]
-    hshelf = [bx("SideL", (0, 0, 8), (1, 30, 16), "mahogany"), bx("SideR", (15, 0, 8), (16, 30, 16), "mahogany"),
-              bx("Back", (1, 0, 15.5), (15, 30, 16), "mahogany"), bx("Crown", (-0.5, 30, 7.5), (16.5, 31.5, 16), "mahogany")] + \
-        [bx(f"Shelf{i}", (1, y, 8), (15, y + 1, 16), "mahogany") for i, y in enumerate((0, 7.5, 15, 22.5))]
-    prop("hotelbookshelf", "Bookshelf", hshelf + books, box=(0, 0, 0.5, 1, 1.95, 1))
+    prop("hotelbookshelf", "Bookshelf", hotel_bookshelf_b10(), box=(0, 0, 0.5, 1, 1.95, 1))  # (B10)
     curio = [bx("Frame", (1, 0, 8), (15, 30, 16), "mahogany", faces=("east", "west", "up", "down", "south")),
              bx("Glass", (2, 2, 8), (14, 28, 8.3), "curioglass", faces=("north",), full=True),
              bx("FrameT", (1, 28, 7.6), (15, 30, 8.3), "mahogany"), bx("FrameB", (1, 0, 7.6), (15, 2, 8.3), "mahogany"),
@@ -1472,11 +1578,7 @@ def level5():
         bx("Shade", (1.5, 16, 10.5), (6.5, 18, 13), "bankergreen", glow=80),
         bx("Paper", (8, 13, 8), (12, 13.2, 12), "paper"), bx("Ink", (12.5, 13, 9), (13.5, 14, 10), "bakelite")],
          box=(0, 0, 0.3, 1, 0.82, 1), light=[14, 4, 7])
-    prop("hotelchair", "Side Chair", [
-        bx("Seat", (3, 7, 3), (13, 8.5, 13), "velvet"),
-        bx("LegFL", (3.5, 0, 3.5), (4.5, 7, 4.5), "mahogany"), bx("LegFR", (11.5, 0, 3.5), (12.5, 7, 4.5), "mahogany"),
-        bx("LegBL", (3.5, 0, 11.5), (4.5, 20, 12.5), "mahogany"), bx("LegBR", (11.5, 0, 11.5), (12.5, 20, 12.5), "mahogany"),
-        bx("Back", (4.5, 11, 11.8), (11.5, 19, 12.4), "velvet"), bx("Rail", (3.5, 19, 11.5), (12.5, 20.5, 12.5), "mahogany")],
+    prop("hotelchair", "Side Chair", hotel_chair_b10(),  # (B10)
          box=(0.18, 0, 0.18, 0.82, 1.25, 0.82))
     prop("floorlamp", "Floor Lamp", [
         bx("Base", (5, 0, 5), (11, 1, 11), "brass"), bx("Pole", (7.5, 1, 7.5), (8.5, 24, 8.5), "brass"),
@@ -1486,11 +1588,8 @@ def level5():
         bx("Case", (2, 0, 4), (14, 10, 12), "suitcaseleather"), bx("Handle", (6, 10, 7.5), (10, 11.5, 8.5), "bakelite"),
         bx("ClaspL", (4, 7, 3.7), (5, 8.5, 4), "brass"), bx("ClaspR", (11, 7, 3.7), (12, 8.5, 4), "brass")],
          box=(0.12, 0, 0.25, 0.88, 0.7, 0.75), material="Cloth", sounds=CLOTH)
-    prop("coffeetable", "Coffee Table", [
-        bx("Top", (1, 7, 3), (15, 8, 13), "mahogany"), bx("Inlay", (3, 8, 5), (13, 8.05, 11), "marbletop", faces=("up",)),
-        bx("Leg1", (2, 0, 4), (3, 7, 5), "mahogany"), bx("Leg2", (13, 0, 4), (14, 7, 5), "mahogany"),
-        bx("Leg3", (2, 0, 11), (3, 7, 12), "mahogany"), bx("Leg4", (13, 0, 11), (14, 7, 12), "mahogany"),
-        bx("Ashtray", (9, 8, 6), (11, 8.6, 8), "crystal")], box=(0.06, 0, 0.18, 0.94, 0.5, 0.82), oriented=False)
+    prop("coffeetable", "Coffee Table", coffee_table_b10(),  # (B10)
+         box=(0.06, 0, 0.18, 0.94, 0.5, 0.82), oriented=False)
     prop("grandfatherclock", "Grandfather Clock", [
         bx("Base", (3, 0, 6), (13, 10, 14), "mahogany"), bx("Trunk", (4, 10, 6.5), (12, 24, 13.5), "mahogany"),
         bx("Window", (5, 12, 6.3), (11, 22, 6.5), "clockpendulum", faces=("north",), full=True),

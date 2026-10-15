@@ -603,6 +603,10 @@ def cafe_table():
 
 # ======================= Level 7 =======================
 
+TAR_TOP = {"base": "block/detail/tar", "alternates": [{"base": f"block/detail/{k}"} for k in ("tar", "tar-2", "tar", "tar-3")]}
+TAR_SIDE = {"base": "block/detail/tar-side", "alternates": [{"base": f"block/detail/{k}"} for k in ("tar-side-2", "tar-side-3")]}
+
+
 def level7():
     cube_block("oceanceiling", {"plain": "Concrete Ceiling", "glow": "Concrete Ceiling"}, ["plain", "glow"],
                {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]},
@@ -610,8 +614,9 @@ def level7():
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
     block("tar", {"class": "BackroomsTar", "creativeinventory": {"general": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
-                  "textures": {"up": {"base": "block/detail/tar"}, "down": {"base": "block/detail/tar"},
-                               "horizontals": {"base": "block/detail/tar-side"}}, "lightAbsorption": 99, "resistance": 3, "drops": [],
+                  # (B10) versions: a rising bubble in one block in four, two small ones in another; the drips of the
+                  # sides at other places
+                  "textures": {"up": TAR_TOP, "down": {"base": "block/detail/tar"}, "horizontals": TAR_SIDE}, "lightAbsorption": 99, "resistance": 3, "drops": [],
                   "sounds": {"walk": "game:walk/sludge*", "place": "game:effect/squish*", "break": "game:effect/squish*", "hit": "game:effect/squish*"},
                   "particleProperties": [{
                       "hsvaColor": [{"avg": 0, "var": 0}, {"avg": 0, "var": 0}, {"avg": 30, "var": 10}, {"avg": 200, "var": 40}],
@@ -651,32 +656,99 @@ def level7():
          extra={"drops": drops(("almondwater", 1, 0.8), ("crackers", 0.6, 0.5), ("game:candle", 0.4, 0.4), ("game:rope", 0.3, 0.3),
                                 ("game:knife-generic-copper", 0.1, 0), ("game:bandage-clean", 0.4, 0.4), ("chalk", 0.2, 0),
                                 ("game:fishingbait-dough", 0.5, 0.3))})
-    prop("wreckcrate", "Waterlogged Crate", [bx("Crate", (1, 0, 1), (15, 13, 15), "wetwood")],
+    prop("wreckcrate", "Waterlogged Crate", wreck_crate(),  # (B10)
          box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False, sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 2, 1), ("game:rope", 0.6, 0.4), ("game:metalnailsandstrips-iron", 0.5, 0.4),
                                 ("game:boat-raft-aged", 0.06, 0), ("game:fishingpole-simple-wood", 0.08, 0), ("cannedbeans", 0.5, 0.5))})
 
 
+def wreck_crate():
+    """(B10) The waterlogged crate: three wet boards to each side and the lid, inside a frame of battens standing proud
+    of them (corner posts, top and bottom rails on every side), one lid board split short; the frame and the boards
+    are geometry, where the old crate was one box with its frame and brace painted on."""
+    b, w = "l7wreckboards", "wetwood"
+    els = [bx("Body", (1.5, 0.5, 1.5), (14.5, 12.5, 14.5), b, faces=("north", "east", "south", "west", "down")),
+           bx("LidA", (1.5, 12.4, 1.5), (14.5, 12.9, 5.75), b, faces=("up", "north", "south", "east", "west")),
+           bx("LidB", (1.5, 12.4, 6), (10, 12.9, 10), b, faces=("up", "north", "south", "east", "west")),
+           bx("LidC", (1.5, 12.4, 10.25), (14.5, 12.9, 14.5), b, faces=("up", "north", "south", "east", "west")),
+           bx("Inside", (1.5, 12.3, 1.5), (14.5, 12.4, 14.5), "wetwood", faces=("up",))]
+    for i, (x, z) in enumerate(((1, 1), (13.5, 1), (1, 13.5), (13.5, 13.5))):
+        els.append(bx(f"Post{i}", (x, 0, z), (x + 1.5, 13, z + 1.5), w))
+    for i, (y1, y2) in enumerate(((0, 1.5), (11.25, 12.75))):
+        els += [bx(f"RailN{i}", (2.5, y1, 1), (13.5, y2, 1.5), w, faces=("north", "up", "down")),
+                bx(f"RailS{i}", (2.5, y1, 14.5), (13.5, y2, 15), w, faces=("south", "up", "down")),
+                bx(f"RailW{i}", (1, y1, 2.5), (1.5, y2, 13.5), w, faces=("west", "up", "down")),
+                bx(f"RailE{i}", (14.5, y1, 2.5), (15, y2, 13.5), w, faces=("east", "up", "down"))]
+    return els
+
+
+# ======================= Graphics pass B10: Level 8's road lamp, M.E.G. marker and glowcaps =======================
+
+def road_lantern():
+    """(B10) The road lamp's lantern, hung at (12, 8): a glass box between four corner posts, a top band, a base plate
+    with a drip cone under it, a cap stepped up into a pyramid, a ring and the hook. The glass is where the old one was
+    (its light and glow unchanged); the iron is old black paint (l8lampiron)."""
+    i = "l8lampiron"
+    els = [bx("Glass", (10.5, 19.6, 6.5), (13.5, 23, 9.5), "l8lampglass", glow=230, faces=("north", "east", "south", "west")),
+           bx("Band", (10.1, 23, 6.1), (13.9, 23.4, 9.9), i, faces=("north", "east", "south", "west", "down")),
+           bx("Plate", (9.8, 19, 5.8), (14.2, 19.6, 10.2), i),
+           bx("Cone", (10.8, 18.5, 6.8), (13.2, 19, 9.2), i, faces=("north", "east", "south", "west", "down")),
+           bx("Drop", (11.5, 18, 7.5), (12.5, 18.5, 8.5), i, faces=("north", "east", "south", "west", "down")),
+           bx("Cap", (9.7, 23.4, 5.7), (14.3, 23.9, 10.3), i),
+           bx("Cap2", (10.3, 23.9, 6.3), (13.7, 24.3, 9.7), i, faces=("north", "east", "south", "west", "up")),
+           bx("Cap3", (10.9, 24.3, 6.9), (13.1, 24.6, 9.1), i, faces=("north", "east", "south", "west", "up")),
+           bx("Ring", (11.5, 24.6, 7.5), (12.5, 24.9, 8.5), i, faces=("north", "east", "south", "west", "up")),
+           bx("Hook", (11.75, 24.9, 7.75), (12.25, 26, 8.25), i, faces=("north", "east", "south", "west"))]
+    els += [bx(f"Post{k}", (x, 19.6, z), (x + 0.6, 23, z + 0.6), i, faces=("north", "east", "south", "west"))
+            for k, (x, z) in enumerate(((10, 6), (13.4, 6), (10, 9.4), (13.4, 9.4)))]
+    return els
+
+
+def road_post():
+    """(B10) The road lamp's post: a stepped base and a collar, the pole, a collar and a finial with a ball on top."""
+    i = "l8lampiron"
+    return [bx("Base", (6, 0, 6), (10, 1, 10), i), bx("Step", (6.6, 1, 6.6), (9.4, 1.8, 9.4), i, faces=("north", "east", "south", "west", "up")),
+            bx("Collar", (7.2, 1.8, 7.2), (8.8, 3.4, 8.8), i, faces=("north", "east", "south", "west", "up")),
+            bx("Pole", (7.5, 3.4, 7.5), (8.5, 25.4, 8.5), i, faces=("north", "east", "south", "west")),
+            bx("CollarTop", (7.25, 25.4, 7.25), (8.75, 26.8, 8.75), i),
+            bx("Finial", (7.45, 26.8, 7.45), (8.55, 27.5, 8.55), i, faces=("north", "east", "south", "west", "up")),
+            bx("Ball", (7.7, 27.5, 7.7), (8.3, 28.1, 8.3), i, faces=("north", "east", "south", "west", "up"))]
+
+
+def road_arm():
+    """(B10) The arm out to the east over the lantern: the arm with a turned-down end, a diagonal brace under it, and a
+    foot where the brace meets the pole (round 2: a scroll there stood in front of the glass and read as a notch)."""
+    i = "l8lampiron"
+    return [bx("Arm", (8.75, 25.9, 7.65), (12.9, 26.6, 8.35), i),
+            bx("ArmEnd", (12.9, 25.6, 7.6), (13.4, 26.7, 8.4), i),
+            bx("Brace", (8.5, 23.6, 7.7), (11, 24.2, 8.3), i, rot=(0, 0, 40), origin=(8.5, 23.9, 8)),
+            bx("BraceFoot", (8.5, 23.2, 7.75), (9.1, 23.9, 8.25), i, faces=("north", "east", "south", "west", "down"))]
+
+
+def meg_marker():
+    """(B10) The M.E.G. marker: a post with a cap, and the enamel plate (megplate, crisp pixel lettering) in a rim with
+    four bolts, set a little forward of the post; its back plain iron."""
+    els = [bx("Post", (7, 0, 7.5), (9, 22.5, 9.5), "wood"),
+           bx("PostCap", (6.75, 22.5, 7.25), (9.25, 23, 9.75), "wood"),
+           bx("Plate", (2, 10, 6.75), (14, 24, 7.5), "megplate", faces=("north",), uv=[0, 0, 12, 14]),
+           bx("PlateBack", (2, 10, 6.75), (14, 24, 7.5), "l8lampiron", faces=("south", "east", "west", "up", "down")),
+           bx("RimT", (2, 23.5, 6.5), (14, 24, 6.75), "l8lampiron", faces=("north", "east", "west", "up", "down")),
+           bx("RimB", (2, 10, 6.5), (14, 10.5, 6.75), "l8lampiron", faces=("north", "east", "west", "up", "down")),
+           bx("RimL", (2, 10.5, 6.5), (2.5, 23.5, 6.75), "l8lampiron", faces=("north", "east", "west")),
+           bx("RimR", (13.5, 10.5, 6.5), (14, 23.5, 6.75), "l8lampiron", faces=("north", "east", "west"))]
+    for k, (x, y) in enumerate(((3.25, 22.75), (12.75, 22.75), (3.25, 11.25), (12.75, 11.25))):
+        els.append(bx(f"Bolt{k}", (x - 0.4, y - 0.4, 6.25), (x + 0.4, y + 0.4, 6.75), "l8lampiron", faces=("north", "east", "west", "up", "down")))
+    return els
+
+
 # ======================= Level 8 =======================
 
 def level8():
-    prop("megmarker", "M.E.G. Marker", [
-        bx("Post", (7, 0, 7), (9, 22, 9), "wood"),
-        bx("Plate", (2, 14, 6.4), (14, 24, 7), "megplate", faces=("north", "south"), full=True),
-        bx("PlateEdge", (2, 14, 6.4), (14, 24, 7), "metaldark", faces=("east", "west", "up", "down"))],
+    prop("megmarker", "M.E.G. Marker", meg_marker(),  # (B10)
          box=(0.4, 0, 0.4, 0.6, 1.5, 0.6), comment="An M.E.G. marker on the 9th Road")
-    # Road lamp: a caged lantern (glass inside four corner posts, a base plate, a stepped dark cap) hung on a hook
-    # from an arm off the top of its post, all inside the block
-    lantern = [bx("Glass", (10.5, 19.6, 6.5), (13.5, 23.4, 9.5), "lampglass", glow=230, faces=("north", "east", "south", "west"),
-                  uv=[4, 0, 12, 16]),
-               bx("Plate", (9.8, 19, 5.8), (14.2, 19.6, 10.2), "metaldark"), bx("Cap", (9.6, 23.4, 5.6), (14.4, 24.2, 10.4), "metaldark"),
-               bx("Roof", (10.4, 24.2, 6.4), (13.6, 24.8, 9.6), "metaldark"), bx("Hook", (11.7, 24.8, 7.7), (12.3, 26, 8.3), "metal")]
-    lantern += [bx(f"Post{i}", (x, 19.6, z), (x + 0.6, 23.4, z + 0.6), "metaldark") for i, (x, z) in enumerate(((10, 6), (13.4, 6), (10, 9.4), (13.4, 9.4)))]
-    prop("roadlamp", "Road Lamp", [
-        bx("Pole", (7.5, 0, 7.5), (8.5, 27, 8.5), "metaldark"), bx("Finial", (7.2, 27, 7.2), (8.8, 28, 8.8), "metaldark"),
-        bx("Arm", (8.5, 26, 7.6), (12.6, 26.8, 8.4), "metaldark"),
-        bx("Brace", (8.5, 23.6, 7.7), (11, 24.2, 8.3), "metaldark", rot=(0, 0, 40), origin=(8.5, 23.9, 8)),
-        bx("Base", (6, 0, 6), (10, 1, 10), "metaldark")] + lantern,
+    # Road lamp: a caged lantern hung on a hook from an arm off the top of its post, all inside the block (B10: the post,
+    # arm and lantern re-made as geometry in old black iron, road_post, road_arm, road_lantern)
+    prop("roadlamp", "Road Lamp", road_post() + road_arm() + road_lantern(),
          box=(0.4, 0, 0.4, 0.6, 1.75, 0.6), oriented=False, material="Metal", sounds=METAL, light=[7, 4, 13])
     # The same lamp with its arm reaching out to the north (the side it is turned to), for a lamp that knows which
     # side the road is on (layout version 5)
@@ -686,12 +758,12 @@ def level8():
         turned["from"], turned["to"] = [z1, y1, 16 - x2], [z2, y2, 16 - x1]
         names = {"east": "north", "north": "west", "west": "south", "south": "east", "up": "up", "down": "down"}
         turned["faces"] = {names[f]: v for f, v in el["faces"].items()}
+        if "rotationOrigin" in el:  # a tilt about z (the brace) becomes the same tilt about x
+            ox, oy, oz = el["rotationOrigin"]
+            turned["rotationOrigin"] = [oz, oy, 16 - ox]
+            turned["rotationX"] = turned.pop("rotationZ")
         return turned
-    prop("roadlamparm", "Road Lamp", [
-        bx("Pole", (7.5, 0, 7.5), (8.5, 27, 8.5), "metaldark"), bx("Finial", (7.2, 27, 7.2), (8.8, 28, 8.8), "metaldark"),
-        bx("Arm", (7.6, 26, 3.4), (8.4, 26.8, 7.5), "metaldark"),
-        bx("Brace", (7.7, 23.6, 5), (8.3, 24.2, 7.5), "metaldark", rot=(40, 0, 0), origin=(8, 23.9, 7.5)),
-        bx("Base", (6, 0, 6), (10, 1, 10), "metaldark")] + [north_arm(el) for el in lantern],
+    prop("roadlamparm", "Road Lamp", road_post() + [north_arm(el) for el in road_arm() + road_lantern()],
          box=(0.4, 0, 0.4, 0.6, 1.75, 0.6), material="Metal", sounds=METAL, light=[7, 4, 13])
     # Bioluminescent fungi of the caves (Wikidot: "enveloped in a blood-red glow", "multicolored bioluminescent
     # mushrooms"): blood-red glowcaps, and clusters of many colours; on the floor, or growing out from the foot of a
@@ -721,15 +793,23 @@ def glowcap(name, x, z, stem, cap_w, cap, glow=150, lean=0):
     r = cap_w / 2
     g = max(r - 0.4, 0.5)  # the gills' half width: always wider than the stem, so their sides never lie in its sides
     rot = (lean, 0, lean / 2) if lean else None
+    # (B10) the cap domed in two tiers (a brim, then a crown half its width higher up), its gills a texture of their own
+    t = max(0.75, cap_w / 4.4)
+    k = max(0.5, r * 0.62)
     return [bx(name + "Stem", (x - 0.4, 0, z - 0.4), (x + 0.4, stem, z + 0.4), "glowstem", rot=rot, origin=(x, 0, z)),
-            bx(name + "Cap", (x - r, stem, z - r), (x + r, stem + max(1, cap_w / 3.2), z + r), cap, glow=glow, rot=rot, origin=(x, 0, z)),
-            bx(name + "Gills", (x - g, stem - 0.5, z - g), (x + g, stem, z + g), cap, glow=glow // 2,
+            bx(name + "Cap", (x - r, stem, z - r), (x + r, stem + t, z + r), cap + "rim", glow=glow, rot=rot, origin=(x, 0, z),
+               faces=("north", "south", "east", "west", "up")),
+            bx(name + "Crown", (x - k, stem + t, z - k), (x + k, stem + t + max(0.5, t * 0.7), z + k), cap, glow=glow,
+               rot=rot, origin=(x, 0, z), faces=("north", "south", "east", "west", "up")),
+            bx(name + "Gills", (x - g, stem - 0.5, z - g), (x + g, stem, z + g), cap + "gills", glow=glow // 2,
                faces=("down", "north", "south", "east", "west"), rot=rot, origin=(x, 0, z))]
 
 
 def glowcap_floor(caps):
     """A cluster on the floor: a patch of mycelium and six mushrooms of different heights."""
-    out = [bx("Mycelium", (1.5, 0, 2), (14, 0.2, 14.5), "mycelium", faces=("up",))]
+    out = [bx("Mycelium", (3, 0, 3.5), (12, 0.2, 13.5), "mycelium", faces=("up",)),  # (round 2: three patches, not a square)
+           bx("Mycelium2", (1.5, 0, 6.5), (3, 0.15, 12), "mycelium", faces=("up",)),
+           bx("Mycelium3", (12, 0, 2.5), (14, 0.15, 10.5), "mycelium", faces=("up",))]
     for i, (x, z, stem, w, lean) in enumerate(((6, 7, 6, 4.4, 0), (10.5, 9.5, 4, 3.4, 10), (4, 11.5, 2.6, 2.6, -12),
                                                (11.5, 4.5, 3, 2.8, 14), (8.5, 12.5, 1.6, 2, 0), (3.5, 4, 1.4, 1.8, -8))):
         out += glowcap(f"M{i}", x, z, stem, w, caps[i % len(caps)], lean=lean)
@@ -743,8 +823,10 @@ def glowcap_wall(caps):
            bx("Crust", (1.5, 0, 0), (14.5, 9, 0.3), "mycelium", faces=("south",))]
     for i, (x, y, w, d) in enumerate(((5, 7.5, 5, 4), (10.5, 5, 4, 3.4), (3.5, 3, 3.4, 3), (8, 2, 3, 2.6), (12.5, 9.5, 3, 2.4))):
         cap = caps[i % len(caps)]
-        out += [bx(f"B{i}", (x - w / 2, y, 0), (x + w / 2, y + 1.2, d), cap, glow=160),
-                bx(f"B{i}Gills", (x - w / 2 + 0.4, y - 0.4, 0), (x + w / 2 - 0.4, y, d - 0.4), cap, glow=70,
+        out += [bx(f"B{i}", (x - w / 2, y, 0), (x + w / 2, y + 0.8, d), cap + "rim", glow=160, faces=("south", "east", "west", "up", "down")),
+                bx(f"B{i}Top", (x - w / 2 + 0.5, y + 0.8, 0), (x + w / 2 - 0.5, y + 1.3, d - 0.6), cap, glow=160,
+                   faces=("south", "east", "west", "up")),
+                bx(f"B{i}Gills", (x - w / 2 + 0.4, y - 0.4, 0), (x + w / 2 - 0.4, y, d - 0.4), cap + "gills", glow=70,
                    faces=("down", "south", "east", "west"))]
     for i, (x, z, stem, w) in enumerate(((4, 5, 1.6, 2), (11, 4, 2.2, 2.4), (7.5, 6.5, 1.2, 1.6))):
         out += glowcap(f"F{i}", x, z, stem, w, caps[(i + 1) % len(caps)])

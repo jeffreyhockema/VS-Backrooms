@@ -37,6 +37,8 @@
     {"name": "tent-close-inspection", "tp": [512352.61, 217.05, 506081.71], "look": [153, 33], "target": "tent", "distance": 2.0, "inspection": true},
     {"name": "sleepingbag-close-inspection", "tp": [512334.09, 218.05, 506199.09], "look": [135, -12], "target": "sleepingbag", "distance": 2.0, "inspection": true},
     {"name": "seapillar-close-inspection", "tp": [512334.77, 219.05, 506201.5], "look": [120, -3], "target": "seapillar", "distance": 2.0, "inspection": true},
-    {"name": "shelter-close-inspection", "tp": [512335.43, 219.05, 506199.02], "look": [285, -45], "target": "shelter", "distance": 2.0, "inspection": true}
+    {"name": "shelter-close-inspection", "tp": [512335.43, 219.05, 506199.02], "look": [285, -45], "target": "shelter", "distance": 2.0, "inspection": true},
+    {"name": "entryroom-inspection", "tp": [512434.3, 222.05, 506254.3], "look": [240, -25], "inspection": true, "target": "entry room (B10): soaked carpet, bookcase, coffee table, chair"},
+    {"name": "shelter-inside-inspection", "tp": [512336.4, 219.05, 506200.9], "look": [285, -20], "inspection": true, "target": "shelter (B10): Fort Surrender's furniture from inside, facing in"}
   ]
 }

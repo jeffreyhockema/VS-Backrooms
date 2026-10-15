@@ -116,6 +116,18 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B9) Tripwires (and other props that span a passage) face along the passage: the passage runs along the pier's axis
   and the wire spans it, so a spot finder must stand along the pier axis. Check the first base frame of each new spot.
 
+- (B10) A full after run came out 25-57 levels darker in every ordinary shot (a black fog beyond a few blocks). Its
+  inspection shots were unchanged, and the chat log showed only the header's usual two "Reality Shift ended". A
+  retake of three spots minutes later was normal, and so was the full reshoot. The darkness can hit any session, not
+  only the first: compare every run's mean brightness with the baseline (`luma.py`) before anything else.
+- (B10) Low-contrast structure that reads on a 4x texsheet flattens in the game: Voronoi facets a few levels apart with
+  1 px joints looked like plain grain on a sea stack at 1.5 blocks under the inspection light. A faceted stone needs
+  joints nearer the old texture's contrast (about 30 levels), spread so that no one joint leads the eye.
+- (B10) When a model replaces a single box with panels, close every face the old box had. The wardrobe's carcass lost
+  its back in round 1 and was graded D: from behind you could see straight into it.
+- (B10) A broad sheen on a texture that is never turned wraps across block edges when it runs along (x + y) with
+  period 32. An fbm sheen with 16 px cells read as vertical stripes.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -131,9 +143,9 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B7 Level 4 (and Level 9's asphalt, after B11) | gfx/B7 | merged | 2 | ficus (C+), windows (C+), ghost-carpet patches (layout), elevator doors and small wall decor untouched; Level 11's asphalt-cracked square (B12) | passed 2026-10-14 17:45 (Fable): furniture verified as geometry, surfaces kept tone, asphalt fine and even |
 | B8 Level 5 | gfx/B8 | merged | 2 | boiler bay C (B6's boiler: clay-orange shell, box flue; fix in a follow-up), red marble pillars repeat, furniture untouched | passed 2026-10-14 19:35 (Fable): doors and chandelier verified as geometry, damask tone kept |
 | B9 Levels 6 and 6.1 | gfx/B9 | merged | 2 | mall wall C+ (row repeat is layout), shop windows C and skylights C+ (lights stay cubes), L6 wet floor C+ | passed 2026-10-14 21:30 (Fable): shelves, counters and kitchen verified as geometry; chalk lettering restored |
-| B10 Levels 7 and 8 | gfx/B10 | in progress | | | |
+| B10 Levels 7 and 8 | gfx/B10 | merged | 2 | island rock C+ (facets need ~30 levels of joint contrast: follow-up), sea ceiling C+, glowcaps C+, wing chair fabric, seeps untouched | passed 2026-10-14 23:40 (Fable): repeat gone, furniture and lamps at B; user decides |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
-| B12 Level 11 | | not started | | | |
+| B12 Level 11 | gfx/B12 | in progress | | | |
 | B13 Levels 37 and 94 | | not started | | | |
 | B14 Level ! and Fun | | not started | | | |
 | B15 The End and The Hub | | not started | | | |
@@ -1295,3 +1307,104 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B9` from `main` (6475351), uncommi
 - **`gen_detail.ALTS`:** B9 entries.
 
 **Lessons:** five lines added above.
+
+### B10
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B10` from `main` (57a80d2), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), then a fix and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b10/compare-round2-7.jpg` and `-7-detail.jpg`: every Level 7 spot, and nine inspection spots at twice the size.
+  - `review/b10/compare-round2-8.jpg` and `-8-detail.jpg`: every Level 8 spot, and six close spots at twice the size.
+  - After shots: `review/b10/final/{7,8}`. Round 1: `review/b10/compare-round1-*.jpg`, with its shots in `review/b10/after/`.
+- **Per-family pairs:** `review/b10/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B10.json`. The map works on `review/b10/sbs/{before,after}`, where shots carry a `7-` or `8-` prefix. The B10 section is added to `review/compare.html`.
+- **Decision table:** eight rows added to `decisions.md`, decision column empty.
+- **Offline evidence** (`review/b10/offline/`):
+  - `tile-{1-l7-rock,2-l7-ceiling,3-tar,4-wood,5-fort,6-l8}-{before,after}.png`, with bright copies of the dark Level 7 surfaces.
+  - `mock-*-6x3.png`: the real mix of versions and turns, with seam ratios.
+  - `preview-1..11-*.png` (round 1) and `round2-*.png`: every changed model beside main's.
+  - `harness/`, and the scratch tools in `tools/`.
+
+**Checks**
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir). `build-gfxbase` was built from unchanged `main` before any edit.
+- **`layouthash`:** v1 and v4 match B9's output line for line, in rounds 1 and 2. No C# changed; `DetailBlocks.g.cs` and `lang/en.json` are unchanged.
+- **`validatelevel 7` and `8`** (`SPAWN=16000`, 24 cells): main's output (no C# changed). Level 7 has one 9-tile pocket; Level 8's run shows Level 9's known pockets.
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. Only shapes, texture lists and new texture keys changed. Shot in `gfxreview`.
+- **`check_zfight`:** no same-shape pairs on any changed shape. The neighbour flags left are the backs of the tall furniture on the block above's south face, as on `main`.
+- **Churn:** line endings and the `exitlintel*` key order restored from git.
+- **Brightness:** every final shot is within 3.3 levels of the new baseline (`review/b10/luma-final.txt`).
+- **Texture keys:** every new key was checked against all generators.
+  - New keys: `islandrock-2..4`, `oceanceiling-2/-3`, `tar-2/-3`, `tar-side-2/-3`, `l7wreckboards`, `hotelbookspines`, `hotelbookpages`, `l8lampiron`, `l8lampglass`, `glowcap*rim`, `glowcap*gills`.
+  - No longer used by any shape: `books` (detail_textures still writes it).
+
+**Baseline and spots**
+- `review/baseline/7` and `/8` are reshot on `build-gfxbase`; the B0 sets are kept as `7-b0` and `8-b0`. They were 8-25 levels brighter than today's client, and the B0 shots predate B4's camp kit. A retake of five spots first (`review/b10/base-check`) matched the full run within 0.3.
+- **New spots:**
+  - Level 7: `entryroom-inspection`, the room set into the ceiling (its feet y worked out from the layout, and right on the first frame), and `shelter-inside-inspection`.
+  - Level 8: `lamp-close`, `meg-close`, `seep-close`.
+- **Re-spotted from the base frames:** `shelter-inside-inspection` faced the sea, and `meg-close` framed the marker's back.
+- **Not added, with reasons:**
+  - The road tar: the 9th Road is vanilla gravel; tar lies in cave pools that the harness grid cannot see.
+  - A vein: vanilla ore.
+  - A dome door: the domes are rock, with no walls or doors of their own.
+  - The waterlogged crate and driftwood: none within reach; judged on the previews.
+- **The round-1 after run came out 25-57 levels darker** in every ordinary shot (see the lessons). I retook it in full before the review; that is `review/b10/after`, and the dark run is kept as `after-dark`.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Island rock, pillars, sea stacks (hero 15) | C+ (blind r1: C) | better | The repeated crack is gone. Seamless faceted basalt in three versions on one ground, plus a featured version one block in eight, turned at random. Round 2 calmed the dark facet that repeated on the stacks and gave each facet a lit lip and a shadowed foot. In the game the facets still read faintly at 1.5 blocks: carried. |
+| Tar | B- (r1: C, "matte cube, studs") | better | Seamless versions with bubbles inside the block. Round 2 added a wrapping diagonal sheen that reads as gloss in `shelter-close-inspection`, and took the lit line off the top of the side. Still a cube. |
+| Wardrobe | B (r1: D, open back) | much better | Plinth, cornice, raised-panel doors, pulls and escutcheon as geometry. Round 2 closed the back. |
+| Bookcase | B (r1: B) | much better | The books are geometry: leaning, gapped, stacked. |
+| Side chair, coffee table | B / B (r1: B, B) | better | Rails, crest and back pad; a moulded top, an apron and tapered legs. |
+| Wing chair | C+ (r1: C) | better | Legs, skirt, cushion, rolled back and arms. The velvet is one flat fabric: carried (B8's texture). |
+| Ceiling over the sea | C+ (r1: C) | better | The dashed stains that sat in every block are gone. Plain soffit concrete, turned and seamless, with features one block in seven. Plain enough to read as a fill: carried. |
+| Road lamps | B (r1: B) | better | Modelled post, arm and lantern in old black iron; warm glass with no dark edge. Round 2 removed a scroll that read as a notch in the glass. |
+| M.E.G. marker | B (r1: B) | better | Rim, bolts and post cap as geometry; crisp pixel lettering. Round 2 dirtied the plate. |
+| Glowcaps | C+ (r1: C, same) | same at distance | Domed caps with a lighter brim, their own gills, round spots and an irregular mycelium patch. At playing distance they look as before: carried. |
+| Waterlogged crate, driftwood | B- (preview only) | better | Frame and boards as geometry, wet grain; no painted frame on the log. |
+| Almond Water seep, cave stone | C / not seen | same | The seep is not changed (shot for reference); the cave stone is a pale pitted limestone, in no shot. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; asked about the rock's repetition, the tar's gloss and seams, and the lamp and furniture as geometry):
+   - **No change in:** brightness, lore or layout.
+   - **Geometry:** the lamp, marker, bookcase, side chair and coffee table read as geometry (B).
+   - **D:** the wardrobe's missing back.
+   - **C:**
+     - the rock, whose dark blotch per version repeated and which read as mottled, not faceted;
+     - the tar ("matte cube", bubbles like studs, a lit line on the side);
+     - the glowcaps (flat primaries, a square backing);
+     - the wing chair's flat velvet;
+     - the plain ceiling.
+   - **Minor:** the lamp's notch, a spotless plate.
+2. **Round 2 fixed:**
+   - the wardrobe's back;
+   - the rock's facet spread and bevels;
+   - the tar's sheen and side line;
+   - the glowcaps' brim and crown, and their mycelium;
+   - the lamp's scroll;
+   - the plate's grime;
+   - the crate's inside.
+
+   Reshot once. The round-2 grades are my reading of the final frames.
+
+**Carried below B, with reasons**
+- **Island rock (C+, hero):** it no longer repeats, but the facets need more contrast to read in the game. The next step is joints of about 30 levels spread over many short edges (see the lessons). It was not done here because the batch allows two rounds.
+- **Ceiling (C+):** plain concrete keeps the old tone. Board lines would cross at 90 degrees between turned blocks, so structure needs a different, unturned design.
+- **Glowcaps (C+):** at range the glow, not the texture, decides how they look.
+- **Wing chair (C+):** B8's shared velvet would need seams and piping in a texture of its own.
+- **Seeps (C):** not touched. The stain is dithered for the cutout pass.
+- **Not mod assets:** Level 8's cave rock and strata, ore veins and halite, the road gravel, the sea and kelp (all vanilla); the domes (rock).
+- **Shared assets that changed elsewhere** (not reshot):
+  - Level 5's wardrobe, wing chair, side chair, bookcase and coffee table (its rooms and the hotel lobby);
+  - Level 8's tar pools;
+  - the wet wood (driftwood).
+
+**Tool changes:** none to shared tools.
+- **New in `deep_textures`:** the B10 section (`island_rock`, `basalt_facets`, `ocean_ceiling`, `tar_top`, `tar_side`, `wet_wood`, `book_spines`, `meg_plate`, `lamp_iron`, `lamp_glass`, `glowcap_textures`, `cave_stone`).
+- **New in `gen_deep`:** `wreck_crate`, `road_post`, `road_arm`, `road_lantern`, `meg_marker`.
+- **New in `gen_detail`:** `hotel_bookshelf_b10`, `hotel_chair_b10`, `coffee_table_b10`, and `ALTS`/`TURNED` entries.
+- **New in `gen_shapes`:** `wardrobe_b10`, `wing_chair_b10`.
+
+**Lessons:** four lines added above.

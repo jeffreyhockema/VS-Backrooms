@@ -2,7 +2,8 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"books": "backrooms:block/detail/books",
+		"hotelbookpages": "backrooms:block/detail/hotelbookpages",
+		"hotelbookspines": "backrooms:block/detail/hotelbookspines",
 		"mahogany": "backrooms:block/level5/mahogany"
 	},
 	"elements": [
@@ -166,15 +167,6 @@
 						16
 					]
 				},
-				"east": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						0.5,
-						16
-					]
-				},
 				"south": {
 					"texture": "#mahogany",
 					"uv": [
@@ -182,33 +174,6 @@
 						0,
 						14,
 						16
-					]
-				},
-				"west": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						0.5,
-						16
-					]
-				},
-				"up": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						14,
-						0.5
-					]
-				},
-				"down": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						14,
-						0.5
 					]
 				}
 			}
@@ -222,6 +187,75 @@
 			],
 			"to": [
 				16.5,
+				31,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						16,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						16,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CrownTop",
+			"from": [
+				0,
+				31,
+				8
+			],
+			"to": [
+				16,
 				31.5,
 				16
 			],
@@ -232,7 +266,7 @@
 						0,
 						0,
 						16,
-						1.5
+						0.5
 					]
 				},
 				"east": {
@@ -240,17 +274,8 @@
 					"uv": [
 						0,
 						0,
-						8.5,
-						1.5
-					]
-				},
-				"south": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						16,
-						1.5
+						8,
+						0.5
 					]
 				},
 				"west": {
@@ -258,8 +283,8 @@
 					"uv": [
 						0,
 						0,
-						8.5,
-						1.5
+						8,
+						0.5
 					]
 				},
 				"up": {
@@ -268,22 +293,13 @@
 						0,
 						0,
 						16,
-						8.5
-					]
-				},
-				"down": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						16,
-						8.5
+						8
 					]
 				}
 			}
 		},
 		{
-			"name": "Shelf0",
+			"name": "Plinth",
 			"from": [
 				1,
 				0,
@@ -292,7 +308,7 @@
 			"to": [
 				15,
 				1,
-				16
+				15.5
 			],
 			"faces": {
 				"north": {
@@ -309,7 +325,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						7.5,
 						1
 					]
 				},
@@ -327,7 +343,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						7.5,
 						1
 					]
 				},
@@ -337,7 +353,7 @@
 						0,
 						0,
 						14,
-						8
+						7.5
 					]
 				},
 				"down": {
@@ -346,13 +362,82 @@
 						0,
 						0,
 						14,
-						8
+						7.5
 					]
 				}
 			}
 		},
 		{
-			"name": "Shelf1",
+			"name": "Shelf0",
+			"from": [
+				1,
+				7.5,
+				8.5
+			],
+			"to": [
+				15,
+				8.25,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip0",
 			"from": [
 				1,
 				7.5,
@@ -361,7 +446,7 @@
 			"to": [
 				15,
 				8.5,
-				16
+				8.5
 			],
 			"faces": {
 				"north": {
@@ -378,7 +463,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						0.5,
 						1.0
 					]
 				},
@@ -396,7 +481,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						0.5,
 						1.0
 					]
 				},
@@ -406,7 +491,7 @@
 						0,
 						0,
 						14,
-						8
+						0.5
 					]
 				},
 				"down": {
@@ -415,7 +500,145 @@
 						0,
 						0,
 						14,
-						8
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				1,
+				15,
+				8.5
+			],
+			"to": [
+				15,
+				15.75,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip1",
+			"from": [
+				1,
+				15,
+				8
+			],
+			"to": [
+				15,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
 					]
 				}
 			}
@@ -424,13 +647,13 @@
 			"name": "Shelf2",
 			"from": [
 				1,
-				15,
-				8
+				22.5,
+				8.5
 			],
 			"to": [
 				15,
-				16,
-				16
+				23.25,
+				15.5
 			],
 			"faces": {
 				"north": {
@@ -439,7 +662,7 @@
 						0,
 						0,
 						14,
-						1
+						0.75
 					]
 				},
 				"east": {
@@ -447,8 +670,8 @@
 					"uv": [
 						0,
 						0,
-						8,
-						1
+						7.0,
+						0.75
 					]
 				},
 				"south": {
@@ -457,7 +680,7 @@
 						0,
 						0,
 						14,
-						1
+						0.75
 					]
 				},
 				"west": {
@@ -465,8 +688,8 @@
 					"uv": [
 						0,
 						0,
-						8,
-						1
+						7.0,
+						0.75
 					]
 				},
 				"up": {
@@ -475,7 +698,7 @@
 						0,
 						0,
 						14,
-						8
+						7.0
 					]
 				},
 				"down": {
@@ -484,13 +707,13 @@
 						0,
 						0,
 						14,
-						8
+						7.0
 					]
 				}
 			}
 		},
 		{
-			"name": "Shelf3",
+			"name": "Lip2",
 			"from": [
 				1,
 				22.5,
@@ -499,7 +722,7 @@
 			"to": [
 				15,
 				23.5,
-				16
+				8.5
 			],
 			"faces": {
 				"north": {
@@ -516,7 +739,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						0.5,
 						1.0
 					]
 				},
@@ -534,7 +757,7 @@
 					"uv": [
 						0,
 						0,
-						8,
+						0.5,
 						1.0
 					]
 				},
@@ -544,7 +767,7 @@
 						0,
 						0,
 						14,
-						8
+						0.5
 					]
 				},
 				"down": {
@@ -553,103 +776,1714 @@
 						0,
 						0,
 						14,
-						8
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "Books1",
+			"name": "Book1460_0",
 			"from": [
+				1.3382,
 				1,
-				1,
-				9
+				9.4062
 			],
 			"to": [
-				15,
-				7,
-				15
+				2.3382,
+				6.2074,
+				15.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#books",
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						1.0,
+						5.8438
 					]
 				}
 			}
 		},
 		{
-			"name": "Books2",
+			"name": "Book1460_1",
 			"from": [
+				2.3382,
 				1,
+				9.3213
+			],
+			"to": [
+				3.3382,
+				6.1287,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.9287
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_2",
+			"from": [
+				3.3382,
+				1,
+				9.6359
+			],
+			"to": [
+				4.3382,
+				6.7726,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						0,
+						4,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						0,
+						4,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						0,
+						4,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.6141
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_3",
+			"from": [
+				4.9382,
+				1,
+				9.4102
+			],
+			"to": [
+				5.9382,
+				6.3,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.8398
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.9382,
+				1,
+				12
+			],
+			"rotationZ": -22.5
+		},
+		{
+			"name": "Book1460_4",
+			"from": [
+				8.3382,
+				1,
+				9.7246
+			],
+			"to": [
+				9.5882,
+				5.8705,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.5254
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_5",
+			"from": [
+				9.5882,
+				1,
+				9.389
+			],
+			"to": [
+				11.0882,
+				6.262,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
+						16,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
+						16,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
+						16,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.861
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_6",
+			"from": [
+				11.0882,
+				1,
+				9.793
+			],
+			"to": [
+				12.0882,
+				5.9997,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.457
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_7",
+			"from": [
+				12.0882,
+				1,
+				9.7107
+			],
+			"to": [
+				13.0882,
+				6.9874,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5393
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1460_8",
+			"from": [
+				13.0882,
+				1,
+				9.5848
+			],
+			"to": [
+				14.0882,
+				6.3628,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.6652
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1461_0",
+			"from": [
+				1.0196,
 				8.5,
-				9
+				9.2815
 			],
 			"to": [
-				15,
-				14.5,
-				15
+				2.0196,
+				14.7465,
+				15.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#books",
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						1.0,
+						5.9685
 					]
 				}
 			}
 		},
 		{
-			"name": "Books3",
+			"name": "Book1461_1",
 			"from": [
-				1,
+				2.0196,
+				8.5,
+				9.3193
+			],
+			"to": [
+				3.0196,
+				13.2984,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						0,
+						2,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.9307
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1461_2",
+			"from": [
+				3.6196,
+				8.5,
+				9.3545
+			],
+			"to": [
+				4.8696,
+				13.8,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.8955
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.8696,
+				8.5,
+				12
+			],
+			"rotationZ": -22.5
+		},
+		{
+			"name": "Book1461_3",
+			"from": [
+				7.2696,
+				8.5,
+				9.8014
+			],
+			"to": [
+				8.2696,
+				14.5017,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.4486
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1461_4",
+			"from": [
+				8.2696,
+				8.5,
+				9.9551
+			],
+			"to": [
+				9.7696,
+				13.5206,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.2949
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1461_5",
+			"from": [
+				9.7696,
+				8.5,
+				9.7298
+			],
+			"to": [
+				10.7696,
+				13.233,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						0,
+						6,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5202
+					]
+				}
+			}
+		},
+		{
+			"name": "Flat1461_0",
+			"from": [
+				10.7696,
+				8.5,
+				9.75
+			],
+			"to": [
+				14.7125,
+				9.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						3.9429,
+						5.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Flat1461_1",
+			"from": [
+				10.7696,
+				9.4,
+				9.75
+			],
+			"to": [
+				14.3315,
+				10.3,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						3.5619,
+						4.95
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_0",
+			"from": [
+				1.1291,
 				16,
-				9
+				9.6942
 			],
 			"to": [
-				15,
-				22,
-				15
+				1.8791,
+				20.9468,
+				15.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#books",
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						8,
+						14,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						8,
+						14,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						8,
+						14,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						0.75,
+						5.5558
 					]
 				}
 			}
 		},
 		{
-			"name": "Books4",
+			"name": "Book1462_1",
 			"from": [
-				1,
-				23.5,
-				9
+				1.8791,
+				16,
+				9.2856
 			],
 			"to": [
-				15,
-				29,
-				15
+				2.8791,
+				22.2322,
+				15.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#books",
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
 					"uv": [
 						0,
 						0,
+						1.0,
+						5.9644
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_2",
+			"from": [
+				2.8791,
+				16,
+				9.7364
+			],
+			"to": [
+				4.1291,
+				21.7093,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.5136
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_3",
+			"from": [
+				4.1291,
+				16,
+				9.3364
+			],
+			"to": [
+				5.3791,
+				22.2646,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						4,
+						8,
+						6,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.9136
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_4",
+			"from": [
+				5.3791,
+				16,
+				9.3712
+			],
+			"to": [
+				6.8791,
+				21.9968,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						8,
+						8,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.8788
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_5",
+			"from": [
+				7.4791,
+				16,
+				9.4232
+			],
+			"to": [
+				8.2291,
+				20.6989,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						0.75,
+						5.8268
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.2291,
+				16,
+				12
+			],
+			"rotationZ": -22.5
+		},
+		{
+			"name": "Book1462_6",
+			"from": [
+				10.6291,
+				16,
+				9.5691
+			],
+			"to": [
+				11.3791,
+				21.4986,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
 						16,
-						16
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
+						16,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						0,
+						16,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						0.75,
+						5.6809
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_7",
+			"from": [
+				11.3791,
+				16,
+				9.6677
+			],
+			"to": [
+				12.3791,
+				21.662,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5823
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_8",
+			"from": [
+				12.3791,
+				16,
+				9.9656
+			],
+			"to": [
+				13.3791,
+				20.8566,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						14,
+						8,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.2844
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1462_9",
+			"from": [
+				13.3791,
+				16,
+				9.7884
+			],
+			"to": [
+				14.3791,
+				21.3148,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						0,
+						8,
+						2,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.4616
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1463_0",
+			"from": [
+				1.3229,
+				23.5,
+				9.4311
+			],
+			"to": [
+				2.8229,
+				29.4349,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						0,
+						14,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						0,
+						14,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						12,
+						0,
+						14,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.8189
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1463_1",
+			"from": [
+				3.4229,
+				23.5,
+				9.564
+			],
+			"to": [
+				4.9229,
+				28.8,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						8,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.5,
+						5.686
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.9229,
+				23.5,
+				12
+			],
+			"rotationZ": -22.5
+		},
+		{
+			"name": "Flat1463_0",
+			"from": [
+				7.3229,
+				23.5,
+				9.75
+			],
+			"to": [
+				11.1488,
+				24.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						2,
+						8,
+						4,
+						14
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						3.8259,
+						5.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Flat1463_1",
+			"from": [
+				7.3229,
+				24.4,
+				9.75
+			],
+			"to": [
+				10.5653,
+				25.3,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						6,
+						0,
+						8,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						3.2424,
+						4.95
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1463_2",
+			"from": [
+				11.7229,
+				23.5,
+				9.7461
+			],
+			"to": [
+				12.9729,
+				29.7299,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.5039
+					]
+				}
+			}
+		},
+		{
+			"name": "Book1463_3",
+			"from": [
+				12.9729,
+				23.5,
+				9.5605
+			],
+			"to": [
+				14.2229,
+				29.7668,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"east": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"west": {
+					"texture": "#hotelbookspines",
+					"uv": [
+						10,
+						0,
+						12,
+						6
+					]
+				},
+				"up": {
+					"texture": "#hotelbookpages",
+					"uv": [
+						0,
+						0,
+						1.25,
+						5.6895
 					]
 				}
 			}

@@ -23,12 +23,220 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/detail/oceanceiling"
+				"base": "block/detail/oceanceiling",
+				"alternates": [
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling-2"
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling-3"
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-glow": {
 			"all": {
-				"base": "block/detail/oceanceiling"
+				"base": "block/detail/oceanceiling",
+				"alternates": [
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling"
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling-2"
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/oceanceiling-3"
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/oceanceiling-3",
+						"rotation": 270
+					}
+				]
 			}
 		}
 	},
