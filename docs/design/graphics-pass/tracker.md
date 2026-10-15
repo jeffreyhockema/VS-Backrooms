@@ -168,6 +168,21 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B14) The texture keys of a far level's generator that its painters save last must be known before its shapes are
   written (`tpath` checks the set of saved keys): gen_run registers its B14 keys in `MINE` up front.
 
+- (B15) `matlib.wood_planks` with `planks=1` still draws the plank's lit top edge and dark gap on the texture's border:
+  on a prop face that spans a whole block (a shelf's side panel two blocks tall) that is a dark seam at every block
+  height, and the run reads as stacked crates. Clear the border rows (`gen_end.no_edge`).
+- (B15) A decoration kind the layout puts on a large share of blocks (The End's ghost mark, 30% of a partition's eye-level
+  blocks) is itself a per-block repeat: give it several different marks at different places. Marks under about 10 levels
+  vanish in the game's light; 12-15 levels read as faint.
+- (B15) Shared-ground versions must share only the broad field: when the ground carried the aggregate too, every Hub
+  panel showed the same speckle. Draw each version's own fine structure and blend its broad field with `matlib.turn_safe`.
+- (B15) The Hub is lit by monochrome sodium light, which flattens texture changes in its shots; judge its surfaces on the
+  offline mocks as well. The Tower's approaches are black at floor level (only the dusk light from the cornice): spot
+  them as `-inspection`.
+- (B15) Copying a batch's output folder into `review/baseline/<level>` copies its `sheet.jpg` too; rebuild the baseline
+  sheet with `batch.make_sheet`. A version dropped from `gen_end` leaves its PNG behind (gen_end does not clear its
+  folder, gen_hub does): delete it by hand.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -188,8 +203,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B12 Level 11 | gfx/B12 | merged | 2 | mirror glass (lore), roofs C+, asphalt C+, traffic-light fronts unseen, lobby marble C+; shelter, dumpster, booth, cart, bench, doors untouched | passed 2026-10-15 00:40 (Fable): façade windows and bands verified as geometry at the old look |
 | B13 Levels 37 and 94 | gfx/B13 | merged | 2 | L94 asphalt and dirt path C+; siren pole stands in no world (layout bug, report to user); earlier batches' walls lack randomizeAxes xyz (follow-up) | passed 2026-10-15 01:55 (Fable): turf swirl gone, mosaic at B |
 | B14 Level ! and Fun | gfx/B14 | merged | 2 | L! walls and Fun paint plain (C+); gurney, wheelchair, IV, collapse untouched; Fun brass leaves C+; balloons and streamers untouched; fire doors unseen | passed 2026-10-15 03:15 (Fable): bed, doors, cart as geometry; floor seam gone |
-| B15 The End and The Hub | gfx/B15 | in progress | | | |
-| B16 974, 3999, 188 | | not started | | | |
+| B15 The End and The Hub | gfx/B15 | merged | 2 | End walls/carpet and Hub concrete/road/carved leaves C+ (plain by nature); End furniture, escalator, Hub pink door, outpost, statue untouched; ornate ring pulls | passed 2026-10-15 04:40 (Fable): repeats gone, EXIT door hardware verified |
+| B16 974, 3999, 188 | gfx/B16 | in progress | | | |
 | B17 entities and items | | not started | | | |
 | B18 finish | | not started | | | |
 
@@ -1750,5 +1765,139 @@ Worker report (Opus, 2026-10-15). Branch `gfx/B14` from `main` (82b4613), uncomm
 - **New in `gen_run`:** the B14 section: `OLD_MEAN`, `RUN_F3`/`RUN_F5`, `ptext`, `matched`, `edges`, `fine`, `smudge`, `wall_versions`, `cove_b14`, `wallbase_versions`, `vinyl_b14`, the painters `b14_walls`, `b14_floor`, `b14_scuffed_cracked`, `b14_ceiling`, `b14_rail`, `b14_signs`, `door_paint`, `b14_doors`, `b14_props`, `b14_startroom`, `b14_textures`; the models `b14_versions`, `b14_floor_versions`, `sign_lip`, `wbx`, `side_leaf`; edits in `rail`, `walls`, `signs`, `side_doors`, `hall_door`, `props`, `gauntlet`, `startroom`.
 - **New in `gen_fun`:** the B14 section: `FUN_OLD`, `FUN_F3`/`FUN_F5`/`BIG`, `ftext`, `fine`, `paint_b14`, `glazed`, the painters `b14_paint`, `b14_tiles`, `b14_vinyl`, `crisp`, `b14_carpets`, `b14_elevator`, `b14_signs`, `b14_party`, `b14_textures`; the models `b14_wall_versions`, `confetti_alts_b14`, `wbx`, `elevator_frame_b14`, `lift_dial_b14`, `call_buttons_b14`, `speaker_b14`, `chair_b14`.
 - **Shared generators changed:** `gen_detail.hospital_bed_b14` (the bed is shared with Level 1's first-aid rooms), `gen_shapes.palm_b14` and `gen_textures.palm_textures_b14` (the palm is Level 5's).
+
+**Lessons:** five lines added above.
+
+### B15
+
+Worker report (Opus, 2026-10-15). Branch `gfx/B15` from `main` (a20a0a3), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1, `review/b15/review-round1.md`), then fixes and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b15/compare-round2-end.jpg` and `review/b15/compare-round2-hub.jpg`: every spot.
+  - `review/b15/compare-round2-end-detail.jpg` and `-hub-detail.jpg`: the close spots at twice the size.
+  - Shots: `review/b15/final/{end,hub}`. Round 1: `review/b15/compare-round1-*.jpg`, with its shots in `review/b15/after/`.
+- **Per-family pairs:** `review/b15/sidebyside/<family>.jpg` (14 families), from `docs/design/graphics-pass/sidebyside/B15.json` (it reads `review/b15/sbs/{before,after}`, where shots carry an `end-` or `hub-` prefix). The B15 section is added to `review/compare.html`.
+- **Decision table:** fourteen rows added to `decisions.md`, decision column empty. The textures are B15 painters that run after the old ones under the same keys (`gen_end.b15_textures`, `gen_hub_kit.b15_textures`). Their versions go to the block types through `ver()` / `versions_of()`, which fall back to the one old texture when a painter is dropped. Each model change sits behind a flag (`B15_SLATS`, `B15_EXITDOOR`, `B15_LAMP`, `B15_SERVICE`; B0's EXIT door is kept as `exitdoor_b0`). Each row names its functions.
+- **Offline evidence** (`review/b15/offline/`):
+  - `tex-end-walls-{before,after}.png`, `tex-end-props-after.png`, `tex-end-round2.png`, `tex-hub-after.png`: texsheets with vanilla references.
+  - `mock-*.png`: The End's wall stack, partition, block wall, carpets, runway, ceiling, concrete and columns, and the Hub's walls (as laid: seams every 2 along, 3 up), roof, road and ashlar. Each is in its real mix of versions and turns, main above B15, with seam ratios (End wall stack 1.27 on main, 0.92 now; Hub asphalt 1.89 on main, 1.68 now). Round 1's copies are in `round1/`.
+  - `preview-end-{endcap,exitdoor}.png`, `preview-hub-lamp-door.png`, `preview-hub-lamp-side.png`.
+  - Also `harness/`, `main/` (main's textures and shapes), and the scratch tools in `tools/` (`addspots_b15.py`, `mocks_b15.py`, `churn.py`, `luma.py`, `prev.py`, `explore.py`, `map_at.py`, `query.py`, `enums.py`).
+
+**Checks**
+- **Build:** 0 warnings and 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir, both rounds). `build-gfxbase` was built from unchanged `main` before any edit. No C# changed.
+- **`layouthash`:** v1 and v4 unchanged against main's output, line for line (`review/b15/offline/harness`).
+- **`validatelevel 16` and `17`** (The End and the Hub, `SPAWN=16000`, 24 cells): no doorways to nowhere, none blocked, no bad elevators, no decor facing walls (main's output: no C# changed).
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. The changes are textures, new version texture keys, shapes on existing codes, `alternates` and `randomizeAxes`. Shot in `gfxreview`; no new world was needed.
+- **`check_zfight`:**
+  - The new endcap shapes are clean (round 1's corner-trim tops were moved under the top's plane).
+  - The EXIT door's only flags are the lower half's jamb tops, which the upper half continues. Every part stops 0.05 short of the block's sides, and the head stops under the block's top.
+  - The Hub lamp is clean.
+  - The service door's flags are B0's posts only.
+- **Churn:** `lang/en.json`, the End itemtypes and line endings restored after every regeneration (`churn.py`). Nothing outside the two levels' folders and the generators changed.
+- **Brightness:** every final shot is within 0.9 levels of the new baseline (`review/b15/luma-final.txt`), and so was round 1. No run came out dark, and The End's lights-out did not fall in a run.
+- **Texture keys:** The End's keys live in `block/end/` and the Hub's in `block/hub/`; no other generator writes there. The only outside reference is Level 3999's use of the End terminal's shape, which is unchanged.
+  - New in `block/end/`:
+    - `wall-{lower-2..6, ghost-2..4, cracked-2, base-2..4, band-2/-3, upper-2..4, uppercracked-2, block-2/-3}`;
+    - `column-{sage,slate}-2/-3`;
+    - `carpet-plain-2/-3`, `carpet-{dusty,worn,stained}-2`, `runway-2`, `concrete-2`;
+    - `ceiling-plain-2/-3`, `ceiling-stained-2`;
+    - `poster-yellow-2/-3`.
+  - New in `block/hub/`: `wall-{plain,left,bottom,corner}-2..4`, `ceiling-2/-3`, `asphalt-plain-2/-3`, `asphalt-{worn,patch}-2`, `ashlar-{plain,worn}-2/-3`.
+  - `poster-notice` is now 48 x 64, `poster-fixtures` 48 x 56, `poster-closing` 40 x 48 and `poster-near` 48 x 56, all on the 8 px grid.
+
+**Baseline and spots**
+- `review/baseline/end` and `/hub` were reshot on `build-gfxbase`; the B0 sets are kept as `end-b0` and `hub-b0`. A retake of seven spots first (`review/b15/base-check`) matched B0 within 0.1, and the full run within 0.4.
+- **Added** (`review/spots/end.json`, `hub.json` and the docs copies; found on the harness grid with the scratch tools):
+  - The End:
+    - `ghost-close`: the partition at z 398774 from the north, ghost marks at x 857, 861 and 864;
+    - `poster-close`: its south face, a card poster;
+    - `shelf-close`: a gondola run;
+    - `exitdoor-close`: the EXIT door at 398844,398842 in its vestibule;
+    - `troffer-close`.
+  - The Hub:
+    - `door-close` and `sigil-close`: the carved door at 625176-178, z 624795;
+    - `service-close`;
+    - `lamp-close`;
+    - `ornate-close-inspection`: the Tower's entrance doors at 625171-172, z 625144;
+    - `tower-base` and `tower-stair`: inside the Tower.
+- **Re-spotted after the base frames:** the ornate approach was black at floor level (only the Tower's dusk light reaches it), so it became an inspection spot. `lamp-close` was re-aimed. Both were retaken on `build-gfxbase`.
+- **Not added:** the pink door to Level 974 (one per world, far from the anchor) and the M.E.G. outpost.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| End store walls and columns (hero 33, 34) | C+ (blind r1: C) | better | Eggshell paint over plaster in the old tones. One ground is shared by the base, lower, ghost and cracked kinds, so the rows meet (seam 1.27 to 0.92). There are four versions picked by height (`randomizeAxes: xyz`). The dash scuffs that sat in the same place on every block are gone; plugs or a scuff appear in about one block in nine. The base has a 5 px vinyl cove under a soft dirt gradient. The band edges are clean. Plain by nature: the reviewer wanted more structure. |
+| End partition ghost marks | B- (r1: D, invisible) | better | B0's one rectangle on 30% of a partition's eye-level blocks is now four different marks at different places: a sign, shelf standards, a clock, plugs and tape. Round 2 raised them to 12-15 levels and dropped the two blank versions. |
+| End posters | B (r1: B-) | better | Paper with the same pixel lettering. The yellow poster has three versions (plain, folded, sun-faded). Round 2 fixed lettering that ran off the sheet on the yellow, card, notice and Level 11 posters. |
+| End painted block wall (stockrooms) | B (r1: B) | better | 16 x 8 painted block in three versions by tone, quieted (`calm`). |
+| End carpet and runway (hero 33) | C+ (r1: C) | slightly better | Loop pile, lightly dingy, three versions turned (`turn_safe`). Dusty, worn and stained kinds; round 2 strengthened the ring and the wear. The navy runway has its squiggles dyed into a cut pile. Dusty and worn still sit in whole-block patches, which is layout (B3's lesson). |
+| End ceiling (hero 33) | B (r1: B-) | better | B3's module: four 2 x 2 ft tiles to a block, means evened, three versions. Round 2 brought the water rings back at the old strength. |
+| End troffers | B- (r1: B-) | same | Level 0's D1 troffer (the user approved it): no dark ring, still cubes, same glow. The reviewer missed a busier prismatic lens; kept as the approved look. |
+| End shelving (hero 33) | B- (r1: C, seams) | better | Maple veneer and real slats. Round 1's maple printed matlib's plank edge as a dark seam at every block height; round 2 removed it (`no_edge`). |
+| End slatwall display towers (hero 33) | B (r1: B) | better | Slats one groove period tall, each a lit board edge over its slot. Before, there were 15 thin slices out of step with the grooves. |
+| End EXIT door (hero 34; also Level 1, the Hub, Level !) | B (r1: B) | better | Hardware as geometry on every face: frame and stops, hinges, kick plate with screws, panic bar and lock cylinder, window bead, closer and arm. Round 2 put the wired glass's crack back. |
+| Hub tunnel walls (hero 35) | C+ (r1: C) | better | Cast concrete with each version's own aggregate over one shared broad ground. Round 1 shared the aggregate, so every panel was the same speckle. There is a rare efflorescence run, the seams are recessed joints, and round 2 added a row of form-tie holes along each panel's lowest lift. The amber light flattens it in the shots. |
+| Hub tunnel roof | C+ (r1: C, too dark in play) | same | Concrete with no board lines (the 2026-10 review had the roof stop reading as planks), three versions turned. |
+| Hub road, sidewalk, kerb (hero 35) | C+ (r1: C / C+) | slightly better | `matlib.asphalt` (round 2: calmer chips), three versions turned. The worn kind is polished. The patch is an irregular tar blot (B0's was a square), off centre and at a different place in each version. The sidewalk joint is recessed and the kerb arris lit. Light worn squares are layout. |
+| Hub lamps (hero 35) | B (r1: B) | better | Amber glass, glow and cage unchanged. Added a bolted wall plate, a bracket strut each side and a crown on the hood, with chipped paint. |
+| Hub carved doors (hero 35) | C+ (r1: C) | same | Geometry unchanged. The slab is smooth warm concrete; round 2 added a fine horizontal shutter grain, and it has damp with a tide line. The escutcheon is brushed brass. |
+| Hub sigils | B- (r1: B-) | same | Relief and deep recess unchanged; the faces are dressed stone at the old depth tones. |
+| Hub service door | B- (r1: B-) | better | Chipped grey paint, hinge knuckles and a closer as geometry. |
+| Hub ornate doors | B- (r1: B-) | same | Dark oiled oak in vertical boards. The ring pulls (B0's) still read as square loops. |
+| Hub Tower ashlar and stair | B / B- (r1: B / B-) | better / same | Ashlar as stones in running bond, three versions by height, quieter than brick; the worn kind grimier. The marble stair is unchanged. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given only the sheets, texsheets, mocks, previews and the rubric):
+   - **D:** the ghost marks, invisible in play (drawn at 6-8 levels, two of six versions blank).
+   - **C:**
+     - a dark seam at every block height on the shelving (matlib's plank edge on the maple);
+     - the plain End walls, columns, carpet and runway;
+     - the Hub walls (the same speckle on every panel), roof, asphalt and carved door leaves;
+     - the stains and wear washed out; clipped poster lettering.
+   - **B or better:** the EXIT door, endcap towers, block wall, lamps and ashlar.
+   - **No dark ring and no layout change.**
+2. **Round 2 fixed:**
+   - the ghost marks (stronger, four marks, no blank versions);
+   - the maple's seam;
+   - the ceiling rings, carpet stain and wear;
+   - all clipped lettering, and the wired-glass crack;
+   - the Hub walls' own aggregate per version and their form-tie holes;
+   - the door leaves' grain;
+   - calmer asphalt and patches off centre.
+   
+   Reshot once.
+
+**Carried below B, with reasons**
+- **End walls, columns, carpet, runway (C+):** plain painted and carpeted surfaces in the old tones. The reviewer's fixes do not fit the user's rules:
+  - multi-block joints or a per-block vertical gradient would repeat on every block row (B9's lesson);
+  - stronger wear would be a per-block feature.
+  
+  Grime is kept subtle, as the user asked.
+- **Hub walls, roof, road, carved leaves (C+):** concrete and asphalt under monochrome sodium light. Board lines on the roof were removed on purpose (2026-10 review). Panel-scale structure (seams, ties) is all a per-block texture can carry without a grid.
+- **Not touched:**
+  - The End: desks, the terminal, furniture, catalogue, escalator, railing, stock trolley, trees, rubble (none in a shot; there is no checkout in the level).
+  - The Hub: the pink door (in no shot), jet fans' geometry, stencils, plaques, outpost furniture, the statue, pedestals, the Keymaster.
+  - Troffers and lamps stay as they were (the lights-as-cubes rule; Level 0's approved troffer).
+
+**Tool changes:** none to shared tools.
+- **New in `gen_end`:**
+  - Helpers and registration: the B15 section's `OLD_MEAN`, `VERSIONS`, `ver`, `register`, `matched`, `calm`, `b15_fine`, `b15_bumps`, `paint_ground`.
+  - Marks and wear: `wall_plugs`, `soft_rect`, `soft_disc`, `ghost_mark`, `scuffs`, `no_edge`, `bevel_sheet`.
+  - Painters: `b15_walls`, `b15_floors`, `b15_ceiling`, `b15_wood`, `b15_metal`, `b15_posters`, `b15_textures`.
+  - Flags: `B15_SLATS`, `B15_EXITDOOR`.
+  - Edits:
+    - `exitdoor` rebuilt, B0's kept as `exitdoor_b0`;
+    - the endcap tower built from slats;
+    - `structure()` reads versions through `ver()`;
+    - `backed_block` gives the wall behind a decoration its versions;
+    - `AXES` on the wall and column block types.
+- **New in `gen_hub_kit`:**
+  - The B15 section's `OLD_MEAN`, `VERSIONS`, `versions_of`, `matched`, `b15_fine`, `groove_left`, `groove_bottom`, `tie_hole`, `tooled`.
+  - Painters: `b15_walls`, `b15_road`, `b15_fixtures`, `b15_doors`, `b15_tower`, `b15_textures`.
+  - `B15_LAMP` (the lamp's bracket).
+  - `cube_family` and the ceiling read `versions_of`.
+- **Also:** `gen_hub_doors.B15_SERVICE` (the service door's hinges and closer); `gen_hub_tower` (`randomizeAxes` on `hub-ashlar`); `gen_hub.main` calls `K.b15_textures()`.
 
 **Lessons:** five lines added above.

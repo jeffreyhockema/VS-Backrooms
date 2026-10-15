@@ -12,7 +12,7 @@ from gen_hub_kit import (CLOTH, DIRS, FRONT, GLASS, METAL, ROTATE, SIDES, STONE,
 
 def stone_blocks():
     cube_family("hub-ashlar", {"plain": "Ashlar", "worn": "Worn Ashlar"}, ["plain", "worn"], lambda k: "ashlar-" + k,
-                "The Tower's walls: pale limestone ashlar, two courses to a block", resistance=8)
+                "The Tower's walls: pale limestone ashlar, two courses to a block", resistance=8, randomizeAxes="xyz")
     cube_family("hub-marble", {"plain": "Polished Marble", "inlay": "Inlaid Marble", "centre": "Marble Medallion"},
                 ["plain", "inlay", "centre"], lambda k: "marble-" + k,
                 "The rotunda and Approach floors: polished marble; a dark inlaid band (for the inlaid circle; its band runs"

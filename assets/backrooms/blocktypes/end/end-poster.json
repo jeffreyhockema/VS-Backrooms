@@ -114,5 +114,75 @@
 				"var": 0
 			}
 		}
-	]
+	],
+	"textures": {
+		"poster-yellow": {
+			"base": "block/end/poster-yellow",
+			"alternates": [
+				{
+					"base": "block/end/poster-yellow-2"
+				},
+				{
+					"base": "block/end/poster-yellow-3"
+				}
+			]
+		},
+		"wall-lower": {
+			"base": "block/end/wall-lower",
+			"alternates": [
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower-5"
+				},
+				{
+					"base": "block/end/wall-lower-6"
+				}
+			]
+		}
+	},
+	"randomizeAxes": "xyz"
 }

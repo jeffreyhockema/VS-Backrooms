@@ -21,6 +21,11 @@
     {"name": "endwall-wide", "tp": [398798.6, 211.05, 398716.19], "look": [18, 0], "target": "endwall", "distance": 6.0},
     {"name": "endwall-close", "tp": [398799.87, 211.05, 398712.4], "look": [18, -1], "target": "endwall", "distance": 2.0},
     {"name": "endexit-wide", "tp": [398844.5, 211.0, 398847.5], "look": [0, -3], "target": "endexit"},
-    {"name": "endexit-close", "tp": [398844.5, 211.0, 398847.5], "look": [0, -3], "fov": 35, "target": "endexit"}
+    {"name": "endexit-close", "tp": [398844.5, 211.0, 398847.5], "look": [0, -3], "fov": 35, "target": "endexit"},
+    {"name": "ghost-close", "tp": [398860.5, 211.05, 398771.8], "look": [180, -2], "fov": 70, "target": "partition wall z 398774 from the north: ghost marks at x 857, 861, 864 (rel 2), band, cove"},
+    {"name": "poster-close", "tp": [398862.5, 211.05, 398777.3], "look": [0, -2], "fov": 60, "target": "partition z 398774 from the south: the card poster at x 862 (rel 2)"},
+    {"name": "shelf-close", "tp": [398873.3, 211.05, 398760.5], "look": [90, -12], "fov": 70, "target": "gondola run at x 398875 (z 758-761), its west face"},
+    {"name": "exitdoor-close", "tp": [398844.5, 211.05, 398845.4], "look": [0, -6], "fov": 60, "target": "the EXIT door at 398844,398842 (faces south) in its vestibule"},
+    {"name": "troffer-close", "tp": [398869.5, 211.05, 398760.8], "look": [0, 84], "fov": 50, "target": "a troffer in the ceiling (rel 5) above, the one close-light frames"}
   ]
 }

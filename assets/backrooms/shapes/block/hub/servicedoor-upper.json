@@ -871,6 +871,366 @@
 					]
 				}
 			}
+		},
+		{
+			"name": "Knuckle0",
+			"from": [
+				13.5,
+				10.8,
+				-1.1
+			],
+			"to": [
+				14.3,
+				12.0,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushbar",
+					"uv": [
+						1.7,
+						4.0,
+						2.5,
+						5.2
+					]
+				},
+				"east": {
+					"texture": "#pushbar",
+					"uv": [
+						0.5,
+						4.0,
+						1.1,
+						5.2
+					]
+				},
+				"west": {
+					"texture": "#pushbar",
+					"uv": [
+						14.9,
+						4.0,
+						15.5,
+						5.2
+					]
+				},
+				"up": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						14.9,
+						14.3,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						0.5,
+						14.3,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Knuckle1",
+			"from": [
+				13.5,
+				9.5,
+				-1.1
+			],
+			"to": [
+				14.3,
+				10.7,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushbar",
+					"uv": [
+						1.7,
+						5.3,
+						2.5,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#pushbar",
+					"uv": [
+						0.5,
+						5.3,
+						1.1,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#pushbar",
+					"uv": [
+						14.9,
+						5.3,
+						15.5,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						14.9,
+						14.3,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						0.5,
+						14.3,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Knuckle2",
+			"from": [
+				13.5,
+				8.2,
+				-1.1
+			],
+			"to": [
+				14.3,
+				9.4,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushbar",
+					"uv": [
+						1.7,
+						6.6,
+						2.5,
+						7.8
+					]
+				},
+				"east": {
+					"texture": "#pushbar",
+					"uv": [
+						0.5,
+						6.6,
+						1.1,
+						7.8
+					]
+				},
+				"west": {
+					"texture": "#pushbar",
+					"uv": [
+						14.9,
+						6.6,
+						15.5,
+						7.8
+					]
+				},
+				"up": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						14.9,
+						14.3,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#pushbar",
+					"uv": [
+						13.5,
+						0.5,
+						14.3,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Closer",
+			"from": [
+				8.5,
+				13.05,
+				-0.7
+			],
+			"to": [
+				13.5,
+				13.95,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#serviceframe",
+					"uv": [
+						2.5,
+						2.05,
+						7.5,
+						2.95
+					]
+				},
+				"east": {
+					"texture": "#serviceframe",
+					"uv": [
+						15.0,
+						2.05,
+						16,
+						2.95
+					]
+				},
+				"west": {
+					"texture": "#serviceframe",
+					"uv": [
+						15.3,
+						2.05,
+						16,
+						2.95
+					]
+				},
+				"up": {
+					"texture": "#serviceframe",
+					"uv": [
+						8.5,
+						15.3,
+						13.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#serviceframe",
+					"uv": [
+						8.5,
+						15.0,
+						13.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CloserArm",
+			"from": [
+				3.5,
+				13.3,
+				-0.5
+			],
+			"to": [
+				8.5,
+				13.7,
+				0.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushbar",
+					"uv": [
+						7.5,
+						2.3,
+						12.5,
+						2.7
+					]
+				},
+				"east": {
+					"texture": "#pushbar",
+					"uv": [
+						0.0,
+						2.3,
+						0.5,
+						2.7
+					]
+				},
+				"west": {
+					"texture": "#pushbar",
+					"uv": [
+						15.5,
+						2.3,
+						16.0,
+						2.7
+					]
+				},
+				"up": {
+					"texture": "#pushbar",
+					"uv": [
+						3.5,
+						15.5,
+						8.5,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#pushbar",
+					"uv": [
+						3.5,
+						0.0,
+						8.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmShoe",
+			"from": [
+				2.6,
+				13.1,
+				-0.6
+			],
+			"to": [
+				3.5,
+				13.9,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#serviceframe",
+					"uv": [
+						12.5,
+						2.1,
+						13.4,
+						2.9
+					]
+				},
+				"east": {
+					"texture": "#serviceframe",
+					"uv": [
+						0.5,
+						2.1,
+						0.6,
+						2.9
+					]
+				},
+				"west": {
+					"texture": "#serviceframe",
+					"uv": [
+						15.4,
+						2.1,
+						15.5,
+						2.9
+					]
+				},
+				"up": {
+					"texture": "#serviceframe",
+					"uv": [
+						2.6,
+						15.4,
+						3.5,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#serviceframe",
+					"uv": [
+						2.6,
+						0.5,
+						3.5,
+						0.6
+					]
+				}
+			}
 		}
 	]
 }

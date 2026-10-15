@@ -374,5 +374,19 @@
 		"hit": "game:block/rock-hit-pickaxe"
 	},
 	"lightAbsorption": 99,
-	"drops": []
+	"drops": [],
+	"textures": {
+		"wall-band": {
+			"base": "block/end/wall-band",
+			"alternates": [
+				{
+					"base": "block/end/wall-band-2"
+				},
+				{
+					"base": "block/end/wall-band-3"
+				}
+			]
+		}
+	},
+	"randomizeAxes": "xyz"
 }

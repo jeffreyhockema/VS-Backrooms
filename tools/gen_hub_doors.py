@@ -242,6 +242,9 @@ def sigils():
                    "The carved border either side of a door's sigil (above l-4 and r-4), face to the north", "Carved Stone")
 
 
+B15_SERVICE = True  # (B15) the service door's hinges and closer as geometry (False: B0's door)
+
+
 def service_door():
     """Plain grey steel, 1 wide and 2 high (lower with a sill meeting the sidewalk, upper with a push bar, a small
     wired-glass window and the frame head), recessed in a steel frame."""
@@ -254,6 +257,9 @@ def service_door():
             f.box("Sill", w, 16 - w, 8, 16, -1.2, 16, "doorsill", faces=DIRS)
             f.box("Leaf", w, 16 - w, 0, 8, z, 16, "servicesteel", faces=DIRS)
             f.box("Kick", w + 0.5, 16 - w - 0.5, 3.5, 8, z - 0.3, z, "pushbar")
+            if B15_SERVICE:  # (B15) the hinge's knuckles on the frame's edge
+                for k in range(3):
+                    f.box(f"Knuckle{k}", 1.7, 2.5, 0.6 + 1.3 * k, 1.8 + 1.3 * k, -1.1, -0.5, "pushbar")
         else:
             f.box("Head", 0, 16, 0, 2, -0.5, 16, "serviceframe")
             f.box("LeafSideL", w, 5.5, 2, 16, z, 16, "servicesteel")
@@ -271,6 +277,12 @@ def service_door():
             f.box("Bar", w + 1, 16 - w - 1, 11.6, 13.0, -1.6, -0.4, "pushbar")
             f.box("BracketL", w + 1, w + 2.2, 11.2, 13.4, -0.4, z, "serviceframe")
             f.box("BracketR", 16 - w - 2.2, 16 - w - 1, 11.2, 13.4, -0.4, z, "serviceframe")
+            if B15_SERVICE:  # (B15) hinge knuckles, and the closer under the head with its arm
+                for k in range(3):
+                    f.box(f"Knuckle{k}", 1.7, 2.5, 4.0 + 1.3 * k, 5.2 + 1.3 * k, -1.1, -0.5, "pushbar")
+                f.box("Closer", 2.5, 7.5, 2.05, 2.95, -0.7, z, "serviceframe")
+                f.box("CloserArm", 7.5, 12.5, 2.3, 2.7, -0.5, 0.0, "pushbar")
+                f.box("ArmShoe", 12.5, 13.4, 2.1, 2.9, -0.6, -0.5, "serviceframe")
         return f.els
     shapes = {p: shape(f"servicedoor-{p}", part(p)) for p in ("lower", "upper")}
     oriented_parts("hub-servicedoor", [("part", ["lower", "upper"])], shapes, "*-lower-north", "Metal",

@@ -76,6 +76,7 @@ def main():
     K.door_textures()
     K.tower_textures()
     K.outpost_textures()
+    K.b15_textures()  # (B15) the graphics pass's surfaces, over the old ones (drop to revert)
     K.tunnel_blocks()
     import gen_hub_doors
     gen_hub_doors.generate()

@@ -232,5 +232,122 @@
 				"var": 0.5
 			}
 		}
-	]
+	],
+	"textures": {
+		"column-sage": {
+			"base": "block/end/column-sage",
+			"alternates": [
+				{
+					"base": "block/end/column-sage-2"
+				},
+				{
+					"base": "block/end/column-sage-3"
+				}
+			]
+		},
+		"column-slate": {
+			"base": "block/end/column-slate",
+			"alternates": [
+				{
+					"base": "block/end/column-slate-2"
+				},
+				{
+					"base": "block/end/column-slate-3"
+				}
+			]
+		},
+		"wall-band": {
+			"base": "block/end/wall-band",
+			"alternates": [
+				{
+					"base": "block/end/wall-band-2"
+				},
+				{
+					"base": "block/end/wall-band-3"
+				}
+			]
+		},
+		"wall-block": {
+			"base": "block/end/wall-block",
+			"alternates": [
+				{
+					"base": "block/end/wall-block-2"
+				},
+				{
+					"base": "block/end/wall-block-3"
+				}
+			]
+		},
+		"wall-lower": {
+			"base": "block/end/wall-lower",
+			"alternates": [
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower"
+				},
+				{
+					"base": "block/end/wall-lower-2"
+				},
+				{
+					"base": "block/end/wall-lower-3"
+				},
+				{
+					"base": "block/end/wall-lower-4"
+				},
+				{
+					"base": "block/end/wall-lower-5"
+				},
+				{
+					"base": "block/end/wall-lower-6"
+				}
+			]
+		},
+		"wall-upper": {
+			"base": "block/end/wall-upper",
+			"alternates": [
+				{
+					"base": "block/end/wall-upper-2"
+				},
+				{
+					"base": "block/end/wall-upper-3"
+				},
+				{
+					"base": "block/end/wall-upper-4"
+				}
+			]
+		}
+	},
+	"randomizeAxes": "xyz"
 }

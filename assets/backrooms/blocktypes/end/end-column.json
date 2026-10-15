@@ -24,12 +24,28 @@
 	"texturesByType": {
 		"*-sage": {
 			"all": {
-				"base": "block/end/column-sage"
+				"base": "block/end/column-sage",
+				"alternates": [
+					{
+						"base": "block/end/column-sage-2"
+					},
+					{
+						"base": "block/end/column-sage-3"
+					}
+				]
 			}
 		},
 		"*-slate": {
 			"all": {
-				"base": "block/end/column-slate"
+				"base": "block/end/column-slate",
+				"alternates": [
+					{
+						"base": "block/end/column-slate-2"
+					},
+					{
+						"base": "block/end/column-slate-3"
+					}
+				]
 			}
 		},
 		"*-slat": {
@@ -46,6 +62,7 @@
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
 	},
+	"randomizeAxes": "xyz",
 	"soundsByType": {
 		"*-slat": {
 			"walk": "game:walk/wood",

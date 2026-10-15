@@ -37,6 +37,21 @@
 					{
 						"base": "block/end/concrete",
 						"rotation": 270
+					},
+					{
+						"base": "block/end/concrete-2"
+					},
+					{
+						"base": "block/end/concrete-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/concrete-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/concrete-2",
+						"rotation": 270
 					}
 				]
 			}

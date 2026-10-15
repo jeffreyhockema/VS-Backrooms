@@ -29,42 +29,166 @@
 	"texturesByType": {
 		"*-base": {
 			"all": {
-				"base": "block/end/wall-base"
+				"base": "block/end/wall-base",
+				"alternates": [
+					{
+						"base": "block/end/wall-base-2"
+					},
+					{
+						"base": "block/end/wall-base"
+					},
+					{
+						"base": "block/end/wall-base-2"
+					},
+					{
+						"base": "block/end/wall-base"
+					},
+					{
+						"base": "block/end/wall-base-2"
+					},
+					{
+						"base": "block/end/wall-base-3"
+					},
+					{
+						"base": "block/end/wall-base-4"
+					}
+				]
 			}
 		},
 		"*-lower": {
 			"all": {
-				"base": "block/end/wall-lower"
+				"base": "block/end/wall-lower",
+				"alternates": [
+					{
+						"base": "block/end/wall-lower-2"
+					},
+					{
+						"base": "block/end/wall-lower-3"
+					},
+					{
+						"base": "block/end/wall-lower-4"
+					},
+					{
+						"base": "block/end/wall-lower"
+					},
+					{
+						"base": "block/end/wall-lower-2"
+					},
+					{
+						"base": "block/end/wall-lower-3"
+					},
+					{
+						"base": "block/end/wall-lower-4"
+					},
+					{
+						"base": "block/end/wall-lower"
+					},
+					{
+						"base": "block/end/wall-lower-2"
+					},
+					{
+						"base": "block/end/wall-lower-3"
+					},
+					{
+						"base": "block/end/wall-lower-4"
+					},
+					{
+						"base": "block/end/wall-lower"
+					},
+					{
+						"base": "block/end/wall-lower-2"
+					},
+					{
+						"base": "block/end/wall-lower-3"
+					},
+					{
+						"base": "block/end/wall-lower-4"
+					},
+					{
+						"base": "block/end/wall-lower-5"
+					},
+					{
+						"base": "block/end/wall-lower-6"
+					}
+				]
 			}
 		},
 		"*-ghost": {
 			"all": {
-				"base": "block/end/wall-ghost"
+				"base": "block/end/wall-ghost",
+				"alternates": [
+					{
+						"base": "block/end/wall-ghost-2"
+					},
+					{
+						"base": "block/end/wall-ghost-3"
+					},
+					{
+						"base": "block/end/wall-ghost-4"
+					}
+				]
 			}
 		},
 		"*-cracked": {
 			"all": {
-				"base": "block/end/wall-cracked"
+				"base": "block/end/wall-cracked",
+				"alternates": [
+					{
+						"base": "block/end/wall-cracked-2"
+					}
+				]
 			}
 		},
 		"*-band": {
 			"all": {
-				"base": "block/end/wall-band"
+				"base": "block/end/wall-band",
+				"alternates": [
+					{
+						"base": "block/end/wall-band-2"
+					},
+					{
+						"base": "block/end/wall-band-3"
+					}
+				]
 			}
 		},
 		"*-upper": {
 			"all": {
-				"base": "block/end/wall-upper"
+				"base": "block/end/wall-upper",
+				"alternates": [
+					{
+						"base": "block/end/wall-upper-2"
+					},
+					{
+						"base": "block/end/wall-upper-3"
+					},
+					{
+						"base": "block/end/wall-upper-4"
+					}
+				]
 			}
 		},
 		"*-uppercracked": {
 			"all": {
-				"base": "block/end/wall-uppercracked"
+				"base": "block/end/wall-uppercracked",
+				"alternates": [
+					{
+						"base": "block/end/wall-uppercracked-2"
+					}
+				]
 			}
 		},
 		"*-block": {
 			"all": {
-				"base": "block/end/wall-block"
+				"base": "block/end/wall-block",
+				"alternates": [
+					{
+						"base": "block/end/wall-block-2"
+					},
+					{
+						"base": "block/end/wall-block-3"
+					}
+				]
 			}
 		}
 	},
@@ -75,5 +199,6 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
-	}
+	},
+	"randomizeAxes": "xyz"
 }

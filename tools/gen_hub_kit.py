@@ -804,9 +804,8 @@ def cube_family(code, english, kinds, tex_of, comment, material="Stone", sounds=
             "blockmaterial": material, "drawtype": "cube", "texturesByType": {},
             "lightAbsorption": 99, "resistance": 4, "sounds": sounds}
     for k in kinds:
-        tex = {"base": "block/hub/" + tex_of(k)}
-        if k in turned:
-            tex["alternates"] = [{"base": "block/hub/" + tex_of(k), "rotation": r} for r in (90, 180, 270)]
+        # (B15) the key's versions when B15 made any (versions_of), each turned too where the kind is turned
+        tex = versions_of(tex_of(k), (0, 90, 180, 270) if k in turned else (0,))
         data["texturesByType"][f"*-{k}"] = {"all": tex}
     data.update(extra)
     block(code, data, comment)
@@ -847,13 +846,16 @@ def oriented(code, english, shapes, comment, groups=(), material="Stone", sounds
     name(code + "-*", english)
 
 
+B15_LAMP = True  # (B15) the tunnel lamp's bracket, bolts and crown as geometry (False: B0's lamp)
+
+
 def tunnel_blocks():
     cube_family("hub-wall", "Concrete Wall Panel", ["plain", "left", "bottom", "corner"], lambda k: "wall-" + k,
                 "The Hub's tunnel walls: great cast concrete panels, 2 blocks wide and 3 high. 'left' carries the seam on its"
                 " left edge (every 2nd block along a wall), 'bottom' on its bottom edge (every 3rd block up), 'corner' both",
-                resistance=6)
+                resistance=6, randomizeAxes="xyz")
     block("hub-ceiling", {"creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Stone",
-                          "drawtype": "cube", "textures": {"all": {"base": "block/hub/ceiling"}},
+                          "drawtype": "cube", "textures": {"all": versions_of("ceiling", (0, 90, 180, 270) if "ceiling" in VERSIONS else (0,))},
                           "lightAbsorption": 99, "resistance": 6, "sounds": STONE},
           "The tunnel roof: darker concrete cast against boards")
     name("hub-ceiling", "Concrete Tunnel Roof")
@@ -935,7 +937,7 @@ def tunnel_blocks():
         lit = glass == "lampglass"
         g = 255 if lit else 0
         under = ("lamphood-lit", 200) if lit else ("lamphousing", 0)
-        els = [bx("Plate", (4.5, 3.5, 15), (11.5, 12.5, 16), "lamphousing"),
+        els = [bx("Plate", (4.5, 3.5, 15), (11.5, 13.5 if B15_LAMP else 12.5, 16), "lamphousing"),
                bx("Arm", (7, 10, 12), (9, 11.5, 15), "lamphousing"),  # (its underside not in the hood's)
                bx("Hood", (3.5, 10, 7.5), (12.5, 12, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
                bx("HoodLip", (3, 9.5, 7), (13, 10, 15), "lamphousing", faces=("north", "east", "south", "west", "up")),
@@ -958,6 +960,17 @@ def tunnel_blocks():
                         bx(f"BarSideR{i}", (11.7, 4.1, z), (12.2, 9.5, z + 0.5), "cage")]
         for i, x in enumerate((3.8, 7.75, 11.7)):
             els.append(bx(f"BarUnder{i}", (x, 3.6, 8.4), (x + 0.5, 4.1, 14), "cage"))
+        if B15_LAMP:
+            # (B15) The bracket as geometry: the wall plate bolted at its corners, a strut each side from the plate's foot
+            # up under the hood's front, and a raised crown on the hood. The glass, its glow and the cage are unchanged.
+            for i, (x, y) in enumerate(((5.0, 12.6), (10.4, 12.6), (5.0, 4.0), (10.4, 4.0))):
+                els.append(bx(f"Bolt{i}", (x, y, 14.65), (x + 0.6, y + 0.6, 15), "cage"))
+            L = math.hypot(4.8, 3.9)  # from the plate's foot up and out to the hood's underside near the wall
+            for side, x in (("L", 3.05), ("R", 12.35)):
+                els.append(bx(f"Strut{side}", (x, 6.7, 12.95 - L / 2), (x + 0.55, 7.3, 12.95 + L / 2), "lamphousing",
+                              aligned=False, rot=(51.0, 0, 0), origin=(x + 0.27, 7.0, 12.95)))
+                els.append(bx(f"Foot{side}", (x - 0.2, 4.2, 14.3), (x + 0.75, 5.4, 15), "lamphousing"))
+            els.append(bx("Crown", (4.5, 12, 8.5), (11.5, 12.6, 15), "lamphousing", faces=("north", "east", "west", "up")))
         return els
     on, dead = shape("lamp-on", lamp("lampglass")), shape("lamp-dead", lamp("lampglass-dead"))
     oriented("hub-lamp", "Tunnel Lamp", {"on": on, "dead": dead, "flicker": on},
@@ -1073,3 +1086,301 @@ def tunnel_blocks():
              {d: shape(f"amberarrow-{d}", [bx("Chalk", (0, 0, 15.9), (16, 16, 16), f"amberarrow-{d}", faces=("north",), full=True)]) for d in ("l", "r")},
              "Camp Amber's chalk arrows on the wall to the south, pointing to the viewer's left (l) or right (r): to the camp, or in"
              " Level 1 to the door into the Hub", groups=[("dir", ["l", "r"])], box=(0.05, 0.2, 0.94, 0.95, 0.8, 1), collide=False, extra=decal)
+
+
+# ======================= B15 (graphics pass): textures =======================
+#
+# Every B15 painter runs after the old ones under the same keys (plus new version keys), so a family reverts by dropping
+# its call from b15_textures(). The versions are listed in VERSIONS, which cube_family and the ceiling read: without
+# the B15 painters every surface falls back to its one old texture. Means are matched to main's PNGs (OLD_MEAN), so the
+# tunnels keep their tones under the sodium light. Versions of a large surface share one low-frequency ground and differ
+# in fine grain and rare features (B5's lesson); walls pick theirs by height too (randomizeAxes xyz, B13's).
+
+import matlib as M  # noqa: E402
+
+OLD_MEAN = {  # main's mean colours (measured on the PNGs before B15)
+    "wall-plain": (141, 138, 131), "wall-false": (139, 136, 130), "ceiling": (117, 114, 108),
+    "asphalt-plain": (47, 46, 45), "asphalt-worn": (60, 59, 57), "asphalt-patch": (41, 40, 39),
+    "sidewalk": (177, 172, 162), "kerb": (165, 160, 149), "lamphousing": (61, 74, 63), "cage": (122, 127, 124),
+    "galvanised": (167, 172, 174), "galvanised-dark": (133, 137, 138), "doorleaf": (164, 157, 143),
+    "doorleaf-low": (153, 147, 134), "doorframe": (132, 128, 121), "doorsill": (124, 121, 114),
+    "carved": (151, 146, 137), "carved-deep": (105, 101, 95), "carved-recess": (67, 65, 61),
+    "carved-relief": (171, 166, 156), "brass": (174, 140, 87), "servicesteel": (127, 133, 137),
+    "serviceframe": (95, 100, 104), "pushbar": (190, 194, 197), "oak": (74, 52, 37), "ashlar-plain": (212, 205, 190),
+    "ashlar-worn": (207, 200, 185), "flute": (205, 198, 184),
+}
+
+VERSIONS = {}  # texture key -> [version keys] (listed again for weight), filled by the B15 painters
+
+
+def versions_of(key, rotations=(0,)):
+    """A texture spec: the key's B15 versions as alternates (each once per rotation), or the one old texture."""
+    out = []
+    for k in VERSIONS.get(key, [key]):
+        for r in rotations:
+            out.append({"base": "block/hub/" + k, "rotation": r} if r else {"base": "block/hub/" + k})
+    first = dict(out[0])
+    if len(out) > 1:
+        first["alternates"] = out[1:]
+    return first
+
+
+def matched(img, key, target=None, share=None):
+    return T.match_rgb(img, target or OLD_MEAN[key], key="b15hub" + (share or key))
+
+
+def b15_fine(img, seed, amp=1.6, mottle=0.0):
+    rng = random.Random(seed)
+    f = M.fbm(img.size, M.sub(seed, "fine"), (4, 2), 0.6) if mottle else None
+    p = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            d = rng.uniform(-amp, amp) + (f[y][x] * mottle if f else 0)
+            p[x, y] = M.rgba(M.lift(p[x, y], d), p[x, y][3])
+    return img
+
+
+def groove_left(img, x=0, dark=-0.30, lit=0.10):
+    """A recessed vertical joint at x: its left wall in shadow, its right lip catching the light, a soft shade beside."""
+    for y in range(img.height):
+        M.touch(img, x, y, dark)
+        M.touch(img, x + 1, y, lit)
+        M.touch(img, x + 2, y, -0.03)
+
+
+def groove_bottom(img, y=S - 1, dark=-0.30, lit=0.08):
+    """A recessed horizontal joint ending at row y: the overhang's shadow on top, the lower lip lit."""
+    for x in range(img.width):
+        M.touch(img, x, y - 2, -0.04)
+        M.touch(img, x, y - 1, dark)
+        M.touch(img, x, y, lit)
+
+
+def tie_hole(img, cx, cy):
+    """A form-tie hole: a round pit 3 px across, its upper half in shadow, the lower lip lit, a faint rust stain under."""
+    for (dx, dy, f) in ((0, 0, -0.30), (1, 0, -0.30), (-1, 0, -0.18), (2, 0, -0.18), (0, -1, -0.22), (1, -1, -0.22),
+                        (0, 1, 0.04), (1, 1, 0.04), (-1, 1, 0.08), (2, 1, 0.08)):
+        M.touch(img, cx + dx, cy + dy, f)
+    for k in range(4):
+        M.touch(img, cx + (k % 2), cy + 2 + k, -0.03 * (1 - k / 4))
+
+
+def b15_walls():
+    """The tunnel's cast concrete panels: one fine-aggregate ground shared by every version and every seam kind (no
+    formwork sine, no grain of noise), three versions differing in grain and the odd bug hole, a fourth with a faint
+    efflorescence run in one block in eight; the panel seams cut in as recessed joints (shadow, lit lip). The ceiling:
+    darker concrete with no board lines, three versions turned at random."""
+    base = OLD_MEAN["wall-plain"]
+    # (round 2) each version its own aggregate and pores (the shared ground had made every panel the same speckle), its
+    # broad field blended to one shared ground toward the edges (matlib.turn_safe) so any two still meet
+    ground = M.noise_hv(base, 0, seed_of("b15hubwallground"), mottle=5, cells=(16, 8), hue=1.0)
+    for k in range(4):
+        img = M.concrete(seed_of(f"b15hubwallv{k}"), base=base, grain=2, mottle=6, aggregate=0.010, pores=0.004,
+                         patches=3, patch_hue=1.0, hue=1.2)
+        M.turn_safe(img, ground, band=8, keep=0.7)
+        rng = random.Random(seed_of(f"b15hubwallholes{k}"))
+        for _ in range(3):  # bug holes: a dark pit with a lit lower lip
+            x, y = rng.randrange(2, S - 2), rng.randrange(2, S - 3)
+            M.touch(img, x, y, -0.20)
+            M.touch(img, x, y + 1, 0.05)
+        if k == 3:  # a pale run of efflorescence down from a hairline (one block in ten)
+            x0 = rng.randrange(8, 24)
+            for y in range(4, 26):
+                t = (1 - (y - 4) / 22) * 0.08
+                for dx in (-1, 0, 1):
+                    M.touch(img, x0 + dx + (y // 9), y, t * (1 if dx == 0 else 0.5))
+        img = matched(img, "wall-plain", share="wall")
+        for seam in ("plain", "left", "bottom", "corner"):
+            v = img.copy()
+            if seam in ("left", "corner"):
+                groove_left(v)
+            if seam in ("bottom", "corner"):
+                groove_bottom(v)
+                tie_hole(v, 16, 24)  # the form ties along the panel's lowest lift: a row of them every 3 blocks up
+            save_tex(v, f"wall-{seam}" if k == 0 else f"wall-{seam}-{k + 1}")
+    for seam in ("plain", "left", "bottom", "corner"):
+        VERSIONS[f"wall-{seam}"] = [f"wall-{seam}", f"wall-{seam}-2", f"wall-{seam}-3"] * 3 + [f"wall-{seam}-4"]
+    # The false wall: a plain panel whose joints sit 3 px off, so they meet nothing
+    v = b15_fine(ground.copy(), seed_of("b15hubfalse"), 2.2, 1.5)
+    v = matched(v, "wall-false")
+    groove_left(v, 3)
+    groove_bottom(v, S - 4)
+    save_tex(v, "wall-false")
+    # Ceiling
+    cbase = OLD_MEAN["ceiling"]
+    cground = M.noise_hv(cbase, 0, seed_of("b15hubceilground"), mottle=5, cells=(16, 8), hue=1.0)
+    for k in range(3):
+        img = M.concrete(seed_of(f"b15hubceil{k}"), base=cbase, grain=3, mottle=6, aggregate=0.03, pores=0.006,
+                         patches=3, patch_hue=0.8, hue=1.0)
+        M.turn_safe(img, cground, band=8, keep=0.6)
+        save_tex(matched(img, "ceiling"), "ceiling" if k == 0 else f"ceiling-{k + 1}")
+    VERSIONS["ceiling"] = ["ceiling", "ceiling-2", "ceiling-3"]
+
+
+def b15_road():
+    """Asphalt with a real aggregate (matlib.asphalt) in the old dark tone, three versions on one ground, turned; the
+    worn lanes polished smooth and lighter; the patch an irregular tar blot sealed at its edge (never a square); the
+    sidewalk and kerb as cast slabs with a recessed joint."""
+    base = OLD_MEAN["asphalt-plain"]
+    ground = M.noise_hv((66, 65, 64), 0, seed_of("b15hubasphground"), mottle=4, cells=(16, 8), hue=0.8)
+
+    def asph(seed, chip=(6, 20), binder=0.4):
+        img = M.asphalt(seed, base=(66, 65, 64), grain=2, mottle=5, aggregate=0.24, binder=binder, chip=chip, pits=0.006,
+                        shadow=0.08)
+        M.turn_safe(img, ground, band=8, keep=0.6)
+        return img
+    for k in range(3):
+        save_tex(matched(asph(seed_of(f"b15hubasph{k}")), "asphalt-plain"), "asphalt-plain" if k == 0 else f"asphalt-plain-{k + 1}")
+    VERSIONS["asphalt-plain"] = ["asphalt-plain", "asphalt-plain-2", "asphalt-plain-3"]
+    for k in range(2):
+        img = asph(seed_of(f"b15hubworn{k}"), chip=(4, 14), binder=0.2)
+        p = img.load()
+        for y in range(S):
+            for x in range(S):
+                p[x, y] = M.rgba(M.mix(p[x, y][:3], T.mean_rgb(img), 0.25))
+        save_tex(matched(img, "asphalt-worn"), "asphalt-worn" if k == 0 else "asphalt-worn-2")
+    VERSIONS["asphalt-worn"] = ["asphalt-worn", "asphalt-worn-2"]
+    for k in range(2):
+        img = matched(asph(seed_of(f"b15hubpatch{k}")), "asphalt-plain", share="asphalt-plain")
+        rng = random.Random(seed_of(f"b15hubpatchblob{k}"))
+        field = M.fbm((S, S), seed_of(f"b15hubpatchf{k}"), (8, 4), 0.5)
+        cx, cy = (11.5, 19.0) if k == 0 else (20.5, 12.5)  # (round 2) off centre, and different in each version
+        p = img.load()
+        tar = (27, 26, 26)
+        for y in range(S):
+            for x in range(S):
+                r = math.hypot((x - cx) / 9.0, (y - cy) / 7.5) + 0.25 * field[y][x]
+                if r < 1:  # the tar, glossy and almost without stones
+                    p[x, y] = M.rgba(M.lift(M.mix(p[x, y][:3], tar, 0.82), rng.uniform(-1.5, 1.5)))
+                elif r < 1.12:  # its sealed rim, a little raised and lit on the far side
+                    p[x, y] = M.rgba(M.mix(p[x, y][:3], (36, 35, 34), 0.6))
+                    if y > cy:
+                        M.touch(img, x, y, 0.10)
+        save_tex(img, "asphalt-patch" if k == 0 else "asphalt-patch-2")
+    VERSIONS["asphalt-patch"] = ["asphalt-patch", "asphalt-patch-2"]
+    img = M.concrete(seed_of("b15hubsidewalk"), base=OLD_MEAN["sidewalk"], grain=3, mottle=5, aggregate=0.04, pores=0.01,
+                     patches=2, hue=1.0)
+    img = matched(img, "sidewalk")
+    groove_left(img, 0, -0.22, 0.08)
+    for x in range(S):  # the joint along the top edge: in shade on its far side, the near lip lit
+        M.touch(img, x, 0, -0.22)
+        M.touch(img, x, 1, 0.07)
+    save_tex(img, "sidewalk")
+    img = M.concrete(seed_of("b15hubkerb"), base=OLD_MEAN["kerb"], grain=3, mottle=5, aggregate=0.04, pores=0.01, hue=1.0)
+    img = matched(img, "kerb")
+    for x in range(S):  # the arris: worn round and lit
+        M.touch(img, x, 0, 0.16)
+        M.touch(img, x, 1, 0.07)
+    M.grime(img, 0.18, seed_of("b15hubkerbgrime"), color=(70, 66, 60), cells=(8, 4), bias="bottom", cover=0.6)
+    save_tex(img, "kerb")
+
+
+def b15_fixtures():
+    """The lamp's painted housing and steel cage, the jet fans' galvanising."""
+    img = M.painted_metal(seed_of("b15hublamp"), base=OLD_MEAN["lamphousing"], panel=False, chips=4, under=(92, 88, 80), grain=3)
+    save_tex(matched(img, "lamphousing"), "lamphousing")
+    img = M.painted_metal(seed_of("b15hubcage"), base=OLD_MEAN["cage"], panel=False, chips=2, under=(150, 146, 136), grain=2)
+    save_tex(matched(img, "cage"), "cage")
+    save_tex(matched(M.galvanised(seed_of("b15hubgalv"), base=OLD_MEAN["galvanised"], spangle=10), "galvanised"), "galvanised")
+    save_tex(matched(M.galvanised(seed_of("b15hubgalvd"), base=OLD_MEAN["galvanised-dark"], spangle=8), "galvanised-dark"), "galvanised-dark")
+
+
+def tooled(seed, base):
+    """Dressed stone: fine aggregate, and the short parallel strokes of a claw chisel in patches, each stroke lit on one
+    side; the same strokes in every depth's version, so the carving's faces are one stone."""
+    img = M.concrete(seed, base=base, grain=3, mottle=4, aggregate=0.03, pores=0.004, hue=1.0)
+    rng = random.Random(M.sub(seed, "tool"))
+    for _ in range(26):
+        x0, y0 = rng.randrange(S), rng.randrange(S)
+        ang = rng.choice((0.6, 0.75, 2.4, 2.55))
+        for j in range(rng.randint(2, 4)):
+            for i in range(rng.randint(3, 5)):
+                x = x0 + math.cos(ang) * i - math.sin(ang) * j * 2
+                y = y0 + math.sin(ang) * i + math.cos(ang) * j * 2
+                M.touch(img, int(x), int(y), -0.06)
+                M.touch(img, int(x), int(y) + 1, 0.03)
+    return img
+
+
+def b15_doors():
+    """The level doors' cast slab, frame and sill as smooth concrete (a finer, warmer mix than the walls, its damp
+    creeping up from the sill); the carving's faces as dressed stone at the old depths' tones (the recess still the
+    darkest, so the sigils read from across the road); brass; the service door's chipped grey paint; dark oiled oak."""
+    leaf = M.concrete(seed_of("b15hubleaf"), base=OLD_MEAN["doorleaf"], grain=2, mottle=5, aggregate=0.02, pores=0.004,
+                      patches=2, hue=1.0)
+    rng = random.Random(seed_of("b15leafgrain"))
+    for y in range(S):  # (round 2) the shutter's fine horizontal grain, which set the slab apart from the walls
+        f = 0.022 * math.sin(y * 1.9 + rng.uniform(0, 0.6)) + (0.012 if y % 4 == 0 else 0)
+        for x in range(S):
+            M.touch(leaf, x, y, f)
+    save_tex(matched(leaf.copy(), "doorleaf"), "doorleaf")
+    low = matched(leaf.copy(), "doorleaf")
+    px = low.load()
+    rng = random.Random(seed_of("b15damp"))
+    field = M.fbm((S, S), seed_of("b15dampf"), (8, 4), 0.5)
+    for x in range(S):
+        top = 14 + 4 * math.sin(x * 2 * math.pi / S * 2) + 2 * field[0][x]
+        for y in range(S):
+            if y >= top:
+                t = min(1, (y - top) / 10) * 0.30 + 0.03 * field[y][x]
+                px[x, y] = M.rgba(M.mix(px[x, y][:3], (74, 76, 68), max(0, t)))
+            elif y >= top - 1.5:  # the tide line, a shade darker
+                M.touch(low, x, y, -0.05)
+    save_tex(low, "doorleaf-low")
+    for key in ("doorframe", "doorsill"):
+        img = M.concrete(seed_of("b15hub" + key), base=OLD_MEAN[key], grain=3, mottle=5, aggregate=0.04, pores=0.01, hue=1.0)
+        save_tex(matched(img, key), key)
+    stone = tooled(seed_of("b15hubcarved"), OLD_MEAN["carved"])
+    for key in ("carved", "carved-deep", "carved-recess", "carved-relief"):
+        img = stone.copy()
+        if key == "carved-relief":
+            b15_fine(img, seed_of("b15relief"), 1.0)
+        save_tex(matched(img, key), key)
+    img = M.brushed_metal(seed_of("b15hubbrass"), base=OLD_MEAN["brass"], grain=4, streak=7, sheen=8)
+    T.blotch(img, (24, 24), 7, (70, 86, 60), 0.28, seed_of("verdigris"))
+    save_tex(matched(img, "brass"), "brass")
+    img = M.painted_metal(seed_of("b15hubservice"), base=OLD_MEAN["servicesteel"], panel=False, chips=5, under=(96, 80, 64), grain=3)
+    save_tex(matched(img, "servicesteel"), "servicesteel")
+    img = M.painted_metal(seed_of("b15hubsframe"), base=OLD_MEAN["serviceframe"], panel=False, chips=3, under=(84, 72, 60), grain=3)
+    save_tex(matched(img, "serviceframe"), "serviceframe")
+    save_tex(matched(M.brushed_metal(seed_of("b15hubpush"), base=OLD_MEAN["pushbar"]), "pushbar"), "pushbar")
+    img = M.wood_planks(seed_of("b15huboak"), base=(96, 66, 44), planks=3, direction="v", grain=4, contrast=0.8, knots=0,
+                        joints=0, flecks=0.6, per_plank=5)
+    img = matched(img, "oak")
+    save_tex(img, "oak")
+    save_tex(tint(img.copy(), 1.18), "oak-light")
+
+
+def b15_tower():
+    """The Tower's ashlar as real stones: two courses a block in running bond (the old joints), each stone its own tone
+    and a hair of hue, a lit top arris, the joint recessed; three versions by tone, picked by height too; the worn kind
+    grimier, its arrises chipped."""
+    for k in range(3):
+        img = M.brick(seed_of("b15ashlar"), base=(216, 209, 194), mortar=(176, 168, 152), course=16, length=32,
+                      offset=0.5, mortar_w=1, jitter=6, hue=2, recess=0.6, pits=0.006, grain=3, mottle=5,
+                      tones=seed_of(f"b15ashlartones{k}"))
+        m = T.mean_rgb(img)  # a fine-dressed limestone: the arris and joint a little quieter than a brick's
+        p = img.load()
+        for y in range(S):
+            for x in range(S):
+                c = p[x, y]
+                p[x, y] = M.rgba([m[i] + (c[i] - m[i]) * 0.72 for i in range(3)])
+        save_tex(matched(img, "ashlar-plain", share="ashlar"), "ashlar-plain" if k == 0 else f"ashlar-plain-{k + 1}")
+        worn = img.copy()
+        M.grime(worn, 0.14, seed_of(f"b15ashlargrime{k}"), color=(130, 120, 100), cells=(8, 4), cover=0.5)
+        rng = random.Random(seed_of(f"b15ashlarchips{k}"))
+        for _ in range(7):  # chipped arrises along the joints
+            x, y = rng.randrange(S), rng.choice((1, 17))
+            M.touch(worn, x, y, -0.10)
+            M.touch(worn, x + 1, y, -0.07)
+        save_tex(matched(worn, "ashlar-worn", share="ashlarworn"), "ashlar-worn" if k == 0 else f"ashlar-worn-{k + 1}")
+    VERSIONS["ashlar-plain"] = ["ashlar-plain", "ashlar-plain-2", "ashlar-plain-3"]
+    VERSIONS["ashlar-worn"] = ["ashlar-worn", "ashlar-worn-2", "ashlar-worn-3"]
+
+
+def b15_textures():
+    b15_walls()
+    b15_road()
+    b15_fixtures()
+    b15_doors()
+    b15_tower()

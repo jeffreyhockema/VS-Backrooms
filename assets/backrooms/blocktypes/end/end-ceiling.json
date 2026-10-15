@@ -24,12 +24,25 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/end/ceiling-plain"
+				"base": "block/end/ceiling-plain",
+				"alternates": [
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					}
+				]
 			}
 		},
 		"*-stained": {
 			"all": {
-				"base": "block/end/ceiling-stained"
+				"base": "block/end/ceiling-stained",
+				"alternates": [
+					{
+						"base": "block/end/ceiling-stained-2"
+					}
+				]
 			}
 		},
 		"*-missing": {
