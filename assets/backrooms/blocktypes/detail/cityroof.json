@@ -22,7 +22,51 @@
 	"texturesByType": {
 		"*-gravel": {
 			"all": {
-				"base": "block/detail/cityroof"
+				"base": "block/detail/cityroof",
+				"alternates": [
+					{
+						"base": "block/detail/cityroof",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/cityroof",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/cityroof",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/cityroof-2"
+					},
+					{
+						"base": "block/detail/cityroof-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/cityroof-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/cityroof-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/cityroof-3"
+					},
+					{
+						"base": "block/detail/cityroof-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/cityroof-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/cityroof-3",
+						"rotation": 270
+					}
+				]
 			}
 		}
 	},

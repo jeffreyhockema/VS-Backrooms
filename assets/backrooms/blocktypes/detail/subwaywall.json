@@ -22,7 +22,33 @@
 	"texturesByType": {
 		"*-tile": {
 			"all": {
-				"base": "block/detail/subwaywall-tile"
+				"base": "block/detail/subwaywall-tile",
+				"alternates": [
+					{
+						"base": "block/detail/subwaywall-tile"
+					},
+					{
+						"base": "block/detail/subwaywall-tile"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-2"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-2"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-3"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-3"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-3"
+					},
+					{
+						"base": "block/detail/subwaywall-tile-4"
+					}
+				]
 			}
 		},
 		"*-ceiling": {

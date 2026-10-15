@@ -1,0 +1,377 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cityframe-white": "backrooms:block/detail/cityframe-white",
+		"citypane-brick-lit": "backrooms:block/detail/citypane-brick-lit",
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"facade-brick-wall": "backrooms:block/detail/facade-brick-wall",
+		"pier-brick": "backrooms:block/detail/pier-brick"
+	},
+	"elements": [
+		{
+			"name": "WallL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.75,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						15.25,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-brick",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-brick",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "WallR",
+			"from": [
+				15.25,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"east": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#facade-brick-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						15.25,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-brick",
+					"uv": [
+						15.25,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-brick",
+					"uv": [
+						15.25,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Room",
+			"from": [
+				0.75,
+				0,
+				1.5
+			],
+			"to": [
+				15.25,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#citypane-brick-lit",
+					"uv": [
+						0.75,
+						0,
+						15.25,
+						16
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0.75,
+						0,
+						15.25,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-brick",
+					"uv": [
+						0.75,
+						1.5,
+						15.25,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-brick",
+					"uv": [
+						0.75,
+						0,
+						15.25,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL",
+			"from": [
+				0.75,
+				0,
+				1.0
+			],
+			"to": [
+				2.75,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-white",
+					"uv": [
+						13.25,
+						0,
+						15.25,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityframe-white",
+					"uv": [
+						14.5,
+						0,
+						15.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR",
+			"from": [
+				13.25,
+				0,
+				1.0
+			],
+			"to": [
+				15.25,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-white",
+					"uv": [
+						0.75,
+						0,
+						2.75,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityframe-white",
+					"uv": [
+						1.0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailB",
+			"from": [
+				2.75,
+				0,
+				1.0
+			],
+			"to": [
+				13.25,
+				1.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						14.5,
+						13.25,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						1.0,
+						13.25,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				2.75,
+				14.5,
+				1.0
+			],
+			"to": [
+				13.25,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						0,
+						13.25,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						14.5,
+						13.25,
+						15.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar",
+			"from": [
+				2.75,
+				7.5,
+				1.25
+			],
+			"to": [
+				13.25,
+				8.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						7.5,
+						13.25,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						1.25,
+						13.25,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#cityframe-white",
+					"uv": [
+						2.75,
+						14.5,
+						13.25,
+						14.75
+					]
+				}
+			}
+		}
+	]
+}

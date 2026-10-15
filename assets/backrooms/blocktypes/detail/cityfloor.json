@@ -23,12 +23,28 @@
 	"texturesByType": {
 		"*-marble": {
 			"all": {
-				"base": "block/detail/cityfloor-marble"
+				"base": "block/detail/cityfloor-marble",
+				"alternates": [
+					{
+						"base": "block/detail/cityfloor-marble-2"
+					},
+					{
+						"base": "block/detail/cityfloor-marble-3"
+					}
+				]
 			}
 		},
 		"*-plaza": {
 			"all": {
-				"base": "block/detail/cityfloor-plaza"
+				"base": "block/detail/cityfloor-plaza",
+				"alternates": [
+					{
+						"base": "block/detail/cityfloor-plaza-2"
+					},
+					{
+						"base": "block/detail/cityfloor-plaza-3"
+					}
+				]
 			}
 		},
 		"*-garage": {

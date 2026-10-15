@@ -210,5 +210,39 @@
 				"var": 1
 			}
 		}
-	]
+	],
+	"textures": {
+		"billboard-almond": {
+			"base": "block/detail/billboard-almond",
+			"alternates": [
+				{
+					"base": "block/detail/billboard-almond-2"
+				}
+			]
+		},
+		"billboard-city": {
+			"base": "block/detail/billboard-city",
+			"alternates": [
+				{
+					"base": "block/detail/billboard-city-2"
+				}
+			]
+		},
+		"billboard-diner": {
+			"base": "block/detail/billboard-diner",
+			"alternates": [
+				{
+					"base": "block/detail/billboard-diner-2"
+				}
+			]
+		},
+		"billboard-stripped": {
+			"base": "block/detail/billboard-stripped",
+			"alternates": [
+				{
+					"base": "block/detail/billboard-stripped-2"
+				}
+			]
+		}
+	}
 }

@@ -128,6 +128,23 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B10) A broad sheen on a texture that is never turned wraps across block edges when it runs along (x + y) with
   period 32. An fbm sheen with 16 px cells read as vertical stripes.
 
+- (B12) A window recessed into a solid wall block (`lightAbsorption` 99, drawn as JSON) takes good light in its reveals
+  and on its pane; Level 11's façades read with real depth and no dark ring. Two things make it work. The opening must
+  leave its open sides to the neighbours (`sideopaqueByType` false on the outside face, up and down, and the ends of a
+  ribbon), so the blocks above and below draw the head and sill. And a part that stands proud of the wall (a cornice,
+  a string course) must stop short of the block's top plane (y 15.75), so it takes its own light, not the block
+  above's.
+- (B12) When a `cube_block` kind becomes a JSON model through `drawtypeByType`, remove its `texturesByType` entry: it is
+  an `all`, and it paints every part of the model with one texture. Round 1's subway sleepers and rails all showed
+  ballast, and were graded D.
+- (B12) A floor whose joints are drawn along two edges only (top and left) cannot be turned. A turned block doubles a
+  joint or loses one, and the grid goes uneven. Turn only surfaces whose edges are symmetric.
+- (B12) A modelled window narrower than the painted one read to the blind reviewer as a change of the buildings' look.
+  Keep the old opening's width and the frame's colour and breadth, and add only depth.
+- (B12) Two of six client runs came out 45-135 levels darker in every shot (the B10 darkness; the chat log was
+  normal). Retakes minutes later were normal. A billboard on a low roof stands behind its parapet from the street, so
+  it is shot from the parapet (feet at roof + 2).
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -145,8 +162,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B9 Levels 6 and 6.1 | gfx/B9 | merged | 2 | mall wall C+ (row repeat is layout), shop windows C and skylights C+ (lights stay cubes), L6 wet floor C+ | passed 2026-10-14 21:30 (Fable): shelves, counters and kitchen verified as geometry; chalk lettering restored |
 | B10 Levels 7 and 8 | gfx/B10 | merged | 2 | island rock C+ (facets need ~30 levels of joint contrast: follow-up), sea ceiling C+, glowcaps C+, wing chair fabric, seeps untouched | passed 2026-10-14 23:40 (Fable): repeat gone, furniture and lamps at B; user decides |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
-| B12 Level 11 | gfx/B12 | in progress | | | |
-| B13 Levels 37 and 94 | | not started | | | |
+| B12 Level 11 | gfx/B12 | merged | 2 | mirror glass (lore), roofs C+, asphalt C+, traffic-light fronts unseen, lobby marble C+; shelter, dumpster, booth, cart, bench, doors untouched | passed 2026-10-15 00:40 (Fable): façade windows and bands verified as geometry at the old look |
+| B13 Levels 37 and 94 | gfx/B13 | in progress | | | |
 | B14 Level ! and Fun | | not started | | | |
 | B15 The End and The Hub | | not started | | | |
 | B16 974, 3999, 188 | | not started | | | |
@@ -1408,3 +1425,132 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B10` from `main` (57a80d2), uncomm
 - **New in `gen_shapes`:** `wardrobe_b10`, `wing_chair_b10`.
 
 **Lessons:** four lines added above.
+
+### B12
+
+Worker report (Opus, 2026-10-15). Branch `gfx/B12` from `main` (16c5f56), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), then fixes and one reshoot. After the reshoot, one more fix (the pavers stopped turning, the gravel calmed) was checked by retaking the six spots it touches. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b12/compare-round2.jpg`: every spot.
+  - `review/b12/compare-round2-detail-a.jpg`: the façades at twice the size.
+  - `review/b12/compare-round2-detail-b.jpg`: roofs, props, asphalt, floors, the subway and the diner at twice the size.
+  - Shots: `review/b12/final`. Six of them (close-floor, threshold-wide, bench-close, billboard-roof-close, billboard-roof-wide, wide-01) come from the retake in `review/b12/final-fix`; the round-2 run as shot is kept in `final-r2`.
+  - Round 1: `review/b12/compare-round1*.jpg`, with its shots in `review/b12/after/`.
+- **Per-family pairs:** `review/b12/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B12.json`. The B12 section is added to `review/compare.html`.
+- **Decision table:** twelve rows added to `decisions.md`, decision column empty. Each row says how to revert its family: every B12 painter runs after the old one under the same keys, so dropping one call from `gen_city.generate_textures` reverts that family's textures.
+- **Offline evidence** (`review/b12/offline/`):
+  - `tex-*-{before,after}.png`: texsheets of the façades, streets, subway and props.
+  - `tex-round2.png`
+  - `preview-facades*.png`: a stretch of each façade style, main beside the tree.
+  - `preview-props.png`, `preview-tall.png`, `preview-heads.png`: the tracks, lamp, traffic light and street light.
+  - `pair*-*.jpg`: in-game before and after pairs, stacked.
+  - `harness/`
+  - The scratch tools in `tools/`: `findspots_b12.py`, `map_at.py`, `depthmap.py`, `billboards.py`, `facade_scene.py`, `heads.py`, `addspots_b12.py`, `churn.py`, `docs_b12.py`, `tracker_b12.py`.
+
+**Checks**
+- **Build:** 0 warnings and 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir). `build-gfxbase` was built from unchanged `main` before any edit.
+- **`layouthash`:** v1 and v4 are unchanged against main's output, line for line, in both rounds. No C# changed; `DetailBlocks.g.cs` and `lang/en.json` are unchanged.
+- **`validatelevel 11`** (24 cells): no doorways to nowhere, no bad elevators, and no decor facing walls. One doorway is blocked by a prop. That is main's output, since no C# changed.
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. The changes are shapes, texture lists, new texture keys, `drawtypeByType`, `shapeByType` and `sideopaqueByType`. `cityfacade`'s brick, limestone and concrete windows and its brick and limestone bands now draw as JSON, as do `subwayfloor`'s two track kinds. Everything was shot in `gfxreview`, with no new world.
+- **`check_zfight`:** no same-shape pairs on any new or changed shape. The neighbour flags left are the cornice and string-course ends and the sleeper ends, in the air in front of or above their block.
+- **Churn:** line endings and the `exitlintel*` key order were restored from git. The full regeneration leaves every other generator's output byte-identical.
+- **Brightness:** every final shot is within 6.3 levels of the new baseline (`review/b12/luma-final.txt`). The largest drops, -6.3 on facade-stone-close and -4.3 on facade-brick-close, are the window reveals' shade.
+- **Texture keys:** every new key was checked against all generators.
+  - New keys: `citypane-*`, `cityframe-*`, `citycornice`, `cityroof-2/-3`, `cityfloor-plaza-2/-3`, `cityfloor-marble-2/-3`, `facade-{brick,brickdark,stone,concrete}-wall-2/-3`, `facade-glass-window-2/-3`, `subwaywall-tile-2..4`, `subwaysleeper`, `subwayrail`, `subwayrailtop`, `billboard-*-2`.
+  - Old keys the models no longer use (still written): `facade-{brick,brickdark,stone,concrete}-{window,lit,blinds}`.
+  - Shared paint that changed with the same mean: `trafficyellow` (also Level 94's prop sides, `gen_motion`) and `streetgreen` (also Level 9's sign poles).
+
+**Baseline and spots**
+- `review/baseline/11` was reshot on `build-gfxbase`; the B0 set is kept in `review/baseline/11-b0`.
+  - A retake of three spots first (`review/b12/base-check`) matched B0 within 2.
+  - The first full baseline run came out dark everywhere (kept in `review/b12/baseline-dark`). The second matched B0 within 2.5.
+- **Re-spotted:** `refuge-wide`/`-close` were black. The refuge is inside a dark apartment, so they are now `-inspection` shots.
+- **Added** (`review/spots/11.json` and the docs copy), all found on the harness grid:
+  - a close-up of each façade style: `facade-brick-close`, `-brickdark-`, `-stone-`, `-concrete-`, `-glass-`, `-mirror-`;
+  - the diner: `shopfront-close`, `diner-inside`;
+  - the billboard from the substation's parapet: `billboard-roof-close`, `-wide`;
+  - `streetlight-close`, `bench-close` and `asphalt-close`;
+  - the subway: `subway-wide`, `-close`, `-tracks`.
+- **Moved after the first base frames:** `streetlight-close` and `subway-close`.
+- **Not added:**
+  - The mirror rim is at the city's edge, far from every spot. It shares `pier-mirror` with the towers' corners, which are in `facade-mirror-close`.
+  - There are no turnstiles in the layout.
+- The old `billboard-wide`/`-close` frame the substation's brick front. Its billboard stands behind the parapet from the street.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Brick façades (red, dark) | B (blind r1: B, B) | better | Bricks at the old units are shaded and in three versions. The sash windows are modelled: set back in brick reveals, with broad cream or green frames and a meeting rail. Round 2 restored the old width, after round 1's narrow slots read as a new look. The stone string course projects. |
+| Limestone façades | B (r1: B-) | better | Shaded ashlar in three versions; rusticated piers; windows set 2.5 units deep in pairs with bronze frames (round 2 widened them); the cornice is a crown and a dentil course as geometry. |
+| Concrete façades | B- (r1: C, a tie-hole grid) | better | Board-marked concrete. Round 2 removed the tie-hole grid; one hole is left, with a rust run, in one version in seven. The ribbon windows are geometry, and the lit ones show an office. |
+| Curtain glass, columns | B (r1: B) | better | The reflections vary across three versions under a shaded mullion and transom; the columns are brushed aluminium. The lit and blinds panes are still the same in every block. |
+| Mirror towers, rim | C (r1: C) | same | The panes are unchanged (lore). The corners and rim are black glass in a faint grid. Carried. |
+| Storefront fascia | B- (r1: C, a mark per panel) | slightly better | A painted board with a raised gilt bead. Round 2 removed the worn spot that printed in every panel. The green field is still plain paint. |
+| Roofs | C+ (r1: C) | same / slightly better | Shaded pebbles over tar, turned at random. Round 2 calmed them. Still no seams or flashing: carried. |
+| Billboard | B- (r1: D, the peeled corner) | better | Weathered frame, poster sheets, crisp small type, the city slogan redrawn. Round 2's second version is the same poster a summer older. The middle lamp hides part of the slogan from the parapet, as on main. |
+| Advertising pillar | B (r1: B) | better | Crisp poster type and painted green. The cap is unchanged. |
+| Traffic lights | C+ (r1: C, provisional) | slightly better | A back plate and hoods as geometry, and lenses without a black square. Only their backs and sides are in a shot. |
+| Street light | B- (r1: B-) | better | Stepped base with a door, collar, cap and brace; a cobra head with a skirt round a flush lens (`gen_deep`, shared with Level 9). |
+| Street props' faces and paint | B- / C | better (faces) | Newsbox, mailbox, meter, phone, cart and street-sign faces are in a pixel face. The paint is worn metal. The props are still the old boxes. |
+| Cracked asphalt, markings | C+ (r1: C) | better | The square patch is gone. A soft patch and cracks are now one cracked block in seven. The markings take the road's grain. The road itself is B7's. |
+| Plaza pavers | B- (r1: C, speckle) | same / slightly better | Shaded pavers with their own hue, in three versions. Round 2 calmed the speckle and stopped turning them (it doubled joints). |
+| Lobby marble | C+ | slightly better | Three cuts, so the same scribble is no longer in every block. Still the old veining style. |
+| Subway walls, sign, ad, lamps | B (r1: B) | better | Glazed tiles with grime one block in eight; a crisp station name; lamps caged with real bars. |
+| Subway platform and edge | B- (r1: B-, C) | better | Concrete platform. Round 2 raised the tactile domes. |
+| Subway tracks | B (r1: D, the texture bug) | much better | Timber sleepers and rails with a bright head as geometry. Round 1's blocktype `all` texture painted them as ballast. |
+| Diner | B (r1: B) | same | B9's fixtures; not changed. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given only the sheets, texsheets, previews and the rubric):
+   - **No change in:** brightness, z-fighting, holes (apart from the billboard corner) or layout.
+   - **Geometry:** the windows and cornices were seen as real geometry. The narrower openings were called a change of look.
+   - **D:**
+     - the subway tracks: sleepers and rails painted with the ballast (my texture bug);
+     - the billboard's peeled corner, which read as a missing chunk.
+   - **C:**
+     - the plaza speckle;
+     - the flat tactile strip;
+     - a new square mark in every fascia panel;
+     - the concrete tie-hole grid;
+     - the roofs, the plain road and the mirror glass.
+2. **Round 2 fixed:**
+   - the track textures;
+   - the billboard's second version and slogan;
+   - the window widths and frames;
+   - the fascia mark;
+   - the tie holes;
+   - the domes;
+   - the plaza speckle;
+   - the brick tones (a little less orange, the dark brick warmer);
+   - the overflowing stencils.
+
+   I reshot once. Then the pavers' doubled joints, seen in the round-2 frames, were fixed (not turned) and the gravel calmed, and those six spots were retaken. The retake's first run was dark (`review/b12/final-fix-dark`), the second normal.
+
+**Carried below B, with reasons**
+- **Mirror glass (C):** the lore's plain black panes (visual-review.md); only the corners and rim changed.
+- **Roofs (C+):** pebbles with no seams or flashing. Roofs are seen mostly from the parapet spots.
+- **Asphalt (C+):** B7's road, judged plain by the reviewer. B12 changed only the cracked floor's mix and the markings.
+- **Traffic lights (C+):** no spot shows their front. The yellow housing is painted metal over the old boxes.
+- **Lobby marble (C+):** `texlib.marble`'s worm-like veins. Three cuts now, but the same style.
+- **Not touched:**
+  - the bus shelter, dumpster, phone booth and vendor cart models (their faces and paint changed);
+  - the bench and trash can (gen_detail, shared);
+  - the stained glass;
+  - the row-house and steel doors, which are still cubes (only their paint and stencils changed);
+  - the cinema;
+  - the water tanks and AC units (paint only);
+  - the mirror rim, which is in no shot.
+- The maintenance door's stencil now reads STAFF ONLY. AUTHORIZED PERSONNEL does not fit a block in crisp type.
+
+**Tool changes:** none to shared tools.
+- **New in `gen_city`:** the B12 section:
+  - `OLD_MEAN`, `matched`, the pixel faces `CITY_F5`/`CITY_F3` with `ptext`/`ptext_c`, `painted_board`;
+  - the painters `b12_brick`, `b12_glass`, `b12_windows`, `b12_stone`, `b12_concrete`, `b12_fascia_roof_plaster`, `b12_streets`, `b12_subway`, `b12_props`, `b12_posters`, `b12_doors`;
+  - the models `wbox` (world-aligned UVs), `window_shape`, `band_shape`, `WALL_ALTS`;
+  - the track and lamp models;
+  - the `asphalt.json` cracked mix.
+- **`gen_deep.streetlight`:** the new model (B11's generator; shared with Level 9).
+- **`gen_detail.TURNED`/`ALTS`:** entries are added from `gen_city.facades` for the roofs, pavers, marble and subway tiles.
+
+**Lessons:** five lines added above.

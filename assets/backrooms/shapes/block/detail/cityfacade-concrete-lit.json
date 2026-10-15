@@ -1,0 +1,205 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cityframe-alu": "backrooms:block/detail/cityframe-alu",
+		"citypane-concrete-lit": "backrooms:block/detail/citypane-concrete-lit",
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"pier-concrete": "backrooms:block/detail/pier-concrete"
+	},
+	"elements": [
+		{
+			"name": "Room",
+			"from": [
+				0,
+				0,
+				2.0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#citypane-concrete-lit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 150
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-concrete",
+					"uv": [
+						0,
+						2.0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-concrete",
+					"uv": [
+						0,
+						0,
+						16,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				0.75,
+				1.5
+			],
+			"to": [
+				0.75,
+				15.25,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						15.25,
+						0.75,
+						16,
+						15.25
+					]
+				},
+				"east": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						14.0,
+						0.75,
+						14.5,
+						15.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion2",
+			"from": [
+				8,
+				0.75,
+				1.5
+			],
+			"to": [
+				8.75,
+				15.25,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						7.25,
+						0.75,
+						8,
+						15.25
+					]
+				},
+				"east": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						14.0,
+						0.75,
+						14.5,
+						15.25
+					]
+				},
+				"west": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						1.5,
+						0.75,
+						2.0,
+						15.25
+					]
+				}
+			}
+		},
+		{
+			"name": "RailB",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				0.75,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						0,
+						15.25,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						0,
+						1.5,
+						16,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				0,
+				15.25,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#cityframe-alu",
+					"uv": [
+						0,
+						14.0,
+						16,
+						14.5
+					]
+				}
+			}
+		}
+	]
+}

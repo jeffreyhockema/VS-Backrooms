@@ -1,4 +1,4 @@
-// The Endless City's façades: the style on the outside face, plaster within
+// The Endless City's façades: the style on the outside face, plaster within; the brick, limestone and concrete windows and the brick and limestone bands are modelled (graphics pass B12)
 {
 	"code": "cityfacade",
 	"variantgroups": [
@@ -43,6 +43,700 @@
 	},
 	"blockmaterial": "Stone",
 	"drawtype": "cube",
+	"drawtypeByType": {
+		"*-brick-window-north": "json",
+		"*-brick-window-east": "json",
+		"*-brick-window-south": "json",
+		"*-brick-window-west": "json",
+		"*-brick-lit-north": "json",
+		"*-brick-lit-east": "json",
+		"*-brick-lit-south": "json",
+		"*-brick-lit-west": "json",
+		"*-brick-blinds-north": "json",
+		"*-brick-blinds-east": "json",
+		"*-brick-blinds-south": "json",
+		"*-brick-blinds-west": "json",
+		"*-brick-band-north": "json",
+		"*-brick-band-east": "json",
+		"*-brick-band-south": "json",
+		"*-brick-band-west": "json",
+		"*-brickdark-window-north": "json",
+		"*-brickdark-window-east": "json",
+		"*-brickdark-window-south": "json",
+		"*-brickdark-window-west": "json",
+		"*-brickdark-lit-north": "json",
+		"*-brickdark-lit-east": "json",
+		"*-brickdark-lit-south": "json",
+		"*-brickdark-lit-west": "json",
+		"*-brickdark-blinds-north": "json",
+		"*-brickdark-blinds-east": "json",
+		"*-brickdark-blinds-south": "json",
+		"*-brickdark-blinds-west": "json",
+		"*-brickdark-band-north": "json",
+		"*-brickdark-band-east": "json",
+		"*-brickdark-band-south": "json",
+		"*-brickdark-band-west": "json",
+		"*-stone-window-north": "json",
+		"*-stone-window-east": "json",
+		"*-stone-window-south": "json",
+		"*-stone-window-west": "json",
+		"*-stone-lit-north": "json",
+		"*-stone-lit-east": "json",
+		"*-stone-lit-south": "json",
+		"*-stone-lit-west": "json",
+		"*-stone-blinds-north": "json",
+		"*-stone-blinds-east": "json",
+		"*-stone-blinds-south": "json",
+		"*-stone-blinds-west": "json",
+		"*-stone-band-north": "json",
+		"*-stone-band-east": "json",
+		"*-stone-band-south": "json",
+		"*-stone-band-west": "json",
+		"*-concrete-window-north": "json",
+		"*-concrete-window-east": "json",
+		"*-concrete-window-south": "json",
+		"*-concrete-window-west": "json",
+		"*-concrete-lit-north": "json",
+		"*-concrete-lit-east": "json",
+		"*-concrete-lit-south": "json",
+		"*-concrete-lit-west": "json",
+		"*-concrete-blinds-north": "json",
+		"*-concrete-blinds-east": "json",
+		"*-concrete-blinds-south": "json",
+		"*-concrete-blinds-west": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-brick-window-north": {
+			"base": "block/detail/cityfacade-brick-window",
+			"rotateY": 0
+		},
+		"*-brick-window-east": {
+			"base": "block/detail/cityfacade-brick-window",
+			"rotateY": 270
+		},
+		"*-brick-window-south": {
+			"base": "block/detail/cityfacade-brick-window",
+			"rotateY": 180
+		},
+		"*-brick-window-west": {
+			"base": "block/detail/cityfacade-brick-window",
+			"rotateY": 90
+		},
+		"*-brick-lit-north": {
+			"base": "block/detail/cityfacade-brick-lit",
+			"rotateY": 0
+		},
+		"*-brick-lit-east": {
+			"base": "block/detail/cityfacade-brick-lit",
+			"rotateY": 270
+		},
+		"*-brick-lit-south": {
+			"base": "block/detail/cityfacade-brick-lit",
+			"rotateY": 180
+		},
+		"*-brick-lit-west": {
+			"base": "block/detail/cityfacade-brick-lit",
+			"rotateY": 90
+		},
+		"*-brick-blinds-north": {
+			"base": "block/detail/cityfacade-brick-blinds",
+			"rotateY": 0
+		},
+		"*-brick-blinds-east": {
+			"base": "block/detail/cityfacade-brick-blinds",
+			"rotateY": 270
+		},
+		"*-brick-blinds-south": {
+			"base": "block/detail/cityfacade-brick-blinds",
+			"rotateY": 180
+		},
+		"*-brick-blinds-west": {
+			"base": "block/detail/cityfacade-brick-blinds",
+			"rotateY": 90
+		},
+		"*-brick-band-north": {
+			"base": "block/detail/cityfacade-brick-band",
+			"rotateY": 0
+		},
+		"*-brick-band-east": {
+			"base": "block/detail/cityfacade-brick-band",
+			"rotateY": 270
+		},
+		"*-brick-band-south": {
+			"base": "block/detail/cityfacade-brick-band",
+			"rotateY": 180
+		},
+		"*-brick-band-west": {
+			"base": "block/detail/cityfacade-brick-band",
+			"rotateY": 90
+		},
+		"*-brickdark-window-north": {
+			"base": "block/detail/cityfacade-brickdark-window",
+			"rotateY": 0
+		},
+		"*-brickdark-window-east": {
+			"base": "block/detail/cityfacade-brickdark-window",
+			"rotateY": 270
+		},
+		"*-brickdark-window-south": {
+			"base": "block/detail/cityfacade-brickdark-window",
+			"rotateY": 180
+		},
+		"*-brickdark-window-west": {
+			"base": "block/detail/cityfacade-brickdark-window",
+			"rotateY": 90
+		},
+		"*-brickdark-lit-north": {
+			"base": "block/detail/cityfacade-brickdark-lit",
+			"rotateY": 0
+		},
+		"*-brickdark-lit-east": {
+			"base": "block/detail/cityfacade-brickdark-lit",
+			"rotateY": 270
+		},
+		"*-brickdark-lit-south": {
+			"base": "block/detail/cityfacade-brickdark-lit",
+			"rotateY": 180
+		},
+		"*-brickdark-lit-west": {
+			"base": "block/detail/cityfacade-brickdark-lit",
+			"rotateY": 90
+		},
+		"*-brickdark-blinds-north": {
+			"base": "block/detail/cityfacade-brickdark-blinds",
+			"rotateY": 0
+		},
+		"*-brickdark-blinds-east": {
+			"base": "block/detail/cityfacade-brickdark-blinds",
+			"rotateY": 270
+		},
+		"*-brickdark-blinds-south": {
+			"base": "block/detail/cityfacade-brickdark-blinds",
+			"rotateY": 180
+		},
+		"*-brickdark-blinds-west": {
+			"base": "block/detail/cityfacade-brickdark-blinds",
+			"rotateY": 90
+		},
+		"*-brickdark-band-north": {
+			"base": "block/detail/cityfacade-brickdark-band",
+			"rotateY": 0
+		},
+		"*-brickdark-band-east": {
+			"base": "block/detail/cityfacade-brickdark-band",
+			"rotateY": 270
+		},
+		"*-brickdark-band-south": {
+			"base": "block/detail/cityfacade-brickdark-band",
+			"rotateY": 180
+		},
+		"*-brickdark-band-west": {
+			"base": "block/detail/cityfacade-brickdark-band",
+			"rotateY": 90
+		},
+		"*-stone-window-north": {
+			"base": "block/detail/cityfacade-stone-window",
+			"rotateY": 0
+		},
+		"*-stone-window-east": {
+			"base": "block/detail/cityfacade-stone-window",
+			"rotateY": 270
+		},
+		"*-stone-window-south": {
+			"base": "block/detail/cityfacade-stone-window",
+			"rotateY": 180
+		},
+		"*-stone-window-west": {
+			"base": "block/detail/cityfacade-stone-window",
+			"rotateY": 90
+		},
+		"*-stone-lit-north": {
+			"base": "block/detail/cityfacade-stone-lit",
+			"rotateY": 0
+		},
+		"*-stone-lit-east": {
+			"base": "block/detail/cityfacade-stone-lit",
+			"rotateY": 270
+		},
+		"*-stone-lit-south": {
+			"base": "block/detail/cityfacade-stone-lit",
+			"rotateY": 180
+		},
+		"*-stone-lit-west": {
+			"base": "block/detail/cityfacade-stone-lit",
+			"rotateY": 90
+		},
+		"*-stone-blinds-north": {
+			"base": "block/detail/cityfacade-stone-blinds",
+			"rotateY": 0
+		},
+		"*-stone-blinds-east": {
+			"base": "block/detail/cityfacade-stone-blinds",
+			"rotateY": 270
+		},
+		"*-stone-blinds-south": {
+			"base": "block/detail/cityfacade-stone-blinds",
+			"rotateY": 180
+		},
+		"*-stone-blinds-west": {
+			"base": "block/detail/cityfacade-stone-blinds",
+			"rotateY": 90
+		},
+		"*-stone-band-north": {
+			"base": "block/detail/cityfacade-stone-band",
+			"rotateY": 0
+		},
+		"*-stone-band-east": {
+			"base": "block/detail/cityfacade-stone-band",
+			"rotateY": 270
+		},
+		"*-stone-band-south": {
+			"base": "block/detail/cityfacade-stone-band",
+			"rotateY": 180
+		},
+		"*-stone-band-west": {
+			"base": "block/detail/cityfacade-stone-band",
+			"rotateY": 90
+		},
+		"*-concrete-window-north": {
+			"base": "block/detail/cityfacade-concrete-window",
+			"rotateY": 0
+		},
+		"*-concrete-window-east": {
+			"base": "block/detail/cityfacade-concrete-window",
+			"rotateY": 270
+		},
+		"*-concrete-window-south": {
+			"base": "block/detail/cityfacade-concrete-window",
+			"rotateY": 180
+		},
+		"*-concrete-window-west": {
+			"base": "block/detail/cityfacade-concrete-window",
+			"rotateY": 90
+		},
+		"*-concrete-lit-north": {
+			"base": "block/detail/cityfacade-concrete-lit",
+			"rotateY": 0
+		},
+		"*-concrete-lit-east": {
+			"base": "block/detail/cityfacade-concrete-lit",
+			"rotateY": 270
+		},
+		"*-concrete-lit-south": {
+			"base": "block/detail/cityfacade-concrete-lit",
+			"rotateY": 180
+		},
+		"*-concrete-lit-west": {
+			"base": "block/detail/cityfacade-concrete-lit",
+			"rotateY": 90
+		},
+		"*-concrete-blinds-north": {
+			"base": "block/detail/cityfacade-concrete-blinds",
+			"rotateY": 0
+		},
+		"*-concrete-blinds-east": {
+			"base": "block/detail/cityfacade-concrete-blinds",
+			"rotateY": 270
+		},
+		"*-concrete-blinds-south": {
+			"base": "block/detail/cityfacade-concrete-blinds",
+			"rotateY": 180
+		},
+		"*-concrete-blinds-west": {
+			"base": "block/detail/cityfacade-concrete-blinds",
+			"rotateY": 90
+		}
+	},
+	"sideopaqueByType": {
+		"*-brick-window-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-window-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-window-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-window-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-brick-lit-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-lit-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-lit-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-lit-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-brick-blinds-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-blinds-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-blinds-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brick-blinds-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-window-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-window-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-window-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-window-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-lit-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-lit-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-lit-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-lit-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-blinds-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-blinds-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-blinds-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-brickdark-blinds-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-stone-window-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-window-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-window-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-window-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-stone-lit-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-lit-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-lit-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-lit-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-stone-blinds-north": {
+			"north": false,
+			"east": true,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-blinds-east": {
+			"north": true,
+			"east": false,
+			"south": true,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-blinds-south": {
+			"north": true,
+			"east": true,
+			"south": false,
+			"west": true,
+			"up": false,
+			"down": false
+		},
+		"*-stone-blinds-west": {
+			"north": true,
+			"east": true,
+			"south": true,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-window-north": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-window-east": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-window-south": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-window-west": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-lit-north": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-lit-east": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-lit-south": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-lit-west": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-blinds-north": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-blinds-east": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-blinds-south": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*-concrete-blinds-west": {
+			"north": false,
+			"east": false,
+			"south": false,
+			"west": false,
+			"up": false,
+			"down": false
+		},
+		"*": {
+			"all": true
+		}
+	},
 	"texturesByType": {
 		"*-glass-wall-north": {
 			"north": {
@@ -126,7 +820,15 @@
 		},
 		"*-glass-window-north": {
 			"north": {
-				"base": "block/detail/facade-glass-window"
+				"base": "block/detail/facade-glass-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-glass-window-2"
+					},
+					{
+						"base": "block/detail/facade-glass-window-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -149,7 +851,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-glass-window"
+				"base": "block/detail/facade-glass-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-glass-window-2"
+					},
+					{
+						"base": "block/detail/facade-glass-window-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -172,7 +882,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-glass-window"
+				"base": "block/detail/facade-glass-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-glass-window-2"
+					},
+					{
+						"base": "block/detail/facade-glass-window-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -195,7 +913,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-glass-window"
+				"base": "block/detail/facade-glass-window",
+				"alternates": [
+					{
+						"base": "block/detail/facade-glass-window-2"
+					},
+					{
+						"base": "block/detail/facade-glass-window-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-glass"
@@ -1022,7 +1748,15 @@
 		},
 		"*-brick-wall-north": {
 			"north": {
-				"base": "block/detail/facade-brick-wall"
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -1045,7 +1779,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-brick-wall"
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -1068,7 +1810,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-brick-wall"
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -1091,7 +1841,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-brick-wall"
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-brick"
@@ -1101,328 +1859,392 @@
 			}
 		},
 		"*-brick-window-north": {
-			"north": {
-				"base": "block/detail/facade-brick-window"
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
 			},
-			"east": {
+			"citypane-brick-window": {
+				"base": "block/detail/citypane-brick-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brick-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brick-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-window-east": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-window": {
+				"base": "block/detail/citypane-brick-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brick-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brick-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brick-window"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-window-south": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-window": {
+				"base": "block/detail/citypane-brick-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brick-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brick-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brick-window"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-window-west": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-window": {
+				"base": "block/detail/citypane-brick-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brick-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brick-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brick-window"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-lit-north": {
-			"north": {
-				"base": "block/detail/facade-brick-lit"
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
 			},
-			"east": {
+			"citypane-brick-lit": {
+				"base": "block/detail/citypane-brick-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-lit-east": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-lit": {
+				"base": "block/detail/citypane-brick-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brick-lit"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-lit-south": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-lit": {
+				"base": "block/detail/citypane-brick-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brick-lit"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-lit-west": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-lit": {
+				"base": "block/detail/citypane-brick-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brick-lit"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-blinds-north": {
-			"north": {
-				"base": "block/detail/facade-brick-blinds"
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
 			},
-			"east": {
+			"citypane-brick-blinds": {
+				"base": "block/detail/citypane-brick-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-blinds-east": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-blinds": {
+				"base": "block/detail/citypane-brick-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brick-blinds"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-blinds-south": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-blinds": {
+				"base": "block/detail/citypane-brick-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brick-blinds"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-blinds-west": {
-			"north": {
+			"cityframe-white": {
+				"base": "block/detail/cityframe-white"
+			},
+			"citypane-brick-blinds": {
+				"base": "block/detail/citypane-brick-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brick-wall": {
+				"base": "block/detail/facade-brick-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brick-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brick-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brick-blinds"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-band-north": {
-			"north": {
+			"cityplaster": {
+				"base": "block/detail/cityplaster"
+			},
+			"facade-brick-band": {
 				"base": "block/detail/facade-brick-band"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-band-east": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
+			"facade-brick-band": {
 				"base": "block/detail/facade-brick-band"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-band-south": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
+			"facade-brick-band": {
 				"base": "block/detail/facade-brick-band"
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brick-band-west": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
+			"facade-brick-band": {
 				"base": "block/detail/facade-brick-band"
 			},
-			"up": {
-				"base": "block/detail/pier-brick"
-			},
-			"down": {
+			"pier-brick": {
 				"base": "block/detail/pier-brick"
 			}
 		},
 		"*-brickdark-wall-north": {
 			"north": {
-				"base": "block/detail/facade-brickdark-wall"
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -1445,7 +2267,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-brickdark-wall"
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -1468,7 +2298,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-brickdark-wall"
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -1491,7 +2329,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-brickdark-wall"
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-brickdark"
@@ -1501,328 +2347,392 @@
 			}
 		},
 		"*-brickdark-window-north": {
-			"north": {
-				"base": "block/detail/facade-brickdark-window"
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
 			},
-			"east": {
+			"citypane-brickdark-window": {
+				"base": "block/detail/citypane-brickdark-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brickdark-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brickdark-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-window-east": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-window": {
+				"base": "block/detail/citypane-brickdark-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brickdark-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brickdark-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brickdark-window"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-window-south": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-window": {
+				"base": "block/detail/citypane-brickdark-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brickdark-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brickdark-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brickdark-window"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-window-west": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-window": {
+				"base": "block/detail/citypane-brickdark-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-brickdark-window-2"
+					},
+					{
+						"base": "block/detail/citypane-brickdark-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brickdark-window"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-lit-north": {
-			"north": {
-				"base": "block/detail/facade-brickdark-lit"
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
 			},
-			"east": {
+			"citypane-brickdark-lit": {
+				"base": "block/detail/citypane-brickdark-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-lit-east": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-lit": {
+				"base": "block/detail/citypane-brickdark-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brickdark-lit"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-lit-south": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-lit": {
+				"base": "block/detail/citypane-brickdark-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brickdark-lit"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-lit-west": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-lit": {
+				"base": "block/detail/citypane-brickdark-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brickdark-lit"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-blinds-north": {
-			"north": {
-				"base": "block/detail/facade-brickdark-blinds"
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
 			},
-			"east": {
+			"citypane-brickdark-blinds": {
+				"base": "block/detail/citypane-brickdark-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-blinds-east": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-blinds": {
+				"base": "block/detail/citypane-brickdark-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-brickdark-blinds"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-blinds-south": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-blinds": {
+				"base": "block/detail/citypane-brickdark-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-brickdark-blinds"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-blinds-west": {
-			"north": {
+			"cityframe-green": {
+				"base": "block/detail/cityframe-green"
+			},
+			"citypane-brickdark-blinds": {
+				"base": "block/detail/citypane-brickdark-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-brickdark-wall": {
+				"base": "block/detail/facade-brickdark-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-brickdark-wall-2"
+					},
+					{
+						"base": "block/detail/facade-brickdark-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-brickdark-blinds"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-band-north": {
-			"north": {
+			"cityplaster": {
+				"base": "block/detail/cityplaster"
+			},
+			"facade-brickdark-band": {
 				"base": "block/detail/facade-brickdark-band"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-band-east": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
+			"facade-brickdark-band": {
 				"base": "block/detail/facade-brickdark-band"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-band-south": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
+			"facade-brickdark-band": {
 				"base": "block/detail/facade-brickdark-band"
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-brickdark-band-west": {
-			"north": {
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
+			"facade-brickdark-band": {
 				"base": "block/detail/facade-brickdark-band"
 			},
-			"up": {
-				"base": "block/detail/pier-brickdark"
-			},
-			"down": {
+			"pier-brickdark": {
 				"base": "block/detail/pier-brickdark"
 			}
 		},
 		"*-stone-wall-north": {
 			"north": {
-				"base": "block/detail/facade-stone-wall"
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -1845,7 +2755,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-stone-wall"
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -1868,7 +2786,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-stone-wall"
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -1891,7 +2817,15 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-stone-wall"
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-stone"
@@ -1901,328 +2835,419 @@
 			}
 		},
 		"*-stone-window-north": {
-			"north": {
-				"base": "block/detail/facade-stone-window"
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
 			},
-			"east": {
+			"citypane-stone-window": {
+				"base": "block/detail/citypane-stone-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-stone-window-2"
+					},
+					{
+						"base": "block/detail/citypane-stone-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-window-east": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-window": {
+				"base": "block/detail/citypane-stone-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-stone-window-2"
+					},
+					{
+						"base": "block/detail/citypane-stone-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-stone-window"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-window-south": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-window": {
+				"base": "block/detail/citypane-stone-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-stone-window-2"
+					},
+					{
+						"base": "block/detail/citypane-stone-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-stone-window"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-window-west": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-window": {
+				"base": "block/detail/citypane-stone-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-stone-window-2"
+					},
+					{
+						"base": "block/detail/citypane-stone-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-stone-window"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-lit-north": {
-			"north": {
-				"base": "block/detail/facade-stone-lit"
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
 			},
-			"east": {
+			"citypane-stone-lit": {
+				"base": "block/detail/citypane-stone-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-lit-east": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-lit": {
+				"base": "block/detail/citypane-stone-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-stone-lit"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-lit-south": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-lit": {
+				"base": "block/detail/citypane-stone-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-stone-lit"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-lit-west": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-lit": {
+				"base": "block/detail/citypane-stone-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-stone-lit"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-blinds-north": {
-			"north": {
-				"base": "block/detail/facade-stone-blinds"
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
 			},
-			"east": {
+			"citypane-stone-blinds": {
+				"base": "block/detail/citypane-stone-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-blinds-east": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-blinds": {
+				"base": "block/detail/citypane-stone-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-stone-blinds"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-blinds-south": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-blinds": {
+				"base": "block/detail/citypane-stone-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/facade-stone-blinds"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-blinds-west": {
-			"north": {
+			"cityframe-bronze": {
+				"base": "block/detail/cityframe-bronze"
+			},
+			"citypane-stone-blinds": {
+				"base": "block/detail/citypane-stone-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
+			"facade-stone-wall": {
+				"base": "block/detail/facade-stone-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-stone-wall-2"
+					},
+					{
+						"base": "block/detail/facade-stone-wall-3"
+					}
+				]
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-stone-blinds"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-band-north": {
-			"north": {
+			"citycornice": {
+				"base": "block/detail/citycornice"
+			},
+			"cityplaster": {
+				"base": "block/detail/cityplaster"
+			},
+			"facade-stone-band": {
 				"base": "block/detail/facade-stone-band"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-band-east": {
-			"north": {
+			"citycornice": {
+				"base": "block/detail/citycornice"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
+			"facade-stone-band": {
 				"base": "block/detail/facade-stone-band"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-band-south": {
-			"north": {
+			"citycornice": {
+				"base": "block/detail/citycornice"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
+			"facade-stone-band": {
 				"base": "block/detail/facade-stone-band"
 			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-stone-band-west": {
-			"north": {
+			"citycornice": {
+				"base": "block/detail/citycornice"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
+			"facade-stone-band": {
 				"base": "block/detail/facade-stone-band"
 			},
-			"up": {
-				"base": "block/detail/pier-stone"
-			},
-			"down": {
+			"pier-stone": {
 				"base": "block/detail/pier-stone"
 			}
 		},
 		"*-concrete-wall-north": {
 			"north": {
-				"base": "block/detail/facade-concrete-wall"
+				"base": "block/detail/facade-concrete-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-2"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/detail/cityplaster"
@@ -2245,7 +3270,30 @@
 				"base": "block/detail/cityplaster"
 			},
 			"east": {
-				"base": "block/detail/facade-concrete-wall"
+				"base": "block/detail/facade-concrete-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-2"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/detail/cityplaster"
@@ -2268,7 +3316,30 @@
 				"base": "block/detail/cityplaster"
 			},
 			"south": {
-				"base": "block/detail/facade-concrete-wall"
+				"base": "block/detail/facade-concrete-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-2"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/detail/cityplaster"
@@ -2291,7 +3362,30 @@
 				"base": "block/detail/cityplaster"
 			},
 			"west": {
-				"base": "block/detail/facade-concrete-wall"
+				"base": "block/detail/facade-concrete-wall",
+				"alternates": [
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-2"
+					},
+					{
+						"base": "block/detail/facade-concrete-wall-3"
+					}
+				]
 			},
 			"up": {
 				"base": "block/detail/pier-concrete"
@@ -2301,242 +3395,202 @@
 			}
 		},
 		"*-concrete-window-north": {
-			"north": {
-				"base": "block/detail/facade-concrete-window"
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
 			},
-			"east": {
+			"citypane-concrete-window": {
+				"base": "block/detail/citypane-concrete-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-concrete-window-2"
+					},
+					{
+						"base": "block/detail/citypane-concrete-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-window-east": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-window": {
+				"base": "block/detail/citypane-concrete-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-concrete-window-2"
+					},
+					{
+						"base": "block/detail/citypane-concrete-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-concrete-window"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-window-south": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-window": {
+				"base": "block/detail/citypane-concrete-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-concrete-window-2"
+					},
+					{
+						"base": "block/detail/citypane-concrete-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/facade-concrete-window"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-window-west": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-window": {
+				"base": "block/detail/citypane-concrete-window",
+				"alternates": [
+					{
+						"base": "block/detail/citypane-concrete-window-2"
+					},
+					{
+						"base": "block/detail/citypane-concrete-window-3"
+					}
+				]
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-concrete-window"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-lit-north": {
-			"north": {
-				"base": "block/detail/facade-concrete-lit"
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
 			},
-			"east": {
+			"citypane-concrete-lit": {
+				"base": "block/detail/citypane-concrete-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-lit-east": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-lit": {
+				"base": "block/detail/citypane-concrete-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-concrete-lit"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-lit-south": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-lit": {
+				"base": "block/detail/citypane-concrete-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/facade-concrete-lit"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-lit-west": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-lit": {
+				"base": "block/detail/citypane-concrete-lit"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-concrete-lit"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-blinds-north": {
-			"north": {
-				"base": "block/detail/facade-concrete-blinds"
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
 			},
-			"east": {
+			"citypane-concrete-blinds": {
+				"base": "block/detail/citypane-concrete-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-blinds-east": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-blinds": {
+				"base": "block/detail/citypane-concrete-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/facade-concrete-blinds"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-blinds-south": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-blinds": {
+				"base": "block/detail/citypane-concrete-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/facade-concrete-blinds"
-			},
-			"west": {
-				"base": "block/detail/cityplaster"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
 		"*-concrete-blinds-west": {
-			"north": {
+			"cityframe-alu": {
+				"base": "block/detail/cityframe-alu"
+			},
+			"citypane-concrete-blinds": {
+				"base": "block/detail/citypane-concrete-blinds"
+			},
+			"cityplaster": {
 				"base": "block/detail/cityplaster"
 			},
-			"east": {
-				"base": "block/detail/cityplaster"
-			},
-			"south": {
-				"base": "block/detail/cityplaster"
-			},
-			"west": {
-				"base": "block/detail/facade-concrete-blinds"
-			},
-			"up": {
-				"base": "block/detail/pier-concrete"
-			},
-			"down": {
+			"pier-concrete": {
 				"base": "block/detail/pier-concrete"
 			}
 		},
@@ -2663,18 +3717,6 @@
 	},
 	"vertexFlagsByType": {
 		"*-glass-lit-*": {
-			"glowLevel": 150
-		},
-		"*-brick-lit-*": {
-			"glowLevel": 150
-		},
-		"*-brickdark-lit-*": {
-			"glowLevel": 150
-		},
-		"*-stone-lit-*": {
-			"glowLevel": 150
-		},
-		"*-concrete-lit-*": {
 			"glowLevel": 150
 		}
 	}

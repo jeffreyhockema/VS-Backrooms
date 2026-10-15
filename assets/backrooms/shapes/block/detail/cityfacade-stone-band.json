@@ -1,0 +1,192 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"citycornice": "backrooms:block/detail/citycornice",
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"facade-stone-band": "backrooms:block/detail/facade-stone-band",
+		"pier-stone": "backrooms:block/detail/pier-stone"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-stone-band",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bed",
+			"from": [
+				0,
+				11.25,
+				-0.75
+			],
+			"to": [
+				16,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						2.5,
+						16,
+						4.75
+					]
+				},
+				"down": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						11,
+						16,
+						11.75
+					]
+				},
+				"east": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						2.5,
+						0.75,
+						4.75
+					]
+				},
+				"west": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						2.5,
+						0.75,
+						4.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Crown",
+			"from": [
+				0,
+				13.5,
+				-1.5
+			],
+			"to": [
+				16,
+				15.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						0,
+						16,
+						2.25
+					]
+				},
+				"up": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						6,
+						16,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						12,
+						16,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#citycornice",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.25
+					]
+				}
+			}
+		}
+	]
+}
