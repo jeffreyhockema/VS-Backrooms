@@ -1017,12 +1017,28 @@ def level9():
         bx("Base", (5, 0, 5), (11, 7, 12), "enamel"), bx("Seat", (4, 7, 3), (12, 8, 12), "enamel"),
         bx("Tank", (4, 7, 12), (12, 16, 15), "enamel"), bx("Lid", (3.5, 16, 11.5), (12.5, 17, 15.5), "enamel")],
          box=(0.22, 0, 0.18, 0.78, 1, 0.97), material="Ceramic", sounds=STONE, extra={"drops": []})
-    street = [bx("Pole", (7, 0, 7), (9, 62, 9), "metaldark"), bx("Base", (6, 0, 6), (10, 3, 10), "metaldark"),
-              bx("Arm", (7.5, 60, -2), (8.5, 61.5, 8), "metaldark"), bx("Head", (5.5, 58, -6), (10.5, 60.5, 1), "metaldark")]
+    # (graphics pass B12, for Level 11's avenues; also the Suburbs') a stepped cast base with an access door, a pole
+    # tapering at a collar, a capped top, an arm with a brace, and a cobra head: a housing over a skirt round the lens,
+    # which sits flush in it (no dark gap). The lens and the light are where they were.
+    street = [bx("Plinth", (5.5, 0, 5.5), (10.5, 1.5, 10.5), "metaldark", faces=("north", "east", "south", "west", "up")),
+              bx("Base", (6, 1.5, 6), (10, 7, 10), "metaldark", faces=("north", "east", "south", "west", "up")),
+              bx("Door", (6.75, 2.5, 5.5), (9.25, 5.5, 6), "metaldark", faces=("north", "east", "west", "up", "down")),
+              bx("Pole", (7, 7, 7), (9, 40, 9), "metaldark", faces=("north", "east", "south", "west")),
+              bx("Collar", (6.75, 39.5, 6.75), (9.25, 41, 9.25), "metaldark", faces=("north", "east", "south", "west", "up", "down")),
+              bx("Pole2", (7.25, 41, 7.25), (8.75, 62, 8.75), "metaldark", faces=("north", "east", "south", "west")),
+              bx("Cap", (6.9, 62, 6.9), (9.1, 63, 9.1), "metaldark", faces=("north", "east", "south", "west", "up")),
+              bx("Arm", (7.5, 60, -2), (8.5, 61.5, 7.25), "metaldark", faces=("east", "west", "up", "down")),
+              bx("Brace", (7.6, 57, 2), (8.4, 57.75, 7.25), "metaldark", rot=(-32, 0, 0), origin=(8, 57.4, 7.25)),
+              bx("Head", (5.5, 58.75, -6.5), (10.5, 60.75, 1.5), "metaldark", faces=("north", "east", "south", "west", "up")),
+              bx("Hood", (6, 60.75, -5.5), (10, 61.25, 0.5), "metaldark", faces=("north", "east", "south", "west", "up")),
+              bx("SkirtN", (5.5, 58, -6.5), (10.5, 58.75, -5.5), "metaldark", faces=("north", "east", "west", "down")),
+              bx("SkirtS", (5.5, 58, 0.5), (10.5, 58.75, 1.5), "metaldark", faces=("south", "east", "west", "down")),
+              bx("SkirtW", (5.5, 58, -5.5), (6, 58.75, 0.5), "metaldark", faces=("west", "down")),
+              bx("SkirtE", (10, 58, -5.5), (10.5, 58.75, 0.5), "metaldark", faces=("east", "down"))]
     prop("streetlight", "Street Light", {
-        "on": street + [bx("Lens", (6, 57.6, -5.5), (10, 58, 0.5), "streetlamp", glow=240)],
-        "off": street + [bx("Lens", (6, 57.6, -5.5), (10, 58, 0.5), "streetlampoff")],
-        "flicker": street + [bx("Lens", (6, 57.6, -5.5), (10, 58, 0.5), "streetlamp", glow=240)]},
+        "on": street + [bx("Lens", (6, 58.1, -5.5), (10, 58.75, 0.5), "streetlamp", glow=240, faces=("down",))],
+        "off": street + [bx("Lens", (6, 58.1, -5.5), (10, 58.75, 0.5), "streetlampoff", faces=("down",))],
+        "flicker": street + [bx("Lens", (6, 58.1, -5.5), (10, 58.75, 0.5), "streetlamp", glow=240, faces=("down",))]},
          box=(0.4, 0, 0.4, 0.6, 2, 0.6), material="Metal", sounds=METAL,
          extra={"lightHsvByType": {"*-on-*": [6, 3, 15]}, "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
                 "attributesByType": {f"*-flicker-{s}": {"offBlock": f"backrooms:streetlight-off-{s}"} for s in SIDES}})

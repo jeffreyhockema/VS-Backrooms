@@ -1,0 +1,140 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"facade-brickdark-band": "backrooms:block/detail/facade-brickdark-band",
+		"pier-brickdark": "backrooms:block/detail/pier-brickdark"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-brickdark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-brickdark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Course",
+			"from": [
+				0,
+				13,
+				-0.5
+			],
+			"to": [
+				16,
+				15.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						0.25,
+						16,
+						3
+					]
+				},
+				"up": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						2.5,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						0.25,
+						0.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#facade-brickdark-band",
+					"uv": [
+						0,
+						0.25,
+						0.5,
+						3
+					]
+				}
+			}
+		}
+	]
+}

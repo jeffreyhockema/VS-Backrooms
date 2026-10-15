@@ -1,0 +1,376 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cityframe-bronze": "backrooms:block/detail/cityframe-bronze",
+		"citypane-stone-window": "backrooms:block/detail/citypane-stone-window",
+		"cityplaster": "backrooms:block/detail/cityplaster",
+		"facade-stone-wall": "backrooms:block/detail/facade-stone-wall",
+		"pier-stone": "backrooms:block/detail/pier-stone"
+	},
+	"elements": [
+		{
+			"name": "WallL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.0,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						15.0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-stone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-stone",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "WallR",
+			"from": [
+				15.0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#facade-stone-wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						15.0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-stone",
+					"uv": [
+						15.0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-stone",
+					"uv": [
+						15.0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Room",
+			"from": [
+				1.0,
+				0,
+				2.5
+			],
+			"to": [
+				15.0,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#citypane-stone-window",
+					"uv": [
+						1.0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cityplaster",
+					"uv": [
+						1.0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pier-stone",
+					"uv": [
+						1.0,
+						2.5,
+						15.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pier-stone",
+					"uv": [
+						1.0,
+						0,
+						15.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL",
+			"from": [
+				1.0,
+				0,
+				2.0
+			],
+			"to": [
+				2.5,
+				16,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						13.5,
+						0,
+						15.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						13.5,
+						0,
+						14.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR",
+			"from": [
+				13.5,
+				0,
+				2.0
+			],
+			"to": [
+				15.0,
+				16,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						1.0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.0,
+						0,
+						2.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailB",
+			"from": [
+				2.5,
+				0,
+				2.0
+			],
+			"to": [
+				13.5,
+				1.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						14.5,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						2.0,
+						13.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				2.5,
+				14.5,
+				2.0
+			],
+			"to": [
+				13.5,
+				16,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						0,
+						13.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						13.5,
+						13.5,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bar",
+			"from": [
+				2.5,
+				7.5,
+				2.25
+			],
+			"to": [
+				13.5,
+				8.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						7.5,
+						13.5,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						2.25,
+						13.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#cityframe-bronze",
+					"uv": [
+						2.5,
+						13.5,
+						13.5,
+						13.75
+					]
+				}
+			}
+		}
+	]
+}

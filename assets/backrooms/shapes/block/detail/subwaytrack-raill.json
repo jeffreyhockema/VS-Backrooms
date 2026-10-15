@@ -1,0 +1,324 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"subwayfloor-bed": "backrooms:block/detail/subwayfloor-bed",
+		"subwayrail": "backrooms:block/detail/subwayrail",
+		"subwayrailtop": "backrooms:block/detail/subwayrailtop",
+		"subwaysleeper": "backrooms:block/detail/subwaysleeper"
+	},
+	"elements": [
+		{
+			"name": "Ballast",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#subwayfloor-bed",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sleeper0",
+			"from": [
+				0,
+				16,
+				2.0
+			],
+			"to": [
+				16,
+				16.75,
+				5.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				},
+				"north": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Sleeper1",
+			"from": [
+				0,
+				16,
+				10.0
+			],
+			"to": [
+				16,
+				16.75,
+				13.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						3.0
+					]
+				},
+				"north": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#subwaysleeper",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Foot",
+			"from": [
+				3.75,
+				16.75,
+				0
+			],
+			"to": [
+				6.25,
+				17.0,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Web",
+			"from": [
+				4.75,
+				17.0,
+				0
+			],
+			"to": [
+				5.25,
+				17.75,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				4.25,
+				17.75,
+				0
+			],
+			"to": [
+				5.75,
+				18.5,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#subwayrail",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				4.25,
+				18.49,
+				0
+			],
+			"to": [
+				5.75,
+				18.5,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#subwayrailtop",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

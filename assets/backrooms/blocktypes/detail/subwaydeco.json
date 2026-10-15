@@ -105,6 +105,19 @@
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
 	},
+	"textures": {
+		"subwaywall-tile": {
+			"base": "block/detail/subwaywall-tile",
+			"alternates": [
+				{
+					"base": "block/detail/subwaywall-tile-2"
+				},
+				{
+					"base": "block/detail/subwaywall-tile-3"
+				}
+			]
+		}
+	},
 	"lightHsvByType": {
 		"*-subwaylamp-*": [
 			8,

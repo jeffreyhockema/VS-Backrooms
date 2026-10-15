@@ -1,0 +1,22 @@
+{
+ "batch": "B12",
+ "title": "Level 11 (The Endless City)",
+ "before": "review/baseline/11",
+ "after": "review/b12/final",
+ "out": "review/b12/sidebyside",
+ "note": "review/baseline/11 was reshot in B12 on a build of unchanged main (the B0 set is kept as 11-b0; it matched within 2.5 levels). B12 re-spotted the black refuge shots as inspection shots and added close spots for each façade style, the diner's front and inside, the billboard from its roof, a street light, a bench, the cracked asphalt and a subway station.",
+ "families": [
+  {"id": "brick", "name": "Brick façades: bricks, modelled sash windows, the stone string course", "spots": ["facade-brick-close", "facade-brickdark-close", "billboard-close", "billboard-wide"]},
+  {"id": "limestone", "name": "Limestone façades: ashlar, modelled windows, the cornice", "spots": ["facade-stone-close", "close-wall"]},
+  {"id": "concrete", "name": "Concrete façades: board-marked walls, modelled ribbon windows", "spots": ["facade-concrete-close", "wide-01"]},
+  {"id": "glass", "name": "Curtain-wall glass and the aluminium columns", "spots": ["facade-glass-close", "adpillar-wide", "streetlight-close"]},
+  {"id": "mirror", "name": "The black mirror towers' corners (and the city's rim, which shares the texture)", "spots": ["facade-mirror-close"]},
+  {"id": "storefront", "name": "Storefront fascia, the diner's front", "spots": ["shopfront-close", "close-wall2"]},
+  {"id": "roof-billboard", "name": "Tar-and-gravel roofs, parapets and the billboard (poster versions, frame)", "spots": ["billboard-roof-close", "billboard-roof-wide"]},
+  {"id": "pillar-props", "name": "Advertising pillar, traffic lights, street light and the street props' paint", "spots": ["adpillar-close", "streetlight-close", "wide-07"]},
+  {"id": "asphalt", "name": "The cracked asphalt and the road markings", "spots": ["asphalt-close", "wide-01"]},
+  {"id": "floors", "name": "Plaza pavers and the lobbies' marble", "spots": ["close-floor", "threshold-wide", "bench-close"]},
+  {"id": "subway", "name": "The subway: tiles, platform, edge, ballast, modelled tracks, station sign, caged lamps", "spots": ["subway-wide", "subway-close", "subway-tracks"]},
+  {"id": "diner", "name": "The diner (B9's fixtures, unchanged here; for reference)", "spots": ["diner-inside"]}
+ ]
+}

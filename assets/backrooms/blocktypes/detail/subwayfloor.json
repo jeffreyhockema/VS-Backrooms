@@ -1,3 +1,4 @@
+// The subway's floors; the tracks modelled (graphics pass B12)
 {
 	"code": "subwayfloor",
 	"variantgroups": [
@@ -28,18 +29,6 @@
 				"base": "block/detail/subwayfloor-bed"
 			}
 		},
-		"*-raill": {
-			"all": {
-				"base": "block/detail/subwayfloor-raill",
-				"rotation": 0
-			}
-		},
-		"*-railr": {
-			"all": {
-				"base": "block/detail/subwayfloor-railr",
-				"rotation": 0
-			}
-		},
 		"*-platform": {
 			"all": {
 				"base": "block/detail/subwayfloor-platform"
@@ -58,5 +47,18 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drawtypeByType": {
+		"*-raill": "json",
+		"*-railr": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-raill": {
+			"base": "block/detail/subwaytrack-raill"
+		},
+		"*-railr": {
+			"base": "block/detail/subwaytrack-railr"
+		}
 	}
 }
