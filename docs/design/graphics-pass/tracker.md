@@ -131,7 +131,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B7 Level 4 (and Level 9's asphalt, after B11) | gfx/B7 | merged | 2 | ficus (C+), windows (C+), ghost-carpet patches (layout), elevator doors and small wall decor untouched; Level 11's asphalt-cracked square (B12) | passed 2026-10-14 17:45 (Fable): furniture verified as geometry, surfaces kept tone, asphalt fine and even |
 | B8 Level 5 | gfx/B8 | merged | 2 | boiler bay C (B6's boiler: clay-orange shell, box flue; fix in a follow-up), red marble pillars repeat, furniture untouched | passed 2026-10-14 19:35 (Fable): doors and chandelier verified as geometry, damask tone kept |
 | B9 Levels 6 and 6.1 | gfx/B9 | merged | 2 | mall wall C+ (row repeat is layout), shop windows C and skylights C+ (lights stay cubes), L6 wet floor C+ | passed 2026-10-14 21:30 (Fable): shelves, counters and kitchen verified as geometry; chalk lettering restored |
-| B10 Levels 7 and 8 | | not started | | | |
+| B10 Levels 7 and 8 | gfx/B10 | in progress | | | |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | | not started | | | |
 | B13 Levels 37 and 94 | | not started | | | |
