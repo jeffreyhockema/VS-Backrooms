@@ -498,35 +498,97 @@ def level8():
 
 # ---------------- Level 9 ----------------
 
+ASPHALT = (48, 49, 50)
+ASPHALT_MEAN = (48.5, 49.0, 49.1)  # the road's tone before B7 (and before B11): kept
+
+
+def asphalt_version(k=0):
+    """(B7, at the user's request after B11) The Suburbs' road: a fine, even wearing course: dense 1 px aggregate that
+    lifts the binder only a little (matlib.asphalt with a low `chip` range, few pits, faint shadows), almost no broad
+    mottle and few binder-rich patches, so it reads as one smooth dark road rather than a speckle. Three versions
+    (`k`) differ only in their chips; their broad field is one shared ground at the block edges (`matlib.turn_safe`), so
+    the blocktype turns and mixes them without a patchwork. The tone is the old road's."""
+    img = M.asphalt(seed=seed_of("asphalt") + 7 * k, base=ASPHALT, grain=2, mottle=2, aggregate=0.45, binder=0.2,
+                    chip=(3, 11), pits=0.004, shadow=0.06)
+    ground = M.noise_hv(ASPHALT, 0, seed_of("asphalt"), S, 2, (16,), hue=0)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    return T.match_rgb(img, ASPHALT_MEAN, "asphalt")
+
+
 def asphalt_base():
-    """The Suburbs' road (graphics pass B11): matlib asphalt, dark as it always was, the markings painted over it."""
-    return M.asphalt(seed=seed_of("asphalt"), base=(46, 47, 48), grain=3, mottle=6, aggregate=0.2, binder=0.5)
+    """The road every marking, the leaves and Level 11's streets (gen_city reads asphalt.png) are painted on."""
+    return asphalt_version(0)
+
+
+def _blob(cx, cy, r, seed, wobble=0.3):
+    """A soft, irregular round mask (0..1) about (cx, cy): its radius wanders with the angle (a few lobes from a seeded
+    sum of sines), its edge fades over 1.5 px. For patches that must not have straight sides."""
+    rng = random.Random(seed)
+    lobes = [(rng.randint(2, 5), rng.uniform(0, 2 * math.pi), rng.uniform(0.3, 1.0)) for _ in range(3)]
+    norm = sum(a for _, _, a in lobes)
+    out = [[0.0] * S for _ in range(S)]
+    for y in range(S):
+        for x in range(S):
+            dx, dy = x + 0.5 - cx, (y + 0.5 - cy) * 1.15
+            ang = math.atan2(dy, dx)
+            rr = r * (1 + wobble * sum(a * math.sin(n * ang + ph) for n, ph, a in lobes) / norm)
+            out[y][x] = max(0.0, min(1.0, (rr - math.hypot(dx, dy)) / 1.5 + 0.5))
+    return out
 
 
 def asphalt_features():
-    """asphalt-2, a crack sealed with a glossy tar line; asphalt-3, an old square patch, smoother and darker, its
-    edge a little proud. Listed as alternates of the plain road beside its four turns (gen_deep.level9)."""
-    img = asphalt_base()
+    """asphalt-2, a crack wandering across the middle of the block, filled with tar (a dark line in a faint glossy
+    band); asphalt-3, an old cold-mix patch: an irregular, soft-edged blob, smoother and a shade darker than the road,
+    its rim sealed. Both kept inside the block (the versions are turned and mixed) and faint; each is listed one block
+    in sixteen (gen_deep.level9). B11's were a straight full-height crack and a square patch."""
+    plain = asphalt_version(1)
+    img = plain.copy()
     rng = random.Random(seed_of("asphalt-crack"))
-    x, y = rng.uniform(4, 28), 0.0
-    while y < S:
-        for dx in (0, 1):
-            M.put(img.load(), S, S, int(x) + dx, int(y), (30, 30, 31))
-        M.touch(img, int(x) + 2, int(y), 0.06)
-        y += 1
-        x += rng.choice((-1, 0, 0, 1)) * 0.8
-    save(img, "asphalt-2")
-    img = asphalt_base()
-    patch = M.asphalt(seed=seed_of("asphalt-patch"), base=(40, 41, 42), grain=2, mottle=3, aggregate=0.12, binder=0.7)
-    box = (7, 5, 27, 23)
-    img.paste(patch.crop(box), box[:2])
-    M.bevel(img, box, strength=0.1)
-    save(img, "asphalt-3")
+    x, y, a = 7.0, 10.0, rng.uniform(-0.3, 0.3)
+    for i in range(24):
+        xi, yi = int(x) % S, int(y) % S
+        M.put(img.load(), S, S, xi, yi, (36, 37, 38))  # (round 2) fainter
+        M.touch(img, xi, yi - 1, -0.06)
+        M.touch(img, xi, yi + 1, -0.05)
+        if i % 3 == 0:
+            M.touch(img, xi, yi - 1, 0.08)  # the tar's gloss
+        a = a * 0.7 + rng.uniform(-0.45, 0.45)  # wanders, but keeps on across the block
+        x, y = x + math.cos(a) * 0.8, y + 0.45 + math.sin(a) * 0.5
+    save(T.inside_block(plain, img, band=3), "asphalt-2")
+    plain = asphalt_version(2)
+    img = plain.copy()
+    patch = M.asphalt(seed=seed_of("asphalt-patch"), base=(42, 43, 44), grain=2, mottle=2, aggregate=0.3, binder=0.4,
+                      chip=(2, 8), pits=0.002, shadow=0.04)
+    mask = _blob(16, 15, 8.5, seed_of("asphalt-patchshape"))
+    p, q = img.load(), patch.load()
+    for yy in range(S):
+        for xx in range(S):
+            m = mask[yy][xx]
+            if m > 0:
+                c = M.mix(p[xx, yy], q[xx, yy], m)
+                if 0.15 < m < 0.75:  # the sealed rim: a dark seam of tar round the edge
+                    c = M.lift(c, -4)
+                p[xx, yy] = M.rgba(c)
+    save(T.inside_block(plain, img), "asphalt-3")
+
+
+def painted_mark(img, box, colour, k=0.55):
+    """(B7) Road paint over the asphalt: the paint's colour taking the road's own light and dark (so the line has the
+    grain under it), clean to the box's edges, which run to the block's edges, so a line meets the next one."""
+    x0, y0, x1, y1 = box
+    px = img.load()
+    base = M.lum(ASPHALT)
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            px[x, y] = M.rgba(M.lift(colour, (M.lum(px[x, y]) - base) * k))
+    return img
 
 
 def level9():
     img = asphalt_base()
     save(img, "asphalt")
+    save(asphalt_version(1), "asphalt-4")  # (B7) the plain road's other two versions
+    save(asphalt_version(2), "asphalt-5")
     asphalt_features()
     leaves = img.copy()
     rng = random.Random(101)
@@ -815,12 +877,10 @@ def refinements():
 
     # Level 9: road markings, a manhole, a porch, a drive, a rug, a drained pool, ceiling lights
     asphalt = asphalt_base()
-    line = asphalt.copy()
-    ImageDraw.Draw(line).rectangle([0, 13, S - 1, 18], fill=rgb(0xD8B830))
+    line = painted_mark(asphalt.copy(), (0, 13, S - 1, 18), T.hexrgb(0xD8B830))
     save(line, "asphalt-line")
     save(line.rotate(90), "asphalt-linens")
-    zebra = asphalt.copy()
-    ImageDraw.Draw(zebra).rectangle([0, 2, S - 1, 15], fill=rgb(0xD8D8D2))
+    zebra = painted_mark(asphalt.copy(), (0, 2, S - 1, 15), T.hexrgb(0xD8D8D2))
     save(zebra, "asphalt-crossing")
     save(zebra.rotate(90), "asphalt-crossingns")
     hole = asphalt.copy()

@@ -22,12 +22,85 @@
 	"texturesByType": {
 		"*-papers": {
 			"all": {
-				"base": "block/detail/officecarpet-papers"
+				"base": "block/detail/officecarpet-papers",
+				"alternates": [
+					{
+						"base": "block/detail/officecarpet-papers",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/officecarpet-papers",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/officecarpet-papers",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/officecarpet-papers-2"
+					},
+					{
+						"base": "block/detail/officecarpet-papers-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/officecarpet-papers-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/officecarpet-papers-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/officecarpet-papers-3"
+					},
+					{
+						"base": "block/detail/officecarpet-papers-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/officecarpet-papers-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/officecarpet-papers-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-stain": {
 			"all": {
-				"base": "block/detail/officecarpet-stain"
+				"base": "block/detail/officecarpet-stain",
+				"alternates": [
+					{
+						"base": "block/detail/officecarpet-stain",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/officecarpet-stain",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/officecarpet-stain",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/officecarpet-stain-2"
+					},
+					{
+						"base": "block/detail/officecarpet-stain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/officecarpet-stain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/officecarpet-stain-2",
+						"rotation": 270
+					}
+				]
 			}
 		}
 	},

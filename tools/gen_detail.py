@@ -11,9 +11,10 @@ import os
 import detail_textures
 import fire_fx
 import modelkit as K
-from gen_shapes import louvre, round_pipe, round_riser
+from gen_shapes import louvre, octagon, office_chair, round_pipe, round_riser
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
-                        STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, seam_halves, shape, shift, turn, wall_family)
+                        STONE, WOOD, Decor, block, bx, cube, cuboid, cyl, name, prop, seam_halves, shape, shift, tpath, turn, wall_family,
+                        write_json)
 
 
 def plate(nm, frm, to, front, side, glow=0):
@@ -121,13 +122,16 @@ def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wo
 
 TURNED = {"asphalt", "asphalt-leaves", "asphalt-wet", "housefloor-carpet", "housefloor-garage", "housefloor-driveway", "l6floor",
           "l6floor-wet", "dirtroad", "stubble", "jetty", "pool-coping", "snackfloor-terrazzo", "islandrock", "l3stone",
-          "l1hallfloor"}
+          "l1hallfloor", "officecarpet-papers", "officecarpet-stain"}
 # Textures with other versions drawn beside them (graphics pass B4): a feature such as a scuff sits in one version
 # only, and the block picks among them (each turned too, when the texture is in TURNED), so it lands in about one
 # block in three and at a different place each time
 ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"],
         # (B6) the Sanctum's ashlar and flagstones: versions that differ only in which stone is darker
-        "sanctumwall": ["sanctumwall-2", "sanctumwall-3"]}
+        "sanctumwall": ["sanctumwall-2", "sanctumwall-3"],
+        # (B7) Level 4's carpet with papers on it (three arrangements) and with a spill (two places)
+        "officecarpet-papers": ["officecarpet-papers-2", "officecarpet-papers-3"],
+        "officecarpet-stain": ["officecarpet-stain-2"]}
 
 
 def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, comment=None, **extra):
@@ -1047,11 +1051,96 @@ def level3():
 
 # ======================= Level 4 =======================
 
+def shape_tree(nm, elements):
+    """(B7) detail_kit.shape for a model whose elements have children: the textures table takes the children's keys too."""
+    keys = set()
+
+    def walk(els):
+        for e in els:
+            keys.update(f["texture"][1:] for f in e["faces"].values())
+            walk(e.get("children", []))
+    walk(elements)
+    data = {"textureWidth": 16, "textureHeight": 16, "textures": {k: tpath(k) for k in sorted(keys)}, "elements": elements}
+    write_json(os.path.join(ASSETS, "shapes", "block", "detail", nm + ".json"), data)
+    return "block/detail/" + nm
+
+
+def diffuser():
+    """(B7) A square ceiling diffuser under a plain office tile: a white enamel face plate a little proud of the tile,
+    its concentric air slots in crisp pixels on its face (the slots are openings, not relief), and the centre cone
+    standing a step lower. Round 1 stepped three cones down in geometry with a smooth texture: at a distance they
+    smeared, and their sides, lit by the ceiling blocks round them, made the rings look broken."""
+    plate = K.box("Plate", (1, -0.5, 1), (15, 0, 15), {"bottom": "diffuser-face", "side": "diffuser"},
+                  faces=("down", "north", "south", "east", "west"))
+    plate["faces"]["down"]["uv"] = [0, 0, 16, 16]  # the face is one picture of the whole plate
+    return [cube("officeceiling-vent"), plate,
+            K.box("Cone", (6, -1.0, 6), (10, -0.5, 10), "diffuser", faces=("down", "north", "south", "east", "west"))]
+
+
+def sprinkler():
+    """(B7) A pendant sprinkler head in the middle of one of the block's two tiles: a chrome escutcheon cup, the body,
+    the two arms of its frame down to the deflector, and the red glass bulb between them. The old one was a painted
+    dot."""
+    cx, cz = 8, 12
+    els = [cube("officeceiling-sprinkler"),
+           K.box("Cup", (cx - 1.25, -0.5, cz - 1.25), (cx + 1.25, 0, cz + 1.25), "sprinklerchrome", faces=("down", "north", "south", "east", "west")),
+           K.box("Body", (cx - 0.75, -1.0, cz - 0.5), (cx + 0.75, -0.5, cz + 0.5), "sprinklerchrome", faces=("down", "north", "south", "east", "west")),
+           K.box("ArmW", (cx - 1.25, -2.0, cz - 0.25), (cx - 0.75, -1.0, cz + 0.25), "sprinklerchrome", faces=("north", "south", "east", "west")),
+           K.box("ArmE", (cx + 0.75, -2.0, cz - 0.25), (cx + 1.25, -1.0, cz + 0.25), "sprinklerchrome", faces=("north", "south", "east", "west")),
+           K.box("Bulb", (cx - 0.25, -1.75, cz - 0.25), (cx + 0.25, -1.0, cz + 0.25), "sprinklerbulb", faces=("north", "south", "east", "west")),
+           K.box("Deflector", (cx - 1.0, -2.5, cz - 1.0), (cx + 1.0, -2.0, cz + 1.0), "sprinklerchrome")]
+    return els
+
+
+def ceiling_alt():
+    """(B7) The office ceiling's odd blocks. The diffuser and the sprinkler are models now (`drawtypeByType`: json),
+    the water-stained tile a cube in two versions; codes and kinds as they were."""
+    paths = {"vent": shape("officeceilingalt-vent", diffuser()), "sprinkler": shape("officeceilingalt-sprinkler", sprinkler())}
+    block("officeceilingalt", {
+        "variantgroups": [{"code": "kind", "states": ["vent", "sprinkler", "stain"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Ceramic", "drawtypeByType": {"*-stain": "cube", "*": "json"},
+        "shapeByType": {f"*-{k}": {"base": p} for k, p in paths.items()},
+        "texturesByType": {"*-stain": {"all": {"base": "block/detail/officeceiling-stain",
+                                               "alternates": [{"base": "block/detail/officeceiling-stain-2"}]}}},
+        "lightAbsorption": 99, "resistance": 1, "sounds": GLASS, "drops": CEILING_DROPS,
+    }, "Drop-ceiling tiles with air diffusers, sprinkler heads and water stains")
+    for k, english in (("vent", "Air Diffuser"), ("sprinkler", "Ceiling Tile"), ("stain", "Stained Ceiling Tile")):
+        name(f"officeceilingalt-{k}", english)
+
+
+def extinguisher_cabinet():
+    """(B7) The fire extinguisher cabinet as geometry (the old one was a picture of one on a plate, and read as a red
+    painting): a white enamel tub on the wall with its pale back, a bead round its open front, and in it a red
+    extinguisher (octagonal, its label band), the black valve and lever, and the hose down its side to the nozzle."""
+    els = [bx("Back", (4.75, 1.75, -0.5), (11.25, 13.25, 0), "extcabinet", faces=("north",)),
+           bx("TubL", (4, 1, -2.5), (4.75, 14, 0), "extsteel", faces=("north", "east", "west", "up", "down")),
+           bx("TubR", (11.25, 1, -2.5), (12, 14, 0), "extsteel", faces=("north", "east", "west", "up", "down")),
+           bx("TubT", (4.75, 13.25, -2.5), (11.25, 14, 0), "extsteel", faces=("north", "up", "down")),
+           bx("TubB", (4.75, 1, -2.5), (11.25, 1.75, 0), "extsteel", faces=("north", "up", "down")),
+           bx("BeadT", (3.75, 13.75, -3), (12.25, 14.25, -2.5), "steel"), bx("BeadB", (3.75, 0.75, -3), (12.25, 1.25, -2.5), "steel"),
+           bx("BeadL", (3.75, 1.25, -3), (4.25, 13.75, -2.5), "steel", faces=("north", "east", "west")),
+           bx("BeadR", (11.75, 1.25, -3), (12.25, 13.75, -2.5), "steel", faces=("north", "east", "west"))]
+    els += octagon("Ext", 8, -1.4, 1.4, 1.75, 10, "extred", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("ExtNeck", 8, -1.4, 0.75, 10, 10.75, "metaldark", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += [bx("Valve", (7.5, 10.75, -1.9), (8.5, 12, -0.9), "metaldark"),
+            bx("Lever", (7, 12, -1.65), (9.75, 12.5, -1.15), "metaldark"),
+            bx("Hose", (9.5, 5, -2.0), (10, 11, -1.5), "rubber"),
+            bx("HoseTop", (8.5, 11, -2.0), (10, 11.5, -1.5), "rubber"),
+            bx("Nozzle", (9.4, 4.25, -2.1), (10.1, 5, -1.4), "metaldark")]
+    return els
+
+
+def framed(nm, x1, y1, x2, y2, z, tex="metaldark", w=0.5, proud=0.5):
+    """(B7) A frame of four strips `w` wide standing `proud` off a face at z, round (x1, y1)-(x2, y2)."""
+    return [bx(nm + "T", (x1, y2 - w, z - proud), (x2, y2, z), tex, faces=("north", "up", "down", "east", "west")),
+            bx(nm + "B", (x1, y1, z - proud), (x2, y1 + w, z), tex, faces=("north", "up", "down", "east", "west")),
+            bx(nm + "L", (x1, y1 + w, z - proud), (x1 + w, y2 - w, z), tex, faces=("north", "east", "west")),
+            bx(nm + "R", (x2 - w, y1 + w, z - proud), (x2, y2 - w, z), tex, faces=("north", "east", "west"))]
+
+
 def level4():
-    cube_block("officeceilingalt", {"vent": "Air Diffuser", "sprinkler": "Ceiling Tile", "stain": "Stained Ceiling Tile"},
-               ["vent", "sprinkler", "stain"], {"vent": "officeceiling-vent", "sprinkler": "officeceiling-sprinkler", "stain": "officeceiling-stain"},
-               material="Ceramic", sounds=GLASS, comment="Drop-ceiling tiles with air diffusers, sprinkler heads and water stains",
-               drops=CEILING_DROPS, resistance=1)
+    ceiling_alt()
     cube_block("officewindowalt", {"blackout": "Blacked-Out Window", "blinds": "Window with Blinds"}, ["blackout", "blinds"],
                {"blackout": "officewindow-blackout", "blinds": "officewindow-blinds"}, material="Glass", sounds=GLASS,
                comment="Windows papered over or shut behind blinds. Most of Level 4's windows are", drops=[],
@@ -1068,11 +1157,13 @@ def level4():
             bx("Button", (12.6, 9, -4), (13.4, 10, -3), "steel")]}, cls=("BackroomsDispenser", "BackroomsDispenser")),
         Decor("clock", "Wall Clock", {3: [bx("Rim", (4, 2, -1.5), (12, 10, 0), "metaldark", faces=("east", "west", "up", "down")),
                                           bx("Face", (4, 2, -1.5), (12, 10, -1.4), "clockface", faces=("north",), full=True)]}),
-        Decor("whiteboard", "Whiteboard", {2: plate("Board", (0, 0.5, -0.8), (16, 14, 0), "whiteboard", "steel") +
-                                           [bx("Tray", (1, 0, -2), (15, 1, -0.8), "steel"), bx("Marker", (3, 1, -1.8), (6, 1.6, -1.2), "redmetal")]}),
+        # (B7) the board in an aluminium frame (geometry), on a tray with a marker
+        Decor("whiteboard", "Whiteboard", {2: plate("Board", (0, 1, -0.8), (16, 14, 0), "whiteboard", "steel") +
+                                           framed("Frame", 0, 1, 16, 14, -0.8, "alu") +
+                                           [bx("Tray", (1, 0.25, -2.25), (15, 1, -0.8), "alu"), bx("Marker", (3, 1, -1.8), (6, 1.6, -1.35), "redmetal")]}),
         Decor("corkboard", "Corkboard", {2: plate("Board", (2, 2, -0.8), (14, 13, 0), "corkboard", "wood")}),
         Decor("evacmap", "Evacuation Map", {2: plate("Map", (4, 3, -0.6), (12, 13, 0), "evacmap", "metaldark")}),
-        Decor("extinguisher", "Fire Extinguisher Cabinet", {2: plate("Cabinet", (4, 0, -1), (12, 14, 0), "extcabinet", "steel")}),
+        Decor("extinguisher", "Fire Extinguisher Cabinet", {2: extinguisher_cabinet()}),
         Decor("alarm", "Fire Alarm", {2: plate("Pull", (6, 2, -1.5), (10, 7, 0), "firealarm", "redmetal") +
                                       plate("Strobe", (5.5, 9, -1.5), (10.5, 13, 0), "strobe", "white")}),
         Decor("switch", "Light Switch", {2: plate("Switch", (2, 3, -0.4), (4.5, 7.5, 0), "switchplate", "switchplate") +
@@ -1084,37 +1175,49 @@ def level4():
                                           bx("Cord", (4.1, 1, -2.8), (4.6, 4, -2.3), "rubber")]}),
         Decor("callbutton", "Elevator Call Button", {2: plate("Panel", (6, 4, -0.6), (10, 11, 0), "callpanel", "steel", glow=40)}),
         Decor("stairsign", "Stairwell Sign", {2: plate("Sign", (4, 4, -0.4), (12, 12, 0), "stairsign-office", "steel")}),
-    ] + [Decor(f"poster{i}", "Framed Poster", {2: plate("Poster", (2, 1, -0.8), (14, 15, 0), f"poster{i}", "metaldark")}) for i in range(3)]
-    wall_family("officedeco", "Office Wall", {1: "drywall-base", 2: "drywall"}, decors)
+    ] + [Decor(f"poster{i}", "Framed Poster", {2: plate("Poster", (2, 1, -0.8), (14, 15, 0), f"poster{i}", "metaldark") +
+                                                framed("Frame", 2, 1, 14, 15, -0.8)}) for i in range(3)]
+    # (B7) each poster with two more prints, so a corridor of them is not the same three pictures (the layout still
+    # places three kinds; the block picks a print for each)
+    prints = {f"poster{i}": {"base": f"block/detail/poster{i}",
+                             "alternates": [{"base": f"block/detail/poster{i}-{k}"} for k in (2, 3)]} for i in range(3)}
+    wall_family("officedeco", "Office Wall", {1: "drywall-base", 2: "drywall"}, decors, textures=prints)
 
-    chair = [bx("Seat", (3, 6, 3), (13, 8, 13), "chairfabric"), bx("Back", (3.5, 8, 11), (12.5, 17, 13), "chairfabric"),
-             bx("Post", (7, 2, 7), (9, 6, 9), "metaldark"), bx("BaseX", (2, 0.5, 7.5), (14, 1.5, 8.5), "metaldark"),
-             bx("BaseZ", (7.5, 0.5, 2), (8.5, 1.5, 14), "metaldark")]
-    tipped = []
-    for e in chair:
-        e = json.loads(json.dumps(e))
-        e["rotationOrigin"], e["rotationZ"] = [8, 6, 8], 90
-        tipped.append(e)
-    prop("officechairtipped", "Office Chair", tipped, box=(0.1, 0, 0.1, 0.9, 0.85, 0.9), material="Cloth", sounds=CLOTH)
+    # (B7) the swivel chair from gen_shapes, on its side (the whole chair turned as one: a parent element with the
+    # chair's parts as its children, so the turned base arms keep their own turn)
+    tipped = [{"name": "Tipped", "from": [0, 0, 0], "to": [0, 0, 0], "rotationOrigin": [8, 6, 8], "rotationZ": 90,
+               "faces": {}, "children": office_chair()}]
+    prop("officechairtipped", "Office Chair", [], box=(0.1, 0, 0.1, 0.9, 0.85, 0.9), material="Cloth", sounds=CLOTH)
+    shape_tree("officechairtipped", tipped)  # prop() wrote an empty model under the same name: write the real one over it
     prop("ficus", "Dead Ficus", [
         bx("Pot", (5, 0, 5), (11, 7, 11), "planter"), bx("Soil", (5.5, 6.9, 5.5), (10.5, 7.03, 10.5), "wooddark", faces=("up",)),
-        bx("Trunk", (7.5, 7, 7.5), (8.5, 18, 8.5), "wood"),
-        bx("Leaves1", (3, 15, 4), (12, 22, 12), "ficusleaves"), bx("Leaves2", (5, 20, 3), (13, 26, 11), "ficusleaves"),
-        bx("Leaves3", (4, 24, 6), (10, 29, 12), "ficusleaves"),
+        bx("Trunk", (7.5, 7, 7.5), (8.5, 24, 8.5), "wood"), bx("Branch", (8.5, 15.5, 7.5), (11, 16.5, 8.5), "wood"),
+        bx("Branch2", (5, 19.5, 7.5), (7.5, 20.5, 8.5), "wood"),
+        # (round 2) the clumps close round the trunk and its two branches, the canopy narrowing upward
+        bx("Leaves1", (4.5, 15, 5), (12, 21, 11), "ficusleaves"), bx("Leaves2", (3.5, 19, 4.5), (10.5, 24.5, 11), "ficusleaves"),
+        bx("Leaves3", (5.5, 23.5, 5.5), (10.5, 28.5, 10.5), "ficusleaves"),
         bx("Fallen1", (2, 0, 10), (4, 0.2, 12), "dryleaf"), bx("Fallen2", (11, 0, 3), (13, 0.2, 4.5), "dryleaf")],
-         box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False, material="Plant", sounds=CLOTH)
+         box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False, material="Plant", sounds=CLOTH, extra={"renderpass": "OpaqueNoCull"})
     stack = []
     for i in range(4):
         y = i * 2.2
         stack += [bx(f"Seat{i}", (3, 6 + y, 3), (13, 7 + y, 13), "plasticchair"), bx(f"Back{i}", (3, 7 + y, 12), (13, 15 + y, 13), "plasticchair")]
     stack += [bx(f"Leg{i}", (x, 0, z), (x + 1, 6, z + 1), "foldsteel") for i, (x, z) in enumerate(((3, 3), (12, 3), (3, 12), (12, 12)))]
     prop("chairstack", "Stacked Chairs", stack, box=(0.18, 0, 0.18, 0.82, 1.5, 0.82), oriented=False)
-    prop("copier", "Photocopier", [
-        bx("Body", (1, 0, 3), (15, 14, 15), "copier"), bx("Lid", (1, 14, 3), (15, 15, 15), "metaldark"),
-        bx("Panel", (2, 14, 2.95), (8, 15.5, 5.5), "copierpanel", faces=("up", "north"), full=True),
-        bx("Tray", (15, 8, 6), (17, 9, 12), "copier"), bx("Paper", (15.2, 9, 6.5), (16.8, 9.4, 11.5), "paper"),
-        bx("Drawer", (2, 2, 2.7), (14, 6, 3), "metaldark"), bx("Drawer2", (2, 7, 2.7), (14, 11, 3), "metaldark")],
-         box=(0.06, 0, 0.18, 0.94, 0.95, 0.94), material="Metal", sounds=METAL)
+    # (B7) the copier: drawers as inset fronts with grips, the control panel's buttons and the paper output as geometry
+    copier = K.bevelled_box("Body", (1, 0.5, 3), (15, 13, 15), "copier", b=0.5)
+    copier += [bx("Plinth", (1.5, 0, 3.5), (14.5, 0.5, 14.5), "metaldark", faces=("north", "south", "east", "west")),
+               bx("Lid", (1, 13, 3.5), (15, 14, 15), "metaldark"),
+               bx("Panel", (1.5, 13, 2.5), (8, 14.5, 6), "copierpanel", faces=("up", "north", "east", "west")),
+               bx("Tray", (15, 8, 6), (17, 8.5, 12), "copier"), bx("Paper", (15.2, 8.5, 6.5), (16.8, 9, 11.5), "paper")]
+    for i, (y1, y2) in enumerate(((1, 5), (5.5, 9.5))):
+        copier += K.bevelled_box(f"Drawer{i}", (2, y1, 2.25), (14, y2, 3), "copier", b=0.25)
+        copier += K.handle(f"Grip{i}", 8, y2 - 1, 2.25, length=4, axis="x", standoff=0.5, thick=0.5, tex="metaldark")
+    for r in range(2):
+        for c in range(3):
+            copier.append(bx(f"Button{r}{c}", (5 + c * 0.9, 14.5, 3 + r * 1.25), (5.5 + c * 0.9, 15, 3.5 + r * 1.25), "crt",
+                             faces=("up", "north", "east", "west", "south")))
+    prop("copier", "Photocopier", copier, box=(0.06, 0, 0.18, 0.94, 0.95, 0.94), material="Metal", sounds=METAL)
     shelf = [bx("SideL", (0, 0, 8), (1, 30, 16), "laminate"), bx("SideR", (15, 0, 8), (16, 30, 16), "laminate"),
              bx("Back", (1, 0, 15.5), (15, 30, 16), "laminate")] + \
         [bx(f"Shelf{i}", (1, y, 8), (15, y + 1, 16), "laminate") for i, y in enumerate((0, 7.5, 15, 22.5, 29))]
@@ -1127,10 +1230,14 @@ def level4():
         bx("Front", (2.5, 1, 1.6), (13.5, 29, 2), "serverfront", glow=80, faces=("north",), full=True)],
          box=(0.12, 0, 0.1, 0.88, 1.9, 0.94), material="Metal", sounds=METAL,
          extra={"sounds": dict(METAL, ambient="backrooms:ambient/transformer", ambientBlockCount=10)})
-    counter = [bx("Cabinet", (0, 1, 4), (16, 13, 16), "cabinetwhite", faces=("north",), full=True),
-               bx("CabinetSides", (0, 1, 4), (16, 13, 16), "white", faces=("east", "west", "south")),
-               bx("Kick", (0, 0, 4.3), (16, 1, 16), "rubber"),
+    # (B7) the counter's two doors are inset panels with bar pulls (they were a picture of doors), on a recessed kick
+    counter = [bx("Cabinet", (0, 1, 4.5), (16, 13, 16), "white", faces=("north", "east", "west", "south")),
+               bx("Kick", (0, 0, 5), (16, 1, 16), "rubber"),
                bx("Top", (0, 13, 3.5), (16, 14.5, 16), "countertop"), bx("Splash", (0, 14.5, 15), (16, 18, 16), "countertop")]
+    for i, (x1, x2) in enumerate(((0.25, 7.875), (8.125, 15.75))):
+        counter += K.bevelled_box(f"Door{i}", (x1, 1.25, 3.75), (x2, 12.75, 4.5), "cabinetwhite", b=0.25)
+    counter += K.handle("PullL", 7, 10.5, 3.75, length=2.5, axis="y", standoff=0.5, thick=0.5, tex="steel")
+    counter += K.handle("PullR", 9, 10.5, 3.75, length=2.5, axis="y", standoff=0.5, thick=0.5, tex="steel")
     prop("kitchencounter", "Kitchen Counter", {
         "plain": counter,
         "sink": counter + [bx("Basin", (3, 14.45, 6), (13, 14.6, 13), "steeldark", faces=("up",)),
@@ -1142,9 +1249,13 @@ def level4():
         bx("Body", (1, 0, 3), (15, 30, 15), "fridgewhite"), bx("Seam", (1, 18, 2.7), (15, 18.5, 3), "steeldark"),
         bx("Handle1", (12, 20, 2), (13, 27, 2.7), "steel"), bx("Handle2", (12, 9, 2), (13, 16, 2.7), "steel")],
          box=(0.06, 0, 0.18, 0.94, 1.9, 0.94), material="Metal", sounds=METAL)
-    prop("roundtable", "Break Room Table", [
-        bx("Top", (1, 12, 1), (15, 13, 15), "laminate"), bx("Post", (7, 1, 7), (9, 12, 9), "metaldark"),
-        bx("Foot", (4, 0, 4), (12, 1, 12), "metaldark")], box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False)
+    # (B7) the break room's round table is round (an octagon), its laminate top edged, on a column and a cross foot
+    table = octagon("TopEdge", 8, 8, 6.75, 12, 13, "lamedge", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    table += octagon("Top", 8, 8, 6.75, 12.95, 13, "lamfleck", faces=("up",), lift=0.01)
+    table += [bx("Post", (7.25, 1, 7.25), (8.75, 12, 8.75), "metaldark", faces=("north", "south", "east", "west")),
+              bx("FootX", (3, 0, 7.25), (13, 1, 8.75), "metaldark"),
+              bx("FootZ", (7.25, 0, 3), (8.75, 0.99, 13), "metaldark", faces=("north", "south", "east", "west", "up"))]
+    prop("roundtable", "Break Room Table", table, box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False)
     prop("receptiondesk", "Reception Desk", [
         bx("Front", (0, 0, 2), (16, 17, 4), "receptionfront", faces=("north",), full=True),
         bx("FrontSides", (0, 0, 2), (16, 17, 4), "laminate", faces=("east", "west", "south")),
@@ -1152,7 +1263,13 @@ def level4():
         bx("Back", (0, 0, 14), (16, 11, 15), "laminate"), bx("Crt", (4, 12, 8), (10, 18, 14), "crt"),
         bx("Screen", (4.5, 13, 14), (9.5, 17, 14.2), "crtscreen", faces=("south",), full=True)],
          box=(0, 0, 0.06, 1, 1.15, 1))
-    prop("wastebasket", "Wastebasket", [bx("Bin", (5, 0, 5), (11, 6, 11), "wastebin"), bx("Ball", (6, 5, 6), (8, 7, 8), "paper")],
+    # (B7) the wastebasket is open: four mesh walls round a floor, paper balls in it and one on top
+    prop("wastebasket", "Wastebasket", [
+        bx("WallN", (5, 0, 5), (11, 6, 5.5), "wastebin"), bx("WallS", (5, 0, 10.5), (11, 6, 11), "wastebin"),
+        bx("WallW", (5, 0, 5.5), (5.5, 6, 10.5), "wastebin"), bx("WallE", (10.5, 0, 5.5), (11, 6, 10.5), "wastebin"),
+        bx("Floor", (5.5, 0, 5.5), (10.5, 0.5, 10.5), "wastebin", faces=("up",)),
+        bx("Ball1", (6, 0.5, 6), (8, 2.5, 8), "paper"), bx("Ball2", (7.5, 0.5, 7.75), (9.75, 2.25, 10), "paper"),
+        bx("Ball", (6.5, 5, 7), (8.5, 7, 9), "paper")],
          oriented=False, collide=False, extra={"selectionbox": {"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.4, "z2": 0.7}})
     prop("coatstand", "Coat Stand", [
         bx("Base", (5, 0, 5), (11, 1, 11), "wooddark"), bx("Pole", (7.5, 1, 7.5), (8.5, 28, 8.5), "wooddark"),

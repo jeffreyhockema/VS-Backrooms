@@ -292,6 +292,41 @@
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
 	},
+	"textures": {
+		"poster0": {
+			"base": "block/detail/poster0",
+			"alternates": [
+				{
+					"base": "block/detail/poster0-2"
+				},
+				{
+					"base": "block/detail/poster0-3"
+				}
+			]
+		},
+		"poster1": {
+			"base": "block/detail/poster1",
+			"alternates": [
+				{
+					"base": "block/detail/poster1-2"
+				},
+				{
+					"base": "block/detail/poster1-3"
+				}
+			]
+		},
+		"poster2": {
+			"base": "block/detail/poster2",
+			"alternates": [
+				{
+					"base": "block/detail/poster2-2"
+				},
+				{
+					"base": "block/detail/poster2-3"
+				}
+			]
+		}
+	},
 	"classByType": {
 		"*-fountain-*": "BackroomsDispenser"
 	},

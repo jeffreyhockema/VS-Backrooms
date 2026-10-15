@@ -723,15 +723,15 @@ TROFFER = {  # lens colour, glow colour, how lit
 }
 
 
-def troffer(state):
+def troffer(state, rail=TBAR_RAIL, frame=(214, 210, 198), table=None, tubes=2):
     """matlib.troffer_lens, then (B3) the lens of a lit panel pulled 35% toward its glow colour so it reads as emissive,
     and the step down from the housing frame to the lens (the troffer stays a cube: see gen_l0_walls.troffer for the
     shape that was tried). (D1) B3 painted that step as a near-black 1 px gap all round, which the user read as a black
     ring; it is now the frame's inner edge in soft shade, deeper on the top and left (in the frame's shadow) than on
-    the bottom and right."""
-    lens, glow, lit = TROFFER[state]
+    the bottom and right. (B7) `rail`, `frame`, `table` (TROFFER's form) and `tubes` let Level 4 draw its own."""
+    lens, glow, lit = (table or TROFFER)[state]
     img = M.troffer_lens(seed={"on": 1, "off": 2, "dim": 3, "red": 4}[state], lit=lit, lens=lens, glow=glow,
-                         frame=(214, 210, 198), frame_px=2, rail=TBAR_RAIL)
+                         frame=frame, frame_px=2, rail=rail, tubes=tubes)
     px = img.load()
     if lit:
         for y in range(3, S - 3):
@@ -2002,65 +2002,358 @@ def level3_textures():
         save(img, f"block/level3/roomsign-{i}.png")
 
 
-def level4_textures():
-    save(noise_fill(hexrgb(0xD8D5D4), 4, 520), "block/level4/officewall.png")
-    img = noise_fill(hexrgb(0x5A6068), 8, 521)  # a rainy, foggy nowhere
-    rng = random.Random(522)
+# ---------------- Level 4: the abandoned office (graphics pass B7) ----------------
+#
+# Every surface keeps its old tone: each texture's mean colour is matched to the noise fill it replaces (L4_MEAN), and
+# the versions of one surface share their ground and their shift (`match_rgb` with a key), so they mix without a
+# patchwork. The drop ceiling is Level 0's module (matlib.ceiling_tile, troffer_lens, the D1 troffer) in the office's
+# 2 x 4 layout and greys.
+
+L4_MEAN = {"wall": (216.1, 213.1, 212.1), "carpet": (133.3, 131.3, 125.3), "ghost": (110.3, 108.3, 103.3),
+           "ceiling": (206.1, 202.4, 197.5), "partition": (135.5, 137.5, 131.8), "laminate": (180.2, 156.2, 120.2),
+           "crt": (201.0, 194.0, 174.0), "chair": (51.0, 54.0, 60.0), "filing": (136.8, 140.6, 144.6),
+           "cooler": (229.9, 229.9, 225.9)}
+OFFICE_WALL = hexrgb(0xD8D5D4)
+OFFICE_CARPET = hexrgb(0x85837D)
+OFFICE_TILE = (216, 212, 207)
+OFFICE_RAIL = (140, 138, 133)  # the old grid's grey: darker than the tile, so the 2 x 4 grid reads as it did
+
+
+def office_wall(alt=0):
+    """Painted drywall in the old off-white: matlib.plaster with a fine roller stipple and the faintest clouding, its
+    hue held close to the base (no lavender or green patches on a near-white wall). Every version is the same paint
+    (one seed): the second has a touched-up patch a shade off the wall, and is listed one block in six. (Round 2
+    dropped its two nail holes: pin specks that showed at the same place.)"""
+    img = calm_hue(M.plaster(5200, base=OFFICE_WALL, grain=2, mottle=3, roller=0.55, bumps=0.0), OFFICE_WALL, 0.7)
+    if alt == 1:
+        rng = random.Random(5201)
+        px = img.load()
+        for y in range(18, 25):  # a patch of touch-up paint, a little warmer and flatter than the wall round it
+            for x in range(4, 13):
+                if rng.random() < 0.9 - 0.1 * abs(y - 21):
+                    px[x, y] = M.rgba(M.hue_shift(M.mix(px[x, y], OFFICE_WALL, 0.6), 1.5))
+    return match_rgb(img, L4_MEAN["wall"], "l4wall")
+
+
+def office_baseboard(img, seed=5210):
+    """The office's skirting: 5 px of dark grey vinyl cove base at the foot of the drywall (where the old flat band
+    was), its rounded cap lit from above, the face, the toe darkest where it meets the carpet, a hairline of shade on
+    the wall over the cap and a faint dirt band above it. No scuffs: the wall's foot repeats every block along every
+    corridor, and a scuff in each block reads as a dashed line."""
+    vinyl = (64, 64, 66)
+    rng = random.Random(seed)
+    scuff_band(img, seed + 1, 17, 26, n=0, dirt=(120, 116, 104))
     px = img.load()
-    for _ in range(60):
-        x, y = rng.randrange(S), rng.randrange(S - 6)
-        for k in range(rng.randint(3, 6)):
-            px[x, y + k] = (150, 160, 172, 255)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=(40, 42, 46, 255), width=2)
-    d.line([16, 0, 16, S - 1], fill=(40, 42, 46, 255), width=1)
-    save(img, "block/level4/officewindow.png")
+    for x in range(S):
+        px[x, 26] = M.rgba(M.lift(px[x, 26], -9))
+        px[x, 27] = M.rgba(M.lift(vinyl, 30 + rng.uniform(-2, 2)))
+        px[x, 28] = M.rgba(M.lift(vinyl, 12 + rng.uniform(-2, 2)))
+        px[x, 29] = M.rgba(M.lift(vinyl, 2 + rng.uniform(-2, 2)))
+        px[x, 30] = M.rgba(M.lift(vinyl, -3 + rng.uniform(-2, 2)))
+        px[x, 31] = M.rgba(M.lift(vinyl, -14 + rng.uniform(-2, 2)))
+    return img
+
+
+def _office_pile(seed, base):
+    return M.carpet(seed, base=base, tone2=M.hue_shift(M.lift(base, -16), 2), mix2=0.4, loop=True, pile=5, grain=4,
+                    mottle=1.5)
+
+
+def office_carpet(alt=0, kind="plain"):
+    """Low commercial loop-pile carpet in the old grey-beige: two yarns twisted (a fine heather of a lighter and a
+    darker thread), trodden a little, and (D1's dingy) not vacuumed in a long time. Three versions, turned at random
+    by the blocktype, meet without a step (`matlib.turn_safe` on one shared ground). 'ghost', the darker mark where
+    furniture once stood, is the same pile less trodden and darker; its blocks lie in the layout's patches."""
+    seed = (5220 if kind == "plain" else 5230) + alt
+    img = _office_pile(seed, OFFICE_CARPET)
+    ground = M.noise_hv(OFFICE_CARPET, 0, 5220, S, 4, (16,), hue=0)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    dingy(img, seed, dull=0.08, dim=0.0, grime=0.06 if kind == "plain" else 0.05, flecks=8 if kind == "plain" else 4)
+    return match_rgb(img, L4_MEAN["carpet" if kind == "plain" else "ghost"], "l4carpet-" + kind)
+
+
+def office_ceiling(alt=0, stain=None):
+    """The office's 2 x 4 drop ceiling: Level 0's lay-in tile (matlib.ceiling_tile: fissured board, a recess where it
+    steps up into the grid, the T-bar split between neighbours) as two 32 x 16 tiles per block, as the old one was laid
+    out, in the office's grey-white with its darker grid. Three plain versions (other fissures; one ground), and with
+    `stain` (0 or 1) a water stain in one of the two tiles, kept inside it."""
+    img = Image.new("RGBA", (S, S))
+    for half in (0, 1):
+        seed = 5240 + alt * 2 + half
+        tile = M.ceiling_tile(seed, size=(S, S // 2), base=OFFICE_TILE, rail=OFFICE_RAIL, fissures=0.6, recess=2)
+        img.paste(tile, (0, half * S // 2))
+    # (the recess's warm light and cool shade show as cream and lilac on a near-white board: held to the board's hue)
+    calm_hue(img, OFFICE_TILE, 0.6)
+    if stain is not None:  # (round 2) a brown water stain with a tide ring, spread over both tiles of the block (the
+        # T-bar between them unstained), fading out before the block's edge; `stain` (0 or 1) moves it up or down
+        st = img.copy()
+        M.stain(st, 5250 + alt, radius=9, color=(150, 116, 66), strength=0.55, at=(15 + 3 * stain, 13 + 6 * stain), ring=0.8)
+        p, q = img.load(), st.load()
+        for y in range(1, S - 1):
+            if y in (S // 2 - 1, S // 2):
+                continue
+            for x in range(1, S - 1):
+                e = min(x - 1, S - 2 - x, y - 1, S - 2 - y)
+                t = max(0.0, min(1.0, (e - 1) / 3.5))
+                if t:
+                    p[x, y] = M.rgba(M.mix(p[x, y], q[x, y], t))
+    return match_rgb(img, L4_MEAN["ceiling"], "l4ceiling")
+
+
+OFFICE_TROFFER = {"on": ((252, 252, 248), (255, 254, 248), 1.0), "off": ((176, 176, 170), (176, 176, 170), 0.0)}
+
+
+def office_troffer(state):
+    """The office's 2 x 4 troffer: Level 0's (the D1 version, no dark ring round the lens) in the office's grid grey,
+    with three tubes behind the lens. The light stays a cube and keeps its light values."""
+    return troffer(state, rail=OFFICE_RAIL, frame=(208, 206, 200), table=OFFICE_TROFFER, tubes=3)
+
+
+def partition_fabric():
+    """The cubicle panels' fabric: a fine plain weave in the old grey-green, two threads a touch apart in hue (a
+    tweed fleck), soft and matte; seamless both ways, as the panels run on block after block."""
+    base = (136, 138, 132)
+    img = M.fabric(5260, base=base, weave="plain", tone2=M.hue_shift(M.lift(base, -4), -2), contrast=2, grain=3,
+                   mottle=3, thread=4)  # (round 2) contrast 6 read as a 1 px checkerboard at 1-2 blocks
+    rng = random.Random(5261)
+    for _ in range(40):  # flecks of a darker and a lighter yarn in the weave
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, rng.choice((-0.07, -0.05, 0.05)))
+    return match_rgb(calm_hue(img, base, 0.4), L4_MEAN["partition"])
+
+
+def partition_rail(top=False):
+    """Anodised aluminium for the partitions' top cap and posts: brushed along the run. For the cap's sides (`top`
+    False) the first row is the rolled edge catching the light and the third its shade, so a 1.5-unit face shows a
+    lit top edge; the cap's top face is plain brushed metal."""
+    img = M.brushed_metal(5270, base=(152, 154, 152), grain=3, streak=6, sheen=5)  # (round 2) duller, nearer the old grey
+    if not top:
+        px = img.load()
+        for x in range(S):
+            for y in range(0, S, 4):  # the edge every 4 rows: the cap's faces are 1.5 units (3 px) tall
+                px[x, y] = M.rgba(M.lift(px[x, y], 26))
+                px[x, (y + 2) % S] = M.rgba(M.lift(px[x, (y + 2) % S], -14))
+    return img
+
+
+def laminate_grain(seed, base, direction="h"):
+    """Printed wood-grain laminate (desk and table tops, the desks' end panels): one sheet with no boards or seams,
+    long streaks along the grain from matlib.brushed_metal's stretched noise, warm, plus a few wavy darker grain lines
+    and a faint satin sheen, so tops that meet (a conference table) run on without an edge."""
+    img = M.brushed_metal(seed, base=base, grain=3, direction="h", streak=12, sheen=4, drift=M.DRIFT)
+    wave = M.value_noise((S, S), (S // 2, S // 2), M.sub(seed, "wave"))
+    lines = M.value_noise((S, S), (8, 2), M.sub(seed, "lines"))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            yy = (y + wave[y][x] * 2.5) % S
+            k = lines[int(yy)][x]
+            if k > 0.5:  # short grain streaks (a lattice 8 px along the grain, so no line runs the whole width)
+                px[x, y] = M.rgba(M.lift(px[x, y], -(k - 0.5) * 26))
+    if direction == "v":
+        img = img.transpose(Image.TRANSPOSE)
+    return img
+
+
+def laminate_edge():
+    """The dark vinyl edge-banding of a laminate top or panel: plain, a lit first row (the rounded arris) and a darker
+    third, as the faces it covers are 1-1.5 units deep."""
+    base = (118, 96, 70)
+    img = M.noise_hv(base, 2, 5280, S, 3, (16, 8))
+    px = img.load()
+    for x in range(S):
+        for y in range(0, S, 4):
+            px[x, y] = M.rgba(M.lift(px[x, y], 22))
+            px[x, (y + 2) % S] = M.rgba(M.lift(px[x, (y + 2) % S], -10))
+    return img
+
+
+def beige_plastic(seed, base=(201, 194, 174), yellow=0.0):
+    """Moulded office plastic (the CRT, the keyboard, the copier): a fine matte grain, broad faint yellowing, and a few
+    scuffs."""
+    img = M.noise_hv(base, 4, seed, S, 2, (16, 8), hue=1.0)  # (round 2) a fine moulded grain, not an airbrush
+    if yellow:
+        M.grime(img, yellow, M.sub(seed, "yellow"), color=(196, 176, 120), cells=(16, 8), cover=0.6)
+    M.scratches(img, 2, M.sub(seed, "scuff"), length=(2, 3), light=0.05)
+    return img
+
+
+def crt_screen():
+    """A dead terminal's screen: dark green glass, the curve of the tube darker toward its corners, faint scanlines,
+    the prompt still burnt on, and the reflection of the room in a soft pale band across the top left."""
+    img = noise_fill(hexrgb(0x16241A), 3, 528)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            dx, dy = (x - 15.5) / 16, (y - 15.5) / 16
+            v = -22 * (dx * dx + dy * dy) ** 1.5 - (3 if y % 2 else 0)
+            px[x, y] = M.rgba(M.lift(px[x, y], v, 0.05))
+    ImageDraw.Draw(img).text((3, 4), "C:\\>_", fill=(80, 200, 100, 255))
+    for y in range(S):
+        for x in range(S):
+            t = x + y * 1.4
+            if 6 < t < 15:
+                px[x, y] = M.rgba(M.mix(px[x, y], (150, 170, 160), 0.14 * (1 - abs(t - 10.5) / 4.5)))
+    return img
+
+
+def keyboard_keys():
+    """Keycaps seen from above: beige keys on a 2 px pitch (each lit on its top-left pixel), dark gaps, the space bar
+    along the front row. The keyboard's top is a 9 x 2.5 unit face: rows 0-4 of this texture."""
+    base = (196, 190, 172)
+    img = Image.new("RGBA", (S, S), (70, 68, 62, 255))
+    px = img.load()
+    rng = random.Random(5290)
+    for y in range(0, S, 2):
+        space = y % 10 == 8
+        for x in range(0, S, 2):
+            c = M.lift(base, rng.uniform(-4, 4))
+            if space and 8 <= x < 24:
+                px[x, y] = M.rgba(M.lift(c, 8))
+                px[x + 1, y] = M.rgba(c)
+                continue
+            px[x, y] = M.rgba(M.lift(c, 10))
+            px[x + 1, y] = M.rgba(c)
+            px[x, y + 1] = M.rgba(M.lift(c, -14))
+    return img
+
+
+def chair_fabric(seed=5300, base=(54, 57, 63)):
+    """The office chairs' upholstery: a charcoal tweed (a plain weave with a lighter and a darker yarn), worn shiny in
+    places."""
+    img = M.fabric(seed, base=base, weave="plain", tone2=M.hue_shift(M.lift(base, 10), -2), contrast=7, grain=3,
+                   mottle=4, thread=3)
+    return match_rgb(img, L4_MEAN["chair"], "l4chair")
+
+
+def filing_paint(top=False):
+    """The filing cabinets' baked enamel in the old blue-grey: matlib.painted_metal without panel edges (the drawers
+    are geometry now), a few worn spots; the top a little dustier."""
+    img = M.painted_metal(5310 + (1 if top else 0), base=(138, 142, 146), grain=4, mottle=2, panel=False, chips=0,
+                          under=(160, 160, 158))
+    if top:
+        M.grime(img, 0.1, 5312, color=(150, 146, 134), cells=(8, 4), cover=0.5)
+    return match_rgb(img, L4_MEAN["filing"], "l4filing")
+
+
+def office_window(alt=0):
+    """The window onto rain and fog that never ends (a light block: a cube, its light unchanged): a dark painted frame
+    with a lit inner edge and a mullion, and between them fogged glass, an even grey-blue with a slow cloudy mottle
+    (no gradient: the windows stack and run on, so a gradient would band), long thin rain runs, each a pale line that
+    wavers down the pane with a darker trail and a bead where it stops, and a few droplets. The old one's 60 short
+    streaks read as static."""
+    img = M.noise_hv((92, 99, 108), 2, 521, S, 7, (16, 8), hue=1.5)
+    rng = random.Random(522 + 31 * alt)  # (round 2) a second version, so the runs are not the same on every pane
+    px = img.load()
+    for _ in range(11):
+        x, y = rng.uniform(3, 28), rng.randrange(S)
+        for k in range(rng.randint(7, 16)):
+            xi, yi = int(x) % S, (y + k) % S
+            px[xi, yi] = M.rgba(M.mix(px[xi, yi], (150, 160, 172), 0.55))
+            M.touch(img, xi + 1, yi, -0.06)
+            x += rng.choice((0, 0, 0, 0.5, -0.5))
+        M.touch(img, int(x), y + k + 1, 0.22)
+    for _ in range(26):
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, 0.16)
+        M.touch(img, x, y + 1, -0.06)
+    frame = (42, 44, 48)
+    for i in range(S):
+        for (x, y) in ((i, 0), (i, 1), (0, i), (1, i), (i, S - 1), (i, S - 2), (S - 1, i), (S - 2, i), (16, i)):
+            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2)))
+    for i in range(2, S - 2):  # the frame's inner edge: lit at the top and left, shade on the glass under the head
+        px[i, 2] = M.rgba(M.lift(px[i, 2], -14))
+        px[2, i] = M.rgba(M.lift(px[2, i], -8))
+        px[i, 1] = M.rgba(M.lift(frame, 14))
+        px[1, i] = M.rgba(M.lift(frame, 10))
+        px[15, i] = M.rgba(M.lift(px[15, i], -6))
+        px[17, i] = M.rgba(M.lift(px[17, i], 6))
+    return img
+
+
+def vending_textures():
+    """The vending machine's materials: the cabinet's red baked enamel (the old red), the lit back wall of its window,
+    an Almond Water bottle's label and cap, and the dark selection panel."""
+    red = M.painted_metal(5320, base=(168, 40, 32), grain=4, mottle=2, panel=False, chips=0, under=(150, 146, 140))
+    M.grime(red, 0.1, 5321, color=(80, 40, 30), cells=(8, 4), cover=0.4)
+    glow = M.noise_hv((214, 226, 230), 2, 5322, S, 3, (16, 8))
+    bottle = Image.new("RGBA", (S, S), (236, 228, 205, 255))  # cream plastic, a brown label band, a blue cap on top
+    px = bottle.load()
+    for y in range(S):
+        for x in range(S):
+            if y % 8 < 2:
+                px[x, y] = M.rgba(M.lift((60, 110, 170), 10 if y % 8 == 0 else -6))
+            elif 3 <= y % 8 <= 5:
+                px[x, y] = M.rgba(M.lift((196, 160, 104), 6 if y % 8 == 3 else -4))
+            else:
+                px[x, y] = M.rgba(M.lift((236, 228, 205), -8 * (x % 2)))
+    panel = M.painted_metal(5323, base=(44, 46, 50), grain=2, mottle=3, panel=False, chips=0, under=(120, 120, 118))
+    return red, glow, bottle, panel
+
+
+def cooler_textures():
+    """The water cooler: white enamel body (the old white), and the bottle's tinted blue plastic with the water inside
+    a little darker below a meniscus line every 8 px (the bottle face is cut to show one)."""
+    body = M.painted_metal(5330, base=(230, 230, 226), grain=4, mottle=2, panel=False, chips=0, under=(170, 170, 166))
+    bottle = M.noise_hv((156, 200, 230), 3, 5331, S, 4, (16, 8), hue=1.0)
+    px = bottle.load()
+    for y in range(S):
+        for x in range(S):
+            if x % 16 in (2, 3):  # the light catching the curve of the bottle
+                px[x, y] = M.rgba(M.lift(px[x, y], 18))
+            elif x % 16 in (13, 14):
+                px[x, y] = M.rgba(M.lift(px[x, y], -12))
+    return body, bottle
+
+
+def level4_textures():
+    save(office_wall(0), "block/level4/officewall.png")
+    save(office_wall(1), "block/level4/officewall-2.png")
+    save(office_window(), "block/level4/officewindow.png")
+    save(office_window(1), "block/level4/officewindow-2.png")
     img = Image.new("RGBA", (S, S), (180, 210, 220, 60))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=(110, 114, 118, 255), width=2)
     save(img, "block/level4/officeglass.png")
-    save(noise_fill(hexrgb(0x85837D), 7, 523), "block/level4/officecarpet-plain.png")
-    save(noise_fill(hexrgb(0x6E6C67), 7, 523), "block/level4/officecarpet-ghost.png")
-    img = noise_fill(hexrgb(0xD8D4CF), 3, 524)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=(150, 148, 144, 255))
-    d.line([0, 15, S - 1, 15], fill=(150, 148, 144, 255))  # 2x4 tiles
-    save(img, "block/level4/officeceiling.png")
-    for state, lens in (("on", (252, 252, 248)), ("off", (150, 150, 146))):
-        img = Image.new("RGBA", (S, S), (200, 198, 194, 255))
-        d = ImageDraw.Draw(img)
-        d.rectangle([2, 2, S - 3, S - 3], fill=lens + (255,))
-        for x in range(4, S - 3, 3):
-            d.line([x, 3, x, S - 4], fill=shade(lens, 0.93))
-        save(img, f"block/level4/officelight-{state}.png")
-    img = noise_fill(hexrgb(0x8A8C86), 3, 525)  # warm grey cubicle fabric with a faint basket weave
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            f = 1.035 if ((x // 2) + (y // 2)) % 2 else 0.97
-            px[x, y] = shade(px[x, y], f * (0.97 if y % 2 else 1.0))
-    save(img, "block/level4/partition.png")
-    save(noise_fill(hexrgb(0xB49C78), 5, 526), "block/level4/laminate.png")
-    save(noise_fill(hexrgb(0xC9C2AE), 4, 527), "block/level4/crt.png")
-    img = noise_fill(hexrgb(0x16241A), 4, 528)
-    ImageDraw.Draw(img).text((3, 4), "C:\\>_", fill=(80, 200, 100, 255))
-    save(img, "block/level4/crt-screen.png")
-    save(noise_fill(hexrgb(0x33363C), 5, 529), "block/level4/chairfabric.png")
-    img = noise_fill(hexrgb(0x8E9296), 4, 530)
-    d = ImageDraw.Draw(img)
-    for y in (10, 21):
-        d.line([0, y, S - 1, y], fill=(60, 62, 66, 255))
-    save(img, "block/level4/filing.png")
-    img = noise_fill(hexrgb(0xA82820), 6, 531)
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 21, 26], fill=(30, 34, 40, 255))
-    for row in range(4):
-        for col in range(3):
-            d.rectangle([5 + col * 6, 5 + row * 6, 8 + col * 6, 9 + row * 6], fill=(236, 228, 205, 255))  # bottles
-    d.rectangle([24, 8, 28, 16], fill=(40, 40, 40, 255))
-    save(img, "block/level4/vending.png")
-    save(noise_fill(hexrgb(0xE6E6E2), 3, 532), "block/level4/cooler.png")
-    save(noise_fill(hexrgb(0x9CC8E6), 5, 533), "block/level4/coolerbottle.png")
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(office_carpet(alt), f"block/level4/officecarpet-plain{v}.png")
+    for alt, v in ((0, ""), (1, "-2")):
+        save(office_carpet(alt, "ghost"), f"block/level4/officecarpet-ghost{v}.png")
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
+        save(office_ceiling(alt), f"block/level4/officeceiling{v}.png")
+    for state in ("on", "off"):
+        save(office_troffer(state), f"block/level4/officelight-{state}.png")
+    save(partition_fabric(), "block/level4/partition.png")
+    save(partition_rail(), "block/level4/partitionrail.png")
+    save(partition_rail(True), "block/level4/partitionrail-top.png")
+    save(M.noise_hv((62, 62, 64), 2, 5275, S, 3, (16, 8)), "block/level4/partitionbase.png")
+    # Laminate: the tops (grain along x), the end panels (grain upright), the edge banding; `laminate` keeps its name
+    # for the props that share it (bookshelf, reception desk, round table) and is now the grain too
+    save(match_rgb(laminate_grain(5285, (182, 158, 122)), L4_MEAN["laminate"], "l4lam"), "block/level4/laminate.png")
+    save(match_rgb(laminate_grain(5286, (182, 158, 122), "v"), L4_MEAN["laminate"], "l4lam"), "block/level4/laminate-v.png")
+    save(laminate_edge(), "block/level4/laminate-edge.png")
+    # the break room's round table: a plain flecked laminate (its octagonal top is boxes turned 45 degrees, which
+    # would show a grain turning from box to box)
+    img = M.noise_hv((180, 158, 124), 3, 5287, S, 2, (16, 8), hue=1.0)
+    rng = random.Random(5288)
+    for _ in range(70):
+        M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((-0.08, -0.05, 0.06)))
+    save(match_rgb(img, L4_MEAN["laminate"]), "block/level4/laminate-fleck.png")
+    save(match_rgb(beige_plastic(527, yellow=0.12), L4_MEAN["crt"], "l4crt"), "block/level4/crt.png")
+    save(crt_screen(), "block/level4/crt-screen.png")
+    save(keyboard_keys(), "block/level4/keys.png")
+    save(chair_fabric(), "block/level4/chairfabric.png")
+    save(M.noise_hv((36, 37, 40), 2, 5305, S, 3, (16, 8), hue=0.5), "block/level4/chairplastic.png")
+    save(filing_paint(), "block/level4/filing.png")
+    save(filing_paint(True), "block/level4/filing-top.png")
+    red, glow, bottle, panel = vending_textures()
+    save(red, "block/level4/vending.png")
+    save(glow, "block/level4/vending-glow.png")
+    save(bottle, "block/level4/vending-bottle.png")
+    save(panel, "block/level4/vending-panel.png")
+    body, bottle = cooler_textures()
+    save(match_rgb(body, L4_MEAN["cooler"]), "block/level4/cooler.png")
+    save(bottle, "block/level4/coolerbottle.png")
     for part in ("lower", "upper"):
         img = noise_fill(hexrgb(0x9EA4A8), 4, 534)
         d = ImageDraw.Draw(img)

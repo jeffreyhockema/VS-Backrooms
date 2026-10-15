@@ -2,7 +2,7 @@
   "level": "4",
   "seed": 1672613597,
   "anchor": [512209.5, 217.05, 507925.5],
-  "made_by": "tools/shotbot/mkspots.py make",
+  "made_by": "tools/shotbot/mkspots.py make; B7 added the close spots marked (B7), found lit on the harness grid",
   "spots": [
     {"name": "wide-01", "tp": [512146.5, 217.05, 507856.5], "look": [90, -4], "score": 57.1},
     {"name": "wide-02", "tp": [512136.5, 217.05, 507944.5], "look": [90, -4], "score": 57.0},
@@ -30,6 +30,16 @@
     {"name": "sleepingbag-wide", "tp": [512141.26, 217.05, 508106.26], "look": [135, -13], "target": "sleepingbag", "distance": 6.0},
     {"name": "sleepingbag-close", "tp": [512144.09, 217.05, 508109.09], "look": [135, -35], "target": "sleepingbag", "distance": 2.0},
     {"name": "hotelturn-wide", "tp": [512197.5, 217.0, 507787.5], "look": [2, -4], "target": "hotelturn"},
-    {"name": "hotelturn-close", "tp": [512197.5, 217.0, 507787.5], "look": [2, -4], "fov": 35, "target": "hotelturn"}
+    {"name": "hotelturn-close", "tp": [512197.5, 217.0, 507787.5], "look": [2, -4], "fov": 35, "target": "hotelturn"},
+    {"name": "desk-close", "tp": [512304.94, 217.05, 508038.06], "look": [45, -28], "target": "desk with its chair (B7)", "distance": 2.2},
+    {"name": "cubicle-close", "tp": [512068.5, 217.05, 507817.0], "look": [180, -12], "target": "cubicle partitions round a desk (B7)", "distance": 3.5},
+    {"name": "rail-close", "tp": [512164.5, 217.05, 508042.2], "look": [180, -30], "target": "partition top rail (B7)", "distance": 1.3},
+    {"name": "filing-close", "tp": [512159.5, 217.05, 508036.5], "look": [270, -25], "target": "filing cabinet (B7)", "distance": 2.0},
+    {"name": "ficus-close", "tp": [512164.5, 217.05, 508050.5], "look": [180, -10], "target": "dead ficus (B7)", "distance": 2.0},
+    {"name": "poster-close", "tp": [512137.5, 217.05, 507796.5], "look": [270, 0], "target": "framed poster (B7)", "distance": 2},
+    {"name": "poster-close2", "tp": [512185.5, 217.05, 507828.5], "look": [270, 0], "target": "framed poster, another (B7)", "distance": 2},
+    {"name": "extinguisher-close", "tp": [512226.5, 217.05, 507885.5], "look": [270, 0], "target": "fire extinguisher cabinet (B7)", "distance": 2},
+    {"name": "whiteboard-close", "tp": [512086.5, 217.05, 508045.5], "look": [180, -5], "target": "whiteboard (B7)", "distance": 2},
+    {"name": "hotelblend-wide", "tp": [512350.5, 217.05, 507781.5], "look": [90, -18], "target": "office carpet and walls meeting the hotel's (B7)"}
   ]
 }

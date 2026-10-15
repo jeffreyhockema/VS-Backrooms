@@ -499,8 +499,13 @@ def level9():
     _p = os.path.join(ASSETS, "blocktypes", "detail", "asphalt.json")
     with open(_p, encoding="utf-8") as f:
         _data = json.load(f)
+    # (B7, at the user's request after B11) three plain versions sharing one ground, each at four turns, and the crack
+    # (asphalt-2) and the patch (asphalt-3) one block in sixteen each
     _data["texturesByType"]["*-plain"]["all"]["alternates"] += [
-        {"base": "block/detail/asphalt-2"}, {"base": "block/detail/asphalt-2", "rotation": 90}, {"base": "block/detail/asphalt-3"}]
+        {"base": f"block/detail/asphalt-{v}", "rotation": r} if r else {"base": f"block/detail/asphalt-{v}"}
+        for v in (4, 5) for r in (0, 90, 180, 270)] + [
+        {"base": "block/detail/asphalt", "rotation": 180}, {"base": "block/detail/asphalt-4", "rotation": 90},
+        {"base": "block/detail/asphalt-2"}, {"base": "block/detail/asphalt-3", "rotation": 90}]
     block("asphalt", {k: v for k, v in _data.items() if k != "code"})  # (graphics pass B11)
     cube_block("sidewalk", "Pavement", ["plain"], {"plain": "sidewalk"})
     floors = {"wood": "Floorboards", "carpet": "Carpet", "tile": "Bathroom Tiles", "lino": "Linoleum", "garage": "Concrete",

@@ -2,6 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"alu": "backrooms:block/level4/partitionrail-top",
 		"drywall": "backrooms:block/level4/officewall",
 		"redmetal": "backrooms:block/detail/redmetal",
 		"steel": "backrooms:block/detail/steel",
@@ -81,7 +82,7 @@
 			"name": "Board",
 			"from": [
 				0,
-				0.5,
+				1,
 				-0.8
 			],
 			"to": [
@@ -105,7 +106,7 @@
 			"name": "BoardSides",
 			"from": [
 				0,
-				0.5,
+				1,
 				-0.8
 			],
 			"to": [
@@ -120,7 +121,7 @@
 						0,
 						0,
 						0.8,
-						13.5
+						13
 					]
 				},
 				"west": {
@@ -129,7 +130,7 @@
 						0,
 						0,
 						0.8,
-						13.5
+						13
 					]
 				},
 				"up": {
@@ -153,11 +154,215 @@
 			}
 		},
 		{
+			"name": "FrameT",
+			"from": [
+				0,
+				13.5,
+				-1.3
+			],
+			"to": [
+				16,
+				14,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				1,
+				-1.3
+			],
+			"to": [
+				16,
+				1.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameL",
+			"from": [
+				0,
+				1.5,
+				-1.3
+			],
+			"to": [
+				0.5,
+				13.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				15.5,
+				1.5,
+				-1.3
+			],
+			"to": [
+				16,
+				13.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.0
+					]
+				}
+			}
+		},
+		{
 			"name": "Tray",
 			"from": [
 				1,
-				0,
-				-2
+				0.25,
+				-2.25
 			],
 			"to": [
 				15,
@@ -166,57 +371,57 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
 						14,
-						1
+						0.75
 					]
 				},
 				"east": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
-						1.2,
-						1
+						1.45,
+						0.75
 					]
 				},
 				"south": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
 						14,
-						1
+						0.75
 					]
 				},
 				"west": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
-						1.2,
-						1
+						1.45,
+						0.75
 					]
 				},
 				"up": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
 						14,
-						1.2
+						1.45
 					]
 				},
 				"down": {
-					"texture": "#steel",
+					"texture": "#alu",
 					"uv": [
 						0,
 						0,
 						14,
-						1.2
+						1.45
 					]
 				}
 			}
@@ -231,7 +436,7 @@
 			"to": [
 				6,
 				1.6,
-				-1.2
+				-1.35
 			],
 			"faces": {
 				"north": {
@@ -248,7 +453,7 @@
 					"uv": [
 						0,
 						0,
-						0.6000000000000001,
+						0.5,
 						0.6000000000000001
 					]
 				},
@@ -266,7 +471,7 @@
 					"uv": [
 						0,
 						0,
-						0.6000000000000001,
+						0.5,
 						0.6000000000000001
 					]
 				},
@@ -276,7 +481,7 @@
 						0,
 						0,
 						3,
-						0.6000000000000001
+						0.5
 					]
 				},
 				"down": {
@@ -285,7 +490,7 @@
 						0,
 						0,
 						3,
-						0.6000000000000001
+						0.5
 					]
 				}
 			}

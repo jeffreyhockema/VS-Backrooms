@@ -13,7 +13,24 @@
 	"drawtype": "cube",
 	"textures": {
 		"all": {
-			"base": "block/level4/officewall"
+			"base": "block/level4/officewall",
+			"alternates": [
+				{
+					"base": "block/level4/officewall"
+				},
+				{
+					"base": "block/level4/officewall"
+				},
+				{
+					"base": "block/level4/officewall"
+				},
+				{
+					"base": "block/level4/officewall"
+				},
+				{
+					"base": "block/level4/officewall-2"
+				}
+			]
 		}
 	},
 	"resistance": 8,

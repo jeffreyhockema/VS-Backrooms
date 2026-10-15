@@ -48,14 +48,49 @@
 						"rotation": 270
 					},
 					{
-						"base": "block/detail/asphalt-2"
+						"base": "block/detail/asphalt-4"
 					},
 					{
-						"base": "block/detail/asphalt-2",
+						"base": "block/detail/asphalt-4",
 						"rotation": 90
 					},
 					{
-						"base": "block/detail/asphalt-3"
+						"base": "block/detail/asphalt-4",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/asphalt-4",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/asphalt-5"
+					},
+					{
+						"base": "block/detail/asphalt-5",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/asphalt-5",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/asphalt-5",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/asphalt",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/asphalt-4",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/asphalt-2"
+					},
+					{
+						"base": "block/detail/asphalt-3",
+						"rotation": 90
 					}
 				]
 			}

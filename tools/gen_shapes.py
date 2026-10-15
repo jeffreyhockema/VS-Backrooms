@@ -959,51 +959,189 @@ def level3():
     ] + [box("RailL", (3, 0, 0.5), (4, 16, 3), "metal"), box("RailR", (12, 0, 0.5), (13, 16, 3), "metal")])
 
 
+# ---------------- Level 4: the office furniture (graphics pass B7, hardware and furniture from tools/modelkit.py) ----------------
+
+L4_TEX = {k: f"backrooms:block/level4/{v}" for k, v in (
+    ("lam", "laminate"), ("lamv", "laminate-v"), ("lamedge", "laminate-edge"), ("crt", "crt"), ("screen", "crt-screen"),
+    ("keys", "keys"), ("chairfabric", "chairfabric"), ("chairplastic", "chairplastic"), ("filing", "filing"),
+    ("filingtop", "filing-top"), ("partition", "partition"), ("prail", "partitionrail"), ("prailtop", "partitionrail-top"),
+    ("pbase", "partitionbase"), ("vending", "vending"), ("vendglow", "vending-glow"), ("vendbottle", "vending-bottle"),
+    ("vendpanel", "vending-panel"), ("cooler", "cooler"), ("water", "coolerbottle"))}
+L4_TEX.update({"metal": "backrooms:block/props/metal", "metaldark": "backrooms:block/props/metal-dark",
+               "paper": "backrooms:block/detail/paper", "filinglabel": "backrooms:block/detail/filinglabel",
+               "cablampred": "backrooms:block/level2/cabinet-lampred"})
+
+
+def top_side(top, side, bottom=None):
+    return {"top": top, "side": side, "bottom": bottom or top}
+
+
+def world_v(el, faces=("north", "south")):
+    """Sets a box's side faces to world-aligned UVs (u along x, v = 16 - y within its 16-unit band), so a texture runs
+    on across stacked boxes and from block to block (the partition's fabric). The box must lie in one band."""
+    (x1, y1, _), (x2, y2, _) = el["from"], el["to"]
+    band = 16 * math.floor((y2 - 0.001) / 16)
+    for f in faces:
+        if f in el["faces"]:
+            el["faces"][f]["uv"] = [x1 % 16, 16 - (y2 - band), x1 % 16 + (x2 - x1), 16 - (y1 - band)]
+    return el
+
+
+def partition():
+    """A cubicle panel running west-east, 1.5 blocks tall: the fabric panel between aluminium posts at its two ends
+    (where it meets the next panel of a run they make one joint), an aluminium top cap with bevelled edges whose sides
+    carry a lit rolled edge, and a dark base raceway at its foot. The fabric runs on from panel to panel (world UVs).
+    The old one was a grey box with a 1 px rail. Inside the old collision box (z 6-10)."""
+    els = [K.box("Base", (0, 0, 6.5), (16, 1.5, 9.5), "pbase", faces=("north", "south", "east", "west", "down"))]
+    for nm, (y1, y2) in (("Fabric", (1.5, 16)), ("Fabric2", (16, 22.5))):
+        els.append(world_v(K.box(nm, (0.5, y1, 6.75), (15.5, y2, 9.25), "partition", faces=("north", "south"))))
+    for nm, x1 in (("PostW", 0), ("PostE", 15.5)):
+        els.append(K.box(nm, (x1, 1.5, 6.5), (x1 + 0.5, 22.5, 9.5), "prailtop", faces=("north", "south", "east", "west")))
+    els += K.bevelled_box("Cap", (0, 22.5, 6.25), (16, 24, 9.75), top_side("prailtop", "prail"), b=0.25)
+    return els
+
+
+def crt(x1, y1, z1, tex="crt", screen="screen"):
+    """A beige CRT terminal standing on a desk at y1, its front to the north at z1: a bezel as a frame of four parts
+    round the screen set back in it (glowing faintly, as the old one did), a power lamp, the case behind with
+    bevelled edges, and the tube's hump at the back."""
+    x2 = x1 + 8
+    y0 = y1 + 0.5
+    els = [K.box("CrtFoot", (x1 + 1.5, y1, z1 + 1.5), (x2 - 1.5, y0, z1 + 6), tex, faces=("north", "south", "east", "west", "up"))]
+    els += K.bevelled_box("CrtCase", (x1, y0, z1 + 0.5), (x2, y0 + 6.5, z1 + 6.5), tex, b=0.5)
+    els += [K.box("CrtBezelT", (x1 + 0.25, y0 + 5.25, z1), (x2 - 0.25, y0 + 6.25, z1 + 0.5), tex, faces=("north", "up", "down", "east", "west")),
+            K.box("CrtBezelB", (x1 + 0.25, y0 + 0.25, z1), (x2 - 0.25, y0 + 1.5, z1 + 0.5), tex, faces=("north", "up", "down", "east", "west")),
+            K.box("CrtBezelL", (x1 + 0.25, y0 + 1.5, z1), (x1 + 1.25, y0 + 5.25, z1 + 0.5), tex, faces=("north", "east", "west")),
+            K.box("CrtBezelR", (x2 - 1.25, y0 + 1.5, z1), (x2 - 0.25, y0 + 5.25, z1 + 0.5), tex, faces=("north", "east", "west")),
+            K.box("CrtScreen", (x1 + 1.25, y0 + 1.5, z1 + 0.4), (x2 - 1.25, y0 + 5.25, z1 + 0.5), screen, faces=("north",), glow=30,
+                  uv=[1, 2, 15, 14]),
+            K.box("CrtLed", (x2 - 2, y0 + 0.5, z1 - 0.25), (x2 - 1.5, y0 + 1, z1), "cablampred", faces=("north", "up", "east", "west")),
+            K.box("CrtHump", (x1 + 1.5, y0 + 0.75, z1 + 6.5), (x2 - 1.5, y0 + 5.5, z1 + 8.5), tex, faces=("south", "east", "west", "up", "down"))]
+    return els
+
+
+def desk():
+    """An office desk facing north: a laminate top (grain on top, dark edge-banding round it) on two end panels, a
+    modesty panel at the back, a pedestal of three drawers under the right-hand end (inset fronts, bar pulls), the old
+    beige terminal with its keyboard, a mouse and a stack of paper. The old one was boxes in one flat texture."""
+    lam = top_side("lam", "lamedge")
+    end = {"side": "lamv", "front": "lamedge", "back": "lamedge", "bottom": "lamedge"}
+    els = [K.box("Top", (0, 11.5, 1.5), (16, 12.5, 14.5), lam),
+           K.box("EndL", (0.75, 0, 2.25), (1.75, 11.5, 14), end, faces=("north", "south", "east", "west", "down")),
+           K.box("EndR", (14.25, 0, 2.25), (15.25, 11.5, 14), end, faces=("north", "south", "east", "west", "down")),
+           K.box("Modesty", (1.75, 3.5, 12.75), (14.25, 11.5, 13.5), "lamv", faces=("north", "south", "down")),
+           K.box("Pedestal", (10.25, 0.5, 2.75), (14.25, 11.5, 12.75), "lamv", faces=("north", "west", "down"))]
+    for i, (y1, y2) in enumerate(((0.75, 4.25), (4.5, 7.75), (8.0, 11.25))):
+        els += K.bevelled_box(f"Drawer{i}", (10.5, y1, 2.0), (14, y2, 2.75), "lamv", b=0.25)
+        els += K.handle(f"Pull{i}", 12.25, y2 - 1.0, 2.0, length=2.0, axis="x", standoff=0.5, thick=0.5, tex="metal")
+    els += crt(4, 12.5, 5.5)
+    els += [K.box("Keyboard", (4, 12.5, 2.25), (12, 13, 4.75), "crt", faces=("north", "south", "east", "west", "up")),
+            K.box("Keys", (4.5, 13, 2.5), (11.5, 13.5, 4.5), {"top": "keys", "side": "crt"}, faces=("up", "north", "east", "west", "south")),
+            K.box("Mouse", (13, 12.5, 3), (14, 13, 4.5), "crt", faces=("north", "south", "east", "west", "up")),
+            K.box("Papers", (0.75, 12.5, 7.5), (3.75, 13, 11.5), "paper", faces=("north", "south", "east", "west", "up"))]
+    return els
+
+
+def office_chair(fabric="chairfabric", plastic="chairplastic", metal="metaldark"):
+    """A swivel office chair facing north: an upholstered seat and back cushion (bevelled), a plastic seat pan and back
+    shell, the bar joining them, two T-armrests, the gas lift, and a five-star base on casters (each arm turned 72
+    degrees about the column). The old one was a seat, a back and a cross of two bars. Shared with the tipped chair
+    in gen_detail, whose keys are the same."""
+    els = []
+    els += K.bevelled_box("Seat", (3.5, 6.5, 3), (12.5, 8.5, 12), fabric, b=0.5)
+    els += [K.box("Pan", (4, 5.75, 3.5), (12, 6.5, 11.5), plastic, faces=("north", "south", "east", "west", "down"))]
+    els += K.bevelled_box("Back", (4, 9.5, 12.25), (12, 17.5, 13.75), fabric, b=0.5)
+    els += [K.box("Shell", (4.5, 10, 13.75), (11.5, 17, 14.25), plastic, faces=("south", "east", "west", "up", "down")),
+            K.box("Spine", (7.25, 6, 12), (8.75, 9.5, 14.5), plastic, faces=("south", "east", "west", "down", "north")),
+            K.box("Lift", (7.4, 1.5, 7.15), (8.6, 5.75, 8.35), metal, faces=("north", "south", "east", "west")),
+            K.box("Hub", (7, 1, 6.75), (9, 1.5, 8.75), plastic, faces=("north", "south", "east", "west", "up"))]
+    for side, x in (("L", 3), ("R", 12)):
+        els += [K.box("ArmPost" + side, (x, 6.5, 6.75), (x + 1, 11, 7.75), plastic, faces=("north", "south", "east", "west")),
+                K.box("ArmPad" + side, (x - 0.25, 11, 5), (x + 1.25, 11.75, 10), plastic)]
+    for k in range(5):
+        a = k * 72
+        els += [K.box(f"Leg{k}", (7.5, 0.75, 2), (8.5, 1.5, 7.75), plastic, rot=(0, a, 0), origin=(8, 1, 7.75),
+                      faces=("north", "east", "west", "up", "down")),
+                K.box(f"Caster{k}", (7.25, 0, 1.5), (8.75, 0.75, 2.75), metal, rot=(0, a, 0), origin=(8, 1, 7.75))]
+    return els
+
+
+def filing_cabinet():
+    """A three-drawer steel filing cabinet: the carcass in blue-grey enamel with a dustier top, three drawer fronts
+    standing proud on a recessed plinth, each with a bar pull and a label holder with its card, a lock in the top
+    drawer. The old one painted the drawers' seams."""
+    els = [K.box("Carcass", (2, 0.75, 2.5), (14, 15.5, 14), "filing", faces=("north", "south", "east", "west")),
+           K.box("Plinth", (2.5, 0, 3), (13.5, 0.75, 13.5), "metaldark", faces=("north", "south", "east", "west")),
+           K.box("Lid", (1.75, 15.5, 2.25), (14.25, 16, 14.25), {"top": "filingtop", "side": "filing", "bottom": "filing"})]
+    for i, (y1, y2) in enumerate(((1.0, 5.25), (5.5, 10.25), (10.5, 15.25))):
+        els += K.bevelled_box(f"Drawer{i}", (2.25, y1, 1.75), (13.75, y2, 2.5), "filing", b=0.25)
+        els += K.handle(f"Pull{i}", 8, y2 - 2.5, 1.75, length=3.5, axis="x", standoff=0.5, thick=0.5, tex="metal")
+        els += [K.box(f"Label{i}", (6.75, y2 - 1.5, 1.5), (9.25, y2 - 0.75, 1.75), {"front": "filinglabel", "side": "metal"},
+                      faces=("north", "east", "west", "up", "down"), uv=[0.5, 0.5, 7.5, 3.5])]
+    els.append(K.box("Lock", (11.5, 13.75, 1.25), (12.5, 14.75, 1.75), "metal", faces=("north", "east", "west", "up", "down")))
+    return els
+
+
+def conference_table():
+    """A block of the long conference table: the laminate top runs on block to block with no edge between them (its
+    edge-banding shows only where a side is open), on a steel column with a cross foot under each block."""
+    return [K.box("Top", (0, 11, 0), (16, 12.5, 16), top_side("lam", "lamedge")),
+            K.box("Spider", (5, 10.5, 5), (11, 11, 11), "metaldark", faces=("north", "south", "east", "west", "down")),
+            K.box("Column", (6.75, 1, 6.75), (9.25, 10.5, 9.25), "metaldark", faces=("north", "south", "east", "west")),
+            K.box("FootX", (2, 0, 7), (14, 1, 9), "metaldark"),
+            K.box("FootZ", (7, 0, 2), (9, 0.99, 14), "metaldark", faces=("north", "south", "east", "west", "up"))]
+
+
+def water_cooler():
+    """The water cooler full of Almond Water: a white enamel cabinet with bevelled edges, a recessed dispensing bay with
+    a drip grille, a hot (red) and a cold (blue) tap, a collar on top, and the bottle upside down in it: an octagonal
+    body with two ribs, a shoulder and a neck down into the collar."""
+    els = K.bevelled_box("Body", (4, 0, 4), (12, 13, 12), "cooler", b=0.5)
+    els += [K.box("Bay", (5, 6, 3.5), (11, 10.5, 4), "metaldark", faces=("north", "up", "down", "east", "west")),
+            K.box("Grille", (5.5, 6, 2.75), (10.5, 6.5, 3.5), "metal"),
+            K.box("TapHot", (5.75, 9.5, 3), (7, 10.5, 3.5), "cablampred", faces=("north", "east", "west", "up", "down")),
+            K.box("TapCold", (9, 9.5, 3), (10.25, 10.5, 3.5), "water", faces=("north", "east", "west", "up", "down")),
+            K.box("Collar", (5, 13, 5), (11, 14, 11), "cooler", faces=("north", "south", "east", "west", "up")),
+            K.box("Neck", (7, 14, 7), (9, 15, 9), "water", faces=("north", "south", "east", "west"))]
+    els += octagon("Shoulder", 8, 8, 2.5, 15, 16, "water", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    els += octagon("Bottle", 8, 8, 3.5, 16, 22.5, "water", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    for k, y in enumerate((18, 20.5)):
+        els += octagon(f"Rib{k}", 8, 8, 3.75, y, y + 0.5, "water", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    return els
+
+
+def vending_machine():
+    """The vending machine that still sells Almond Water: a red enamel cabinet, the window set back into its front (a
+    frame of four parts round it), lit from the back wall inside (the old glow), four shelves with rows of bottles
+    standing on them, a dark selection panel with a keypad and a coin slot to the right, and the delivery flap at
+    the foot. The old one painted all of it on one box."""
+    els = [K.box("Core", (0.5, 0, 4.5), (15.5, 28, 15), "vending"),
+           K.box("FrameB", (0.5, 0, 2), (15.5, 9, 4.5), "vending", faces=("north", "east", "west", "up", "down")),
+           K.box("FrameT", (0.5, 26, 2), (15.5, 28, 4.5), "vending", faces=("north", "east", "west", "up", "down")),
+           K.box("FrameL", (0.5, 9, 2), (2, 26, 4.5), "vending", faces=("north", "east", "west")),
+           K.box("FrameR", (11, 9, 2), (15.5, 26, 4.5), "vending", faces=("north", "east", "west")),
+           K.box("Glow", (2, 9, 4.4), (11, 26, 4.5), "vendglow", faces=("north",), glow=90),
+           K.box("Panel", (11.75, 12, 1.75), (14.75, 24, 2), "vendpanel", faces=("north", "east", "west", "up", "down")),
+           K.box("Flap", (2.5, 3, 1.75), (10.5, 6.5, 2), "metaldark", faces=("north", "east", "west", "up", "down")),
+           K.box("Slot", (12.75, 21, 1.5), (13.75, 22.5, 1.75), "metal", faces=("north", "east", "west", "up", "down"))]
+    els += K.keypad("Keys", 12.25, 13, 1.75, cols=3, rows=4, key=0.5, gap=0.25, border=0.25, plate="vendpanel", keys="metal")
+    for r, y in enumerate((9, 13.25, 17.5, 21.75)):
+        if r:
+            els.append(K.box(f"Shelf{r}", (2, y, 2.5), (11, y + 0.5, 4.4), "metal", faces=("north", "up", "down")))
+        for c in range(4):
+            x = 2.5 + c * 2.15
+            els += [K.box(f"Bottle{r}{c}", (x, y + 0.5, 3), (x + 1.25, y + 3, 4.25), "vendbottle", faces=("north", "east", "west", "up")),
+                    K.box(f"Cap{r}{c}", (x + 0.25, y + 3, 3.25), (x + 1, y + 3.5, 4), "vendpanel", faces=("north", "east", "west", "up"))]
+    return els
+
+
 def level4():
-    t = {"wood": "backrooms:block/level4/laminate", "metal": "backrooms:block/props/metal",
-         "plastic": "backrooms:block/level4/crt", "screen": "backrooms:block/level4/crt-screen",
-         "fabric": "backrooms:block/level4/chairfabric", "dark": "backrooms:block/props/metal-dark",
-         "partition": "backrooms:block/level4/partition", "filing": "backrooms:block/level4/filing",
-         "vending": "backrooms:block/level4/vending", "cooler": "backrooms:block/level4/cooler",
-         "water": "backrooms:block/level4/coolerbottle"}
-    # Cubicle partition running west-east, about 1.5 m tall, fabric under a 1 px aluminium top rail
-    save("partition", t, [box("Panel", (0, 0, 6.5), (16, 23, 9.5), "partition"),
-                          box("Rail", (0, 23, 6.2), (16, 24, 9.8), "metal")])
-    oriented("desk", t, [
-        box("Top", (0, 11.5, 2), (16, 12.5, 14), "wood"),
-        box("LegL", (1, 0, 3), (2, 11.5, 13), "wood"),
-        box("LegR", (14, 0, 3), (15, 11.5, 13), "wood"),
-        box("Modesty", (2, 4, 12), (14, 11.5, 13), "wood"),
-        box("Crt", (4, 12.5, 6), (12, 19.5, 13), "plastic"),
-        box("Screen", (5, 13.5, 5.6), (11, 18.5, 6), "screen", glow=30, faces=("north",)),
-        box("Keyboard", (4, 12.5, 2.5), (12, 13, 5), "plastic"),
-    ])
-    oriented("officechair", t, [
-        box("Seat", (3, 6, 3), (13, 8, 13), "fabric"),
-        box("Back", (3.5, 8, 11), (12.5, 17, 13), "fabric"),
-        box("Post", (7, 2, 7), (9, 6, 9), "dark"),
-        box("BaseX", (2, 0.5, 7.5), (14, 1.5, 8.5), "dark"),
-        box("BaseZ", (7.5, 0.5, 2), (8.5, 1.5, 14), "dark"),
-    ])
-    oriented("filingcabinet", t, [
-        box("Body", (2, 0, 2), (14, 16, 14), "filing"),
-        box("Handle1", (6, 12, 1.5), (10, 12.8, 2), "metal"),
-        box("Handle2", (6, 7, 1.5), (10, 7.8, 2), "metal"),
-        box("Handle3", (6, 2, 1.5), (10, 2.8, 2), "metal"),
-    ])
-    oriented("vendingmachine", t, [
-        box("Body", (0.5, 0, 2), (15.5, 28, 15), "vending"),
-        box("Glow", (2, 9, 1.8), (11, 26, 2), "water", glow=90, faces=("north",)),
-    ])
-    oriented("watercooler", t, [
-        box("Body", (4, 0, 4), (12, 14, 12), "cooler"),
-        box("Bottle", (5, 14, 5), (11, 22, 11), "water"),
-        box("Tap", (7, 9, 3), (9, 10.5, 4), "dark"),
-    ])
-    save("conferencetable", t, [
-        box("Top", (0, 11, 0), (16, 12.5, 16), "wood"),
-        box("Leg", (6, 0, 6), (10, 11, 10), "dark"),
-    ])
+    t = dict(L4_TEX)
+    for name, els in (("partition", partition()), ("desk", desk()), ("officechair", office_chair()),
+                      ("filingcabinet", filing_cabinet()), ("vendingmachine", vending_machine()),
+                      ("watercooler", water_cooler()), ("conferencetable", conference_table())):
+        used = K.textures(els)
+        save(name, {k: v for k, v in t.items() if k in used}, els)
 
 
 # ---------------- The boiler (Level 5's boiler bays and Level 3's boiler rooms; B6) ----------------

@@ -70,6 +70,11 @@ HEADER = [
     "cmd /time setmonth jun",
     "cmd /time set 12:00",
     "cmd /time stop",
+    # (B7) setting the clock can jump the calendar a day or a month on, past the next Reality Shift's start: end it
+    # again once the clock stands still (B7's second and third Level 4 runs came out black without this)
+    "cmd /backrooms shift 0",
+    "cmd /backrooms stat stability 1",
+    "wait 2000",
     f"fov {DEFAULT_FOV}",
     "slot 8",
     "wait 1000",

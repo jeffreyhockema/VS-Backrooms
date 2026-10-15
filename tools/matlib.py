@@ -1131,9 +1131,12 @@ def rubber(seed=0, size=S, base=(48, 46, 46), grain=3, mottle=4, pattern=None, p
     return img
 
 
-def asphalt(seed=0, size=S, base=(66, 65, 64), grain=5, mottle=6, aggregate=0.32, binder=0.4, cracks=0, drift=DRIFT):
+def asphalt(seed=0, size=S, base=(66, 65, 64), grain=5, mottle=6, aggregate=0.32, binder=0.4, cracks=0, drift=DRIFT,
+            chip=(8, 30), pits=0.01, shadow=0.12):
     """Asphalt: dense aggregate (1 px chips, mostly pale grey, some warm), each with a shadow pixel under it, binder-
-    rich darker patches (`binder` 0..1), small pits, and optional hairline cracks."""
+    rich darker patches (`binder` 0..1), small pits, and optional hairline cracks. (B7) `chip` is the range of a chip's
+    lift over the base in levels, `pits` the share of pixels that are pits and `shadow` the shade under a chip: lower
+    them for a fine, even wearing course (the defaults are the old values)."""
     w, h = wh(size)
     img = noise_hv(base, grain, seed, (w, h), mottle, (16, 8, 4), drift)
     rng = random.Random(sub(seed, "asph"))
@@ -1147,12 +1150,12 @@ def asphalt(seed=0, size=S, base=(66, 65, 64), grain=5, mottle=6, aggregate=0.32
         x, y = rng.randrange(w), rng.randrange(h)
         if bf[y][x] > 1 - binder * 0.5 and rng.random() < 0.6:
             continue
-        v = rng.uniform(8, 30)
+        v = rng.uniform(*chip)
         c = hue_shift(lift(base, v, drift), rng.choice((-3, 0, 2, 5)))
         put(p, w, h, x, y, c)
         if rng.random() < 0.5:
-            touch(img, x, y + 1, -0.12)
-    for _ in range(int(0.01 * w * h)):
+            touch(img, x, y + 1, -shadow)
+    for _ in range(int(pits * w * h)):
         x, y = rng.randrange(w), rng.randrange(h)
         touch(img, x, y, -0.25)
     for k in range(cracks):

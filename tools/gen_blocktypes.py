@@ -286,10 +286,16 @@ def level3():
 
 def level4():
     cube("level4", "officewall", "block/level4/officewall", comment="Off-white office drywall")
+    # (B7) The same paint in every version; the second (a filled nail hole or two, a touched-up patch) one block in six
+    _retexture("level4", "officewall", textures=with_alternates(None, [{"base": "block/level4/officewall"}] * 5 +
+                                                                    [{"base": "block/level4/officewall-2"}]))
     cube("level4", "officewindow", "block/level4/officewindow", material="Glass", sounds=GLASS,
          comment="A window onto rain and fog that never ends; its grey storm light is the main light on the floor",
          lightHsv=[36, 1, 7], lightAbsorption=0, drops=[],
          sounds_override=None)
+    # (B7 round 2) two rain versions, so the runs are not the same on every pane
+    _retexture("level4", "officewindow", textures=with_alternates(None, [{"base": "block/level4/officewindow"},
+                                                                         {"base": "block/level4/officewindow-2"}]))
     glass = {
         "code": "officeglass", "creativeinventory": {"general": ["*"], "construction": ["*"]},
         "blockmaterial": "Glass", "drawtype": "cube", "renderpass": "Transparent",
@@ -300,8 +306,15 @@ def level4():
     write("level4", "officeglass", glass, "Glass conference-room partition")
     cube("level4", "officecarpet", "block/level4/officecarpet-{type}", material="Cloth", sounds=CLOTH, states=["plain", "ghost"],
          comment="Low-pile office carpet; 'ghost' has the darker mark of furniture that once stood there")
+    # (B7) Loop pile in versions that meet without a step (gen_textures.office_carpet), each turned at random
+    _retexture("level4", "officecarpet", {
+        "*-plain": with_alternates(None, [a for v in ("", "-2", "-3") for a in turned(f"block/level4/officecarpet-plain{v}")]),
+        "*-ghost": with_alternates(None, [a for v in ("", "-2") for a in turned(f"block/level4/officecarpet-ghost{v}")])})
     cube("level4", "officeceiling", "block/level4/officeceiling", material="Ceramic", sounds=GLASS,
          comment="2x4 drop-ceiling tiles; the void above sometimes hides wire, brackets and rotten battens", drops=CEILING_DROPS, resistance=1)
+    # (B7) Level 0's ceiling module in the office's 2 x 4 layout, in three versions, each also turned half round
+    _retexture("level4", "officeceiling", textures=with_alternates(
+        None, [a for v in ("", "-2", "-3") for a in turned(f"block/level4/officeceiling{v}", (0, 180))]))
     light = {
         "code": "officelight",
         "variantgroups": [{"code": "state", "states": ["on", "lit", "off", "flicker"]}],
