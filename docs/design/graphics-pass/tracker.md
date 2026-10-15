@@ -80,6 +80,19 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   patchwork. A unit that runs across the block edge keeps one shade in every version, or the version beside it cuts
   it in two. Shift every version by the same amount when matching the old mean (`gen_textures.match_rgb` with a key).
 
+- (B7) `batch.py`'s header ended a Reality Shift and then set the clock, which can jump the calendar a day or a month
+  past the next shift's start: two Level 4 runs came out 40-100 levels darker (a black fog beyond a few blocks). The
+  header now ends the shift again after `/time stop`. A second "Reality Shift ended" in the run's chat log means one
+  had started. Compare every run's mean brightness with the baseline before judging it.
+- (B7) Texture `alternates` work on JSON-shaped blocks (decompiled `ShapeTesselatorManager`: `AltTexturesCount` feeds the
+  JSON tesselation). A blocktype `textures` entry for one named key with alternates varies a decoration without layout
+  (Level 4's posters). `drawtypeByType` lets one blocktype mix cube and JSON kinds without the `textures: { all: }`
+  pitfall.
+- (B7) Stepped geometry on a ceiling block (a diffuser of cones) reads as broken rings: its side faces take the light of
+  the solid ceiling blocks beside it, so two sides go dark. Keep ceiling hardware shallow (one step) and put fine
+  openings such as air slots in crisp pixels on a face plate. Cut-out foliage (a dead plant) reads as debris unless
+  about half of each face is leaf, close round branches.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -92,8 +105,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B5 Level 2 | gfx/B5 | merged | 2 | tunnel concrete/ceiling C+, door leaf painted, tram body C+; hazard panels, drums, trolley untouched | passed 2026-10-14 03:15 (Fable): gauges and tram verified as geometry on sidebyside |
 | D1 follow-up on B3, B4, B5 decisions | gfx/D1 | merged | offline only (not shot) | | | passed 2026-10-14 13:20 (Fable): wallpaper and floor mocks seamless, box/crate previews checked; user approved in play |
 | B6 Level 3 | gfx/B6 | merged | 2 | Purpified (C+), floor fan unseen, risers' painted roundness, OUT OF BOUNDS plaque unseen | passed 2026-10-14 15:40 (Fable): panels/fans verified as geometry, brick tone kept |
-| B7 Level 4 | gfx/B7 | in progress | | | |
-| B8 Level 5 | | not started | | | |
+| B7 Level 4 (and Level 9's asphalt, after B11) | gfx/B7 | merged | 2 | ficus (C+), windows (C+), ghost-carpet patches (layout), elevator doors and small wall decor untouched; Level 11's asphalt-cracked square (B12) | passed 2026-10-14 17:45 (Fable): furniture verified as geometry, surfaces kept tone, asphalt fine and even |
+| B8 Level 5 | gfx/B8 | in progress | | | |
 | B9 Levels 6 and 6.1 | | not started | | | |
 | B10 Levels 7 and 8 | | not started | | | |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
@@ -970,3 +983,113 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B6` from `main`, uncommitted. Two 
 - `detail_kit.EXT` gains Level 3 and Level 2 material keys.
 
 **Lessons:** four lines added above.
+
+### B7
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B7` from `main`, uncommitted. Level 4, plus Level 9's asphalt, re-done at the user's request after B11 (a scope addition from the overseer). Phase 1 was offline; phase 2 was one blind review (round 1), then a fix and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:** `review/b7/compare-round2.jpg` (every spot) and `review/b7/compare-round2-detail.jpg` (20 key spots at twice the size).
+  - After shots: `review/b7/final/4` and `review/b7/final/9`.
+  - Both levels side by side: `review/b7/sbs/{before,after}` (the Level 9 shots prefixed `9-`).
+  - Round 1: `review/b7/compare-round1*.jpg`, shots in `review/b7/after/`.
+- **Per-family pairs:** `review/b7/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B7.json`; asphalt is its own family. The B7 section is added to `review/compare.html`.
+- **Decision table:** ten rows added to `decisions.md`, decision column empty. The asphalt row says it was re-done at the user's request after B11.
+- **Offline evidence** (`review/b7/offline/`):
+  - `tile-<n>-<family>-{before,after}.png` for seven families, asphalt included;
+  - `mock-*-6x3.png` (carpet, ghost, mixed carpet, ceiling, mixed ceiling, wall, road) and `mock-hotelramp.png`;
+  - `preview-*.png`, the models beside main's;
+  - `harness/`;
+  - the scratch tools in `tools/`.
+
+**Checks**
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir).
+- **`layouthash`:** v1 and v4 match B6's output line for line (`review/b7/offline/harness/`). No C# changed and `DetailBlocks.g.cs` is unchanged.
+- **`validatelevel 4`** (`SPAWN=16000`, 24 cells): Level 4 has 0 unreachable tiles, 0 doorways to nowhere, 0 bad elevators and 0 decor facing walls. The one blocked doorway reported in each arrival area is in Level 5, which this batch did not touch.
+- **Saves:** no code, variant group or class was added, renamed or removed. No layout version. B7 was shot in `gfxreview`.
+  - `officeceilingalt`'s vent and sprinkler kinds draw as JSON (`drawtypeByType`); the stain kind stays a cube.
+  - `ficus` gets `renderpass: OpaqueNoCull`.
+- **`check_zfight`:** clean on every new shape. The hits left are faces on a neighbour's plane that were already there (the partition's ends, as the old panel had, the counter splash and the whiteboard sides), and the cooler bottle's underside at y 16 (nothing stands above it).
+- **Churn and scope:** generator churn (line endings, the `exitlintel*` key order) restored from git. `lang/en.json` and every other level's textures regenerate byte-identical.
+- **Brightness:** every final shot is within 4 levels of the new baseline, except these (`review/b7/luma-final.txt`):
+  - `sleepingbag-close` (-8): Level 4's wanderer stands at its camp in the after shots (an entity, not an asset).
+  - `wide-01` (-4.7): the modelled extinguisher cabinet's shadowed tub.
+  - `hotelturn-close` (+4.1): the partitions' aluminium.
+  - `ficus-close` (+4.1): the ficus no longer hides the wall.
+
+**Baseline and spots**
+- `review/baseline/4` is reshot on `build-gfxbase` (unchanged `main`, built at the start of this batch). The B0 set is kept in `review/baseline/4-b0`.
+  - It had drifted 2-7 levels, mostly darker in the dim corridors.
+  - A retake of three spots was pixel-identical (`review/b7/base-check`).
+- `review/baseline/9`'s `day-street` and the new `day-road-close` were shot on `build-gfxbase`. The earlier Level 9 set is kept in `review/b7/baseline9-before-b7`.
+- Added to `spots/4.json`, all found lit on the harness grid (`review/b7/offline/tools/findspots.py`): `desk-close`, `cubicle-close`, `rail-close`, `filing-close`, `ficus-close`, `poster-close`, `poster-close2`, `extinguisher-close`, `whiteboard-close`, `hotelblend-wide`. Three of them were moved after their first frames: the filing cabinet was hidden, "cooler" turned out to be the ficus, and the blend was behind a partition.
+- Added to `spots/9.json`: `day-road-close`.
+- Two runs (`review/b7/after-dark-run1`) came out 40-100 levels darker throughout; see the lessons. Everything was reshot after the fix.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Office walls, skirting | B- (blind r1: C/B-) | same | Plaster in the old off-white, hue held. Round 2 dropped the nail-hole specks. Grey vinyl cove base. |
+| Carpet (plain, ghost, papers, stains) | B (r1: B) | better | Loop-pile heather, dingy, seamless versions. The tone held within 0.5 level. Papers and stains in several arrangements. Ghost patches stay block-shaped (layout). |
+| Drop ceiling, troffers | B (r1: B) | better | Level 0's module in 2x4, the darker grid, three versions. Round 2 spread the stain over a block's two tiles. |
+| Diffuser, sprinkler | B- (r1: D, worse) | better | Round 1's three stepped cones smeared at range, and their sides read as broken rings. Now a face plate with crisp painted slots and one cone. The sprinkler is a smaller head with a muted bulb. |
+| Cubicle partitions | B- (r1: C, model B-) | better | Posts, a bevelled cap with a lit edge, a base raceway, world-UV fabric. Round 2 calmed the 1 px checker of the weave and dulled the aluminium. |
+| Desk, terminal | B (r1: B) | much better | Pedestal and pulls, edge banding, a recessed screen and the tube's hump, keys, mouse, paper. |
+| Office chair | B+ (r1: B+) | much better | Five-star base, gas lift, arms, cushions and shell. |
+| Filing cabinet, cooler, vending, counters, copier, tables | B / B- (r1: B to B-) | better | All hardware is geometry. Round 2 gave the plastic and enamel fills a fine grain (r1 found them airbrushed). |
+| Ficus | C+ (r1: D, worse) | better than r1 | Round 2 made the foliage denser and closed round two branches. It still reads as sparse, dead leaves. |
+| Extinguisher cabinet | B (r1: B) | much better | Was a painting of one; now a tub, a bead and the extinguisher as geometry. |
+| Posters, whiteboard | B (r1: B-) | better | Frame beads; nine prints as alternates. Round 2 draws the print at 64 px so the word reads from 2 blocks. Aluminium whiteboard frame. |
+| Windows | C+ (r1: C) | slightly better | Fogged glass with rain runs in two versions. The blackout panes are unchanged (lore). |
+| Hotel-red ramp | n/a (Level 5's blocks) | same | Checked only (`mock-hotelramp.png`). The blind reviewer graded the hotel carpet C; that is B8's. |
+| Level 9 asphalt | B (r1: B, much better) | much better | Fine, even grain in the old tone. No square marks. Seamless versions; the soft patch and the faint crack each one block in sixteen. Round 2 made the crack fainter. |
+| Level 9 markings | B- (r1: C) | same | They take the asphalt's grain and are clean at the seams. No wear, on B4's lesson. In no shot. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; asked about tone, geometry and the road grain):
+   - **Tone:** the office surfaces held their tone (means within about 0.5) with no grid at playing distance.
+   - **Geometry:** "the furniture is now geometry".
+   - **Road:** fine and even, with no square marks or seams.
+   - **D:** the diffuser and the ficus.
+   - **C:** the partition fabric's checker.
+   - **B-:** airbrushed plastic and enamel fills, soft poster lettering, a loud red sprinkler bulb, wall pin specks, the ceiling stain too small.
+   - **Out of scope:** the hotel carpet, elevator doors, ghost-carpet rectangles and Level 11's `asphalt-cracked` squares.
+2. **Round 2 fixed those items:**
+   - the diffuser rebuilt;
+   - the ficus denser;
+   - the weave calmed and the metal dulled;
+   - grain on the fills;
+   - 64 px posters;
+   - the bulb muted and the head smaller;
+   - no specks on the wall;
+   - a larger stain;
+   - two rain versions;
+   - a fainter road crack.
+
+   Reshot once.
+
+**Carried below B, with reasons**
+- **Ficus (C+):** a dead plant from three cut-out clumps. A convincing one needs real branch geometry, and the leaves read as sparse at any density, because the cut-out shows the room behind.
+- **Ghost carpet:** the darker patches are placed by the layout as whole blocks, so they read as a block patchwork. B3's lesson: no per-block texture answer.
+- **Windows (C+):** the blackout panes are a lore choice and stay as they are.
+- **Not touched:**
+  - elevator doors (C)
+  - conference glass
+  - corkboard, evacuation map, clock, phone, alarm
+  - fridge, microwave, bookshelf
+  - the reception desk's CRT box, chair stack, coat stand, server rack
+- **Level 11:** `asphalt-cracked` (`gen_city.street_textures`, B12) still paints a square patch over the new asphalt.
+- **Shared assets that changed** (none of these levels was reshot):
+  - `officewall`, `drywall-base` and `officedeco`: Level 11's office buildings and the drywall EXIT lintels and elevator surrounds;
+  - `officelight-on`: Level 11's subway lights;
+  - `laminate`: the bookshelf and the reception desk;
+  - the asphalt: Level 11's road markings.
+
+**Tool changes**
+- `tools/shotbot/batch.py`: the header ends a Reality Shift again after setting the clock (see the lessons).
+- `matlib.asphalt`: new `chip`, `pits` and `shadow` options; the defaults are unchanged.
+- `gen_textures.troffer`: new `rail`, `frame`, `table` and `tubes` options; the defaults are unchanged.
+- `detail_kit.wall_family`: a `textures` option (texture alternates for a decoration's keys).
+- `detail_kit.EXT`: the Level 4 furniture keys.
+
+**Lessons:** three lines added above.

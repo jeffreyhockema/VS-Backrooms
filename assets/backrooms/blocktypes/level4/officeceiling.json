@@ -13,7 +13,27 @@
 	"drawtype": "cube",
 	"textures": {
 		"all": {
-			"base": "block/level4/officeceiling"
+			"base": "block/level4/officeceiling",
+			"alternates": [
+				{
+					"base": "block/level4/officeceiling",
+					"rotation": 180
+				},
+				{
+					"base": "block/level4/officeceiling-2"
+				},
+				{
+					"base": "block/level4/officeceiling-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/level4/officeceiling-3"
+				},
+				{
+					"base": "block/level4/officeceiling-3",
+					"rotation": 180
+				}
+			]
 		}
 	},
 	"resistance": 1,

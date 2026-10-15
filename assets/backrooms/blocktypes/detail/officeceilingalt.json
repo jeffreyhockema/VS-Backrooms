@@ -20,21 +20,27 @@
 		]
 	},
 	"blockmaterial": "Ceramic",
-	"drawtype": "cube",
-	"texturesByType": {
+	"drawtypeByType": {
+		"*-stain": "cube",
+		"*": "json"
+	},
+	"shapeByType": {
 		"*-vent": {
-			"all": {
-				"base": "block/detail/officeceiling-vent"
-			}
+			"base": "block/detail/officeceilingalt-vent"
 		},
 		"*-sprinkler": {
-			"all": {
-				"base": "block/detail/officeceiling-sprinkler"
-			}
-		},
+			"base": "block/detail/officeceilingalt-sprinkler"
+		}
+	},
+	"texturesByType": {
 		"*-stain": {
 			"all": {
-				"base": "block/detail/officeceiling-stain"
+				"base": "block/detail/officeceiling-stain",
+				"alternates": [
+					{
+						"base": "block/detail/officeceiling-stain-2"
+					}
+				]
 			}
 		}
 	},

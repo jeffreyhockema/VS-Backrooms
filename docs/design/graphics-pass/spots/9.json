@@ -36,6 +36,7 @@
     {"name": "day-front", "tp": [512399.5, 217.05, 505219.5], "look": [0, 6], "pre": ["/time set 12:00", "daylight"], "note": "B11: a house front and its eave from the street"},
     {"name": "day-gable", "tp": [512379.5, 217.05, 505203.5], "look": [90, 22], "fov": 40, "pre": ["/time set 12:00", "daylight"], "note": "B11: close on a gable, where the siding meets the roof"},
     {"name": "day-eave", "tp": [512398.5, 217.05, 505211.5], "look": [0, 50], "pre": ["/time set 12:00", "daylight"], "note": "B11: the front eave from below"},
-    {"name": "day-porch", "tp": [512322.26, 217.05, 505158.26], "look": [135, 0], "pre": ["/time set 12:00", "daylight"], "note": "B11: a porch with posts, rails and its lamp (sleepingbag-wide's spot at day)"}
+    {"name": "day-porch", "tp": [512322.26, 217.05, 505158.26], "look": [135, 0], "pre": ["/time set 12:00", "daylight"], "note": "B11: a porch with posts, rails and its lamp (sleepingbag-wide's spot at day)"},
+    {"name": "day-road-close", "tp": [512379.5, 217.05, 505236.5], "look": [0, -55], "pre": ["/time set 12:00", "daylight"], "note": "B7: the road close, at day (day-street's spot, looking down at the asphalt)"}
   ]
 }

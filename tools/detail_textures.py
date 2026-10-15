@@ -986,31 +986,159 @@ def level3():
 
 # ---------------- Level 4 ----------------
 
+def paper_sheet(img, x, y, w, h, tilt, seed, fold=False):
+    """(B7) A sheet of office paper lying on the floor: a slightly yellowed page as a tilted quad, its shadow on what
+    it lies on along the lower and right edges, a few rows of grey type, and with `fold` a crease across it (a lit
+    and a shaded line). All of it inside the box it is given, so a turned block never cuts a sheet."""
+    rng = random.Random(seed)
+    px = img.load()
+    c, s_ = math.cos(math.radians(tilt)), math.sin(math.radians(tilt))
+    cx, cy = x + w / 2, y + h / 2
+
+    def local(px_, py_):  # pixel centre to the sheet's own (u, v), 0..w, 0..h
+        dx, dy = px_ + 0.5 - cx, py_ + 0.5 - cy
+        return dx * c + dy * s_ + w / 2, -dx * s_ + dy * c + h / 2
+    paper_c = (230, 228, 218)
+    lines = {r: rng.uniform(w * 0.4, w - 3.5) for r in range(2, int(h) - 2, 2)}  # each row of type its own length
+    for yy in range(S):
+        for xx in range(S):
+            u, v = local(xx, yy)
+            if 0 <= u < w and 0 <= v < h:
+                k = 0
+                if rng.random() < 0.3:
+                    k = rng.uniform(-3, 3)
+                col = M.lift(paper_c, k - 6 * (v / h))  # a little shade toward its lower edge, lying on the pile
+                row = int(v)
+                if 2 <= u < 2 + lines.get(row, 0) and row % 2 == 0:
+                    col = M.mix(col, (128, 128, 126), 0.4)  # a line of type
+                if fold and abs(v - h * 0.45) < 0.5:
+                    col = M.lift(col, -16)
+                elif fold and abs(v - h * 0.45 - 1) < 0.5:
+                    col = M.lift(col, 8)
+                px[xx, yy] = M.rgba(col)
+            elif -1.2 <= u < w + 1 and -0.5 <= v < h + 1.4 and (u >= w or v >= h):
+                px[xx, yy] = M.rgba(M.shade_px(px[xx, yy], -0.22))  # its shadow on the carpet
+
+
+def _sky(img, box, top, bottom):
+    x0, y0, x1, y1 = box
+    px = img.load()
+    for y in range(y0, y1):
+        t = (y - y0) / max(1, y1 - y0 - 1)
+        for x in range(x0, x1):
+            px[x, y] = M.rgba(M.mix(top, bottom, t))
+
+
+POSTERS = {  # word, sky top, sky bottom, what stands in it
+    "poster0": ("TEAMWORK", (106, 138, 176), (226, 186, 150), "rowers"),
+    "poster0-2": ("COURAGE", (92, 128, 170), (196, 210, 222), "peak"),
+    "poster0-3": ("VISION", (52, 60, 92), (200, 130, 96), "lighthouse"),
+    "poster1": ("SUCCESS", (200, 138, 80), (236, 196, 120), "ridge"),
+    "poster1-2": ("QUALITY", (90, 130, 180), (190, 210, 226), "eagle"),
+    "poster1-3": ("ACHIEVE", (226, 170, 110), (244, 214, 150), "road"),
+    "poster2": ("PERSEVERE", (42, 58, 90), (106, 122, 138), "wave"),
+    "poster2-2": ("BALANCE", (120, 160, 196), (206, 220, 214), "tree"),
+    "poster2-3": ("PURPOSE", (196, 204, 210), (230, 226, 214), "geese"),
+}
+
+
+def poster_prints():
+    """(B7) Motivational posters: a black mat, a picture in a thin white rule (a sky graded top to bottom and a scene
+    in silhouette), the word in pale capitals under it, and a line of small print; sun-faded a little and dusty, as
+    everything on these walls is."""
+    out = {}
+    for key, (word, top, bottom, scene) in POSTERS.items():
+        img = M.noise_hv((22, 22, 24), 2, seed_of(key), S, 2, (16,), hue=0.5)
+        d = ImageDraw.Draw(img)
+        box = (3, 3, 29, 22)
+        _sky(img, box, top, bottom)
+        dark = M.lift(M.mix(top, (20, 22, 28), 0.75), -10)
+        if scene == "rowers":  # a shell on still water at dawn
+            d.rectangle([3, 16, 28, 21], fill=M.rgba(M.mix(bottom, (40, 56, 80), 0.6)))
+            d.line([7, 16, 24, 16], fill=M.rgba(dark))
+            for x in range(9, 23, 3):
+                d.line([x, 13, x, 15], fill=M.rgba(dark))
+                d.line([x - 1, 17, x + 2, 19], fill=M.rgba(dark))
+        elif scene == "peak":
+            d.polygon([(3, 21), (14, 7), (19, 13), (22, 10), (28, 21)], fill=M.rgba((96, 104, 118)))
+            d.polygon([(11, 11), (14, 7), (17, 11), (15, 10), (13, 12)], fill=M.rgba((236, 238, 240)))
+            d.point((14, 6), fill=M.rgba(dark))
+        elif scene == "lighthouse":
+            d.rectangle([3, 18, 28, 21], fill=M.rgba((30, 34, 50)))
+            d.polygon([(14, 18), (15, 9), (17, 9), (18, 18)], fill=M.rgba((220, 214, 200)))
+            d.rectangle([14, 7, 17, 8], fill=M.rgba((250, 230, 150)))
+            d.line([17, 8, 28, 5], fill=M.rgba((240, 210, 150)))
+        elif scene == "ridge":
+            d.polygon([(3, 21), (3, 15), (9, 11), (14, 14), (20, 9), (28, 15), (28, 21)], fill=M.rgba((70, 56, 64)))
+            d.ellipse([18, 12, 23, 17], fill=M.rgba((250, 222, 150)))
+            d.polygon([(3, 21), (3, 17), (12, 15), (21, 18), (28, 16), (28, 21)], fill=M.rgba((44, 38, 48)))
+        elif scene == "eagle":
+            d.polygon([(8, 12), (15, 14), (16, 16), (17, 14), (24, 11), (17, 15), (16, 18), (15, 15)], fill=M.rgba(dark))
+            d.rectangle([3, 19, 28, 21], fill=M.rgba((110, 120, 110)))
+        elif scene == "road":
+            d.rectangle([3, 15, 28, 21], fill=M.rgba((150, 120, 80)))
+            d.polygon([(10, 21), (15, 15), (16, 15), (21, 21)], fill=M.rgba((70, 66, 64)))
+            d.line([15, 20, 15, 16], fill=M.rgba((230, 210, 140)))
+        elif scene == "wave":
+            d.polygon([(3, 21), (3, 16), (10, 13), (16, 11), (20, 12), (17, 14), (22, 15), (28, 14), (28, 21)],
+                      fill=M.rgba((30, 50, 70)))
+            d.line([16, 11, 20, 12], fill=M.rgba((220, 228, 232)))
+            d.line([10, 13, 14, 12], fill=M.rgba((200, 210, 216)))
+        elif scene == "tree":
+            d.polygon([(3, 21), (3, 19), (10, 17), (16, 16), (22, 17), (28, 19), (28, 21)], fill=M.rgba((86, 110, 70)))
+            d.line([16, 17, 16, 12], fill=M.rgba((60, 48, 36)))
+            d.ellipse([11, 7, 21, 14], fill=M.rgba((64, 92, 56)))
+        elif scene == "geese":
+            for i in range(5):
+                for sx in (-1, 1):
+                    x, y = 16 + sx * i * 2, 9 + i
+                    d.point((x, y), fill=M.rgba(dark))
+                    d.point((x + sx, y), fill=M.rgba(dark))
+        d.rectangle([2, 2, 29, 22], outline=M.rgba((200, 198, 190)))  # the print's white rule (round 2: drawn before the word)
+        # (round 2) the print is drawn at 64 px (the picture doubled, the word and small print at the finer scale) so
+        # the word reads from two blocks; a poster is a picture on a small face, as vanilla's paintings are
+        img = img.resize((2 * S, 2 * S), Image.NEAREST)
+        text(img, word, (2, 45, 62, 58), 0xE8E4D8, 9)
+        for x in range(18, 46):  # small print
+            if x % 3:
+                img.putpixel((x, 59), M.rgba((120, 118, 112)))
+        px = img.load()
+        for y in range(2 * S):  # faded by years of strip light, and dusty
+            for x in range(2 * S):
+                c = px[x, y]
+                g = M.lum(c)
+                px[x, y] = M.rgba(M.mix(c, (g, g, g), 0.18))
+        M.grime(img, 0.06, seed_of(key + "dust"), color=(150, 146, 136), cells=(16, 8), cover=0.5)
+        out[key] = img
+    return out
+
+
 def level4():
-    wall = noise(0xD8D5D4, 4, "officewall-x")
-    base = wall.copy()
-    d = ImageDraw.Draw(base)
-    d.rectangle([0, 27, S - 1, S - 1], fill=rgb(0x3E3E40))
-    d.line([0, 26, S - 1, 26], fill=rgb(0x555558))
-    save(base, "drywall-base")
-    tile = T.noise_fill(T.hexrgb(0xD8D4CF), 3, 524)
-    d = ImageDraw.Draw(tile)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x969490))
-    d.line([0, 15, S - 1, 15], fill=rgb(0x969490))
-    img = tile.copy()
-    d = ImageDraw.Draw(img)
-    d.rectangle([7, 7, 24, 24], fill=rgb(0xE8E8E4), outline=rgb(0xA8A8A4))
-    for k in (10, 13):
-        d.rectangle([k, k, S - 1 - k, S - 1 - k], outline=rgb(0xB8B8B4))
-    save(img, "officeceiling-vent")
-    img = tile.copy()
-    d = ImageDraw.Draw(img)
-    d.ellipse([13, 20, 18, 25], fill=rgb(0xE0E0DC), outline=rgb(0x9A9A96))
-    d.point((15, 22), fill=rgb(0xC8301C))
-    save(img, "officeceiling-sprinkler")
-    img = tile.copy()
-    T.blotch(img, (18, 12), 11, (150, 120, 70), 0.55, 333)
-    save(img, "officeceiling-stain")
+    # (B7) The wall's foot: the office drywall (gen_textures.office_wall) with the vinyl cove base
+    save(T.office_baseboard(T.office_wall(0)), "drywall-base")
+    # (B7) The ceiling's odd blocks share the office ceiling (gen_textures.office_ceiling): the diffuser and the
+    # sprinkler are geometry under a plain tile (gen_detail.level4), the stain is in one of a block's two tiles, at
+    # two places
+    save(T.office_ceiling(0), "officeceiling-vent")
+    save(T.office_ceiling(1), "officeceiling-sprinkler")
+    save(T.office_ceiling(2, stain=0), "officeceiling-stain")
+    save(T.office_ceiling(0, stain=1), "officeceiling-stain-2")
+    # (B7 round 2) the diffuser's white enamel with a fine orange-peel grain, and its face: concentric square air
+    # slots in crisp pixels, each a dark gap with the lit lip of the ring inside it, dust fanned out round them
+    save(M.painted_metal(seed_of("diffuser"), base=(222, 222, 216), grain=4, mottle=2, panel=False, chips=0), "diffuser")
+    img = M.painted_metal(seed_of("diffuserface"), base=(222, 222, 216), grain=4, mottle=2, panel=False, chips=0)
+    px = img.load()
+    for k in (3, 7, 11):
+        for i in range(k, S - k):
+            for (x, y) in ((i, k), (k, i), (i, S - 1 - k), (S - 1 - k, i)):
+                px[x, y] = M.rgba(M.lift(px[x, y], -70))
+            for (x, y) in ((i, k + 1), (k + 1, i)):
+                if k + 1 <= x < S - 1 - k and k + 1 <= y < S - 1 - k:
+                    px[x, y] = M.rgba(M.lift(px[x, y], 10))
+    M.grime(img, 0.12, seed_of("diffusergrime"), color=(120, 116, 104), cells=(4, 2), cover=0.45)
+    save(img, "diffuser-face")
+    save(M.brushed_metal(seed_of("sprinkler"), base=(196, 196, 192), grain=3, streak=6, sheen=8), "sprinklerchrome")
+    save(M.noise_hv((150, 70, 58), 3, seed_of("sprinklerbulb"), S, 3, (8,)), "sprinklerbulb")  # (round 2) muted
 
     img = Image.new("RGBA", (S, S), rgb(0x141414))
     d = ImageDraw.Draw(img)
@@ -1021,24 +1149,54 @@ def level4():
         d.rectangle([x, y, x + 4, y + 2], fill=rgb(0xC8C0A0))  # tape
     d.line([16, 0, 16, S - 1], fill=rgb(0x28292C))
     save(img, "officewindow-blackout")
+    # (B7) Venetian blinds: each slat lit along its rounded top, shaded under it, the gap between dark, the two
+    # ladder cords as pale lines, the frame as the plain window's
     img = Image.new("RGBA", (S, S), rgb(0xC8C6C0))
+    px = img.load()
+    rng = random.Random(seed_of("blinds"))
+    for y in range(S):
+        for x in range(S):
+            k = y % 3
+            v = (14, 0, -26)[k] + rng.uniform(-2, 2)
+            px[x, y] = M.rgba(M.lift((198, 196, 190), v))
+    for x in (8, 24):
+        for y in range(S):
+            px[x, y] = M.rgba(M.lift((226, 224, 216), 4 if y % 3 == 0 else -6))
     d = ImageDraw.Draw(img)
-    for y in range(0, S, 3):
-        d.line([0, y, S - 1, y], fill=rgb(0x8A8884))
-    d.line([8, 0, 8, S - 1], fill=rgb(0xE8E8E2))
-    d.line([24, 0, 24, S - 1], fill=rgb(0xE8E8E2))
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x28292C), width=2)
+    for i in range(2, S - 2):
+        M.touch(img, i, 1, 0.3)
+        M.touch(img, 1, i, 0.2)
     save(img, "officewindow-blinds")
-    carpet = T.noise_fill(T.hexrgb(0x85837D), 7, 523)
-    img = carpet.copy()
-    d = ImageDraw.Draw(img)
-    for x, y, a in ((4, 6, 0), (18, 14, 1), (9, 22, 0)):
-        d.polygon([(x, y), (x + 8, y + a * 2), (x + 7, y + 10), (x - 1, y + 9 - a)], fill=rgb(0xF0EEE6))
-        d.line([x + 1, y + 3, x + 6, y + 3], fill=rgb(0x9A9A9A))
-    save(img, "officecarpet-papers")
-    img = carpet.copy()
-    T.blotch(img, (14, 16), 7, (70, 50, 30), 0.6, 334)
-    save(img, "officecarpet-stain")
+    # (B7) A filing drawer's label: a white card in a steel holder (the holder's lip lit along its top), a typed line
+    img = M.noise_hv((160, 162, 164), 2, seed_of("filinglabel"), S, 2, (16,))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if 2 <= x % 16 <= 13 and 2 <= y % 16 <= 12:
+                px[x, y] = M.rgba(M.lift((232, 230, 220), -4 * ((y % 16) > 10)))
+            if (y % 16) == 0:
+                px[x, y] = M.rgba(M.lift(px[x, y], 18))
+    for y0 in (0, 16):
+        for x0 in (0, 16):
+            for x in range(x0 + 4, x0 + 11):
+                px[x, y0 + 6] = M.rgba((90, 90, 96))
+    save(img, "filinglabel")
+    # (B7) The carpet's odd blocks: the office carpet's own versions (gen_textures.office_carpet) with papers
+    # scattered on them (three arrangements) or a spill soaked in (two places); everything inside the block, as the
+    # blocktype turns them at random among the plain carpet
+    for alt, v, sheets in ((0, "", ((4, 5, 8, 10, 12, 1, 0), (17, 13, 8, 10, -8, 2, 1), (7, 19, 8, 10, 30, 3, 0))),
+                           (1, "-2", ((14, 4, 8, 10, -20, 4, 1), (5, 15, 8, 10, 6, 5, 0))),
+                           (2, "-3", ((9, 8, 8, 10, 74, 6, 0), (18, 17, 8, 10, -4, 7, 0), (16, 19, 8, 10, 22, 8, 1)))):
+        img = T.office_carpet(alt)
+        for (x, y, w, h, tilt, sd, fold) in sheets:
+            paper_sheet(img, x, y, w, h, tilt, seed_of("papers") + sd, fold)
+        save(img, "officecarpet-papers" + v)
+    for alt, v, at in ((1, "", (14, 16)), (2, "-2", (18, 13))):
+        plain = T.office_carpet(alt)
+        img = plain.copy()
+        M.stain(img, seed_of("carpetstain" + v), radius=7, color=(76, 56, 34), strength=0.45, at=at, ring=0.6)
+        save(T.inside_block(plain, img), "officecarpet-stain" + v)
     for part in ("lower", "upper"):
         img = noise(0xA88458, 4, "officedoor" + part)
         d = ImageDraw.Draw(img)
@@ -1092,13 +1250,24 @@ def level4():
     d.line([16, 16, 16, 7], fill=rgb(0x111111), width=2)  # stopped at 3:14
     d.line([16, 16, 23, 18], fill=rgb(0x111111), width=1)
     save(img, "clockface")
+    # (B7) The whiteboard's face: its aluminium frame is geometry now, so no painted border. Old writing wiped and
+    # ghosting grey, a few marker lines still on it, the board's sheen a pale band
     img = noise(0xF6F6F4, 2, "whiteboard")
     d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xA8ACB0), width=1)
+    rng = random.Random(seed_of("wbghost"))
+    for _ in range(9):  # wiped writing: faint grey rows
+        x, y = rng.randrange(2, 20), rng.randrange(3, 28)
+        d.line([x, y, x + rng.randint(5, 11), y], fill=rgb(0xDCDEE2))
     T.blotch(img, (12, 12), 8, (200, 204, 210), 0.5, 335)
     d.line([4, 8, 18, 8], fill=rgb(0x2A4AA8))
     d.line([4, 12, 14, 12], fill=rgb(0x2A4AA8))
     d.ellipse([20, 18, 28, 26], outline=rgb(0xC82020))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            t = x - y * 0.8
+            if 6 < t < 14:
+                px[x, y] = M.rgba(M.lift(px[x, y], 4))
     save(img, "whiteboard")
     img = noise(0xB08A5A, 8, "corkboard")
     d = ImageDraw.Draw(img)
@@ -1116,13 +1285,20 @@ def level4():
     d.ellipse([7, 9, 10, 12], fill=rgb(0xD82020))
     text(img, "YOU ARE HERE", (2, 26, 30, 31), 0xD82020, 3)
     save(img, "evacmap")
-    img = noise(0xE8E8E2, 2, "extcabinet")
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 28, 28], fill=rgb(0xB8C8CC), outline=rgb(0x8A8E92))
-    d.rectangle([12, 8, 19, 26], fill=rgb(0xC21C18))
-    d.rectangle([13, 5, 17, 8], fill=rgb(0x1A1A1A))
-    d.line([5, 5, 10, 10], fill=rgb(0xF0F8FA))
-    save(img, "extcabinet")
+    # (B7) The fire extinguisher cabinet is geometry now (gen_detail.level4): a white enamel tub, its pale blue-grey
+    # back, and the extinguisher in it (red body shaded round, its label, a black valve and hose)
+    save(M.painted_metal(seed_of("extsteel"), base=(226, 226, 222), grain=2, mottle=3, panel=False, chips=2,
+                         under=(150, 150, 146)), "extsteel")
+    save(M.noise_hv((184, 200, 204), 2, seed_of("extcabinet"), S, 3, (16, 8)), "extcabinet")
+    img = M.painted_metal(seed_of("extred"), base=(186, 30, 26), grain=2, mottle=3, panel=False, chips=0)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            u = (x % 8) / 7.0  # round: the body's faces are 2-3 units across, so the shading repeats every 8 px
+            px[x, y] = M.rgba(M.lift(px[x, y], 18 * math.cos((u - 0.3) * math.pi) - 6))
+            if 10 <= y % 16 <= 14:  # the label band
+                px[x, y] = M.rgba(M.lift((230, 226, 214), 14 * math.cos((u - 0.3) * math.pi) - 6))
+    save(img, "extred")
     img = noise(0xF0F0EA, 2, "strobe")
     ImageDraw.Draw(img).rectangle([6, 8, 25, 23], fill=rgb(0xF8E8E0))
     text(img, "FIRE", (4, 10, 28, 22), 0xD82020, 6)
@@ -1133,13 +1309,10 @@ def level4():
     d.rectangle([6, 8, 25, 18], fill=rgb(0x9AB89A))
     text(img, "72", (6, 8, 26, 19), 0x1E2E1E, 7)
     save(img, "thermostat")
-    for i, (word, sky, ground) in enumerate((("TEAMWORK", 0x6A8AB0, 0x5A6A4A), ("SUCCESS", 0xC88A50, 0x3A3A44), ("PERSEVERE", 0x2A3A5A, 0x6A7A8A))):
-        img = Image.new("RGBA", (S, S), rgb(0x1A1A1A))
-        d = ImageDraw.Draw(img)
-        d.rectangle([2, 2, 29, 22], fill=rgb(sky))
-        d.polygon([(2, 22), (12, 8), (18, 16), (22, 11), (29, 22)], fill=rgb(ground))
-        text(img, word, (1, 23, 31, 30), 0xE8E4D8, 5)
-        save(img, f"poster{i}")
+    # (B7) The framed motivational posters: three in the layout (poster0-2), each now with two more prints listed as
+    # texture alternates (gen_detail: officedeco), so a corridor of them is not the same three pictures
+    for k, img in poster_prints().items():
+        save(img, k)
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     ImageDraw.Draw(img).rectangle([0, 0, S - 1, S - 1], fill=rgb(0xE8E6E4))
     save(img, "frameghost")
@@ -1150,16 +1323,30 @@ def level4():
     text(img, "3", (2, 15, 30, 29), 0xF4F4F0, 11)
     save(img, "stairsign-office")
     flat("planter", 0xE4E0D6, 3)
-    img = noise(0x6A6A3A, 14, "ficusleaves")
-    rng = random.Random(7)
-    for _ in range(50):
-        img.putpixel((rng.randrange(S), rng.randrange(S)), rgb(rng.choice([0x8A7040, 0x4A5A2A, 0xA08048])))
+    # (B7) The dead ficus's foliage as cut-out leaves (the prop is drawn OpaqueNoCull, as vanilla's leaves are): small
+    # pointed leaves, olive going brown and some dead, each lit on its upper side, the gaps between them open, so the
+    # clumps read as sparse foliage instead of three noisy boxes
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    rng = random.Random(seed_of("ficusleaves"))
+    shapes = (((0, 0), (1, 0), (2, 0), (1, 1)), ((0, 0), (0, 1), (0, 2), (1, 1)), ((0, 0), (1, 0), (1, 1), (2, 1)),
+              ((1, 0), (0, 1), (1, 1), (1, 2)), ((0, 0), (1, 0), (0, 1), (1, 1)))
+    for _ in range(95):  # (round 2) denser: about half the face is leaf, so a clump reads as foliage, not debris
+        x, y = rng.randrange(S), rng.randrange(S)
+        col = rng.choice([(92, 96, 50), (100, 98, 52), (112, 100, 54), (128, 104, 58), (84, 88, 46), (140, 110, 62)])
+        for i, (dx, dy) in enumerate(rng.choice(shapes)):
+            px[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(col, (8 if dy == 0 else -6 if dy == 2 else 0) + rng.uniform(-4, 4)))
     save(img, "ficusleaves")
     flat("dryleaf", 0x8A6A3A, 8)
     flat("plasticchair", 0x5A6E86, 4)
-    flat("copier", 0xD8D2C2, 3)
-    img = noise(0x3A3E42, 3, "copierpanel")
-    ImageDraw.Draw(img).rectangle([4, 6, 18, 14], fill=rgb(0x7AB07A))
+    # (B7) The copier: beige plastic (as the terminals), its control panel dark with a small green display; the
+    # buttons, drawers and handles are geometry
+    save(T.beige_plastic(seed_of("copier"), base=(216, 210, 194), yellow=0.1), "copier")
+    img = M.noise_hv((58, 62, 66), 2, seed_of("copierpanel"), S, 2, (16,))
+    d = ImageDraw.Draw(img)
+    d.rectangle([3, 4, 17, 11], fill=rgb(0x2A3A2A))
+    d.rectangle([4, 5, 16, 10], fill=rgb(0x6A9A6A))
+    d.line([5, 7, 13, 7], fill=rgb(0x3A5A3A))
     save(img, "copierpanel")
     img = Image.new("RGBA", (S, S), rgb(0x2A2622))
     d = ImageDraw.Draw(img)
@@ -1181,12 +1368,8 @@ def level4():
             if rng.random() < 0.3:
                 d.point((x, y), fill=rgb(rng.choice([0x30E050, 0x30E050, 0xF0A020, 0x40A0F0])))
     save(img, "serverfront")
-    img = noise(0xEEEEE8, 2, "cabinetwhite")
-    d = ImageDraw.Draw(img)
-    d.line([16, 0, 16, S - 1], fill=rgb(0xB8B8B2))
-    d.rectangle([12, 4, 14, 5], fill=rgb(0x8A8E92))
-    d.rectangle([18, 4, 20, 5], fill=rgb(0x8A8E92))
-    save(img, "cabinetwhite")
+    # (B7) The kitchen counters' white laminate doors: the seam and handles are geometry now
+    save(M.noise_hv((236, 236, 230), 2, seed_of("cabinetwhite"), S, 2, (16, 8), hue=0.8), "cabinetwhite")
     flat("countertop", 0x6E6A64, 3)
     img = noise(0xE8E8E4, 2, "microwave")
     d = ImageDraw.Draw(img)

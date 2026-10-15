@@ -85,6 +85,8 @@ def write_index(manifest, index):
     parts.append("</nav>")
     for b in manifest["batches"]:
         parts.append(f'<h2 id="{html.escape(b["batch"])}">{html.escape(b["batch"])}: {html.escape(b.get("title", ""))}</h2>')
+        if b.get("note"):
+            parts.append(f'<p class="note" style="color:#e0b060;max-width:900px"><b>Note:</b> {html.escape(b["note"])}</p>')
         for fam in b["families"]:
             src = rel(os.path.join(REPO, fam["image"]), base)
             parts.append(f'<div class="fam"><h3>{html.escape(fam["name"])} <small>({html.escape(fam["id"])}; '

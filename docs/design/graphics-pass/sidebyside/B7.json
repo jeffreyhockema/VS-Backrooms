@@ -1,0 +1,20 @@
+{
+ "batch": "B7",
+ "title": "Level 4 (Abandoned Office), and Level 9's asphalt",
+ "before": "review/b7/sbs/before",
+ "after": "review/b7/sbs/after",
+ "out": "review/b7/sidebyside",
+ "note": "review/baseline/4 was reshot in B7 on a build of unchanged main (the B0 set is kept in review/baseline/4-b0). B7 added close spots for a desk and chair, a cubicle, the partition rail, a filing cabinet, the water cooler, two posters, the extinguisher cabinet, a whiteboard and the hotel-red ramp. The asphalt family (Level 9, 9-day-street and 9-day-road-close) was re-done at the user's request after B11; its before is main (B11's asphalt). review/b7/sbs holds copies of both levels' shots side by side, the Level 9 ones prefixed 9-.",
+ "families": [
+  {"id": "walls", "name": "Office walls and skirting", "spots": ["close-wall", "wide-01", "wide-03"]},
+  {"id": "carpet", "name": "Office carpet (plain, ghost, papers, stains)", "spots": ["close-floor", "wide-05", "wide-02"]},
+  {"id": "ceiling", "name": "Drop ceiling, troffers, diffuser, sprinkler, stained tile", "spots": ["close-ceiling", "close-light", "wide-07"]},
+  {"id": "partitions", "name": "Cubicle partitions (fabric, aluminium cap and posts)", "spots": ["cubicle-close", "rail-close", "prop-1"]},
+  {"id": "desk-chair", "name": "Desks, terminals and office chairs", "spots": ["desk-close", "prop-2"]},
+  {"id": "cabinets", "name": "Filing cabinet, dead ficus", "spots": ["filing-close", "ficus-close"]},
+  {"id": "wall-decor", "name": "Extinguisher cabinet, posters, whiteboard", "spots": ["extinguisher-close", "poster-close", "poster-close2", "whiteboard-close"]},
+  {"id": "clutter", "name": "Papers, bookshelf, kitchen counter, windows", "spots": ["cache-wide", "hotelturn-close", "wide-08"]},
+  {"id": "hotel-ramp", "name": "The hotel-red ramp toward Level 5 (Level 5's blocks; checked to meet the office's)", "spots": ["hotelblend-wide", "gate-wide"]},
+  {"id": "asphalt", "name": "Level 9 road asphalt and markings (re-done at the user's request after B11)", "spots": ["9-day-road-close", "9-day-street"]}
+ ]
+}

@@ -73,6 +73,11 @@ EXT = {
     "crt": "backrooms:block/level4/crt",
     "crtscreen": "backrooms:block/level4/crt-screen",
     "chairfabric": "backrooms:block/level4/chairfabric",
+    # (B7) Level 4's furniture materials, shared by gen_shapes' office models and the props here
+    "chairplastic": "backrooms:block/level4/chairplastic",
+    "lamedge": "backrooms:block/level4/laminate-edge",
+    "lamfleck": "backrooms:block/level4/laminate-fleck",
+    "alu": "backrooms:block/level4/partitionrail-top",
     "cable": "backrooms:block/level3/cable",
     "insulator": "backrooms:block/level3/insulator",
     "transformer": "backrooms:block/level3/transformer",
@@ -368,9 +373,10 @@ class Decor:
         return [(f"{self.code}{rel}", rel, els) for rel, els in self.rels.items()]
 
 
-def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, comment=None):
+def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, comment=None, textures=None):
     """One block type holding every decoration for one wall material. `walls` maps a height to the wall texture key
-    used there (falling back to the highest one given)."""
+    used there (falling back to the highest one given). `textures` (B7) goes into the block type as it is: named
+    texture keys of the decorations' shapes given other versions (`alternates`)."""
     states, by_type = [], {}
     light_by, absorb_by, sounds_by, particles_by, class_by, entity_by = {}, {}, {}, {}, {}, {}
     manifest = {}
@@ -400,6 +406,8 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
         "blockmaterial": material, "drawtype": "json", "shapeByType": by_type,
         "lightAbsorption": 99, "resistance": 4, "sounds": sounds,
     }
+    if textures:
+        data["textures"] = textures
     if light_by:
         data["lightHsvByType"] = light_by
         data["lightAbsorptionByType"] = dict(absorb_by, **{"*": 99})
