@@ -36,6 +36,36 @@
 					{
 						"base": "block/end/carpet-plain",
 						"rotation": 270
+					},
+					{
+						"base": "block/end/carpet-plain-2"
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/end/carpet-plain-3"
+					},
+					{
+						"base": "block/end/carpet-plain-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain-3",
+						"rotation": 270
 					}
 				]
 			},
@@ -43,7 +73,15 @@
 				"base": "block/end/deck-fascia"
 			},
 			"down": {
-				"base": "block/end/ceiling-plain"
+				"base": "block/end/ceiling-plain",
+				"alternates": [
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					}
+				]
 			}
 		},
 		"*-troffer": {
@@ -60,6 +98,36 @@
 					},
 					{
 						"base": "block/end/carpet-plain",
+						"rotation": 270
+					},
+					{
+						"base": "block/end/carpet-plain-2"
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/end/carpet-plain-3"
+					},
+					{
+						"base": "block/end/carpet-plain-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/carpet-plain-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/carpet-plain-3",
 						"rotation": 270
 					}
 				]

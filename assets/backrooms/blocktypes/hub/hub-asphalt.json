@@ -37,6 +37,36 @@
 					{
 						"base": "block/hub/asphalt-plain",
 						"rotation": 270
+					},
+					{
+						"base": "block/hub/asphalt-plain-2"
+					},
+					{
+						"base": "block/hub/asphalt-plain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-plain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-plain-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/hub/asphalt-plain-3"
+					},
+					{
+						"base": "block/hub/asphalt-plain-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-plain-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-plain-3",
+						"rotation": 270
 					}
 				]
 			}
@@ -56,6 +86,21 @@
 					{
 						"base": "block/hub/asphalt-worn",
 						"rotation": 270
+					},
+					{
+						"base": "block/hub/asphalt-worn-2"
+					},
+					{
+						"base": "block/hub/asphalt-worn-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-worn-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-worn-2",
+						"rotation": 270
 					}
 				]
 			}
@@ -74,6 +119,21 @@
 					},
 					{
 						"base": "block/hub/asphalt-patch",
+						"rotation": 270
+					},
+					{
+						"base": "block/hub/asphalt-patch-2"
+					},
+					{
+						"base": "block/hub/asphalt-patch-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/hub/asphalt-patch-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/hub/asphalt-patch-2",
 						"rotation": 270
 					}
 				]

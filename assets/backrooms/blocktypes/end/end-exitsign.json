@@ -81,5 +81,19 @@
 	"lightAbsorptionByType": {
 		"*-lit-*": 0,
 		"*": 99
-	}
+	},
+	"textures": {
+		"wall-band": {
+			"base": "block/end/wall-band",
+			"alternates": [
+				{
+					"base": "block/end/wall-band-2"
+				},
+				{
+					"base": "block/end/wall-band-3"
+				}
+			]
+		}
+	},
+	"randomizeAxes": "xyz"
 }

@@ -13,7 +13,51 @@
 	"drawtype": "cube",
 	"textures": {
 		"all": {
-			"base": "block/hub/ceiling"
+			"base": "block/hub/ceiling",
+			"alternates": [
+				{
+					"base": "block/hub/ceiling",
+					"rotation": 90
+				},
+				{
+					"base": "block/hub/ceiling",
+					"rotation": 180
+				},
+				{
+					"base": "block/hub/ceiling",
+					"rotation": 270
+				},
+				{
+					"base": "block/hub/ceiling-2"
+				},
+				{
+					"base": "block/hub/ceiling-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/hub/ceiling-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/hub/ceiling-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/hub/ceiling-3"
+				},
+				{
+					"base": "block/hub/ceiling-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/hub/ceiling-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/hub/ceiling-3",
+					"rotation": 270
+				}
+			]
 		}
 	},
 	"lightAbsorption": 99,

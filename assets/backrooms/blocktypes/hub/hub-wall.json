@@ -25,22 +25,138 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/hub/wall-plain"
+				"base": "block/hub/wall-plain",
+				"alternates": [
+					{
+						"base": "block/hub/wall-plain-2"
+					},
+					{
+						"base": "block/hub/wall-plain-3"
+					},
+					{
+						"base": "block/hub/wall-plain"
+					},
+					{
+						"base": "block/hub/wall-plain-2"
+					},
+					{
+						"base": "block/hub/wall-plain-3"
+					},
+					{
+						"base": "block/hub/wall-plain"
+					},
+					{
+						"base": "block/hub/wall-plain-2"
+					},
+					{
+						"base": "block/hub/wall-plain-3"
+					},
+					{
+						"base": "block/hub/wall-plain-4"
+					}
+				]
 			}
 		},
 		"*-left": {
 			"all": {
-				"base": "block/hub/wall-left"
+				"base": "block/hub/wall-left",
+				"alternates": [
+					{
+						"base": "block/hub/wall-left-2"
+					},
+					{
+						"base": "block/hub/wall-left-3"
+					},
+					{
+						"base": "block/hub/wall-left"
+					},
+					{
+						"base": "block/hub/wall-left-2"
+					},
+					{
+						"base": "block/hub/wall-left-3"
+					},
+					{
+						"base": "block/hub/wall-left"
+					},
+					{
+						"base": "block/hub/wall-left-2"
+					},
+					{
+						"base": "block/hub/wall-left-3"
+					},
+					{
+						"base": "block/hub/wall-left-4"
+					}
+				]
 			}
 		},
 		"*-bottom": {
 			"all": {
-				"base": "block/hub/wall-bottom"
+				"base": "block/hub/wall-bottom",
+				"alternates": [
+					{
+						"base": "block/hub/wall-bottom-2"
+					},
+					{
+						"base": "block/hub/wall-bottom-3"
+					},
+					{
+						"base": "block/hub/wall-bottom"
+					},
+					{
+						"base": "block/hub/wall-bottom-2"
+					},
+					{
+						"base": "block/hub/wall-bottom-3"
+					},
+					{
+						"base": "block/hub/wall-bottom"
+					},
+					{
+						"base": "block/hub/wall-bottom-2"
+					},
+					{
+						"base": "block/hub/wall-bottom-3"
+					},
+					{
+						"base": "block/hub/wall-bottom-4"
+					}
+				]
 			}
 		},
 		"*-corner": {
 			"all": {
-				"base": "block/hub/wall-corner"
+				"base": "block/hub/wall-corner",
+				"alternates": [
+					{
+						"base": "block/hub/wall-corner-2"
+					},
+					{
+						"base": "block/hub/wall-corner-3"
+					},
+					{
+						"base": "block/hub/wall-corner"
+					},
+					{
+						"base": "block/hub/wall-corner-2"
+					},
+					{
+						"base": "block/hub/wall-corner-3"
+					},
+					{
+						"base": "block/hub/wall-corner"
+					},
+					{
+						"base": "block/hub/wall-corner-2"
+					},
+					{
+						"base": "block/hub/wall-corner-3"
+					},
+					{
+						"base": "block/hub/wall-corner-4"
+					}
+				]
 			}
 		}
 	},
@@ -51,5 +167,6 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
-	}
+	},
+	"randomizeAxes": "xyz"
 }

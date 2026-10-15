@@ -1,0 +1,24 @@
+{
+ "batch": "B15",
+ "title": "The End and The Hub",
+ "before": "review/b15/sbs/before",
+ "after": "review/b15/sbs/after",
+ "out": "review/b15/sidebyside",
+ "note": "Shots carry an end- or hub- prefix: review/b15/sbs holds copies of review/baseline/end and /hub (reshot in B15 on a build of unchanged main; the B0 sets are kept as end-b0 and hub-b0) and of the final after shots. B15 added close spots for a partition wall with ghost marks, a partition poster, a gondola shelf, the EXIT door in its vestibule and a troffer in The End; a tunnel lamp, a carved door, its sigil, a service door, the Tower's ornate doors and the Tower's wall and stair in the Hub. The Hub is lit amber by design; The End's lights go out now and then (its lore).",
+ "families": [
+  {"id": "end-walls", "name": "The End's painted store walls: vinyl cove, off-white, yellow band, yellow-cream; columns (versions, the repeated scuff dashes gone)", "spots": ["end-close-wall", "end-endwall-close", "end-endwall-wide", "end-wide-01"]},
+  {"id": "end-ghost", "name": "The End's partition walls: ghost marks in four kinds and two plain versions (no one mark in a grid)", "spots": ["end-ghost-close", "end-endwall-wide"]},
+  {"id": "end-posters", "name": "The End's closing-down posters (paper, pixel lettering, three versions of the yellow one)", "spots": ["end-poster-close", "end-endexit-close", "end-endexit-wide"]},
+  {"id": "end-carpet", "name": "The End's grey-green loop pile, dusty and worn kinds, and the navy runway", "spots": ["end-close-floor", "end-prop-2", "end-wide-02", "end-wide-08"]},
+  {"id": "end-ceiling", "name": "The End's ceiling: B3's T-bar tile module, the troffers (still cubes, no dark ring)", "spots": ["end-close-ceiling", "end-close-light", "end-troffer-close", "end-wide-03"]},
+  {"id": "end-shelving", "name": "The End's maple shelving and the slatwall display towers (now real slats)", "spots": ["end-shelf-close", "end-prop-1", "end-prop-2", "end-wide-05"]},
+  {"id": "end-exit", "name": "The End's EXIT door (frame, hinges, kick plate, panic bar and lock, window bead, closer as geometry) and its vestibule", "spots": ["end-exitdoor-close", "end-endexit-close", "end-endexit-wide"]},
+  {"id": "hub-walls", "name": "The Hub's cast concrete tunnel panels (recessed joints, versions)", "spots": ["hub-close-wall", "hub-wide-02", "hub-wide-07"]},
+  {"id": "hub-ceiling", "name": "The Hub's tunnel roof (concrete, no board lines, turned versions)", "spots": ["hub-close-ceiling", "hub-wide-07", "hub-wide-08"]},
+  {"id": "hub-road", "name": "The Hub's road: asphalt, worn lanes, tar patches, sidewalk and kerb", "spots": ["hub-close-floor", "hub-wide-04", "hub-wide-05"]},
+  {"id": "hub-lamps", "name": "The Hub's caged sodium lamps (amber glass kept; bracket struts, bolts and crown as geometry)", "spots": ["hub-lamp-close", "hub-wide-06", "hub-wide-01"]},
+  {"id": "hub-doors", "name": "The Hub's doors: carved concrete level doors, the grey service door (hinges, closer), the Tower's ornate doors", "spots": ["hub-door-close", "hub-service-close", "hub-ornate-close", "hub-wide-01"]},
+  {"id": "hub-sigils", "name": "The Hub's sigils over the doors (deep recess kept; dressed stone)", "spots": ["hub-sigil-close", "hub-wide-06", "hub-wide-04"]},
+  {"id": "hub-tower", "name": "The Hub's Tower: ashlar walls, pilasters, the marble stair", "spots": ["hub-tower-base", "hub-tower-stair", "hub-ornate-close"]}
+ ]
+}

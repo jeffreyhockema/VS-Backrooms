@@ -35,6 +35,21 @@
 					{
 						"base": "block/end/runway",
 						"rotation": 270
+					},
+					{
+						"base": "block/end/runway-2"
+					},
+					{
+						"base": "block/end/runway-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/end/runway-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/end/runway-2",
+						"rotation": 270
 					}
 				]
 			}

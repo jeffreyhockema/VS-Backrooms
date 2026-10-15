@@ -14,6 +14,13 @@
     {"name": "wide-08", "tp": [625274.5, 189.05, 624852.5], "look": [0, -4], "score": 48.8},
     {"name": "close-wall", "tp": [625188.5, 189.55, 624797.5], "look": [0, 0], "surface": "wall pattern 112"},
     {"name": "close-floor", "tp": [625187.5, 189.05, 624841.5], "look": [0, -62], "surface": "floor kind 149"},
-    {"name": "close-ceiling", "tp": [625187.5, 189.05, 624797.5], "look": [0, 62], "surface": "ceiling kind 0"}
+    {"name": "close-ceiling", "tp": [625187.5, 189.05, 624797.5], "look": [0, 62], "surface": "ceiling kind 0"},
+    {"name": "door-close", "tp": [625177.5, 189.05, 624799.6], "look": [0, 10], "fov": 70, "target": "carved level door 625176-178, z 624795 (faces south): frame, slab, brass escutcheon"},
+    {"name": "sigil-close", "tp": [625177.5, 189.05, 624799.0], "look": [0, 40], "fov": 45, "target": "the sigil over that door (row 5) and its carved sides"},
+    {"name": "service-close", "tp": [625161.5, 189.05, 624798.4], "look": [0, 8], "fov": 60, "target": "service door 625161, z 624795 (faces south)"},
+    {"name": "lamp-close", "tp": [625281.5, 189.05, 624801.4], "look": [14, 36], "fov": 50, "target": "the tunnel lamp on the north wall near 625281 (wide-06's nearest), rel 4"},
+    {"name": "tower-base", "tp": [625168.5, 189.05, 625151.5], "look": [0, 14], "fov": 70, "target": "inside the Tower: the north wall's ashlar and pilasters from 3 blocks"},
+    {"name": "tower-stair", "tp": [625168.5, 189.05, 625159.5], "look": [0, 32], "fov": 70, "target": "inside the Tower: the wall rising with the marble stair and its galleries"},
+    {"name": "ornate-close-inspection", "tp": [625172.5, 189.05, 625140.6], "look": [180, 8], "fov": 70, "inspection": true, "target": "the Tower's ornate entrance doors at 625171-172, z 625144 (face north), ashlar frame; black without the inspection light"}
   ]
 }

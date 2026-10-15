@@ -1094,6 +1094,7 @@ def backed_block(code, kinds, backings, comment, material="Stone", sounds=STONE,
     groups = (bg + kg) if backing_first else (kg + bg)
     groups.append({"code": "side", "states": SIDES})
     shapes, opaque, absorb, coll, sel = {}, {}, {}, {}, {}
+    used = set()  # (B15) the texture keys its shapes use, so the wall behind gets its versions
     for kind, (front, alone) in kinds.items():
         for b in backings:
             parts = [b] if backing_group else []
@@ -1106,6 +1107,7 @@ def backed_block(code, kinds, backings, comment, material="Stone", sounds=STONE,
                 side, up, down = BACKINGS[b]
                 els = [cube_el(side, up, down)] + front
             path = shp("-".join([code] + ([kind] if kind else []) + [b]), els)
+            used.update(f["texture"][1:] for e in els for f in e["faces"].values())
             shapes.update(by_side(pat, path))
             if b == "none":
                 opaque[pat + "-*"] = {"all": False}
@@ -1133,6 +1135,10 @@ def backed_block(code, kinds, backings, comment, material="Stone", sounds=STONE,
         data.update(extra)
     if "lightAbsorptionByType" in data:
         data.pop("lightAbsorption", None)
+    alts = {k: ver(k) for k in sorted(used) if k in VERSIONS}
+    if alts:  # (B15) the wall behind a decoration, and the yellow poster, in their versions
+        data["textures"] = alts
+        data["randomizeAxes"] = "xyz"
     blk(code, data, comment)
     return data
 
@@ -1161,49 +1167,50 @@ def flat_(t):
     return {"base": f"block/end/{t}"}
 
 
+AXES = {"randomizeAxes": "xyz"}  # (B15) wall versions picked by height too (B13's lesson)
 CARPET_SOUNDS = {"walk": "game:walk/cloth", "place": "game:block/cloth", "break": "game:block/cloth", "hit": "game:block/cloth"}
 
 
 def structure():
     cube_kinds("end-carpet", {
-        "plain": ("Library Carpet", {"all": turned("carpet-plain")}),
-        "dusty": ("Library Carpet", {"all": turned("carpet-dusty")}),
-        "worn": ("Library Carpet", {"all": turned("carpet-worn")}),
-        "stained": ("Library Carpet", {"all": turned("carpet-stained")}),
+        "plain": ("Library Carpet", {"all": ver("carpet-plain", True)}),
+        "dusty": ("Library Carpet", {"all": ver("carpet-dusty", True)}),
+        "worn": ("Library Carpet", {"all": ver("carpet-worn", True)}),
+        "stained": ("Library Carpet", {"all": ver("carpet-stained", True)}),
         "snowy": ("Library Carpet under Snow", {"up": turned("carpet-snowy"), "horizontals": flat_("carpet-snowyside"), "down": flat_("carpet-plain")}),
     }, "The End: grey-green low-pile carpet; dusty, worn flat, stained, or half under the Snowfield's powder snow",
         material="Cloth", sounds=CARPET_SOUNDS,
         extra={"resistance": 1.5, "behaviors": [{"name": "BackroomsStrippable", "properties": {
             "result": "end-carpet-worn", "item": "carpetfibre", "variant": "kind", "allowed": ["plain", "dusty", "stained"]}}]})
-    cube_kinds("end-runway", {"plain": ("Patterned Carpet", {"all": turned("runway")})},
+    cube_kinds("end-runway", {"plain": ("Patterned Carpet", {"all": ver("runway", True)})},
                "The End: the navy patterned carpet of the racetrack aisle", material="Cloth", sounds=CARPET_SOUNDS,
                extra={"resistance": 1.5, "behaviors": [{"name": "BackroomsStrippable", "properties": {
                    "result": "end-carpet-worn", "item": "carpetfibre"}}]})
     cube_kinds("end-concrete", {
-        "plain": ("Stockroom Concrete", {"all": turned("concrete")}),
+        "plain": ("Stockroom Concrete", {"all": ver("concrete", True)}),
         "line-ns": ("Stockroom Concrete", {"up": flat_("concrete-linens"), "horizontals": flat_("concrete"), "down": flat_("concrete")}),
         "line-we": ("Stockroom Concrete", {"up": flat_("concrete-linewe"), "horizontals": flat_("concrete"), "down": flat_("concrete")}),
     }, "The End: the stockrooms' sealed concrete floor, with a yellow safety line either way")
     cube_kinds("end-wall", {
-        "base": ("Painted Wall", {"all": flat_("wall-base")}),
-        "lower": ("Painted Wall", {"all": flat_("wall-lower")}),
-        "ghost": ("Painted Wall", {"all": flat_("wall-ghost")}),
-        "cracked": ("Cracked Wall", {"all": flat_("wall-cracked")}),
-        "band": ("Painted Wall", {"all": flat_("wall-band")}),
-        "upper": ("Painted Wall", {"all": flat_("wall-upper")}),
-        "uppercracked": ("Cracked Wall", {"all": flat_("wall-uppercracked")}),
-        "block": ("Painted Block Wall", {"all": flat_("wall-block")}),
+        "base": ("Painted Wall", {"all": ver("wall-base")}),
+        "lower": ("Painted Wall", {"all": ver("wall-lower")}),
+        "ghost": ("Painted Wall", {"all": ver("wall-ghost")}),
+        "cracked": ("Cracked Wall", {"all": ver("wall-cracked")}),
+        "band": ("Painted Wall", {"all": ver("wall-band")}),
+        "upper": ("Painted Wall", {"all": ver("wall-upper")}),
+        "uppercracked": ("Cracked Wall", {"all": ver("wall-uppercracked")}),
+        "block": ("Painted Block Wall", {"all": ver("wall-block")}),
     }, "The End: the wall stack (rel 1 base with its vinyl cove, 2 off-white, 3 the yellow band, 4+ yellow-cream); "
-       "ghost = where a sign hung; block = the stockrooms' painted concrete block")
+       "ghost = where a sign hung; block = the stockrooms' painted concrete block", extra=AXES)
     cube_kinds("end-column", {
-        "sage": ("Column", {"all": flat_("column-sage")}),
-        "slate": ("Column", {"all": flat_("column-slate")}),
+        "sage": ("Column", {"all": ver("column-sage")}),
+        "slate": ("Column", {"all": ver("column-slate")}),
         "slat": ("Slatwall Column", {"all": flat_("slatwall")}),
     }, "The End: square columns painted sage or slate, clad in maple slatwall to head height (slat at rel 1-2)",
-        extra={"soundsByType": {"*-slat": WOOD, "*": STONE}})
+        extra=dict(AXES, soundsByType={"*-slat": WOOD, "*": STONE}))
     cube_kinds("end-ceiling", {
-        "plain": ("Ceiling Tile", {"all": flat_("ceiling-plain")}),
-        "stained": ("Ceiling Tile", {"all": flat_("ceiling-stained")}),
+        "plain": ("Ceiling Tile", {"all": ver("ceiling-plain")}),
+        "stained": ("Ceiling Tile", {"all": ver("ceiling-stained")}),
         "missing": ("Missing Ceiling Tiles", {"all": flat_("ceiling-missing")}),
     }, "The End: 2x2 acoustic ceiling tiles; stained; missing, the black plenum showing between the T-bars",
         material="Plant", sounds={"walk": "game:walk/stone", "place": "game:block/planks", "break": "game:block/planks", "hit": "game:block/planks"},
@@ -1239,8 +1246,8 @@ def structure():
     blk("end-deck", {
         "variantgroups": [{"code": "kind", "states": ["plain", "troffer"]}],
         "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Stone", "drawtype": "cube",
-        "texturesByType": {"*-plain": {"up": turned("carpet-plain"), "horizontals": flat_("deck-fascia"), "down": flat_("ceiling-plain")},
-                           "*-troffer": {"up": turned("carpet-plain"), "horizontals": flat_("deck-fascia"), "down": flat_("troffer-on")}},
+        "texturesByType": {"*-plain": {"up": ver("carpet-plain", True), "horizontals": flat_("deck-fascia"), "down": ver("ceiling-plain")},
+                           "*-troffer": {"up": ver("carpet-plain", True), "horizontals": flat_("deck-fascia"), "down": flat_("troffer-on")}},
         "lightHsvByType": {"*-troffer": [8, 2, 13]}, "lightAbsorptionByType": {"*-troffer": 0, "*": 99},
         "vertexFlagsByType": {"*-troffer": {"glowLevel": 120}},
         "resistance": 8, "sounds": CARPET_SOUNDS,
@@ -1249,6 +1256,7 @@ def structure():
 
 
 INV_ALL = {"general": ["*"], "decorative": ["*"]}
+B15_SLATS = True  # (B15) the endcap towers built from slats (False: B0's one-unit slices)
 
 
 # ======================= Shelving =======================
@@ -1430,15 +1438,27 @@ def shelving():
 
         def hw(y):
             return hw0 + (hw1 - hw0) * ((y - (1.2 if part == "lower" else 0)) / (16 - (1.2 if part == "lower" else 0)))
+        if B15_SLATS:
+            # (B15) The tower as slatwall slats, 2 units (one groove period) each, every slat a step in: the slats'
+            # lit top edges and dark slots are the steps, so it reads as stacked boards rather than thin slices; the
+            # thin ledge on top of each slat is the board's own edge. The first strip under the lowest slat is plinth.
+            ys = ([1.2] if part == "lower" else []) + list(range(2 if part == "lower" else 0, 17, 2))
+            if part == "lower":
+                els.append(bx("PlinthTop", (8 - 6.9, 1.2, 8 - 6.9), (8 + 6.9, 2, 8 + 6.9), "kick"))
+                ys = ys[1:]
         for k in range(len(ys) - 1):
             a, b = ys[k], ys[k + 1]
-            h = hw((a + b) / 2)
+            h = hw(b) if B15_SLATS else hw((a + b) / 2)
             u = min(16, 2 * h)
             uv = (0, 16 - b, u, 16 - a)
-            els.append(faces_box(f"S{k}", (8 - h, a, 8 - h), (8 + h, b, 8 + h),
-                                 {"north": "slatwall", "south": "slatwall", "east": "slatwall", "west": "slatwall"}, uv=uv))
+            sides = {"north": "slatwall", "south": "slatwall", "east": "slatwall", "west": "slatwall"}
+            if B15_SLATS:
+                sides["up"] = "maple"
+            els.append(faces_box(f"S{k}", (8 - h, a, 8 - h), (8 + h, b, 8 + h), sides, uv=uv))
         for k in range(8):
             a, b = 2 * k + (1.2 if part == "lower" and k == 0 else 0), 2 * k + 2
+            if B15_SLATS and part == "lower" and k == 7:
+                b = 15.85  # (B15) under the top's own face, not in its plane
             h = hw((a + b) / 2) + 0.15
             for j, (sx, sz) in enumerate(((-1, -1), (1, -1), (1, 1), (-1, 1))):
                 x, z = 8 + sx * h, 8 + sz * h
@@ -2053,24 +2073,67 @@ def all_faces(els):
     return out
 
 
+def exitdoor_b0(part):
+    """B0's EXIT door (before B15), kept so B15_EXITDOOR = False restores it."""
+    els = [cube_el("exitdoor"),
+           bx("JambW", (0, 0, -0.4), (1, 16, 0), "steel"), bx("JambE", (15, 0, -0.4), (16, 16, 0), "steel")]
+    if part == "lower":
+        els += [bx("Kick", (1.5, 0, -0.15), (14.5, 4, 0), "brushed"),
+                bx("BarHousingW", (2, 12.6, -1.6), (3.4, 15.6, 0), "brushed"), bx("BarHousingE", (12.6, 12.6, -1.6), (14, 15.6, 0), "brushed"),
+                bx("Bar", (3.4, 13.4, -1.5), (12.6, 14.9, -0.7), "brushed"), bx("BarStrip", (3.4, 13.2, -1.6), (12.6, 13.4, -0.6), "rubber"),
+                bx("Hinge0", (1, 3, -0.5), (1.6, 6, 0), "steel")]
+    else:
+        els += [bx("Head", (0, 15, -0.4), (16, 16, 0), "steel"),
+                faces_box("Window", (5, 3, -0.05), (11, 11, 0), {"north": "wireglass"}, uv=(0, 0, 16, 16)),
+                bx("GasketT", (4.6, 11, -0.3), (11.4, 11.4, 0), "rubber"), bx("GasketB", (4.6, 2.6, -0.3), (11.4, 3, 0), "rubber"),
+                bx("GasketW", (4.6, 3, -0.3), (5, 11, 0), "rubber"), bx("GasketE", (11, 3, -0.3), (11.4, 11, 0), "rubber"),
+                bx("Hinge1", (1, 8, -0.5), (1.6, 11, 0), "steel"), bx("Closer", (2, 12.6, -1.4), (7, 14.2, 0), "aluminium")]
+    return els
+
+
+B15_EXITDOOR = True  # (B15) the EXIT door's hardware rebuilt (False: B0's)
+
+
 def doors_and_ways():
     # The EXIT door: grey steel; a push bar on the lower half, wired glass on the upper; the side named is the side the
     # push bar faces (The End's side)
     def exitdoor(part):
+        """(B15) The hardware as geometry, on every face, each part stopping 0.05 short of the block's sides (a part
+        flush with a side would, turned onto a buried face, lie on the neighbouring wall's face: B8's lesson): a steel
+        frame (jambs, and a head stopping under the block's top so it takes its own light), three-knuckle hinges, a
+        kick plate with screws, the panic bar on its housings with a lock cylinder, the window's wired glass in a raised
+        steel bead, the closer on its arm."""
+        if not B15_EXITDOOR:
+            return exitdoor_b0(part)
+        top = 16 if part == "lower" else 15.75
         els = [cube_el("exitdoor"),
-               bx("JambW", (0, 0, -0.4), (1, 16, 0), "steel"), bx("JambE", (15, 0, -0.4), (16, 16, 0), "steel")]
+               bx("JambW", (0.05, 0, -0.6), (1.3, top, 0), "steel"), bx("JambE", (14.7, 0, -0.6), (15.95, top, 0), "steel"),
+               bx("StopW", (1.3, 0, -0.25), (1.6, 16 if part == "lower" else 14.6, 0), "steel"),
+               bx("StopE", (14.4, 0, -0.25), (14.7, 16 if part == "lower" else 14.6, 0), "steel")]
+        hinge_y = (3, 6.5) if part == "lower" else (6, 9.5)
+        for k in range(3):  # the hinge's knuckles on the frame's edge, the leaf's in between
+            y1 = hinge_y[0] + k * (hinge_y[1] - hinge_y[0]) / 3
+            els.append(bx(f"Knuckle{k}", (1.25, y1, -1.0), (1.95, y1 + (hinge_y[1] - hinge_y[0]) / 3 - 0.1, -0.3), "brushed"))
+        els.append(bx("HingePin", (1.4, hinge_y[0] - 0.4, -0.85), (1.8, hinge_y[0], -0.45), "brushed"))
         if part == "lower":
-            els += [bx("Kick", (1.5, 0, -0.15), (14.5, 4, 0), "brushed"),
-                    bx("BarHousingW", (2, 12.6, -1.6), (3.4, 15.6, 0), "brushed"), bx("BarHousingE", (12.6, 12.6, -1.6), (14, 15.6, 0), "brushed"),
-                    bx("Bar", (3.4, 13.4, -1.5), (12.6, 14.9, -0.7), "brushed"), bx("BarStrip", (3.4, 13.2, -1.6), (12.6, 13.4, -0.6), "rubber"),
-                    bx("Hinge0", (1, 3, -0.5), (1.6, 6, 0), "steel")]
+            els += [faces_box("Kick", (1.8, 0, -0.2), (14.2, 3.6, 0), {"north": "brushed", "east": "brushed", "west": "brushed", "up": "brushed"}),
+                    bx("BarHousingW", (2.2, 12.4, -1.8), (3.6, 15.8, 0), "brushed"), bx("BarHousingE", (12.4, 12.2, -2.0), (14.0, 15.8, 0), "brushed"),
+                    bx("Bar", (3.6, 13.3, -1.6), (12.4, 14.9, -0.8), "brushed"), bx("BarStrip", (3.6, 13.1, -1.7), (12.4, 13.3, -0.7), "rubber"),
+                    bx("Cylinder", (12.8, 13.4, -2.3), (13.6, 14.2, -2.0), "brass"),
+                    bx("Keyway", (13.1, 13.5, -2.35), (13.3, 14.1, -2.3), "blackcase")]
+            for k, (x, y) in enumerate(((2.3, 3.0), (13.3, 3.0), (2.3, 0.4), (13.3, 0.4))):
+                els.append(bx(f"KickScrew{k}", (x, y, -0.3), (x + 0.4, y + 0.4, -0.2), "steel"))
         else:
-            els += [bx("Head", (0, 15, -0.4), (16, 16, 0), "steel"),
-                    faces_box("Window", (5, 3, -0.05), (11, 11, 0), {"north": "wireglass"}, uv=(0, 0, 16, 16)),
-                    bx("GasketT", (4.6, 11, -0.3), (11.4, 11.4, 0), "rubber"), bx("GasketB", (4.6, 2.6, -0.3), (11.4, 3, 0), "rubber"),
-                    bx("GasketW", (4.6, 3, -0.3), (5, 11, 0), "rubber"), bx("GasketE", (11, 3, -0.3), (11.4, 11, 0), "rubber"),
-                    bx("Hinge1", (1, 8, -0.5), (1.6, 11, 0), "steel"), bx("Closer", (2, 12.6, -1.4), (7, 14.2, 0), "aluminium")]
+            els += [bx("Head", (0.05, 14.6, -0.6), (15.95, 15.75, 0), "steel"),
+                    faces_box("Window", (5.2, 3.2, -0.05), (10.8, 10.8, 0), {"north": "wireglass"}, uv=(0, 0, 16, 16)),
+                    bx("BeadT", (4.4, 10.8, -0.6), (11.6, 11.6, 0), "steel"), bx("BeadB", (4.4, 2.4, -0.6), (11.6, 3.2, 0), "steel"),
+                    bx("BeadW", (4.4, 3.2, -0.6), (5.2, 10.8, 0), "steel"), bx("BeadE", (10.8, 3.2, -0.6), (11.6, 10.8, 0), "steel"),
+                    bx("Closer", (2.2, 12.6, -1.8), (7.4, 14.2, -0.2), "aluminium"),
+                    bx("CloserPlate", (2.0, 12.4, -0.2), (7.6, 14.4, 0), "aluminium"),
+                    rot(bx("CloserArm", (6.4, 13.1, -1.6), (11.6, 13.7, -1.1), "steel"), ry=-12, origin=(6.9, 13.4, -1.35)),
+                    bx("ArmShoe", (11.0, 13.0, -1.3), (12.2, 14.4, -0.6), "steel")]
         return els
+
     shapes = {f"*-{part}": {"base": shp(f"end-exitdoor-{part}", all_faces(exitdoor(part)))} for part in ("lower", "upper")}
     blk("end-exitdoor", {
         "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
@@ -2536,6 +2599,606 @@ def merge_lang():
     print(f"lang: {len(LANG)} keys merged ({len(new_lines)} new)")
 
 
+# ======================= B15 (graphics pass): textures =======================
+#
+# Every B15 painter runs after textures() under the same keys (plus new version keys), so a family reverts by dropping
+# its call from b15_textures(). The versions it makes are listed in VERSIONS, which structure() and the decorated wall
+# blocks read through `ver()`: with no B15 painters run, every surface falls back to its one old texture. Means are
+# matched to main's PNGs (OLD_MEAN), so the store keeps its tones under its own light. Versions of a large surface share
+# one low-frequency ground and differ in fine grain and rare marks (B5's lesson); walls pick theirs by height too
+# (randomizeAxes xyz, B13's).
+
+import matlib as M  # noqa: E402
+
+OLD_MEAN = {  # main's mean colours (measured on the PNGs before B15)
+    "wall-lower": (237, 234, 223), "wall-base": (212, 208, 198), "wall-ghost": (238, 235, 225),
+    "wall-cracked": (230, 227, 216), "wall-band": (218, 173, 56), "wall-upper": (234, 213, 155),
+    "wall-uppercracked": (232, 211, 154), "wall-block": (211, 207, 194), "column-sage": (153, 173, 133),
+    "column-slate": (138, 153, 176), "soffit-face": (230, 204, 135), "deck-fascia": (230, 214, 191),
+    "carpet-plain": (98, 105, 93), "carpet-dusty": (109, 115, 104), "carpet-worn": (110, 116, 104),
+    "carpet-stained": (100, 106, 93), "runway": (52, 64, 111), "concrete": (139, 137, 131),
+    "ceiling-plain": (225, 222, 212), "ceiling-stained": (222, 217, 205), "ceiling-missing": (68, 66, 62),
+    "tbar": (216, 214, 206), "maple": (203, 152, 83), "maple-light": (219, 174, 106), "maple-dark": (167, 117, 57),
+    "maple-vertical": (204, 153, 85), "slatwall": (178, 131, 70), "pricechannel": (156, 154, 146), "kick": (41, 37, 33),
+    "exitdoor": (139, 142, 147), "steel": (141, 144, 149), "brushed": (182, 186, 189), "blackcase": (21, 21, 21),
+    "poster-yellow": (185, 174, 47), "poster-pink": (214, 140, 175), "poster-green": (151, 200, 111),
+    "poster-notice": (188, 160, 157), "wireglass": (69, 77, 81), "aluminium": (195, 199, 202),
+    "galvanised": (168, 173, 176), "rubber": (29, 29, 29),
+}
+
+VERSIONS = {}  # texture key -> [(version key, rotations)], filled by the B15 painters; read by ver()
+
+
+def ver(key, turn=False):
+    """The texture spec of a surface: its B15 versions as alternates (each listed once per rotation, so the list is
+    also its weights), or the one old texture when B15 has not run."""
+    vs = VERSIONS.get(key)
+    if not vs:
+        return turned(key) if turn else flat_(key)
+    out = []
+    for k, rots in vs:
+        for r in rots:
+            out.append({"base": f"block/end/{k}", "rotation": r} if r else {"base": f"block/end/{k}"})
+    first = dict(out[0])
+    first["alternates"] = out[1:]
+    return first
+
+
+def register(key, keys, turn=False):
+    VERSIONS[key] = [(k, (0, 90, 180, 270) if turn else (0,)) for k in keys]
+
+
+def matched(img, key, target=None):
+    return T.match_rgb(img, target or OLD_MEAN[key], key="b15end" + key)
+
+
+def calm(img, f):
+    """Every pixel's difference from the mean scaled by f: the same structure, quieter (a painted block wall whose
+    paint fills and evens what bare block would show)."""
+    m = T.mean_rgb(img)
+    p = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            c = p[x, y]
+            p[x, y] = M.rgba([m[i] + (c[i] - m[i]) * f for i in range(3)], c[3])
+    return img
+
+
+def b15_fine(img, seed, amp=1.6, roller=2.6):
+    """A version's own fine grain and roller stipple over a shared ground."""
+    rng = random.Random(seed)
+    st = M.fbm(img.size, M.sub(seed, "roll"), (2, 1), 0.7)
+    p = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            p[x, y] = M.rgba(M.lift(p[x, y], rng.uniform(-amp, amp) + st[y][x] * roller), p[x, y][3])
+    return img
+
+
+def b15_bumps(img, seed, n=2):
+    """The odd tiny lump in the paint, lit on top and shadowed under (plaster under a roller)."""
+    rng = random.Random(seed)
+    for _ in range(n):
+        x, y = rng.randrange(2, S - 2), rng.randrange(2, S - 2)
+        M.touch(img, x, y, 0.03)
+        M.touch(img, x, y + 1, -0.035)
+
+
+def paint_ground(base, key, mottle=3.2):
+    """One calm painted-plaster ground for every version (and every kind) of a wall: the broad mottle continues from
+    block to block whichever version sits beside it."""
+    return M.noise_hv(base, 0, seed_of("b15" + key + "ground"), mottle=mottle, cells=(16, 8), hue=1.0)
+
+
+def wall_plugs(img, x, y, gap, n=2, vertical=False):
+    """Screw holes left where a fixture came down: a dark pit with a pale broken rim of filler round each."""
+    for k in range(n):
+        X, Y = (x, y + k * gap) if vertical else (x + k * gap, y)
+        M.touch(img, X, Y, -0.30)
+        M.touch(img, X + 1, Y, -0.12)
+        M.touch(img, X, Y + 1, 0.05)
+        M.touch(img, X - 1, Y, 0.04)
+    return img
+
+
+def soft_rect(img, x0, y0, x1, y1, f, edge=1.2):
+    """A soft-edged rectangle lightened (f > 0) or darkened: the paint that stayed clean behind a sign. Its edge fades
+    over `edge` px so it reads as an old mark, not a painted box."""
+    for y in range(y0 - 2, y1 + 2):
+        for x in range(x0 - 2, x1 + 2):
+            dx = max(x0 - x - 0.5, x - (x1 - 1) - 0.5, 0)
+            dy = max(y0 - y - 0.5, y - (y1 - 1) - 0.5, 0)
+            d = max(dx, dy)
+            t = 1.0 if d <= 0 else max(0.0, 1 - d / edge)
+            if t > 0:
+                M.touch(img, x, y, f * t)
+
+
+def soft_disc(img, cx, cy, r, f):
+    for y in range(int(cy - r) - 2, int(cy + r) + 3):
+        for x in range(int(cx - r) - 2, int(cx + r) + 3):
+            d = math.hypot(x + 0.5 - cx, y + 0.5 - cy) - r
+            t = 1.0 if d <= 0 else max(0.0, 1 - d / 1.2)
+            if t > 0:
+                M.touch(img, x, y, f * t)
+
+
+def ghost_mark(img, kind, seed):
+    """Where something hung on the store wall: faint (12-15 levels; B15's first 6-8 read as nothing in the store's
+    light), each kind at a seed-chosen place inside the block, so a run of partition wall shows a few different marks,
+    never one mark in a grid."""
+    rng = random.Random(seed)
+    if kind == "sign":  # a sign's clean rectangle, a dust line along its top, four plugs
+        w, h = rng.choice((16, 18, 20)), rng.choice((10, 12))
+        x0, y0 = rng.randrange(4, S - 4 - w), rng.randrange(5, S - 6 - h)
+        soft_rect(img, x0, y0, x0 + w, y0 + h, 0.060)
+        for x in range(x0, x0 + w):
+            M.touch(img, x, y0 - 1, -0.045)
+        for (X, Y) in ((x0 + 1, y0 + 1), (x0 + w - 2, y0 + 1), (x0 + 1, y0 + h - 2), (x0 + w - 2, y0 + h - 2)):
+            wall_plugs(img, X, Y, 0, 1)
+    elif kind == "brackets":  # two shelf standards: pale strips with screw holes down them
+        x0, gap, y0, L = rng.randrange(5, 12), rng.choice((12, 14)), rng.randrange(3, 7), rng.randrange(16, 22)
+        for x in (x0, x0 + gap):
+            soft_rect(img, x, y0, x + 2, y0 + L, 0.065, edge=0.8)
+            wall_plugs(img, x, y0 + 2, L - 5, 2, vertical=True)
+    elif kind == "clock":  # a round clock's ghost and the hook it hung on
+        cx, cy, r = rng.uniform(11, 21), rng.uniform(12, 18), rng.choice((5.5, 6.5))
+        soft_disc(img, cx, cy, r, 0.060)
+        for k in range(int(2 * r) + 2):  # dust settled on its upper rim
+            a = math.pi * (0.15 + 0.7 * k / (2 * r + 2))
+            M.touch(img, int(cx - (r + 0.6) * math.cos(a)), int(cy - (r + 0.6) * math.sin(a)), -0.04)
+        wall_plugs(img, int(cx), int(cy - r + 2), 0, 1)
+    elif kind == "plugs":  # just the holes, and a scrap of tape residue
+        x0, y0 = rng.randrange(6, 20), rng.randrange(8, 20)
+        wall_plugs(img, x0, y0, rng.choice((6, 8)), 2)
+        tx, ty = rng.randrange(4, 24), rng.randrange(4, 12)
+        for k in range(3):
+            M.touch(img, tx + k, ty, 0.03)
+            M.touch(img, tx + k, ty + 1, 0.02)
+    return img
+
+
+def scuffs(img, seed, y=(20, 28), n=2):
+    """A few soft scuffs at trolley height: low wide smears (one version in eight)."""
+    rng = random.Random(seed)
+    w, h = img.size
+    p = img.load()
+    for _ in range(n):
+        cx, cy = rng.uniform(6, 26), rng.uniform(*y)
+        rx, ry = rng.uniform(4, 8), rng.uniform(0.8, 1.6)
+        for yy in range(int(cy - ry) - 1, int(cy + ry) + 2):
+            for xx in range(int(cx - rx) - 1, int(cx + rx) + 2):
+                d = ((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2
+                if d < 1 and 1 <= xx < w - 1:
+                    M.put(p, w, h, xx, yy, M.mix(M.get(p, w, h, xx, yy), (150, 144, 132), 0.07 * (1 - d) ** 1.5))
+    return img
+
+
+def b15_walls():
+    """The store's painted walls (rel 1 base with its vinyl cove, rel 2 off-white, rel 3 the yellow band, rel 4+ the
+    yellow-cream): eggshell paint over plaster in the old tones, the dash scuffs that sat in the same place on every
+    block gone. Plain versions share one ground; the lower wall carries a mark (plugs, a scuff) in one version in
+    eight; the ghost kind (30% of a partition's eye-level blocks) gets four marks and two plain versions."""
+    lo = paint_ground(H(WALL_LO)[:3], "walllo")
+
+    def plain(k, tag):
+        img = b15_fine(lo.copy(), seed_of(f"b15{tag}fine{k}"))
+        b15_bumps(img, seed_of(f"b15{tag}bump{k}"))
+        return img
+    for k in range(4):
+        save(matched(plain(k, "lower"), "wall-lower"), "wall-lower" if k == 0 else f"wall-lower-{k + 1}")
+    img = wall_plugs(plain(4, "lower"), 13, 15, 7)
+    save(matched(img, "wall-lower"), "wall-lower-5")
+    save(matched(scuffs(plain(5, "lower"), seed_of("b15lowerscuff")), "wall-lower"), "wall-lower-6")
+    register("wall-lower", ["wall-lower", "wall-lower-2", "wall-lower-3", "wall-lower-4"] * 4 + ["wall-lower-5", "wall-lower-6"])
+    # The ghost kind
+    for k, kind in enumerate(("sign", "brackets", "clock", "plugs")):
+        img = ghost_mark(plain(10 + k, "ghost"), kind, seed_of(f"b15ghost{kind}"))
+        save(matched(img, "wall-lower"), "wall-ghost" if k == 0 else f"wall-ghost-{k + 1}")
+    register("wall-ghost", ["wall-ghost", "wall-ghost-2", "wall-ghost-3", "wall-ghost-4"])
+    # Cracked: a hairline crack, two versions at different places (collapse departments)
+    for k in range(2):
+        img = plain(30 + k, "cracked")
+        M.crack(img, seed_of(f"b15crack{k}"), at=(8 + 14 * k, 6 + 8 * k), length=(18, 26), strength=0.30)
+        M.crack(img, seed_of(f"b15crackb{k}"), at=(10 + 12 * k, 10 + 6 * k), length=(8, 12), strength=0.22)
+        save(matched(img, "wall-lower"), "wall-cracked" if k == 0 else "wall-cracked-2")
+    register("wall-cracked", ["wall-cracked", "wall-cracked-2"])
+    # Base: the lower paint over a 4 px vinyl cove (a lit roll, its body, a dark toe), a soft dirt gradient toward the
+    # floor (one field for every version, so it continues along the wall), a scuff in two versions of eight
+    dirt = M.fbm((S, S), seed_of("b15basedirt"), (16, 8), 0.5)
+    cove = H(COVE)[:3]
+    for k in range(4):
+        img = matched(plain(40 + k, "base"), "wall-lower")  # (the lower wall's paint, so the two rows meet)
+        p = img.load()
+        for y in range(S):
+            t = max(0.0, (y - 14) / (S - 18)) ** 1.7
+            for x in range(S):
+                p[x, y] = M.rgba(M.mix(p[x, y], (156, 148, 132), t * (0.07 + 0.03 * dirt[y][x])))
+        if k >= 2:
+            scuffs(img, seed_of(f"b15basescuff{k}"), y=(22, 26), n=2)
+        rng = random.Random(seed_of(f"b15cove{k}"))
+        for x in range(S):
+            p[x, S - 6] = M.rgba(M.lift(p[x, S - 6], -7))      # the shadow under the cove's lip
+            p[x, S - 5] = M.rgba(M.lift(cove, 20 + rng.uniform(-2, 2)))  # its lit roll
+            p[x, S - 4] = M.rgba(M.lift(cove, 7 + rng.uniform(-2, 2)))
+            p[x, S - 3] = M.rgba(M.lift(cove, 2 + rng.uniform(-2, 2)))
+            p[x, S - 2] = M.rgba(M.lift(cove, rng.uniform(-2, 2)))
+            p[x, S - 1] = M.rgba(M.lift(cove, -10 + rng.uniform(-2, 2)))  # the toe on the carpet
+        save(img, "wall-base" if k == 0 else f"wall-base-{k + 1}")
+    register("wall-base", ["wall-base", "wall-base-2"] * 3 + ["wall-base-3", "wall-base-4"])
+    # The yellow band: its own paint, painted edges top and bottom (clean lines that meet across every block edge)
+    band = paint_ground(H(BAND)[:3], "band", mottle=2.0)
+    edge = H(BAND_E)[:3]
+    for k in range(3):
+        img = b15_fine(band.copy(), seed_of(f"b15bandfine{k}"), 1.4, 1.6)
+        p = img.load()
+        for x in range(S):
+            p[x, 0] = M.rgba(M.lift(edge, 4))
+            p[x, 1] = M.rgba(M.lift(p[x, 1], -5))
+            p[x, 2] = M.rgba(M.lift(p[x, 2], 3))
+            p[x, S - 2] = M.rgba(M.lift(p[x, S - 2], -4))
+            p[x, S - 1] = M.rgba(M.lift(edge, -2))
+        save(matched(img, "wall-band"), "wall-band" if k == 0 else f"wall-band-{k + 1}")
+    register("wall-band", ["wall-band", "wall-band-2", "wall-band-3"])
+    # The yellow-cream above, and its cracked kind
+    up = paint_ground(H(WALL_UP)[:3], "wallup")
+    for k in range(4):
+        img = b15_fine(up.copy(), seed_of(f"b15upfine{k}"))
+        b15_bumps(img, seed_of(f"b15upbump{k}"))
+        save(matched(img, "wall-upper"), "wall-upper" if k == 0 else f"wall-upper-{k + 1}")
+    register("wall-upper", ["wall-upper", "wall-upper-2", "wall-upper-3", "wall-upper-4"])
+    for k in range(2):
+        img = b15_fine(up.copy(), seed_of(f"b15upcr{k}"))
+        M.crack(img, seed_of(f"b15upcrack{k}"), at=(9 + 13 * k, 4 + 10 * k), length=(18, 26), strength=0.28)
+        save(matched(img, "wall-upper"), "wall-uppercracked" if k == 0 else "wall-uppercracked-2")
+    register("wall-uppercracked", ["wall-uppercracked", "wall-uppercracked-2"])
+    # The stockrooms' painted concrete block: 16 x 8 units in running bond, the paint filling a recessed joint
+    for k in range(3):
+        img = M.brick(seed_of("b15block"), base=(214, 210, 197), mortar=(190, 185, 170), course=8, length=16,
+                      offset=0.5, jitter=2, hue=1.0, recess=0.35, pits=0.004, chamfer=False, grain=3, mottle=4,
+                      tones=seed_of(f"b15blocktones{k}"))
+        save(matched(calm(img, 0.6), "wall-block"), "wall-block" if k == 0 else f"wall-block-{k + 1}")
+    register("wall-block", ["wall-block", "wall-block-2", "wall-block-3"])
+    # Columns: sage and slate paint
+    for name_, c in (("sage", SAGE), ("slate", SLATE)):
+        g = paint_ground(H(c)[:3], "col" + name_, mottle=2.0)
+        for k in range(3):
+            img = b15_fine(g.copy(), seed_of(f"b15col{name_}{k}"), 1.4, 2.2)
+            save(matched(img, f"column-{name_}"), f"column-{name_}" if k == 0 else f"column-{name_}-{k + 1}")
+        register(f"column-{name_}", [f"column-{name_}", f"column-{name_}-2", f"column-{name_}-3"])
+    # The soffit's face: yellow-cream with the band along its foot, edged as the wall's band
+    img = b15_fine(up.copy(), seed_of("b15soffit"))
+    p = img.load()
+    bp = band.load()
+    for x in range(S):
+        for y in range(S - 7, S - 1):
+            p[x, y] = bp[x, y]
+        p[x, S - 8] = M.rgba(M.lift(p[x, S - 8], -4))
+        p[x, S - 7] = M.rgba(M.lift(edge, 4))
+        p[x, S - 1] = M.rgba(M.lift(edge, -10))
+    save(matched(img, "soffit-face"), "soffit-face")
+
+
+def b15_floors():
+    """The grey-green loop pile (three versions on one ground, turned at random, a little dingy: B3's lesson that a
+    pristine carpet reads wrong) and its dusty, worn and stained kinds; the navy runway with its squiggles dyed into a
+    cut pile; the stockroom's sealed concrete."""
+    base = H(CARPET)[:3]
+    ground = M.noise_hv(base, 0, seed_of("b15carpetground"), mottle=4, cells=(16, 8), hue=1.0)
+
+    def pile(k, wear=0.0, mix2=0.35):
+        img = M.carpet(seed_of(f"b15carpet{k}"), base=base, tone2=M.hue_shift(M.lift(base, -10), -2), mix2=mix2,
+                       loop=True, pile=6, grain=4, mottle=4, wear=wear)
+        T.dingy(img, seed_of(f"b15carpetdingy{k}"), dull=0.04, dim=1.0, grime=0.05, flecks=6)
+        M.turn_safe(img, ground, band=8, keep=0.6)
+        return img
+    for k in range(3):
+        save(matched(pile(k), "carpet-plain"), "carpet-plain" if k == 0 else f"carpet-plain-{k + 1}")
+    register("carpet-plain", ["carpet-plain", "carpet-plain-2", "carpet-plain-3"], turn=True)
+    # Dusty: a grey bloom of dust in the pile and pale flecks, spread evenly (it lies in patches of whole blocks)
+    for k in range(2):
+        img = pile(10 + k)
+        rng = random.Random(seed_of(f"b15dust{k}"))
+        p = img.load()
+        for y in range(S):
+            for x in range(S):
+                p[x, y] = M.rgba(M.mix(p[x, y], H(DUST)[:3], 0.18))
+        for _ in range(60):
+            x, y = rng.randrange(S), rng.randrange(S)
+            M.touch(img, x, y, rng.uniform(0.06, 0.14))
+        save(matched(img, "carpet-dusty"), "carpet-dusty" if k == 0 else "carpet-dusty-2")
+    register("carpet-dusty", ["carpet-dusty", "carpet-dusty-2"], turn=True)
+    # Worn: the pile trodden flat and lighter (matlib's wear lanes), in two versions
+    for k in range(2):
+        img = pile(20 + k, wear=0.95)
+        save(matched(img, "carpet-worn"), "carpet-worn" if k == 0 else "carpet-worn-2")
+    register("carpet-worn", ["carpet-worn", "carpet-worn-2"], turn=True)
+    # Stained: a tan water ring, kept inside the block (it is turned), at two places
+    for k in range(2):
+        plain_ = pile(30 + k)
+        st = plain_.copy()
+        M.stain(st, seed_of(f"b15cstain{k}"), radius=8.5, color=(134, 112, 70), strength=0.7, at=(13 + 6 * k, 15 - 3 * k), ring=0.7)
+        T.inside_block(plain_, st, band=5)
+        save(matched(plain_, "carpet-stained"), "carpet-stained" if k == 0 else "carpet-stained-2")
+    register("carpet-stained", ["carpet-stained", "carpet-stained-2"], turn=True)
+
+    # The runway: navy cut pile, the squiggles and dots dyed in (drawn on a wrapping canvas, as before)
+    def squiggles(d, w, h):
+        rng = random.Random(seed_of("squig"))
+        for _ in range(16):
+            x, y = rng.uniform(w, 2 * w), rng.uniform(h, 2 * h)
+            pts = [(x, y)]
+            ang = rng.uniform(0, 6.28)
+            for _ in range(rng.randint(3, 6)):
+                ang += rng.uniform(-1.4, 1.4)
+                x += 1.6 * math.cos(ang)
+                y += 1.6 * math.sin(ang)
+                pts.append((x, y))
+            d.line(pts, fill=H(0x5868A4), width=1)
+        for _ in range(26):
+            x, y = rng.randrange(w, 2 * w), rng.randrange(h, 2 * h)
+            d.point((x, y), fill=H(0x98A2C6))
+    pat = tiled_draw((S, S), squiggles)
+    navy = H(0x2E3968)[:3]
+    rground = M.noise_hv(navy, 0, seed_of("b15runwayground"), mottle=3, cells=(16, 8), hue=1.0)
+    for k in range(2):
+        img = M.carpet(seed_of(f"b15runway{k}"), base=navy, tone2=M.lift(navy, -8), mix2=0.3, nap="se", pile=7,
+                       grain=3, mottle=3, pattern=pat, pattern_strength=1.0)
+        T.dingy(img, seed_of(f"b15runwaydingy{k}"), dull=0.03, dim=0.5, grime=0.04, flecks=5)
+        M.turn_safe(img, rground, band=8, keep=0.6)
+        save(matched(img, "runway"), "runway" if k == 0 else "runway-2")
+    register("runway", ["runway", "runway-2"], turn=True)
+
+    # Stockroom concrete: sealed, smooth, a broad pour mottle kept seamless at any turn; the yellow line clean
+    cbase = (139, 137, 131)
+    cground = M.noise_hv(cbase, 0, seed_of("b15concground"), mottle=4, cells=(16, 8), hue=1.0)
+    for k in range(2):
+        img = M.concrete(seed_of(f"b15conc{k}"), base=cbase, grain=3, mottle=5, aggregate=0.03, pores=0.008,
+                         patches=3, patch_hue=1.0, hue=1.2)
+        M.turn_safe(img, cground, band=8, keep=0.6)
+        img = matched(img, "concrete")
+        save(img, "concrete" if k == 0 else "concrete-2")
+        if k == 0:
+            for axis in ("ns", "we"):
+                line = img.copy()
+                p = line.load()
+                rng = random.Random(seed_of("b15line" + axis))
+                for a in range(S):
+                    for j in range(14, 18):
+                        x, y = (j, a) if axis == "ns" else (a, j)
+                        c = M.lift((226, 185, 42), rng.uniform(-3, 3) + (3 if j == 14 else -4 if j == 17 else 0))
+                        p[x, y] = M.rgba(M.mix(c, p[x, y][:3], 0.08))
+                save(line, f"concrete-line{axis}")
+    register("concrete", ["concrete", "concrete-2"], turn=True)
+
+
+END_RAIL = (196, 192, 180)
+
+
+def b15_ceiling():
+    """B3's ceiling module: 2 x 2 lay-in tiles to a block (matlib.ceiling_tile at 16 px: fissured board, a soft recess
+    where it steps up into the grid, the rail split between neighbours), three versions; the stained kind (one block
+    in sixteen) a water stain in one tile; the missing kind the black plenum between lit T-bars; the troffers B3's
+    (D1's) painted frame and prismatic lens, no dark ring, still cubes."""
+    def quad(seed, stain=None):
+        """One 2 x 2 ft tile in its grid, its own mean evened to the board colour, so a ceiling of them does not read
+        as a plaid of slightly different tiles; the recess's lit lip toned down to a hair."""
+        t = M.ceiling_tile(seed, 16, base=(232, 229, 220), rail=END_RAIL, fissures=0.55, recess=1, stain_color=stain)
+        inner = t.crop((2, 2, 14, 14))
+        m = T.mean_rgb(inner)
+        p = t.load()
+        for y in range(16):
+            for x in range(16):
+                if 1 <= x <= 14 and 1 <= y <= 14:
+                    c = [p[x, y][i] + (232, 229, 220)[i] - m[i] for i in range(3)]
+                    if x == 14 or y == 14:  # the lit lower and right walls of the recess
+                        c = M.mix(c, (238, 235, 226), 0.8)
+                    p[x, y] = M.rgba(c)
+        if stain:  # (round 2) the ring at the old strength: the evening above had washed it out
+            M.stain(t, M.sub(seed, "ring"), radius=4.5, color=(160, 128, 80), strength=0.5, at=(8, 8), ring=0.7)
+        return t
+    for k in range(3):
+        img = Image.new("RGBA", (S, S))
+        for i, (ox, oy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
+            img.paste(quad(seed_of(f"b15ceil{k}{i}")), (ox, oy))
+        save(matched(img, "ceiling-plain"), "ceiling-plain" if k == 0 else f"ceiling-plain-{k + 1}")
+    register("ceiling-plain", ["ceiling-plain", "ceiling-plain-2", "ceiling-plain-3"])
+    for k in range(2):
+        img = Image.new("RGBA", (S, S))
+        for i, (ox, oy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
+            stain = (176, 152, 104) if i == (1, 2)[k] else None
+            img.paste(quad(seed_of(f"b15ceils{k}{i}"), stain), (ox, oy))
+        save(matched(img, "ceiling-plain"), "ceiling-stained" if k == 0 else "ceiling-stained-2")
+    register("ceiling-stained", ["ceiling-stained", "ceiling-stained-2"])
+    # Missing: the black plenum between the T-bars (lit on their lower edge), a hanger wire
+    img = M.noise_hv((30, 28, 26), 2, seed_of("b15plenum"), mottle=3)
+    p = img.load()
+    for a in range(S):
+        for (i, f) in ((S - 1, 18), (0, 26), (15, 18), (16, 26)):
+            for (x, y) in ((a, i), (i, a)):
+                p[x, y] = M.rgba(M.lift(END_RAIL, f - 20))
+    for k in range(10):
+        M.put(p, S, S, 22 - k // 3, 2 + k, (70, 66, 60))
+    save(matched(img, "ceiling-missing"), "ceiling-missing")
+    save(matched(M.painted_metal(seed_of("b15tbar"), base=(222, 220, 212), panel=False, chips=0), "tbar"), "tbar")
+    for state in ("on", "off"):
+        save(T.troffer(state, rail=END_RAIL, frame=(238, 238, 232)), f"troffer-{state}")
+
+
+def no_edge(img, direction="h"):
+    """(round 2) A board face with no lit edge and gap at the texture's border: matlib's single plank draws them, and on a
+    panel two blocks tall they printed a dark seam at every block height (the shelving read as stacked crates)."""
+    p = img.load()
+    for a in range(S):
+        if direction == "h":
+            p[a, 0], p[a, S - 1] = p[a, 1], p[a, S - 2]
+        else:
+            p[0, a], p[S - 1, a] = p[1, a], p[S - 2, a]
+
+
+def b15_wood():
+    """Maple laminate for the shelving, desks and tables (a fine straight grain, low contrast: a veneered board, not a
+    plank); the slatwall as real slats: a lit top edge, the face, and the dark slot under each, every 4 px."""
+    def maple(c, key, direction="h"):
+        img = M.wood_planks(seed_of("b15" + key), base=H(c)[:3], planks=1, direction=direction, grain=3, contrast=0.55,
+                            knots=0, joints=0, flecks=0.35, per_plank=0)
+        no_edge(img, direction)
+        return matched(img, key)
+    save(maple(MAPLE, "maple"), "maple")
+    save(maple(MAPLE_L, "maple-light"), "maple-light")
+    save(maple(MAPLE_D, "maple-dark"), "maple-dark")
+    save(maple(MAPLE, "maple-vertical", "v"), "maple-vertical")
+    img = M.wood_planks(seed_of("b15slat"), base=H(MAPLE)[:3], planks=1, direction="h", grain=3, contrast=0.5,
+                        knots=0, joints=0, flecks=0.3, per_plank=0)
+    p = img.load()
+    for y in range(S):
+        r = y % 4
+        for x in range(S):
+            if r == 0:
+                p[x, y] = M.rgba(M.lift(p[x, y], 13))
+            elif r == 2:
+                p[x, y] = M.rgba(M.lift(p[x, y], -5))
+            elif r == 3:
+                p[x, y] = M.rgba(M.mix(M.lift(H(GROOVE)[:3], -14), p[x, y][:3], 0.15))
+    save(matched(img, "slatwall"), "slatwall")
+    # The price channel along a shelf's lip: grey extrusion, lit on top, its slot dark (the lip maps rows 0-2)
+    img = M.painted_metal(seed_of("b15price"), base=(160, 158, 150), panel=False, chips=0, grain=2)
+    p = img.load()
+    for x in range(S):
+        p[x, 0] = M.rgba(M.lift(p[x, 0], 22))
+        p[x, 2] = M.rgba(M.lift(p[x, 2], -24))
+    save(matched(img, "pricechannel"), "pricechannel")
+    save(matched(M.rubber(seed_of("b15kick"), base=(44, 40, 36), grain=2, mottle=3), "kick"), "kick")
+
+
+def b15_metal():
+    """The doors' and fittings' metals: grey painted steel with a little wear, brushed steel, the black sign case, the
+    wired glass (a square mesh in dark glass, a soft glint)."""
+    img = M.painted_metal(seed_of("b15exitdoor"), base=(142, 145, 150), panel=False, chips=3, under=(110, 108, 104), grain=3, mottle=4)
+    save(matched(img, "exitdoor"), "exitdoor")
+    save(matched(M.painted_metal(seed_of("b15steel"), base=(140, 143, 148), panel=False, chips=2, grain=3), "steel"), "steel")
+    save(matched(M.brushed_metal(seed_of("b15brushed"), base=(182, 186, 189)), "brushed"), "brushed")
+    save(matched(M.noise_hv((26, 26, 26), 2, seed_of("b15case"), mottle=2), "blackcase"), "blackcase")
+    img = M.noise_hv((44, 52, 56), 2, seed_of("b15wireglass"), mottle=5)
+    p = img.load()
+    for k in range(0, S, 4):
+        for a in range(S):
+            p[k, a] = M.rgba(M.mix(p[k, a][:3], (128, 134, 136), 0.55))
+            p[a, k] = M.rgba(M.mix(p[a, k][:3], (128, 134, 136), 0.55))
+    for k in range(6):  # a short glint across the top corner (B9: long full-UV glints read as rods)
+        M.touch(img, 5 + k, 10 - k, 0.35)
+        M.touch(img, 6 + k, 10 - k, 0.15)
+    for (x, y) in ((18, 20), (19, 21), (21, 21), (22, 22), (23, 24), (24, 25), (22, 20), (23, 19)):  # a crack, as before
+        M.touch(img, x, y, 0.55)
+    save(matched(img, "wireglass"), "wireglass")
+
+
+def b15_posters():
+    """The closing-down posters on paper (fibre, a slight sun fade toward the top) with the same pixel lettering; the
+    yellow THE END poster in three versions (a fold crease, a corner of tape torn), so a run of them is not one sheet
+    in a grid."""
+    def sheet(base, w, h, key):
+        ww, hh = -(-w // 8) * 8, -(-h // 8) * 8
+        img = M.paper(seed_of("b15" + key), size=(ww, hh), base=base, grain=2, mottle=4, fibre=0.7, seams=None)
+        img = img.crop((0, 0, w, h))
+        p = img.load()
+        for y in range(h):
+            f = 0.04 * (1 - y / h)
+            for x in range(w):
+                p[x, y] = M.rgba(M.mix(p[x, y][:3], (250, 246, 228), f))
+        return img
+
+    def yellow(v):
+        img = sheet(H(P_YEL)[:3], 48, 64, f"poster-yellow{v}")
+        centred(img, "THE END", 2, (22, 20, 16, 255), F5, 1, bold=True, gap=0)  # (round 2: gap 1 ran to the edges)
+        ImageDraw.Draw(img).rectangle([3, 11, 44, 12], fill=(22, 20, 16, 255))
+        for k in range(5):
+            centred(img, "THE END", 16 + k * 9, (22, 20, 16, 255), F5, 1, gap=1)
+        bevel_sheet(img)
+        if v == 1:  # folded in four once: a crease across and down, lit on one side
+            for x in range(48):
+                M.touch(img, x, 31, -0.07)
+                M.touch(img, x, 32, 0.05)
+            for y in range(64):
+                M.touch(img, 23, y, -0.05)
+                M.touch(img, 24, y, 0.04)
+        if v == 2:  # a little faded, a corner gone dull where the sun caught it
+            p = img.load()
+            for y in range(64):
+                for x in range(48):
+                    t = max(0.0, 1 - math.hypot(x - 47, y) / 30) * 0.18 + 0.05
+                    p[x, y] = M.rgba(M.mix(p[x, y][:3], (236, 228, 170), t))
+        return img
+    for v in range(3):
+        save(matched(yellow(v), "poster-yellow"), "poster-yellow" if v == 0 else f"poster-yellow-{v + 1}")
+    register("poster-yellow", ["poster-yellow", "poster-yellow-2", "poster-yellow-3"])
+    for name_, c in (("pink", P_PINK), ("green", P_GREEN)):
+        img = sheet(H(c)[:3], 24, 32, "poster-" + name_)
+        centred(img, "THE", 3, (30, 30, 30, 255), F3, 1, gap=1)  # (round 2: on one line it was cut at the card's edge)
+        centred(img, "END", 9, (30, 30, 30, 255), F3, 1, gap=1)
+        rng = random.Random(seed_of("scrib" + name_))
+        d = ImageDraw.Draw(img)
+        for row in range(3):  # handwriting: short words with gaps
+            y = 17 + row * 5
+            x = 3
+            while x < 20:
+                n = rng.randint(2, 5)
+                pts = [(x + k, y + rng.choice((0, 0, 1, -1))) for k in range(n)]
+                d.line(pts, fill=(60, 50, 70, 255))
+                x += n + 2
+        bevel_sheet(img)
+        save(matched(img, "poster-" + name_), f"poster-{name_}")
+    # (round 2) drawn at 48 x 64 (the same 3:4 sheet) so & EQUIPMENT fits instead of running off both edges
+    img = sheet((246, 246, 240), 48, 64, "poster-notice")
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, 47, 12], fill=(196, 34, 30, 255))
+    centred(img, "FOR SALE", 4, (255, 255, 255, 255), F3, 1, gap=1)
+    centred(img, "THE END", 18, (20, 20, 20, 255), F3, 1, bold=True, gap=1)
+    for k, line in enumerate(("ALL", "FIXTURES", "FURNITURE", "& EQUIPMENT")):
+        centred(img, line, 29 + k * 8, (20, 20, 20, 255), F3, 1, gap=1)
+    bevel_sheet(img)
+    save(matched(img, "poster-notice"), "poster-notice")
+    # Level 11's window posters: the same words on sheets wide enough for them
+    img = sheet(H(P_YEL)[:3], 48, 56, "poster-fixtures")
+    centred(img, "ALL", 4, (16, 16, 16, 255), F5, 1, bold=True, gap=1)
+    for k, line in enumerate(("FIXTURES", "FURNITURE", "& EQUIPMENT")):
+        centred(img, line, 15 + k * 8, (16, 16, 16, 255), F3, 1, gap=1)
+    centred(img, "FOR SALE", 45, (190, 20, 20, 255), F3, 1, bold=True, gap=1)
+    bevel_sheet(img)
+    save(img, "poster-fixtures")
+    img = sheet(H(P_PINK)[:3], 40, 48, "poster-closing")
+    for k, line in enumerate(("STORE", "CLOSING")):
+        centred(img, line, 6 + k * 9, (30, 20, 40, 255), F3, 1, bold=True, gap=1)
+    centred(img, "THE END", 32, (30, 20, 40, 255), F3, 1, gap=1)
+    bevel_sheet(img)
+    save(img, "poster-closing")
+    img = sheet(H(P_YEL)[:3], 48, 56, "poster-near")  # the bookstore door's poster, wide enough for THE END
+    for k, line in enumerate(("THE END", "IS", "NEAR")):
+        centred(img, line, 9 + k * 13, (16, 16, 16, 255), F5, 1, bold=True, gap=0 if k == 0 else 1)
+    bevel_sheet(img)
+    save(img, "poster-near")
+
+
+def bevel_sheet(img):
+    """A sheet's cut edge: 1 px lighter along the top and left, a shade darker on the bottom and right."""
+    w, h = img.size
+    for x in range(w):
+        M.touch(img, x, 0, 0.06)
+        M.touch(img, x, h - 1, -0.10)
+    for y in range(h):
+        M.touch(img, 0, y, 0.04)
+        M.touch(img, w - 1, y, -0.08)
+
+
+def b15_textures():
+    b15_walls()
+    b15_floors()
+    b15_ceiling()
+    b15_wood()
+    b15_metal()
+    b15_posters()
+
+
 # ======================= Checks =======================
 
 GAME = os.path.join(os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory")), "assets")
@@ -2616,6 +3279,7 @@ def check():
 def generate():
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
     textures()
+    b15_textures()
     structure()
     shelving()
     desks()
