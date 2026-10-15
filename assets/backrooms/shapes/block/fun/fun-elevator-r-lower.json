@@ -173,6 +173,150 @@
 			}
 		},
 		{
+			"name": "StileIn",
+			"from": [
+				14.5,
+				1.8,
+				-0.3
+			],
+			"to": [
+				15.6,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						0.4,
+						0,
+						1.5,
+						14.2
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						16,
+						0,
+						16,
+						14.2
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						0,
+						0,
+						0,
+						14.2
+					]
+				}
+			}
+		},
+		{
+			"name": "StileOut",
+			"from": [
+				1.4000000000000004,
+				1.8,
+				-0.3
+			],
+			"to": [
+				2.5999999999999996,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						13.4,
+						0,
+						14.6,
+						14.2
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						16,
+						0,
+						16,
+						14.2
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						0,
+						0,
+						0,
+						14.2
+					]
+				}
+			}
+		},
+		{
+			"name": "RailFoot",
+			"from": [
+				1.4000000000000004,
+				0.6,
+				-0.3
+			],
+			"to": [
+				15.6,
+				1.8,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						0.4,
+						14.2,
+						14.6,
+						15.4
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						16,
+						14.2,
+						16,
+						15.4
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						0,
+						14.2,
+						0,
+						15.4
+					]
+				},
+				"up": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						1.4,
+						0,
+						15.6,
+						0
+					]
+				},
+				"down": {
+					"texture": "#elevator-lower-r",
+					"uv": [
+						1.4,
+						16,
+						15.6,
+						16
+					]
+				}
+			}
+		},
+		{
 			"name": "SkirtingE",
 			"from": [
 				16,

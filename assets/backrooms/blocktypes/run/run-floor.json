@@ -30,6 +30,53 @@
 		"*-vinyl": {
 			"all": {
 				"base": "block/run/vinyl"
+			},
+			"up": {
+				"base": "block/run/vinyl",
+				"alternates": [
+					{
+						"base": "block/run/vinyl",
+						"rotation": 90
+					},
+					{
+						"base": "block/run/vinyl",
+						"rotation": 180
+					},
+					{
+						"base": "block/run/vinyl",
+						"rotation": 270
+					},
+					{
+						"base": "block/run/vinyl-2"
+					},
+					{
+						"base": "block/run/vinyl-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/run/vinyl-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/run/vinyl-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/run/vinyl-3"
+					},
+					{
+						"base": "block/run/vinyl-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/run/vinyl-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/run/vinyl-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-safe": {
@@ -42,7 +89,12 @@
 				"base": "block/run/vinyl"
 			},
 			"up": {
-				"base": "block/run/border-north"
+				"base": "block/run/border-north",
+				"alternates": [
+					{
+						"base": "block/run/border-north-2"
+					}
+				]
 			}
 		},
 		"*-border-east": {
@@ -50,7 +102,12 @@
 				"base": "block/run/vinyl"
 			},
 			"up": {
-				"base": "block/run/border-east"
+				"base": "block/run/border-east",
+				"alternates": [
+					{
+						"base": "block/run/border-east-2"
+					}
+				]
 			}
 		},
 		"*-border-south": {
@@ -58,7 +115,12 @@
 				"base": "block/run/vinyl"
 			},
 			"up": {
-				"base": "block/run/border-south"
+				"base": "block/run/border-south",
+				"alternates": [
+					{
+						"base": "block/run/border-south-2"
+					}
+				]
 			}
 		},
 		"*-border-west": {
@@ -66,7 +128,12 @@
 				"base": "block/run/vinyl"
 			},
 			"up": {
-				"base": "block/run/border-west"
+				"base": "block/run/border-west",
+				"alternates": [
+					{
+						"base": "block/run/border-west-2"
+					}
+				]
 			}
 		},
 		"*-scuffed": {
@@ -86,6 +153,21 @@
 					},
 					{
 						"base": "block/run/scuffed",
+						"rotation": 270
+					},
+					{
+						"base": "block/run/scuffed-2"
+					},
+					{
+						"base": "block/run/scuffed-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/run/scuffed-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/run/scuffed-2",
 						"rotation": 270
 					}
 				]
@@ -108,6 +190,21 @@
 					},
 					{
 						"base": "block/run/cracked",
+						"rotation": 270
+					},
+					{
+						"base": "block/run/cracked-2"
+					},
+					{
+						"base": "block/run/cracked-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/run/cracked-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/run/cracked-2",
 						"rotation": 270
 					}
 				]

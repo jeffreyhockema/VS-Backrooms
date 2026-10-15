@@ -33,6 +33,102 @@ def gilt_frame(nm, x1, y1, x2, y2, w, z1, z2, tex="gilt"):
             bx(nm + "R", (x2 - w, y1 + w, z1), (x2, y2 - w, z2), tex, faces=("north", "east", "west"))]
 
 
+def hospital_bed_b14():
+    """(B14) The hospital bed's textures (hospbed-*, matlib) and its two halves: {"head": boxes, "foot": boxes}."""
+    import matlib as M
+    from detail_kit import seed_of as sd
+    tube = M.brushed_metal(sd("hospbedtube"), base=(206, 208, 206), grain=3, direction="h", sheen=10)
+    detail_textures.save(tube, "hospbed-tube")
+    detail_textures.save(M.painted_metal(sd("hospbeddeck"), base=(98, 102, 106), panel=False, chips=2, under=(150, 150, 146)), "hospbed-deck")
+    panel = M.noise_hv((234, 230, 216), 2, sd("hospbedpanel"), mottle=3, cells=(16, 8))
+    detail_textures.save(panel, "hospbed-panel")
+    recess = M.noise_hv((222, 218, 204), 2, sd("hospbedrecess"), mottle=3, cells=(16, 8))
+    detail_textures.save(recess, "hospbed-recess")
+    mat = M.noise_hv((214, 222, 228), 2, sd("hospbedmattress"), mottle=3, cells=(16, 8))
+    for x in range(32):  # the welt seams along the side: the box is 3.7 units high, so rows 0-7 show
+        for y, f in ((0, 0.06), (1, -0.10), (6, -0.10), (7, 0.05)):
+            M.touch(mat, x, y, f)
+    detail_textures.save(mat, "hospbed-mattress")
+    detail_textures.save(M.fabric(sd("hospbedsheet"), base=(236, 238, 236), weave="plain", contrast=3, grain=2, mottle=3), "hospbed-sheet")
+    blanket = M.fabric(sd("hospbedblanket"), base=(206, 220, 230), weave="basket", contrast=4, grain=2, mottle=3)
+    for y in range(32):
+        for x in range(32):
+            if x % 4 == 0 and y % 4 == 0:  # the cellular blanket's open weave
+                M.touch(blanket, x, y, -0.06)
+    detail_textures.save(blanket, "hospbed-blanket")
+    pillow = M.fabric(sd("hospbedpillow"), base=(240, 240, 236), weave="plain", contrast=3, grain=2, mottle=2)
+    M.ao_border(pillow, 3, 0.10)
+    detail_textures.save(pillow, "hospbed-pillow")
+    detail_textures.save(M.rubber(sd("hospbedrubber"), base=(46, 46, 48)), "hospbed-rubber")
+
+    T_, D_, P_, R_ = "hospbed-tube", "hospbed-deck", "hospbed-panel", "hospbed-recess"
+    els = []
+
+    def board(nm, z0, z1, y0, y1):
+        """A moulded board between two tube posts: a frame round a recessed panel, a tube rail along the top."""
+        out = [bx(nm + "Back", (1.6, y0, z0 + 0.3), (14.4, y1, z1), P_, faces=("north", "south", "east", "west", "up", "down")),
+               bx(nm + "Panel", (3.0, y0 + 1.6, z0 + 0.15), (13.0, y1 - 1.6, z0 + 0.3), R_, faces=("north",)),
+               bx(nm + "PanelS", (3.0, y0 + 1.6, z1), (13.0, y1 - 1.6, z1 + 0.15), R_, faces=("south",)),
+               bx(nm + "FrameT", (1.6, y1 - 1.6, z0), (14.4, y1, z0 + 0.3), P_, faces=("north", "east", "west", "up", "down")),
+               bx(nm + "FrameB", (1.6, y0, z0), (14.4, y0 + 1.6, z0 + 0.3), P_, faces=("north", "east", "west", "up", "down")),
+               bx(nm + "FrameL", (1.6, y0 + 1.6, z0), (3.0, y1 - 1.6, z0 + 0.3), P_, faces=("north", "east", "west")),
+               bx(nm + "FrameR", (13.0, y0 + 1.6, z0), (14.4, y1 - 1.6, z0 + 0.3), P_, faces=("north", "east", "west")),
+               bx(nm + "Rail", (0.6, y1, z0 + 0.1), (15.4, y1 + 0.9, z1 + 0.2), T_)]
+        for k, x in enumerate((0.6, 14.4)):
+            out.append(bx(f"{nm}Post{k}", (x, 2.2, z0 + 0.1), (x + 1.0, y1, z1 + 0.2), T_))
+        return out
+    els += board("Head", 0.2, 1.2, 6.5, 18.5) + board("Foot", 30.6, 31.6, 6.5, 14.5)
+    # The deck: tube side rails, a steel platform, a spine, and castors under each post
+    els += [bx("SideW", (1.0, 7.0, 1.2), (2.0, 8.0, 30.6), T_), bx("SideE", (14.0, 7.0, 1.2), (15.0, 8.0, 30.6), T_),
+            bx("Deck", (2.0, 7.2, 1.2), (14.0, 7.8, 30.6), D_),
+            bx("Spine", (6.5, 4.0, 4.0), (9.5, 7.2, 28.0), D_),
+            bx("StrutN", (2.0, 5.0, 5.5), (14.0, 6.0, 6.5), D_), bx("StrutS", (2.0, 5.0, 25.5), (14.0, 6.0, 26.5), D_)]
+    for k, (x, z) in enumerate(((1.1, 0.7), (14.9, 0.7), (1.1, 31.1), (14.9, 31.1))):
+        els += [bx(f"Fork{k}", (x - 0.5, 1.2, z - 0.5), (x + 0.5, 2.2, z + 0.5), D_),
+                bx(f"Wheel{k}", (x - 0.35, 0, z - 0.85), (x + 0.35, 1.5, z + 0.85), "hospbed-rubber")]
+    # The mattress, the sheet over it, the blanket turned down with its sides hanging, the pillow, the folded quilt
+    els += [bx("Mattress", (2.0, 7.8, 1.4), (14.0, 11.5, 30.5), "hospbed-mattress", faces=("north", "south", "east", "west")),
+            bx("Sheet", (1.9, 11.5, 1.35), (14.1, 11.7, 30.55), "hospbed-sheet", faces=("north", "south", "east", "west", "up")),
+            bx("Blanket", (1.7, 11.7, 8.0), (14.3, 12.2, 30.75), "hospbed-blanket", faces=("north", "south", "up")),
+            bx("DrapeW", (1.5, 9.0, 8.0), (1.7, 12.2, 30.75), "hospbed-blanket", faces=("north", "south", "west", "down")),
+            bx("DrapeE", (14.3, 9.0, 8.0), (14.5, 12.2, 30.75), "hospbed-blanket", faces=("north", "south", "east", "down")),
+            bx("Turndown", (1.6, 12.2, 8.0), (14.4, 12.6, 10.0), "hospbed-sheet"),
+            bx("Pillow", (3.5, 11.7, 1.9), (12.5, 13.4, 6.4), "hospbed-pillow"),
+            bx("PillowTop", (4.2, 13.4, 2.5), (11.8, 14.0, 5.8), "hospbed-pillow", faces=("north", "south", "east", "west", "up")),
+            bx("QuiltTop", (3.0, 12.2, 23.5), (13.0, 14.2, 29.5), "hospitalquilt", faces=("up",)),
+            bx("Quilt", (3.0, 12.2, 23.5), (13.0, 14.2, 29.5), "hospitalquiltfold", faces=("north", "east", "south", "west"), full=True),
+            bx("Chart", (6.0, 9.5, 31.8), (10.0, 13.6, 32.1), "paper", faces=("south", "east", "west", "up", "down")),
+            bx("Clip", (7.4, 13.2, 32.1), (8.6, 13.9, 32.35), T_)]
+    # The drop rails at the head, either side: two tube rails on two posts
+    for side, (x0, x1) in (("W", (0.2, 1.0)), ("E", (15.0, 15.8))):
+        els += [bx(f"RailTop{side}", (x0, 15, 3), (x1, 15.8, 14), T_), bx(f"RailMid{side}", (x0, 12.6, 3), (x1, 13.2, 14), T_),
+                bx(f"RailPost1{side}", (x0, 8, 4), (x1, 15, 4.8), T_), bx(f"RailPost2{side}", (x0, 8, 12.2), (x1, 15, 13), T_)]
+
+    def half(lo, hi):
+        out = []
+        for e in els:
+            z1, z2 = e["from"][2], e["to"][2]
+            if z2 <= lo or z1 >= hi:
+                continue
+            e = json.loads(json.dumps(e))
+            e["from"][2], e["to"][2] = max(z1, lo) - lo, min(z2, hi) - lo
+            if hi == 32 and z2 > 32:
+                e["to"][2] = z2 - lo  # the chart stands a little proud of the foot block, as before
+            if lo == 16 and z1 < 16:
+                e["faces"].pop("north", None)  # cut at the block edge: the head half carries on there
+            if hi == 16 and z2 > 16:
+                e["faces"].pop("south", None)
+            for f, face in e["faces"].items():
+                if face["uv"][0] == 0 and face["uv"][1] == 0 and face["uv"] != [0, 0, 16, 16]:
+                    (x1, y1, zz1), (x2, y2, zz2) = e["from"], e["to"]
+                    w, h, d = x2 - x1, y2 - y1, zz2 - zz1
+                    a, b = {"north": (w, h), "south": (w, h), "east": (d, h), "west": (d, h), "up": (w, d), "down": (w, d)}[f]
+                    face["uv"] = [0, 0, round(min(16, max(a, 0.5)), 4), round(min(16, max(b, 0.5)), 4)]
+            out.append(e)
+        return out
+    return {"head": half(0, 16), "foot": half(16, 32)}
+
+
 def carton(nm, frm, to):
     return [bx(nm, frm, to, "cardboard", faces=("north", "east", "south", "west", "down")),
             bx(nm + "Top", frm, to, "cardboardtop", faces=("up",))]
@@ -624,27 +720,11 @@ def level1():
             bx("Brand2", (6, 9.4, 6), (7.2, 10.4, 11.5), "burnbarrelinside", rot=(-10, -20, 0))],
          box=(0.18, 0, 0.18, 0.82, 0.84, 0.82), oriented=False, material="Metal", sounds=METAL, light=[3, 7, 12],
          extra={"particleProperties": smoke + BURNBARREL_FIRE, "behaviors": [fire_fx.heat(7)]})
-    # Hospital bed: a deep mattress on a raised frame, a pillow, the blanket turned down over the sides, a quilt
-    # folded at the foot, and drop rails both sides at the head
-    def bedrail(x0, x1):
-        return [bx("RailTop", (x0, 15, 3), (x1, 15.8, 14), "steel"), bx("RailMid", (x0, 12.6, 3), (x1, 13.2, 14), "steel"),
-                bx("RailPost1", (x0, 9, 4), (x1, 15, 4.8), "steel"), bx("RailPost2", (x0, 9, 12.2), (x1, 15, 13), "steel")]
-    hospital = {
-        "head": [bx("Frame", (1, 6.5, 0), (15, 9, 16), "hospitalframe"),
-                 bx("Mattress", (1.5, 9, 0.5), (14.5, 13, 16), "white"), bx("Pillow", (3, 13, 1.5), (13, 15.2, 5.5), "white"),
-                 bx("Headboard", (1, 4, -0.5), (15, 19, 1), "hospitalframe"),
-                 bx("Leg1", (1.5, 0, 1), (2.5, 6.5, 2), "steel"), bx("Leg2", (13.5, 0, 1), (14.5, 6.5, 2), "steel"),
-                 bx("Blanket", (1.2, 11, 6.5), (14.8, 13.3, 16), "hospitalsheet"),
-                 bx("Turndown", (1.2, 13.3, 6.5), (14.8, 13.8, 8.5), "white")]
-                + bedrail(0.2, 1) + bedrail(15, 15.8),
-        "foot": [bx("Frame", (1, 6.5, 0), (15, 9, 15), "hospitalframe"),
-                 bx("Mattress", (1.5, 9, 0), (14.5, 13, 14.5), "white"),
-                 bx("Blanket", (1.2, 11, 0), (14.8, 13.3, 14.7), "hospitalsheet"),
-                 bx("QuiltTop", (2.5, 13.3, 7), (13.5, 15.4, 13.5), "hospitalquilt", faces=("up",)),
-                 bx("Quilt", (2.5, 13.3, 7), (13.5, 15.4, 13.5), "hospitalquiltfold", faces=("north", "east", "south", "west"), full=True),
-                 bx("Footboard", (1, 4, 14.5), (15, 16, 16), "hospitalframe"),
-                 bx("Chart", (6, 10.5, 16), (10, 15, 16.4), "paper"),
-                 bx("Leg1", (1.5, 0, 13.5), (2.5, 6.5, 14.5), "steel"), bx("Leg2", (13.5, 0, 13.5), (14.5, 6.5, 14.5), "steel")]}
+    # Hospital bed (B14): a steel bed on castors, a moulded head- and footboard (a recessed panel in a frame between
+    # tube posts), a mattress in wipe-clean vinyl under a sheet, a cellular blanket turned down and hanging over the
+    # sides, a pillow, a quilt folded at the foot, drop rails both sides at the head and the chart on the footboard.
+    # Modelled head to the north across two blocks (head, foot), as before; its own texture keys (hospbed-*)
+    hospital = hospital_bed_b14()
     prop("hospitalbed", "Hospital Bed", hospital, box=(0, 0, 0, 1, 0.85, 1), material="Cloth", sounds=CLOTH)
     prop("foldingtable", "Folding Table", [
         bx("Top", (0, 11, 1), (16, 12, 15), "tabletop"), bx("Edge", (0, 10.5, 1), (16, 11, 15), "foldsteel"),

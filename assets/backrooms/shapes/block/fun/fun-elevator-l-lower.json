@@ -173,6 +173,150 @@
 			}
 		},
 		{
+			"name": "StileIn",
+			"from": [
+				0.4,
+				1.8,
+				-0.3
+			],
+			"to": [
+				1.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower",
+					"uv": [
+						14.5,
+						0,
+						15.6,
+						14.2
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower",
+					"uv": [
+						16,
+						0,
+						16,
+						14.2
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower",
+					"uv": [
+						0,
+						0,
+						0,
+						14.2
+					]
+				}
+			}
+		},
+		{
+			"name": "StileOut",
+			"from": [
+				13.4,
+				1.8,
+				-0.3
+			],
+			"to": [
+				14.6,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower",
+					"uv": [
+						1.4,
+						0,
+						2.6,
+						14.2
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower",
+					"uv": [
+						16,
+						0,
+						16,
+						14.2
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower",
+					"uv": [
+						0,
+						0,
+						0,
+						14.2
+					]
+				}
+			}
+		},
+		{
+			"name": "RailFoot",
+			"from": [
+				0.4,
+				0.6,
+				-0.3
+			],
+			"to": [
+				14.6,
+				1.8,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#elevator-lower",
+					"uv": [
+						1.4,
+						14.2,
+						15.6,
+						15.4
+					]
+				},
+				"east": {
+					"texture": "#elevator-lower",
+					"uv": [
+						16,
+						14.2,
+						16,
+						15.4
+					]
+				},
+				"west": {
+					"texture": "#elevator-lower",
+					"uv": [
+						0,
+						14.2,
+						0,
+						15.4
+					]
+				},
+				"up": {
+					"texture": "#elevator-lower",
+					"uv": [
+						0.4,
+						0,
+						14.6,
+						0
+					]
+				},
+				"down": {
+					"texture": "#elevator-lower",
+					"uv": [
+						0.4,
+						16,
+						14.6,
+						16
+					]
+				}
+			}
+		},
+		{
 			"name": "SkirtingE",
 			"from": [
 				16,

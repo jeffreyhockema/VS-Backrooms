@@ -715,9 +715,12 @@ def rail(x0=0, x1=16):
     """The crash rail on a wall's north face: a rounded oak bar at hip height on two steel brackets."""
     return [bx("Rail", (x0, 12, -3), (x1, 14, -1), "railwood"),
             bx("RailTop", (x0, 14, -2.7), (x1, 14.5, -1.3), "railtop", faces=("north", "south", "up", "east", "west")),
-            bx("RailBottom", (x0, 11.6, -2.7), (x1, 12, -1.3), "railwood", faces=("north", "south", "down", "east", "west")),
+            bx("RailBottom", (x0, 11.6, -2.7), (x1, 12, -1.3), "railunder", faces=("north", "south", "down", "east", "west")),
             # (tops a hair under the rail's, the right one clear of the end of a rail stopped short at x 13)
-            bx("Bracket1", (3, 11, -2), (4, 13.95, 0), "steelframe"), bx("Bracket2", (11.9, 11, -2), (12.9, 13.95, 0), "steelframe")]
+            bx("Bracket1", (3, 11, -2), (4, 13.95, -0.4), "steelframe"), bx("Bracket2", (11.9, 11, -2), (12.9, 13.95, -0.4), "steelframe"),
+            # (B14) the round wall plate each bracket is screwed to
+            bx("Plate1", (2.4, 10.4, -0.4), (4.6, 13.2, 0), "steelframe", faces=("north", "east", "west", "up", "down")),
+            bx("Plate2", (11.3, 10.4, -0.4), (13.5, 13.2, 0), "steelframe", faces=("north", "east", "west", "up", "down"))]
 
 
 def walls():
@@ -753,6 +756,8 @@ def walls():
               "stopping short of the other rail in an inside corner, void (matte black: "
               "the antechamber behind the chained door, the fake exits' closets)",
               json_states=shapes)
+    b14_versions("run-wall", {"plain": ("wall", "all"), "base": ("wallbase", "sides")},
+                 {"*-rail*": "wallbase"}, WALL_WEIGHTS)
     name("run-wall-plain", "Hospital Wall")
     name("run-wall-base", "Hospital Wall")
     name("run-wall-rail-*", "Hospital Wall with Crash Rail")
@@ -799,6 +804,7 @@ def walls():
     cube_type("run-floor", "Vinyl Floor", states, texs,
               "Level !: speckled hospital vinyl; border-<side> has the dark band along that edge; scuffed, cracked (before a "
               "hole), safe (the Safe Zone's blue-grey)", material="Stone")
+    b14_floor_versions()
     name("run-floor-*", "Vinyl Floor")
     name("run-floor-safe", "Safe Zone Floor")
 
@@ -818,8 +824,11 @@ def walls():
     shapes = {"panel-dead": {"base": shape("run-ceiling-panel-dead", dead)},
               "vent": {"base": shape("run-ceiling-vent", vent)},
               "vent-burst": {"base": shape("run-ceiling-vent-burst", duct + grille)}}
+    # (B14) three versions of the 2 x 2 tiles, a faint stain in one block in six; not turned (the T-bar's lit half is on
+    # the top and left of every block, so a turned block would put two lit halves side by side)
+    ceil = [tex(tile)] + [tex(f"{tile}-{k}") for k in (2, 3, 2, 2)] + [tex(tile)]
     cube_type("run-ceiling", "Ceiling Tile", ["tile"] + list(shapes),
-              {"tile": {"all": {"base": tex(tile)}, "down": {"base": tex(tile), "alternates": [{"base": tex(tile), "rotation": 90}]}}},
+              {"tile": {"all": {"base": tex(tile)}, "down": {"base": ceil[0], "alternates": [{"base": t} for t in ceil[1:]]}}},
               "Level !: white acoustic ceiling tiles in a T-bar grid; a dead troffer; a louvred air vent and one burst open",
               json_states=shapes)
     name("run-ceiling-tile", "Ceiling Tile")
@@ -857,7 +866,8 @@ def signs():
         return [bx("RodL", (3.5, 14, 7.5), (4.5, 16, 8.5), "steelframe"), bx("RodR", (11.5, 14, 7.5), (12.5, 16, 8.5), "steelframe"),
                 bx("Housing", (1, 7, 7), (15, 14, 9), "exithousing"),
                 bx("FaceN", (1.3, 7.3, 6.9), (14.7, 13.7, 7), face, glow=g, faces=("north",), uv=[1, 4.5, 15, 11.5]),
-                bx("FaceS", (1.3, 7.3, 9), (14.7, 13.7, 9.1), face, glow=g, faces=("south",), uv=[1, 4.5, 15, 11.5])]
+                bx("FaceS", (1.3, 7.3, 9), (14.7, 13.7, 9.1), face, glow=g, faces=("south",), uv=[1, 4.5, 15, 11.5])] \
+            + sign_lip(6.6, 7, "north") + sign_lip(9, 9.4, "south")
     states = ["lit", "dim", "bright", "flicker", "off", "dead"]
     by_type, attrs = {}, {}
     for st in states:
@@ -892,7 +902,8 @@ def signs():
         return [bx("Wall", (0, 0, 0), (16, 16, 16), "concretewall" if state == "concrete" else "wall"),
                 bx("BracketL", (2, 9, -1), (3, 13, 0), "steelframe"), bx("BracketR", (13, 9, -1), (14, 13, 0), "steelframe"),
                 bx("Housing", (1, 8, -3), (15, 14, -1), "exithousing"),
-                bx("Face", (1.3, 8.3, -3.1), (14.7, 13.7, -3), face, glow=g, faces=("north",), uv=[1, 5, 15, 11])]
+                bx("Face", (1.3, 8.3, -3.1), (14.7, 13.7, -3), face, glow=g, faces=("north",), uv=[1, 5, 15, 11])] \
+            + sign_lip(-3.4, -3, "north", 8)
     by_type = {}
     for st in ("dim", "lit", "bright", "concrete"):
         path = shape(f"run-exitsign-wall-{st}", wallsign(st))
@@ -935,6 +946,7 @@ def signs():
               {"plain": all6("safewall"), "base": sides6("safewallbase", "safewall")},
               "Level !: the Safe Zone's pale blue walls; sign-<side>-<l|r> carries half of the welcome sign at eye height "
               "(l is on the left as you face it)", json_states=shapes)
+    b14_versions("run-safewall", {"plain": ("safewall", "all"), "base": ("safewallbase", "sides")}, {}, WALL_WEIGHTS)
     name("run-safewall-*", "Safe Zone Wall")
 
 
@@ -994,10 +1006,11 @@ def side_doors():
     def build(st, part):
         els = frame("steelframe", upper=part == "upper")
         if st in ("closed", "dented"):
-            els += leaf(f"sidedoor-{'dented-' if st == 'dented' else ''}{part}", "sidedoor-back")
+            els += side_leaf(f"sidedoor-{'dented-' if st == 'dented' else ''}{part}", "sidedoor-back", part)
             if part == "lower":
                 els += [bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"),
-                        bx("Lever", (10, 13.8, -0.6), (14, 14.8, 0.4), "chrome")]
+                        bx("Lever", (10, 13.8, -0.6), (14, 14.8, 0.4), "chrome"),
+                        bx("Kick", (1, 0.5, 0.6), (15, 4, 1), "pushplate", faces=("north", "up", "east", "west"))]
                 if st == "dented":
                     # The leaf bulges out where something hit it from the other side
                     els += [bx("Bulge1", (3, 4, 0), (13, 16, 1), "sidedoor-dented-lower", faces=("north", "east", "west", "up", "down")),
@@ -1008,8 +1021,12 @@ def side_doors():
             els += [bx("Dark", (0, 0, 15.9), (16, 16, 16), "doorway", faces=("north",))]
             els += [bx("Hinge1" if part == "lower" else "Hinge2", (-0.3, 3, 0), (0.6, 6, 1.2), "steelframe")]
         else:  # leaf: flung open, standing in the hall tile in front of the door (same side as the door)
-            els = [bx("Leaf", (0.2, 0, 0), (2.2, 16, 16), f"sidedoor-{part}", faces=("east",), full=True),
-                   bx("LeafBack", (0.2, 0, 0), (2.2, 16, 16), "sidedoor-back", faces=("west", "north", "south", "up", "down"))]
+            # (B14) the closed leaf, window and kick plate included, turned to face east and moved against the west side
+            flung = side_leaf(f"sidedoor-{part}", "sidedoor-back", part, z0=0, z1=2)
+            if part == "lower":
+                flung.append(bx("Kick", (1, 0.5, -0.4), (15, 4, 0), "pushplate", faces=("north", "up", "east", "west")))
+            els = [dict(e, **{"from": [e["from"][0] - 13.8, e["from"][1], e["from"][2]],
+                              "to": [e["to"][0] - 13.8, e["to"][1], e["to"][2]]}) for e in (turn(e, 1) for e in flung)]
             if part == "lower":
                 els += [bx("Lever", (2.2, 13.8, 2), (3.2, 14.8, 6), "chrome")]
             else:
@@ -1131,15 +1148,13 @@ def hall_door():
         # The frame stands two voxels proud of the wall, so the leaf reads as set back in it, not as an opening
         els = frame("hallframe", upper=part == "upper", z0=-2)
         if st == "closed":
-            els += leaf("halldoor-" + part, "halldoor-back")
+            els += side_leaf("halldoor-" + part, "halldoor-back", part, window=HALL_WINDOW if part == "upper" else None,
+                             bead="hallframe")
             if part == "lower":
                 els += [bx("Kick", (1, 0.5, 0.4), (15, 5, 1), "hallkick", faces=("north", "up", "east", "west")),
                         bx("Rose", (12.5, 13, 0.4), (14.5, 15.5, 1), "chrome"), bx("Neck", (12.9, 13.6, -1), (14, 14.6, 0.4), "chrome"),
                         bx("Lever", (9.5, 13.6, -1.4), (14, 14.8, -0.4), "chrome")]
-            else:
-                # The wired-glass vision panel, high on the lock side, in a bead half a voxel proud
-                els += [bx("Glass", (10, 3, 0.5), (12.75, 14.5, 1), "wiredglass", faces=("north",), full=True),
-                        bx("Bead", (10, 3, 0.5), (12.75, 14.5, 1), "hallframe", faces=("east", "west", "up", "down"))]
+            # (B14) the vision panel is an opening in side_leaf now
         else:
             # Swung right round and flat against the wall beside the doorway
             els += [bx("Leaf", (17.5, 0, -2.2), (33.5, 16, -0.2), "halldoor-back"),
@@ -1267,15 +1282,20 @@ def props():
          comment="Two moulded seats on a steel beam, facing north", extra={"drops": drops(("metalbracket", 1, 0.5))})
 
     # Crash cart: red drawers to the north, a defibrillator on top
-    cart = [bx("Body", (2, 2.5, 3), (14, 15, 13), "cartside", faces=("east", "south", "west", "up", "down")),
-            bx("Front", (2, 2.5, 3), (14, 15, 13), "cartfront", faces=("north",), full=True),
-            bx("Defib", (4, 15, 5), (12, 18, 11), "defib", faces=("up",), uv=[0, 0, 16, 16]),
-            bx("DefibSides", (4, 15, 5), (12, 18, 11), "rubber", faces=("north", "east", "south", "west")),
+    cart = [bx("Body", (2, 2.5, 3), (14, 15, 13), "cartside"),
+            bx("Defib", (4, 15, 5), (12, 18, 11), "defib"),
+            bx("DefibScreen", (5, 18, 6), (10.5, 18.1, 10), "defibscreen", faces=("up",), uv=[0, 0, 16, 16]),
+            bx("BezelN", (4.6, 18, 5.6), (10.9, 18.35, 6), "rubber"), bx("BezelS", (4.6, 18, 10), (10.9, 18.35, 10.4), "rubber"),
+            bx("BezelW", (4.6, 18, 6), (5, 18.35, 10), "rubber"), bx("BezelE", (10.5, 18, 6), (10.9, 18.35, 10), "rubber"),
+            bx("DefibKnob", (11, 18, 6.2), (11.6, 18.8, 6.8), "rubber"),
             bx("RailN", (1.5, 15, 2.5), (14.5, 16, 3.3), "chrome"), bx("RailS", (1.5, 15, 12.7), (14.5, 16, 13.5), "chrome"),
             bx("Handle", (14, 12, 4), (15, 13, 12), "chrome"), bx("HandlePostA", (14, 12, 4), (15.2, 13, 5), "chrome"),
             bx("Bin", (0.6, 9, 6), (2, 13, 10), "cartside")]
-    for k, y in enumerate((4.2, 6.6, 9, 11.4, 13.8)):
-        cart.append(bx(f"Pull{k}", (5, y, 2.2), (11, y + 0.8, 3), "chrome"))
+    # (B14) five drawers as boxes standing proud of the body, a label holder and a pull on each
+    for k, (y0, y1) in enumerate(((2.8, 5.1), (5.3, 7.6), (7.8, 10.1), (10.3, 12.6), (12.8, 14.7))):
+        cart += [bx(f"Drawer{k}", (2.3, y0, 2.6), (13.7, y1, 3), "cartdrawer", faces=("north", "east", "west", "up", "down")),
+                 bx(f"Label{k}", (3.2, y1 - 0.9, 2.45), (6.2, y1 - 0.4, 2.6), "cartlabel", faces=("north",), uv=[0, 0, 16, 4]),
+                 bx(f"Pull{k}", (7, y0 + 0.7, 1.9), (11, y0 + 1.3, 2.6), "chrome")]
     for n, (x, z) in enumerate(((3, 4), (13, 4), (3, 12), (13, 12))):
         cart += castor(n, x, z)
     prop("run-crashcart", "Crash Cart", cart, box=(0.06, 0, 0.12, 0.94, 1, 0.88), material="Metal", sounds=METAL,
@@ -1392,6 +1412,12 @@ def props():
            bx("Box", (2, 0, -4), (14, 12, 0), "cabinet"),
            bx("Front", (2.2, 0.2, -4.4), (13.8, 11.8, -4), "cabinetfront", faces=("north",), full=True),
            bx("FrontSides", (2.2, 0.2, -4.4), (13.8, 11.8, -4), "cabinet", faces=("east", "west", "up", "down")),
+           # (B14) the mirror: a pane set into the door behind a frame, no longer painted
+           bx("Mirror", (3.6, 1.6, -4.5), (12.4, 7.6, -4.4), "cabmirror", faces=("north",), uv=[0, 0, 16, 11]),
+           bx("MirrorFrameT", (3.2, 7.6, -4.7), (12.8, 8.0, -4.4), "cabinet", faces=("north", "east", "west", "up", "down")),
+           bx("MirrorFrameB", (3.2, 1.2, -4.7), (12.8, 1.6, -4.4), "cabinet", faces=("north", "east", "west", "up", "down")),
+           bx("MirrorFrameL", (3.2, 1.6, -4.7), (3.6, 7.6, -4.4), "cabinet", faces=("north", "east", "west")),
+           bx("MirrorFrameR", (12.4, 1.6, -4.7), (12.8, 7.6, -4.4), "cabinet", faces=("north", "east", "west")),
            bx("Pin1", (1.6, 2, -4.4), (2.2, 3.5, -3.6), "chrome"), bx("Pin2", (1.6, 8.5, -4.4), (2.2, 10, -3.6), "chrome"),
            bx("Catch", (12.8, 5, -4.8), (13.6, 7, -4.4), "chrome")]
     by_type = {f"*-{sd}": {"base": shape("run-medcabinet", cab), "rotateY": ROTATE[sd]} for sd in SIDES}
@@ -1645,6 +1671,7 @@ def gauntlet():
            bx("DoorL", (2, 0.5, 7.4), (8, 30.5, 8), "cabdoor", full=True, faces=("north",)),
            bx("DoorLEdge", (2, 0.5, 7.4), (8, 30.5, 8), "cabsteel", faces=("east", "west", "up", "down", "south")),
            bx("PullL", (7, 13, 6.8), (7.6, 19, 7.4), "chrome"),
+           bx("LabelL", (3.4, 24.6, 7.15), (6.6, 26.4, 7.4), "cablabel", faces=("north", "east", "west", "up", "down")),
            bx("DoorR", (14, 0.5, 1.5), (14.6, 30.5, 8), "cabdoor", full=True, faces=("west", "east")),
            bx("DoorREdge", (14, 0.5, 1.5), (14.6, 30.5, 8), "cabsteel", faces=("north", "south", "up", "down")),
            bx("PullR", (13.4, 13, 2), (14, 19, 2.6), "chrome"),
@@ -2103,14 +2130,22 @@ def startroom():
     save(noise(0x9A9EA4, 2, "dispenserlever"), "dispenserlever")
     wall = bx("Wall", (0, 0, 0), (16, 16, 16), "wall")
     card = lambda key: [bx("Card", (3, 2, -0.3), (13, 14.5, -0.05), key, faces=("north",), full=True),
-                        bx("CardEdge", (3, 2, -0.3), (13, 14.5, -0.05), "dispenser", faces=("east", "west", "up", "down"))]
+                        bx("CardEdge", (3, 2, -0.3), (13, 14.5, -0.05), "dispenser", faces=("east", "west", "up", "down")),
+                        # (B14) a pin in each top corner
+                        bx("Pin1", (3.15, 13.6, -0.6), (3.85, 14.3, -0.3), "chrome"),
+                        bx("Pin2", (12.15, 13.6, -0.6), (12.85, 14.3, -0.3), "chrome")]
     kinds = {
         "handwash": [wall] + card("notice-handwash"),
         "visiting": [wall] + card("notice-visiting") + [
             bx("HolderT", (2.6, 14.5, -0.6), (13.4, 15, 0), "chrome"), bx("HolderB", (2.6, 1.5, -0.6), (13.4, 2, 0), "chrome")],
         "sanitiser": [wall,
-                      bx("Housing", (5, 1.5, -3.2), (11, 13, 0), "dispenser"),
+                      bx("Housing", (5, 1.5, -3.2), (11, 13, 0), "dispenser", faces=("north", "east", "west", "up", "down")),
                       bx("Front", (5.1, 1.6, -3.3), (10.9, 12.9, -3.2), "dispenserfront", faces=("north",), full=True),
+                      # (B14) the window onto the gel, set into the front, and the push paddle's hinge
+                      bx("Gel", (5.9, 9.4, -3.36), (10.1, 11.6, -3.3), "dispensergel", faces=("north",), uv=[0, 0, 16, 8]),
+                      bx("GelRimT", (5.7, 11.6, -3.5), (10.3, 11.9, -3.3), "dispenser", faces=("north", "up", "down")),
+                      bx("GelRimB", (5.7, 9.1, -3.5), (10.3, 9.4, -3.3), "dispenser", faces=("north", "up", "down")),
+                      bx("Hinge", (5.4, 3.4, -3.6), (10.6, 4.0, -3.2), "dispenserlever"),
                       bx("Lever", (5.4, 1, -3.9), (10.6, 3.6, -2.8), "dispenserlever", rot=(-12, 0, 0), origin=(8, 3.6, -2.8)),
                       bx("Nozzle", (7.5, 0.3, -2.4), (8.5, 1.5, -1.6), "dispenserlever"),
                       bx("Drip", (7.6, 0, -2.2), (8.4, 0.3, -1.8), "chrome")],
@@ -2184,6 +2219,706 @@ def prune_lang():
         f.write(text)
 
 
+# ======================= B14 (graphics pass): models and versions =======================
+
+WALL_WEIGHTS = {"plain": (0, 1, 2, 3), "base": (0, 0, 0, 1, 1, 1, 2, 3)}  # version indices; base: a scuff or a rub 1 in 8
+
+
+def b14_versions(code, states, json_keys, weights):
+    """Gives a wall blocktype's plain and base kinds their versions (`alternates`), the same for its JSON kinds' named
+    key (`json_keys`: {type pattern: key}), and picks them by height as well (randomizeAxes xyz, B13's lesson)."""
+    path = os.path.join(ASSETS, "blocktypes", TAG, code + ".json")
+    with open(path, encoding="utf-8") as f:
+        head, _, body = f.read().partition("\n")
+    data = json.loads(body)
+
+    def entry(key, which):
+        names = [tex(key if k == 0 else f"{key}-{k + 1}") for k in weights[which]]
+        return {"base": names[0], "alternates": [{"base": n} for n in names[1:]]}
+    for st, (key, how) in states.items():
+        t = data["texturesByType"][f"*-{st}"]
+        if how == "all":
+            t["all"] = entry(key, "plain")
+        else:
+            for f in ("north", "east", "south", "west"):
+                t[f] = entry(key, "base")
+    for pat, key in json_keys.items():
+        data["texturesByType"][pat] = {key: entry(key, "base")}
+    data["randomizeAxes"] = "xyz"
+    write_json(path, data, head[3:])
+
+
+def b14_floor_versions():
+    """The vinyl's three versions, each turned at random; the border's two (not turned: the band has a side)."""
+    path = os.path.join(ASSETS, "blocktypes", TAG, "run-floor.json")
+    with open(path, encoding="utf-8") as f:
+        head, _, body = f.read().partition("\n")
+    data = json.loads(body)
+    vin = [(tex(k), r) for k in ("vinyl", "vinyl-2", "vinyl-3") for r in (0, 90, 180, 270)]
+    data["texturesByType"]["*-vinyl"]["up"] = {"base": vin[0][0], "alternates": [
+        dict({"base": b}, **({"rotation": r} if r else {})) for b, r in vin[1:]]}
+    for s_ in SIDES:
+        data["texturesByType"][f"*-border-{s_}"]["up"] = {"base": tex(f"border-{s_}"), "alternates": [{"base": tex(f"border-{s_}-2")}]}
+    for k in ("scuffed", "cracked"):  # (round 2) two versions, each turned
+        alts = [(tex(n), r) for n in (k, f"{k}-2") for r in (0, 90, 180, 270)]
+        data["texturesByType"][f"*-{k}"]["up"] = {"base": alts[0][0], "alternates": [
+            dict({"base": b}, **({"rotation": r} if r else {})) for b, r in alts[1:]]}
+    write_json(path, data, head[3:])
+
+
+def sign_lip(z0, z1, facing, y0=7):
+    """A lip round an EXIT sign's face, standing a little proud of it (the housing's paint, its top edge lit)."""
+    out = []
+    for nm, frm, to in (("T", (1, 13.5, z0), (15, 14, z1)), ("B", (1, y0, z0), (15, y0 + 0.5, z1)),
+                        ("L", (1, y0 + 0.5, z0), (1.5, 13.5, z1)), ("R", (14.5, y0 + 0.5, z0), (15, 13.5, z1))):
+        faces = tuple(f for f in ("north", "south", "east", "west", "up", "down")
+                      if f != ("south" if facing == "north" else "north"))
+        out.append(bx(f"Lip{nm}{facing[0].upper()}", frm, to, "exitlip", faces=faces))
+    return out
+
+
+def wbx(name_, frm, to, tex_, faces):
+    """A box whose faces take world-aligned UVs (preview_shapes.auto_uv), so the pieces of a leaf cut round an opening
+    show the leaf's texture continuing across them."""
+    (x0, y0, z0), (x1, y1, z1) = frm, to
+    uv = {"north": (16 - x1, 16 - y1, 16 - x0, 16 - y0), "south": (x0, 16 - y1, x1, 16 - y0),
+          "west": (z0, 16 - y1, z1, 16 - y0), "east": (16 - z1, 16 - y1, 16 - z0, 16 - y0),
+          "up": (x0, z0, x1, z1), "down": (x0, 16 - z1, x1, 16 - z0)}
+    el = bx(name_, frm, to, tex_, faces=faces)
+    for f in el["faces"]:
+        el["faces"][f]["uv"] = [round(v, 4) for v in uv[f]]
+    return el
+
+
+SIDE_WINDOW = (5.5, 6.5, 10.5, 13.5)   # the steel door's vision panel, upper half (x0, y0, x1, y1): B0's painted one
+HALL_WINDOW = (10, 3, 12.75, 14.5)     # the hall door's, high on the lock side
+
+
+def side_leaf(front, back, part, z0=1, z1=3, window="side", bead="runbead"):
+    """A door leaf (x 0-16, z z0-z1, its front to the north). In the upper half the vision panel is an opening: the
+    leaf in four pieces round it, a wired-glass pane in the middle of its thickness, and a bead standing proud round it
+    on the front. Every piece shows the leaf's texture where it lies (wbx)."""
+    if part != "upper" or window is None:
+        return [bx("Leaf", (0, 0, z0), (16, 16, z1), front, faces=("north",), full=True),
+                bx("LeafBack", (0, 0, z0), (16, 16, z1), back, faces=("south", "east", "west", "up", "down"))]
+    wx0, wy0, wx1, wy1 = SIDE_WINDOW if window == "side" else window
+    pieces = [("L", (0, 0, z0), (wx0, 16, z1)), ("R", (wx1, 0, z0), (16, 16, z1)),
+              ("B", (wx0, 0, z0), (wx1, wy0, z1)), ("T", (wx0, wy1, z0), (wx1, 16, z1))]
+    els = []
+    for nm, frm, to in pieces:
+        els.append(wbx(f"Leaf{nm}", frm, to, front, ("north",)))
+        els.append(wbx(f"LeafBack{nm}", frm, to, back, ("south", "east", "west", "up", "down")))
+    zm = (z0 + z1) / 2
+    els.append(bx("Glass", (wx0, wy0, zm - 0.1), (wx1, wy1, zm + 0.1), "wiredglass", faces=("north", "south"), full=True))
+    b, d = 0.5, 0.4
+    els += [bx("BeadT", (wx0 - b, wy1, z0 - d), (wx1 + b, wy1 + b, z0), bead, faces=("north", "east", "west", "up", "down")),
+            bx("BeadB", (wx0 - b, wy0 - b, z0 - d), (wx1 + b, wy0, z0), bead, faces=("north", "east", "west", "up", "down")),
+            bx("BeadL", (wx0 - b, wy0, z0 - d), (wx0, wy1, z0), bead, faces=("north", "east", "west")),
+            bx("BeadR", (wx1, wy0, z0 - d), (wx1 + b, wy1, z0), bead, faces=("north", "east", "west"))]
+    return els
+
+
+# ======================= B14 (graphics pass): textures =======================
+#
+# Every B14 painter runs after textures() / gauntlet() / startroom() under the same keys (plus a few new ones), so a
+# family reverts by dropping its call from b14_textures(). Means are matched to main's PNGs (OLD_MEAN), so the hall
+# keeps its tones under the red light. Versions of a large surface share one low-frequency ground and differ only in
+# fine grain and rare features (B5's lesson); walls pick theirs by height as well (randomizeAxes xyz, B13's).
+
+import matlib as M  # noqa: E402
+from gen_city import CITY_F3, CITY_F5  # noqa: E402  (the B12 pixel faces)
+
+OLD_MEAN = {  # main's mean colours (measured on the PNGs before B14)
+    "wall": (215, 220, 210), "wallbase": (202, 207, 198), "safewall": (195, 213, 231), "safewallbase": (186, 204, 223),
+    "vinyl": (208, 208, 200), "border": (168, 171, 168), "scuffed": (188, 185, 177), "cracked": (194, 194, 186),
+    "safefloor": (178, 191, 206), "ceiltile": (227, 227, 221), "railwood": (138, 90, 50), "railtop": (168, 116, 66),
+    "steelframe": (92, 97, 100), "exithousing": (26, 26, 26), "sidedoor": (140, 145, 148), "sidedoor-back": (134, 139, 142),
+    "exitdoor": (158, 38, 34), "exitdoor-back": (142, 24, 20), "halldoor": (132, 101, 69), "halldoor-back": (132, 102, 74),
+    "hallframe": (74, 78, 82), "chaindoor": (132, 134, 135), "cartside": (184, 40, 32), "cabsteel": (154, 166, 160),
+    "mattress": (91, 110, 129), "sheet": (226, 226, 220), "gurneyframe": (110, 114, 118), "chrome": (183, 187, 191),
+    "cabinet": (236, 236, 230), "curtain": (140, 174, 151), "bedside": (216, 205, 180), "shelfblue": (45, 90, 150),
+    "pillow": (237, 233, 220), "dispenser": (242, 242, 238), "beamsteel": (58, 62, 66),
+}
+
+# Keys B14 adds, known before the shapes that use them are written (their painters run last)
+MINE.update({"cablabel", "scuffed-2", "cracked-2", "railunder", "exitlip", "runbead", "cartdrawer", "cartlabel", "defibscreen", "cabmirror", "dispensergel"}
+            | {f"{k}-{n}" for k in ("wall", "safewall", "wallbase", "safewallbase") for n in (2, 3, 4)}
+            | {"vinyl-2", "vinyl-3", "ceiltile-2", "ceiltile-3"} | {f"border-{s_}-2" for s_ in SIDES})
+
+# A pixel face for the notices: B12's 3 x 5 capitals and a few marks of our own
+RUN_F3 = dict(CITY_F3, **{"!": "1 1 1 0 1", "/": "001 001 010 100 100", ":": "0 1 0 1 0", "+": "000 010 111 010 000"})
+RUN_F5 = dict(CITY_F5)
+
+
+def pwidth(s, font=RUN_F3, gap=1):
+    return sum(len(font[ch].split()[0]) + gap for ch in s.upper()) - gap
+
+
+def ptext(img, s, x, y, col, font=RUN_F3, gap=1):
+    """`s` in a pixel face at (x, y), every lit pixel `col`."""
+    p = img.load()
+    for ch in s.upper():
+        rows = font[ch].split()
+        for r, row in enumerate(rows):
+            for c, bit in enumerate(row):
+                if bit == "1" and 0 <= x + c < img.width and 0 <= y + r < img.height:
+                    p[x + c, y + r] = M.rgba(col)
+        x += len(rows[0]) + gap
+    return x
+
+
+def ptext_c(img, s, y, col, font=RUN_F3, gap=1, x0=0, x1=None):
+    x1 = img.width if x1 is None else x1
+    return ptext(img, s, x0 + (x1 - x0 - pwidth(s, font, gap) + 1) // 2, y, col, font, gap)
+
+
+def matched(img, key, target=None):
+    return T.match_rgb(img, target or OLD_MEAN[key], key="b14run" + key)
+
+
+def edges(img, sides="lrtb", lit=0.14, dark=0.18, width=1):
+    """A raised edge on the named sides of a texture (a door leaf's outer edges): lit at the top and left, shaded at the
+    bottom and right. Unlike matlib.bevel it leaves the other sides alone (a door's two halves meet without a line)."""
+    w, h = img.size
+    for k in range(width):
+        f = 1 - k / width
+        if "t" in sides:
+            for x in range(w):
+                M.touch(img, x, k, lit * f)
+        if "b" in sides:
+            for x in range(w):
+                M.touch(img, x, h - 1 - k, -dark * f)
+        if "l" in sides:
+            for y in range(h):
+                M.touch(img, k, y, lit * 0.7 * f)
+        if "r" in sides:
+            for y in range(h):
+                M.touch(img, w - 1 - k, y, -dark * 0.85 * f)
+    return img
+
+
+def fine(img, seed, amp=2.0, roller=2.5):
+    """A version's own fine grain and roller stipple over a shared ground."""
+    rng = random.Random(seed)
+    st = M.fbm(img.size, M.sub(seed, "roll"), (2, 1), 0.7)
+    p = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            p[x, y] = M.rgba(M.lift(p[x, y], rng.uniform(-amp, amp) + st[y][x] * roller), p[x, y][3])
+    return img
+
+
+def smudge(img, seed, at, r=(3, 6), n=3, strength=0.05, color=(96, 92, 84), stretch=2.2):
+    """A few soft scuffs: low, wide, faint smears, wrapped; for one version of a wall's foot in eight."""
+    rng = random.Random(seed)
+    w, h = img.size
+    p = img.load()
+    for _ in range(n):
+        cx, cy = at[0] + rng.uniform(-6, 6), at[1] + rng.uniform(-2, 2)
+        rx, ry = rng.uniform(*r) * stretch, rng.uniform(*r) * 0.45
+        for y in range(int(cy - ry) - 1, int(cy + ry) + 2):
+            for x in range(int(cx - rx) - 1, int(cx + rx) + 2):
+                d = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2
+                if d < 1:
+                    t = strength * (1 - d) ** 1.5 * rng.uniform(0.7, 1.1)
+                    M.put(p, w, h, x, y, M.mix(M.get(p, w, h, x, y), color, t))
+    return img
+
+
+def wall_versions(base, key):
+    """Hospital wall paint over plaster: one calm ground, a fine roller stipple per version. Four versions, all plain."""
+    ground = M.noise_hv(rgb(base)[:3], 0, seed_of("b14" + key + "ground"), mottle=2.0, cells=(16, 8), hue=1.0)
+    out = []
+    for k in range(4):
+        img = fine(ground.copy(), seed_of(f"b14{key}fine{k}"), 1.6, 2.2)
+        out.append(matched(img, key))
+    return out
+
+
+COVE = (0x5E, 0x6A, 0x62)
+
+
+def cove_b14(img, colour, k, scuffs):
+    """The vinyl cove base, 3 px: a lit roll on top, its body, a dark toe on the floor, and the faint shadow its lip
+    throws on the wall; a dirty band above it (grime gathers at the foot of a wall); the odd scuff in a version."""
+    w, h = img.size
+    p = img.load()
+    dirt = M.fbm((w, h), seed_of("b14covedirt"), (16, 8), 0.5)  # one field for every version: no block edges
+    for y in range(h):
+        t = max(0.0, (y - 12) / (h - 12)) ** 1.6
+        for x in range(w):
+            p[x, y] = M.rgba(M.mix(p[x, y], (150, 144, 128), t * (0.10 + 0.04 * dirt[y][x])))
+    rng = random.Random(seed_of(f"b14covegrain{k}"))
+    for x in range(w):
+        c = colour
+        p[x, h - 3] = M.rgba(M.lift(c, 16 + rng.uniform(-2, 2)))
+        p[x, h - 2] = M.rgba(M.lift(c, rng.uniform(-3, 3)))
+        p[x, h - 1] = M.rgba(M.lift(c, -14 + rng.uniform(-2, 2)))
+        M.touch(img, x, h - 4, -0.06)
+    if scuffs == "scuff":
+        smudge(img, seed_of(f"b14scuff{k}"), (rng.uniform(8, 24), 24.5), n=3, strength=0.07)
+    elif scuffs == "rub":  # a trolley's rubber bumper along the wall: one grey streak, fading at both ends
+        x0, L = rng.randrange(4, 10), rng.randrange(12, 20)
+        for i in range(L):
+            t = math.sin(math.pi * (i + 0.5) / L) ** 0.6
+            M.touch(img, x0 + i, 23, -0.06 * t)
+            M.touch(img, x0 + i, 24, -0.08 * t)
+            M.touch(img, x0 + i, 25, -0.03 * t)
+    return img
+
+
+def wallbase_versions(base, key, cove_colour, scuffs=True):
+    walls = wall_versions(base, key.replace("base", ""))
+    out = []
+    for k, (img, feat) in enumerate(zip(walls, ("", "", "scuff", "scuff"))):
+        img = cove_b14(img.copy(), cove_colour, k, feat if scuffs else "")
+        out.append(matched(img, key))
+    return out
+
+
+def vinyl_ground(base, key):
+    return M.noise_hv(base, 0, seed_of("b14" + key + "ground"), mottle=1.6, cells=(16, 8), hue=1.2)
+
+
+CHIPS = [((110, 110, 106), 0.30), ((132, 130, 124), 0.18), ((160, 152, 138), 0.14), ((122, 128, 138), 0.10),
+         ((242, 240, 232), 0.28)]
+
+
+def vinyl_b14(base, key, k, chips=CHIPS, density=1.0):
+    """Speckled hospital sheet vinyl: a calm ground (shared by every version), chips of two sizes in grey, warm and
+    blue-grey and white, a few in small clusters; a faint satin grain. No seam: the sheet is welded."""
+    img = vinyl_ground(base, key)
+    w, h = img.size
+    rng = random.Random(seed_of(f"b14{key}chips{k}"))
+    p = img.load()
+    for y in range(h):
+        for x in range(w):
+            p[x, y] = M.rgba(M.lift(p[x, y], rng.uniform(-2.2, 2.2)))
+    cols, weights = zip(*chips)
+
+    def chip(x, y, c, cells):
+        c = M.lift(c, rng.uniform(-6, 6))
+        for (cx, cy) in cells:
+            M.put(p, w, h, x + cx, y + cy, M.rgba(c))
+    for _ in range(int(w * h * 0.05 * density)):  # flecks
+        chip(rng.randrange(w), rng.randrange(h), rng.choices(cols, weights)[0], [(0, 0)])
+    for _ in range(int(w * h * 0.006 * density)):  # larger chips, 2-3 px
+        cells = rng.choice(([(0, 0), (1, 0)], [(0, 0), (0, 1)], [(0, 0), (1, 0), (0, 1)], [(0, 0), (1, 0), (1, 1)]))
+        chip(rng.randrange(w), rng.randrange(h), rng.choices(cols[:4], weights[:4])[0], cells)
+    for _ in range(int(3 * density)):  # a loose cluster of flecks
+        x0, y0 = rng.randrange(w), rng.randrange(h)
+        c = rng.choices(cols, weights)[0]
+        for _ in range(rng.randint(3, 5)):
+            chip(x0 + rng.randint(-2, 2), y0 + rng.randint(-2, 2), c, [(0, 0)])
+    return img
+
+
+def b14_walls():
+    for key, base, cove_c, scuffs in (("wall", WALL, None, None), ("safewall", SAFEWALL, None, None)):
+        for k, img in enumerate(wall_versions(base, key)):
+            save(img, key if k == 0 else f"{key}-{k + 1}")
+    for key, base, cove_c, scuffs in (("wallbase", WALL, COVE, True), ("safewallbase", SAFEWALL, (0x5A, 0x6E, 0x86), False)):
+        for k, img in enumerate(wallbase_versions(base, key, cove_c, scuffs)):
+            save(img, key if k == 0 else f"{key}-{k + 1}")
+
+
+def b14_floor():
+    vb = (212, 212, 204)
+    for k in range(3):
+        save(matched(vinyl_b14(vb, "vinyl", k), "vinyl"), "vinyl" if k == 0 else f"vinyl-{k + 1}")
+    save(matched(vinyl_b14((182, 194, 210), "safefloor", 0), "safefloor"), "safefloor")
+    # The dark border band along the hall's edges: the same sheet, a dark inlay 8 px wide welded on with a groove
+    band_chips = [((92, 104, 116), 0.4), ((44, 52, 60), 0.35), ((150, 156, 160), 0.25)]
+    for side, box in (("north", (0, 0, S, 8)), ("east", (S - 8, 0, S, S)), ("south", (0, S - 8, S, S)), ("west", (0, 0, 8, S))):
+        for k in range(2):
+            img = vinyl_b14(vb, "vinyl", 10 + k)
+            band = vinyl_b14((62, 74, 85), "border", k + (4 if side in ("east", "west") else 0), band_chips, 0.8)
+            mask = Image.new("L", (S, S), 0)
+            ImageDraw.Draw(mask).rectangle([box[0], box[1], box[2] - 1, box[3] - 1], fill=255)
+            img.paste(band, (0, 0), mask)
+            # The weld: a dark groove on the field side of the band and a lit hair beside it
+            line, hair = {"north": ((0, 8, S, 9), (0, 9, S, 10)), "south": ((0, S - 9, S, S - 8), (0, S - 10, S, S - 9)),
+                          "east": ((S - 9, 0, S - 8, S), (S - 10, 0, S - 9, S)), "west": ((8, 0, 9, S), (9, 0, 10, S))}[side]
+            for (x0, y0, x1, y1), f in ((line, -0.32), (hair, 0.05)):
+                for y in range(y0, y1):
+                    for x in range(x0, x1):
+                        M.touch(img, x, y, f)
+            save(matched(img, "border"), f"border-{side}" + ("" if k == 0 else "-2"))
+    # (round 2) two versions each of the scuffed and cracked sheet, so a patch of them is not the same marks in a grid
+    for v, (sseed, cseed, cracks) in enumerate((("scuffed", "cracked", ((0, 14, 0.1, S, 2), (10, 15, -0.7, 12, 1), (20, 15, 0.8, 12, 1), (16, 14, -0.2, 8, 1))),
+                                                ("scuffed2", "cracked2", ((0, 15, -0.05, S, 2), (6, 15, 0.7, 10, 1), (24, 14, -0.8, 9, 1))))):
+        b14_scuffed_cracked(vb, v, sseed, cseed, cracks)
+
+
+def b14_scuffed_cracked(vb, v, sseed, cseed, cracks):
+    """Scuffed: B0's marks (heel marks, two drag smears, three claw scratches); cracked: a dark crack with chipped edges."""
+    # Scuffed: B0's marks (the same places) on the new sheet: heel marks, two drag smears, three claw scratches
+    img = vinyl_b14(vb, "vinyl", 20 + 2 * v)
+    rng = random.Random(seed_of(sseed))
+    px = img.load()
+    for _ in range(9):
+        x, y = rng.randrange(S), rng.randrange(S)
+        for k in range(rng.randint(2, 5)):
+            xx, yy = (x + k) % S, (y + (k * k) // 6) % S
+            px[xx, yy] = M.rgba(M.mix(px[xx, yy], (34, 32, 30), 0.85))
+    for x0 in ((7, 20) if v == 0 else (12, 27)):
+        for y in range(S):
+            for dx in range(-2, 3):
+                x = (x0 + dx + y // 8) % S
+                if rng.random() < 0.75 - abs(dx) * 0.2:
+                    px[x, y] = M.rgba(M.mix(px[x, y], (74, 42, 32), 0.45 - abs(dx) * 0.08))
+    cx0, cy0, cl = (4, 6, 18) if v == 0 else (11, 13, 14)
+    for k in range(3):
+        for t in range(cl):
+            x, y = cx0 + k * 3 + t, cy0 + t
+            if 0 <= x < S and 0 <= y < S:
+                px[x, y] = M.rgba(M.lift(px[x, y], 28))
+                if x + 1 < S:
+                    px[x + 1, y] = M.rgba(M.lift(px[x + 1, y], -60))
+    save(matched(img, "scuffed"), "scuffed" if v == 0 else "scuffed-2")
+    # Cracked: B0's crack (the same path) on the new sheet, its edges chipped and lit on the lower lip
+    img = vinyl_b14(vb, "vinyl", 21 + 2 * v)
+    rng = random.Random(seed_of(cseed))
+    px = img.load()
+
+    def crack(x, y, dx, n, width):
+        for _ in range(n):
+            for wd in range(width):
+                xx, yy = int(x) % S, (int(y) + wd) % S
+                px[xx, yy] = (36, 34, 32, 255)
+                for cx, cy in ((xx + 1, yy - 1), (xx - 1, yy + 1)):
+                    if rng.random() < 0.3:
+                        px[cx % S, cy % S] = M.rgba(M.lift(px[cx % S, cy % S], -40))
+            M.touch(img, int(x) % S, (int(y) + width) % S, 0.12)
+            x += 1
+            y += dx + rng.uniform(-0.9, 0.9)
+    for c in cracks:
+        crack(*c)
+    save(matched(img, "cracked"), "cracked" if v == 0 else "cracked-2")
+
+
+def b14_ceiling():
+    """2 x 2 lay-in tiles to a block in their T-bar (matlib.ceiling_tile at 16 px: fissured board, a soft recess where it
+    steps up into the grid, the rail shared between neighbours); three versions, a faint water stain in one."""
+    for k in range(3):
+        img = Image.new("RGBA", (S, S))
+        for i, (ox, oy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
+            stain = (168, 150, 112) if (k == 2 and i == 1) else None
+            t = M.ceiling_tile(seed_of(f"b14ceil{k}{i}"), 16, base=(232, 232, 226), rail=(208, 208, 202), fissures=0.55,
+                               recess=1, stain_color=stain)
+            img.paste(t, (ox, oy))
+        save(matched(img, "ceiltile"), "ceiltile" if k == 0 else f"ceiltile-{k + 1}")
+    save(matched(M.painted_metal(seed_of("b14tbar"), base=(208, 208, 202), panel=False, chips=0), "ceiltile", (207, 207, 200)), "tbar")
+
+
+def b14_rail():
+    """The crash rail: oak along its length. The front of the bar maps the texture's top rows, so those carry the
+    round: lit at the top, falling into shade at the bottom; its underside has a key of its own (railunder)."""
+    wood = M.wood_planks(seed_of("b14rail"), base=(146, 98, 56), planks=1, direction="h", grain=4, knots=0, joints=0,
+                         flecks=0.3, per_plank=0)
+    front = wood.copy()
+    for y, d in enumerate((14, 7, 0, -9)):
+        for x in range(S):
+            M.touch(front, x, y, d / 100)
+    for y in range(4, S):
+        for x in range(S):
+            M.touch(front, x, y, -0.04)
+    save(matched(front, "railwood"), "railwood")
+    top = M.wood_planks(seed_of("b14railtop"), base=(176, 124, 72), planks=1, direction="h", grain=3, knots=0, joints=0,
+                        per_plank=0)
+    for x in range(S):
+        M.touch(top, x, 0, 0.10)
+        M.touch(top, x, 2, -0.05)
+    save(matched(top, "railtop"), "railtop")
+    under = wood.copy()
+    for y in range(S):
+        for x in range(S):
+            M.touch(under, x, y, -0.22)
+    save(under, "railunder")
+    save(matched(M.painted_metal(seed_of("b14steelframe"), base=(96, 101, 104), panel=False, chips=3, under=(132, 134, 134)),
+                 "steelframe"), "steelframe")
+
+
+def b14_signs():
+    img = M.painted_metal(seed_of("b14exithousing"), base=(34, 33, 34), grain=2, mottle=3, panel=False, chips=0)
+    save(matched(img, "exithousing", (32, 31, 32)), "exithousing")
+    lip = M.painted_metal(seed_of("b14exitlip"), base=(40, 39, 40), grain=2, mottle=2, panel=False, chips=0)
+    for x in range(S):
+        M.touch(lip, x, 0, 0.35)
+    save(lip, "exitlip")
+
+
+def door_paint(base, key, part, chips=3, under=(112, 114, 114)):
+    """A steel door leaf's paint: an even coat, orange-peel, a few worn spots; the leaf's outer edges raised (lower:
+    the sides and bottom, upper: the sides and top), so the two halves meet without a line."""
+    img = M.painted_metal(seed_of("b14" + key + part), base=base, grain=2, mottle=3, panel=False, chips=chips, under=under)
+    M.grime(img, 0.05, seed_of("b14g" + key + part), cells=(8, 4), cover=0.4,
+            bias="bottom" if part == "lower" else None)
+    return edges(img, "lrb" if part == "lower" else "lrt", 0.12, 0.2)
+
+
+def b14_doors():
+    # The steel side doors: the window is now an opening with a pane and a bead (side_doors), the kick plate a plate
+    for part in ("lower", "upper"):
+        img = door_paint((144, 149, 152), "sidedoor", part)
+        save(matched(img, "sidedoor"), f"sidedoor-{part}")
+        dented = img.copy()
+        rng = random.Random(seed_of("dent" + part))
+        px = dented.load()
+        if part == "lower":
+            for cx, cy, r in ((16, 8, 7), (10, 14, 4), (21, 15, 5)):
+                for y in range(S):
+                    for x in range(S):
+                        dd = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5
+                        if r - 1.5 < dd < r:
+                            M.touch(dented, x, y, -0.22 if y > cy else 0.12)
+        for _ in range(7):
+            x, y = rng.randrange(4, S - 4), rng.randrange(2, S - 6)
+            for k in range(rng.randint(4, 9)):
+                if 0 <= x + k < S and 0 <= y + k // 2 < S:
+                    px[x + k, y + k // 2] = M.rgba(M.lift(px[x + k, y + k // 2], 40))
+                    if y + k // 2 + 1 < S:
+                        M.touch(dented, x + k, y + k // 2 + 1, -0.12)
+        T.blotch(dented, (rng.randrange(S), rng.randrange(S)), 7, (106, 58, 32), 0.35, seed_of("dentrust" + part))
+        save(dented, f"sidedoor-dented-{part}")
+    save(matched(door_paint((136, 141, 144), "sidedoorback", "upper", chips=1), "sidedoor-back"), "sidedoor-back")
+    save(matched(M.brushed_metal(seed_of("b14push"), base=(170, 174, 176), grain=3, direction="h"), "chrome", (167, 171, 174)), "pushplate")
+    img = M.painted_metal(seed_of("b14bead"), base=(104, 109, 112), grain=2, panel=False, chips=0)
+    save(img, "runbead")
+    # Wired glass: dark glass, a diamond mesh of wire, a soft reflection; the bead round it is geometry now
+    img = M.noise_hv((40, 48, 52), 2, seed_of("b14wired"), mottle=3, cells=(16, 8))
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            g = 1 - abs(((x + y) % 32) - 9) / 7.0
+            if g > 0:
+                p[x, y] = M.rgba(M.lift(p[x, y], 14 * g))
+            if (x + y) % 8 == 0 or (x - y) % 8 == 0:
+                p[x, y] = M.rgba(M.mix(p[x, y], (128, 136, 140), 0.75))
+    save(img, "wiredglass")
+
+    # Fire doors: red paint worn to the primer at the edges, a stencilled EXIT; the kick plate is the Kick box only
+    for part in ("lower", "upper"):
+        img = door_paint((160, 40, 36), "exitdoor", part, chips=6, under=(138, 132, 124))
+        if part == "upper":
+            ptext(img, "EXIT", 6, 10, (234, 228, 218), RUN_F5, 1)
+        save(matched(img, "exitdoor") if part == "lower" else img, f"exitdoor-{part}")
+    save(matched(door_paint((144, 26, 22), "exitdoorback", "upper", chips=2), "exitdoor-back"), "exitdoor-back")
+    # The marked door: pale, a huge red "!" painted across it (B0's drawing on the new leaf)
+    big = Image.new("RGBA", (S, 2 * S))
+    big.paste(door_paint((216, 214, 206), "markeddoor", "upper", 2), (0, 0))
+    big.paste(door_paint((216, 214, 206), "markeddoor", "lower", 2), (0, S))
+    T.blotch(big, (16, 50), 14, (180, 170, 150), 0.25, seed_of("markedgrime"))
+    d = ImageDraw.Draw(big)
+    red = rgb(0xE01810)
+    d.polygon([(9, 4), (23, 4), (20, 38), (12, 38)], fill=red)
+    d.ellipse([10, 44, 22, 56], fill=red)
+    rng = random.Random(seed_of("drips"))
+    for x0, y0 in ((13, 38), (17, 38), (19, 36), (14, 55), (19, 54), (10, 20), (22, 12)):
+        n = rng.randint(3, 9)
+        d.line([x0, y0, x0, min(2 * S - 2, y0 + n)], fill=red, width=1)
+        d.point([(x0, min(2 * S - 2, y0 + n + 1))], fill=shade(red, 0.8))
+    px = big.load()
+    for _ in range(80):
+        x, y = rng.randrange(S), rng.randrange(2 * S)
+        if px[x, y][0] > 200 and px[x, y][1] < 60:
+            px[x, y] = shade(px[x, y], rng.uniform(0.82, 1.08))
+    lower, upper = split_tall(big)
+    save(lower, "markeddoor-lower")
+    save(upper, "markeddoor-upper")
+    # The chained door: steel, rust run down from the top
+    big = Image.new("RGBA", (S, 2 * S))
+    big.paste(door_paint((138, 142, 144), "chaindoor", "upper", 4), (0, 0))
+    big.paste(door_paint((138, 142, 144), "chaindoor", "lower", 4), (0, S))
+    rng = random.Random(seed_of("rust"))
+    px = big.load()
+    for _ in range(9):
+        x, y, n = rng.randrange(S), rng.randrange(0, 20), rng.randint(10, 40)
+        for k in range(n):
+            if y + k < 2 * S:
+                px[x, y + k] = M.rgba(M.mix(px[x, y + k], (106, 58, 32), 0.6 * (1 - k / n)))
+    T.blotch(big, (8, 50), 9, (106, 58, 32), 0.4, seed_of("rustb"))
+    lower, upper = split_tall(big)
+    save(lower, "chaindoor-lower")
+    save(upper, "chaindoor-upper")
+    save(matched(door_paint((142, 146, 149), "steel", "upper", 3), "sidedoor-back", (141, 146, 149)), "steel")
+    # The hall door: a flush wooden leaf in a dark steel frame (its vision panel an opening, hall_door)
+    for part in ("lower", "upper"):
+        img = M.wood_planks(seed_of("b14halldoor"), base=(140, 108, 74), planks=1, direction="v", grain=3, knots=0,
+                            joints=0, per_plank=0, contrast=0.4, flecks=0.4)
+        img = img.crop((0, 0, S, S)) if part == "upper" else img
+        edges(img, "lrb" if part == "lower" else "lrt", 0.1, 0.18)
+        save(matched(img, "halldoor"), f"halldoor-{part}")
+    img = M.wood_planks(seed_of("b14halldoorback"), base=(140, 110, 80), planks=1, direction="v", grain=3, per_plank=0,
+                        contrast=0.4, flecks=0.4)
+    save(matched(img, "halldoor-back"), "halldoor-back")
+    save(matched(M.painted_metal(seed_of("b14hallframe"), base=(78, 82, 86), panel=False, chips=3, under=(130, 132, 132)),
+                 "hallframe"), "hallframe")
+    save(matched(M.brushed_metal(seed_of("b14hallkick"), base=(166, 170, 172), grain=3, direction="h"), "chrome",
+                 (163, 167, 169)), "hallkick")
+
+
+def b14_props():
+    # Chrome tube: a brushed sheen along the tube
+    save(matched(M.brushed_metal(seed_of("b14chrome"), base=(186, 190, 194), grain=3, direction="h", sheen=14), "chrome"), "chrome")
+    save(matched(M.painted_metal(seed_of("b14gurneyframe"), base=(112, 116, 120), panel=False, chips=2), "gurneyframe"), "gurneyframe")
+    save(matched(M.painted_metal(seed_of("b14beamsteel"), base=(60, 64, 68), panel=False, chips=2), "beamsteel"), "beamsteel")
+    # Sheets: cotton weave, soft fold shadows that bend across the bed
+    img = M.fabric(seed_of("b14sheet"), base=(228, 228, 222), weave="plain", contrast=4, grain=2, mottle=3)
+    rng = random.Random(seed_of("sheetfold"))
+    for _ in range(4):
+        y0 = rng.randrange(S)
+        for x in range(S):
+            yy = y0 + 2.2 * math.sin(x / 5 + y0)
+            for dy, f in ((-1, 0.05), (0, -0.07), (1, -0.04)):
+                M.touch(img, x, int(yy) + dy, f)
+    save(matched(img, "sheet"), "sheet")
+    save(matched(M.fabric(seed_of("b14pillow"), base=(238, 234, 222), weave="plain", contrast=3, grain=2, mottle=3), "pillow"), "pillow")
+    # The mattress: wipe-clean blue-grey vinyl, a welt seam round it, a shallow quilting in a diamond, one old stain
+    img = M.noise_hv((92, 112, 132), 2, seed_of("b14mattress"), mottle=4, cells=(16, 8))
+    for y in range(S):
+        for x in range(S):
+            u, v = (x + y) % 16, (x - y) % 16
+            if u == 0 or v == 0:
+                M.touch(img, x, y, -0.12)
+            elif u == 1 or v == 1:
+                M.touch(img, x, y, 0.05)
+    M.ao_border(img, 2, 0.16)
+    M.stain(img, seed_of("mattressstain"), radius=6, color=(96, 88, 62), strength=0.3, at=(21, 11))
+    save(matched(img, "mattress"), "mattress")
+    # The crash cart: red powder coat; its drawers are boxes now (props_b14)
+    save(matched(M.painted_metal(seed_of("b14cartside"), base=(184, 42, 34), panel=False, chips=3, under=(150, 146, 140)),
+                 "cartside"), "cartside")
+    img = M.painted_metal(seed_of("b14cartfront"), base=(176, 38, 30), panel=False, chips=2, under=(150, 146, 140))
+    save(matched(img, "cartside", (176, 40, 32)), "cartdrawer")
+    img = Image.new("RGBA", (S, S), (240, 200, 56, 255))
+    img = M.noise_hv((240, 202, 60), 2, seed_of("b14cartlabel"), mottle=2)
+    for x in range(4, 28, 3):
+        M.touch(img, x, 3, -0.4)
+    save(img, "cartlabel")
+    # The defibrillator: dark grey case, the screen an inset plate of its own (defibscreen)
+    save(M.painted_metal(seed_of("b14defib"), base=(58, 60, 56), grain=2, panel=False, chips=1), "defib")
+    img = M.noise_hv((22, 38, 28), 2, seed_of("b14defibscr"), mottle=2)
+    d = ImageDraw.Draw(img)
+    d.line([1, 16, 7, 16, 9, 8, 11, 24, 13, 13, 15, 16, 22, 16, 24, 9, 26, 22, 28, 16, 31, 16], fill=(72, 230, 104, 255))
+    save(img, "defibscreen")
+    # Supply cabinet steel (enamel) and its door (the label holder and vents as before, crisper)
+    save(matched(M.painted_metal(seed_of("b14cabsteel"), base=(156, 168, 162), grain=2, panel=False, chips=2), "cabsteel"), "cabsteel")
+    img = M.painted_metal(seed_of("b14cabdoor"), base=(152, 164, 158), grain=2, panel=False, chips=2)
+    edges(img, "lrtb", 0.1, 0.16)
+    for y in (22, 25, 28):  # (round 2) the label holder is a box on the door now (gauntlet's LabelL)
+        for x in range(8, 24):
+            M.touch(img, x, y, -0.32)
+            M.touch(img, x, y + 1, 0.10)
+    save(img, "cabdoor")
+    img = M.noise_hv((232, 230, 218), 2, seed_of("b14cablabel"), mottle=2)
+    M.bevel(img, (0, 0, S, S), 2, 0.2)
+    for x in range(6, 26):
+        img.putpixel((x, 15), (130, 130, 126, 255))
+    save(img, "cablabel")
+    # Medicine cabinet: white enamel; its mirror is an inset pane now, the red cross a decal on the frame
+    save(matched(M.painted_metal(seed_of("b14cabinet"), base=(236, 236, 230), grain=2, mottle=3, panel=False, chips=1,
+                                 under=(190, 190, 186)), "cabinet"), "cabinet")
+    img = M.noise_hv((168, 182, 188), 2, seed_of("b14mirror"), mottle=4, cells=(16, 8))
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            g = 1 - abs(((x + y) % 40) - 14) / 6.0
+            if g > 0:
+                p[x, y] = M.rgba(M.lift(p[x, y], 22 * g))
+    save(img, "cabmirror")
+    img = M.painted_metal(seed_of("b14cabfront"), base=(236, 236, 230), grain=2, mottle=3, panel=False, chips=0)
+    for (x0, y0, x1, y1) in ((14, 2, 18, 8), (12, 4, 20, 6)):
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                img.putpixel((x, y), M.rgba(M.lift((206, 28, 30), random.Random(x * 3 + y).uniform(-4, 4))))
+    save(img, "cabinetfront")
+    # The privacy curtain: pale green cotton; the pleats' light and shade follow the folds (its pleats are boxes)
+    img = M.fabric(seed_of("b14curtain"), base=(142, 176, 152), weave="plain", contrast=5, grain=2, mottle=4)
+    for y in range(S):
+        for x in range(S):
+            M.touch(img, x, y, 0.08 * math.sin(x / S * 2 * math.pi * 2))
+    save(matched(img, "curtain"), "curtain")
+    # Bedside table: laminate on top and sides, a raised edge on the drawer and door fronts
+    img = M.wood_planks(seed_of("b14bedside"), base=(218, 206, 180), planks=1, direction="h", grain=2, per_plank=0, contrast=0.5)
+    save(matched(img, "bedside"), "bedside")
+    img = M.noise_hv((214, 203, 178), 2, seed_of("b14bedsidefront"), mottle=3)
+    M.bevel(img, (0, 0, S, S), 1, 0.12)
+    save(img, "bedsidefront")
+    # Blue steel shelving: powder coat, the uprights' slots as dark pits with a lit lower lip
+    img = M.painted_metal(seed_of("b14shelfblue"), base=(46, 92, 152), panel=False, chips=3, under=(150, 150, 146))
+    for y in range(1, S, 4):
+        for x in range(S):
+            if x % 8 in (3, 4):
+                M.touch(img, x, y, -0.45)
+                M.touch(img, x, y + 1, 0.08)
+    save(matched(img, "shelfblue"), "shelfblue")
+
+
+def b14_startroom():
+    # Notices on white card, in a pixel face (B9's lesson: scaled-down type smears)
+    ink, blue, red, grey = (40, 40, 46), (30, 90, 170), (200, 30, 36), (150, 150, 156)
+    card = lambda key: M.paper(seed_of(key), (32, 40), base=(244, 244, 238), grain=2, mottle=2, fibre=0.3, seams=0, strip=0)
+    img = card("b14handwash")
+    for y in range(0, 8):
+        for x in range(32):
+            img.putpixel((x, y), M.rgba(M.lift(blue, random.Random(x * 13 + y).uniform(-3, 3))))
+    ptext_c(img, "PLEASE", 1, (255, 255, 255))
+    d = ImageDraw.Draw(img)
+    d.polygon([(16, 9), (14, 12), (18, 12)], fill=blue + (255,))  # the drop
+    d.ellipse([14, 11, 18, 14], fill=blue + (255,))
+    skin, line = (232, 196, 170, 255), (150, 110, 90, 255)
+    for x0, flip in ((8, False), (18, True)):  # two hands under the drop: a palm, four fingers up, a thumb in
+        d.rectangle([x0 + 1, 16, x0 + 5, 18], fill=skin)
+        for f in range(4):
+            d.line([x0 + 1 + f + (1 if flip else 0), 14 + (f in (0, 3)), x0 + 1 + f + (1 if flip else 0), 15], fill=skin)
+        tx = x0 + 6 if not flip else x0
+        d.line([tx, 16, tx, 17], fill=skin)
+        d.line([x0 + 1, 19, x0 + 5, 19], fill=line)
+    ptext_c(img, "WASH", 21, ink)
+    ptext_c(img, "YOUR", 27, ink)
+    ptext_c(img, "HANDS", 33, blue)
+    M.bevel(img, (0, 0, 32, 40), 1, 0.06)
+    save(img, "notice-handwash")
+    img = card("b14visiting")
+    d = ImageDraw.Draw(img)
+    d.rectangle([14, 2, 17, 11], fill=red + (255,))
+    d.rectangle([11, 5, 20, 8], fill=red + (255,))
+    ptext_c(img, "VISITING", 14, ink)
+    ptext_c(img, "HOURS", 20, ink)
+    ptext_c(img, "2-8", 27, grey)
+    for i, (x0, x1) in enumerate(((5, 27), (7, 25))):
+        for x in range(x0, x1):
+            if (x * 7 + i) % 5:
+                img.putpixel((x, 34 + i * 2), (176, 176, 180, 255))
+    M.bevel(img, (0, 0, 32, 40), 1, 0.06)
+    save(img, "notice-visiting")
+    # The dispenser: white ABS; its window and drop are a panel of their own now (dispenserfront: just the label)
+    save(matched(M.painted_metal(seed_of("b14dispenser"), base=(240, 240, 236), grain=2, mottle=2, panel=False, chips=0),
+                 "dispenser"), "dispenser")
+    img = M.noise_hv((240, 240, 236), 1, seed_of("b14dispfront"), (16, 16), mottle=1)
+    d = ImageDraw.Draw(img)
+    d.polygon([(8, 7), (6, 10), (10, 10)], fill=(42, 106, 184, 255))
+    d.ellipse([6, 8, 10, 12], fill=(42, 106, 184, 255))
+    save(img, "dispenserfront")
+    img = M.noise_hv((150, 196, 220), 1, seed_of("b14gel"), mottle=2)
+    for x in range(S):
+        for y in range(10):
+            M.touch(img, x, y, 0.12)
+    save(img, "dispensergel")
+
+
+def b14_textures():
+    b14_walls()
+    b14_floor()
+    b14_ceiling()
+    b14_rail()
+    b14_signs()
+    b14_doors()
+    b14_props()
+    b14_startroom()
+
+
 NL = "\n"
 
 
@@ -2199,6 +2934,7 @@ def generate():
     props()
     gauntlet()
     startroom()
+    b14_textures()
     items()
     lang()
     gen_detail.merge_lang()

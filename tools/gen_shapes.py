@@ -1362,6 +1362,36 @@ def wing_chair_b10():
     return els
 
 
+def palm_b14():
+    """(B14) The potted palm: a round terracotta pot (an octagon) with a rolled rim and soil in it, a trunk of stub rings
+    narrowing as it climbs, and eight fronds: each a blade stepping out and down from the crown in three narrowing
+    pieces, four along the axes and four turned 45 degrees about the trunk. (Was a box pot, a stick and four flat plates.)
+    Inside its block's 0.5-wide collision column up to the crown; the fronds reach out over the neighbours."""
+    els = octagon("Pot", 8, 8, 3.4, 0, 6.0, "pot", faces=("north", "east", "south", "west", "down"), lift=0.01)
+    els += octagon("Rim", 8, 8, 4.0, 6.0, 7.4, "pot", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    els += octagon("Soil", 8, 8, 3.5, 7.2, 7.45, "soil", faces=("up",), lift=0.01)
+    for k, (r, y1, y2) in enumerate(((1.3, 7.3, 10.5), (1.15, 10.5, 13.5), (1.0, 13.5, 16.5), (0.9, 16.5, 19.5))):
+        els.append(box(f"Trunk{k}", (8 - r, y1, 8 - r), (8 + r, y2, 8 + r), "palmtrunk"))
+    els.append(box("Crown", (6.8, 19.5, 6.8), (9.2, 20.6, 9.2), "palmtrunk"))
+    # A frond along +x from the crown: blades end to end, each tipped down further than the last (one rotation each,
+    # about its inner end); four along the axes (turned with modelkit.turn), four under a parent turned 45 degrees
+    def frond(pre, y0, phis, lens, hws):
+        out, sx, sy = [], 9.0, y0
+        for k, (phi, L, hw) in enumerate(zip(phis, lens, hws)):
+            e = box(f"{pre}S{k}", (sx, sy - 0.18, 8 - hw), (sx + L, sy + 0.18, 8 + hw), "leaf")
+            e["rotationOrigin"], e["rotationZ"] = [sx, sy, 8], phi
+            out.append(e)
+            sx, sy = sx + L * math.cos(math.radians(phi)), sy + L * math.sin(math.radians(phi))
+        return out
+    for i in range(4):
+        els += K.turn(frond(f"Frond{i}", 20.2, (20, -5, -30, -55), (3.5, 3.2, 2.8, 2.2), (1.5, 1.4, 1.1, 0.6)), i)
+        els.append({"name": f"FrondDiag{i}", "from": [0, 0, 0], "to": [0, 0, 0], "rotationOrigin": [8, 0, 8], "rotationY": 45,
+                    "faces": {}, "children": K.turn(frond(f"FrondD{i}", 19.6, (35, 10, -20, -45), (3.0, 3.0, 2.6, 2.0),
+                                                          (1.3, 1.2, 1.0, 0.5)), i)})
+    els.append(box("Spear", (7.4, 20.6, 7.6), (8.6, 23.6, 8.4), "leaf"))
+    return els
+
+
 def level5():
     t = {"panel": "backrooms:block/level5/hotelwall-panel", "brass": "backrooms:block/level5/brass",
          "candle": "backrooms:block/props/tube-warm", "gilt": "backrooms:block/level5/gilt",
@@ -1491,11 +1521,8 @@ def level5():
         box("Back", (0, 8, 12), (16, 17, 15), "velvet"),
         box("Base", (0.5, 0, 3.5), (15.5, 4, 14.5), "wood"),
     ])
-    palm = [box("Pot", (4, 0, 4), (12, 8, 12), "pot"), box("Trunk", (7, 8, 7), (9, 20, 9), "wood")]
-    for i, (dx, dz) in enumerate(((1, 0), (-1, 0), (0, 1), (0, -1))):
-        palm.append(box(f"Frond{i}", (8 + min(0, dx * 9) if dx else 6, 18, 8 + min(0, dz * 9) if dz else 6),
-                        (8 + max(0, dx * 9) if dx else 10, 19, 8 + max(0, dz * 9) if dz else 10), "leaf"))
-    save("pottedpalm", t, palm)
+    save("pottedpalm", dict(t, palmtrunk="backrooms:block/level5/palmtrunk", soil="backrooms:block/level5/potsoil"),
+         palm_b14())  # (B14)
     save("mahjongtable", t, [
         box("Top", (0, 11, 0), (16, 12.5, 16), "felt"),
         box("Rim", (-0.5, 11, -0.5), (16.5, 12, 16.5), "wood", faces=("north", "south", "east", "west", "down")),

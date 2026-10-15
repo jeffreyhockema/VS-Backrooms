@@ -155,6 +155,19 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B13) Level 94's siren poles are written to the town's plaza corners and then overwritten by the house lots, so none
   stands in a world (layout; the tune still plays from `NearestSirenPole`). Its model is judged on the preview.
 
+- (B14) Level ! is lit only by its EXIT signs, every ~10 blocks, with a 30-block dark stretch in the first hall: a spot
+  there is black (B0's prop-1). Find the sign tiles on the harness grid (ceiling `RunExitSign`) and stand within two
+  tiles of one, or the asset cannot be graded.
+- (B14) A wall decoration placed beside an opening (a lobby's elevator pair ends at an archway) cannot reach past its own
+  block: B14's first call-button plate stood beyond the right leaf's jamb and floated in the opening. Put such hardware
+  on the block's own frame.
+- (B14) A shape that lists another prop's whole texture dict (gen_shapes' Level 5 `t`) changes every shape that shares the
+  dict when a key is added to it: give the new prop its own copy (`dict(t, key=...)`).
+- (B14) A faceless parent element turned 45 degrees about the trunk (as `officechairtipped` uses for its 90) lets
+  children keep a rotation of their own: the palm's diagonal fronds droop as the axis ones do.
+- (B14) The texture keys of a far level's generator that its painters save last must be known before its shapes are
+  written (`tpath` checks the set of saved keys): gen_run registers its B14 keys in `MINE` up front.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -174,8 +187,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | gfx/B12 | merged | 2 | mirror glass (lore), roofs C+, asphalt C+, traffic-light fronts unseen, lobby marble C+; shelter, dumpster, booth, cart, bench, doors untouched | passed 2026-10-15 00:40 (Fable): façade windows and bands verified as geometry at the old look |
 | B13 Levels 37 and 94 | gfx/B13 | merged | 2 | L94 asphalt and dirt path C+; siren pole stands in no world (layout bug, report to user); earlier batches' walls lack randomizeAxes xyz (follow-up) | passed 2026-10-15 01:55 (Fable): turf swirl gone, mosaic at B |
-| B14 Level ! and Fun | gfx/B14 | in progress | | | |
-| B15 The End and The Hub | | not started | | | |
+| B14 Level ! and Fun | gfx/B14 | merged | 2 | L! walls and Fun paint plain (C+); gurney, wheelchair, IV, collapse untouched; Fun brass leaves C+; balloons and streamers untouched; fire doors unseen | passed 2026-10-15 03:15 (Fable): bed, doors, cart as geometry; floor seam gone |
+| B15 The End and The Hub | gfx/B15 | in progress | | | |
 | B16 974, 3999, 188 | | not started | | | |
 | B17 entities and items | | not started | | | |
 | B18 finish | | not started | | | |
@@ -1648,3 +1661,94 @@ Worker report (Opus, 2026-10-15). Branch `gfx/B13` from `main` (94ff2b5), uncomm
 - **New in `gen_motion`:** the B13 section: `MOTION_MEAN`, `stroke`, `arcs`, `smear`, `clay_ground`, the painters `turf_top_b13`, `turf_side_b13`, `clay_b13`, `path_b13`, `asphalt_b13`, `slab_b13`, `castle_b13`, `roof_b13`, `tower_b13`, `fountain_tex_b13`, `glass_b13`, `furniture_tex_b13`, `van_tex_b13`, `nooutlet_b13`, `b13_textures`, `alts`, `tex_entry`; the models `octo_wheel`, `milkvan_b13`, `oldcar_wheels_b13`, `sirenpole_b13`, `icebox_b13`, `radio_b13`, `phone_b13`, `fountain_b13`, `towerleg_b13`; `gen_detail.TURNED`/`ALTS` entries for the roads and the castle.
 
 **Lessons:** four lines added above.
+
+### B14
+
+Worker report (Opus, 2026-10-15). Branch `gfx/B14` from `main` (82b4613), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), then fixes and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b14/compare-round2-run.jpg` and `review/b14/compare-round2-fun.jpg`: every spot.
+  - `review/b14/compare-round2-run-detail.jpg` and `-fun-detail.jpg`: the close spots at twice the size.
+  - Shots: `review/b14/final/{run,fun}`. Round 1: `review/b14/compare-round1-*.jpg`, with its shots in `review/b14/after/`.
+- **Per-family pairs:** `review/b14/sidebyside/<family>.jpg` (18 families), from `docs/design/graphics-pass/sidebyside/B14.json` (it reads `review/b14/sbs/{before,after}`, where shots carry a `run-` or `fun-` prefix). The B14 section is added to `review/compare.html`.
+- **Decision table:** eighteen rows added to `decisions.md`, decision column empty. The textures are B14 painters that run after the old ones under the same keys (`gen_run.b14_textures`, `gen_fun.b14_textures`), so a family reverts by dropping its call; each row names its functions.
+- **Offline evidence** (`review/b14/offline/`):
+  - `tex-{run,fun}-{surf,props}-{before,after}.png`: texsheets, the surfaces tiled 3x3, with vanilla references.
+  - `mock-*-6x3.png`: the run vinyl, wall, wall foot and ceiling, and Fun's cream wall, vinyl tiles, painted wall foot and carpets in their real mix of versions and turns, main above B14, with seam ratios (run vinyl 2.05 on main, 0.96 now).
+  - `preview-run-{1,2,3}.png`, `preview-bed*.png`, `preview-palm.png`, `preview-fun-{1,2}.png`: the changed models beside main's.
+  - `notices.png`, `fun-signs.png`, `poster.png`, `round2-tex.png`, `crop-*.jpg`, `harness/`, `main/` (main's textures and shapes), `spots-{run,fun}-before.json`.
+  - The scratch tools in `tools/`: `addspots_b14.py`, `near_sign.py`, `explore.py`, `map_at.py`, `query.py`, `enums.py`, `patch_*.py`, `insert_run.py`, `mocks_b14.py`, `sheets_b14.py`, `prev.py`, `luma.py`, `churn.py`, `docs_b14.py`, `tracker_b14.py`.
+
+**Checks**
+- **Build:** 0 warnings and 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir, both rounds). `build-gfxbase` was built from unchanged `main` before any edit. No C# changed.
+- **`layouthash`:** v1 and v4 unchanged against main's output, line for line, in both rounds (`review/b14/offline/harness`).
+- **`validatelevel 14` and `15`** (Levels ! and Fun, `SPAWN=16000`, 24 cells): no doorways to nowhere, none blocked, no bad elevators, no decor facing walls (main's output: no C# changed).
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. The changes are textures, new texture keys and versions, shapes, `alternates` and `randomizeAxes`. Shot in `gfxreview`; no new world was needed.
+- **`check_zfight`:** no new same-shape pairs (Level ! 8 and Level Fun 34 before and after, all in unchanged models: the chained door's padlock, the wheelchair's feet, the exit door's jambs, Fun's old props). The bed and the palm are clean.
+- **Churn:** line endings, `lang/en.json` and the `exitlintel*` key order restored from git after every regeneration (`churn.py`); gen_detail, gen_textures and gen_shapes left every other output byte-identical (gen_shapes' first palm run also rewrote four Level 5 shapes' texture lists: fixed, see the lessons).
+- **Brightness:** every final shot is within 0.3 levels of the new baseline on Level ! and within 4 on Level Fun (`review/b14/luma-final.txt`), except `funparty-close` (-11: a different party-goer stands in front of the camera each run; spawned entities vary).
+- **Texture keys:** every new key was checked against all generators and `git ls-files`. Level ! and Fun keys live in their own folders (`block/run/`, `block/fun/`).
+  - New in `block/run/`: `wall-2..4`, `wallbase-2..4`, `safewall-2..4`, `safewallbase-2..4`, `vinyl-2/-3`, `border-<side>-2`, `scuffed-2`, `cracked-2`, `ceiltile-2/-3`, `railunder`, `exitlip`, `runbead`, `cartdrawer`, `cartlabel`, `defibscreen`, `cabmirror`, `cablabel`, `dispensergel`.
+  - New in `block/fun/`: `paint-<colour>-2/-3`, `paint-<colour>-low-2..4`, `promwall-2/-3`, `confetti-2/-3`, `liftdialface`, `liftneedle`, `liftbutton`, `liftplate`, `speakercloth`, `speakercone`.
+  - New shared: `block/detail/hospbed-*` (9), `block/level5/palmtrunk`, `potsoil`.
+  - No longer used by any shape (still written): run `cartfront`; Fun `liftdial` (`grille` is still the blower's).
+
+**Baseline and spots**
+- `review/baseline/run` and `/fun` were reshot on `build-gfxbase`; the B0 sets are kept as `run-b0` and `fun-b0`. A retake of five spots first (`review/b14/base-check`) matched B0 within 1; the full run matched within 1 (Fun's wide shots within 1.5). No run came out dark.
+- **Re-spotted** (B0's black frames): `wide-07` (the x 511824 hall past the collapse and gurneys), `prop-1` (a barricade under the sign at 736), `prop-2` (the collapsed ceiling under the sign at 744).
+- **Added** (`review/spots/run.json`, `fun.json` and the docs copies; found on the harness grid with the scratch tools):
+  - Level !: `bed-close`, `startdoor-wide` (the start room's door wall: the hall door, the hand-washing notice, the dispenser), `notice-close`, `sanitiser-close`, `rail-close`, `exit-close`, `wheelchair-close`, `ivstand-close`, `gurney-close`.
+  - Level Fun: `elevator-close`, `elevator-wide` (the lobby's string lights, confetti, floor balloons), `lobbyfloor-close`, `party-ceiling` (the balloon cluster and streamers), `poster-close`, `directory-close`, `palm-close`, `speaker-close`.
+- **Re-aimed after the base frames:** `rail-close` (its first place was black), `bed-close` (closer), `sanitiser-close`, `directory-close`, `palm-close`, `speaker-close` (narrower fields of view).
+- **Not added:** the fire doors (the true and fake exits are far from the anchor in the dark); the crash cart (one in the area, in the dark).
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| L! hospital walls, cove base (hero 29, 30) | C+ (blind r1: C) | better | Paint over plaster in the old tone, four versions on one ground (`randomizeAxes: xyz`); the dash scuffs that printed on every foot block are gone; a 3 px cove with a lit roll, a soft dirt gradient, soft scuffs in two versions of eight. A hospital wall is plain: the reviewer called it pristine. |
+| L! vinyl floor, border, scuffed, cracked (hero 29) | B- (r1: C) | better | The per-block seam is gone (seam 2.05 to 0.96); chips of two sizes and four tones in a calm ground, three versions turned; the border an inlay with a groove. Round 2: scuffed and cracked have two versions each, turned. |
+| L! ceiling tiles | B- (r1: B-) | better | `matlib.ceiling_tile` at 16 px, four to a block in the T-bar, three versions, a stain in one block in six. |
+| L! crash rail | B- (r1: B-) | better | Oak along its length with a round shading, a lit top roll, a dark underside, wall plates. Round 2 calmed the grain flecks that sat in the same place on every block. |
+| L! steel side doors (hero 29) | B (r1: B) | better | The painted window is an opening with a wired-glass pane in a bead; the kick plate a plate; worn paint, raised outer edges; the flung leaf the same. |
+| L! hall door | B- (r1: B-) | better | A flush wood leaf with its vision panel set in; round 2 calmed the grain (r1 read as barn planks). |
+| L! fire, marked and chained doors | B- (not in a shot) | better (offline) | Worn red paint and a crisp stencil; the painted kick plate (a copy of the Kick box) removed. |
+| L! EXIT signs (hero 29) | B+ (r1: B+) | slightly better | A lip round each face; lights and faces unchanged. |
+| Hospital bed (hero 30; Level 1 too) | B (r1: D on the preview's cut end) | better | Tube posts and rails, moulded boards with a recessed panel, castors, a vinyl mattress, sheet, a cellular blanket hanging over the sides, a pillow. The reviewer's "floating planes" are the preview of one half cut at the block edge, where the other half joins; in `bed-close` the bed is whole. |
+| L! notices, dispenser | B (r1: B / C) | better | Pixel lettering; round 2 moved the pins off PLEASE and drew the hands as hands. The dispenser's window is a pane, the paddle hinged. |
+| L! crash cart, cabinets, mattresses | B (preview; r1: B, C) | better | Drawers as boxes, an inset defibrillator screen, the medicine cabinet's mirror inset, the supply cabinet's label holder a box (round 2: r1 called the painted one a hardware icon); woven sheets and curtain, quilted vinyl mattress. |
+| L! gurney, wheelchair, IV stand, collapse | C (r1: too dark) | same | Their models are unchanged; their paint (chrome, steel, sheet) changed. Too dark to grade in the shots. |
+| Fun lobby walls, band, skirting (hero 31) | B (r1: C / B / B-) | better | Plaster paint in three versions; the band glazed tiles in the old colours under a cream cap; the skirting glazed white tile. The reviewer missed B0's roller laps on the cream wall ("a stripe"); they were a texture, not a pattern. |
+| Fun painted walls | C+ (r1: C) | better | The repeated dash scuffs are gone; plaster paint in three versions; the low block a little dirtier toward the floor with rare rubs. Plain by nature. |
+| Fun vinyl tiles (hero 32) | B- (r1: B-) | better | Each tile shaded and tinted, a recessed joint, no diagonal streak through every block; one faint scuff in two kinds of four. |
+| Fun lobby, race and retro carpets (hero 31) | B- (r1: B-) | better | The patterns dyed into a pile; round 2 removed the block-sized mottle (r1: dark patches on the block grid) and kept the lines whole. |
+| Fun elevator doors (hero 31) | C+ (r1: C; dial B+) | better | Round 2: brushed brass with a soft sheen instead of the painted pale stripe; raised frames on the leaves; a modelled dial; call buttons in the jamb (r1's plate floated past the wall's end: D). |
+| Fun OUT OF ORDER, directory, deck sign | B+ / B / B (r1: B+ / B / B) | better | Pixel lettering; the deck sign's whole line fits now, its brass back to the old tone (round 2); the directory's last line lifted off the frame. |
+| Fun TIME 4 FUN poster | B- (r1: D) | better | Pixel lettering on B0's picture; round 2 restored the "=)" (r1's read as an arrow) and moved TIME below the tape (the corner tape still clips its first letter at an angle). |
+| Fun palm (hero 31; Level 5 too) | B+ (r1: B+) | much better | An octagonal terracotta pot with a rim and soil, a ringed trunk, eight drooping fronds and a spear. |
+| Fun speaker | B- (r1: B-) | better | A bezel, a recessed cloth, woofer and tweeter behind wire bars; the body lifted from near black (round 2). |
+| Fun chairs | B- (r1: C+) | better | A moulded seat and one back shell, stretchers, glides; round 2 shaded the plastic and lifted the black chair to dark grey. |
+| Fun confetti | B- (r1: B-) | better | Crisp bits in three versions, turned. |
+| Fun balloons, streamers, string lights | C (r1: C) | same | Not changed (the lights stay cubes). |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given only the sheets, texsheets, mocks, previews and the rubric):
+   - **D:** the call-button plate floating past the wall's end; the poster's "=)" reading as "=>" with TIME under the tape; the bed's preview (the cut end); the scuffed and cracked floor variants (B0's, unchanged).
+   - **C:** the walls (plain), the vinyl (structure "lost": it never had tiles, only a seam per block), the cove's smudges, the elevator leaves (plywood), the chairs' flat plastic and pure black, the hall door's grain, the cabinet's painted label, the carpet mottle on the block grid.
+   - **B or better:** the dial, the notices, the side doors, the EXIT signs, the cart, the band, the palm, the signs.
+2. **Round 2 fixed:** the call buttons into the jamb; the poster's "=)" and TIME; the hand-washing notice's pins and hands; two versions of the scuffed and cracked floor; the cove's second scuff in place of the bracket-shaped rub; the rail's flecks; the hall door's grain; the cabinet label as a box; the elevator brass; the chairs' plastic and the black chair; the speaker body; the deck sign's tone; the directory's last line; the carpets' mottle. Reshot once.
+
+**Carried below B, with reasons**
+- **L! walls and Fun painted walls (C+):** institutional and party paint are plain surfaces; structure would change the look. Grime is kept subtle at the foot.
+- **L! gurney, wheelchair, IV stand, collapse rubble (C):** their models are B0's; they stand in the dark and could not be graded.
+- **Fun elevator leaves (C+):** brass in the old tone; the reviewer read the round-1 leaves as plywood, and the palette is kept.
+- **Fun balloons, streamers (C):** not changed; the inventory said keep the balloons.
+- **Not touched:** the fire doors' models (in no shot), the oven, the inflatables, the playroom, the deck, the murals (still in no shot), the beacons, the curtains' and gurney's models, the Safe Zone's props.
+- **Palette question for the user:** Fun's party colours (vinyl, band) are still saturated primaries; the inventory asked whether to lower them a step. Kept.
+
+**Tool changes:** none to shared tools.
+- **New in `gen_run`:** the B14 section: `OLD_MEAN`, `RUN_F3`/`RUN_F5`, `ptext`, `matched`, `edges`, `fine`, `smudge`, `wall_versions`, `cove_b14`, `wallbase_versions`, `vinyl_b14`, the painters `b14_walls`, `b14_floor`, `b14_scuffed_cracked`, `b14_ceiling`, `b14_rail`, `b14_signs`, `door_paint`, `b14_doors`, `b14_props`, `b14_startroom`, `b14_textures`; the models `b14_versions`, `b14_floor_versions`, `sign_lip`, `wbx`, `side_leaf`; edits in `rail`, `walls`, `signs`, `side_doors`, `hall_door`, `props`, `gauntlet`, `startroom`.
+- **New in `gen_fun`:** the B14 section: `FUN_OLD`, `FUN_F3`/`FUN_F5`/`BIG`, `ftext`, `fine`, `paint_b14`, `glazed`, the painters `b14_paint`, `b14_tiles`, `b14_vinyl`, `crisp`, `b14_carpets`, `b14_elevator`, `b14_signs`, `b14_party`, `b14_textures`; the models `b14_wall_versions`, `confetti_alts_b14`, `wbx`, `elevator_frame_b14`, `lift_dial_b14`, `call_buttons_b14`, `speaker_b14`, `chair_b14`.
+- **Shared generators changed:** `gen_detail.hospital_bed_b14` (the bed is shared with Level 1's first-aid rooms), `gen_shapes.palm_b14` and `gen_textures.palm_textures_b14` (the palm is Level 5's).
+
+**Lessons:** five lines added above.

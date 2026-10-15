@@ -2805,6 +2805,48 @@ def crystal_glass():
     return match_rgb(img, L5_MEAN["crystal"], "l5crystal")
 
 
+def palm_textures_b14():
+    """(B14) The potted palm's materials (it stands in Level 5's halls and Level Fun's lobbies). palmleaf: the fronds'
+    blades, leaflets as long strips along the length with a lit edge and a dark gap between them, a paler midrib down
+    the middle; pot: glazed terracotta with a thrown rim band and a few throwing rings; palmtrunk: the fibrous stub
+    rings of a palm's trunk; potsoil: dark potting soil with bits of bark."""
+    rng = random.Random(5660)
+    img = M.noise_hv((62, 106, 44), 3, 5661, mottle=5, cells=(16, 8))
+    p = img.load()
+    for y in range(32):
+        for x in range(32):
+            d = abs(y - 15.5)
+            if d < 1.2:
+                p[x, y] = M.rgba(M.lift((122, 150, 74), rng.uniform(-3, 3)))  # the midrib
+            elif (x + int(d * 1.6)) % 4 == 0:
+                p[x, y] = M.rgba(M.lift(p[x, y], -22))  # the gaps between leaflets, slanting out from the rib
+            elif (x + int(d * 1.6)) % 4 == 1:
+                p[x, y] = M.rgba(M.lift(p[x, y], 10))
+    save(img, "block/level5/palmleaf.png")
+    img = M.noise_hv((150, 84, 52), 3, 5671, mottle=5, cells=(16, 8))
+    for y in (6, 7, 13, 21):
+        for x in range(32):
+            M.touch(img, x, y, -0.08 if y != 7 else 0.06)
+    M.hue_jitter(img, 2, 5672)
+    save(img, "block/level5/pot.png")
+    img = M.noise_hv((112, 84, 56), 3, 5681, mottle=4, cells=(16, 8))
+    for y in range(32):
+        k = y % 4
+        for x in range(32):
+            if k == 0:
+                M.touch(img, x, y, -0.22)
+            elif k == 1:
+                M.touch(img, x, y, 0.12)
+            if (x * 7 + y * 3) % 11 == 0:
+                M.touch(img, x, y, -0.1)
+    save(img, "block/level5/palmtrunk.png")
+    img = M.noise_hv((58, 42, 30), 5, 5691, mottle=5, cells=(8, 4))
+    for _ in range(30):
+        x, y = rng.randrange(32), rng.randrange(32)
+        img.putpixel((x, y), M.rgba(M.lift((120, 86, 52), rng.uniform(-10, 10))))
+    save(img, "block/level5/potsoil.png")
+
+
 def boiler_textures():
     """(B6) The boiler's shell: riveted plates in the old brown, gone to rust at the seams, sooty and grimy; its iron
     bands and plinth; the cast iron firebox door, sooted round its edges. The rivets sit along the plates' seams (the
@@ -2888,8 +2930,7 @@ def level5_textures():
     save(noise_fill(hexrgb(0xEDE8DC), 3, 563), "block/level5/linen.png")
     save(noise_fill(hexrgb(0x7A1A14), 5, 564), "block/level5/blanket.png")
     save(noise_fill(hexrgb(0x6E1420), 6, 565), "block/level5/velvet.png")
-    save(noise_fill(hexrgb(0x3E6A2A), 10, 566), "block/level5/palmleaf.png")
-    save(noise_fill(hexrgb(0x8A5A3A), 6, 567), "block/level5/pot.png")
+    palm_textures_b14()  # (B14) the potted palm: leaf, pot, trunk and soil
     save(noise_fill(hexrgb(0x1E5A30), 5, 568), "block/level5/felt.png")
     save(noise_fill(hexrgb(0xEEE6D0), 3, 569), "block/level5/mahjong.png")
     boiler_textures()

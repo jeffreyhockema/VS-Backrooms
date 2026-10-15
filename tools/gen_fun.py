@@ -1486,6 +1486,7 @@ def surfaces():
     cube_block("fun-parquet", "fun-parquet", None, "parquet", material="Wood", sounds=WOOD, english="Parquet", comment="Level Fun: the Host's hall's parquet")
     cube_block("fun-lobbycarpet", "fun-lobbycarpet", None, "lobbycarpet", material="Cloth", sounds=CLOTH, english="Lobby Carpet",
                comment="Level Fun: the elevator lobbies' deep red carpet with its gold diamonds")
+    b14_wall_versions()
 
 
 def porthole_ring(cx=8, cy=8, inner=5.0, outer=6.6, z0=-1.5, z1=0.0, tex="brass", pre="Ring"):
@@ -1803,12 +1804,7 @@ CHAIRS = {"white": "plastic-white", "orange": "plastic-orange", "lime": "plastic
 
 def chair_els(t):
     """A plastic stacking chair facing north: a shell seat, a curved back of three slats tipped back, chrome legs."""
-    return [bx("Seat", (2.5, 8, 2.5), (13.5, 9, 13.5), t), bx("SeatLip", (2.5, 7.4, 2), (13.5, 8.6, 2.6), t),
-            bx("Back1", (2.5, 9, 13), (13.5, 12, 14), t, rot=(-8, 0, 0), origin=(8, 9, 13.5)),
-            bx("Back2", (2.5, 12, 13.4), (13.5, 15, 14.4), t, rot=(-8, 0, 0), origin=(8, 9, 13.5)),
-            bx("Back3", (3, 15, 13.8), (13, 18.5, 14.8), t, rot=(-8, 0, 0), origin=(8, 9, 13.5)),
-            bx("Leg1", (3, 0, 3), (3.8, 8, 3.8), "chrome"), bx("Leg2", (12.2, 0, 3), (13, 8, 3.8), "chrome"),
-            bx("Leg3", (3, 0, 12.2), (3.8, 8, 13), "chrome"), bx("Leg4", (12.2, 0, 12.2), (13, 8, 13), "chrome")]
+    return chair_b14(t)
 
 
 def chairs():
@@ -1869,10 +1865,9 @@ def gifts():
 
 def wall_props():
     # The wall speaker over a party room's door (hung on the wall to its south). -on plays the tune
-    sp = [bx("Body", (5, 4, 10.5), (11, 12, 14.5), "speakerbody", rot=(-10, 0, 0), origin=(8, 12, 14.5)),
-          bx("Grille", (5.4, 4.4, 10.3), (10.6, 11.6, 10.5), "grille", faces=("north",), full=True, rot=(-10, 0, 0), origin=(8, 12, 14.5)),
-          bx("Bracket", (7, 10.5, 14.5), (9, 11.5, 16), "metaldark"), bx("Cable", (10.5, 11, 15.4), (11, 16, 15.9), "plastic-black")]
-    on = sp + [bx("Led", (9.6, 4.8, 10.2), (10.2, 5.4, 10.4), "bulb-green", glow=200, rot=(-10, 0, 0), origin=(8, 12, 14.5))]
+    sp = speaker_b14() + [bx("Bracket", (7, 10.5, 14.5), (9, 11.5, 16), "metaldark"),
+                          bx("Cable", (10.5, 11, 15.4), (11, 16, 15.9), "plastic-black")]
+    on = sp + [bx("Led", (9.6, 4.1, 10.25), (10.2, 4.5, 10.4), "bulb-green", glow=200, rot=(-10, 0, 0), origin=(8, 12, 14.5))]
     prop("fun-speaker", "Wall Speaker", {"on": on, "off": sp}, collide=False, material="Metal", sounds=PLASTIC,
          box=(0.3, 0.25, 0.6, 0.7, 0.75, 1), comment="Level Fun: a wall speaker over a party room's door; -on plays Happy Birthday",
          extra={"soundsByType": {"*-on-*": dict(PLASTIC, ambient="backrooms:ambient/fun/funtune", ambientBlockCount=1), "*": PLASTIC},
@@ -2223,12 +2218,14 @@ def doors():
             els = [bx("Seam", (seam_x - 0.2, 0, -0.15), (seam_x + 0.2, 16, 0), "blackmetal", faces=("north",))]
             post_x = 15 if leaf == "l" else 0
             els.append(bx("Post", (post_x, 0, -1), (post_x + 1, 16, 0), "elevatorpost", full=True))
+            els += elevator_frame_b14(leaf, part, ptex)
             if part != "lower":
                 els += [bx("Lintel", (-0.01, 16, -1), (16.01, 19, 0), "elevatorlintel", faces=("north", "up", "down"), full=True),
                         bx("LintelEnds", (-0.01, 16, -1), (16.01, 19, 0), "elevatorpost", faces=("east", "west"), full=True)]
                 if leaf == "l":
-                    els += [bx("Dial", (-4, 19.5, -0.8), (4, 23.5, 0), "liftdial", faces=("north",), full=True, glow=60),
-                            bx("DialBack", (-4, 19.5, -0.8), (4, 23.5, 0), "brass", faces=("east", "west", "up", "down"))]
+                    els += lift_dial_b14()
+                else:
+                    els += call_buttons_b14()
                 if part == "uppersign":
                     els += [bx("Sign", (3, 4, -0.3), (11, 10, -0.1), "outoforder", faces=("north",), full=True, rot=(0, 0, 4)),
                             bx("Tape1", (6, 9.6, -0.35), (8, 10.4, -0.25), "tape"), bx("Tape2", (6, 3.6, -0.35), (8, 4.4, -0.25), "tape")]
@@ -2393,6 +2390,7 @@ def misc_blocks():
     block("fun-confetti", {
         "code": "fun-confetti", "creativeinventory": {"general": ["*"], "decorative": ["*"]}, "blockmaterial": "Cloth", "drawtype": "json",
         "shape": {"base": shape("fun-confetti", [bx("Layer", (0, 0, 0), (16, 0.2, 16), "confetti", faces=("up",), full=True)])},
+        "textures": {"confetti": confetti_alts_b14()},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 0.1, "sounds": PAPER,
         "replaceable": 5000, "collisionbox": None, "selectionbox": cuboid((0, 0, 0, 1, 0.05, 1)), "maxstacksize": 64,
         "drops": [{"type": "block", "code": "fun-confetti", "quantity": {"avg": 1}}],
@@ -2823,6 +2821,551 @@ def check():
     return not problems
 
 
+# ============================================================ B14 (graphics pass)
+#
+# Every B14 painter runs after surface_textures() and prop_textures() under the same keys (plus a few new ones), so a
+# family reverts by dropping its call from b14_textures(); the models are the *_b14 functions. Means are matched to
+# main's PNGs where the surface is large (FUN_OLD). The palette is the level's own: the party colours are kept.
+
+import matlib as M  # noqa: E402
+from gen_city import CITY_F3, CITY_F5  # noqa: E402  (the B12 pixel faces)
+
+FUN_OLD = {
+    "promwall": (241, 233, 207), "skirting": (230, 230, 226), "lobbycarpet": (115, 25, 26), "racecarpet": (170, 57, 49),
+    "retrocarpet": (63, 141, 139), "elevator": (201, 167, 89),
+}
+FUN_F3 = dict(CITY_F3, **{" ": "0 0 0 0 0", ">": "100 010 001 010 100", "<": "001 010 100 010 001",
+                          "^": "010 111 010 010 010", "v": "010 010 010 111 010", "=": "000 111 000 111 000",
+                          ")": "10 01 01 01 10", "'": "1 1 0 0 0"})
+FUN_F5 = dict(CITY_F5, **{"=": "00000 00000 11111 00000 11111 00000 00000", ")": "100 010 001 001 001 010 100",
+                          ">": "1000 0100 0010 0001 0010 0100 1000"})
+BIG = {  # a chunky 4 x 6 face for the poster's "4 Fun =)", drawn at twice the size
+    "4": "1010 1010 1111 0010 0010 0010", "F": "1111 1000 1110 1000 1000 1000", "u": "0000 0000 1001 1001 1001 0111",
+    "n": "0000 0000 1110 1001 1001 1001", "=": "000 111 000 111 000 000", ")": "010 001 001 001 001 010",
+    " ": "0 0 0 0 0 0",
+}
+
+
+def fwidth(s, font=FUN_F3, gap=1, scale=1):
+    return sum((len(font[ch].split()[0]) + gap) * scale for ch in s) - gap * scale
+
+
+def ftext(img, s, x, y, col, font=FUN_F3, gap=1, scale=1, outline=None):
+    """`s` in a pixel face at (x, y) (characters looked up as given, then upper-cased); with `outline`, a 1 px ring of
+    that colour round every stroke first."""
+    p = img.load()
+    w, h = img.size
+
+    def glyph(ch):
+        return (font.get(ch) or font[ch.upper()]).split()
+    for pass_ in ((outline, 1), (col, 0)) if outline else ((col, 0),):
+        c, ring = pass_
+        xx = x
+        for ch in s:
+            rows = glyph(ch)
+            for r, row in enumerate(rows):
+                for cc, bit in enumerate(row):
+                    if bit != "1":
+                        continue
+                    for dy in range(-ring, scale + ring):
+                        for dx in range(-ring, scale + ring):
+                            X, Y = xx + cc * scale + dx, y + r * scale + dy
+                            if 0 <= X < w and 0 <= Y < h:
+                                p[X, Y] = M.rgba(c)
+            xx += (len(rows[0]) + gap) * scale
+    return x + fwidth(s, font, gap, scale)
+
+
+def ftext_c(img, s, y, col, font=FUN_F3, gap=1, scale=1, x0=0, x1=None, outline=None):
+    x1 = img.width if x1 is None else x1
+    return ftext(img, s, x0 + (x1 - x0 - fwidth(s, font, gap, scale) + 1) // 2, y, col, font, gap, scale, outline)
+
+
+def fmatch(img, key, target=None):
+    return T.match_rgb(img, target or FUN_OLD[key], key="b14fun" + key)
+
+
+def fine(img, seed, amp=1.6, roller=2.2):
+    """A version's own fine grain and roller stipple over a shared ground."""
+    rng = random.Random(seed)
+    st = M.fbm(img.size, M.sub(seed, "roll"), (2, 1), 0.7)
+    p = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            p[x, y] = M.rgba(M.lift(p[x, y], rng.uniform(-amp, amp) + st[y][x] * roller), p[x, y][3])
+    return img
+
+
+def paint_b14(base, key, n=3, low=False):
+    """Eggshell paint over plaster: one calm ground for every version (no block edges), each version its own roller
+    stipple. The low block (above the skirting) gathers a little dirt toward the floor, and one version in four carries
+    a pair of soft chair-back rubs at a random place."""
+    base = rgb(base)[:3] if isinstance(base, int) else base
+    ground = M.noise_hv(base, 0, seed_of("b14" + key + "ground"), mottle=1.8, cells=(16, 8), hue=1.0)
+    out = []
+    for k in range(n):
+        img = fine(ground.copy(), seed_of(f"b14{key}fine{k}"))
+        if low:
+            p = img.load()
+            for y in range(S):
+                t = max(0.0, (y - 14) / (S - 14)) ** 1.6
+                for x in range(S):
+                    p[x, y] = M.rgba(M.mix(p[x, y], M.lift(base, -26), t * 0.10))
+            if k == n - 1:
+                rng = random.Random(seed_of(f"b14{key}rub"))
+                for _ in range(2):
+                    cx, cy, L = rng.uniform(6, 26), rng.uniform(13, 17), rng.randint(5, 8)
+                    for i in range(L):
+                        tt = math.sin(math.pi * (i + 0.5) / L)
+                        M.touch(img, int(cx) + i - L // 2, int(cy), -0.05 * tt)
+                        M.touch(img, int(cx) + i - L // 2, int(cy) + 1, -0.03 * tt)
+        out.append(T.match_rgb(img, base if not low else M.lift(base, -1), key="b14p" + key))
+    return out
+
+
+def b14_paint():
+    for i, (c, base) in enumerate(PAINTS.items()):
+        for k, img in enumerate(paint_b14(base, "paint" + c)):
+            save(img, f"paint-{c}" + ("" if k == 0 else f"-{k + 1}"))
+        for k, img in enumerate(paint_b14(base, "paintlow" + c, n=4, low=True)):
+            save(img, f"paint-{c}-low" + ("" if k == 0 else f"-{k + 1}"))
+    for k, img in enumerate(paint_b14((241, 233, 207), "promwall")):
+        save(fmatch(img, "promwall"), "promwall" + ("" if k == 0 else f"-{k + 1}"))
+    for k, img in enumerate(paint_b14(0xF3E27A, "muralwall", n=1)):
+        save(img, "muralwall")
+
+
+def glazed(img, box, colour, seed, hl=True):
+    """One glazed ceramic tile in `box` (end exclusive): its own shade and a hue nudge, a slight tilt across it, a lit
+    top and left edge, a dark bottom and right one, and a small highlight up and to the left."""
+    x0, y0, x1, y1 = box
+    rng = random.Random(seed)
+    c0 = M.hue_shift(M.lift(colour, rng.uniform(-5, 5)), rng.uniform(-3, 3))
+    tx, ty = rng.uniform(-3, 3), rng.uniform(-3, 3)
+    p = img.load()
+    w, h = x1 - x0, y1 - y0
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            u, v = (x - x0) / max(1, w - 1) - 0.5, (y - y0) / max(1, h - 1) - 0.5
+            p[x, y] = M.rgba(M.lift(c0, tx * u + ty * v - 4 * v + rng.uniform(-1.5, 1.5)))
+    M.bevel(img, box, 1, 0.16)
+    if hl and w > 4:
+        for (dx, dy, f) in ((1, 1, 0.22), (2, 1, 0.12), (1, 2, 0.1)):
+            M.touch(img, x0 + dx, y0 + dy, f)
+
+
+def b14_tiles():
+    # The promenade's checked band: glazed 8 px tiles in the four colours under a cream cap, in a recessed grout
+    img = Image.new("RGBA", (S, S))
+    order = [PARTY["red"], PARTY["yellow"], PARTY["blue"], PARTY["green"]]
+    grout = (196, 190, 176)
+    for y in range(S):
+        for x in range(S):
+            img.putpixel((x, y), M.rgba(grout))
+    for row in range(4):
+        for col in range(4):
+            y0 = row * 8 + (2 if row == 0 else 0)
+            glazed(img, (col * 8, y0, col * 8 + 7, row * 8 + 7), rgb(order[(row + col) % 4])[:3], seed_of(f"b14band{row}{col}"))
+    for x in range(S):  # the cap: a cream bullnose along the top
+        img.putpixel((x, 0), M.rgba(M.lift((246, 242, 228), 8)))
+        img.putpixel((x, 1), M.rgba(M.lift((246, 242, 228), -6)))
+    save(img, "promband")
+    # White skirting tiles: glazed, in pale grey grout
+    img = Image.new("RGBA", (S, S))
+    for y in range(S):
+        for x in range(S):
+            img.putpixel((x, y), M.rgba((186, 186, 180)))
+    for row in range(4):
+        for col in range(4):
+            glazed(img, (col * 8, row * 8, col * 8 + 7, row * 8 + 7), (240, 240, 234), seed_of(f"b14skirt{row}{col}"))
+    save(fmatch(img, "skirting"), "skirting")
+
+
+def b14_vinyl():
+    """The party vinyl tiles: B0's colour picks (the same draw), each tile now its own shade and hue, a soft satin
+    sheen falling across it (no streak repeating block after block), a fine grain, a recessed joint, a scuff or two."""
+    cols = list(PARTY.values())
+    for kind in "abcd":
+        rng = random.Random(seed_of("vinyl" + kind))
+        picks = []
+        for ty in range(2):
+            for tx in range(2):
+                options = [c for c in cols if c not in picks[-1:] and (ty == 0 or c != picks[tx])]
+                picks.append(rng.choice(options))
+        img = Image.new("RGBA", (S, S))
+        r2 = random.Random(seed_of("b14vinyl" + kind))
+        for ty in range(2):
+            for tx in range(2):
+                base = rgb(picks[ty * 2 + tx])[:3]
+                c0 = M.hue_shift(M.lift(base, r2.uniform(-4, 4)), r2.uniform(-3, 3))
+                for y in range(16):
+                    for x in range(16):
+                        sheen = 5 * (1 - ((x - 3) ** 2 + (y - 3) ** 2) ** 0.5 / 18)
+                        img.putpixel((tx * 16 + x, ty * 16 + y), M.rgba(M.lift(c0, sheen + r2.uniform(-2, 2))))
+                box = (tx * 16, ty * 16, tx * 16 + 16, ty * 16 + 16)
+                M.bevel(img, box, 1, 0.10)
+                for k in range(16):  # the joint: dark on the right and bottom of each tile (the next tile's lit edge meets it)
+                    M.touch(img, tx * 16 + 15, ty * 16 + k, -0.22)
+                    M.touch(img, tx * 16 + k, ty * 16 + 15, -0.24)
+        for _ in range(1 if kind in "ac" else 0):  # a faint shoe scuff, in two of the four kinds
+            x, y = r2.randrange(1, S - 5), r2.randrange(1, S - 3)
+            for i in range(r2.randint(3, 5)):
+                M.touch(img, x + i, y + (1 if i in (0, 4) else 0), -0.08)
+        save(img, f"vinyl-{kind}")
+
+
+def flat_rgba(c, size=S):
+    return Image.new("RGBA", (size, size) if isinstance(size, int) else size, rgb(c) if isinstance(c, int) else tuple(c) + (255,))
+
+
+def crisp(img, pat, t=0.45):
+    """Pulls the dyed motif part of the way back to its flat colour, so woven lines stay whole across the tufts."""
+    p, q = img.load(), pat.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            if q[x, y][3]:
+                p[x, y] = M.rgba(M.mix(p[x, y], q[x, y][:3], t))
+    return img
+
+
+def b14_carpets():
+    """The three patterned carpets keep their patterns, now dyed into a cut pile (matlib.carpet) instead of over noise."""
+    # Lobby: deep red, gold diamonds
+    pat = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(pat)
+    gold = rgb(0xD0A844)
+    for cx, cy in ((8, 8), (24, 24)):
+        d.polygon([(cx, cy - 5), (cx + 5, cy), (cx, cy + 5), (cx - 5, cy)], outline=gold)
+        d.point((cx, cy), fill=gold)
+    for cx, cy in ((24, 8), (8, 24)):
+        d.polygon([(cx, cy - 2), (cx + 2, cy), (cx, cy + 2), (cx - 2, cy)], fill=tint(gold, 0.88))
+    img = M.carpet(seed_of("b14lobbycarpet"), base=(122, 22, 30), pile=8, grain=3, mottle=0, pattern=pat)
+    save(fmatch(crisp(img, pat), "lobbycarpet"), "lobbycarpet")
+    # The race-track play carpet: B0's lanes, lines and two toy cars, flat, then dyed into the pile
+    pat = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = pat.load()
+    lane = rgb(0x8A1512)
+    for y in range(S):
+        for x in range(S):
+            if 7 <= y <= 14 or 19 <= x <= 26:
+                px[x, y] = lane
+    d = ImageDraw.Draw(pat)
+    for x in range(0, S, 6):
+        if not 18 <= x <= 26:
+            d.line([x, 10, x + 2, 10], fill=rgb(0xE8C43A))
+            d.line([x, 11, x + 2, 11], fill=rgb(0xE8C43A))
+    for y in range(0, S, 6):
+        if not 6 <= y <= 14:
+            d.line([22, y, 22, y + 2], fill=rgb(0xE8C43A))
+            d.line([23, y, 23, y + 2], fill=rgb(0xE8C43A))
+    for y in (7, 14):
+        for x in range(S):
+            if not 19 <= x <= 26:
+                px[x, y] = (226, 214, 204, 255)
+    for x in (19, 26):
+        for y in range(S):
+            if not 7 <= y <= 14:
+                px[x, y] = (226, 214, 204, 255)
+    d.rectangle([3, 8, 8, 12], fill=rgb(0x2E5FC8))
+    d.rectangle([4, 9, 6, 11], fill=rgb(0x9CC4F0))
+    for wx in (3, 7):
+        d.point([(wx, 8), (wx, 12)], fill=(20, 20, 20, 255))
+    d.rectangle([20, 21, 24, 26], fill=rgb(0xF2C232))
+    d.rectangle([21, 22, 23, 23], fill=rgb(0xFFF0A8))
+    for wy in (21, 26):
+        d.point([(20, wy), (24, wy)], fill=(20, 20, 20, 255))
+    img = M.carpet(seed_of("b14racecarpet"), base=(180, 34, 32), pile=6, grain=3, mottle=0, loop=True, pattern=pat)
+    save(fmatch(crisp(img, pat), "racecarpet"), "racecarpet")
+    # Retro: teal with pink squiggles and yellow triangles, the worn patch kept
+    rng = random.Random(seed_of("retro"))
+    pat = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(pat)
+    for _ in range(4):
+        x, y = rng.randrange(S), rng.randrange(S)
+        pts = [(x + i * 2, y + (2 if i % 2 else -1)) for i in range(5)]
+        for ox in (-S, 0, S):
+            for oy in (-S, 0, S):
+                d.line([(p[0] + ox, p[1] + oy) for p in pts], fill=rgb(0xE868A8), width=1)
+    for _ in range(4):
+        x, y = rng.randrange(S), rng.randrange(S)
+        for ox in (-S, 0, S):
+            for oy in (-S, 0, S):
+                d.polygon([(x + ox, y + oy), (x + 4 + ox, y + 1 + oy), (x + 1 + ox, y + 4 + oy)], fill=rgb(0xF2D040))
+    for _ in range(5):
+        d.point((rng.randrange(S), rng.randrange(S)), fill=rgb(0x7A3AB0))
+    img = M.carpet(seed_of("b14retrocarpet"), base=(42, 138, 140), pile=8, grain=3, mottle=1, pattern=pat, wear=0.3)
+    save(fmatch(crisp(img, pat), "retrocarpet"), "retrocarpet")
+
+
+def b14_elevator():
+    """The lifts: brushed brass with no painted seam (the seam is a box), the dial a face of its own under a needle and
+    a bezel, call buttons, the lintel and posts as before."""
+    for part in ("lower", "upper"):
+        # (round 2) brushed brass: fine horizontal brushing, darker toward the post and brighter toward the meeting
+        # edge, a soft broad sheen instead of B0's crisp pale stripe (which read as a painted plank edge)
+        img = M.brushed_metal(seed_of("b14elev" + part), base=(198, 164, 86), grain=3, direction="h", streak=10, sheen=6)
+        for y in range(S):
+            for x in range(S):
+                M.touch(img, x, y, ((x / 31 - 0.5) * 0.16 + 0.07 * math.exp(-((x - 21) / 4.0) ** 2)))
+        img = fmatch(img, "elevator")
+        save(img, f"elevator-{part}")
+        save(img.transpose(Image.FLIP_LEFT_RIGHT), f"elevator-{part}-r")
+    img = flat_rgba(0x2A2420, (32, 16))  # 32 x 16 to the dial's 8 x 4: the arc's centre is where the needle pivots
+    d = ImageDraw.Draw(img)
+    d.pieslice([4, 1, 28, 25], 180, 360, fill=rgb(0xF4ECD8))
+    for i in range(5):  # the floor marks round the arc
+        a = math.pi + i * math.pi / 4
+        d.line([16 + 11 * math.cos(a), 13 + 11 * math.sin(a), 16 + 9 * math.cos(a), 13 + 9 * math.sin(a)], fill=(40, 30, 30, 255))
+    save(img, "liftdialface")
+    save(M.noise_hv((200, 30, 30), 2, seed_of("b14needle"), mottle=2), "liftneedle")
+    img = M.noise_hv((236, 228, 206), 2, seed_of("b14button"), mottle=2)
+    M.bevel(img, (0, 0, S, S), 2, 0.2)
+    save(img, "liftbutton")
+    plate = M.brushed_metal(seed_of("b14callplate"), base=(206, 170, 92), grain=3, direction="v", sheen=12)
+    save(plate, "liftplate")
+
+
+def b14_signs():
+    # OUT OF ORDER =): a card taped to the doors, in a pixel face; 64 x 48 to the sign's 8 x 6
+    img = M.paper(seed_of("b14ooo"), (64, 48), base=(246, 242, 228), grain=2, mottle=3, fibre=0.4, seams=None, strip=0)
+    ink = (34, 32, 34)
+    ftext_c(img, "OUT OF", 6, ink, FUN_F5)
+    ftext_c(img, "ORDER", 16, ink, FUN_F5)
+    ftext_c(img, "=)", 28, (200, 22, 32), FUN_F5, scale=2)
+    save(img, "outoforder")
+    # DECK 4 / PARTY ROOMS 1-38 >: engraved in a brass plate; 80 x 40 to the plate's 12 x 6
+    img = M.brushed_metal(seed_of("b14decksign"), (80, 40), base=(160, 124, 54), grain=3, direction="h", sheen=10)
+    M.bevel(img, (0, 0, 80, 40), 2, 0.22)
+    eng = (58, 40, 14)
+    x = ftext_c(img, "DECK 4", 6, eng, FUN_F5, scale=2)
+    ftext_c(img, "PARTY ROOMS 1-38 >", 27, eng, FUN_F3)
+    save(img, "decksign")
+    # The ship's directory: white letters pressed into navy felt; 56 x 72
+    rows = [("PARTY ROOMS", ">"), ("BALL PIT", "<"), ("BOUNCE HALL", "^"), ("ARCADE", "v"), ("KITCHEN", ">"),
+            ("LIDO DECK", "^"), ("GUEST SVCS", "X")]
+    img = M.fabric(seed_of("b14felt"), (56, 72), base=(30, 36, 52), weave="plain", contrast=3, grain=2, mottle=3)
+    for y in range(20, 70, 3):  # the felt's grooves
+        for x in range(2, 54):
+            M.touch(img, x, y, -0.18)
+    white, goldc = (236, 232, 220), (232, 196, 96)
+    ftext_c(img, "DECK 4", 2, goldc, FUN_F5)
+    ftext_c(img, "DIRECTORY", 11, white, FUN_F3)
+    for x in range(4, 52):
+        img.putpixel((x, 18), M.rgba((200, 160, 70)))
+    for i, (label, arrow) in enumerate(rows):
+        y = 21 + i * 6
+        ftext(img, label, 4, y, white, FUN_F3)
+        ftext(img, arrow, 49, y, white, FUN_F3)
+    ftext_c(img, "YOU ARE HERE =)", 63, (232, 70, 70), FUN_F3)
+    save(img, "fundirectory")
+    # TIME 4 FUN =): B0's picture (clock, rainbow, handprint), its lettering now pixels
+    k = 4
+
+    def draw(d, k_, im):
+        d.rectangle([0, 0, 64 * k, 64 * k], fill=(252, 246, 228, 255))
+        for i, c in enumerate([(230, 50, 50), (246, 150, 40), (246, 214, 50), (70, 180, 80), (60, 120, 220), (140, 80, 200)]):
+            d.arc([-8 * k, 34 * k + i * 3 * k, 72 * k, 100 * k + i * 3 * k], 180, 360, fill=c + (255,), width=3 * k)
+        d.ellipse([18 * k, 6 * k, 46 * k, 34 * k], fill=(246, 140, 30, 255), outline=(40, 30, 30, 255), width=2 * k)
+        d.ellipse([22 * k, 10 * k, 42 * k, 30 * k], fill=(255, 250, 236, 255))
+        for a in range(12):
+            ang = a * math.pi / 6
+            d.line([32 * k + 8 * k * math.cos(ang), 20 * k + 8 * k * math.sin(ang), 32 * k + 9.5 * k * math.cos(ang),
+                    20 * k + 9.5 * k * math.sin(ang)], fill=(40, 30, 30, 255), width=k)
+        d.line([32 * k, 20 * k, 32 * k, 13 * k], fill=(40, 30, 30, 255), width=2 * k)
+        d.line([32 * k, 20 * k, 37 * k, 22 * k], fill=(40, 30, 30, 255), width=2 * k)
+    img = supersample(64, 64, k, draw)
+    hand(img, 47, 10, (176, 14, 20))
+    ftext(img, "TIME", 2, 11, (40, 30, 30), FUN_F3)  # (below the corner tape)
+    dark = (40, 30, 30)
+    x = (64 - fwidth("4 Fun=)", BIG, 1, 2)) // 2
+    for ch, c in zip("4 Fun=)", [(230, 50, 50), None, (60, 120, 220), (70, 180, 80), (246, 160, 30), (230, 50, 50), (230, 50, 50)]):
+        if c:
+            ftext(img, ch, x, 41, c, BIG, 1, 2, outline=dark)
+        x += (len(BIG[ch].split()[0]) + 1) * 2
+    save(grain(img, 2, "t4f"), "poster-time4fun")
+
+
+def b14_party():
+    """Confetti: crisp paper bits (slivers, squares and the odd round dot) in the party colours, three versions; the
+    plastic of the chairs as moulded plastic (the stretched streak is gone); the speaker's cloth and cone."""
+    cols = list(PARTY.values()) + [0xFFFFFF, 0xF07AB4, 0xF2C641]
+    for k in range(3):
+        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+        p = img.load()
+        rng = random.Random(seed_of(f"b14confetti{k}"))
+        for _ in range(46):
+            x, y = rng.randrange(S), rng.randrange(S)
+            c = rgb(rng.choice(cols))[:3]
+            shape_ = rng.choice(([(0, 0), (1, 0)], [(0, 0), (0, 1)], [(0, 0), (1, 0), (0, 1), (1, 1)], [(0, 0)],
+                                 [(0, 0), (1, 1)], [(0, 0), (1, 0), (2, 0)]))
+            lit = rng.uniform(-14, 10)
+            for (dx, dy) in shape_:
+                p[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(c, lit + (6 if (dx, dy) == (0, 0) else 0)))
+        save(img, "confetti" + ("" if k == 0 else f"-{k + 1}"))
+    for c, h in (("white", 0xF2F2EE), ("orange", 0xF08A3C), ("lime", 0x9ACD3C), ("red", 0xD23A34), ("black", 0x3A3A3E)):
+        # moulded plastic: a soft fall of light down each face (lit top, a little shade at the foot), a faint sheen
+        img = M.noise_hv(rgb(h)[:3], 1.5, seed_of("b14plastic" + c), mottle=2.5, cells=(16, 8), hue=1.0)
+        for y in range(S):
+            for x in range(S):
+                M.touch(img, x, y, 0.07 * (1 - y / 15.5) if y < 16 else -0.05 * (y - 16) / 15)
+        for x in range(S):
+            M.touch(img, x, 0, 0.08)
+        save(img, f"plastic-{c}")
+    save(M.fabric(seed_of("b14speakercloth"), base=(30, 30, 32), weave="plain", contrast=5, grain=2, mottle=2), "speakercloth")
+    img = M.noise_hv((48, 48, 50), 2, seed_of("b14cone"), mottle=2)
+    save(img, "speakercone")
+    save(M.painted_metal(seed_of("b14speakerbody"), base=(62, 62, 64), panel=False, chips=1, under=(110, 110, 112)), "speakerbody")
+
+
+def b14_textures():
+    b14_paint()
+    b14_tiles()
+    b14_vinyl()
+    b14_carpets()
+    b14_elevator()
+    b14_signs()
+    b14_party()
+
+
+# ---- B14 models and versions
+
+def b14_tex(key):
+    return tpath(key).replace("backrooms:", "")
+
+
+def b14_entry(keys):
+    return {"base": b14_tex(keys[0]), "alternates": [{"base": b14_tex(k)} for k in keys[1:]]}
+
+
+def b14_patch(fname, fn):
+    path = os.path.join(ASSETS, "blocktypes", "fun", fname + ".json")
+    with open(path, encoding="utf-8") as f:
+        text_ = f.read()
+    comment = None
+    if text_.startswith("//"):
+        head, _, text_ = text_.partition("\n")
+        comment = head[3:]
+    data = json.loads(text_)
+    fn(data)
+    write_json(path, data, comment)
+
+
+def b14_wall_versions():
+    """The painted walls' and the promenade's versions (alternates), picked by height too (randomizeAxes xyz); the low
+    block above the skirting has four, the rubbed one listed once in seven."""
+    def paint(data):
+        for c in PAINTS:
+            data["texturesByType"][f"*-{c}"] = {"all": b14_entry([f"paint-{c}", f"paint-{c}-2", f"paint-{c}-3"])}
+        data["randomizeAxes"] = "xyz"
+    b14_patch("fun-paint", paint)
+
+    def prom(data):
+        data["textures"] = {"all": b14_entry(["promwall", "promwall-2", "promwall-3"])}
+        data["randomizeAxes"] = "xyz"
+    b14_patch("fun-promwall", prom)
+
+    def low(data):
+        data["textures"] = {f"paint-{c}-low": b14_entry([f"paint-{c}-low"] + [f"paint-{c}-low-{k}" for k in (2, 3, 2, 3, 4)] +
+                                                        [f"paint-{c}-low"]) for c in PAINTS}
+    b14_patch("fun-paint-skirted", low)
+
+    def band(data):
+        data["textures"] = {"promwall": b14_entry(["promwall", "promwall-2", "promwall-3"])}
+    b14_patch("fun-promwall-band", band)
+
+
+def confetti_alts_b14():
+    keys = [(k, r) for k in ("confetti", "confetti-2", "confetti-3") for r in (0, 90, 180, 270)]
+    return {"base": b14_tex(keys[0][0]), "alternates": [dict({"base": b14_tex(k)}, **({"rotation": r} if r else {}))
+                                                         for k, r in keys[1:]]}
+
+
+def wbx(nm, frm, to, tex, faces):
+    """A box whose faces take world-aligned UVs, so a strip standing on a door shows the door's own texture there."""
+    (x0, y0, z0), (x1, y1, z1) = frm, to
+    uv = {"north": (16 - x1, 16 - y1, 16 - x0, 16 - y0), "south": (x0, 16 - y1, x1, 16 - y0),
+          "west": (z0, 16 - y1, z1, 16 - y0), "east": (16 - z1, 16 - y1, 16 - z0, 16 - y0),
+          "up": (x0, z0, x1, z1), "down": (x0, 16 - z1, x1, 16 - z0)}
+    el = bx(nm, frm, to, tex, faces=faces)
+    for f in el["faces"]:
+        el["faces"][f]["uv"] = [round(min(16, max(0, v)), 4) for v in uv[f]]
+    return el
+
+
+def elevator_frame_b14(leaf, part, ptex):
+    """(B14) A lift leaf's raised frame: a stile by the meeting edge and one by the post, a rail across the foot (lower)
+    or the head (upper), 0.3 proud, in the leaf's own brass, so its face reads as a panel set into a frame."""
+    m = (lambda x: x) if leaf == "l" else (lambda x: 16 - x)
+    xa, xb = sorted((m(0.4), m(1.5)))
+    xc, xd = sorted((m(13.4), m(14.6)))
+    xl, xr = min(xa, xc), max(xb, xd)
+    y0, y1 = (1.8, 16) if part == "lower" else (0, 14.2)
+    faces = ("north", "east", "west")
+    els = [wbx("StileIn", (xa, y0, -0.3), (xb, y1, 0), ptex, faces), wbx("StileOut", (xc, y0, -0.3), (xd, y1, 0), ptex, faces)]
+    if part == "lower":
+        els.append(wbx("RailFoot", (xl, 0.6, -0.3), (xr, 1.8, 0), ptex, ("north", "east", "west", "up", "down")))
+    else:
+        els.append(wbx("RailHead", (xl, 14.2, -0.3), (xr, 15.4, 0), ptex, ("north", "east", "west", "up", "down")))
+    return els
+
+
+def lift_dial_b14():
+    """(B14) The floor dial over the left leaf: a face, a brass bezel round it, a red needle on a pivot."""
+    els = [bx("Dial", (-4, 19.5, -0.8), (4, 23.5, 0), "liftdialface", faces=("north",), full=True, glow=60),
+           bx("DialBack", (-4, 19.5, -0.8), (4, 23.5, 0), "brass", faces=("east", "west", "up", "down"))]
+    for nm, frm, to in (("BezelT", (-4.4, 23.5, -1.1), (4.4, 23.9, 0)), ("BezelB", (-4.4, 19.1, -1.1), (4.4, 19.5, 0)),
+                        ("BezelL", (-4.4, 19.5, -1.1), (-4, 23.5, 0)), ("BezelR", (4, 19.5, -1.1), (4.4, 23.5, 0))):
+        els.append(bx(nm, frm, to, "brass", faces=("north", "east", "west", "up", "down")))
+    els += [bx("Needle", (-0.15, 20.25, -1.0), (0.15, 22.6, -0.85), "liftneedle", rot=(0, 0, 38), origin=(0, 20.25, -0.9)),
+            bx("Pivot", (-0.35, 19.9, -1.15), (0.35, 20.6, -0.8), "brass")]
+    return els
+
+
+def call_buttons_b14():
+    """(B14) The call station in the right leaf's jamb (on its post, so it never stands out past a wall's end): a narrow
+    brass plate with an up and a down button, lit a little."""
+    F5 = ("north", "east", "west", "up", "down")
+    return [bx("CallPlate", (0.1, 0.8, -1.25), (0.9, 5.2, -1.0), "liftplate", faces=F5),
+            bx("CallUp", (0.25, 3.1, -1.45), (0.75, 3.7, -1.25), "liftbutton", glow=40, faces=F5),
+            bx("CallDown", (0.25, 1.9, -1.45), (0.75, 2.5, -1.25), "liftbutton", glow=40, faces=F5)]
+
+
+def speaker_b14():
+    """(B14) The wall speaker, tipped down 10 degrees: its cabinet, a bezel round a recessed black cloth, a woofer and a
+    tweeter set back behind four wire bars."""
+    R = dict(rot=(-10, 0, 0), origin=(8, 12, 14.5))
+    F5 = ("north", "east", "west", "up", "down")
+    return [bx("Body", (5, 4, 11), (11, 12, 14.5), "speakerbody", **R),
+            bx("BezelT", (5, 11.4, 10.4), (11, 12, 11), "speakerbody", faces=F5, **R),
+            bx("BezelB", (5, 4, 10.4), (11, 4.6, 11), "speakerbody", faces=F5, **R),
+            bx("BezelL", (5, 4.6, 10.4), (5.6, 11.4, 11), "speakerbody", faces=("north", "east", "west"), **R),
+            bx("BezelR", (10.4, 4.6, 10.4), (11, 11.4, 11), "speakerbody", faces=("north", "east", "west"), **R),
+            bx("Cloth", (5.6, 4.6, 10.9), (10.4, 11.4, 11), "speakercloth", faces=("north",), **R),
+            bx("WooferH", (6.0, 5.8, 10.75), (10.0, 8.2, 10.9), "speakercone", faces=F5, **R),
+            bx("WooferV", (6.8, 5.0, 10.75), (9.2, 9.0, 10.9), "speakercone", faces=F5, **R),
+            bx("DustCap", (7.5, 6.5, 10.65), (8.5, 7.5, 10.75), "speakerbody", faces=F5, **R),
+            bx("Tweeter", (7.3, 9.5, 10.7), (8.7, 10.9, 10.9), "speakercone", faces=F5, **R)] + [
+        bx(f"Bar{k}", (5.6, y, 10.5), (10.4, y + 0.3, 10.65), "metaldark", faces=F5, **R) for k, y in enumerate((5.6, 7.2, 8.8, 10.4))]
+
+
+def chair_b14(t):
+    """(B14) A plastic stacking chair facing north: a moulded seat with a rolled front edge, one back shell with a rolled
+    top, tipped back; chrome tube legs joined by side stretchers, rubber glides."""
+    R = dict(rot=(-8, 0, 0), origin=(8, 9, 13.5))
+    return [bx("Seat", (2.5, 7.8, 2.6), (13.5, 8.8, 13.5), t),
+            bx("SeatRoll", (2.5, 7.2, 2.0), (13.5, 8.6, 2.6), t),
+            bx("SeatSkirtL", (2.5, 7.0, 3.0), (3.0, 7.8, 12.8), t, faces=("east", "west", "down")),
+            bx("SeatSkirtR", (13.0, 7.0, 3.0), (13.5, 7.8, 12.8), t, faces=("east", "west", "down")),
+            bx("Back", (2.5, 9.6, 13.0), (13.5, 17.0, 14.0), t, **R),
+            bx("BackRoll", (2.5, 17.0, 12.8), (13.5, 18.2, 14.3), t, **R),
+            bx("BackFoot", (3.5, 8.8, 13.1), (12.5, 9.6, 13.9), t, **R),
+            bx("Leg1", (3, 0.4, 3), (3.8, 7.2, 3.8), "chrome"), bx("Leg2", (12.2, 0.4, 3), (13, 7.2, 3.8), "chrome"),
+            bx("Leg3", (3, 0.4, 12.2), (3.8, 7.8, 13), "chrome"), bx("Leg4", (12.2, 0.4, 12.2), (13, 7.8, 13), "chrome"),
+            bx("StretchL", (3.05, 2.4, 3.8), (3.75, 3.0, 12.2), "chrome"), bx("StretchR", (12.25, 2.4, 3.8), (12.95, 3.0, 12.2), "chrome"),
+            bx("Glide1", (2.9, 0, 2.9), (3.9, 0.4, 3.9), "rubber"), bx("Glide2", (12.1, 0, 2.9), (13.1, 0.4, 3.9), "rubber"),
+            bx("Glide3", (2.9, 0, 12.1), (3.9, 0.4, 13.1), "rubber"), bx("Glide4", (12.1, 0, 12.1), (13.1, 0.4, 13.1), "rubber")]
+
+
 def main():
     args = sys.argv[1:]
     if "--no-models" not in args:
@@ -2833,6 +3376,7 @@ def main():
         gen_fun_sounds.main()
     surface_textures()
     prop_textures()
+    b14_textures()
     surfaces()
     props()
     items()

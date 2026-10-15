@@ -3,6 +3,7 @@
 	"textureHeight": 16,
 	"textures": {
 		"chrome": "backrooms:block/run/chrome",
+		"pushplate": "backrooms:block/run/pushplate",
 		"sidedoor-back": "backrooms:block/run/sidedoor-back",
 		"sidedoor-lower": "backrooms:block/run/sidedoor-lower",
 		"steelframe": "backrooms:block/run/steelframe"
@@ -364,6 +365,57 @@
 						0,
 						4,
 						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				1,
+				0.5,
+				0.6
+			],
+			"to": [
+				15,
+				4,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
 					]
 				}
 			}

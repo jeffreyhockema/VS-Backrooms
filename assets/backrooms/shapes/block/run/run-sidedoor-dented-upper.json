@@ -3,9 +3,11 @@
 	"textureHeight": 16,
 	"textures": {
 		"pushplate": "backrooms:block/run/pushplate",
+		"runbead": "backrooms:block/run/runbead",
 		"sidedoor-back": "backrooms:block/run/sidedoor-back",
 		"sidedoor-dented-upper": "backrooms:block/run/sidedoor-dented-upper",
-		"steelframe": "backrooms:block/run/steelframe"
+		"steelframe": "backrooms:block/run/steelframe",
+		"wiredglass": "backrooms:block/run/wiredglass"
 	},
 	"elements": [
 		{
@@ -216,9 +218,93 @@
 			}
 		},
 		{
-			"name": "Leaf",
+			"name": "LeafL",
 			"from": [
 				0,
+				0,
+				1
+			],
+			"to": [
+				5.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sidedoor-dented-upper",
+					"uv": [
+						10.5,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackL",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				5.5,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						5.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						13,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						1,
+						0,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						1,
+						5.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						13,
+						5.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafR",
+			"from": [
+				10.5,
 				0,
 				1
 			],
@@ -233,16 +319,16 @@
 					"uv": [
 						0,
 						0,
-						16,
+						5.5,
 						16
 					]
 				}
 			}
 		},
 		{
-			"name": "LeafBack",
+			"name": "LeafBackR",
 			"from": [
-				0,
+				10.5,
 				0,
 				1
 			],
@@ -255,7 +341,7 @@
 				"south": {
 					"texture": "#sidedoor-back",
 					"uv": [
-						0,
+						10.5,
 						0,
 						16,
 						16
@@ -264,37 +350,442 @@
 				"east": {
 					"texture": "#sidedoor-back",
 					"uv": [
+						13,
 						0,
-						0,
-						2,
+						15,
 						16
 					]
 				},
 				"west": {
 					"texture": "#sidedoor-back",
 					"uv": [
+						1,
 						0,
-						0,
-						2,
+						3,
 						16
 					]
 				},
 				"up": {
 					"texture": "#sidedoor-back",
 					"uv": [
-						0,
-						0,
+						10.5,
+						1,
 						16,
-						2
+						3
 					]
 				},
 				"down": {
 					"texture": "#sidedoor-back",
 					"uv": [
+						10.5,
+						13,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafB",
+			"from": [
+				5.5,
+				0,
+				1
+			],
+			"to": [
+				10.5,
+				6.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sidedoor-dented-upper",
+					"uv": [
+						5.5,
+						9.5,
+						10.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackB",
+			"from": [
+				5.5,
+				0,
+				1
+			],
+			"to": [
+				10.5,
+				6.5,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						9.5,
+						10.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						13,
+						9.5,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						1,
+						9.5,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						1,
+						10.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						13,
+						10.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafT",
+			"from": [
+				5.5,
+				13.5,
+				1
+			],
+			"to": [
+				10.5,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#sidedoor-dented-upper",
+					"uv": [
+						5.5,
+						0,
+						10.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackT",
+			"from": [
+				5.5,
+				13.5,
+				1
+			],
+			"to": [
+				10.5,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						0,
+						10.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						13,
+						0,
+						15,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						1,
+						0,
+						3,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						1,
+						10.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						5.5,
+						13,
+						10.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				5.5,
+				6.5,
+				1.9
+			],
+			"to": [
+				10.5,
+				13.5,
+				2.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#wiredglass",
+					"uv": [
 						0,
 						0,
 						16,
-						2
+						16
+					]
+				},
+				"south": {
+					"texture": "#wiredglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadT",
+			"from": [
+				5.0,
+				13.5,
+				0.6
+			],
+			"to": [
+				11.0,
+				14.0,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadB",
+			"from": [
+				5.0,
+				6.0,
+				0.6
+			],
+			"to": [
+				11.0,
+				6.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadL",
+			"from": [
+				5.0,
+				6.5,
+				0.6
+			],
+			"to": [
+				5.5,
+				13.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadR",
+			"from": [
+				10.5,
+				6.5,
+				0.6
+			],
+			"to": [
+				11.0,
+				13.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#runbead",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
 					]
 				}
 			}

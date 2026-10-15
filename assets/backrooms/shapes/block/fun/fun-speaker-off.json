@@ -2,10 +2,11 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"grille": "backrooms:block/fun/grille",
 		"metaldark": "backrooms:block/props/metal-dark",
 		"plastic-black": "backrooms:block/fun/plastic-black",
-		"speakerbody": "backrooms:block/fun/speakerbody"
+		"speakerbody": "backrooms:block/fun/speakerbody",
+		"speakercloth": "backrooms:block/fun/speakercloth",
+		"speakercone": "backrooms:block/fun/speakercone"
 	},
 	"elements": [
 		{
@@ -13,7 +14,7 @@
 			"from": [
 				5,
 				4,
-				10.5
+				11
 			],
 			"to": [
 				11,
@@ -35,7 +36,7 @@
 					"uv": [
 						0,
 						0,
-						4.0,
+						3.5,
 						8
 					]
 				},
@@ -53,7 +54,7 @@
 					"uv": [
 						0,
 						0,
-						4.0,
+						3.5,
 						8
 					]
 				},
@@ -63,7 +64,7 @@
 						0,
 						0,
 						6,
-						4.0
+						3.5
 					]
 				},
 				"down": {
@@ -72,7 +73,7 @@
 						0,
 						0,
 						6,
-						4.0
+						3.5
 					]
 				}
 			},
@@ -84,25 +85,781 @@
 			"rotationX": -10
 		},
 		{
-			"name": "Grille",
+			"name": "BezelT",
 			"from": [
-				5.4,
-				4.4,
-				10.3
+				5,
+				11.4,
+				10.4
 			],
 			"to": [
-				10.6,
-				11.6,
-				10.5
+				11,
+				12,
+				11
 			],
 			"faces": {
 				"north": {
-					"texture": "#grille",
+					"texture": "#speakerbody",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						6,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "BezelB",
+			"from": [
+				5,
+				4,
+				10.4
+			],
+			"to": [
+				11,
+				4.6,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						0.5999999999999996
+					]
+				},
+				"up": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "BezelL",
+			"from": [
+				5,
+				4.6,
+				10.4
+			],
+			"to": [
+				5.6,
+				11.4,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "BezelR",
+			"from": [
+				10.4,
+				4.6,
+				10.4
+			],
+			"to": [
+				11,
+				11.4,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						6.800000000000001
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Cloth",
+			"from": [
+				5.6,
+				4.6,
+				10.9
+			],
+			"to": [
+				10.4,
+				11.4,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakercloth",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						6.800000000000001
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "WooferH",
+			"from": [
+				6.0,
+				5.8,
+				10.75
+			],
+			"to": [
+				10.0,
+				8.2,
+				10.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.3999999999999995
+					]
+				},
+				"east": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.3999999999999995
+					]
+				},
+				"west": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.3999999999999995
+					]
+				},
+				"up": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "WooferV",
+			"from": [
+				6.8,
+				5.0,
+				10.75
+			],
+			"to": [
+				9.2,
+				9.0,
+				10.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						2.3999999999999995,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "DustCap",
+			"from": [
+				7.5,
+				6.5,
+				10.65
+			],
+			"to": [
+				8.5,
+				7.5,
+				10.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#speakerbody",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Tweeter",
+			"from": [
+				7.3,
+				9.5,
+				10.7
+			],
+			"to": [
+				8.7,
+				10.9,
+				10.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						1.4000000000000004
+					]
+				},
+				"east": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4000000000000004
+					]
+				},
+				"west": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4000000000000004
+					]
+				},
+				"up": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#speakercone",
+					"uv": [
+						0,
+						0,
+						1.3999999999999995,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Bar0",
+			"from": [
+				5.6,
+				5.6,
+				10.5
+			],
+			"to": [
+				10.4,
+				5.8999999999999995,
+				10.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Bar1",
+			"from": [
+				5.6,
+				7.2,
+				10.5
+			],
+			"to": [
+				10.4,
+				7.5,
+				10.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Bar2",
+			"from": [
+				5.6,
+				8.8,
+				10.5
+			],
+			"to": [
+				10.4,
+				9.100000000000001,
+				10.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				14.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Bar3",
+			"from": [
+				5.6,
+				10.4,
+				10.5
+			],
+			"to": [
+				10.4,
+				10.700000000000001,
+				10.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4.800000000000001,
+						0.5
 					]
 				}
 			},

@@ -21,7 +21,16 @@
 	},
 	"textures": {
 		"all": {
-			"base": "block/fun/promwall"
+			"base": "block/fun/promwall",
+			"alternates": [
+				{
+					"base": "block/fun/promwall-2"
+				},
+				{
+					"base": "block/fun/promwall-3"
+				}
+			]
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

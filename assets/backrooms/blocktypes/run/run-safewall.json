@@ -31,21 +31,124 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/run/safewall"
+				"base": "block/run/safewall",
+				"alternates": [
+					{
+						"base": "block/run/safewall-2"
+					},
+					{
+						"base": "block/run/safewall-3"
+					},
+					{
+						"base": "block/run/safewall-4"
+					}
+				]
 			}
 		},
 		"*-base": {
 			"north": {
-				"base": "block/run/safewallbase"
+				"base": "block/run/safewallbase",
+				"alternates": [
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-3"
+					},
+					{
+						"base": "block/run/safewallbase-4"
+					}
+				]
 			},
 			"east": {
-				"base": "block/run/safewallbase"
+				"base": "block/run/safewallbase",
+				"alternates": [
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-3"
+					},
+					{
+						"base": "block/run/safewallbase-4"
+					}
+				]
 			},
 			"south": {
-				"base": "block/run/safewallbase"
+				"base": "block/run/safewallbase",
+				"alternates": [
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-3"
+					},
+					{
+						"base": "block/run/safewallbase-4"
+					}
+				]
 			},
 			"west": {
-				"base": "block/run/safewallbase"
+				"base": "block/run/safewallbase",
+				"alternates": [
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-2"
+					},
+					{
+						"base": "block/run/safewallbase-3"
+					},
+					{
+						"base": "block/run/safewallbase-4"
+					}
+				]
 			},
 			"up": {
 				"base": "block/run/safewall"
@@ -166,5 +269,6 @@
 		"*": {
 			"all": true
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

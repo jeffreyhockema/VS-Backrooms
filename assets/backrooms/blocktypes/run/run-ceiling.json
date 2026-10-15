@@ -31,8 +31,19 @@
 				"base": "block/run/ceiltile",
 				"alternates": [
 					{
-						"base": "block/run/ceiltile",
-						"rotation": 90
+						"base": "block/run/ceiltile-2"
+					},
+					{
+						"base": "block/run/ceiltile-3"
+					},
+					{
+						"base": "block/run/ceiltile-2"
+					},
+					{
+						"base": "block/run/ceiltile-2"
+					},
+					{
+						"base": "block/run/ceiltile"
 					}
 				]
 			}

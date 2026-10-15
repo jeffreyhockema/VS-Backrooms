@@ -425,5 +425,145 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"textures": {
+		"paint-orange-low": {
+			"base": "block/fun/paint-orange-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-orange-low-2"
+				},
+				{
+					"base": "block/fun/paint-orange-low-3"
+				},
+				{
+					"base": "block/fun/paint-orange-low-2"
+				},
+				{
+					"base": "block/fun/paint-orange-low-3"
+				},
+				{
+					"base": "block/fun/paint-orange-low-4"
+				},
+				{
+					"base": "block/fun/paint-orange-low"
+				}
+			]
+		},
+		"paint-sky-low": {
+			"base": "block/fun/paint-sky-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-sky-low-2"
+				},
+				{
+					"base": "block/fun/paint-sky-low-3"
+				},
+				{
+					"base": "block/fun/paint-sky-low-2"
+				},
+				{
+					"base": "block/fun/paint-sky-low-3"
+				},
+				{
+					"base": "block/fun/paint-sky-low-4"
+				},
+				{
+					"base": "block/fun/paint-sky-low"
+				}
+			]
+		},
+		"paint-lime-low": {
+			"base": "block/fun/paint-lime-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-lime-low-2"
+				},
+				{
+					"base": "block/fun/paint-lime-low-3"
+				},
+				{
+					"base": "block/fun/paint-lime-low-2"
+				},
+				{
+					"base": "block/fun/paint-lime-low-3"
+				},
+				{
+					"base": "block/fun/paint-lime-low-4"
+				},
+				{
+					"base": "block/fun/paint-lime-low"
+				}
+			]
+		},
+		"paint-pink-low": {
+			"base": "block/fun/paint-pink-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-pink-low-2"
+				},
+				{
+					"base": "block/fun/paint-pink-low-3"
+				},
+				{
+					"base": "block/fun/paint-pink-low-2"
+				},
+				{
+					"base": "block/fun/paint-pink-low-3"
+				},
+				{
+					"base": "block/fun/paint-pink-low-4"
+				},
+				{
+					"base": "block/fun/paint-pink-low"
+				}
+			]
+		},
+		"paint-yellow-low": {
+			"base": "block/fun/paint-yellow-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-yellow-low-2"
+				},
+				{
+					"base": "block/fun/paint-yellow-low-3"
+				},
+				{
+					"base": "block/fun/paint-yellow-low-2"
+				},
+				{
+					"base": "block/fun/paint-yellow-low-3"
+				},
+				{
+					"base": "block/fun/paint-yellow-low-4"
+				},
+				{
+					"base": "block/fun/paint-yellow-low"
+				}
+			]
+		},
+		"paint-lilac-low": {
+			"base": "block/fun/paint-lilac-low",
+			"alternates": [
+				{
+					"base": "block/fun/paint-lilac-low-2"
+				},
+				{
+					"base": "block/fun/paint-lilac-low-3"
+				},
+				{
+					"base": "block/fun/paint-lilac-low-2"
+				},
+				{
+					"base": "block/fun/paint-lilac-low-3"
+				},
+				{
+					"base": "block/fun/paint-lilac-low-4"
+				},
+				{
+					"base": "block/fun/paint-lilac-low"
+				}
+			]
+		}
 	}
 }
