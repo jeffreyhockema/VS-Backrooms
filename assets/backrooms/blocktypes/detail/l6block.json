@@ -25,7 +25,30 @@
 	"texturesByType": {
 		"*-wall": {
 			"all": {
-				"base": "block/detail/l6wall"
+				"base": "block/detail/l6wall",
+				"alternates": [
+					{
+						"base": "block/detail/l6wall"
+					},
+					{
+						"base": "block/detail/l6wall"
+					},
+					{
+						"base": "block/detail/l6wall"
+					},
+					{
+						"base": "block/detail/l6wall"
+					},
+					{
+						"base": "block/detail/l6wall"
+					},
+					{
+						"base": "block/detail/l6wall-2"
+					},
+					{
+						"base": "block/detail/l6wall-3"
+					}
+				]
 			}
 		},
 		"*-floor": {
@@ -43,13 +66,60 @@
 					{
 						"base": "block/detail/l6floor",
 						"rotation": 270
+					},
+					{
+						"base": "block/detail/l6floor-2"
+					},
+					{
+						"base": "block/detail/l6floor-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/l6floor-3"
+					},
+					{
+						"base": "block/detail/l6floor-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor-3",
+						"rotation": 270
 					}
 				]
 			}
 		},
 		"*-ceiling": {
 			"all": {
-				"base": "block/detail/l6ceiling"
+				"base": "block/detail/l6ceiling",
+				"alternates": [
+					{
+						"base": "block/detail/l6ceiling"
+					},
+					{
+						"base": "block/detail/l6ceiling"
+					},
+					{
+						"base": "block/detail/l6ceiling"
+					},
+					{
+						"base": "block/detail/l6ceiling"
+					},
+					{
+						"base": "block/detail/l6ceiling-2"
+					}
+				]
 			}
 		},
 		"*-wet": {
@@ -66,6 +136,36 @@
 					},
 					{
 						"base": "block/detail/l6floor-wet",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/l6floor-wet-2"
+					},
+					{
+						"base": "block/detail/l6floor-wet-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor-wet-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor-wet-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/l6floor-wet-3"
+					},
+					{
+						"base": "block/detail/l6floor-wet-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/l6floor-wet-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/l6floor-wet-3",
 						"rotation": 270
 					}
 				]

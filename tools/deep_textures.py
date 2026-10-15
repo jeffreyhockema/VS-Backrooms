@@ -31,26 +31,21 @@ def chalk_stroke(d, pts, width=2):
 # ---------------- Level 6 ----------------
 
 def level6():
-    img = noise(0x3A3D42, 3, "l6wall")
-    d = ImageDraw.Draw(img)
-    for y in (0, 16):
-        d.line([0, y, S - 1, y], fill=rgb(0x33363B))
-    d.line([2, 3, 9, 3], fill=rgb(0x484B50))  # a faint, cold sheen
-    save(img, "l6wall")
-    save(noise(0x2C2E32, 2, "l6floor"), "l6floor")
-    save(noise(0x303236, 2, "l6ceiling"), "l6ceiling")
+    level6_b9()  # (B9) the cold walls, floor, ceiling and standing water, and the dead switch's materials
 
     def chalk_decal(name, draw):
         img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
         draw(ImageDraw.Draw(img), img)
+        if name.startswith("chalk"):
+            chalky(img, seed_of(name))  # (B9) broken, dusty strokes
         save(img, name)
 
     chalk_decal("chalk-megexit", lambda d, img: (chalk_stroke(d, [4, 20, 26, 20]), chalk_stroke(d, [20, 14, 27, 20, 20, 26]),
-                                                 text(img, "EXIT", (3, 4, 29, 14), (236, 236, 228, 235), 8)))
+                                                 chalk_text(img, "EXIT", 1, 4, 2)))
     chalk_decal("chalk-megcross", lambda d, img: (chalk_stroke(d, [6, 4, 26, 22], 3), chalk_stroke(d, [26, 4, 6, 22], 3),
-                                                  text(img, "DEAD END", (1, 23, 31, 31), (236, 236, 228, 235), 5)))
+                                                  chalk_text(img, "DEAD END", 2, 25, 1)))
     chalk_decal("chalk-meglogo", lambda d, img: (d.ellipse([3, 3, 28, 28], outline=(236, 236, 228, 235), width=2),
-                                                 text(img, "M.E.G.", (4, 10, 28, 22), (236, 236, 228, 235), 7)))
+                                                 chalk_text(img, "MEG", 10, 13, 1)))  # (smaller: at 2 px a dot it ran into the ring)
 
     def hands(d, img):
         rng = random.Random(61)
@@ -72,7 +67,7 @@ def level6():
                        ("circle", lambda d: d.ellipse([6, 6, 26, 26], outline=(236, 236, 228, 235), width=3))):
         img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
         draw(ImageDraw.Draw(img))
-        save(img, f"chalkmark-{name}")
+        save(chalky(img, seed_of("chalkmark-" + name)), f"chalkmark-{name}")
     img = sprite()
     d = ImageDraw.Draw(img)
     d.polygon([(8, 26), (22, 6), (27, 10), (13, 29)], fill=(240, 238, 230, 255), outline=(170, 168, 160, 255))
@@ -83,62 +78,7 @@ def level6():
 # ---------------- Level 6.1 ----------------
 
 def level61():
-    img = noise(0xE6D8C8, 4, "snackfloor-terrazzo")
-    specks(img, [0xE88AA0, 0x7AC8C0, 0x9A8C7C, 0xF4F0E8], 70, "terrazzo")
-    save(img, "snackfloor-terrazzo")
-    img = Image.new("RGBA", (S, S))
-    for y in range(S):
-        for x in range(S):
-            img.putpixel((x, y), rgb(0xF0F0EC if (x // 8 + y // 8) % 2 == 0 else 0x1C1C20))
-    save(img, "snackfloor-checker")
-    img = noise(0xA8442E, 6, "quarry")
-    d = ImageDraw.Draw(img)
-    for k in (0, 16):
-        d.line([0, k, S - 1, k], fill=rgb(0x6A2A1C))
-        d.line([k, 0, k, S - 1], fill=rgb(0x6A2A1C))
-    save(img, "snackfloor-quarry")
-    img = noise(0x7EC8BE, 3, "snackwall-mall")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 18, S - 1, 21], fill=rgb(0xE88AA0))
-    d.rectangle([0, 23, S - 1, 23], fill=rgb(0xF4E8D0))
-    save(img, "snackwall-mall")
-    img = noise(0x8A5A34, 4, "snackwall-panel")
-    d = ImageDraw.Draw(img)
-    for x in range(0, S, 8):
-        d.line([x, 0, x, S - 1], fill=rgb(0x6A4224))
-    save(img, "snackwall-panel")
-    img = noise(0xF2F2EE, 2, "snackwall-tile")
-    d = ImageDraw.Draw(img)
-    for k in range(0, S, 8):
-        d.line([0, k, S - 1, k], fill=rgb(0xC8C8C4))
-        d.line([k, 0, k, S - 1], fill=rgb(0xC8C8C4))
-    save(img, "snackwall-tile")
-    img = Image.new("RGBA", (S, S), rgb(0xFFE6C0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B4AC), width=2)
-    d.line([16, 0, 16, S - 1], fill=rgb(0xB8B4AC), width=2)
-    T.blotch(img, (16, 16), 14, (255, 250, 236), 0.6, 71)
-    save(img, "snackwall-window")
-    img = noise(0xEEEEEA, 2, "snackceiling-grid")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B8B4))
-    d.line([0, 16, S - 1, 16], fill=rgb(0xB8B8B4))
-    save(img, "snackceiling-grid")
-    # A skylight that shows nothing but darkness, though light comes from it: four near-black panes, a faint
-    # sheen on the glass, between dark mullions, in a frame whose diffuser rim glows orange-white
-    img = Image.new("RGBA", (S, S))
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            t = ((x % 16) + (y % 16)) / 30.0
-            sheen = 10 if abs((x % 16) - (y % 16) - 3) <= 1 else 0
-            px[x, y] = (int(7 + 6 * t) + sheen, int(8 + 7 * t) + sheen, int(12 + 10 * t) + sheen, 255)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xFFE8C4), width=2)
-    d.rectangle([2, 2, S - 3, S - 3], outline=rgb(0xE0B888))
-    d.rectangle([15, 3, 16, S - 4], fill=rgb(0x4A4640))
-    d.rectangle([3, 15, S - 4, 16], fill=rgb(0x4A4640))
-    save(img, "snackceiling-skylight")
+    level61_b9()  # (B9) floors, walls, ceiling, skylight, and the fixtures' and machines' materials
     for part in ("lower", "upper"):
         img = noise(0x6A4A3A, 12, "rusty" + part)
         T.blotch(img, (10, 20), 9, (150, 80, 40), 0.6, 72)
@@ -175,115 +115,12 @@ def level61():
     flat("navy", 0x1E2E5A, 4)
     flat("chrome", 0xC8CCD0, 3)
     flat("formica", 0xE8DCC8, 3)
-    img = noise(0x2A2E34, 3, "register")
-    ImageDraw.Draw(img).rectangle([4, 4, 27, 12], fill=rgb(0x40D060))
-    text(img, "$0.00", (4, 4, 28, 13), 0x0A2A0A, 5)
-    save(img, "register")
-    img = Image.new("RGBA", (S, S), rgb(0x2A1810))
-    d = ImageDraw.Draw(img)
-    d.rectangle([1, 1, S - 2, S - 2], fill=rgb(0xB8D8E0))
-    for x, c in ((4, 0xC88030), (12, 0xE0B040), (20, 0xA05030)):
-        d.ellipse([x, 18, x + 7, 26], fill=rgb(c))
-    save(img, "foodcase")
-    img = noise(0x9A9EA2, 3, "stovetop")
-    d = ImageDraw.Draw(img)
-    for x, y in ((4, 4), (18, 4), (4, 18), (18, 18)):
-        d.ellipse([x, y, x + 9, y + 9], outline=rgb(0x1A1A1A), width=2)
-    save(img, "stovetop")
-    img = noise(0x9A9EA2, 3, "stovefront")
-    d = ImageDraw.Draw(img)
-    for x in (5, 12, 19, 26):
-        d.ellipse([x - 2, 3, x + 1, 6], fill=rgb(0x1A1A1A))
-    d.rectangle([4, 10, 27, 27], fill=rgb(0x2A2E34), outline=rgb(0x6A6E72))
-    d.rectangle([8, 12, 23, 14], fill=rgb(0xC8CCD0))
-    save(img, "stovefront")
-    img = noise(0x9A9EA2, 3, "fryertop")
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 28, 28], fill=rgb(0xC89A30))
-    for k in range(4, 28, 4):
-        d.line([4, k, 27, k], fill=rgb(0x8A6A20))
-    save(img, "fryertop")
-    img = Image.new("RGBA", (S, S), rgb(0x8A8E92))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(seed_of("snackshelf"))
-    for row in range(3):
-        x = 1
-        while x < S - 4:
-            w = rng.randint(4, 6)
-            c = rng.choice([0xE82020, 0xF0C020, 0x2060E0, 0x30A040, 0xE87020, 0xA040C0])
-            d.rectangle([x, row * 11 + 2, x + w - 1, row * 11 + 9], fill=rgb(c))
-            d.line([x + 1, row * 11 + 4, x + w - 2, row * 11 + 4], fill=rgb(0xF4F4F0))
-            x += w + 1
-        d.line([0, row * 11 + 10, S - 1, row * 11 + 10], fill=rgb(0x5A5E62))
-    save(img, "snackshelf")
-    # The snack machine: its blue cabinet, the lit header, the dark inside behind the glass, the packets on their
-    # spirals (four 4-unit bands, one a column), a glint on the glass (the rest of it see-through), and the coin panel
-    # (drawn in the middle 8 px, for a face 4 wide)
-    save(noise(0x2A6AB0, 4, "snackvending"), "snackvending")
-    img = noise(0x2A6AB0, 3, "snackvendhead")
-    d = ImageDraw.Draw(img)
-    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xF4F0E4))
-    text(img, "SNACKS", (1, 1, S - 1, 9), rgb(0xD02020), 7)
-    save(img, "snackvendhead")
+    # The snack machine's dark inside behind the glass; its paint, header, glass, packets, spirals and panel are B9's
+    # (machine_textures)
     save(noise(0x16191E, 3, "snackvendinside"), "snackvendinside")
-    img = Image.new("RGBA", (S, S), rgb(0x1A1E24))
-    d = ImageDraw.Draw(img)
-    for band, (c, logo) in enumerate(((0xE82020, 0xF0C020), (0xF0C020, 0xC02020), (0x30A040, 0xF4F4F0), (0xE87020, 0x6A2A10))):
-        x0 = band * 8
-        d.rectangle([x0, 0, x0 + 5, S - 1], fill=rgb(c))
-        d.line([x0, 0, x0 + 5, 0], fill=T.shade(T.hexrgb(c), 0.7))
-        for y in range(2, S, 6):
-            d.rectangle([x0 + 1, y, x0 + 4, y + 1], fill=rgb(logo))
-        for y in range(0, S, 3):
-            d.point((x0 + 5, y), fill=rgb(0xB8BCC0))  # the spiral's turns in front of the packets
-            d.point((x0, y + 1), fill=rgb(0x8A8E92))
-    save(img, "snackvendrows")
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    for x0 in (4, 20):
-        d.line([x0, S - 1, x0 + 10, 0], fill=(214, 230, 240, 255))
-    d.line([25, S - 1, 31, 12], fill=(214, 230, 240, 255))
-    save(img, "snackvendglass")
-    img = noise(0x3A3E44, 3, "snackvendpanel")
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 2, 19, 5], fill=rgb(0x1A2A1A))
-    d.line([13, 3, 17, 3], fill=rgb(0x60E060))  # the price display
-    for r in range(4):
-        for c in range(3):
-            d.point((13 + c * 2, 8 + r * 2), fill=rgb(0xD8D8D0))
-    d.rectangle([14, 17, 17, 21], fill=rgb(0xB8BCC0))
-    d.line([15, 18, 15, 20], fill=rgb(0x101010))  # the coin slot
-    d.rectangle([13, 24, 18, 26], fill=rgb(0x8A8E92))
-    d.rectangle([14, 25, 17, 25], fill=rgb(0x1A1A1A))  # coin return
-    save(img, "snackvendpanel")
-    img = Image.new("RGBA", (S, S), rgb(0xD8DCE0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 2, 28, 29], fill=rgb(0x2A3A44))
-    for r in range(4):
-        for c in range(4):
-            d.rectangle([5 + c * 6, 4 + r * 6, 8 + c * 6, 8 + r * 6], fill=rgb([0xE82020, 0x30A0E0, 0xF4F0E0, 0x40C040][(r + c) % 4]))
-    d.rectangle([26, 10, 27, 20], fill=rgb(0xC8CCD0))
-    save(img, "drinkfridge")
-    # The drinks fridge in 3D: white enamel, a lit header, a kick-plate grille, cold white inside, frosted glass (see-
-    # through but for its glints and a frosted rim), and the cans and bottles: four 4-unit bands, one a column
-    save(noise(0xE6E8EA, 3, "fridgebody"), "fridgebody")
-    img = noise(0x1E4A8A, 2, "drinkhead")
-    d = ImageDraw.Draw(img)
-    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xF4F8FC))
-    text(img, "DRINKS", (1, 1, S - 1, 9), rgb(0x1E4A9A), 7)
-    save(img, "drinkhead")
-    img = Image.new("RGBA", (S, S), rgb(0x2A2C30))
-    d = ImageDraw.Draw(img)
-    for y in range(1, S, 3):
-        d.line([2, y, S - 3, y], fill=rgb(0x0E0F11))
-    save(img, "fridgegrille")
+    # The drinks fridge in 3D: cold white inside, and the cans and bottles: four 4-unit bands, one a column (its
+    # enamel, header, grille and glass are B9's, machine_textures)
     save(noise(0xDCE8F0, 2, "fridgeinside"), "fridgeinside")
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    for x0 in (3, 18):
-        d.line([x0, S - 1, x0 + 9, 0], fill=(224, 238, 248, 200))
-    d.rectangle([0, 0, S - 1, S - 1], outline=(220, 232, 240, 110), width=1)  # frost at the rim
-    save(img, "fridgeglass")
     img = Image.new("RGBA", (S, S), rgb(0x1A1E24))
     d = ImageDraw.Draw(img)
     for band, (c, label) in enumerate(((0xC81E1E, 0xF4F0E8), (0x2E9A3A, 0xF0E040), (0x7AB8E8, 0x2A5AA8), (0xF08A1E, 0xFFFFFF))):
@@ -294,28 +131,7 @@ def level61():
             d.rectangle([x0, y, x0 + 5, y + 2], fill=rgb(label))
         d.line([x0, 0, x0 + 5, 0], fill=rgb(0xB8BCC0))  # the lids
     save(img, "drinkcans")
-    # A dead machine of a vending room's heap: faded red, scuffed, its sign unlit, its glass cracked
-    img = noise(0x8A2A24, 5, "vendpilebody")
-    grime(img, "vendpilebody", 0.35, (60, 40, 30))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(61)
-    for _ in range(5):
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(2, 6), y + rng.randint(-1, 1)], fill=rgb(0xB8B0A8))  # scuffs to the paint
-    save(img, "vendpilebody")
-    img = noise(0x6A2420, 3, "vendpilehead")
-    d = ImageDraw.Draw(img)
-    d.rectangle([1, 1, S - 2, 8], fill=rgb(0xB8B0A0))
-    text(img, "COLA", (1, 1, S - 1, 9), rgb(0x7A1A14), 7)
-    save(img, "vendpilehead")
-    img = noise(0x3A3C40, 3, "vendpilepanel")
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 2, 19, 5], fill=rgb(0x141414))  # a dead display
-    for r in range(4):
-        for c in range(3):
-            d.point((13 + c * 2, 8 + r * 2), fill=rgb(0x9A9A94))
-    d.line([15, 18, 15, 20], fill=rgb(0x101010))
-    save(img, "vendpilepanel")
+    # A dead machine of a vending room's heap: its glass cracked (its paint and unlit sign are B9's)
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     for pts in (((20, 9), (13, 3), (9, 0)), ((20, 9), (27, 4)), ((20, 9), (24, 20), (22, 31)), ((20, 9), (8, 14), (0, 15))):
@@ -370,6 +186,774 @@ def level61():
         d.polygon([(11, 8), (20, 8), (22, 12), (22, 28), (9, 28), (9, 12)], fill=rgb(liquid, 220), outline=rgb(0x8A9AA8))
         d.rectangle([9, 15, 22, 21], fill=rgb(0xF4F0E8))
         save_item(img, name)
+
+
+# ---------------- Graphics pass B9: Levels 6 and 6.1 ----------------
+#
+# Level 6's cold walls, floor and ceiling and its dead switch, chalk that reads as chalk; the Snackrooms' floors, walls,
+# ceiling and skylight, and the materials of its fixtures (whose shapes are in gen_deep.level61). Each surface keeps the
+# mean colour of the texture it replaces (B9_MEAN, measured on main before B9), so the levels keep their tones: Level 6
+# black, the food court its mint, pink, cream and navy (the diner palette is a lore decision, docs/design/visual-review.md).
+
+B9_MEAN = {"l6wall": (57.6, 60.6, 65.6), "l6floor": (44.0, 46.0, 50.0), "l6ceiling": (48.0, 50.0, 54.0),
+           "l6floor-wet": (30.7, 32.9, 37.0), "terrazzo": (227.6, 213.4, 198.4), "checker": (134.0, 134.0, 134.0),
+           "quarry": (160.5, 64.8, 43.8), "mall": (143.0, 193.3, 186.8), "panel": (134.0, 87.0, 50.0),
+           "tile": (232.1, 232.1, 228.1), "window": (235.6, 218.5, 191.7), "grid": (229.9, 229.9, 225.9),
+           "navy": (30.1, 46.1, 90.1), "chrome": (200.1, 204.1, 208.1), "formica": (232.0, 220.0, 200.0),
+           "stove": (154.0, 158.0, 162.0), "vending": (42.1, 106.1, 176.1), "fridge": (229.9, 231.9, 233.9),
+           "vendpile": (137.2, 44.3, 38.2)}
+L6_WALL = (58, 61, 66)
+CHALK = (236, 236, 228)
+CHALK_DUST = (198, 198, 194)  # thin chalk: the same white, greyer
+
+
+def b9_match(img, key, versions=None):
+    """img shifted to the old texture's mean colour; with `versions` (a name shared by the versions of one surface)
+    the shift is worked out once and reused, so the versions keep one ground (T.match_rgb)."""
+    return T.match_rgb(img, B9_MEAN[key], versions)
+
+
+def b9_save(img, name):
+    """Saves a B9 texture: block textures in block/detail/, as every Level 6 and 6.1 texture is."""
+    save(img, name)
+
+
+def keep_inside(plain, featured, band=5):
+    return T.inside_block(plain, featured, band)
+
+
+# ---- Level 6 ----
+
+def l6_panel_shade(img, joints=(0, 16)):
+    """The cold material's cast panels: a groove at each joint (dark, a lit lip under it) and a faint polish that is
+    lightest just under each joint and fades down the panel, so the panels read under a lantern."""
+    w, h = img.size
+    span = h // len(joints)
+    for y in range(h):
+        k = (y - joints[0]) % span / span
+        for x in range(w):
+            M.touch(img, x, y, 0.035 * (1 - k) - 0.012, 0.1)
+    M.emboss_lines(img, ys=joints, strength=0.16)
+    return img
+
+
+def l6_floor_joints(img, strength=0.04):
+    """The floor's cast slabs, one to the block: a soft 2 px groove at the block's edges (31-0), symmetric about the
+    block centre so a block turned any way keeps it in place (B8's lesson on turned floors). (Joints at 15-16 too read
+    as a heavy grid under a lantern.)"""
+    for k in (31, 0):
+        for t in range(S):
+            M.touch(img, k, t, -strength, 0.08)
+            M.touch(img, t, k, -strength, 0.08)
+    return img
+
+
+def l6_ground(seed, base):
+    """The smooth, cold material itself: almost no grain, a slow mottle, the odd pin-hole; held to a cold grey hue."""
+    img = M.concrete(seed, base=base, grain=2, mottle=2, aggregate=0.0, pores=0.0, hue=0.5, drift=0.08)
+    return T.calm_hue(img, base, 0.6)
+
+
+def l6_wall(version):
+    """Level 6's wall: two smooth panels to the block, one above the other (the old joints at 0 and 16). Every
+    version is the same panel; the second has a faint damp run down from a joint, the third a hairline crack; each is
+    listed one block in eight (gen_detail ALTS)."""
+    img = l6_ground(6100, L6_WALL)
+    rng = random.Random(6101)
+    for _ in range(5):  # the odd pin-hole in the cast face
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, -0.1)
+        M.touch(img, x, y + 1, 0.05)
+    l6_panel_shade(img)
+    if version == 2:
+        run = img.copy()
+        M.drips(run, 2, 6102, color=(36, 40, 44), length=(8, 13), strength=0.32, start=17)
+        img = keep_inside(img, run, 3)
+    elif version == 3:
+        cr = img.copy()
+        M.crack(cr, 6103, at=(20, 7), length=(9, 13), strength=0.22)
+        img = keep_inside(img, cr, 3)
+    return b9_match(img, "l6wall", "b9l6wall")
+
+
+def l6_floor(version):
+    """Level 6's floor: the same cold material in cast slabs, one to the block (l6_floor_joints), turned at random and
+    seamless (matlib.turn_safe): three versions on one ground, each with a few pin-holes, the third with a faint
+    scuff, kept inside the block."""
+    base = (44, 46, 50)
+    ground = l6_ground(6110, base)
+    img = ground.copy()
+    rng = random.Random(6111 + version)
+    for _ in range(2 + 2 * version):
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, -0.1)
+        M.touch(img, x, y + 1, 0.04)
+    if version == 3:
+        sc = img.copy()
+        M.scratches(sc, 3, 6114, length=(3, 6), light=0.14)
+        img = keep_inside(img, sc, 5)
+    img = l6_floor_joints(M.turn_safe(img, ground, keep=0.5))
+    return b9_match(img, "l6floor", "b9l6floor")
+
+
+def l6_ceiling(version):
+    """Level 6's ceiling: the cold material in cast slabs, one to the block (a faint joint at its edges); the second
+    version has a faint damp mark, listed one block in six."""
+    img = l6_ground(6120, (48, 50, 54))
+    M.emboss_lines(img, xs=(0,), ys=(0,), strength=0.08)
+    if version == 2:
+        st = img.copy()
+        M.stain(st, 6121, radius=6, color=(34, 36, 38), strength=0.4, at=(22, 10), ring=0.6)
+        img = keep_inside(img, st, 3)
+    return b9_match(img, "l6ceiling", "b9l6ceil")
+
+
+def l6_wet(version=1):
+    """Standing water on the cold floor: the floor's material, darker and bluer under a film of water (all over the
+    block, or a turned block shows its square), with a few long glints where the film catches a light (as the old one
+    had), kept off the block's edge so turned blocks meet."""
+    base = (30, 33, 37)
+    ground = l6_ground(6130, base)
+    gp = ground.load()
+    for y in range(S):
+        for x in range(S):
+            gp[x, y] = M.rgba(M.hue_shift(gp[x, y], -1.5))
+    img = ground.copy()
+    film = img.copy()
+    # (round 2) a few soft, irregular patches where the film catches a light, each with a short bright glint, placed
+    # by the version (the old dashes sat in the same place in every block and read as road markings)
+    rng = random.Random(6132 + version)
+    fp = film.load()
+    for _ in range(3):
+        cx, cy, r = rng.uniform(8, 24), rng.uniform(8, 24), rng.uniform(3, 6)
+        wob = M.fbm((S, S), rng.randrange(1 << 16), (8, 4))
+        for y in range(S):
+            for x in range(S):
+                dd = math.hypot((x - cx) / 1.6, y - cy) / r + wob[y][x] * 0.35
+                if dd < 1:
+                    fp[x, y] = M.rgba(M.lift(M.hue_shift(fp[x, y], -1), 7 * (1 - dd) ** 0.7, 0.05))
+        gx, gy = int(cx - r * 0.5), int(cy - r * 0.3)
+        for k in range(rng.randint(2, 4)):
+            fp[gx + k, gy] = M.rgba((62, 68, 76))
+    img = keep_inside(img, film, 4)
+    img = l6_floor_joints(M.turn_safe(img, ground, keep=0.5), 0.06)
+    return b9_match(img, "l6floor-wet", "b9l6wet")
+
+
+def l6_switch():
+    """The dead light switch's materials (its plate, screws and toggle are geometry, gen_deep.level6): yellowed old
+    bakelite with a faint grime of hands, the toggle a little paler, the slot dark."""
+    plate = M.noise_hv((214, 204, 178), 2, 6140, mottle=4, cells=(8, 4), hue=1.0)
+    M.grime(plate, 0.18, 6141, color=(120, 104, 80), cells=(4, 2), cover=0.45)
+    b9_save(plate, "l6switchplate")
+    toggle = M.noise_hv((226, 218, 194), 2, 6142, mottle=3, cells=(8, 4), hue=1.0)
+    M.grime(toggle, 0.12, 6143, color=(120, 104, 80), cells=(4, 2), cover=0.4)
+    b9_save(toggle, "l6switchtoggle")
+    b9_save(M.noise_hv((34, 30, 28), 2, 6144, mottle=2), "l6switchslot")
+
+
+CHALK_FONT = {"D": ("110", "101", "101", "101", "110"), "E": ("111", "100", "110", "100", "111"),
+              "A": ("010", "101", "111", "101", "101"), "N": ("101", "111", "111", "111", "101"),
+              "X": ("101", "101", "010", "101", "101"), "I": ("111", "010", "010", "010", "111"),
+              "T": ("111", "010", "010", "010", "010"), "M": ("101", "111", "111", "101", "101"),
+              "G": ("011", "100", "101", "101", "011")}
+
+
+def chalk_text(img, word, x, y, scale):
+    """(B9 round 2) Chalked capitals, 3 x 5 at `scale` px a dot, crisp: the old lettering was text scaled down, which
+    the chalk's break-up (chalky) left unreadable. A space is two dots wide; a full stop is one dot at the foot, in the
+    gap after a letter."""
+    p = img.load()
+    for ch in word:
+        if ch == " ":
+            x += 2 * scale
+            continue
+        if ch == ".":
+            if x - scale >= 0 and x <= img.width:  # (a full stop past the edge is left off)
+                for dy in range(scale):
+                    for dx in range(scale):
+                        p[x - scale + dx, y + 4 * scale + dy] = (236, 236, 228, 235)
+            continue
+        for r, row in enumerate(CHALK_FONT[ch]):
+            for c, bit in enumerate(row):
+                if bit == "1":
+                    for dy in range(scale):
+                        for dx in range(scale):
+                            p[x + c * scale + dx, y + r * scale + dy] = (236, 236, 228, 235)
+        x += 4 * scale if word.count(".") == 0 else 5 * scale
+    return img
+
+
+def chalky(img, seed, dust=CHALK_DUST):
+    """Chalk on a smooth wall: the strokes break up (a few pixels skipped, more at the edges, where the stick drags),
+    and each pixel is its own mix of chalk and a thinner, white-grey dust. The block is drawn in the opaque pass, which
+    cuts out alpha under a half, so the dust is a colour rather than an alpha. It is neutral (no wall colour in it), so
+    chalk a player draws on any level's walls stays clean."""
+    rng = random.Random(seed)
+    px = img.load()
+    w, h = img.size
+    solid = [[px[x, y][3] >= 90 for x in range(w)] for y in range(h)]
+    for y in range(h):
+        for x in range(w):
+            if not solid[y][x]:
+                px[x, y] = (0, 0, 0, 0)
+                continue
+            near = sum(1 for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))
+                       if 0 <= x + dx < w and 0 <= y + dy < h and solid[y + dy][x + dx])
+            edge = near < 4
+            # (round 2) only thick strokes break up: lettering and 1-2 px lines lost their shape (EXIT, DEAD END)
+            if near >= 3 and rng.random() < (0.14 if edge else 0.04):
+                px[x, y] = (0, 0, 0, 0)
+                continue
+            c = px[x, y][:3]
+            if c[0] > 150:  # chalk (the dark handprints keep their colour)
+                c = M.mix(CHALK, dust, rng.uniform(0.0, 0.45) + (0.25 if edge else 0.0))
+                c = M.lift(c, rng.uniform(-4, 4), 0.05)
+            px[x, y] = M.rgba(c, max(px[x, y][3], 160))
+    return img
+
+
+# ---- Level 6.1: surfaces ----
+
+TERRAZZO = (230, 216, 200)
+TERRAZZO_CHIPS = ((232, 138, 160), (122, 200, 192), (154, 140, 124), (244, 240, 232))
+
+
+def terrazzo(version):
+    """The food court's terrazzo: a polished cream matrix (marble dust in it) set with chips of 1 to 3 px in the old
+    four colours (pink, teal, taupe and white; the old floor had single specks), each chip its own shade with a
+    glint on the larger ones. Three versions, each its own scatter of chips on one ground, turned at random and
+    seamless (matlib.turn_safe); about as many chip pixels as the old floor had specks."""
+    ground = M.noise_hv(TERRAZZO, 2, 6200, mottle=3, cells=(16, 8), hue=0.8)
+    img = ground.copy()
+    p = img.load()
+    rng = random.Random(6201 + version)
+    for _ in range(70):  # marble dust in the matrix
+        M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((-0.04, 0.03)))
+    placed = 0
+    shapes = {1: [[(0, 0)]], 2: [[(0, 0), (1, 0)], [(0, 0), (0, 1)], [(0, 0), (1, 1)]],
+              3: [[(0, 0), (1, 0), (0, 1)], [(0, 0), (1, 0), (1, 1), (0, 1)], [(1, 0), (0, 1), (1, 1), (2, 1)],
+                  [(0, 0), (1, 0), (1, 1), (2, 1)], [(0, 0), (0, 1), (1, 1)]]}
+    while placed < 80:
+        size = rng.choices((1, 2, 3), (0.72, 0.26, 0.02))[0]  # (round 2: mostly fine; larger ones read as squares)
+        cells = rng.choice(shapes[size])
+        fx, fy, tr = rng.choice((1, -1)), rng.choice((1, -1)), rng.random() < 0.5  # each chip turned its own way
+        cells = [((dy if tr else dx) * fx, (dx if tr else dy) * fy) for (dx, dy) in cells]
+        col = rng.choices(TERRAZZO_CHIPS, (1.0, 1.0, 0.6, 1.0))[0]
+        v, hu = rng.uniform(-8, 6), rng.uniform(-3, 3)
+        x0, y0 = rng.randrange(S), rng.randrange(S)
+        for (dx, dy) in cells:
+            M.put(p, S, S, x0 + dx, y0 + dy, M.hue_shift(M.lift(col, v + rng.uniform(-3, 3)), hu))
+        if size > 1:
+            M.touch(img, x0 + cells[0][0], y0 + cells[0][1], 0.08)  # the polish catching the light
+        placed += len(cells)
+    img = M.turn_safe(img, ground, keep=0.3)
+    return b9_match(img, "terrazzo", "b9terrazzo")
+
+
+CHECK_WHITE, CHECK_BLACK = (234, 232, 224), (36, 36, 40)
+
+
+def checker(version):
+    """The chequered floor: 8 px vinyl tiles as before, off-white and charcoal now (no pure black and white), each tile
+    its own shade, a lit top and left edge, a fine dark joint at its bottom and right, wax gathered toward the edges.
+    The second version has a faint heel mark, the third a chipped corner; each is listed one block in eight. Not
+    turned: a quarter turn would swap the colours."""
+    img = Image.new("RGBA", (S, S))
+    rng = random.Random(6210)  # one tile layout for every version, so versions differ only in their features
+    p = img.load()
+    for j in range(4):
+        for i in range(4):
+            white = (i + j) % 2 == 0
+            col = CHECK_WHITE if white else CHECK_BLACK
+            v = rng.uniform(-2.5, 2.5) if white else rng.uniform(-1, 1)  # (a tile's own shade repeats block to block:
+            hu = rng.uniform(-1, 1) if white else rng.uniform(-0.4, 0.4)  # kept small, most of all on the charcoal)
+            for yy in range(8):
+                for xx in range(8):
+                    c = M.hue_shift(M.lift(col, v + rng.uniform(-2, 2), 0.1), hu)
+                    p[i * 8 + xx, j * 8 + yy] = M.rgba(c)
+            box = (i * 8, j * 8, i * 8 + 8, j * 8 + 8)
+            M.ao_border(img, 2, 0.04 if white else 0.0, box)
+            for k in range(8):
+                M.touch(img, i * 8 + k, j * 8, 0.05 if white else 0.12, 0.1)
+                M.touch(img, i * 8, j * 8 + k, 0.03 if white else 0.08, 0.1)
+                M.touch(img, i * 8 + k, j * 8 + 7, -0.1 if white else -0.05, 0.1)
+                M.touch(img, i * 8 + 7, j * 8 + k, -0.07 if white else -0.04, 0.1)
+    if version == 2:
+        f = img.copy()
+        d = ImageDraw.Draw(f)
+        for (x, y, x2, y2) in ((9, 18, 12, 17),):
+            d.line([x, y, x2, y2], fill=(212, 208, 198, 255))
+        img = keep_inside(img, f, 3)
+    elif version == 3:
+        f = img.copy()
+        for (x, y) in ((23, 8), (24, 8), (23, 9)):  # a chipped corner on a charcoal tile, the pale backing showing
+            f.load()[x, y] = M.rgba((96, 94, 90))
+        img = keep_inside(img, f, 3)
+    return b9_match(img, "checker", "b9checker")
+
+
+def quarry(version):
+    """The restaurants' quarry tiles: four unglazed 16 px tiles to the block in the old dark grout, each its own shade
+    and hue with a speckled body, a slight tilt and a lit edge; three versions (other shades)."""
+    img = M.tile(6220 + version, base=(166, 68, 46), grout=(104, 42, 28), pitch=16, grout_w=1, jitter=9, uneven=5,
+                 glaze=False, speckle=0.6)
+    return b9_match(img, "quarry", "b9quarry")
+
+
+MINT, PINK, CREAM = (126, 200, 190), (232, 138, 160), (244, 232, 208)
+
+
+def mall_wall():
+    """The mall wall: mint paint on plaster (a roller stipple, soft clouds) with the old pink band and cream pinstripe
+    painted across it, clean edged so the bands run on from block to block. One version: a smudge in a second one read
+    as a column of marks on a sheet, since the wall's rows repeat the block one above the other."""
+    img = M.plaster(6230, base=MINT, grain=2, mottle=5, roller=0.6, bumps=0.004)
+    p = img.load()
+    lm = M.lum(MINT)
+    for y in range(S):
+        for x in range(S):
+            rel = M.lum(p[x, y]) - lm
+            if 18 <= y <= 21:
+                c = M.lift(PINK, rel * 0.8 + (1.5 if y == 18 else -1.5 if y == 21 else 0))
+            elif y == 23:
+                c = M.lift(CREAM, rel * 0.6)
+            else:
+                continue
+            p[x, y] = M.rgba(c)
+    return b9_match(img, "mall")
+
+
+def wood_panel():
+    """The restaurants' wood panelling: four upright boards of 8 px to the block (the old grooves), grained, each its own
+    shade, a dark groove between them."""
+    img = M.wood_planks(6240, base=(140, 92, 54), planks=4, direction="v", grain=2, contrast=0.45, knots=0, joints=0,
+                        flecks=0.3, per_plank=6, gap=(92, 56, 30))
+    return b9_match(img, "panel")
+
+
+def tiled_wall():
+    """White glazed wall tiles, 8 px, in pale grout (the pattern is defined but no layout places it)."""
+    img = M.tile(6250, base=(240, 240, 236), grout=(196, 196, 190), pitch=8, jitter=3, uneven=3, glaze=True)
+    return b9_match(img, "tile")
+
+
+def shop_window():
+    """A shop window that glows like daylight: two frosted panes, brightest in the middle, in a brushed aluminium frame
+    with a lit top edge and a centre mullion. The block stays a cube with its old light; no dark gap round the panes."""
+    frame = M.brushed_metal(6260, base=(190, 186, 178), grain=2, streak=5, sheen=5)
+    img = frame.copy()
+    p = img.load()
+    glow, warm = (255, 248, 232), (255, 228, 190)
+    rng = random.Random(6261)
+    for (x0, x1) in ((2, 15), (17, 30)):
+        for y in range(2, 30):
+            for x in range(x0, x1):
+                u = (x - x0 + 0.5) / (x1 - x0) * 2 - 1
+                v = (y - 1.5) / 28 * 2 - 1
+                t = max(0.0, 1 - (u * u * 0.7 + v * v * 0.9))
+                c = M.mix(warm, glow, t)
+                p[x, y] = M.rgba(M.lift(c, rng.uniform(-1.5, 1.5) - 2 * (1 - t), 0.05))
+    M.bevel(img, (0, 0, S, S), 1, 0.12)
+    for (x0, x1) in ((2, 15), (17, 30)):
+        for x in range(x0, x1):
+            M.touch(img, x, 2, -0.03, 0.05)
+    return b9_match(img, "window")
+
+
+SNACK_TILE, SNACK_RAIL = (238, 238, 234), (184, 184, 180)
+
+
+def snack_ceiling(version):
+    """The food court's drop ceiling, two 32 x 16 tiles to the block as before: Level 0's lay-in tile (matlib.ceiling_tile)
+    in the old light grey and grid. Three versions (other fissures)."""
+    img = Image.new("RGBA", (S, S))
+    for half in (0, 1):
+        tile = M.ceiling_tile(6270 + version * 2 + half, size=(S, S // 2), base=SNACK_TILE, rail=SNACK_RAIL,
+                              fissures=0.5, recess=2)
+        img.paste(tile, (0, half * S // 2))
+    T.calm_hue(img, SNACK_TILE, 0.6)
+    return b9_match(img, "grid", "b9grid")
+
+
+def skylight():
+    """A skylight in the grid that shows only darkness, though light comes from it: the grid rail at its edge (shared
+    with the tiles round it), a glowing diffuser rim, the light catching the aluminium curb inside it, then four panes
+    of night-black glass between mullions. The panes are deepest at their middle, with a faint sheen across the glass
+    and the rim's warm light reflected along their outer edges; the mullions are lit on the side toward the rim. The
+    block stays a cube with its old light (graphics pass lesson: a shaped light loses its glow)."""
+    img = Image.new("RGBA", (S, S))
+    p = img.load()
+    rng = random.Random(6280)
+    rim, rim2, curb = (255, 236, 204), (244, 214, 170), (206, 170, 124)
+    for y in range(S):
+        for x in range(S):
+            e = min(x, y, S - 1 - x, S - 1 - y)
+            if e == 0:
+                c = M.lift(SNACK_RAIL, 10 if (x == 0 or y == 0) else 0)
+            elif e <= 2:
+                c = M.mix(rim, rim2, (e - 1) * 0.6)
+            elif e == 3:
+                c = curb
+            else:
+                qx, qy = (x - 4) % 12 if x < 16 else (x - 17) % 12, (y - 4) % 12 if y < 16 else (y - 17) % 12
+                if x in (15, 16) or y in (15, 16):
+                    lit = (x == 15 and y not in (15, 16)) or (y == 15 and x not in (15, 16))
+                    c = (96, 88, 78) if lit else (66, 62, 58)
+                else:
+                    d = min(qx, qy, 11 - qx, 11 - qy) / 5.5
+                    t = ((x % 16) + (y % 16)) / 30.0
+                    c = (12 + 5 * t + 4 * (1 - d), 14 + 6 * t + 4 * (1 - d), 21 + 9 * t + 3 * (1 - d))  # (night glass)
+                    if abs((x % 16) - (y % 16) - 3) <= 1:
+                        c = M.lift(c, 8, 0.05)  # the sheen on the glass
+                    if e == 4:
+                        c = M.mix(c, (60, 48, 36), 0.5)  # the rim's light reflected in the pane's edge
+            p[x, y] = M.rgba(M.lift(c, rng.uniform(-1, 1), 0.05))
+    return img
+
+
+# ---- Level 6.1: the fixtures' materials ----
+
+def snack_materials():
+    """The Snackrooms furniture's materials (the old ones were flat colours): polished chrome with its reflections,
+    navy vinyl upholstery with a pebble grain and a soft shine, a navy laminate table top with a fleck, the counters'
+    cream laminate and brushed stainless, a black rubber kick, and the stainless of the griddle and fryer. Each keeps
+    the old mean colour of what it replaces."""
+    img = M.brushed_metal(6300, base=(198, 202, 208), grain=3, direction="v", streak=6, sheen=18)
+    b9_save(b9_match(img, "chrome"), "snackchrome")
+
+    img = M.noise_hv((30, 46, 90), 2, 6302, mottle=4, cells=(16, 8), hue=1.0)
+    peb = M.fbm((S, S), 6303, (2, 1), 0.6)
+    shine = M.value_noise((S, S), 16, 6304)
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            p[x, y] = M.rgba(M.lift(p[x, y], peb[y][x] * 3 + max(0.0, shine[y][x]) * 7, 0.1))
+    b9_save(b9_match(img, "navy"), "snackvinyl")
+
+    img = M.noise_hv((32, 48, 92), 2, 6305, mottle=3, cells=(16, 8), hue=1.0)
+    rng = random.Random(6306)
+    for _ in range(90):  # the laminate's fleck: small, many, close to the ground
+        M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((0.18, 0.12, -0.12)), 0.05)
+    b9_save(b9_match(img, "navy"), "snacktabletop")
+
+    img = M.noise_hv((232, 220, 200), 2, 6307, mottle=3, cells=(16, 8), hue=1.0)
+    rng = random.Random(6308)
+    for _ in range(30):
+        M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((-0.08, -0.05, 0.04)))
+    b9_save(b9_match(img, "formica"), "counterfront")
+
+    b9_save(b9_match(M.brushed_metal(6309, base=(198, 202, 206), grain=3, streak=6, sheen=8), "chrome"), "snackcountertop")
+    b9_save(b9_match(M.brushed_metal(6310, base=(154, 158, 162), grain=3, streak=7, sheen=8), "stove"), "stovesteel")
+    b9_save(M.rubber(6311, base=(40, 38, 40)), "snackkick")
+
+
+def b9_font(img, s, x, y, colour):
+    """A 3 x 5 pixel font for the tiny print of price tags and displays, drawn crisp (no antialiasing)."""
+    glyphs = {"0": ("111", "101", "101", "101", "111"), "1": ("010", "110", "010", "010", "111"),
+              "2": ("111", "001", "111", "100", "111"), "3": ("111", "001", "011", "001", "111"),
+              "4": ("101", "101", "111", "001", "001"), "5": ("111", "100", "111", "001", "111"),
+              "6": ("111", "100", "111", "101", "111"), "7": ("111", "001", "010", "010", "010"),
+              "8": ("111", "101", "111", "101", "111"), "9": ("111", "101", "111", "001", "111"),
+              "$": ("111", "110", "111", "011", "111"), ".": ("000", "000", "000", "000", "010")}
+    p = img.load()
+    for ch in s:
+        g = glyphs[ch]
+        wdt = 1 if ch == "." else 3
+        for r, row in enumerate(g):
+            for c, bit in enumerate(row[:3] if wdt == 3 else row[1:2]):
+                if bit == "1" and 0 <= x + c < img.width and 0 <= y + r < img.height:
+                    p[x + c, y + r] = M.rgba(colour)
+        x += wdt + 1
+
+
+def fixture_textures():
+    """The fixtures' other parts: the cash register's charcoal body, green display and pale keys; the food case's
+    glass, deck and pastries; the griddle plate, burner grates and caps, knobs and oven window; the fryer's oil and
+    basket mesh; the shelving's paint, pegboard, price strip and the packets on it."""
+    b9_save(M.noise_hv((44, 48, 54), 2, 6320, mottle=3, cells=(16, 8), hue=1.0), "registerbody")
+    img = M.noise_hv((12, 30, 16), 1, 6321, mottle=2)
+    b9_font(img, "$0.00", 2, 2, (110, 244, 130))
+    b9_font(img, "$1.25", 2, 18, (110, 244, 130))
+    b9_save(img, "registerdisp")
+    key = M.noise_hv((210, 206, 194), 2, 6322, mottle=2)
+    b9_save(key, "snackkey")
+
+    b9_save(glints(((3, 8, 7, 2), (5, 9, 6, 7), (14, 9, 18, 3), (24, 8, 26, 5), (8, 30, 12, 24), (22, 28, 25, 23)), frost_top=True),
+            "caseglass")  # (its top row is the pane's edge catching the light)
+    b9_save(M.noise_hv((226, 224, 216), 2, 6323, mottle=3), "caseinside")
+
+    # Pastries, one 8 px band each, the top seen from above in the band's first 8 rows, the side in the next 8:
+    # pink-iced and chocolate doughnuts, a croissant, a blueberry muffin in its paper case
+    img = Image.new("RGBA", (S, S), M.rgba((200, 150, 90)))
+    p = img.load()
+    rng = random.Random(6324)
+    dough = (204, 150, 86)
+    for b, icing in enumerate(((232, 140, 170), (96, 58, 38))):
+        x0 = b * 8
+        for y in range(8):
+            for x in range(8):
+                r = math.hypot(x - 3.5, y - 3.5)
+                c = icing if r < 3.6 else dough
+                if r < 1.1:
+                    c = (120, 86, 52)  # the hole
+                p[x0 + x, y] = M.rgba(M.lift(c, rng.uniform(-4, 4) + (5 if x + y < 6 else 0)))
+            for x in range(8):
+                p[x0 + x, 8 + y] = M.rgba(M.lift(icing if y < 3 else dough, rng.uniform(-4, 4) + (-8 if y == 7 else 0)))
+        for _ in range(7 if b == 0 else 3):  # sprinkles
+            x, y = rng.randrange(1, 7), rng.randrange(1, 7)
+            if math.hypot(x - 3.5, y - 3.5) > 1.4:
+                p[x0 + x, y] = M.rgba(rng.choice(((250, 240, 120), (110, 200, 230), (250, 250, 240), (120, 210, 120))))
+    x0 = 16
+    for y in range(16):
+        for x in range(8):
+            ridge = (x + (y // 2)) % 3 == 0
+            p[x0 + x, y] = M.rgba(M.lift((214, 152, 70), (-16 if ridge else 4) + rng.uniform(-4, 4) + (8 if y < 2 else 0)))
+    x0 = 24
+    for y in range(8):
+        for x in range(8):
+            p[x0 + x, y] = M.rgba(M.lift((168, 112, 64), rng.uniform(-8, 8)))
+    for _ in range(6):
+        p[x0 + rng.randrange(8), rng.randrange(8)] = M.rgba((62, 52, 96))
+    for y in range(8, 16):
+        for x in range(8):
+            c = (168, 112, 64) if y < 11 else M.lift((232, 222, 204), -8 if x % 2 else 4)
+            p[x0 + x, y] = M.rgba(M.lift(c, rng.uniform(-3, 3)))
+    b9_save(img, "pastries")
+
+    plate = M.brushed_metal(6325, base=(60, 56, 52), grain=3, streak=6, sheen=6)
+    M.grime(plate, 0.2, 6326, color=(30, 24, 18), cells=(8, 4), cover=0.5)
+    b9_save(plate, "griddleplate")
+    b9_save(M.noise_hv((46, 44, 42), 4, 6327, mottle=3), "burnergrate")
+    b9_save(M.noise_hv((30, 30, 32), 2, 6328, mottle=2), "stoveknob")
+    img = M.noise_hv((22, 24, 28), 1, 6329, mottle=2)
+    ImageDraw.Draw(img).line([4, 14, 12, 4], fill=(70, 74, 80, 255))
+    b9_save(img, "ovenwindow")
+
+    img = M.noise_hv((188, 146, 64), 3, 6330, mottle=6, cells=(8, 4), hue=2.0)
+    rng = random.Random(6331)
+    for _ in range(14):  # bubbles and glints on the oil
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, 0.22, 0.05)
+        M.touch(img, x, y + 1, -0.08)
+    b9_save(img, "fryeroil")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))  # wire mesh, a 2 px pitch, cut out between the wires
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            if x % 2 == 0 or y % 2 == 0:
+                p[x, y] = M.rgba(M.lift((150, 152, 154), 10 if y % 2 == 0 and x % 2 else -6 if x % 2 == 0 and y % 2 else 0))
+    b9_save(img, "fryerbasket")
+
+    b9_save(M.painted_metal(6332, base=(200, 200, 196), grain=2, mottle=3, panel=False, chips=0), "shelfmetal")
+    img = M.painted_metal(6333, base=(184, 180, 170), grain=2, mottle=3, panel=False, chips=0)
+    for y in range(1, S, 4):
+        for x in range(1, S, 4):
+            img.load()[x, y] = M.rgba((70, 68, 64))
+            M.touch(img, x, y + 1, 0.06)
+    b9_save(img, "shelfpegboard")
+    img = M.noise_hv((232, 232, 226), 1, 6334, mottle=2)
+    p = img.load()
+    for x in range(S):
+        p[x, 0] = M.rgba((250, 250, 246))
+        p[x, 3] = M.rgba((176, 176, 170))
+    for k, x in enumerate(range(1, S, 8)):
+        for yy in (1, 2):
+            for xx in range(x, x + 6):
+                p[xx, yy] = M.rgba((240, 226, 140) if k % 2 else (250, 250, 246))
+        for xx in (x + 1, x + 2, x + 4):
+            p[xx, 2] = M.rgba((120, 118, 112))
+    b9_save(img, "pricestrip")
+    # (round 2) three arrangements of the packs, given to the shelf as texture alternates, so the shelves of a store
+    # do not repeat one sequence block after block
+    for v, order in enumerate(((0, 1, 2, 3, 4, 5, 6, 7), (2, 3, 0, 1, 6, 7, 4, 5), (1, 0, 3, 2, 5, 4, 7, 6))):
+        b9_save(snack_packs(order), "snackpacks" + ("" if v == 0 else f"-{v + 1}"))
+
+
+PACKS = (((210, 40, 36), (240, 196, 40)), ((40, 90, 200), (236, 236, 228)), ((236, 176, 40), (210, 60, 30)),
+         ((48, 150, 66), (240, 236, 210)), ((226, 110, 32), (250, 246, 236)), ((36, 52, 110), (170, 116, 66)),
+         ((150, 60, 176), (246, 210, 70)), ((232, 228, 214), (200, 40, 40)))
+
+
+def snack_packs(order=tuple(range(8))):
+    """The goods on the shelves, eight packs to an atlas, each a 4 x 8 unit (8 x 16 px) cell: four bags of chips with
+    crimped ends and an oval logo, a box of crackers, a box of cookies, a box of candy and a box of rice cakes. The
+    shelf's products are boxes whose faces take a cell (gen_deep.snack_shelf), so the packs stand as geometry."""
+    img = Image.new("RGBA", (S, S))
+    p = img.load()
+    rng = random.Random(6340)
+    for cell, i in enumerate(order):
+        body, logo = PACKS[i]
+        x0, y0 = (cell % 4) * 8, (cell // 4) * 16
+        bag = i < 4
+        for y in range(16):
+            for x in range(8):
+                c = body
+                if bag and (y in (0, 15) or y in (1, 14) and x % 2 == 0):
+                    c = M.lift(body, 26)  # the crimped seal
+                elif bag:
+                    c = M.lift(body, 10 if x in (1, 2) else -10 if x == 7 else 0)  # the crinkle catching the light
+                else:
+                    c = M.lift(body, 8 if y == 0 else -10 if x == 7 else 0)
+                p[x0 + x, y0 + y] = M.rgba(M.lift(c, rng.uniform(-2, 2)))
+        if bag:
+            for y in range(5, 10):
+                for x in range(1, 7):
+                    if ((x - 3.5) / 3.0) ** 2 + ((y - 7) / 2.4) ** 2 <= 1:
+                        p[x0 + x, y0 + y] = M.rgba(logo)
+            for x in (2, 3, 4, 5):
+                p[x0 + x, y0 + 7] = M.rgba(M.lift(body, -30))  # the brand name
+        elif i == 5:
+            for (cx, cy) in ((2, 9), (5, 11), (3, 13)):
+                for (dx, dy) in ((0, 0), (1, 0), (0, 1), (1, 1)):
+                    p[x0 + cx + dx, y0 + cy + dy] = M.rgba(logo)
+            for x in range(1, 7):
+                p[x0 + x, y0 + 3] = M.rgba((236, 232, 220))
+        else:
+            for y in range(4, 8):
+                for x in range(1, 7):
+                    p[x0 + x, y0 + y] = M.rgba(logo)
+            for x in (2, 3, 4, 5):
+                p[x0 + x, y0 + 6] = M.rgba(M.lift(body, -20))
+            for y in range(10, 14):
+                p[x0 + 2, y0 + y] = M.rgba(M.lift(logo, -20))
+    for y in range(S):  # (round 2) each pack lit from above: lighter at its top, darker at its foot
+        for x in range(S):
+            k = (y % 16) / 15.0
+            M.touch(img, x, y, 0.06 * (1 - k) - 0.08 * k, 0.1)
+    return img
+
+
+HEAD_FONT = {"S": ("1111", "1000", "1111", "0001", "1111"), "N": ("1001", "1101", "1011", "1001", "1001"),
+             "A": ("0110", "1001", "1111", "1001", "1001"), "C": ("0111", "1000", "1000", "1000", "0111"),
+             "K": ("1001", "1010", "1100", "1010", "1001"), "D": ("1110", "1001", "1001", "1001", "1110"),
+             "R": ("1110", "1001", "1110", "1010", "1001"), "I": ("111", "010", "010", "010", "111"),
+             "O": ("0110", "1001", "1001", "1001", "0110"), "L": ("1000", "1000", "1000", "1000", "1111")}
+
+
+def machine_header(seed, body, panel, ink, word, faded=False):
+    """(round 2) A machine's lit sign, in the 9 px band its header face shows (uv 16 x 4.5): the cabinet colour round a
+    pale panel and the word in crisp 4 x 5 capitals, centred (the old ones were text scaled down, which smeared)."""
+    img = M.noise_hv(body, 2, seed, mottle=3)
+    p = img.load()
+    rng = random.Random(seed)
+    for y in range(1, 8):
+        for x in range(1, S - 1):
+            p[x, y] = M.rgba(M.lift(panel, rng.uniform(-2, 2) - (8 * rng.random() if faded else 0)))
+    widths = [len(HEAD_FONT[ch][0]) for ch in word]
+    x = (S - (sum(widths) + len(word) - 1)) // 2
+    for ch, wd in zip(word, widths):
+        for r, row in enumerate(HEAD_FONT[ch]):
+            for c, bit in enumerate(row):
+                if bit == "1" and not (faded and rng.random() < 0.15):
+                    p[x + c, 2 + r] = M.rgba(ink)
+        x += wd + 1
+    return img
+
+
+def glints(spots, frost_top=False):
+    """(round 2) Clear glass: see-through (the opaque pass cuts it out) but for a few short glints, so the glass reads
+    without long streaks that look like rods in front of what is behind it."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for (x0, y0, x1, y1) in spots:
+        d.line([x0, y0, x1, y1], fill=(226, 236, 242, 255))
+    if frost_top:
+        d.line([0, 0, S - 1, 0], fill=(214, 226, 232, 255))
+    return img
+
+
+def machine_textures():
+    """The snack machine, the drinks fridge and the dead machines of the vending rooms. The paint is matlib's painted
+    metal with a fine grain (the old fills were flat noise); the keypads, coin plates and kick grilles are geometry
+    now, so the panels are plain plates; the packets behind the glass hang on modelled spirals (`vendspiral`, a cut-out
+    coil), so the packets no longer paint their spiral."""
+    img = M.painted_metal(6350, base=(42, 106, 176), grain=2, mottle=4, panel=False, chips=0)
+    b9_save(b9_match(img, "vending"), "snackvending")
+    b9_save(M.noise_hv((58, 62, 68), 2, 6351, mottle=2), "snackvendpanel")
+    b9_save(machine_header(6354, (42, 106, 176), (244, 240, 228), (204, 34, 30), "SNACKS"), "snackvendhead")
+    b9_save(machine_header(6355, (30, 74, 138), (244, 248, 252), (30, 74, 154), "DRINKS"), "drinkhead")
+    b9_save(machine_header(6356, (106, 36, 32), (184, 176, 160), (122, 26, 20), "COLA", faded=True), "vendpilehead")
+    b9_save(glints(((5, 12, 9, 6), (6, 15, 8, 12), (24, 28, 27, 23))), "snackvendglass")
+    b9_save(glints(((4, 10, 9, 4), (5, 13, 7, 10), (24, 29, 28, 24))), "fridgeglass")
+    img = M.noise_hv((12, 30, 16), 1, 6352, mottle=2)
+    b9_font(img, "1.25", 1, 1, (110, 244, 130))
+    b9_save(img, "vendlcd")
+    img = M.brushed_metal(6353, base=(196, 200, 206), grain=2, streak=4, sheen=10)
+    d = ImageDraw.Draw(img)
+    d.rectangle([14, 6, 17, 25], fill=(20, 20, 22, 255))
+    d.line([18, 6, 18, 25], fill=(232, 236, 240, 255))
+    M.bevel(img, (0, 0, S, S), 2, 0.18)
+    b9_save(img, "coinplate")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))  # a coil seen from the front: slanted turns of bright wire
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            t = (x + y // 2) % 8
+            if t == 0:
+                p[x, y] = M.rgba((214, 218, 222))
+            elif t == 1:
+                p[x, y] = M.rgba((140, 144, 148))
+    b9_save(img, "vendspiral")
+    # The packets behind the glass: four 4-unit bands (packets 6 px wide), each one packet's face from the top
+    img = Image.new("RGBA", (S, S), M.rgba((26, 30, 36)))
+    p = img.load()
+    for band, (c, logo) in enumerate(((0xE82020, 0xF0C020), (0xF0C020, 0xC02020), (0x30A040, 0xF4F4F0), (0xE87020, 0x6A2A10))):
+        body, lg = T.hexrgb(c), T.hexrgb(logo)
+        for y in range(S):
+            for x in range(6):
+                k = y % 6
+                col = M.lift(body, 24) if k == 0 else M.lift(body, -14) if k == 5 else M.lift(body, 8 if x < 2 else -6 if x == 5 else 0)
+                if k in (2, 3) and 1 <= x <= 4:
+                    col = lg
+                p[band * 8 + x, y] = M.rgba(col)
+    b9_save(img, "snackvendrows")
+
+    img = M.painted_metal(6360, base=(230, 232, 234), grain=2, mottle=3, panel=False, chips=0)
+    M.grime(img, 0.06, 6361, color=(150, 146, 136), cells=(8, 4), cover=0.4)
+    b9_save(b9_match(img, "fridge"), "fridgebody")
+    b9_save(M.noise_hv((22, 24, 26), 2, 6362, mottle=2), "fridgegrille")
+
+    img = M.painted_metal(6370, base=(150, 50, 42), grain=3, mottle=6, panel=False, chips=0)
+    M.rust(img, 0.22, 6371, pits=True)
+    M.grime(img, 0.3, 6372, color=(60, 42, 30), cells=(8, 4, 2), cover=0.5)
+    M.scratches(img, 6, 6373, length=(2, 6), light=0.3)
+    b9_save(b9_match(img, "vendpile"), "vendpilebody")
+    img = M.noise_hv((58, 60, 64), 2, 6374, mottle=3)
+    M.grime(img, 0.25, 6375, color=(50, 40, 32), cells=(4, 2), cover=0.5)
+    b9_save(img, "vendpilepanel")
+    b9_save(M.noise_hv((14, 16, 16), 1, 6376, mottle=2), "vendpilelcd")
+
+
+def level61_b9():
+    """B9's Level 6.1 textures (see the section's header)."""
+    for v in (1, 2, 3):
+        sfx = "" if v == 1 else f"-{v}"
+        b9_save(terrazzo(v), "snackfloor-terrazzo" + sfx)
+        b9_save(checker(v), "snackfloor-checker" + sfx)
+        b9_save(quarry(v), "snackfloor-quarry" + sfx)
+        b9_save(snack_ceiling(v), "snackceiling-grid" + sfx)
+    b9_save(mall_wall(), "snackwall-mall")
+    b9_save(wood_panel(), "snackwall-panel")
+    b9_save(tiled_wall(), "snackwall-tile")
+    b9_save(shop_window(), "snackwall-window")
+    b9_save(skylight(), "snackceiling-skylight")
+    snack_materials()
+    fixture_textures()
+    machine_textures()
+
+
+def level6_b9():
+    """B9's Level 6 textures (see the section's header)."""
+    for v in (1, 2, 3):
+        sfx = "" if v == 1 else f"-{v}"
+        b9_save(l6_wall(v), "l6wall" + sfx)
+        b9_save(l6_floor(v), "l6floor" + sfx)
+    for v in (1, 2):
+        b9_save(l6_ceiling(v), "l6ceiling" + ("" if v == 1 else "-2"))
+    for v in (1, 2, 3):
+        b9_save(l6_wet(v), "l6floor-wet" + ("" if v == 1 else f"-{v}"))
+    l6_switch()
 
 
 # ---------------- Level 7 ----------------
@@ -860,12 +1444,7 @@ def level10():
 # ---------------- Refinements: Levels 5 to 10 in more detail ----------------
 
 def refinements():
-    # Level 6: standing water on the cold floor
-    img = noise(0x1E2024, 2, "l6wet")
-    d = ImageDraw.Draw(img)
-    for x, y, w in ((3, 6, 9), (16, 19, 12), (8, 27, 6)):
-        d.line([x, y, x + w, y], fill=rgb(0x3A4048))
-    save(img, "l6floor-wet")
+    # (Level 6's standing water on the cold floor is B9's l6_wet, written by level6)
 
     # Level 7: a weathered jetty
     img = noise(0x6A5A44, 5, "jetty")

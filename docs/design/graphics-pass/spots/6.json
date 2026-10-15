@@ -35,6 +35,10 @@
     {"name": "gate-close-inspection", "tp": [512505.5, 217.05, 507422.77], "look": [150, -3], "fov": 40, "target": "gate", "distance": 2.0, "inspection": true},
     {"name": "threshold-close-inspection", "tp": [512203.09, 217.05, 507014.09], "look": [135, -17], "target": "threshold", "distance": 2.0, "inspection": true},
     {"name": "refuge-close-inspection", "tp": [512304.5, 217.05, 507086.5], "look": [180, -17], "target": "refuge", "distance": 2.0, "inspection": true},
-    {"name": "sleepingbag-close-inspection", "tp": [512451.5, 217.05, 507045.5], "look": [90, -35], "target": "sleepingbag", "distance": 2.0, "inspection": true}
+    {"name": "sleepingbag-close-inspection", "tp": [512451.5, 217.05, 507045.5], "look": [90, -35], "target": "sleepingbag", "distance": 2.0, "inspection": true},
+    {"name": "switch-inspection", "tp": [512251.5, 217.05, 506991.5], "look": [90, -3], "target": "the dead light switch (B9)", "distance": 2, "inspection": true},
+    {"name": "chalk-inspection", "tp": [512251.5, 217.05, 507044.5], "look": [90, 0], "target": "a chalked EXIT arrow (B9)", "distance": 2, "inspection": true},
+    {"name": "tripwire-inspection", "tp": [512255.5, 217.05, 507030.5], "look": [270, -35], "target": "a tripwire (B9)", "inspection": true},
+    {"name": "wet-inspection", "tp": [512260.5, 217.05, 506982.5], "look": [90, -40], "target": "standing water (B9)", "inspection": true}
   ]
 }

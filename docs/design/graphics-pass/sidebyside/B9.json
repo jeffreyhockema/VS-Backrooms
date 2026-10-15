@@ -1,0 +1,22 @@
+{
+ "batch": "B9",
+ "title": "Levels 6 (Lights Out) and 6.1 (the Snackrooms)",
+ "before": "review/b9/sbs/before",
+ "after": "review/b9/sbs/after",
+ "out": "review/b9/sidebyside",
+ "note": "Both levels in one map: Level 6's shots carry a '6-' prefix (all are inspection shots, daylight and a lantern; Level 6 is black by design). review/baseline/6 and /6.1 were reshot in B9 on a build of unchanged main (the B0 sets are kept as 6-b0 and 6.1-b0). B9 replaced 6.1's black gate, threshold and sleepingbag spots (targets in dark Level 6) with close spots for a shelf, a checkout, a snack-bar counter, a table, the snack machine, a fridge and a kitchen, and added Level 6 inspection spots for the dead switch, chalk, a tripwire and standing water.",
+ "families": [
+  {"id": "seating", "name": "Food-court chairs and tables (also Level 11's diner)", "spots": ["booth-close", "prop-1", "wide-01"]},
+  {"id": "counters", "name": "Snack-bar counters, cash registers and the pastry case; a store's checkout", "spots": ["counter-close", "checkout-close", "prop-2"]},
+  {"id": "kitchen", "name": "Griddle and deep fryer", "spots": ["kitchen-close"]},
+  {"id": "shelf", "name": "Store shelves and the packs on them", "spots": ["shelf-close"]},
+  {"id": "machines", "name": "Snack machine, drinks fridge, the vending rooms' dead machines", "spots": ["vending-close", "fridge-close", "vendingroom-close", "vendingroom-wide"]},
+  {"id": "floors", "name": "Terrazzo, chequered and quarry-tile floors", "spots": ["close-floor", "wide-03", "wide-07"]},
+  {"id": "walls", "name": "Mall wall, wood panelling, shop windows", "spots": ["close-wall", "wide-05", "wide-06"]},
+  {"id": "ceiling", "name": "Drop ceiling and skylights", "spots": ["close-ceiling", "close-light", "wide-02"]},
+  {"id": "l6-surfaces", "name": "Level 6's cold walls, floor and ceiling (inspection)", "spots": ["6-close-wall-inspection", "6-close-floor-inspection", "6-wide-01-inspection", "6-close-ceiling-inspection"]},
+  {"id": "l6-switch", "name": "The dead light switch (inspection)", "spots": ["6-switch-inspection"]},
+  {"id": "l6-chalk", "name": "Chalk marks (inspection)", "spots": ["6-chalk-inspection", "6-sleepingbag-close-inspection"]},
+  {"id": "l6-wire-water", "name": "Tripwire and standing water (inspection)", "spots": ["6-tripwire-inspection", "6-wet-inspection"]}
+ ]
+}

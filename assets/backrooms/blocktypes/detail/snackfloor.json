@@ -36,18 +36,79 @@
 					{
 						"base": "block/detail/snackfloor-terrazzo",
 						"rotation": 270
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-2"
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-3"
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/snackfloor-terrazzo-3",
+						"rotation": 270
 					}
 				]
 			}
 		},
 		"*-checker": {
 			"all": {
-				"base": "block/detail/snackfloor-checker"
+				"base": "block/detail/snackfloor-checker",
+				"alternates": [
+					{
+						"base": "block/detail/snackfloor-checker"
+					},
+					{
+						"base": "block/detail/snackfloor-checker"
+					},
+					{
+						"base": "block/detail/snackfloor-checker"
+					},
+					{
+						"base": "block/detail/snackfloor-checker"
+					},
+					{
+						"base": "block/detail/snackfloor-checker"
+					},
+					{
+						"base": "block/detail/snackfloor-checker-2"
+					},
+					{
+						"base": "block/detail/snackfloor-checker-3"
+					}
+				]
 			}
 		},
 		"*-quarry": {
 			"all": {
-				"base": "block/detail/snackfloor-quarry"
+				"base": "block/detail/snackfloor-quarry",
+				"alternates": [
+					{
+						"base": "block/detail/snackfloor-quarry-2"
+					},
+					{
+						"base": "block/detail/snackfloor-quarry-3"
+					}
+				]
 			}
 		}
 	},

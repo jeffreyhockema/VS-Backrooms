@@ -161,5 +161,18 @@
 				"var": 0.4
 			}
 		}
-	]
+	],
+	"textures": {
+		"snackpacks": {
+			"base": "block/detail/snackpacks",
+			"alternates": [
+				{
+					"base": "block/detail/snackpacks-2"
+				},
+				{
+					"base": "block/detail/snackpacks-3"
+				}
+			]
+		}
+	}
 }

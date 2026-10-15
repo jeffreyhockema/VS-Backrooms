@@ -140,7 +140,16 @@ ALTS = {"l1hallfloor": ["l1hallfloor-2", "l1hallfloor-3"],
         "sanctumwall": ["sanctumwall-2", "sanctumwall-3"],
         # (B7) Level 4's carpet with papers on it (three arrangements) and with a spill (two places)
         "officecarpet-papers": ["officecarpet-papers-2", "officecarpet-papers-3"],
-        "officecarpet-stain": ["officecarpet-stain-2"]}
+        "officecarpet-stain": ["officecarpet-stain-2"],
+        # (B9) Level 6's cold walls, floor and ceiling (a damp run, a crack and a damp mark one block in eight or six);
+        # the Snackrooms' terrazzo, chequered and quarry floors and their ceiling (a heel mark and a chip one in eight)
+        "l6wall": ["l6wall"] * 5 + ["l6wall-2", "l6wall-3"], "l6floor": ["l6floor-2", "l6floor-3"],
+        "l6ceiling": ["l6ceiling"] * 4 + ["l6ceiling-2"],
+        "l6floor-wet": ["l6floor-wet-2", "l6floor-wet-3"],
+        "snackfloor-terrazzo": ["snackfloor-terrazzo-2", "snackfloor-terrazzo-3"],
+        "snackfloor-checker": ["snackfloor-checker"] * 5 + ["snackfloor-checker-2", "snackfloor-checker-3"],
+        "snackfloor-quarry": ["snackfloor-quarry-2", "snackfloor-quarry-3"],
+        "snackceiling-grid": ["snackceiling-grid-2", "snackceiling-grid-3"]}
 
 
 def cube_block(code, english, kinds, textures, material="Stone", sounds=STONE, comment=None, **extra):
