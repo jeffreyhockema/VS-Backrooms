@@ -14,6 +14,55 @@
 	"shape": {
 		"base": "block/fun/fun-confetti"
 	},
+	"textures": {
+		"confetti": {
+			"base": "block/fun/confetti",
+			"alternates": [
+				{
+					"base": "block/fun/confetti",
+					"rotation": 90
+				},
+				{
+					"base": "block/fun/confetti",
+					"rotation": 180
+				},
+				{
+					"base": "block/fun/confetti",
+					"rotation": 270
+				},
+				{
+					"base": "block/fun/confetti-2"
+				},
+				{
+					"base": "block/fun/confetti-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/fun/confetti-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/fun/confetti-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/fun/confetti-3"
+				},
+				{
+					"base": "block/fun/confetti-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/fun/confetti-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/fun/confetti-3",
+					"rotation": 270
+				}
+			]
+		}
+	},
 	"sidesolid": {
 		"all": false
 	},

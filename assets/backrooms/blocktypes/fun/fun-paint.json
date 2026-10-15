@@ -35,33 +35,82 @@
 	"texturesByType": {
 		"*-orange": {
 			"all": {
-				"base": "block/fun/paint-orange"
+				"base": "block/fun/paint-orange",
+				"alternates": [
+					{
+						"base": "block/fun/paint-orange-2"
+					},
+					{
+						"base": "block/fun/paint-orange-3"
+					}
+				]
 			}
 		},
 		"*-sky": {
 			"all": {
-				"base": "block/fun/paint-sky"
+				"base": "block/fun/paint-sky",
+				"alternates": [
+					{
+						"base": "block/fun/paint-sky-2"
+					},
+					{
+						"base": "block/fun/paint-sky-3"
+					}
+				]
 			}
 		},
 		"*-lime": {
 			"all": {
-				"base": "block/fun/paint-lime"
+				"base": "block/fun/paint-lime",
+				"alternates": [
+					{
+						"base": "block/fun/paint-lime-2"
+					},
+					{
+						"base": "block/fun/paint-lime-3"
+					}
+				]
 			}
 		},
 		"*-pink": {
 			"all": {
-				"base": "block/fun/paint-pink"
+				"base": "block/fun/paint-pink",
+				"alternates": [
+					{
+						"base": "block/fun/paint-pink-2"
+					},
+					{
+						"base": "block/fun/paint-pink-3"
+					}
+				]
 			}
 		},
 		"*-yellow": {
 			"all": {
-				"base": "block/fun/paint-yellow"
+				"base": "block/fun/paint-yellow",
+				"alternates": [
+					{
+						"base": "block/fun/paint-yellow-2"
+					},
+					{
+						"base": "block/fun/paint-yellow-3"
+					}
+				]
 			}
 		},
 		"*-lilac": {
 			"all": {
-				"base": "block/fun/paint-lilac"
+				"base": "block/fun/paint-lilac",
+				"alternates": [
+					{
+						"base": "block/fun/paint-lilac-2"
+					},
+					{
+						"base": "block/fun/paint-lilac-3"
+					}
+				]
 			}
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

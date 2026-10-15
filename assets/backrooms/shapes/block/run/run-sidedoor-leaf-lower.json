@@ -3,6 +3,7 @@
 	"textureHeight": 16,
 	"textures": {
 		"chrome": "backrooms:block/run/chrome",
+		"pushplate": "backrooms:block/run/pushplate",
 		"sidedoor-back": "backrooms:block/run/sidedoor-back",
 		"sidedoor-lower": "backrooms:block/run/sidedoor-lower"
 	},
@@ -10,12 +11,12 @@
 		{
 			"name": "Leaf",
 			"from": [
-				0.2,
+				0.1999999999999993,
 				0,
 				0
 			],
 			"to": [
-				2.2,
+				2.1999999999999993,
 				16,
 				16
 			],
@@ -34,16 +35,25 @@
 		{
 			"name": "LeafBack",
 			"from": [
-				0.2,
+				0.1999999999999993,
 				0,
 				0
 			],
 			"to": [
-				2.2,
+				2.1999999999999993,
 				16,
 				16
 			],
 			"faces": {
+				"south": {
+					"texture": "#sidedoor-back",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
 				"west": {
 					"texture": "#sidedoor-back",
 					"uv": [
@@ -58,16 +68,7 @@
 					"uv": [
 						0,
 						0,
-						2.0,
-						16
-					]
-				},
-				"south": {
-					"texture": "#sidedoor-back",
-					"uv": [
-						0,
-						0,
-						2.0,
+						2,
 						16
 					]
 				},
@@ -76,8 +77,8 @@
 					"uv": [
 						0,
 						0,
-						2.0,
-						16
+						16,
+						2
 					]
 				},
 				"down": {
@@ -85,8 +86,59 @@
 					"uv": [
 						0,
 						0,
-						2.0,
-						16
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				2.1999999999999993,
+				0.5,
+				1
+			],
+			"to": [
+				2.599999999999998,
+				4,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						14,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#pushplate",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
 					]
 				}
 			}

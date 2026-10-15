@@ -114,5 +114,18 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"textures": {
+		"promwall": {
+			"base": "block/fun/promwall",
+			"alternates": [
+				{
+					"base": "block/fun/promwall-2"
+				},
+				{
+					"base": "block/fun/promwall-3"
+				}
+			]
+		}
 	}
 }

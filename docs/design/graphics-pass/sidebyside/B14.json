@@ -1,0 +1,28 @@
+{
+ "batch": "B14",
+ "title": "Level ! (Run For Your Life) and Level Fun",
+ "before": "review/b14/sbs/before",
+ "after": "review/b14/sbs/after",
+ "out": "review/b14/sidebyside",
+ "note": "Shots carry a run- or fun- prefix: review/b14/sbs holds copies of review/baseline/run and /fun (reshot in B14 on a build of unchanged main; the B0 sets are kept as run-b0 and fun-b0) and of the final after shots. B14 re-spotted Level !'s black wide-07, prop-1 and prop-2 under EXIT signs and added close spots for the bed, the start room's door wall, a notice, the dispenser, the crash rail, an EXIT sign, a wheelchair, an IV stand and a gurney; on Level Fun for the elevator doors, the lobby's party dressing and floor, the ceiling balloons, the poster, the directory, the palm and a speaker. Level ! is lit red by design.",
+ "families": [
+  {"id": "run-walls", "name": "Level ! hospital walls and cove base (versions, no repeated scuff dashes)", "spots": ["run-notice-close", "run-close-wall", "run-startdoor-wide", "run-wide-01"]},
+  {"id": "run-floor", "name": "Level ! speckled vinyl and its dark border (no per-block seam)", "spots": ["run-close-floor", "run-bed-close", "run-wide-04"]},
+  {"id": "run-ceiling", "name": "Level ! ceiling tiles and T-bar", "spots": ["run-close-light", "run-exit-close"]},
+  {"id": "run-rail", "name": "Level ! crash rail (oak, wall plates)", "spots": ["run-rail-close", "run-close-wall", "run-wide-02"]},
+  {"id": "run-doors", "name": "Level ! steel side doors (window an opening, kick plate), hall door, fire doors", "spots": ["run-rail-close", "run-startdoor-wide", "run-wide-05", "run-gurney-close"]},
+  {"id": "run-exit", "name": "Level ! EXIT signs (lip round the face; lights unchanged)", "spots": ["run-exit-close", "run-startdoor-wide", "run-wide-08"]},
+  {"id": "run-bed", "name": "Hospital bed (Level ! start room; also Level 1's first-aid rooms)", "spots": ["run-bed-close", "run-close-floor"]},
+  {"id": "run-notices", "name": "Level ! notices (pixel lettering, pins) and sanitiser dispenser", "spots": ["run-notice-close", "run-close-wall", "run-sanitiser-close"]},
+  {"id": "run-setpieces", "name": "Level ! set pieces: gurney, wheelchair, IV stand, barricades, collapse, crash cart", "spots": ["run-gurney-close", "run-wheelchair-close", "run-ivstand-close", "run-prop-1", "run-prop-2"]},
+  {"id": "fun-lobbywalls", "name": "Level Fun lobby walls: cream paint, glazed checked band, white tile skirting", "spots": ["fun-close-wall", "fun-elevator-wide", "fun-palm-close"]},
+  {"id": "fun-paint", "name": "Level Fun painted party-room walls (no repeated scuff dashes)", "spots": ["fun-close-wall2", "fun-prop-1", "fun-speaker-close"]},
+  {"id": "fun-floors", "name": "Level Fun floors: lobby carpet, race carpet, retro carpet, vinyl tiles", "spots": ["fun-lobbyfloor-close", "fun-close-floor", "fun-wide-05", "fun-wide-01"]},
+  {"id": "fun-elevator", "name": "Level Fun brass elevator doors: frame, modelled dial, call buttons, OUT OF ORDER", "spots": ["fun-elevator-close", "fun-elevator-wide"]},
+  {"id": "fun-party", "name": "Level Fun party dressing: confetti, balloons, streamers, string lights", "spots": ["fun-elevator-wide", "fun-party-ceiling", "fun-funparty-wide"]},
+  {"id": "fun-signs", "name": "Level Fun TIME 4 FUN poster, directory board, deck sign (pixel lettering)", "spots": ["fun-poster-close", "fun-directory-close", "fun-close-wall"]},
+  {"id": "fun-palm", "name": "Potted palm (Level Fun lobbies; also Level 5)", "spots": ["fun-palm-close"]},
+  {"id": "fun-speaker", "name": "Level Fun wall speaker", "spots": ["fun-speaker-close"]},
+  {"id": "fun-chairs", "name": "Level Fun plastic chairs and party tables", "spots": ["fun-prop-2", "fun-prop-1", "fun-funparty-close"]}
+ ]
+}

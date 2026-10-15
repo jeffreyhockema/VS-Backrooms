@@ -20,6 +20,14 @@
     {"name": "prop-2", "tp": [625239.5, 217.05, 396457.5], "look": [270, -32], "surface": "floor prop variant 320"},
     {"name": "close-light", "tp": [625250.5, 217.05, 396447.5], "look": [0, 52], "surface": "ceiling light kind 1"},
     {"name": "funparty-wide", "tp": [625232.5, 217.0, 396455.5], "look": [135, -8], "target": "funparty"},
-    {"name": "funparty-close", "tp": [625232.5, 217.0, 396455.5], "look": [135, -8], "fov": 35, "target": "funparty"}
+    {"name": "funparty-close", "tp": [625232.5, 217.0, 396455.5], "look": [135, -8], "fov": 35, "target": "funparty"},
+    {"name": "elevator-close", "tp": [625246.0, 217.05, 396446.4], "look": [0, 6], "target": "brass elevator doors at 625245-246, 396443 (dial, string lights)"},
+    {"name": "elevator-wide", "tp": [625247.5, 217.05, 396449.6], "look": [342, -4], "target": "the lobby's party dressing: string lights over the doors, confetti, floor balloons, streamers"},
+    {"name": "lobbyfloor-close", "tp": [625249.5, 217.05, 396448.5], "look": [90, -60], "target": "lobby carpet (126) round the crossing"},
+    {"name": "party-ceiling", "tp": [625248.5, 217.05, 396451.2], "look": [0, 38], "target": "balloon cluster at the crossing 625248,396448 and the streamers"},
+    {"name": "poster-close", "tp": [625252.5, 217.05, 396445.4], "look": [0, -2], "target": "TIME 4 FUN =) poster at 625252,396443 (north wall, facing south)"},
+    {"name": "directory-close", "tp": [625246.4, 217.05, 396450.5], "look": [270, 6], "fov": 45, "target": "ship's directory at 625244,396450 on the west wall (x 625243)"},
+    {"name": "palm-close", "tp": [625246.6, 217.05, 396450.2], "look": [222, -14], "fov": 45, "target": "potted palm at 625244,396452"},
+    {"name": "speaker-close", "tp": [625239.5, 217.05, 396458.5], "look": [90, 30], "fov": 40, "target": "wall speaker (on) over the party room's door at 625242,396458"}
   ]
 }

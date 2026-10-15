@@ -4,6 +4,7 @@
 	"textures": {
 		"cabdoor": "backrooms:block/run/cabdoor",
 		"cabin": "backrooms:block/run/cabin",
+		"cablabel": "backrooms:block/run/cablabel",
 		"cabsteel": "backrooms:block/run/cabsteel",
 		"chrome": "backrooms:block/run/chrome",
 		"ivbag": "backrooms:block/run/ivbag",
@@ -459,6 +460,66 @@
 						0,
 						0.5999999999999996,
 						0.6000000000000005
+					]
+				}
+			}
+		},
+		{
+			"name": "LabelL",
+			"from": [
+				3.4,
+				8.600000000000001,
+				7.15
+			],
+			"to": [
+				6.6,
+				10.399999999999999,
+				7.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						3.1999999999999997,
+						1.7999999999999972
+					]
+				},
+				"east": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.7999999999999972
+					]
+				},
+				"west": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.7999999999999972
+					]
+				},
+				"up": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						3.1999999999999997,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cablabel",
+					"uv": [
+						0,
+						0,
+						3.1999999999999997,
+						0.5
 					]
 				}
 			}

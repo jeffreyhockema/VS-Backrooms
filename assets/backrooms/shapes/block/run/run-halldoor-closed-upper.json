@@ -216,9 +216,93 @@
 			}
 		},
 		{
-			"name": "Leaf",
+			"name": "LeafL",
 			"from": [
 				0,
+				0,
+				1
+			],
+			"to": [
+				10,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#halldoor-upper",
+					"uv": [
+						6,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackL",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				10,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#halldoor-back",
+					"uv": [
+						13,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#halldoor-back",
+					"uv": [
+						1,
+						0,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						1,
+						10,
+						3
+					]
+				},
+				"down": {
+					"texture": "#halldoor-back",
+					"uv": [
+						0,
+						13,
+						10,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafR",
+			"from": [
+				12.75,
 				0,
 				1
 			],
@@ -233,16 +317,16 @@
 					"uv": [
 						0,
 						0,
-						16,
+						3.25,
 						16
 					]
 				}
 			}
 		},
 		{
-			"name": "LeafBack",
+			"name": "LeafBackR",
 			"from": [
-				0,
+				12.75,
 				0,
 				1
 			],
@@ -255,7 +339,7 @@
 				"south": {
 					"texture": "#halldoor-back",
 					"uv": [
-						0,
+						12.75,
 						0,
 						16,
 						16
@@ -264,37 +348,205 @@
 				"east": {
 					"texture": "#halldoor-back",
 					"uv": [
+						13,
 						0,
-						0,
-						2,
+						15,
 						16
 					]
 				},
 				"west": {
 					"texture": "#halldoor-back",
 					"uv": [
+						1,
 						0,
-						0,
-						2,
+						3,
 						16
 					]
 				},
 				"up": {
 					"texture": "#halldoor-back",
 					"uv": [
-						0,
-						0,
+						12.75,
+						1,
 						16,
-						2
+						3
 					]
 				},
 				"down": {
 					"texture": "#halldoor-back",
 					"uv": [
-						0,
-						0,
+						12.75,
+						13,
 						16,
-						2
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafB",
+			"from": [
+				10,
+				0,
+				1
+			],
+			"to": [
+				12.75,
+				3,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#halldoor-upper",
+					"uv": [
+						3.25,
+						13,
+						6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackB",
+			"from": [
+				10,
+				0,
+				1
+			],
+			"to": [
+				12.75,
+				3,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						13,
+						12.75,
+						16
+					]
+				},
+				"east": {
+					"texture": "#halldoor-back",
+					"uv": [
+						13,
+						13,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#halldoor-back",
+					"uv": [
+						1,
+						13,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						1,
+						12.75,
+						3
+					]
+				},
+				"down": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						13,
+						12.75,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafT",
+			"from": [
+				10,
+				14.5,
+				1
+			],
+			"to": [
+				12.75,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#halldoor-upper",
+					"uv": [
+						3.25,
+						0,
+						6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafBackT",
+			"from": [
+				10,
+				14.5,
+				1
+			],
+			"to": [
+				12.75,
+				16,
+				3
+			],
+			"faces": {
+				"south": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						0,
+						12.75,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#halldoor-back",
+					"uv": [
+						13,
+						0,
+						15,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#halldoor-back",
+					"uv": [
+						1,
+						0,
+						3,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						1,
+						12.75,
+						3
+					]
+				},
+				"down": {
+					"texture": "#halldoor-back",
+					"uv": [
+						10,
+						13,
+						12.75,
+						15
 					]
 				}
 			}
@@ -304,15 +556,24 @@
 			"from": [
 				10,
 				3,
-				0.5
+				1.9
 			],
 			"to": [
 				12.75,
 				14.5,
-				1
+				2.1
 			],
 			"faces": {
 				"north": {
+					"texture": "#wiredglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
 					"texture": "#wiredglass",
 					"uv": [
 						0,
@@ -324,18 +585,147 @@
 			}
 		},
 		{
-			"name": "Bead",
+			"name": "BeadT",
 			"from": [
-				10,
-				3,
-				0.5
+				9.5,
+				14.5,
+				0.6
 			],
 			"to": [
-				12.75,
+				13.25,
+				15.0,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadB",
+			"from": [
+				9.5,
+				2.5,
+				0.6
+			],
+			"to": [
+				13.25,
+				3,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						3.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadL",
+			"from": [
+				9.5,
+				3,
+				0.6
+			],
+			"to": [
+				10,
 				14.5,
 				1
 			],
 			"faces": {
+				"north": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.5
+					]
+				},
 				"east": {
 					"texture": "#hallframe",
 					"uv": [
@@ -353,23 +743,47 @@
 						0.5,
 						11.5
 					]
-				},
-				"up": {
+				}
+			}
+		},
+		{
+			"name": "BeadR",
+			"from": [
+				12.75,
+				3,
+				0.6
+			],
+			"to": [
+				13.25,
+				14.5,
+				1
+			],
+			"faces": {
+				"north": {
 					"texture": "#hallframe",
 					"uv": [
 						0,
 						0,
-						2.75,
-						0.5
+						0.5,
+						11.5
 					]
 				},
-				"down": {
+				"east": {
 					"texture": "#hallframe",
 					"uv": [
 						0,
 						0,
-						2.75,
-						0.5
+						0.5,
+						11.5
+					]
+				},
+				"west": {
+					"texture": "#hallframe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11.5
 					]
 				}
 			}

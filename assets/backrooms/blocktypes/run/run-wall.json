@@ -36,21 +36,124 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/run/wall"
+				"base": "block/run/wall",
+				"alternates": [
+					{
+						"base": "block/run/wall-2"
+					},
+					{
+						"base": "block/run/wall-3"
+					},
+					{
+						"base": "block/run/wall-4"
+					}
+				]
 			}
 		},
 		"*-base": {
 			"north": {
-				"base": "block/run/wallbase"
+				"base": "block/run/wallbase",
+				"alternates": [
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-3"
+					},
+					{
+						"base": "block/run/wallbase-4"
+					}
+				]
 			},
 			"east": {
-				"base": "block/run/wallbase"
+				"base": "block/run/wallbase",
+				"alternates": [
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-3"
+					},
+					{
+						"base": "block/run/wallbase-4"
+					}
+				]
 			},
 			"south": {
-				"base": "block/run/wallbase"
+				"base": "block/run/wallbase",
+				"alternates": [
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-3"
+					},
+					{
+						"base": "block/run/wallbase-4"
+					}
+				]
 			},
 			"west": {
-				"base": "block/run/wallbase"
+				"base": "block/run/wallbase",
+				"alternates": [
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-3"
+					},
+					{
+						"base": "block/run/wallbase-4"
+					}
+				]
 			},
 			"up": {
 				"base": "block/run/wall"
@@ -62,6 +165,34 @@
 		"*-void": {
 			"all": {
 				"base": "block/run/void"
+			}
+		},
+		"*-rail*": {
+			"wallbase": {
+				"base": "block/run/wallbase",
+				"alternates": [
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-2"
+					},
+					{
+						"base": "block/run/wallbase-3"
+					},
+					{
+						"base": "block/run/wallbase-4"
+					}
+				]
 			}
 		}
 	},
@@ -220,5 +351,6 @@
 		"*": {
 			"all": true
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

@@ -4,6 +4,7 @@
 	"textures": {
 		"exitface-dim": "backrooms:block/run/exitface-dim",
 		"exithousing": "backrooms:block/run/exithousing",
+		"exitlip": "backrooms:block/run/exitlip",
 		"steelframe": "backrooms:block/run/steelframe"
 	},
 	"elements": [
@@ -261,6 +262,486 @@
 						11.5
 					],
 					"glow": 150
+				}
+			}
+		},
+		{
+			"name": "LipTN",
+			"from": [
+				1,
+				13.5,
+				6.6
+			],
+			"to": [
+				15,
+				14,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipBN",
+			"from": [
+				1,
+				7,
+				6.6
+			],
+			"to": [
+				15,
+				7.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipLN",
+			"from": [
+				1,
+				7.5,
+				6.6
+			],
+			"to": [
+				1.5,
+				13.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipRN",
+			"from": [
+				14.5,
+				7.5,
+				6.6
+			],
+			"to": [
+				15,
+				13.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipTS",
+			"from": [
+				1,
+				13.5,
+				9
+			],
+			"to": [
+				15,
+				14,
+				9.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipBS",
+			"from": [
+				1,
+				7,
+				9
+			],
+			"to": [
+				15,
+				7.5,
+				9.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipLS",
+			"from": [
+				1,
+				7.5,
+				9
+			],
+			"to": [
+				1.5,
+				13.5,
+				9.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LipRS",
+			"from": [
+				14.5,
+				7.5,
+				9
+			],
+			"to": [
+				15,
+				13.5,
+				9.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#exitlip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
 				}
 			}
 		}
