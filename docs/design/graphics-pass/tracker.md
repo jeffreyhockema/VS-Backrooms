@@ -103,6 +103,19 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B8) A spot found on the harness grid for a wall decoration can frame the wrong block (the pier convention): look at
   the first base frames of every new spot and re-spot before the after run. Dark rooms (boiler bays) get `-inspection`.
 
+- (B9) Every level's prop textures share one folder (`textures/block/detail/`), so a new key can overwrite another level's
+  texture without warning: B9's first `countertop` and `pegboard` replaced Level 4's, 974's and 3999's. Grep `tools/*.py`
+  (and `git ls-files`) for a key before using it, and prefix new keys with the level (`snackcountertop`).
+- (B9) Lettering drawn with `text()` (scaled-down antialiased type) smears on a sign under 10 px tall and does not survive
+  any per-pixel treatment (chalk break-up turned EXIT and DEAD END into dots). Draw small lettering in a pixel face
+  (`deep_textures.HEAD_FONT`, `CHALK_FONT`), and break up only strokes thicker than 2 px.
+- (B9) Glass on a JSON prop is cut out, so it shows only by what is painted on it: long diagonal glints with a full UV
+  read as rods in front of what is behind it. Use a few short glints and a lit edge row.
+- (B9) A level whose look is one block row repeated up the wall (the Snackrooms' mint wall) cannot take a scuff band or a
+  smudge in a texture: it prints on every row. That needs a different block for the lowest row, which is layout.
+- (B9) Tripwires (and other props that span a passage) face along the passage: the passage runs along the pier's axis
+  and the wire spans it, so a spot finder must stand along the pier axis. Check the first base frame of each new spot.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -117,7 +130,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B6 Level 3 | gfx/B6 | merged | 2 | Purpified (C+), floor fan unseen, risers' painted roundness, OUT OF BOUNDS plaque unseen | passed 2026-10-14 15:40 (Fable): panels/fans verified as geometry, brick tone kept |
 | B7 Level 4 (and Level 9's asphalt, after B11) | gfx/B7 | merged | 2 | ficus (C+), windows (C+), ghost-carpet patches (layout), elevator doors and small wall decor untouched; Level 11's asphalt-cracked square (B12) | passed 2026-10-14 17:45 (Fable): furniture verified as geometry, surfaces kept tone, asphalt fine and even |
 | B8 Level 5 | gfx/B8 | merged | 2 | boiler bay C (B6's boiler: clay-orange shell, box flue; fix in a follow-up), red marble pillars repeat, furniture untouched | passed 2026-10-14 19:35 (Fable): doors and chandelier verified as geometry, damask tone kept |
-| B9 Levels 6 and 6.1 | gfx/B9 | in progress | | | |
+| B9 Levels 6 and 6.1 | gfx/B9 | merged | 2 | mall wall C+ (row repeat is layout), shop windows C and skylights C+ (lights stay cubes), L6 wet floor C+ | passed 2026-10-14 21:30 (Fable): shelves, counters and kitchen verified as geometry; chalk lettering restored |
 | B10 Levels 7 and 8 | | not started | | | |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | | not started | | | |
@@ -1168,3 +1181,117 @@ Worker report (Opus, 2026-10-14). Branch `gfx/B8` from `main` (fe39cf5), uncommi
 **Tool changes:** none to shared tools. New in `gen_textures`: `wood_grain`, `brass_metal`, `gilt_leaf`, `layered_pattern`, `PLACARD_FONT` (a 5x7 face for engraved plates); in `gen_shapes`: `four_sides`, `hotel_door`, `slim_hinge`, `door_knob`, `chandelier`; in `gen_detail`: `gilt_frame`, `lift_leaf_panels`, `cage_gate`.
 
 **Lessons:** three lines added above.
+
+### B9
+
+Worker report (Opus, 2026-10-14). Branch `gfx/B9` from `main` (6475351), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), then a fix and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b9/compare-round2-6.1.jpg`: every Level 6.1 spot.
+  - `review/b9/compare-round2-6.1-detail.jpg`: twelve close spots at twice the size.
+  - `review/b9/compare-round2-6.jpg`: Level 6's inspection shots.
+  - After shots: `review/b9/final/{6,6.1}`. Round 1: `review/b9/compare-round1-*.jpg`, with its shots in `review/b9/after/`.
+- **Per-family pairs:** `review/b9/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B9.json`. That map works on `review/b9/sbs/{before,after}`, where Level 6's shots carry a `6-` prefix. The B9 section is added to `review/compare.html`.
+- **Decision table:** twelve rows added to `decisions.md`, decision column empty.
+- **Offline evidence** (`review/b9/offline/`):
+  - `tile-{1,2,3}-*-{before,after}.png`: surfaces, Level 6 (with `-bright` copies at 2.6x) and the fixtures' materials.
+  - `preview-1..6-*.png`: every changed model beside main's.
+  - `mock-*-6x3.png`: ten surfaces in the blocktype's real mix, at 4x and averaged.
+  - `round2-*.png`, `means.txt`, `zfight-after.txt` and `harness/`.
+  - The scratch tools in `tools/` (`mocks_b9.py`, `findspots_b9.py`, `prev.py`, `churn.py`).
+
+**Checks**
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir). `build-gfxbase` was built from unchanged `main` before any edit.
+- **`layouthash`:** v1 and v4 match B8's output line for line. No C# changed; `DetailBlocks.g.cs` and `lang/en.json` are unchanged.
+- **`validatelevel 6`** (`SPAWN=16000`, 24 cells): Level 6 has 2,345 unreachable tiles of 30,933, and the 43 blocked doorways are main's output (no C# changed).
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. Shot in `gfxreview`.
+  - Shapes, texture lists and new texture keys only.
+  - `snackshelf` gets a blocktype `textures` entry for `snackpacks` with two alternates.
+  - `l6block`, `snackfloor` and `snackceiling` get alternates (ALTS).
+- **`check_zfight`:** no same-shape pairs on any changed shape. The neighbour flags left are faces of tall props (splash, flue, shelf posts) in the air block above.
+- **Churn:** line endings and the `exitlintel*` key order restored from git.
+- **Brightness:** Level 6 is within 0.5 of the new baseline everywhere. Level 6.1 is within 4, except `prop-1`, `checkout-close` and `shelf-close` at +4.5 to +8.8, which is the new chrome and the packs (`review/b9/luma-final.txt`).
+- **Textures removed** (no longer referenced): `register`, `foodcase`, `stovetop`, `stovefront`, `fryertop`, `snackshelf`, and the `drinkfridge` orphan.
+
+**Baseline and spots**
+- `review/baseline/6` and `/6.1` are reshot on `build-gfxbase`; the B0 sets are kept as `6-b0` and `6.1-b0`.
+  - Level 6.1's B0 set was 14-32 levels brighter than today's client (Level 6's inspection shots matched).
+  - A retake of five spots first (`review/b9/base-check`) was pixel-identical to the full run.
+- **6.1:** the black `gate-*`, `threshold-*` and `sleepingbag-*` spots are gone; those targets are in dark Level 6, outside the sealed cell. Added: `shelf-close` (a store), `checkout-close`, `counter-close`, `booth-close`, `vending-close`, `fridge-close`, `kitchen-close`.
+- **6:** added `switch-inspection`, `chalk-inspection`, `tripwire-inspection`, `wet-inspection`. The tripwire spot framed a bare wall at first and was re-spotted before the after run (see the lessons).
+- The vending rooms' dead machines and the snack ceiling's stained versions are in no shot; they are judged on the previews.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Chairs (also Level 11's diner) | B+ (blind r1: B, "A candidate") | much better | A chrome tube frame on glides, a padded navy vinyl seat with a welt, and a padded back on a navy panel. |
+| Tables | B (r1: B) | better | A flecked navy laminate top with a chrome edge band, a spider, and an octagonal column, collar and foot. |
+| Counters, cash register, store checkout | B / B+ (r1: B, B+) | better / much better | A kick, a cream laminate front, a band and rail, and a stainless top. The register is modelled (drawer, keys, display tower, roll). |
+| Pastry case | B (r1: B, "glass not visible") | much better | Chrome frame, deck and shelf, and 18 pastries as boxes. Round 2 gave the glass a lit top edge and short glints. |
+| Griddle, fryer | B (r1: B) | much better | Grates, griddle plate, knobs, an oven door with a window, legs, a sunk oil vat, cut-out mesh baskets and a pilot lamp. |
+| Store shelves | B (r1: B-, "identical sequence") | much better | A gondola shelf with about 25 packs as geometry. Round 2 gave the pack atlas three arrangements as texture alternates, and shaded the packs. |
+| Snack machine | B- (r1: C, header) | better | Coils, keypad, display, coin plate, bill slot and coin return as geometry. Round 2 drew the "SNACKS" sign in a crisp pixel face and shortened the glass streaks. The cabinet is still plain painted blue. |
+| Drinks fridge | B- (r1: C, header, rods) | better | A louvred kick and bottle necks. Round 2 gave it a crisp "DRINKS" sign, and short glints in place of the long streaks that read as rods. |
+| Dead vending machines | B- (preview only) | better | Dead keypad, display and coin plate as geometry; rusty, grimy paint; a crisp, faded "COLA". |
+| Terrazzo | B- (r1: C, "square-looking chips") | same / slightly better | Round 2: mostly 1 px chips in the old four colours, a faint mottle, turned and seamless. |
+| Chequered floor | B (r1: B) | better | Off-white and charcoal vinyl tiles with joints. A heel mark and a chip are each one block in eight. |
+| Quarry tile | B (r1: B) | better | Unglazed tiles in the old grout; the thick double grout at the block edges is gone. |
+| Mall wall | C+ (r1: C) | same | Plaster with the band painted clean; the tone is kept. Carried. |
+| Wood panelling | B- (r1: B-) | same | Grained boards. |
+| Shop windows | C (r1: C) | same | Frosted panes in brushed aluminium. Carried. |
+| Ceiling tiles | B (r1: B) | better | B3's lay-in tile in the old grey and grid, three versions. |
+| Skylights | C+ (r1: C, "pure black") | slightly better | Round 2: night-blue glass in place of black. Still a cube. Carried. |
+| L6 walls, floor | B- (r1: B-) | better | Cast panels and slabs, means kept. The crack and damp run are one block in eight. |
+| L6 ceiling | not judgeable (dark) | - | Slabs; a damp mark one block in six. |
+| L6 wet floor | C+ (r1: C, "dashes") | slightly better | Round 2: three versions with soft sheen patches in place of the same dashes in every block. |
+| Dead light switch | B (r1: B) | better | Plate, screws, slot and toggle as geometry. |
+| Chalk | B (r1: D, lettering lost) | better | Broken, dusty thick strokes with a neutral dust. Round 2 draws EXIT and DEAD END in a crisp chalk face; the logo now reads MEG. |
+| Tripwire | B- (r1: B-) | slightly better | Anchor plates, eye bolts and a dark 1 px wire. |
+
+**Rounds**
+1. **Round 1, blind** (Opus, asked about tone, repetition and painted geometry):
+   - **No change in:** brightness, layout or z-fighting.
+   - **Geometry:** the furniture, register, kitchen, case and switch are "solid B".
+   - **D:** the chalk lettering (EXIT unreadable, DEAD END gone), from my chalk break-up.
+   - **C:**
+     - the blurry SNACKS and DRINKS signs (main's, not changed in round 1);
+     - the fridge glass streaks, which read as rods;
+     - the terrazzo's 2-3 px chips, which read as squares;
+     - the wet floor's repeated dashes;
+     - the pure-black skylight panes;
+     - the flat windows and mint wall.
+   - **B-:** the identical pack sequence on every shelf.
+2. **Round 2 fixed those, except the windows and wall:**
+   - crisp chalk and machine lettering;
+   - short glints;
+   - finer terrazzo chips;
+   - wet-floor versions;
+   - night glass in the skylights;
+   - pack arrangements as alternates.
+
+   Reshot once. The round-2 grades are my reading of the final frames.
+
+**Carried below B, with reasons**
+- **Mall wall (C+):** its rows repeat the same block one above the other, so a scuff band or smudge prints on every row. Grime near the floor needs a skirting block or a per-row variant, which is layout.
+- **Shop windows (C):** emissive cubes, which the lights lesson keeps as cubes. A framed, recessed window needs a shape, and a shape loses the glow.
+- **Skylights (C+):** the same reason. The panes "show only darkness" by lore, so they stay near black.
+- **Wet floor (C+):** small and dark; better, but still faint paint.
+- **Not touched:**
+  - the rusty, glass and kitchen exit doors and the vent (old cubes; the kitchen door is also Level 11's diner);
+  - the neon signs, menu board and mall map (graded B);
+  - the drink cans' texture;
+  - the ficus and trash can (B7's);
+  - the descent stairs (the shared `concretestairs`).
+- **Shared assets that changed elsewhere** (not reshot):
+  - Level 11's diner uses the chairs, tables, counters, griddle, fryer, fridge, the snack ceiling and the mall wall;
+  - Level 11's grocery tills are the register counter;
+  - Level 188 places a `snackvending`;
+  - chalk marks can be drawn on any level.
+
+**Tool changes:** none to shared tools.
+- **New in `deep_textures`:** the B9 section (`level6_b9`, `level61_b9`, `chalky`, `chalk_text`, `machine_header`, `glints`, `snack_packs`, the surface functions).
+- **New in `gen_deep`:** `dead_switch`, `tripwire`, `snack_counter`, `cash_register`, `food_case`, `griddle`, `fryer`, `snack_shelf`, `cafe_chair`, `cafe_table`, `vend_keypad`.
+- **`gen_detail.ALTS`:** B9 entries.
+
+**Lessons:** five lines added above.

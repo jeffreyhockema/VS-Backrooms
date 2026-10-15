@@ -2,9 +2,11 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"l6switchplate": "backrooms:block/detail/l6switchplate",
+		"l6switchslot": "backrooms:block/detail/l6switchslot",
+		"l6switchtoggle": "backrooms:block/detail/l6switchtoggle",
 		"l6wall": "backrooms:block/detail/l6wall",
-		"switchplate": "backrooms:block/detail/switchplate",
-		"white": "backrooms:block/detail/white"
+		"steel": "backrooms:block/detail/steel"
 	},
 	"elements": [
 		{
@@ -77,44 +79,89 @@
 			}
 		},
 		{
-			"name": "Switch",
+			"name": "Plate",
 			"from": [
-				6.5,
-				5,
-				-0.5
+				6.25,
+				4.75,
+				-0.35
 			],
 			"to": [
-				9.5,
-				10,
+				9.75,
+				10.25,
 				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#switchplate",
+					"texture": "#l6switchplate",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						3.5,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#l6switchplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#l6switchplate",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#l6switchplate",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#l6switchplate",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "SwitchSides",
+			"name": "Face",
 			"from": [
 				6.5,
 				5,
-				-0.5
+				-0.6
 			],
 			"to": [
 				9.5,
 				10,
-				0
+				-0.35
 			],
 			"faces": {
+				"north": {
+					"texture": "#l6switchplate",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5
+					]
+				},
 				"east": {
-					"texture": "#switchplate",
+					"texture": "#l6switchplate",
 					"uv": [
 						0,
 						0,
@@ -123,7 +170,7 @@
 					]
 				},
 				"west": {
-					"texture": "#switchplate",
+					"texture": "#l6switchplate",
 					"uv": [
 						0,
 						0,
@@ -132,7 +179,7 @@
 					]
 				},
 				"up": {
-					"texture": "#switchplate",
+					"texture": "#l6switchplate",
 					"uv": [
 						0,
 						0,
@@ -141,12 +188,156 @@
 					]
 				},
 				"down": {
-					"texture": "#switchplate",
+					"texture": "#l6switchplate",
 					"uv": [
 						0,
 						0,
 						3.0,
 						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ScrewT",
+			"from": [
+				7.75,
+				8.95,
+				-0.85
+			],
+			"to": [
+				8.25,
+				9.45,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ScrewB",
+			"from": [
+				7.75,
+				5.55,
+				-0.85
+			],
+			"to": [
+				8.25,
+				6.05,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Slot",
+			"from": [
+				7.5,
+				6.75,
+				-0.65
+			],
+			"to": [
+				8.5,
+				8.25,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#l6switchslot",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
 					]
 				}
 			}
@@ -154,71 +345,68 @@
 		{
 			"name": "Toggle",
 			"from": [
-				7.5,
-				6.5,
-				-1
+				7.65,
+				7.15,
+				-1.7
 			],
 			"to": [
-				8.5,
-				8,
-				-0.5
+				8.35,
+				7.85,
+				-0.62
 			],
 			"faces": {
 				"north": {
-					"texture": "#white",
+					"texture": "#l6switchtoggle",
 					"uv": [
 						0,
 						0,
-						1.0,
-						1.5
+						0.6999999999999993,
+						0.6999999999999993
 					]
 				},
 				"east": {
-					"texture": "#white",
+					"texture": "#l6switchtoggle",
 					"uv": [
 						0,
 						0,
-						0.5,
-						1.5
-					]
-				},
-				"south": {
-					"texture": "#white",
-					"uv": [
-						0,
-						0,
-						1.0,
-						1.5
+						1.08,
+						0.6999999999999993
 					]
 				},
 				"west": {
-					"texture": "#white",
+					"texture": "#l6switchtoggle",
 					"uv": [
 						0,
 						0,
-						0.5,
-						1.5
+						1.08,
+						0.6999999999999993
 					]
 				},
 				"up": {
-					"texture": "#white",
+					"texture": "#l6switchtoggle",
 					"uv": [
 						0,
 						0,
-						1.0,
-						0.5
+						0.6999999999999993,
+						1.08
 					]
 				},
 				"down": {
-					"texture": "#white",
+					"texture": "#l6switchtoggle",
 					"uv": [
 						0,
 						0,
-						1.0,
-						0.5
+						0.6999999999999993,
+						1.08
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				8,
+				7.5,
+				-0.62
+			],
+			"rotationX": 28
 		}
 	]
 }

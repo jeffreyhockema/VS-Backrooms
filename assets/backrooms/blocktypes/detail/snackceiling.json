@@ -23,7 +23,15 @@
 	"texturesByType": {
 		"*-grid": {
 			"all": {
-				"base": "block/detail/snackceiling-grid"
+				"base": "block/detail/snackceiling-grid",
+				"alternates": [
+					{
+						"base": "block/detail/snackceiling-grid-2"
+					},
+					{
+						"base": "block/detail/snackceiling-grid-3"
+					}
+				]
 			}
 		},
 		"*-skylight": {

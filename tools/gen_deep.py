@@ -5,9 +5,11 @@ import math
 import os
 
 import deep_textures
+import modelkit as MK
 from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
                         name, prop, shape, wall_family, write_json)
 from gen_detail import carton, cube_block, plate
+from gen_shapes import louvre, octagon
 
 
 def threshold(kind):
@@ -93,13 +95,10 @@ def level6():
         Decor("meglogo", "Chalk Marking", {2: [bx("Chalk", (0, 0, -0.05), (16, 16, 0), "chalk-meglogo", faces=("north",), full=True)]}),
         Decor("handprints", "Handprints", {2: [bx("Prints", (0, 0, -0.05), (16, 16, 0), "handprints", faces=("north",), full=True)]}),
         Decor("scratches", "Scratches", {2: [bx("Scratches", (0, 0, -0.05), (16, 16, 0), "scratches", faces=("north",), full=True)]}),
-        # A light switch, the only one anybody has found. It does nothing
-        Decor("deadswitch", "Light Switch", {2: plate("Switch", (6.5, 5, -0.5), (9.5, 10, 0), "switchplate", "switchplate") +
-                                                [bx("Toggle", (7.5, 6.5, -1), (8.5, 8, -0.5), "white")]}),
+        # A light switch, the only one anybody has found. It does nothing (B9: modelled, dead_switch)
+        Decor("deadswitch", "Light Switch", {2: dead_switch()}),
     ])
-    prop("tripwire", "Tripwire", [
-        bx("PinL", (0.5, 0, 7.6), (1.3, 2.5, 8.4), "metaldark"), bx("PinR", (14.7, 0, 7.6), (15.5, 2.5, 8.4), "metaldark"),
-        bx("Wire", (0.5, 1.7, 7.9), (15.5, 1.95, 8.1), "steel")], box=(0, 0, 0.4, 1, 0.15, 0.6), collide=False, material="Metal", sounds=METAL,
+    prop("tripwire", "Tripwire", tripwire(), box=(0, 0, 0.4, 1, 0.15, 0.6), collide=False, material="Metal", sounds=METAL,
          comment="A thin wire across a passage at ankle height. In the dark you won't see it")
     block("waveecho", {
         "blockmaterial": "Stone", "drawtype": "Empty",
@@ -197,49 +196,45 @@ def level61():
     ], material="Stone", sounds=STONE)
 
     snacks = drops(("chips", 0.8, 0.6), ("candybar", 0.8, 0.6), ("soda", 0.5, 0.5), ("crackers", 0.4, 0.4))
-    prop("cafetable", "Cafeteria Table", [
-        bx("Top", (1, 11, 1), (15, 12, 15), "navy"), bx("Post", (7, 1, 7), (9, 11, 9), "chrome"), bx("Foot", (4, 0, 4), (12, 1, 12), "chrome")],
+    prop("cafetable", "Cafeteria Table", cafe_table(),  # (B9: the furniture and fixtures below are modelled; see their functions)
          box=(0.06, 0, 0.06, 0.94, 0.78, 0.94), oriented=False, material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5))})
-    prop("cafechair", "Cafeteria Chair", [
-        bx("Seat", (3.5, 7, 3.5), (12.5, 8, 12.5), "navy"), bx("Back", (3.5, 8, 11.5), (12.5, 16, 12.5), "navy"),
-        bx("Leg1", (4, 0, 4), (5, 7, 5), "chrome"), bx("Leg2", (11, 0, 4), (12, 7, 5), "chrome"),
-        bx("Leg3", (4, 0, 11), (5, 7, 12), "chrome"), bx("Leg4", (11, 0, 11), (12, 7, 12), "chrome")],
+    prop("cafechair", "Cafeteria Chair", cafe_chair(),
          box=(0.22, 0, 0.22, 0.78, 1, 0.78), material="Metal", sounds=METAL, extra={"drops": drops(("metalbracket", 0.6, 0.4))})
-    counter = [bx("Base", (0, 0, 3), (16, 14, 16), "formica"), bx("Top", (0, 14, 2), (16, 15, 16), "chrome")]
-    prop("snackcounter", "Snack Bar Counter", {
-        "plain": counter,
-        "register": counter + plate("Till", (4, 15, 6), (12, 20, 12), "register", "metaldark"),
-        "display": counter + [bx("Case", (1, 15, 3), (15, 21, 15), "foodcase", faces=("north", "south", "up"), full=True),
-                              bx("CaseSides", (1, 15, 3), (15, 21, 15), "chrome", faces=("east", "west"))]},
+    prop("snackcounter", "Snack Bar Counter", {k: snack_counter(k) for k in ("plain", "register", "display")},
          box=(0, 0, 0.12, 1, 0.94, 1), material="Metal", sounds=METAL)
-    prop("stove", "Griddle", [
-        bx("Body", (0, 0, 2), (16, 14, 16), "chrome", faces=("east", "west", "south", "down")),
-        bx("Front", (0, 0, 2), (16, 14, 16), "stovefront", faces=("north",), full=True),
-        bx("Top", (0, 0, 2), (16, 14, 16), "stovetop", faces=("up",), full=True),
-        bx("Splash", (0, 14, 14), (16, 18, 16), "chrome")], box=(0, 0, 0.12, 1, 0.88, 1), material="Metal", sounds=METAL,
+    prop("stove", "Griddle", griddle(),
+         box=(0, 0, 0.12, 1, 0.88, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 0.8, 0.5), ("game:fat", 0.3, 0.3))})
-    prop("fryer", "Deep Fryer", [
-        bx("Body", (1, 0, 2), (15, 14, 16), "chrome", faces=("north", "east", "west", "south", "down")),
-        bx("Oil", (1, 0, 2), (15, 14, 16), "fryertop", faces=("up",), full=True),
-        bx("BasketL", (3, 14, 4), (7, 16, 10), "metaldark"), bx("BasketR", (9, 14, 4), (13, 16, 10), "metaldark"),
-        bx("Handle", (4.5, 15, 1), (5.5, 16, 4), "rubber")], box=(0.06, 0, 0.12, 0.94, 0.88, 1), material="Metal", sounds=METAL,
+    prop("fryer", "Deep Fryer", fryer(),
+         box=(0.06, 0, 0.12, 0.94, 0.88, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 0.6, 0.4), ("game:fat", 0.6, 0.4))})
-    prop("snackshelf", "Snack Shelf", [
-        bx("Stock", (1, 0, 8), (15, 28, 15), "snackshelf", faces=("north",), full=True),
-        bx("Frame", (0.5, 0, 7.5), (15.5, 28, 16), "chrome", faces=("east", "west", "up", "south"))],
-         box=(0.03, 0, 0.47, 0.97, 1.75, 1), material="Metal", sounds=METAL, extra={"drops": snacks})
+    prop("snackshelf", "Snack Shelf", snack_shelf(),
+         box=(0.03, 0, 0.47, 0.97, 1.75, 1), material="Metal", sounds=METAL,
+         extra={"drops": snacks,  # (B9 round 2) three arrangements of the packs, so a row of shelves does not repeat one
+                "textures": {"snackpacks": {"base": "block/detail/snackpacks",
+                                            "alternates": [{"base": "block/detail/snackpacks-2"}, {"base": "block/detail/snackpacks-3"}]}}})
     # The snack machine: a blue cabinet with a lit header, a coin panel standing proud of it, and a deep glass front;
     # behind the glass, four shelves of packets on their spirals, three columns to a shelf. (Facing north, its west
-    # side is on the right as you face it: the panel is there)
+    # side is on the right as you face it: the panel is there.) B9: the spirals, the price display, the keypad, the
+    # coin plate, the bill slot and the coin return are geometry (the panel was a painting of them)
     vend_rows = []
     for r, y in enumerate((8, 12.3, 16.6, 20.9)):
-        vend_rows.append(bx(f"Shelf{r}", (5, y, 3), (13.5, y + 0.5, 8), "chrome", faces=("north", "up")))
+        vend_rows.append(bx(f"Shelf{r}", (5, y, 3), (13.5, y + 0.5, 8), "snackchrome", faces=("north", "up")))
         for c in range(3):
             x = 5.3 + c * 2.75
             band = (r + c) % 4 * 4
             vend_rows.append(bx(f"Packets{r}{c}", (x, y + 0.5, 4), (x + 2.4, y + 3.3, 7.8), "snackvendrows", glow=60,
                                 faces=("north", "up"), uv=[band, 0, band + 2.4, 2.8]))
+            vend_rows.append(bx(f"Coil{r}{c}", (x - 0.05, y + 0.5, 3.6), (x + 2.45, y + 3.3, 3.75), "vendspiral", faces=("north",),
+                                uv=[0, 0, 2.5, 2.8]))
+    vend_panel = [bx("Lcd", (1.75, 22, 0.75), (4.25, 23.5, 1), "vendlcd", faces=FRONT, glow=80, uv=[0, 0, 7, 3.5]),
+                  bx("Coin", (2, 19, 0.6), (4, 21.25, 1), "coinplate", faces=FRONT, full=True),
+                  bx("Bill", (1.75, 12, 0.7), (4.25, 13.25, 1), "snackchrome", faces=FRONT),
+                  bx("BillSlot", (2.25, 12.5, 0.65), (3.75, 12.75, 0.7), "metaldark", faces=("north",)),
+                  bx("Return", (2.25, 8.5, 0.5), (3.75, 10.5, 1), "snackchrome", faces=FRONT),
+                  bx("ReturnCup", (2.5, 8.75, 0.45), (3.5, 9.75, 0.5), "metaldark", faces=("north",))]
+    vend_panel += vend_keypad("Keys", 1.75, 14.75, 1)
     prop("snackvending", "Snack Machine", [
         bx("Body", (1, 0, 8), (15, 29, 15), "snackvending", faces=("east", "west", "up", "south")),
         bx("Inside", (5, 7, 8), (13.5, 25, 8.5), "snackvendinside", faces=("north",), glow=40),
@@ -250,21 +245,27 @@ def level61():
         bx("PanelFace", (1, 7, 1), (5, 25, 8), "snackvendpanel", faces=("north",), uv=[6, 0, 10, 16]),
         bx("Base", (1, 0, 1.4), (15, 7, 8), "snackvending", faces=("north", "east", "west", "up")),
         bx("Flap", (5.5, 2, 1.1), (13.5, 5.5, 1.4), "metaldark", faces=("north", "up", "east", "west")),
-        bx("Glass", (5, 7, 2.2), (13.5, 25, 2.3), "snackvendglass", faces=("north",), full=True)] + vend_rows,
+        bx("Glass", (5, 7, 2.2), (13.5, 25, 2.3), "snackvendglass", faces=("north",), full=True)] + vend_rows + vend_panel,
          box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL, light=[8, 2, 7],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
                 "attributes": {"dispenses": ["backrooms:chips", "backrooms:candybar", "backrooms:crackers", "backrooms:soda"], "restock": True}})
     # The drinks fridge: a white cabinet with a lit header and a kick-plate grille; a glass door in a dark frame with a
-    # bar handle; behind it, lit cold white, four wire shelves of cans and bottles, five to a shelf
+    # bar handle; behind it, lit cold white, four wire shelves of cans and bottles, five to a shelf. B9: the kick grille
+    # is a louvre, the bottles have necks and caps
     drinks = []
     for r, y in enumerate((4.2, 9.6, 15, 20.4)):
-        drinks.append(bx(f"Shelf{r}", (2, y, 2.6), (14, y + 0.4, 13.5), "chrome", faces=("north", "up")))
+        drinks.append(bx(f"Shelf{r}", (2, y, 2.6), (14, y + 0.4, 13.5), "snackchrome", faces=("north", "up")))
         tall = r % 2 == 1  # bottles on every other shelf, cans on the rest
         for c in range(5):
             x = 2.6 + c * 2.25
             band = (r * 2 + c) % 4 * 4
             drinks.append(bx(f"Drink{r}{c}", (x, y + 0.4, 3.4), (x + 1.7, y + (4.2 if tall else 3), 5.1), "drinkcans", glow=40,
                              faces=("north", "up", "east", "west"), uv=[band, 0, band + 1.7, 4 if tall else 2.6]))
+            if tall:
+                drinks += [bx(f"Neck{r}{c}", (x + 0.5, y + 4.2, 3.9), (x + 1.2, y + 4.8, 4.6), "drinkcans", glow=40,
+                              faces=("north", "up", "east", "west"), uv=[band, 0, band + 0.7, 0.6]),
+                           bx(f"Cap{r}{c}", (x + 0.45, y + 4.8, 3.85), (x + 1.25, y + 5.15, 4.65), "white",
+                              faces=("north", "up", "east", "west"))]
     prop("drinkfridge", "Drinks Fridge", [
         bx("Body", (1, 0, 2), (15, 30, 15), "fridgebody", faces=("east", "west", "up", "south")),
         bx("Inside", (2, 4, 13.4), (14, 25, 13.5), "fridgeinside", faces=("north",), glow=60),
@@ -272,11 +273,11 @@ def level61():
         bx("InsideR", (13.9, 4, 2), (14, 25, 13.5), "fridgeinside", faces=("west",), glow=40),
         bx("Header", (1, 26, 1.4), (15, 30, 2), "drinkhead", faces=("north",), glow=90, uv=[0, 0, 16, 4.5]),
         bx("HeaderEdge", (1, 26, 1.4), (15, 30, 2), "fridgebody", faces=("east", "west", "up", "down")),
-        bx("Kick", (1, 0, 1.6), (15, 3, 2), "fridgegrille", faces=("north", "east", "west", "up"), uv=[0, 0, 16, 3]),
+        *louvre("Kick", 1, 0, 15, 3, 2, 3, tex="fridgebody", back="fridgegrille", frame=0.5, proud=0.4),
         bx("FrameL", (1, 3, 1.2), (2, 26, 2), "metaldark"), bx("FrameR", (14, 3, 1.2), (15, 26, 2), "metaldark"),
         bx("FrameT", (2, 25, 1.2), (14, 26, 2), "metaldark"), bx("FrameB", (2, 3, 1.2), (14, 4, 2), "metaldark"),
-        bx("Handle", (12.4, 9, 0.3), (13, 20, 0.8), "chrome"),
-        bx("HandleTop", (12.4, 19.4, 0.8), (13, 20, 1.2), "chrome"), bx("HandleFoot", (12.4, 9, 0.8), (13, 9.6, 1.2), "chrome"),
+        bx("Handle", (12.4, 9, 0.3), (13, 20, 0.8), "snackchrome"),
+        bx("HandleTop", (12.4, 19.4, 0.8), (13, 20, 1.2), "snackchrome"), bx("HandleFoot", (12.4, 9, 0.8), (13, 9.6, 1.2), "snackchrome"),
         bx("Glass", (2, 4, 1.5), (14, 25, 1.6), "fridgeglass", faces=("north",), full=True)] + drinks,
          box=(0.06, 0, 0.06, 0.94, 1.88, 0.94), material="Metal", sounds=METAL, light=[30, 1, 6],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
@@ -302,7 +303,7 @@ def dead_machine(pose):
     west-east (shortened a little to keep to its own tile), a little askew."""
     rows = []
     for r, y in enumerate((6, 10.5, 15, 19.5)):
-        rows.append(((2.8, y, 3.2), (11.2, y + 0.4, 7), "chrome", ("north", "up")))
+        rows.append(((2.8, y, 3.2), (11.2, y + 0.4, 7), "snackchrome", ("north", "up")))
         for c in range(3):
             x = 3 + c * 2.75
             band = (r + c + 1) % 4 * 4
@@ -316,7 +317,13 @@ def dead_machine(pose):
              ((11.5, 4, 1), (15, 24, 7), "vendpilepanel", ("north",), [6, 0, 9.5, 16]),
              ((1, 0, 1.4), (15, 4, 7), "vendpilebody", ("north", "east", "west", "up")),
              ((3, 1, 1.1), (11, 3.4, 1.4), "metaldark", ("north", "up", "east", "west")),
-             ((2.5, 4, 2.2), (11.5, 24, 2.3), "vendpileglass", ("north",), [0, 0, 16, 16])] + rows
+             ((2.5, 4, 2.2), (11.5, 24, 2.3), "vendpileglass", ("north",), [0, 0, 16, 16]),
+             # (B9) the dead panel's display, coin plate and keypad as geometry
+             ((12, 20, 0.75), (14.5, 21.5, 1), "vendpilelcd", ("north", "east", "west", "up", "down")),
+             ((12.5, 17, 0.6), (14, 19, 1), "coinplate", ("north", "east", "west", "up", "down"), [0, 0, 16, 16]),
+             ((12, 12.5, 0.75), (14.5, 15.75, 1), "vendpilepanel", ("north", "east", "west", "up", "down"))] + rows + [
+             ((12.25 + i * 0.75, 12.75 + j * 0.75, 0.4), (12.75 + i * 0.75, 13.25 + j * 0.75, 0.75), "snackkey",
+              ("north", "east", "west", "up", "down")) for j in range(4) for i in range(3)]
     turn = {"stand": None, "floor": (15, 0), "top": (-11, 13)}[pose]
     out = []
     to_world = {"north": "up", "south": "down", "up": "east", "down": "west", "east": "south", "west": "north"}
@@ -335,6 +342,263 @@ def dead_machine(pose):
         out.append(bx(f"P{i}", frm, to, tex, faces=tuple(to_world[f] for f in faces), uv=None if full else uv, full=full,
                       rot=(0, angle, 0), origin=(8, base, 8)))
     return out
+
+
+# ======================= Graphics pass B9: Level 6's switch and wire, Level 6.1's fixtures =======================
+#
+# The shapes below replace boxes with flat or painted faces (the burners, knobs, till, pastries and packets were
+# painted on): hardware is geometry, built with tools/modelkit.py, and every material has its own texture key
+# (deep_textures.snack_materials and its neighbours), so no key is shared by two materials. The codes, kinds, sides,
+# collision and selection boxes are unchanged. Front to the north, as every prop here.
+
+FRONT = ("north", "east", "west", "up", "down")  # a part on a wall or a carcass: its back is never seen
+
+
+def dead_switch():
+    """The dead light switch: a yellowed bakelite plate stepped out from the wall, two screws, the dark slot and the
+    toggle in it, left down (off). It does nothing."""
+    return [bx("Plate", (6.25, 4.75, -0.35), (9.75, 10.25, 0), "l6switchplate", faces=FRONT),
+            bx("Face", (6.5, 5, -0.6), (9.5, 10, -0.35), "l6switchplate", faces=FRONT),
+            bx("ScrewT", (7.75, 8.95, -0.85), (8.25, 9.45, -0.6), "steel", faces=FRONT),
+            bx("ScrewB", (7.75, 5.55, -0.85), (8.25, 6.05, -0.6), "steel", faces=FRONT),
+            bx("Slot", (7.5, 6.75, -0.65), (8.5, 8.25, -0.6), "l6switchslot", faces=("north",)),
+            bx("Toggle", (7.65, 7.15, -1.7), (8.35, 7.85, -0.62), "l6switchtoggle", faces=FRONT, rot=(28, 0, 0),
+               origin=(8, 7.5, -0.62))]
+
+
+def tripwire():
+    """A wire strung low across a passage: a steel anchor plate bolted to the floor at each side, an eye bolt standing
+    on it, and the wire (1 px, the thinnest a model part may be; dark, so in the dark you still won't see it) between
+    the eyes."""
+    els = []
+    for side, x in (("L", 1.0), ("R", 15.0)):
+        els += [bx(f"Base{side}", (x - 0.75, 0, 7.25), (x + 0.75, 0.25, 8.75), "metaldark", faces=("north", "east", "south", "west", "up")),
+                bx(f"Bolt{side}", (x - 0.25, 0.25, 7.75), (x + 0.25, 1.6, 8.25), "steel", faces=("north", "east", "south", "west")),
+                bx(f"EyeT{side}", (x - 0.5, 2.1, 7.75), (x + 0.5, 2.35, 8.25), "steel"),
+                bx(f"EyeL{side}", (x - 0.5, 1.6, 7.75), (x - 0.25, 2.1, 8.25), "steel", faces=("north", "east", "south", "west")),
+                bx(f"EyeR{side}", (x + 0.25, 1.6, 7.75), (x + 0.5, 2.1, 8.25), "steel", faces=("north", "east", "south", "west"))]
+    els.append(bx("Wire", (1.5, 1.75, 7.75), (14.5, 2.25, 8.25), "metaldark", faces=("north", "south", "up", "down")))
+    return els
+
+
+def snack_counter(kind):
+    """The snack-bar counter: a cream laminate front over a recessed black kick, a stainless band at the foot and a
+    chrome rail near the top, a brushed stainless top overhanging the front; on the register kind a cash register,
+    on the display kind a glass case of pastries. Counters stand in a row, so the front's parts run the full width
+    and meet the next counter's."""
+    els = [bx("Kick", (0, 0, 3.75), (16, 1, 16), "snackkick", faces=("north",)),
+           bx("Body", (0, 1, 3), (16, 14, 16), "counterfront", faces=("north",)),
+           bx("BodySides", (0, 0, 3), (16, 14, 16), "counterfront", faces=("east", "west", "south")),
+           bx("Band", (0, 1, 2.75), (16, 2.5, 3), "snackcountertop", faces=("north", "up")),
+           bx("Rail", (0, 11.5, 2.6), (16, 12.25, 3), "snackchrome", faces=("north", "up", "down")),
+           bx("Top", (0, 14, 2), (16, 15, 16), "snackcountertop")]
+    if kind == "register":
+        els += cash_register()
+    elif kind == "display":
+        els += food_case()
+    return els
+
+
+def cash_register():
+    """A cash register on the counter, facing the customer: a charcoal base whose front is the cash drawer (a pull and
+    a lock), a keyboard deck of pale keys as geometry, and a back tower with the green display ($0.00) toward the
+    customer; a roll of receipt paper at its side."""
+    els = [bx("Base", (4.5, 15, 6.5), (11.5, 16.75, 12.5), "registerbody"),
+           bx("Drawer", (4.75, 15.2, 6.25), (11.25, 16.5, 6.5), "registerbody", faces=FRONT),
+           bx("Pull", (7, 15.6, 5.9), (9, 16.0, 6.25), "snackchrome", faces=FRONT),
+           bx("Lock", (10.25, 15.6, 6.0), (10.75, 16.1, 6.25), "snackchrome", faces=FRONT),
+           bx("Tower", (5.5, 16.75, 10.5), (10.5, 19.5, 12.5), "registerbody"),
+           bx("Display", (6, 17.5, 10.25), (10, 19, 10.5), "registerdisp", faces=("north",), glow=60, uv=[0, 0, 10, 4]),
+           bx("Roll", (11.5, 15, 10.5), (12.5, 16.5, 12), "white", faces=("north", "east", "south", "up"))]
+    for j in range(3):
+        for i in range(4):
+            x, z = 5.25 + i * 1.5, 7.0 + j * 1.15
+            els.append(bx(f"Key{j}{i}", (x, 16.75, z), (x + 1, 17.1, z + 0.75), "snackkey", faces=("north", "east", "west", "up")))
+    return els
+
+
+def food_case():
+    """A glass case of pastries on the counter: a chrome base and corner posts, a glass front and top and a glass back
+    toward the staff (see-through but for their glints), a white deck and a glass shelf, and on them rows of
+    doughnuts, croissants and muffins as small boxes (the old case painted them on its glass)."""
+    els = [bx("Base", (1, 15, 3), (15, 15.75, 15), "snackchrome"),
+           bx("Deck", (1.5, 15.75, 3.5), (14.5, 16, 14.5), "caseinside", faces=("up",)),
+           bx("Shelf", (1.5, 18.5, 6), (14.5, 18.75, 14.5), "snackchrome", faces=("up", "down", "north")),
+           bx("Back", (1.5, 15.75, 14.4), (14.5, 20.75, 14.5), "caseglass", faces=("north", "south")),
+           bx("Front", (1.5, 15.75, 3.5), (14.5, 20.75, 3.6), "caseglass", faces=("north", "south")),
+           bx("Glass", (1.5, 20.75, 3.5), (14.5, 20.85, 14.5), "caseglass", faces=("up", "down")),
+           bx("CapN", (1, 20.85, 3), (15, 21.35, 3.5), "snackchrome"), bx("CapS", (1, 20.85, 14.5), (15, 21.35, 15), "snackchrome"),
+           bx("CapW", (1, 20.85, 3.5), (1.5, 21.35, 14.5), "snackchrome", faces=("east", "west", "up", "down")),
+           bx("CapE", (14.5, 20.85, 3.5), (15, 21.35, 14.5), "snackchrome", faces=("east", "west", "up", "down"))]
+    for n, (x, z) in enumerate(((1, 3), (14.5, 3), (1, 14.5), (14.5, 14.5))):
+        els.append(bx(f"Post{n}", (x, 15.75, z), (x + 0.5, 20.85, z + 0.5), "snackchrome", faces=("north", "east", "south", "west")))
+    # pastries: (band, width, height, depth) as the atlas lays them out (deep_textures.fixture_textures)
+    kinds = {"pink": (0, 2.2, 0.8, 2.2, 6), "choc": (1, 2.2, 0.8, 2.2, 6), "croissant": (2, 2.6, 1.0, 1.4, 6),
+             "muffin": (3, 1.8, 1.7, 1.8, 8)}
+    rows = ((16.0, 4.5, ("pink", "choc", "pink", "croissant", "croissant")),
+            (16.0, 8.5, ("muffin", "muffin", "choc", "pink", "muffin")),
+            (18.75, 8.0, ("croissant", "pink", "choc", "croissant")),
+            (18.75, 11.5, ("muffin", "choc", "muffin", "pink")))
+    for r, (y, z, row) in enumerate(rows):
+        x = 2.0
+        for c, k in enumerate(row):
+            band, w, h, d, v2 = kinds[k]
+            u = band * 4
+            els.append(bx(f"Pastry{r}{c}", (x, y, z), (x + w, y + h, z + d), "pastries", faces=("north", "east", "west", "up", "south"),
+                          uv=[u, 4, u + 4, v2]))
+            els[-1]["faces"]["up"]["uv"] = [u, 0, u + 4, 4]
+            x += w + 0.35
+    return els
+
+
+def griddle():
+    """The griddle range: a stainless carcass on four short legs, a control rail with four black knobs, an oven door
+    with a window and a bar handle; on top a griddle plate on the left between splash guards and two burners with
+    cast-iron grates on the right; a backsplash with a shelf (the old one painted its burners, knobs and door)."""
+    els = [bx("Body", (0.5, 1.5, 2.5), (15.5, 12.5, 16), "stovesteel"),
+           bx("Rail", (0.5, 10.5, 1.5), (15.5, 12.5, 2.5), "stovesteel", faces=FRONT),
+           bx("Deck", (0, 12.5, 1.5), (16, 13.25, 16), "stovesteel"),
+           bx("Door", (1.5, 2.5, 2), (14.5, 9.75, 2.5), "stovesteel", faces=FRONT),
+           bx("Window", (4, 5, 1.9), (12, 8.5, 2), "ovenwindow", faces=("north",)),
+           bx("Splash", (0, 13.25, 14.5), (16, 18, 16), "stovesteel"),
+           bx("Ledge", (0, 17.5, 13.5), (16, 18.25, 14.5), "stovesteel"),
+           bx("Plate", (1, 13.25, 3), (8, 13.75, 14.5), "griddleplate"),
+           bx("GuardW", (0.5, 13.25, 3), (1, 15, 14.5), "stovesteel"),
+           bx("GuardE", (8, 13.25, 3), (8.5, 15, 14.5), "stovesteel"),
+           bx("Trough", (1, 13.25, 2), (8, 13.6, 3), "metaldark", faces=("north", "up", "east", "west"))]
+    els += MK.handle("Handle", 8, 9, 2, length=10, axis="x", standoff=0.75, thick=0.75, tex="snackchrome")
+    for i, x in enumerate((2.5, 6, 10, 13.5)):
+        els += MK.knob(f"Knob{i}", x, 11.5, 1.5, r=0.6, depth=1.0, tex="stoveknob")
+    for g, (z1, z2) in enumerate(((3, 8.5), (9, 14.5))):
+        x1, x2 = 9, 15.25
+        els.append(bx(f"Cap{g}", (11.25, 13.25, (z1 + z2) / 2 - 1), (13.25, 13.6, (z1 + z2) / 2 + 1), "burnergrate"))
+        els += [bx(f"Grate{g}N", (x1, 13.75, z1), (x2, 14.25, z1 + 0.5), "burnergrate"),
+                bx(f"Grate{g}S", (x1, 13.75, z2 - 0.5), (x2, 14.25, z2), "burnergrate"),
+                bx(f"Grate{g}W", (x1, 13.75, z1 + 0.5), (x1 + 0.5, 14.25, z2 - 0.5), "burnergrate", faces=("east", "west", "up", "down")),
+                bx(f"Grate{g}E", (x2 - 0.5, 13.75, z1 + 0.5), (x2, 14.25, z2 - 0.5), "burnergrate", faces=("east", "west", "up", "down")),
+                bx(f"Grate{g}X", (x1 + 0.5, 13.75, (z1 + z2) / 2 - 0.25), (x2 - 0.5, 14.25, (z1 + z2) / 2 + 0.25), "burnergrate",
+                   faces=("north", "south", "up", "down")),
+                bx(f"Grate{g}Z", ((x1 + x2) / 2 - 0.25, 13.73, z1 + 0.5), ((x1 + x2) / 2 + 0.25, 14.3, z2 - 0.5), "burnergrate",
+                   faces=("east", "west", "up", "down"))]
+        for k, (fx, fz) in enumerate(((x1, z1), (x2 - 0.5, z1), (x1, z2 - 0.5), (x2 - 0.5, z2 - 0.5))):
+            els.append(bx(f"Grate{g}Foot{k}", (fx, 13.25, fz), (fx + 0.5, 13.75, fz + 0.5), "burnergrate", faces=("north", "east", "south", "west")))
+    for k, (x, z) in enumerate(((1, 3), (14, 3), (1, 14.5), (14, 14.5))):
+        els.append(bx(f"Leg{k}", (x, 0, z), (x + 1, 1.5, z + 1), "snackchrome", faces=("north", "east", "south", "west", "down")))
+    return els
+
+
+def fryer():
+    """The deep fryer: a stainless carcass on legs, a door with a bar handle and a control strip (a thermostat knob and
+    an amber pilot lamp); on top a rim round the vat, the oil set down inside it, and two wire baskets (cut-out mesh,
+    seen through) hanging on a rail at the back, their handles reaching forward; a flue at the back."""
+    els = [bx("Body", (1.5, 1.5, 2.5), (14.5, 11.25, 16), "stovesteel"),
+           bx("Strip", (1.5, 10, 2), (14.5, 11.25, 2.5), "stovesteel", faces=FRONT),
+           bx("Door", (2, 2, 2), (14, 9.5, 2.5), "stovesteel", faces=FRONT),
+           bx("Lamp", (11.5, 10.25, 1.75), (12.25, 11, 2), "lens-amber", faces=FRONT, glow=120),
+           bx("RimN", (1, 11.25, 2), (15, 13, 4), "stovesteel"), bx("RimS", (1, 11.25, 13.5), (15, 13, 16), "stovesteel"),
+           bx("RimW", (1, 11.25, 4), (3, 13, 13.5), "stovesteel", faces=("east", "west", "up")),
+           bx("RimE", (13, 11.25, 4), (15, 13, 13.5), "stovesteel", faces=("east", "west", "up")),
+           bx("Oil", (3, 11.25, 4), (13, 11.5, 13.5), "fryeroil", faces=("up",)),
+           bx("Flue", (1, 13, 14.5), (15, 17.5, 16), "stovesteel"),
+           bx("Hanger", (2.5, 16, 13.75), (13.5, 16.5, 14.5), "snackchrome")]
+    els += MK.handle("Handle", 8, 8.5, 2, length=8, axis="x", standoff=0.75, thick=0.75, tex="snackchrome")
+    els += MK.knob("Knob", 4, 10.6, 2, r=0.5, depth=1.0, tex="stoveknob")
+    for b, x1 in enumerate((3.5, 8.5)):
+        x2 = x1 + 4
+        z1, z2, y1, y2 = 5, 11.5, 11.75, 15
+        mesh = "fryerbasket"
+        els += [bx(f"Basket{b}Floor", (x1, y1, z1), (x2, y1 + 0.1, z2), mesh, faces=("up", "down")),
+                bx(f"Basket{b}N", (x1, y1, z1), (x2, y2, z1 + 0.1), mesh, faces=("north", "south")),
+                bx(f"Basket{b}S", (x1, y1, z2 - 0.1), (x2, y2, z2), mesh, faces=("north", "south")),
+                bx(f"Basket{b}W", (x1, y1, z1), (x1 + 0.1, y2, z2), mesh, faces=("east", "west")),
+                bx(f"Basket{b}E", (x2 - 0.1, y1, z1), (x2, y2, z2), mesh, faces=("east", "west")),
+                bx(f"Basket{b}Lip", (x1, y2, z1), (x2, y2 + 0.5, z1 + 0.5), "snackchrome"),
+                bx(f"Basket{b}Hook", (x1 + 1.5, y2 - 0.5, z2), (x2 - 1.5, y2 + 1.5, z2 + 2.25), "snackchrome", faces=("east", "west", "up", "south")),
+                bx(f"Basket{b}Arm", (x1 + 1.5, y2, z1 - 3), (x2 - 1.5, y2 + 0.5, z1), "snackchrome", faces=("north", "east", "west", "up", "down")),
+                bx(f"Basket{b}Grip", (x1 + 1.25, y2 - 0.25, z1 - 4.5), (x2 - 1.25, y2 + 0.75, z1 - 2.5), "rubber")]
+    for k, (x, z) in enumerate(((2, 3), (13, 3), (2, 14.5), (13, 14.5))):
+        els.append(bx(f"Leg{k}", (x, 0, z), (x + 1, 1.5, z + 1), "snackchrome", faces=("north", "east", "south", "west", "down")))
+    return els
+
+
+SHELF_LEVELS = (2.5, 9.5, 16.5, 23.5)
+
+
+def snack_shelf():
+    """A store's gondola shelf, one block wide and 1.75 high, its front to the north: a painted base with a kick plate,
+    a pegboard back on two uprights, four shelves on brackets with a price strip along each front edge, and on them
+    rows of packs as geometry: bags of chips, boxes of crackers, cookies and candy, cartons of soda, each a box whose
+    faces take one pack from the atlas (deep_textures.snack_packs; the old shelf was one painted picture). The rows
+    are full, as the lore has them; each row its own order."""
+    els = [bx("Kick", (0.5, 0, 8.25), (15.5, 2, 15), "shelfmetal", faces=("north", "east", "west")),
+           bx("Base", (0.5, 2, 8.25), (15.5, 2.5, 15), "shelfmetal", faces=("east", "west", "up", "down")),
+           bx("Back", (0.5, 0, 15), (15.5, 27, 16), "shelfpegboard", faces=("north",)),
+           bx("BackFace", (0.5, 0, 15), (15.5, 27, 16), "shelfmetal", faces=("south", "up", "east", "west")),
+           bx("PostW", (0, 0, 14.5), (0.5, 28, 16), "shelfmetal"),
+           bx("PostE", (15.5, 0, 14.5), (16, 28, 16), "shelfmetal"),
+           bx("Cap", (0.5, 27, 14.5), (15.5, 28, 16), "shelfmetal")]
+    rng = __import__("random").Random(6190)
+    for s, y in enumerate(SHELF_LEVELS):
+        if s:
+            els += [bx(f"Shelf{s}", (0.5, y - 0.5, 8.25), (15.5, y, 15), "shelfmetal"),
+                    bx(f"BracketW{s}", (0.5, y - 2, 13.5), (1, y - 0.5, 15), "shelfmetal", faces=("east", "west", "north", "down")),
+                    bx(f"BracketE{s}", (15, y - 2, 13.5), (15.5, y - 0.5, 15), "shelfmetal", faces=("east", "west", "north", "down"))]
+        els.append(bx(f"Price{s}", (0.5, y - 1, 7.25), (15.5, y + 0.25, 8.25), "pricestrip", faces=("north", "up", "down", "east", "west"),
+                      uv=[0, 0, 15, 1.5]))
+        room = (SHELF_LEVELS[s + 1] - 0.5 - y) if s + 1 < len(SHELF_LEVELS) else 28 - y
+        x = 1.0
+        while x < 14.6:
+            pack = rng.randrange(8)
+            bag = pack < 4
+            w = min(rng.choice((2.25, 2.5, 2.75)) if bag else rng.choice((1.75, 2.25, 3.0)), 15.0 - x)
+            if w < 1.25:
+                break
+            h = min(room - 0.75, rng.uniform(4.5, 5.75) if bag else rng.uniform(3.5, 5.5))
+            z1 = 9.0 + (rng.uniform(0, 0.75) if bag else 0)
+            u, v = (pack % 4) * 4, (pack // 4) * 8
+            el = bx(f"Pack{s}_{len(els)}", (x, y, z1), (x + w, y + h, 14.5), "snackpacks", faces=("north", "east", "west", "up"),
+                    uv=[u, v, u + 4, v + 8])
+            el["faces"]["east"]["uv"] = el["faces"]["west"]["uv"] = [u + 3, v, u + 4, v + 8]
+            el["faces"]["up"]["uv"] = [u, v, u + 4, v + 1]
+            els.append(el)
+            x += w + 0.2
+    return els
+
+
+def vend_keypad(name, x1, y1, z, tex_keys="snackkey", tex_plate="snackvendpanel"):
+    return MK.keypad(name, x1, y1, z, cols=3, rows=4, key=0.5, gap=0.25, border=0.25, plate=tex_plate, keys=tex_keys)
+
+
+def cafe_chair():
+    """A food-court chair: a chrome tube frame (front legs, rear legs running up into the back posts, a top rail) on
+    black glides, a padded navy vinyl seat with a welt round it on a dark pan, and a padded back cushion on a
+    navy panel between the posts (the old one was two flat navy boards on four sticks)."""
+    els = []
+    for k, (x, z) in enumerate(((4.25, 4.5), (11.75, 4.5))):
+        els += [bx(f"Leg{k}", (x - 0.375, 0.4, z - 0.375), (x + 0.375, 6.5, z + 0.375), "snackchrome", faces=("north", "east", "south", "west")),
+                bx(f"Glide{k}", (x - 0.5, 0, z - 0.5), (x + 0.5, 0.4, z + 0.5), "snackkick", faces=("north", "east", "south", "west", "up"))]
+    for k, x in enumerate((3.75, 11.5)):
+        els += [bx(f"Post{k}", (x, 0.4, 11.25), (x + 0.75, 15.25, 12), "snackchrome", faces=("north", "east", "south", "west")),
+                bx(f"PostGlide{k}", (x - 0.125, 0, 11.125), (x + 0.875, 0.4, 12.125), "snackkick", faces=("north", "east", "south", "west", "up"))]
+    els += [bx("Pan", (4, 6.5, 4), (12, 7, 11.25), "metaldark", faces=("north", "east", "west", "down")),
+            bx("Welt", (3.9, 7.4, 3.9), (12.1, 7.9, 11.25), "snackvinyl", faces=("north", "east", "west", "up", "down")),
+            bx("BackPanel", (4.5, 8.75, 12), (11.5, 15.25, 12.25), "snackvinyl", faces=("north", "east", "west", "south", "down")),
+            bx("Rail", (3.75, 15.25, 11.25), (12.25, 16, 12), "snackchrome")]
+    els += MK.bevelled_box("Seat", (4, 7, 4), (12, 8.5, 11.25), "snackvinyl")
+    els += MK.bevelled_box("Back", (4.75, 9, 10.75), (11.25, 15, 12), "snackvinyl")
+    return els
+
+
+def cafe_table():
+    """A food-court table: a navy laminate top with a ribbed chrome edge band, a dark spider under it, a chrome column
+    with a collar, and a round (octagonal) chrome foot (the old one was a navy board on a square post)."""
+    els = [MK.box("Top", (1, 11, 1), (15, 12.25, 15), {"top": "snacktabletop", "side": "snackchrome", "bottom": "snackkick"}),
+           bx("Spider", (5, 10.5, 5), (11, 11, 11), "metaldark", faces=("north", "east", "south", "west", "down"))]
+    els += octagon("Column", 8, 8, 0.9, 1.25, 10.5, "snackchrome")
+    els += octagon("Collar", 8, 8, 1.4, 0.75, 1.25, "snackchrome", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("Foot", 8, 8, 4.25, 0, 0.75, "snackchrome", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    return els
+
 
 
 # ======================= Level 7 =======================
