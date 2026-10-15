@@ -25,22 +25,258 @@
 	"texturesByType": {
 		"*-path": {
 			"all": {
-				"base": "block/detail/motionpath"
+				"base": "block/detail/motionpath",
+				"alternates": [
+					{
+						"base": "block/detail/motionpath",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionpath",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionpath",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionpath-2"
+					},
+					{
+						"base": "block/detail/motionpath-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionpath-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionpath-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionpath-3"
+					},
+					{
+						"base": "block/detail/motionpath-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionpath-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionpath-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-concrete": {
 			"all": {
-				"base": "block/detail/motionconcrete"
+				"base": "block/detail/motionconcrete",
+				"alternates": [
+					{
+						"base": "block/detail/motionconcrete",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionconcrete",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionconcrete",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionconcrete-2"
+					},
+					{
+						"base": "block/detail/motionconcrete-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionconcrete-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionconcrete-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionconcrete-3"
+					},
+					{
+						"base": "block/detail/motionconcrete-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionconcrete-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionconcrete-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-asphalt": {
 			"all": {
-				"base": "block/detail/motionasphalt"
+				"base": "block/detail/motionasphalt",
+				"alternates": [
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt-2"
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt-2"
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt-2"
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt"
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt"
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionasphalt-3"
+					},
+					{
+						"base": "block/detail/motionasphalt-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionasphalt-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionasphalt-3",
+						"rotation": 270
+					}
+				]
 			}
 		},
 		"*-kerb": {
 			"all": {
-				"base": "block/detail/motionkerb"
+				"base": "block/detail/motionkerb",
+				"alternates": [
+					{
+						"base": "block/detail/motionkerb",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionkerb",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionkerb",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionkerb-2"
+					},
+					{
+						"base": "block/detail/motionkerb-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionkerb-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionkerb-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/motionkerb-3"
+					},
+					{
+						"base": "block/detail/motionkerb-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/motionkerb-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/motionkerb-3",
+						"rotation": 270
+					}
+				]
 			}
 		}
 	},

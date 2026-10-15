@@ -79,13 +79,13 @@
 			"name": "Rail",
 			"from": [
 				0,
-				3,
-				-1.6
+				2.9,
+				-1.75
 			],
 			"to": [
 				16,
-				4,
-				-0.6
+				4.1,
+				-0.55
 			],
 			"faces": {
 				"north": {
@@ -145,15 +145,90 @@
 			}
 		},
 		{
-			"name": "Bracket1",
+			"name": "RailR",
+			"from": [
+				0.0,
+				2.984,
+				-1.666
+			],
+			"to": [
+				16.0,
+				4.016,
+				-0.6339999999999999
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				3.5,
+				-1.15
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Rose0",
 			"from": [
 				2.5,
-				2,
-				-1.2
+				1.6,
+				-0.35
 			],
 			"to": [
 				4.5,
-				3.5,
+				3.6,
 				0
 			],
 			"faces": {
@@ -214,16 +289,91 @@
 			}
 		},
 		{
-			"name": "Bracket2",
+			"name": "RoseR0",
 			"from": [
-				11.5,
-				2,
-				-1.2
+				2.65,
+				1.75,
+				-0.3
 			],
 			"to": [
-				13.5,
-				3.5,
+				4.35,
+				3.45,
 				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				2.6,
+				-0.15
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "Arm0",
+			"from": [
+				3.1,
+				2.45,
+				-1.55
+			],
+			"to": [
+				3.9,
+				3.0,
+				-0.35
 			],
 			"faces": {
 				"north": {
@@ -285,13 +435,13 @@
 		{
 			"name": "Rose1",
 			"from": [
-				2,
-				1.5,
-				-0.4
+				11.5,
+				1.6,
+				-0.35
 			],
 			"to": [
-				5,
-				4,
+				13.5,
+				3.6,
 				0
 			],
 			"faces": {
@@ -352,16 +502,91 @@
 			}
 		},
 		{
-			"name": "Rose2",
+			"name": "RoseR1",
 			"from": [
-				11,
-				1.5,
-				-0.4
+				11.65,
+				1.75,
+				-0.3
 			],
 			"to": [
-				14,
-				4,
+				13.35,
+				3.45,
 				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#poolchrome",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				2.6,
+				-0.15
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "Arm1",
+			"from": [
+				12.1,
+				2.45,
+				-1.55
+			],
+			"to": [
+				12.9,
+				3.0,
+				-0.35
 			],
 			"faces": {
 				"north": {

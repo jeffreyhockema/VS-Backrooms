@@ -17,6 +17,10 @@
     {"name": "close-floor", "tp": [384239.5, 202.05, 507150.5], "look": [0, -62], "surface": "floor kind 83"},
     {"name": "close-ceiling", "tp": [384236.5, 202.05, 507150.5], "look": [0, 62], "surface": "ceiling kind 0"},
     {"name": "prop-1", "tp": [384237.5, 203.05, 507164.5], "look": [90, -32], "surface": "floor prop variant 232"},
-    {"name": "prop-2", "tp": [384229.5, 202.2, 507143.5], "look": [0, -32], "surface": "floor prop variant 231"}
+    {"name": "prop-2", "tp": [384229.5, 202.2, 507143.5], "look": [0, -32], "surface": "floor prop variant 231"},
+    {"name": "slit-close", "tp": [384236.5, 203.05, 507141.5], "look": [0, 20], "target": "slit at 384236,507139 from the deck"},
+    {"name": "mosaic-close", "tp": [384234.5, 203.05, 507141.6], "look": [0, -30], "target": "deck and wall foot between slits at 384233-236"},
+    {"name": "rail-close", "tp": [384236.5, 202.05, 507109.5], "look": [180, -18], "target": "handrail on the wall at 384236,507111"},
+    {"name": "pooldoor-close", "tp": [384241.5, 202.05, 507135.5], "look": [180, 8], "target": "POOL door at 384241,507138"}
   ]
 }

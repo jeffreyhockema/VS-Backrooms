@@ -34,7 +34,15 @@
 	"texturesByType": {
 		"*-tank": {
 			"all": {
-				"base": "block/detail/towertank"
+				"base": "block/detail/towertank",
+				"alternates": [
+					{
+						"base": "block/detail/towertank-2"
+					},
+					{
+						"base": "block/detail/towertank-3"
+					}
+				]
 			}
 		},
 		"*-roof": {
@@ -43,6 +51,7 @@
 			}
 		}
 	},
+	"randomizeAxes": "xyz",
 	"sideopaqueByType": {
 		"*-leg": {
 			"all": false

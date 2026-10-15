@@ -77,7 +77,7 @@
 			}
 		},
 		{
-			"name": "Base",
+			"name": "Shoe",
 			"from": [
 				6,
 				0,
@@ -85,7 +85,7 @@
 			],
 			"to": [
 				10,
-				2,
+				2.5,
 				10
 			],
 			"faces": {
@@ -95,7 +95,7 @@
 						0,
 						0,
 						4,
-						2
+						2.5
 					]
 				},
 				"east": {
@@ -104,7 +104,7 @@
 						0,
 						0,
 						4,
-						2
+						2.5
 					]
 				},
 				"south": {
@@ -113,7 +113,7 @@
 						0,
 						0,
 						4,
-						2
+						2.5
 					]
 				},
 				"west": {
@@ -122,7 +122,7 @@
 						0,
 						0,
 						4,
-						2
+						2.5
 					]
 				},
 				"up": {
@@ -141,6 +141,75 @@
 						0,
 						4,
 						4
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoeCap",
+			"from": [
+				6.5,
+				2.5,
+				6.5
+			],
+			"to": [
+				9.5,
+				3,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
 					]
 				}
 			}
@@ -215,282 +284,6 @@
 			}
 		},
 		{
-			"name": "HornN",
-			"from": [
-				6,
-				45,
-				-1
-			],
-			"to": [
-				10,
-				51,
-				5.5
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6.5
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6.5
-					]
-				}
-			}
-		},
-		{
-			"name": "HornS",
-			"from": [
-				6,
-				45,
-				10.5
-			],
-			"to": [
-				10,
-				51,
-				17
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6.5
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6.5
-					]
-				}
-			}
-		},
-		{
-			"name": "HornE",
-			"from": [
-				10.5,
-				45,
-				6
-			],
-			"to": [
-				17,
-				51,
-				10
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						4
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						4
-					]
-				}
-			}
-		},
-		{
-			"name": "HornW",
-			"from": [
-				-1,
-				45,
-				6
-			],
-			"to": [
-				5.5,
-				51,
-				10
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						6
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						4,
-						6
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						4
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						6.5,
-						4
-					]
-				}
-			}
-		},
-		{
 			"name": "Cap",
 			"from": [
 				6.5,
@@ -555,6 +348,723 @@
 						0,
 						3.0,
 						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Collar",
+			"from": [
+				6.5,
+				50,
+				6.5
+			],
+			"to": [
+				9.5,
+				52,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Throat0",
+			"from": [
+				6.75,
+				46.75,
+				2.5
+			],
+			"to": [
+				9.25,
+				49.25,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bell0",
+			"from": [
+				5.75,
+				45.5,
+				-0.5
+			],
+			"to": [
+				10.25,
+				50.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mouth0",
+			"from": [
+				6.25,
+				46,
+				-0.55
+			],
+			"to": [
+				9.75,
+				50,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.5,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Throat1",
+			"from": [
+				10.5,
+				46.75,
+				6.75
+			],
+			"to": [
+				13.5,
+				49.25,
+				9.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bell1",
+			"from": [
+				13.5,
+				45.5,
+				5.75
+			],
+			"to": [
+				16.5,
+				50.5,
+				10.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mouth1",
+			"from": [
+				16.5,
+				46,
+				6.25
+			],
+			"to": [
+				16.55,
+				50,
+				9.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.5,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Throat2",
+			"from": [
+				6.75,
+				46.75,
+				10.5
+			],
+			"to": [
+				9.25,
+				49.25,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bell2",
+			"from": [
+				5.75,
+				45.5,
+				13.5
+			],
+			"to": [
+				10.25,
+				50.5,
+				16.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mouth2",
+			"from": [
+				6.25,
+				46,
+				16.5
+			],
+			"to": [
+				9.75,
+				50,
+				16.55
+			],
+			"faces": {
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.5,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Throat3",
+			"from": [
+				2.5,
+				46.75,
+				6.75
+			],
+			"to": [
+				5.5,
+				49.25,
+				9.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Bell3",
+			"from": [
+				-0.5,
+				45.5,
+				5.75
+			],
+			"to": [
+				2.5,
+				50.5,
+				10.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						5.0
+					]
+				},
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mouth3",
+			"from": [
+				-0.5500000000000007,
+				46,
+				6.25
+			],
+			"to": [
+				-0.5,
+				50,
+				9.75
+			],
+			"faces": {
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.5,
+						4
 					]
 				}
 			}

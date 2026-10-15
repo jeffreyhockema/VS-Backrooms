@@ -1,0 +1,21 @@
+{
+ "batch": "B13",
+ "title": "Levels 37 (the Poolrooms) and 94 (Motion)",
+ "before": "review/b13/sbs/before",
+ "after": "review/b13/sbs/after",
+ "out": "review/b13/sidebyside",
+ "note": "Shots carry a 37- or 94- prefix: review/b13/sbs holds copies of review/baseline/37 and /94 (reshot in B13 on a build of unchanged main; the B0 sets are kept as 37-b0 and 94-b0) and of review/b13/final/37 and /94. B13 added close spots for the mosaic, a slit, a handrail and a POOL door on Level 37, and on Level 94 for the turf, a road, a town house, the castle wall, a water tower, the fountain, a milk van, the icebox and the radio.",
+ "families": [
+  {"id": "turf", "name": "Level 94 clay turf: tops and sides (no swirl repeating), the clay", "spots": ["94-turf-close", "94-close-wall2", "94-wide-04", "94-close-floor", "94-wide-05"]},
+  {"id": "roads", "name": "Level 94 asphalt, kerbs, concrete paths and plaza", "spots": ["94-road-close", "94-fountain-close", "94-castle-wide"]},
+  {"id": "castle", "name": "Level 94 castle: white stone, red roof tiles, the glass mountain", "spots": ["94-castle-wall-close", "94-castle-wall-wide", "94-castle-close"]},
+  {"id": "watertower", "name": "Level 94 water tower: riveted tank, painted steel legs", "spots": ["94-watertower-wide", "94-watertower-close"]},
+  {"id": "fountain", "name": "Level 94 town fountain: cast-stone rim and modelled spout", "spots": ["94-fountain-close"]},
+  {"id": "furniture", "name": "Level 94 1950s furniture: icebox, radio cabinet (telephone table in no shot)", "spots": ["94-icebox-close", "94-radio-close"]},
+  {"id": "milkvan", "name": "Level 94 milk van: wheels, grille, lamps, livery", "spots": ["94-milkvan-close"]},
+  {"id": "mosaic", "name": "Level 37 mosaic tile (plain, sunlit, coping) and the slit", "spots": ["37-mosaic-close", "37-slit-close", "37-close-floor", "37-wide-02"]},
+  {"id": "pooldoor", "name": "Level 37 POOL door: porthole, push and kick plates as geometry", "spots": ["37-pooldoor-close"]},
+  {"id": "rails", "name": "Level 37 handrail and pool ladder", "spots": ["37-rail-close", "37-prop-2"]},
+  {"id": "lost", "name": "Level 37 Epsom crust and lost things (dark: shot for reference)", "spots": ["37-prop-1", "37-wide-04"]}
+ ]
+}

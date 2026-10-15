@@ -26,12 +26,28 @@
 	"texturesByType": {
 		"*-wall": {
 			"all": {
-				"base": "block/detail/castlewall"
+				"base": "block/detail/castlewall",
+				"alternates": [
+					{
+						"base": "block/detail/castlewall-2"
+					},
+					{
+						"base": "block/detail/castlewall-3"
+					}
+				]
 			}
 		},
 		"*-roof": {
 			"all": {
-				"base": "block/detail/castleroof"
+				"base": "block/detail/castleroof",
+				"alternates": [
+					{
+						"base": "block/detail/castleroof-2"
+					},
+					{
+						"base": "block/detail/castleroof-3"
+					}
+				]
 			}
 		},
 		"*-funwall": {
@@ -65,5 +81,6 @@
 		"*-roof": {
 			"glowLevel": 56
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

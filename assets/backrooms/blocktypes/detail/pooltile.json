@@ -26,17 +26,41 @@
 	"texturesByType": {
 		"*-plain": {
 			"all": {
-				"base": "block/detail/pooltile"
+				"base": "block/detail/pooltile",
+				"alternates": [
+					{
+						"base": "block/detail/pooltile-2"
+					},
+					{
+						"base": "block/detail/pooltile-3"
+					}
+				]
 			}
 		},
 		"*-sunlit": {
 			"all": {
-				"base": "block/detail/poolsunlit"
+				"base": "block/detail/poolsunlit",
+				"alternates": [
+					{
+						"base": "block/detail/poolsunlit-2"
+					},
+					{
+						"base": "block/detail/poolsunlit-3"
+					}
+				]
 			}
 		},
 		"*-red": {
 			"all": {
-				"base": "block/detail/poolred"
+				"base": "block/detail/poolred",
+				"alternates": [
+					{
+						"base": "block/detail/poolred-2"
+					},
+					{
+						"base": "block/detail/poolred-3"
+					}
+				]
 			}
 		},
 		"*-void": {
@@ -46,7 +70,12 @@
 		},
 		"*-coping": {
 			"all": {
-				"base": "block/detail/poolcoping"
+				"base": "block/detail/poolcoping",
+				"alternates": [
+					{
+						"base": "block/detail/poolcoping-2"
+					}
+				]
 			}
 		}
 	},
@@ -68,5 +97,6 @@
 	"lightAbsorptionByType": {
 		"*-sunlit": 0,
 		"*": 99
-	}
+	},
+	"randomizeAxes": "xyz"
 }

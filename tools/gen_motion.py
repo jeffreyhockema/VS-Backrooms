@@ -251,15 +251,20 @@ def textures():
     d.rectangle([25, 10, 26, 18], fill=(220, 220, 220, 255))
     d.ellipse([22, 6, 29, 11], fill=(240, 240, 240, 255))
     save(grain(img, 6, "cinemascreen"), "cinemascreen")
+    b13_textures()
 
 
 def blocks():
-    # The ground
+    # The ground. (B13) The turf's top in three versions turned at random, its sides in three and a faint thumbprint one
+    # block in eight, the clay in three turned; picked by height as well as place (randomizeAxes xyz)
+    turns = (0, 90, 180, 270)
+    clay = tex_entry("claysoil", alts("claysoil", 3), turns)
     for kind in ("light", "dark"):
         block(f"clayturf-{kind}", {
             "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
-            "textures": {"up": {"base": f"block/detail/clayturf-{kind}"}, "down": {"base": "block/detail/claysoil"},
-                         "horizontals": {"base": f"block/detail/clayturf-side-{kind}"}},
+            "textures": {"up": tex_entry(f"clayturf-{kind}", alts(f"clayturf-{kind}", 3), turns), "down": clay,
+                         "horizontals": tex_entry(f"clayturf-side-{kind}", alts(f"clayturf-side-{kind}", 0, [""] + TURF_SIDE_MIX))},
+            "randomizeAxes": "xyz",
             "lightAbsorption": 99, "resistance": 1.5,
             # Fertile enough for the grass and flowers on it, and (like soil) keeps the shrubs' leaves from decaying
             "fertility": 50, "attributes": {"preventsDecay": True},
@@ -269,12 +274,16 @@ def blocks():
         name(f"clayturf-{kind}", "Clay Turf")
     block("claysoil", {
         "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
-        "textures": {"all": {"base": "block/detail/claysoil"}}, "lightAbsorption": 99, "resistance": 1.5,
+        "textures": {"all": clay}, "randomizeAxes": "xyz", "lightAbsorption": 99, "resistance": 1.5,
         "fertility": 10, "attributes": {"preventsDecay": True},
         "sounds": {"walk": "game:walk/sludge*", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"},
         "drops": [{"type": "item", "code": "game:clay-red", "quantity": {"avg": 3, "var": 1}}],
     }, "Level 94: the modelling clay everything is made of. Dug up, it is clay for the potter's wheel")
     name("claysoil", "Modelling Clay")
+    import gen_detail as gd
+    gd.TURNED.update({"motionpath", "motionconcrete", "motionasphalt", "motionkerb"})
+    gd.ALTS.update({k: alts(k, 3)[1:] for k in ("motionpath", "motionconcrete", "motionkerb", "castlewall", "castleroof")})
+    gd.ALTS["motionasphalt"] = ["motionasphalt-2"] * 3 + ["motionasphalt"] * 2 + ["motionasphalt-3"]
     cube_block("motionground", {"path": "Dirt Path", "concrete": "Concrete Path", "asphalt": "Asphalt", "kerb": "Kerb"},
                ["path", "concrete", "asphalt", "kerb"],
                {"path": "motionpath", "concrete": "motionconcrete", "asphalt": "motionasphalt", "kerb": "motionkerb"},
@@ -285,7 +294,8 @@ def blocks():
     block("glassmountain", {
         "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Glass", "drawtype": "cube",
         "renderpass": "Transparent", "faceCullMode": "MergeMaterial", "sideopaque": {"all": False},
-        "textures": {"all": {"base": "block/detail/glassmountain"}}, "lightAbsorption": 0, "resistance": 4, "sounds": GLASS,
+        "textures": {"all": tex_entry("glassmountain", alts("glassmountain", 4))}, "randomizeAxes": "xyz",
+        "lightAbsorption": 0, "resistance": 4, "sounds": GLASS,
     }, "Level 94: the glass of the transparent mountain")
     name("glassmountain", "Mountain Glass")
     cube_block("castleblock", {"wall": "Castle Stone", "roof": "Castle Roof", "funwall": "Funhouse Wall", "ceiling": "Castle Ceiling", "white": "White Wall"},
@@ -295,7 +305,7 @@ def blocks():
                # Its white walls and red roofs glow a little, so at dusk the castle still stands out on its mountain, lit
                # like a set under the studio lights, when the hills round it have gone dark (a glow, not a light: no
                # light is spread, so the castle costs nothing to light)
-               vertexFlagsByType={"*-wall": {"glowLevel": 72}, "*-roof": {"glowLevel": 56}})
+               vertexFlagsByType={"*-wall": {"glowLevel": 72}, "*-roof": {"glowLevel": 56}}, randomizeAxes="xyz")
     cube_block("funfloor", {"checker": "Checkerboard Floor", "carpet": "Striped Carpet", "star": "Star Floor"}, ["checker", "carpet", "star"],
                {"checker": "funfloor-checker", "carpet": "funfloor-carpet", "star": "funfloor-star"}, comment="Level 94: the funhouse's floors")
     block("funlight", {
@@ -311,12 +321,12 @@ def blocks():
         "variantgroups": [{"code": "part", "states": ["leg", "tank", "roof", "tap"]}],
         "creativeinventory": {"general": ["*"]}, "blockmaterial": "Metal",
         "drawtypeByType": {"*-leg": "json", "*-tap": "json", "*": "cube"},
-        "shapeByType": {"*-leg": {"base": shape("watertower-leg", [bx("Leg", (6, 0, 6), (10, 16, 10), "towersteel"),
-                                                                   bx("Brace", (0, 7, 7.5), (16, 8, 8.5), "towersteel")])},
+        "shapeByType": {"*-leg": {"base": shape("watertower-leg", towerleg_b13())},
                         "*-tap": {"base": shape("watertower-tap", [bx("Pipe", (6.5, 0, 6.5), (9.5, 14, 9.5), "towersteel"),
                                                                    bx("Spout", (7, 9, 2), (9, 11, 6.5), "brass"),
                                                                    bx("Wheel", (6, 12, 6), (10, 12.6, 10), "redmetal")])}},
-        "texturesByType": {"*-tank": {"all": {"base": "block/detail/towertank"}}, "*-roof": {"all": {"base": "block/detail/towersteel"}}},
+        "texturesByType": {"*-tank": {"all": tex_entry("towertank", alts("towertank", 3))}, "*-roof": {"all": {"base": "block/detail/towersteel"}}},
+        "randomizeAxes": "xyz",
         "sideopaqueByType": {"*-leg": {"all": False}, "*-tap": {"all": False}, "*": {"all": True}},
         "lightAbsorptionByType": {"*-leg": 0, "*-tap": 0, "*": 99},
         "collisionboxByType": {"*-leg": {"x1": 0.37, "y1": 0, "z1": 0.37, "x2": 0.63, "y2": 1, "z2": 0.63},
@@ -334,10 +344,8 @@ def blocks():
     block("almondfountain", {
         "variantgroups": [{"code": "part", "states": ["rim", "spout"]}],
         "creativeinventory": {"general": ["*"]}, "blockmaterial": "Stone", "drawtype": "json",
-        "shapeByType": {"*-rim": {"base": shape("almondfountain-rim", [bx("Rim", (0, 0, 0), (16, 7, 16), "fountainstone")])},
-                        "*-spout": {"base": shape("almondfountain-spout", [
-                            bx("Column", (5, 0, 5), (11, 14, 11), "fountainstone"), bx("Bowl", (2, 14, 2), (14, 17, 14), "fountainstone"),
-                            bx("Jet", (7, 17, 7), (9, 21, 9), "fountainstone")])}},
+        "shapeByType": {"*-rim": {"base": shape("almondfountain-rim", fountain_b13()[0])},
+                        "*-spout": {"base": shape("almondfountain-spout", fountain_b13()[1])}},
         "sideopaque": {"all": False}, "lightAbsorption": 0,
         "collisionboxByType": {"*-rim": {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.45, "z2": 1}},
         "classByType": {"*-spout": "BackroomsDispenser"}, "entityClassByType": {"*-spout": "BackroomsDispenser"},
@@ -407,12 +415,7 @@ def blocks():
 
 def props():
     # The town: siren poles, milk vans, old cars, signs
-    prop("sirenpole", "Siren Pole", [
-        bx("Pole", (7, 0, 7), (9, 52, 9), "wood"), bx("Base", (6, 0, 6), (10, 2, 10), "metaldark"),
-        bx("Hub", (5.5, 46, 5.5), (10.5, 50, 10.5), "metaldark"),
-        bx("HornN", (6, 45, -1), (10, 51, 5.5), "steel"), bx("HornS", (6, 45, 10.5), (10, 51, 17), "steel"),
-        bx("HornE", (10.5, 45, 6), (17, 51, 10), "steel"), bx("HornW", (-1, 45, 6), (5.5, 51, 10), "steel"),
-        bx("Cap", (6.5, 52, 6.5), (9.5, 54, 9.5), "metaldark")],
+    prop("sirenpole", "Siren Pole", sirenpole_b13(),
          box=(0.4, 0, 0.4, 0.6, 2, 0.6), oriented=False, material="Wood", sounds=WOOD,
          comment="A siren pole on a corner of the town, playing the same happy tune all day")
     van = [bx("Body", (1, 2.5, 8), (31, 24, 63), "milkvan", faces=("north", "up", "down", "south")),
@@ -422,6 +425,7 @@ def props():
            bx("WheelFL", (0, 0, 2), (3, 8, 10), "rubber"), bx("WheelFR", (29, 0, 2), (32, 8, 10), "rubber"),
            bx("WheelRL", (0, 0, 48), (3, 8, 56), "rubber"), bx("WheelRR", (29, 0, 48), (32, 8, 56), "rubber"),
            bx("LampL", (3, 8, -0.4), (7, 11, 0), "lampglass"), bx("LampR", (25, 8, -0.4), (29, 11, 0), "lampglass")]
+    van = milkvan_b13()
     prop("milkvan", "Milk Van", van, box=(0, 0, 0, 1, 1.5, 1), material="Metal", sounds=METAL,
          comment="A 1930s milk van, its crates still full of Almond Milk",
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
@@ -438,7 +442,7 @@ def props():
                 bx("WheelFL", (0, 0, 8), (4, 8, 16), "rubber"), bx("WheelFR", (28, 0, 8), (32, 8, 16), "rubber"),
                 bx("WheelRL", (0, 0, 46), (4, 8, 54), "rubber"), bx("WheelRR", (28, 0, 46), (32, 8, 54), "rubber"),
                 bx("LampL", (2, 10, 3), (6, 14, 7), "lampglass"), bx("LampR", (26, 10, 3), (30, 14, 7), "lampglass")]
-    prop("oldcar", "Old Car", {c: car(f"oldcar-{c}") for c in ("black", "green", "maroon")}, box=(0, 0, 0, 1, 1.5, 1),
+    prop("oldcar", "Old Car", {c: oldcar_wheels_b13(car(f"oldcar-{c}")) for c in ("black", "green", "maroon")}, box=(0, 0, 0, 1, 1.5, 1),
          material="Metal", sounds=METAL, comment="A 1930s car, parked in the middle of nowhere",
          extra={"drops": drops(("metalbracket", 2, 1), ("scrapwire", 1, 0.5), ("glassshard", 1, 0.5))})
     prop("nooutletsign", "NO OUTLET Sign", [
@@ -448,22 +452,14 @@ def props():
          box=(0.42, 0, 0.42, 0.58, 2, 0.58), material="Metal", sounds=METAL, comment="A NO OUTLET sign at a road that goes on forever")
 
     # Inside the houses: the 1950s
-    prop("icebox", "Icebox", [
-        bx("Body", (2, 0, 4), (14, 26, 15), "fridgewhite", faces=("east", "west", "up", "south")),
-        bx("Front", (2, 0, 4), (14, 26, 15), "icebox-front", faces=("north",), full=True)],
+    prop("icebox", "Icebox", icebox_b13(),
          box=(0.12, 0, 0.25, 0.88, 1.62, 0.94), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:cheese-cheddar-1slice", 0.8, 0.6), ("game:butter-salted", 0.5, 0.4),
                                ("almondmilk", 0.6, 0.4), ("cannedbeans", 0.4, 0.3), ("metalbracket", 1, 0.5))})
-    prop("radiocabinet", "Radio Cabinet", [
-        bx("Body", (1, 0, 5), (15, 15, 14), "tvwood", faces=("east", "west", "up", "south")),
-        bx("Front", (1, 0, 5), (15, 15, 14), "radio-front", faces=("north",), full=True)],
+    prop("radiocabinet", "Radio Cabinet", radio_b13(),
          box=(0.06, 0, 0.31, 0.94, 0.94, 0.88), material="Wood", sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 2, 1), ("scrapwire", 1.5, 0.5), ("glassshard", 0.5, 0.5))})
-    prop("rotaryphone", "Telephone Table", [
-        bx("Table", (3, 10, 3), (13, 11, 13), "tvwood"), bx("Leg1", (4, 0, 4), (5, 10, 5), "tvwood"), bx("Leg2", (11, 0, 4), (12, 10, 5), "tvwood"),
-        bx("Leg3", (4, 0, 11), (5, 10, 12), "tvwood"), bx("Leg4", (11, 0, 11), (12, 10, 12), "tvwood"),
-        bx("Phone", (5, 11, 5), (11, 14, 11), "bakelite"), bx("Dial", (6, 14, 6), (10, 14.2, 10), "phonedial", faces=("up",), full=True),
-        bx("Handset", (4.5, 14, 6.5), (11.5, 15.5, 8), "bakelite")],
+    prop("rotaryphone", "Telephone Table", phone_b13(),
          box=(0.18, 0, 0.18, 0.82, 0.97, 0.82), material="Wood", sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 1, 0), ("scrapwire", 1, 0.5))})
 
@@ -687,3 +683,538 @@ def generate():
     props()
     items()
     lang()
+
+
+# ======================= Graphics pass B13 =======================
+# Each B13 painter runs after the old one under the same keys (plus new versions beside them), so dropping its call
+# from b13_textures() reverts that family's textures; the models are in the *_b13 functions that blocks() and props()
+# call.
+
+import matlib as M  # noqa: E402
+import modelkit as MK  # noqa: E402
+from gen_city import CITY_F3, CITY_F5, ptext_c  # noqa: E402
+from gen_textures import inside_block  # noqa: E402
+
+# Each family's mean colour before B13, measured on main's PNGs: the new versions are shifted to it
+MOTION_MEAN = {
+    "clayturf-light": (98.8, 186.8, 64.8), "clayturf-dark": (70.8, 150.8, 48.8),
+    "clayturf-side-light": (84.5, 159.7, 54.4), "clayturf-side-dark": (59.8, 129.1, 40.6),
+    "claysoil": (166.9, 102.9, 62.9), "motionpath": (180.3, 148.3, 102.3), "motionconcrete": (206.4, 202.4, 192.4),
+    "motionasphalt": (85.0, 85.0, 91.0), "motionkerb": (219.4, 217.4, 209.4),
+    "castlewall": (234.3, 232.0, 225.6), "castleroof": (186.2, 39.6, 36.5),
+    "towertank": (235.1, 235.1, 231.1), "towersteel": (149.2, 153.2, 159.2), "fountainstone": (204.7, 194.7, 168.7),
+    "milkvan": (242.7, 240.7, 234.7), "milkvan-side": (230.1, 232.3, 231.0),
+}
+TURF = {"light": (98, 186, 64), "dark": (70, 150, 48)}
+CLAY = (168, 104, 64)
+
+
+def matched(img, key, vkey=None):
+    return T.match_rgb(img, MOTION_MEAN[key], key="b13" + (vkey or key))
+
+
+def stroke(img, x, y, a, length, depth, ridge=0.6):
+    """A tool mark pressed into clay: a short groove (darker) along angle a, with the clay it pushed aside raised
+    (lighter) along its upper side. Wraps."""
+    w, h = img.size
+    px = img.load()
+    nx, ny = -math.sin(a), math.cos(a)
+    if ny > 0:  # the ridge on the side nearer the light (up the texture)
+        nx, ny = -nx, -ny
+    for i in range(length):
+        t = math.sin(math.pi * (i + 0.5) / length) ** 0.5
+        X, Y = round(x + math.cos(a) * i), round(y + math.sin(a) * i)
+        px[X % w, Y % h] = M.rgba(M.lift(px[X % w, Y % h][:3], -depth * t), px[X % w, Y % h][3])
+        RX, RY = round(X + nx), round(Y + ny)
+        px[RX % w, RY % h] = M.rgba(M.lift(px[RX % w, RY % h][:3], depth * ridge * t), px[RX % w, RY % h][3])
+
+
+def arcs(img, cx, cy, radii, depth, seed, gap=(0.6, 1.4)):
+    """Part of a thumbprint: concentric arcs (each broken by a gap) pressed in, a lit pixel inside each."""
+    rng = random.Random(seed)
+    w, h = img.size
+    px = img.load()
+    for r in radii:
+        a0 = rng.uniform(0, 2 * math.pi)
+        span = 2 * math.pi - rng.uniform(*gap)
+        n = max(6, int(span * r * 1.6))
+        for i in range(n):
+            a = a0 + span * i / n
+            X, Y = round(cx + r * math.cos(a)), round(cy + r * math.sin(a))
+            px[X % w, Y % h] = M.rgba(M.lift(px[X % w, Y % h][:3], -depth))
+            IX, IY = round(cx + (r - 1) * math.cos(a)), round(cy + (r - 1) * math.sin(a))
+            if (IX, IY) != (X, Y):
+                px[IX % w, IY % h] = M.rgba(M.lift(px[IX % w, IY % h][:3], depth * 0.35))
+
+
+def smear(img, x, y, a, length, width, depth):
+    """(round 2) A thumb dragged across soft clay: a broad shallow trough along angle a, `width` px across, the clay
+    it pushed up lit along its far edge, fading at both ends. Wraps."""
+    w, h = img.size
+    px = img.load()
+    nx, ny = -math.sin(a), math.cos(a)
+    for i in range(length * 2):
+        t = math.sin(math.pi * (i + 0.5) / (length * 2))
+        cx, cy = x + math.cos(a) * i / 2, y + math.sin(a) * i / 2
+        for j in range(-width, width + 1):
+            X, Y = round(cx + nx * j / 1.2), round(cy + ny * j / 1.2)
+            f = j / max(1, width)
+            d = -depth * t * (1 - f * f) if j < width else depth * 0.8 * t
+            q = px[X % w, Y % h]
+            px[X % w, Y % h] = M.rgba(M.lift(q[:3], d / 2), q[3])
+
+
+def clay_ground(base, seed, mottle=5, grain=2.5, hue=2.0):
+    return M.noise_hv(base, grain, seed, S, mottle, (16, 8), hue=hue)
+
+
+def turf_top_b13(kind, v):
+    """Clay turf from above (B13): a smooth plasticine green, softly modelled, covered in the small pressed strokes a
+    modelling tool leaves when it is used to make grass (each a groove with the clay pushed up beside it, at every
+    angle, so a block reads the same at any turn). Three versions on one shared ground (matlib.turn_safe), turned at
+    random; no thumbprints on top (they read as dirt from above). The mean is the old one."""
+    base = TURF[kind]
+    gs = seed_of("b13turf" + kind)
+    ground = clay_ground(base, gs, grain=0)
+    img = clay_ground(base, gs + 31 * v, grain=2.5)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    rng = random.Random(gs + 101 * v)
+    for _ in range(130):
+        stroke(img, rng.uniform(0, S), rng.uniform(0, S), rng.uniform(0, 2 * math.pi), rng.choice((2, 2, 3)), rng.uniform(10, 15), ridge=0.75)
+    for _ in range(4):  # (round 2) thumb drags in the clay, small and many, at random angles
+        smear(img, rng.uniform(0, S), rng.uniform(0, S), rng.uniform(0, 2 * math.pi), rng.randint(5, 8), 2, 7)
+    return matched(img, f"clayturf-{kind}", f"turf{kind}")
+
+
+def turf_side_b13(kind, v, thumb=False):
+    """Clay turf from the side (B13): the same plasticine, a shade darker as before, with a rounded lip along the top
+    where the turf turns the edge (lit), grass strokes running up, darker toward the foot of the step, and the clay
+    once showing at the very foot (removed in round 2). Versions share the ground and the lip; a thumbprint is in one block
+    in eight, faint and inside the block."""
+    base = tuple(int(c * 0.87) for c in TURF[kind])
+    gs = seed_of("b13turfside" + kind)
+    img = clay_ground(base, gs, mottle=4, grain=2.5)
+    px = img.load()
+    for y in range(S):
+        d = {0: 10, 1: 5, 2: 2}.get(y, 0) - max(0, y - 24) * 0.9
+        for x in range(S):
+            px[x, y] = M.rgba(M.lift(px[x, y][:3], d))
+    rng = random.Random(gs + 101 * v)
+    for _ in range(90):
+        stroke(img, rng.uniform(0, S), rng.uniform(2, S - 3), -math.pi / 2 + rng.uniform(-0.5, 0.5), rng.choice((2, 3, 3)), rng.uniform(8, 12), ridge=0.75)
+    for x in range(S):  # the lip's ragged lower edge: blades overhanging it
+        if rng.random() < 0.35:
+            px[x, 3] = M.rgba(M.lift(px[x, 3][:3], 5))
+    # (round 2) the clay line at the foot is gone (it read as a line along every step); the face bulges a little,
+    # lit above its middle, and carries a few thumb drags, mostly downward, at different places in each version
+    for y in range(S):
+        d = 2.5 * math.cos(math.pi * (y - 12) / 40)
+        for x in range(S):
+            px[x, y] = M.rgba(M.lift(px[x, y][:3], d - 1.5))
+    for _ in range(4):
+        smear(img, rng.uniform(0, S), rng.uniform(5, S - 8), math.pi / 2 + rng.uniform(-0.6, 0.6), rng.randint(5, 8), 2, 7)
+    if thumb:
+        plain = img.copy()
+        arcs(img, 15.5, 14.5, (3, 5, 7), 3, gs + 9)
+        img = inside_block(plain, img, band=6)
+    return matched(img, f"clayturf-side-{kind}", f"turfside{kind}")
+
+
+def clay_b13(v):
+    """The modelling clay under the turf (B13): smooth, softly modelled, with the odd partial thumbprint and smear and
+    a few little lumps, small and many, so no one mark repeats; three versions on one ground, turned at random."""
+    gs = seed_of("b13claysoil")
+    ground = clay_ground(CLAY, gs, mottle=6, grain=0, hue=3)
+    img = clay_ground(CLAY, gs + 31 * v, mottle=6, grain=3, hue=3)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    rng = random.Random(gs + 101 * v)
+    for k in range(5):
+        arcs(img, rng.uniform(0, S), rng.uniform(0, S), (2, 4) if k % 2 else (3,), 5, gs + v * 17 + k, gap=(1.5, 3.0))
+    for _ in range(14):
+        stroke(img, rng.uniform(0, S), rng.uniform(0, S), rng.uniform(0, 2 * math.pi), rng.choice((2, 3, 4)), 5)
+    for _ in range(6):  # lumps: lit on top, shadow under
+        x, y = rng.randrange(S), rng.randrange(S)
+        M.touch(img, x, y, 0.08)
+        M.touch(img, x, y + 1, -0.06)
+    return matched(img, "claysoil")
+
+
+def path_b13(v):
+    """The dirt path (B13): pale clay trodden smooth, with little clay pebbles (each lit on top with a shadow under it)
+    and a few smears; three versions on one ground, turned at random."""
+    base = (182, 150, 104)
+    gs = seed_of("b13path")
+    ground = clay_ground(base, gs, mottle=6, grain=0, hue=3)
+    img = clay_ground(base, gs + 31 * v, mottle=6, grain=3, hue=3)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    rng = random.Random(gs + 101 * v)
+    px = img.load()
+    for _ in range(rng.randint(6, 10)):
+        x, y = rng.randrange(S), rng.randrange(S)
+        c = M.lift(base, rng.uniform(-10, 8))
+        for dx, dy, d in ((0, 0, 4), (1, 0, 0), (0, 1, -2), (1, 1, -6)):
+            px[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(c, d))
+        px[(x + 1) % S, (y + 2) % S] = M.rgba(M.lift(px[(x + 1) % S, (y + 2) % S][:3], -9))
+        px[(x + 2) % S, (y + 1) % S] = M.rgba(M.lift(px[(x + 2) % S, (y + 1) % S][:3], -6))
+    for _ in range(10):
+        stroke(img, rng.uniform(0, S), rng.uniform(0, S), rng.uniform(0, 2 * math.pi), rng.choice((3, 4)), 5)
+    return matched(img, "motionpath")
+
+
+def asphalt_b13(v):
+    """The road (B13): asphalt as a modeller would make it, smooth dark clay with a fine grit pressed in (matlib.asphalt
+    at low contrast), three versions on one ground, turned at random. No swirl."""
+    base = (86, 86, 92)
+    gs = seed_of("b13asphalt")
+    ground = M.asphalt(gs, base=base, grain=0, aggregate=0.0, binder=0.0, pits=0.0, mottle=5)
+    img = M.asphalt(gs + 31 * v, base=base, grain=3, mottle=5, aggregate=0.14, binder=0.25, chip=(4, 10), pits=0.002,
+                    shadow=0.06)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    # (round 2) a faint hairline crack in the third version only, inside the block, listed one block in seven
+    plain = img.copy()
+    if v == 3:
+        M.crack(img, gs + 5, at=(9, 14), length=(12, 16), strength=0.16)
+    img = inside_block(plain, img, band=4)
+    return matched(img, "motionasphalt")
+
+
+def slab_b13(key, base, v, kerb=False):
+    """A concrete path slab or a kerb stone (B13), one to a block: a smooth cast face with a little pinholing and
+    a sunk joint on all four edges (each block shares half), so a run of them reads as slabs
+    whichever way it goes; the kerb's arris is rounded (a lit band inside the joint). The old line across the kerb
+    is gone: kerbs run both ways. Three versions on one ground, turned at random (the joints are symmetric)."""
+    gs = seed_of("b13" + key)
+    ground = clay_ground(base, gs, mottle=4, grain=0, hue=1.2)
+    img = M.concrete(gs + 31 * v, base=base, grain=2.5, mottle=4, aggregate=0.0, pores=0.004, hue=1.2)
+    M.turn_safe(img, ground, band=8, keep=0.5)
+    rng = random.Random(gs + 101 * v)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            e = min(x, y, S - 1 - x, S - 1 - y)
+            d = {0: -13, 1: -3}.get(e, 0)
+            if kerb and e in (2, 3):
+                d += 4 if e == 2 else 2
+            if d:
+                px[x, y] = M.rgba(M.lift(px[x, y][:3], d))
+    return matched(img, key)
+
+
+def castle_b13(v):
+    """The castle's white stone (B13): ashlar at the old courses (8 px, the joints 16 apart in a running bond), each
+    stone its own shade, lit along its top, with sunk joints; three versions share the stones' faces and differ in
+    shade only (matlib.brick tones). It keeps its glow."""
+    img = M.brick(seed_of("b13castle"), base=(240, 238, 232), mortar=(212, 208, 198), course=8, length=16, jitter=5, hue=1.5,
+                  recess=0.7, pits=0.0, grain=3, mottle=4, tones=seed_of("b13castlet") + v)
+    return matched(img, "castlewall", "castle")
+
+
+def roof_b13(v):
+    """The castle's red roofs (B13): clay tiles, each its own red, lit at its lower lip and shadowed where the course
+    above overlaps it; three versions by tone. The red keeps the old mean."""
+    # (round 2) bigger tiles, 8 x 8 in courses that break joint, each tail rounded (its lower corners in the shadow
+    # of the course below) and lit along its lower lip, with the course above casting a dark line over its head
+    rng = random.Random(seed_of("b13rooft") + v)
+    img = M.noise_hv((190, 44, 38), 2.5, seed_of("b13roof"), S, 4, (16, 8), hue=2.0)
+    px = img.load()
+    for r in range(4):
+        off = 4 if r % 2 else 0
+        for c in range(4):
+            tv = rng.uniform(-7, 7)
+            x0, y0 = c * 8 + off, r * 8
+            for yy in range(8):
+                for xx in range(8):
+                    X, Y = (x0 + xx) % S, y0 + yy
+                    d = tv + (yy - 3.5) * 0.9
+                    if yy == 0:
+                        d -= 22  # the overlap's shadow
+                    elif yy == 1:
+                        d -= 8
+                    if yy == 6:
+                        d += 6  # the lit lip
+                    if xx in (0, 7):
+                        d -= 9 if yy >= 5 else 5  # the joint, deeper at the rounded tail
+                    if yy == 7 and xx in (0, 1, 6, 7):
+                        d -= 14
+                    px[X, Y] = M.rgba(M.lift(px[X, Y][:3], d))
+    return matched(img, "castleroof", "roof")
+
+
+def tower_b13(v):
+    """The water tower (B13): its tank is white-painted riveted plate, a seam and a row of rivets at the block's edges,
+    a faint rust weep from a rivet in one version; its legs and roof painted grey steel, worn at the edges."""
+    img = M.riveted_plate(seed_of("b13tank"), base=(236, 236, 232), grain=2, mottle=4, pitch=4, layout="edges")
+    if v == 3:
+        M.drips(img, 2, seed_of("b13tankd"), color=(150, 110, 80), length=(5, 11), strength=0.18, start=3)
+    return matched(img, "towertank", "tank")
+
+
+def fountain_tex_b13():
+    """The fountain's cast stone (B13): fine sandstone-coloured cast stone with small pores and a soft mottle, and a
+    smoother, lighter cap; and the Almond Water standing in its bowl."""
+    img = M.concrete(seed_of("b13fountain"), base=(206, 196, 170), grain=3, mottle=6, aggregate=0.015, pores=0.006, hue=1.5)
+    save(matched(img, "fountainstone"), "fountainstone")
+    cap = M.concrete(seed_of("b13fountaincap"), base=(214, 205, 180), grain=2, mottle=4, aggregate=0.0, pores=0.003, hue=1.2)
+    save(cap, "fountaincap")
+    w = M.noise_hv((236, 228, 206), 2, seed_of("b13almondwater"), S, 5, (16, 8), hue=1.5)
+    rng = random.Random(seed_of("b13awr"))
+    for _ in range(8):  # ripples
+        stroke(w, rng.uniform(0, S), rng.uniform(0, S), rng.uniform(-0.3, 0.3), rng.choice((3, 4, 5)), -6, ridge=-0.4)
+    save(w, "fountainwater")
+
+
+def glass_b13(v):
+    """The mountain's glass (B13): the old pale sky-tinted gradient without the outline that drew every block, and
+    in two versions of four a short, soft glint at a different place."""
+    img = Image.new("RGBA", (S, S))
+    d = ImageDraw.Draw(img)
+    for y in range(S):
+        t = y / S
+        d.line([0, y, S, y], fill=(int(214 - 40 * t), int(234 - 30 * t), 248, 150))
+    if v in (2, 4):
+        x0, y0 = (6, 24) if v == 2 else (14, 28)
+        for k in range(9):
+            a = 190 - abs(k - 4) * 12
+            for w_ in (0, 1):
+                X, Y = x0 + k + w_, y0 - k
+                if 0 <= X < S and 0 <= Y < S:
+                    img.putpixel((X, Y), (250, 252, 255, a - 30 * w_))
+    return img
+
+
+def furniture_tex_b13():
+    """1950s things (B13): the icebox's white enamel and its doors, the radio's walnut, grille cloth and dial, the
+    telephone's bakelite dial ring."""
+    enamel = M.painted_metal(seed_of("b13enamel"), base=(238, 234, 220), grain=2, mottle=3, panel=False, chips=0, under=(90, 90, 90))
+    save(enamel, "iceboxenamel")
+    door = M.painted_metal(seed_of("b13iceboxdoor"), base=(240, 236, 222), grain=2, mottle=3, panel=True, chips=0, under=(90, 90, 90))
+    save(door, "iceboxdoor")
+    walnut = M.wood_planks(seed_of("b13walnut"), base=(112, 72, 42), planks=1, direction="h", grain=3, contrast=0.8, per_plank=4)
+    save(walnut, "radiowalnut")
+    cloth = M.fabric(seed_of("b13radiocloth"), base=(196, 170, 120), weave="basket", contrast=12, thread=3)
+    save(cloth, "radiocloth")
+    dial = Image.new("RGBA", (S, S), (226, 206, 150, 255))
+    p = dial.load()
+    for x in range(2, S - 2, 3):
+        for y in range(10, 14 if x % 6 == 2 else 12):
+            p[x, y] = (90, 64, 40, 255)
+    ptext_c(dial, "RADIO", 17, (110, 40, 30), CITY_F5)
+    for y in range(4, 22):
+        p[19, y] = (176, 30, 24, 255)
+    save(dial, "radiodial")
+
+
+def van_tex_b13():
+    """The milk van (B13): cream enamel over its body, and its sides in the dairy's livery at the body's own
+    proportions (112 x 40, so the letters stay square): a blue pinstripe and ALMOND MILK in crisp pixel letters."""
+    body = M.painted_metal(seed_of("b13van"), base=(244, 242, 236), grain=2, mottle=3, panel=False, chips=2, under=(120, 120, 118))
+    save(matched(body, "milkvan"), "milkvan")
+    side = M.painted_metal(seed_of("b13vanside"), base=(244, 242, 236), grain=2, mottle=3, size=(112, 40), panel=False, chips=3,
+                           under=(120, 120, 118))
+    px = side.load()
+    blue = (42, 106, 176)
+    for x in range(112):
+        for y in (31, 32):
+            px[x, y] = M.rgba(blue)
+        px[x, 34] = M.rgba(M.lift(blue, 20))
+    ptext_c(side, "ALMOND MILK", 11, blue, CITY_F5)
+    ptext_c(side, "FRESH EVERY DAY", 22, M.lift(blue, -10), CITY_F3)
+    M.grime(side, 0.06, seed_of("b13vansideg"), cells=(8, 4), bias="bottom", cover=0.4)
+    save(side, "milkvan-side")
+    grille = M.brushed_metal(seed_of("b13vangrille"), base=(196, 200, 204), streak=6, sheen=8)
+    M.emboss_lines(grille, xs=tuple(range(0, S, 4)), strength=0.25)
+    save(grille, "milkvangrille")
+
+
+def nooutlet_b13():
+    """The NO OUTLET sign (B13): crisp pixel letters on a lightly weathered yellow plate with a black border."""
+    img = M.painted_metal(seed_of("b13nooutlet"), base=(248, 210, 30), grain=2, mottle=3, panel=False, chips=2, under=(150, 150, 150))
+    ptext_c(img, "NO", 4, (16, 16, 16), CITY_F5, scale=2)
+    ptext_c(img, "OUTLET", 22, (16, 16, 16), CITY_F3)
+    p = img.load()
+    for i in range(S):
+        for (x, y) in ((i, 0), (i, S - 1), (0, i), (S - 1, i)):
+            p[x, y] = (16, 16, 16, 255)
+    save(img, "nooutlet")
+
+
+TURF_SIDE_MIX = ["", "-2", "-3", "", "-2", "-3", "-4"]  # with the base: the thumbprint (-4) one block in eight
+
+
+def b13_textures():
+    for kind in ("light", "dark"):
+        for v in (1, 2, 3):
+            save(turf_top_b13(kind, v), f"clayturf-{kind}" + ("" if v == 1 else f"-{v}"))
+            save(turf_side_b13(kind, v), f"clayturf-side-{kind}" + ("" if v == 1 else f"-{v}"))
+        save(turf_side_b13(kind, 4, thumb=True), f"clayturf-side-{kind}-4")
+    for v in (1, 2, 3):
+        sfx = "" if v == 1 else f"-{v}"
+        save(clay_b13(v), "claysoil" + sfx)
+        save(path_b13(v), "motionpath" + sfx)
+        save(asphalt_b13(v), "motionasphalt" + sfx)
+        save(slab_b13("motionconcrete", (208, 204, 194), v), "motionconcrete" + sfx)
+        save(slab_b13("motionkerb", (222, 220, 212), v, kerb=True), "motionkerb" + sfx)
+        save(castle_b13(v), "castlewall" + sfx)
+        save(roof_b13(v), "castleroof" + sfx)
+        save(tower_b13(v), "towertank" + sfx)
+    for v in (1, 2, 3, 4):
+        save(glass_b13(v), "glassmountain" + ("" if v == 1 else f"-{v}"))
+    steel = M.painted_metal(seed_of("b13towersteel"), base=(150, 154, 160), grain=3, mottle=4, panel=False, chips=0, screws=False)
+    M.grime(steel, 0.06, seed_of("b13towersteelg"), cells=(8, 4), cover=0.4)
+    save(matched(steel, "towersteel"), "towersteel")
+    fountain_tex_b13()
+    furniture_tex_b13()
+    van_tex_b13()
+    nooutlet_b13()
+
+
+def alts(key, n, mix=None):
+    """A texture entry with its B13 versions as alternates (and turned, with `turns`)."""
+    names = [key + s for s in (mix or [""] + [f"-{k}" for k in range(2, n + 1)])]
+    return names
+
+
+def tex_entry(key, versions, turns=(0,)):
+    """{base, alternates}: every version at every turn (the base at turn 0 is the base)."""
+    out = {"base": f"block/detail/{key}", "alternates": []}
+    for i, v in enumerate(versions):
+        for r in turns:
+            if i == 0 and r == 0:
+                continue
+            out["alternates"].append({"base": f"block/detail/{v}", "rotation": r} if r else {"base": f"block/detail/{v}"})
+    return out
+
+
+# ---- Models ----
+
+def octo_wheel(name, x1, x2, yc, zc, r, hub="chrome"):
+    """A tyre seen side on as an octagon (three crossed boxes) with a chrome hub cap (B13; the wheels were square)."""
+    k = r * 0.41
+    return [bx(f"{name}A", (x1, yc - r, zc - k), (x2, yc + r, zc + k), "rubber"),
+            bx(f"{name}B", (x1 + 0.15, yc - k, zc - r), (x2 - 0.15, yc + k, zc + r), "rubber"),
+            bx(f"{name}C", (x1 + 0.3, yc - r * 0.77, zc - r * 0.77), (x2 - 0.3, yc + r * 0.77, zc + r * 0.77), "rubber"),
+            bx(f"{name}Hub", (x1 - 0.3, yc - r * 0.42, zc - r * 0.42), (x2 + 0.3, yc + r * 0.42, zc + r * 0.42), hub)]
+
+
+def milkvan_b13():
+    """The milk van (B13): the old body, with a rounded roof edge, the cab's side windows, a chrome grille and bumper,
+    round headlamps on the mudguards, mudguards over octagonal wheels with chrome hubs, and the dairy's livery."""
+    els = [bx("Body", (1, 2.5, 8), (31, 23, 63), "milkvan", faces=("north", "up", "down", "south")),
+           bx("Sides", (1, 2.5, 8), (31, 23, 63), "milkvan-side", faces=("east", "west"), full=True),
+           bx("RoofEdge", (1.5, 23, 8.5), (30.5, 24.5, 62.5), "milkvan"),
+           bx("Cab", (2, 2.5, 0.5), (30, 13, 9), "milkvan"),
+           bx("CabTop", (3, 13, 2), (29, 20, 9), "milkvan", faces=("up", "east", "west", "north")),
+           bx("Windscreen", (4, 13.5, 1.95), (28, 19.5, 2), "lampglass", faces=("north",)),
+           bx("SideWinL", (2.95, 14, 3), (3, 19, 8), "lampglass", faces=("west",)),
+           bx("SideWinR", (29, 14, 3), (29.05, 19, 8), "lampglass", faces=("east",)),
+           bx("Grille", (9, 4, 0.1), (23, 11.5, 0.5), "milkvangrille", faces=("north", "up", "east", "west")),
+           bx("Bumper", (0.75, 2.75, -0.6), (31.25, 4.5, 0.6), "chrome"),
+           bx("BumperR", (0.75, 2.75, 62.8), (31.25, 4.5, 63.8), "chrome")]
+    for i, x in enumerate((5.5, 26.5)):
+        els += [bx(f"Lamp{i}", (x - 1.6, 9, -0.4), (x + 1.6, 12.2, 1.5), "chrome"),
+                bx(f"Lens{i}", (x - 1.2, 9.4, -0.45), (x + 1.2, 11.8, -0.4), "lampglass", faces=("north",))]
+    for nm, (x1, x2), z in (("FL", (0, 3), 6), ("FR", (29, 32), 6), ("RL", (0, 3), 52), ("RR", (29, 32), 52)):
+        els += octo_wheel(f"Wheel{nm}", x1, x2, 4, z, 4)
+        els.append(bx(f"Guard{nm}", (x1 - 0.4, 7.5, z - 5), (x2 + 0.4, 9, z + 5), "milkvan"))
+    return els
+
+
+def oldcar_wheels_b13(els):
+    """The old car's square wheels as octagons with chrome hubs (B13); the rest of the car is unchanged."""
+    out = [e for e in els if not e["name"].startswith("Wheel")]
+    for nm, (x1, x2), z in (("FL", (0, 4), 12), ("FR", (28, 32), 12), ("RL", (0, 4), 50), ("RR", (28, 32), 50)):
+        out += octo_wheel(f"Wheel{nm}", x1, x2, 4, z, 4)
+    return out
+
+
+def sirenpole_b13():
+    """A siren pole (B13): a wooden pole on an iron shoe, a hub with four horns that flare from a throat to a bell,
+    and a cap."""
+    els = [bx("Pole", (7, 0, 7), (9, 52, 9), "wood"), bx("Shoe", (6, 0, 6), (10, 2.5, 10), "metaldark"),
+           bx("ShoeCap", (6.5, 2.5, 6.5), (9.5, 3, 9.5), "metaldark"),
+           bx("Hub", (5.5, 46, 5.5), (10.5, 50, 10.5), "metaldark"), bx("Cap", (6.5, 52, 6.5), (9.5, 54, 9.5), "metaldark"),
+           bx("Collar", (6.5, 50, 6.5), (9.5, 52, 9.5), "metaldark")]
+    horn = [bx("Throat", (6.75, 46.75, 2.5), (9.25, 49.25, 5.5), "steel"), bx("Bell", (5.75, 45.5, -0.5), (10.25, 50.5, 2.5), "steel"),
+            bx("Mouth", (6.25, 46, -0.55), (9.75, 50, -0.5), "metaldark", faces=("north",))]
+    for t in range(4):
+        for e in MK.turn(horn, t):
+            els.append(dict(e, name=f"{e['name']}{t}"))
+    return els
+
+
+def icebox_b13():
+    """The icebox (B13): a white enamel cabinet on a dark plinth with a rounded top, two doors standing proud, each
+    with a chrome lever latch and two hinges, and a little chrome badge."""
+    els = [bx("Plinth", (2.5, 0, 4.5), (13.5, 1.5, 14.5), "metaldark"),
+           bx("Body", (2, 1.5, 4), (14, 25.5, 15), "iceboxenamel"),
+           bx("Top", (2.25, 25.5, 4.25), (13.75, 26.25, 14.75), "iceboxenamel"),
+           bx("DoorU", (2.5, 15.5, 3.4), (13.5, 25, 4), "iceboxdoor", faces=("north", "east", "west", "up", "down"), full=True),
+           bx("DoorL", (2.5, 2.25, 3.4), (13.5, 14.75, 4), "iceboxdoor", faces=("north", "east", "west", "up", "down"), full=True),
+           bx("Badge", (6.5, 15.0, 3.6), (9.5, 15.5, 4), "chrome")]
+    for nm, y in (("U", 20.25), ("L", 11.0)):
+        els += [bx(f"Latch{nm}", (11.0, y - 0.5, 2.4), (12.75, y + 0.5, 3.4), "chrome"),
+                bx(f"LatchGrip{nm}", (11.75, y - 2.25, 2.0), (12.75, y + 0.5, 2.6), "chrome")]
+        lo, hi = (16.25, 24.0) if nm == "U" else (3.0, 14.0)
+        els += [bx(f"Hinge{nm}1", (2.2, lo, 3.6), (3.0, lo + 1.25, 4), "chrome"), bx(f"Hinge{nm}2", (2.2, hi - 1.25, 3.6), (3.0, hi, 4), "chrome")]
+    return els
+
+
+def radio_b13():
+    """The radio cabinet (B13): a walnut cabinet on four short tapered legs, its top overhanging, a speaker grille of
+    walnut bars over grille cloth, a lit dial behind glass, and two knobs."""
+    els = [bx("Body", (1.5, 2, 5.5), (14.5, 14.5, 14), "radiowalnut"),
+           bx("Top", (1, 14.5, 5), (15, 15.25, 14.5), "radiowalnut"),
+           bx("Cloth", (3, 3.5, 5.4), (13, 9.5, 5.5), "radiocloth", faces=("north",))]
+    for i, x in enumerate((4.5, 6.5, 8.5, 10.5)):
+        els.append(bx(f"Bar{i}", (x, 3.5, 4.9), (x + 1, 9.5, 5.5), "radiowalnut"))
+    els += [bx("GrilleTop", (2.5, 9.5, 4.9), (13.5, 10.25, 5.5), "radiowalnut"),
+            bx("GrilleBot", (2.5, 2.75, 4.9), (13.5, 3.5, 5.5), "radiowalnut"),
+            bx("GrilleL", (2.5, 3.5, 4.9), (3, 9.5, 5.5), "radiowalnut"), bx("GrilleR", (13, 3.5, 4.9), (13.5, 9.5, 5.5), "radiowalnut"),
+            bx("Dial", (4, 11, 5.45), (10, 13.5, 5.5), "radiodial", faces=("north",), full=True),
+            bx("DialRim", (3.5, 10.5, 5.2), (10.5, 11, 5.5), "brass"), bx("DialRim2", (3.5, 13.5, 5.2), (10.5, 14, 5.5), "brass")]
+    for i, x in enumerate((11.5, 13.0)):
+        els += MK.knob(f"Knob{i}", x, 12.25, 5.5, r=0.6, depth=1.2, tex="bakelite")
+    for i, (x, z) in enumerate(((2.5, 6.5), (13.5, 6.5), (2.5, 13), (13.5, 13))):
+        els += MK.leg(f"Leg{i}", x, z, 0, 2, t=1.0, tex="radiowalnut", taper=0.3)
+    return els
+
+
+def phone_b13():
+    """The telephone table (B13): a top with a lip on four tapered legs and a shelf, and on it a bakelite telephone
+    with a sloped front, its dial a ring of geometry over the printed dial, and the handset in its cradle."""
+    els = [bx("Table", (3, 10, 3), (13, 11, 13), "tvwood"), bx("Lip", (3.25, 9.5, 3.25), (12.75, 10, 12.75), "tvwood"),
+           bx("Shelf", (4, 3, 4), (12, 3.5, 12), "tvwood")]
+    for i, (x, z) in enumerate(((4, 4), (12, 4), (4, 12), (12, 12))):
+        els += MK.leg(f"Leg{i}", x, z, 0, 9.5, t=1.0, tex="tvwood", taper=0.3)
+    els += [bx("Base", (5, 11, 5.5), (11, 12.5, 11), "bakelite"), bx("Upper", (5.5, 12.5, 6.5), (10.5, 13.75, 10.75), "bakelite"),
+            bx("Dial", (6.25, 13.75, 7), (9.75, 13.8, 10.25), "phonedial", faces=("up",), full=True),
+            bx("Cradle1", (5.5, 13.75, 9.75), (6.5, 14.5, 10.75), "bakelite"), bx("Cradle2", (9.5, 13.75, 9.75), (10.5, 14.5, 10.75), "bakelite"),
+            bx("Handset", (4.75, 14.5, 9.75), (11.25, 15.25, 10.75), "bakelite"),
+            bx("Ear", (4.25, 14.25, 9.5), (5.75, 15.75, 11), "bakelite"), bx("Mouth", (10.25, 14.25, 9.5), (11.75, 15.75, 11), "bakelite")]
+    for i in range(8):  # the finger wheel's ring
+        a = 45 * i
+        els.append(bx(f"Ring{i}", (7.6, 13.8, 7.0), (8.4, 14.05, 7.4), "chrome", rot=(0, a, 0), origin=(8, 13.9, 8.625)))
+    return els
+
+
+def fountain_b13():
+    """The town fountain (B13): the rim a cast-stone wall under a lighter cap course; the spout a moulded plinth, an
+    octagonal shaft, a bowl with a rim round Almond Water, and a finial for the jet."""
+    rim = [bx("Rim", (0, 0, 0), (16, 5.5, 16), "fountainstone"), bx("Cap", (0, 5.5, 0), (16, 7, 16), "fountaincap")]
+    sp = [bx("Plinth", (4, 0, 4), (12, 1.5, 12), "fountaincap"), bx("Plinth2", (4.75, 1.5, 4.75), (11.25, 2.5, 11.25), "fountainstone")]
+    sp += cyl("Shaft", 8, 8, 2.4, 2.5, 12.5, "fountainstone")
+    sp += [bx("Collar", (5, 12.5, 5), (11, 13.5, 11), "fountaincap"), bx("Under", (3.5, 13.5, 3.5), (12.5, 14.25, 12.5), "fountainstone"),
+           bx("Floor", (2, 14.25, 2), (14, 15.25, 14), "fountainstone"),
+           bx("WallN", (2, 15.25, 2), (14, 17, 3), "fountaincap"), bx("WallS", (2, 15.25, 13), (14, 17, 14), "fountaincap"),
+           bx("WallW", (2, 15.25, 3), (3, 17, 13), "fountaincap"), bx("WallE", (13, 15.25, 3), (14, 17, 13), "fountaincap"),
+           bx("Water", (3, 16.25, 3), (13, 16.3, 13), "fountainwater", faces=("up",)),
+           bx("Finial", (7, 16.3, 7), (9, 18.5, 9), "fountaincap"), bx("Jet", (7.5, 18.5, 7.5), (8.5, 21, 8.5), "fountaincap")]
+    return rim, sp
+
+
+def towerleg_b13():
+    """A water tower's leg (B13): a painted steel post with a flange at its foot and a band at the brace, and the
+    brace as a channel with a lit flange."""
+    return [bx("Foot", (5.5, 0, 5.5), (10.5, 1, 10.5), "towersteel"), bx("Leg", (6.25, 0, 6.25), (9.75, 16, 9.75), "towersteel"),
+            bx("Band", (6, 6.5, 6), (10, 8.5, 10), "towersteel"),
+            bx("Brace", (0, 7, 7.5), (16, 8, 8.5), "towersteel"), bx("BraceLip", (0, 8, 7.25), (16, 8.25, 8.75), "towersteel")]

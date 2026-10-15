@@ -19,11 +19,20 @@
 		]
 	},
 	"blockmaterial": "Wood",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/pooldoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/pooldoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/pooldoor-upper"
 		}
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"sidesolid": {
+		"all": true
 	},
 	"lightAbsorption": 99,
 	"resistance": 4,
