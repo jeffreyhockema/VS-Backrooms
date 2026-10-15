@@ -1,0 +1,1039 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pooldoor-lower": "backrooms:block/detail/pooldoor-lower",
+		"poolsteel": "backrooms:block/detail/poolsteel"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL0",
+			"from": [
+				0.05,
+				0,
+				-0.4
+			],
+			"to": [
+				1.75,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR0",
+			"from": [
+				14.25,
+				0,
+				-0.4
+			],
+			"to": [
+				15.95,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick0",
+			"from": [
+				1.75,
+				0.6,
+				-0.3
+			],
+			"to": [
+				14.25,
+				5.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail0",
+			"from": [
+				1.75,
+				5.0,
+				-0.4
+			],
+			"to": [
+				14.25,
+				6.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL1",
+			"from": [
+				16,
+				0,
+				0.05
+			],
+			"to": [
+				16.4,
+				16,
+				1.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR1",
+			"from": [
+				16,
+				0,
+				14.25
+			],
+			"to": [
+				16.4,
+				16,
+				15.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick1",
+			"from": [
+				16,
+				0.6,
+				1.75
+			],
+			"to": [
+				16.3,
+				5.0,
+				14.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail1",
+			"from": [
+				16,
+				5.0,
+				1.75
+			],
+			"to": [
+				16.4,
+				6.25,
+				14.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL2",
+			"from": [
+				14.25,
+				0,
+				16
+			],
+			"to": [
+				15.95,
+				16,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR2",
+			"from": [
+				0.05000000000000071,
+				0,
+				16
+			],
+			"to": [
+				1.75,
+				16,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick2",
+			"from": [
+				1.75,
+				0.6,
+				16
+			],
+			"to": [
+				14.25,
+				5.0,
+				16.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail2",
+			"from": [
+				1.75,
+				5.0,
+				16
+			],
+			"to": [
+				14.25,
+				6.25,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL3",
+			"from": [
+				-0.3999999999999986,
+				0,
+				14.25
+			],
+			"to": [
+				0,
+				16,
+				15.95
+			],
+			"faces": {
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR3",
+			"from": [
+				-0.3999999999999986,
+				0,
+				0.05000000000000071
+			],
+			"to": [
+				0,
+				16,
+				1.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick3",
+			"from": [
+				-0.3000000000000007,
+				0.6,
+				1.75
+			],
+			"to": [
+				0,
+				5.0,
+				14.25
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						4.4
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail3",
+			"from": [
+				-0.3999999999999986,
+				5.0,
+				1.75
+			],
+			"to": [
+				0,
+				6.25,
+				14.25
+			],
+			"faces": {
+				"south": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						1.25
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-lower",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

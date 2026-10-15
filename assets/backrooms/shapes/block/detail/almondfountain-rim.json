@@ -2,6 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"fountaincap": "backrooms:block/detail/fountaincap",
 		"fountainstone": "backrooms:block/detail/fountainstone"
 	},
 	"elements": [
@@ -14,7 +15,7 @@
 			],
 			"to": [
 				16,
-				7,
+				5.5,
 				16
 			],
 			"faces": {
@@ -24,7 +25,7 @@
 						0,
 						0,
 						16,
-						7
+						5.5
 					]
 				},
 				"east": {
@@ -33,7 +34,7 @@
 						0,
 						0,
 						16,
-						7
+						5.5
 					]
 				},
 				"south": {
@@ -42,7 +43,7 @@
 						0,
 						0,
 						16,
-						7
+						5.5
 					]
 				},
 				"west": {
@@ -51,7 +52,7 @@
 						0,
 						0,
 						16,
-						7
+						5.5
 					]
 				},
 				"up": {
@@ -65,6 +66,75 @@
 				},
 				"down": {
 					"texture": "#fountainstone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0,
+				5.5,
+				0
+			],
+			"to": [
+				16,
+				7,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountaincap",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#fountaincap",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#fountaincap",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#fountaincap",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#fountaincap",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#fountaincap",
 					"uv": [
 						0,
 						0,

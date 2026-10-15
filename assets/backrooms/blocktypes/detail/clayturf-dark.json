@@ -13,15 +13,127 @@
 	"drawtype": "cube",
 	"textures": {
 		"up": {
-			"base": "block/detail/clayturf-dark"
+			"base": "block/detail/clayturf-dark",
+			"alternates": [
+				{
+					"base": "block/detail/clayturf-dark",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/clayturf-dark",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/clayturf-dark",
+					"rotation": 270
+				},
+				{
+					"base": "block/detail/clayturf-dark-2"
+				},
+				{
+					"base": "block/detail/clayturf-dark-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/clayturf-dark-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/clayturf-dark-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/detail/clayturf-dark-3"
+				},
+				{
+					"base": "block/detail/clayturf-dark-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/clayturf-dark-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/clayturf-dark-3",
+					"rotation": 270
+				}
+			]
 		},
 		"down": {
-			"base": "block/detail/claysoil"
+			"base": "block/detail/claysoil",
+			"alternates": [
+				{
+					"base": "block/detail/claysoil",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/claysoil",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/claysoil",
+					"rotation": 270
+				},
+				{
+					"base": "block/detail/claysoil-2"
+				},
+				{
+					"base": "block/detail/claysoil-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/claysoil-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/claysoil-2",
+					"rotation": 270
+				},
+				{
+					"base": "block/detail/claysoil-3"
+				},
+				{
+					"base": "block/detail/claysoil-3",
+					"rotation": 90
+				},
+				{
+					"base": "block/detail/claysoil-3",
+					"rotation": 180
+				},
+				{
+					"base": "block/detail/claysoil-3",
+					"rotation": 270
+				}
+			]
 		},
 		"horizontals": {
-			"base": "block/detail/clayturf-side-dark"
+			"base": "block/detail/clayturf-side-dark",
+			"alternates": [
+				{
+					"base": "block/detail/clayturf-side-dark"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark-2"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark-3"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark-2"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark-3"
+				},
+				{
+					"base": "block/detail/clayturf-side-dark-4"
+				}
+			]
 		}
 	},
+	"randomizeAxes": "xyz",
 	"lightAbsorption": 99,
 	"resistance": 1.5,
 	"fertility": 50,

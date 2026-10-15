@@ -18,6 +18,17 @@
     {"name": "prop-1", "tp": [512056.5, 197.05, 383652.5], "look": [0, -32], "surface": "floor prop variant 160", "pre": ["/time set 12:00"]},
     {"name": "prop-2", "tp": [511981.5, 196.05, 383657.5], "look": [0, -32], "surface": "floor prop variant 30", "pre": ["/time set 12:00"]},
     {"name": "castle-wide", "tp": [512016.5, 187.0, 384466.5], "look": [0, 3], "target": "castle", "pre": ["/time set 12:00"]},
-    {"name": "castle-close", "tp": [512016.5, 187.0, 384466.5], "look": [0, 3], "fov": 35, "target": "castle", "pre": ["/time set 12:00"]}
+    {"name": "castle-close", "tp": [512016.5, 187.0, 384466.5], "look": [0, 3], "fov": 35, "target": "castle", "pre": ["/time set 12:00"]},
+    {"name": "turf-close", "tp": [511829.5, 190.05, 383609.5], "look": [0, -15], "target": "turf terraces up the water tower's hill", "pre": ["/time set 12:00"]},
+    {"name": "watertower-wide", "tp": [511829.5, 192.05, 383606.5], "look": [0, 25], "target": "water tower centred 511829,383594", "pre": ["/time set 12:00"]},
+    {"name": "watertower-close", "tp": [511829.5, 195.05, 383599.5], "look": [0, 30], "target": "water tower legs and tap", "pre": ["/time set 12:00"]},
+    {"name": "fountain-close", "tp": [512198.5, 187.05, 383503.5], "look": [0, -12], "target": "fountain centred 512198,383497", "pre": ["/time set 12:00"]},
+    {"name": "milkvan-close", "tp": [512189.5, 187.05, 383496.5], "look": [215, -12], "target": "milk van at 512186-187, 383499-502, front to the north", "pre": ["/time set 12:00"]},
+    {"name": "road-close", "tp": [512181.5, 187.05, 383486.5], "look": [90, -35], "target": "asphalt and kerbs north of the town's west block", "pre": ["/time set 12:00"]},
+    {"name": "house-close", "tp": [512176.5, 187.05, 383509.5], "look": [0, 12], "target": "a town house's front at z 383505", "pre": ["/time set 12:00"]},
+    {"name": "castle-wall-close", "tp": [512030.5, 227.05, 383984.5], "look": [180, 15], "target": "castle south wall from the glass", "pre": ["/time set 12:00"]},
+    {"name": "castle-wall-wide", "tp": [512052.5, 217.05, 383978.5], "look": [223, 20], "target": "castle's south-east tower from down the glass", "pre": ["/time set 12:00"]},
+    {"name": "icebox-close", "tp": [512038.0, 196.05, 383587.5], "look": [90, -15], "target": "icebox at 512040,383587", "pre": ["/time set 12:00"]},
+    {"name": "radio-close", "tp": [512040.0, 196.05, 383582.5], "look": [90, -20], "target": "radio cabinet at 512042,383582", "pre": ["/time set 12:00"]}
   ]
 }

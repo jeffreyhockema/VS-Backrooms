@@ -1,0 +1,3004 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pooldoor-upper": "backrooms:block/detail/pooldoor-upper",
+		"poolporthole": "backrooms:block/detail/poolporthole",
+		"poolsteel": "backrooms:block/detail/poolsteel"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL0",
+			"from": [
+				0.05,
+				0,
+				-0.4
+			],
+			"to": [
+				1.75,
+				15.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR0",
+			"from": [
+				14.25,
+				0,
+				-0.4
+			],
+			"to": [
+				15.95,
+				15.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass0",
+			"from": [
+				5.4,
+				4.65,
+				-0.06
+			],
+			"to": [
+				10.6,
+				9.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolporthole",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring00",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			]
+		},
+		{
+			"name": "Ring10",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "Ring20",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 90
+		},
+		{
+			"name": "Ring30",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 135
+		},
+		{
+			"name": "Ring40",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 180
+		},
+		{
+			"name": "Ring50",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 225
+		},
+		{
+			"name": "Ring60",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 270
+		},
+		{
+			"name": "Ring70",
+			"from": [
+				6.4088,
+				9.75,
+				-0.55
+			],
+			"to": [
+				9.5912,
+				10.85,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				-0.3
+			],
+			"rotationZ": 315
+		},
+		{
+			"name": "Push0",
+			"from": [
+				11.0,
+				0.5,
+				-0.3
+			],
+			"to": [
+				13.5,
+				3.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL1",
+			"from": [
+				16,
+				0,
+				0.05
+			],
+			"to": [
+				16.4,
+				15.5,
+				1.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR1",
+			"from": [
+				16,
+				0,
+				14.25
+			],
+			"to": [
+				16.4,
+				15.5,
+				15.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass1",
+			"from": [
+				16,
+				4.65,
+				5.4
+			],
+			"to": [
+				16.06,
+				9.85,
+				10.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolporthole",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring01",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			]
+		},
+		{
+			"name": "Ring11",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -45
+		},
+		{
+			"name": "Ring21",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -90
+		},
+		{
+			"name": "Ring31",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -135
+		},
+		{
+			"name": "Ring41",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -180
+		},
+		{
+			"name": "Ring51",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -225
+		},
+		{
+			"name": "Ring61",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -270
+		},
+		{
+			"name": "Ring71",
+			"from": [
+				16,
+				9.75,
+				6.4088
+			],
+			"to": [
+				16.55,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				16.3,
+				7.25,
+				8.0
+			],
+			"rotationX": -315
+		},
+		{
+			"name": "Push1",
+			"from": [
+				16,
+				0.5,
+				11.0
+			],
+			"to": [
+				16.3,
+				3.0,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL2",
+			"from": [
+				14.25,
+				0,
+				16
+			],
+			"to": [
+				15.95,
+				15.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR2",
+			"from": [
+				0.05000000000000071,
+				0,
+				16
+			],
+			"to": [
+				1.75,
+				15.5,
+				16.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass2",
+			"from": [
+				5.4,
+				4.65,
+				16
+			],
+			"to": [
+				10.6,
+				9.85,
+				16.06
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolporthole",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring02",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			]
+		},
+		{
+			"name": "Ring12",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -45
+		},
+		{
+			"name": "Ring22",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -90
+		},
+		{
+			"name": "Ring32",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -135
+		},
+		{
+			"name": "Ring42",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -180
+		},
+		{
+			"name": "Ring52",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -225
+		},
+		{
+			"name": "Ring62",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -270
+		},
+		{
+			"name": "Ring72",
+			"from": [
+				6.408799999999999,
+				9.75,
+				16
+			],
+			"to": [
+				9.5912,
+				10.85,
+				16.55
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.25,
+				16.3
+			],
+			"rotationZ": -315
+		},
+		{
+			"name": "Push2",
+			"from": [
+				2.5,
+				0.5,
+				16
+			],
+			"to": [
+				5.0,
+				3.0,
+				16.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileL3",
+			"from": [
+				-0.3999999999999986,
+				0,
+				14.25
+			],
+			"to": [
+				0,
+				15.5,
+				15.95
+			],
+			"faces": {
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileR3",
+			"from": [
+				-0.3999999999999986,
+				0,
+				0.05000000000000071
+			],
+			"to": [
+				0,
+				15.5,
+				1.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						15.5
+					]
+				},
+				"north": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pooldoor-upper",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass3",
+			"from": [
+				-0.05999999999999872,
+				4.65,
+				5.4
+			],
+			"to": [
+				0,
+				9.85,
+				10.6
+			],
+			"faces": {
+				"west": {
+					"texture": "#poolporthole",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring03",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			]
+		},
+		{
+			"name": "Ring13",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Ring23",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 90
+		},
+		{
+			"name": "Ring33",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 135
+		},
+		{
+			"name": "Ring43",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 180
+		},
+		{
+			"name": "Ring53",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 225
+		},
+		{
+			"name": "Ring63",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 270
+		},
+		{
+			"name": "Ring73",
+			"from": [
+				-0.5500000000000007,
+				9.75,
+				6.408799999999999
+			],
+			"to": [
+				0,
+				10.85,
+				9.5912
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						1.1
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						3.1823,
+						0.55
+					]
+				}
+			},
+			"rotationOrigin": [
+				-0.3000000000000007,
+				7.25,
+				8.0
+			],
+			"rotationX": 315
+		},
+		{
+			"name": "Push3",
+			"from": [
+				-0.3000000000000007,
+				0.5,
+				2.5
+			],
+			"to": [
+				0,
+				3.0,
+				5.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#poolsteel",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

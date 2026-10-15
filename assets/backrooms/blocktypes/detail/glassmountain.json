@@ -18,9 +18,21 @@
 	},
 	"textures": {
 		"all": {
-			"base": "block/detail/glassmountain"
+			"base": "block/detail/glassmountain",
+			"alternates": [
+				{
+					"base": "block/detail/glassmountain-2"
+				},
+				{
+					"base": "block/detail/glassmountain-3"
+				},
+				{
+					"base": "block/detail/glassmountain-4"
+				}
+			]
 		}
 	},
+	"randomizeAxes": "xyz",
 	"lightAbsorption": 0,
 	"resistance": 4,
 	"sounds": {

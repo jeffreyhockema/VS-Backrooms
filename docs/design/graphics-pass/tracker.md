@@ -145,6 +145,16 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   normal). Retakes minutes later were normal. A billboard on a low roof stands behind its parapet from the street, so
   it is shot from the parapet (feet at roof + 2).
 
+- (B13) Texture `alternates` are picked by a hash of the block's x and z only, unless the blocktype says `randomizeAxes:
+  "xyz"` (decompiled cube tesselator: `MurmurHash3(x, RandomizeAxes == XYZ ? y : 0, z)`). Without it every block of a
+  wall's column shows the same version, so a feature in one version stacks into a vertical line. B13 sets it on Level
+  37's tile and Level 94's turf, clay, castle, glass and tank; earlier batches' walls with versions do not have it.
+- (B13) Each face picks its own alternate (the same hash, modulo that face's list length), so a cube's top, sides and
+  bottom can list different numbers of versions and weights.
+- (B13) Compass headings in spot lists: north is -z. A spot meant to face a wall at a larger z looks south (180).
+- (B13) Level 94's siren poles are written to the town's plaza corners and then overwritten by the house lots, so none
+  stands in a world (layout; the tune still plays from `NearestSirenPole`). Its model is judged on the preview.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -163,8 +173,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B10 Levels 7 and 8 | gfx/B10 | merged | 2 | island rock C+ (facets need ~30 levels of joint contrast: follow-up), sea ceiling C+, glowcaps C+, wing chair fabric, seeps untouched | passed 2026-10-14 23:40 (Fable): repeat gone, furniture and lamps at B; user decides |
 | B11 Levels 9 and 10 | gfx/B11 | merged | 2 | silo, tractor, asphalt tracks, house interiors, L10 field props (budget) | passed 2026-10-14 01:00 (Fable): gables and roofs verified on sidebyside; new pitchroof code beside roofslope, layout hashes unchanged |
 | B12 Level 11 | gfx/B12 | merged | 2 | mirror glass (lore), roofs C+, asphalt C+, traffic-light fronts unseen, lobby marble C+; shelter, dumpster, booth, cart, bench, doors untouched | passed 2026-10-15 00:40 (Fable): façade windows and bands verified as geometry at the old look |
-| B13 Levels 37 and 94 | gfx/B13 | in progress | | | |
-| B14 Level ! and Fun | | not started | | | |
+| B13 Levels 37 and 94 | gfx/B13 | merged | 2 | L94 asphalt and dirt path C+; siren pole stands in no world (layout bug, report to user); earlier batches' walls lack randomizeAxes xyz (follow-up) | passed 2026-10-15 01:55 (Fable): turf swirl gone, mosaic at B |
+| B14 Level ! and Fun | gfx/B14 | in progress | | | |
 | B15 The End and The Hub | | not started | | | |
 | B16 974, 3999, 188 | | not started | | | |
 | B17 entities and items | | not started | | | |
@@ -1554,3 +1564,87 @@ Worker report (Opus, 2026-10-15). Branch `gfx/B12` from `main` (16c5f56), uncomm
 - **`gen_detail.TURNED`/`ALTS`:** entries are added from `gen_city.facades` for the roofs, pavers, marble and subway tiles.
 
 **Lessons:** five lines added above.
+
+### B13
+
+Worker report (Opus, 2026-10-15). Branch `gfx/B13` from `main` (94ff2b5), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), then fixes and one reshoot. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b13/compare-round2-37.jpg` and `review/b13/compare-round2-94.jpg`: every spot.
+  - `review/b13/compare-round2-37-detail.jpg` and `-94-detail.jpg`: the close spots at twice the size.
+  - Shots: `review/b13/final/{37,94}`. Round 1: `review/b13/compare-round1-*.jpg`, with its shots in `review/b13/after/`.
+- **Per-family pairs:** `review/b13/sidebyside/<family>.jpg`, from `docs/design/graphics-pass/sidebyside/B13.json` (it works on `review/b13/sbs/{before,after}`, where shots carry a `37-` or `94-` prefix). The B13 section is added to `review/compare.html`.
+- **Decision table:** eleven rows added to `decisions.md`, decision column empty. Every B13 painter runs after the old one under the same keys (`gen_pool.b13_textures`, `gen_motion.b13_textures`), and each model is one `*_b13` function, so a family reverts by dropping its call.
+- **Offline evidence** (`review/b13/offline/`):
+  - `tex-{pool,ground,motion-props}-{before,after}.png`, `tex-round2.png`: texsheets, tiled 3x3, with vanilla references.
+  - `mock-*-6x3.png`: the mosaic, red tile, coping, turf tops and sides, clay, asphalt, kerb, path and concrete in their real mix of versions and turns, main above B13, with seam ratios (turf top 1.33 on main, 1.09 now; path 2.31 on main, 1.14 now).
+  - `preview-pool-*.png`, `preview-motion-*.png`, `preview-round2.png`: every changed model beside main's.
+  - `zoom-mosaic.png`, `crop-*.png`, `harness/`, and the scratch tools in `tools/` (`enums.py`, `explore.py`, `map_at.py`, `query.py`, `findspots_b13.py`, `addspots_b13.py`, `mocks_b13.py`, `churn.py`, `luma.py`, `prev.py`, `docs_b13.py`, `tracker_b13.py`).
+
+**Checks**
+- **Build:** 0 warnings and 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir). `build-gfxbase` was built from unchanged `main` before any edit. No C# changed.
+- **`layouthash`:** v1 and v4 unchanged against main's output, line for line, in both rounds (`review/b13/offline/harness`).
+- **`validatelevel 12` and `13`** (Levels 37 and 94, `SPAWN=16000`, 24 cells): main's output, since no C# changed. Level 37: no faults. Level 94: four doorways blocked by props, as on main.
+- **Saves:** no code, kind, variant group or class was added, renamed or removed, and there is no layout version. The changes are textures, new texture keys and versions, shapes, `alternates`, `randomizeAxes` and one `drawtype`: `pooldoor` (lower and upper) now draws a model and stays a full solid block (`sideopaque` and `sidesolid` true, `lightAbsorption` 99, the same threshold behaviour). Shot in `gfxreview`; no new world was needed.
+- **`check_zfight`:** no same-shape pairs on any new or changed shape (round 1's milk van bumpers were fixed). The neighbour flags left are the wheels' outer faces (as on main), the handrail's ends where it runs on into the next block, and the door stiles' tops where the upper half continues them.
+- **Churn:** line endings and the `exitlintel*` key order restored from git after every regeneration; nothing outside the two generators' output changed.
+- **Brightness:** every final shot is within 2.6 levels of the new baseline except `94-castle-wall-wide` (-8.9: the glass no longer draws a bright outline round every block) and `94-castle-close` (+4.8, far, outdoor sway) (`review/b13/luma-final.txt`).
+- **Texture keys:** every new key was checked against all generators and `git ls-files`.
+  - New keys: `pooltile-2/-3`, `poolsunlit-2/-3`, `poolred-2/-3`, `poolcoping-2`, `poolsteel`, `pooltread`, `poolporthole`; `clayturf-{light,dark}-2/-3`, `clayturf-side-{light,dark}-2..4`, `claysoil-2/-3`, `motion{path,concrete,asphalt,kerb}-2/-3`, `castlewall-2/-3`, `castleroof-2/-3`, `towertank-2/-3`, `glassmountain-2..4`, `fountaincap`, `fountainwater`, `iceboxenamel`, `iceboxdoor`, `radiowalnut`, `radiocloth`, `radiodial`, `milkvangrille`.
+  - No longer used by any shape (still written): `icebox-front`, `radio-front`.
+  - `milkvan-side` is now 112 x 40 (on the 8 px grid), so its letters stay square on the van's side.
+
+**Baseline and spots**
+- `review/baseline/37` and `/94` were reshot on `build-gfxbase`; the B0 sets are kept as `37-b0` and `94-b0`. A retake of three spots per level first (`review/b13/base-check`) matched the full run within 3. Against B0, Level 37's wide shots drift 7-15 levels either way (water and fog), the close ones within 3; Level 94 matches within 1 except the castle on the horizon.
+- **Added** (`review/spots/37.json`, `94.json` and the docs copies; found on the harness grid with the scratch tools):
+  - Level 37: `slit-close`, `mosaic-close` (the deck and wall foot between slits), `rail-close`, `pooldoor-close`.
+  - Level 94: `turf-close`, `watertower-wide`, `watertower-close`, `fountain-close`, `milkvan-close`, `road-close`, `house-close`, `castle-wall-close`, `castle-wall-wide`, `icebox-close`, `radio-close`.
+- **Re-aimed after the base frames:** `castle-wall-close` faced away from the castle (north is -z); it now looks south at the wall.
+- **Not added:** a siren pole (none stands in a world: see the lessons), the telephone table (no clear view), the Reservoir's red tile (not near the anchor). The house front is Level 9's (B11) and is shot for context only.
+- No run came out dark.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| L94 turf tops (hero 27, 28) | B (blind r1: B) | better | The repeating swirl is gone. Smooth plasticine in the old greens covered in small pressed tool strokes at every angle, and a few thumb drags (round 2). Three versions on one ground, turned at random; seam ratio 1.09. |
+| L94 turf sides | B- (r1: C) | better | No swirl on every block. A lit rounded lip, strokes running up, a slight bulge and a darker foot. Round 2 removed the clay line at the foot (it read as a line on every step), added thumb drags, and made the thumbprint version (one block in eight) fainter. |
+| L94 clay | B- (r1: B-) | better | Small partial thumbprints, smears and lumps; three versions turned. |
+| L94 asphalt | C+ (r1: C) | better | Smooth dark clay with a fine grit; no swirl. A faint crack in one version listed one block in seven (round 2 dropped a square patch: square marks read badly). Still plain: carried. |
+| L94 kerbs, concrete paths, plaza | B (r1: B) | better | One slab to a block with a sunk joint on all sides; the kerb's arris rounded; round 2 removed the faint trowel arcs. |
+| L94 dirt path | C+ (r1: C+) | better | Clay pebbles and smears; round 2 thinned the pebbles. |
+| L94 castle wall | B (r1: B) | better | Shaded white ashlar at the old courses, three versions by tone; round 2 removed the pits that sat in every stone. Glow kept. |
+| L94 castle roofs | B- (r1: C, small bricks) | better | Round 2: clay tiles 8 x 8 breaking joint, rounded tails, a lit lip and the overlap's shadow, at the old red mean (the red is the lore's). Glow kept. |
+| L94 glass mountain | B (r1: B) | better | No outline round every block; a short soft glint in two versions of four. |
+| L94 water tower | B+ (r1: B+) | better | Riveted white tank, painted steel legs with a foot flange and band. |
+| L94 fountain | B (r1: B) | better | A capped cast-stone rim; a moulded spout with an octagonal shaft and a bowl of Almond Water. |
+| L94 icebox, radio, telephone | B+ / B+ / B (preview) (r1: B+, B+) | much better | Doors, latches, hinges, grille, dial and knobs as geometry; the painted fronts are retired. |
+| L94 milk van, old cars' wheels | B (r1: B) | better | Octagonal wheels under mudguards, chrome grille and round lamps, cab windows, a square-pixel livery. |
+| L94 siren pole, NO OUTLET sign | B- (preview) | better | Flared horns; crisp sign letters. The pole stands in no world. |
+| L37 mosaic, sunlit, coping (hero 25, 26) | B (r1: B-) | better | The same white 64 px mosaic and pale grout, now each tile a hair different, glazed at its edges with a glint, the grout recessed and (round 2) a step darker; three versions on one ground, picked by height too. Crazing in about one tile in twelve; nothing chipped (the lore's tile is pristine). The coping is a larger bullnose tile, not a painted frame per block. |
+| L37 red film tile | B- (offline only) | better | The film in the grout, heavier along some joints; the blotch that sat in every block is gone. Not in a shot. |
+| L37 POOL door | B (r1: C) | much better | A model on the old codes: stiles, an octagonal stainless porthole ring over one pane, push and kick plates, on all four sides 0.05 short of the block's edges. Round 2 replaced the plus-shaped glass, removed stray chips and moved POOL above the porthole, where the push plate no longer covers it. |
+| L37 handrail, ladder | B / B (r1: B, B) | better | Round rail on arms from roses (round 2 hid the roses' points behind the rail); round ladder rails on stays, ribbed treads with a nosing. |
+| L37 Epsom crust, lost things | B (preview; r1: B) | better | Crystal crust in sheets with lumps; a folded towel, V-strap flip-flops, a round noodle. Too dark to judge in game. |
+| L37 slit, arch glow | B | same | Not changed: lights stay cubes. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given only the sheets, texsheets, mocks, previews and the rubric; asked whether the turf still repeats, whether the mosaic reads as tile, and about the door, rail and ladder):
+   - **No change in:** layout or brightness.
+   - **Turf:** no frame shows the swirl repeating any more; the tops are seamless. The sides read as streak noise, the thumbprint version was visible, and a thin line ran along every step.
+   - **C:** the door's plus-shaped porthole glass and two chips; the turf sides; the asphalt (plain); the castle roof (small bricks, saturated); the path's pebble rhythm.
+   - **Mosaic:** clean tile with no repeat, but too flat to read as glazed ceramic.
+   - **Minor:** the rail's rose points above the rail, a dot in every castle stone, the kerb's faint arcs.
+2. **Round 2 fixed:** the porthole (one pane under a broader ring), the door's chips and lettering; the turf sides (no foot line, thumb drags, a slight bulge, a fainter thumbprint) and thumb drags on the tops; the mosaic's glaze and grout; the castle roof as tiles; the stone pits; the rail's roses; the kerb's arcs; the asphalt's speckle (and a square patch tried and dropped). Reshot once.
+
+**Carried below B, with reasons**
+- **Asphalt (C+):** plain clay asphalt by design of the level; the reviewer wanted wear (tracks, patches). Square patches read as square marks (`decisions.md`), so only a faint crack was added.
+- **Dirt path (C+):** short paths from house to road; pebbles and smears only.
+- **Not touched:** the houses (Level 9's, B11), the bed and nightstands (Level 9's), the castle's funhouse inside (no shot), the backdrop, the doll's and flooded houses' doors, the picket fence (B), the slit and arch glow (lights stay cubes), the item icons (B17).
+- **Layout, reported not changed:** Level 94's siren poles are overwritten by the town's house lots, so none stands in a world.
+
+**Tool changes:** none to shared tools.
+- **New in `gen_pool`:** the B13 section: `POOL_MEAN`, `mosaic_b13`, `b13_mosaic`, `b13_chrome`, `b13_door`, `b13_lost`, `b13_textures`; the models `octo_bar`, `rail_b13`, `ladder_b13`, `pool_door_b13`, `pool_door_block_b13`, `epsom_b13`, `lost_b13`; `gen_detail.ALTS` entries for the tile versions.
+- **New in `gen_motion`:** the B13 section: `MOTION_MEAN`, `stroke`, `arcs`, `smear`, `clay_ground`, the painters `turf_top_b13`, `turf_side_b13`, `clay_b13`, `path_b13`, `asphalt_b13`, `slab_b13`, `castle_b13`, `roof_b13`, `tower_b13`, `fountain_tex_b13`, `glass_b13`, `furniture_tex_b13`, `van_tex_b13`, `nooutlet_b13`, `b13_textures`, `alts`, `tex_entry`; the models `octo_wheel`, `milkvan_b13`, `oldcar_wheels_b13`, `sirenpole_b13`, `icebox_b13`, `radio_b13`, `phone_b13`, `fountain_b13`, `towerleg_b13`; `gen_detail.TURNED`/`ALTS` entries for the roads and the castle.
+
+**Lessons:** four lines added above.
