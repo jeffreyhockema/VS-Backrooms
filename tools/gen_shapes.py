@@ -1312,6 +1312,56 @@ def chandelier():
     return els
 
 
+
+# ---------------- Graphics pass B10: the furniture of Fort Surrender (also Level 5's) ----------------
+#
+# Level 7's shelters are built from Level 5's furniture, held together with tar (WorldLayout.Level7.Shelter), so the
+# wardrobe and the wing chair are re-made here as geometry; they keep their codes, footprints and collision boxes
+# (gen_blocktypes.level5) and stand in Level 5's rooms too. Front to the north, as every oriented prop.
+
+def wardrobe_b10():
+    """A mahogany wardrobe: a plinth with a toe recess, side panels, a cornice in two steps, and two doors, each a frame
+    round two raised and fielded panels, meeting at the middle with a brass pull on each and an escutcheon on the right
+    door. (Was a box with a painted seam and two brass bars.)"""
+    w = "wood"
+    els = [box("Plinth", (1, 0, 5.5), (15, 2, 16), w),
+           box("PlinthFront", (1.25, 0.25, 5), (14.75, 2, 5.5), w, faces=("north", "east", "west", "up")),
+           box("SideL", (1, 2, 5), (2, 28, 16), w), box("SideR", (14, 2, 5), (15, 28, 16), w),
+           box("Carcass", (2, 2, 6), (14, 28, 16), w, faces=("north", "south")),  # (round 2: its back closed)
+           box("Rail", (2, 2, 5), (14, 2.75, 6), w, faces=("north", "up")),
+           box("Head", (2, 27.25, 5), (14, 28, 6), w, faces=("north", "down")),
+           box("Cornice", (0.75, 28, 4.6), (15.25, 29, 16), w),
+           box("Cap", (0.5, 29, 4.2), (15.5, 30, 16), w)]
+    for side, (x1, x2) in (("L", (2.25, 7.9)), ("R", (8.1, 13.75))):
+        els += K.frame_and_panel("Door" + side, (x1, 2.75, 5.25), (x2, 27.25, 6.25), w, border=1.5, depth=0.5, grid=(1, 2),
+                                 raised=0.25, mid=1.5, both_sides=False)
+    els += K.handle("PullL", 7.25, 15, 5.25, length=2.5, standoff=0.6, thick=0.5, tex="brass")
+    els += K.handle("PullR", 8.75, 15, 5.25, length=2.5, standoff=0.6, thick=0.5, tex="brass")
+    els += [K.box("Escutcheon", (8.6, 12.4, 5.0), (9.1, 13.4, 5.25), "brass", faces=("north", "east", "west", "up", "down"))]
+    return els
+
+
+def wing_chair_b10():
+    """A wingback armchair in the hotel's red velvet: four short mahogany legs under a skirted seat, a cushion with a
+    soft front edge, a back with a rolled top, and on each side a wing that sweeps forward into a rolled arm. (Was five
+    boxes.)"""
+    v, w = "velvet", "wood"
+    els = []
+    for i, (x, z) in enumerate(((3, 3), (11.5, 3), (3, 12.5), (11.5, 12.5))):
+        els += [box(f"Leg{i}", (x + 0.25, 0, z + 0.25), (x + 1.25, 2.5, z + 1.25), w),
+                box(f"LegTop{i}", (x, 2.5, z), (x + 1.5, 3, z + 1.5), w, faces=("north", "east", "south", "west", "down"))]
+    els += [box("Skirt", (2.5, 3, 2.5), (13.5, 6, 14.5), v)]
+    els += K.bevelled_box("Cushion", (3.5, 6, 2.25), (12.5, 8.25, 12.5), v, b=0.5)
+    els += [box("Back", (3.5, 6, 12.5), (12.5, 20, 14.5), v)]
+    els += K.bevelled_box("BackRoll", (3.25, 19.5, 12.25), (12.75, 21.5, 14.75), v, b=0.5)
+    for side, (xa, xb) in (("L", (1.75, 3.5)), ("R", (12.5, 14.25))):
+        els += [box("Arm" + side, (xa, 6, 3.5), (xb, 10, 14.5), v),
+                box("Wing" + side, (xa, 10, 8), (xb, 19, 14.5), v),
+                box("WingFront" + side, (xa + 0.25, 10, 6), (xb - 0.25, 15, 8), v, faces=("north", "east", "west", "up"))]
+        els += K.bevelled_box("ArmRoll" + side, (xa - 0.25, 8.5, 2.75), (xb + 0.25, 10.75, 13), v, b=0.5)
+    return els
+
+
 def level5():
     t = {"panel": "backrooms:block/level5/hotelwall-panel", "brass": "backrooms:block/level5/brass",
          "candle": "backrooms:block/props/tube-warm", "gilt": "backrooms:block/level5/gilt",
@@ -1434,19 +1484,8 @@ def level5():
         box("LampStem", (7.5, 11, 8.5), (8.5, 15, 9.5), "brass"),
         box("Shade", (5, 14, 6.5), (11, 19, 12.5), "lampshade", glow=90),
     ])
-    oriented("wardrobe", t, [
-        box("Body", (1, 0, 5), (15, 30, 16), "wood"),
-        box("Seam", (7.8, 2, 4.8), (8.2, 28, 5), "brass"),
-        box("Handle1", (6.5, 14, 4.5), (7.5, 17, 5), "brass"),
-        box("Handle2", (8.5, 14, 4.5), (9.5, 17, 5), "brass"),
-    ])
-    oriented("wingchair", t, [
-        box("Seat", (2, 4, 2), (14, 8, 14), "velvet"),
-        box("Back", (2, 8, 12), (14, 22, 15), "velvet"),
-        box("WingL", (1, 8, 6), (3, 18, 15), "velvet"),
-        box("WingR", (13, 8, 6), (15, 18, 15), "velvet"),
-        box("Legs", (3, 0, 3), (13, 4, 13), "wood"),
-    ])
+    oriented("wardrobe", t, wardrobe_b10())  # (B10)
+    oriented("wingchair", t, wing_chair_b10())  # (B10)
     oriented("sofa", t, [
         box("Seat", (0, 4, 3), (16, 8, 14), "velvet"),
         box("Back", (0, 8, 12), (16, 17, 15), "velvet"),

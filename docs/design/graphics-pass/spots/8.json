@@ -28,6 +28,9 @@
     {"name": "sleepingbag-wide", "tp": [512342.5, 217.05, 505635.3], "look": [150, -13], "target": "sleepingbag", "distance": 6.0},
     {"name": "sleepingbag-close", "tp": [512344.09, 217.05, 505639.09], "look": [135, -35], "target": "sleepingbag", "distance": 2.0},
     {"name": "glowcaps-wide", "tp": [512300.5, 217.05, 505642.3], "look": [150, -12], "target": "glowcaps", "distance": 6.0},
-    {"name": "glowcaps-close", "tp": [512302.09, 217.05, 505646.09], "look": [135, -33], "target": "glowcaps", "distance": 2.0}
+    {"name": "glowcaps-close", "tp": [512302.09, 217.05, 505646.09], "look": [135, -33], "target": "glowcaps", "distance": 2.0},
+    {"name": "lamp-close", "tp": [512351.5, 217.05, 505624.0], "look": [180, 0], "target": "road lamp (B10) at 512351,505626"},
+    {"name": "meg-close", "tp": [512351.6, 217.05, 505632.5], "look": [270, -5], "target": "M.E.G. marker (B10) at 512349,505632"},
+    {"name": "seep-close", "tp": [512360.5, 217.05, 505637.0], "look": [0, -15], "target": "Almond Water seep (B10) at 512360,505634"}
   ]
 }

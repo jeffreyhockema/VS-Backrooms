@@ -11,13 +11,35 @@
 	"drawtype": "cube",
 	"textures": {
 		"up": {
-			"base": "block/detail/tar"
+			"base": "block/detail/tar",
+			"alternates": [
+				{
+					"base": "block/detail/tar"
+				},
+				{
+					"base": "block/detail/tar-2"
+				},
+				{
+					"base": "block/detail/tar"
+				},
+				{
+					"base": "block/detail/tar-3"
+				}
+			]
 		},
 		"down": {
 			"base": "block/detail/tar"
 		},
 		"horizontals": {
-			"base": "block/detail/tar-side"
+			"base": "block/detail/tar-side",
+			"alternates": [
+				{
+					"base": "block/detail/tar-side-2"
+				},
+				{
+					"base": "block/detail/tar-side-3"
+				}
+			]
 		}
 	},
 	"lightAbsorption": 99,

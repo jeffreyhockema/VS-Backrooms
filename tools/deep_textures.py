@@ -959,80 +959,7 @@ def level6_b9():
 # ---------------- Level 7 ----------------
 
 def level7():
-    img = noise(0x5E6466, 6, "oceanceiling")
-    T.blotch(img, (10, 22), 8, (40, 56, 60), 0.35, 91)
-    d = ImageDraw.Draw(img)
-    for x in (5, 19, 27):
-        d.line([x, 24, x, 31], fill=rgb(0x485052))  # water stains running down
-    save(img, "oceanceiling")
-    # The islands' unknown rock: dark grey-green basalt broken into angular facets, each its own shade, with dark
-    # cracks between them, a pale edge where a facet catches the light, and a few specks of lichen
-    rng = random.Random(seed_of("islandrock"))
-    pts = [(rng.uniform(0, S), rng.uniform(0, S)) for _ in range(6)]
-    shades = [rng.uniform(0.8, 1.1) for _ in pts]
-    cracked = {(a, b): rng.random() < 0.55 for a in range(len(pts)) for b in range(len(pts))}
-    img = noise(0x4A4F4C, 10, "islandrock")
-    px = img.load()
-    def nearest(x, y):
-        best = []
-        for i, (cx, cy) in enumerate(pts):
-            for ox in (-S, 0, S):
-                for oy in (-S, 0, S):
-                    best.append(((x - cx - ox) ** 2 + (y - cy - oy) ** 2, i))
-        best.sort()
-        return best[0][1], math.sqrt(best[1][0]) - math.sqrt(best[0][0]), best[1][1]
-    for y in range(S):
-        for x in range(S):
-            i, edge, other = nearest(x + 0.5, y + 0.5)
-            c = px[x, y]
-            k = shades[i] * (1 + 0.1 * ((x - pts[i][0]) + (y - pts[i][1])) / S)  # each facet lit from one side
-            c = tuple(max(0, min(255, int(v * k))) for v in c[:3])
-            if edge < 0.7 and cracked[min(i, other), max(i, other)]:
-                c = (24, 27, 26)  # a crack (not every facet is split from its neighbour)
-            elif edge < 1.8 and nearest(x - 0.5, y - 0.5)[0] != i:
-                c = tuple(min(255, int(v * 1.25)) for v in c)  # the lit lip of a facet
-            px[x, y] = c + (255,)
-    specks(img, [0x6E7A5A, 0x8A946A, 0x2A302C], 14, "islandrock-lichen")
-    save(img, "islandrock")
-    # Tar: glossy near-black, a faint broad sheen across it; on top, a few soft domes where bubbles are rising, each
-    # with a pinpoint highlight; down the sides, slow drips with a glint along them and a bead at the end
-    def tar_base(key):
-        img = noise(0x0A0A0C, 2, key)
-        px = img.load()
-        for y in range(S):
-            for x in range(S):
-                t = max(0.0, 1 - abs((x + y) - 26) / 9)
-                c = px[x, y]
-                px[x, y] = tuple(min(255, int(v + 12 * t)) for v in c[:3]) + (255,)
-        return img
-    img = tar_base("tar")
-    px = img.load()
-    for cx, cy, r in ((9, 22, 4.5), (23, 9, 3.5), (25, 25, 2.5)):
-        for y in range(S):
-            for x in range(S):
-                d = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5 / r
-                if d < 1:
-                    c = px[x, y]
-                    px[x, y] = tuple(min(255, int(v + 26 * (1 - d * d))) for v in c[:3]) + (255,)
-        hx, hy = int(cx - r * 0.4), int(cy - r * 0.4)
-        px[hx, hy] = (92, 92, 102, 255)
-        px[hx + 1, hy] = (56, 56, 64, 255)
-    save(img, "tar")
-    img = tar_base("tar-side")
-    px = img.load()
-    rng = random.Random(93)
-    for x0 in (3, 10, 19, 27):
-        length = rng.randint(10, 26)
-        for y in range(length):
-            for x in (x0, x0 + 1):
-                px[x, y] = (6, 6, 8, 255)
-            px[x0 + 1, y] = (34, 34, 40, 255) if y % 7 != 3 else (52, 52, 60, 255)  # the glint along it
-        for x in range(x0 - 1, x0 + 3):
-            px[x, length] = (8, 8, 10, 255)
-        px[x0, length + 1] = (8, 8, 10, 255)
-        px[x0 + 1, length + 1] = (8, 8, 10, 255)
-        px[x0 + 1, length] = (70, 70, 80, 255)  # the bead's highlight
-    save(img, "tar-side")
+    level7_b10()  # (B10) the rock, the ceiling over the sea, tar and wet wood
     flat("bone", 0xE4D8BC, 6)
     flat("scrap", 0x7A4A2A, 14)
     img = noise(0x8A7A50, 5, "canvas")
@@ -1040,39 +967,15 @@ def level7():
     d.rectangle([4, 12, 27, 24], fill=rgb(0x6A5A38))
     d.line([4, 18, 27, 18], fill=rgb(0x4A3A20))
     save(img, "canvas")
-    img = noise(0x3A2A1C, 8, "wetwood")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x221810), width=3)
-    d.line([3, 3, S - 4, S - 4], fill=rgb(0x2A1E14), width=2)
-    save(img, "wetwood")
 
 
 # ---------------- Level 8 ----------------
 
 def level8():
-    img = noise(0xD8D0B8, 3, "megplate")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x2A2A2A), width=2)
-    d.ellipse([4, 3, 27, 18], outline=rgb(0x2A4A8A), width=2)
-    text(img, "M.E.G.", (5, 5, 27, 16), 0x2A4A8A, 6)
-    text(img, "9TH ROAD", (1, 20, 31, 29), 0x2A2A2A, 5)
-    save(img, "megplate")
-    img = noise(0xFFD890, 4, "lampglass")
+    level8_b10()  # (B10) the M.E.G. plate, the road lamp's iron and glass, the glowcaps, the cave stone
+    img = noise(0xFFD890, 4, "lampglass")  # (the flashlight's lens and the porch lamp; the road lamp has l8lampglass)
     ImageDraw.Draw(img).rectangle([12, 0, 19, S - 1], fill=rgb(0xFFF4D0))
     save(img, "lampglass")
-    flat("cavestone", 0x8A8478, 8)
-    # Bioluminescent fungi: caps that glow from within (a brighter rim and gills, paler speckles), stems, and the
-    # mycelium they grow from; blood-red, and the other colours of the mixed clusters
-    for name, cap, rim in (("glowcapred", 0xB01818, 0xFF5A40), ("glowcapblue", 0x2A6AD8, 0x8AD8FF),
-                           ("glowcapviolet", 0x8A2AC8, 0xE09AFF), ("glowcapgreen", 0x38B850, 0xB8FF8A)):
-        img = noise(cap, 6, name)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(rim), width=2)
-        rng = random.Random(seed_of(name))
-        for _ in range(10):
-            x, y = rng.randrange(3, S - 3), rng.randrange(3, S - 3)
-            d.rectangle([x, y, x + 1, y + 1], fill=T.shade(T.hexrgb(rim), 1.15))
-        save(img, name)
     img = noise(0xD8CCB8, 4, "glowstem")
     save(img, "glowstem")
     img = noise(0x3A1414, 5, "mycelium")
@@ -1746,6 +1649,404 @@ def exteriors_b11():
     for name, c in (("red", (124, 44, 34)), ("grey", (134, 128, 118))):
         for k in range(3):
             save(barn_boards(c, seed_of(f"barnwall-{name}-{k}"), wear=k == 2), f"barnwall-{name}" + ("" if k == 0 else f"-{k + 1}"))
+
+
+
+# ---------------- Graphics pass B10: Levels 7 and 8 ----------------
+#
+# Level 7's island rock as seamless faceted basalt (three versions on one ground, a fourth with a faint fracture and a
+# little lichen, one block in eight), the ceiling over the sea as plain soffit concrete (its stains no longer in every
+# block), tar that is glossy and seamless, wet wood for the driftwood and the jetty; Level 8's road lamp, glowcaps, the
+# M.E.G. plate and the stone of the speleothem props. Each surface keeps the mean colour of the texture it replaces
+# (B10_MEAN, measured on main before B10), so neither level is brightened: Level 7 a dark sea under a glowing ceiling,
+# Level 8 real rock lit by its lamps and fungi.
+
+B10_MEAN = {"islandrock": (70.0, 74.9, 71.7), "tar": (14.4, 14.4, 16.4), "tar-side": (13.7, 13.7, 16.0),
+            "oceanceiling": (92.1, 98.4, 100.4), "wetwood": (48.7, 35.0, 23.3), "jetty": (99.8, 84.4, 63.8),
+            "cavestone": (138.0, 132.0, 120.0), "bone": (228.1, 216.1, 188.1), "canvas": (127.5, 111.5, 72.1),
+            "scrap": (122.1, 74.1, 42.1)}
+ROCK7 = (72, 77, 73)
+
+
+def b10_match(img, key, versions=None):
+    return T.match_rgb(img, B10_MEAN[key], versions)
+
+
+def rock7_ground(seed=7100):
+    """The islands' rock without its facets: a dark grey-green with a slow mottle, shared by every version so that
+    versions turned and mixed at random meet without a step (matlib.turn_safe)."""
+    return M.noise_hv(ROCK7, amp=0, seed=seed, mottle=5, cells=(16, 8), hue=1.2)
+
+
+def basalt_facets(img, seed, n=9, seam=20.0, lip=9.0, tilt=0.5, spread=4.0, grain=5, pits=0.025, drift=0.08, foot=7.0):
+    """Breaks a rock ground into angular facets (periodic Worley cells, so they wrap): each facet its own small shade
+    and a plane of light across it (each leans a different way, lit a little more from the upper left), a narrow dark
+    joint where two facets meet (not every joint: some facets are fused), a lit lip on the facet below or right of a
+    joint, then a fine grain. No joint is darker than about `seam` levels, so no one line leads the eye."""
+    w, h = img.size
+    pts = M.points((w, h), n, M.sub(seed, "facets"), jitter=1.0)
+    f1, f2, idx = M.worley((w, h), pts)
+    rng = random.Random(M.sub(seed, "facetshade"))
+    shade = [rng.uniform(-spread, spread) for _ in pts]
+    lean = [(rng.uniform(-tilt, tilt) - 0.12, rng.uniform(-tilt, tilt) - 0.12) for _ in pts]
+    fused = {}
+
+    def joint(a, b):
+        k = (min(a, b), max(a, b))
+        if k not in fused:
+            fused[k] = rng.uniform(0.35, 1.0) if rng.random() < 0.8 else 0.0
+        return fused[k]
+    p = img.load()
+    out = img.copy()
+    q = out.load()
+    for y in range(h):
+        for x in range(w):
+            i = idx[y][x]
+            cx, cy = pts[i]
+            dx = (x + 0.5 - cx + w / 2) % w - w / 2
+            dy = (y + 0.5 - cy + h / 2) % h - h / 2
+            d = shade[i] + lean[i][0] * dx + lean[i][1] * dy
+            e = f2[y][x] - f1[y][x]
+            # the facet's neighbour across the nearest joint
+            other = None
+            for ox, oy in ((1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1)):
+                j = idx[(y + oy) % h][(x + ox) % w]
+                if j != i:
+                    other = j
+                    break
+            if other is not None and e < 1.0:
+                d -= seam * joint(i, other) * (1.0 - 0.4 * e)
+            elif other is not None and e < 2.2 and idx[(y - 1) % h][(x - 1) % w] != i:
+                d += lip * joint(i, other)  # the lit lip of the facet below or right of a joint
+            elif other is not None and e < 2.2 and idx[(y + 1) % h][(x + 1) % w] != i:
+                d -= foot * joint(i, other)  # (round 2) the shadowed foot of the facet above or left of it
+            q[x, y] = M.rgba(M.lift(p[x, y], d, drift))
+    g = random.Random(M.sub(seed, "grain"))
+    for y in range(h):
+        for x in range(w):
+            q[x, y] = M.rgba(M.lift(q[x, y], g.uniform(-grain, grain), drift), 255)
+    for _ in range(int(pits * w * h)):  # vesicles: gas pits in the basalt, dark with a lit lower rim
+        x, y = g.randrange(w), g.randrange(h)
+        M.touch(out, x, y, -0.2, drift)
+        M.touch(out, x, y + 1, 0.07, drift)
+    return out
+
+
+def island_rock(version):
+    """Level 7's unknown rock (the islands, their pillars and the sea stacks): dark grey-green basalt broken into
+    small angular facets, with no crack that runs through the block (the old texture's diagonal crack showed on every
+    block of every stack). Versions 1-3 are the same rock with other facets on one ground; version 4 adds a faint
+    fracture and a few specks of lichen, kept inside the block, and is listed one block in eight (gen_detail.ALTS).
+    Every version is turned at random and seamless at any turn (matlib.turn_safe)."""
+    ground = rock7_ground()
+    img = basalt_facets(ground.copy(), 7110 + min(version, 3))
+    if version == 4:
+        feat = img.copy()
+        M.crack(feat, 7121, at=(11, 13), length=(10, 14), strength=0.2)
+        rng = random.Random(7122)
+        for _ in range(7):
+            x, y = 17 + rng.randrange(-3, 4), 19 + rng.randrange(-3, 4)
+            c = feat.getpixel((x, y))
+            feat.putpixel((x, y), M.rgba(M.hue_shift(M.lift(c, 9), 5)))
+        img = T.inside_block(img, feat, 5)
+    img = M.turn_safe(img, ground, band=6, radius=2, keep=1.0)
+    img = T.calm_hue(img, ROCK7, 0.5)
+    return b10_match(img, "islandrock", "b10islandrock")
+
+
+def ocean_ceiling(version):
+    """The concrete ceiling over the sea: plain board-formed soffit concrete in the old blue-grey, three versions on one
+    ground, turned at random and seamless at any turn (matlib.turn_safe); the second has a damp stain, the third a few
+    dark runs, each kept inside the block and listed one block in seven (the old texture ran three dark stains down
+    every block, a dashed line across the ceiling)."""
+    base = (92, 98, 100)
+    ground = M.concrete(7200, base=base, grain=0, mottle=6, aggregate=0.0, pores=0.0, hue=0.8, drift=0.1)
+    img = M.concrete(7200, base=base, grain=3, mottle=6, aggregate=0.012, pores=0.004, hue=0.8, drift=0.1)
+    img = M.turn_safe(img, ground, band=6, radius=2, keep=1.0)
+    img = T.calm_hue(img, base, 0.5)
+    if version == 2:
+        feat = img.copy()
+        M.stain(feat, 7201, radius=8, color=(58, 70, 74), strength=0.3, at=(18, 14), ring=0.4)
+        img = T.inside_block(img, feat, 4)
+    elif version == 3:
+        feat = img.copy()
+        M.drips(feat, 3, 7202, color=(60, 70, 72), length=(5, 10), strength=0.28, start=8)
+        img = T.inside_block(img, feat, 4)
+    return b10_match(img, "oceanceiling", "b10oceanceiling")
+
+
+TAR = (14, 14, 16)
+
+
+def tar_ground(seed=7300, gloss=12.0):
+    """Tar: near-black with a faint blue cast, almost no grain, and a soft sheen where it catches the light (a periodic
+    field, so it wraps; the old sheen was one diagonal band that stopped at every block edge)."""
+    img = M.noise_hv(TAR, amp=1, seed=seed, mottle=1.5, cells=(16, 8), hue=0.5, drift=0.05)
+    sheen = M.fbm(S, M.sub(seed, "sheen"), (32, 16, 8), 0.45)
+    p = img.load()
+    for y in range(S):
+        for x in range(S):
+            # a soft diagonal sheen that wraps from block to block (period 32 along x + y), broken up by the field
+            band = max(0.0, math.cos(2 * math.pi * ((x + y + 1) / 32 + 0.12 * sheen[y][x]))) ** 6
+            s = band * gloss * (0.65 + 0.35 * sheen[y][x])
+            c = p[x, y]
+            p[x, y] = M.rgba((c[0] + s * 0.9, c[1] + s * 0.95, c[2] + s * 1.15))
+    return img
+
+
+def tar_bubble(img, cx, cy, r):
+    """A soft dome where a bubble is rising, lit on its upper left, with a pinpoint highlight and a dark ring at its
+    foot."""
+    p = img.load()
+    for y in range(int(cy - r - 2), int(cy + r + 3)):
+        for x in range(int(cx - r - 2), int(cx + r + 3)):
+            d = math.hypot(x + 0.5 - cx, y + 0.5 - cy) / r
+            c = M.get(p, S, S, x, y)
+            if d < 1:
+                k = (1 - d * d) * 16 + (cx - x - 0.5 + cy - y - 0.5) / r * 6
+                M.put(p, S, S, x, y, (c[0] + k * 0.9, c[1] + k * 0.95, c[2] + k * 1.1))
+            elif d < 1.35:
+                M.put(p, S, S, x, y, (c[0] - 4, c[1] - 4, c[2] - 4))
+    hx, hy = int(cx - r * 0.45), int(cy - r * 0.45)
+    M.put(p, S, S, hx, hy, (86, 88, 98))
+    M.put(p, S, S, hx + 1, hy, (44, 45, 52))
+    M.put(p, S, S, hx, hy + 1, (40, 41, 48))
+
+
+def tar_top(version):
+    """The top of a tar pool or lump: glossy and seamless. Version 1 is plain; the second
+    has a rising bubble and the third two small ones, placed inside the block, so the domes no longer stand at the
+    same three places in every block. The versions share one ground and are not turned, so the sheen runs on from
+    block to block."""
+    ground = tar_ground()
+    img = ground.copy()
+    if version == 2:
+        tar_bubble(img, 14.5, 17.5, 4.2)
+    elif version == 3:
+        tar_bubble(img, 10.5, 11.5, 2.6)
+        tar_bubble(img, 21.5, 20.5, 3.0)
+    return b10_match(img, "tar", "b10tar")
+
+
+def tar_side(version):
+    """The side of a tar lump or pool: the same glossy tar, with slow drips running down from the top edge, each lit
+    along one side and ending in a bead above the foot of the block (a drip never reaches the block below). Three
+    versions with the drips at other places and lengths."""
+    img = tar_ground(7320, gloss=4.0)
+    p = img.load()
+    rng = random.Random(7330 + version)
+    xs = [(4, 19), (11, 25), (2, 15, 27)][version - 1]
+    for x0 in xs:
+        x0 = x0 + rng.randrange(-1, 2)
+        length = rng.randint(6, 21)
+        for y in range(length):
+            for x in (x0, x0 + 1):
+                c = M.get(p, S, S, x, y)
+                M.put(p, S, S, x, y, (c[0] - 5, c[1] - 5, c[2] - 4))
+            M.put(p, S, S, x0 + 1, y, (30, 31, 36) if y % 6 != 2 else (44, 45, 52))  # the glint along it
+        for x in range(x0 - 1, x0 + 3):
+            M.put(p, S, S, x, length, (7, 7, 9))
+        M.put(p, S, S, x0, length + 1, (7, 7, 9))
+        M.put(p, S, S, x0 + 1, length + 1, (7, 7, 9))
+        M.put(p, S, S, x0 + 1, length, (62, 63, 72))  # the bead's highlight
+    return b10_match(img, "tar-side", "b10tarside")
+
+
+def wet_wood(seed, base=(50, 36, 24), planks=1, contrast=0.8):
+    """Waterlogged wood: dark, swollen grain along its length, a darker wet band toward the foot, a little green slime
+    in the grain. No painted frame or brace (the old wetwood drew a crate's frame on the driftwood log)."""
+    img = M.wood_planks(seed, base=base, planks=planks, grain=3, contrast=contrast, flecks=0.8, per_plank=6,
+                        gap=(22, 16, 12))
+    M.grime(img, 0.12, seed=M.sub(seed, "slime"), color=(40, 52, 30), cells=(8, 4, 2), cover=0.35)
+    return img
+
+
+
+BOOK_CLOTH = [(112, 34, 32), (44, 70, 46), (40, 50, 86), (150, 112, 70), (92, 58, 36), (44, 40, 40), (164, 128, 52),
+              (132, 70, 58), (70, 30, 44), (84, 96, 66), (60, 74, 96), (176, 150, 112), (120, 84, 46), (98, 44, 34),
+              (54, 62, 58), (140, 100, 84)]
+
+
+def book_spines():
+    """The books of the hotel's bookcases (gen_detail.hotel_bookshelf_b10): two rows of eight cloth bindings, each
+    column a spine 4 px wide and 12 px tall (6 units), rounded by its shading (lit left, dark right edge), with gilt
+    bands near the head and tail, a faint title block between them in some, and wear at the corners; and the page
+    block seen from above."""
+    img = M.new(S, (30, 26, 22))
+    p = img.load()
+    rng = random.Random(7500)
+    for k, cloth in enumerate(BOOK_CLOTH):
+        x0, y0 = (k % 8) * 4, (k // 8) * 16
+        cloth = M.lift(cloth, -6)
+        for y in range(y0, y0 + 16):
+            for x in range(x0, x0 + 4):
+                d = (8, 3, -2, -10)[x - x0] + rng.uniform(-3, 3)
+                p[x, y] = M.rgba(M.lift(cloth, d))
+        gilt = (196, 160, 82) if k % 3 else (170, 160, 140)
+        for by in (y0 + 1, y0 + 10):  # bands at the head and tail of a 12 px spine
+            for x in range(x0, x0 + 4):
+                if rng.random() < 0.9:
+                    p[x, by] = M.rgba(M.lift(gilt, (6, 2, -4, -12)[x - x0]))
+        if k % 2 == 0:  # a title block
+            for y in range(y0 + 4, y0 + 7):
+                for x in (x0 + 1, x0 + 2):
+                    if rng.random() < 0.7:
+                        p[x, y] = M.rgba(M.lift(gilt, -10 + rng.uniform(-6, 6)))
+        for y in (y0, y0 + 11):  # worn head and tail
+            for x in range(x0, x0 + 4):
+                p[x, y] = M.rgba(M.lift(p[x, y], 10 if y == y0 else -14))
+    save(img, "hotelbookspines")
+    pages = M.noise_hv((206, 194, 164), amp=3, seed=7501, mottle=4, hue=1.0)
+    pp = pages.load()
+    for y in range(S):
+        for x in range(S):
+            if y % 2 == 0:
+                pp[x, y] = M.rgba(M.lift(pp[x, y], -7))
+    M.grime(pages, 0.18, seed=7502, cover=0.4)
+    save(pages, "hotelbookpages")
+
+
+def wreck_boards():
+    """The waterlogged crate's boards (gen_deep.wreck_crate): three dark wet planks with a darker gap, slime in the
+    grain; the frame round them is geometry, in the wet wood."""
+    img = wet_wood(7410, base=(56, 40, 27), planks=3, contrast=0.9)
+    save(b10_match(img, "wetwood"), "l7wreckboards")
+
+
+def level7_b10():
+    """B10's Level 7 textures (see the section's header)."""
+    for v in (1, 2, 3, 4):
+        save(island_rock(v), "islandrock" + ("" if v == 1 else f"-{v}"))
+    for v in (1, 2, 3):
+        sfx = "" if v == 1 else f"-{v}"
+        save(ocean_ceiling(v), "oceanceiling" + sfx)
+        save(tar_top(v), "tar" + sfx)
+        save(tar_side(v), "tar-side" + sfx)
+    save(b10_match(wet_wood(7400), "wetwood"), "wetwood")
+    wreck_boards()
+    book_spines()
+
+
+
+# ---- Level 8 ----
+
+MEG_FONT = {"M": ("10001", "11011", "10101", "10001", "10001"), "E": ("111", "100", "110", "100", "111"),
+            "G": ("0111", "1000", "1011", "1001", "0111"), "9": ("111", "101", "111", "001", "111"),
+            "T": ("111", "010", "010", "010", "010"), "H": ("101", "101", "111", "101", "101"),
+            "R": ("110", "101", "110", "101", "101"), "O": ("111", "101", "101", "101", "111"),
+            "A": ("010", "101", "111", "101", "101"), "D": ("110", "101", "101", "101", "110")}
+
+
+def meg_word(img, word, cy, colour, x0=0, x1=24):
+    """A word in the crisp pixel face (B9's lesson: small lettering in a pixel font), centred between x0 and x1."""
+    widths = [len(MEG_FONT[c][0]) for c in word]
+    x = x0 + (x1 - x0 - (sum(widths) + len(word) - 1)) // 2
+    p = img.load()
+    for c, wdt in zip(word, widths):
+        for r, row in enumerate(MEG_FONT[c]):
+            for k, bit in enumerate(row):
+                if bit == "1":
+                    p[x + k, cy + r] = M.rgba(colour)
+        x += wdt + 1
+
+
+def meg_plate():
+    """The M.E.G. marker's enamel plate, 24 x 28 px (12 x 14 units, gen_deep.meg_marker; its rim and bolts are
+    geometry): a cream enamel with a faint grime, the blue ring of the M.E.G. with MEG in it, and 9TH / ROAD under it,
+    all in a crisp pixel face (the old plate drew them as smeared type)."""
+    img = M.noise_hv((214, 206, 182), amp=3, seed=8100, mottle=4, hue=1.0)
+    blue, ink = (40, 70, 128), (40, 40, 40)
+    p = img.load()
+    for y in range(2, 13):  # the ring, clear of the rim
+        for x in range(2, 22):
+            d = ((x + 0.5 - 12) / 9.6) ** 2 + ((y + 0.5 - 7.5) / 5.2) ** 2
+            if 0.72 <= d <= 1.0:
+                p[x, y] = M.rgba(blue)
+    meg_word(img, "MEG", 5, blue)
+    meg_word(img, "9TH", 15, ink)
+    meg_word(img, "ROAD", 21, ink)
+    M.grime(img, 0.3, seed=8101, bias="bottom", cover=0.6)  # (round 2: dirtier)
+    M.chip_edges(img, box=(0, 0, 24, 28), seed=8102, n=4, under=(70, 66, 60), size=(1, 2))
+    save(img, "megplate")
+
+
+def lamp_iron():
+    """The road lamp's iron: old black paint, worn to dull grey on the edges and spotted with rust (a painted metal,
+    so the post and lantern take the light along their edges)."""
+    img = M.painted_metal(8110, base=(54, 52, 50), grain=3, mottle=4, panel=False, chips=3, under=(96, 70, 52))
+    M.rust(img, 0.12, seed=8111)
+    save(T.match_rgb(img, (58.0, 60.5, 62.5)), "l8lampiron")  # (about the old metal-dark's mean, a little warmer)
+
+
+def lamp_glass():
+    """The road lamp's glass: warm, brightest in the middle where the flame is and falling off toward the corner posts,
+    with a faint seed bubble or two; no dark edge (the B3 lesson on a black ring round a light). The mean is the old
+    glass's."""
+    img = M.new(S, (250, 214, 150))
+    p = img.load()
+    rng = random.Random(8120)
+    for y in range(S):
+        for x in range(S):
+            t = 1 - min(1.0, abs(x + 0.5 - 16) / 16) ** 1.6
+            v = 1 - min(1.0, abs(y + 0.5 - 18) / 20) ** 2
+            k = t * v
+            c = M.mix((246, 196, 128), (255, 248, 222), k)
+            p[x, y] = M.rgba(M.lift(c, rng.uniform(-2, 2), 0.05))
+    for x, y in ((7, 9), (22, 21), (12, 26)):
+        p[x, y] = M.rgba(M.lift(p[x, y], 10))
+    save(T.match_rgb(img, (254.2, 223.1, 160.1)), "l8lampglass")
+
+
+def glowcap_textures():
+    """The glowcaps' caps: a soft cap colour with paler spots and a brighter edge to each spot, no square outline (the
+    old one drew a 2 px rim round every face, so each cap read as a small lit box); the gills under them darker and
+    finely ribbed (glowcap*gills); the stem and the mycelium as before."""
+    for name, cap, rim in (("glowcapred", 0xB01818, 0xFF5A40), ("glowcapblue", 0x2A6AD8, 0x8AD8FF),
+                           ("glowcapviolet", 0x8A2AC8, 0xE09AFF), ("glowcapgreen", 0x38B850, 0xB8FF8A)):
+        c, r = T.hexrgb(cap), T.hexrgb(rim)
+        img = M.noise_hv(c, amp=4, seed=seed_of(name), mottle=10, cells=(8, 4), hue=2.0)
+        rng = random.Random(seed_of(name) + 1)
+        p = img.load()
+        for _ in range(16):  # soft round spots: a bright pixel and a fading few of its neighbours (no 2 x 2 squares)
+            x, y = rng.randrange(S), rng.randrange(S)
+            M.put(p, S, S, x, y, M.mix(M.get(p, S, S, x, y), r, 0.9))
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                if rng.random() < 0.6:
+                    M.put(p, S, S, x + dx, y + dy, M.mix(M.get(p, S, S, x + dx, y + dy), r, rng.uniform(0.3, 0.55)))
+        img = T.match_rgb(img, GLOWCAP_MEAN[name])
+        save(img, name)
+        rim_img = img.copy()  # (round 2) the brim: the cap lifted toward its rim colour
+        rp = rim_img.load()
+        for y in range(S):
+            for x in range(S):
+                rp[x, y] = M.rgba(M.mix(rp[x, y], r, 0.35))
+        save(rim_img, name + "rim")
+        g = M.new(S, M.lift(c, -40))
+        q = g.load()
+        for y in range(S):
+            for x in range(S):
+                q[x, y] = M.rgba(M.mix(M.lift(c, -46 if x % 2 else -30), r, 0.12 if x % 2 == 0 else 0.0))
+        save(g, name + "gills")
+
+
+GLOWCAP_MEAN = {"glowcapred": (197.0, 42.0, 34.9), "glowcapblue": (69.1, 137.4, 226.8), "glowcapviolet": (162.8, 73.6, 215.2),
+                "glowcapgreen": (91.6, 203.2, 96.4)}
+
+
+def cave_stone():
+    """The stone of the speleothem props (the stone hand, the stapler): a pale limestone with fine pits and a little
+    flowstone sheen, the old mean kept."""
+    img = M.concrete(8130, base=(138, 132, 120), grain=4, mottle=8, aggregate=0.02, pores=0.03, hue=1.0)
+    save(b10_match(img, "cavestone"), "cavestone")
+
+
+def level8_b10():
+    """B10's Level 8 textures (see the section's header)."""
+    meg_plate()
+    lamp_iron()
+    lamp_glass()
+    glowcap_textures()
+    cave_stone()
 
 
 def generate():

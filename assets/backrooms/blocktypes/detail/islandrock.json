@@ -35,6 +35,111 @@
 					{
 						"base": "block/detail/islandrock",
 						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-2"
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-3"
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock"
+					},
+					{
+						"base": "block/detail/islandrock",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-2"
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-3"
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-3",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-4"
+					},
+					{
+						"base": "block/detail/islandrock-4",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-4",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-4",
+						"rotation": 270
+					},
+					{
+						"base": "block/detail/islandrock-2"
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/detail/islandrock-2",
+						"rotation": 270
 					}
 				]
 			}
