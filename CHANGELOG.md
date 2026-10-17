@@ -4,7 +4,7 @@
 
 Multiplayer fixes, kept notes, a Spanish translation and a few repairs. Existing worlds keep working.
 
-- Spanish translation (es-419 and es-es), by NeoB. The handbook pages and other text that changed in 0.513 stay in English until the translation catches up.
+- Spanish translation (es-419 and es-es), by NeoB. The Spanish translation is complete and reviewed: the handbook pages and other text that changed in 0.513 are translated too.
 - Fixed: breaking a torch (or anything else) you had put down yourself in the Hub's Tower counted as vandalism, and the Keymaster threw you out with nothing and closed the Tower to you for good. Only the Tower's own blocks count now; what you place there is yours to take up again.
 - For admins: `/backrooms hub reset [player]` lets a player into the Tower again as if they had never been (the Keymaster offers them a key once more). In singleplayer, type it yourself. For anyone thrown out by the bug above.
 - Wanderers' notes are no longer used up when read: the note stays in your pockets and remembers who has read it, so on a server it can be passed on and every player gets the next page in their own sequence from the same paper (one read per player per note; reading one again only says it is in your journal). A read note is named "(read)" to whoever has read it and stacks apart from fresh ones, which stack as before. The pocket note and notes lying loose follow the same rule. Existing notes keep working.
