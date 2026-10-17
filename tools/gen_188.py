@@ -74,7 +74,8 @@ def structure():
     # ---- Façade render: on the front face and both ends, room white behind
     cube_block("l188-cladding", "Rendered Wall", [("kind", ["plain", "band", "streak"]), ("side", SIDES)],
                lambda v: facing_faces(v["side"], "cladding-" + v["kind"], "wall-room", "cladding-plain"),
-               data=FIXED, comment="Level 188: the courtyard façade, pale warm render (band: a floor line; streak: rain below a sill); the side is the courtyard face",
+               data=dict(FIXED, randomizeAxes="xyz"),
+               comment="Level 188: the courtyard façade, pale warm render (band: a floor line; streak: rain below a sill); the side is the courtyard face",
                names={"l188-cladding-*": "Rendered Wall"})
 
     # ---- Cubes for floors that are not slabs (and for building with)
@@ -650,7 +651,9 @@ def doors():
                bx("GlassLo", (2, 6, 7.8), (13, 14.6, 8.2), "glass", faces=("north", "south")),
                bx("GlassHi", (2, 16.4, 7.8), (13, 28.4, 8.2), "glass", faces=("north", "south")),
                bx("Kick", (2, 0.4, 6.7), (13, 5, 7), "kickplate", faces=("north", "up")), bx("KickIn", (2, 0.4, 9), (13, 5, 9.3), "kickplate", faces=("south", "up")),
-               bx("Push", (2.4, 15, 9.3), (12.4, 16, 10.3), "steel"), bx("Pull", (2.6, 10, 5.6), (3.6, 21, 6.4), "steel"),
+               bx("Push", (2.4, 15, 9.6), (12.4, 16, 10.4), "steel"),
+               bx("PushBrkL", (3.0, 15.1, 9.0), (3.8, 15.9, 9.6), "steel", faces=("east", "west", "up", "down")),
+               bx("PushBrkR", (11.0, 15.1, 9.0), (11.8, 15.9, 9.6), "steel", faces=("east", "west", "up", "down")), bx("Pull", (2.6, 10, 5.6), (3.6, 21, 6.4), "steel"),
                bx("PullS1", (2.8, 11, 6.4), (3.4, 11.8, 7), "steel"), bx("PullS2", (2.8, 19.2, 6.4), (3.4, 20, 7), "steel")]
         if lr == "r":
             els = mirror_x(els)

@@ -40,13 +40,48 @@
 					{
 						"base": "block/974/carpet",
 						"rotation": 270
+					},
+					{
+						"base": "block/974/carpet-2"
+					},
+					{
+						"base": "block/974/carpet-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/974/carpet-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/974/carpet-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/974/carpet-3"
+					},
+					{
+						"base": "block/974/carpet-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/974/carpet-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/974/carpet-3",
+						"rotation": 270
 					}
 				]
 			}
 		},
 		"l974-floor-checker": {
 			"all": {
-				"base": "block/974/checker"
+				"base": "block/974/checker",
+				"alternates": [
+					{
+						"base": "block/974/checker-2"
+					}
+				]
 			}
 		},
 		"l974-floor-bathhex": {

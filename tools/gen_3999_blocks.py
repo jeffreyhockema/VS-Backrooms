@@ -13,6 +13,11 @@ from gen_3999_kit import (ROTATE, shape, ALL, CLOTH, COLOURS, FIXED, GLASS, LANG
                           rot, text_boxes, bitmap_boxes, threshold, tpath, turn, variants_block, with_class, COUNT, F5, F3,
                           text_rows)
 
+import gen_3999_b16 as B16  # noqa: E402  (graphics pass B16: versions and model parts)
+
+B16_FURNITURE = True  # (B16) the food court's chairs, tables and booths modelled (False: B0's boxes)
+B16_VENDING = True    # (B16) the vending machines' window an opening with shelves and packs (False: B0's painted rows)
+
 OPEN = {"sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0}
 HUM = "backrooms:ambient/3999/neonhum"
 
@@ -41,14 +46,19 @@ def surfaces():
     LANG.update({"block-l3999-carpet-cosmic": "Black-Light Carpet", "block-l3999-carpet-galaxy": "Galaxy Carpet",
                  "block-l3999-carpet-rotten": "Rotten Carpet"})
     COUNT["variants"] += 3
+    # (B16) four versions of each, every tile a different piece of one slab; picked by x, y and z, since the black one is
+    # also the lobby's storey line on the walls
     cube_block("l3999-marble", "Marble Floor", {"white": "marble-white", "black": "marble-black"},
                "Level 3999: polished marble tiles, 2 x 2 to a block (white with grey veins, black with white-gold veins)",
-               names={"l3999-marble-white": "White Marble", "l3999-marble-black": "Black Marble"})
+               names={"l3999-marble-white": "White Marble", "l3999-marble-black": "Black Marble"},
+               alternates={"white": B16.versions("marble-white")[1:], "black": B16.versions("marble-black")[1:]},
+               extra={"randomizeAxes": "xyz"})
     cube_block("l3999-concrete", "Concrete", {"wall": "concrete-wall", "floor": "concrete-floor"},
                "Level 3999: smooth concrete walls with form-tie holes; the polished floors of the service corridors",
                alternates={"wall": ["concrete-wall2", "concrete-wall3"]})
     cube_block("l3999-wall", "Painted Wall", {"violet": "wall-violet", "midnight": "wall-midnight", "teal": "wall-teal"},
-               "Level 3999: matt painted plaster (violet, midnight, teal)")
+               "Level 3999: matt painted plaster (violet, midnight, teal)",
+               alternates={k: B16.versions(f"wall-{k}")[1:] for k in ("violet", "midnight", "teal")}, extra={"randomizeAxes": "xyz"})
     cube_block("l3999-ceiling", "Ceiling", {"black": "ceiling-black", "acoustic": "ceiling-acoustic"},
                "Level 3999: the open black ceiling over the public areas; the acoustic tile of the service corridors",
                names={"l3999-ceiling-black": "Open Ceiling", "l3999-ceiling-acoustic": "Acoustic Ceiling"})
@@ -462,12 +472,16 @@ def lobby():
                    comment="Level 3999: a chrome bin with a black lid. Salvage: plastic, paper, a dropped ticket or two")
 
     def table(v):
+        if B16_FURNITURE:
+            return B16.table()
         return (cyl("Top", 8, 8, 6, 11, 12, "whitegloss") + cyl("Pedestal", 8, 8, 1, 1, 11, "chrome") + cyl("Foot", 8, 8, 4, 0, 1, "chrome"))
 
     variants_block("l3999-table", "Food Court Table", [], table, box=(0.12, 0, 0.12, 0.88, 0.75, 0.88), material="Wood",
                    data={"drops": [], "attributes": dict(FIXED)}, comment="Level 3999's food courts: a round pedestal table, white top")
 
     def chair(v):
+        if B16_FURNITURE:
+            return B16.chair(v["colour"])
         p = f"plastic-{v['colour']}"
         els = [bx("Seat", (3, 7, 3), (13, 8, 13), p), bx("SeatLip", (3, 6.5, 2.5), (13, 7.5, 3.5), p),
                rot(bx("Back", (3, 8, 12.5), (13, 17, 13.5), p), rx=-8, origin=(8, 8, 13))]
@@ -480,6 +494,8 @@ def lobby():
                    comment="Level 3999's food courts: a moulded plastic chair on chrome legs (white, pink, cyan)")
 
     def booth(v):
+        if B16_FURNITURE:
+            return B16.booth()
         els = [bx("Base", (0, 0, 3), (16, 6, 15), "chrome"), bx("Seat", (0, 6, 2), (16, 9, 13), "vinyl-pink"),
                bx("Edge", (0, 5.5, 1.5), (16, 6.5, 2.5), "chrome"), bx("Back", (0, 6, 12.5), (16, 22, 16), "vinyl-pink"),
                bx("BackCap", (0, 22, 12), (16, 23, 16), "chrome")]
@@ -527,12 +543,21 @@ def food():
     def vending(v):
         kind = v["kind"]
         body = f"vendingbody-{kind}"
-        face = picture(bx("Face", (1.5, 1, 1.4), (14.5, 31, 1.5), body, faces=("north",)), f"vending-{kind}", glow=90)
-        els = [bx("Body", (1, 0, 2), (15, 31, 15), body), face,
-               glass(bx("Glass", (2.2, 7.5, 0.6), (12, 29.5, 0.7), "glasspane", faces=("north",))),
-               bx("Keypad", (12.4, 16, 0.6), (14.2, 22, 1.4), "darksteel"),
-               picture(bx("Tape", (12.6, 12.5, 0.4), (14.2, 14.5, 1.4), "tape", faces=("north",)), "tape"),
-               bx("Flap", (2.5, 1.8, 0.8), (11.5, 5, 1.4), "darksteel"),
+        if B16_VENDING:
+            els = B16.vending_parts(kind)
+        else:
+            face = picture(bx("Face", (1.5, 1, 1.4), (14.5, 31, 1.5), body, faces=("north",)), f"vending-{kind}", glow=90)
+            els = [bx("Body", (1, 0, 2), (15, 31, 15), body), face]
+        front = [glass(bx("Glass", (2.2, 7.5, 0.6), (12, 29.5, 0.7), "glasspane", faces=("north",))),
+                 bx("Keypad", (12.4, 16, 0.6), (14.2, 22, 1.4), "darksteel"),
+                 picture(bx("Tape", (12.6, 12.5, 0.4), (14.2, 14.5, 1.4), "tape", faces=("north",)), "tape"),
+                 bx("Flap", (2.5, 1.8, 0.8), (11.5, 5, 1.4), "darksteel")]
+        if B16_VENDING:
+            # (B16) B0 placed these as if the picture's left were at x 0; it is at x 16 on a north face. The glass and the
+            # flap now cover the window and the painted flap; the keypad is a plate of keys and the taped coin slot a
+            # label, on their painted places (x 2.3-4.8)
+            front = mirror_x([front[0], front[3]]) + B16.vending_keypad()
+        els += front + [
                bx("Top", (0.8, 31, 1.8), (15.2, 32, 15.2), body),
                tube("EdgeL", (14.6, 1, 1.2), (15.2, 31, 1.8), "cyan"), tube("EdgeR", (0.8, 1, 1.2), (1.4, 31, 1.8), "cyan")]
         return els

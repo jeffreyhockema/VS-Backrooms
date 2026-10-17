@@ -1032,6 +1032,8 @@ def generate():
     props()
     items()
     gui()
+    import gen_188_b16  # graphics pass B16: its painters run last, under the same keys (and new version keys)
+    gen_188_b16.textures()
     print(f"188 textures: {len(WRITTEN)}")
     return places
 

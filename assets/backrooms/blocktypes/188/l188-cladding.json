@@ -23,42 +23,122 @@
 	"texturesByType": {
 		"l188-cladding-plain-north": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/188/wall-room"
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-plain-east": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/188/wall-room"
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-plain-south": {
@@ -66,79 +146,233 @@
 				"base": "block/188/wall-room"
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-plain-west": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/188/wall-room"
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-band-north": {
 			"north": {
-				"base": "block/188/cladding-band"
+				"base": "block/188/cladding-band",
+				"alternates": [
+					{
+						"base": "block/188/cladding-band-2"
+					}
+				]
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/188/wall-room"
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-band-east": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
-				"base": "block/188/cladding-band"
+				"base": "block/188/cladding-band",
+				"alternates": [
+					{
+						"base": "block/188/cladding-band-2"
+					}
+				]
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/188/wall-room"
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-band-south": {
@@ -146,39 +380,113 @@
 				"base": "block/188/wall-room"
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
-				"base": "block/188/cladding-band"
+				"base": "block/188/cladding-band",
+				"alternates": [
+					{
+						"base": "block/188/cladding-band-2"
+					}
+				]
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-band-west": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/188/wall-room"
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
-				"base": "block/188/cladding-band"
+				"base": "block/188/cladding-band",
+				"alternates": [
+					{
+						"base": "block/188/cladding-band-2"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-streak-north": {
@@ -186,39 +494,103 @@
 				"base": "block/188/cladding-streak"
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/188/wall-room"
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-streak-east": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/188/cladding-streak"
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/188/wall-room"
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-streak-south": {
@@ -226,39 +598,103 @@
 				"base": "block/188/wall-room"
 			},
 			"east": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"south": {
 				"base": "block/188/cladding-streak"
 			},
 			"west": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		},
 		"l188-cladding-streak-west": {
 			"north": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"east": {
 				"base": "block/188/wall-room"
 			},
 			"south": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"west": {
 				"base": "block/188/cladding-streak"
 			},
 			"up": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			},
 			"down": {
-				"base": "block/188/cladding-plain"
+				"base": "block/188/cladding-plain",
+				"alternates": [
+					{
+						"base": "block/188/cladding-plain-2"
+					},
+					{
+						"base": "block/188/cladding-plain-3"
+					}
+				]
 			}
 		}
 	},
@@ -283,5 +719,6 @@
 	},
 	"attributes": {
 		"l188structure": true
-	}
+	},
+	"randomizeAxes": "xyz"
 }

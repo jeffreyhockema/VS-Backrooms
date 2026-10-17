@@ -44,6 +44,22 @@ COUNT = {"blocktypes": 0, "shapes": 0, "variants": 0}
 
 # ======================================================================== Files
 
+B16_COMPUTER = True  # (graphics pass B16) the computer's screen in a bezel, the keys as keys; False: B0's painted ones
+B16_FRAME = True     # (B16) the photo frames as a moulding; False: B0's four bars
+
+
+def B16_ALT(key, turn=False):
+    """(Graphics pass B16) a texture entry with the surface's versions as alternates, and with turn=True each version
+    turned four ways (a floor); one plain entry when B16 gives the surface no versions."""
+    import gen_974_b16
+    keys = gen_974_b16.versions(key)
+    alts = [(k, r) for k in keys for r in ((0, 90, 180, 270) if turn else (0,))][1:]
+    entry = {"base": f"block/974/{key}"}
+    if alts:
+        entry["alternates"] = [dict({"base": f"block/974/{k}"}, **({"rotation": r} if r else {})) for k, r in alts]
+    return entry
+
+
 def write_json(path, data, comment=None):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     text = json.dumps(data, indent="\t", ensure_ascii=False)
@@ -326,8 +342,12 @@ def structure():
         "blockmaterial": "Stone", "sounds": STONE, "lightAbsorption": 99, "resistance": 6, "sidesolid": {"all": True},
         "sideopaque": {"all": True}, "drops": [],
         "drawtypeByType": {"l974-wall-plain": "cube", "l974-wall-bathtile": "cube", "*": "json"},
-        "texturesByType": {"l974-wall-plain": {"all": {"base": "block/974/paint-1", "alternates": [{"base": "block/974/paint-2"}]}},
-                           "l974-wall-bathtile": {"all": {"base": "block/974/bathtile"}}},
+        "texturesByType": {"l974-wall-plain": {"all": B16_ALT("paint-1")},
+                           "l974-wall-bathtile": {"all": B16_ALT("bathtile")},
+                           # (B16) the JSON kinds take the paint's (and the tile's) versions by texture key
+                           "l974-wall-base": {"paint-1": B16_ALT("paint-1")}, "l974-wall-crown": {"paint-1": B16_ALT("paint-1")},
+                           "l974-wall-bathtilecap": {"bathtile": B16_ALT("bathtile")}},
+        "randomizeAxes": "xyz",
         "attributes": {"l974structure": True},
     }, comment="Level 974: Baker-Miller pink walls, with white baseboards and crown moulding, a subway-tile backsplash, mint bath tile with a pink rail",
         names={"l974-wall-*": "Pink Wall", "l974-wall-backsplash": "Pink Wall with Tile Backsplash",
@@ -339,8 +359,8 @@ def structure():
         "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
         "blockmaterial": "Stone", "drawtype": "cube", "lightAbsorption": 99, "resistance": 6, "drops": [],
         "texturesByType": {
-            "l974-floor-carpet": {"all": {"base": "block/974/carpet", "alternates": [{"base": "block/974/carpet", "rotation": r} for r in (90, 180, 270)]}},
-            "l974-floor-checker": {"all": {"base": "block/974/checker"}},
+            "l974-floor-carpet": {"all": B16_ALT("carpet", turn=True)},
+            "l974-floor-checker": {"all": B16_ALT("checker")},
             "l974-floor-bathhex": {"all": {"base": "block/974/bathhex"}},
         },
         "soundsByType": {"l974-floor-carpet": CLOTH, "*": STONE},
@@ -350,7 +370,7 @@ def structure():
     block("l974-ceiling", {
         "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
         "blockmaterial": "Stone", "drawtype": "cube", "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": STONE,
-        "textures": {"all": {"base": "block/974/ceiling"}}, "attributes": {"l974structure": True},
+        "textures": {"all": B16_ALT("ceiling")}, "attributes": {"l974structure": True},
     }, "Level 974: flat white plaster ceiling")
     LANG["block-l974-ceiling"] = "Ceiling"
 
@@ -620,13 +640,23 @@ def furniture():
         for i, (y0, y1) in enumerate(((0.8, 4.2), (4.6, 8.0), (8.4, 11.6))):
             els += [bx(f"Drawer{i}", (10.4, y0, 1.1), (15.0, y1, 1.6), "trim"), bx(f"Knob{i}", (12.2, (y0 + y1) / 2 - 0.5, 0.5), (13.2, (y0 + y1) / 2 + 0.5, 1.1), "knob-pink")]
         if v["kind"] == "computer":
-            screen = picture(bx("Screen", (4.5, 15, 5.6), (11.5, 20.5, 6), "screen", faces=("north",)), "screen", glow=90)
-            els += [bx("Stand", (5.5, 13.5, 7), (10.5, 14.2, 12), "beige"), bx("Monitor", (3.5, 14.2, 6), (12.5, 22, 12.6), "beige"),
-                    bx("Back", (5, 15, 12.6), (11, 20.6, 15.2), "beige"), screen,
-                    bx("Bezel", (3.9, 14.6, 5.7), (12.1, 15, 6), "beige", faces=("north", "up")),
-                    bx("Power", (11, 14.4, 5.6), (11.8, 14.9, 6), "fur-mint", faces=("north",)),
-                    bx("Keyboard", (3, 13.5, 1.4), (12, 14.3, 4.8), "keyboard"), bx("Mouse", (13, 13.5, 2.2), (14.6, 14.3, 4.2), "beige"),
-                    bx("Cable", (13.6, 13.5, 4.2), (14.0, 13.7, 9), "beige")]
+            if B16_COMPUTER:
+                # (B16) the screen set back in a bezel, the keyboard's keys as keys
+                import gen_974_b16
+                bezel, keys = gen_974_b16.computer_parts()
+                screen = picture(bx("Screen", (4.5, 15, 5.9), (11.5, 20.5, 6), "screen", faces=("north",)), "screen", glow=90)
+                els += [bx("Stand", (5.5, 13.5, 7), (10.5, 14.2, 12), "beige"), bx("Monitor", (3.5, 14.2, 6), (12.5, 22, 12.6), "beige"),
+                        bx("Back", (5, 15, 12.6), (11, 20.6, 15.2), "beige"), screen] + bezel + keys + [
+                        bx("Power", (11, 14.0, 5.5), (11.8, 14.5, 6), "fur-mint", faces=("north", "up")),
+                        bx("Mouse", (13, 13.5, 2.2), (14.6, 14.3, 4.2), "beige"), bx("Cable", (13.6, 13.5, 4.2), (14.0, 13.7, 9), "beige")]
+            else:
+                screen = picture(bx("Screen", (4.5, 15, 5.6), (11.5, 20.5, 6), "screen", faces=("north",)), "screen", glow=90)
+                els += [bx("Stand", (5.5, 13.5, 7), (10.5, 14.2, 12), "beige"), bx("Monitor", (3.5, 14.2, 6), (12.5, 22, 12.6), "beige"),
+                        bx("Back", (5, 15, 12.6), (11, 20.6, 15.2), "beige"), screen,
+                        bx("Bezel", (3.9, 14.6, 5.7), (12.1, 15, 6), "beige", faces=("north", "up")),
+                        bx("Power", (11, 14.4, 5.6), (11.8, 14.9, 6), "fur-mint", faces=("north",)),
+                        bx("Keyboard", (3, 13.5, 1.4), (12, 14.3, 4.8), "keyboard"), bx("Mouse", (13, 13.5, 2.2), (14.6, 14.3, 4.2), "beige"),
+                        bx("Cable", (13.6, 13.5, 4.2), (14.0, 13.7, 9), "beige")]
         else:
             els += cyl("Cup", 3, 11, 1.1, 13.5, 16.2, "crock-mint")
             els += [bx("Pencil1", (2.6, 14, 10.6), (3.0, 18, 11.0), "knob-pink", rot=(0, 0, 8), origin=(2.8, 14, 10.8)),
@@ -745,6 +775,9 @@ def furniture():
     # ---- Empty photo frames in the hall (rel 2)
     def frame(v):
         t = "trim" if v["kind"] == "white" else "gilt"
+        if B16_FRAME:
+            import gen_974_b16
+            return hang(gen_974_b16.frame_parts(t))
         return hang([
             bx("Top", (3, 12.6, -1.2), (13, 14, 0), t), bx("Bottom", (3, 2, -1.2), (13, 3.4, 0), t),
             bx("Left", (3, 3.4, -1.2), (4.4, 12.6, 0), t), bx("Right", (11.6, 3.4, -1.2), (13, 12.6, 0), t),

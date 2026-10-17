@@ -610,6 +610,8 @@ def generate():
     claw()
     skeeball()
     airhockey()
+    import gen_3999_b16  # graphics pass B16: the cabinets' coin door, trim and body paint, last, under the same keys
+    gen_3999_b16.cabinet_textures()
     print("3999 textures: arcade")
 
 

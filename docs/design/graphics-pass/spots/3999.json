@@ -24,6 +24,11 @@
     {"name": "foodcourt-wide", "tp": [657021.5, 197.0, 654589.5], "look": [30, -6], "target": "foodcourt"},
     {"name": "foodcourt-close", "tp": [657021.5, 197.0, 654589.5], "look": [30, -6], "fov": 35, "target": "foodcourt"},
     {"name": "neoncorner-wide", "tp": [656941.5, 197.05, 654631.5], "look": [270, -12], "target": "neoncorner", "distance": 6.0},
-    {"name": "neoncorner-close", "tp": [656937.5, 197.05, 654631.5], "look": [270, -33], "target": "neoncorner", "distance": 2.0}
+    {"name": "neoncorner-close", "tp": [656937.5, 197.05, 654631.5], "look": [270, -33], "target": "neoncorner", "distance": 2.0},
+    {"name": "marble-close", "tp": [657090.5, 197.05, 654681.5], "look": [0, -55], "fov": 70, "target": "the food court's white marble floor from 1.5 blocks"},
+    {"name": "table-close", "tp": [657086.5, 197.05, 654679.5], "look": [315, -28], "fov": 70, "target": "a food court table at 657084,654677 and its four chairs"},
+    {"name": "cabinet-close", "tp": [657069.2, 197.05, 654594.5], "look": [90, -14], "fov": 65, "target": "an upright cabinet at 657071 across the aisle: bezel, marquee, control panel, coin door"},
+    {"name": "fascia-close", "tp": [657070.5, 197.05, 654623.5], "look": [0, 36], "fov": 70, "target": "the shopfront wall along z 654617 from the food court side: glass to rel 5, the midnight fascia above"},
+    {"name": "vending-close", "tp": [657085.0, 197.05, 654633.9], "look": [0, -6], "fov": 70, "target": "the two vending machines at 657084-085, z 654631, against the food court's north wall"}
   ]
 }

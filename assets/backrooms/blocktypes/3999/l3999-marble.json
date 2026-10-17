@@ -35,13 +35,36 @@
 	"texturesByType": {
 		"l3999-marble-white": {
 			"all": {
-				"base": "block/3999/marble-white"
+				"base": "block/3999/marble-white",
+				"alternates": [
+					{
+						"base": "block/3999/marble-white-2"
+					},
+					{
+						"base": "block/3999/marble-white-3"
+					},
+					{
+						"base": "block/3999/marble-white-4"
+					}
+				]
 			}
 		},
 		"l3999-marble-black": {
 			"all": {
-				"base": "block/3999/marble-black"
+				"base": "block/3999/marble-black",
+				"alternates": [
+					{
+						"base": "block/3999/marble-black-2"
+					},
+					{
+						"base": "block/3999/marble-black-3"
+					},
+					{
+						"base": "block/3999/marble-black-4"
+					}
+				]
 			}
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }
