@@ -31,7 +31,7 @@ static class Links {
         for (int dz = -12; dz <= 12; dz++) { var t = layout.BuildMacro(smx + rr, smz + dz); if (t.Any(q => q.Under == Unders.Noclip)) { barns++; AddCells(smx + rr, smz + dz, 0); } } } }
     // The five kept as 14-18 (after everything else, so the rest of the sample is as it was)
     foreach (int level in new[] { WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Hub, WorldLayout.Level974,
-        WorldLayout.Level3999, WorldLayout.Level188 })
+        WorldLayout.Level3999, WorldLayout.Level188, WorldLayout.Level73, WorldLayout.Basement, WorldLayout.Level52 })
       for (ulong k = 1; k <= 4; k++) if (layout.FindArrival(level, k * 104729UL + 7) is { } a) AddCells(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z), 2);
     Console.WriteLine($"sampling {cells.Count} cells");
 

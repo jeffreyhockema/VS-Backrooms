@@ -113,6 +113,13 @@ public partial class AtmosphereSystem : ModSystem
         new(0.0035f, 0.20f, 0.10f, 0.30f, 0f),
         // Level 188: the hotel's faint grey air (its courtyard's black night and its roof: AtmosphereSystem.L188.cs)
         new(0.005f, 0.60f, 0.58f, 0.55f, 0f),
+        // The experimental levels (placeholders: a faint neutral haze; parts with air of their own in AtmosphereSystem.<level>.cs)
+        // Level 73
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // The Basement
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 52
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
 
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
@@ -326,6 +333,9 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Level974: L974Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level3999: L3999Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level188: L188Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level73: L73Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Basement: BasementAir(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level52: L52Air(dt, pos, ref target, ref titleKey); break;
             case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
@@ -489,6 +499,9 @@ public partial class AtmosphereSystem : ModSystem
         L974Sounds(dt, pos, level == WorldLayout.Level974);
         L3999Sounds(dt, pos, level == WorldLayout.Level3999);
         L188Sounds(dt, pos, level == WorldLayout.Level188);
+        L73Sounds(dt, pos, level == WorldLayout.Level73);
+        BasementSounds(dt, pos, level == WorldLayout.Basement);
+        L52Sounds(dt, pos, level == WorldLayout.Level52);
 
         // The Poolrooms' room tone
         bool pool = level == WorldLayout.Poolrooms;

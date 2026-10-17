@@ -104,6 +104,10 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level974 => 0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8, // (only its Neon Blackout has anything in it)
         Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
+        // The experimental levels (ids 21-23): nothing in them yet
+        Backrooms.Worldgen.WorldLayout.Level73 => 0,
+        Backrooms.Worldgen.WorldLayout.Basement => 0,
+        Backrooms.Worldgen.WorldLayout.Level52 => 0,
         // Level 94 keeps its own balance (the King's trial)
         _ => 0,
     };
@@ -300,6 +304,10 @@ public static class Roster
             E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
         },
+        // The experimental levels (ids 21-23): empty
+        [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -447,6 +455,10 @@ public static class Roster
             S("backrooms:sounds/effect/188/vacuum", 0.9f, 1.05f, 0.3f), S("backrooms:sounds/effect/188/icedrop", 0.9f, 1.1f, 0.35f),
             S("backrooms:sounds/effect/188/thump", 0.85f, 1.05f, 0.5f), S("backrooms:sounds/effect/188/knock", 0.9f, 1.1f, 0.4f), Footsteps,
         },
+        // The experimental levels (ids 21-23): none yet
+        [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<DistantSound>(),
     };
 
     public static DistantSound[] SoundsFor(int level) => SoundsByLevel.TryGetValue(level, out DistantSound[] s) ? s : Array.Empty<DistantSound>();

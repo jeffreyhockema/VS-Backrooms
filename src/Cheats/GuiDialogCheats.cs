@@ -20,10 +20,10 @@ public class GuiDialogCheats : GuiDialog
     private const double Width = 600, ButtonHeight = 26, Gap = 6, RowGap = 10, LineHeight = 18;
 
     private static readonly string[] Tabs = { "Travel", "Player", "Creatures", "World", "View", "Dev" };
-    private static readonly string[] LevelNumbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "37", "94", "!", "Fun", "End", "Hub", "974", "3999", "188" };
+    private static readonly string[] LevelNumbers = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "37", "94", "!", "Fun", "End", "Hub", "974", "3999", "188", "73", "Basement", "52" };
 
-    /// <summary>A level's name on a button: "Level 37", "Level !", but "The End" and "The Hub".</summary>
-    private static string LevelLabel(string number) => number is "End" or "Hub" ? "The " + number : "Level " + number;
+    /// <summary>A level's name on a button: "Level 37", "Level !", but "The End", "The Hub" and "The Basement".</summary>
+    private static string LevelLabel(string number) => number is "End" or "Hub" or "Basement" ? "The " + number : "Level " + number;
     private static readonly string[] EncounterKinds = { "hunt", "stalk", "glimpse", "ambient" };
     private static readonly string[] Distances = { "auto", "4", "8", "14", "24", "40" };
 

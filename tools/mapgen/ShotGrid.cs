@@ -6,7 +6,7 @@ using Backrooms.Worldgen;
 ///   mapgen &lt;seed&gt; &lt;cells&gt; shotgrid &lt;level&gt; [x z]
 ///       Writes shotgrid.bin: the tiles of a square of cells centred on the level's first arrival (the one AT=L&lt;level&gt;
 ///       uses; "6.1" is the Snackrooms' arrival), or on block x, z, with each tile's feet height. Prints the arrival,
-///       spawn and the shared floor. Levels by the names players type: 0-11, 6.1, 37, 94, !, fun, end, hub, 974, 3999, 188.
+///       spawn and the shared floor. Levels by the names players type: 0-11, 6.1, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52.
 ///   mapgen &lt;seed&gt; 1 feet x z [x z ...]
 ///       Prints "x z level feetY" for each column: where /tp puts your feet to stand there, as /backrooms nearest does.
 ///

@@ -235,6 +235,15 @@ public enum WallPattern : byte
     /// </summary>
     L188Facade = 177, L188Nothing = 178, L188Partition = 179, L188CorridorWall = 180, L188OuterWall = 181, L188StairWall = 182,
     L188FrontDoor = 183, L188SealedDoor = 184, L188LockedDoor = 185,
+
+    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+
+    /// <summary>Level 73 (block 192-207). Placeholder.</summary>
+    L73Wall = 192,
+    /// <summary>The Basement (block 208-223). Placeholder.</summary>
+    BasementWall = 208,
+    /// <summary>Level 52 (block 224-239). Placeholder.</summary>
+    L52Wall = 224,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -461,6 +470,15 @@ public enum FloorKind : byte
     L188Floor = 196,
     /// <summary>Level 188: courtyard pavers, the mossy lawns, the wooden deck; corridor carpet, guest-room carpet, the lobby, the stair hall.</summary>
     L188Paver = 197, L188Turf = 198, L188Deck = 199, L188Corridor = 200, L188Room = 201, L188Lobby = 202, L188Stair = 203,
+
+    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+
+    /// <summary>Level 73 (block 212-227). Placeholder.</summary>
+    L73Floor = 212,
+    /// <summary>The Basement (block 228-243). Placeholder.</summary>
+    BasementFloor = 228,
+    /// <summary>Level 52 (block 244-255). Placeholder.</summary>
+    L52Floor = 244,
 }
 
 public enum CeilingKind : byte
@@ -518,6 +536,15 @@ public enum CeilingKind : byte
     L3999FluoroOff = 59,
     /// <summary>Level 188 (block 64-71). Placeholder.</summary>
     L188Ceiling = 64,
+
+    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+
+    /// <summary>Level 73 (block 72-79). Placeholder.</summary>
+    L73Ceiling = 72,
+    /// <summary>The Basement (block 80-87). Placeholder.</summary>
+    BasementCeiling = 80,
+    /// <summary>Level 52 (block 88-95). Placeholder.</summary>
+    L52Ceiling = 88,
 }
 
 /// <summary>
@@ -681,6 +708,10 @@ public static class Pipes
     /// </summary>
     public const byte L3999UpperCabinet = 70, L3999UpperBench = 74, L3999UpperPlanter = 78;
     public const byte L188First = 80, L188Last = 89;
+    // The experimental Levels 73, the Basement and 52 (21-23)
+    public const byte L73First = 90, L73Last = 99;
+    public const byte BasementFirst = 100, BasementLast = 109;
+    public const byte L52First = 110, L52Last = 119;
 }
 
 /// <summary>Values of <see cref="Tile.Overhead"/>.</summary>
@@ -736,6 +767,10 @@ public static class Overheads
     /// </summary>
     public const byte L3999TubeWE = 90, L3999TubeNS = 91, L3999DeadWE = 92, L3999DeadNS = 93, L3999Sign3999 = 94, L3999Sign = 95;
     public const byte L188First = 100, L188Last = 109;
+    // The experimental Levels 73, the Basement and 52 (21-23)
+    public const byte L73First = 110, L73Last = 119;
+    public const byte BasementFirst = 120, BasementLast = 129;
+    public const byte L52First = 130, L52Last = 139;
 }
 
 /// <summary>Values of <see cref="Tile.Under"/> beyond Level 3's flooded tunnels: thresholds below the floor.</summary>
@@ -863,6 +898,10 @@ public static class Unders
     /// it faces; bit 6 set on its left half); the hatch in the courtyard deck; a fire door (Detail = its storey).
     /// </summary>
     public const byte L188LinkWindow = 110, L188Entrance = 111, L188Hatch = 112, L188FireDoor = 113;
+    // The experimental Levels 73, the Basement and 52 (21-23)
+    public const byte L73First = 120, L73Last = 129;
+    public const byte BasementFirst = 130, BasementLast = 139;
+    public const byte L52First = 140, L52Last = 149;
 }
 
 /// <summary>Level 37: what a tile wall carries, in <see cref="Tile.Variant"/>, facing <see cref="Tile.Pier"/>.</summary>
@@ -1445,8 +1484,13 @@ public static class Props
     /// <summary>Level 188's courtyard: a bench (Pier its facing), a bollard lamp, a tuft of moss (walked through), the drain under the downpipe (walked through).</summary>
     public const ushort L188Bench = 540, L188Bollard = 541, L188MossTuft = 542, L188Drain = 543;
 
+    // The experimental Levels 73, the Basement and 52 (21-23)
+    public const ushort L73First = 580, L73Last = 619;
+    public const ushort BasementFirst = 620, BasementLast = 659;
+    public const ushort L52First = 660, L52Last = 699;
+
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
-    public const int Limit = 580;
+    public const int Limit = 700;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>

@@ -312,7 +312,8 @@ public partial class ThresholdSystem : ModSystem
             if (passage.Twilight && !Regions.MotionSystem.IsTwilight(sapi.World.Calendar)) continue;
             // The far places (ids 14-20) may hold theirs shut
             if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
-                && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage))) continue;
+                && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage)
+                && L73MayPass(player, passage) && BasementMayPass(player, passage) && L52MayPass(player, passage))) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null));
         }
     }
@@ -395,6 +396,7 @@ public partial class ThresholdSystem : ModSystem
         RunRedirect(player, passage, destination) ?? FunRedirect(player, passage, destination) ?? EndRedirect(player, passage, destination)
         ?? HubRedirect(player, passage, destination) ?? L974Redirect(player, passage, destination)
         ?? L3999Redirect(player, passage, destination) ?? L188Redirect(player, passage, destination)
+        ?? L73Redirect(player, passage, destination) ?? BasementRedirect(player, passage, destination) ?? L52Redirect(player, passage, destination)
         ?? destination;
 
     /// <summary>
@@ -468,6 +470,9 @@ public partial class ThresholdSystem : ModSystem
             case WorldLayout.Level974: L974Arriving(player, link, ref drop); break;
             case WorldLayout.Level3999: L3999Arriving(player, link, ref drop); break;
             case WorldLayout.Level188: L188Arriving(player, link, ref drop); break;
+            case WorldLayout.Level73: L73Arriving(player, link, ref drop); break;
+            case WorldLayout.Basement: BasementArriving(player, link, ref drop); break;
+            case WorldLayout.Level52: L52Arriving(player, link, ref drop); break;
         }
         // Put down on a flight of stairs (near the top of the way back, after climbing another), they face down it,
         // and it takes them nowhere until they have stepped off it

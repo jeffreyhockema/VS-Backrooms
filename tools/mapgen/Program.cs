@@ -76,7 +76,7 @@ if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
 // shotgrid and feet: camera planning for the graphics pass's spot lists (ShotGrid.cs)
 if (args.Length > 2 && ShotGrid.Run(layout, args)) return;
-// Each of the levels kept as 14-20 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats), in its own file
+// Each of the levels kept as 14-23 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats; 73, basement and 52: none yet), in its own file
 if (args.Length > 2 && LevelModes.Run(layout, args)) return;
 if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); return; }
 if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayName(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }

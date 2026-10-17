@@ -63,6 +63,9 @@ public sealed partial class WorldLayout
             Level974 => true, // Kitty's House: nothing that harms anyone ever comes
             Level3999 => !L3999DarkAt(gx, gz), // the Neon Paradise is safe; its Blackout (3999.1) is not
             Level188 => false,
+            Level73 => false,
+            Basement => false,
+            Level52 => false,
             _ => false,
         };
     }

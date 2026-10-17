@@ -64,6 +64,9 @@ public readonly struct WorldGeometry
     /// <summary>The same for Levels 3999 and 188 (19, 20). Level 3999's atria are 18 high (its plan: 20 down).</summary>
     public const int L3999Drop = 20, L188Drop = 0;
 
+    /// <summary>The same for the experimental Levels 73, the Basement and 52 (21-23).</summary>
+    public const int L73Drop = 0, BasementDrop = 0, L52Drop = 0;
+
     /// <summary>
     /// How far below its own floor the band each of the five is generated and lit over begins (<see cref="ShaftDepth"/> is
     /// the usual). The band is always as tall as the usual one, so a shallower start reaches higher (see
@@ -77,6 +80,9 @@ public readonly struct WorldGeometry
     /// 188's 6 down (the hatch's shaft), so its band reaches rel 33, over five storeys and a roof, for the black sky.
     /// </summary>
     public const int L3999BandDepth = 4, L188BandDepth = 6;
+
+    /// <summary>The same for the experimental Levels 73, the Basement and 52 (21-23): the usual band for now.</summary>
+    public const int L73BandDepth = ShaftDepth, BasementBandDepth = ShaftDepth, L52BandDepth = ShaftDepth;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;
@@ -97,6 +103,9 @@ public readonly struct WorldGeometry
         WorldLayout.Level974 => FloorY - L974Drop,
         WorldLayout.Level3999 => FloorY - L3999Drop,
         WorldLayout.Level188 => FloorY - L188Drop,
+        WorldLayout.Level73 => FloorY - L73Drop,
+        WorldLayout.Basement => FloorY - BasementDrop,
+        WorldLayout.Level52 => FloorY - L52Drop,
         _ => FloorY,
     };
 
@@ -121,6 +130,9 @@ public readonly struct WorldGeometry
         WorldLayout.Level974 => FloorFor(WorldLayout.Level974) - L974BandDepth,
         WorldLayout.Level3999 => FloorFor(WorldLayout.Level3999) - L3999BandDepth,
         WorldLayout.Level188 => FloorFor(WorldLayout.Level188) - L188BandDepth,
+        WorldLayout.Level73 => FloorFor(WorldLayout.Level73) - L73BandDepth,
+        WorldLayout.Basement => FloorFor(WorldLayout.Basement) - BasementBandDepth,
+        WorldLayout.Level52 => FloorFor(WorldLayout.Level52) - L52BandDepth,
         _ => BandBottom,
     };
 

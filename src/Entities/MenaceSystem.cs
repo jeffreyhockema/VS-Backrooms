@@ -379,6 +379,10 @@ public class MenaceSystem : ModSystem
             case WorldLayout.Level3999: a.Band = layout.L3999DarkAt(gx, gz) ? MenaceBand.Threshold : MenaceBand.Safe; return;
             // Level 188: safe in a room with its door shut, the heart in the courtyard and below, the edge upstairs and by the windows out
             case WorldLayout.Level188: a.Band = Regions.L188System.BandAt(layout, geometry, gx, y, gz); return;
+            // The experimental levels (ids 21-23): safe for now
+            case WorldLayout.Level73: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Basement: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level52: a.Band = MenaceBand.Safe; return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {

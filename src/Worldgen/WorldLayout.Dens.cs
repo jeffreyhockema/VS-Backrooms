@@ -62,6 +62,9 @@ public sealed partial class WorldLayout
             Level974 => null,
             Level3999 => null,
             Level188 => null,
+            Level73 => null,
+            Basement => null,
+            Level52 => null,
             _ => null,
         };
         if (kinds == null) return DenKind.None;

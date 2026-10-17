@@ -30,6 +30,9 @@ public sealed partial class WorldLayout
         Level974 => 0.4,
         Level3999 => 0.15, // this deep, hardly anyone has been through the stores
         Level188 => 0.3, // few come here, fewer leave
+        Level73 => 0.3,
+        Basement => 0.3,
+        Level52 => 0.3,
 
         _ => 0.4,
     };

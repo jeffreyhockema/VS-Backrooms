@@ -673,6 +673,10 @@ public sealed partial class WorldGenerator
         // Levels 3999 and 188
         InitL3999();
         InitL188();
+        // The experimental Levels 73, the Basement and 52
+        InitL73();
+        InitBasement();
+        InitL52();
         cableXId = BlockId("backrooms:cables-run-we");
         cableZId = BlockId("backrooms:cables-run-ns");
         cableHubId = BlockId("backrooms:cables-hub");
@@ -899,12 +903,13 @@ public sealed partial class WorldGenerator
             // The five kept as 14-18 (and 3999 and 188): the band they are lit over (see WorldGeometry.BandBottomFor),
             // or the usual one if that begins higher (their column builders fill in under their floors)
             WorldLayout.RunLevel or WorldLayout.FunLevel or WorldLayout.TheEnd or WorldLayout.Hub
-                or WorldLayout.Level974 or WorldLayout.Level3999 or WorldLayout.Level188 => Math.Min(g.BandBottom, g.BandBottomFor(level)),
+                or WorldLayout.Level974 or WorldLayout.Level3999 or WorldLayout.Level188
+                or WorldLayout.Level73 or WorldLayout.Basement or WorldLayout.Level52 => Math.Min(g.BandBottom, g.BandBottomFor(level)),
             _ => g.BandBottom,
         };
         int top = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
         // Those levels are generated over their own band, and sealed just above it
-        bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level188;
+        bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level52;
         if (region) top = g.BandTopFor(level);
         return (bottom, top, region ? top + 1 : g.CapY);
     }
@@ -987,6 +992,9 @@ public sealed partial class WorldGenerator
             case WorldLayout.Level974: return Level974Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level974), out fluid);
             case WorldLayout.Level3999: return Level3999Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level3999), out fluid);
             case WorldLayout.Level188: return Level188Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level188), out fluid);
+            case WorldLayout.Level73: return Level73Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level73), out fluid);
+            case WorldLayout.Basement: return LevelBasementBlock(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Basement), out fluid);
+            case WorldLayout.Level52: return Level52Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level52), out fluid);
         }
         // The stairwells of Levels 1 and 4 (from layout version 4): flights up through the ceiling and down through the floor
         if (WorldLayout.IsShaftFlight(t)) return FlightBlock(t, rel);
