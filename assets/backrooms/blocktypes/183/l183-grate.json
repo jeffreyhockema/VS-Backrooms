@@ -1,0 +1,54 @@
+// Level 183: a black iron floor grate over the water (the bridges, the crossings' decks, the drains); walked on as a full block
+{
+	"code": "l183-grate",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/183/grate"
+	},
+	"textures": {
+		"iron": {
+			"base": "block/183/grate"
+		}
+	},
+	"sidesolid": {
+		"all": false,
+		"up": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.875,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"lightAbsorption": 0,
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

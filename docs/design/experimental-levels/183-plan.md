@@ -111,3 +111,64 @@ Plus `block-l183-*` names, as the Basement did. Hints for 2701-2703 only if the 
 5. Mains 9 wide and 5 high, or tighter? Recommendation: 9 x 5; narrow walkways to 2 if it feels too open.
 6. Stepped brick arch or flat ceiling plus pillars? Recommendation: stepped 3-4-5 over the channel; no new model needed.
 7. Rename if canon appears later? Recommendation: keep `l183-` and id 27 regardless; the display name is only lang strings.
+
+## Status (prototype built, 2026-10-17)
+
+**Built.** `WorldLayout.Level183.cs`, `WorldGenerator.L183.cs`, `AtmosphereSystem.L183.cs`, `tools/mapgen/L183Stats.cs`,
+`tools/gen_183.py` (textures with `matlib`/`texlib`, blocktypes, the grate's and lamp's shapes, one sound); small lines in
+`Tiles.cs` (the L183 members), `AtmosphereSystem.cs` (the base fog line, the two loops in `Dispose`) and `en.json`.
+- **Lattice** on the 8-block node grid, as planned, but global: every third node line may be a main (55% of them; one in
+  five of all candidate lines a "major" that runs through every zone, the rest only through the Trunk Tunnels), so mains
+  run straight for many cells and stop where the Trunk Tunnels end. Each cell: a hash-ordered union-find tree over its 16
+  nodes with the mains joined first, plus 25% (Channels 32%) extra links; every main and two more links cross each side
+  between two of the level's cells, so the whole region is one network. One side link in six is a dry gallery.
+- **Sections**: main 9 wide (3-wide channel, bed rel -2, `game:water-still-7` at rel -1; a curb either side; walkways 2
+  wide), stepped vault 3/4/5 blocks of air; side 5 wide (walkway 2 + gutter 1 + walkway 2), gutter bed rel -1 with water
+  at rel 0, three-long drain grates at every node; gallery 3 wide, dry, pipes down the middle. Crossings and turns of mains
+  are decked with grates (water under them); grate bridges at main dead ends, ~45% of nodes where a side joins, 10% of
+  the others. Chambers 11 x 11 inside a wall ring open only at their links (3 x 3 basin, curb ring, domed to 6 air), at
+  even nodes with 3+ links, away from mains; halls 16 x 16 over a Junction Halls cell's middle four nodes (55% of them,
+  none where a main runs through): 4 pillars, a 4 x 4 sump, 5-6 air.
+- **Light**: `l183-lamp` caged tubes on the walls (cool white, `lightHsv` 34/1/12, bright 14 in chambers and halls),
+  every 6 blocks alternating sides on mains, every 12 on sides and galleries, 4 per chamber, 8 per hall; 8% flicker
+  (`BackroomsFlicker` look swap to the off state). **Air**: fog #c9d6d6 at 0.025 (mains, the `Levels` line), 0.04 sides and
+  galleries, 0.03 chambers and halls; 12 C (11 C in side tunnels); stability 1, 1.1 in halls. **Titles**: level 27 on
+  arriving, then 2701-2703 by zone once the player leaves the arrival zone. **Sound**: new loop
+  `sounds/ambient/183/sewer.ogg` (running water, gurgles, a low tunnel tone, glazed-brick reflections), the Poolrooms'
+  wash over mains, chambers and halls, `pooldrip`/`poollap` one-shots, a far clank (`pooldrip` at pitch 0.35) every 3-8 min.
+- Arrivals: `IsL183ArrivalSpot` = dry walkway floor only (never channel, gutter, curb or grate).
+
+**New block codes (5)**: `l183-wall` (plain/stained/tide), `l183-floor` (walkway/curb/bed), `l183-ceiling` (flat/arch/dome),
+`l183-grate`, `l183-lamp` (on/bright/flicker/off x 4 sides). Reused: Level 2 `pipes-run/leak-we/ns`, Level 1
+`concretepillar-plain`, vanilla still water. Values used: WallPattern 243, FloorKind 252, CeilingKind 120-123, Pipes
+150-153, salts 0x2700-0x270C, title keys 2701-2703; no Props, Unders, Overheads or Decor.
+
+**Deviations from the plan**: floor sub-kinds are in `Tile.Detail` (the `L183Part`), not `Tile.Variant` (a non-zero Variant
+on a floor reads as a prop in the shared walkability code); the space (main/side/gallery/chamber/hall) is in the upper bits
+of `Tile.Zone`, the top of the air in `Tile.Height`; the vault's look is picked by the space, so CeilingKind 121-123 are the
+lamps. The curb is a ledge one block *lower* than the walkway (level with the water), so every channel can be climbed out
+of in steps of one. Side tunnels are 2 + 1 + 2 (5 wide) with a flush gutter instead of a 1-deep channel. Lamp light per
+kind is 12/14 instead of V7/V8/V9. Skipped: ladders and manhole lids, `ironbars` grates across mouths, vent grates and
+drip pipes, painted flow arrows, entities, thresholds, loot, notes, handbook, Spanish strings.
+
+**Harness** (`mapgen 12345 14 183stats [window]`; `183map [window]` writes l183.ppm):
+- Full size, 24 x 24 cells round the centre (11475, 11475): cells Trunk 45% / Channels 32% / Halls 23% (whole region 52 /
+  25 / 23); walkable tiles 442,279: mains 33.7%, sides 52.3%, galleries 4.4%, chambers 6.9%, halls 2.7%, 16.8% in water;
+  252 chambers, 47 halls, 6059 lamps (475 flickering), 0 sealed tiles. Reach (steps of one): 99.99% in one piece, the rest
+  3 pieces cut by the window's edge, 0 pockets; dry walkways and grates alone: also one piece (0 pockets). No walkway drops
+  straight into a channel (only the sides of bridges and decks do). 60/60 arrivals on dry walkways.
+- `SPAWN=1000`, the whole region (100 x 100 window): 3.81 M walkable tiles, 100% one piece wet and dry, 0 pockets, 60/60;
+  `SPAWN=4000` seed 777 (40 x 40): one piece, 0 pockets, 60/60.
+- `regions`: Level 183 60/60 arrivals, 0 wrong level, 0 in pockets, full size and `SPAWN=1000`; 0.19 ms a cell.
+- `layouthash`: overall hash `18cfdbc1c530f039` and every per-level line for 0-23 identical to the batch-2 baseline
+  (only 24-27 differ, the four levels in progress).
+- Headless (port 42488, seed 12345): `blocksweep` 8002 blocks, 0 threw; `dump 367216 367120 24` (a hall, side tunnels, a
+  chamber, a main) and `dump 367216 367240 24` (a crossing of mains, a chamber) show the channels with water at rel -1,
+  gutters at rel 0, grates over water, curbs, the stepped vault, lamps facing away from their walls, pipes; 0 missing
+  blocks, no errors in the logs.
+
+**Check in a client**: the grate's look over the water and walking on it; the lamp model and its orientation; whether
+the curb's edge band reads; the waterline height against the walkway; the still water at gutter ends (a water face where
+a gutter meets a grate) and whether any of it starts to flow after a block update; fog density and the pale tint against
+the light; loudness of the loop and the clank; whether the mains (a third of the floor in the Trunk Tunnels) feel too
+dense or too regular.
