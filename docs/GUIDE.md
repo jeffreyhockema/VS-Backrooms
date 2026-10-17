@@ -124,7 +124,7 @@ Some limits:
 
 The gear on the HUD shows how firmly you are anchored. It is Vintage Story's temporal stability, with the Backrooms' own geography.
 
-- **Each area has its own stability.** Where it is low the gear turns backwards and your stability drains. When yours is low the world distorts, and at zero you take damage.
+- **Each area has its own stability.** Where it is low the gear turns backwards and your stability drains. When yours is low the world distorts, and at zero you take damage. Below about a third the air of whatever level you are in thickens, goes a dull brown-grey and dims, more the lower you fall, and clears as you recover.
   - Kind places: the Manila Room, the Level 1 car park, all of Level 4, the Beverly Room, Level !'s Safe Zone, The End's central hall, the Hub, Kitty's House for its first 18 hours, Level 3999 wherever its neon is lit (the lobbies most), and Level 188's guest rooms.
   - Bad places: Level 0's blackout zones and above all its Red Rooms, Level 2, Level 3 (worst in its flooded tunnels), the hotel corridors and above all the boiler halls, Level ! outside the Safe Zone, all of Level Fun (and its Party Fever lowers your cap), The End away from its middle and after two hours there, Kitty's House after 18 hours, Level 3999's failing neon and its Neon Blackout (3999.1), Level 188's corridors, courtyard and roof (most of all near a beckoning window).
 - **Almond Water** restores some stability when you drink it.
