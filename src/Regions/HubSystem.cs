@@ -291,7 +291,7 @@ public partial class HubSystem : ModSystem
     public static string LevelName(int level) => level switch
     {
         WorldLayout.HubSnackroomsDoor => Lang.Get("backrooms:levelname-6.1"),
-        >= WorldLayout.RunLevel and <= WorldLayout.Level52 => Lang.Get("backrooms:levelname-" + level),
+        >= WorldLayout.RunLevel and <= WorldLayout.Level183 => Lang.Get("backrooms:levelname-" + level),
         _ => Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level)),
     };
 

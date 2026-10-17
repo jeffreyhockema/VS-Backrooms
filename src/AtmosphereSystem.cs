@@ -121,6 +121,15 @@ public partial class AtmosphereSystem : ModSystem
         new(0.045f, 0.051f, 0.086f, 0.078f, 0f),
         // Level 52: a light grey-beige haze down the long halls (its dark classrooms and its gym: AtmosphereSystem.L52.cs)
         new(0.0065f, 0.72f, 0.70f, 0.64f, 0f),
+        // Batch 2 (placeholders: a faint neutral haze)
+        // Level 31
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 55
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 120
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 183
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
 
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
@@ -339,6 +348,10 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Level73: L73Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Basement: BasementAir(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level52: L52Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level31: L31Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level55: L55Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level120: L120Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level183: L183Air(dt, pos, ref target, ref titleKey); break;
             case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
@@ -505,6 +518,10 @@ public partial class AtmosphereSystem : ModSystem
         L73Sounds(dt, pos, level == WorldLayout.Level73);
         BasementSounds(dt, pos, level == WorldLayout.Basement);
         L52Sounds(dt, pos, level == WorldLayout.Level52);
+        L31Sounds(dt, pos, level == WorldLayout.Level31);
+        L55Sounds(dt, pos, level == WorldLayout.Level55);
+        L120Sounds(dt, pos, level == WorldLayout.Level120);
+        L183Sounds(dt, pos, level == WorldLayout.Level183);
 
         // The Poolrooms' room tone
         bool pool = level == WorldLayout.Poolrooms;

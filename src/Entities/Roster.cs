@@ -108,6 +108,11 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level73 => 0,
         Backrooms.Worldgen.WorldLayout.Basement => 0,
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
+        // Batch 2 (ids 24-27): nothing in them yet
+        Backrooms.Worldgen.WorldLayout.Level31 => 0,
+        Backrooms.Worldgen.WorldLayout.Level55 => 0,
+        Backrooms.Worldgen.WorldLayout.Level120 => 0,
+        Backrooms.Worldgen.WorldLayout.Level183 => 0,
         // Level 94 keeps its own balance (the King's trial)
         _ => 0,
     };
@@ -308,6 +313,10 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level55] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level183] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -459,6 +468,10 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level55] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level183] = Array.Empty<DistantSound>(),
     };
 
     public static DistantSound[] SoundsFor(int level) => SoundsByLevel.TryGetValue(level, out DistantSound[] s) ? s : Array.Empty<DistantSound>();

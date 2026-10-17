@@ -440,7 +440,7 @@ public partial class CheatSystem : ModSystem
         {
             string number = (string)args[1];
             level = WorldLayout.FromDisplayName(number);
-            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement or 52)");
+            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 55, 120 or 183)");
         }
 
         // The arrival search starts from a point picked by key, so a few keys find a few different places

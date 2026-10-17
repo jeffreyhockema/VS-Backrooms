@@ -65,7 +65,7 @@ public static class MapMarks
         if (level == 6 && layout.IsSnackrooms(mx, mz)) return Lang.Get("backrooms:levelname-6.1");
         if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return Lang.Get("backrooms:levelname-37.1");
         // The five kept as 14-18 have names of their own ("The End", "The Hub"): levelname-14 to levelname-18
-        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level52) return Lang.Get("backrooms:levelname-" + level);
+        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level183) return Lang.Get("backrooms:levelname-" + level);
         return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level));
     }
 }

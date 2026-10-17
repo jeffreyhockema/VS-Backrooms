@@ -33,6 +33,10 @@ public sealed partial class WorldLayout
         Level73 => 0.3,
         Basement => 0.3,
         Level52 => 0.3,
+        Level31 => 0.3,
+        Level55 => 0.3,
+        Level120 => 0.3,
+        Level183 => 0.3,
 
         _ => 0.4,
     };

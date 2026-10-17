@@ -193,7 +193,8 @@ public sealed partial class ThresholdNetwork
         // The five kept as 14-18 keep their thresholds, out of them and into them from anywhere, in their own files
         Passage region = RunWalked(x, z, tile, rel) ?? FunWalked(x, z, tile, rel) ?? EndWalked(x, z, tile, rel)
             ?? HubWalked(x, z, tile, rel) ?? L974Walked(x, z, tile, rel) ?? L3999Walked(x, z, tile, rel) ?? L188Walked(x, z, tile, rel)
-            ?? L73Walked(x, z, tile, rel) ?? BasementWalked(x, z, tile, rel) ?? L52Walked(x, z, tile, rel);
+            ?? L73Walked(x, z, tile, rel) ?? BasementWalked(x, z, tile, rel) ?? L52Walked(x, z, tile, rel)
+            ?? L31Walked(x, z, tile, rel) ?? L55Walked(x, z, tile, rel) ?? L120Walked(x, z, tile, rel) ?? L183Walked(x, z, tile, rel);
         if (region != null) return region;
         switch (level)
         {
@@ -455,7 +456,9 @@ public sealed partial class ThresholdNetwork
         Passage region = RunUsed(x, z, level, kind, ref refusal) ?? FunUsed(x, z, level, kind, ref refusal) ?? EndUsed(x, z, level, kind, ref refusal)
             ?? HubUsed(x, z, level, kind, ref refusal) ?? L974Used(x, z, level, kind, ref refusal)
             ?? L3999Used(x, z, level, kind, ref refusal) ?? L188Used(x, z, level, kind, ref refusal)
-            ?? L73Used(x, z, level, kind, ref refusal) ?? BasementUsed(x, z, level, kind, ref refusal) ?? L52Used(x, z, level, kind, ref refusal);
+            ?? L73Used(x, z, level, kind, ref refusal) ?? BasementUsed(x, z, level, kind, ref refusal) ?? L52Used(x, z, level, kind, ref refusal)
+            ?? L31Used(x, z, level, kind, ref refusal) ?? L55Used(x, z, level, kind, ref refusal) ?? L120Used(x, z, level, kind, ref refusal)
+            ?? L183Used(x, z, level, kind, ref refusal);
         if (region != null || refusal != null) return region;
 
         switch (kind)

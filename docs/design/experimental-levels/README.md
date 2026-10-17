@@ -81,3 +81,60 @@ x -816, 1120 of the End's x -3136); the Basement at x -2000..-1352, z 3744..4384
 52 at x 1352..2008, z 3744..4392 (1472 clear of the Hub, 1344 of Level !). `SPAWN=1000`: 73 at x -377..-299 (220 clear of
 Motion's -79), the Basement x -377..-297 (271 clear of 974's -648), 52 x 297..378 (270 clear of the Hub's 648).
 `SPAWN=4000`: likewise clear. No region's bounds overlap another's.
+
+## Scaffolding, batch 2 (done 2026-10-17)
+
+Ids 24-27 (Level 31 "Roller Rink", Level 55 "Land of Ice", Level 120 "Server Room", Level 183 "Clean Sewers"; see
+BACKLOG.md for the table and the reserved values) are registered everywhere ids 21-23 are, in the same way:
+`LevelCount` is now `RingWidths.Length + 18`; `DisplayNumber`/`FromDisplayNumber` ("31", "55", "120", "183");
+`ComputeLevel` (after 52); `IsOpenSky` (false); `GetEdge`; the rim's `WallPattern`; `TemperatureAt`; `LevelTemperatures`
+(24: 16, 25: -8, 26: 26, 27: 12); `BuildMacro`; `IsWalkThroughProp`; `StabilityAt`, `FindArrival`, `ArrivalHeight`;
+`DenAt` (null), `IsSanctuary` (false), `PickedOverShare` (0.3); `WorldGeometry` (drop 0, band depth `ShaftDepth`); the
+generator's `Init`, `Band` and `ColumnBlock`; `Danger.OfLevel` (0), `Roster` (empty), `MenaceSystem` (Safe);
+`Protection.RoofFrom`; the map's grouped case; every `>= RunLevel && <= ...` name check now ends at `Level183` (map
+marks, notes, Hub names, block dump, the generator's region flag); threshold dispatch; `AtmosphereSystem.Levels` (a
+neutral haze each) and its air and sound dispatch; the cheats dialog ("Level 31", "Level 55", "Level 120", "Level 183":
+28 buttons, four full rows of seven); command help; the harness (`LevelModes`, `regions`, `links`, `regionmap` and
+`shotgrid` names); lang `level-`, `levelhint-`, `levelname-24..27` (en.json only).
+
+Tiles.cs, one value each from this batch on: `WallPattern.L31Wall` 240, `L55Wall` 241, `L120Wall` 242, `L183Wall` 243;
+`FloorKind.L31Floor` 249, `L55Floor` 250, `L120Floor` 251, `L183Floor` 252; `CeilingKind.L31Ceiling` 96, `L55Ceiling`
+104, `L120Ceiling` 112, `L183Ceiling` 120; `Props.<N>First/Last` 700-739, 740-779, 780-819, 820-859 (`Props.Limit` =
+860); `Unders` 150-189, `Overheads` 140-179, `Pipes` 120-159, ten each, in that order.
+
+**Hooks per level** (`<N>` = `L31`, `L55`, `L120`, `L183`; build/block names `Level31`, `Level55`, `Level120`, `Level183`):
+
+| File | Hooks |
+|---|---|
+| `src/Worldgen/WorldLayout.Level31.cs`, `.Level55.cs`, `.Level120.cs`, `.Level183.cs` | `Salt<N>Shape` (0x2401, 0x2501, 0x2601, 0x2701), `<N>Reach`, `<N>CentreX/Z`, `<N>Radius`, `In<N>`, `<N>ArrivalCell`, `Is<N>ArrivalSpot`, `<N>ArrivalHeight`, `<N>Edge`, `BuildLevel31` / `BuildLevel55` / `BuildLevel120` / `BuildLevel183`, `<N>WalkThrough`, `<N>Temperature`, `<N>Stability` |
+| `src/Worldgen/WorldGenerator.<N>.cs` | `Init<N>`, `Level31Block` / `Level55Block` / `Level120Block` / `Level183Block` |
+| `src/Thresholds/ThresholdNetwork.<N>.cs` | `Salt<N>Threshold` (0x24C0, 0x25C0, 0x26C0, 0x27C0), `<N>Walked`, `<N>Used` (both null), `Into<N>` |
+| `src/Thresholds/ThresholdSystem.<N>.cs` | `<N>Arriving` (no-op), `<N>Redirect` (null), `<N>MayPass` (true) |
+| `src/AtmosphereSystem.<N>.cs` | `<N>Air`, `<N>Sounds` (empty) |
+| `tools/mapgen/<N>Stats.cs` | `<N>Modes` (false), `<N>LinkLabel`, `<N>UseKind` (null) |
+
+The placeholder layout and blocks are batch 1's (one open floor, rim walls, concrete, a fluorescent light every eight
+blocks).
+
+**Regions** (all round, radius `max(40, spawnMacroX / 50)`: 320 cells full size, 40 at `SPAWN=1000`, 80 at `SPAWN=4000`):
+
+| Level | Centre | Full size (R = 4000) | `SPAWN=1000` (R = 800) |
+|---|---|---|---|
+| 31 | `R * 1.1` out, 22.5 degrees north of west: `spawn + (-round(1.1 R cos 22.5), -round(1.1 R sin 22.5))` | (-4065, -1684) | (-813, -337) |
+| 55 | the same, 22.5 degrees south of west: `spawn + (-round(1.1 R cos 22.5), +round(1.1 R sin 22.5))` | (-4065, +1684) | (-813, +337) |
+| 120 | `spawn + (+F, -F)`, `F = round(R * 1.6 / sqrt 2)` (as 3999's), beyond Level Fun | (+4525, -4525) | (+905, -905) |
+| 183 | `spawn + (-F, -F)`, beyond the End | (-4525, -4525) | (-905, -905) |
+
+**Harness results.** `layouthash` before and after: identical (`layout hash 18cfdbc1c530f039`, the same level grids,
+every per-level line for 0-23 unchanged; only the lines for 24-27 were added). `regions`: 60/60 arrivals for each of
+the four, none in the wrong level or in small pockets, at full size, `SPAWN=1000` and `SPAWN=4000` (Level 3999's 59/60 at
+`SPAWN=4000` is as it was before). `overview` (region bounds from spawn, in cells), full size: 31 at x -4384..-3744,
+z -2008..-1368 (528 clear of the Poolrooms' z -840, 1120 of the End's z -3128); 55 at x -4392..-3744, z 1368..2016 (552
+clear of the Poolrooms' z 816, 1112 of 974's z 3128); 120 at x 4200..4848, z -4848..-4200 (264 clear of Fun on both axes,
+1720 clear of the city's z -2480; Level 188 is at x about 1684); 183 at x -4848..-4200, z -4848..-4200 (248 and 240 clear
+of the End; Level 73 is at x about -1690). `SPAWN=1000`: 31 at x -852..-772, z -377..-297 (216 clear of the Poolrooms'
+z -79, 271 of the End's z -648); 55 at x -852..-774, z 298..375 (217 clear of the Poolrooms' z 81, 273 of 974's z 648);
+120 at x 865..944, z -946..-866 (98 clear of Fun's x 767, 99 of its z -767; 525 of Level 188's x 340); 183 at
+x -944..-865, z -944..-866 (98 clear of the End's x -767, 100 of its z -766; 513 of Level 73's x -352). In the
+`SPAWN=1000` world (2000 cells across) 120 and 183 stay 54-56 cells inside the map's edge. No region's bounds overlap
+another's.

@@ -383,6 +383,10 @@ public class MenaceSystem : ModSystem
             case WorldLayout.Level73: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Basement: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level52: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level31: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level55: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level120: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level183: a.Band = MenaceBand.Safe; return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {

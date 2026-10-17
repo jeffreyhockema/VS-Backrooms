@@ -82,7 +82,7 @@ public class BackroomsModSystem : ModSystem
                 .HandleWith(OnColumnCommand)
             .EndSubCommand()
             .BeginSubCommand("goto")
-                .WithDescription("Teleports you into a level (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement or 52)")
+                .WithDescription("Teleports you into a level (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 55, 120 or 183)")
                 .RequiresPlayer()
                 .WithArgs(api.ChatCommands.Parsers.Word("level"))
                 .HandleWith(OnGotoCommand)
@@ -300,7 +300,7 @@ public class BackroomsModSystem : ModSystem
         if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
         string number = (string)args[0];
         int level = WorldLayout.FromDisplayName(number);
-        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement or 52)");
+        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 55, 120 or 183)");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
         var player = (IServerPlayer)args.Caller.Player;
@@ -346,7 +346,7 @@ public class BackroomsModSystem : ModSystem
         // Motion's hills and mountain rise far above its valleys
         int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
         // (The five kept as 14-18: the band each is lit over, from its own floor)
-        bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level52;
+        bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level183;
         int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel), _ => floor - 10 };
         int y1 = dumpLevel switch
         {
