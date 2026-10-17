@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Spanish translation (es-419 and es-es), by NeoB. The handbook pages and other text that changed in 0.513 stay in English until the translation catches up.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
