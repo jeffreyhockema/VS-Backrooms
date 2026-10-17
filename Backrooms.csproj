@@ -55,7 +55,7 @@
   </Target>
 
   <PropertyGroup>
-    <Version>0.513.2</Version>
+    <Version>0.513.3</Version>
   </PropertyGroup>
 
 </Project>
