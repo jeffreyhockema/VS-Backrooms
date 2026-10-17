@@ -51,5 +51,6 @@
 				"base": "block/3999/concrete-floor"
 			}
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

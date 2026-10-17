@@ -3719,5 +3719,6 @@
 		"*-glass-lit-*": {
 			"glowLevel": 150
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

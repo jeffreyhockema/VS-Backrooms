@@ -1678,13 +1678,14 @@ def rock7_ground(seed=7100):
     return M.noise_hv(ROCK7, amp=0, seed=seed, mottle=5, cells=(16, 8), hue=1.2)
 
 
-def basalt_facets(img, seed, n=9, seam=20.0, lip=9.0, tilt=0.5, spread=4.0, grain=5, pits=0.025, drift=0.08, foot=7.0):
+def basalt_facets(img, seed, n=9, seam=20.0, lip=9.0, tilt=0.5, spread=4.0, grain=5, pits=0.025, drift=0.08, foot=7.0,
+                  fused_p=0.2, weak=0.35, jitter=1.0):
     """Breaks a rock ground into angular facets (periodic Worley cells, so they wrap): each facet its own small shade
     and a plane of light across it (each leans a different way, lit a little more from the upper left), a narrow dark
     joint where two facets meet (not every joint: some facets are fused), a lit lip on the facet below or right of a
     joint, then a fine grain. No joint is darker than about `seam` levels, so no one line leads the eye."""
     w, h = img.size
-    pts = M.points((w, h), n, M.sub(seed, "facets"), jitter=1.0)
+    pts = M.points((w, h), n, M.sub(seed, "facets"), jitter=jitter)
     f1, f2, idx = M.worley((w, h), pts)
     rng = random.Random(M.sub(seed, "facetshade"))
     shade = [rng.uniform(-spread, spread) for _ in pts]
@@ -1694,7 +1695,7 @@ def basalt_facets(img, seed, n=9, seam=20.0, lip=9.0, tilt=0.5, spread=4.0, grai
     def joint(a, b):
         k = (min(a, b), max(a, b))
         if k not in fused:
-            fused[k] = rng.uniform(0.35, 1.0) if rng.random() < 0.8 else 0.0
+            fused[k] = rng.uniform(weak, 1.0) if rng.random() < 1 - fused_p else 0.0
         return fused[k]
     p = img.load()
     out = img.copy()
@@ -1732,6 +1733,15 @@ def basalt_facets(img, seed, n=9, seam=20.0, lip=9.0, tilt=0.5, spread=4.0, grai
     return out
 
 
+# (graphics pass D4) B10 carried the rock at C+: its facets, 20 levels at the joint, read as plain grain in the game.
+# D4's facets: smaller and more of them, nearly every joint drawn (few fused) and none weak, the joint about 30 levels
+# under the facet, each facet's top edge lit and its foot shadowed harder, so the rock reads as broken facets at
+# 1.5 blocks under the inspection light. (Round 2) The joints vary from faint to deep (about 30 levels on average), so
+# they read as broken stone rather than drawn outlines, and each of the four versions has its own facets. The ground,
+# the turn-safe edges and the mean (B10_MEAN) are as B10's. Set it to None to go back to B10's facets.
+D4_ROCK = {"n": 11, "seam": 82.0, "lip": 15.0, "foot": 10.0, "fused_p": 0.16, "weak": 0.35, "spread": 5.0, "jitter": 0.7}
+
+
 def island_rock(version):
     """Level 7's unknown rock (the islands, their pillars and the sea stacks): dark grey-green basalt broken into
     small angular facets, with no crack that runs through the block (the old texture's diagonal crack showed on every
@@ -1739,7 +1749,10 @@ def island_rock(version):
     fracture and a few specks of lichen, kept inside the block, and is listed one block in eight (gen_detail.ALTS).
     Every version is turned at random and seamless at any turn (matlib.turn_safe)."""
     ground = rock7_ground()
-    img = basalt_facets(ground.copy(), 7110 + min(version, 3))
+    if D4_ROCK:
+        img = basalt_facets(ground.copy(), 7110 + version, **D4_ROCK)  # (round 2) the fourth its own facets too
+    else:
+        img = basalt_facets(ground.copy(), 7110 + min(version, 3))
     if version == 4:
         feat = img.copy()
         M.crack(feat, 7121, at=(11, 13), length=(10, 14), strength=0.2)
@@ -1749,7 +1762,13 @@ def island_rock(version):
             c = feat.getpixel((x, y))
             feat.putpixel((x, y), M.rgba(M.hue_shift(M.lift(c, 9), 5)))
         img = T.inside_block(img, feat, 5)
-    img = M.turn_safe(img, ground, band=6, radius=2, keep=1.0)
+    if D4_ROCK:
+        # (D4) the joints darken the faceted rock's mean by several levels: lay the shared edge field at that mean, and
+        # take only the broadest field (radius 1 keeps the joints out of it), or the edges read as a lighter frame
+        m, g = T.mean_rgb(img), T.mean_rgb(ground)
+        img = M.turn_safe(img, T.shift_rgb(ground, [m[i] - g[i] for i in range(3)]), band=6, radius=1, keep=1.0)
+    else:
+        img = M.turn_safe(img, ground, band=6, radius=2, keep=1.0)
     img = T.calm_hue(img, ROCK7, 0.5)
     return b10_match(img, "islandrock", "b10islandrock")
 

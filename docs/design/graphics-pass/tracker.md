@@ -228,6 +228,17 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (B17) The far levels' entity and item generators also rewrite many block types, shapes and lang/en.json with other line
   endings (and gen_hub one comment): restore everything outside the batch's folders after each run. Another session may
   share the tree: never restore lang/en.json wholesale without checking `git diff --ignore-space-at-eol` first.
+- (D4) An octagon of crossed boxes (`gen_shapes.octagon`) shows only the middle of each face's texture; the rest is
+  hidden inside the other boxes. Anything painted near a texture's edge (a seam, a row of rivets) never shows, and
+  each facet shows the same middle strip. For a faceted shell, use one thin plate per facet with its own UV window
+  (`gen_shapes.octo_plates`).
+- (D4) A cube light keeps its glow with a texture per face: name all six faces (north ... down) in the blocktype in
+  place of `all` (`fluorescentlight.json`). VS shape children are placed relative to their parent's `from`. A tool
+  that moves a shape moves only the top-level elements. `detail_kit.shape` now lists the textures of child elements.
+- (D4) Visors deeper than about 2 units hide a traffic light's lenses from the pavement at eye level. Judge signal
+  heads from the street, not from the preview's raised view.
+- (D4) The darkness (B6, B10, B12, B16) hit the Level 94 run (siren shots 125-140 levels down). A retake minutes later
+  matched the base within 0.2.
 
 ## Batches
 
@@ -253,9 +264,9 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B16 974, 3999, 188 | gfx/B16 | merged | 2 | 3999 paint, 974 ceiling and furniture bodies (C+); food court furniture at distance and 188 blinds (B-, runtime) | passed 2026-10-16 06:30 (Fable): marble repeat gone, furniture as geometry |
 | D2 follow-up on B13, B14, B15 decisions (POOL door, Fun chair back, End ceiling stains, Hub worn asphalt) | gfx/D2 | merged | offline only | | | passed 2026-10-16 (Fable): door foot and lettering verified on previews; built into 0.514.0 test zip |
 | D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
-| D4 follow-ups (carried items) | gfx/D4 | in progress | | | |
+| D4 follow-ups (carried items) | gfx/D4 | merged | 2 | L7 rock B-, 974 furniture B- (subtle), traffic lights B- (dead lens) | passed 2026-10-17 03:25 (Fable): boiler and bay pipes verified; walls no longer stack one version |
 | B17 entities and items | gfx/B17 | merged | 2 | Smiler, Bacteria, Mangled, Kitty C+ (black by lore); Deathmoths C+; Clump skin B-; Faceling faces blank (lore); ticket lettering | passed 2026-10-17 01:55 (Fable): lineup verified, silhouettes and colours kept, headless load clean |
-| B18 finish | | not started | | | |
+| B18 finish | gfx/B18 | in progress | | | |
 
 Status values: not started, in progress, review, sent back, merged.
 
@@ -2313,3 +2324,123 @@ committed once on `gfx/B17`; it moved that commit to `experimental-levels` (work
 `main` to 71341e5. `gfx/B17` is at 71341e5 with B17's changes uncommitted; none of that session's files are in this diff.
 
 **Lessons:** three lines added above.
+
+### D4
+
+Worker report (Opus, 2026-10-17). These are the follow-ups on items earlier batches carried below B. Branch `gfx/D4`
+from `main` (06a0975), uncommitted. Phase 1 was offline. Phase 2 was one blind review (Sonnet, round 1), then fixes and
+one reshoot of the spots they touch. The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/d4/compare-round2.jpg`: every spot, before above after.
+  - `review/d4/compare-round2-detail.jpg`: 18 key spots at a larger size.
+  - Before is unchanged `main` (`build-gfxbase`), shot in the same session. Shots are in `review/d4/sbs/{before,after}`,
+    each prefixed with its level (`3-boiler-close`). The full runs are `review/d4/before`, `final`, `before94` and
+    `final94`.
+  - Round 1: `review/d4/compare-round1*.jpg` (shots in `review/d4/after`, `after94`). The round-2 reshoot is in
+    `review/d4/after2`.
+- **Per-family pairs:** `review/d4/sidebyside/<family>.jpg` (8), from `docs/design/graphics-pass/sidebyside/D4.json`.
+  The D4 section is added to `review/compare.html`.
+- **Decision table:** eight rows added to `decisions.md`, decision column empty. Each row names its functions and its
+  revert (a flag or a call).
+- **Offline evidence** (`review/d4/offline/`):
+  - `preview-boiler.png`, `preview-baypipes.png`, `preview-974-{1,2,3}.png`, `preview-siren-top.png`,
+    `preview-traffic.png`: each model, main beside D4.
+  - `rock-mock.png`: Level 7's rock, a 6 x 4 mix of versions and turns at 4x, brightened, and averaged, with the joint
+    contrast, mean and seam ratio. Main above D4.
+  - `wall-mock-<family>.png` and `wall-mock-all.png`: for each fixed wall, an 8 x 6-block wall picked by the game's
+    hash, before and after, with the version number on each block.
+  - `tile-boiler-before.png`, `tile-d4-after.png`: texsheets with vanilla plate iron.
+  - `crop-troffer.jpg`, `crop-traffic-r2.jpg`.
+  - `harness/`.
+  - The scratch tools in `tools/`: `pairs.py`, `topview.py`, `rock_mock.py`, `wall_mock.py`, `make_sbs.py`,
+    `addspots_d4.py`, `docs_d4.py`, `tracker_d4.py`, and B16's `prev.py`, `churn.py`, `luma.py`, `query.py`.
+
+**Checks**
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir, then the round-2 rebuild).
+  `build-gfxbase` was built from unchanged `main` before any edit. No C# changed.
+- **`layouthash`:** v1, v4, v7 and v8 are identical to D3's output line for line (`review/d4/offline/harness/`).
+- **Saves:** no code, variant group or class was added, renamed or removed. There is no layout version and no
+  placement change. The changes are textures, new texture keys, shapes on existing codes, and blocktype texture lists
+  (`randomizeAxes`, the troffer's per-face textures). Everything was shot in `gfxreview`, and the siren poles in
+  `gfxd3`.
+- **`check_zfight`:**
+  - Boiler, plaster pipes, siren pole and traffic lights are clean.
+  - Two first-round hits were fixed: the flue lip on the block above's face, and the siren's x arm on a block boundary.
+  - 974: the pairs left are the bed rails' and mattress's run ends at the head/foot joint (inside the other half, as
+    main's) and the banquette cap in the block above (as main's).
+- **Churn:** line endings, `exitlintel*`, `hospbed-blanket.png` and the far generators' rewrites were restored from git
+  after every run. `lang/en.json` is unchanged. `git status` shows only these seven families, the CHANGELOG, the
+  Level 11 spot list (two new spots) and the docs.
+- **Brightness:**
+  - Every final shot is within 3 levels of its before (`review/d4/luma-final.txt`), except two.
+  - `7-wide-01-inspection` (+5.8): the lantern on the rock.
+  - `11-traffic-ne` (-10.8): the sky's clouds differ between the runs; the light and the street match.
+  - Round 1's Level 94 run came out dark and was retaken (see the lessons).
+- **Texture keys:** the new keys are used by no other generator: `level5/boiler-strap`, `boiler-flue`,
+  `detail/sirenhorn`, `sirenmouth`, `sirenbox` and `fluorescentlight-side`. `walllag` is a new `detail_kit.EXT` name for
+  the existing `level2/wallpipe-lagging`.
+
+**Spots:** `review/spots/11.json` (and the docs copy) gains `traffic-ne` and `traffic-sw`. They look diagonally at the
+light at 640614,499320 (harness grid), so whichever way its heads face, one shot sees a face. The other spots are the
+existing lists':
+- Level 3: `boiler-*`, `close-wall`, `statue-wide`.
+- Level 5: `boiler-inspection`, `close-wall`, `wide-01`.
+- Level 7: the rock's inspection spots and `seapillar-*`.
+- Level 0: `gate-wide` (the troffers' sides), `close-wall`, `wide-01`.
+- A wall spot or two for Levels 1, 4, 6, 9, 10 and 11.
+- 974: kitchen, Kitty's room, bed, master bedroom.
+- Level 94: `siren-close` and `siren-wide`.
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| Shared boiler (Levels 3 and 5) | B (blind r1: B- in Level 5, C in Level 3's dark room) | much better | Eight riveted iron plates per course (`gen_shapes.octo_plates`), each face a whole 16 px plate at about 1.5 times the density, so a lap seam's rivets run down every corner. Strap hoops of rivets over the course joints. An octagonal flue on a collar, with a lip. Dark cool iron, mean (70, 62, 56) (B6: clay brown 102, 70, 43). Rust only in runs. The reviewer read the grey as a palette change; it is what was asked. Round 2 darkened it. |
+| Level 5 bay pipes | B- (r1: B-) | better | Round risers and pipes in Level 3's riser skins, with flanged feet, a strut and clamps. The valve is on a round pipe. |
+| Level 7 island rock | B- (r1: B/C, "crisp", outlines too uniform) | better | Joints about 30 levels on average (B10: 8 measured), from faint to deep. Each facet has a lit top edge and a shadowed foot. Four versions with their own facets. Mean, ground, turns kept. Round 2 varied the joints. At the darkest triple junctions it still reads a little like cracked mud. |
+| Wall versions by height | B (r1: could not read the mock's numbers; redrawn larger) | better | `randomizeAxes: "xyz"` on 18 wall blocktypes. On the mocks, main's columns stack one version (the damp wallpaper's stain is a vertical stripe) and D4's do not. Level 2's brick and Level 6.1's store walls have a single version (nothing to fix). |
+| Level 974 furniture | B- (r1: B-) | slightly better | Bevels on tops, carcasses, posts, rails, seats and cushions. Parts that run on into the next block are bevelled along their length only. Raised fields on drawer fronts. Subtle at room distance; no new fault. |
+| Level 94 siren pole | B (r1: B) | much better | Two cross arms with flared horn speakers facing the four ways, driver cans and straps, a junction box with a conduit. The horns' outsides show faint radial streaks where the plates overlap at the throat. |
+| Level 0 troffer sides | B (r1: not seen in its sheet) | better | The sides and top are the housing's plain edge with the T-bar flange. The lens shows only below (`review/d4/offline/crop-troffer.jpg`: the window-like panel is gone). Still cubes, same glow. |
+| Level 11 traffic lights | B- (r1: D) | slightly better | Round 1's deeper visors hid the lenses (D). Round 2 kept B12's visors and added a domed centre to each lens and a full second signal face where B12 had a blank yellow box. The shot light is dead, so its lenses read dark as before. |
+
+**Rounds**
+1. **Round 1, blind** (Sonnet, as the user asked; given the sheets, previews, mocks and texsheets):
+   - **D:** the traffic lights (deep visors, lenses unreadable).
+   - **C:** Level 3's boiler room, where it is too dark to judge and the grey read as a palette change.
+   - **B/C:** the rock, with outlines too uniform and dark, and a feared repeat.
+   - **B- or better:** Level 5's boilers and pipes, the siren pole, the 974 furniture, the walls (same), and the
+     troffers (sides not seen).
+   - **Called out:** no z-fighting, holes or layout change.
+2. **Round 2:**
+   - B12's visors restored on the traffic lights.
+   - The boiler iron darkened to (70, 62, 56).
+   - The rock's joints varied, and a fourth facet layout added.
+   - The troffer side a little darker (the block glows).
+   - The wall mock's numbers made readable.
+
+   Reshot the changed spots plus four unchanged `close-wall` controls, all within 0.1 of the first run.
+
+**Carried below B, with reasons**
+- **Traffic lights (B-):** the shot light is dead, so only a dark lens shows. A red or amber one was in no spot.
+- **974 furniture (B-):** the models were already detailed (B0); more would change their silhouettes.
+- **Level 3's boiler room:** dark by design; the boiler is judged in Level 5's inspection shot and on the preview.
+- **Out of scope, reported:**
+  - Level 3's wall pipes pass behind the boilers, as on `main` (layout).
+  - Level 5's mottled plaster walls (B8 left them).
+  - Level 4's plain drywall (B7).
+
+**Tool changes:**
+- `gen_shapes.octo_plates`, `boiler_d4` (`D4_BOILER`); `gen_textures.boiler_textures_d4`, `troffer_side`.
+- `gen_detail.bay_risers` (`D4_BAY_PIPES`); `detail_kit.EXT["walllag"]`; `detail_kit.shape` lists child textures.
+- `deep_textures.D4_ROCK` (`basalt_facets` takes `fused_p`, `weak`, `jitter`; the defaults draw B10's output).
+- `gen_974_d4.py` (new) and `gen_974.D4_FURNITURE`.
+- `gen_motion.sirenpole_d4`, `_horn`, `_driver`, `siren_tex_d4` (`D4_SIREN`).
+- `gen_city.head_d4` (`D4_TRAFFIC`).
+- `randomizeAxes` in `gen_blocktypes`, `gen_deep`, `gen_detail`, `gen_city`, `gen_3999_blocks`, `gen_breakdown`,
+  `gen_l0_walls`, and in the hand-written `wallpaper.json` and `level1/concretewall.json`.
+- `blocktypes/fluorescentlight.json` (hand-written) names each face.
+- CHANGELOG: three lines under 0.514.0.
+
+**Lessons:** four lines added above.

@@ -1823,6 +1823,7 @@ def facades():
         "blockmaterial": "Stone", "drawtype": "cube", "drawtypeByType": dict(draw_by, **{"*": "cube"}),
         "shapeByType": shape_by, "sideopaqueByType": dict(opaque_by, **{"*": {"all": True}}), "texturesByType": by_type,
         "lightAbsorption": 99, "resistance": 6, "soundsByType": sounds_by, "vertexFlagsByType": glow_by,
+        "randomizeAxes": "xyz",  # (D4) the walls' versions picked by height too (B13's lesson)
     }, "The Endless City's façades: the style on the outside face, plaster within; the brick, limestone and concrete "
        "windows and the brick and limestone bands are modelled (graphics pass B12)")
     for style, english in (("glass", "Curtain Wall"), ("mirror", "Black Mirror Glass"), ("brick", "Brick Wall"), ("brickdark", "Brick Wall"),
@@ -1889,7 +1890,7 @@ def facades():
         {"base": "block/detail/asphalt-cracked"}, {"base": "block/detail/asphalt-2", "rotation": 90}]}}
     block("asphalt", {k: v for k, v in road.items() if k != "code"})
     cube_block("subwaywall", {"tile": "Subway Tiles", "ceiling": "Tunnel Ceiling"}, ["tile", "ceiling"],
-               {"tile": "subwaywall-tile", "ceiling": "subwaywall-ceiling"})
+               {"tile": "subwaywall-tile", "ceiling": "subwaywall-ceiling"}, randomizeAxes="xyz")  # (D4) by height too
     cube_block("fountainrim", "Fountain Rim", ["stone"], {"stone": "fountainrim"})
 
     # The barn wall in Level 10 that isn't quite there
@@ -1994,10 +1995,35 @@ def decorations():
                     {"base": f"block/detail/subwaywall-tile{v}"} for v in ("-2", "-3")]}})
 
 
+D4_TRAFFIC = True  # (graphics pass D4) domed lenses and a second signal face; False: B12's heads
+
+
 def props():
     pole = [bx("Pole", (7, 0, 7), (9, 50, 9), "trafficyellow"), bx("Base", (6, 0, 6), (10, 2, 10), "metaldark")]
 
+    def head_d4(lens_top, lens_mid, lens_low, glow_top=0, glow_mid=0):
+        """(D4) B12 carried the fronts unseen (C+); seen at last, the lenses were flat squares and the second head a
+        blank yellow box. Now: each lens has a domed centre standing out of it (the lens picture's middle on a smaller
+        face in front, so the glass reads as a dome with a rim) under B12's visor, and the second head is a whole
+        signal face too: the first turned to face east."""
+        face = [bx("Plate", (4, 33.5, 2.5), (12, 50.5, 3), "blackmetal", faces=("north", "east", "west", "up", "down"))]
+        for nm, (lens, glow, y0) in (("Top", (lens_top, glow_top, 44.5)), ("Mid", (lens_mid, glow_mid, 40)), ("Low", (lens_low, 0, 35.5))):
+            face += [bx(nm, (6, y0, 2.4), (10, y0 + 4, 2.5), lens, faces=("north",), full=True, glow=glow),
+                     bx(nm + "Dome", (6.6, y0 + 0.6, 2.1), (9.4, y0 + 3.4, 2.4), lens, faces=("north", "east", "west", "up", "down"),
+                        uv=[2.4, 2.4, 13.6, 13.6], glow=glow)]
+            y = y0 + 4
+            # (round 2) B12's visors kept as they were: round 1's deeper, cut-away ones hid the lenses from the street
+            face += [bx(f"Hood{nm}", (5.5, y, 0.5), (10.5, y + 0.5, 2.5), "blackmetal", faces=("north", "east", "west", "up", "down")),
+                     bx(f"Hood{nm}L", (5.5, y - 2.5, 1.25), (6, y, 2.5), "blackmetal", faces=("north", "east", "west", "down")),
+                     bx(f"Hood{nm}R", (10, y - 2.5, 1.25), (10.5, y, 2.5), "blackmetal", faces=("north", "east", "west", "down"))]
+        body = [bx("Head", (5, 34, 3), (11, 50, 7), "trafficyellow")]
+        import modelkit as MK
+        second = [dict(e, name=e["name"] + "E") for e in MK.turn(body + face, 1)]
+        return body + face + second + [bx("Walk", (6.5, 22, 9), (9.5, 27, 11), "blackmetal")]
+
     def head(lens_top, lens_mid, lens_low, glow_top=0, glow_mid=0):
+        if D4_TRAFFIC:
+            return head_d4(lens_top, lens_mid, lens_low, glow_top, glow_mid)
         # (B12) a black back plate round the head, each lens set in it under a hood (geometry; the lenses were flat
         # squares on the yellow box)
         els = [bx("Head", (5, 34, 3), (11, 50, 7), "trafficyellow"),
