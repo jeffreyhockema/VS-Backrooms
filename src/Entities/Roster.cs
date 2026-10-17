@@ -342,7 +342,7 @@ public static class Roster
         _ => (1, 0, 0, 0),
     };
 
-    /// <summary>How many menacing entities may be about one player at once in a band (Ambient ones are counted apart).</summary>
+    /// <summary>How many menacing entities may be about a player at once in a band, whoever they were put down for (Ambient ones are counted apart).</summary>
     public static int Cap(MenaceBand band) => band switch
     {
         MenaceBand.Heartland => 2,
