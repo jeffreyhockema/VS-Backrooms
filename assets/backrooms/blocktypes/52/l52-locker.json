@@ -1,0 +1,203 @@
+// Level 52: a bank of three steel lockers on the side face of a wall block (lower: latches, louvres, the kick base; upper: vents and number plates); its other faces are the wall's paint
+{
+	"code": "l52-locker",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-locker-lower-north": {
+			"north": {
+				"base": "block/52/locker-lower"
+			},
+			"east": {
+				"base": "block/52/wall-base"
+			},
+			"south": {
+				"base": "block/52/wall-base"
+			},
+			"west": {
+				"base": "block/52/wall-base"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-lower-east": {
+			"north": {
+				"base": "block/52/wall-base"
+			},
+			"east": {
+				"base": "block/52/locker-lower"
+			},
+			"south": {
+				"base": "block/52/wall-base"
+			},
+			"west": {
+				"base": "block/52/wall-base"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-lower-south": {
+			"north": {
+				"base": "block/52/wall-base"
+			},
+			"east": {
+				"base": "block/52/wall-base"
+			},
+			"south": {
+				"base": "block/52/locker-lower"
+			},
+			"west": {
+				"base": "block/52/wall-base"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-lower-west": {
+			"north": {
+				"base": "block/52/wall-base"
+			},
+			"east": {
+				"base": "block/52/wall-base"
+			},
+			"south": {
+				"base": "block/52/wall-base"
+			},
+			"west": {
+				"base": "block/52/locker-lower"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-upper-north": {
+			"north": {
+				"base": "block/52/locker-upper"
+			},
+			"east": {
+				"base": "block/52/wall-dado"
+			},
+			"south": {
+				"base": "block/52/wall-dado"
+			},
+			"west": {
+				"base": "block/52/wall-dado"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-upper-east": {
+			"north": {
+				"base": "block/52/wall-dado"
+			},
+			"east": {
+				"base": "block/52/locker-upper"
+			},
+			"south": {
+				"base": "block/52/wall-dado"
+			},
+			"west": {
+				"base": "block/52/wall-dado"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-upper-south": {
+			"north": {
+				"base": "block/52/wall-dado"
+			},
+			"east": {
+				"base": "block/52/wall-dado"
+			},
+			"south": {
+				"base": "block/52/locker-upper"
+			},
+			"west": {
+				"base": "block/52/wall-dado"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		},
+		"l52-locker-upper-west": {
+			"north": {
+				"base": "block/52/wall-dado"
+			},
+			"east": {
+				"base": "block/52/wall-dado"
+			},
+			"south": {
+				"base": "block/52/wall-dado"
+			},
+			"west": {
+				"base": "block/52/locker-upper"
+			},
+			"up": {
+				"base": "block/52/wall-upper"
+			},
+			"down": {
+				"base": "block/52/wall-upper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

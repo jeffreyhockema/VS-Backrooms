@@ -1,0 +1,276 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chalk": "backrooms:block/52/chalk",
+		"frame": "backrooms:block/52/frame",
+		"ledge": "backrooms:block/52/ledge",
+		"slate": "backrooms:block/52/slate"
+	},
+	"elements": [
+		{
+			"name": "Slate",
+			"from": [
+				0,
+				2,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				1,
+				14.5
+			],
+			"to": [
+				16,
+				2.2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ledge",
+			"from": [
+				0,
+				1.2,
+				12.6
+			],
+			"to": [
+				16,
+				1.8,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#ledge",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#ledge",
+					"uv": [
+						0,
+						0,
+						16,
+						1.9
+					]
+				},
+				"down": {
+					"texture": "#ledge",
+					"uv": [
+						0,
+						0,
+						16,
+						1.9
+					]
+				},
+				"east": {
+					"texture": "#ledge",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#ledge",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Chalk",
+			"from": [
+				5,
+				1.8,
+				13
+			],
+			"to": [
+				7.5,
+				2.3,
+				13.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#chalk",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Eraser",
+			"from": [
+				10,
+				1.8,
+				12.9
+			],
+			"to": [
+				12.6,
+				2.8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#frame",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.1
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,50 @@
+// Level 52: the gym's maple boards, plain or with a painted court line north-south or west-east
+{
+	"code": "l52-gymfloor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"linens",
+				"linewe"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/52/gymfloor-plain"
+			}
+		},
+		"*-linens": {
+			"all": {
+				"base": "block/52/gymfloor-linens"
+			}
+		},
+		"*-linewe": {
+			"all": {
+				"base": "block/52/gymfloor-linewe"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

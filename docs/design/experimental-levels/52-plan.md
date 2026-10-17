@@ -107,3 +107,47 @@ Vanilla `game:` trees / grass only if a tree is wanted in the courtyard (`game:l
 5. **Locker walls: block or model?** Recommendation: one block per wall tile (3 lockers wide) with a model, not a prop, so
    a hall is a few hundred blocks and not thousands of props.
 6. **Time of day / windows:** Recommendation: a constant bright window glow (no day cycle in the lore), no sky.
+
+## Status (prototype built, 2026-10-17)
+
+**Built.** `WorldLayout.Level52.cs`: a lattice of main halls every 96 blocks each way (7 wide, lit down the middle every
+6 blocks, 7% dead, 5% flickering, one in two emitting; banks of lockers on both walls; a pillar where two cross; now and then
+a vending machine or water cooler just past a crossing, a bin or a wet-floor sign). Between the halls, 87 x 87 **wings**,
+each laid out once from its own hash (`L52PlanOf`, a `PlanCache`), possibly transposed: six rows of rooms 12-13 deep (two
+facing the main halls, four along two 3-wide secondary halls that cross the wing and open into the main halls at both
+ends), split along the row into rooms 9-12 wide. Every room has a door onto a hall; about one in five a second into the
+next room. Classrooms (78%): rows of `l52-desk` facing a chalkboard (`l52-chalkboard`, 2 high, framed ends) on a side wall,
+Level 4's desk for the teacher, a wastebasket, one in six with chairs stacked at the back; store rooms (shelves, boxes) and
+stripped rooms the rest. Rooms are dark (lights off) but one in six. **Gym** (one wing in ten) and **canteen** (one in
+eight) take the middle two rows and the hall between them on one half of a wing (43 x 30): the gym 8 high (ceiling at
+the band's top, rel 9) on maple boards with court lines, hoops at both ends, benches, high lights; the canteen 5 high with
+four rows of folding tables and chairs, vending and snack machines, a serving counter with stoves and fryers. Neither is
+laid out unless the wing and the cells round it are all Level 52 (no tall room ever meets the rim). Where the region ends,
+the shared `CarveEdgeHall` runs a hallway inside the rim. Arrivals: main halls only. Stability 1.1, temperature 18.
+Fog: light grey-beige `(0.0065, 0.72, 0.70, 0.64)`; classrooms and store rooms a darker, closer air; title keys 2301 "The
+Gymnasium", 2302 "The Canteen". Sound: the hall panels' own hum (`fluorescentlight` ambient), Level End's room tone quiet in
+classrooms, and a new distant school bell (`sounds/ambient/52/bell.ogg`) every 2.5-6.5 minutes.
+
+**Assets** (`tools/gen_52.py`, 6 codes): `l52-wall` (base/dado/upper cubes), `l52-locker` (lower/upper x side, cubes with the
+lockers on one face and the wall's paint on the others), `l52-tile` (hall/room), `l52-gymfloor` (plain/linens/linewe),
+`l52-desk` (JSON shape, by side), `l52-chalkboard` (lower/upper x l/m/r x side, JSON shape). Reused: officeceiling,
+fluorescentlight on/lit/off/flicker, concreteceiling, Level 4 desk/vending/cooler, metalshelf, detail props (chairstack,
+wastebasket, cardboardboxes, trashcan, wetfloorsign, basketballhoop, bench, foldingtable/chair, snackvending,
+snackcounter, stove, fryer). The plan's `parkfloor`, `officebookshelf`, `ficus`, `exitlintel` exist but are not used;
+`officehum` does not exist (the hum is fluorescentlight's).
+
+**Skipped:** library, admin, courtyard, second storey, room-number plaques, windows, drinking fountains, door leaves (all
+doorways are open gaps), title keys beyond 2302. Band unchanged (depth 30: the gym is 8 high, not the plan's 9).
+
+**Harness.** `52stats` (7 x 7 wings round the centre, SPAWN=1000): 49 wings, Classrooms 67% / Canteen 18% / Gym 14% (before
+the shares were lowered to 10% / 12%; full size after: 84 / 8 / 8); 2232 rooms, doors 1: 1559, 2: 594, 3: 63, 4: 16;
+every room and every walkable tile reached from the main halls, none sealed. At the east rim (`52stats 3 rim`): 1346 whole
+rooms, all reached; 273 walkable tiles (0.12%) in rim pockets not reached (never arrival spots). `regions`: 60/60 arrivals
+for 52, none wrong or in small pockets, full size and SPAWN=1000; 0.11 ms a cell. `layouthash`: levels 0-20 and the overall
+hash unchanged. Headless (port 42483): `blocksweep` 7869 blocks, 0 threw; dumps at 565904,642096 and 565828,642096 show the
+hall (light 14 under a panel), lockers, desks, boards, dark classrooms (light 0); no missing blocks, shapes or textures.
+
+**Known gaps / check in a client:** the facing of the desks (student faces the board), chalkboard ends (l/r), hoops,
+benches, canteen chairs and the snack counter; the gym line texture's direction (NS/WE) on the floor; whether classrooms
+are too dark to read (only hall light through one door); lockers are flat cubes (no relief); the rim's carved hallway
+cuts through classrooms.

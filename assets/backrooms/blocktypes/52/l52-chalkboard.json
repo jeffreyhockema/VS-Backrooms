@@ -1,0 +1,236 @@
+// Level 52: a piece of green chalkboard in a wooden frame, hung on the wall behind it (lower: the chalk ledge; upper; the left end, middle or right end as seen from in front)
+{
+	"code": "l52-chalkboard",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "end",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-chalkboard-lower-l-north": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-l",
+			"rotateY": 0
+		},
+		"l52-chalkboard-lower-l-east": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-l",
+			"rotateY": 270
+		},
+		"l52-chalkboard-lower-l-south": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-l",
+			"rotateY": 180
+		},
+		"l52-chalkboard-lower-l-west": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-l",
+			"rotateY": 90
+		},
+		"l52-chalkboard-lower-m-north": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-m",
+			"rotateY": 0
+		},
+		"l52-chalkboard-lower-m-east": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-m",
+			"rotateY": 270
+		},
+		"l52-chalkboard-lower-m-south": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-m",
+			"rotateY": 180
+		},
+		"l52-chalkboard-lower-m-west": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-m",
+			"rotateY": 90
+		},
+		"l52-chalkboard-lower-r-north": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-r",
+			"rotateY": 0
+		},
+		"l52-chalkboard-lower-r-east": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-r",
+			"rotateY": 270
+		},
+		"l52-chalkboard-lower-r-south": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-r",
+			"rotateY": 180
+		},
+		"l52-chalkboard-lower-r-west": {
+			"base": "backrooms:block/52/l52-chalkboard-lower-r",
+			"rotateY": 90
+		},
+		"l52-chalkboard-upper-l-north": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-l",
+			"rotateY": 0
+		},
+		"l52-chalkboard-upper-l-east": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-l",
+			"rotateY": 270
+		},
+		"l52-chalkboard-upper-l-south": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-l",
+			"rotateY": 180
+		},
+		"l52-chalkboard-upper-l-west": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-l",
+			"rotateY": 90
+		},
+		"l52-chalkboard-upper-m-north": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-m",
+			"rotateY": 0
+		},
+		"l52-chalkboard-upper-m-east": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-m",
+			"rotateY": 270
+		},
+		"l52-chalkboard-upper-m-south": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-m",
+			"rotateY": 180
+		},
+		"l52-chalkboard-upper-m-west": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-m",
+			"rotateY": 90
+		},
+		"l52-chalkboard-upper-r-north": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-r",
+			"rotateY": 0
+		},
+		"l52-chalkboard-upper-r-east": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-r",
+			"rotateY": 270
+		},
+		"l52-chalkboard-upper-r-south": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-r",
+			"rotateY": 180
+		},
+		"l52-chalkboard-upper-r-west": {
+			"base": "backrooms:block/52/l52-chalkboard-upper-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-chalkboard-lower-m-north"
+		],
+		"backrooms": [
+			"l52-chalkboard-lower-m-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-aged",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}
