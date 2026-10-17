@@ -41,6 +41,8 @@
     {"name": "asphalt-close", "tp": [640639.5, 169.05, 499320.5], "look": [0, -40], "target": "cracked asphalt at 640639,499318", "pre": ["/time set 12:00"]},
     {"name": "subway-wide", "tp": [640603.5, 163.05, 499246.5], "look": [0, -8], "target": "station platform, looking along it", "pre": ["/time set 12:00"]},
     {"name": "subway-close", "tp": [640601.6, 163.05, 499236.5], "look": [270, 8], "target": "station's tiled wall at x 640599", "pre": ["/time set 12:00"]},
-    {"name": "subway-tracks", "tp": [640604.5, 163.05, 499239.5], "look": [45, -35], "target": "the tracks from the platform edge", "pre": ["/time set 12:00"]}
+    {"name": "subway-tracks", "tp": [640604.5, 163.05, 499239.5], "look": [45, -35], "target": "the tracks from the platform edge", "pre": ["/time set 12:00"]},
+    {"name": "traffic-ne", "tp": [640617.0, 169.05, 499317.5], "look": [220, 14], "fov": 60, "target": "traffic light at 640614,499320 from the north-east: its north and east faces", "pre": ["/time set 12:00"]},
+    {"name": "traffic-sw", "tp": [640611.5, 169.05, 499323.5], "look": [45, 13], "fov": 60, "target": "traffic light at 640614,499320 from the south-west: its south and west faces", "pre": ["/time set 12:00"]}
   ]
 }

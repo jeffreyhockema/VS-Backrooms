@@ -15,6 +15,8 @@
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
 	drawtype: "cube",
+	// (graphics pass D4) Versions picked by height as well as place, so a column of wall does not stack one version
+	randomizeAxes: "xyz",
 	// One stretch of wall in three is older and damp-stained; the other two are two hangings of the same paper.
 	// The yellow paper (D1): one block in five is damp (its stain is the one mark that sits in the same place each
 	// time), two in five carry a faint strip seam on their edge

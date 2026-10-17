@@ -3,6 +3,26 @@
 Written 2026-10-13. Owner: the user. Planning and gate reviews: a Fable session. The work: Opus sessions, one per
 batch, following [prompts.md](prompts.md). Progress: [tracker.md](tracker.md).
 
+## Status
+
+**Complete as of 2026-10-17**, released as version 0.514.0 (the plan below said the version would stay 0.512.2019; the
+pass shipped as its own release instead, see `CHANGELOG.md`).
+
+- **Batches that ran:** B0 tooling and baseline, B1 inventory, B2 material kit and model helpers, the level batches B3
+  to B16 (every level and far place), B17 entities and items, and B18 the finish (gallery retake, lineup, docs). Four
+  follow-ups came out of the user's reviews: D1 (B3-B5 decisions: seamless wallpaper and floors, the opened supply
+  box), D2 (B13-B15 decisions), D3 (Level 94's yellow houses, standing siren poles and the municipal water tower,
+  behind layout version 8) and D4 (carried items: the shared boiler, Level 7's rock, walls varying up their height,
+  974's furniture, siren speakers, troffer sides, traffic lights).
+- **Decisions:** the user's keep / revert / tweak call on every asset family is in [decisions.md](decisions.md); what
+  is still below B, and why, is in each batch's row of the [tracker](tracker.md) ("Below B carried").
+- **Evidence:** each batch's report in the tracker (what changed per family, grades, lessons); the spot lists that
+  frame every review shot in [spots/](spots/) (the gallery's own in `spots/gallery.json`); the per-family before | after
+  maps in [sidebyside/](sidebyside/). The images themselves (baseline, before/after runs, compare sheets,
+  `review/compare.html`) are in the git-ignored `review/` folder on the machine that shot them.
+- **Tools and rules** that outlive the pass are documented in `docs/DEVELOPING.md` (Assets, and *Unattended
+  screenshots* under Debugging).
+
 ## 1. Scope
 
 **In scope:** every texture, block model, entity model and item icon that this mod adds (`assets/backrooms/`), and

@@ -101,6 +101,9 @@ def paper_join():
         "behaviors": [{"name": "BackroomsStrippable", "properties": {"result": "wallpaper-stripped-{part}", "item": "wallpaperstrip"}}],
         "blockmaterial": "Stone",
         "drawtype": "cube",
+        # (graphics pass D4) the versions picked by height as well as place (B13's lesson), so a column of the corner
+        # does not stack one version (the wallpaper blocks beside it do the same, blocktypes/wallpaper.json)
+        "randomizeAxes": "xyz",
         "textures": dict(
             {s: {"base": f"block/wallpaper/{{{s}}}-{{part}}", "alternates": [
                 {"base": f"block/wallpaper/{{{s}}}-{{part}}-2"}, {"base": f"block/wallpaper/{{{s}}}-{{part}}-damp"}]} for s in sides},

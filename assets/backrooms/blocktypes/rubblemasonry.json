@@ -26,6 +26,7 @@
 	},
 	"resistance": 4,
 	"lightAbsorption": 99,
+	"randomizeAxes": "xyz",
 	"sounds": {
 		"walk": "game:walk/stone",
 		"place": "game:block/loosestone",

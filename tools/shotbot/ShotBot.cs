@@ -338,8 +338,10 @@ public class ShotBotSystem : ModSystem, IRenderer
             case "daylight":
             {
                 // A clear day over whatever the level's own air says (Level 9's endless night, Level 10's overcast), for
-                // an alternative shot: added last at weight 1, it wins over the Backrooms' ambient modifiers
-                const string key = "shotbot-daylight";
+                // an alternative shot: added last at weight 1, it wins over the Backrooms' ambient modifiers. Since 0.513.3
+                // the mod moves its level's air to the end every tick and keeps only its own clear-air cheat after it, so
+                // the daylight goes in under that cheat's key (CheatSystem.ClearAirKey) to stay last
+                const string key = "backrooms-cheat-clearair";
                 capi.Ambient.CurrentModifiers.Remove(key);
                 if (p.Length < 2 || p[1] != "off")
                 {

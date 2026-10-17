@@ -1,0 +1,214 @@
+{
+ "batch": "B17",
+ "title": "Entities and items",
+ "before": "review/b17/sbs/before",
+ "after": "review/b17/sbs/after",
+ "out": "review/b17/sidebyside",
+ "note": "Entities cannot be photographed by the bot: every pair is a tools/entrender.py render (the -close rows: the idle pose at 3/4 and from the front; the plain rows: idle and walk from the front, side, 3/4 and back) of main's textures (before) and B17's (after) on the same, unchanged shapes. Items: the 2D icons at 6x with their 1x size beside each. The lineup is tools/lineup.py (hero 42), not yet copied to docs/screenshots.",
+ "families": [
+  {
+   "id": "smiler",
+   "name": "Smiler (gen_models.smiler)",
+   "spots": [
+    "smiler-close",
+    "smiler"
+   ]
+  },
+  {
+   "id": "hound",
+   "name": "Hound, starved and elder looks (gen_models.hound)",
+   "spots": [
+    "hound-close",
+    "hound",
+    "hound-starved-close",
+    "hound-elder-close"
+   ]
+  },
+  {
+   "id": "skinstealer",
+   "name": "Skin-Stealer (gen_models.skinstealer)",
+   "spots": [
+    "skinstealer-close",
+    "skinstealer"
+   ]
+  },
+  {
+   "id": "duller",
+   "name": "Duller (gen_models.duller)",
+   "spots": [
+    "duller-close",
+    "duller"
+   ]
+  },
+  {
+   "id": "deathrat",
+   "name": "Death Rat and its hairless look (gen_models.deathrat)",
+   "spots": [
+    "deathrat-close",
+    "deathrat",
+    "deathrat-hairless-close"
+   ]
+  },
+  {
+   "id": "deathmoth",
+   "name": "Deathmoths, male and female (gen_models.deathmoth)",
+   "spots": [
+    "deathmoth-male-close",
+    "deathmoth-male",
+    "deathmoth-female-close"
+   ]
+  },
+  {
+   "id": "clump",
+   "name": "Clump and its blind look (gen_models.clump)",
+   "spots": [
+    "clump-close",
+    "clump",
+    "clump-blind-close"
+   ]
+  },
+  {
+   "id": "bacteria",
+   "name": "Bacteria (gen_models.bacteria)",
+   "spots": [
+    "bacteria-close",
+    "bacteria"
+   ]
+  },
+  {
+   "id": "wretch",
+   "name": "Wretch, early and far-gone looks (gen_models.wretch)",
+   "spots": [
+    "wretch-close",
+    "wretch",
+    "wretch-early-close",
+    "wretch-fargone-close"
+   ]
+  },
+  {
+   "id": "thething",
+   "name": "The Thing (gen_models.thething)",
+   "spots": [
+    "thething-close",
+    "thething"
+   ]
+  },
+  {
+   "id": "mangled",
+   "name": "The Mangled (gen_models.mangled)",
+   "spots": [
+    "mangled-close",
+    "mangled"
+   ]
+  },
+  {
+   "id": "stopmotion",
+   "name": "Entity 32's stop-motion figures: clay, wooden, paper, tin robot (gen_models)",
+   "spots": [
+    "animation-clay-close",
+    "animation-wooden-close",
+    "animation-paper-close",
+    "roboman-close"
+   ]
+  },
+  {
+   "id": "facelings",
+   "name": "Facelings' wardrobe (gen_entities.paint_look)",
+   "spots": [
+    "faceling-casual-close",
+    "faceling-casual",
+    "faceling-business-close",
+    "faceling-elderly-close",
+    "faceling-hoodie-close",
+    "faceling-summer-close"
+   ]
+  },
+  {
+   "id": "facelings-more",
+   "name": "Facelings' wardrobe, more looks",
+   "spots": [
+    "faceling-office-close",
+    "faceling-outdoor-close",
+    "faceling-overalls-close",
+    "faceling-street-close",
+    "faceling-teacher-close",
+    "faceling-winter-close",
+    "faceling-workwear-close",
+    "faceling-suburban-close",
+    "faceling-guest-close"
+   ]
+  },
+  {
+   "id": "faceling-children",
+   "name": "Faceling children's play clothes",
+   "spots": [
+    "faceling-child-hoodie-close",
+    "faceling-child-dress-close",
+    "faceling-child-overalls-close",
+    "faceling-child-school-close",
+    "faceling-child-stripes-close",
+    "faceling-child-sweater-close"
+   ]
+  },
+  {
+   "id": "partygoers",
+   "name": "Level Fun: Partygoer, intern, a colour look, the Party Host (gen_fun_models)",
+   "spots": [
+    "fun-partygoer-close",
+    "fun-partygoer",
+    "fun-partygoer-intern-close",
+    "fun-partygoer-red-close",
+    "fun-partyhost-close"
+   ]
+  },
+  {
+   "id": "kitty",
+   "name": "Level 974: Kitty (gen_974_kitty)",
+   "spots": [
+    "l974-kitty-close",
+    "l974-kitty"
+   ]
+  },
+  {
+   "id": "attendant",
+   "name": "Level 3999: the Arcade Attendant, plum and navy (gen_3999_attendant)",
+   "spots": [
+    "attendant-close",
+    "attendant",
+    "attendant-navy-close"
+   ]
+  },
+  {
+   "id": "keymaster",
+   "name": "The Hub: the Keymaster (gen_hub_keymaster)",
+   "spots": [
+    "hub-keymaster-close",
+    "hub-keymaster"
+   ]
+  },
+  {
+   "id": "arm",
+   "name": "Level 188: the Window's arm (gen_188_models)",
+   "spots": [
+    "l188-arm-close",
+    "l188-arm"
+   ]
+  },
+  {
+   "id": "lineup",
+   "name": "The lineup (tools/lineup.py; hero 42)",
+   "spots": [
+    "lineup"
+   ]
+  },
+  {
+   "id": "items",
+   "name": "2D item icons (tools/iconkit.finish via each generator's saver)",
+   "spots": [
+    "items-1",
+    "items-2",
+    "items-3"
+   ]
+  }
+ ]
+}

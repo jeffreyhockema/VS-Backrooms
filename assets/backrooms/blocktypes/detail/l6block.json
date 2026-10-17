@@ -179,5 +179,6 @@
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
-	}
+	},
+	"randomizeAxes": "xyz"
 }

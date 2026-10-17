@@ -417,7 +417,7 @@ def blocks():
 
 def props():
     # The town: siren poles, milk vans, old cars, signs
-    prop("sirenpole", "Siren Pole", sirenpole_b13(),
+    prop("sirenpole", "Siren Pole", sirenpole_d4() if D4_SIREN else sirenpole_b13(),
          box=(0.4, 0, 0.4, 0.6, 2, 0.6), oriented=False, material="Wood", sounds=WOOD,
          comment="A siren pole on a corner of the town, playing the same happy tune all day")
     van = [bx("Body", (1, 2.5, 8), (31, 24, 63), "milkvan", faces=("north", "up", "down", "south")),
@@ -1069,6 +1069,7 @@ def b13_textures():
     van_tex_b13()
     nooutlet_b13()
     tower_d3_textures()  # D3
+    siren_tex_d4()  # D4
 
 
 def alts(key, n, mix=None):
@@ -1143,6 +1144,121 @@ def sirenpole_b13():
         for e in MK.turn(horn, t):
             els.append(dict(e, name=f"{e['name']}{t}"))
     return els
+
+
+D4_SIREN = True  # (graphics pass D4) horn speakers on cross arms and a junction box; False: B13's hub of boxes
+
+
+def _horn(name, axis, sign, c1, c2, yc, start, length=6.0, r0=1.0, r1=3.0, t=0.3):
+    """(D4) A flared horn speaker: eight plates round its axis, each tilted out from the throat (radius r0, at `start`
+    along the axis) to the mouth (r1, `length` further on, the `sign` way along x or z), a parent turned about the axis
+    carrying a child tilted about the cross axis (B14, D3). The plates' outsides are the enamel, their insides the dark
+    throat; the open mouth shows the inside. c1, c2: the axis's place across (z for an x horn, x for a z horn)."""
+    alpha = math.degrees(math.atan2(r1 - r0, length))
+    ls = math.hypot(length, r1 - r0)
+    w = 2 * r1 * math.tan(math.radians(22.5)) + 0.25
+    out = []
+    for k in range(8):
+        tex_out, tex_in = "sirenhorn", "sirenmouth"
+        if axis == "x":
+            x1, x2 = (start, start + ls) if sign > 0 else (start - ls, start)
+            child = MK.box(f"{name}P{k}", (x1, yc + r0 - t, c1 - w / 2), (x2, yc + r0, c1 + w / 2),
+                           {"top": tex_out, "bottom": tex_in, "side": tex_out}, faces=("up", "down", "east" if sign > 0 else "west"))
+            child["rotationOrigin"] = [round(start, 4), round(yc + r0, 4), round(c1, 4)]
+            child["rotationZ"] = round(alpha * sign, 4)
+            parent = {"name": f"{name}A{k}", "from": [0, 0, 0], "to": [0, 0, 0], "faces": {},
+                      "rotationOrigin": [round(start, 4), round(yc, 4), round(c1, 4)], "children": [child]}
+            if k:
+                parent["rotationX"] = k * 45
+        else:
+            z1, z2 = (start, start + ls) if sign > 0 else (start - ls, start)
+            child = MK.box(f"{name}P{k}", (c1 - w / 2, yc + r0 - t, z1), (c1 + w / 2, yc + r0, z2),
+                           {"top": tex_out, "bottom": tex_in, "side": tex_out},
+                           faces=("up", "down", "south" if sign > 0 else "north"))
+            child["rotationOrigin"] = [round(c1, 4), round(yc + r0, 4), round(start, 4)]
+            child["rotationX"] = round(-alpha * sign, 4)
+            parent = {"name": f"{name}A{k}", "from": [0, 0, 0], "to": [0, 0, 0], "faces": {},
+                      "rotationOrigin": [round(c1, 4), round(yc, 4), round(start, 4)], "children": [child]}
+            if k:
+                parent["rotationZ"] = k * 45
+        out.append(parent)
+    return out
+
+
+def _driver(name, axis, sign, c1, yc, start, length=2.5, r=1.6):
+    """(D4) The horn's driver: an octagonal can behind the throat (two crossed boxes and the same turned 45 degrees
+    about the axis), its back capped, and the throat's dark disk where the horn begins."""
+    k = r * math.tan(math.radians(22.5))
+    a, b = (start - length * sign, start) if sign > 0 else (start, start - length * sign)
+    a, b = min(a, b), max(a, b)
+    els = []
+    for i, (hy, hc, rot) in enumerate(((r, k, 0), (k, r, 0), (r, k, 45), (k, r, 45))):
+        if axis == "x":
+            e = MK.box(f"{name}Can{i}", (a, yc - hy, c1 - hc), (b, yc + hy, c1 + hc), "sirenhorn",
+                       faces=("north", "south", "up", "down", "west" if sign > 0 else "east"),
+                       rot=(rot, 0, 0) if rot else None, origin=(a, yc, c1))
+        else:
+            e = MK.box(f"{name}Can{i}", (c1 - hc, yc - hy, a), (c1 + hc, yc + hy, b), "sirenhorn",
+                       faces=("east", "west", "up", "down", "north" if sign > 0 else "south"),
+                       rot=(0, 0, rot) if rot else None, origin=(c1, yc, a))
+        els.append(e)
+    d = 0.75
+    if axis == "x":
+        x = start + 0.05 * sign
+        els.append(MK.box(f"{name}Throat", (min(x, x + 0.1 * sign), yc - d, c1 - d), (max(x, x + 0.1 * sign), yc + d, c1 + d),
+                          "sirenmouth", faces=("east" if sign > 0 else "west",)))
+    else:
+        z = start + 0.05 * sign
+        els.append(MK.box(f"{name}Throat", (c1 - d, yc - d, min(z, z + 0.1 * sign)), (c1 + d, yc + d, max(z, z + 0.1 * sign)),
+                          "sirenmouth", faces=("south" if sign > 0 else "north",)))
+    return els
+
+
+def sirenpole_d4():
+    """(D4) The siren pole after D3 graded its speakers C+ (B13's hub of four plain grey boxes): the same wooden pole
+    on its iron shoe, now with two cross arms, one along x and one along z a little lower, each carrying at either end
+    a flared horn speaker hung under it on a strap (a driver can behind a horn of eight tilted plates, dark inside), the
+    four horns facing the four ways down the streets; a junction box on the pole with its lid and a conduit up to the
+    arms. Same footprint and collision box."""
+    els = [bx("Pole", (7, 0, 7), (9, 52, 9), "wood"), bx("Shoe", (6, 0, 6), (10, 2.5, 10), "metaldark"),
+           bx("ShoeCap", (6.5, 2.5, 6.5), (9.5, 3, 9.5), "metaldark"),
+           bx("Cap", (6.5, 52, 6.5), (9.5, 53.5, 9.5), "metaldark"), bx("CapTop", (7, 53.5, 7), (9, 54, 9), "metaldark"),
+           # the arms, through the pole, with a clamp plate where each crosses it
+           bx("ArmX", (0.5, 48.1, 7.5), (15.5, 49.1, 8.5), "metaldark", faces=("north", "south", "up", "down", "east", "west")),
+           bx("ClampX", (6.75, 47.5, 6.75), (9.25, 49.5, 9.25), "metaldark"),
+           bx("ArmZ", (7.5, 41, 0.5), (8.5, 42, 15.5), "metaldark", faces=("north", "south", "up", "down", "east", "west")),
+           bx("ClampZ", (6.75, 40.5, 6.75), (9.25, 42.5, 9.25), "metaldark")]
+    # the horns: east and west under the x arm, north and south under the z arm
+    for nm, axis, sign, yc, arm_y, start in (("E", "x", 1, 45.5, 48.1, 12.5), ("W", "x", -1, 45.5, 48.1, 3.5),
+                                             ("S", "z", 1, 38.5, 41, 12.5), ("N", "z", -1, 38.5, 41, 3.5)):
+        els += _horn(f"Horn{nm}", axis, sign, 8.0, 0, yc, start)
+        els += _driver(f"Drv{nm}", axis, sign, 8.0, yc, start)
+        mid = start - 1.25 * sign
+        if axis == "x":
+            els.append(bx(f"Strap{nm}", (mid - 0.4, yc + 1.5, 7.6), (mid + 0.4, arm_y, 8.4), "metaldark"))
+        else:
+            els.append(bx(f"Strap{nm}", (7.6, yc + 1.5, mid - 0.4), (8.4, arm_y, mid + 0.4), "metaldark"))
+    # the junction box on the pole's north face, its lid, two screws, and the conduit up to the arms
+    els += [bx("Box", (5.5, 27, 5.0), (10.5, 33, 7), "sirenbox"),
+            bx("Lid", (5.25, 33, 4.75), (10.75, 33.5, 7), "sirenbox"),
+            bx("Screw1", (6.0, 31.75, 4.8), (6.5, 32.25, 5.0), "metaldark", faces=("north", "east", "west", "up", "down")),
+            bx("Screw2", (9.5, 27.75, 4.8), (10.0, 28.25, 5.0), "metaldark", faces=("north", "east", "west", "up", "down")),
+            bx("Conduit", (7.65, 33.5, 6.2), (8.35, 40.5, 6.9), "metaldark"),
+            bx("Gland", (7.4, 33.5, 5.95), (8.6, 34.2, 7.0), "metaldark")]
+    return els
+
+
+def siren_tex_d4():
+    """(D4) The siren's enamel (a warm sage cream, as Level 94's whites are warm, D3), its dark throat, and the junction
+    box's grey-green paint; all painted metal, a little grimy."""
+    horn = M.painted_metal(seed_of("d4sirenhorn"), base=(192, 190, 166), grain=3, mottle=4, panel=False, chips=2, under=(110, 104, 92))
+    M.grime(horn, 0.08, seed_of("d4sirenhorng"), cells=(8, 4), cover=0.4)
+    save(horn, "sirenhorn")
+    mouth = M.noise_hv((50, 48, 46), 3, seed_of("d4sirenmouth"), mottle=4)
+    save(mouth, "sirenmouth")
+    box = M.painted_metal(seed_of("d4sirenbox"), base=(118, 128, 112), grain=3, mottle=4, panel=True, chips=2, under=(90, 88, 84))
+    M.grime(box, 0.1, seed_of("d4sirenboxg"), cells=(8, 4), cover=0.4)
+    save(box, "sirenbox")
 
 
 def icebox_b13():

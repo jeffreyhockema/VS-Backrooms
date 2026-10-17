@@ -697,5 +697,6 @@
 		"place": "game:block/planks",
 		"break": "game:block/planks",
 		"hit": "game:block/planks"
-	}
+	},
+	"randomizeAxes": "xyz"
 }

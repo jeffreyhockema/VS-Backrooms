@@ -1,0 +1,18 @@
+{
+ "batch": "D4",
+ "title": "Follow-ups on the carried items: the boiler, Level 7's rock, wall versions by height, 974's furniture, siren speakers, troffer sides, traffic-light fronts",
+ "before": "review/d4/sbs/before",
+ "after": "review/d4/sbs/after",
+ "out": "review/d4/sidebyside",
+ "note": "Before is main (build-gfxbase), after is D4, both shot in the same session conditions in gfxreview (Level 94's siren poles in gfxd3, layout version 8, where they stand). Shots carry their level as a prefix (3-boiler-close is Level 3's).",
+ "families": [
+  {"id": "boiler", "name": "The shared boiler (Levels 3 and 5): riveted iron plates, strap hoops, round flue", "spots": ["3-boiler-close", "3-boiler-wide", "5-boiler-inspection"]},
+  {"id": "baypipes", "name": "Level 5 boiler bays: the pipes up the plaster walls, round", "spots": ["5-boiler-inspection"]},
+  {"id": "islandrock", "name": "Level 7 island rock: facet joints about 30 levels deep, lit top edge and shadowed foot", "spots": ["7-seapillar-close-inspection", "7-wide-01-inspection", "7-wide-02-inspection", "7-close-floor-inspection", "7-seapillar-wide"]},
+  {"id": "wallaxes", "name": "Wall versions picked by height too (randomizeAxes xyz): Levels 0, 1, 3, 4, 5, 6, 9, 10, 11", "spots": ["0-close-wall", "0-wide-01", "1-close-wall", "1-firewall-wide", "3-close-wall", "3-statue-wide", "4-close-wall", "4-wide-01", "5-close-wall", "5-wide-01", "6-close-wall-inspection", "9-day-front", "10-barn-wide", "11-facade-brick-close", "11-subway-close"]},
+  {"id": "furniture974", "name": "Level 974 furniture bodies: bevels and raised drawer fields", "spots": ["974-kitchen-wide", "974-kitchen-close", "974-kittyroom-wide", "974-bed-close", "974-master-wide"]},
+  {"id": "sirenpole", "name": "Level 94 siren pole: horn speakers on cross arms, a junction box", "spots": ["94-siren-close", "94-siren-wide"]},
+  {"id": "troffer", "name": "Level 0 troffer sides: the housing's edge, the lens only below", "spots": ["0-gate-wide", "0-wide-01"]},
+  {"id": "trafficlight", "name": "Level 11 traffic lights: domed lenses, deeper visors, a second signal face", "spots": ["11-traffic-ne", "11-traffic-sw"]}
+ ]
+}

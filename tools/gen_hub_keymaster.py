@@ -323,6 +323,9 @@ RING_C, RING_R = (-3.0, 14.4), 3.0
 
 def build():
     m = Model("hub-keymaster", atlas_width=64, seed=1717)
+    # B17: light baked from the rest pose (rig.bake): occlusion under the capelet, at the cuffs and the keys, round limbs;
+    # added as if 24 levels brighter, since the robe is near black and takes no shape from multiplied light alone
+    m.light = dict(floor=24.0, grad=0.12, edge=0.06, foot=0.04)
     # The waist is the root; under it a solid robe, so no swing of the panels shows a gap
     waist = m.part("Waist", (-2.5, 18, -3.5), (5, 4, 7), pivot=(0, 20, 0), paint=inner)
     m.part("Belt", (-2.8, 18.4, -3.8), (5.6, 1.4, 7.6), pivot=(0, 19, 0), parent=waist, paint=belt)

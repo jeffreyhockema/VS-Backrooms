@@ -10,6 +10,8 @@ import os
 import random
 import zlib
 
+import iconkit  # B17: finishing for 2D item icons
+
 from PIL import Image, ImageDraw, ImageFilter
 
 import texlib
@@ -81,6 +83,8 @@ def save(img, name):
 
 
 def save_item(img, name):
+    if iconkit.is_icon("item/188/" + name):
+        img = iconkit.finish(img, seed="item/188/" + name)   # B17: lit and outlined as vanilla's icons are
     _save(img, "item/188/" + name)
 
 

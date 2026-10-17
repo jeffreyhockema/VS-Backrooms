@@ -89,6 +89,7 @@ EXT = {
     "tray": "backrooms:block/level3/tray",
     "wallrust": "backrooms:block/level2/wallpipe-rust",
     "flange": "backrooms:block/level2/wallpipe-flange",
+    "walllag": "backrooms:block/level2/wallpipe-lagging",  # (D4) Level 5's boiler bays: the lagged pipe, round
     "riserrust": "backrooms:block/level3/riser-rust",
     "riserlag": "backrooms:block/level3/riser-lagging",
     "cabdial": "backrooms:block/level2/cabinet-dial",
@@ -279,9 +280,13 @@ def ground_storable(data, layout="Quadrants", scale=None, ctrl=False, height=Non
 
 def shape(name, elements):
     keys = set()
-    for e in elements:
-        for face in e["faces"].values():
-            keys.add(face["texture"][1:])
+
+    def collect(els):  # (D4) children too: a parent turned about one axis carrying a child turned about another
+        for e in els:
+            for face in e["faces"].values():
+                keys.add(face["texture"][1:])
+            collect(e.get("children", ()))
+    collect(elements)
     data = {"textureWidth": 16, "textureHeight": 16, "textures": {k: tpath(k) for k in sorted(keys)}, "elements": elements}
     write_json(os.path.join(ASSETS, "shapes", "block", "detail", name + ".json"), data)
     return "block/detail/" + name

@@ -5,6 +5,8 @@
 	blockmaterial: "Stone",
 	// Damaged walls have rusty rebar sticking out of them
 	drawtypeByType: { "*-damaged": "json", "*": "cube" },
+	// (graphics pass D4) Versions picked by height as well as place, so a column of wall does not stack one version
+	randomizeAxes: "xyz",
 	shapeByType: { "*-damaged": { base: "block/concretewall-damaged" } },
 	// Name only the wall code on the damaged shape: "all" would paint the rebar concrete too
 	texturesByType: {

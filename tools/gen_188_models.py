@@ -75,6 +75,9 @@ HAND_X = -29.5                   # the knuckles
 
 def build():
     m = Model(NAME, atlas_width=32, seed=188)
+    # B17: a faint light baked from the rest pose (rig.bake): the knuckles and the top of the arm lit, shadow between
+    # the fingers; added as if 20 levels brighter (the smoke is near black). The alpha (the smoke's fade) is untouched.
+    m.light = dict(floor=20.0, ground=0.0, grad=0.12, edge=0.05, foot=0.0, reach=(0.3, 0.7, 1.2), round_px=2.0)
     root = m.part("Root", (-1, 0, -1), (2, 2, 2), pivot=(0, 1, 0), paint=smoky, tag={"fade": (0.55, 0.85)})
     # The stump reaching back into the glass, fraying out to nothing
     m.part("Shoulder", (0.6, -0.2, -1.3), (5.0, 2.4, 2.6), pivot=(1, 1, 0), parent=root, paint=smoky, tag={"fade": (0.05, 0.6)})

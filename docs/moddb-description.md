@@ -14,6 +14,10 @@ Links: [Player guide (spoilers)](https://github.com/jeffreyhockema/VS-Backrooms/
 
 ---
 
+## What's new in 0.514.0
+
+**A new look for every level.** Every texture and model the mod adds was rebuilt beside the vanilla blocks around it, level by level, so the Backrooms now look like they belong in Vintage Story: wallpaper, carpet, concrete, brick and tile with real structure and shading and no visible block edges; gauges, handles, grilles, lamps and doors made as real shapes instead of paint; desks, chairs, shelves, diner booths, arcade cabinets and vending machines modelled; and every creature and item icon repainted with light and shade. Level 94's houses are all cream-yellow, its siren poles stand at last, and a white municipal water tower rises over each town (in worlds made from now on). Nothing vanilla changed, and existing worlds keep working.
+
 ## What's new in 0.513.0
 
 The first update, built from the first players' feedback. Existing worlds carry on as they are.
@@ -31,7 +35,7 @@ The full list is in the [changelog](https://github.com/jeffreyhockema/VS-Backroo
 
 ## Work in Progress
 
-What version 0.513.0 contains:
+What version 0.514.0 contains:
 
 - Twenty-two levels, all fully built: Levels 0 to 11, the Snackrooms, Level 37, Level 94, Level !, Level Fun, The End, the Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 - More than seventy different ways between them, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
@@ -171,7 +175,7 @@ World settings under *Survival challenges* when creating a world:
 ## Notes
 
 - Built for Vintage Story 1.22 (.NET 10).
-- Version 0.513.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- Version 0.514.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original photo posted in 2019 and Kane Pixels' films for Level 0's look and feel.
 - Open source: the code is GPL-3.0, and the textures, models, sounds and text are CC BY-SA 4.0. Level and creature lore is adapted from the Backrooms wikis under CC BY-SA; credits are in the README.

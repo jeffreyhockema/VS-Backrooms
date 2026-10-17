@@ -112,6 +112,7 @@ def rubble_block():
             {"base": "block/rubblemasonry1"}, {"base": "block/rubblemasonry2"}]}},
         "resistance": 4,
         "lightAbsorption": 99,
+        "randomizeAxes": "xyz",  # (graphics pass D4) a wall's column picks its versions by height too
         "sounds": {"walk": "game:walk/stone", "place": "game:block/loosestone",
                    "break": "game:block/rock-break-pickaxe", "hit": "game:block/rock-hit-pickaxe"},
     }, "blocktypes", "rubblemasonry.json",

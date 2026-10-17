@@ -17,7 +17,9 @@ import re
 
 from PIL import Image, ImageDraw
 
-from rig import fill, speckle, hlines, vlines, rect, mix, shade, clamp
+import rig
+from rig import speckle, hlines, vlines, rect, mix, shade, clamp
+from rig import lit_fill as fill   # B17: shade_fill's soft mottle and hue on the baked Faceling atlas (rig.fill elsewhere)
 from gen_models import blotch, line
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -229,6 +231,11 @@ class _Ctx:
     pass
 
 
+# B17: light baked into each look from the shape's rest pose (rig.bake_shape): occlusion under hair, collars, sleeves
+# and hems, round limbs, darker shoes; the clothes get a weave. None paints the looks as before.
+FACELING_LIGHT = dict(round_px=3.0, grad=0.2, edge=0.08, foot=0.05, ground_h=4.0)
+
+
 def _ctx(img, part, face, uv, rng):
     """A painting context like rig.py's, for one face of the seraph's texture."""
     u1, v1, u2, v2 = uv
@@ -236,6 +243,7 @@ def _ctx(img, part, face, uv, rng):
     y0, y1 = sorted((int(round(v1 * SCALE)), int(round(v2 * SCALE))))
     c = _Ctx()
     c.img, c.draw, c.x, c.y, c.w, c.h, c.face, c.part, c.rng = img, ImageDraw.Draw(img), x0, y0, max(1, x1 - x0), max(1, y1 - y0), face, part, rng
+    c.baked = FACELING_LIGHT is not None
     return c
 
 
@@ -297,6 +305,10 @@ def paint_face(ctx, base, weathered):
 
 def knit(ctx, colour):
     fill(ctx, colour, 0.04)
+    if ctx.baked:   # B17: knit stitches in columns of vees, the old ribbing kept faint
+        rig.weave(ctx, 6.0, "knit", slubs=0.0)
+        hlines(ctx, shade(colour, 0.92), 4, start=1, alpha=0.35)
+        return
     hlines(ctx, shade(colour, 0.9), 2, start=1, alpha=0.5)
     vlines(ctx, shade(colour, 1.06), 4, start=2, alpha=0.3)
 
@@ -304,10 +316,18 @@ def knit(ctx, colour):
 def cloth(ctx, colour, var=0.035):
     fill(ctx, colour, var)
     blotch(ctx, shade(colour, 0.92), 1, 2, 5, 0.3)
+    if ctx.baked:
+        rig.weave(ctx, 3.5 if sum(colour) > 300 else 4.5, "plain")      # B17: a plain weave, a few slubs
 
 
 def denim(ctx, colour, knees=False):
     fill(ctx, colour, 0.05)
+    if ctx.baked:   # B17: denim's twill instead of the old stripes; faded threads
+        rig.weave(ctx, 6.0, "twill", slubs=0.06)
+        speckle(ctx, shade(colour, 1.15), 0.02)
+        if knees and ctx.face == "west":
+            blotch(ctx, mix(colour, (200, 200, 200), 0.35), 1, 2.5, 4, 0.5)
+        return
     vlines(ctx, shade(colour, 1.08), 3, start=1, alpha=0.25, jitter=0)
     speckle(ctx, shade(colour, 1.15), 0.04)
     if knees and ctx.face == "west":
@@ -492,8 +512,13 @@ def paint_attachment(ctx, look, name, side):
                 or ("cap" in extras and name in ("HairTop", "HairPuff")):
             return False
         k = 1.1 if side == "up" else 0.85 if side in ("down", "east") else 1.0
-        fill(ctx, shade(hair, k), 0.12, face_shade=False)
-        if side != "down":
+        if ctx.baked and side != "down" and style != "curly":
+            # B17: strands of their own tone, a lit band near the crown, partings
+            rig.strands(ctx, shade(hair, k), shade(hair, 1.35), sheen=0.3, spread=0.35, parting=0.1,
+                        along="u" if side == "up" else "v", sheen_at=0.2)
+        else:
+            fill(ctx, shade(hair, k), 0.12, face_shade=False)
+        if side != "down" and not (ctx.baked and style != "curly"):
             vlines(ctx, shade(hair, 1.25), 2, start=0, alpha=0.4, jitter=1)      # strands
             vlines(ctx, shade(hair, 0.75), 3, start=1, alpha=0.4, jitter=1)
         if style == "curly" and side != "down":
@@ -654,6 +679,11 @@ def paint_look(code, look):
         for side, uv in faces.items():
             ctx = _ctx(img, name, side, uv, rng)
             paint_attachment(ctx, look, name, side)
+    if FACELING_LIGHT is not None:
+        shape_name = "faceling-child.json" if code.startswith("child-") else "faceling.json"
+        with open(os.path.join(ASSETS, "shapes", "entity", shape_name), encoding="utf-8-sig") as f:
+            shape = json.load(f)
+        rig.bake_shape(shape, img, SCALE, skip=TOOLS | {"Glasses", "GlassesArmL", "GlassesArmR"}, **FACELING_LIGHT)
     save_texture(img, f"faceling-{code}")
 
 

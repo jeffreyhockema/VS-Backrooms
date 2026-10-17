@@ -9,7 +9,8 @@ import random
 import sys
 
 import rig
-from rig import ASSETS, Model, fill, speckle, hlines, vlines, rect, mix, shade, clamp, gradient_down, pose
+from rig import ASSETS, Model, speckle, hlines, vlines, rect, mix, shade, clamp, gradient_down, pose
+from rig import lit_fill as fill   # rig.fill on an unbaked model; shade_fill on a model with a light bake (B17)
 
 TAU = math.tau
 
@@ -29,6 +30,20 @@ def merge(*dicts):
 
 def s(phase, amp, shift=0.0):
     return amp * math.sin(TAU * (phase + shift))
+
+
+def lit(**opts):
+    """B17: gives the model a builder makes a light bake (rig.bake; `opts` over rig.LIGHT). As a decorator, so the
+    variant painters, which call the builders again, get it too."""
+    def wrap(builder):
+        def build_lit(*a, **k):
+            m = builder(*a, **k)
+            m.light = dict(opts)
+            return m
+        build_lit.__name__ = builder.__name__
+        build_lit.__doc__ = builder.__doc__
+        return build_lit
+    return wrap
 
 
 # ======================================================================== Skin-Stealer
@@ -181,6 +196,8 @@ def sk_jaw(ctx):
 def sk_fold(ctx):
     """The loose fold of skin under the jaw."""
     sk_base(ctx, mix(SK_BASE, SK_PINK, 0.45))
+    if ctx.baked and ctx.face in ("west", "north", "south"):
+        rig.folds(ctx, (0.45,), depth=0.82, light=1.06)
     if ctx.face in ("west", "north", "south"):
         texrow(ctx, -1, 0, -1, SK_BROWN, 0.6)
         texrow(ctx, 0, 0, -1, SK_TAN, 0.4)
@@ -188,6 +205,8 @@ def sk_fold(ctx):
 
 def sk_neck(ctx):
     sk_base(ctx)
+    if ctx.baked and ctx.face in ("west", "north", "south"):
+        rig.folds(ctx, (0.25, 0.7), depth=0.88, light=1.05, wobble=0.8)    # B17: the stretched neck's rings
     if ctx.face == "west":
         line(ctx, 0.25, 0.0, 0.2, 1.0, SK_TAN, 0.5)                     # tendons
         line(ctx, 0.75, 0.0, 0.8, 1.0, SK_TAN, 0.5)
@@ -262,6 +281,8 @@ def sk_forearm(ctx):
         line(ctx, 0.0, 0.08, 1.0, 0.08, SK_TAN, 0.55)                   # the elbow crease
         line(ctx, 0.0, 0.86, 1.0, 0.88, SK_PINK, 0.6)                   # wrist bunching
         line(ctx, 0.0, 0.94, 1.0, 0.94, SK_TAN, 0.55)
+        if ctx.baked:
+            rig.folds(ctx, (0.8, 0.9), depth=0.84, light=1.05)          # B17: the loose skin rucked up at the wrist
     if ctx.face in ("west", "north"):
         line(ctx, 0.3, 0.2, 0.6, 0.8, SK_BRUISE, 0.25)                  # a vein
     if ctx.face == "east":
@@ -346,6 +367,7 @@ def ramp(p, a, b, c, d):
     return (d - p) / (d - c)
 
 
+@lit()
 def skinstealer():
     m = Model("skinstealer", atlas_width=64, seed=10)
     # Torso chain. The rest rotations give the forward hunch: belly 3, chest 6 and neck 10 lean forward (19 in all);
@@ -570,6 +592,9 @@ def hd_skin(ctx):
 def hd_joint(ctx, top=True, bottom=True):
     """Darker, reddened skin folds where a limb bends: at the top and bottom of the part."""
     hd_skin(ctx)
+    if ctx.baked and ctx.face in ("north", "south", "east", "west") and ctx.h >= 8:
+        rig.fur(ctx, (0, 1), length=4, density=0.18, tip=0.94, root=1.05)       # B17: sinew down the limb, faint
+        rig.folds(ctx, [r for r, on in ((0.18, top), (0.8, bottom)) if on], depth=0.86, light=1.06)
     if ctx.face in ("north", "south", "east", "west"):
         if top:
             line(ctx, 0.0, 0.06, 1.0, 0.08, HD_RED, 0.45)
@@ -700,8 +725,12 @@ def hd_head(ctx):
     fill(ctx, HD_SKIN, 0.035)
     blotch(ctx, HD_SHADOW, 2, 1.5, 3.0, 0.35)
     if ctx.face in ("up", "east"):
-        fill(ctx, HAIR, 0.2, face_shade=False)
-        vlines(ctx, HAIR_HI, 2, alpha=0.45, jitter=1)
+        if ctx.baked:
+            rig.strands(ctx, HAIR, mix(HAIR, HAIR_HI, 0.6 if HAIR[0] > 60 else 1.0), sheen=0.5, spread=0.35, parting=0.25,
+                        along="u" if ctx.face == "up" else "v")
+        else:
+            fill(ctx, HAIR, 0.2, face_shade=False)
+            vlines(ctx, HAIR_HI, 2, alpha=0.45, jitter=1)
     elif ctx.face == "west":
         w, h = ctx.w, ctx.h
         for ty in range(0, max(1, h // 3)):                               # hair down to the brow
@@ -782,9 +811,14 @@ def hd_tooth(ctx):
 
 def hd_hair(ctx):
     """Stringy neglected hair: black with grey streaks, the ends ragged (cut away to transparency)."""
-    fill(ctx, HAIR, 0.25, face_shade=False)
-    vlines(ctx, HAIR_HI, 2, alpha=0.45, jitter=1)
-    speckle(ctx, DIRT, 0.015)
+    if ctx.baked:   # B17: strands of their own tone, lit where they fall over the crown, partings, a few greys
+        rig.strands(ctx, HAIR, mix(HAIR, HAIR_HI, 0.6 if HAIR[0] > 60 else 1.0), sheen=0.55, spread=0.35, parting=0.25, grey=mix(HAIR_HI, (150, 146, 140), 0.4),
+                    grey_chance=0.06, along="v" if ctx.face not in ("up", "down") else "u", sheen_at=0.15,
+                    dirt=DIRT, dirt_chance=0.012)
+    else:
+        fill(ctx, HAIR, 0.25, face_shade=False)
+        vlines(ctx, HAIR_HI, 2, alpha=0.45, jitter=1)
+        speckle(ctx, DIRT, 0.015)
     if ctx.face in ("north", "south", "east", "west") and ctx.h >= 6:
         for tx in range(ctx.w):
             cut = ctx.rng.choice((0, 0, 1, 1, 2, 3))
@@ -800,11 +834,15 @@ def hd_hair(ctx):
 
 def hd_hair_plate(ctx):
     """Hair lying over the top of the head and down the neck onto the shoulders."""
-    fill(ctx, HAIR, 0.25, face_shade=False)
-    if ctx.face == "up":
-        hlines(ctx, HAIR_HI, 2, alpha=0.35)
-    elif ctx.face in ("north", "south"):
-        vlines(ctx, HAIR_HI, 2, alpha=0.4, jitter=1)
+    if ctx.baked:
+        rig.strands(ctx, HAIR, mix(HAIR, HAIR_HI, 0.6 if HAIR[0] > 60 else 1.0), sheen=0.5, spread=0.35, parting=0.25,
+                    along="u" if ctx.face == "up" else "v", sheen_at=0.3, grey=mix(HAIR_HI, (150, 146, 140), 0.4), grey_chance=0.05)
+    else:
+        fill(ctx, HAIR, 0.25, face_shade=False)
+        if ctx.face == "up":
+            hlines(ctx, HAIR_HI, 2, alpha=0.35)
+        elif ctx.face in ("north", "south"):
+            vlines(ctx, HAIR_HI, 2, alpha=0.4, jitter=1)
     if ctx.face == "east":
         for tx in range(ctx.w):
             if ctx.rng.random() < 0.5:
@@ -814,6 +852,7 @@ def hd_hair_plate(ctx):
 FRONT_HAIR = ((-2.75, 11.0), (-2.0, 9.0), (-1.25, 12.0), (-0.5, 8.5), (0.25, 10.5), (1.0, 12.5), (1.75, 9.5), (2.5, 11.5))
 
 
+@lit()
 def hound():
     m = Model("hound", atlas_width=64, seed=8)
     # The body: a narrow chest with the shoulders the highest point, a spine arching back and down to a narrow
@@ -1080,6 +1119,8 @@ def du_skin(ctx, base=DU_SKIN):
 def du_banded(ctx, top=True, bottom=True, base=DU_SKIN):
     """A limb segment with a darker band and a pale knuckle of bone at the joints."""
     du_skin(ctx, base)
+    if ctx.baked and ctx.face in ("north", "south", "east", "west") and ctx.h >= 10:
+        rig.fur(ctx, (0, 1), length=5, density=0.12, tip=0.92, root=1.08)  # B17: dry, drawn sinew down the limb
     if ctx.face in ("north", "south", "east", "west"):
         if top:
             texrow(ctx, 0, 0, -1, DU_SHADOW, 0.6)
@@ -1148,6 +1189,7 @@ def du_extension(ctx):
         texrow(ctx, -1, 0, -1, DU_SHADOW, 0.5)
 
 
+@lit()
 def duller():
     m = Model("duller", atlas_width=32, seed=6)
     # Legs: thin, knees slightly bent, feet not parallel, the pelvis drifting to one side
@@ -1325,10 +1367,20 @@ def r_fur(ctx):
     v = RV
     if v["hairless"]:
         fill(ctx, v["fur"], 0.04)
-        hlines(ctx, v["streak"], 3, start=1, alpha=0.4)                 # wrinkles
+        if ctx.baked and ctx.face in ("north", "south", "up"):
+            rig.folds(ctx, (0.3, 0.62), depth=0.84, light=1.08, axis="v")     # B17: wrinkles as folds across the body
+        else:
+            hlines(ctx, v["streak"], 3, start=1, alpha=0.4)                 # wrinkles
         blotch(ctx, v["belly"], 1, 2, 4, 0.3)
         return
     fill(ctx, v["fur"], 0.14)
+    if ctx.baked:   # B17: the coat combed nose to tail (+x) in short strokes, dark roots and lit tips, the belly paler
+        if ctx.face == "down":
+            fill(ctx, v["belly"], 0.1)
+        blotch(ctx, v["streak"], 2, 1.5, 3.5, 0.3)
+        way = {"north": (-1, 0.3), "south": (1, 0.3), "up": (1, 0), "down": (1, 0), "west": (0, 1), "east": (0, 1)}[ctx.face]
+        rig.fur(ctx, way, length=5, density=1.1, tip=1.32, root=0.8)
+        return
     if ctx.face in ("north", "south", "up"):
         hlines(ctx, v["streak"], 2, start=ctx.rng.randint(0, 1), alpha=0.35)
         speckle(ctx, shade(v["fur"], 1.5), 0.05)
@@ -1444,6 +1496,7 @@ def r_whisker(ctx):
 TAIL = ((3.0, 1.1), (3.0, 0.95), (2.5, 0.8), (2.5, 0.65), (2.0, 0.5), (2.0, 0.4))
 
 
+@lit(reach=(0.4, 0.9, 1.6), ground_h=3.0, round_px=3.0)
 def deathrat(variant="common"):
     global RV
     RV = RAT_VARIANTS[variant]
@@ -1687,6 +1740,8 @@ def m_fuzz(ctx):
     speckle(ctx, shade(M_FUZZ, 1.25), 0.14)
     speckle(ctx, M_BODY, 0.1)
     vlines(ctx, shade(M_FUZZ, 0.8), 2, alpha=0.3, jitter=1)
+    if ctx.baked:
+        rig.fur(ctx, (0, 1) if ctx.face not in ("up", "down") else (1, 0), length=2, density=0.5, tip=1.2, root=0.8)
 
 
 def m_fuzz_ragged(ctx):
@@ -1707,6 +1762,8 @@ def m_abdomen(ctx):
     if ctx.face in ("north", "south", "up", "down"):
         vlines(ctx, band, 3, start=1, alpha=0.75)
         vlines(ctx, shade(M_BODY, 0.6), 3, start=2, alpha=0.5)
+        if ctx.baked:
+            rig.plates(ctx, max(1, ctx.w // 3), axis="u", seam=0.8, lit=1.12, reverse=ctx.face == "north")  # B17
     if ctx.face == "up":
         line(ctx, 0.0, 0.5, 1.0, 0.5, shade(M_BODY, 0.7), 0.4)              # the dorsal line
     if ctx.face == "down":
@@ -1808,6 +1865,7 @@ def m_wing(ctx):
             px[ctx.x + ctx.w - 1, ctx.y + yy] = (0, 0, 0, 0)
 
 
+@lit(reach=(0.3, 0.6, 1.0), ground=0.08, ground_h=2.0, round_px=2.0)
 def deathmoth(female):
     MF["female"] = female
     name = "deathmoth-female" if female else "deathmoth-male"
@@ -2161,6 +2219,7 @@ def sm_flame(ctx):
     sm_smoke(ctx, top=True)
 
 
+@lit(floor=26.0)
 def smiler():
     m = Model("smiler", atlas_width=64, seed=3)
 
@@ -2427,6 +2486,8 @@ def c_limb(ctx):
     if ctx.part.tag.get("joint") and ctx.face in ("north", "south", "up", "down"):
         line(ctx, 0.0, 0.5, 0.12, 0.5, shade(tone, 0.6), 0.5)                 # the crease of a joint at the far end
         line(ctx, 0.04, 0.2, 0.04, 0.8, shade(tone, 0.7), 0.4)
+        if ctx.baked and ctx.w >= 8:
+            rig.folds(ctx, (0.1, 0.2), depth=0.8, light=1.08, axis="v")       # B17: skin bunched at the bend
 
 
 def c_hand(ctx):
@@ -2557,6 +2618,7 @@ LIMBS = [
 ]
 
 
+@lit()
 def clump(variant="common"):
     CV["blind"] = variant == "blind"
     m = Model("clump" if variant == "common" else f"clump-{variant}", atlas_width=64, seed=5)
@@ -3183,6 +3245,7 @@ MG_TENDRILS = [(-12, 0.5, 9, 3.0, True), (-3, 7.5, 9, 2.8, True), (-1, -8, 9, 2.
 MG_SEG = 5.3
 
 
+@lit(reach=(1.0, 2.5, 5.0), ground_h=12.0, round_px=8.0, floor=30.0)
 def mangled():
     m = MgModel("mangled", atlas_width=128, seed=63)
     rng = random.Random(6363)
@@ -3906,6 +3969,7 @@ def th_fin(ctx):
                 px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
 
 
+@lit(reach=(1.0, 2.5, 4.5), ground=0.0, round_px=10.0, floor=26.0)
 def thething():
     m = Model("thething", atlas_width=128, seed=7)
     cy = TH_CY
@@ -4263,6 +4327,7 @@ def cl_finger(ctx):
         texrow(ctx, -1, 0, -1, CL_DARK, 0.4)
 
 
+@lit()
 def animation_clay():
     m = Model("animation-clay", atlas_width=64, seed=94)
     pelvis = m.part("Pelvis", (-2.5, 10.5, -3.25), (5, 3.5, 6.5), pivot=(0, 12, 0), paint=cl_clay)
@@ -4459,6 +4524,7 @@ def wd_rod(ctx):
     grain(ctx, 6)
 
 
+@lit()
 def animation_wooden():
     m = Model("animation-wooden", atlas_width=48, seed=95)
     pelvis = m.part("Pelvis", (-1.5, 13.5, -2.5), (3, 2.75, 5), pivot=(0, 15, 0), paint=wd_wood)
@@ -4688,6 +4754,7 @@ def brad(ctx, tx, ty):
         texel(ctx, tx, ty, shade(BRASS, 0.6))                            # the split of the pin
 
 
+@lit(grad=0.12, round=0.0, ao=0.3)
 def animation_paper():
     m = FineModel("animation-paper", atlas_width=48, seed=96)
     flat = ("west", "east")
@@ -4873,6 +4940,7 @@ def rb_bulb(ctx):
     texel(ctx, 0, 0, (255, 190, 170))
 
 
+@lit()
 def roboman():
     m = Model("roboman", atlas_width=64, seed=97)
     hips = m.part("Hips", (-2.5, 7.5, -3.75), (5, 2.25, 7.5), pivot=(0, 8.5, 0), paint=lambda c: rb_tin(c, RB_BLUE, RB_YELLOW))
@@ -5226,6 +5294,7 @@ def R(x=0.0, y=0.0, z=0.0, o=(0, 0, 0), st=None):
     return pose((x, y, z), o, st)
 
 
+@lit(floor=26.0)
 def bacteria():
     m = Model("bacteria", atlas_width=64, seed=1)
 
@@ -6386,6 +6455,7 @@ def w_legs(thigh_w, shin_w, hip=0.0, hip_x=0.0, sides="LR", foot_w=0.0):
     return out
 
 
+@lit()
 def wretch(variant="common"):
     global WV
     WV = dict(WRETCH_VARIANTS[variant])

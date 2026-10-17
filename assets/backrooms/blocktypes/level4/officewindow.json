@@ -36,5 +36,6 @@
 		1,
 		7
 	],
-	"drops": []
+	"drops": [],
+	"randomizeAxes": "xyz"
 }

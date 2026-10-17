@@ -4,8 +4,8 @@
 	"textures": {
 		"metal": "backrooms:block/props/metal",
 		"plaster": "backrooms:block/level5/plaster",
-		"rust": "backrooms:block/level2/pipe-rust",
-		"valve": "backrooms:block/props/valve"
+		"valve": "backrooms:block/props/valve",
+		"wallrust": "backrooms:block/level2/wallpipe-rust"
 	},
 	"elements": [
 		{
@@ -78,112 +78,241 @@
 			}
 		},
 		{
-			"name": "Pipe",
+			"name": "Pipe0",
 			"from": [
-				0,
-				8,
-				-3
+				0.0,
+				8.4,
+				-2.4880952303836517
 			],
 			"to": [
-				16,
-				12,
-				0
+				16.0,
+				8.624,
+				-1.3119047696163482
 			],
 			"faces": {
 				"north": {
-					"texture": "#rust",
+					"texture": "#wallrust",
 					"uv": [
-						0,
-						0,
-						16,
-						4
-					]
-				},
-				"up": {
-					"texture": "#rust",
-					"uv": [
-						0,
-						0,
-						16,
-						3
+						0.0,
+						13.273,
+						16.0,
+						16.0
 					]
 				},
 				"down": {
-					"texture": "#rust",
+					"texture": "#wallrust",
 					"uv": [
-						0,
-						0,
-						16,
-						3
+						0.0,
+						14.8,
+						16.0,
+						16
 					]
 				}
 			}
 		},
 		{
-			"name": "Stem",
+			"name": "Pipe1",
 			"from": [
-				7.5,
-				9.5,
-				-5
+				0.0,
+				8.624,
+				-2.9935154319898736
 			],
 			"to": [
-				8.5,
-				10.5,
-				-3
+				16.0,
+				9.04,
+				-0.806484568010126
 			],
 			"faces": {
 				"north": {
-					"texture": "#metal",
+					"texture": "#wallrust",
 					"uv": [
-						0,
-						0,
-						1.0,
-						1.0
-					]
-				},
-				"east": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						2,
-						1.0
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.0,
-						1.0
-					]
-				},
-				"west": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						2,
-						1.0
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						1.0,
-						2
+						0.0,
+						11.277,
+						16.0,
+						13.273
 					]
 				},
 				"down": {
-					"texture": "#metal",
+					"texture": "#wallrust",
 					"uv": [
+						0.0,
+						12.972999999999999,
+						16.0,
+						13.273
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe2",
+			"from": [
+				0.0,
+				9.04,
+				-3.3367964365211935
+			],
+			"to": [
+				16.0,
+				9.552,
+				-0.4632035634788063
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						9.445,
+						16.0,
+						11.277
+					]
+				},
+				"down": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						10.976999999999999,
+						16.0,
+						11.277
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe3",
+			"from": [
+				0.0,
+				9.552,
+				-3.5
+			],
+			"to": [
+				16.0,
+				10.448,
+				-0.2999999999999998
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						6.555,
+						16.0,
+						9.445
+					]
+				},
+				"up": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						6.555,
+						16.0,
+						6.8549999999999995
+					]
+				},
+				"down": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						9.145,
+						16.0,
+						9.445
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe4",
+			"from": [
+				0.0,
+				10.448,
+				-3.3367964365211935
+			],
+			"to": [
+				16.0,
+				10.96,
+				-0.4632035634788063
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						4.723,
+						16.0,
+						6.555
+					]
+				},
+				"up": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						4.723,
+						16.0,
+						5.023
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe5",
+			"from": [
+				0.0,
+				10.96,
+				-2.9935154319898736
+			],
+			"to": [
+				16.0,
+				11.376,
+				-0.806484568010126
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						2.727,
+						16.0,
+						4.723
+					]
+				},
+				"up": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						2.727,
+						16.0,
+						3.0269999999999997
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe6",
+			"from": [
+				0.0,
+				11.376,
+				-2.4880952303836517
+			],
+			"to": [
+				16.0,
+				11.6,
+				-1.3119047696163482
+			],
+			"faces": {
+				"north": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						2.727
+					]
+				},
+				"up": {
+					"texture": "#wallrust",
+					"uv": [
+						0.0,
 						0,
-						0,
-						1.0,
-						2
+						16.0,
+						1.2
 					]
 				}
 			}
@@ -598,6 +727,75 @@
 						0,
 						6,
 						0.5999999999999996
+					]
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				7.5,
+				9.5,
+				-5
+			],
+			"to": [
+				8.5,
+				10.5,
+				-3.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.6
 					]
 				}
 			}

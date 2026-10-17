@@ -55,7 +55,7 @@ def surfaces():
                extra={"randomizeAxes": "xyz"})
     cube_block("l3999-concrete", "Concrete", {"wall": "concrete-wall", "floor": "concrete-floor"},
                "Level 3999: smooth concrete walls with form-tie holes; the polished floors of the service corridors",
-               alternates={"wall": ["concrete-wall2", "concrete-wall3"]})
+               alternates={"wall": ["concrete-wall2", "concrete-wall3"]}, extra={"randomizeAxes": "xyz"})  # (D4) by height too
     cube_block("l3999-wall", "Painted Wall", {"violet": "wall-violet", "midnight": "wall-midnight", "teal": "wall-teal"},
                "Level 3999: matt painted plaster (violet, midnight, teal)",
                alternates={k: B16.versions(f"wall-{k}")[1:] for k in ("violet", "midnight", "teal")}, extra={"randomizeAxes": "xyz"})
@@ -99,7 +99,7 @@ def surfaces():
         "textures": {"all": {"base": tex("glitchwall"), "alternates": [{"base": tex("glitchwall2")}, {"base": tex("glitchwall3")}]}},
         "lightHsv": [51, 7, 5], "lightAbsorption": 0, "collisionbox": None, "sidesolid": {"all": False}, "sideopaque": {"all": False},
         "resistance": 6, "drops": [], "sounds": {"walk": "game:walk/stone*", "ambient": "backrooms:ambient/3999/glitch", "ambientBlockCount": 3},
-        "attributes": dict(FIXED),
+        "attributes": dict(FIXED), "randomizeAxes": "xyz",  # (D4) its versions picked by height too
     }, "Level 11's way to 3999: a stretch of alley wall in purple static. It has no substance: walk into it")
     LANG["block-l3999-glitchwall"] = "Glitched Wall"
     COUNT["variants"] += 1
