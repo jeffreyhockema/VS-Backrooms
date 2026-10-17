@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: the game's own low-stability look (dark brown fog and a darkened world, which comes on whenever your Reality Stability is low, as after every Reality Shift) was laid over each level's own air and followed you through every elevator, door and stairway, so Level 4's gloom seemed to stay on in Level 5 and fog seemed to come through a door with you. The level's air now always shows; the distortion, whispers and rust still tell you your stability is low. The Mangled's fog lifts as soon as you leave the Suburbs, however you leave.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
