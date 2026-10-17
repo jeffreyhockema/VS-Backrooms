@@ -275,6 +275,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
 | D4 follow-ups (carried items) | gfx/D4 | merged | 2 | L7 rock B-, 974 furniture B- (subtle), traffic lights B- (dead lens) | passed 2026-10-17 03:25 (Fable): boiler and bay pipes verified; walls no longer stack one version |
 | B17 entities and items | gfx/B17 | merged | 2 | Smiler, Bacteria, Mangled, Kitty C+ (black by lore); Deathmoths C+; Clump skin B-; Faceling faces blank (lore); ticket lettering | passed 2026-10-17 01:55 (Fable): lineup verified, silhouettes and colours kept, headless load clean |
+| B19 showcase, change-note stats, banner and cover | gfx/B19 | merged | 1 | lineup, 3999 and Level 11 pairs skipped as subtle at a glance | passed 2026-10-17 (Fable): overview checked, stats verified from git |
 | B18 finish | gfx/B18 | merged | 1 | banner.jpg and docs/cover not regenerated (01 changed); user may swap any gallery image back from review/b18/gallery-old | passed 2026-10-17 05:55 (Fable): gallery compare checked, docs and mod page at 0.514.0; zip rebuilt |
 
 Status values: not started, in progress, review, sent back, merged.

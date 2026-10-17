@@ -4,6 +4,8 @@
 
 Every texture and model the mod adds was reviewed in the game against the vanilla blocks beside it, level by level, and rebuilt where it fell short. Nothing vanilla changed, no block or item codes changed, and existing worlds keep working: new looks apply to every block already placed, and the few props with new shapes (Level 9's roofs and gables, Level 94's water towers) appear in chunks generated from now on.
 
+In numbers: 1,219 block textures (611 of them new versions, so a surface no longer repeats block by block), 59 creature and character textures, 62 item icons and 608 block models were redrawn or rebuilt across all 22 levels. At the start 180 asset families were graded against vanilla and none matched it; at the end 196 families were compared side by side, before and after, and all but one were kept (13 after a tweak), the exception being Level 2's concrete tunnel walls, which went back to their old look.
+
 - Surfaces: wallpapers, carpets, concrete, brick, tile, plaster, asphalt, turf and marble are built from a shared material kit with real structure and shading, tile without visible block edges, and no longer repeat the same mark on every block.
 - Hardware is geometry, not paint: gauges, dials, grilles, door handles, kick plates, hinges, breaker panels, cable trays, lamps, chandeliers, sconces, elevator doors and call buttons.
 - Furniture is modelled: desks, office chairs, filing cabinets, diner booths, store shelves stocked with packs, food-court chairs and tables, arcade cabinets, vending machines, the hospital bed, the Fort Surrender furniture.
@@ -20,6 +22,19 @@ Every texture and model the mod adds was reviewed in the game against the vanill
 - Walls with several looks (wallpaper, concrete, brick and tile, drywall, the hotel's damask, siding, barn boards, the city's façades and subway tiles, Level 7's rock) now vary block by block up a wall too, not only along it, so a stain or crack no longer stacks into a stripe.
 - Level 0's ceiling lights show their lens only from below; where a light's side shows, it is the plain edge of its housing, not a second lens. Level 7's rock reads as broken facets. Kitty's House's beds, dressers, desks, chairs, table and banquettes have bevelled edges and panelled drawers; Level 94's siren poles carry horn speakers on cross arms and a junction box; Level 11's traffic lights have domed lenses and deeper visors, on both faces.
 - The far places: Level !'s crash rail, doors, notices and set pieces; Level Fun's lobbies, elevator doors and signs; The End's shelving and EXIT doors; the Hub's lamps, sigils and tower; 974's rooms; 3999's marble, food court and arcade; 188's pavers, blinds and bollards.
+
+### Before and after
+
+The same spot in the game before the pass (left) and after it (right). All eight on one page: [docs/screenshots/progress/00-overview.jpg](docs/screenshots/progress/00-overview.jpg).
+
+- [docs/screenshots/progress/01-level2-machinery.jpg](docs/screenshots/progress/01-level2-machinery.jpg): Level 2's machinery cabinets. Painted dials and grilles became modelled gauges in bezels, lamps, a louvred door and a handle.
+- [docs/screenshots/progress/02-level3-breaker-panel.jpg](docs/screenshots/progress/02-level3-breaker-panel.jpg): Level 3's breaker panel and wall fan. A painted panel became ten breakers, a bus cover and a red main switch; the fan's grille became blades behind a guard.
+- [docs/screenshots/progress/03-level4-desk.jpg](docs/screenshots/progress/03-level4-desk.jpg): Level 4's desk, terminal and cubicles. The blank box became a terminal with a screen in its bezel and a keyboard; the desk has drawers, the chair a five-star base, the partitions caps and posts.
+- [docs/screenshots/progress/04-level5-door.jpg](docs/screenshots/progress/04-level5-door.jpg): Level 5's guest-room door. A flat painted door became a panelled leaf in a casing, with a brass number plate, a knob, hinges and a peephole.
+- [docs/screenshots/progress/05-level5-chandelier.jpg](docs/screenshots/progress/05-level5-chandelier.jpg): Level 5's chandelier. A flat gold plate of candles became an eight-arm chandelier on a chain, with drip pans and crystal drops.
+- [docs/screenshots/progress/06-level6-1-shelves.jpg](docs/screenshots/progress/06-level6-1-shelves.jpg): the Snackrooms' store shelves. One painted picture that read as office binders became gondola shelving stocked with snack packs.
+- [docs/screenshots/progress/07-level9-gable.jpg](docs/screenshots/progress/07-level9-gable.jpg): a Level 9 gable end. The stepped white gable became the house's own siding running up to the roof under a rake board.
+- [docs/screenshots/progress/08-level94-water-tower.jpg](docs/screenshots/progress/08-level94-water-tower.jpg): Level 94's water tower. A box on four posts became the white municipal tower: braced legs, a round tank with a catwalk, a ladder.
 
 ## 0.513.3 — fixes from the first week
 
