@@ -1106,6 +1106,12 @@ def write_lang():
         "note-chat": "{0}: \"{1}\"",
         "note-marked-again": "Marked again.",
         "note-pocket-given": "There is a folded note in your pocket. You don't remember putting it there.",
+        # A note is kept when read, and remembers who read it (src/Map/WandererNote.cs)
+        "note-name-read": "{0} (read)",
+        "note-read-already": "You have read this one: it is in your journal.",
+        "note-info-read": "You have read this one: it is in your journal. Someone else may still read it.",
+        "note-info-read-other": "Read by one other wanderer; not yet by you.",
+        "note-info-read-others": "Read by {0} other wanderers; not yet by you.",
         "waypoint-note-manila": "The Manila Room (a note)",
         "waypoint-note-den": "Keep out (a note)",
         "waypoint-note-manhole": "Manhole: clay below (a note)",

@@ -41,8 +41,9 @@ public class MarkAgainPacket
 /// it to the next entry in that player's sequence (<see cref="NoteSequencer"/>, from config/notes.json written by
 /// tools/gen_notes.py), marks what its paper and its entry point at (<see cref="MarkResolver"/>), and keeps it in the
 /// player's journal: a log per player in the save game, sent to them on joining and after every read, and shown on J.
-/// Also: the note in a new player's pocket, extra and folded notes from what is broken (by level, dens, locked rooms
-/// and the far edges), and notes left lying where a story puts one.
+/// The note itself is kept and remembers who has read it (<see cref="ItemWandererNote"/>), so it can be handed on:
+/// one paper gives each player one read. Also: the note in a new player's pocket, extra and folded notes from what is
+/// broken (by level, dens, locked rooms and the far edges), and notes left lying where a story puts one.
 /// </summary>
 public partial class NoteSystem : ModSystem
 {
@@ -173,13 +174,12 @@ public partial class NoteSystem : ModSystem
                 player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-pocket-given"), EnumChatType.Notification);
         }
         if (!log.PocketGiven) { log.PocketGiven = true; dirty = true; }
-        // Directions notes that told of nothing, read just before they left: back into their hands (see ApplyMarks)
+        // Directions notes that told of nothing, read just before they left: theirs to read again (see ApplyMarks)
         if (log.Owed is { Count: > 0 } owed)
         {
             log.Owed = null;
             dirty = true;
-            foreach (string kind in owed)
-                if (sapi.World.GetItem(new AssetLocation("backrooms", NoteItemCode(kind))) is Item item) GiveOrDrop(player, new ItemStack(item));
+            foreach (string kind in owed) HandBack(player, kind);
         }
         SendLog(player);
     }
@@ -230,10 +230,55 @@ public partial class NoteSystem : ModSystem
     // ================= Reading =================
 
     /// <summary>
+    /// A note read from the hand (<see cref="ItemWandererNote"/>). The note is kept, marked as read by this player, so
+    /// one paper gives each player one read and can be handed on; read again by them, it only says so. From a bundle,
+    /// the one read is split off (the rest stay fresh and stacked) and goes back in their pockets.
+    /// </summary>
+    public void ReadHeld(IServerPlayer player, ItemSlot slot)
+    {
+        if (slot?.Itemstack?.Collectible is not ItemWandererNote note) return;
+        string uid = player.PlayerUID;
+        if (ItemWandererNote.ReadBy(slot.Itemstack, uid))
+        {
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-read-already"), EnumChatType.Notification);
+            return;
+        }
+        if (!Read(player, note.Kind)) return;
+        ItemStack one = slot.StackSize > 1 ? slot.TakeOut(1) : slot.Itemstack;
+        ItemWandererNote.MarkRead(one, uid);
+        slot.MarkDirty();
+        if (one != slot.Itemstack) GiveOrDrop(player, one);
+    }
+
+    /// <summary>
+    /// A directions note that told its reader nothing is theirs to read elsewhere: the note they read, or any note of
+    /// the kind they have read (the papers being alike), forgets them; failing that (dropped, put away, lost with them),
+    /// a fresh one is given.
+    /// </summary>
+    private void HandBack(IServerPlayer player, string kind)
+    {
+        string uid = player.PlayerUID;
+        foreach (IInventory inventory in player.InventoryManager.Inventories.Values)
+        {
+            if (inventory == null || inventory.ClassName is "creative" or "ground") continue;
+            foreach (ItemSlot slot in inventory)
+            {
+                if (slot?.Itemstack?.Collectible is not ItemWandererNote note || note.Kind != kind || !ItemWandererNote.ReadBy(slot.Itemstack, uid)) continue;
+                ItemStack one = slot.StackSize > 1 ? slot.TakeOut(1) : slot.Itemstack;
+                ItemWandererNote.Unread(one, uid);
+                slot.MarkDirty();
+                if (one != slot.Itemstack) GiveOrDrop(player, one);
+                return;
+            }
+        }
+        if (sapi.World.GetItem(new AssetLocation("backrooms", NoteItemCode(kind))) is Item item) GiveOrDrop(player, new ItemStack(item));
+    }
+
+    /// <summary>
     /// Reads a note of a kind (door, way, cache, refuge; folded for a rare note; altered for Level Fun's) where the player
     /// stands. What it says is known at once (it goes in the journal and is shown); what it marks is searched for on a
     /// worker and added a moment later (<see cref="FindMarks"/>). A note that only gives directions waits for its marks,
-    /// and is handed back if it told nothing. Returns whether the note was used.
+    /// and is handed back if it told nothing. Returns false only where notes are not running.
     /// </summary>
     public bool Read(IServerPlayer player, string kind)
     {
@@ -401,8 +446,8 @@ public partial class NoteSystem : ModSystem
         {
             if (found.Count == 0)
             {
-                // A directions note that tells of nothing here: back into their hands, to read somewhere else (gone
-                // meanwhile, they are owed it: given back when they next join, see OnPlayerNowPlaying)
+                // A directions note that tells of nothing here: theirs to read again somewhere else (gone meanwhile,
+                // they are owed it: handed back when they next join, see OnPlayerNowPlaying)
                 if (!online)
                 {
                     (log.Owed ??= new()).Add(request.Kind);
@@ -410,7 +455,7 @@ public partial class NoteSystem : ModSystem
                     return;
                 }
                 player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-nothing"), EnumChatType.Notification);
-                if (sapi.World.GetItem(new AssetLocation("backrooms", NoteItemCode(request.Kind))) is Item item) GiveOrDrop(player, new ItemStack(item));
+                HandBack(player, request.Kind);
                 return;
             }
             read = new NoteRead

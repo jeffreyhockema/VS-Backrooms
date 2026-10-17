@@ -1,7 +1,11 @@
+using System.Linq;
+using System.Text;
 using Backrooms.Notes;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
 
@@ -21,12 +25,40 @@ public class WayfindingSystem : ModSystem
 
 /// <summary>
 /// A wanderer's note: right-click to read it. Its kind is its variant (door, way, cache, refuge; altered for Level
-/// Fun's); the folded note (wanderernote-folded) has none and is the rare kind.
+/// Fun's); the folded note (wanderernote-folded) has none and is the rare kind. A note is kept when read and remembers
+/// who has read it (<see cref="ReadersKey"/>, their player UIDs), so it can be handed on: one paper gives each player
+/// one read. A fresh note carries no attribute and stacks as before; read notes stack with those read by the same
+/// players, and are named "(read)" to whoever has read them.
 /// </summary>
 public class ItemWandererNote : Item
 {
+    /// <summary>The stack attribute that holds the UIDs of the players who have read the note (absent until someone has).</summary>
+    public const string ReadersKey = "readers";
+
     /// <summary>The paper: door, way, cache, refuge, altered, or folded.</summary>
     public string Kind => Variant["kind"] ?? (Code.Path.EndsWith("folded") ? "folded" : "door");
+
+    /// <summary>Who has read a note (empty for a fresh one).</summary>
+    public static string[] ReadersOf(ItemStack stack) => (stack?.Attributes?[ReadersKey] as StringArrayAttribute)?.value ?? System.Array.Empty<string>();
+
+    public static bool ReadBy(ItemStack stack, string uid) => uid != null && ReadersOf(stack).Contains(uid);
+
+    /// <summary>Whether anyone has read it (a fresh note stacks with fresh ones; a read one is a keepsake to its readers).</summary>
+    public static bool IsRead(ItemStack stack) => ReadersOf(stack).Length > 0;
+
+    public static void MarkRead(ItemStack stack, string uid)
+    {
+        if (ReadBy(stack, uid)) return;
+        stack.Attributes[ReadersKey] = new StringArrayAttribute(ReadersOf(stack).Concat(new[] { uid }).ToArray());
+    }
+
+    /// <summary>Forgets a reader (a directions note that told them nothing: they may read it elsewhere); fresh again if no one is left.</summary>
+    public static void Unread(ItemStack stack, string uid)
+    {
+        string[] left = ReadersOf(stack).Where(r => r != uid).ToArray();
+        if (left.Length == 0) stack.Attributes.RemoveAttribute(ReadersKey);
+        else stack.Attributes[ReadersKey] = new StringArrayAttribute(left);
+    }
 
     public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
     {
@@ -39,9 +71,26 @@ public class ItemWandererNote : Item
         if (!firstEvent) return;
         handling = EnumHandHandling.PreventDefault;
         if (api.Side != EnumAppSide.Server || (byEntity as EntityPlayer)?.Player is not IServerPlayer player) return;
-        if (api.ModLoader.GetModSystem<NoteSystem>()?.Read(player, Kind) != true) return;
-        slot.TakeOut(1);
-        slot.MarkDirty();
+        api.ModLoader.GetModSystem<NoteSystem>()?.ReadHeld(player, slot);
+    }
+
+    public override string GetHeldItemName(ItemStack itemStack)
+    {
+        string name = base.GetHeldItemName(itemStack);
+        // (To the player looking at it: a note someone else has read is still fresh to them)
+        return ReadBy(itemStack, (api as ICoreClientAPI)?.World?.Player?.PlayerUID) ? Lang.Get("backrooms:note-name-read", name) : name;
+    }
+
+    public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        string[] readers = ReadersOf(inSlot.Itemstack);
+        if (readers.Length == 0) return;
+        string uid = (world.Api as ICoreClientAPI)?.World?.Player?.PlayerUID;
+        bool mine = uid != null && readers.Contains(uid);
+        int others = readers.Length - (mine ? 1 : 0);
+        if (mine) dsc.AppendLine(Lang.Get("backrooms:note-info-read"));
+        if (others > 0) dsc.AppendLine(Lang.Get(others == 1 ? "backrooms:note-info-read-other" : "backrooms:note-info-read-others", others));
     }
 
     public override WorldInteraction[] GetHeldInteractionHelp(ItemSlot inSlot) => new[]
