@@ -82,7 +82,7 @@ public readonly struct WorldGeometry
     public const int L3999BandDepth = 4, L188BandDepth = 6;
 
     /// <summary>The same for the experimental Levels 73, the Basement and 52 (21-23): the usual band for now.</summary>
-    public const int L73BandDepth = ShaftDepth, BasementBandDepth = ShaftDepth, L52BandDepth = ShaftDepth;
+    public const int L73BandDepth = 12, BasementBandDepth = ShaftDepth, L52BandDepth = ShaftDepth;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;

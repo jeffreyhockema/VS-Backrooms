@@ -238,10 +238,10 @@ public enum WallPattern : byte
 
     // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
 
-    /// <summary>Level 73 (block 192-207). Placeholder.</summary>
-    L73Wall = 192,
-    /// <summary>The Basement (block 208-223). Placeholder.</summary>
-    BasementWall = 208,
+    /// <summary>Level 73 (block 192-207): the Silver Castle's walls (curtain, towers, keep), and the cliff round the sea at the region's rim.</summary>
+    L73Wall = 192, L73Rim = 193,
+    /// <summary>The Basement (block 208-223): its rim (damp cinder block), the Cellar's cinder walls, the Flood's walls (slimed under the water, a tide line just over it), a Cellar room's squat pillar, a stained cinder wall.</summary>
+    BasementWall = 208, BasementCinder = 209, BasementFloodWall = 210, BasementPillar = 211, BasementStained = 212,
     /// <summary>Level 52 (block 224-239). Placeholder.</summary>
     L52Wall = 224,
 }
@@ -473,12 +473,16 @@ public enum FloorKind : byte
 
     // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
 
-    /// <summary>Level 73 (block 212-227). Placeholder.</summary>
-    L73Floor = 212,
-    /// <summary>The Basement (block 228-243). Placeholder.</summary>
-    BasementFloor = 228,
-    /// <summary>Level 52 (block 244-255). Placeholder.</summary>
-    L52Floor = 244,
+    /// <summary>
+    /// Level 73 (block 212-227): the island's crimson earth (<see cref="L73Floor"/>), black rock, ash sand on the beach, blood mud in
+    /// the gullies, the seabed's sand and gravel; the castle's courtyard, its path, the keep's carpet and boards.
+    /// </summary>
+    L73Floor = 212, L73Rock = 213, L73Ash = 214, L73Mud = 215, L73Seabed = 216, L73Gravel = 217, L73Court = 218, L73Path = 219,
+    L73Carpet = 220, L73Boards = 221,
+    /// <summary>The Basement (block 228-243): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
+    BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
+    /// <summary>Level 52 (block 244-255): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
+    L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
 }
 
 public enum CeilingKind : byte
@@ -541,8 +545,8 @@ public enum CeilingKind : byte
 
     /// <summary>Level 73 (block 72-79). Placeholder.</summary>
     L73Ceiling = 72,
-    /// <summary>The Basement (block 80-87). Placeholder.</summary>
-    BasementCeiling = 80,
+    /// <summary>The Basement (block 80-87): low concrete (plain, drip-stained), and under it a caged bulb: lit, dead, flickering, the Flood's dim one, the Dry Patch's bright one.</summary>
+    BasementCeiling = 80, BasementStained = 81, BasementBulbOn = 82, BasementBulbOff = 83, BasementBulbFlicker = 84, BasementBulbDim = 85, BasementBulbBright = 86,
     /// <summary>Level 52 (block 88-95). Placeholder.</summary>
     L52Ceiling = 88,
 }
@@ -711,6 +715,8 @@ public static class Pipes
     // The experimental Levels 73, the Basement and 52 (21-23)
     public const byte L73First = 90, L73Last = 99;
     public const byte BasementFirst = 100, BasementLast = 109;
+    /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
+    public const byte BasementPipeWE = 100, BasementPipeNS = 101, BasementLeakWE = 102, BasementLeakNS = 103;
     public const byte L52First = 110, L52Last = 119;
 }
 
@@ -1487,7 +1493,11 @@ public static class Props
     // The experimental Levels 73, the Basement and 52 (21-23)
     public const ushort L73First = 580, L73Last = 619;
     public const ushort BasementFirst = 620, BasementLast = 659;
+    /// <summary>The Basement: a boiler, an oil drum, a metal shelf, a hand pump (the Dry Patch's), a machine cabinet (Pier their facing).</summary>
+    public const ushort BasementBoiler = 620, BasementDrum = 621, BasementShelf = 622, BasementPump = 623, BasementCabinet = 624;
     public const ushort L52First = 660, L52Last = 699;
+    /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
+    public const ushort L52Desk = 660, L52Chalkboard = 661;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
     public const int Limit = 700;

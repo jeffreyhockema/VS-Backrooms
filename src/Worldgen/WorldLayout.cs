@@ -411,7 +411,7 @@ public sealed partial class WorldLayout
         Level974 => false,
         Level3999 => false,
         Level188 => false,
-        Level73 => false,
+        Level73 => true, // an island under its own night sky
         Basement => false,
         Level52 => false,
         _ => false,

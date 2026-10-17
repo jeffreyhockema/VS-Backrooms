@@ -114,12 +114,13 @@ public partial class AtmosphereSystem : ModSystem
         // Level 188: the hotel's faint grey air (its courtyard's black night and its roof: AtmosphereSystem.L188.cs)
         new(0.005f, 0.60f, 0.58f, 0.55f, 0f),
         // The experimental levels (placeholders: a faint neutral haze; parts with air of their own in AtmosphereSystem.<level>.cs)
-        // Level 73
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
-        // The Basement
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
-        // Level 52
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 73: a thin crimson-black murk under a dim night that never changes (the sky hidden, the moon and the
+        // keep: AtmosphereSystem.L73.cs)
+        new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.30f),
+        // The Basement: close, cold blue-green dark (the Cellar's; the Flood's is thicker: AtmosphereSystem.Basement.cs)
+        new(0.045f, 0.051f, 0.086f, 0.078f, 0f),
+        // Level 52: a light grey-beige haze down the long halls (its dark classrooms and its gym: AtmosphereSystem.L52.cs)
+        new(0.0065f, 0.72f, 0.70f, 0.64f, 0f),
     };
 
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
@@ -269,6 +270,8 @@ public partial class AtmosphereSystem : ModSystem
         {
             poolTone, sirenTune, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
+            l73Wind, l73Surf, l73Fire,
+            basementTone, basementWash,
         })
         {
             sound?.Stop();
