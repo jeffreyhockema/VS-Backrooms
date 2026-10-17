@@ -102,3 +102,42 @@ All from world coordinates and `Hashing.Hash(seed, a, b, salt)`; no per-region s
    add ambient light 2 in cold vaults; reassess in a client.
 6. **3-high rooms vs trays:** Recommendation: trays only over cold aisles (never doorways); huge halls take a second level.
 7. **Rack as two blocks or one?** Recommendation: two (lower/upper) so lit LEDs sit at eye height and the model stays simple.
+
+## Status (2026-10-17, prototype built)
+
+Built as planned, with these choices and deviations:
+- **Lattice period 96, not 128**: corridors 4 wide at x/z mod 96 in 1-4, halls 90 x 90 (mod 96 in 6-95), two 3-wide
+  doors onto each corridor, a 3-wide walk round the inside of every hall. Plans in `PlanCache` (`L120PlanOf`), flipped by hash.
+- **Hall kinds** (`Hash(seed, hx, hz, 0x2610)`): rack hall 70%, control room 10%, cold vault 8%, great hall 7% (air 6,
+  ceiling rel 7, longer rows, trays at rel 6 over the cold aisles and at rel 3 on rods over the hot aisles; only where
+  the hall and every cell round it are Level 120), dead store 5%. `120stats 8`: 72 / 10 / 7 / 6 / 5%.
+- **Rack rows**: pitch 6 across (cold aisle 3, rack row, hot aisle 1, rack row), cross-aisles every 8-14 racks (16-24 in
+  a great hall). Racks are props (`WorldLayout.L120Rack` = 780, `L120Terminal` 781, `L120Chair` 782, declared in the
+  level's own file, no Tiles.cs edit); LED state in `Detail`, floor panel in `Depth`, air in `Height`, trays in
+  `Overhead` (160-163), ducts in `Pipe` (140-142), the dim lamp `(CeilingKind)113`. 1 in 6 racks wrecked (gutted,
+  machine parts, scrap metal); 22% of standing racks lit (about 20% overall, ~280 light sources a rack hall).
+- **Light**: lit racks' upper block gives light 4-6 (green, amber, cyan); fittings are mostly off/flickering/glow-only
+  with the odd dim (Manila-orange) or working tube; every other corridor crossing keeps a working tube. Vaults: lights
+  on a 6-grid, 8% working. Control rooms: lit terminals (light 6, cyan, 28% of desks, half the wall of screens).
+- **Temperature** (`L120Temperature`, by zone): hot aisle 38 C, dead store 33, corridor 27, control 23, cold aisle 22,
+  vault 15. **Fog**: base `(0.014, 0.035, 0.075, 0.08)`; hot aisle warm haze, vault pale, great hall thinner.
+  **Titles** 2601-2605 (the corridors keep the level's own title; 2606 not used). **Sound**: one loop,
+  `sounds/ambient/120/serverhum.ogg` (`tools/gen_120.py`), volume by zone; no one-shot clicks (skipped).
+- **Floor holes** are a painted panel (`l120-floor-hole`), not a real hole. No white voids, black hallways,
+  thresholds, entities, loot, notes or handbook.
+- **Blocks (5)**: `l120-wall` (base/stained/rot), `l120-floor` (clean/dirty/vent/hole), `l120-rack` (lower/upper x
+  off/leda/ledb/both/gutted x 4 sides), `l120-tray` (we/ns/rodwe/rodns), `l120-terminal` (dead/lit x 4 sides).
+  Reused: officeceiling, fluorescentlight (on/lit/off/flicker/dim), Level 2 pipes, machinecabinet, officechair,
+  crate, oildrum, trashcan, cardboardboxes, scrapmetal, machineparts.
+
+Verified: mod and mapgen build with 0 errors; `regions` 60/60 for Level 120 (none wrong or trapped) full size and
+`SPAWN=1000`; `layouthash` lines for 0-23 unchanged; `120stats` (7x7 and 17x17 halls round the centre, the east rim,
+`SPAWN=1000`): every hall and every walkable tile reached from the corridors, 0 sealed, 60/60 arrivals in a corridor or
+cold aisle. Headless boot (port 42487): blocksweep 0 threw, no Level 120 missing blocks/shapes/textures; dumps of a
+corridor crossing, a control room and a great hall show the blocks and light as intended.
+
+To check in a client: whether the dark is playable (LED pools of light 4-6 are small); the rack model and its LED
+glow; tray rods meeting the ceiling; terminal and office-chair facings (screen to the chair; the sitter looking at
+the wall of screens); the machine cabinets' facing in corridors; fog colour and the hum's loudness by zone; the hot
+aisle's hunger cost; the stained-wallpaper texture (its streaks can read as a ring).
+

@@ -1,0 +1,128 @@
+// Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns); or the rods alone
+{
+	"code": "l120-tray",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"we",
+				"ns",
+				"rodwe",
+				"rodns"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-we": {
+			"base": "backrooms:block/120/l120-tray"
+		},
+		"*-ns": {
+			"base": "backrooms:block/120/l120-tray",
+			"rotateY": 90
+		},
+		"*-rodwe": {
+			"base": "backrooms:block/120/l120-tray-rods"
+		},
+		"*-rodns": {
+			"base": "backrooms:block/120/l120-tray-rods",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-tray-we"
+		],
+		"backrooms": [
+			"l120-tray-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0.7,
+			"z1": 0.28,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.72
+		},
+		"*-ns": {
+			"x1": 0,
+			"y1": 0.7,
+			"z1": 0.28,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.72,
+			"rotateY": 90
+		},
+		"*-rodwe": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.28,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 0.72
+		},
+		"*-rodns": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.28,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 0.72,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0.7,
+			"z1": 0.28,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.72
+		},
+		"*-ns": {
+			"x1": 0,
+			"y1": 0.7,
+			"z1": 0.28,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.72,
+			"rotateY": 90
+		},
+		"*-rodwe": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.28,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 0.72
+		},
+		"*-rodns": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.28,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 0.72,
+			"rotateY": 90
+		}
+	}
+}

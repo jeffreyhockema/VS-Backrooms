@@ -1,0 +1,50 @@
+// Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off)
+{
+	"code": "l120-wall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"base",
+				"stained",
+				"rot"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-base": {
+			"all": {
+				"base": "block/120/wall-base"
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/120/wall-stained"
+			}
+		},
+		"*-rot": {
+			"all": {
+				"base": "block/120/wall-rot"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

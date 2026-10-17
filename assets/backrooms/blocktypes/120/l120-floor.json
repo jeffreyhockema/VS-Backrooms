@@ -1,0 +1,56 @@
+// Level 120: raised-floor panels, four to a block (clean; dirty; vent: perforated; hole: one panel lifted, the cables under it)
+{
+	"code": "l120-floor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"clean",
+				"dirty",
+				"vent",
+				"hole"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-clean": {
+			"all": {
+				"base": "block/120/floor-clean"
+			}
+		},
+		"*-dirty": {
+			"all": {
+				"base": "block/120/floor-dirty"
+			}
+		},
+		"*-vent": {
+			"all": {
+				"base": "block/120/floor-vent"
+			}
+		},
+		"*-hole": {
+			"all": {
+				"base": "block/120/floor-hole"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

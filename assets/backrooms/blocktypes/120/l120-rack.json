@@ -1,0 +1,252 @@
+// Level 120: a server rack, two blocks high (lower, upper), its front to the side; dark, its LEDs on (bank A green, bank B amber, both green and blue: the upper block gives a little light), or gutted
+{
+	"code": "l120-rack",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"off",
+				"leda",
+				"ledb",
+				"both",
+				"gutted"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-rack-lower-off-north": {
+			"base": "backrooms:block/120/l120-rack-lower-off",
+			"rotateY": 0
+		},
+		"l120-rack-lower-off-east": {
+			"base": "backrooms:block/120/l120-rack-lower-off",
+			"rotateY": 270
+		},
+		"l120-rack-lower-off-south": {
+			"base": "backrooms:block/120/l120-rack-lower-off",
+			"rotateY": 180
+		},
+		"l120-rack-lower-off-west": {
+			"base": "backrooms:block/120/l120-rack-lower-off",
+			"rotateY": 90
+		},
+		"l120-rack-lower-leda-north": {
+			"base": "backrooms:block/120/l120-rack-lower-leda",
+			"rotateY": 0
+		},
+		"l120-rack-lower-leda-east": {
+			"base": "backrooms:block/120/l120-rack-lower-leda",
+			"rotateY": 270
+		},
+		"l120-rack-lower-leda-south": {
+			"base": "backrooms:block/120/l120-rack-lower-leda",
+			"rotateY": 180
+		},
+		"l120-rack-lower-leda-west": {
+			"base": "backrooms:block/120/l120-rack-lower-leda",
+			"rotateY": 90
+		},
+		"l120-rack-lower-ledb-north": {
+			"base": "backrooms:block/120/l120-rack-lower-ledb",
+			"rotateY": 0
+		},
+		"l120-rack-lower-ledb-east": {
+			"base": "backrooms:block/120/l120-rack-lower-ledb",
+			"rotateY": 270
+		},
+		"l120-rack-lower-ledb-south": {
+			"base": "backrooms:block/120/l120-rack-lower-ledb",
+			"rotateY": 180
+		},
+		"l120-rack-lower-ledb-west": {
+			"base": "backrooms:block/120/l120-rack-lower-ledb",
+			"rotateY": 90
+		},
+		"l120-rack-lower-both-north": {
+			"base": "backrooms:block/120/l120-rack-lower-both",
+			"rotateY": 0
+		},
+		"l120-rack-lower-both-east": {
+			"base": "backrooms:block/120/l120-rack-lower-both",
+			"rotateY": 270
+		},
+		"l120-rack-lower-both-south": {
+			"base": "backrooms:block/120/l120-rack-lower-both",
+			"rotateY": 180
+		},
+		"l120-rack-lower-both-west": {
+			"base": "backrooms:block/120/l120-rack-lower-both",
+			"rotateY": 90
+		},
+		"l120-rack-lower-gutted-north": {
+			"base": "backrooms:block/120/l120-rack-lower-gutted",
+			"rotateY": 0
+		},
+		"l120-rack-lower-gutted-east": {
+			"base": "backrooms:block/120/l120-rack-lower-gutted",
+			"rotateY": 270
+		},
+		"l120-rack-lower-gutted-south": {
+			"base": "backrooms:block/120/l120-rack-lower-gutted",
+			"rotateY": 180
+		},
+		"l120-rack-lower-gutted-west": {
+			"base": "backrooms:block/120/l120-rack-lower-gutted",
+			"rotateY": 90
+		},
+		"l120-rack-upper-off-north": {
+			"base": "backrooms:block/120/l120-rack-upper-off",
+			"rotateY": 0
+		},
+		"l120-rack-upper-off-east": {
+			"base": "backrooms:block/120/l120-rack-upper-off",
+			"rotateY": 270
+		},
+		"l120-rack-upper-off-south": {
+			"base": "backrooms:block/120/l120-rack-upper-off",
+			"rotateY": 180
+		},
+		"l120-rack-upper-off-west": {
+			"base": "backrooms:block/120/l120-rack-upper-off",
+			"rotateY": 90
+		},
+		"l120-rack-upper-leda-north": {
+			"base": "backrooms:block/120/l120-rack-upper-leda",
+			"rotateY": 0
+		},
+		"l120-rack-upper-leda-east": {
+			"base": "backrooms:block/120/l120-rack-upper-leda",
+			"rotateY": 270
+		},
+		"l120-rack-upper-leda-south": {
+			"base": "backrooms:block/120/l120-rack-upper-leda",
+			"rotateY": 180
+		},
+		"l120-rack-upper-leda-west": {
+			"base": "backrooms:block/120/l120-rack-upper-leda",
+			"rotateY": 90
+		},
+		"l120-rack-upper-ledb-north": {
+			"base": "backrooms:block/120/l120-rack-upper-ledb",
+			"rotateY": 0
+		},
+		"l120-rack-upper-ledb-east": {
+			"base": "backrooms:block/120/l120-rack-upper-ledb",
+			"rotateY": 270
+		},
+		"l120-rack-upper-ledb-south": {
+			"base": "backrooms:block/120/l120-rack-upper-ledb",
+			"rotateY": 180
+		},
+		"l120-rack-upper-ledb-west": {
+			"base": "backrooms:block/120/l120-rack-upper-ledb",
+			"rotateY": 90
+		},
+		"l120-rack-upper-both-north": {
+			"base": "backrooms:block/120/l120-rack-upper-both",
+			"rotateY": 0
+		},
+		"l120-rack-upper-both-east": {
+			"base": "backrooms:block/120/l120-rack-upper-both",
+			"rotateY": 270
+		},
+		"l120-rack-upper-both-south": {
+			"base": "backrooms:block/120/l120-rack-upper-both",
+			"rotateY": 180
+		},
+		"l120-rack-upper-both-west": {
+			"base": "backrooms:block/120/l120-rack-upper-both",
+			"rotateY": 90
+		},
+		"l120-rack-upper-gutted-north": {
+			"base": "backrooms:block/120/l120-rack-upper-gutted",
+			"rotateY": 0
+		},
+		"l120-rack-upper-gutted-east": {
+			"base": "backrooms:block/120/l120-rack-upper-gutted",
+			"rotateY": 270
+		},
+		"l120-rack-upper-gutted-south": {
+			"base": "backrooms:block/120/l120-rack-upper-gutted",
+			"rotateY": 180
+		},
+		"l120-rack-upper-gutted-west": {
+			"base": "backrooms:block/120/l120-rack-upper-gutted",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-rack-lower-leda-north"
+		],
+		"backrooms": [
+			"l120-rack-lower-leda-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"lightHsvByType": {
+		"*-upper-leda-*": [
+			21,
+			6,
+			5
+		],
+		"*-upper-ledb-*": [
+			7,
+			6,
+			4
+		],
+		"*-upper-both-*": [
+			30,
+			5,
+			6
+		]
+	}
+}
