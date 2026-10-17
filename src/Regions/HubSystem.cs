@@ -117,6 +117,7 @@ public partial class HubSystem : ModSystem
         ThresholdNetwork.ManifestDoors.Clear();
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
         {
+            RegisterTowerCommand(api);
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
@@ -210,7 +211,7 @@ public partial class HubSystem : ModSystem
     /// </summary>
     private void OnBrokeBlock(IServerPlayer byPlayer, int oldblockId, BlockSelection blockSel)
     {
-        OnTowerBreak(byPlayer, blockSel.Position);
+        OnTowerBreak(byPlayer, oldblockId, blockSel.Position);
         if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || layout == null) return;
         BlockPos pos = blockSel.Position;
         int mx = WorldLayout.MacroOf(pos.X), mz = WorldLayout.MacroOf(pos.Z);

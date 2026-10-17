@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: breaking a torch (or anything else) you had put down yourself in the Hub's Tower counted as vandalism, and the Keymaster threw you out with nothing and closed the Tower to you for good. Only the Tower's own blocks count now; what you place there is yours to take up again.
+- For admins: `/backrooms hub reset [player]` lets a player into the Tower again as if they had never been (the Keymaster offers them a key once more). In singleplayer, type it yourself. For anyone thrown out by the bug above.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
