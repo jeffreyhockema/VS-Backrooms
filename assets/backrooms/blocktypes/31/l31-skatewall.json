@@ -1,0 +1,74 @@
+// Level 31: the rink's walls (stripe: the lower band under a chrome rail; plain: lavender gloss; blue: Skate Rental's; chart: a size chart sign; dasher: the rink's low barrier, white polymer under a padded rail)
+{
+	"code": "l31-skatewall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"stripe",
+				"plain",
+				"blue",
+				"chart",
+				"dasher"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-stripe": {
+			"all": {
+				"base": "block/31/wall-stripe"
+			}
+		},
+		"*-plain": {
+			"all": {
+				"base": "block/31/wall-plain"
+			}
+		},
+		"*-blue": {
+			"all": {
+				"base": "block/31/wall-blue"
+			}
+		},
+		"*-chart": {
+			"all": {
+				"base": "block/31/wall-chart"
+			},
+			"up": {
+				"base": "block/31/wall-blue"
+			},
+			"down": {
+				"base": "block/31/wall-blue"
+			}
+		},
+		"*-dasher": {
+			"all": {
+				"base": "block/31/dasher-side"
+			},
+			"up": {
+				"base": "block/31/dasher-top"
+			},
+			"down": {
+				"base": "block/31/dasher-top"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

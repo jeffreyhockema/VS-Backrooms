@@ -1,0 +1,165 @@
+// Level 31: a mirror panel on one face of a wall block (the others the wall's lavender paint), by side; and the disco ball hung under the rink's ceiling (lit)
+{
+	"code": "l31-mirror",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west",
+				"ball"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-north": {
+			"north": {
+				"base": "block/31/mirror"
+			},
+			"east": {
+				"base": "block/31/wall-plain"
+			},
+			"south": {
+				"base": "block/31/wall-plain"
+			},
+			"west": {
+				"base": "block/31/wall-plain"
+			},
+			"up": {
+				"base": "block/31/wall-plain"
+			},
+			"down": {
+				"base": "block/31/wall-plain"
+			}
+		},
+		"*-east": {
+			"north": {
+				"base": "block/31/wall-plain"
+			},
+			"east": {
+				"base": "block/31/mirror"
+			},
+			"south": {
+				"base": "block/31/wall-plain"
+			},
+			"west": {
+				"base": "block/31/wall-plain"
+			},
+			"up": {
+				"base": "block/31/wall-plain"
+			},
+			"down": {
+				"base": "block/31/wall-plain"
+			}
+		},
+		"*-south": {
+			"north": {
+				"base": "block/31/wall-plain"
+			},
+			"east": {
+				"base": "block/31/wall-plain"
+			},
+			"south": {
+				"base": "block/31/mirror"
+			},
+			"west": {
+				"base": "block/31/wall-plain"
+			},
+			"up": {
+				"base": "block/31/wall-plain"
+			},
+			"down": {
+				"base": "block/31/wall-plain"
+			}
+		},
+		"*-west": {
+			"north": {
+				"base": "block/31/wall-plain"
+			},
+			"east": {
+				"base": "block/31/wall-plain"
+			},
+			"south": {
+				"base": "block/31/wall-plain"
+			},
+			"west": {
+				"base": "block/31/mirror"
+			},
+			"up": {
+				"base": "block/31/wall-plain"
+			},
+			"down": {
+				"base": "block/31/wall-plain"
+			}
+		}
+	},
+	"drawtypeByType": {
+		"*-ball": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-ball": {
+			"base": "backrooms:block/31/l31-discoball"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"sidesolidByType": {
+		"*-ball": {
+			"all": false
+		}
+	},
+	"sideopaqueByType": {
+		"*-ball": {
+			"all": false
+		}
+	},
+	"lightAbsorptionByType": {
+		"*-ball": 0,
+		"*": 99
+	},
+	"lightHsvByType": {
+		"*-ball": [
+			48,
+			2,
+			16
+		]
+	},
+	"collisionboxByType": {
+		"*-ball": {
+			"x1": 0.1875,
+			"y1": 0.0625,
+			"z1": 0.1875,
+			"x2": 0.8125,
+			"y2": 1,
+			"z2": 0.8125
+		}
+	},
+	"selectionboxByType": {
+		"*-ball": {
+			"x1": 0.1875,
+			"y1": 0.0625,
+			"z1": 0.1875,
+			"x2": 0.8125,
+			"y2": 1,
+			"z2": 0.8125
+		}
+	},
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

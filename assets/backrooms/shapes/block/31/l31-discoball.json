@@ -1,0 +1,354 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chain": "backrooms:block/31/chain",
+		"discoball": "backrooms:block/31/discoball"
+	},
+	"elements": [
+		{
+			"name": "Chain",
+			"from": [
+				7.5,
+				12,
+				7.5
+			],
+			"to": [
+				8.5,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"south": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"up": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#chain",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Core",
+			"from": [
+				3,
+				2,
+				3
+			],
+			"to": [
+				13,
+				12,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				},
+				"up": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				},
+				"down": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "BandX",
+			"from": [
+				2,
+				4,
+				4
+			],
+			"to": [
+				14,
+				10,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "BandZ",
+			"from": [
+				4,
+				4,
+				2
+			],
+			"to": [
+				12,
+				10,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				5,
+				12,
+				5
+			],
+			"to": [
+				11,
+				13,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 120
+				},
+				"north": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Foot",
+			"from": [
+				5,
+				1,
+				5
+			],
+			"to": [
+				11,
+				2,
+				11
+			],
+			"faces": {
+				"down": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					],
+					"glow": 120
+				},
+				"north": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"east": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				},
+				"west": {
+					"texture": "#discoball",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					],
+					"glow": 120
+				}
+			}
+		}
+	]
+}

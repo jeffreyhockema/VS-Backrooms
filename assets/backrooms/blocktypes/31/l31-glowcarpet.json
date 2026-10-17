@@ -1,0 +1,46 @@
+// Level 31: dark carpet with 1990s teal and magenta squiggles that glow faintly
+{
+	"code": "l31-glowcarpet",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"texturesByType": {
+		"*": {
+			"all": {
+				"base": "block/31/glowcarpet"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"lightHsv": [
+		44,
+		4,
+		5
+	],
+	"vertexFlags": {
+		"glowLevel": 60
+	}
+}

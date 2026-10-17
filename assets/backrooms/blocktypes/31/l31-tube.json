@@ -1,0 +1,183 @@
+// Level 31: a ceiling light panel with two coloured tubes (on: gives light; lit: looks on, gives none; flicker: a failing one; off)
+{
+	"code": "l31-tube",
+	"variantgroups": [
+		{
+			"code": "hue",
+			"states": [
+				"magenta",
+				"cyan",
+				"amber",
+				"green",
+				"violet",
+				"white"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"lit",
+				"flicker",
+				"off"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-magenta-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-magenta-*": {
+			"all": {
+				"base": "block/31/tube-magenta"
+			}
+		},
+		"*-cyan-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-cyan-*": {
+			"all": {
+				"base": "block/31/tube-cyan"
+			}
+		},
+		"*-amber-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-amber-*": {
+			"all": {
+				"base": "block/31/tube-amber"
+			}
+		},
+		"*-green-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-green-*": {
+			"all": {
+				"base": "block/31/tube-green"
+			}
+		},
+		"*-violet-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-violet-*": {
+			"all": {
+				"base": "block/31/tube-violet"
+			}
+		},
+		"*-white-off": {
+			"all": {
+				"base": "block/31/tube-off"
+			}
+		},
+		"*-white-*": {
+			"all": {
+				"base": "block/31/tube-white"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"lightHsvByType": {
+		"*-magenta-on": [
+			51,
+			6,
+			18
+		],
+		"*-cyan-on": [
+			33,
+			6,
+			18
+		],
+		"*-amber-on": [
+			6,
+			6,
+			18
+		],
+		"*-green-on": [
+			20,
+			5,
+			17
+		],
+		"*-violet-on": [
+			45,
+			6,
+			17
+		],
+		"*-white-on": [
+			10,
+			1,
+			19
+		]
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 160
+		},
+		"*-lit": {
+			"glowLevel": 160
+		},
+		"*-flicker": {
+			"glowLevel": 160
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-magenta-flicker": {
+			"offBlock": "backrooms:l31-tube-magenta-off"
+		},
+		"*-cyan-flicker": {
+			"offBlock": "backrooms:l31-tube-cyan-off"
+		},
+		"*-amber-flicker": {
+			"offBlock": "backrooms:l31-tube-amber-off"
+		},
+		"*-green-flicker": {
+			"offBlock": "backrooms:l31-tube-green-off"
+		},
+		"*-violet-flicker": {
+			"offBlock": "backrooms:l31-tube-violet-off"
+		},
+		"*-white-flicker": {
+			"offBlock": "backrooms:l31-tube-white-off"
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"drops": [],
+	"soundsByType": {
+		"*-on": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass"
+		}
+	}
+}

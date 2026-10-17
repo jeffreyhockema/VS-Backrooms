@@ -1,0 +1,56 @@
+// Level 31: the rink's polished maple boards (plain, a painted lane stripe north-south or west-east, the centre circle's swirl)
+{
+	"code": "l31-rinkwood",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"stripens",
+				"stripewe",
+				"centre"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/31/rinkwood-plain"
+			}
+		},
+		"*-stripens": {
+			"all": {
+				"base": "block/31/rinkwood-stripens"
+			}
+		},
+		"*-stripewe": {
+			"all": {
+				"base": "block/31/rinkwood-stripewe"
+			}
+		},
+		"*-centre": {
+			"all": {
+				"base": "block/31/rinkwood-centre"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}
