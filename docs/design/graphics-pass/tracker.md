@@ -200,6 +200,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   codes as unknown. gen_3999 paints the arcade's textures after the building's, so a painter for an arcade key must hook
   into `gen_3999_tex_arcade.generate`, or the old one overwrites it.
 
+- (D2) A light plate at the foot of a door, in the tone of the wall beside it, reads as a gap under the leaf (the POOL door's kick plate): give foot hardware its own darker tone and take it down to the floor. A kind that the layout places rarely (The End's stained ceiling, one in sixteen) can be made commoner without layout by listing its versions in the plain kind's alternates with a weight.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -222,6 +224,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B14 Level ! and Fun | gfx/B14 | merged | 2 | L! walls and Fun paint plain (C+); gurney, wheelchair, IV, collapse untouched; Fun brass leaves C+; balloons and streamers untouched; fire doors unseen | passed 2026-10-15 03:15 (Fable): bed, doors, cart as geometry; floor seam gone |
 | B15 The End and The Hub | gfx/B15 | merged | 2 | End walls/carpet and Hub concrete/road/carved leaves C+ (plain by nature); End furniture, escalator, Hub pink door, outpost, statue untouched; ornate ring pulls | passed 2026-10-15 04:40 (Fable): repeats gone, EXIT door hardware verified |
 | B16 974, 3999, 188 | gfx/B16 | merged | 2 | 3999 paint, 974 ceiling and furniture bodies (C+); food court furniture at distance and 188 blinds (B-, runtime) | passed 2026-10-16 06:30 (Fable): marble repeat gone, furniture as geometry |
+| D2 follow-up on B13, B14, B15 decisions (POOL door, Fun chair back, End ceiling stains, Hub worn asphalt) | gfx/D2 | merged | offline only | | | passed 2026-10-16 (Fable): door foot and lettering verified on previews; built into 0.514.0 test zip |
 | B17 entities and items | | not started | | | |
 | B18 finish | | not started | | | |
 
@@ -2003,3 +2006,106 @@ Worker report (Opus, 2026-10-15). Branch `gfx/B16` from `main` (5f23817), uncomm
 - **Edits:** `gen_974` (`B16_COMPUTER`, `B16_FRAME`, the wall, floor and ceiling block types' versions and `randomizeAxes`); `gen_3999_blocks` (`B16_FURNITURE`, `B16_VENDING`, the marble and wall versions and `randomizeAxes`); `gen_3999_arcade` (`B16_CABINET`); `gen_188` (cladding `randomizeAxes`, the courtyard door's push-bar brackets); `gen_188_props` (`B16_COURTYARD`).
 
 **Lessons:** four lines added above.
+
+### D2
+
+Worker report (Opus, 2026-10-16). Follow-up batch on four "tweak" decisions for B13, B14 and B15 (`decisions.md`, each
+row now ends with a "D2:" note). Branch `gfx/D2` from `main` (fed0a6b), uncommitted. **Offline only: nothing was shot**
+(the user is at the machine; the game was not running, but no client was started and nothing was built into
+`bin/Debug`). The grades are my own reading of the offline previews and mocks, not a blind review; every item still
+wants an in-game look.
+
+**Evidence** (all in `review/d2/offline/`)
+- `preview-pooldoor.png`: the door in a tile wall on a tile floor, pre-B13 (cube, `3dc539f^`), B13 (main) and D2, each
+  head-on, from 35 degrees to the left, from a low viewpoint near the floor, and a close-up of the foot. Rendered with
+  `preview_shapes`' textured rasteriser from any camera (`tools/scene.py`). `crop-pooldoor-b13-foot.png` is the B13
+  in-game close shot's foot: the diagnosis.
+- `preview-funchair.png`: the red, white and black chairs, pre-B14 (`abc1e6f^`), B14 (main) and D2, from the front-left,
+  back-right and side, and the tipped chair.
+- `mock-end-ceiling-6x3.png`: The End's ceiling as 6x3 blocks in its real mix (a stained block with the layout's one in
+  sixteen, else a pick from the plain kind's weighted list), two seeds, pre-B15, B15 and D2, at 4x and averaged down 4x,
+  each labelled with its stain share. `ceiling-stain-versions.png`: every stain version among plain blocks, beside
+  itself and below itself, to see the joins.
+- `mock-hub-road-6x6.png`: the Hub road as 6x6 blocks in the layout's mix (3% patch, 8% worn, else plain, versions and
+  turns at random), pre-B15, B15 and D2, two seeds (the second forces six worn blocks), at 4x, averaged down 4x, and
+  averaged under a rough sodium tint at 2.2x gain (which exaggerates contrast). `road-means.txt`: each texture's mean
+  and spread.
+- `layouthash-v1.txt`, `layouthash-v4.txt`, `zfight-after.txt`. Scratch tools in `tools/` (`scene.py`, `door.py`,
+  `chair.py`, `ceiling.py`, `stain_try.py`, `road.py`, `churn.py`, `crlf.py`, `docs_d2.py`, `report_text.py`).
+
+**Checks**
+- Build (`tools/locked.sh mod gfx`, the scratch dir): 0 warnings, 0 errors. No C# changed.
+- `layouthash` v1 `18cfdbc1c530f039` and v4 `ca047189969b69db`: identical line for line to B16's output (the existing
+  `mapgen-gfx` harness).
+- `check_zfight pooldoor fun-chair`: no same-shape pairs. The only flags are the door's stile tops where the upper half
+  continues them, as on B13. The new kick plate has no down face; it rests on the floor.
+- Saves: no code, variant group, kind or class added, renamed or removed; no layout version. The changes are shapes on
+  existing codes, textures, a new texture key (`poolkick`), two new version keys (`end/ceiling-stained-3`, `-4`) and
+  alternates lists.
+- Churn: `gen_detail` (which runs `gen_pool`), `gen_end`, `gen_fun` and `gen_hub` were run through `locked.sh run`
+  (`VINTAGE_STORY=G:\Games\Vintagestory`). Their line-ending rewrites, `lang/en.json` and the `exitlintel*` key order
+  were restored from git. `gen_detail` also rewrote `detail/hospbed-blanket.png` (B14's, not in scope), which was
+  restored too. `git status` shows only the four families' files and their generators.
+
+**Per item**
+1. **Level 37 POOL door: done. My grade B+; meets the request on the previews.**
+   - Diagnosis. The B13 leaf did reach the floor; the read came from its foot. Two things made the leaf look raised:
+     - The kick plate was `poolsteel`, the wall tile's own pale tone. In the shot it read as the wall seen through a gap
+       under the door.
+     - A mid rail in the leaf colour sat above the plate, with a lit edge that read as the bottom of the door.
+   - The fix:
+     - The kick plate now starts at the floor (y 0 to 4; B13: 0.6 to 5). It is a darker brushed stainless with a lit
+       top edge, a shaded foot and four screws (`poolkick`, new key).
+     - The mid rail is removed.
+     - From the low viewpoint the cyan stiles and the plate both meet the floor line.
+   - The porthole moved up (centre 11.3, radius 3.2; B13: 7.25 and 3.6). POOL sits under it, rows 17-23 of the upper
+     leaf, about 1.4 m up the door; B13 had it at the top, 1.8-1.9 m. This is the old door's order (porthole, then
+     POOL).
+   - The push plate, stiles, ring and glass are B13's.
+   - Risk: the plate's tone under Level 37's warm light. It should read as metal, not as a shadow; check it in game.
+2. **Level Fun chairs: done. My grade B; meets the request.**
+   - The back is the pre-B14 geometry: three stepped slats, each set 0.4 further back, the top one narrower, all tipped
+     8 degrees. The first slat starts at the B14 seat's top (8.8 instead of 9) so it sits on the new seat.
+   - It is drawn in the B14 shaded plastic. Each slat shows the texture's lit top band, so every step has its own lit
+     edge.
+   - The rest of the B14 chair is kept: the seat, rolled front, skirts, tube legs, stretchers and glides. B14's one
+     shell, rolled top and foot are gone.
+   - The tipped chairs follow, all five colours.
+3. **The End ceiling stains: done. My grade B; meets the request, with one limit on joins.**
+   - Four stain versions (`D2_STAINS`, `d2_stain`), each drawn over a plain version's tiles:
+     - large and faint over all four tiles, with an inner tide line;
+     - strong and round over the centre rail;
+     - a long seep with three tide lines that runs out across the east edge;
+     - two drips run together, with a small ring beside them.
+   - Each has a darker tide line about 1.2 px wide, like the old ceiling's rings, inside an even tan fill. The T-bar takes
+     the stain at half strength.
+   - Stains are drawn on the block's torus, so whatever leaves one edge comes back at the other. The seep is the one
+     that crosses a block edge: two seep blocks side by side make one stain.
+   - The limit: two stained blocks only join when the game happens to put the same version side by side. Next to a
+     plain block, the seep stops at the T-bar, where a real tile's stain stops.
+   - Frequency:
+     - the stained kind lists all four versions;
+     - the plain kind lists them once each, beside each plain version eleven times (`ceiling-mix`);
+     - with the layout's own stained blocks (one in sixteen) that comes to about one block in six (measured 0.17).
+   - Pre-B15 and B15 were both one in sixteen. The brief said "as before"; the share is now 0.17. Lowering it is one
+     constant (`D2_PLAIN_WEIGHT`).
+   - The mezzanine deck's underside keeps the plain list.
+4. **Hub road: done. My grade B- for the worn kind (the road stays C+ as carried in B15); meets the request.**
+   - The worn kind is the plain road's own asphalt: the same chips, binder and grain on the same ground. It is 3 levels
+     lighter (`D2_WORN_LIFT`).
+   - B15's worn kind was polished smooth (half the grain contrast) and 13 levels lighter, so it stood out as a smooth
+     light square.
+   - The plain versions now sit on one mean within 0.4 levels; B15 had them up to 1.2 apart. The first version and the
+     patches are byte-identical.
+   - On the mock the worn squares no longer show at 1x. Under the exaggerated sodium tint they are a faint trace.
+
+**Not done, for the overseer**
+- No in-game shots or side-by-sides (the user's screen). To shoot:
+  - the POOL door close (`37/pooldoor-close`), and one from a crouch;
+  - a Fun party table with chairs (`fun/prop-1`, `prop-2`);
+  - The End's ceiling (`end/close-ceiling`, `wide-03`);
+  - the Hub road (`hub/close-floor`, `wide-04`).
+- Mean brightness: the door's lower half is a little darker (the plate); the End's stained share rose from 6% to 17%;
+  the worn asphalt is 10 levels darker than B15's. Nothing else moved.
+
+**Lessons:** one line added above.

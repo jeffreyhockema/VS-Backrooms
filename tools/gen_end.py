@@ -1209,7 +1209,8 @@ def structure():
     }, "The End: square columns painted sage or slate, clad in maple slatwall to head height (slat at rel 1-2)",
         extra=dict(AXES, soundsByType={"*-slat": WOOD, "*": STONE}))
     cube_kinds("end-ceiling", {
-        "plain": ("Ceiling Tile", {"all": ver("ceiling-plain")}),
+        # (D2) the plain ceiling with a stain in about one block in nine (ceiling-mix), when the B15/D2 painters ran
+        "plain": ("Ceiling Tile", {"all": ver("ceiling-mix" if "ceiling-mix" in VERSIONS else "ceiling-plain")}),
         "stained": ("Ceiling Tile", {"all": ver("ceiling-stained")}),
         "missing": ("Missing Ceiling Tiles", {"all": flat_("ceiling-missing")}),
     }, "The End: 2x2 acoustic ceiling tiles; stained; missing, the black plenum showing between the T-bars",
@@ -2975,10 +2976,59 @@ def b15_floors():
 END_RAIL = (196, 192, 180)
 
 
+# (D2) The ceiling's water stains: each version a list of blots, each an ellipse (centre `at`, radii `r`, turned `ang`
+# degrees) on the block's 32 px torus, so a blot that runs off one edge comes back in at the other (two stained blocks
+# of one version side by side join). `strength` is the fill's pull toward the stain colour, `rings` the tide lines
+# (fraction of the radius, their own strength), `fill` how even the inside is (1: flat, 0: darkest in the middle).
+D2_STAINS = [
+    # a large faint old stain over all four tiles, its tide line and an older one inside it
+    [dict(at=(16.5, 15.5), r=(12.5, 10.0), ang=20, strength=0.17, rings=((0.95, 0.9), (0.6, 0.5)), fill=0.6)],
+    # a strong round one over the centre rail, in the two north tiles
+    [dict(at=(16.5, 9.0), r=(8.0, 7.0), ang=0, strength=0.34, rings=((0.94, 0.9),), fill=0.7)],
+    # a long seep along the south tiles with three tide lines from three leaks, running out across the east edge (and
+    # so back in at the west): two blocks of this version side by side make one stain
+    [dict(at=(26.0, 22.5), r=(13.5, 6.0), ang=-24, strength=0.24, rings=((0.95, 0.8), (0.74, 0.55), (0.5, 0.45)), fill=0.45)],
+    # two drips that ran together, the smaller one fresher and darker, with B15's small ring in the far tile
+    [dict(at=(9.0, 7.5), r=(6.5, 5.5), ang=35, strength=0.27, rings=((0.94, 0.9),), fill=0.6),
+     dict(at=(17.5, 12.0), r=(4.5, 4.0), ang=0, strength=0.36, rings=((0.92, 0.8),), fill=0.35),
+     dict(at=(24.5, 24.5), r=(3.5, 3.5), ang=0, strength=0.3, rings=((0.9, 1.0),), fill=0.5)],
+]
+D2_PLAIN_WEIGHT = 11  # each plain version listed this often beside each stain once in end-ceiling-plain
+D2_STAIN_COLOR = (160, 128, 80)
+
+
+def d2_stain(img, seed, at, r, ang=0, strength=0.3, rings=((0.94, 0.9),), fill=0.6, wobble=0.22, rail=0.5):
+    """(D2) One water stain on a ceiling block (see D2_STAINS): an irregular ellipse that wraps across the block's edges,
+    an even tan inside a little darker toward the middle, darker tide lines. The T-bar (the 1 px rail at every tile
+    edge) takes `rail` of it: painted steel stains less than the board."""
+    w, h = img.size
+    wob = M.fbm((w, h), M.sub(seed, "wob"), (16, 8, 4), 0.5)
+    hw = 1.2 / ((r[0] + r[1]) / 2)  # a tide line's half width, about 1.2 px whatever the stain's size
+    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    p = img.load()
+    for y in range(h):
+        for x in range(w):
+            dx = (x + 0.5 - at[0] + w / 2) % w - w / 2
+            dy = (y + 0.5 - at[1] + h / 2) % h - h / 2
+            u, v = (dx * ca + dy * sa) / r[0], (-dx * sa + dy * ca) / r[1]
+            d = math.hypot(u, v) + wobble * wob[y][x]
+            if d >= 1.0 + 1.5 * hw:
+                continue
+            t = 0.55 * strength * (fill + (1 - fill) * (1 - min(d, 1)) ** 0.8) if d < 1 else 0.0
+            for rr, amt in rings:  # the tide lines, darker than the fill, as on the old ceiling
+                t += 1.5 * strength * amt * max(0.0, 1 - abs(d - rr) / hw)
+            if x % 16 in (0, 15) or y % 16 in (0, 15):
+                t *= rail
+            c = p[x, y]
+            p[x, y] = M.rgba(M.mix(c[:3], D2_STAIN_COLOR, min(0.9, t)), c[3])
+    return img
+
+
 def b15_ceiling():
     """B3's ceiling module: 2 x 2 lay-in tiles to a block (matlib.ceiling_tile at 16 px: fissured board, a soft recess
     where it steps up into the grid, the rail split between neighbours), three versions; the stained kind (one block
-    in sixteen) a water stain in one tile; the missing kind the black plenum between lit T-bars; the troffers B3's
+    in sixteen) D2's four stains across tiles (B15 had a ring in one tile), which the plain kind also lists rarely;
+    the missing kind the black plenum between lit T-bars; the troffers B3's
     (D1's) painted frame and prismatic lens, no dark ring, still cubes."""
     def quad(seed, stain=None):
         """One 2 x 2 ft tile in its grid, its own mean evened to the board colour, so a ceiling of them does not read
@@ -2997,19 +3047,28 @@ def b15_ceiling():
         if stain:  # (round 2) the ring at the old strength: the evening above had washed it out
             M.stain(t, M.sub(seed, "ring"), radius=4.5, color=(160, 128, 80), strength=0.5, at=(8, 8), ring=0.7)
         return t
+    boards = []
     for k in range(3):
         img = Image.new("RGBA", (S, S))
         for i, (ox, oy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
             img.paste(quad(seed_of(f"b15ceil{k}{i}")), (ox, oy))
+        boards.append(img.copy())
         save(matched(img, "ceiling-plain"), "ceiling-plain" if k == 0 else f"ceiling-plain-{k + 1}")
     register("ceiling-plain", ["ceiling-plain", "ceiling-plain-2", "ceiling-plain-3"])
-    for k in range(2):
-        img = Image.new("RGBA", (S, S))
-        for i, (ox, oy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
-            stain = (176, 152, 104) if i == (1, 2)[k] else None
-            img.paste(quad(seed_of(f"b15ceils{k}{i}"), stain), (ox, oy))
-        save(matched(img, "ceiling-plain"), "ceiling-stained" if k == 0 else "ceiling-stained-2")
-    register("ceiling-stained", ["ceiling-stained", "ceiling-stained-2"])
+    # (D2) The stains span tiles again, as the old ceiling's did (the user preferred them to B15's one ring in one
+    # tile): four versions of different shape and strength, each over a plain version's tiles (d2_stain)
+    stained = []
+    for k, blots in enumerate(D2_STAINS):
+        img = boards[k % 3].copy()
+        for j, blot in enumerate(blots):
+            d2_stain(img, seed_of(f"d2ceilstain{k}{j}"), **blot)
+        key = "ceiling-stained" if k == 0 else f"ceiling-stained-{k + 1}"
+        save(matched(img, "ceiling-plain"), key)
+        stained.append(key)
+    register("ceiling-stained", stained)
+    # (D2) The plain ceiling lists the stains too, once each against eleven times each plain version, so with the
+    # layout's own stained blocks (one in sixteen) about one block in six of the ceiling carries a stain
+    register("ceiling-mix", ["ceiling-plain", "ceiling-plain-2", "ceiling-plain-3"] * D2_PLAIN_WEIGHT + stained)
     # Missing: the black plenum between the T-bars (lit on their lower edge), a hanger wire
     img = M.noise_hv((30, 28, 26), 2, seed_of("b15plenum"), mottle=3)
     p = img.load()

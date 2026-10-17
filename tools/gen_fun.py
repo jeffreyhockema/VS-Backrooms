@@ -3349,16 +3349,19 @@ def speaker_b14():
 
 
 def chair_b14(t):
-    """(B14) A plastic stacking chair facing north: a moulded seat with a rolled front edge, one back shell with a rolled
-    top, tipped back; chrome tube legs joined by side stretchers, rubber glides."""
+    """(B14) A plastic stacking chair facing north: a moulded seat with a rolled front edge, the back tipped back; chrome
+    tube legs joined by side stretchers, rubber glides. (D2) The back is the pre-B14 chair's again, as the user asked:
+    three stepped slats, each set a little further back and the top one narrower, in the B14 shaded plastic (each
+    slat shows the texture's lit top band, so every step has its own lit edge). The first slat starts at the B14 seat's
+    top (8.8; the old seat was 0.2 higher); B14's one shell, rolled top and foot are gone."""
     R = dict(rot=(-8, 0, 0), origin=(8, 9, 13.5))
     return [bx("Seat", (2.5, 7.8, 2.6), (13.5, 8.8, 13.5), t),
             bx("SeatRoll", (2.5, 7.2, 2.0), (13.5, 8.6, 2.6), t),
             bx("SeatSkirtL", (2.5, 7.0, 3.0), (3.0, 7.8, 12.8), t, faces=("east", "west", "down")),
             bx("SeatSkirtR", (13.0, 7.0, 3.0), (13.5, 7.8, 12.8), t, faces=("east", "west", "down")),
-            bx("Back", (2.5, 9.6, 13.0), (13.5, 17.0, 14.0), t, **R),
-            bx("BackRoll", (2.5, 17.0, 12.8), (13.5, 18.2, 14.3), t, **R),
-            bx("BackFoot", (3.5, 8.8, 13.1), (12.5, 9.6, 13.9), t, **R),
+            bx("Back1", (2.5, 8.8, 13), (13.5, 12, 14), t, **R),
+            bx("Back2", (2.5, 12, 13.4), (13.5, 15, 14.4), t, **R),
+            bx("Back3", (3, 15, 13.8), (13, 18.5, 14.8), t, **R),
             bx("Leg1", (3, 0.4, 3), (3.8, 7.2, 3.8), "chrome"), bx("Leg2", (12.2, 0.4, 3), (13, 7.2, 3.8), "chrome"),
             bx("Leg3", (3, 0.4, 12.2), (3.8, 7.8, 13), "chrome"), bx("Leg4", (12.2, 0.4, 12.2), (13, 7.8, 13), "chrome"),
             bx("StretchL", (3.05, 2.4, 3.8), (3.75, 3.0, 12.2), "chrome"), bx("StretchR", (12.25, 2.4, 3.8), (12.95, 3.0, 12.2), "chrome"),
