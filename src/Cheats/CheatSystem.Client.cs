@@ -20,7 +20,8 @@ namespace Backrooms.Cheats;
 public partial class CheatSystem
 {
     public const string HotkeyCode = "backroomscheats";
-    private const string ClearAirKey = "backrooms-cheat-clearair";
+    /// <summary>The clear air's key among the client's ambient modifiers (the AtmosphereSystem keeps it after the level's air).</summary>
+    public const string ClearAirKey = "backrooms-cheat-clearair";
 
     private ICoreClientAPI capi;
     private GuiDialogCheats dialog;

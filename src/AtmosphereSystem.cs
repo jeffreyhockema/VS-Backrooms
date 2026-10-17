@@ -24,9 +24,15 @@ namespace Backrooms;
 /// black, with the odd flash as the power fights back) and a Level 1 Flickering (the same, round the player only),
 /// blinks to black for a moment when the player is carried somewhere else by an elevator, a pit or a door that opens
 /// onto the wrong place, and names each level as the player enters it.
+///
+/// The level's air is kept the last of the client's ambient modifiers (<see cref="KeepAirLast"/>), so it is what
+/// shows wherever it has a say: the game's own low-stability fog, added later, used to be laid over it.
 /// </summary>
 public partial class AtmosphereSystem : ModSystem
 {
+    /// <summary>The key the level's air is kept under among the client's ambient modifiers.</summary>
+    private const string ModifierKey = "backrooms";
+
     private readonly struct Atmosphere
     {
         /// <summary>
@@ -223,7 +229,7 @@ public partial class AtmosphereSystem : ModSystem
         fog.AmbientColor = WeightedFloatArray.New(new[] { DayAmbient, DayAmbient, DayAmbient }, 1f);
         fog.CloudDensity = WeightedFloat.New(0f, 0f);
         fog.CloudBrightness = WeightedFloat.New(0.75f, 0f);
-        capi.Ambient.CurrentModifiers["backrooms"] = fog;
+        capi.Ambient.CurrentModifiers[ModifierKey] = fog;
 
         tickListener = capi.Event.RegisterGameTickListener(OnTick, 50);
     }
@@ -233,7 +239,7 @@ public partial class AtmosphereSystem : ModSystem
         if (capi != null)
         {
             if (tickListener != 0) capi.Event.UnregisterGameTickListener(tickListener);
-            if (fog != null) capi.Ambient.CurrentModifiers.Remove("backrooms");
+            if (fog != null) capi.Ambient.CurrentModifiers.Remove(ModifierKey);
         }
         // Every loop the levels may have running, so none is left playing after the world closes
         foreach (ILoadedSound sound in new[]
@@ -248,11 +254,39 @@ public partial class AtmosphereSystem : ModSystem
         base.Dispose();
     }
 
+    /// <summary>
+    /// Keeps the level's air the last of the client's ambient modifiers (but for the cheats' clear air), so it is what
+    /// shows. The game blends its modifiers in the order they were added, each over the ones before at its weight, and
+    /// adds its own low-stability one ("brownrainandfog", EntityBehaviorTemporalStabilityAffected) on the player's
+    /// first tick, after this one: while the player's own stability was low it laid dark brown fog and a dark ambient
+    /// over every level's air. In the Backrooms stability stays low a long time (every Reality Shift drains it to
+    /// nothing, and it recovers only where a place's stability is above 1: Level 4, the Manila Room, the Snackrooms,
+    /// the 9th Road, Levels 10 and 11, and a few more), so that darkness and fog followed players through every
+    /// threshold and read as the air of the level they had left. The game's distortion, whispers and rust still say
+    /// that stability is low; the level keeps its own air.
+    /// </summary>
+    private void KeepAirLast()
+    {
+        var modifiers = capi.Ambient.CurrentModifiers;
+        int at = modifiers.IndexOfKey(ModifierKey), count = modifiers.Count;
+        bool last = at == count - 1 || at == count - 2 && modifiers.GetKeyAtIndex(count - 1) == Cheats.CheatSystem.ClearAirKey;
+        if (at >= 0 && last) return;
+        modifiers.Remove(ModifierKey);
+        modifiers[ModifierKey] = fog;
+        // The cheat wins over the level's air by coming after it
+        if (modifiers.TryGetValue(Cheats.CheatSystem.ClearAirKey, out AmbientModifier clear))
+        {
+            modifiers.Remove(Cheats.CheatSystem.ClearAirKey);
+            modifiers[Cheats.CheatSystem.ClearAirKey] = clear;
+        }
+    }
+
     private void OnTick(float dt)
     {
         EntityPlayer entity = capi.World.Player?.Entity;
         EntityPos pos = entity?.Pos;
         if (pos == null) return;
+        KeepAirLast();
 
         int mx = WorldLayout.MacroOf((int)Math.Floor(pos.X)), mz = WorldLayout.MacroOf((int)Math.Floor(pos.Z));
         int level = Math.Min(layout.LevelAt(mx, mz), Levels.Length - 1);

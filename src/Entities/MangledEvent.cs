@@ -44,6 +44,8 @@ public class MangledEvent : ModSystem
         public Entity Mangled;
         public Vec3d LastMangledPos;
         public long LastStruckMs;
+        /// <summary>Brought down by the cheat, which may be used anywhere: its weather does not lift for being outside the Suburbs.</summary>
+        public bool Forced;
     }
 
     private static readonly string[] Voices =
@@ -111,7 +113,7 @@ public class MangledEvent : ModSystem
                     if (director?.Layout == null) return TextCommandResult.Error("Not a Backrooms world");
                     Entity entity = args.Caller.Entity;
                     if (events.ContainsKey(entity.EntityId)) return TextCommandResult.Error("It is already coming");
-                    events[entity.EntityId] = new Event();
+                    events[entity.EntityId] = new Event { Forced = true };
                     return TextCommandResult.Success("The air goes cold");
                 })
             .EndSubCommand();
@@ -150,13 +152,16 @@ public class MangledEvent : ModSystem
     {
         e.Seconds += 1;
         bool gone = !player.Alive;
+        // Out of the Suburbs, by a threshold or on foot, its weather lifts (its fog is drawn round the player wherever
+        // they are, so left to run on it would follow them into the next level)
+        bool left = director.AssessmentOf(player).Level != 9;
         switch (e.Phase)
         {
             case Phase.Onset:
                 e.Fog = (float)Math.Min(1, e.Seconds / OnsetSeconds);
                 Voice(player, e, 20, 36, 6, 11);
                 Rumble(player, e, null, 10, 16);
-                if (gone) Begin(e, Phase.Ending);
+                if (gone || left && !e.Forced) Begin(e, Phase.Ending);
                 else if (e.Seconds >= OnsetSeconds)
                 {
                     if (TrySpawn(player, e)) Begin(e, Phase.Manifest);
@@ -187,7 +192,6 @@ public class MangledEvent : ModSystem
                     e.Extra = Math.Min(90, e.Extra + 30);
                     Play("backrooms:sounds/entity/chorus", e.Mangled.Pos.XYZ.Add(0, 6, 0), 1.0f, 0.8f, 64);
                 }
-                bool left = director.AssessmentOf(player).Level != 9;
                 if (gone || left || e.Seconds > ManifestSeconds + e.Extra) Begin(e, Phase.Ending);
                 break;
 
