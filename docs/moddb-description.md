@@ -18,6 +18,21 @@ Links: [Player guide (spoilers)](https://github.com/jeffreyhockema/VS-Backrooms/
 
 **A new look for every level.** Every texture and model the mod adds was rebuilt beside the vanilla blocks around it, level by level, so the Backrooms now look like they belong in Vintage Story: wallpaper, carpet, concrete, brick and tile with real structure and shading and no visible block edges; gauges, handles, grilles, lamps and doors made as real shapes instead of paint; desks, chairs, shelves, diner booths, arcade cabinets and vending machines modelled; and every creature and item icon repainted with light and shade. Level 94's houses are all cream-yellow, its siren poles stand at last, and a white municipal water tower rises over each town (in worlds made from now on). Nothing vanilla changed, and existing worlds keep working.
 
+In numbers: 1,219 block textures, 59 creature and character textures, 62 item icons and 608 block models were redrawn or rebuilt across all 22 levels, and 196 asset families were compared side by side, before and after; all but one were kept.
+
+### Before and after
+
+The same spot before the update (left) and after it (right).
+
+- [Level 2's machinery cabinets](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/01-level2-machinery.jpg): painted dials and grilles became modelled gauges, lamps, a louvred door and a handle.
+- [Level 3's breaker panel and wall fan](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/02-level3-breaker-panel.jpg): a painted panel became ten breakers and a main switch; the fan got blades behind a guard.
+- [Level 4's desk and cubicles](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/03-level4-desk.jpg): the blank box became a terminal with a screen and keyboard; drawers, a swivel chair, capped partitions.
+- [Level 5's guest-room door](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/04-level5-door.jpg): a flat painted door became a panelled door in its casing, with a brass plate, knob, hinges and peephole.
+- [Level 5's chandelier](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/05-level5-chandelier.jpg): a flat gold plate of candles became an eight-arm chandelier with crystal drops.
+- [The Snackrooms' shelves](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/06-level6-1-shelves.jpg): a painted picture that read as office binders became shelving stocked with snack packs.
+- [A Level 9 gable](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/07-level9-gable.jpg): the stepped white gable became the house's own siding up to the roof.
+- [Level 94's water tower](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/08-level94-water-tower.jpg): a box on four posts became the white municipal tower, with braced legs, a round tank, a catwalk and a ladder.
+
 ## What's new in 0.513.0
 
 The first update, built from the first players' feedback. Existing worlds carry on as they are.
