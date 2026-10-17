@@ -124,3 +124,68 @@ Keys 2503-2599 stay free (e.g. 2503 "The Frozen Sea").
    possible later prop (`Props` 740-779 reserved).
 8. **Cost.** Nested noise plus lattice hills at 512 radius is about the same as 73 (0.6 ms a cell). Recommend a
    `55stats` hook like `73stats` to confirm.
+
+## Status (prototype built, 2026-10-17)
+
+**Built.**
+- *Region and geometry.* Round, a fixed 16 cells (512 blocks) radius at the README's centre (as Level 73), open sky
+  (`IsOpenSky(Level55)` true). Drop 0: rel 0 is the ice sheet's datum. `L55BandDepth = 14`, so the band runs rel -14 to
+  +25 (the generator still builds from the usual band bottom; below rel -14 is the ground as vanilla laid it). The rim
+  cells are a cliff of `l55-rimecliff` to rel 18 under a snow cap, built per cell as 73's is.
+- *Ice* (`WorldLayout.L55Column`, a pure function of the block position, from the hut's middle): swells (`Fbm` /90, to 12),
+  a jittered dune lattice (pitch 48, radius 14-28, height 2-7, none within 60 of the hut), roughness, thin ice ridges
+  (+4) on the high swells; levelled round the hut (to rel 1, a drift against its north wall) and round the cave. Frozen
+  sea where a basin noise falls below -0.26 (never within ~140 of the hut or ~100 of the cave): `game:lakeice` at rel -2
+  (-1 in a shallow margin, so the shore is one-block steps) over two of `game:glacierice` over granite; pressure ridges
+  of glacier ice to rel 0. Crevasses along the zero lines of a noise inside crevasse fields (another noise > 0.1, tapered
+  at the field's edge, well inland, none within 45 of the hut or 60 of the cave): 2-4 wide, 3-12 deep (floor at rel -12
+  at most), blue-ice walls, a soft snow floor; about a third bridged by one block of `game:snowblock` at lip level.
+  Surface: `game:snowblock` (with `game:snowlayer-1..3` softening the steps) or `l55-windcrust` patches, two of crust
+  under it, then `game:packedglacierice`; `l55-blueice` on steep faces (a step of 2+), under crevasse lips and in the
+  cave's dome.
+- *Ice cave* (`L55CaveAt`): one, 120-160 blocks from the hut, in a dome of blue ice (radius 46, 15 high over a levelled
+  floor at rel 2): a round chamber (radius 9, ceiling 5-8 above its floor) and a 5-wide, 5-high tunnel winding about 40
+  blocks out toward the hut, ending in an open cut through the dome's foot. Walls and ceiling `l55-glowice` (light 4,
+  `lightAbsorption` 0 so its light spreads), floor blue ice. Zone 6, title key 2502.
+- *Research hut* (`L55HutAt`, hut-local): 20 x 12, one storey (roof slab at +5, snow on it), `l55-frostplank` walls,
+  `game:planks-aged-ud` floor, a 2-wide doorway (no door) in the south wall, `game:glass-plain` windows (east, west,
+  south). A stove against the north wall: `game:ember` in a `game:cobblestone-granite` box with a hood and a chimney
+  through the roof. Two bunks (Level 5 beds) on the west wall, a round table with four hotel chairs, four `l55-lamp`
+  (light 9). Title key 2501.
+- *Sky and air* (client, `AtmosphereSystem.L55.cs`): fog `#d8e6f2` 0.0025, scene 0.90 held at every hour (no day/night),
+  the sky (sun, moon, stars) hidden in a fog sphere of the fog's colour (73's trick, its own flag). Whiteouts
+  (`L55Whiteout`): one 2-game-hour slot in four, 0.3 h, eased: fog to 0.02 and `#f2f6fa`, scene 0.80. Hut: warm air
+  0.003, scene 0.80. Cave: blue `#7fb4d8` air 0.006, scene 0.55.
+- *Sound bed* (all reused): vanilla `wind` (0.30 outside, +0.40 in a whiteout, 0.10 in the cave, 0.06 in the hut); every
+  60-140 s a far groan or crack (vanilla `heavyice` or Level 974's creaks, pitch 0.45-0.6); the `fireplace` loop at the
+  stove. No new synth loop.
+- *Rules:* temperature -15 C outside, 4 C in the roofed cave, 18 C in the hut, 24 C round the stove (vanilla body
+  temperature does the freezing; the ember is also a vanilla heat source). Stability 0.9 outside, 1 in the hut.
+  Arrivals (`IsL55ArrivalSpot`): snow or glacier tiles flagged safe (crevasse-field noise below -0.2, more than 40 from
+  the hut, 50 from the cave), not steep, not on the dome, 70-210 blocks from the hut by the arrival cell.
+- *Assets* (`tools/gen_55.py`, matlib/texlib): 6 codes, `l55-windcrust`, `l55-blueice`, `l55-glowice`, `l55-rimecliff`,
+  `l55-frostplank`, `l55-lamp` (4 sides, Level 73's sconce model with its own textures); 10 textures; lang keys 25,
+  2501, 2502 and the block names. Blue and glow ice have vanilla ice's `dragMultiplier` 0.02 (slippery, as vanilla's
+  ice already is).
+- *Harness:* `55stats` and `55map` in `tools/mapgen/L55Stats.cs`.
+
+**Numbers.** `55stats` (seed 12345, full size): 819 cells, 0.7 ms a cell; snow 47.0%, glacier 14.0%, crevasse 1.3%, sea
+22.2% (7300 ridge tiles), rim 15.4%, hut 240 tiles, cave 448 (370 roofed, 78 in the cut); 30 crevasses of 12+ tiles,
+10809 tiles, 35% bridged, deepest floor rel -12; peak 20; arrivals 60/60 on snow or crust, all at least 40 blocks from
+any crevasse (nearest 42), all on gentle ground, 50-266 blocks from the hut. `SPAWN=1000`: the same ice (it is laid out
+from the hut), 60/60. `regions`: Level 55 60/60, wrong level 0, pockets 0 (full size and `SPAWN=1000`). `layouthash`:
+every per-level line for 0-23 unchanged. Headless (port 42486): `blocksweep` 0 threw; dumps of the hut, the cave and a
+crevasse show every block as planned; no missing Level 55 blocks, shapes or textures logged.
+
+**Skipped / deviations.** Thresholds, entities, dens, loot, notes, handbook; the aurora; the crystalline tinkle near
+crevasses; crevasses are vertical-walled, not wider at depth (columns only); one cave, not one per 150-block square; the
+hut is 20 x 12 rather than 24 x 12, its floor is aged planks (the frost planks are the walls and roof), no interior trim.
+
+**Known gaps / to check in a client.** Untested in a client: that the sky sphere really hides the sun at noon and the
+pinned 0.90 does not wash the snow out (whiteout 0.80); that an unclothed player freezes outside in about two minutes and
+warms in the hut; the lamp's orientation and glow on the 73 sconce model; how the cave reads at light 4 and scene 0.55.
+Snow bridges are vanilla `snowblock`, which has vanilla's falling behaviour: a neighbour change (breaking a block beside
+one) drops the bridge into the crevasse, block by block. The headless dump shows the hut's inside at full light although
+it is roofed (as 73's keep did): check in a client whether sunlight really floods it. The map layer's grouped case
+(floor to floor + 5) is not taught the ice's heights (to 20). Vanilla snow, ice, ember and glass bypass the salvage
+Breakdown.

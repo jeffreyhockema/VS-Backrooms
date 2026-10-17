@@ -1,0 +1,27 @@
+// Level 55: the research hut's weathered grey planks, frost in the grain
+{
+	"code": "l55-frostplank",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/55/frostplank"
+		}
+	},
+	"resistance": 2.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

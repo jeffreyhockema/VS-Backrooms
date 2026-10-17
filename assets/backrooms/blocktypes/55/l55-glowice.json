@@ -1,0 +1,37 @@
+// Level 55: the ice cave's walls and ceiling, a paler blue that glows faintly
+{
+	"code": "l55-glowice",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Ice",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/55/glowice"
+		}
+	},
+	"resistance": 3.0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/ice*",
+		"place": "game:block/ice",
+		"break": "game:block/ice",
+		"hit": "game:block/ice"
+	},
+	"dragMultiplier": 0.02,
+	"lightHsv": [
+		40,
+		3,
+		4
+	],
+	"lightAbsorption": 0,
+	"vertexFlags": {
+		"glowLevel": 40
+	}
+}
