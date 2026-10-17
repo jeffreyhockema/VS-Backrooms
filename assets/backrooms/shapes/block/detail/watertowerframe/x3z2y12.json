@@ -1,0 +1,106 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerroof": "backrooms:block/detail/towerroof"
+	},
+	"elements": [
+		{
+			"name": "Roof12s1Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				-8.0,
+				22.3622,
+				8.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Roof12s1",
+					"from": [
+						-13.4043,
+						20.8622,
+						-21.1903
+					],
+					"to": [
+						-2.5957,
+						22.3622,
+						-10.1527
+					],
+					"faces": {
+						"north": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								10.8087,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								10.8087,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								10.8087,
+								11.0376
+							]
+						},
+						"down": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								10.8087,
+								11.0376
+							]
+						}
+					},
+					"rotationOrigin": [
+						-8.0,
+						22.3622,
+						8.0
+					],
+					"rotationX": -24.0
+				}
+			],
+			"rotationY": 270.0
+		}
+	]
+}

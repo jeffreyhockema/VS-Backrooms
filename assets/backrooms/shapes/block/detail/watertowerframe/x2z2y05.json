@@ -1,0 +1,249 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerpaint": "backrooms:block/detail/towerpaint"
+	},
+	"elements": [
+		{
+			"name": "RiserA",
+			"from": [
+				4.0,
+				0,
+				5.12
+			],
+			"to": [
+				12.0,
+				16,
+				10.88
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						0,
+						12.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						0,
+						10.88,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						0,
+						12.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						0,
+						10.88,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RiserB",
+			"from": [
+				5.12,
+				0,
+				4.0
+			],
+			"to": [
+				10.88,
+				16,
+				12.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						0,
+						10.88,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						0,
+						12.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						0,
+						10.88,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						0,
+						12.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Flange1A",
+			"from": [
+				3.25,
+				0.0,
+				4.58
+			],
+			"to": [
+				12.75,
+				1.5,
+				11.42
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.5,
+						12.75,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.5,
+						11.42,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.5,
+						12.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.5,
+						11.42,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						4.58,
+						12.75,
+						11.42
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						4.58,
+						12.75,
+						11.42
+					]
+				}
+			}
+		},
+		{
+			"name": "Flange1B",
+			"from": [
+				4.58,
+				0.05,
+				3.25
+			],
+			"to": [
+				11.42,
+				1.45,
+				12.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.55,
+						11.42,
+						15.95
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.55,
+						12.75,
+						15.95
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.55,
+						11.42,
+						15.95
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.55,
+						12.75,
+						15.95
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						3.25,
+						11.42,
+						12.75
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						3.25,
+						11.42,
+						12.75
+					]
+				}
+			}
+		}
+	]
+}

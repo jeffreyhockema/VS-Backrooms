@@ -1,0 +1,520 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerpaint": "backrooms:block/detail/towerpaint",
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "Leg3A",
+			"from": [
+				1.5,
+				0,
+				2.2
+			],
+			"to": [
+				6.5,
+				16,
+				5.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						9.5,
+						0,
+						14.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						10.2,
+						0,
+						13.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						1.5,
+						0,
+						6.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.2,
+						0,
+						5.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3B",
+			"from": [
+				2.2,
+				0,
+				1.5
+			],
+			"to": [
+				5.8,
+				16,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						10.2,
+						0,
+						13.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						9.5,
+						0,
+						14.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.2,
+						0,
+						5.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						1.5,
+						0,
+						6.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LadderRail656",
+			"from": [
+				13.5,
+				0,
+				1.6
+			],
+			"to": [
+				14.25,
+				16,
+				2.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						1.75,
+						0,
+						2.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						13.65,
+						0,
+						14.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						13.5,
+						0,
+						14.25,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						1.6,
+						0,
+						2.35,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LadderBracket656_1",
+			"from": [
+				5.75,
+				0.0,
+				1.7
+			],
+			"to": [
+				13.5,
+				0.75,
+				2.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.5,
+						15.25,
+						10.25,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						15.25,
+						13.5,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						1.7,
+						13.5,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						13.75,
+						13.5,
+						14.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LadderRail696",
+			"from": [
+				13.5,
+				0,
+				5.65
+			],
+			"to": [
+				14.25,
+				16,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						1.75,
+						0,
+						2.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						9.6,
+						0,
+						10.35,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						13.5,
+						0,
+						14.25,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.65,
+						0,
+						6.4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LadderBracket696_1",
+			"from": [
+				5.75,
+				0.0,
+				5.75
+			],
+			"to": [
+				13.5,
+				0.75,
+				6.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.5,
+						15.25,
+						10.25,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						15.25,
+						13.5,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						5.75,
+						13.5,
+						6.3
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.75,
+						9.7,
+						13.5,
+						10.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Rung13",
+			"from": [
+				13.6,
+				0,
+				2.35
+			],
+			"to": [
+				14.15,
+				0.6,
+				5.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						10.35,
+						15.4,
+						13.65,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						2.35,
+						15.4,
+						5.65,
+						16
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						2.35,
+						14.15,
+						5.65
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						10.35,
+						14.15,
+						13.65
+					]
+				}
+			}
+		},
+		{
+			"name": "Rung14",
+			"from": [
+				13.6,
+				4,
+				2.35
+			],
+			"to": [
+				14.15,
+				4.6,
+				5.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						10.35,
+						11.4,
+						13.65,
+						12
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						2.35,
+						11.4,
+						5.65,
+						12
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						2.35,
+						14.15,
+						5.65
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						10.35,
+						14.15,
+						13.65
+					]
+				}
+			}
+		},
+		{
+			"name": "Rung15",
+			"from": [
+				13.6,
+				8,
+				2.35
+			],
+			"to": [
+				14.15,
+				8.6,
+				5.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						10.35,
+						7.4,
+						13.65,
+						8
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						2.35,
+						7.4,
+						5.65,
+						8
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						2.35,
+						14.15,
+						5.65
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						10.35,
+						14.15,
+						13.65
+					]
+				}
+			}
+		},
+		{
+			"name": "Rung16",
+			"from": [
+				13.6,
+				12,
+				2.35
+			],
+			"to": [
+				14.15,
+				12.6,
+				5.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						10.35,
+						3.4,
+						13.65,
+						4
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						2.35,
+						3.4,
+						5.65,
+						4
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						2.35,
+						14.15,
+						5.65
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						13.6,
+						10.35,
+						14.15,
+						13.65
+					]
+				}
+			}
+		}
+	]
+}

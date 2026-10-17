@@ -339,6 +339,8 @@ def blocks():
     }, "Level 94: a white water tower on a hilltop, full of Almond Water")
     for part, eng in (("leg", "Water Tower Leg"), ("tank", "Water Tower Tank"), ("roof", "Water Tower Roof"), ("tap", "Water Tower Tap")):
         name(f"watertower-{part}", eng)
+    # (D3) The tower of the pictures, placed by the world generator where this one's legs, tank and roof went
+    tower_d3_blocks()
 
     # The town fountain: a stone rim, and a spout of Almond Water in the middle
     block("almondfountain", {
@@ -1066,6 +1068,7 @@ def b13_textures():
     furniture_tex_b13()
     van_tex_b13()
     nooutlet_b13()
+    tower_d3_textures()  # D3
 
 
 def alts(key, n, mix=None):
@@ -1218,3 +1221,451 @@ def towerleg_b13():
     return [bx("Foot", (5.5, 0, 5.5), (10.5, 1, 10.5), "towersteel"), bx("Leg", (6.25, 0, 6.25), (9.75, 16, 9.75), "towersteel"),
             bx("Band", (6, 6.5, 6), (10, 8.5, 10), "towersteel"),
             bx("Brace", (0, 7, 7.5), (16, 8, 8.5), "towersteel"), bx("BraceLip", (0, 8, 7.25), (16, 8.25, 8.75), "towersteel")]
+
+
+# ======================= Graphics pass D3: the water tower =======================
+# The water tower of the pictures (Wikidot's "94 CC 1", Miraheze's Level-94.jpg): a white municipal tank high on four
+# straight legs on a hilltop, a squat round tank with a rounded bottom and a low cone of a roof, a catwalk round its
+# waist, the tank plain white as in the Wikidot picture (no lettering: Miraheze's "Sikeston" water tower is the castle,
+# and is kept for it). It is one model over the old tower's five by five tiles and fourteen levels, cut into one block per tile and
+# level: `watertowerframe-x<i>z<j>y<level>`, a new code beside `watertower` (which stays, for the towers already
+# standing in worlds). The world generator places it where the old tower's legs, tank and roof went
+# (WorldGenerator.Motion.cs, WaterTowerFrameBlock); the tap at the foot of the riser is still `watertower-tap`.
+# Reverting: drop tower_d3_blocks() from blocks() and the generator falls back to the old tower by itself.
+
+import json as _json  # noqa: E402
+import shutil  # noqa: E402
+
+import preview_shapes as PS  # noqa: E402
+from detail_kit import tpath  # noqa: E402
+
+TW_C = 40.0          # the tower's axis, in its own units (16 to a block; its tiles run 0..80 in x and z)
+TW_LEVELS = 14       # levels above the ground, as the old tower
+TW_R = 35.0          # the tank's shell (outer face)
+TW_DECK = (34.5, 42.0)
+TW_RAIL = 41.25
+TW_LEGS = ((12.0, 12.0), (68.0, 12.0), (12.0, 68.0), (68.0, 68.0))
+TW_SIDE = 2 * math.tan(math.radians(11.25))  # a sixteen-sided ring's side, over its apothem
+TW_SHELL_Y = (150.0, 182.0)  # the shell's foot (on the catwalk) and top (under the roof's eave)
+# (review round 1: a neutral white tank read grey beside the ivory legs and the cream houses; everything is one warm
+# white now, and the rust is runs only, no speckle at the rivets)
+TW_WHITE = (236, 233, 222)
+
+
+def tower_d3_textures():
+    """The tower's paint: white riveted plate on the tank (three versions, one with rust runs from its rivets, one with
+    a faint weep), white painted steel on the legs and the catwalk, rust and dirt
+    at the legs' feet, a seamed roof, a bar grating on the catwalk, concrete footings and a red beacon."""
+    def shell(v):
+        img = M.riveted_plate(seed_of("d3shell"), base=(236, 236, 232), grain=2, mottle=4, pitch=4, layout="edges")
+        if v == 2:
+            M.drips(img, 2, seed_of("d3shelld"), color=(150, 92, 54), length=(10, 18), strength=0.55, start=29)
+            M.drips(img, 2, seed_of("d3shelld2"), color=(142, 88, 52), length=(6, 12), strength=0.45, start=5)
+        elif v == 3:
+            M.drips(img, 1, seed_of("d3shellw"), color=(156, 112, 76), length=(7, 13), strength=0.3, start=29)
+            M.grime(img, 0.05, seed_of("d3shellg"), cells=(8, 4), bias="bottom", cover=0.4)
+        return T.match_rgb(img, TW_WHITE, key="d3shell")
+    for v in (1, 2, 3):
+        save(shell(v), "towershell" + ("" if v == 1 else f"-{v}"))
+
+    paint = M.painted_metal(seed_of("d3paint"), base=TW_WHITE, grain=2, mottle=3, panel=False, chips=2, under=(150, 146, 140))
+    M.grime(paint, 0.05, seed_of("d3paintg"), cells=(8, 4), cover=0.35)
+    save(paint, "towerpaint")
+    foot = paint.copy()
+    M.grime(foot, 0.16, seed_of("d3footg"), cells=(8, 4, 2), cover=0.5)
+    rust = M.rust(paint.copy(), 0.32, seed_of("d3footr"), color=(146, 84, 48), dark=(98, 60, 40), cells=(8, 4, 2))
+    fp, rp = foot.load(), rust.load()
+    # (the leg's foot shows the texture's rows 0-18: it stands from 7 to 16, laid on as the game lays a block's face)
+    for y in range(S):
+        t = min(1.0, max(0.0, (y - 6) / 12.0))
+        for x in range(S):
+            fp[x, y] = M.rgba(M.mix(fp[x, y][:3], rp[x, y][:3], t))
+    M.drips(foot, 2, seed_of("d3footd"), color=(140, 86, 52), length=(5, 9), strength=0.4, start=1)
+    save(foot, "towerfoot")
+
+    # (round 1: a seam at each plate's edge broke into dashes where the cone's plates overlap; the roof is plain paint)
+    roof = M.painted_metal(seed_of("d3roof"), base=(230, 227, 216), grain=2, mottle=4, panel=False, chips=1, under=(150, 150, 146))
+    M.grime(roof, 0.05, seed_of("d3roofg"), cells=(8, 2), cover=0.35)
+    save(roof, "towerroof")
+
+    grate = M.painted_metal(seed_of("d3grate"), base=(228, 225, 214), grain=2, mottle=3, panel=False, chips=2, under=(140, 136, 130))
+    gp = grate.load()
+    for y in range(S):
+        for x in range(S):
+            if y % 4 == 3:
+                gp[x, y] = M.rgba(M.lift(gp[x, y][:3], -46))
+            elif y % 4 == 0:
+                gp[x, y] = M.rgba(M.lift(gp[x, y][:3], 8))
+            if x % 16 == 15 and y % 4 != 3:
+                gp[x, y] = M.rgba(M.lift(gp[x, y][:3], -18))
+    save(grate, "towergrate")
+
+    footing = M.concrete(seed_of("d3footing"), base=(188, 184, 174), grain=3, mottle=5, aggregate=0.03, pores=0.01, hue=1.2)
+    M.grime(footing, 0.1, seed_of("d3footingg"), cells=(8, 4), bias="bottom", cover=0.5)
+    save(footing, "towerfooting")
+
+    lamp = M.painted_metal(seed_of("d3lamp"), base=(182, 46, 40), grain=2, mottle=3, panel=False, chips=0)
+    M.bevel(lamp, None, 2, 0.22)
+    save(lamp, "towerlamp")
+
+
+# ---- The model, in the tower's own units ----
+
+def _tw_box(name, frm, to, tex, faces=None, solid=False):
+    """An unrotated part, cut at the block edges later (each piece's texture laid on as the game would lay it on a
+    block there, so it runs on unbroken from block to block)."""
+    e = MK.box(name, frm, to, tex, faces=faces or MK.DIRS)
+    e["_kind"], e["_solid"] = "box", solid
+    return e
+
+
+def _tw_octo(name, cx, cz, r, y1, y2, tex, solid=True, faces=None, cap=False):
+    """A round post as a cross of two boxes; with `cap` the second is a hair shorter, so their ends never share a plane."""
+    k, d = r * 0.72, (0.05 if cap else 0.0)
+    return [_tw_box(name + "A", (cx - r, y1, cz - k), (cx + r, y2, cz + k), tex, faces, solid),
+            _tw_box(name + "B", (cx - k, y1 + d, cz - r), (cx + k, y2 - d, cz + r), tex, faces, solid)]
+
+
+def _tw_whole(e, solid=False):
+    """A part that goes whole into the block its middle is in (anything turned)."""
+    e["_kind"], e["_solid"] = "whole", solid
+    return e
+
+
+def _tw_yaw(name, frm, to, tex, theta, faces=None, solid=False, uv=None):
+    """A part built north of the axis and turned `theta` degrees about it. Kept to one level, since it is not cut."""
+    e = MK.box(name, frm, to, tex, faces=faces or MK.DIRS)
+    if uv:
+        for f, u in uv.items():
+            if f in e["faces"]:
+                e["faces"][f]["uv"] = [round(v, 4) for v in u]
+    if theta % 360:
+        e["rotationOrigin"] = [TW_C, round((frm[1] + to[1]) / 2, 4), TW_C]
+        e["rotationY"] = round(theta, 4)
+    return _tw_whole(e, solid)
+
+
+def _tw_facet(name, theta, yo, alpha, s1, s2, thick, tex, below, solid=True):
+    """A plate of a cone round the axis whose apex is at height `yo`: from `s1` to `s2` along its slope, tilted
+    `alpha` degrees (positive raises its outer end) and turned `theta` about the axis. A roof's plates lie under the
+    cone (their tops are the roof); a bowl's over it (their undersides are the bowl). A parent turned about the axis
+    carries a child tilted about x, so each element turns about one axis only (B14)."""
+    a = math.radians(alpha)
+    w = TW_SIDE * s2 * math.cos(a) + 0.2
+    y1, y2 = (yo - thick, yo) if below else (yo, yo + thick)
+    child = MK.box(name, (TW_C - w / 2, y1, TW_C - s2), (TW_C + w / 2, y2, TW_C - s1), tex)
+    child["rotationOrigin"] = [TW_C, round(yo, 4), TW_C]
+    child["rotationX"] = round(alpha, 4)
+    parent = {"name": name + "Yaw", "from": [0, 0, 0], "to": [0, 0, 0], "rotationOrigin": [TW_C, round(yo, 4), TW_C],
+              "faces": {}, "children": [child]}
+    if theta % 360:
+        parent["rotationY"] = round(theta, 4)
+    return _tw_whole(parent, solid)
+
+
+def _tw_cone(name, yo, alpha, s_in, s_out, segs, thick, tex, below, solid=True):
+    """Sixteen plates round the axis, each in `segs` lengths so no plate is longer than a block."""
+    out = []
+    for k in range(16):
+        for s in range(segs):
+            a = s_in + (s_out - s_in) * s / segs
+            b = s_in + (s_out - s_in) * (s + 1) / segs
+            out.append(_tw_facet(f"{name}{k}s{s}", k * 22.5, yo, alpha, a, b, thick, tex, below, solid))
+    return out
+
+
+def _tw_profile(name, pts, thick, tex, below, solid=True):
+    """A round shape turned from a profile of (radius, height) points, each pair a ring of sixteen cone plates."""
+    out = []
+    for n, ((r0, y0), (r1, y1)) in enumerate(zip(pts, pts[1:])):
+        a = math.atan2(y1 - y0, r1 - r0)
+        yo = y0 - r0 * math.tan(a)
+        segs = max(1, math.ceil((math.hypot(r1 - r0, y1 - y0) - 0.01) / 16))
+        out += _tw_cone(f"{name}{n}r", yo, math.degrees(a), r0 / math.cos(a), r1 / math.cos(a), segs, thick, tex, below, solid)
+    return out
+
+
+def _tw_rod(name, plane, at, p0, p1, tex="towersteel", t=0.75):
+    """A tension rod in a vertical plane (`plane` "z": the plane z = `at`, running along x; "x": along z), from p0 to
+    p1, each an (along, y) pair; cut into straight lengths at the block edges, each lying in one block."""
+    if p1[0] < p0[0]:
+        p0, p1 = p1, p0
+    (a0, y0), (a1, y1) = p0, p1
+    ts = {0.0, 1.0}
+    for k in range(1, 5):
+        if (a0 - 16 * k) * (a1 - 16 * k) < 0:
+            ts.add((16 * k - a0) / (a1 - a0))
+    for k in range(1, TW_LEVELS):
+        if (y0 - 16 * k) * (y1 - 16 * k) < 0:
+            ts.add((16 * k - y0) / (y1 - y0))
+    ts = sorted(ts)
+    length = math.hypot(a1 - a0, y1 - y0)
+    ang = math.degrees(math.atan2(y1 - y0, a1 - a0))
+    out = []
+    for n, (ta, tb) in enumerate(zip(ts, ts[1:])):
+        if tb - ta < 1e-6:
+            continue
+        ln = length * (tb - ta)
+        ma, my = a0 + (a1 - a0) * (ta + tb) / 2, y0 + (y1 - y0) * (ta + tb) / 2
+        first, last = n == 0, tb >= 1.0
+        if plane == "z":
+            faces = [f for f in MK.DIRS if not (f == "west" and not first or f == "east" and not last)]
+            e = MK.box(f"{name}{n}", (ma - ln / 2, my - t / 2, at - t / 2), (ma + ln / 2, my + t / 2, at + t / 2), tex, faces=faces)
+            e["rotationOrigin"] = [round(ma, 4), round(my, 4), round(at, 4)]
+            e["rotationZ"] = round(ang, 4)
+        else:
+            faces = [f for f in MK.DIRS if not (f == "north" and not first or f == "south" and not last)]
+            e = MK.box(f"{name}{n}", (at - t / 2, my - t / 2, ma - ln / 2), (at + t / 2, my + t / 2, ma + ln / 2), tex, faces=faces)
+            e["rotationOrigin"] = [round(at, 4), round(my, 4), round(ma, 4)]
+            e["rotationX"] = round(-ang, 4)
+        out.append(_tw_whole(e))
+    return out
+
+
+def _tw_level_spans(y1, y2):
+    """(y1, y2) cut at the block levels."""
+    out, y = [], y1
+    while y < y2 - 1e-6:
+        top = min(y2, (math.floor(y / 16 + 1e-9) + 1) * 16)
+        out.append((y, top))
+        y = top
+    return out
+
+
+def tower_d3_model():
+    """The tower as one list of parts, in its own units: x and z 0..80 over its five by five tiles (north is -z, as in
+    the world), y from the top of the ground (0) up through its fourteen levels."""
+    els = []
+    # Four legs on concrete footings, a base plate and anchor bolts, rust and dirt at the foot; a bracket under the deck
+    for k, (lx, lz) in enumerate(TW_LEGS):
+        els.append(_tw_box(f"Footing{k}", (lx - 4, 0, lz - 4), (lx + 4, 5.5, lz + 4), "towerfooting", solid=True))
+        els.append(_tw_box(f"FootingCap{k}", (lx - 3.5, 5.5, lz - 3.5), (lx + 3.5, 6.25, lz + 3.5), "towerfooting", solid=True))
+        els.append(_tw_box(f"BasePlate{k}", (lx - 3, 6.25, lz - 3), (lx + 3, 7, lz + 3), "towersteel", solid=True))
+        for b, (bx_, bz_) in enumerate(((-2.25, -2.25), (2.25, -2.25), (-2.25, 2.25), (2.25, 2.25))):
+            els.append(_tw_box(f"Bolt{k}{b}", (lx + bx_ - 0.4, 7, lz + bz_ - 0.4), (lx + bx_ + 0.4, 7.75, lz + bz_ + 0.4), "towersteel"))
+        els += _tw_octo(f"LegFoot{k}", lx, lz, 2.5, 7, 16, "towerfoot", faces=[f for f in MK.DIRS if f != "up"])
+        els += _tw_octo(f"Leg{k}", lx, lz, 2.5, 16, 146, "towerpaint", faces=[f for f in MK.DIRS if f != "down"])
+        els.append(_tw_box(f"LegCap{k}", (lx - 3.25, 146, lz - 3.25), (lx + 3.25, 150, lz + 3.25), "towerpaint", solid=True))
+
+    # Girders between the legs at two heights, and crossed tension rods in each bay with a ring where they cross
+    lo, hi = TW_LEGS[0][0], TW_LEGS[1][0]  # 12, 68
+    bays = ((8.0, 54.0), (56.0, 102.0), (104.0, 145.0))
+    for y in (54.0, 102.0):
+        els.append(_tw_box(f"GirderN{int(y)}", (lo + 2.25, y, lo - 0.75), (hi - 2.25, y + 2, lo + 0.75), "towerpaint", faces=["north", "south", "up", "down"]))
+        els.append(_tw_box(f"GirderS{int(y)}", (lo + 2.25, y, hi - 0.75), (hi - 2.25, y + 2, hi + 0.75), "towerpaint", faces=["north", "south", "up", "down"]))
+        els.append(_tw_box(f"GirderW{int(y)}", (lo - 0.75, y, lo + 2.25), (lo + 0.75, y + 2, hi - 2.25), "towerpaint", faces=["east", "west", "up", "down"]))
+        els.append(_tw_box(f"GirderE{int(y)}", (hi - 0.75, y, lo + 2.25), (hi + 0.75, y + 2, hi - 2.25), "towerpaint", faces=["east", "west", "up", "down"]))
+    a0, a1 = lo + 2.5, hi - 2.5
+    for b, (y0, y1) in enumerate(bays):
+        for side, plane, at in (("N", "z", lo), ("S", "z", hi), ("W", "x", lo), ("E", "x", hi)):
+            # the two rods pass a little apart, front and back of the leg line, so they never share a face
+            els += _tw_rod(f"Rod{side}{b}a", plane, at - 0.45, (a0, y0 + 1), (a1, y1 - 1))
+            els += _tw_rod(f"Rod{side}{b}b", plane, at + 0.45, (a0, y1 - 1), (a1, y0 + 1))
+            m, my = (a0 + a1) / 2, (y0 + y1) / 2
+            ring = ((m - 1.2, my - 1.2, at - 1.1), (m + 1.2, my + 1.2, at + 1.1)) if plane == "z" else \
+                ((at - 1.1, my - 1.2, m - 1.2), (at + 1.1, my + 1.2, m + 1.2))
+            els.append(_tw_box(f"Ring{side}{b}", ring[0], ring[1], "towersteel"))
+
+    # The riser: up from the tap (the old tap block, whose pipe stops at 14) to the bowl, flanged, a boot under the bowl
+    reducer = _tw_box("RiserReducer", (TW_C - 2, 13.5, TW_C - 2), (TW_C + 2, 16, TW_C + 2), "towerpaint", faces=["north", "east", "south", "west", "down"])
+    reducer["_kind"], reducer["_cell"] = "whole", (2, 2, 2)
+    els.append(reducer)
+    els += _tw_octo("Riser", TW_C, TW_C, 4, 16, 126, "towerpaint", cap=True)
+    for n, y in enumerate((17.0, 64.0, 112.0)):
+        els += _tw_octo(f"Flange{n}", TW_C, TW_C, 4.75, y, y + 1.5, "towerpaint", solid=False, cap=True)
+    els += _tw_octo("Boot", TW_C, TW_C, 6, 124, 131, "towerpaint", cap=True)
+
+    # The tank: a rounded bottom in rings of plates, a plain white shell of sixteen plates,
+    # a low cone of a roof with an eave, and at its top a finial, a vent, the red beacon and a lightning rod
+    # (the bottom is half an ellipse, 22 deep: flat in the middle, steep at the rim)
+    els += _tw_profile("Bowl", [(0.0, 128.0), (14.0, 129.8), (24.0, 134.0), (31.0, 139.8), (TW_R, TW_SHELL_Y[0])], 1.5, "towershell", below=False)
+    w = TW_SIDE * TW_R
+    for k in range(16):
+        th = k * 22.5
+        for (y1, y2) in _tw_level_spans(*TW_SHELL_Y):
+            lv = math.floor(y1 / 16 + 1e-9)
+            v1, v2 = 16 - (y2 - 16 * lv), 16 - (y1 - 16 * lv)
+            uv = {"north": (0, v1, 16, v2), "east": (0, v1, 1.5, v2), "west": (0, v1, 1.5, v2)}
+            els.append(_tw_yaw(f"Shell{k}y{int(y1)}", (TW_C - w / 2, y1, TW_C - TW_R), (TW_C + w / 2, y2, TW_C - TW_R + 1.5),
+                               "towershell", th, faces=["north", "east", "west"], solid=True, uv=uv))
+    roof_a = 24.0
+    eave = TW_R + 1.75
+    apex = TW_SHELL_Y[1] + eave * math.tan(math.radians(roof_a))
+    crown = 6.5  # a round crown plate over the middle, where sixteen plates would crowd into a star
+    els += _tw_cone("Roof", apex, -roof_a, crown / math.cos(math.radians(roof_a)), eave / math.cos(math.radians(roof_a)), 3, 1.5, "towerroof", below=True)
+    els += _tw_octo("Crown", TW_C, TW_C, crown + 0.5, apex - (crown + 0.5) * math.tan(math.radians(roof_a)) - 0.6, apex - 1.6, "towerroof", cap=True)
+    els += _tw_octo("Finial", TW_C, TW_C, 3.25, apex - 3, apex + 1.5, "towerroof", cap=True)
+    els.append(_tw_box("FinialCap", (TW_C - 2.75, apex + 1.5, TW_C - 2.75), (TW_C + 2.75, apex + 2.25, TW_C + 2.75), "towerroof", solid=True))
+    els += _tw_octo("Vent", TW_C, TW_C, 1.6, apex + 2.25, apex + 5, "towerpaint", cap=True)
+    els.append(_tw_box("VentCap", (TW_C - 2.6, apex + 5, TW_C - 2.6), (TW_C + 2.6, apex + 5.75, TW_C + 2.6), "towerpaint"))
+    els.append(_tw_box("Beacon", (TW_C - 1.25, apex + 5.75, TW_C - 1.25), (TW_C + 1.25, apex + 8, TW_C + 1.25), "towerlamp"))
+    els.append(_tw_box("BeaconCap", (TW_C - 0.75, apex + 8, TW_C - 0.75), (TW_C + 0.75, apex + 8.5, TW_C + 0.75), "towersteel"))
+    els.append(_tw_box("LightningRod", (TW_C - 0.3, apex + 8.5, TW_C - 0.3), (TW_C + 0.3, apex + 14, TW_C + 0.3), "towersteel"))
+
+    # The catwalk: a grating deck round the tank's waist, posts and two rails; joints a hair apart in height so the
+    # plates' overlapping corners never share a plane
+    dw = TW_SIDE * TW_DECK[1] + 0.1
+    rw = TW_SIDE * (TW_RAIL + 0.4) + 0.1
+    for k in range(16):
+        th, h = k * 22.5, 0.08 * (k % 2)
+        els.append(_tw_yaw(f"Deck{k}", (TW_C - dw / 2, 150 + h, TW_C - TW_DECK[1]), (TW_C + dw / 2, 151.5 + h, TW_C - TW_DECK[0]),
+                           {"top": "towergrate", "all": "towerpaint"}, th, faces=["north", "east", "west", "up", "down"], solid=True))
+        # (the posts a little thinner than the rails across the ring, so the rails stand proud of them)
+        els.append(_tw_yaw(f"Post{k}", (TW_C - 0.4, 151.5, TW_C - TW_RAIL - 0.3), (TW_C + 0.4, 160.0, TW_C - TW_RAIL + 0.3), "towerpaint", th,
+                           faces=["north", "east", "south", "west", "down"]))
+        els.append(_tw_yaw(f"PostTop{k}", (TW_C - 0.4, 160.0, TW_C - TW_RAIL - 0.3), (TW_C + 0.4, 162.6, TW_C - TW_RAIL + 0.3), "towerpaint", th, faces=["north", "east", "south", "west"]))
+        els.append(_tw_yaw(f"Rail{k}", (TW_C - rw / 2, 162.25 + h / 2, TW_C - TW_RAIL - 0.4), (TW_C + rw / 2, 163.0 + h / 2, TW_C - TW_RAIL + 0.4), "towerpaint", th))
+        els.append(_tw_yaw(f"MidRail{k}", (TW_C - rw / 2, 156.5 + h / 2, TW_C - TW_RAIL - 0.35), (TW_C + rw / 2, 157.1 + h / 2, TW_C - TW_RAIL + 0.35), "towerpaint", th))
+
+    # A ladder up the south-east leg's east side to the catwalk, its rails running on up as hand holds, held off the
+    # leg by brackets; and a ladder from the catwalk up the tank's south-east side to the roof
+    lx, lz = TW_LEGS[3]
+    ladder_x = (lx + 9.5, lx + 10.25)
+    for zr in (lz - 2.4, lz + 1.65):
+        els.append(_tw_box(f"LadderRail{int(zr * 10)}", (ladder_x[0], 9, zr), (ladder_x[1], 166, zr + 0.75), "towerpaint"))
+        for n, y in enumerate((24.0, 64.0, 104.0, 140.0)):
+            els.append(_tw_box(f"LadderBracket{int(zr * 10)}_{n}", (lx + 1.75, y, zr + 0.1), (ladder_x[0], y + 0.75, zr + 0.65), "towerpaint",
+                               faces=["north", "south", "up", "down"]))
+    for n, y in enumerate(range(12, 165, 4)):
+        els.append(_tw_box(f"Rung{n}", (ladder_x[0] + 0.1, y, lz - 1.65), (ladder_x[1] - 0.1, y + 0.6, lz + 1.65), "towersteel",
+                           faces=["east", "west", "up", "down"]))
+    th = 225.0
+    sz = TW_C - TW_R - 1.6
+    for (y1, y2) in _tw_level_spans(151.5, 184.5):
+        for side, x0 in (("L", TW_C - 2.4), ("R", TW_C + 1.65)):
+            els.append(_tw_yaw(f"TankLadder{side}{int(y1)}", (x0, y1, sz - 0.75), (x0 + 0.75, y2, sz), "towerpaint", th,
+                               faces=["north", "east", "south", "west"] + (["up"] if y2 == 184.5 else [])))
+    for n, y in enumerate(range(154, 183, 4)):
+        els.append(_tw_yaw(f"TankRung{n}", (TW_C - 1.65, y, sz - 0.65), (TW_C + 1.65, y + 0.6, sz - 0.1), "towersteel", th,
+                           faces=["north", "south", "up", "down"]))
+    for n, y in enumerate((158.0, 172.0)):
+        for side, x0 in (("L", TW_C - 2.4), ("R", TW_C + 1.65)):
+            els.append(_tw_yaw(f"TankClip{side}{n}", (x0, y, sz), (x0 + 0.75, y + 0.75, TW_C - TW_R), "towersteel", th,
+                               faces=["east", "west", "up", "down"]))
+    return els
+
+
+# ---- Cutting it into blocks ----
+
+def _tw_world_box(e):
+    """The axis-aligned bounds of a part (and its children) as the game places them, in the tower's units."""
+    pts = []
+    for el, chain in PS.walk([e]):
+        if not el.get("faces") and el.get("children"):
+            continue
+        f0, t0 = el["from"], el["to"]
+        for cx in (f0[0], t0[0]):
+            for cy in (f0[1], t0[1]):
+                for cz in (f0[2], t0[2]):
+                    pts.append(PS.place((cx, cy, cz), el, chain))
+    return [min(p[i] for p in pts) for i in range(3)], [max(p[i] for p in pts) for i in range(3)]
+
+
+def _tw_local(e, ox, oy, oz):
+    """A part moved into a block's own units (a parent's `from` stays at the block's corner, so its children, placed
+    from there, move with it)."""
+    e = _json.loads(_json.dumps({k: v for k, v in e.items() if not k.startswith("_")}))
+
+    def mv(p):
+        return [round(p[0] - ox, 4), round(p[1] - oy, 4), round(p[2] - oz, 4)]
+    if "rotationOrigin" in e:
+        e["rotationOrigin"] = mv(e["rotationOrigin"])
+    if e.get("children"):
+        e["children"] = [_tw_local(c, ox, oy, oz) for c in e["children"]]
+    else:
+        e["from"], e["to"] = mv(e["from"]), mv(e["to"])
+    return e
+
+
+def _tw_auto_uv(face, f0, t0):
+    """The UV the game lays on an unturned face (its extent in the block), so a part's pieces join across blocks."""
+    (x0, y0, z0), (x1, y1, z1) = f0, t0
+    return [round(v, 4) for v in {"north": (16 - x1, 16 - y1, 16 - x0, 16 - y0), "south": (x0, 16 - y1, x1, 16 - y0),
+                                  "west": (z0, 16 - y1, z1, 16 - y0), "east": (16 - z1, 16 - y1, 16 - z0, 16 - y0),
+                                  "up": (x0, z0, x1, z1), "down": (x0, 16 - z1, x1, 16 - z0)}[face]]
+
+
+def tower_d3_cells(els):
+    """{(i, j, level): [(element in the block's units, solid)]}: unrotated parts cut at the block edges, the rest whole
+    in the block their middle is in."""
+    cells = {}
+    for e in els:
+        if e["_kind"] == "box":
+            (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+            for i in range(max(0, math.floor(x1 / 16)), min(5, math.ceil(x2 / 16))):
+                for lv in range(max(0, math.floor(y1 / 16)), min(TW_LEVELS, math.ceil(y2 / 16))):
+                    for j in range(max(0, math.floor(z1 / 16)), min(5, math.ceil(z2 / 16))):
+                        lo = [max(x1, 16 * i), max(y1, 16 * lv), max(z1, 16 * j)]
+                        hi = [min(x2, 16 * (i + 1)), min(y2, 16 * (lv + 1)), min(z2, 16 * (j + 1))]
+                        if any(hi[n] - lo[n] < 1e-6 for n in range(3)):
+                            continue
+                        cut = {"west": lo[0] > x1, "east": hi[0] < x2, "down": lo[1] > y1, "up": hi[1] < y2,
+                               "north": lo[2] > z1, "south": hi[2] < z2}
+                        p = _json.loads(_json.dumps({k: v for k, v in e.items() if not k.startswith("_")}))
+                        p["from"], p["to"] = [round(v, 4) for v in lo], [round(v, 4) for v in hi]
+                        p["faces"] = {f: v for f, v in p["faces"].items() if not cut[f]}
+                        if not p["faces"]:
+                            continue
+                        p = _tw_local(p, 16 * i, 16 * lv, 16 * j)
+                        for f, v in p["faces"].items():
+                            v["uv"] = _tw_auto_uv(f, p["from"], p["to"])
+                        cells.setdefault((i, j, lv + 1), []).append((p, e["_solid"]))
+        else:
+            if "_cell" in e:
+                i, j, c = e["_cell"]
+            else:
+                lo, hi = _tw_world_box(e)
+                mx, my, mz = ((lo[n] + hi[n]) / 2 for n in range(3))
+                i, j, c = min(4, max(0, int(mx // 16))), min(4, max(0, int(mz // 16))), min(TW_LEVELS, max(1, int(my // 16) + 1))
+            cells.setdefault((i, j, c), []).append((_tw_local(e, 16 * i, 16 * (c - 1), 16 * j), e["_solid"]))
+    return cells
+
+
+def _tw_bounds(items):
+    """The block-unit bounds (0..1) of what is in a block, clipped to it."""
+    pts = []
+    for e, _ in items:
+        lo, hi = _tw_world_box(e)
+        pts.append((lo, hi))
+    if not pts:
+        return None
+    lo = [max(0.0, min(p[0][n] for p in pts)) / 16 for n in range(3)]
+    hi = [min(16.0, max(p[1][n] for p in pts)) / 16 for n in range(3)]
+    if any(hi[n] - lo[n] < 0.02 for n in range(3)):
+        return None
+    return {"x1": round(lo[0], 3), "y1": round(lo[1], 3), "z1": round(lo[2], 3), "x2": round(hi[0], 3), "y2": round(hi[1], 3), "z2": round(hi[2], 3)}
+
+
+TW_SHAPES = os.path.join(ASSETS, "shapes", "block", "detail", "watertowerframe")
+
+
+def tower_d3_blocks():
+    """The rebuilt tower's blocks: one variant per tile and level that has something in it, each its own shape."""
+    cells = tower_d3_cells(tower_d3_model())
+    assert (2, 2, 1) not in cells, "the tap's block is the old watertower-tap"
+    shutil.rmtree(TW_SHAPES, ignore_errors=True)
+    states, shapes, coll, sel = [], {}, {}, {}
+    for (i, j, c) in sorted(cells, key=lambda k: (k[2], k[1], k[0])):
+        st = f"x{i}z{j}y{c:02d}"
+        items = cells[(i, j, c)]
+        els = [e for e, _ in items]
+        keys = sorted({f["texture"][1:] for el, _ in PS.walk(els) for f in el.get("faces", {}).values()})
+        write_json(os.path.join(TW_SHAPES, st + ".json"),
+                   {"textureWidth": 16, "textureHeight": 16, "textures": {k: tpath(k) for k in keys}, "elements": els})
+        states.append(st)
+        shapes[f"*-{st}"] = {"base": f"block/detail/watertowerframe/{st}"}
+        sel[f"*-{st}"] = _tw_bounds(items) or {"x1": 0.4, "y1": 0.4, "z1": 0.4, "x2": 0.6, "y2": 0.6, "z2": 0.6}
+        coll[f"*-{st}"] = _tw_bounds([it for it in items if it[1]])
+    block("watertowerframe", {
+        "variantgroups": [{"code": "part", "states": states}],
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": shapes,
+        "textures": {"towershell": tex_entry("towershell", alts("towershell", 3))},
+        "randomizeAxes": "xyz",
+        "sideopaque": {"all": False}, "sidesolid": {"all": False}, "lightAbsorption": 0,
+        "collisionboxByType": coll, "selectionboxByType": sel,
+        "resistance": 4, "drops": [], "sounds": METAL,
+    }, "Level 94 (D3): the water tower of the pictures, one block per tile and level of its five by five tiles; "
+       "generated by tools/gen_motion.py (tower_d3_*)")
+    name("watertowerframe-*", "Water Tower")
+    return len(states)

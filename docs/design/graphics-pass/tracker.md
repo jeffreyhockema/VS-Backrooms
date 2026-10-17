@@ -202,6 +202,20 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 
 - (D2) A light plate at the foot of a door, in the tone of the wall beside it, reads as a gap under the leaf (the POOL door's kick plate): give foot hardware its own darker tone and take it down to the floor. A kind that the layout places rarely (The End's stained ceiling, one in sixteen) can be made commoner without layout by listing its versions in the plain kind's alternates with a weight.
 
+- (D3) A prop bigger than a block can be one model cut into a block per tile and level (`gen_motion.tower_d3_cells`): unrotated
+  parts are clipped at the block edges and given the UV the game would lay on a block there, so their texture runs on
+  across blocks; turned parts go whole into the block that holds their middle; a cone's plates are a parent turned about
+  the axis carrying a child tilted about x (B14). `check_zfight` per shape misses pairs across blocks: also check the
+  whole model put back together (D3's scratch `d3_combine.py`).
+- (D3) A white matched to a neutral mean (235, 235, 231) read grey beside the cream houses and ivory legs in Level 94's
+  light, and was graded C+; Level 94's whites want a warm mean (236, 233, 222). Rust speckle at rivets read as a realistic
+  steel tower, not a clay prop: runs only.
+- (D3) Level 94's water tower tiles carry their place in the tower in `Stack`, already as the world runs: a hill lot laid
+  out mirrored north to south mirrors the rows back (`PlanHill`). The siren poles (B13's lesson) stand from layout
+  version 8.
+- (D3) The user's game can open between a batch's build and its shooting: check `tasklist` right before `batch.py`, and
+  wait for it to close (never end it).
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -225,6 +239,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B15 The End and The Hub | gfx/B15 | merged | 2 | End walls/carpet and Hub concrete/road/carved leaves C+ (plain by nature); End furniture, escalator, Hub pink door, outpost, statue untouched; ornate ring pulls | passed 2026-10-15 04:40 (Fable): repeats gone, EXIT door hardware verified |
 | B16 974, 3999, 188 | gfx/B16 | merged | 2 | 3999 paint, 974 ceiling and furniture bodies (C+); food court furniture at distance and 188 blinds (B-, runtime) | passed 2026-10-16 06:30 (Fable): marble repeat gone, furniture as geometry |
 | D2 follow-up on B13, B14, B15 decisions (POOL door, Fun chair back, End ceiling stains, Hub worn asphalt) | gfx/D2 | merged | offline only | | | passed 2026-10-16 (Fable): door foot and lettering verified on previews; built into 0.514.0 test zip |
+| D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
 | B17 entities and items | | not started | | | |
 | B18 finish | | not started | | | |
 
@@ -2109,3 +2124,84 @@ wants an in-game look.
   the worn asphalt is 10 levels darker than B15's. Nothing else moved.
 
 **Lessons:** one line added above.
+
+### D3
+
+Worker report (Opus, 2026-10-17). Follow-up on Level 94 from the user's three requests: every house yellow, the siren
+poles standing, and the water towers redesigned to the lore pictures. Branch `gfx/D3` from `main` (c68f794), uncommitted.
+Phase 1 offline (gated by the overseer), then one blind review (round 1), fixes and one reshoot in a fresh world.
+
+**User decisions on the way (2026-10-17):** no lettering on the hill towers: the Sikeston idea (Miraheze: the castle
+"resembles a white water tower, with the word 'Sikeston' on it") is kept for the castle later, and is not added anywhere
+now. The new tower is placed in every world (no version gate).
+
+- **Final sheets:**
+  - `review/d3/compare-round2-vs-main.jpg`: every spot, before = main as the user played it (`review/b13/final/94`).
+  - `review/d3/compare-round2-vs-baseline.jpg`: the same against `review/baseline/94` (pre-B13).
+  - `review/d3/detail-round2.jpg`: the tower, pole and house spots at a larger size.
+  - Shots: `review/d3/final` (world `gfxd3`, layout version 8). Round 1: `review/d3/after`, `compare-round1-*.jpg`,
+    `detail-round1.jpg`, the reviewer's packet in `review/d3/review1/`.
+- **Per-family pairs:** `review/d3/sidebyside/{watertower,houses,sirenpoles}.jpg` from
+  `docs/design/graphics-pass/sidebyside/D3.json`; the D3 section is in `review/compare.html`. The five new spots have no
+  before (marked MISSING on the left).
+- **Decision table:** three rows added to `decisions.md`, decision column empty.
+- **Offline evidence** (`review/d3/offline/`): `tower-preview.png` and `-close.png` (the tower beside B13's from three
+  angles, and close views, from the written shapes), `tex-tower-round2.png`, `town-poles-v7-v8.png` (the harness town at
+  layout 7 and 8, poles in red, `NearestSirenPole`'s corners ringed), `siding-counts-v7-v8.txt`, `town-map-v7/v8.txt`,
+  `lore/` (`lore.txt` with the URLs and what each picture shows, the pictures and zooms), `harness/` (layouthash,
+  links, deep, validatelevel), and the scratch tools in `tools/`.
+
+**Lore found:** Wikidot's Level 94 says only "a water tower, which seems to contain Almond Water"; its picture "94 CC 1"
+shows a white, squat, rounded tank on four tall, nearly vertical white legs with a riser between them and a band round its
+waist. Miraheze's picture is the same scene, clearer: a catwalk round the tank, white columns and ties. Both show
+cream-yellow houses. Fandom was unreachable (402) and is a different level anyway.
+
+**What changed**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| L94 water tower | B (blind r1: tank C+, legs and frame B, tower-far B) | much better | The tower of the pictures, one model cut into a block per tile and level over the old 5 x 5 tiles and 14 levels: four legs on concrete footings with base plates, bolts, and rust and dirt at the feet; girders at two heights and crossed tension rods with a ring at each crossing; a flanged riser over the Almond Water tap (still `watertower-tap`); a sixteen-sided riveted tank on a half-ellipse bottom; a catwalk with a grating deck, posts and two rails; a low cone of a roof with a crown, vent, red beacon and lightning rod; a ladder up a leg to the catwalk and one up the tank. Plain warm white, no lettering; rust runs from the rivets in one tank version in three, a faint weep in another. Round 2 warmed every white (the tank read grey beside the ivory legs), dropped the rust speckle at the rivets and the roof's seam lines (they broke into dashes where the cone's plates overlap). |
+| L94 houses | B (r1: yes, every house yellow) | better | Layout version 8: every hill and town house cream-yellow (`SidingYellow`); in 1-7 three in ten hill houses and a third of the town houses were white. 40 cells round the anchor: 0 white siding tiles at v8 against about 4,300 at v7. |
+| L94 siren poles | placement B (r1: yes, at the ringed corners); the pole model C+ (r1, carried) | better | Layout version 8 places the poles after the town's house lots (`PlaceSirenPoles`), on the lots' front corners across the crossroads from the plaza's corners, where `NearestSirenPole` has always put them (in 1-7 the lots covered them: none stood). The B13 pole model is not changed. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given the compare sheet against main, eight larger shots, the offline previews, the town map
+   and the two lore pictures, and asked the user's three questions):
+   - Houses: yes, every house yellow (wide-05, -07, -08 had white siding before). Poles: yes, at the ringed corners.
+   - Tower: partly. Reads as an elevated municipal tank close to the lore silhouette, no z-fighting, gaps or floating
+     parts; but the tank was a cool grey beside the ivory legs, the rust speckle and fine lattice read realistic rather
+     than clay, and the roof's seams read as scratches. watertower-name faced into the sun.
+   - Out of scope, reported: the siren pole's speakers are plain grey boxes (C+), the castle's glass at the mountain's
+     foot (B13), wide-01 now has a pole in its foreground (layout), radio-close, prop-1 and wide-06 too dark or blocked.
+2. **Round 2 fixed:** one warm white for tank, legs, deck and roof (`TW_WHITE`); rust runs only; the roof's seams
+   removed; `watertower-name` re-aimed as `watertower-west` (sun behind the camera). Reshot once; my grades above.
+
+**Checks**
+- **Layout:** `WorldLayout.CurrentVersion` 8, in its doc comment, `docs/DEVELOPING.md` and `CHANGELOG.md`. `layouthash`
+  v1, v4 and v7 identical line for line to main's output; v8 differs from v7 only on the two Level 94 lines and the total
+  (`review/d3/offline/harness/`). `links` and `deep` identical to main's but for timing. `validatelevel 13` (Level 94,
+  SPAWN=16000, 24 cells) as on main: four doorways blocked by props (B13's).
+- **Saves:** no code, variant group or class renamed or removed. New: block `watertowerframe` (variant group `part`,
+  222 states `x<i>z<j>y<level>`, one shape each under `shapes/block/detail/watertowerframe/`), placed by
+  `WorldGenerator.WaterTowerFrameBlock` where the old tower's legs, tank and roof went, in every world; chunks generated
+  before keep the old tower (a tower straddling the edge of explored ground at the moment it generates can come out half
+  old, half new). The old `watertower` codes are unchanged; with the new blocks missing the generator falls back to them.
+  `NearestSirenPole` reads the same `SirenPoleOffsets` as the poles, so it is right in every version.
+- **Build:** 0 warnings, 0 errors (`tools/locked.sh mod gfx`, clean scratch dir); the harness rebuilt clean.
+- **check_zfight:** clean on all 222 shapes, and on the whole tower put back together.
+- **Texture keys:** `towershell` (-2, -3), `towerpaint`, `towerfoot`, `towerroof`, `towergrate`, `towerfooting`,
+  `towerlamp` are new and used by no other generator; `towersteel` (B13) is reused for rods, bolts and plates.
+- **Churn:** line endings, JSON key order and `hospbed-blanket.png` (gen_run's) restored from git after every run.
+- **Brightness:** within 1.2 levels of round 1 on every spot but the castle's (glass and sky, -5.6); against main within
+  1 level except where the tower or the poles are new in frame (watertower-close +7.7, wide-01 -7.1, the castle within 3).
+  No run came out dark.
+
+**Carried below B:** the siren pole's speakers (C+, B13's model: plain boxes in pure grey); out of scope, unchanged.
+
+**Tool changes:** none to shared tools. **New in `gen_motion`:** the D3 section: `TW_*` constants, `tower_d3_textures`,
+`_tw_box`, `_tw_octo`, `_tw_whole`, `_tw_yaw`, `_tw_facet`, `_tw_cone`, `_tw_profile`, `_tw_rod`, `_tw_level_spans`,
+`tower_d3_model`, `_tw_world_box`, `_tw_local`, `_tw_auto_uv`, `tower_d3_cells`, `_tw_bounds`, `tower_d3_blocks`.
+
+**Lessons:** four lines added above.
+
+**For later (user, 2026-10-17):** the Sikeston water tower is kept for the castle; nothing carries the name yet.

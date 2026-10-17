@@ -1,0 +1,387 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerpaint": "backrooms:block/detail/towerpaint"
+	},
+	"elements": [
+		{
+			"name": "RiserA",
+			"from": [
+				4.0,
+				0,
+				5.12
+			],
+			"to": [
+				12.0,
+				14,
+				10.88
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						2,
+						12.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						2,
+						10.88,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						2,
+						12.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						2,
+						10.88,
+						16
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						5.12,
+						12.0,
+						10.88
+					]
+				}
+			}
+		},
+		{
+			"name": "RiserB",
+			"from": [
+				5.12,
+				0,
+				4.0
+			],
+			"to": [
+				10.88,
+				13.95,
+				12.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						2.05,
+						10.88,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						2.05,
+						12.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						2.05,
+						10.88,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.0,
+						2.05,
+						12.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						5.12,
+						4.0,
+						10.88,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Flange2A",
+			"from": [
+				3.25,
+				0.0,
+				4.58
+			],
+			"to": [
+				12.75,
+				1.5,
+				11.42
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.5,
+						12.75,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.5,
+						11.42,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.5,
+						12.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.5,
+						11.42,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						4.58,
+						12.75,
+						11.42
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						4.58,
+						12.75,
+						11.42
+					]
+				}
+			}
+		},
+		{
+			"name": "Flange2B",
+			"from": [
+				4.58,
+				0.05,
+				3.25
+			],
+			"to": [
+				11.42,
+				1.45,
+				12.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.55,
+						11.42,
+						15.95
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.55,
+						12.75,
+						15.95
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						14.55,
+						11.42,
+						15.95
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.25,
+						14.55,
+						12.75,
+						15.95
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						3.25,
+						11.42,
+						12.75
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						4.58,
+						3.25,
+						11.42,
+						12.75
+					]
+				}
+			}
+		},
+		{
+			"name": "BootA",
+			"from": [
+				2.0,
+				12,
+				3.68
+			],
+			"to": [
+				14.0,
+				16,
+				12.32
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.68,
+						0,
+						12.32,
+						4
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.68,
+						0,
+						12.32,
+						4
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.0,
+						3.68,
+						14.0,
+						12.32
+					]
+				}
+			}
+		},
+		{
+			"name": "BootB",
+			"from": [
+				3.68,
+				12.05,
+				2.0
+			],
+			"to": [
+				12.32,
+				16,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.68,
+						0,
+						12.32,
+						3.95
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						3.95
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.68,
+						0,
+						12.32,
+						3.95
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						2.0,
+						0,
+						14.0,
+						3.95
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						3.68,
+						2.0,
+						12.32,
+						14.0
+					]
+				}
+			}
+		}
+	]
+}

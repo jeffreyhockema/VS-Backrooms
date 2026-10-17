@@ -1,0 +1,175 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerpaint": "backrooms:block/detail/towerpaint",
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "GirderW54",
+			"from": [
+				11.25,
+				6.0,
+				0
+			],
+			"to": [
+				12.75,
+				8.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						11.25,
+						0,
+						12.75,
+						16
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						11.25,
+						0,
+						12.75,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RodW0b1",
+			"from": [
+				12.075,
+				1.4779,
+				-0.6888
+			],
+			"to": [
+				12.825,
+				2.2279,
+				4.9843
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						5.6731,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						5.6731,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						5.6731
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						5.6731
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.45,
+				1.8529,
+				2.1477
+			],
+			"rotationX": 40.7858
+		},
+		{
+			"name": "RodW1a1",
+			"from": [
+				11.175,
+				12.7721,
+				-1.0606
+			],
+			"to": [
+				11.925,
+				13.5221,
+				7.6742
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						8.7348,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						8.7348,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						8.7348
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						8.7348
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.55,
+				13.1471,
+				3.3068
+			],
+			"rotationX": -40.7858
+		}
+	]
+}

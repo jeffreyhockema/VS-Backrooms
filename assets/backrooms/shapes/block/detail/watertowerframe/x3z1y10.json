@@ -1,0 +1,106 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towershell": "backrooms:block/detail/towershell"
+	},
+	"elements": [
+		{
+			"name": "Bowl3r14s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				-8.0,
+				-83.25,
+				24.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Bowl3r14s0",
+					"from": [
+						-15.0619,
+						-83.25,
+						-71.8674
+					],
+					"to": [
+						-0.9381,
+						-81.75,
+						-60.9111
+					],
+					"faces": {
+						"north": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								10.9563,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								10.9563,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								10.9563
+							]
+						},
+						"down": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								10.9563
+							]
+						}
+					},
+					"rotationOrigin": [
+						-8.0,
+						-83.25,
+						24.0
+					],
+					"rotationX": 68.587
+				}
+			],
+			"rotationY": 315.0
+		}
+	]
+}

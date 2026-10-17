@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerroof": "backrooms:block/detail/towerroof",
+		"towershell": "backrooms:block/detail/towershell"
+	},
+	"elements": [
+		{
+			"name": "Shell15y176",
+			"from": [
+				-14.9619,
+				0,
+				5.0
+			],
+			"to": [
+				-1.0381,
+				6.0,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						1.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				-8.0,
+				3.0,
+				40.0
+			],
+			"rotationY": 337.5
+		},
+		{
+			"name": "Roof15s2Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				-8.0,
+				22.3622,
+				40.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Roof15s2",
+					"from": [
+						-15.41,
+						20.8622,
+						-0.2279
+					],
+					"to": [
+						-0.59,
+						22.3622,
+						10.8097
+					],
+					"faces": {
+						"north": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								14.8201,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								14.8201,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								14.8201,
+								11.0376
+							]
+						},
+						"down": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								14.8201,
+								11.0376
+							]
+						}
+					},
+					"rotationOrigin": [
+						-8.0,
+						22.3622,
+						40.0
+					],
+					"rotationX": -24.0
+				}
+			],
+			"rotationY": 337.5
+		}
+	]
+}

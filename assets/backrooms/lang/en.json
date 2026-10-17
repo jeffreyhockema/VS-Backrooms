@@ -2539,5 +2539,7 @@
 	"note-read-already": "You have read this one: it is in your journal.",
 	"note-info-read": "You have read this one: it is in your journal. Someone else may still read it.",
 	"note-info-read-other": "Read by one other wanderer; not yet by you.",
-	"note-info-read-others": "Read by {0} other wanderers; not yet by you."
+	"note-info-read-others": "Read by {0} other wanderers; not yet by you.",
+
+	"block-watertowerframe-*": "Water Tower"
 }

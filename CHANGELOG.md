@@ -2,7 +2,7 @@
 
 ## 0.514.0 — the graphics pass
 
-Every texture and model the mod adds was reviewed in the game against the vanilla blocks beside it, level by level, and rebuilt where it fell short. Nothing vanilla changed, no block or item codes changed, and existing worlds keep working: new looks apply to every block already placed, and the few props with new shapes (Level 9's roofs and gables) appear in chunks generated from now on.
+Every texture and model the mod adds was reviewed in the game against the vanilla blocks beside it, level by level, and rebuilt where it fell short. Nothing vanilla changed, no block or item codes changed, and existing worlds keep working: new looks apply to every block already placed, and the few props with new shapes (Level 9's roofs and gables, Level 94's water towers) appear in chunks generated from now on.
 
 - Surfaces: wallpapers, carpets, concrete, brick, tile, plaster, asphalt, turf and marble are built from a shared material kit with real structure and shading, tile without visible block edges, and no longer repeat the same mark on every block.
 - Hardware is geometry, not paint: gauges, dials, grilles, door handles, kick plates, hinges, breaker panels, cable trays, lamps, chandeliers, sconces, elevator doors and call buttons.
@@ -14,6 +14,8 @@ Every texture and model the mod adds was reviewed in the game against the vanill
 - Level 9: gables carry the house's own siding to the roof; pitched shingle roofs with eaves, gutters and ridge caps; porch posts, front doors, mailboxes; fine-grained asphalt.
 - Level 11: façade windows, string courses and cornices as geometry; subway tracks, tiles and signs; billboards and advertising pillars with crisp posters.
 - Levels 37 and 94: shaded mosaic with recessed grout and a modelled POOL door; clay turf without the repeating swirl, the castle, water towers, fountains and milk vans.
+- Level 94's water towers are rebuilt as the white municipal tower in the pictures: four braced legs on footings, a riser over the Almond Water tap, a round tank with a conical roof, a catwalk with a railing, ladders, and rust runs on the white paint. They appear in chunks generated from now on.
+- Level 94, in worlds made from now on (layout version 8): every house is cream-yellow, as in the pictures (some were white), and the towns' siren poles stand at the corners across the road from the plaza (the house lots used to cover them, so the tune played from nowhere). Existing worlds keep the layout they were made with.
 - The far places: Level !'s crash rail, doors, notices and set pieces; Level Fun's lobbies, elevator doors and signs; The End's shelving and EXIT doors; the Hub's lamps, sigils and tower; 974's rooms; 3999's marble, food court and arcade; 188's pavers, blinds and bollards.
 
 ## 0.513.3 — fixes from the first week

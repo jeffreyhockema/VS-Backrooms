@@ -29,6 +29,11 @@
     {"name": "castle-wall-close", "tp": [512030.5, 227.05, 383984.5], "look": [180, 15], "target": "castle south wall from the glass", "pre": ["/time set 12:00"]},
     {"name": "castle-wall-wide", "tp": [512052.5, 217.05, 383978.5], "look": [223, 20], "target": "castle's south-east tower from down the glass", "pre": ["/time set 12:00"]},
     {"name": "icebox-close", "tp": [512038.0, 196.05, 383587.5], "look": [90, -15], "target": "icebox at 512040,383587", "pre": ["/time set 12:00"]},
-    {"name": "radio-close", "tp": [512040.0, 196.05, 383582.5], "look": [90, -20], "target": "radio cabinet at 512042,383582", "pre": ["/time set 12:00"]}
+    {"name": "radio-close", "tp": [512040.0, 196.05, 383582.5], "look": [90, -20], "target": "radio cabinet at 512042,383582", "pre": ["/time set 12:00"]},
+    {"name": "watertower-far", "tp": [511829.5, 187.05, 383626.5], "look": [0, 20], "target": "the whole water tower centred 511829,383594 from the valley to its south", "pre": ["/time set 12:00"]},
+    {"name": "watertower-tank", "tp": [511835.5, 194.05, 383600.5], "look": [315, 45], "target": "tank, catwalk and ladders from under the south-east side", "pre": ["/time set 12:00"]},
+    {"name": "watertower-west", "tp": [511814.5, 190.05, 383594.5], "look": [90, 40], "target": "tank, catwalk and roof from the hillside to the west (the sun behind the camera at noon)", "pre": ["/time set 12:00"]},
+    {"name": "siren-close", "tp": [512187.5, 187.05, 383486.5], "look": [315, 12], "target": "siren pole at 512184,383483 (town corner 22,22) across the crossroads from the plaza", "pre": ["/time set 12:00"]},
+    {"name": "siren-wide", "tp": [512198.5, 187.05, 383486.5], "look": [270, 6], "target": "the road north of the plaza and the pole at 512184,383483", "pre": ["/time set 12:00"]}
   ]
 }
