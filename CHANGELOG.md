@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.514.0 — the graphics pass
+
+Every texture and model the mod adds was reviewed in the game against the vanilla blocks beside it, level by level, and rebuilt where it fell short. Nothing vanilla changed, no block or item codes changed, and existing worlds keep working: new looks apply to every block already placed, and the few props with new shapes (Level 9's roofs and gables) appear in chunks generated from now on.
+
+- Surfaces: wallpapers, carpets, concrete, brick, tile, plaster, asphalt, turf and marble are built from a shared material kit with real structure and shading, tile without visible block edges, and no longer repeat the same mark on every block.
+- Hardware is geometry, not paint: gauges, dials, grilles, door handles, kick plates, hinges, breaker panels, cable trays, lamps, chandeliers, sconces, elevator doors and call buttons.
+- Furniture is modelled: desks, office chairs, filing cabinets, diner booths, store shelves stocked with packs, food-court chairs and tables, arcade cabinets, vending machines, the hospital bed, the Fort Surrender furniture.
+- Level 1: poured concrete floors and formed walls, a new camp kit (tent, sleeping bag, burn barrel), framed crates and a looted crate.
+- Level 2: machinery cabinets with real dials, the dead tram with recessed windows and a grille, modelled steel doors.
+- Level 3: breaker panels, fans, cable trays, risers, a riveted boiler, switchgear and transformer, enamel plaques, the Sanctum's ashlar and statue.
+- Level 5: panelled hotel doors with brass plates, an eight-arm chandelier, the front hall desk, key rack and stairs, the cage lift.
+- Level 9: gables carry the house's own siding to the roof; pitched shingle roofs with eaves, gutters and ridge caps; porch posts, front doors, mailboxes; fine-grained asphalt.
+- Level 11: façade windows, string courses and cornices as geometry; subway tracks, tiles and signs; billboards and advertising pillars with crisp posters.
+- Levels 37 and 94: shaded mosaic with recessed grout and a modelled POOL door; clay turf without the repeating swirl, the castle, water towers, fountains and milk vans.
+- The far places: Level !'s crash rail, doors, notices and set pieces; Level Fun's lobbies, elevator doors and signs; The End's shelving and EXIT doors; the Hub's lamps, sigils and tower; 974's rooms; 3999's marble, food court and arcade; 188's pavers, blinds and bollards.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
