@@ -1,0 +1,102 @@
+// Level 73: an iron wall sconce in the Silver Castle (the wall to its back, south for -north), a dim amber glow
+{
+	"code": "l73-sconce",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "block/73/sconce",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/73/sconce",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/73/sconce",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/73/sconce",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"lightHsv": [
+		6,
+		5,
+		8
+	],
+	"resistance": 1.5,
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.5,
+			"x2": 0.7,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.5,
+			"x2": 0.7,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.5,
+			"x2": 0.7,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.3,
+			"y1": 0.25,
+			"z1": 0.5,
+			"x2": 0.7,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

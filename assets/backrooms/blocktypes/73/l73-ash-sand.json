@@ -1,0 +1,27 @@
+// Level 73: grey-pink ash sand on the beach
+{
+	"code": "l73-ash-sand",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Sand",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/ashsand"
+		}
+	},
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/sand*",
+		"place": "game:block/sand",
+		"break": "game:block/sand",
+		"hit": "game:block/sand"
+	}
+}

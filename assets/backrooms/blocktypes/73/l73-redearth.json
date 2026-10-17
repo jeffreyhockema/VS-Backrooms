@@ -1,0 +1,32 @@
+// Level 73: the island's crimson-stained ground, packed and flecked with black
+{
+	"code": "l73-redearth",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/redearth",
+			"alternates": [
+				{
+					"base": "block/73/redearth-2"
+				}
+			]
+		}
+	},
+	"resistance": 2.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

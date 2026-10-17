@@ -1,0 +1,27 @@
+// Level 73: glossy red-brown mud in the gullies
+{
+	"code": "l73-bloodmud",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/bloodmud"
+		}
+	},
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

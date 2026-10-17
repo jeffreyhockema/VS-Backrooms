@@ -125,3 +125,56 @@ Key `2101` is for the castle interior only; the island uses `level-21`.
    bedrooms; the rest are plain stubs behind closed doors.
 6. **Outdoor darkness.** The lore forbids outdoor lights. Recommend: keep sky light at 4 so terrain is readable but
    frightening, and add no lamps outside.
+
+## Status (prototype built, 2026-10-17)
+
+**Built.**
+- *Region and geometry.* Round region of a fixed 16 cells (512 blocks) radius at the README's centre, so it is the same
+  in every world size (much smaller than the plan's 320 cells: a 10 km region would be all sea). Open sky
+  (`IsOpenSky(Level73)` true). Drop 0, so the floor (`FloorFor`) is the sea's surface; `L73BandDepth = 12`, so the
+  usual 40-block band runs rel -12 to +27. The plan's heights did not fit: the island is scaled down (see below). The
+  rim cells are a basalt cliff to rel 16 round the sea (built per cell as Motion's backdrop is, since the open-sky edge
+  rule would leave the rim open onto Level 10).
+- *Island* (`WorldLayout.L73Ground`, a pure function of the block position): centre jittered within 16 blocks of the
+  region centre; radius 230 +-20% (Fbm coast); dome to about 9.5 plus hills on a jittered 44-block lattice (radius
+  12-22, height 2-4.5, none within 90 of the castle), roughness, a 40-block beach ramp; summit levelled to rel 9 within
+  36 blocks (blend to 56); gullies of `l73-bloodmud` along the zero lines of a noise (up to 3 deep); cap 12. Surface:
+  `l73-ash-sand` at rel 0-1, `l73-blackrock` on outcrops and at 11+, else `l73-redearth`, over basalt. Sea beyond the
+  coast falling to 10 deep over 110 blocks, bed of basalt sand / gravel, still water (`water-still-7`) to rel 0.
+- *Silver Castle* (castle-local arithmetic, `L73CastleAt` / `L73KeepAt` / `L73UpperAt`): 48 x 40 curtain wall, 2
+  thick, 7 high with merlons; four 6x6 corner towers (10 high); a gatehouse (two 4x5 towers, a 4-wide gate under a
+  lintel) in the south wall; a 4-wide `hub-ashlar-worn` path from 26 blocks outside the gate to the keep's 2-wide door.
+  Keep 28 x 20, two storeys of 6 and 5 blocks, flat roof with parapet and four 3x3 turrets (top at rel 24). Ground: main
+  hall (maroon hotel carpet, bookshelves, grandfather clock, candelabras, two chandeliers) with a hotel-carpet stair up
+  its north wall through a hole in the floor above; dining hall (aged planks, a 6 x 2 dining table with 12 chairs, a
+  hearth of `game:ember` in a silver-ashlar chimney breast at its east end). Upper: landing, two bedrooms (Level 5 beds,
+  nightstands, wardrobes), a bathroom (bathtub, toilet). Windows boarded with aged planks. 32 `l73-sconce` (light 8).
+- *Sky and air* (client): fog crimson-black 0.0035 (0.006 over the sea, ground mist at sea level), scene brightness 0.30,
+  held at every hour like Level 9's; the outside sky (sun, moon, stars, blue) hidden in a fog sphere of the fog's colour
+  (Level 10's trick); a fixed full moon drawn by `src/Regions/L73Moon.cs` (bearing 200, 24 degrees up, 5 degrees across,
+  `textures/environment/l73-moon.png`); dark spells (one 2-game-hour slot in three, ~0.35 h) hide the moon, double the
+  fog, scene 0.12. Keep: warm brown air 0.0015, scene 0.85, title key 2101 "The Silver Castle".
+- *Sound bed* (all reused): vanilla wind, `waterwaves` surf louder toward the coast, wolf howls far off every 45-105 s, the
+  Run heartbeat at 0.07; in the keep, wind muffled, `fireplace` positional at the hearth, Level 974 creaks, the End's
+  echo step overhead.
+- *Rules:* temperature 4 C outside, 15 C in the keep, 22 C in the dining hall; stability 0.9 outside, 1 within the castle.
+  Arrivals: 85-165 blocks from the gate on dry land (`IsL73ArrivalSpot`: land zone, height >= 2, not mud).
+- *Assets* (`tools/gen_73.py`, matlib/texlib): `l73-redearth`, `l73-blackrock`, `l73-ash-sand`, `l73-bloodmud`,
+  `l73-silverwall`, `l73-sconce` (4 sides, json shape `shapes/block/73/sconce.json`), the moon picture, lang keys.
+- *Harness:* `73stats` and `73map` in `tools/mapgen/L73Stats.cs`.
+
+**Numbers.** `73stats` (seed 12345, full size): 783 cells, 0.6 ms a cell; land 25.5%, sea 58.9%, castle 0.24% (1920
+tiles), rim 15.3%; peak 11, deepest sea 10; arrivals 60/60 on dry land, 67-172 blocks from the gate. `SPAWN=1000`: 748
+cells, land 26.7%, sea 57.0%, arrivals 60/60. `regions`: Level 73 60/60, wrong level 0, pockets 0 (both sizes).
+`layouthash`: every per-level line for 0-20 unchanged. Headless: `blocksweep` 7825 blocks, 0 threw; dumps of the castle
+and the island show every block as planned, no missing blocks, shapes or textures logged for 73.
+
+**Skipped.** Thresholds, entities (CORAN, the children), dens, loot, notes, handbook; banners; red curtains (the
+windows are only boarded); the attic and balcony, the third storey, the master bedroom; food and water at the table;
+doors (doorways are open).
+
+**Known gaps / to check in a client.** The moon renderer, the sky sphere and the night's brightness are untested in a
+client (headless only): check the moon's place, size and glow, that the sky really hides (no sun at noon), that the
+island reads at scene 0.30, and the sconce model's orientation. The map layer (`BackroomsMapLayer`, the grouped case
+of floor to floor+5) is not taught the island's heights. Sunlight floods the keep's ground storey through its door
+(as it would). Vanilla basalt and ember bypass the salvage Breakdown.

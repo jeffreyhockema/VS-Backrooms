@@ -1,0 +1,32 @@
+// Level 73: the Silver Castle's masonry, bright silver-grey ashlar
+{
+	"code": "l73-silverwall",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/silverwall",
+			"alternates": [
+				{
+					"base": "block/73/silverwall-2"
+				}
+			]
+		}
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}
