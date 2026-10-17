@@ -16,6 +16,21 @@ Every texture and model the mod adds was reviewed in the game against the vanill
 - Levels 37 and 94: shaded mosaic with recessed grout and a modelled POOL door; clay turf without the repeating swirl, the castle, water towers, fountains and milk vans.
 - The far places: Level !'s crash rail, doors, notices and set pieces; Level Fun's lobbies, elevator doors and signs; The End's shelving and EXIT doors; the Hub's lamps, sigils and tower; 974's rooms; 3999's marble, food court and arcade; 188's pavers, blinds and bollards.
 
+## 0.513.3 — fixes from the first week
+
+Multiplayer fixes, kept notes, a Spanish translation and a few repairs. Existing worlds keep working.
+
+- Spanish translation (es-419 and es-es), by NeoB. The handbook pages and other text that changed in 0.513 stay in English until the translation catches up.
+- Fixed: breaking a torch (or anything else) you had put down yourself in the Hub's Tower counted as vandalism, and the Keymaster threw you out with nothing and closed the Tower to you for good. Only the Tower's own blocks count now; what you place there is yours to take up again.
+- For admins: `/backrooms hub reset [player]` lets a player into the Tower again as if they had never been (the Keymaster offers them a key once more). In singleplayer, type it yourself. For anyone thrown out by the bug above.
+- Wanderers' notes are no longer used up when read: the note stays in your pockets and remembers who has read it, so on a server it can be passed on and every player gets the next page in their own sequence from the same paper (one read per player per note; reading one again only says it is in your journal). A read note is named "(read)" to whoever has read it and stacks apart from fresh ones, which stack as before. The pocket note and notes lying loose follow the same rule. Existing notes keep working.
+- Fixed: the game's own low-stability look (dark brown fog and a darkened world, which comes on whenever your Reality Stability is low, as after every Reality Shift) was laid over each level's own air and followed you through every elevator, door and stairway, so Level 4's gloom seemed to stay on in Level 5 and fog seemed to come through a door with you. The level's air now always shows; the distortion, whispers and rust still tell you your stability is low. The Mangled's fog lifts as soon as you leave the Suburbs, however you leave.
+- Low Reality Stability shows in the air again, now each level's own: below 0.3 the fog of whatever level you are in thickens and turns a dull, dark brown-grey of its own colour, and the world dims by nearly a third, more the lower your stability falls. It fades in and out over a second or so, clears as your stability comes back, and lamps still light the room.
+- Fixed: two players together were hunted by twice as much, and more. The director counted what was about each player only among the entities put down for them, so a pair at the edge of a level could have twelve menacing things about them where one player has six; and an entity struck by the other player became theirs, which took it off the first player's count and let the director put down more. The count is now of everything menacing about the place, whoever it was put down for. Playing alone, nothing changes.
+- Fixed: a Hound stared at by the other player, a Smiler held in their gaze or a glimpse they watched took no notice: only a stare from the one it was put down for counted. Anyone's does now.
+- Fixed: a hunter put down 14 blocks from one player could land right beside the other. Nothing is put down within 12 blocks of anyone now.
+- Dev: `/backrooms dummies` has the director direct the straw dummies that `/backrooms encounter` puts down from the console, so what gathers round one or two players can be watched on a headless server.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.

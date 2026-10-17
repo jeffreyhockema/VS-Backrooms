@@ -24,9 +24,17 @@ namespace Backrooms;
 /// black, with the odd flash as the power fights back) and a Level 1 Flickering (the same, round the player only),
 /// blinks to black for a moment when the player is carried somewhere else by an elevator, a pit or a door that opens
 /// onto the wrong place, and names each level as the player enters it.
+///
+/// The level's air is kept the last of the client's ambient modifiers (<see cref="KeepAirLast"/>), so it is what
+/// shows wherever it has a say: the game's own low-stability fog, added later, used to be laid over it. Low stability
+/// shows in the level's own air instead: as the player's own stability falls below 0.3 the fog thickens and goes a
+/// dull, dark brown-grey of its own colour, and the world dims (<see cref="Strained"/>).
 /// </summary>
 public partial class AtmosphereSystem : ModSystem
 {
+    /// <summary>The key the level's air is kept under among the client's ambient modifiers.</summary>
+    private const string ModifierKey = "backrooms";
+
     private readonly struct Atmosphere
     {
         /// <summary>
@@ -159,6 +167,17 @@ public partial class AtmosphereSystem : ModSystem
     private const float DarkFogMin = 0.5f, LitDarkDensity = 0.06f, LitDarkFogMin = 0.08f;
     private const float DimmestLight = 5f, BrightestLight = 20f;
 
+    // The player's own low stability. Below StrainStart the cue comes in, in full at zero: the fog grows to
+    // StrainDensityGain times as thick plus StrainDensityAdd (never past StrainDensityCap, unless it was already
+    // thicker: Level 6's dark and Level 7's depths keep a lantern's reach), its colour goes StrainGrey of the way to a
+    // brown-grey of its own brightness and down to StrainDark of it, and the ambient light (and the fog with it) falls
+    // by StrainDim. Lamps are block light, which the ambient doesn't touch, so a lit room stays lit.
+    private const float StrainStart = 0.3f;
+    private const float StrainDensityGain = 1.6f, StrainDensityAdd = 0.008f, StrainDensityCap = 0.05f;
+    private const float StrainGrey = 0.75f, StrainDark = 0.6f, StrainDim = 0.3f;
+    /// <summary>The brown-grey low stability turns the fog to, as a tint on its brightness (it keeps its brightness).</summary>
+    private static readonly float[] StrainTint = { 1.15f, 0.97f, 0.80f };
+
     /// <summary>How long before a level's (or zone's) title is shown again, so walking along a border doesn't keep showing it.</summary>
     private const double TitleCooldownSeconds = 300;
 
@@ -181,6 +200,7 @@ public partial class AtmosphereSystem : ModSystem
     private float baseDensity, baseFogMin, baseScene = 1, sceneWeight = 1, baseClouds, baseCloudBright = 0.75f, cloudWeight, fogBrightWeight = 1, ownWeight = 1;
     private readonly float[] baseColor = new float[3];
     private readonly float[] targetColor = new float[3];
+    private readonly float[] strainColor = new float[3];
     private bool snapNext = true;
 
     private Vec3d lastPos;
@@ -191,6 +211,8 @@ public partial class AtmosphereSystem : ModSystem
     private float nextWaves = 4;
     private float flicker;
     private bool shiftWasActive, shiftSeen;
+    // How far the player's low stability shows in the air (0 not at all, 1 at zero stability), eased
+    private float strain;
 
     // Which level the player was last in, and when each level's name was last shown
     private int lastLevelKey = -1;
@@ -223,7 +245,7 @@ public partial class AtmosphereSystem : ModSystem
         fog.AmbientColor = WeightedFloatArray.New(new[] { DayAmbient, DayAmbient, DayAmbient }, 1f);
         fog.CloudDensity = WeightedFloat.New(0f, 0f);
         fog.CloudBrightness = WeightedFloat.New(0.75f, 0f);
-        capi.Ambient.CurrentModifiers["backrooms"] = fog;
+        capi.Ambient.CurrentModifiers[ModifierKey] = fog;
 
         tickListener = capi.Event.RegisterGameTickListener(OnTick, 50);
     }
@@ -233,7 +255,7 @@ public partial class AtmosphereSystem : ModSystem
         if (capi != null)
         {
             if (tickListener != 0) capi.Event.UnregisterGameTickListener(tickListener);
-            if (fog != null) capi.Ambient.CurrentModifiers.Remove("backrooms");
+            if (fog != null) capi.Ambient.CurrentModifiers.Remove(ModifierKey);
         }
         // Every loop the levels may have running, so none is left playing after the world closes
         foreach (ILoadedSound sound in new[]
@@ -248,11 +270,39 @@ public partial class AtmosphereSystem : ModSystem
         base.Dispose();
     }
 
+    /// <summary>
+    /// Keeps the level's air the last of the client's ambient modifiers (but for the cheats' clear air), so it is what
+    /// shows. The game blends its modifiers in the order they were added, each over the ones before at its weight, and
+    /// adds its own low-stability one ("brownrainandfog", EntityBehaviorTemporalStabilityAffected) on the player's
+    /// first tick, after this one: while the player's own stability was low it laid dark brown fog and a dark ambient
+    /// over every level's air. In the Backrooms stability stays low a long time (every Reality Shift drains it to
+    /// nothing, and it recovers only where a place's stability is above 1: Level 4, the Manila Room, the Snackrooms,
+    /// the 9th Road, Levels 10 and 11, and a few more), so that darkness and fog followed players through every
+    /// threshold and read as the air of the level they had left. The game's distortion, whispers and rust still say
+    /// that stability is low, and the level's own air shows it (thicker, browner and dimmer; see OnTick).
+    /// </summary>
+    private void KeepAirLast()
+    {
+        var modifiers = capi.Ambient.CurrentModifiers;
+        int at = modifiers.IndexOfKey(ModifierKey), count = modifiers.Count;
+        bool last = at == count - 1 || at == count - 2 && modifiers.GetKeyAtIndex(count - 1) == Cheats.CheatSystem.ClearAirKey;
+        if (at >= 0 && last) return;
+        modifiers.Remove(ModifierKey);
+        modifiers[ModifierKey] = fog;
+        // The cheat wins over the level's air by coming after it
+        if (modifiers.TryGetValue(Cheats.CheatSystem.ClearAirKey, out AmbientModifier clear))
+        {
+            modifiers.Remove(Cheats.CheatSystem.ClearAirKey);
+            modifiers[Cheats.CheatSystem.ClearAirKey] = clear;
+        }
+    }
+
     private void OnTick(float dt)
     {
         EntityPlayer entity = capi.World.Player?.Entity;
         EntityPos pos = entity?.Pos;
         if (pos == null) return;
+        KeepAirLast();
 
         int mx = WorldLayout.MacroOf((int)Math.Floor(pos.X)), mz = WorldLayout.MacroOf((int)Math.Floor(pos.Z));
         int level = Math.Min(layout.LevelAt(mx, mz), Levels.Length - 1);
@@ -309,6 +359,14 @@ public partial class AtmosphereSystem : ModSystem
         if (shift > 0 && rand.NextDouble() < dt * (shift < 1 ? 2.5 : 0.25)) flash = 1f;
         flash = Math.Max(0f, flash - dt * 6f);
         float black = Math.Max(blink, shift * (1f - 0.8f * flash));
+
+        // The player's own stability: below 0.3 the air shows it, more the lower it falls, coming and going over about
+        // a second so it never jumps. It is laid over whatever air the player is in now, so it goes with them through
+        // a door and changes with the level, and lifts as their stability comes back. (Spectators are left the plain
+        // air, as in Level 6.)
+        float strainTarget = spectator ? 0f : GameMath.Clamp((StrainStart - (float)Entities.Senses.Stability(entity)) / StrainStart, 0f, 1f);
+        strain += (strainTarget - strain) * Math.Min(1f, dt * 3f);
+        if (strainTarget == 0 && strain < 0.005f) strain = 0f;
 
         float density = target.Density, fogMin = target.FogMin, groundFog = target.GroundFog;
         targetColor[0] = target.R; targetColor[1] = target.G; targetColor[2] = target.B;
@@ -373,15 +431,23 @@ public partial class AtmosphereSystem : ModSystem
 
         // A Level 6 reveal briefly lifts the dark altogether
         float d = GameMath.Lerp(baseDensity, 0.004f, reveal), m = GameMath.Lerp(baseFogMin, 0f, reveal);
+        if (strain > 0) d = GameMath.Lerp(d, Math.Min(d * StrainDensityGain + StrainDensityAdd, Math.Max(d, StrainDensityCap)), strain);
         fog.FogDensity.Value = GameMath.Lerp(d, BlackoutDensity, black);
         fog.FogDensity.Weight = ownWeight;
         float[] fogColor = fog.FogColor.Value;
-        for (int i = 0; i < 3; i++) fogColor[i] = GameMath.Lerp(baseColor[i], 0.01f, black);
+        Strained(baseColor, strainColor);
+        for (int i = 0; i < 3; i++) fogColor[i] = GameMath.Lerp(GameMath.Lerp(baseColor[i], strainColor[i], strain), 0.01f, black);
         fog.FogColor.Weight = ownWeight;
         fog.FogMin.Value = Math.Max(m, Math.Max(BlackoutFogMin * shift * (1f - 0.8f * flash), BlinkFogMin * blink));
         fog.FogMin.Weight = ownWeight;
-        fog.SceneBrightness.Value = baseScene;
-        fog.SceneBrightness.Weight = sceneWeight;
+        // Low stability dims the world by StrainDim of whatever it would be: the game lays each modifier's brightness over
+        // the ones before at its weight, so this one, at weight w and value v, gives w v + (1 - w) before. The level's
+        // own (baseScene at sceneWeight) dimmed is sceneWeight (1 - dim) baseScene + (1 - sceneWeight)(1 - dim) before,
+        // which is the same thing at the w and v below. Where the level keeps the outside day and night (weight 0
+        // there), that dims the night by the same share as the day rather than lighting it up.
+        float dim = StrainDim * strain, sceneW = 1f - (1f - sceneWeight) * (1f - dim);
+        fog.SceneBrightness.Value = sceneW > 0.001f ? sceneWeight * (1f - dim) * baseScene / sceneW : baseScene;
+        fog.SceneBrightness.Weight = sceneW;
         fog.FogBrightness.Weight = fogBrightWeight;
         // The day's ambient light too, wherever the fog's brightness is held (but under water, the game's own tint)
         fog.AmbientColor.Weight = fogBrightWeight * ownWeight;
@@ -394,6 +460,18 @@ public partial class AtmosphereSystem : ModSystem
         fog.FlatFogDensity.Value += (groundFog - fog.FlatFogDensity.Value) * Math.Max(k, Math.Min(1f, dt * 2f));
         // Flat fog height is relative to sea level, which the server sets to the floor; compute it absolutely anyway
         fog.FlatFogYPos.Value = geometry.FloorY + GroundFogHeight - capi.World.SeaLevel;
+    }
+
+    /// <summary>
+    /// The fog colour low stability turns <paramref name="color"/> to: most of the way to a brown-grey of the same
+    /// brightness, and darker in step with it, so each level's fog keeps a little of its own hue and stays as much lighter
+    /// or darker than the next level's as it was (Level 6's black stays black; Level 37's pale tile air goes a dull, dim
+    /// brown).
+    /// </summary>
+    private static void Strained(float[] color, float[] into)
+    {
+        float lum = 0.30f * color[0] + 0.59f * color[1] + 0.11f * color[2];
+        for (int i = 0; i < 3; i++) into[i] = StrainDark * GameMath.Lerp(color[i], lum * StrainTint[i], StrainGrey);
     }
 
     /// <summary>

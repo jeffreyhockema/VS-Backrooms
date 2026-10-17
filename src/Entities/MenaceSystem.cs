@@ -126,6 +126,14 @@ public class MenaceSystem : ModSystem
     /// <summary>Stops the director putting anything down or playing distant sounds (/backrooms director, for testing).</summary>
     public bool Paused;
 
+    /// <summary>
+    /// Headless tests (/backrooms dummies): the director also directs the straw dummies put down by /backrooms
+    /// encounter, as if they were players, so what gathers round one or two of them can be watched without a client.
+    /// </summary>
+    public bool DirectsDummies;
+    private readonly List<Entity> dummies = new();
+    private int dummyTicks;
+
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
     // After BackroomsModSystem, which creates the /backrooms command this adds to
@@ -203,6 +211,11 @@ public class MenaceSystem : ModSystem
                     Logging = args.Parsers[0].IsMissing ? !Logging : (bool)args[0];
                     return TextCommandResult.Success("Entity log " + (Logging ? "on" : "off"));
                 })
+            .EndSubCommand()
+            .BeginSubCommand("dummies")
+                .WithDescription("Headless tests: the director also directs the straw dummies put down by /backrooms encounter (on/off), and reports where each stands")
+                .WithArgs(api.ChatCommands.Parsers.OptionalBool("on"))
+                .HandleWith(OnDummiesCommand)
             .EndSubCommand();
     }
 
@@ -406,6 +419,40 @@ public class MenaceSystem : ModSystem
             Assess(entity, watch);
             Direct(entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative);
         }
+        if (DirectsDummies) DirectDummies();
+    }
+
+    /// <summary>Directs the straw dummies as players (see <see cref="DirectsDummies"/>), and logs what is about them every half minute.</summary>
+    private void DirectDummies()
+    {
+        dummies.RemoveAll(d => !d.Alive);
+        bool report = Logging && ++dummyTicks % 15 == 0;
+        foreach (Entity dummy in dummies)
+        {
+            if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
+            Assess(dummy, watch);
+            Direct(dummy, watch, creative: false);
+            if (!report) continue;
+            int own = sapi.World.GetEntitiesAround(dummy.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.OwnerOf(e) == dummy.EntityId && EntityBehaviorMenace.KindOf(e) != Encounter.Ambient).Length;
+            sapi.Logger.Notification("[backrooms] about {0} #{1}: {2} menacing within 64 blocks ({3} its own), band {4}, menace {5:0.00}, cap {6}",
+                dummy.Code.Path, dummy.EntityId, CountMenacing(dummy), own, watch.Now.Band, watch.Now.Value, Roster.Cap(watch.Now.Band, watch.Now.Level));
+        }
+    }
+
+    private TextCommandResult OnDummiesCommand(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        DirectsDummies = args.Parsers[0].IsMissing ? !DirectsDummies : (bool)args[0];
+        dummies.RemoveAll(d => !d.Alive);
+        var text = new StringBuilder();
+        text.Append(DirectsDummies ? "The director directs the dummies" : "The director leaves the dummies alone");
+        foreach (Entity dummy in dummies)
+        {
+            Assessment a = AssessmentOf(dummy);
+            text.AppendFormat("\n#{0} at {1:0} {2:0} {3:0}: Level {4}, band {5}, menace {6:0.00}, {7:0}% through it, {8} blocks to the next, {9} menacing about it",
+                dummy.EntityId, dummy.Pos.X, dummy.Pos.Y, dummy.Pos.Z, a.Level, a.Band, a.Value, a.Depth * 100, a.ToNextLevel == int.MaxValue ? "no" : a.ToNextLevel.ToString(), CountMenacing(dummy));
+        }
+        return TextCommandResult.Success(text.ToString());
     }
 
     private void Direct(Entity target, Watch watch, bool creative)
@@ -547,9 +594,13 @@ public class MenaceSystem : ModSystem
         TrySpawn(target, a, entry, Encounter.Ambient);
     }
 
-    /// <summary>How many menacing (not Ambient) entities are about a player already.</summary>
+    /// <summary>
+    /// How many menacing (not Ambient) entities are about a player already, whoever they were put down for: the cap
+    /// is on the place, so two people together are not hunted by twice as much, and what turns on a second player
+    /// (see <see cref="AiTaskMenace.OnEntityHurt"/>) still counts for the first.
+    /// </summary>
     private int CountMenacing(Entity target) =>
-        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.OwnerOf(e) == target.EntityId && EntityBehaviorMenace.KindOf(e) != Encounter.Ambient).Length;
+        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave).Length;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
     public void PlayDistantSound(Entity target, int level)
@@ -734,6 +785,8 @@ public class MenaceSystem : ModSystem
     private Vec3d FindSpot(Entity target, Assessment a, RosterEntry entry, Encounter kind, int x, int z, int? nearY = null)
     {
         if (target.Pos.XYZ.HorizontalSquareDistanceTo(x + 0.5, z + 0.5) < NoSpawnRadius * NoSpawnRadius) return null;
+        // (Nor on top of anyone else: a hunter put down 14 blocks from one player must not land beside another)
+        if (sapi.World.GetNearestEntity(new Vec3d(x + 0.5, target.Pos.Y, z + 0.5), NoSpawnRadius, NoSpawnRadius, e => e != target && e is EntityPlayer p && p.Alive) != null) return null;
         if (sapi.World.BlockAccessor.GetChunkAtBlockPos(x, (int)target.Pos.Y, z) == null) return null;
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         if (level != a.Level) return null;
@@ -824,6 +877,7 @@ public class MenaceSystem : ModSystem
                 target = SpawnDummy(x, floorY, z, out string why);
                 if (target == null) return TextCommandResult.Error(why);
             }
+            if (!dummies.Contains(target)) dummies.Add(target);
             // Dummies are never players: assess them here
             if (!watches.TryGetValue(target.EntityId, out Watch dummyWatch)) watches[target.EntityId] = dummyWatch = new Watch();
             Assess(target, dummyWatch);

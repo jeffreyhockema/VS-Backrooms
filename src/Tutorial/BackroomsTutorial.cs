@@ -45,7 +45,7 @@ public class BackroomsTutorial : TutorialBase
     /// </summary>
     private static readonly string[] LegacyFlintSteps = { "craftknife" };
 
-    /// <summary>Anything a supply box drops: proof that the player has broken one open.</summary>
+    /// <summary>Anything a supply box drops: proof that the player has broken one open (a read note is a keepsake, not a find).</summary>
     private static bool FromSupplyBox(ItemStack stack)
     {
         if (stack?.Collectible?.Code == null) return false;
@@ -53,7 +53,7 @@ public class BackroomsTutorial : TutorialBase
         if (stack.Collectible.Code.Domain == "backrooms")
         {
             return path is "almondwater" or "crackers" or "cannedbeans" or "carpetfibre" or "wallpaperstrip"
-                or "glassshard" or "metalbracket" or "glassshiv" || path.StartsWith("wanderernote") || path.StartsWith("seedpacket");
+                or "glassshard" or "metalbracket" or "glassshiv" || (path.StartsWith("wanderernote") && !Map.ItemWandererNote.IsRead(stack)) || path.StartsWith("seedpacket");
         }
         return path is "flint" or "stick" or "drygrass" or "candle";
     }

@@ -352,7 +352,7 @@ public class AiTaskMenace : AiTaskBase
 
         Stop();
         // Stared at, it goes
-        if (target is EntityAgent viewer && Senses.LooksAt(viewer, Senses.Centre(entity), 10) && Senses.Sees(viewer, entity, 64))
+        if (Starer(64, 10) != null)
         {
             watchedFor += 0.3f;
             if (watchedFor > 3) Kind = Encounter.Leave;
@@ -362,10 +362,11 @@ public class AiTaskMenace : AiTaskBase
 
     private void Stalk(double distance, MenaceSystem.Assessment a)
     {
-        bool stared = target is EntityAgent viewer && Senses.LooksAt(viewer, Senses.Centre(entity), 14) && Senses.Sees(viewer, entity, 48);
+        Entity starer = Starer(48);
+        bool stared = starer != null;
 
         // A Duller confronted runs; a Smiler held in someone's gaze, who neither runs nor looks away, freezes and at last withdraws
-        if (stared && coward && distance < 16)
+        if (stared && coward && entity.Pos.DistanceTo(starer.Pos) < 16)
         {
             Kind = Encounter.Leave;
             return;
@@ -470,7 +471,7 @@ public class AiTaskMenace : AiTaskBase
             return;
         }
         // A coward faced runs, even mid-hunt
-        if (coward && distance < 16 && target is EntityAgent viewer && Senses.LooksAt(viewer, Senses.Centre(entity), 14) && Senses.Sees(viewer, entity, 48))
+        if (coward && Starer(48) is { } facing && entity.Pos.DistanceTo(facing.Pos) < 16)
         {
             Kind = Encounter.Leave;
             return;
@@ -488,7 +489,7 @@ public class AiTaskMenace : AiTaskBase
         if (staredDown && StaredDown(distance)) return;
 
         // A Smiler held in someone's gaze, who neither runs nor looks away, freezes
-        if (lightBound && runningFor == 0 && target is EntityAgent starer && Senses.LooksAt(starer, Senses.Centre(entity), 14) && Senses.Sees(starer, entity, 48))
+        if (lightBound && runningFor == 0 && Starer(48) != null)
         {
             Stop();
             watchedFor += 0.3f;
@@ -567,8 +568,9 @@ public class AiTaskMenace : AiTaskBase
     private bool StaredDown(double distance)
     {
         if (nerve < 0) nerve = 4 + (float)entity.World.Rand.NextDouble() * 4;
-        bool stared = nerve > 0 && distance < 12 && target is EntityPlayer viewer && !IsCreative(target)
-            && Senses.LooksAt(viewer, Senses.Centre(entity), 10) && Senses.Sees(viewer, entity, 16);
+        // (Whoever stares, its target or someone with them: it backs off from them)
+        Entity viewer = nerve > 0 ? Starer(16, 10) : null;
+        bool stared = viewer is EntityPlayer && !IsCreative(viewer) && entity.Pos.DistanceTo(viewer.Pos) < 12;
         if (!stared)
         {
             if (growling) entity.AnimManager.StopAnimation("growl");
@@ -597,7 +599,7 @@ public class AiTaskMenace : AiTaskBase
             growling = true;
             entity.AnimManager.StartAnimation("growl");
         }
-        if (distance < 6 && !pathTraverser.Active && entity.World.ElapsedMilliseconds - lastPathMs > 1500) MoveAwayFrom(target.Pos.XYZ, 3, walkSpeed);
+        if (entity.Pos.DistanceTo(viewer.Pos) < 6 && !pathTraverser.Active && entity.World.ElapsedMilliseconds - lastPathMs > 1500) MoveAwayFrom(viewer.Pos.XYZ, 3, walkSpeed);
         else if (!pathTraverser.Active && motion != Motion.Still) SetMotion(Motion.Still);
         return true;
     }
@@ -1053,6 +1055,22 @@ public class AiTaskMenace : AiTaskBase
     {
         var carriers = entity.World.GetEntitiesAround(pos, 20, 8, e => e is EntityAgent && Senses.HeldLight(e) > 0);
         return Senses.LightAt(entity.World, pos, carriers) >= Senses.LitLevel;
+    }
+
+    /// <summary>
+    /// Whoever is looking straight at this entity and can see it (within a few degrees, for a stare): the one it was
+    /// put down for, or else any other player within the range. A stare from someone it was not put down for counts
+    /// the same, so two people together can each hold a Hound or a Smiler. Null if nobody is looking.
+    /// </summary>
+    private Entity Starer(double range, double lookAngle = 14)
+    {
+        Vec3d centre = Senses.Centre(entity);
+        if (target is EntityAgent viewer && Senses.LooksAt(viewer, centre, lookAngle) && Senses.Sees(viewer, entity, range)) return target;
+        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)range, (float)range, e => e != target && e is EntityPlayer p && p.Alive && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator))
+        {
+            if (Senses.LooksAt(other, centre, lookAngle) && Senses.Sees(other, entity, range)) return other;
+        }
+        return null;
     }
 
     /// <summary>Whether Almond Water, drunk in the last five minutes, keeps a Duller off someone.</summary>

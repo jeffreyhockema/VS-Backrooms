@@ -62,7 +62,7 @@ Verified with the layout harness and a headless server (port 42477), rendered fr
   - He appears to a visitor carrying a Level Key, or reaching the meeting hall.
   - Right-click cycles the keys of levels you have been to (the visited set is tracked per player); sneak and right-click takes one, once.
   - He then escorts you to the sidewalk before that level's door.
-  - Breaking anything in the Tower gets you thrown out with nothing.
+  - Breaking anything of the Tower's own gets you thrown out with nothing (what a player put down themselves, a torch, is theirs to break: by position this session, by kind after a restart). `/backrooms hub reset [player]` grants another visit.
 - **The M.E.G. outpost** by the Level 11 door: the door register, doorstep carpet, banner and key cabinet. Camp Amber's sign by the Level 1 door.
   - The outpost's wanderer gets two Level Keys at a time in its selling slots, re-rolled weekly, 30–45 rusty gears, only for levels someone in the world has entered (saved as `backrooms-hub-entered`). They are put back if a restock pushes them out, until they are sold.
 - **The register:** right-click marks the three open doors, the ten Tower doors and the outpost.
