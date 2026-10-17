@@ -6,11 +6,14 @@
 	creativeinventory: { "general": ["*"], "decorative": ["*"] },
 	blockmaterial: "Glass",
 	drawtype: "cube",
+	// (graphics pass D4) Only the down face shows the lens; the sides and top are the housing's plain edge
+	// (block/fluorescentlight-side), so where a light's side shows (a gate, a step in the ceiling) it no longer reads
+	// as a window. Still a cube, so the glow is unchanged.
 	texturesByType: {
 		// "lit" looks identical to "on" but emits no block light; only every few panels emit, to keep lighting fast
-		"*-lit": { all: { base: "block/fluorescentlight-on" } },
-		"*-flicker": { all: { base: "block/fluorescentlight-on" } },
-		"*": { all: { base: "block/fluorescentlight-{state}" } }
+		"*-lit": { down: { base: "block/fluorescentlight-on" }, north: { base: "block/fluorescentlight-side" }, east: { base: "block/fluorescentlight-side" }, south: { base: "block/fluorescentlight-side" }, west: { base: "block/fluorescentlight-side" }, up: { base: "block/fluorescentlight-side" } },
+		"*-flicker": { down: { base: "block/fluorescentlight-on" }, north: { base: "block/fluorescentlight-side" }, east: { base: "block/fluorescentlight-side" }, south: { base: "block/fluorescentlight-side" }, west: { base: "block/fluorescentlight-side" }, up: { base: "block/fluorescentlight-side" } },
+		"*": { down: { base: "block/fluorescentlight-{state}" }, north: { base: "block/fluorescentlight-side" }, east: { base: "block/fluorescentlight-side" }, south: { base: "block/fluorescentlight-side" }, west: { base: "block/fluorescentlight-side" }, up: { base: "block/fluorescentlight-side" } }
 	},
 	lightHsvByType: {
 		"*-on": [10, 2, 21],

@@ -46,6 +46,15 @@ COUNT = {"blocktypes": 0, "shapes": 0, "variants": 0}
 
 B16_COMPUTER = True  # (graphics pass B16) the computer's screen in a bezel, the keys as keys; False: B0's painted ones
 B16_FRAME = True     # (B16) the photo frames as a moulding; False: B0's four bars
+D4_FURNITURE = True  # (graphics pass D4) bevels and raised drawer fields on the furniture bodies (gen_974_d4)
+
+
+def D4(els, spec_name, fields_name=None):
+    """(D4) The bevel and inset pass of gen_974_d4 on a builder's elements, when D4_FURNITURE is on."""
+    if not D4_FURNITURE:
+        return els
+    import gen_974_d4 as D
+    return D.refine(els, getattr(D, spec_name), getattr(D, fields_name) if fields_name else ())
 
 
 def B16_ALT(key, turn=False):
@@ -586,7 +595,7 @@ def furniture():
                     bx("DrapeL", (0.55, 5.6, 1.6), (1.0, 10, 16), cov), bx("DrapeR", (15.0, 5.6, 1.6), (15.45, 10, 16), cov),
                     bx("DrapeF", (1.0, 5.6, 1.4), (15.0, 10, 1.8), cov)]
             els += scale_els(plush("bear", "bear"), 0.5, at=(11.0, 10.0, 5.0), roty=25)
-        return els
+        return D4(els, "BED_HEAD" if head else "BED_FEET")
 
     variants_block("l974-bed", "Little Bed", [("bedding", ["hearts", "strawberries", "stars"]), ("part", ["head", "feet"]), ("side", SIDES)], bed,
                    rot="side", box=(0, 0, 0, 1, 0.5625, 1), data={
@@ -611,7 +620,7 @@ def furniture():
         els += [bx("Bottle", (10, 10.8, 3), (11.6, 15, 4.6), "bottle"), bx("Cap", (10.3, 15, 3.3), (11.3, 15.8, 4.3), "knob-white"),
                 bx("Jar1", (10.2, 10.8, 8), (11.6, 12.6, 9.4), "vitamins"), bx("Lid1", (10.1, 12.6, 7.9), (11.7, 13.1, 9.5), "fur-mint"),
                 bx("Jar2", (12.0, 10.8, 10), (13.2, 12.2, 11.2), "vitamins"), bx("Lid2", (11.9, 12.2, 9.9), (13.3, 12.7, 11.3), "fur-lilac")]
-        return els
+        return D4(els, "NIGHTSTAND", "NIGHTSTAND_FIELDS")
 
     variants_block("l974-nightstand", "Bedside Table", [("side", SIDES)], nightstand, rot="side",
                    box=(0.1, 0, 0.1, 0.9, 0.68, 0.9), data={"lightHsv": [4, 3, 10], "attributes": FURNITURE,
@@ -663,7 +672,7 @@ def furniture():
                     bx("Pencil2", (3.1, 14, 11.2), (3.5, 17.6, 11.6), "fur-sky", rot=(-6, 0, -6), origin=(3.3, 14, 11.4)),
                     bx("Notebook", (5, 13.5, 3), (10, 14.1, 8), "fur-pink"), bx("Pages", (5.2, 13.5, 3.2), (9.8, 13.95, 7.8), "trim", faces=("north", "east", "west"))]
             els += scale_els(plush("cat", "lilac"), 0.45, at=(13.0, 13.5, 10.5), roty=-30)
-        return els
+        return D4(els, "DESK", "DESK_FIELDS")
 
     variants_block("l974-desk", "Desk", [("kind", ["plain", "computer"]), ("side", SIDES)], desk, rot="side", box=(0, 0, 0.06, 1, 0.85, 0.94),
                    data={"attributes": FURNITURE, "classByType": {"*-computer-*": "BackroomsL974Computer"},
@@ -681,7 +690,7 @@ def furniture():
                     bx("Seat", (3, 6, 3), (13, 8, 13), "chairfabric"), bx("SeatEdge", (3.6, 6.4, 2.5), (12.4, 7.6, 13.5), "chairfabric"),
                     bx("Spine", (7.4, 6, 12.6), (8.6, 9.4, 13.6), "chrome"),
                     bx("Back", (3.5, 9, 12.4), (12.5, 17, 14), "chairfabric"), bx("BackTop", (4.2, 17, 12.5), (11.8, 17.8, 13.9), "chairfabric")]
-            return els
+            return D4(els, "CHAIR_DESK")
         els = []
         for x, z in ((3, 3), (11.8, 3), (3, 11.8), (11.8, 11.8)):
             els.append(bx(f"Leg{x}{z}", (x, 0, z), (x + 1.2, 7, z + 1.2), "trim"))
@@ -690,7 +699,7 @@ def furniture():
                 bx("TopRail", (4.2, 15.6, 12), (11.8, 18, 12.8), "trim"),
                 bx("Slat1", (6, 9.2, 12.1), (7, 15.6, 12.7), "trim"), bx("Slat2", (9, 9.2, 12.1), (10, 15.6, 12.7), "trim"),
                 bx("Heart", (7.4, 16.2, 11.8), (8.6, 17.4, 12), "knob-pink", faces=("north",))]
-        return els
+        return D4(els, "CHAIR_DINING")
 
     variants_block("l974-chair", "Chair", [("kind", ["desk", "dining"]), ("side", SIDES)], chair, rot="side", box=(0.18, 0, 0.18, 0.82, 0.56, 0.82),
                    data={"attributes": FURNITURE, "drops": drops((STICK, 2, 1), (CLOTHI, 0.3, 0.3))},
@@ -707,7 +716,7 @@ def furniture():
                     bx(f"KnobR{i}", (10.6, (y0 + y1) / 2 - 0.6, 5.0), (11.8, (y0 + y1) / 2 + 0.6, 5.6), "knob-pink")]
         els += scale_els(plush("bunny", "pink"), 0.5, at=(4.5, 15, 11), roty=20)
         els += [bx("Tray", (9, 15, 8.5), (13.5, 15.4, 12.5), "fur-lilac"), bx("Comb", (9.6, 15.4, 9.4), (12.8, 15.9, 10.2), "knob-pink")]
-        return els
+        return D4(els, "DRESSER", "DRESSER_FIELDS")
 
     variants_block("l974-dresser", "Dresser", [("side", SIDES)], dresser, rot="side", box=(0.04, 0, 0.35, 0.96, 0.94, 1),
                    data={"attributes": dict(FURNITURE, l974clothes=[
@@ -914,7 +923,7 @@ def furniture():
                    bx("BackCushion", (0.4, 8.4, 12.4), (12.4, 17.4, 14), "cushion"),
                    bx("SideBoard", (14, 6, 0), (16, 18, 14), "pinkwood"), bx("SideCap", (13.6, 18, 0), (16, 18.8, 13.6), "pinkwood"),
                    bx("SideCushion", (12.4, 8.4, 0.4), (14, 17.4, 14), "cushion")]
-        return els
+        return D4(els, "BANQUETTE")
 
     variants_block("l974-banquette", "Banquette", [("kind", ["straight", "corner"]), ("side", SIDES)], banquette, rot="side",
                    boxes=lambda v: (0, 0, 0.19, 1, 0.5, 1) if v["kind"] == "straight" else (0, 0, 0, 1, 0.5, 1),
@@ -932,7 +941,7 @@ def furniture():
             els += [bx(f"Stem{i}", (8 + dx - 0.15, 15, 8.5 + dz - 0.15), (8 + dx + 0.15, h, 8.5 + dz + 0.15), "stem", rot=(0, 0, rz), origin=o),
                     bx(f"Bloom{i}", (8 + dx - 0.8, h, 8.5 + dz - 0.8), (8 + dx + 0.8, h + 1.2, 8.5 + dz + 0.8), "petal", rot=(0, 0, rz), origin=o),
                     bx(f"Heart{i}", (8 + dx - 0.3, h + 1.2, 8.5 + dz - 0.3), (8 + dx + 0.3, h + 1.4, 8.5 + dz + 0.3), "petalheart", rot=(0, 0, rz), origin=o)]
-        return els
+        return D4(els, "TABLE")
 
     variants_block("l974-table", "Dining Table", [], table, box=(0.06, 0, 0.06, 0.94, 0.78, 0.94),
                    data={"attributes": FURNITURE, "drops": drops((PLANK, 3, 1))},

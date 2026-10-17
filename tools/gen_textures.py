@@ -747,6 +747,23 @@ def troffer(state, rail=TBAR_RAIL, frame=(214, 210, 198), table=None, tubes=2):
     return img
 
 
+def troffer_side(seed=23, base=(190, 186, 174), rail=TBAR_RAIL):
+    """(D4) The side of a troffer, where it shows (a gate, a level's edge, a step in the ceiling): B3 drew every face with
+    the framed lens, so a light's side read as a window. Now the sides are the housing's edge: plain off-white painted
+    steel (a little darker than the lens frame, since the whole block glows), a faint seam under its top where the
+    housing's flange folds, and along its foot the T-bar flange as `ceiling_side` has it, so the rail runs on from the
+    ceiling's cut edge beside it. Only the down face (fluorescentlight-<state>) shows the lens. Lights stay cubes."""
+    img = M.painted_metal(seed, base=base, grain=2, mottle=3, panel=False, chips=0)
+    M.emboss_lines(img, ys=(5,), strength=0.12)
+    px = img.load()
+    for x in range(S):
+        px[x, S - 4] = M.rgba(M.lift(px[x, S - 4], -8))
+        px[x, S - 3] = M.rgba(M.lift(rail, 14))
+        px[x, S - 2] = M.rgba(rail)
+        px[x, S - 1] = M.rgba(M.lift(rail, -12))
+    return img
+
+
 def concrete(alt=0):
     """Plain cast concrete (the Level 0 gate's surround, Level !'s void): matlib.concrete, with a broad pour mottle
     and some hue in it; the third version carries a hairline crack (one block in three)."""
@@ -2868,6 +2885,87 @@ def boiler_textures():
     save(door, "block/level5/boiler-door.png")
 
 
+BOILER_IRON = (82, 75, 69)   # (D4) the shell's iron: darker and cooler than B6's clay brown (102, 70, 43)
+BOILER_RUST = (124, 66, 36)
+
+
+def boiler_textures_d4():
+    """(D4) The boiler re-done after B8 graded it C in the hotel's boiler bays (a clay-orange shell at a low density).
+    `boiler.png` is now riveted iron plate for gen_shapes.boiler's facet plates: two plates side by side, 16 px each,
+    each plate's left edge a lap seam (a dark groove, the overlapping edge lit) with a row of rivet heads beside it,
+    so every corner of the octagon reads as a riveted seam; the shape shows each facet as one 16 px plate at about one
+    and a half times the block's density, at a seed-chosen height. The iron is a dark, cool grey with a little warmth
+    (vanilla's plate iron is 105, 93, 86); rust only in runs down from some rivets and from the seams, soot on the
+    upper half. `boiler-strap.png` is the hoop over each course joint: strap iron with one row of rivets, the pattern
+    repeating every 4 px down so any 2-unit window shows one strap (lit top edge, rivets, shadowed foot).
+    `boiler-flue.png` the flue's sooty iron, rust runs from its joints. Revert: drop the call in level5_textures."""
+    rng = random.Random(5320)
+    shell = M.noise_hv(BOILER_IRON, 4, 5321, mottle=6, cells=(16, 8), hue=1.5)
+    px = shell.load()
+    for col in range(2):
+        x0 = col * 16
+        tone = (-3, 3)[col]
+        for y in range(32):
+            for x in range(x0, x0 + 16):
+                px[x, y] = M.rgba(M.lift(px[x, y], tone))
+        # the lap: the plate on the left overlaps this one; its edge is lit, the groove under it dark
+        for y in range(32):
+            M.touch(shell, x0, y, -0.32)
+            M.touch(shell, x0 + 1, y, 0.16)
+            M.touch(shell, x0 + 2, y, 0.05)
+        for y in range(1, 32, 4):
+            M.screw(shell, x0 + 3, y, slot=False)
+    # soot over the top half (the fire and the flue), wrapped faintly into the bottom
+    M.grime(shell, 0.2, 5322, color=(40, 36, 34), cover=0.5)
+    # rust runs from a few rivets and from the seams: thin, fading, not patches
+    for col in range(2):
+        x0 = col * 16
+        for k in range(3):
+            y0 = 1 + 4 * rng.randrange(8)
+            L = rng.randint(5, 13)
+            x = x0 + 3 + rng.choice((0, 1))
+            for i in range(L):
+                t = (1 - i / L) ** 0.8 * 0.55
+                y = (y0 + 2 + i) % 32
+                c = shell.getpixel((x % 32, y))
+                shell.putpixel((x % 32, y), M.rgba(M.mix(c[:3], BOILER_RUST, t)))
+                if i < L // 2:
+                    c = shell.getpixel(((x + 1) % 32, y))
+                    shell.putpixel(((x + 1) % 32, y), M.rgba(M.mix(c[:3], BOILER_RUST, t * 0.4)))
+                if rng.random() < 0.12:
+                    x += rng.choice((-1, 1))
+        # a longer run down the seam groove of one plate
+        if col == 1:
+            for i in range(14):
+                y = (6 + i) % 32
+                c = shell.getpixel((x0 + 1, y))
+                shell.putpixel((x0 + 1, y), M.rgba(M.mix(c[:3], BOILER_RUST, 0.45 * (1 - i / 14))))
+    save(match_rgb(shell, (70, 62, 56)), "block/level5/boiler.png")  # (round 2) darker than B6's (102, 70, 43)
+
+    strap = M.noise_hv((60, 55, 51), 3, 5325, mottle=4, cells=(16, 8), hue=1.0)
+    for y in range(32):
+        r = y % 4
+        for x in range(32):
+            if r == 0:
+                M.touch(strap, x, y, 0.18)
+            elif r == 3:
+                M.touch(strap, x, y, -0.22)
+    for y in range(0, 32, 4):
+        for x in range(1, 32, 5):
+            M.touch(strap, x, y + 1, 0.34)
+            M.touch(strap, x + 1, y + 1, 0.12)
+            M.touch(strap, x, y + 2, -0.04)
+            M.touch(strap, x + 1, y + 2, -0.2)
+    M.rust(strap, 0.12, 5326, color=(116, 64, 36), dark=(70, 44, 30))
+    save(strap, "block/level5/boiler-strap.png")
+
+    flue = M.noise_hv((66, 60, 56), 4, 5328, mottle=6, cells=(16, 8), hue=1.2)
+    M.grime(flue, 0.35, 5329, color=(30, 28, 27), cover=0.6, bias="top")
+    M.emboss_lines(flue, xs=(), ys=(15,), strength=0.2)
+    M.drips(flue, 3, 5330, color=BOILER_RUST, length=(5, 12), strength=0.35, start=16)
+    save(flue, "block/level5/boiler-flue.png")
+
+
 def level5_textures():
     # (B8) Hotel walls: the damask panel cut from the roll at three places, and a fourth with an old water mark (one
     # block in eight, gen_blocktypes); the wainscot; the frieze with its picture rail
@@ -2938,6 +3036,7 @@ def level5_textures():
     save(noise_fill(hexrgb(0x1E5A30), 5, 568), "block/level5/felt.png")
     save(noise_fill(hexrgb(0xEEE6D0), 3, 569), "block/level5/mahjong.png")
     boiler_textures()
+    boiler_textures_d4()  # (D4) riveted iron plate, the strap and the flue
     img = noise_fill(hexrgb(0xFF8A2A), 18, 571)
     save(img, "block/level5/fire.png")
     save(noise_fill(hexrgb(0xE8C890), 4, 572), "block/level5/lampshade.png")
@@ -3052,6 +3151,7 @@ if __name__ == "__main__":
     save(ceiling_side(), "block/ceilingtile-side.png")
     for st in ("on", "off", "dim", "red"):
         save(troffer(st), f"block/fluorescentlight-{st}.png")
+    save(troffer_side(), "block/fluorescentlight-side.png")  # (D4) the housing's edge on the troffer's sides
     save(concrete(), "block/concrete.png")
     save(concrete(1), "block/concrete2.png")
     save(concrete(2), "block/concrete3.png")

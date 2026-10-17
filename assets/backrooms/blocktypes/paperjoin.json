@@ -48,6 +48,7 @@
 	],
 	"blockmaterial": "Stone",
 	"drawtype": "cube",
+	"randomizeAxes": "xyz",
 	"textures": {
 		"north": {
 			"base": "block/wallpaper/{north}-{part}",

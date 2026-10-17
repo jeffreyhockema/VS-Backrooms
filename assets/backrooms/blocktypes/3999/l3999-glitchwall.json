@@ -46,5 +46,6 @@
 	},
 	"attributes": {
 		"l3999structure": true
-	}
+	},
+	"randomizeAxes": "xyz"
 }

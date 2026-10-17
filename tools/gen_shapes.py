@@ -1193,6 +1193,80 @@ def boiler():
     return els
 
 
+D4_BOILER = True  # (graphics pass D4) facet plates of riveted iron, strap hoops, a round flue; False: B6's boiler()
+BOILER_D4_TEX = {"strap": "backrooms:block/level5/boiler-strap", "flue": "backrooms:block/level5/boiler-flue"}
+
+
+def octo_plates(name, cx, cz, a, y1, y2, tex, scale=1.5, course=0, t=0.05):
+    """(D4) The eight faces of an octagonal prism of apothem `a` about (cx, cz) as eight thin plates, each facing out:
+    four square to the axes, four turned 45 degrees about the axis. Unlike `octagon`, whose crossed boxes show only the
+    middle of each face's texture, every plate maps its own window of the texture onto itself: 8 units across (a
+    16 px plate of the boiler's iron) by its height at `scale` texels per unit, at a height and a column chosen per
+    plate from `course`, so neighbouring faces show different plates and runs. Faces out only; the caller closes the
+    prism's top and bottom."""
+    w = a * math.tan(math.radians(22.5))
+    hh = round(min(16.0, (y2 - y1) * scale), 3)
+    out = []
+    for k in range(8):
+        axis, diag = k // 2, k % 2
+        if axis == 0:
+            frm, to, face = (cx - w, y1, cz - a), (cx + w, y2, cz - a + t), "north"
+        elif axis == 1:
+            frm, to, face = (cx + a - t, y1, cz - w), (cx + a, y2, cz + w), "east"
+        elif axis == 2:
+            frm, to, face = (cx - w, y1, cz + a - t), (cx + w, y2, cz + a), "south"
+        else:
+            frm, to, face = (cx - a, y1, cz - w), (cx - a + t, y2, cz + w), "west"
+        u0 = 8.0 * ((k + course) % 2)
+        room = max(0.0, 16.0 - hh)
+        v0 = round(room * (((k * 5 + course * 3) % 7) / 6.0) * 2) / 2 if room else 0.0
+        e = K.box(f"{name}{k}", frm, to, tex, faces=(face,), uv=[u0, v0, u0 + 8, round(v0 + hh, 3)],
+                  rot=(0, 45, 0) if diag else None, origin=(cx, y1, cz))
+        out.append(e)
+    return out
+
+
+def boiler_d4():
+    """(D4) The boiler again, after B8 graded B6's C in the hotel's boiler bays (a clay-orange shell at a low density,
+    a box for a flue). Same footprint, height, front and steam point. The shell is eight riveted iron plates a course
+    (`octo_plates`: each face its own plate at one and a half times the block's density, the rivets of a lap seam down
+    every corner), in four courses, with a strap hoop of rivets over each course joint (octagonal, proud 0.3, its
+    caps lit and shaded by the game); the crown and dome as before; the flue an octagonal column with a collar at its
+    foot and a lip at its top. The firebox door, hinges, latch, peep slot, nameplate, gauge and safety valve as B6's."""
+    cx, cz, a = 8.0, 8.5, 6.5
+    els = octagon("Plinth", cx, cz, 7.2, 0, 1.5, "band", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    joints = (6.9, 13.5, 19.9)
+    edges = (1.5,) + joints + (24.0,)
+    for c, (y1, y2) in enumerate(zip(edges, edges[1:])):
+        els += octo_plates(f"Shell{c}", cx, cz, a, y1, y2, "shell", course=c)
+    els += octagon("ShellTop", cx, cz, a, 23.9, 24, "shell", faces=("up",), lift=0.01)
+    for k, y in enumerate(joints):
+        y1, y2 = y - 0.5, y + 0.5
+        els += octagon(f"Strap{k}", cx, cz, a + 0.3, y1, y2, "band", faces=("up", "down"), lift=0.01)
+        for e in octo_plates(f"StrapFace{k}", cx, cz, a + 0.3, y1, y2, "strap", course=k):
+            f = next(iter(e["faces"].values()))
+            f["uv"] = [f["uv"][0], 4.0 * k + 0.0, f["uv"][0] + 8, 4.0 * k + 2.0]  # one strap of the 4 px pattern
+            els.append(e)
+    els += octagon("Crown", cx, cz, a - 0.75, 24, 25, "band", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("Dome", cx, cz, a - 2.25, 25, 26, "shell", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    # the flue: an octagonal column on a collar, a lip round its mouth (its end is the steam point's, 8, 9)
+    els += octagon("Collar", 8, 9, 2.6, 26, 27, "band", faces=("north", "east", "south", "west", "up"), lift=0.01)
+    els += octagon("Flue", 8, 9, 1.9, 27, 31.3, "flue", faces=("north", "east", "south", "west"))
+    els += octagon("FlueLip", 8, 9, 2.2, 31.3, 31.9, "band", faces=("north", "east", "south", "west", "up", "down"), lift=0.01)
+    els += [K.box("ValveBody", (10.75, 26, 4.75), (12.25, 28, 6.25), "band"),
+            K.box("ValveLever", (9.5, 28, 5.25), (13.5, 28.5, 5.75), "rust"),
+            K.box("ValveWeight", (9, 27.25, 5), (10, 28.25, 6), "band")]
+    z = cz - a  # the front plate
+    els += K.bevelled_box("Door", (5, 3.25, z - 0.75), (11, 9.75, z), "door", b=0.25)
+    els += K.hinge("Hinge1", 11, 3.75, 5.25, z - 0.75, tex="band", side="right")
+    els += K.hinge("Hinge2", 11, 7.75, 9.25, z - 0.75, tex="band", side="right")
+    els += K.handle("Latch", 6.5, 6.5, z - 0.75, length=2.5, axis="x", standoff=0.6, thick=0.6, tex="band")
+    els.append(K.box("Peep", (7.25, 8.0, z - 1.0), (8.75, 8.75, z - 0.75), "band", faces=("north", "east", "west", "up", "down")))
+    els += cab_plate("Plate", 5.5, 11.0, 10.5, 12.75, z, "cablabel")
+    els += K.gauge("Gauge", 8, 17.25, z, r=2.0, angle=-25, face="cabdial", body="cabbezel", needle="cabneedle", depth=1.25)
+    return els
+
+
 # ---------------- Level 5 (graphics pass B8) ----------------
 
 def four_sides(els):
@@ -1539,7 +1613,10 @@ def level5():
         box("Arm", (11, 10.5, 4), (12, 11.5, 11), "brass"),
         box("Horn", (10, 10.5, 10), (15, 17, 15), "brass"),
     ])
-    oriented("boiler", dict(t, **BOILER_TEX), boiler())
+    if D4_BOILER:
+        oriented("boiler", dict(t, **BOILER_TEX, **BOILER_D4_TEX), boiler_d4())
+    else:
+        oriented("boiler", dict(t, **BOILER_TEX), boiler())
     oriented("furnace", t, [
         box("Body", (1, 0, 2), (15, 14, 15), "iron"),
         box("Door", (4, 2, 1.6), (12, 9, 2), "fire", glow=200, faces=("north",)),

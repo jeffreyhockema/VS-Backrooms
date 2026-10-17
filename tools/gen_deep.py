@@ -88,7 +88,7 @@ def porch_post():
 def level6():
     cube_block("l6block", {"wall": "Cold Wall", "floor": "Cold Floor", "ceiling": "Cold Ceiling", "wet": "Wet Cold Floor"}, ["wall", "floor", "ceiling", "wet"],
                {"wall": "l6wall", "floor": "l6floor", "ceiling": "l6ceiling", "wet": "l6floor-wet"},
-               comment="The smooth, cold material of Level 6's hallways")
+               comment="The smooth, cold material of Level 6's hallways", randomizeAxes="xyz")  # (D4) the wall's versions by height too
     wall_family("l6deco", "Cold Wall", {1: "l6wall"}, [
         Decor("megexit", "Chalk Marking", {2: [bx("Chalk", (0, 0, -0.05), (16, 16, 0), "chalk-megexit", faces=("north",), full=True)]}),
         Decor("megcross", "Chalk Marking", {2: [bx("Chalk", (0, 0, -0.05), (16, 16, 0), "chalk-megcross", faces=("north",), full=True)]}),
@@ -612,6 +612,7 @@ def level7():
                {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]},
                lightAbsorptionByType={"*-glow": 0, "*": 99}, comment="The ceiling over the sea. The dim light seems to come from nowhere")
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
+               randomizeAxes="xyz",  # (D4) a stack's or pillar's blocks pick their versions by height too
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
     block("tar", {"class": "BackroomsTar", "creativeinventory": {"general": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
                   # (B10) versions: a rising bubble in one block in four, two small ones in another; the drips of the
@@ -867,7 +868,8 @@ def level9():
             tex_by[f"*-{siding}-{s}"] = faces
     block("housewall", {"variantgroups": [{"code": "siding", "states": ["white", "blue", "yellow", "green", "brick"]}, {"code": "side", "states": SIDES}],
                         "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]}, "blockmaterial": "Wood", "drawtype": "cube",
-                        "texturesByType": tex_by, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD},
+                        "texturesByType": tex_by, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD,
+                        "randomizeAxes": "xyz"},  # (D4) the siding's versions picked by height too
           "House walls: siding outside, plaster inside")
     name("housewall-*", "House Wall")
     cube_block("houseinterior", {"floral": "Wallpaper", "stripe": "Wallpaper", "beige": "Wallpaper", "green": "Wallpaper", "tile": "Tiled Wall"},
@@ -1074,7 +1076,7 @@ def level10():
                        "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": "Wood", "drawtype": "cube",
                        "texturesByType": {f"*-{k}": {"all": {"base": f"block/detail/barnwall-{k}", "alternates": [
                            {"base": f"block/detail/barnwall-{k}-{n}"} for n in (2, 3)]}} for k in ("red", "grey")},
-                       "lightAbsorption": 99, "resistance": 4, "sounds": WOOD})
+                       "lightAbsorption": 99, "resistance": 4, "sounds": WOOD, "randomizeAxes": "xyz"})  # (D4) by height too
     name("barnwall-red", "Barn Boards")
     name("barnwall-grey", "Weathered Boards")
     cube_block("barnroof", "Barn Roof", ["dark"], {"dark": "barnroof"}, material="Wood", sounds=WOOD)
@@ -1153,7 +1155,8 @@ def refinements():
             corner_by[f"*-{siding}-{corner}"] = tex
     block("housecorner", {"variantgroups": [{"code": "siding", "states": ["white", "blue", "yellow", "green", "brick"]}, {"code": "corner", "states": ["ne", "nw", "se", "sw"]}],
                           "creativeinventory": {"general": ["*-ne"], "construction": ["*-ne"]}, "blockmaterial": "Wood", "drawtype": "cube",
-                          "texturesByType": corner_by, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD},
+                          "texturesByType": corner_by, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD,
+                          "randomizeAxes": "xyz"},  # (D4) the siding's versions picked by height too
           "The corners of houses: siding on both outside faces")
     name("housecorner-*", "House Wall")
 

@@ -165,7 +165,8 @@ def with_alternates(textures, alts):
 def level3():
     # (B6) Each wall in three versions that share their face and joint textures and differ only in which unit is
     # darker or warmer, so they mix without a patchwork. The blocks carrying fixtures and decorations use the first.
-    cube("level3", "l3wall", "block/level3/l3wall-{type}", states=["glazed", "brick", "cinder"],
+    # (D4) randomizeAxes xyz: the versions are picked by height as well (B13's lesson), so a column does not stack one
+    cube("level3", "l3wall", "block/level3/l3wall-{type}", states=["glazed", "brick", "cinder"], randomizeAxes="xyz",
          comment="Level 3 walls: two-tone glazed structural tile, red brick, and cinder block in the machine rooms")
     walls = {}
     for t in ("glazed", "brick", "cinder"):
@@ -285,13 +286,13 @@ def level3():
 
 
 def level4():
-    cube("level4", "officewall", "block/level4/officewall", comment="Off-white office drywall")
+    cube("level4", "officewall", "block/level4/officewall", comment="Off-white office drywall", randomizeAxes="xyz")  # (D4) by height too
     # (B7) The same paint in every version; the second (a filled nail hole or two, a touched-up patch) one block in six
     _retexture("level4", "officewall", textures=with_alternates(None, [{"base": "block/level4/officewall"}] * 5 +
                                                                     [{"base": "block/level4/officewall-2"}]))
     cube("level4", "officewindow", "block/level4/officewindow", material="Glass", sounds=GLASS,
          comment="A window onto rain and fog that never ends; its grey storm light is the main light on the floor",
-         lightHsv=[36, 1, 7], lightAbsorption=0, drops=[],
+         lightHsv=[36, 1, 7], lightAbsorption=0, drops=[], randomizeAxes="xyz",
          sounds_override=None)
     # (B7 round 2) two rain versions, so the runs are not the same on every pane
     _retexture("level4", "officewindow", textures=with_alternates(None, [{"base": "block/level4/officewindow"},
@@ -355,6 +356,7 @@ def level4():
 
 def level5():
     cube("level5", "hotelwall", "block/level5/hotelwall-{type}", material="Wood", sounds=WOOD, states=["wainscot", "panel", "frieze"],
+         randomizeAxes="xyz",  # (D4) the panel's versions picked by height too
          comment="Hotel walls: mahogany wainscot, a red damask panel in a gilt frame, a cream frieze")
     # (B8) The damask panel cut from the roll at three places (and one in eight with an old water mark), picked at
     # random block by block

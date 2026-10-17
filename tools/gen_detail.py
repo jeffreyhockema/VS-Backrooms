@@ -850,6 +850,24 @@ def risers(y0, foot=False, strut=False):
     return out
 
 
+D4_BAY_PIPES = True  # (graphics pass D4) Level 5's boiler-bay pipes round; False: the old boxes with painted roundness
+
+
+def bay_risers(y0, foot=False, strut=False):
+    """(D4) Level 5's boiler bays: the bare and the lagged pipe up the plaster walls, round (gen_shapes.round_riser, in
+    Level 3's riser skins, B6), where they stood (bare at x 2-5, lagged at 9-13); with `foot` the flanges they stand
+    in, with `strut` a channel strut and a clamp round each, as Level 3's `risers`."""
+    out = round_riser("Rusty", 3.5, -1.7, 1.5, "riserrust", y0) + round_riser("Lagged", 11.0, -2.2, 2.0, "riserlag", y0)
+    if foot:
+        out += round_riser("FootRusty", 3.5, -1.7, 2.1, "flange", 0, 1, shaded=False, faces=("up",))
+        out += round_riser("FootLagged", 11.0, -2.2, 2.6, "flange", 0, 1, shaded=False, faces=("up",))
+    if strut:
+        out.append(bx("Strut", (1.25, 8, -0.75), (13.75, 9.5, 0), "flange", faces=("north", "east", "west", "up", "down")))
+        out += round_riser("ClampRusty", 3.5, -1.7, 1.8, "flange", 8.1, 9.4, shaded=False, faces=("up", "down"))
+        out += round_riser("ClampLagged", 11.0, -2.2, 2.3, "flange", 8.1, 9.4, shaded=False, faces=("up", "down"))
+    return out
+
+
 def cab_lamp(nm, cx, cy, z, tex, glow=0):
     """An indicator lamp on a front face at z: a bezel ring and a domed lens (as gen_shapes.cab_lamp)."""
     f = ("north", "east", "west", "up", "down")
@@ -973,7 +991,8 @@ def coal_lumps():
 
 
 def level3():
-    cube_block("sanctumstone", "Ashlar Stone", ["plain"], {"plain": "sanctumwall"}, comment="Pale ashlar masonry of a Sanctum")
+    cube_block("sanctumstone", "Ashlar Stone", ["plain"], {"plain": "sanctumwall"}, comment="Pale ashlar masonry of a Sanctum",
+               randomizeAxes="xyz")  # (D4) the ashlar's versions picked by height too
     cube_block("l3floor", {"grate": "Steel Grating", "hazard": "Marked Concrete", "stone": "Flagstones", "carpet": "Red Carpet"},
                ["grate", "hazard", "stone", "carpet"], {"grate": "grate", "hazard": "l3hazard", "stone": "l3stone", "carpet": "sanctumcarpet"},
                comment="Level 3 floors: steel grating, hazard-striped concrete, and the flagstones and carpet of a Sanctum")
@@ -1602,14 +1621,28 @@ def level5():
              bx("RimT", (5, 12.5, -6), (11, 13.5, -5), "valve"), bx("RimB", (5, 6.5, -6), (11, 7.5, -5), "valve"),
              bx("RimL", (4.5, 7, -6), (5.5, 13, -5), "valve"), bx("RimR", (10.5, 7, -6), (11.5, 13, -5), "valve"),
              bx("Spoke", (7.5, 7, -5.8), (8.5, 13, -5.2), "valve"), bx("SpokeH", (5, 9.5, -5.8), (11, 10.5, -5.2), "valve")]
+    if D4_BAY_PIPES:
+        pipesv_by_rel = {1: bay_risers(1, foot=True), 2: bay_risers(0, strut=True), 3: bay_risers(0), 4: bay_risers(0)}
+        valve = (round_pipe("Pipe", 10, -1.9, 1.6, "wallrust")
+                 + [e for e in wheel if e["name"] != "Stem"] + [bx("Stem", (7.5, 9.5, -5), (8.5, 10.5, -3.4), "metal")])
+        cluster = (round_pipe("P1", 3.5, -1.7, 1.5, "wallrust") + round_pipe("P2", 8.0, -2.2, 2.0, "walllag")
+                   + round_pipe("P3", 12.6, -1.4, 1.2, "wallrust")
+                   + [bx("Strut", (7.25, 0.75, -0.75), (8.75, 15.25, 0), "flange", faces=("north", "east", "west", "up", "down"))]
+                   + round_pipe("ClampP1", 3.5, -1.7, 1.8, "flange", 7.4, 8.6, shaded=False, faces=("east", "west"))
+                   + round_pipe("ClampP2", 8.0, -2.2, 2.3, "flange", 7.4, 8.6, shaded=False, faces=("east", "west"))
+                   + round_pipe("ClampP3", 12.6, -1.4, 1.5, "flange", 7.4, 8.6, shaded=False, faces=("east", "west")))
+    else:
+        pipesv_by_rel = {1: pipesv, 2: pipesv + [bx("Clamp", (1.5, 8, -4.5), (13.5, 9.5, 0), "metal")], 3: pipesv, 4: pipesv}
+        valve = [bx("Pipe", (0, 8, -3), (16, 12, 0), "rust", faces=("north", "up", "down"))] + wheel
+        cluster = [bx("P1", (0, 2, -3), (16, 5, 0), "rust", faces=("north", "up", "down")),
+                   bx("P2", (0, 6, -4), (16, 10, 0), "lagging", faces=("north", "up", "down")),
+                   bx("P3", (0, 11, -2.5), (16, 13.5, 0), "redpipe", faces=("north", "up", "down")),
+                   bx("Bracket", (7, 1, -4.5), (9, 15, 0), "metal")]
     wall_family("plasterdeco", "Plaster Wall", {1: "plaster"}, [
-        Decor("pipesv", "Pipes", {1: pipesv, 2: pipesv + [bx("Clamp", (1.5, 8, -4.5), (13.5, 9.5, 0), "metal")], 3: pipesv, 4: pipesv}),
-        Decor("valve", "Valve", {1: [bx("Pipe", (0, 8, -3), (16, 12, 0), "rust", faces=("north", "up", "down"))] + wheel}),
+        Decor("pipesv", "Pipes", pipesv_by_rel),
+        Decor("valve", "Valve", {1: valve}),
         Decor("gauges", "Pressure Gauge", {2: gauges}),
-        Decor("pipecluster", "Pipes", {3: [bx("P1", (0, 2, -3), (16, 5, 0), "rust", faces=("north", "up", "down")),
-                                           bx("P2", (0, 6, -4), (16, 10, 0), "lagging", faces=("north", "up", "down")),
-                                           bx("P3", (0, 11, -2.5), (16, 13.5, 0), "redpipe", faces=("north", "up", "down")),
-                                           bx("Bracket", (7, 1, -4.5), (9, 15, 0), "metal")]}),
+        Decor("pipecluster", "Pipes", {3: cluster}),
     ])
 
     lamp = [bx("LampBase", (3, 13, 11), (5, 14, 13), "brass"), bx("LampStem", (3.6, 14, 11.6), (4.4, 18, 12.4), "brass"),
