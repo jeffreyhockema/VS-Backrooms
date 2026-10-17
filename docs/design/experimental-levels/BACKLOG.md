@@ -10,8 +10,14 @@ rest wait here. Tick a level off (move it to "Built") when its commit lands.
 | Level 73 "The Redlands" | 21 | 1 |
 | The Basement (unnumbered) | 22 | 1 |
 | Level 52 "School Halls" | 23 | 1 |
+| Level 31 "Roller Rink" | 24 | 2 |
+| Level 55 "Land of Ice" (on neither wiki; built from the name) | 25 | 2 |
+| Level 120 "Server Room" (Wikidot "Broken Servos") | 26 | 2 |
+| Level 183 "Clean Sewers" (on neither wiki; built from the name) | 27 | 2 |
 
-## In progress (batch 2)
+None has been played in a client yet; each plan's Status section lists what to check in-game.
+
+## Batch 2 regions (built 2026-10-17)
 
 | Level | Id | Tag | Constant | Region |
 |---|---|---|---|---|
@@ -20,7 +26,7 @@ rest wait here. Tick a level off (move it to "Built") when its commit lands.
 | Level 120 "Server Room" | 26 | 120 (`l120-`) | `WorldLayout.Level120` | far north-east beyond Level Fun: `spawn + (+F, -F)`, `F = round(R * 1.6 / sqrt 2)` (as Level 3999 lies beyond the Hub) |
 | Level 183 "Clean Sewers" | 27 | 183 (`l183-`) | `WorldLayout.Level183` | far north-west beyond The End: `spawn + (-F, -F)` |
 
-## Waiting
+## Waiting (batch 3 and later: widen the byte enums first, see below)
 
 | Level | Notes |
 |---|---|
