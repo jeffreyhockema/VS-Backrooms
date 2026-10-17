@@ -925,3 +925,5 @@ def generate():
     pictures()
     hard_things()
     items()
+    import gen_974_b16  # graphics pass B16: its painters run last, under the same keys (and new version keys)
+    gen_974_b16.textures()

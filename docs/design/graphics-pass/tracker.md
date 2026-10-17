@@ -183,6 +183,23 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   sheet with `batch.make_sheet`. A version dropped from `gen_end` leaves its PNG behind (gen_end does not clear its
   folder, gen_hub does): delete it by hand.
 
+- (B16) A north face shows its texture's left edge at the block's east end (x 16), so a picture split across several boxes
+  needs u = (x_right_of_picture - x) / width * 16, not (x - x_left). B0's vending glass, keypad and coin slot were placed as
+  if u ran with x and stood over the wrong parts of their own picture; round 1 of B16 repeated the mistake and cut the
+  sign to "RINKS". Check a split picture in the preview before the client.
+- (B16) The darkness (B6, B10, B12) hit two of six B16 client runs, a full baseline run and a three-spot run, 20-115
+  levels down everywhere; retakes minutes later matched B0 within 0.1. Level 188 differs by 5-15 levels in a few spots
+  on every run of the same build (its windows change state and its corridor lights flicker at runtime): judge its
+  brightness on spots without a window in frame.
+- (B16) Tiled stone (marble, slate) is best cut from one large slab that need not tile: draw veins over a 384 px field,
+  cut each 15 px tile from a different place, turn it, even its tone toward the stone's, and let the 1 px joints hide
+  the edges. Every tile differs and nothing has to meet across a joint. Short branch veins at a fine wavelength read as
+  dashes on a dark stone; keep them off it.
+- (B16) The far levels' generators check every vanilla code they name against the game's assets: run them with
+  `VINTAGE_STORY=G:\Games\Vintagestory` (gen_3999_kit reads that, else %APPDATA%), or the check reports 20 vanilla
+  codes as unknown. gen_3999 paints the arcade's textures after the building's, so a painter for an arcade key must hook
+  into `gen_3999_tex_arcade.generate`, or the old one overwrites it.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -204,7 +221,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B13 Levels 37 and 94 | gfx/B13 | merged | 2 | L94 asphalt and dirt path C+; siren pole stands in no world (layout bug, report to user); earlier batches' walls lack randomizeAxes xyz (follow-up) | passed 2026-10-15 01:55 (Fable): turf swirl gone, mosaic at B |
 | B14 Level ! and Fun | gfx/B14 | merged | 2 | L! walls and Fun paint plain (C+); gurney, wheelchair, IV, collapse untouched; Fun brass leaves C+; balloons and streamers untouched; fire doors unseen | passed 2026-10-15 03:15 (Fable): bed, doors, cart as geometry; floor seam gone |
 | B15 The End and The Hub | gfx/B15 | merged | 2 | End walls/carpet and Hub concrete/road/carved leaves C+ (plain by nature); End furniture, escalator, Hub pink door, outpost, statue untouched; ornate ring pulls | passed 2026-10-15 04:40 (Fable): repeats gone, EXIT door hardware verified |
-| B16 974, 3999, 188 | gfx/B16 | in progress | | | |
+| B16 974, 3999, 188 | gfx/B16 | merged | 2 | 3999 paint, 974 ceiling and furniture bodies (C+); food court furniture at distance and 188 blinds (B-, runtime) | passed 2026-10-16 06:30 (Fable): marble repeat gone, furniture as geometry |
 | B17 entities and items | | not started | | | |
 | B18 finish | | not started | | | |
 
@@ -1901,3 +1918,88 @@ Worker report (Opus, 2026-10-15). Branch `gfx/B15` from `main` (a20a0a3), uncomm
 - **Also:** `gen_hub_doors.B15_SERVICE` (the service door's hinges and closer); `gen_hub_tower` (`randomizeAxes` on `hub-ashlar`); `gen_hub.main` calls `K.b15_textures()`.
 
 **Lessons:** five lines added above.
+
+### B16
+
+Worker report (Opus, 2026-10-15). Branch `gfx/B16` from `main` (5f23817), uncommitted. Phase 1 was offline. Phase 2 was one blind review (round 1), fixes and one reshoot (round 2), and one retake of `3999/vending-close` after a last fix to the vending machine (with two unchanged spots to check the light). The round-2 grades are mine.
+
+- **Final sheets:**
+  - `review/b16/compare-round2-974.jpg`, `-3999.jpg`, `-188.jpg`: every spot.
+  - `review/b16/compare-round2-<level>-detail.jpg`: six close spots per level at twice the size.
+  - Shots: `review/b16/final/{974,3999,188}`. Round 1: `review/b16/compare-round1-*.jpg`, its shots in `review/b16/after/`.
+- **Per-family pairs:** `review/b16/sidebyside/<family>.jpg` (20 families), from `docs/design/graphics-pass/sidebyside/B16.json` (it reads `review/b16/sbs/{before,after}`, shots prefixed `974-`, `3999-`, `188-`). The B16 section is added to `review/compare.html`.
+- **Decision table:** nineteen rows added to `decisions.md`, decision column empty. Each level's B16 work is in its own new module (`tools/gen_974_b16.py`, `gen_3999_b16.py`, `gen_188_b16.py`): painters that run last under the same keys (plus new version keys), model parts behind flags in the old builders (`B16_COMPUTER`, `B16_FRAME`, `B16_FURNITURE`, `B16_VENDING`, `B16_CABINET`, `B16_COURTYARD`), and a `COUNTS` table of versions the block types read. Each row names its functions and how to revert.
+- **Offline evidence** (`review/b16/offline/`):
+  - `tex-{974,3999,188}-{before,after}.png`: texsheets, tiled 3x3, with vanilla references.
+  - `mock-*.png`: the marble (white, black), 974's paint, carpet, ceiling, checker and bath tile, 3999's midnight paint, 188's pavers (plain, mossy, cracked) and render, in their real mix, main above B16, with seam ratios (188 render 2.38 on main, 0.74 now; marble white 0.79 to 1.03, black 0.86 to 0.87, both now without the per-tile scribble); `marble-versions.png`.
+  - `preview-*.png`: the chair, booth and table, cabinet, vending machine (`-r3` is the final one), computer and frame, bollard and downpipe, main beside B16.
+  - `newspots-base.jpg` (the new spots' base frames), `crop-vending-*.jpg`, `harness/`, `main/` (main's textures, shapes and block types), and the scratch tools in `tools/` (`addspots_b16.py`, `mock.py`, `t3999.py`, `decisions_b16.py`, `tracker_b16.py`, and B15's `churn.py`, `luma.py`, `prev.py`, `explore.py`, `map_at.py`, `query.py`).
+
+**Checks**
+- **Build:** 0 warnings and 0 errors (`tools/locked.sh mod gfx`, a clean scratch dir, both rounds). `build-gfxbase` was built from unchanged `main` before any edit. No C# changed.
+- **`layouthash`:** v1 and v4 unchanged against main's output, line for line (`review/b16/offline/harness`).
+- **`validatelevel 18`, `19`, `20`** (974, 3999, 188; `SPAWN=16000`, 24 cells): no doorways to nowhere, none blocked, no bad elevators, no decor facing walls, before and after.
+- **Saves:** no code, kind, variant group or class was added, renamed or removed; no layout version. The changes are textures, new version texture keys, shapes on existing codes, `alternates` and `randomizeAxes`. Shot in `gfxreview`; no new world was needed.
+- **`check_zfight`:** no new pair. Per level, main against B16: 974 17 and 17 same-shape pairs; 3999 489 and 487; 188 27 and 27 (all in unchanged models: the cabinets' T-moulding and crest, the old `cyl` posts). Round 1's two new pairs (the chair's spine against its back, the downpipe socket's lip) were fixed. The booth's back and the vending machine's top reach the block above, as B0's did.
+- **Churn:** `lang/en.json`, the 3999 item types and line endings restored after every regeneration (`churn.py`); nothing outside the three levels' folders, their generators, the spot lists and the docs changed.
+- **Brightness:** 974 and 3999 within 1.4 levels of the new baseline in every final shot (`review/b16/luma-final.txt`). 188 is within 1 except where a window or a flickering light changed state at runtime (`downpipe-foot` -12, `downpipe-close` +8, `downpipe-wide` -6, `wide-02` -6), the same spots in both rounds.
+- **Texture keys:** every new key is in the level's own folder (`block/974/`, `block/3999/`, `block/188/`), which only its generator writes.
+  - 974: `paint-3`, `paint-4`, `ceiling-2/-3`, `carpet-2/-3`, `checker-2`, `bathtile-2`, `keycap`.
+  - 3999: `marble-white-2..4`, `marble-black-2..4`, `wall-{violet,midnight,teal}-2/-3`, `plastic-{white,pink,cyan}-side`, `fc-top`, `fc-edge`, `fc-chrome`, `fc-glide`, `fc-kick`, `vinyl-pink-side`, `vinyl-piping`, `coindoor-plate`, `coinmech`, `coinbutton`, `cab-bumper`, `cab-trim`, `vendback-{snack,drink}`, `vendshelf`, `vendprod-snack-0..5`, `vendprod-drink-0..4`.
+  - 188: `paver-plain-2/-3`, `paver-moss-2`, `paver-cracked-2/-3`, `cladding-plain-2/-3`, `cladding-band-2`, `hopper`.
+  - No longer used by any shape (still written): 974 `keyboard`; 3999 `coindoor`.
+
+**Baseline and spots**
+- `review/baseline/974`, `/3999` and `/188` were reshot on `build-gfxbase`; the B0 sets are kept as `974-b0`, `3999-b0`, `188-b0`. A first retake of four spots per level matched B0 within 0.2 (974, 3999). The first full run came out 20-115 levels dark everywhere (kept as `review/b16/baseline-dark1`) and was retaken; the retake matched B0 within 0.1 on 974 and 3999. 188 differs at runtime (see the lessons).
+- **Added** (`review/spots/974.json`, `3999.json`, `188.json` and the docs copies; found on the harness grid):
+  - 974: `kitchen-wide`, `kitchen-close` (the stove and counter run), `bath-wide`, `kittyroom-wide` (Kitty's room: the bed alcove, nightstand, plush, posters), `bed-close`, `hall-wide`, `master-wide` (the cat bed).
+  - 3999: `marble-close`, `table-close`, `cabinet-close`, `fascia-close` (a concourse gallery's white marble fascia and its neon, from the food court), `vending-close`.
+  - 188: `moss-close`, `bollard-close`, `paving-close`, `blind-close`, `blind-close2` (ground-floor windows; their state changes at runtime, both were up in every run), `downpipe-foot`.
+- **Re-spotted after the base frames:** `fascia-close` (its first place framed the underside of a gallery).
+- **Not added:** the hopper head (rel 21, in no shot; judged on the preview), a window with its blind down (runtime state).
+
+**What changed, per family**
+
+| Family | Grade | vs before | What changed |
+|---|---|---|---|
+| 3999 marble floor, gallery fascias, storey line (hero 39) | B (blind r1: B) | much better | B0's one vein scribble per tile and diagonal gloss band (inventory D) are gone. Tiles are cut from one large slab, each a different piece, turned, tone evened, 2 x 2 to a block with 1 px joints; four versions per colour, `randomizeAxes: xyz`. Round 2 calmed the white's branch veins and took them off the black (r1: dashes). Answer to the reviewer's question: it no longer repeats. |
+| 3999 food court chairs, tables, booths (hero 39) | B- (r1: B- chair, B table, D booth preview) | better | Shell chair with a dished seat, rolled lip, spine, leaning back with a rolled top, tube legs on glides, rails and a stretcher; octagonal table top with an edge band, collar, four-star foot; booth with a kick strip, rolled seat, piping and buttoned channels. Round 1's booth preview predated a fix (its base and back panel are closed in the shapes shot). Round 2 softened the plastic sheen and thickened the legs. At food-court distance they still read close to B0's silhouettes (the reviewer's point); the lore's colours kept. |
+| 3999 arcade cabinets (hero 38) | B (r1: B) | better | Coin door as a plate with chrome coin entries and slots, coin buttons, a lock; a trim rim round the screen, an aluminium marquee frame, a rubber panel bumper and lip; painted-wood body. Screens, marquees, glow unchanged. |
+| 3999 vending machines | B (r1: D sign, B body) | better | The window an opening with five shelves and packs behind the glass; round 2 fixed the picture's mirrored UVs (r1 cut the sign to "RINKS"), put the glass over the window and modelled the keypad (twelve keys) and the ALMOND WATER ONLY label on their painted places. |
+| 3999 painted plaster (fascias, gallery walls) | C+ (r1: C) | same | Paint over plaster in three versions on one ground; plain by nature, mostly too dark to judge in the shots. |
+| 974 pink paint (hero 36, 37) | B- (r1: B-) | same | Four versions on one ground, `randomizeAxes`; the base and crown kinds take them by key. Mean kept: the house reads as before. |
+| 974 carpet | B- (r1: B-) | better | Cut pile, lightly lived-in, three versions turned. |
+| 974 ceiling | C+ (r1: C) | same | Plaster in three versions; plain by nature. |
+| 974 checker, bath tile | B (r1: B) | slightly better | Glazed tiles, shaded, recessed grout; two versions, never turned. |
+| 974 computer | B (r1: B) | better | Screen set in a bezel; the keys as keys. |
+| 974 photo frames | B (r1: B) | better | A moulding with a bead and a lip; the gilt burnished. |
+| 974 furniture bodies (desk, dresser, bed, kitchen) | C+ (r1: C desk) | slightly better | Only the trim paint changed (a faint grain); the models are B0's (already modelled: knobs, drawers, rails). |
+| 188 pavers (hero 40, 41) | B (r1: B plain, C cracked, C+ moss) | better | Slabs in running bond, lit edges, recessed joints, aggregate on one ground; round 2 deepened the joints (r1: they faded at a distance), gave the cracked kind three versions with the crack and a faint stain at a different place each (r1: per-block repeat) and the moss more runs, kept inside the block (r1 seam 1.94, now 0.53). |
+| 188 moss tufts | B- (r1: not graded) | slightly better | Eighteen fronds instead of twelve, darker roots, lit tips; the 2026-10 review's light tone kept. |
+| 188 render (hero 40, 41) | B- (r1: B-) | better | Three versions by height on one ground; seam 2.38 to 0.74 (B0 drew a joint on every block's edge); the band a clean groove; the streak fades before the block's foot (it is under a sill, so it stands where the sill is). |
+| 188 blinds and window aluminium | B- (r1: same, runtime) | same in shots | The blind a woven roller fabric (B0 painted slats), the lit blind without slat lines; brushed aluminium. Every window in the new spots was open in both runs, so the blind is judged on the texsheet. |
+| 188 bollards | B (r1: B) | better | Bolted octagonal plinth, octagonal body, stepped cap; the lit band and its light unchanged (no ring). |
+| 188 downpipe and hopper | B- (r1: B-) | better | Clips bolted to the wall, socket collars, round paint; the hopper flared with a rim and water. Its back faces are left off (it hangs on a wall, as B0's did). |
+| 188 courtyard door, EXIT sign | B- (r1: same) | slightly better | Push bar on brackets, brushed aluminium and kick plates with screws; the sign's box painted; face and light unchanged. |
+
+**Rounds**
+1. **Round 1, blind** (Opus; given only the sheets, texsheets, mocks, previews and the rubric):
+   - **D:** the vending sign cut to "RINKS"/"NACKS"; the booth's preview (rendered before a fix, the shapes shot were closed).
+   - **C:** the cracked pavers' stain and crack in one place; the cladding streak; the mossy pavers' seam; 3999's plain paint; 974's ceiling and desk bodies.
+   - **B- or better:** the marble (no longer repeats), the table, chair, cabinets, vending body, 974's tiles, computer and frames, 188's plain pavers, render, bollard, downpipe.
+   - **No dark ring, no layout change, nothing off palette.**
+2. **Round 2 fixed:** the vending machine's UVs, glass, keypad and label; three cracked-paver versions; the moss runs; deeper paver joints; the marble's branch veins; the plastic's sheen; the chair's legs; the streak's fade. Reshot once; the vending spot retaken after its last fix.
+
+**Carried below B, with reasons**
+- **3999 painted plaster (C+), 974 ceiling (C+):** plain paint and plaster in the old tones; structure would change the look, and per-block marks repeat (the user's rule).
+- **974 furniture bodies (C+):** the models were already modelled; B16 changed only their paint. A bevel or inset pass on the desk, dresser and kitchen units is left for a follow-up.
+- **3999 food court furniture at a distance (B-):** modelled now, but at 10+ blocks in the food court's single-colour light it reads close to B0. Kept the lore's colours rather than two-toning the seat.
+- **188 blinds (B-):** no window in the spots had its blind down in any run (runtime state); judged on the texsheet.
+- **Not touched:** 3999's neon (tubes, signs, pillars, base strips: lights stay as they are), carpets, concrete, lane wood, the other machines (racer, dance, pinball, claw, skee-ball, air hockey, prize counters), lobby furniture; 974's windows and paintings, plush, kitchen and bath models, lights; 188's corridors, rooms, deck, hatch, windows' frames, outer windows, lobby, EXIT sign face.
+
+**Tool changes:** none to shared tools.
+- **New modules:** `tools/gen_974_b16.py`, `tools/gen_3999_b16.py`, `tools/gen_188_b16.py` (each documented in its docstring).
+- **Hooks:** `gen_974_tex.generate`, `gen_3999_tex.generate`, `gen_3999_tex_arcade.generate` and `gen_188_tex.generate` call the B16 painters last; `gen_974.B16_ALT` gives a texture entry its versions; `gen_188_kit._tex_entry` does the same for every 188 cube block.
+- **Edits:** `gen_974` (`B16_COMPUTER`, `B16_FRAME`, the wall, floor and ceiling block types' versions and `randomizeAxes`); `gen_3999_blocks` (`B16_FURNITURE`, `B16_VENDING`, the marble and wall versions and `randomizeAxes`); `gen_3999_arcade` (`B16_CABINET`); `gen_188` (cladding `randomizeAxes`, the courtyard door's push-bar brackets); `gen_188_props` (`B16_COURTYARD`).
+
+**Lessons:** four lines added above.

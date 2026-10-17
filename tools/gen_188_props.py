@@ -337,8 +337,15 @@ def lobby():
 
 # ======================================================================== The courtyard's props
 
+import gen_188_b16  # noqa: E402  (graphics pass B16)
+
+B16_COURTYARD = True  # (B16) the bollard, the downpipe and its hopper modelled (False: B0's boxes)
+
+
 def courtyard():
     def downpipe(v):
+        if B16_COURTYARD:
+            return hung(gen_188_b16.downpipe())
         return hung([bx("Pipe", (6.5, 0, -4), (9.5, 16, -1), "downpipe"), bx("Bracket", (6, 8, -4.4), (10, 9.2, 0), "bracket"),
                      bx("Joint", (6.2, 13.6, -4.3), (9.8, 15, -0.7), "downpipe")])
 
@@ -348,6 +355,8 @@ def courtyard():
 
     def downpipe_top(v):
         # Its head under the parapet's drip (rel 21): the pipe up into a hopper that takes the roof's water
+        if B16_COURTYARD:
+            return hung(gen_188_b16.downpipe_top())
         return hung([bx("Pipe", (6.5, 0, -4), (9.5, 10.5, -1), "downpipe"), bx("Hopper", (5, 10.5, -5.5), (11, 13.4, -1), "downpipe"),
                      bx("Lip", (4.6, 12.8, -5.9), (11.4, 13.4, -1), "downpipe"), bx("Bracket", (6, 5, -4.4), (10, 6.2, 0), "bracket")])
 
@@ -375,6 +384,8 @@ def courtyard():
     LANG["block-l188-drain"] = "Drain"
 
     def bollard(v):
+        if B16_COURTYARD:
+            return gen_188_b16.bollard(cyl("Band", 8, 8, 2.05, 6, 9, "bollardlight", glow=220, k=0.6))
         return (cyl("Body", 8, 8, 2, 0, 6, "bollard", k=0.6) + cyl("Band", 8, 8, 2.05, 6, 9, "bollardlight", glow=220, k=0.6)
                 + cyl("Cap", 8, 8, 2.1, 9, 10, "bollard", k=0.6))
 

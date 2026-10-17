@@ -71,16 +71,70 @@
 				"alternates": [
 					{
 						"base": "block/974/paint-2"
+					},
+					{
+						"base": "block/974/paint-3"
+					},
+					{
+						"base": "block/974/paint-4"
 					}
 				]
 			}
 		},
 		"l974-wall-bathtile": {
 			"all": {
-				"base": "block/974/bathtile"
+				"base": "block/974/bathtile",
+				"alternates": [
+					{
+						"base": "block/974/bathtile-2"
+					}
+				]
+			}
+		},
+		"l974-wall-base": {
+			"paint-1": {
+				"base": "block/974/paint-1",
+				"alternates": [
+					{
+						"base": "block/974/paint-2"
+					},
+					{
+						"base": "block/974/paint-3"
+					},
+					{
+						"base": "block/974/paint-4"
+					}
+				]
+			}
+		},
+		"l974-wall-crown": {
+			"paint-1": {
+				"base": "block/974/paint-1",
+				"alternates": [
+					{
+						"base": "block/974/paint-2"
+					},
+					{
+						"base": "block/974/paint-3"
+					},
+					{
+						"base": "block/974/paint-4"
+					}
+				]
+			}
+		},
+		"l974-wall-bathtilecap": {
+			"bathtile": {
+				"base": "block/974/bathtile",
+				"alternates": [
+					{
+						"base": "block/974/bathtile-2"
+					}
+				]
 			}
 		}
 	},
+	"randomizeAxes": "xyz",
 	"attributes": {
 		"l974structure": true
 	}

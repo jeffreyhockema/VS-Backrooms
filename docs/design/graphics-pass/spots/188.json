@@ -21,6 +21,12 @@
     {"name": "courtdoor-wide", "tp": [565882.5, 217.05, 381910.5], "look": [270, 0], "target": "courtdoor", "distance": 6.0},
     {"name": "courtdoor-close", "tp": [565878.5, 217.05, 381910.5], "look": [270, -1], "target": "courtdoor", "distance": 2.0},
     {"name": "downpipe-wide", "tp": [565915.5, 217.0, 381913.5], "look": [0, 35], "target": "downpipe"},
-    {"name": "downpipe-close", "tp": [565915.5, 217.0, 381913.5], "look": [0, 35], "fov": 35, "target": "downpipe"}
+    {"name": "downpipe-close", "tp": [565915.5, 217.0, 381913.5], "look": [0, 35], "fov": 35, "target": "downpipe"},
+    {"name": "moss-close", "tp": [565906.5, 217.05, 381915.3], "look": [0, -42], "fov": 60, "target": "a moss tuft at 565906,381913 on the lawn, the edging and pavers beyond"},
+    {"name": "bollard-close", "tp": [565908.5, 217.05, 381917.4], "look": [0, -22], "fov": 60, "target": "the bollard at 565908,381915"},
+    {"name": "paving-close", "tp": [565897.5, 217.05, 381909.5], "look": [90, -50], "fov": 70, "target": "the paver strip along the north façade (z 381908-909), looking east"},
+    {"name": "blind-close", "tp": [565904.0, 217.05, 381909.6], "look": [0, 14], "fov": 70, "target": "the ground-floor window at x 565903-904 in the façade z 381907: frame, blind, cord"},
+    {"name": "blind-close2", "tp": [565909.0, 217.05, 381909.6], "look": [0, 14], "fov": 70, "target": "the ground-floor window at x 565908-909 in the façade z 381907"},
+    {"name": "downpipe-foot", "tp": [565915.5, 217.05, 381910.4], "look": [0, -30], "fov": 60, "target": "the downpipe's foot at 565915,381908: shoe, drain grate, collars"}
   ]
 }

@@ -3,11 +3,15 @@
 	"textureHeight": 16,
 	"textures": {
 		"black": "backrooms:block/3999/black",
+		"cab-bumper": "backrooms:block/3999/cab-bumper",
 		"cab-d-body": "backrooms:block/3999/cab-d-body",
 		"cab-d-marquee": "backrooms:block/3999/cab-d-marquee",
 		"cab-d-screen": "backrooms:block/3999/cab-d-screen",
 		"cab-d-side": "backrooms:block/3999/cab-d-side",
-		"coindoor": "backrooms:block/3999/coindoor",
+		"cab-trim": "backrooms:block/3999/cab-trim",
+		"coinbutton": "backrooms:block/3999/coinbutton",
+		"coindoor-plate": "backrooms:block/3999/coindoor-plate",
+		"coinmech": "backrooms:block/3999/coinmech",
 		"cpanel-d": "backrooms:block/3999/cpanel-d",
 		"darksteel": "backrooms:block/3999/darksteel",
 		"joyball": "backrooms:block/3999/joyball",
@@ -54,66 +58,6 @@
 						0,
 						12,
 						12
-					]
-				}
-			}
-		},
-		{
-			"name": "CoinDoor",
-			"from": [
-				5,
-				3.5,
-				2.6
-			],
-			"to": [
-				11,
-				9.5,
-				3
-			],
-			"faces": {
-				"north": {
-					"texture": "#coindoor",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					]
-				},
-				"east": {
-					"texture": "#cab-d-body",
-					"uv": [
-						0,
-						0,
-						0.5,
-						6.0
-					]
-				},
-				"west": {
-					"texture": "#cab-d-body",
-					"uv": [
-						0,
-						0,
-						0.5,
-						6.0
-					]
-				},
-				"up": {
-					"texture": "#cab-d-body",
-					"uv": [
-						0,
-						0,
-						6,
-						0.5
-					]
-				},
-				"down": {
-					"texture": "#cab-d-body",
-					"uv": [
-						0,
-						0,
-						6,
-						0.5
 					]
 				}
 			}
@@ -314,6 +258,534 @@
 			}
 		},
 		{
+			"name": "CoinDoor",
+			"from": [
+				5,
+				3.5,
+				2.7
+			],
+			"to": [
+				11,
+				9.5,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#coindoor-plate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cab-d-body",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#cab-d-body",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#cab-d-body",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-d-body",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinEntry0",
+			"from": [
+				5.6,
+				6.6,
+				2.3
+			],
+			"to": [
+				7.4,
+				9.0,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinSlot0",
+			"from": [
+				6.3,
+				7.2,
+				2.25
+			],
+			"to": [
+				6.7,
+				8.6,
+				2.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinButton0",
+			"from": [
+				6.0,
+				5.6,
+				2.4
+			],
+			"to": [
+				7.0,
+				6.3,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinEntry1",
+			"from": [
+				8.6,
+				6.6,
+				2.3
+			],
+			"to": [
+				10.4,
+				9.0,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinSlot1",
+			"from": [
+				9.3,
+				7.2,
+				2.25
+			],
+			"to": [
+				9.7,
+				8.6,
+				2.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "CoinButton1",
+			"from": [
+				9.0,
+				5.6,
+				2.4
+			],
+			"to": [
+				10.0,
+				6.3,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#coinbutton",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lock",
+			"from": [
+				7.7,
+				8.0,
+				2.45
+			],
+			"to": [
+				8.3,
+				8.6,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#coinmech",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bumper",
+			"from": [
+				1.3,
+				14.25,
+				0.2
+			],
+			"to": [
+				14.7,
+				15.75,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.4,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelLip",
+			"from": [
+				1.4,
+				16.0,
+				0.5
+			],
+			"to": [
+				14.6,
+				16.3,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cab-bumper",
+					"uv": [
+						0,
+						0,
+						13.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
 			"name": "Bezel",
 			"from": [
 				2.5,
@@ -420,6 +892,216 @@
 			"rotationX": 15
 		},
 		{
+			"name": "RimT",
+			"from": [
+				2.5,
+				21.6,
+				5.6
+			],
+			"to": [
+				13.5,
+				22.5,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				15,
+				7.5
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "RimB",
+			"from": [
+				2.5,
+				15.0,
+				5.6
+			],
+			"to": [
+				13.5,
+				16.0,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				15,
+				7.5
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "RimL",
+			"from": [
+				2.5,
+				16.0,
+				5.6
+			],
+			"to": [
+				3.6,
+				21.6,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						1.1,
+						5.6
+					]
+				},
+				"east": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				15,
+				7.5
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "RimR",
+			"from": [
+				12.4,
+				16.0,
+				5.6
+			],
+			"to": [
+				13.5,
+				21.6,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						1.1,
+						5.6
+					]
+				},
+				"west": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				15,
+				7.5
+			],
+			"rotationX": 15
+		},
+		{
 			"name": "Marquee",
 			"from": [
 				2.5,
@@ -473,6 +1155,126 @@
 						0,
 						11.0,
 						13
+					]
+				}
+			}
+		},
+		{
+			"name": "MarqueeTop",
+			"from": [
+				2.4,
+				27.4,
+				1.6
+			],
+			"to": [
+				13.6,
+				27.8,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MarqueeBot",
+			"from": [
+				2.4,
+				23.2,
+				1.6
+			],
+			"to": [
+				13.6,
+				23.6,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cab-trim",
+					"uv": [
+						0,
+						0,
+						11.2,
+						0.5
 					]
 				}
 			}

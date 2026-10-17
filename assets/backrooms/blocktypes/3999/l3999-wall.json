@@ -36,18 +36,43 @@
 	"texturesByType": {
 		"l3999-wall-violet": {
 			"all": {
-				"base": "block/3999/wall-violet"
+				"base": "block/3999/wall-violet",
+				"alternates": [
+					{
+						"base": "block/3999/wall-violet-2"
+					},
+					{
+						"base": "block/3999/wall-violet-3"
+					}
+				]
 			}
 		},
 		"l3999-wall-midnight": {
 			"all": {
-				"base": "block/3999/wall-midnight"
+				"base": "block/3999/wall-midnight",
+				"alternates": [
+					{
+						"base": "block/3999/wall-midnight-2"
+					},
+					{
+						"base": "block/3999/wall-midnight-3"
+					}
+				]
 			}
 		},
 		"l3999-wall-teal": {
 			"all": {
-				"base": "block/3999/wall-teal"
+				"base": "block/3999/wall-teal",
+				"alternates": [
+					{
+						"base": "block/3999/wall-teal-2"
+					},
+					{
+						"base": "block/3999/wall-teal-3"
+					}
+				]
 			}
 		}
-	}
+	},
+	"randomizeAxes": "xyz"
 }

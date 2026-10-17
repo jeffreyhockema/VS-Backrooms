@@ -12,6 +12,10 @@ The machines are part of the building (never broken), except the dead ones, the 
 from gen_3999_kit import (CLOTH, COLOURS, FIXED, GLASS, LANG, METAL, NEON, SIDES, WOOD, bx, cuboid, cyl, drops, faces_box, glass,
                           hang, hsv, mirror_x, move, picture, rot, scale_els, threshold, turn, variants_block, with_class)
 
+import gen_3999_b16 as B16  # graphics pass B16: the cabinet's coin door, bezel rim, marquee frame and panel bumper
+
+B16_CABINET = True  # (B16) False: B0's painted coin door, no rim, frame or bumper
+
 GAME_COLOURS = {"a": ("magenta", "cyan"), "b": ("orange", "pink"), "c": ("lilac", "orange"), "d": ("blue", "orange"),
                 "e": ("cyan", "orange"), "f": ("pink", "blue")}
 GAME_NAMES = {"a": "Galaxia 3999", "b": "Neon Rally", "c": "Dungeon Byte", "d": "Robo Brawl", "e": "Sky Jouster", "f": "Maze Muncher"}
@@ -54,19 +58,25 @@ def side_panels(side_tex, trim, glow=255):
 def cabinet(screen, marquee, side, body, cpanel, trim, buttons=("magenta", "cyan"), lit=True, missing_button=False, dusty=False):
     g = 255 if lit else 0
     els = [faces_box("Lower", (2, 0, 3), (14, 14, 15), {"north": body, "south": body, "down": body}),
-           picture(bx("CoinDoor", (5, 3.5, 2.6), (11, 9.5, 3), body, faces=("north", "east", "west", "up", "down")), "coindoor"),
            bx("Kick", (2, 0, 2.6), (14, 1.5, 3), "black"),
            faces_box("Panel", (1.4, 14, 0.5), (14.6, 16, 6), {"up": cpanel, "north": "black", "east": "black", "west": "black", "down": "black"}),
            bx("Back", (2.5, 14, 9), (13.5, 28, 15), body, faces=("south", "up")),
            faces_box("UnderMarquee", (2.5, 22, 2), (13.5, 23, 6), {"down": "black", "north": "black"})]
     els[-3]["faces"]["up"]["uv"] = [0, 0, 16, 16]
+    if B16_CABINET:
+        door, rim, frame, bumper = B16.cabinet_parts(body, lit)
+        els += door + bumper
+    else:
+        els.append(picture(bx("CoinDoor", (5, 3.5, 2.6), (11, 9.5, 3), body, faces=("north", "east", "west", "up", "down")), "coindoor"))
+        rim, frame = [], []
     # Screen: a bezel leaning back 15 degrees, the picture set into it
     bezel = bx("Bezel", (2.5, 15, 6), (13.5, 22.5, 9), "black")
     scr = picture(bx("Screen", (3.6, 16, 5.9), (12.4, 21.6, 6), "black", faces=("north",)), screen, glow=g)
     els += [rot(bezel, rx=15, origin=(8, 15, 7.5)), rot(scr, rx=15, origin=(8, 15, 7.5))]
+    els += [rot(r, rx=15, origin=(8, 15, 7.5)) for r in rim]
     # Marquee box, projecting a pixel past the body
     mq = picture(bx("Marquee", (2.5, 23.2, 2), (13.5, 27.8, 5), body, faces=("north", "down")), marquee, glow=200 if lit else 0)
-    els += [mq, bx("Crest", (2.5, 27.8, 2), (13.5, 28, 15), "black", faces=("up",))]
+    els += [mq, bx("Crest", (2.5, 27.8, 2), (13.5, 28, 15), "black", faces=("up",))] + frame
     # Joystick (player one, on the left as seen from the front: +X) and four buttons
     els += [bx("StickBase", (9.9, 16, 1.9), (12.1, 16.3, 4.1), "darksteel"), bx("Stick", (10.6, 16.3, 2.6), (11.4, 19, 3.4), "stick"),
             bx("Ball", (10, 19, 2), (12, 21, 4), "joyball")]

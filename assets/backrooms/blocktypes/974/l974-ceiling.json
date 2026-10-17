@@ -22,7 +22,15 @@
 	},
 	"textures": {
 		"all": {
-			"base": "block/974/ceiling"
+			"base": "block/974/ceiling",
+			"alternates": [
+				{
+					"base": "block/974/ceiling-2"
+				},
+				{
+					"base": "block/974/ceiling-3"
+				}
+			]
 		}
 	},
 	"attributes": {

@@ -1,0 +1,183 @@
+{
+ "batch": "B16",
+ "title": "Levels 974, 3999 and 188",
+ "before": "review/b16/sbs/before",
+ "after": "review/b16/sbs/after",
+ "out": "review/b16/sidebyside",
+ "note": "Shots carry a 974-, 3999- or 188- prefix: review/b16/sbs holds copies of review/baseline/974, /3999 and /188 (reshot in B16 on a build of unchanged main; the B0 sets are kept as 974-b0, 3999-b0 and 188-b0) and of the final after shots. B16 added the kitchen, bath, Kitty's room, bed, hall and master bedroom in Level 974; a marble close-up, a food court table, an arcade cabinet, a shopfront fascia and the vending machines in Level 3999; a moss tuft, a bollard, the paving, two ground-floor windows and the downpipe's foot in Level 188. 3999 is lit by its neon in the dark and 188 is night by design.",
+ "families": [
+  {
+   "id": "974-walls",
+   "name": "974: pink paint over plaster, four versions",
+   "spots": [
+    "974-close-wall",
+    "974-wide-01",
+    "974-kittyroom-wide"
+   ]
+  },
+  {
+   "id": "974-carpet",
+   "name": "974: blush cut-pile carpet, three versions",
+   "spots": [
+    "974-close-floor",
+    "974-wide-02",
+    "974-bed-close"
+   ]
+  },
+  {
+   "id": "974-ceiling",
+   "name": "974: ceiling plaster; downlights unchanged",
+   "spots": [
+    "974-close-ceiling",
+    "974-close-light",
+    "974-hall-wide"
+   ]
+  },
+  {
+   "id": "974-kitchen",
+   "name": "974: kitchen checker (glazed), trim paint",
+   "spots": [
+    "974-kitchen-wide",
+    "974-kitchen-close",
+    "974-prop-1"
+   ]
+  },
+  {
+   "id": "974-bath",
+   "name": "974: glazed mint bath tile",
+   "spots": [
+    "974-close-wall2",
+    "974-bath-wide"
+   ]
+  },
+  {
+   "id": "974-computer",
+   "name": "974: computer bezel and keys as geometry",
+   "spots": [
+    "974-prop-2"
+   ]
+  },
+  {
+   "id": "974-frames",
+   "name": "974: photo frames as a moulding, the hall",
+   "spots": [
+    "974-close-wall",
+    "974-hall-wide"
+   ]
+  },
+  {
+   "id": "974-kittyroom",
+   "name": "974: Kitty's room and the master bedroom",
+   "spots": [
+    "974-kittyroom-wide",
+    "974-bed-close",
+    "974-master-wide"
+   ]
+  },
+  {
+   "id": "3999-marble",
+   "name": "3999: marble, every tile its own piece of slab",
+   "spots": [
+    "3999-marble-close",
+    "3999-wide-01",
+    "3999-wide-02",
+    "3999-foodcourt-wide"
+   ]
+  },
+  {
+   "id": "3999-furniture",
+   "name": "3999: modelled chairs, tables, booths",
+   "spots": [
+    "3999-table-close",
+    "3999-foodcourt-close",
+    "3999-wide-02"
+   ]
+  },
+  {
+   "id": "3999-cabinets",
+   "name": "3999: cabinet coin door, rim, frame, bumper",
+   "spots": [
+    "3999-cabinet-close",
+    "3999-prop-1",
+    "3999-wide-04",
+    "3999-wide-06"
+   ]
+  },
+  {
+   "id": "3999-vending",
+   "name": "3999: vending window with shelves and packs",
+   "spots": [
+    "3999-vending-close"
+   ]
+  },
+  {
+   "id": "3999-paint",
+   "name": "3999: painted plaster fascias, storey line",
+   "spots": [
+    "3999-fascia-close",
+    "3999-close-wall2",
+    "3999-wide-03"
+   ]
+  },
+  {
+   "id": "188-pavers",
+   "name": "188: pavers as slabs, mossy and cracked kinds",
+   "spots": [
+    "188-paving-close",
+    "188-prop-1",
+    "188-moss-close"
+   ]
+  },
+  {
+   "id": "188-moss",
+   "name": "188: moss tufts and moss in the joints",
+   "spots": [
+    "188-moss-close",
+    "188-prop-2"
+   ]
+  },
+  {
+   "id": "188-render",
+   "name": "188: facade render, floor-line groove, streak",
+   "spots": [
+    "188-downpipe-wide",
+    "188-close-ceiling",
+    "188-courtdoor-wide"
+   ]
+  },
+  {
+   "id": "188-blinds",
+   "name": "188: roller blinds as fabric, brushed alu",
+   "spots": [
+    "188-blind-close",
+    "188-blind-close2",
+    "188-downpipe-close"
+   ]
+  },
+  {
+   "id": "188-bollard",
+   "name": "188: bollard plinth and cap (band unchanged)",
+   "spots": [
+    "188-bollard-close",
+    "188-prop-2"
+   ]
+  },
+  {
+   "id": "188-downpipe",
+   "name": "188: downpipe clips, collars, hopper",
+   "spots": [
+    "188-downpipe-foot",
+    "188-downpipe-close",
+    "188-downpipe-wide"
+   ]
+  },
+  {
+   "id": "188-door",
+   "name": "188: courtyard door hardware, EXIT sign box",
+   "spots": [
+    "188-courtdoor-close",
+    "188-courtdoor-wide"
+   ]
+  }
+ ]
+}

@@ -18,6 +18,13 @@
     {"name": "close-ceiling", "tp": [398988.5, 217.05, 622763.5], "look": [0, 62], "surface": "ceiling kind 0"},
     {"name": "prop-1", "tp": [398989.5, 217.05, 622771.5], "look": [180, -32], "surface": "floor prop variant 451"},
     {"name": "prop-2", "tp": [398995.5, 217.05, 622764.5], "look": [0, -32], "surface": "floor prop variant 446"},
-    {"name": "close-light", "tp": [398996.5, 217.05, 622761.5], "look": [180, 52], "surface": "ceiling light kind 1"}
+    {"name": "close-light", "tp": [398996.5, 217.05, 622761.5], "look": [180, 52], "surface": "ceiling light kind 1"},
+    {"name": "kitchen-wide", "tp": [398988.5, 217.05, 622768.5], "look": [225, -14], "fov": 75, "target": "the kitchen-diner from its north-east corner: counters, fridge, pantry, stove, banquette and table"},
+    {"name": "kitchen-close", "tp": [398985.5, 217.05, 622772.3], "look": [200, -28], "fov": 70, "target": "the stove at 398984,622774 and the counter run along the west wall"},
+    {"name": "bath-wide", "tp": [398994.4, 217.05, 622768.5], "look": [60, -22], "fov": 80, "target": "bath 1: basin, toilet, tub, the mint tile and its rail"},
+    {"name": "kittyroom-wide", "tp": [398996.5, 217.05, 622764.6], "look": [45, -12], "fov": 80, "target": "Kitty's room (the bedroom): the bed alcove, nightstand, plush heap, posters, fairy lights"},
+    {"name": "bed-close", "tp": [398994.6, 217.05, 622762.5], "look": [90, -16], "fov": 60, "target": "the bed in its alcove at 398998-999, z 622762, from the rug's west edge"},
+    {"name": "hall-wide", "tp": [398991.5, 217.05, 622773.5], "look": [0, -4], "fov": 70, "target": "the hall from its south end: photo frames, night light, downlights, doorways"},
+    {"name": "master-wide", "tp": [398994.5, 217.05, 622771.5], "look": [115, -15], "fov": 75, "target": "the master bedroom: the cat bed at 398999,622773"}
   ]
 }

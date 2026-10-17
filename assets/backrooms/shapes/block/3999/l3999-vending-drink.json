@@ -4,10 +4,18 @@
 	"textures": {
 		"darksteel": "backrooms:block/3999/darksteel",
 		"glasspane": "backrooms:block/3999/glasspane",
+		"keybutton": "backrooms:block/3999/keybutton",
 		"neon-cyan": "backrooms:block/3999/neon-cyan",
 		"tape": "backrooms:block/3999/tape",
+		"vendback-drink": "backrooms:block/3999/vendback-drink",
 		"vending-drink": "backrooms:block/3999/vending-drink",
-		"vendingbody-drink": "backrooms:block/3999/vendingbody-drink"
+		"vendingbody-drink": "backrooms:block/3999/vendingbody-drink",
+		"vendprod-drink-0": "backrooms:block/3999/vendprod-drink-0",
+		"vendprod-drink-1": "backrooms:block/3999/vendprod-drink-1",
+		"vendprod-drink-2": "backrooms:block/3999/vendprod-drink-2",
+		"vendprod-drink-3": "backrooms:block/3999/vendprod-drink-3",
+		"vendprod-drink-4": "backrooms:block/3999/vendprod-drink-4",
+		"vendshelf": "backrooms:block/3999/vendshelf"
 	},
 	"elements": [
 		{
@@ -15,7 +23,7 @@
 			"from": [
 				1,
 				0,
-				2
+				4.0
 			],
 			"to": [
 				15,
@@ -37,7 +45,7 @@
 					"uv": [
 						0,
 						0,
-						13,
+						11.0,
 						16
 					]
 				},
@@ -55,7 +63,7 @@
 					"uv": [
 						0,
 						0,
-						13,
+						11.0,
 						16
 					]
 				},
@@ -65,7 +73,7 @@
 						0,
 						0,
 						14,
-						13
+						11.0
 					]
 				},
 				"down": {
@@ -74,26 +82,318 @@
 						0,
 						0,
 						14,
-						13
+						11.0
 					]
 				}
 			}
 		},
 		{
-			"name": "Face",
+			"name": "SideW",
+			"from": [
+				1,
+				0,
+				2.0
+			],
+			"to": [
+				1.5,
+				31,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideE",
+			"from": [
+				14.5,
+				0,
+				2.0
+			],
+			"to": [
+				15,
+				31,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#vendingbody-drink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontL",
 			"from": [
 				1.5,
-				1,
+				1.0,
 				1.4
 			],
 			"to": [
-				14.5,
-				31,
-				1.5
+				5.2,
+				31.0,
+				4.0
 			],
 			"faces": {
 				"north": {
 					"texture": "#vending-drink",
+					"uv": [
+						11.4462,
+						0.0,
+						16.0,
+						16.0
+					],
+					"glow": 90
+				},
+				"west": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						2.6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						2.6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						3.7,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						3.7,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontR",
+			"from": [
+				13.7,
+				1.0,
+				1.4
+			],
+			"to": [
+				14.5,
+				31.0,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vending-drink",
+					"uv": [
+						0.0,
+						0.0,
+						0.9846,
+						16.0
+					],
+					"glow": 90
+				},
+				"east": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						2.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						2.6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontB",
+			"from": [
+				5.2,
+				1.0,
+				1.4
+			],
+			"to": [
+				13.7,
+				7.1,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vending-drink",
+					"uv": [
+						0.9846,
+						12.7467,
+						11.4462,
+						16.0
+					],
+					"glow": 90
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "FrontT",
+			"from": [
+				5.2,
+				28.6,
+				1.4
+			],
+			"to": [
+				13.7,
+				31.0,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vending-drink",
+					"uv": [
+						0.9846,
+						0.0,
+						11.4462,
+						1.28
+					],
+					"glow": 90
+				},
+				"down": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Inside",
+			"from": [
+				5.2,
+				7.1,
+				3.8
+			],
+			"to": [
+				13.7,
+				28.6,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendback-drink",
 					"uv": [
 						0,
 						0,
@@ -105,14 +405,2259 @@
 			}
 		},
 		{
+			"name": "Shelf0",
+			"from": [
+				5.2,
+				7.1,
+				1.6
+			],
+			"to": [
+				13.7,
+				7.4,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can000",
+			"from": [
+				5.55,
+				7.4,
+				2.3
+			],
+			"to": [
+				6.85,
+				9.8,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can001",
+			"from": [
+				5.675,
+				7.4,
+				2.3
+			],
+			"to": [
+				6.975,
+				9.8,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can010",
+			"from": [
+				7.675,
+				7.4,
+				2.3
+			],
+			"to": [
+				8.775,
+				10.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can011",
+			"from": [
+				8.0,
+				7.4,
+				2.3
+			],
+			"to": [
+				9.1,
+				10.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can020",
+			"from": [
+				9.8,
+				7.4,
+				2.3
+			],
+			"to": [
+				11.1,
+				9.8,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can021",
+			"from": [
+				9.925,
+				7.4,
+				2.3
+			],
+			"to": [
+				11.225,
+				9.8,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can030",
+			"from": [
+				11.925,
+				7.4,
+				2.3
+			],
+			"to": [
+				13.025,
+				10.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can031",
+			"from": [
+				12.25,
+				7.4,
+				2.3
+			],
+			"to": [
+				13.35,
+				10.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				5.2,
+				11.4,
+				1.6
+			],
+			"to": [
+				13.7,
+				11.7,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can100",
+			"from": [
+				5.55,
+				11.7,
+				2.3
+			],
+			"to": [
+				6.85,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can101",
+			"from": [
+				5.675,
+				11.7,
+				2.3
+			],
+			"to": [
+				6.975,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can110",
+			"from": [
+				7.675,
+				11.7,
+				2.3
+			],
+			"to": [
+				8.775,
+				15.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can111",
+			"from": [
+				8.0,
+				11.7,
+				2.3
+			],
+			"to": [
+				9.1,
+				15.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can120",
+			"from": [
+				9.8,
+				11.7,
+				2.3
+			],
+			"to": [
+				11.1,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can121",
+			"from": [
+				9.925,
+				11.7,
+				2.3
+			],
+			"to": [
+				11.225,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can130",
+			"from": [
+				11.925,
+				11.7,
+				2.3
+			],
+			"to": [
+				13.225,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can131",
+			"from": [
+				12.05,
+				11.7,
+				2.3
+			],
+			"to": [
+				13.35,
+				14.1,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf2",
+			"from": [
+				5.2,
+				15.7,
+				1.6
+			],
+			"to": [
+				13.7,
+				16.0,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can200",
+			"from": [
+				5.55,
+				16.0,
+				2.3
+			],
+			"to": [
+				6.65,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can201",
+			"from": [
+				5.875,
+				16.0,
+				2.3
+			],
+			"to": [
+				6.975,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can210",
+			"from": [
+				7.675,
+				16.0,
+				2.3
+			],
+			"to": [
+				8.775,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can211",
+			"from": [
+				8.0,
+				16.0,
+				2.3
+			],
+			"to": [
+				9.1,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can220",
+			"from": [
+				9.8,
+				16.0,
+				2.3
+			],
+			"to": [
+				10.9,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can221",
+			"from": [
+				10.125,
+				16.0,
+				2.3
+			],
+			"to": [
+				11.225,
+				19.3,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can230",
+			"from": [
+				11.925,
+				16.0,
+				2.3
+			],
+			"to": [
+				13.225,
+				18.4,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can231",
+			"from": [
+				12.05,
+				16.0,
+				2.3
+			],
+			"to": [
+				13.35,
+				18.4,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf3",
+			"from": [
+				5.2,
+				20.0,
+				1.6
+			],
+			"to": [
+				13.7,
+				20.3,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can300",
+			"from": [
+				5.55,
+				20.3,
+				2.3
+			],
+			"to": [
+				6.65,
+				23.6,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can301",
+			"from": [
+				5.875,
+				20.3,
+				2.3
+			],
+			"to": [
+				6.975,
+				23.6,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-0",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can310",
+			"from": [
+				7.675,
+				20.3,
+				2.3
+			],
+			"to": [
+				8.775,
+				23.6,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can311",
+			"from": [
+				8.0,
+				20.3,
+				2.3
+			],
+			"to": [
+				9.1,
+				23.6,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can320",
+			"from": [
+				9.8,
+				20.3,
+				2.3
+			],
+			"to": [
+				11.1,
+				22.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can321",
+			"from": [
+				9.925,
+				20.3,
+				2.3
+			],
+			"to": [
+				11.225,
+				22.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-2",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can330",
+			"from": [
+				11.925,
+				20.3,
+				2.3
+			],
+			"to": [
+				13.225,
+				22.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can331",
+			"from": [
+				12.05,
+				20.3,
+				2.3
+			],
+			"to": [
+				13.35,
+				22.7,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf4",
+			"from": [
+				5.2,
+				24.3,
+				1.6
+			],
+			"to": [
+				13.7,
+				24.6,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#vendshelf",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can400",
+			"from": [
+				5.55,
+				24.6,
+				2.3
+			],
+			"to": [
+				6.65,
+				27.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can401",
+			"from": [
+				5.875,
+				24.6,
+				2.3
+			],
+			"to": [
+				6.975,
+				27.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can410",
+			"from": [
+				7.675,
+				24.6,
+				2.3
+			],
+			"to": [
+				8.975,
+				27.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can411",
+			"from": [
+				7.8,
+				24.6,
+				2.3
+			],
+			"to": [
+				9.1,
+				27.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-3",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can420",
+			"from": [
+				9.8,
+				24.6,
+				2.3
+			],
+			"to": [
+				11.1,
+				27.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can421",
+			"from": [
+				9.925,
+				24.6,
+				2.3
+			],
+			"to": [
+				11.225,
+				27.0,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						2.4
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-4",
+					"uv": [
+						0,
+						0,
+						1.3,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can430",
+			"from": [
+				11.925,
+				24.6,
+				2.3
+			],
+			"to": [
+				13.025,
+				27.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Can431",
+			"from": [
+				12.25,
+				24.6,
+				2.3
+			],
+			"to": [
+				13.35,
+				27.9,
+				3.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3.3
+					],
+					"glow": 45
+				},
+				"east": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#vendprod-drink-1",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
 			"name": "Glass",
 			"from": [
-				2.2,
+				4,
 				7.5,
 				0.6
 			],
 			"to": [
-				12,
+				13.8,
 				29.5,
 				0.7
 			],
@@ -130,107 +2675,14 @@
 			"renderPass": 3
 		},
 		{
-			"name": "Keypad",
-			"from": [
-				12.4,
-				16,
-				0.6
-			],
-			"to": [
-				14.2,
-				22,
-				1.4
-			],
-			"faces": {
-				"north": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						1.799999999999999,
-						6
-					]
-				},
-				"east": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						0.7999999999999999,
-						6
-					]
-				},
-				"south": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						1.799999999999999,
-						6
-					]
-				},
-				"west": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						0.7999999999999999,
-						6
-					]
-				},
-				"up": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						1.799999999999999,
-						0.7999999999999999
-					]
-				},
-				"down": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						1.799999999999999,
-						0.7999999999999999
-					]
-				}
-			}
-		},
-		{
-			"name": "Tape",
-			"from": [
-				12.6,
-				12.5,
-				0.4
-			],
-			"to": [
-				14.2,
-				14.5,
-				1.4
-			],
-			"faces": {
-				"north": {
-					"texture": "#tape",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					]
-				}
-			}
-		},
-		{
 			"name": "Flap",
 			"from": [
-				2.5,
+				4.5,
 				1.8,
 				0.8
 			],
 			"to": [
-				11.5,
+				13.5,
 				5,
 				1.4
 			],
@@ -244,30 +2696,12 @@
 						3.2
 					]
 				},
-				"east": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						0.5999999999999999,
-						3.2
-					]
-				},
 				"south": {
 					"texture": "#darksteel",
 					"uv": [
 						0,
 						0,
 						9.0,
-						3.2
-					]
-				},
-				"west": {
-					"texture": "#darksteel",
-					"uv": [
-						0,
-						0,
-						0.5999999999999999,
 						3.2
 					]
 				},
@@ -287,6 +2721,864 @@
 						0,
 						9.0,
 						0.5999999999999999
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "KeyPlate",
+			"from": [
+				2.35,
+				19.1,
+				1.2
+			],
+			"to": [
+				4.75,
+				24.6,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.4,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key00",
+			"from": [
+				2.6,
+				23.6,
+				1.0
+			],
+			"to": [
+				3.1,
+				24.4,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key01",
+			"from": [
+				3.35,
+				23.6,
+				1.0
+			],
+			"to": [
+				3.85,
+				24.4,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key02",
+			"from": [
+				4.1,
+				23.6,
+				1.0
+			],
+			"to": [
+				4.6,
+				24.4,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key10",
+			"from": [
+				2.6,
+				22.3,
+				1.0
+			],
+			"to": [
+				3.1,
+				23.1,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key11",
+			"from": [
+				3.35,
+				22.3,
+				1.0
+			],
+			"to": [
+				3.85,
+				23.1,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key12",
+			"from": [
+				4.1,
+				22.3,
+				1.0
+			],
+			"to": [
+				4.6,
+				23.1,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key20",
+			"from": [
+				2.6,
+				21.0,
+				1.0
+			],
+			"to": [
+				3.1,
+				21.8,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key21",
+			"from": [
+				3.35,
+				21.0,
+				1.0
+			],
+			"to": [
+				3.85,
+				21.8,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key22",
+			"from": [
+				4.1,
+				21.0,
+				1.0
+			],
+			"to": [
+				4.6,
+				21.8,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key30",
+			"from": [
+				2.6,
+				19.7,
+				1.0
+			],
+			"to": [
+				3.1,
+				20.5,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key31",
+			"from": [
+				3.35,
+				19.7,
+				1.0
+			],
+			"to": [
+				3.85,
+				20.5,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Key32",
+			"from": [
+				4.1,
+				19.7,
+				1.0
+			],
+			"to": [
+				4.6,
+				20.5,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#keybutton",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape",
+			"from": [
+				2.35,
+				15.1,
+				1.25
+			],
+			"to": [
+				5.1,
+				17.9,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						2.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#tape",
+					"uv": [
+						0,
+						0,
+						2.75,
+						0.5
 					]
 				}
 			}

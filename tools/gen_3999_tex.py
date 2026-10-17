@@ -1031,6 +1031,8 @@ def generate():
     mall()
     plush_tex()
     items_tex()
+    import gen_3999_b16  # graphics pass B16: its painters run last, under the same keys (and new version keys)
+    gen_3999_b16.textures()
     print("3999 textures: building, fittings, items")
 
 

@@ -363,6 +363,16 @@ def vblock(code, english, groups, build, rot="side", box=None, boxes=None, colli
     LANG.setdefault(f"block-{code}-*" if groups else f"block-{code}", english)
 
 
+def _tex_entry(key):
+    """A cube face's texture, with the surface's graphics-pass (B16) versions as alternates when it has any."""
+    import gen_188_b16
+    keys = gen_188_b16.versions(key)
+    e = {"base": tpath(key).replace("backrooms:", "")}
+    if len(keys) > 1:
+        e["alternates"] = [{"base": tpath(k).replace("backrooms:", "")} for k in keys[1:]]
+    return e
+
+
 def cube_block(code, english, groups, faces, data=None, comment=None, names=None, material="Stone", sounds=STONE):
     """A cube block type: faces(v) gives the texture key of each face (a dict with 'all' and/or face names)."""
     combos = list(itertools.product(*[states for _, states in groups])) if groups else [()]
@@ -370,7 +380,7 @@ def cube_block(code, english, groups, faces, data=None, comment=None, names=None
     for combo in combos:
         v = dict(zip([g for g, _ in groups], combo))
         full = code + ("-" + "-".join(combo) if combo else "")
-        tex[full] = {f: {"base": tpath(t).replace("backrooms:", "")} for f, t in faces(v).items()}
+        tex[full] = {f: _tex_entry(t) for f, t in faces(v).items()}
     COUNT["variants"] += len(combos)
     out = {}
     if groups:

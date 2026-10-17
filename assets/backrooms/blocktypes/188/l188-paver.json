@@ -14,7 +14,15 @@
 	"texturesByType": {
 		"l188-paver-plain": {
 			"up": {
-				"base": "block/188/paver-plain"
+				"base": "block/188/paver-plain",
+				"alternates": [
+					{
+						"base": "block/188/paver-plain-2"
+					},
+					{
+						"base": "block/188/paver-plain-3"
+					}
+				]
 			},
 			"down": {
 				"base": "block/188/concrete"
@@ -34,7 +42,12 @@
 		},
 		"l188-paver-moss": {
 			"up": {
-				"base": "block/188/paver-moss"
+				"base": "block/188/paver-moss",
+				"alternates": [
+					{
+						"base": "block/188/paver-moss-2"
+					}
+				]
 			},
 			"down": {
 				"base": "block/188/concrete"
@@ -54,7 +67,15 @@
 		},
 		"l188-paver-cracked": {
 			"up": {
-				"base": "block/188/paver-cracked"
+				"base": "block/188/paver-cracked",
+				"alternates": [
+					{
+						"base": "block/188/paver-cracked-2"
+					},
+					{
+						"base": "block/188/paver-cracked-3"
+					}
+				]
 			},
 			"down": {
 				"base": "block/188/concrete"
