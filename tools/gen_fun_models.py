@@ -383,9 +383,15 @@ def string_rot(d, bob=(0.0, 0.0)):
 STRING_REST = tuple(round(v, 3) for v in string_rot({}))
 
 
+# B17: light baked from the rest pose (rig.bake): occlusion where the parts meet, round limbs, dark feet. The skin is
+# already graded down each face (`grade`), so the bake's own gradient is light.
+LIGHT = dict(grad=0.12, edge=0.06, foot=0.04)
+
+
 def partygoer(intern=False):
     name = "fun-partygoer-intern" if intern else "fun-partygoer"
     m = Model(name, atlas_width=64, seed=67)
+    m.light = dict(LIGHT)
     # Proportions after the canon drawings: legs nearly half the height, the head and body one slab, no neck, no
     # shoulders to speak of, the arms leaving the slab just under the face
     pelvis = m.part("Pelvis", (-2, 15, -3.75), (4, 3, 7.5), pivot=(0, 16.5, 0), paint=pg_body)
@@ -883,6 +889,7 @@ def disc(m, name, r, y0, y1, parent, pivot, paint, glow=0, faces=None, tag=None)
 
 def partyhost():
     m = Model("fun-partyhost", atlas_width=128, seed=26)
+    m.light = dict(LIGHT, ground=0.0)
     NO_UP = ("north", "south", "east", "west", "down")
     # The white: a rough disc 48 across, 3 thick, its top against the ceiling at y 16, spread unevenly
     white = disc(m, "Disc", 22, 13, 16, None, (0, 14.5, 0), host_white, glow=20, faces=NO_UP)

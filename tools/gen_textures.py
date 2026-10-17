@@ -14,6 +14,8 @@ import random
 import matlib as M
 import texlib
 
+import iconkit  # B17: finishing for 2D item icons
+
 from PIL import Image, ImageDraw
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -61,6 +63,8 @@ def pad_to_atlas_grid(img):
 
 def save(img, rel):
     check_atlas_grid(img, rel)
+    if iconkit.is_icon(rel):
+        img = iconkit.finish(img, seed=rel)        # B17: a 2D item icon is lit and outlined as vanilla's are
     path = os.path.join(TEX, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     img.save(path)

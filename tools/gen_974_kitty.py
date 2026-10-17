@@ -51,10 +51,25 @@ def cloth(ctx):
             if (xx + yy) % 2 == 0 or (xx - yy) % 4 == 0:
                 c = rig.mix(BLACK, WEAVE, 0.2 + 0.05 * ctx.rng.random())
             px[ctx.x + xx, ctx.y + yy] = c + (255,)
+    if getattr(ctx, "baked", False) and ctx.face not in ("up", "down") and ctx.w >= 4:
+        # B17: the fabric hangs in long soft folds (a few levels either way: still matt black, but it has a form)
+        ph = ctx.rng.random() * 6.28
+        for yy in range(ctx.h):
+            for xx in range(ctx.w):
+                d = 3.0 * math.sin(xx * 1.3 + ph + 0.15 * yy)
+                c = px[ctx.x + xx, ctx.y + yy]
+                px[ctx.x + xx, ctx.y + yy] = rig.clamp((c[0] + d, c[1] + d, c[2] + d * 1.1)) + (255,)
+
+
+# B17: light baked from the rest pose (rig.bake). A near-black body takes no shape from multiplied light alone, so the
+# light is added as if the cloth were 34 levels brighter: a faint lift on the shoulders, crown and hunch, shadow where
+# the limbs meet, still matt.
+LIGHT = dict(floor=34.0, ground=0.0, grad=0.3, edge=0.08, foot=0.04, drift=0.0, round=0.2)
 
 
 def build():
     m = Model(NAME, atlas_width=32, seed=974)
+    m.light = dict(LIGHT)
     # ---- Legs: hips 5 px wide; thighs and shins long and thin, ending in points (no feet: it stands on them)
     pelvis = m.part("Pelvis", (-1.75, 26, -2.5), (3.5, 3, 5), pivot=(0, 27.5, 0), paint=cloth)
     thigh = m.part("ThighL", (-1.5, 13, 0.1), (3, 13.5, 3), pivot=(0, 26.5, 1.6), parent=pelvis, rest=(-3, 0, 0), paint=cloth)

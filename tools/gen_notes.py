@@ -1179,7 +1179,8 @@ def write_assets():
     d.rectangle([14, 6, 18, 9], fill=tape)
     d.rectangle([14, 23, 18, 26], fill=tape)
     path = os.path.join(ASSETS, "textures", "item", "wanderernote-folded.png")
-    img.save(path)
+    import iconkit
+    iconkit.finish(img, seed="item/wanderernote-folded").save(path)     # B17: lit and outlined as vanilla's icons are
 
     item = {
         "code": "wanderernote-folded", "class": "BackroomsWandererNote", "maxstacksize": 16,
