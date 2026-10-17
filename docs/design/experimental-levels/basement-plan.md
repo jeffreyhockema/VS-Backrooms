@@ -99,3 +99,59 @@ Textures generated with `tools/texlib.py`; stairs reuse the `concretestairs` sha
 4. The lights-on event. Recommendation: skip it for the prototype.
 5. The elevator. Recommendation: a dead `level4/elevatordoor` in about one Dry Patch per 40 cells, prop only.
 6. Survival class: the page gives none. Recommendation: leave unset; decide in a later proper pass.
+
+## Status (prototype built, 2026-10-17)
+
+**Built.** `WorldLayout.LevelBasement.cs`, `WorldGenerator.Basement.cs`, `AtmosphereSystem.Basement.cs`,
+`tools/mapgen/BasementStats.cs`, `tools/gen_basement.py` (textures with `matlib`/`texlib`, blocktypes, the lamp's shapes,
+one sound); small lines in `Tiles.cs`, `AtmosphereSystem.cs` (the base fog line, the loops in `Dispose`) and `en.json`.
+- Zones per cell from `Fbm(mx/6, mz/6, 0x2200)` (wet below -0.06) and a hash (22% of wet cells hold a Dry Patch): over
+  the whole region 57% Cellar, 33% Flood, 9% Dry Patch, as planned.
+- **Cellar**: BSP rooms (min 5 wide, about 6-8 a cell), every split wall with a 2-wide gap (two in a long one), no door
+  blocks; damp rooms (30%), drip-stained ceiling tiles, a squat `concretepillar` in big rooms, crate stacks, boilers,
+  oil drums, metal shelves, machine cabinets against walls (`SafeToBlock`). Cellar-to-Cellar sides: two 2-wide gaps.
+- **Flood**: lattice-tree maze on the 8-block node grid (4 x 4 nodes a cell, hash-ordered union-find + 20% extra links),
+  passages 3 wide, `TileKind.Water` tiles, bed at rel -2 (`basement-slime-bed`), vanilla `game:water-still-7` in the
+  fluid layer at rel -1 and 0 (Level 7's handling), walls slimed below the waterline and tide-marked just above it,
+  Level 2 pipes (run/leak) along the top of most links. Wet-to-wet sides open on two of the four node lines.
+- **Stairs**: every Cellar/wet side opens on one node line with a stair of two steps (`basement-steps` stair blocks in the
+  water, at rel 0 and -1, `Tile.Height` 2/1, climbing toward `Pier`), 3 wide (the passage's width, not 2).
+- **Dry Patch**: the middle 16 x 16 of a wet cell (floor 14 x 14 at the Cellar's height, cinder ring wall), two steps up
+  from every passage that reaches it, one bright bulb, a hand pump, a boiler, crates, a shelf, a drum.
+- **Light**: `basement-lamp` caged bulbs hanging at rel 3: Cellar about one room in two (on V11 / flicker V10 with the
+  `BackroomsFlicker` look swap / 20% dead), Flood dim V7 over a third of the nodes, Dry Patch bright V14.
+- **Air**: fog #0d1614 at 0.045 (Cellar, the `Levels` line), 0.07 Flood, 0.035 Dry Patch. Temperature 8 / 5 (4 in the
+  water) / 9 C (`BasementTemperature`; `LevelTemperatures[22]` left at 14, unused). Stability 1 Cellar, Level 2's
+  0.7 + 0.2 drift in the Flood, 1.15 in the Dry Patch. Titles: level 22 on arriving, then 2202 The Flood, 2203 The Dry
+  Patch, 2201 The Cellar on coming back up. Sound: new loop `sounds/ambient/basement/cellar.ogg` (rumble, boiler throb,
+  far drips) everywhere, louder in the dry; `ambient/poolroom` wash in the Flood; `pooldrip`/`poollap` one-shots pitched
+  down; every 3-8 minutes in the Flood a far wail (`entity/groan` at pitch 0.55).
+- Arrivals: `IsBasementArrivalSpot` = dry Cellar floor only.
+
+**New block codes (6)**: `basement-wall` (plain/stained/tide), `basement-floor` (dry/damp/patch), `basement-ceiling`
+(plain/stained), `basement-steps` (4 sides, the `concretestairs` shape retextured), `basement-slime` (wall/bed),
+`basement-lamp` (on/dim/bright/flicker/off). Values used: WallPattern 208-212, FloorKind 228-231, CeilingKind 80-86,
+Pipes 100-103, Props 620-624, salts 0x2200-0x2207, title keys 2201-2203; no Unders or Overheads.
+
+**Skipped**: the dead elevator door (Level 4's `elevatordoor` carries the threshold behaviour, so it would be a usable
+threshold), floor drains, the ledge, the plan's "pipe-clad" wall pattern (a pillar took 211), the lights-on event,
+entities, thresholds, loot tables, notes, handbook, Spanish strings.
+
+**Harness** (`mapgen 12345 14 basementstats [window]`, `basementmap [window]` writes basement.ppm):
+- Full size, 24 x 24 cells round the centre: 74% Cellar here (57% over the region), 126 stairs, 0 sealed tiles; reach
+  100% of 438,955 walkable tiles in one piece (steps of one level at most: dry 0, upper step 0, lower -1, bed -2), 0
+  pockets, 0 places where dry floor meets deep water without a step; 60/60 arrivals on dry Cellar floor.
+- `SPAWN=1000`, the whole region (100 x 100 window): 3.43 M walkable tiles in one piece, 0 pockets; `SPAWN=4000` seed
+  777 (60 x 60): one piece, 0 pockets, 60/60 dry arrivals.
+- `regions`: Basement 60/60 arrivals, 0 wrong level, 0 trapped, full size and `SPAWN=1000`; 0.07 ms a cell.
+- `layouthash`: every line for levels 0-20 and the overall hash identical to the baseline.
+- Headless (port 42482, seed 12345): `blocksweep` 7825 blocks, 0 threw; `dump 458104 642069 24` and `dump 458128
+  642096 24` show the maze, the bed, water in both layers, stairs (with water in their fluid layer), the Dry Patch, lamps
+  and pipes as laid out; no missing Basement blocks, shapes or textures in the logs (block names added to en.json after
+  the run).
+
+**Known gaps / check in a client**: water is two full blocks deep, so the player swims (head just over the surface)
+rather than wading neck-deep, and climbs out by the steps; whether the flicker bulb's look swap and its kept light read
+well; the stair blocks sitting in water (fluid layer) and the tide line's height against the water surface; the
+boiler's 2-high model under the 3-block ceiling; fog density (0.045 / 0.07 may be too thick with lights this sparse);
+the wail's loudness.

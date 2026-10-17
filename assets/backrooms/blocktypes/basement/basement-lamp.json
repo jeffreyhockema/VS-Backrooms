@@ -1,0 +1,113 @@
+// The Basement: a bare bulb in a wire cage on its cable (on, dim, bright, flicker, off)
+{
+	"code": "basement-lamp",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"dim",
+				"bright",
+				"flicker",
+				"off"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-on"
+		],
+		"decorative": [
+			"*-on"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-off": {
+			"base": "block/basement/lamp-off"
+		},
+		"*": {
+			"base": "block/basement/lamp-lit"
+		}
+	},
+	"lightHsvByType": {
+		"*-on": [
+			7,
+			4,
+			11
+		],
+		"*-dim": [
+			7,
+			4,
+			7
+		],
+		"*-bright": [
+			7,
+			3,
+			14
+		],
+		"*-flicker": [
+			7,
+			4,
+			10
+		]
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:basement-lamp-off"
+		}
+	},
+	"dropsByType": {
+		"*": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0
+				}
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": {
+		"x1": 0.34,
+		"y1": 0.18,
+		"z1": 0.34,
+		"x2": 0.66,
+		"y2": 1,
+		"z2": 0.66
+	},
+	"selectionbox": {
+		"x1": 0.34,
+		"y1": 0.18,
+		"z1": 0.34,
+		"x2": 0.66,
+		"y2": 1,
+		"z2": 0.66
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

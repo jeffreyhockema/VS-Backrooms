@@ -1,0 +1,152 @@
+// The Basement: the Cellar's bare concrete floor (dry, damp) and the Dry Patch's
+{
+	"code": "basement-floor",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"dry",
+				"damp",
+				"patch"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-dry": {
+			"all": {
+				"base": "block/basement/floor-dry",
+				"alternates": [
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/floor-dry-2"
+					},
+					{
+						"base": "block/basement/floor-dry-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-dry-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-dry-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/floor-dry-3"
+					},
+					{
+						"base": "block/basement/floor-dry-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-dry-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-dry-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-damp": {
+			"all": {
+				"base": "block/basement/floor-damp",
+				"alternates": [
+					{
+						"base": "block/basement/floor-damp",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-damp",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-damp",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/floor-damp-2"
+					},
+					{
+						"base": "block/basement/floor-damp-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-damp-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-damp-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/floor-dry"
+					},
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-dry",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-patch": {
+			"all": {
+				"base": "block/basement/floor-patch",
+				"alternates": [
+					{
+						"base": "block/basement/floor-patch",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/floor-patch",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/floor-patch",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

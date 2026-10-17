@@ -1,0 +1,78 @@
+// The Basement: slime over concrete, the Flood's walls under the water and its bed
+{
+	"code": "basement-slime",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"wall",
+				"bed"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-wall": {
+			"all": {
+				"base": "block/basement/slime-wall",
+				"alternates": [
+					{
+						"base": "block/basement/slime-wall-2"
+					}
+				]
+			}
+		},
+		"*-bed": {
+			"all": {
+				"base": "block/basement/slime-bed",
+				"alternates": [
+					{
+						"base": "block/basement/slime-bed",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/slime-bed",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/slime-bed",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/slime-bed-2"
+					},
+					{
+						"base": "block/basement/slime-bed-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/slime-bed-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/slime-bed-2",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

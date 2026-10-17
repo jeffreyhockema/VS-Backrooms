@@ -1,0 +1,54 @@
+// The Basement: the low concrete ceiling (plain, drip-stained)
+{
+	"code": "basement-ceiling",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"plain",
+				"stained"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/basement/ceiling-plain",
+				"alternates": [
+					{
+						"base": "block/basement/ceiling-plain-2"
+					}
+				]
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/basement/ceiling-stained",
+				"alternates": [
+					{
+						"base": "block/basement/ceiling-plain"
+					}
+				]
+			}
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}
