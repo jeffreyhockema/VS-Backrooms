@@ -1,0 +1,965 @@
+{
+ "level": "gallery",
+ "note": "The gallery's spots (docs/screenshots, file names = spot names), in a fresh world at the review seed (batch.py --world gfxgallery). Shots come out at the screen's size; scale them to 1920x1080.",
+ "spots": [
+  {
+   "name": "01-level0-where-you-wake",
+   "tp": [
+    511992.5,
+    217.05,
+    511614.5
+   ],
+   "look": [
+    90,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 511992.5 217.05 511614.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 0: pillars and papered walls near a hall's edge, an outlet"
+  },
+  {
+   "name": "02-level0-hallway",
+   "tp": [
+    512039.5,
+    217.05,
+    511611.5
+   ],
+   "look": [
+    180,
+    -3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512039.5 217.05 511611.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 0: a long papered hallway, the left wall close"
+  },
+  {
+   "name": "03-level0-red-room",
+   "tp": [
+    512139.3,
+    217.05,
+    511661.5
+   ],
+   "look": [
+    120,
+    -3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512139.3 217.05 511661.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 0: a Red Room (/backrooms nearest redroom)"
+  },
+  {
+   "name": "04-level1-car-park",
+   "tp": [
+    511952.5,
+    217.05,
+    509994.5
+   ],
+   "look": [
+    180,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 511952.5 217.05 509994.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 1: the car park, bays and lettered pillars"
+  },
+  {
+   "name": "05-level1-camp",
+   "tp": [
+    512094.5,
+    217.05,
+    510291.5
+   ],
+   "look": [
+    265,
+    -10
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512094.5 217.05 510291.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 1: a camp, tent and bedroll against the white brick"
+  },
+  {
+   "name": "06-level2-tram",
+   "tp": [
+    512199.5,
+    217.05,
+    508994.5
+   ],
+   "look": [
+    270,
+    -2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 9",
+    "/backrooms light lantern",
+    "tp 512199.5 217.05 508994.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 2: the dead tram down its tunnel, held lantern"
+  },
+  {
+   "name": "07-level2-machinery",
+   "tp": [
+    512192.5,
+    217.05,
+    509086.5
+   ],
+   "look": [
+    0,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 9",
+    "/backrooms light lantern",
+    "tp 512192.5 217.05 509086.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 2: a tunnel lined with gauge cabinets, held lantern"
+  },
+  {
+   "name": "08-level3-sanctum",
+   "tp": [
+    512368.5,
+    217.05,
+    508368.5
+   ],
+   "look": [
+    0,
+    0
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512368.5 217.05 508368.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 3: the Sanctum, red carpet, candelabra and the statue"
+  },
+  {
+   "name": "09-level3-pipes",
+   "tp": [
+    512228.5,
+    217.05,
+    508436.5
+   ],
+   "look": [
+    180,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512228.5 217.05 508436.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 3: a brick corridor with pipe runs"
+  },
+  {
+   "name": "10-level4-abandoned-office",
+   "tp": [
+    512141.26,
+    217.05,
+    508106.26
+   ],
+   "look": [
+    135,
+    -13
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512141.26 217.05 508106.26",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 4: a camp in the open office"
+  },
+  {
+   "name": "11-level5-front-hall",
+   "tp": [
+    512239.5,
+    217.0,
+    507501.5
+   ],
+   "look": [
+    180,
+    -2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512239.5 217 507501.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 5: the front hall and desk"
+  },
+  {
+   "name": "12-level5-corridor",
+   "tp": [
+    512199.5,
+    217.05,
+    507465.5
+   ],
+   "look": [
+    0,
+    -2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512199.5 217.05 507465.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 5: a room door in the panelled corridor"
+  },
+  {
+   "name": "13-level6-lights-out",
+   "tp": [
+    512247.5,
+    217.05,
+    507042.5
+   ],
+   "look": [
+    120,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 9",
+    "/backrooms light lantern",
+    "tp 512247.5 217.05 507042.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 6: chalk EXIT marks by a held lantern (no daylight)"
+  },
+  {
+   "name": "14-level6-1-snackrooms",
+   "tp": [
+    510014.5,
+    217.05,
+    515792.5
+   ],
+   "look": [
+    240,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 510014.5 217.05 515792.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 6.1: a food-court counter and the blue tables"
+  },
+  {
+   "name": "15-level7-thalassophobia",
+   "tp": [
+    512348.3,
+    217.05,
+    506080.5
+   ],
+   "look": [
+    120,
+    0
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 9",
+    "/backrooms light lantern",
+    "tp 512348.3 217.05 506080.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 7: the dark sea from a rock island with a tent, held lantern"
+  },
+  {
+   "name": "16-level8-settlement",
+   "tp": [
+    512300.5,
+    217.05,
+    505635.5
+   ],
+   "look": [
+    95,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512300.5 217.05 505635.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 8: a settlement of tents, its sign and lamps"
+  },
+  {
+   "name": "17-level8-9th-road",
+   "tp": [
+    512380.5,
+    217.05,
+    505681.5
+   ],
+   "look": [
+    90,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512380.5 217.05 505681.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 8: the 9th Road with its lamps"
+  },
+  {
+   "name": "18-level9-suburbs-night",
+   "tp": [
+    512395.5,
+    217.0,
+    505219.5
+   ],
+   "look": [
+    180,
+    2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512395.5 217 505219.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 9 at night: a house front from the street"
+  },
+  {
+   "name": "19-level9-suburbs-day",
+   "tp": [
+    512322.5,
+    217.05,
+    505215.5
+   ],
+   "look": [
+    190,
+    3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512322.5 217.05 505215.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00",
+    "daylight"
+   ],
+   "subject": "Level 9 by the shotbot's daylight: a porch house"
+  },
+  {
+   "name": "20-level9-street-day",
+   "tp": [
+    512378.5,
+    217.05,
+    505284.5
+   ],
+   "look": [
+    195,
+    2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512378.5 217.05 505284.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00",
+    "daylight"
+   ],
+   "subject": "Level 9 by daylight: the street and the DOWNTOWN sign"
+  },
+  {
+   "name": "21-level10-bumper-crop",
+   "tp": [
+    512850.5,
+    217.05,
+    504040.5
+   ],
+   "look": [
+    270,
+    -2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512850.5 217.05 504040.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 10: a stubble field with round bales, overcast"
+  },
+  {
+   "name": "22-level10-wheat-bright",
+   "tp": [
+    512536.5,
+    217.05,
+    504574.5
+   ],
+   "look": [
+    0,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512536.5 217.05 504574.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00",
+    "daylight"
+   ],
+   "subject": "Level 10 by daylight: a wheat field and its track"
+  },
+  {
+   "name": "23-level11-endless-city",
+   "tp": [
+    640696.26,
+    169.05,
+    499318.26
+   ],
+   "look": [
+    110,
+    2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 640696.26 169.05 499318.26",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 11: a crossing, towers and an advertising pillar"
+  },
+  {
+   "name": "24-level11-diner",
+   "tp": [
+    640656.5,
+    169.05,
+    498940.4
+   ],
+   "look": [
+    262,
+    -2
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 640656.5 169.05 498940.4",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 11: along the diner's glass front"
+  },
+  {
+   "name": "25-level37-poolrooms",
+   "tp": [
+    384236.5,
+    202.05,
+    507152.5
+   ],
+   "look": [
+    0,
+    0
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 384236.5 202.05 507152.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 37: standing in a pool, the slit wall beyond"
+  },
+  {
+   "name": "26-level37-pool-hall",
+   "tp": [
+    384236.5,
+    202.05,
+    507156.5
+   ],
+   "look": [
+    30,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 384236.5 202.05 507156.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level 37: the pool hall from the water"
+  },
+  {
+   "name": "27-level94-motion",
+   "tp": [
+    512016.5,
+    187.0,
+    384466.5
+   ],
+   "look": [
+    0,
+    3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 512016.5 187 384466.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 94: a road between the hills, a house above"
+  },
+  {
+   "name": "28-level94-hills",
+   "tp": [
+    511845.5,
+    187.05,
+    383627.5
+   ],
+   "look": [
+    315,
+    6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 511845.5 187.05 383627.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000",
+    "/time set 12:00"
+   ],
+   "subject": "Level 94: road and hills, a water tower and yellow houses"
+  },
+  {
+   "name": "29-level-run-hallway",
+   "tp": [
+    511792.5,
+    217.0,
+    639740.5
+   ],
+   "look": [
+    180,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 511792.5 217 639740.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level !: the hallway under its EXIT sign"
+  },
+  {
+   "name": "30-level-run-start-room",
+   "tp": [
+    511792.5,
+    217.05,
+    639700.2
+   ],
+   "look": [
+    180,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 511792.5 217.05 639700.2",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level !: the start room's door"
+  },
+  {
+   "name": "31-level-fun-lobby",
+   "tp": [
+    625247.5,
+    217.05,
+    396449.6
+   ],
+   "look": [
+    342,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 625247.5 217.05 396449.6",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level Fun: a lobby and its elevator"
+  },
+  {
+   "name": "32-level-fun-party",
+   "tp": [
+    625232.5,
+    217.0,
+    396455.5
+   ],
+   "look": [
+    135,
+    -8
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 625232.5 217 396455.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "Level Fun: a party room (the guests wander, so retakes differ)"
+  },
+  {
+   "name": "33-the-end",
+   "tp": [
+    398760.5,
+    211.05,
+    398699.5
+   ],
+   "look": [
+    95,
+    -3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 398760.5 211.05 398699.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "The End: shelving along the blue carpet"
+  },
+  {
+   "name": "34-the-end-exit",
+   "tp": [
+    398844.5,
+    211.0,
+    398847.5
+   ],
+   "look": [
+    0,
+    -3
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 398844.5 211 398847.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "The End: an EXIT vestibule"
+  },
+  {
+   "name": "35-the-hub",
+   "tp": [
+    625177.5,
+    189.05,
+    624802.4
+   ],
+   "look": [
+    0,
+    0
+   ],
+   "fov": 85,
+   "pre": [
+    "slot 8",
+    "tp 625177.5 189.05 624802.4",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "The Hub: a door and its lamps across the street"
+  },
+  {
+   "name": "36-level974-kittys-room",
+   "tp": [
+    398996.5,
+    217.05,
+    622763.1
+   ],
+   "look": [
+    350,
+    -12
+   ],
+   "fov": 75,
+   "pre": [
+    "slot 8",
+    "tp 398996.5 217.05 622763.1",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "974: Kitty's room, desk and window"
+  },
+  {
+   "name": "37-level974-bed",
+   "tp": [
+    398995.6,
+    217.05,
+    622762.5
+   ],
+   "look": [
+    90,
+    -14
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 398995.6 217.05 622762.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "974: the bed in its alcove"
+  },
+  {
+   "name": "38-level3999-neon-paradise",
+   "tp": [
+    657076.5,
+    197.05,
+    654424.5
+   ],
+   "look": [
+    0,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 657076.5 197.05 654424.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "3999: a couch lobby under the neon"
+  },
+  {
+   "name": "39-level3999-food-court",
+   "tp": [
+    657021.5,
+    197.0,
+    654589.5
+   ],
+   "look": [
+    30,
+    -6
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 657021.5 197 654589.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "3999: the food court"
+  },
+  {
+   "name": "40-level188-courtyard",
+   "tp": [
+    565930.5,
+    217.05,
+    381926.5
+   ],
+   "look": [
+    270,
+    -4
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 565930.5 217.05 381926.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "188: the courtyard of windows"
+  },
+  {
+   "name": "41-level188-exit",
+   "tp": [
+    565882.5,
+    217.05,
+    381910.5
+   ],
+   "look": [
+    270,
+    0
+   ],
+   "fov": 70,
+   "pre": [
+    "slot 8",
+    "tp 565882.5 217.05 381910.5",
+    "ready 48",
+    "/weather seti clearsky",
+    "/weather setw still",
+    "/weather setprecip 0",
+    "wait 3000"
+   ],
+   "subject": "188: the courtyard door under its exit sign"
+  }
+ ]
+}
