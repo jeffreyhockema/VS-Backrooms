@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: two players together were hunted by twice as much, and more. The director counted what was about each player only among the entities put down for them, so a pair at the edge of a level could have twelve menacing things about them where one player has six; and an entity struck by the other player became theirs, which took it off the first player's count and let the director put down more. The count is now of everything menacing about the place, whoever it was put down for. Playing alone, nothing changes.
+- Fixed: a Hound stared at by the other player, a Smiler held in their gaze or a glimpse they watched took no notice: only a stare from the one it was put down for counted. Anyone's does now.
+- Fixed: a hunter put down 14 blocks from one player could land right beside the other. Nothing is put down within 12 blocks of anyone now.
+- Dev: `/backrooms dummies` has the director direct the straw dummies that `/backrooms encounter` puts down from the console, so what gathers round one or two players can be watched on a headless server.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
