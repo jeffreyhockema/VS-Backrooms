@@ -1,0 +1,57 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towershell": "backrooms:block/detail/towershell"
+	},
+	"elements": [
+		{
+			"name": "Shell14y176",
+			"from": [
+				-30.9619,
+				0,
+				5.0
+			],
+			"to": [
+				-17.0381,
+				6.0,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						10.0,
+						1.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				-24.0,
+				3.0,
+				40.0
+			],
+			"rotationY": 315.0
+		}
+	]
+}

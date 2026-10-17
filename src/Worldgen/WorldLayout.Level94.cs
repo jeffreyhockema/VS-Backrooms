@@ -412,9 +412,9 @@ public sealed partial class WorldLayout
                 for (int i = 0; i < lot.Length; i++)
                 {
                     ref Tile t = ref lot[i];
-                    // Cream clapboard (or white), every one; the fittings of the 1950s
+                    // Cream clapboard, every one (in layout versions 1-7, three in ten white); the fittings of the 1950s
                     if (t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick)
-                        t.Pattern = kind < 0.7 ? WallPattern.SidingYellow : WallPattern.SidingWhite;
+                        t.Pattern = Version >= 8 || kind < 0.7 ? WallPattern.SidingYellow : WallPattern.SidingWhite;
                     // (Props only: a wall's Variant is its decor, numbered apart)
                     if (t.Kind == TileKind.Floor)
                     {
@@ -723,12 +723,9 @@ public sealed partial class WorldLayout
                 for (int du = -1; du <= 1; du++)
                     if ((du != 0 || dv != 0) && At(u + du, v + dv).Variant == 0) At(u + du, v + dv).Overhead = Overheads.Leaves;
         }
-        // Siren poles on the corners of the plaza, across the road from it
-        foreach (var (u, v) in new[] { (22, 22), (51, 22), (22, 51), (51, 51) })
-        {
-            At(u, v).Variant = Props.SirenPole;
-            At(u, v).Floor = FloorKind.MotionConcrete;
-        }
+        // Siren poles on the corners of the plaza, across the road from it (in layout versions 1-7 here, where the
+        // lots below were laid over them; from 8 after the lots, on their front corners)
+        if (Version < 8) PlaceSirenPoles(tiles);
         // Milk vans and old cars at the kerbs round the plaza
         int vans = 0;
         foreach (var (u, v) in new[] { (24, 30), (48, 30), (24, 38), (48, 38) })
@@ -762,7 +759,8 @@ public sealed partial class WorldLayout
                     for (int u = 0; u < HillLot; u++)
                     {
                         Tile t = lot[v * HillLot + u];
-                        if (t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick) t.Pattern = (row + col) % 3 == 0 ? WallPattern.SidingWhite : WallPattern.SidingYellow;
+                        if (t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick)
+                            t.Pattern = Version < 8 && (row + col) % 3 == 0 ? WallPattern.SidingWhite : WallPattern.SidingYellow;
                         if (t.Kind == TileKind.Floor) // (props only, as on the hills)
                         {
                             if (t.Variant == Props.Fridge) t.Variant = Props.Icebox;
@@ -784,7 +782,25 @@ public sealed partial class WorldLayout
                         At(u0 + u, v0 + (facesSouth ? HillLot - 1 - v : v)) = t;
                     }
             }
+        if (Version >= 8) PlaceSirenPoles(tiles);
         return tiles;
+    }
+
+    /// <summary>
+    /// A town's four siren poles, each on a square of concrete at <see cref="SirenPoleOffsets"/>: the front corner of
+    /// a lot, at the kerb, across the crossroads from a corner of the plaza. From layout version 8 they go down after
+    /// the lots and replace whatever the lot had there (its lawn); before that, before the lots, which covered them.
+    /// </summary>
+    private static void PlaceSirenPoles(Tile[] tiles)
+    {
+        foreach (var (u, v) in SirenPoleOffsets)
+        {
+            ref Tile t = ref tiles[v * TownSize + u];
+            if (t.Kind != TileKind.Floor) t = new Tile { Kind = TileKind.Floor, Detail = t.Detail };
+            t.Variant = Props.SirenPole;
+            t.Floor = FloorKind.MotionConcrete;
+            t.Overhead = 0;
+        }
     }
 
     // ================= The mountain and the castle =================

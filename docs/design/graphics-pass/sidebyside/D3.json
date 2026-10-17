@@ -1,0 +1,13 @@
+{
+ "batch": "D3",
+ "title": "Level 94 follow-up: yellow houses, standing siren poles, the water tower of the pictures",
+ "before": "review/d3/sbs/before",
+ "after": "review/d3/final",
+ "out": "review/d3/sidebyside",
+ "note": "Before is main as the user played it (review/b13/final/94, B13's final shots, in the gfxreview world, layout version 7). After is D3 in a fresh world (gfxd3, layout version 8, since houses and poles only change in new worlds). The new spots (watertower-far, watertower-tank, watertower-west, siren-close, siren-wide) have no before: B13's tower and the empty plaza corners were never shot from there.",
+ "families": [
+  {"id": "watertower", "name": "Level 94 water tower: four braced legs, riser, round tank with catwalk and cone roof, plain white with rust runs", "spots": ["watertower-wide", "watertower-close", "watertower-far", "watertower-tank", "watertower-west", "turf-close"]},
+  {"id": "houses", "name": "Level 94 houses: every one cream-yellow (layout version 8)", "spots": ["wide-05", "wide-07", "wide-08", "house-close", "wide-01"]},
+  {"id": "sirenpoles", "name": "Level 94 town siren poles standing at the plaza corners (layout version 8)", "spots": ["siren-close", "siren-wide", "road-close"]}
+ ]
+}

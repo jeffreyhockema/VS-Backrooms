@@ -1,0 +1,300 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerroof": "backrooms:block/detail/towerroof"
+	},
+	"elements": [
+		{
+			"name": "Roof7s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				8.0,
+				6.3622,
+				-8.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Roof7s0",
+					"from": [
+						4.6014,
+						4.8622,
+						-26.1527
+					],
+					"to": [
+						11.3986,
+						6.3622,
+						-15.1151
+					],
+					"faces": {
+						"north": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						},
+						"down": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						}
+					},
+					"rotationOrigin": [
+						8.0,
+						6.3622,
+						-8.0
+					],
+					"rotationX": -24.0
+				}
+			],
+			"rotationY": 157.5
+		},
+		{
+			"name": "Roof8s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				8.0,
+				6.3622,
+				-8.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Roof8s0",
+					"from": [
+						4.6014,
+						4.8622,
+						-26.1527
+					],
+					"to": [
+						11.3986,
+						6.3622,
+						-15.1151
+					],
+					"faces": {
+						"north": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						},
+						"down": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						}
+					},
+					"rotationOrigin": [
+						8.0,
+						6.3622,
+						-8.0
+					],
+					"rotationX": -24.0
+				}
+			],
+			"rotationY": 180.0
+		},
+		{
+			"name": "Roof9s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				8.0,
+				6.3622,
+				-8.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Roof9s0",
+					"from": [
+						4.6014,
+						4.8622,
+						-26.1527
+					],
+					"to": [
+						11.3986,
+						6.3622,
+						-15.1151
+					],
+					"faces": {
+						"north": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								11.0376,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						},
+						"down": {
+							"texture": "#towerroof",
+							"uv": [
+								0,
+								0,
+								6.7973,
+								11.0376
+							]
+						}
+					},
+					"rotationOrigin": [
+						8.0,
+						6.3622,
+						-8.0
+					],
+					"rotationX": -24.0
+				}
+			],
+			"rotationY": 202.5
+		}
+	]
+}

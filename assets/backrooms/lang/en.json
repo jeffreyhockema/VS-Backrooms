@@ -2534,5 +2534,7 @@
 	"block-longsofa-*": "Sofa",
 
 	"block-pitchroof-barn-*": "Barn Roof",
-	"block-pitchroof-*": "Roof Shingles"
+	"block-pitchroof-*": "Roof Shingles",
+
+	"block-watertowerframe-*": "Water Tower"
 }

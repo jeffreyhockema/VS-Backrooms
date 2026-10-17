@@ -207,9 +207,13 @@ public sealed partial class WorldLayout
     /// <item>7: the world's Backrooms scarcity reaches the fields: where it is below Normal (<see cref="FoodScale"/>
     /// under 1), Level 9's gardens and Level 10's crops, vegetable patches and berry bushes are thinned to that share
     /// (ThinFood). At Normal or Plentiful a world is laid out as in 6.</item>
+    /// <item>8: Level 94's houses are all cream-yellow, as in the pictures, on the hills and in the towns (in 1-7 about
+    /// three in ten hill houses and a third of the town houses were white). Its towns' siren poles stand: they are
+    /// placed after the house lots (in 1-7 the lots were laid over them, so none stood; NearestSirenPole gave the same
+    /// four corners either way, the lots' front corners across the road from the plaza's).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 7;
+    public const int CurrentVersion = 8;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;

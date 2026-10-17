@@ -1,0 +1,66 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "RodW1a2",
+			"from": [
+				11.175,
+				3.674,
+				5.1084
+			],
+			"to": [
+				11.925,
+				4.424,
+				17.5052
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						12.3969,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						12.3969,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						12.3969
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						12.3969
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.55,
+				4.049,
+				11.3068
+			],
+			"rotationX": -40.7858
+		}
+	]
+}

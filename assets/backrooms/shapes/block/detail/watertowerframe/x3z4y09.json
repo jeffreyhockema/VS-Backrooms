@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towershell": "backrooms:block/detail/towershell",
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "RodS2a5",
+			"from": [
+				-2.071,
+				8.3603,
+				3.175
+			],
+			"to": [
+				18.071,
+				9.1103,
+				3.925
+			],
+			"faces": {
+				"north": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.7353,
+				3.55
+			],
+			"rotationZ": 37.4054
+		},
+		{
+			"name": "Bowl2r9s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				-8.0,
+				-13.8857,
+				-24.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Bowl2r9s0",
+					"from": [
+						-14.2663,
+						-13.8857,
+						-64.2586
+					],
+					"to": [
+						-1.7337,
+						-12.3857,
+						-55.168
+					],
+					"faces": {
+						"north": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								12.5326,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								9.0907,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								12.5326,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								9.0907,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								12.5326,
+								9.0907
+							]
+						},
+						"down": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								12.5326,
+								9.0907
+							]
+						}
+					},
+					"rotationOrigin": [
+						-8.0,
+						-13.8857,
+						-24.0
+					],
+					"rotationX": 39.6442
+				}
+			],
+			"rotationY": 202.5
+		}
+	]
+}

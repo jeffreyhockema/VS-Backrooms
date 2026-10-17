@@ -1,0 +1,60 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towerpaint": "backrooms:block/detail/towerpaint"
+	},
+	"elements": [
+		{
+			"name": "GirderS102",
+			"from": [
+				0,
+				6.0,
+				3.25
+			],
+			"to": [
+				16,
+				8.0,
+				4.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						3.25,
+						16,
+						4.75
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						11.25,
+						16,
+						12.75
+					]
+				}
+			}
+		}
+	]
+}

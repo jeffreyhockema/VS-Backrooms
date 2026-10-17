@@ -1,0 +1,363 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towergrate": "backrooms:block/detail/towergrate",
+		"towerpaint": "backrooms:block/detail/towerpaint",
+		"towershell": "backrooms:block/detail/towershell"
+	},
+	"elements": [
+		{
+			"name": "Bowl3r13s0Yaw",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				0,
+				0
+			],
+			"rotationOrigin": [
+				-24.0,
+				-83.25,
+				24.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "Bowl3r13s0",
+					"from": [
+						-31.0619,
+						-83.25,
+						-71.8674
+					],
+					"to": [
+						-16.9381,
+						-81.75,
+						-60.9111
+					],
+					"faces": {
+						"north": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								1.5
+							]
+						},
+						"east": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								10.9563,
+								1.5
+							]
+						},
+						"south": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								1.5
+							]
+						},
+						"west": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								10.9563,
+								1.5
+							]
+						},
+						"up": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								10.9563
+							]
+						},
+						"down": {
+							"texture": "#towershell",
+							"uv": [
+								0,
+								0,
+								14.1239,
+								10.9563
+							]
+						}
+					},
+					"rotationOrigin": [
+						-24.0,
+						-83.25,
+						24.0
+					],
+					"rotationX": 68.587
+				}
+			],
+			"rotationY": 292.5
+		},
+		{
+			"name": "Shell13y150",
+			"from": [
+				-30.9619,
+				6.0,
+				-11.0
+			],
+			"to": [
+				-17.0381,
+				16,
+				-9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						0,
+						16,
+						10.0
+					]
+				},
+				"east": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.0
+					]
+				},
+				"west": {
+					"texture": "#towershell",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				-24.0,
+				11.0,
+				24.0
+			],
+			"rotationY": 292.5
+		},
+		{
+			"name": "Deck13",
+			"from": [
+				-32.4043,
+				6.08,
+				-18.0
+			],
+			"to": [
+				-15.5957,
+				7.58,
+				-10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						7.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#towergrate",
+					"uv": [
+						0,
+						0,
+						16,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						7.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				-24.0,
+				6.83,
+				24.0
+			],
+			"rotationY": 292.5
+		},
+		{
+			"name": "Post13",
+			"from": [
+				-24.4,
+				7.5,
+				-17.55
+			],
+			"to": [
+				-23.6,
+				16.0,
+				-16.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				-24.0,
+				11.75,
+				24.0
+			],
+			"rotationY": 292.5
+		},
+		{
+			"name": "MidRail13",
+			"from": [
+				-32.3347,
+				12.54,
+				-17.6
+			],
+			"to": [
+				-15.6653,
+				13.14,
+				-16.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#towerpaint",
+					"uv": [
+						0,
+						0,
+						16,
+						0.7
+					]
+				}
+			},
+			"rotationOrigin": [
+				-24.0,
+				12.84,
+				24.0
+			],
+			"rotationY": 292.5
+		}
+	]
+}

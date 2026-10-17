@@ -14,6 +14,10 @@ public sealed partial class WorldGenerator
     private const ulong SaltFireClay = 0x9431;
     private int castleWallId, castleRoofId, funWallId, castleCeilingId, funLightId, funBrightId;
     private int towerLegId, towerTankId, towerRoofId, towerTapId, almondRimId, almondSpoutId;
+    /// <summary>The rebuilt water tower's blocks (D3), by level, row and column of its five by five tiles; 0 where it has nothing.</summary>
+    private readonly int[] towerFrameIds = new int[TowerLevels * 25];
+    private bool towerFrame;
+    private const int TowerLevels = 14;
     private readonly int[] cinemaScreenIds = new int[4], picketIds = new int[16];
     private int ballFillId, whiteWallId;
     private int dollDoorLowerId, dollDoorUpperId, floodDoorLowerId, floodDoorUpperId, throneDoorLowerId, throneDoorUpperId;
@@ -37,6 +41,14 @@ public sealed partial class WorldGenerator
         towerTankId = Id("watertower-tank");
         towerRoofId = Id("watertower-roof");
         towerTapId = Id("watertower-tap");
+        for (int c = 1; c <= TowerLevels; c++)
+            for (int j = 0; j < 5; j++)
+                for (int i = 0; i < 5; i++)
+                {
+                    modBlocks.TryGetValue($"watertowerframe-x{i}z{j}y{c:00}", out int id);
+                    towerFrameIds[((c - 1) * 5 + j) * 5 + i] = id;
+                    towerFrame |= id != 0;
+                }
         almondRimId = Id("almondfountain-rim");
         almondSpoutId = Id("almondfountain-spout");
         dollDoorLowerId = Id("dolldoor-lower");
@@ -99,7 +111,7 @@ public sealed partial class WorldGenerator
         switch (t.Variant)
         {
             case Props.WaterTower:
-                int tower = WaterTowerBlock(t.Stack, c);
+                int tower = towerFrame ? WaterTowerFrameBlock(t, c) : WaterTowerBlock(t.Stack, c);
                 return tower == 0 && c == 1 ? UnderTowerGrass(t, gx, gz) : tower; // long grass round its legs
             case Props.AlmondFountain: return FountainBlock(t.Stack, c, out fluid);
         }
@@ -146,6 +158,23 @@ public sealed partial class WorldGenerator
         if (c == 13) return inner ? towerRoofId : 0;
         if (c == 14) return du == 0 && dv == 0 ? towerRoofId : 0;
         return 0;
+    }
+
+    /// <summary>
+    /// The water tower of the pictures (graphics pass D3), over the same five by five tiles and fourteen levels: four
+    /// braced legs on footings, a riser over the tap, a plain round white tank with a catwalk and a cone of a roof. One
+    /// block per tile and level (watertowerframe-x{i}z{j}y{level}, cut from one model by
+    /// tools/gen_motion.py); the tap at the foot of the riser is the old tower's. Placed in every world, since its tiles
+    /// are where the old tower stood: chunks generated before keep the old one.
+    /// </summary>
+    private int WaterTowerFrameBlock(in Tile t, int c)
+    {
+        if (c < 1 || c > TowerLevels) return 0;
+        // (Stack is the tile's place in the tower, column and row as the world runs: a hill lot laid out mirrored
+        // north to south mirrors the rows back, WorldLayout.PlanHill)
+        int i = t.Stack % 5, j = t.Stack / 5;
+        if (i == 2 && j == 2 && c == 1) return towerTapId;
+        return towerFrameIds[((c - 1) * 5 + j) * 5 + i];
     }
 
     /// <summary>The town fountain, over five by five tiles: a stone rim round a basin of water, a spout in the middle.</summary>

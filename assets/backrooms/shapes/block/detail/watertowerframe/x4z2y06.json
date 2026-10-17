@@ -1,0 +1,183 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"towersteel": "backrooms:block/detail/towersteel"
+	},
+	"elements": [
+		{
+			"name": "RodE1a4",
+			"from": [
+				3.175,
+				2.576,
+				8.062
+			],
+			"to": [
+				3.925,
+				3.326,
+				17.097
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						9.035,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						9.035,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						9.035
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						9.035
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.55,
+				2.951,
+				12.5795
+			],
+			"rotationX": -40.7858
+		},
+		{
+			"name": "RodE1b3",
+			"from": [
+				4.075,
+				2.576,
+				-1.097
+			],
+			"to": [
+				4.825,
+				3.326,
+				7.938
+			],
+			"faces": {
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						9.035,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						9.035,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						9.035
+					]
+				},
+				"down": {
+					"texture": "#towersteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						9.035
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.45,
+				2.951,
+				3.4205
+			],
+			"rotationX": 40.7858
+		},
+		{
+			"name": "RingE1",
+			"from": [
+				2.9,
+				0,
+				6.8
+			],
+			"to": [
+				5.1,
+				0.2,
+				9.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#towersteel",
+					"uv": [
+						10.9,
+						15.8,
+						13.1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#towersteel",
+					"uv": [
+						6.8,
+						15.8,
+						9.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#towersteel",
+					"uv": [
+						2.9,
+						15.8,
+						5.1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#towersteel",
+					"uv": [
+						6.8,
+						15.8,
+						9.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#towersteel",
+					"uv": [
+						2.9,
+						6.8,
+						5.1,
+						9.2
+					]
+				}
+			}
+		}
+	]
+}
