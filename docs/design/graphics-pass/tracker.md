@@ -239,6 +239,15 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   heads from the street, not from the preview's raised view.
 - (D4) The darkness (B6, B10, B12, B16) hit the Level 94 run (siren shots 125-140 levels down). A retake minutes later
   matched the base within 0.2.
+- (B18) The game's own weather reaches every level's air: one gallery run drew a haze pattern and came out 10-30 levels
+  brighter and washed out everywhere, indoors too. Weather is per map region, so a spot stands there first and then
+  sets it: `/weather seti clearsky`, `/weather setw still` (wind; `setw` is not the cloud pattern), `/weather setprecip 0`
+  (`docs/design/graphics-pass/spots/gallery.json` does this in every spot's `pre`).
+- (B18) Since 0.513.3 the mod moves its level's air to the end of the ambient modifiers every tick and lets only its own
+  clear-air cheat stay after it, so the shotbot's `daylight` (under a key of its own) was overridden and Level 9 stayed
+  night. `ShotBot.cs` now puts the daylight under the cheat's key (`backrooms-cheat-clearair`).
+- (B18) `/time set 12:00` in a spot's `pre` jumps a day each time (the clock stands at 12:00): the gallery world was in
+  Year 8 by the end. Harmless for shots, but do not read the calendar in a review world.
 
 ## Batches
 
@@ -266,7 +275,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
 | D4 follow-ups (carried items) | gfx/D4 | merged | 2 | L7 rock B-, 974 furniture B- (subtle), traffic lights B- (dead lens) | passed 2026-10-17 03:25 (Fable): boiler and bay pipes verified; walls no longer stack one version |
 | B17 entities and items | gfx/B17 | merged | 2 | Smiler, Bacteria, Mangled, Kitty C+ (black by lore); Deathmoths C+; Clump skin B-; Faceling faces blank (lore); ticket lettering | passed 2026-10-17 01:55 (Fable): lineup verified, silhouettes and colours kept, headless load clean |
-| B18 finish | gfx/B18 | in progress | | | |
+| B18 finish | gfx/B18 | merged | 1 | banner.jpg and docs/cover not regenerated (01 changed); user may swap any gallery image back from review/b18/gallery-old | passed 2026-10-17 05:55 (Fable): gallery compare checked, docs and mod page at 0.514.0; zip rebuilt |
 
 Status values: not started, in progress, review, sent back, merged.
 
@@ -2444,3 +2453,82 @@ existing lists':
 - CHANGELOG: three lines under 0.514.0.
 
 **Lessons:** four lines added above.
+
+### B18
+
+Worker report (Opus, 2026-10-17). Branch `gfx/B18` from `main` (b708175), uncommitted. No asset or generator changed:
+docs, screenshots, the lineup script and one shotbot fix.
+
+**Gallery** (`docs/screenshots/01`-`41`, same file names, 1920x1080, HUD off)
+- Shot in a fresh world `gfxgallery` (seed 1672613597, **layout version 8**, confirmed in the client log) from a build of
+  `main` (`tools/locked.sh mod gfx`). Every spot is in `docs/design/graphics-pass/spots/gallery.json`, named after its
+  file, with a `subject` line; the client shoots at the screen's size (3840x2160 here) and the PNGs are scaled to 1920x1080.
+- Compositions were matched by eye from the old images, starting from the level spot lists, the harness grid
+  (`shotgrid`, `feet`) and two scratch helpers (a top-down map of the grid with spots drawn on it, and a finder for
+  long corridors and pillar rooms; in `review/b18/` scratch only). Three scout runs (`review/b18/scout1`-`3`, 226 frames)
+  then two full runs: `final1` drew the game's haze weather (every level 10-30 levels brighter and washed out) and was
+  thrown away; `final2`, with clear weather set per spot, is the gallery.
+- **Retake checks:** the same Level 0 hallway and Level 5 front hall frames in scout 1, 2, 3 and final2 had mean
+  brightness 121.2-121.5 and 79.2 every time; no darkness run this time.
+- **Changes of composition** (the old view could not be found or the new one shows the pass better): 01 is the open
+  pillared hall beside the arrival rather than a cluster of pillars; 05 has no star banner or looted crate in this
+  world's camp (bedroll instead); 06 and 07 are taken with a held lantern (the old tram and machinery shots had more light
+  than these tunnels have now; without it 07 was graded too dark); 10 is the open-office camp from the side; 12 is room
+  207 with a closed door; 14 is the BURGERS counter (the TACOS kiosk spot is dark in this world); 15 is the rock island
+  with a tent; 19 is a porch house across the street (the old brick ranch house is not near); 21 has telegraph poles where
+  the old had a hedge; 25 and 26 are taken standing in the pool (brighter, with the slit wall and the room's doorway);
+  28 shows a road, the hills, the new white water tower and the yellow houses (D3); 35 is the door with its two lamps from
+  the kerb (wider FOV); 36 has the rainbow poster; 38 is a couch lobby whose neon is violet (the old was cyan; the
+  colour is per lobby). 32's party guests wander, so retakes differ.
+- **Kept old:** none. Every new image is at least as good as the old; the weakest trade is 03 (the Red Room), whose old
+  frame looked down a longer lit room; the new one is a closer room of the same paper and lights.
+- **Evidence:** old images `review/b18/gallery-old/`, new full-size shots `review/b18/gallery-new/` (07 from the
+  lantern alternate), before/after `review/b18/gallery-compare.jpg` (old above the magenta line, new below), the runs and
+  their logs in `review/b18/`.
+
+**Lineup** (`docs/screenshots/42-what-lives-here.png`): `tools/lineup.py` on B17's textures, with the roster completed:
+Window Arm (188), the three Animations and the Robo-Man (94), the Lure Balloon (Fun), the Keymaster (Hub) and the
+Attendant (3999) added. Three rows, the Mangled standing at the right beside them all (`SIDE`), so the figures stay
+larger than in a fourth row. (The Wretch was already in the roster.)
+
+**Mod page images:** `docs/moddb/img/01`-`42` (1280x720 JPEG), the level thumbs (`thumb/`, 640x360) and `hero.jpg` (a
+band of 02) regenerated from the new gallery. Not regenerated: `banner.jpg` and `docs/cover/` (`tools/shotbot/cover.py`
+puts the title over 01, and the new 01 has no supply box in front; worth a look by the user) and `levels-overview.jpg`
+(a map, unchanged).
+
+**Docs**
+- `docs/DEVELOPING.md`: `iconkit.py` and `rig.bake`; the art rules (lights stay cubes, seamless alternates and
+  `turn_safe`, `randomizeAxes: "xyz"`, the 8 px grid, hardware as geometry); the `review/` folder; under Unattended
+  screenshots: `--world`, the gallery's spot list and command, and the darkness. matlib, modelkit, texsheet,
+  preview_shapes, batch/compare/mkspots/sidebyside and layout version 8 were already there (B0, B2, D3).
+- `docs/design/graphics-pass/README.md`: a Status section (complete as of 2026-10-17, released as 0.514.0, the batches,
+  where decisions and evidence live).
+- `docs/moddb-description.md` and `.html`: "What's new in 0.514.0" above 0.513.0, version references 0.513.0 -> 0.514.0.
+  Image names unchanged.
+- `docs/GUIDE.md`: Level 94's houses are cream-yellow (white only in worlds from before 0.514.0).
+- `python tools/gen_notes.py --check`: passes (exit 0, no output).
+
+**Tool changes**
+- `tools/lineup.py`: eight creatures added to `ROSTER`; three rows (`ROWS = [8, 7, 6]`) and a side column (`SIDE`).
+- `tools/shotbot/ShotBot.cs`: `daylight` uses the mod's clear-air key (see lessons); rebuilt into `tools/shotbot/out`.
+
+**Checks**
+- Build: `tools/locked.sh mod gfx`, 0 warnings, 0 errors.
+- `layouthash` (seed 12345, 16000): v1, v4, v7 and v8 identical to D4's records (`review/d4/offline/harness/after-v*.txt`);
+  v1 and v4 also identical to D2's. Outputs in `review/b18/harness/`.
+- `links`: every link kind arrived where it should (0 wrong), save/load 1556 of 1556 links the same. `deep`: identical to
+  D3's output (the one known trapped Level 8 spot and 6 in the Snackrooms, as before; its threshold census over 16000
+  cells never finishes and was stopped after the checks had printed). `validatelevel` (20 cells) for Levels 0, 5, 9, 94
+  (13) and 3999 (19): no doorways to nowhere, no bad elevators, no decor facing walls; Level 5 has 17 doorways blocked
+  by props and 3999 reports over 100% unreachable, the multi-storey count B16 also recorded (104%), both as on `main`
+  (no C# changed).
+- Headless server (fresh data dir, new world, scratch build): `layout version 8 (new world)`, `blocksweep: 7797 blocks
+  tried, 0 threw`, no error or fatal line in the server logs (two "server overloaded" warnings during the first chunks),
+  stopped cleanly. Log `review/b18/headless.log`.
+- `git diff --stat 67615b0 -- assets/game`: five lang files changed, all by the other session's gameplay commits
+  (adc8be9 scarcity, 6d7073f/c963387 the map setting, 18ae1d9 Spanish world settings); no graphics-pass commit touched
+  `assets/game/`.
+- Nothing left running.
+
+**Carried:** no visible bug found while shooting. Black frames in the scouts were dark places by design (unlit Level 0
+side halls, Level 2's tram tunnel beyond the lights, a dark Snackrooms cell, a closed diner) or spots of mine inside a hill.
