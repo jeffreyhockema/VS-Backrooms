@@ -85,10 +85,10 @@ public readonly struct WorldGeometry
     public const int L3999BandDepth = 4, L188BandDepth = 6;
 
     /// <summary>The same for the experimental Levels 73, the Basement and 52 (21-23): the usual band for now.</summary>
-    public const int L73BandDepth = 12, BasementBandDepth = ShaftDepth, L52BandDepth = ShaftDepth;
+    public const int L73BandDepth = 12, BasementBandDepth = ShaftDepth, L52BandDepth = ShaftDepth - 1; // 52: the gym ceiling (rel 9) must sit below the band top (a lit top layer leaks sunlight)
 
     /// <summary>The same for the experimental Levels 31, 55, 120 and 183 (24-27): the usual band for now.</summary>
-    public const int L31BandDepth = ShaftDepth, L55BandDepth = ShaftDepth, L120BandDepth = ShaftDepth, L183BandDepth = ShaftDepth;
+    public const int L31BandDepth = ShaftDepth, L55BandDepth = 14, L120BandDepth = ShaftDepth, L183BandDepth = ShaftDepth;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;

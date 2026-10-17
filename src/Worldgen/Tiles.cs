@@ -253,7 +253,7 @@ public enum WallPattern : byte
     L55Wall = 241,
     /// <summary>Level 120 (242). Placeholder.</summary>
     L120Wall = 242,
-    /// <summary>Level 183 (243). Placeholder.</summary>
+    /// <summary>Level 183 (243): glazed sewer brick (Tile.Detail: plain, stained, a hall's pillar).</summary>
     L183Wall = 243,
 }
 
@@ -503,7 +503,7 @@ public enum FloorKind : byte
     L55Floor = 250,
     /// <summary>Level 120 (251). Placeholder.</summary>
     L120Floor = 251,
-    /// <summary>Level 183 (252). Placeholder.</summary>
+    /// <summary>Level 183 (252): the sewers' floors (Tile.Detail the WorldLayout.L183Part: walkway, curb, channel bed, grate, gutter).</summary>
     L183Floor = 252,
 }
 
@@ -580,8 +580,8 @@ public enum CeilingKind : byte
     L55Ceiling = 104,
     /// <summary>Level 120 (block 112-119). Placeholder.</summary>
     L120Ceiling = 112,
-    /// <summary>Level 183 (block 120-127). Placeholder.</summary>
-    L183Ceiling = 120,
+    /// <summary>Level 183 (block 120-127): the sewers' brick vault, and on a walkway tile a caged wall lamp (Pier its wall): lit, flickering, a chamber's or hall's bright one.</summary>
+    L183Ceiling = 120, L183LampOn = 121, L183LampFlicker = 122, L183LampBright = 123,
 }
 
 /// <summary>
@@ -756,6 +756,8 @@ public static class Pipes
     public const byte L55First = 130, L55Last = 139;
     public const byte L120First = 140, L120Last = 149;
     public const byte L183First = 150, L183Last = 159;
+    /// <summary>Level 183: a run of pipes along the top of a main's wall or down a dry gallery (west-east, north-south), and the same leaking.</summary>
+    public const byte L183PipeWE = 150, L183PipeNS = 151, L183LeakWE = 152, L183LeakNS = 153;
 }
 
 /// <summary>Values of <see cref="Tile.Overhead"/>.</summary>

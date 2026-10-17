@@ -442,7 +442,7 @@ public sealed partial class WorldLayout
         Basement => false,
         Level52 => false,
         Level31 => false,
-        Level55 => false,
+        Level55 => true, // a glacier under its own polar day
         Level120 => false,
         Level183 => false,
         _ => false,
