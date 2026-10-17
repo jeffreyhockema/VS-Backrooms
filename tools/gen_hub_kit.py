@@ -1217,9 +1217,12 @@ def b15_walls():
     VERSIONS["ceiling"] = ["ceiling", "ceiling-2", "ceiling-3"]
 
 
+D2_WORN_LIFT = 3  # (D2) how many levels lighter than the plain road the worn lanes are (B15: 13, the old texture's)
+
+
 def b15_road():
     """Asphalt with a real aggregate (matlib.asphalt) in the old dark tone, three versions on one ground, turned; the
-    worn lanes polished smooth and lighter; the patch an irregular tar blot sealed at its edge (never a square); the
+    worn lanes the same asphalt a few levels lighter (D2; B15 polished them smooth and 13 levels lighter); the patch an irregular tar blot sealed at its edge (never a square); the
     sidewalk and kerb as cast slabs with a recessed joint."""
     base = OLD_MEAN["asphalt-plain"]
     ground = M.noise_hv((66, 65, 64), 0, seed_of("b15hubasphground"), mottle=4, cells=(16, 8), hue=0.8)
@@ -1229,16 +1232,23 @@ def b15_road():
                         shadow=0.08)
         M.turn_safe(img, ground, band=8, keep=0.6)
         return img
+    plain_mean = None
     for k in range(3):
-        save_tex(matched(asph(seed_of(f"b15hubasph{k}")), "asphalt-plain"), "asphalt-plain" if k == 0 else f"asphalt-plain-{k + 1}")
+        # (D2) the second and third versions shifted on their own to the first one's mean (B15 shared the first
+        # version's shift, which left the versions up to a level apart); the first version, and the patches that share
+        # its shift, are unchanged
+        img = matched(asph(seed_of(f"b15hubasph{k}")), "asphalt-plain", target=plain_mean,
+                      share=None if k == 0 else f"asphalt-plain-{k + 1}")
+        plain_mean = plain_mean or T.mean_rgb(img)
+        save_tex(img, "asphalt-plain" if k == 0 else f"asphalt-plain-{k + 1}")
     VERSIONS["asphalt-plain"] = ["asphalt-plain", "asphalt-plain-2", "asphalt-plain-3"]
     for k in range(2):
-        img = asph(seed_of(f"b15hubworn{k}"), chip=(4, 14), binder=0.2)
-        p = img.load()
-        for y in range(S):
-            for x in range(S):
-                p[x, y] = M.rgba(M.mix(p[x, y][:3], T.mean_rgb(img), 0.25))
-        save_tex(matched(img, "asphalt-worn"), "asphalt-worn" if k == 0 else "asphalt-worn-2")
+        # (D2) The worn lanes are the plain road's own asphalt (same chips, binder and grain, on the same ground), only
+        # D2_WORN_LIFT levels lighter. B15 polished them smooth (smaller chips, less binder, every pixel pulled a quarter
+        # of the way to the mean) and 13 levels lighter, and the user found the light squares too distinctive.
+        img = asph(seed_of(f"b15hubworn{k}"))
+        target = tuple(v + D2_WORN_LIFT for v in plain_mean)
+        save_tex(matched(img, "asphalt-worn", target=target, share=f"d2asphalt-worn-{k}"), "asphalt-worn" if k == 0 else "asphalt-worn-2")
     VERSIONS["asphalt-worn"] = ["asphalt-worn", "asphalt-worn-2"]
     for k in range(2):
         img = matched(asph(seed_of(f"b15hubpatch{k}")), "asphalt-plain", share="asphalt-plain")

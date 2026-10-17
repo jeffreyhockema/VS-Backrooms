@@ -31,6 +31,108 @@
 					},
 					{
 						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-plain"
+					},
+					{
+						"base": "block/end/ceiling-plain-2"
+					},
+					{
+						"base": "block/end/ceiling-plain-3"
+					},
+					{
+						"base": "block/end/ceiling-stained"
+					},
+					{
+						"base": "block/end/ceiling-stained-2"
+					},
+					{
+						"base": "block/end/ceiling-stained-3"
+					},
+					{
+						"base": "block/end/ceiling-stained-4"
 					}
 				]
 			}
@@ -41,6 +143,12 @@
 				"alternates": [
 					{
 						"base": "block/end/ceiling-stained-2"
+					},
+					{
+						"base": "block/end/ceiling-stained-3"
+					},
+					{
+						"base": "block/end/ceiling-stained-4"
 					}
 				]
 			}

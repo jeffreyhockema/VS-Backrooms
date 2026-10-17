@@ -298,6 +298,8 @@ from gen_city import CITY_F5, ptext_c  # noqa: E402
 POOL_MEAN = {"pooltile": (239.6, 239.1, 232.7), "poolsunlit": (246.9, 237.5, 205.6), "poolred": (207.8, 172.9, 172.9),
              "poolcoping": (240.0, 239.8, 233.6), "pooldoor-lower": (53.5, 179.6, 180.4), "pooldoor-upper": (79.1, 191.7, 192.3),
              "epsomcrust": (242.0, 242.3, 242.6)}
+POOL_ROW = 17  # (D2) the top pixel row of POOL on the upper leaf
+KICK_ROWS = 8  # (D2) the kick plate's height in texture pixels (4 units)
 POOL_TILE = {"pooltile": ((244, 244, 238), (226, 224, 216)), "poolsunlit": ((255, 246, 216), (226, 210, 172)),
              "poolred": ((236, 226, 224), (118, 22, 26)), "poolcoping": ((240, 240, 234), (226, 224, 216))}
 
@@ -411,18 +413,31 @@ def b13_chrome():
 
 def b13_door():
     """The POOL door (B13): the leaf is cyan painted steel with an orange-peel coat and a little wear at the foot, and
-    POOL in white pixel letters over the porthole; the porthole ring, its glass, the push plate and kick plate are
-    geometry now (pool_door_b13), so the old painted ones are gone."""
+    POOL in white pixel letters under the porthole (D2; B13 had them over it); the porthole ring, its glass, the push
+    plate and kick plate are geometry now (pool_door_b13), so the old painted ones are gone."""
     for part in ("lower", "upper"):
         img = M.painted_metal(seed_of("b13pooldoor"), base=(60, 186, 186), grain=3, mottle=4, panel=False, chips=0,
                               under=(150, 160, 160))
         if part == "lower":
             M.grime(img, 0.08, seed_of("b13pooldoorg"), cells=(8, 4), bias="bottom", cover=0.4)
         else:
-            ptext_c(img, "POOL", 2, (250, 252, 250), CITY_F5)
+            # (D2) POOL at about eye level, under the porthole (rows 17-23: 1.36 m up the door), as the old door had it;
+            # B13 put it at the top of the leaf (rows 2-8), which the user read as too high
+            ptext_c(img, "POOL", POOL_ROW, (250, 252, 250), CITY_F5)
         save(T.match_rgb(img, POOL_MEAN[f"pooldoor-{part}"], key=f"b13pooldoor-{part}"), f"pooldoor-{part}")
     steel = M.brushed_metal(seed_of("b13poolsteel"), base=(200, 204, 206), streak=7, sheen=8)
     save(steel, "poolsteel")
+    # (D2) the kick plate: darker brushed stainless with a lit top edge, a shaded foot and four screws, so it reads as a
+    # plate on the leaf; B13's kick plate was poolsteel, in the wall tile's own tone, and read as a gap under the door
+    kick = M.brushed_metal(seed_of("d2poolkick"), base=(124, 138, 140), streak=6, sheen=7)
+    for x in range(S):
+        M.touch(kick, x, 0, 0.22)
+        M.touch(kick, x, 1, 0.08)
+        M.touch(kick, x, KICK_ROWS - 1, -0.18)
+    for x, y in ((2, 3), (29, 3), (2, KICK_ROWS - 3), (29, KICK_ROWS - 3)):
+        M.touch(kick, x, y, -0.25)
+        M.touch(kick, x + 1, y, 0.1)
+    save(kick, "poolkick")
     # the porthole's glass: dark teal water-light behind it, a bright glint across the top left
     img = Image.new("RGBA", (S, S))
     px = img.load()
@@ -518,25 +533,28 @@ def pool_door_b13():
     """The POOL door (B13), as a model on the old codes: the leaf is the whole block (so the wall stays closed), and on
     each of its four sides (it has no facing; against the wall the extra sides are buried) a raised frame of stiles,
     the upper half's porthole (a ring of eight stainless segments round its glass) and push plate, the lower half's
-    kick plate. Hardware stops 0.05 short of the block's side planes (B8)."""
+    kick plate (D2: darker, down to the floor). Hardware stops 0.05 short of the block's side planes (B8)."""
     paths = {}
     for part in ("lower", "upper"):
         leaf = f"pooldoor-{part}"
         front = [MK.box("StileL", (0.05, 0, -0.4), (1.75, 16 if part == "lower" else 15.5, 0), leaf, faces=MK.without(MK.DIRS, "south")),
                  MK.box("StileR", (14.25, 0, -0.4), (15.95, 16 if part == "lower" else 15.5, 0), leaf, faces=MK.without(MK.DIRS, "south"))]
         if part == "upper":
-            cx, cy, r = 8.0, 7.25, 3.6
+            # (D2) the porthole higher on the leaf (B13: centre 7.25, radius 3.6), so POOL can sit under it at eye level
+            cx, cy, r = 8.0, 11.3, 3.2
             k = r * math.tan(math.radians(22.5))
             # the glass: one square pane under the ring, its corners hidden by the ring's diagonal segments
-            g = 2.6
+            g = 2.3
             front.append(MK.box("Glass", (cx - g, cy - g, -0.06), (cx + g, cy + g, 0), "poolporthole", faces=("north",), uv=[0, 0, 16, 16]))
             for i in range(8):
                 front.append(MK.box(f"Ring{i}", (cx - k - 0.1, cy + r - 1.1, -0.55), (cx + k + 0.1, cy + r, 0), "poolsteel",
                                     faces=MK.without(MK.DIRS, "south"), rot=(0, 0, 45 * i), origin=(cx, cy, -0.3)))
             front.append(MK.box("Push", (11.0, 0.5, -0.3), (13.5, 3.0, 0), "poolsteel", faces=MK.without(MK.DIRS, "south")))
         else:
-            front.append(MK.box("Kick", (1.75, 0.6, -0.3), (14.25, 5.0, 0), "poolsteel", faces=MK.without(MK.DIRS, "south")))
-            front.append(MK.box("Rail", (1.75, 5.0, -0.4), (14.25, 6.25, 0), leaf, faces=MK.without(MK.DIRS, "south")))
+            # (D2) the kick plate down to the floor, darker steel, and no mid rail over it: B13's plate in the tile's tone
+            # from 0.6 up under a rail read as the leaf standing raised off the floor
+            front.append(MK.box("Kick", (1.75, 0, -0.25), (14.25, KICK_ROWS / 2, 0), "poolkick",
+                                faces=MK.without(MK.DIRS, "south", "down"), uv=[0, 0, 16, KICK_ROWS / 2]))
         els = [bx("Leaf", (0, 0, 0), (16, 16, 16), leaf, full=True)]
         for t in range(4):
             for e in MK.turn(front, t):
