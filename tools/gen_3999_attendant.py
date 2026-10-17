@@ -200,9 +200,15 @@ def speaker(ctx):
 
 def cloth(ctx, base=None, var=0.035):
     base = base or UNIFORM
-    fill(ctx, base, var)
+    if getattr(ctx, "baked", False):
+        # B17: gabardine, a soft mottle and a fine twill (the light is baked from the model)
+        rig.shade_fill(ctx, base, var=var * 0.4, mottle=0.04, hue=0.015)
+        if ctx.face in SIDES:
+            rig.weave(ctx, 3.0, "twill", slubs=0.0)
+    else:
+        fill(ctx, base, var)
     # a faint weave: every other column a touch darker
-    if ctx.face in SIDES:
+    if ctx.face in SIDES and not getattr(ctx, "baked", False):
         for xx in range(0, ctx.w, 2):
             for yy in range(ctx.h):
                 texel(ctx, xx, yy, shade(base, 0.9), 0.25)
@@ -443,9 +449,15 @@ PY = 80
 CL = [6, -6, 46, -24, 10, 12]
 
 
+# B17: light baked from the rest pose (rig.bake), scaled to this small model (25 px to its crown); the painters already
+# grade each face, so the bake's own gradient is light.
+LIGHT = dict(reach=(0.25, 0.6, 1.1), ground_h=2.0, round_px=2.0, grad=0.12, edge=0.06, foot=0.04, ao=0.4)
+
+
 def attendant():
     rig.TEXEL = 4   # finer texels: the piping, the badge and the speaker grilles stay small
     m = Model("3999/attendant", atlas_width=64, seed=3999)
+    m.light = dict(LIGHT)
 
     # ---- Hips and skirt (the root). Hip joints at 12, knees at 7, a knee-length pencil skirt from the waist to 7.4
     hips = m.part("Hips", (-1.5, 10.0, -2.2), (3.0, 4.6, 4.4), pivot=(0, 12.4, 0), paint=skirt)

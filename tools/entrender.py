@@ -2,6 +2,10 @@
 element = translate(pivot) . rotate X, Y, Z . stretch . translate(from + offset - pivot), children nested.
 
     python entrender.py shape.json texture.png out.png [anims=walk,idle] [frames=4] [frame=N] [scale=8] [yoff=px] [views=side,front,34]
+        [sub=24]
+
+`sub` caps how many texels a face is cut into along each side (24 by default; a larger value shows every texel of a
+large face, more slowly).
 """
 import json
 import math
@@ -9,6 +13,8 @@ import sys
 
 import numpy as np
 from PIL import Image, ImageDraw
+
+SUB = 24
 
 FACE_CORNERS = {
     # corners in order with uv (0,1),(1,1),(1,0),(0,0): bottom-left, bottom-right, top-right, top-left seen from outside
@@ -117,8 +123,8 @@ def render(shape, tex, pose, yaw, pitch, scale, size, yoff=0):
         k = 0.45 + 0.55 * max(0.0, float(normal @ light))
         if glow:
             k = max(k, 0.5 + glow / 255 * 0.5)
-        nu = max(2, min(24, int(round(abs(u2 - u1)))))
-        nv = max(2, min(24, int(round(abs(v2 - v1)))))
+        nu = max(2, min(SUB, int(round(abs(u2 - u1)))))
+        nv = max(2, min(SUB, int(round(abs(v2 - v1)))))
         for i in range(nu):
             for j in range(nv):
                 def at(a, b):
@@ -150,6 +156,8 @@ def main():
     tex = Image.open(sys.argv[2]).convert("RGBA")
     out = sys.argv[3]
     opts = dict(a.split("=", 1) for a in sys.argv[4:])
+    global SUB
+    SUB = int(opts.get("sub", SUB))
     anims = {a["code"]: a for a in shape.get("animations", [])}
     names = opts.get("anims", ",".join(["rest"] + list(anims)[:4])).split(",")
     frames = int(opts.get("frames", 4))

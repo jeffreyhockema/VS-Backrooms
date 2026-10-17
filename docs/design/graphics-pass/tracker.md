@@ -216,6 +216,19 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (D3) The user's game can open between a batch's build and its shooting: check `tasklist` right before `batch.py`, and
   wait for it to close (never end it).
 
+- (B17) A light baked into an entity atlas must know the geometry: darkening every face's edges (B2's `shade_fill`) draws a
+  rim round large faces. `rig.bake` places each texel in model space from the rest pose and darkens it only where another
+  part is within a couple of pixels (sampled along the normal and four tilted rays), so joints and the skin under hair go
+  dark and free edges stay clean. Even each part's light back to its own mean over the texels that are not buried in
+  another part, or the buried faces (dark) lift everything else; the texture-wide mean then drops 10-20 levels while
+  what is seen stays within 2.
+- (B17) Multiplied light does nothing to a near-black creature (Smiler, Kitty, the Mangled): add it as if the colour were
+  20-34 levels brighter (`floor`). A strand or fur painter that picks each column's tone independently reads as a checker
+  on a 2-texel-per-pixel model; correlate neighbouring strands.
+- (B17) The far levels' entity and item generators also rewrite many block types, shapes and lang/en.json with other line
+  endings (and gen_hub one comment): restore everything outside the batch's folders after each run. Another session may
+  share the tree: never restore lang/en.json wholesale without checking `git diff --ignore-space-at-eol` first.
+
 ## Batches
 
 | Batch | Branch | Status | Rounds | Below B carried | Gate |
@@ -240,7 +253,8 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | B16 974, 3999, 188 | gfx/B16 | merged | 2 | 3999 paint, 974 ceiling and furniture bodies (C+); food court furniture at distance and 188 blinds (B-, runtime) | passed 2026-10-16 06:30 (Fable): marble repeat gone, furniture as geometry |
 | D2 follow-up on B13, B14, B15 decisions (POOL door, Fun chair back, End ceiling stains, Hub worn asphalt) | gfx/D2 | merged | offline only | | | passed 2026-10-16 (Fable): door foot and lettering verified on previews; built into 0.514.0 test zip |
 | D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
-| B17 entities and items | gfx/B17 | in progress | | | |
+| D4 follow-ups (carried items) | gfx/D4 | in progress | | | |
+| B17 entities and items | gfx/B17 | merged | 2 | Smiler, Bacteria, Mangled, Kitty C+ (black by lore); Deathmoths C+; Clump skin B-; Faceling faces blank (lore); ticket lettering | passed 2026-10-17 01:55 (Fable): lineup verified, silhouettes and colours kept, headless load clean |
 | B18 finish | | not started | | | |
 
 Status values: not started, in progress, review, sent back, merged.
@@ -2205,3 +2219,97 @@ cream-yellow houses. Fandom was unreachable (402) and is a different level anywa
 **Lessons:** four lines added above.
 
 **For later (user, 2026-10-17):** the Sikeston water tower is kept for the castle; nothing carries the name yet.
+
+### B17
+
+Worker report (Opus, 2026-10-17). Branch `gfx/B17` from `main` (71341e5), uncommitted. No client was run (entities cannot
+be photographed); the evidence is offline renders. One blind round (Sonnet, as the user asked), one fix round, re-rendered.
+
+- **Sheets:**
+  - Per creature and texture variant, `tools/entrender.py` (idle and walk; front, side, 3/4, back): `review/b17/before/<name>.png`
+    (main's textures) and `review/b17/after/<name>.png` (52 each).
+  - Lineup: `review/b17/lineup-before.png`, `review/b17/lineup-after.png` (hero 42 is not replaced; B18 does the gallery).
+  - Items: `review/b17/items-before-after.png` (each 2D icon before | after at 4x and at 1x, vanilla sprite icons on top),
+    `review/b17/texsheet-items-before.png` and `-after.png` (`tools/texsheet.py`, every item texture, vanilla references).
+  - Per-family pairs: `review/b17/sidebyside/<family>.jpg` (22) from `docs/design/graphics-pass/sidebyside/B17.json`
+    (inputs in `review/b17/sbs/{before,after}`: a big 3/4 and front close-up per creature, the sheet, the lineup, three
+    icon pages). `review/compare.html` has the B17 section.
+  - Scratch tools: `review/b17/tools/` (`ents.py` the sheets, `pair.py`, `make_sbs.py`, `icons.py`, `means.py`,
+    `headless.py`, `rerender.sh`, `decisions_b17.py`, this report's `tracker_b17.py`).
+- **Decision table:** 21 rows added to `decisions.md`, decision column empty; each names its functions and its revert.
+
+**Checks**
+- **Build:** `tools/locked.sh mod gfx`, 0 warnings, 0 errors (after the last regeneration). No C# changed.
+- **Headless server** (scratch build, fresh data dir): `/backrooms encounter` put down hound, skinstealer, faceling, duller,
+  deathrat, clump, smiler and wretch by straw dummies; entity shape loading completed; no warning or error in any server
+  log, no "missing attachment point". (Kitty, the attendant, the Keymaster and the Partygoers are not encounter entities;
+  their shapes are unchanged and loaded with the rest.) The server stopped cleanly; nothing is left running.
+- **Saves:** no entity, item or block code, variant group, class or shape changed: every shape file is byte-identical to
+  main (the bake only paints), so part names, attachment points and `textureSizes` stand; every atlas keeps its size.
+- **Colour:** each part keeps its mean tone. Rendered creature pixels (the -close renders) match main within 2 levels in
+  every channel for every creature and look; icon areas keep their means (whole-icon means drop 2-9 levels, the outline).
+- **Churn:** the regenerations (`gen_entities`, `gen_models`, `gen_974/3999/fun/hub/188`, `gen_textures`, `gen_loop`,
+  `gen_breakdown`, `gen_detail`, `gen_notes`, `gen_end`) rewrote ~700 files outside the batch with other line endings, one
+  comment in `hub-sigil.json`, `exitlintel*`, `hospbed-blanket.png` and `notes-catalogue.md`: all restored from git.
+  `git status`: only `textures/entity/` (59 PNGs), `textures/item/` (62 PNGs), the tools below and the docs.
+
+**What changed, per family** (grades: blind round 1, Sonnet; round 2 is mine after the fixes)
+
+| Family | r1 grade | vs before | Round 2 |
+|---|---|---|---|
+| Skin-Stealer | B+ | better | |
+| Hound, starved | B | better | strands smoothed |
+| Hound elder | C (checker hair, greyer) | worse | strands correlated, the grey hair lifted less: B- (mine) |
+| Death Rat, hairless | B | slightly better | |
+| Wretch (three looks) | B | slightly better | |
+| Stop-motion: wooden, clay, robot, paper | B+, B, B, B- | better (paper same) | |
+| Duller | B- | better | |
+| Clump, blind | B- | better | skin still coarse blotches (carried) |
+| Facelings (14), children (6) | B- | better | weave lifted on dark cloth |
+| Partygoers, intern, Host | B- (Host too small) | better | close-ups now centred |
+| Attendant (plum, navy) | B- | slightly better | |
+| Keymaster | B- | slightly better | |
+| Kitty | C+ | slightly better | |
+| Deathmoths | C+ (too small) | same | close-ups now centred |
+| Smiler, Bacteria, the Mangled | C | same (too dark) | `floor` 26/26/30: faint form, still black: C+ (mine) |
+| The Thing, the Window's arm | not judged (rendered too small) | | close-ups centred; Thing `floor` 26 |
+| 2D item icons (62) | B | marginally better | light strengthened a little |
+
+- **Shared painter:** `rig.bake` (new) bakes light into a rig atlas from the rest pose: a gradient over each part's
+  height, a 1 px lit top row and a darker foot row on side faces, rounding across narrow side faces, contact occlusion
+  (only where another part is near), darker toward the floor, warm/cool drift centred per part, `floor` for black
+  bodies, and each part's light evened to its own mean over the texels that show. `rig.bake_shape` does the same for a
+  JSON shape (the Facelings' seraph, honouring flipped uvs and face rotations). `rig.shade_fill`: B2's rims fixed (a
+  face's foot always, its flanks only on narrow faces, nothing on tops), a two-octave mottle, a hue wander, the drift
+  measured from the face's own level; on a baked model it paints only the base. `rig.lit_fill` takes `fill`'s arguments
+  and is `fill` on any unbaked model, so nothing unbaked changed. Detail painters: `strands`, `fur`, `folds`, `weave`,
+  `plates`.
+- **Opted in:** every gen_models creature through `@lit(...)` on its builder (variant textures included); Facelings
+  (`gen_entities.FACELING_LIGHT`); Kitty, the attendant, the Partygoers and the Party Host, the Keymaster, the arm via
+  `m.light`. Not changed: the lure balloon (its glossy shading is painted), Kitty's and the others' shapes, the hub keys,
+  the wanderer (vanilla trader).
+- **Item icons:** `tools/iconkit.py` (new): `finish` bevels each colour area and the silhouette from the top left,
+  redraws the outline as a darker shade of the colour inside (darker bottom-right), adds a 2-3 level grain, keeps each
+  area's mean; `ICONS` lists the 62 2D icons (items with a texture and no shape). Hooked into `gen_textures.save`,
+  `gen_3999_tex.save_item`, `gen_974_tex.save_item`, `gen_188_tex.save_item` and `gen_notes` (folded note). Shape textures
+  and the vanilla-derived carpet bag are untouched.
+
+**Carried below B, with reasons**
+- Smiler, Bacteria, the Mangled, Kitty (C+): black by lore; the bake gives them only a faint form, more would grey them.
+- Deathmoths (C+): a 4 px insect; the renders cannot show texel detail; judge in game.
+- Clump's skin (B-): still coarse blotches from `c_skin`; a repaint of its skin is a follow-up.
+- Faceling faces stay blank boxes (the lore: faceless); the paint_face light map is unchanged.
+- The ticket's ADMIT ONE and the notes' scrawl are crowded at 1x (unchanged lettering, B0's).
+- In game check: the bake assumes the rest pose; faces that animations uncover (inside an elbow) are darker than before.
+
+**Tool changes:** `tools/rig.py` (bake, bake_shape, shade_fill, lit_fill, strands, fur, folds, weave, plates; `Model.light`),
+`tools/iconkit.py` (new), `tools/entrender.py` (`sub=`: how finely a large face is sampled; default 24 as before). Edited
+generators: `gen_models`, `gen_entities`, `gen_974_kitty`, `gen_3999_attendant`, `gen_fun_models`, `gen_hub_keymaster`,
+`gen_188_models`, `gen_textures`, `gen_3999_tex`, `gen_974_tex`, `gen_188_tex`, `gen_notes`. `docs/DEVELOPING.md` is
+left for B18 (the pass's tools are documented at the end).
+
+**Tree note:** while B17 worked, another session (experimental levels) edited `src/` and `lang/en.json` in this tree and
+committed once on `gfx/B17`; it moved that commit to `experimental-levels` (worktree `VS Backrooms-exp`) and fast-forwarded
+`main` to 71341e5. `gfx/B17` is at 71341e5 with B17's changes uncommitted; none of that session's files are in this diff.
+
+**Lessons:** three lines added above.
