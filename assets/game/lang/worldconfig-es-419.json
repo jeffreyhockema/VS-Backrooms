@@ -1,0 +1,21 @@
+{
+	"playstyle-backrooms": "Backrooms: Survival Story",
+	"playstyle-desc-backrooms": "Hiciste noclip fuera de la realidad.\n\nDespiertas en un laberinto infinito de cuartos amarillos sin nada más que la ropa que llevas puesta. Busca comida y Agua de Almendra en las cajas de suministros, y encuentra la forma de sobrevivir.",
+	"worldattribute-backroomsMenace": "Entidades de los Backrooms",
+	"worldattribute-backroomsMenace-desc": "Cuánto te molestan las cosas que viven en los Backrooms. Desactivado deja solo sus sonidos.",
+	"worldconfig-backroomsMenace-Off": "Desactivado (solo sonidos)",
+	"worldconfig-backroomsMenace-Low": "Bajo (más raras, la mitad de daño)",
+	"worldconfig-backroomsMenace-Normal": "Normal",
+	"worldconfig-backroomsMenace-High": "Alto (más seguido, golpes más fuertes)",
+	"worldattribute-backroomsScarcity": "Escasez en los Backrooms",
+	"worldattribute-backroomsScarcity-desc": "Cuánta comida y bebida te dejan los Backrooms: en cajas, cajones, alacenas y refrigeradores, en máquinas expendedoras, garrafones y fuentes y qué tan pronto se reabastecen, en el ganado del Nivel 10 y, en mundos nuevos, en los jardines del Nivel 9 y los campos del Nivel 10. Normal ya es lo bastante escaso para que rebuscar importe.",
+	"worldconfig-backroomsScarcity-Plentiful": "Abundante (el doble de comida)",
+	"worldconfig-backroomsScarcity-Normal": "Normal",
+	"worldconfig-backroomsScarcity-Sparse": "Escasa (como el 60% de la comida)",
+	"worldconfig-backroomsScarcity-Scarce": "Muy escasa (como un tercio de la comida)",
+	"worldattribute-backroomsMap": "Mapa de los Backrooms",
+	"worldattribute-backroomsMap-desc": "Cuánto te ayuda el mapa a encontrar el camino. Áreas vistas: el mapa se llena con lo que has visto, y marca los caminos entre niveles que tomaste y los lugares de los que hablan las notas. Sin puntos de referencia: el mismo mapa, pero no marca nada por ti. Ninguno: sin mapa ni minimapa en absoluto; las notas y el gis son todo lo que tienes para guiarte, y el gis es un poco más fácil de encontrar.",
+	"worldconfig-backroomsMap-Seen": "Áreas vistas",
+	"worldconfig-backroomsMap-NoWaypoints": "Áreas vistas, sin puntos de referencia",
+	"worldconfig-backroomsMap-None": "Ninguno (sin mapa: piérdete)"
+}
