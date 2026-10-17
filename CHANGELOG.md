@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Wanderers' notes are no longer used up when read: the note stays in your pockets and remembers who has read it, so on a server it can be passed on and every player gets the next page in their own sequence from the same paper (one read per player per note; reading one again only says it is in your journal). A read note is named "(read)" to whoever has read it and stacks apart from fresh ones, which stack as before. The pocket note and notes lying loose follow the same rule. Existing notes keep working.
+
 ## 0.513.2 — fixes
 
 - Fixed: looking at a Level Fun party-supply shelf, a Level 3999 neon lamp or a plush crashed the game: the game's own container and orientation code rebuilt their block codes wrongly and asked for a block that does not exist. The shelves also showed missing textures, and the lamps and plushes could not be placed. A dev command, `/backrooms blocksweep`, now asks every block what the block-info HUD asks, so this cannot hide again.
