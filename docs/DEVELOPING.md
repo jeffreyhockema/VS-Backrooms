@@ -120,6 +120,7 @@ When in doubt, load a world made with the last release and check it.
 - `/backrooms column [x z]` (admin) prints the block stack, block entities and light levels of a column, from the ceiling of a grand room down into Level 3's tunnels. If the chunk isn't loaded, it loads it.
 - `/backrooms where` names the level and zone you're in, and its stability.
 - `/backrooms goto <0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188>` teleports you into a level.
+- `/backrooms hub reset [player]` (admin; a name is needed from the console) lets a player into the Hub's Tower again as if they had never been: it clears the player attributes the Tower keeps (`backrooms:hubTowerVisited`, the Keymaster's `backrooms:hubKeymasterGift` and `backrooms:hubKeymasterChoice`; nothing else is saved for it), so its doors open for them and the Keymaster comes down and offers a key once more. The player must be online. Only the Tower's own blocks (`backrooms:hub-*` and the concrete behind them) count as vandalism there; what a player puts down is theirs to break (remembered by position for the session, and by kind after a restart).
 - `/backrooms note read <kind>`, `give`, `status`, `reset`, `probe <reader> x z`, `log`: test the notes sequence and journal.
 - `/backrooms shift [hours]` starts a Reality Shift (default 2 in-game hours; 0 ends it). `/backrooms fogspell` moves the calendar on to the thick of the next spell of fog over Level 10's fields.
 - `/backrooms menace` shows your danger band and menace value, and the entities around you.

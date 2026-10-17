@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Spanish translation (es-419 and es-es), by NeoB. The handbook pages and other text that changed in 0.513 stay in English until the translation catches up.
+- Fixed: breaking a torch (or anything else) you had put down yourself in the Hub's Tower counted as vandalism, and the Keymaster threw you out with nothing and closed the Tower to you for good. Only the Tower's own blocks count now; what you place there is yours to take up again.
+- For admins: `/backrooms hub reset [player]` lets a player into the Tower again as if they had never been (the Keymaster offers them a key once more). In singleplayer, type it yourself. For anyone thrown out by the bug above.
 
 ## 0.513.2 — fixes
 

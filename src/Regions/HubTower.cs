@@ -23,8 +23,9 @@ namespace Backrooms.Regions;
 /// afterwards"). Whoever has been inside and is outside again, however they left, is never let in again.</item>
 /// <item><b>The Keymaster</b> appears to each visitor once: at once if they carry a Level Key, otherwise when they reach
 /// the meeting hall. Right-click him and he holds out the key to one of the levels you have been to, another each time;
-/// sneak and right-click to take it. He then shows you to its door, and the Tower is closed to you. Break anything in the
-/// Tower and he throws you out with nothing.</item>
+/// sneak and right-click to take it. He then shows you to its door, and the Tower is closed to you. Break anything of the
+/// Tower's own and he throws you out with nothing (what you put down yourself, a torch to see by, is yours to break).
+/// <c>/backrooms hub reset [player]</c> lets someone in again.</item>
 /// <item><b>The M.E.G.'s "Doorstep Carpet"</b> by the Level 11 door: its wanderer sells two Level Keys at a time, chosen
 /// afresh each week from the levels anyone in the world has entered, for 30-45 rusty gears.</item>
 /// <item><b>The door register</b> there marks on your map the three open doors, the Tower's ten doors and the outpost.</item>
@@ -44,6 +45,8 @@ public partial class HubSystem
     private readonly Dictionary<string, Entity> keymasters = new();
     /// <summary>Players the Keymaster is in the middle of showing out (his gesture plays before they are put out).</summary>
     private readonly HashSet<string> escorting = new();
+    /// <summary>Where players have put blocks down in the Tower this session (a torch to see by): theirs to break again.</summary>
+    private readonly HashSet<BlockPos> placedInTower = new();
 
     private void StartTower(ICoreServerAPI api)
     {
@@ -53,6 +56,7 @@ public partial class HubSystem
         ticks.Add(api.Event.RegisterGameTickListener(OnTowerTick, 1000, 1500));
         ticks.Add(api.Event.RegisterGameTickListener(OnMegTick, 30_000, 7000));
         api.Event.PlayerDisconnect += OnTowerDisconnect;
+        api.Event.DidPlaceBlock += OnTowerPlace;
     }
 
     /// <summary>Takes the Tower's handlers off again (its tick listeners are among <see cref="HubSystem"/>'s own).</summary>
@@ -60,6 +64,48 @@ public partial class HubSystem
     {
         api.Event.GameWorldSave -= SaveEntered;
         api.Event.PlayerDisconnect -= OnTowerDisconnect;
+        api.Event.DidPlaceBlock -= OnTowerPlace;
+    }
+
+    /// <summary><c>/backrooms hub reset [player]</c>: another visit to the Tower. (Registered once the game runs: the command itself is made at start-up.)</summary>
+    private static void RegisterTowerCommand(ICoreServerAPI api)
+    {
+        IChatCommand command = api.ChatCommands.Get("backrooms");
+        if (command == null) return;
+        command
+            .BeginSubCommand("hub")
+                .WithDescription("The Hub's Tower")
+                .BeginSubCommand("reset")
+                    .WithDescription("Lets a player (you, if no name is given) into the Tower again as if they had never been: forgets their visit, and the Keymaster's key or his throwing them out")
+                    .WithArgs(api.ChatCommands.Parsers.OptionalWord("player"))
+                    .HandleWith(args => api.ModLoader.GetModSystem<HubSystem>().OnHubResetCommand(args))
+                .EndSubCommand()
+            .EndSubCommand();
+    }
+
+    private TextCommandResult OnHubResetCommand(TextCommandCallingArgs args)
+    {
+        string name = (args[0] as string)?.Trim(); // (the console's line ending arrives as an argument)
+        IServerPlayer who = string.IsNullOrEmpty(name) ? args.Caller.Player as IServerPlayer
+            : sapi.World.AllOnlinePlayers.OfType<IServerPlayer>().FirstOrDefault(p => p.PlayerName.Equals(name, StringComparison.OrdinalIgnoreCase));
+        if (who?.Entity == null) return TextCommandResult.Error(string.IsNullOrEmpty(name) ? "Give a player's name." : "No such player online: " + name);
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world.");
+        ResetTower(who);
+        return TextCommandResult.Success($"The Tower will let {who.PlayerName} in again, and the Keymaster will come down to them once more.");
+    }
+
+    /// <summary>
+    /// Forgets a player's visit to the Tower: its doors open for them again and the Keymaster offers a key once more. (The
+    /// same flags the Tower keeps, set back to what a new player has, so nothing new is saved.)
+    /// </summary>
+    private void ResetTower(IServerPlayer player)
+    {
+        Dismiss(player.PlayerUID);
+        SyncedTreeAttribute attributes = player.Entity.WatchedAttributes;
+        attributes.SetBool(TowerVisitedKey, false);
+        attributes.SetBool(GiftKey, false);
+        attributes.SetInt(ChoiceKey, -1);
+        sapi.Logger.Notification("[backrooms] the Tower forgets {0}'s visit (hub reset)", player.PlayerName);
     }
 
     private void SaveEntered() => sapi.WorldManager.SaveGame.StoreData(EnteredSaveKey, BitConverter.GetBytes(entered));
@@ -265,11 +311,29 @@ public partial class HubSystem
         Dismiss(player.PlayerUID);
     }
 
-    /// <summary>Anything broken in the Tower: the Keymaster throws whoever broke it out, with nothing.</summary>
-    private void OnTowerBreak(IServerPlayer byPlayer, BlockPos pos)
+    /// <summary>Whether a position is in the Tower (the Hub's; the same ring of blocks in some other level is not).</summary>
+    private bool InTower(BlockPos pos) =>
+        layout != null && layout.InHubTower(pos.X + 0.5, pos.Z + 0.5) && layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z)) == WorldLayout.Hub;
+
+    /// <summary>Whether a block is of the Tower's own fabric (its marble, ashlar, doors, statue, lights, and the concrete behind them).</summary>
+    private static bool IsTowerFabric(Block block) =>
+        block?.Code != null && block.Code.Domain == "backrooms" && (block.Code.Path.StartsWith("hub-") || block.Code.Path == "concrete");
+
+    /// <summary>Something put down in the Tower (a torch to see by) is remembered as the player's own: taking it up again is no offence.</summary>
+    private void OnTowerPlace(IServerPlayer byPlayer, int oldblockId, BlockSelection blockSel, ItemStack withItemStack)
     {
-        if (layout == null || byPlayer?.Entity == null || !layout.InHubTower(pos.X + 0.5, pos.Z + 0.5)) return;
-        if (layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z)) != WorldLayout.Hub) return;
+        if (byPlayer != null && blockSel != null && InTower(blockSel.Position)) placedInTower.Add(blockSel.Position.Copy());
+    }
+
+    /// <summary>
+    /// Something of the Tower's own broken: the Keymaster throws whoever broke it out, with nothing. What a player put down
+    /// themselves is theirs to take up again: remembered by position this session, and by kind (nothing of the Tower's
+    /// fabric) after a restart.
+    /// </summary>
+    private void OnTowerBreak(IServerPlayer byPlayer, int oldblockId, BlockPos pos)
+    {
+        if (byPlayer?.Entity == null || !InTower(pos)) return;
+        if (placedInTower.Remove(pos) || !IsTowerFabric(sapi.World.GetBlock(oldblockId))) return;
         if (!keymasters.ContainsKey(byPlayer.PlayerUID) && !byPlayer.Entity.WatchedAttributes.GetBool(GiftKey)) Summon(byPlayer);
         Say(byPlayer, "backrooms:hub-keymaster-angry");
         byPlayer.Entity.WatchedAttributes.SetBool(GiftKey, true);
