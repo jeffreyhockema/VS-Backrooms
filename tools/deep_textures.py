@@ -79,17 +79,8 @@ def level6():
 
 def level61():
     level61_b9()  # (B9) floors, walls, ceiling, skylight, and the fixtures' and machines' materials
+    # (the exit door and the kitchen doors are geometry now: deepprops_tex)
     for part in ("lower", "upper"):
-        img = noise(0x6A4A3A, 12, "rusty" + part)
-        T.blotch(img, (10, 20), 9, (150, 80, 40), 0.6, 72)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x3A2A20), width=2)
-        if part == "lower":
-            d.rectangle([22, 0, 27, 3], fill=rgb(0x9A9488))
-        else:
-            d.rectangle([8, 10, 23, 14], fill=rgb(0xC8B060))
-            text(img, "EXIT", (8, 9, 24, 15), 0x3A2A10, 5)
-        save(img, f"rustydoor-{part}")
         img = Image.new("RGBA", (S, S), rgb(0x9AB8C0))
         d = ImageDraw.Draw(img)
         d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=2)
@@ -97,14 +88,6 @@ def level61():
         if part == "lower":
             d.rectangle([2, 0, 29, 2], fill=rgb(0x8A8E92))
         save(img, f"glassdoors-{part}")
-        img = noise(0xC8C8C4, 3, "kitchendoor" + part)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=2)
-        if part == "upper":
-            d.ellipse([9, 6, 22, 19], fill=rgb(0x2A3A42), outline=rgb(0x8A8E92), width=2)
-        else:
-            d.rectangle([4, 4, 27, 10], fill=rgb(0xA8ACB0))
-        save(img, f"kitchendoor-{part}")
     img = Image.new("RGBA", (S, S), rgb(0x1A1C1E))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=3)
@@ -138,12 +121,7 @@ def level61():
         d.line(pts, fill=(226, 232, 236, 210))  # cracks spreading from a blow
     d.line([4, S - 1, 12, 18], fill=(214, 230, 240, 150))
     save(img, "vendpileglass")
-    for name, word, color in (("signburger", "BURGERS", 0xFF4060), ("signpizza", "PIZZA", 0x40FF90), ("signtaco", "TACOS", 0xFFC040), ("signdonut", "DONUTS", 0x60C0FF)):
-        img = Image.new("RGBA", (S, S), rgb(0x141018))
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(color), width=1)
-        text(img, word, (1, 8, 31, 24), color, 8)
-        save(img, name)
+    # (the food-court signs: deepprops_tex.signs)
     img = Image.new("RGBA", (S, S), rgb(0x1A1A1A))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A6A3A), width=2)
@@ -1289,15 +1267,7 @@ def level9():
             d.rectangle([x, row * 11 + 3, x + 4, row * 11 + 9], fill=rgb(c))
         d.line([0, row * 11 + 10, S - 1, row * 11 + 10], fill=rgb(0x4A3018))
     save(img, "pantry")
-    img = Image.new("RGBA", (S, S), rgb(0x5A5E62))
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 9, 14], fill=rgb(0xB02018))
-    d.rectangle([13, 4, 15, 15], fill=rgb(0x8A6A3A))
-    d.rectangle([12, 3, 18, 6], fill=rgb(0x8A8E92))
-    d.rectangle([20, 3, 29, 9], fill=rgb(0xE0B020))
-    d.ellipse([3, 18, 14, 29], outline=rgb(0x2A6A2A), width=2)
-    d.rectangle([18, 20, 29, 28], fill=rgb(0x8A8E92))
-    save(img, "toolwall")
+    # (the tool shelf and the tool rack are modelled now: deepprops)
     img = noise(0xC89A6A, 4, "cabinetfront")
     d = ImageDraw.Draw(img)
     d.line([16, 0, 16, S - 1], fill=rgb(0x8A6A44))
@@ -1334,14 +1304,7 @@ def level10():
         d.line(pts, fill=rgb(rng.choice([0xC87878, 0xB06060, 0xD89090, 0x7A3A3A])), width=2)
     save(img, "wormmass")
     flat("feed", 0xC8A858, 10)
-    img = noise(0x6A4A2A, 6, "barrelwood")
-    d = ImageDraw.Draw(img)
-    for y in (4, 27):
-        d.rectangle([0, y, S - 1, y + 1], fill=rgb(0x3A3A3E))
-    save(img, "barrelwood")
-    img = noise(0x5A5E62, 10, "nails")
-    specks(img, [0x9A9EA2, 0xB8BCC0, 0x3A3E42], 120, "nails")
-    save(img, "nails")
+    # (the barrel of nails is modelled now: deepprops_tex)
 
 
 # ---------------- Refinements: Levels 5 to 10 in more detail ----------------
