@@ -5039,54 +5039,21 @@ def roboman():
 # around the body and legs"; its limbs "very thin and stiff, but it can still move fast and quietly"; it "comes to life"
 # out of a black substance like mould. About eleven feet of it, which Level 0's three-block rooms cannot hold: it
 # stoops, the torso bent forward and the faceless head craned out on a long neck, so it stands ~45 px with its crown
-# under the ceiling tiles. Every limb is a bundle of two or three thin twisted strands with loose wires hanging off it
-# and cable wound round it; the legs end not in feet but in frayed strands splayed on the carpet like roots, and the
-# fingers of the floor-length arms rest on the carpet too. The head is a small dark lump with a hollow where a face (or
-# a camera's lens) should be and a seam that splits open when it howls. Nothing glows. It moves wrong: holds still, snaps
-# to a new pose in a frame or two, holds again; it runs bent double, clawing at the carpet with its arms in turn.
+# under the ceiling tiles. As in the footage (stills on the Kane Pixels wiki: "Bacteria Standing", "Bacteria Canvas"),
+# it is drawn in wire: a trunk of one kinked black cable with a thinner one twisted round it, a bar of wire across the
+# shoulders whose ends curl down into hooks, floor-length arms and short legs that zigzag at every kink, coils wound on
+# the limbs and loops of wire standing off the chest and a thigh; the legs end not in feet but in frayed wires splayed
+# on the carpet like roots, and the fingers of the floor-length arms rest on the carpet too. The head is a squat
+# faceless lump ringed with a coil like a hat's brim, with a seam that splits open when it howls. A cut or frayed end
+# shows a little dull copper; nothing glows. It moves wrong: holds still, snaps to a new pose in a frame or two, holds
+# again; it runs bent double, clawing at the carpet with its arms in turn.
 
-BA_BLACK = (16, 15, 13)        # the strands: a black that is not quite black
-BA_FIBRE = (31, 29, 25)        # ... the lighter fibres along them
-BA_GLINT = (64, 60, 50)        # ... and the dull wet glint where they twist
+BA_BLACK = (16, 15, 13)        # the cable: a black that is not quite black
+BA_FIBRE = (31, 29, 25)        # ... lighter fibres in the knots
+BA_GLINT = (64, 60, 50)        # ... and the dull glint where it creases
 BA_DEEP = (5, 5, 5)            # gaps in the tangle
 BA_MOULD = (26, 28, 18)        # an olive fuzz of mould
-BA_CABLE = (38, 34, 28)        # the cable wound round the body and legs
 BA_TIP = (54, 50, 44)          # finger tips, worn grey
-
-
-def ba_lengthwise(ctx):
-    """True if the face's v axis (down the face) runs along the part's longest side."""
-    sx, sy, sz = ctx.part.size
-    long_axis = max(range(3), key=lambda i: (sx, sy, sz)[i])
-    if ctx.face in ("up", "down"):
-        return long_axis == 2
-    return long_axis == 1
-
-
-def ba_strand_paint(ctx, base=BA_BLACK):
-    """A strand of wire-like vine: dark fibres along it and a dull glint spiralling round it (the twist)."""
-    fill(ctx, base, 0.14)
-    if ctx.face in ("up", "down") and not ba_lengthwise(ctx) and min(ctx.part.size) * 2 >= max(ctx.w, ctx.h) - 1:
-        fill(ctx, BA_DEEP, 0.1, face_shade=False)          # the cut ends
-        return
-    along = ba_lengthwise(ctx)
-    n, m = (ctx.h, ctx.w) if along else (ctx.w, ctx.h)
-    phase = ctx.rng.randint(0, 5)
-    for i in range(n):
-        j = (i // 2 + phase) % max(1, m)                  # the spiral of the twist, one texel across every two along
-        a = 0.45 if (i // 2) % 3 == 0 else 0.18
-        if along:
-            texel(ctx, j, i, BA_GLINT, a)
-        else:
-            texel(ctx, i, j, BA_GLINT, a)
-        if ctx.rng.random() < 0.12:                       # a fibre crossing
-            if along:
-                texel(ctx, (j + 1) % m, i, BA_DEEP, 0.7)
-            else:
-                texel(ctx, i, (j + 1) % m, BA_DEEP, 0.7)
-    if ctx.rng.random() < 0.5:
-        blotch(ctx, BA_MOULD, 1, 1.0, 3.0, 0.45)
-    speckle(ctx, BA_FIBRE, 0.06)
 
 
 def ba_knot(ctx):
@@ -5104,15 +5071,6 @@ def ba_knot(ctx):
     blotch(ctx, BA_MOULD, 1, 1.0, 2.5, 0.4)
 
 
-def ba_chest(ctx):
-    """The torso's core: the knot, with ribs of strand showing as ridges round the front and sides."""
-    ba_knot(ctx)
-    if ctx.face in ("west", "north", "south"):
-        for v in (0.2, 0.36, 0.52, 0.68):
-            line(ctx, 0.0, v, 1.0, v + 0.05, BA_GLINT, 0.35)
-            line(ctx, 0.0, v + 0.04, 1.0, v + 0.09, BA_DEEP, 0.6)
-
-
 def ba_head(ctx):
     """The head: a lump of the tangle, wound tighter and smoother than the body (it catches more light), no face."""
     fill(ctx, BA_BLACK, 0.1)
@@ -5126,56 +5084,17 @@ def ba_head(ctx):
         fill(ctx, BA_DEEP, 0.1, face_shade=False)
 
 
-def ba_lens(ctx):
-    """Where a face should be: a hollow, a ring of wound strand round a black pit (a lens, or a socket). Not an eye."""
-    ba_head(ctx)
-    if ctx.face == "west":
-        w, h = ctx.w, ctx.h
-        cx, cy = (w - 1) / 2, (h - 1) / 2
-        for ty in range(h):
-            for tx in range(w):
-                d = math.hypot(tx - cx, ty - cy) / max(1.0, min(w, h) / 2)
-                if d < 0.62:
-                    texel(ctx, tx, ty, BA_DEEP, 1.0)
-                elif d < 0.95:
-                    texel(ctx, tx, ty, BA_GLINT if (tx + ty) % 3 == 0 else BA_FIBRE, 0.7)
-
-
-def ba_cable(ctx):
-    """The cable wound round the body and legs: a little lighter, banded where it turns."""
-    fill(ctx, BA_CABLE, 0.1)
-    if ctx.face in ("north", "south", "east", "west"):
-        for tx in range(0, ctx.w, 2):
-            texel(ctx, tx, 0, BA_GLINT, 0.5)
-            texel(ctx, tx + 1, ctx.h - 1, BA_DEEP, 0.6)
-
-
-def ba_tendril(ctx):
-    """A loose wire or vine hanging off the body: tapering to nothing, the end cut ragged."""
-    ba_strand_paint(ctx)
-    if ctx.face in ("up", "down"):
-        return
-    w, h = ctx.w, ctx.h
-    if not ba_lengthwise(ctx):
-        return
-    for ty in range(h):
-        t = ty / max(1, h - 1)
-        cut = int((w / 2) * max(0.0, t - 0.45) / 0.55 + ctx.rng.uniform(0, 0.8))
-        for k in range(min(w - 1, cut)):
-            clear(ctx, k if ctx.rng.random() < 0.5 else w - 1 - k, ty)
-    ragged(ctx, max(1, h // 5))
-
-
 def ba_finger(ctx):
-    """A long finger: a strand with a darker knuckle band and a worn grey tip."""
-    ba_strand_paint(ctx)
+    """A long finger: a length of the cable with a darker knuckle band; the tip worn through to grey and copper."""
+    ba_wire_paint(ctx)
+    tip_c = mix(BA_TIP, BA_COPPER, 0.55)
     if ctx.face in ("north", "south", "east", "west"):
-        texrow(ctx, 0, 0, -1, BA_DEEP, 0.7)
+        texrow(ctx, 0, 0, ctx.w - 1, BA_DEEP, 0.7)
         if ctx.part.tag.get("tip"):
-            texrow(ctx, -1, 0, -1, BA_TIP)
-            texrow(ctx, -2, 0, -1, BA_TIP, 0.5)
+            texrow(ctx, ctx.h - 1, 0, ctx.w - 1, tip_c)
+            texrow(ctx, ctx.h - 2, 0, ctx.w - 1, tip_c, 0.5)
     elif ctx.face == "down" and ctx.part.tag.get("tip"):
-        fill(ctx, BA_TIP, 0.05, face_shade=False)
+        fill(ctx, tip_c, 0.05, face_shade=False)
 
 
 def ba_stain(ctx):
@@ -5211,24 +5130,148 @@ def ba_stain(ctx):
                 px[ctx.x + tx, ctx.y + ty] = (0, 0, 0, 0)
 
 
-def ba_strand(m, name, parent, at, length, t, rest=(0, 0, 0), up=False, extra=(), paint=None, flat=None, extra_paint=None):
-    """A strand hanging from (or, up=True, rising from) `at`, plus extra thinner strands bundled with it (children,
-    so they follow it). extra: (dx, dz, thickness, ex, ez, dlength): an extra strand starts at at + (dx, 0, dz) and
-    its far end drifts by (ex, ez) from there, so the bundle twists and frays."""
-    x, y, z = at
-    tz = t if flat is None else flat
-    frm = (x - t / 2, y if up else y - length, z - tz / 2)
-    core = m.part(name, frm, (t, length, tz), pivot=at, parent=parent, rest=rest, paint=paint or ba_strand_paint)
-    for i, (dx, dz, tt, ex, ez, dl) in enumerate(extra):
-        ln = length + dl
-        if up:
-            r = (math.degrees(math.atan2(ez, ln)), 0, -math.degrees(math.atan2(ex, ln)))
+BA_SHEEN = (46, 44, 40)        # the dull sheen down one edge of the cable's sheath
+BA_COPPER = (110, 64, 34)      # bared copper where a wire is cut or frayed, dulled
+BA_COPPER_HI = (150, 94, 52)   # ... and its brighter strands
+
+
+def ba_wire_paint(ctx):
+    """A length of the black cable it is made of (each segment is built along its own +y, so v runs along it on the
+    side faces, the far end at the top): a matte sheath, a dull sheen down one edge that comes and goes, creases where
+    it has been bent and straightened, now and then a fleck of mould; at a cut or frayed end (tag copper) the copper
+    shows in the last texels and on the end."""
+    p = ctx.part
+    ph = p.tag.get("phase", 0)
+    copper = p.tag.get("copper", False)
+    fill(ctx, BA_BLACK, 0.04)
+    if ctx.face in ("up", "down"):
+        if ctx.face == "up" and copper:
+            for ty in range(ctx.h):
+                for tx in range(ctx.w):
+                    texel(ctx, tx, ty, BA_COPPER_HI if (tx + ty + ph) % 2 else BA_COPPER)
         else:
-            r = (-math.degrees(math.atan2(ez, ln)), 0, math.degrees(math.atan2(ex, ln)))
-        ename = name[:-1] + f"S{i}L" if name.endswith("L") else f"{name}S{i}"
-        m.part(ename, (x + dx - tt / 2, y if up else y - ln, z + dz - tt / 2), (tt, ln, tt), pivot=(x + dx, y, z + dz),
-               parent=core, rest=r, paint=extra_paint or ba_strand_paint)
-    return core
+            fill(ctx, BA_DEEP, 0.04, face_shade=False)
+        return
+    w, h = ctx.w, ctx.h
+    edge = 0 if ctx.face in ("north", "west") else w - 1
+    for ty in range(h):
+        texel(ctx, edge, ty, BA_SHEEN, 0.3 + 0.22 * math.sin((ty + ph * 3) * 0.7))
+    for ty in range((ph * 2 + 1) % 4, h, 4):
+        texrow(ctx, ty, 0, w - 1, BA_DEEP, 0.5)
+        if ty + 1 < h:
+            texel(ctx, (ty // 4 + ph) % w, ty + 1, BA_GLINT, 0.3)
+    if ctx.rng.random() < 0.25:
+        blotch(ctx, BA_MOULD, 1, 0.8, 2.0, 0.35)
+    if copper:
+        n = min(h, 2)
+        for ty in range(n):
+            for tx in range(w):
+                if ty == n - 1 and (tx + ph) % 2:
+                    continue                                   # the ragged edge of the stripped sheath
+                texel(ctx, tx, ty, BA_COPPER_HI if (tx + ty + ph) % 3 == 0 else BA_COPPER, 1.0 if ty < n - 1 else 0.7)
+
+
+def _b_add(a, b, k=1.0):
+    return tuple(a[i] + b[i] * k for i in range(3))
+
+
+def _b_sub(a, b):
+    return tuple(a[i] - b[i] for i in range(3))
+
+
+def _b_unit(v):
+    ln = math.sqrt(sum(c * c for c in v))
+    return tuple(c / ln for c in v)
+
+
+def _b_cross(a, b):
+    return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+
+
+def _b_lerp(a, b, t):
+    return tuple(a[i] + (b[i] - a[i]) * t for i in range(3))
+
+
+def _b_perp(d):
+    """Two unit vectors square to d (and to each other)."""
+    d = _b_unit(d)
+    ref = (1.0, 0.0, 0.0) if abs(d[0]) < 0.9 else (0.0, 0.0, 1.0)
+    u = _b_unit(_b_cross(d, ref))
+    return u, _b_cross(d, u)
+
+
+def ba_bone(m, name, parent, at, length, rest=(0, 0, 0), up=False):
+    """A bone that draws nothing: the animations turn it, the wires hung on it show it. Its pivot is `at` and it
+    runs `length` up (or down) from there, as the strands it replaces did."""
+    x, y, z = at
+    return m.part(name, (x - 0.3, y if up else y - length, z - 0.3), (0.6, length, 0.6), pivot=at, parent=parent, rest=rest,
+                  faces=(), tag={"occlude": False})
+
+
+def ba_seg(m, name, parent, a, b, t, phase=0, copper=False):
+    """One straight length of cable from a to b (model space, the parents unrotated), t thick: a box along +y from a,
+    turned so +y points at b, lengthened by t/2 at both ends so the lengths of a kinked wire overlap at the bends."""
+    d = _b_sub(b, a)
+    ln = math.sqrt(sum(c * c for c in d))
+    dx, dy, dz = (c / ln for c in d)
+    rest = (round(math.degrees(math.atan2(dz, dy)), 3), 0, round(math.degrees(math.asin(max(-1.0, min(1.0, -dx)))), 3))
+    # no start cap: every segment starts inside the one before it or the part it hangs from
+    return m.part(name, (a[0] - t / 2, a[1] - t / 2, a[2] - t / 2), (t, ln + t, t), pivot=a, parent=parent, rest=rest,
+                  paint=ba_wire_paint, faces=("north", "east", "south", "west", "up"), tag={"phase": phase, "copper": copper})
+
+
+def ba_wire(m, name, parent, pts, t, copper=False, sd=""):
+    """A wire through the points, one segment per leg, all hung on `parent`; copper bared at the last end."""
+    for i in range(len(pts) - 1):
+        ba_seg(m, f"{name}{i}{sd}", parent, pts[i], pts[i + 1], t, phase=i + len(name), copper=copper and i == len(pts) - 2)
+
+
+def ba_kinks(a, b, n, amp, rng, lean=(0.0, 0.0)):
+    """Points from a to b in n legs, the inner ones knocked aside in turn (zig, zag) by up to `amp`: a kinked wire.
+    lean drifts the whole wire to one side (u, w) at its middle."""
+    u, w = _b_perp(_b_sub(b, a))
+    pts = [a]
+    for k in range(1, n):
+        f = (k + rng.uniform(-0.25, 0.25)) / n
+        side = (1 if k % 2 else -1) * rng.uniform(0.55, 1.0) * amp
+        across = rng.uniform(-0.45, 0.45) * amp
+        bow = math.sin(math.pi * f)
+        pts.append(_b_add(_b_add(_b_lerp(a, b, f), u, side + lean[0] * bow), w, across + lean[1] * bow))
+    pts.append(b)
+    return pts
+
+
+def ba_twin(pts, off, rng):
+    """A thinner wire twisted round another: it leaves from beside the first, crosses it at every bend (swapping
+    sides) and ends beside it again."""
+    out = []
+    for k, p in enumerate(pts):
+        if k + 1 < len(pts):
+            u, w = _b_perp(_b_sub(pts[k + 1], p))
+        sg = 1 if k % 2 else -1
+        o = off * (0.4 if k in (0, len(pts) - 1) else 1.0)
+        out.append(_b_add(_b_add(p, u, sg * o), w, rng.uniform(-0.5, 0.5) * off))
+    return out
+
+
+def ba_coil(a, b, f0, f1, r, turns, per_turn=6, phase=0.0):
+    """A helix of wire wound round the line a..b from fraction f0 to f1, r out from it."""
+    u, w = _b_perp(_b_sub(b, a))
+    n = max(2, int(round(turns * per_turn)))
+    pts = []
+    for k in range(n + 1):
+        t = k / n
+        ang = phase + TAU * turns * t
+        c = _b_lerp(a, b, f0 + (f1 - f0) * t)
+        pts.append(_b_add(_b_add(c, u, r * math.cos(ang)), w, r * math.sin(ang)))
+    return pts
+
+
+def ba_loop(centre, u, w, r, n=6, open_at=0.0, phase=0.0):
+    """A loop of wire round `centre` in the plane of u and w; open_at leaves that fraction of it out (a hook)."""
+    u, w = _b_unit(u), _b_unit(w)
+    span = TAU * (1.0 - open_at)
+    return [_b_add(_b_add(centre, u, r * math.cos(phase + span * k / n)), w, r * math.sin(phase + span * k / n)) for k in range(n + 1)]
 
 
 def _ba_lerp(a, b, t):
@@ -5298,64 +5341,65 @@ def R(x=0.0, y=0.0, z=0.0, o=(0, 0, 0), st=None):
 def bacteria():
     m = Model("bacteria", atlas_width=64, seed=1)
 
-    # ---- Hips and torso: a knot of strands, then a bundle rising out of it, bent forward under the ceiling ----
+    # The bones keep the places, pivots and rest turns of the first model (so every animation plays as before), but
+    # draw nothing: what shows is wire hung on them, built in model space as if no parent were turned. Each limb is a
+    # kinked main wire with a thinner one twisted round it and a coil wound on it; the shoulder bar's ends curl down
+    # into hooks, loose loops stand off the chest and a thigh, and every cut or frayed end shows a little copper.
+    rng = random.Random(386)
     HY, WL, CL, NL = 15.6, 8.8, 12.6, 5.6               # hip height; waist, chest and neck lengths
     CY = HY + 0.6 + WL - 0.2                            # where the chest starts
     SY = CY + CL - 0.8                                  # the shoulder bar
     NY = CY + CL - 0.2                                  # the neck's root
     HD = NY + NL                                        # the head's pivot
-    hips = m.part("Hips", (-1.3, HY - 1.2, -1.9), (2.6, 2.4, 3.8), pivot=(0, HY, 0), paint=ba_knot)
-    ba_strand(m, "Waist", hips, (0, HY + 0.6, 0), WL, 1.2, rest=(0, 0, 6), up=True,
-              extra=[(0.45, 0.5, 0.5, -0.7, -1.0, 0), (-0.45, -0.5, 0.5, 0.6, 1.0, 0), (0.3, -0.55, 0.4, -0.4, 0.9, -0.6)])
-    m.part("WaistWrap", (-1.0, HY + 3.8, -1.0), (2.0, 0.4, 2.0), pivot=(0, HY + 4.0, 0), parent="Waist", rest=(12, 0, 16), paint=ba_cable)
-    chest = ba_strand(m, "Chest", "Waist", (0, CY, 0), CL, 1.4, rest=(0, 0, 9), up=True, flat=1.8, paint=ba_chest,
-                      extra=[(0.5, 0.9, 0.5, 0.0, 1.9, 0), (-0.5, 0.9, 0.45, 0.2, 1.6, -0.4),
-                             (0.5, -0.9, 0.5, 0.0, -1.9, 0), (-0.5, -0.9, 0.45, 0.2, -1.6, -0.4),
-                             (-0.75, 0.2, 0.4, -0.3, -0.5, -1.0), (0.75, -0.2, 0.45, 0.2, 0.4, -0.6),
-                             (-0.95, 1.0, 0.4, -0.2, -2.9, -0.8), (-0.95, -1.1, 0.4, -0.3, 2.6, -1.6),   # an X of strands across the front
-                             (0.9, 1.2, 0.4, 0.3, -2.0, -2.4)])
-    m.part("ChestWrap0", (-1.25, CY + 3.0, -1.7), (2.5, 0.4, 3.4), pivot=(0, CY + 3.2, 0), parent=chest, rest=(16, 0, -10), paint=ba_cable)
-    m.part("ChestWrap1", (-1.25, CY + 7.2, -2.1), (2.5, 0.4, 4.2), pivot=(0, CY + 7.4, 0), parent=chest, rest=(-12, 0, 8), paint=ba_cable)
 
-    # ---- Shoulders: hunched high, a bar of strand each side ----
-    sh = m.part("ShoulderL", (-0.55, SY - 0.55, 0.0), (1.1, 1.1, 5.0), pivot=(0, SY, 0.2), parent=chest, rest=(10, 0, 0), paint=ba_strand_paint)
-    m.part("ShoulderS0L", (-0.3, SY - 0.2, 0.4), (0.55, 0.55, 4.6), pivot=(0, SY, 0.4), parent=sh, rest=(8, 12, 0), paint=ba_strand_paint)
-    m.part("ShoulderKnotL", (-0.75, SY - 0.9, 4.0), (1.5, 1.6, 1.5), pivot=(0, SY - 0.1, 4.75), parent=sh, paint=ba_knot)
+    # ---- Hips and torso: a small knot, a twisted trunk of wire rising out of it, bent forward under the ceiling ----
+    hips = m.part("Hips", (-0.9, HY - 0.9, -1.4), (1.8, 1.8, 2.8), pivot=(0, HY, 0), paint=ba_knot)
+    ba_wire(m, "HipTangleA", hips, [(0.7, HY + 1.0, -1.5), (-0.2, HY - 0.2, 0.3), (-0.6, HY - 1.3, 1.8)], 0.45)
+    ba_wire(m, "HipBand", hips, ba_loop((0.1, HY + 0.2, 0), (1, 0.25, 0), (0, -0.15, 1), 1.55, n=5), 0.32)
 
-    # ---- Arms: floor-length bundles of strand, the fingers splayed on the carpet ----
+    ba_bone(m, "Waist", hips, (0, HY + 0.6, 0), WL, rest=(0, 0, 6), up=True)
+    a, b = (0, HY + 0.6, 0), (0, CY + 0.2, 0)
+    trunk = ba_kinks(a, b, 3, 0.95, rng)
+    ba_wire(m, "WaistWire", "Waist", trunk, 0.8)
+    ba_wire(m, "WaistTwist", "Waist", ba_twin(trunk, 0.5, rng), 0.45)
+    ba_wire(m, "WaistCoil", "Waist", ba_coil(a, b, 0.3, 0.62, 0.95, 1.2, 5, 0.4), 0.36)
+
+    ba_bone(m, "Chest", "Waist", (0, CY, 0), CL, rest=(0, 0, 9), up=True)
+    a, b = (0, CY, 0), (0, NY + 0.2, 0)
+    trunk = ba_kinks(a, b, 4, 1.0, rng, lean=(0.3, 0.0))
+    ba_wire(m, "ChestWire", "Chest", trunk, 0.85)
+    ba_wire(m, "ChestTwist", "Chest", ba_twin(trunk, 0.55, rng), 0.5)
+    ba_wire(m, "ChestCoil", "Chest", ba_coil(a, b, 0.22, 0.5, 1.05, 1.25, 5, 1.3), 0.38)
+    # a loose loop standing off the back of the chest, as if pulled out of the coil
+    ba_wire(m, "ChestLoop", "Chest", ba_loop((1.5, CY + 8.0, -0.9), (0.7, 0.7, 0.2), (0.1, -0.3, 1), 1.25, n=5, phase=2.6), 0.32)
+
+    # ---- Shoulders: one bar of wire across, hunched high, its ends curled down into hooks ----
+    m.part("ShoulderL", (-0.55, SY - 0.55, 0.0), (1.1, 1.1, 5.0), pivot=(0, SY, 0.2), parent="Chest", rest=(10, 0, 0),
+           faces=(), tag={"occlude": False})
+
+    # ---- Arms: floor-length kinked wires, the fingers splayed on the carpet ----
     UL, FL = 14.5, 14.4
     EY = SY - 0.2 - UL                                  # the elbow
     WY = EY - FL                                        # the wrist
-    ba_strand(m, "UpperArmL", sh, (0, SY - 0.2, 4.75), UL, 0.9, rest=(-13, 0, -15),
-              extra=[(0.4, 0.3, 0.5, -0.5, -0.6, 0), (-0.35, -0.3, 0.45, 0.6, 0.5, -0.5)])
-    m.part("ArmWrapL", (-0.8, SY - 7.4, 3.95), (1.6, 0.35, 1.6), pivot=(0, SY - 7.2, 4.75), parent="UpperArmL", rest=(20, 0, -14), paint=ba_cable)
-    ba_strand(m, "ForearmL", "UpperArmL", (0, EY, 4.75), FL, 0.8, rest=(0, 0, -7),
-              extra=[(0.35, 0.3, 0.45, -0.4, -0.7, 0), (-0.3, -0.3, 0.4, 0.5, 0.6, -0.3)])
-    m.part("ElbowL", (-0.7, EY - 0.7, 4.05), (1.4, 1.5, 1.4), pivot=(0, EY, 4.75), parent="ForearmL", paint=ba_knot)
-    m.part("HandL", (-0.5, WY - 2.3, 3.95), (1.0, 2.4, 1.6), pivot=(0, WY, 4.75), parent="ForearmL", rest=(0, 0, -4), paint=ba_knot)
     KY = WY - 2.2                                       # the knuckles
+    ba_bone(m, "UpperArmL", "ShoulderL", (0, SY - 0.2, 4.75), UL, rest=(-13, 0, -15))
+    ba_bone(m, "ForearmL", "UpperArmL", (0, EY, 4.75), FL, rest=(0, 0, -7))
+    hand = m.part("HandL", (-0.3, WY - 2.3, 4.45), (0.6, 2.4, 0.6), pivot=(0, WY, 4.75), parent="ForearmL", rest=(0, 0, -4),
+                  faces=(), tag={"occlude": False})
     for i, (dz, ln, tip, spread) in enumerate(((-0.6, 3.2, 2.6, 12), (-0.2, 3.8, 3.2, 4), (0.2, 3.6, 3.0, -4), (0.6, 3.0, 2.4, -12))):
         z = 4.75 + dz
-        m.part(f"Finger{i}L", (-0.18, KY - ln, z - 0.18), (0.36, ln, 0.36), pivot=(0, KY, z), parent="HandL",
+        m.part(f"Finger{i}L", (-0.18, KY - ln, z - 0.18), (0.36, ln, 0.36), pivot=(0, KY, z), parent=hand,
                rest=(spread, 0, -14), paint=ba_finger)
         m.part(f"Tip{i}L", (-0.15, KY - ln - tip, z - 0.15), (0.3, tip + 0.1, 0.3), pivot=(0, KY - ln + 0.05, z), parent=f"Finger{i}L",
                rest=(0, 0, -38), paint=ba_finger, tag={"tip": True})
-    # loose wires hanging off the shoulder and the elbow
-    ba_strand(m, "ShoulderWireL", sh, (0.5, SY - 0.6, 4.3), 8.5, 0.3, rest=(-6, 0, 8), flat=1.0, paint=ba_tendril)
-    ba_strand(m, "ElbowWireL", "ForearmL", (0.4, EY - 0.4, 5.2), 6.5, 0.9, rest=(-4, 0, 6), flat=0.3, paint=ba_tendril)
+    ba_bone(m, "ShoulderWireL", "ShoulderL", (0.5, SY - 0.6, 4.3), 8.5, rest=(-6, 0, 8))
+    ba_bone(m, "ElbowWireL", "ForearmL", (0.4, EY - 0.4, 5.2), 6.5, rest=(-4, 0, 6))
 
-    # ---- Legs: short, footless, frayed into roots on the carpet ----
+    # ---- Legs: short, footless, kinked, frayed into roots on the carpet ----
     TL, SL = 8.0, 6.9
     KN = HY - 0.4 - TL                                  # the knee
-    ba_strand(m, "ThighL", hips, (0, HY - 0.4, 1.3), TL, 0.95, rest=(-4, 0, -18),
-              extra=[(0.4, 0.3, 0.5, -0.5, -0.7, 0), (-0.4, -0.25, 0.5, 0.5, 0.6, -0.3)])
-    m.part("ThighWrapL", (-0.85, HY - 4.2, 0.45), (1.7, 0.4, 1.7), pivot=(0, HY - 4.0, 1.3), parent="ThighL", rest=(14, 0, -18), paint=ba_cable)
-    m.part("KneeL", (-0.7, KN - 0.7, 0.6), (1.4, 1.4, 1.4), pivot=(0, KN, 1.3), parent="ThighL", paint=ba_knot)
-    ba_strand(m, "ShinL", "ThighL", (0, KN + 0.1, 1.3), SL, 0.8, rest=(3, 0, 30),
-              extra=[(0.35, 0.25, 0.45, -0.3, -0.6, -0.2), (-0.3, -0.3, 0.4, 0.4, 0.5, -0.6)])
-    for i, (rx, rz, ln) in enumerate(((-55, -40, 2.8), (40, -30, 2.4), (-10, 60, 2.2), (25, -70, 3.0))):
-        ba_strand(m, f"Root{i}L", "ShinL", (0, KN + 0.1 - SL + 0.2, 1.3), ln, 0.35, rest=(rx, 0, rz), paint=ba_finger)
-        m.by_name[f"Root{i}L"].tag["tip"] = True
+    ba_bone(m, "ThighL", hips, (0, HY - 0.4, 1.3), TL, rest=(-4, 0, -18))
+    ba_bone(m, "ShinL", "ThighL", (0, KN + 0.1, 1.3), SL, rest=(3, 0, 30))
 
     m.mirror("ShoulderL", "ShoulderR")
     m.mirror("ThighL", "ThighR")
@@ -5364,32 +5408,79 @@ def bacteria():
     m.by_name["UpperArmR"].rest = (14, 0, -15)
     m.by_name["ForearmR"].rest = (0, 0, -9)
 
+    # The wire on each side, kinked differently left and right (z is mirrored for the right)
+    for sd, g in (("L", 1), ("R", -1)):
+        def P(x, y, z):
+            return (x, y, g * z)
+        # the shoulder bar, and its hook curling down over the top of the arm
+        bar = ba_kinks(P(0, SY, 0.0), P(0, SY + 0.1, 5.0), 2, 0.4, rng)
+        ba_wire(m, "ShoulderBar", f"Shoulder{sd}", bar, 0.75, sd=sd)
+        ba_wire(m, "ShoulderTwist", f"Shoulder{sd}", ba_twin(bar, 0.42, rng), 0.42, sd=sd)
+        ba_wire(m, "ShoulderHook", f"Shoulder{sd}", [P(0, SY + 0.1, 5.0), P(0.2, SY + 0.6, 6.0), P(0.3, SY - 0.6, 6.6),
+                                                     P(0.1, SY - 1.7, 6.1), P(-0.1, SY - 1.9, 5.4)], 0.5, copper=True, sd=sd)
+        # the upper arm: a kinked wire, a thinner one twisted round it, a coil wound on it below the shoulder
+        a, b = P(0, SY - 0.2, 4.75), P(0, EY, 4.75)
+        w1 = ba_kinks(a, b, 4, 0.75, rng)
+        ba_wire(m, "UpperArmWire", f"UpperArm{sd}", w1, 0.65, sd=sd)
+        ba_wire(m, "UpperArmTwist", f"UpperArm{sd}", ba_twin(w1[::2] + ([w1[-1]] if len(w1) % 2 == 0 else []), 0.42, rng), 0.4, sd=sd)
+        ba_wire(m, "UpperArmCoil", f"UpperArm{sd}", ba_coil(a, b, 0.18, 0.4, 0.95, 1.5, 6, 0.7 * g), 0.36, sd=sd)
+        # the forearm, and a tighter coil near the wrist
+        a, b = P(0, EY, 4.75), P(0, WY, 4.75)
+        w2 = ba_kinks(a, b, 3, 0.65, rng)
+        ba_wire(m, "ForearmWire", f"Forearm{sd}", w2, 0.6, sd=sd)
+        ba_wire(m, "ForearmTwist", f"Forearm{sd}", ba_twin(w2, 0.38, rng), 0.38, sd=sd)
+        ba_wire(m, "ForearmCoil", f"Forearm{sd}", ba_coil(a, b, 0.7, 0.84, 0.7, 0.85, 6, 2.0), 0.34, sd=sd)
+        # the hand: the wire splaying from the wrist to the four fingers
+        for i, dz in enumerate((-0.55, 0.05, 0.6)):
+            ba_seg(m, f"HandWire{i}{sd}", f"Hand{sd}", P(0, WY + 0.2, 4.75), P(0.15 * (i - 1), KY + 0.1, 4.75 + dz), 0.42, phase=i)
+        # loose wires: off the shoulder and the elbow, kinked, the ends bared
+        at = P(0.5, SY - 0.6, 4.3)
+        ba_wire(m, "ShoulderLoose", f"ShoulderWire{sd}", ba_kinks(at, _b_add(at, (0.3, -8.5, 0)), 2, 0.6, rng), 0.3, copper=True, sd=sd)
+        at = P(0.4, EY - 0.4, 5.2)
+        ba_wire(m, "ElbowLoose", f"ElbowWire{sd}", ba_kinks(at, _b_add(at, (0.4, -6.5, 0.4 * g)), 2, 0.6, rng), 0.3, copper=True, sd=sd)
+        # the thigh: a kinked wire, a twist, a coil
+        a, b = P(0, HY - 0.4, 1.3), P(0, KN, 1.3)
+        w3 = ba_kinks(a, b, 3, 1.15, rng)
+        ba_wire(m, "ThighWire", f"Thigh{sd}", w3, 0.75, sd=sd)
+        ba_wire(m, "ThighTwist", f"Thigh{sd}", ba_twin(w3, 0.45, rng), 0.42, sd=sd)
+        ba_wire(m, "ThighCoil", f"Thigh{sd}", ba_coil(a, b, 0.25, 0.6, 1.0, 1.5, 6, 1.1 * g), 0.36, sd=sd)
+        # the shin: kinked, ending in frayed roots splayed on the carpet
+        a, b = P(0, KN + 0.1, 1.3), P(0, KN + 0.1 - SL + 0.2, 1.3)
+        w4 = ba_kinks(a, b, 3, 1.0, rng)
+        ba_wire(m, "ShinWire", f"Shin{sd}", w4, 0.7, sd=sd)
+        ba_wire(m, "ShinTwist", f"Shin{sd}", ba_twin(w4[:1] + w4[2:], 0.4, rng), 0.4, sd=sd)
+        for i, (dx, dz, ln) in enumerate(((-2.4, 1.0, 2.8), (2.0, 1.2, 2.4), (0.4, -2.2, 2.6))):
+            end = _b_add(b, (dx, -0.4, g * dz))
+            mid = _b_add(_b_lerp(b, end, 0.5), (rng.uniform(-0.5, 0.5), 0.5, g * rng.uniform(-0.5, 0.5)))
+            ba_wire(m, f"Root{i}", f"Shin{sd}", [b, mid, end], 0.32, copper=True, sd=sd)
+    # a loose loop standing off the left thigh
+    ba_wire(m, "ThighLoopL", "ThighL", ba_loop((0.4, HY - 3.0, 2.6), (0.3, 1, 0), (0.2, 0, 1), 1.1, n=5, open_at=0.15, phase=0.4), 0.3)
+
     # Wires hanging off the hips: the cable wound round the body coming loose
     hip_wires = []
-    for i, (at, ln, rest, flat) in enumerate((((-0.9, HY - 0.8, 1.4), 9.0, (-10, 0, -6), 0.3), ((1.0, HY - 0.4, 0.4), 11.5, (4, 0, 10), 0.9),
-                                               ((0.2, HY - 0.8, -1.6), 7.5, (12, 0, 4), 0.3), ((-0.6, HY - 0.6, -0.8), 5.5, (6, 0, -12), 0.8))):
-        tw = 0.3 if flat == 0.9 else 0.9
-        ba_strand(m, f"HipWire{i}", hips, at, ln, tw, rest=rest, flat=flat, paint=ba_tendril)
+    for i, (at, ln, rest) in enumerate((((-0.9, HY - 0.8, 1.4), 9.0, (-10, 0, -6)), ((1.0, HY - 0.4, 0.4), 11.5, (4, 0, 10)),
+                                        ((0.2, HY - 0.8, -1.6), 7.5, (12, 0, 4)), ((-0.6, HY - 0.6, -0.8), 5.5, (6, 0, -12)))):
+        ba_bone(m, f"HipWire{i}", hips, at, ln, rest=rest)
+        ba_wire(m, f"HipLoose{i}", f"HipWire{i}", ba_kinks(at, _b_add(at, (0, -ln, 0)), 2, 0.7, rng), 0.3, copper=True)
         hip_wires.append(f"HipWire{i}")
 
-    # ---- Neck and head: craned forward; a faceless lump with a hollow where the face should be ----
-    ba_strand(m, "Neck", chest, (0, NY, 0), NL, 0.75, rest=(0, 0, 24), up=True,
-              extra=[(0.3, 0.3, 0.4, -0.3, -0.5, 0), (-0.3, -0.3, 0.4, 0.4, 0.5, -0.3)])
-    head = m.part("Head", (-2.2, HD - 0.6, -1.15), (3.0, 2.3, 2.3), pivot=(0, HD, 0), parent="Neck", rest=(10, 0, -32), paint=ba_head)
-    # the back of the skull bulging up and back over the neck, lopsided; a lump low on one side; cable wound round it
-    m.part("Crown", (-1.0, HD + 0.6, -1.3), (3.0, 2.0, 2.4), pivot=(0.4, HD + 1.0, 0), parent=head, rest=(-8, 6, -18), paint=ba_head)
-    m.part("Cheek", (-1.9, HD - 0.9, 0.5), (2.0, 1.4, 1.0), pivot=(-0.9, HD - 0.2, 1.0), parent=head, rest=(0, -12, 8), paint=ba_knot)
-    m.part("Lens", (-3.0, HD - 0.2, -0.85), (0.9, 1.7, 1.7), pivot=(-2.3, HD + 0.6, 0), parent=head, rest=(0, 0, 6), paint=ba_lens)
-    m.part("HeadWrap0", (-2.4, HD + 0.2, -1.35), (3.4, 0.35, 2.7), pivot=(-0.7, HD + 0.4, 0), parent=head, rest=(18, 0, -12), paint=ba_cable)
-    m.part("HeadWrap1", (-1.25, HD - 0.75, -1.35), (0.35, 2.9, 2.7), pivot=(-1.1, HD + 0.6, 0), parent=head, rest=(0, 16, 10), paint=ba_cable)
+    # ---- Neck and head: a twisted wire craned forward; a squat faceless lump ringed with a coil like a hat brim ----
+    ba_bone(m, "Neck", "Chest", (0, NY, 0), NL, rest=(0, 0, 24), up=True)
+    neck = ba_kinks((0, NY, 0), (0, HD + 0.2, 0), 2, 0.45, rng)
+    ba_wire(m, "NeckWire", "Neck", neck, 0.65)
+    ba_wire(m, "NeckTwist", "Neck", ba_twin(neck, 0.4, rng), 0.4)
+    head = m.part("Head", (-1.9, HD - 0.5, -1.5), (3.0, 1.6, 3.0), pivot=(0, HD, 0), parent="Neck", rest=(10, 0, -32), paint=ba_head)
+    m.part("Crown", (-1.5, HD + 1.0, -1.1), (2.2, 1.0, 2.2), pivot=(-0.4, HD + 1.0, 0), parent=head, paint=ba_head)
+    # the brim: a coil of wire round the head, wider than it and a little tilted, one loop of it sagging at the side
+    ba_wire(m, "Brim", head, ba_loop((-0.4, HD + 0.25, 0), (1, 0.08, 0), (0, -0.1, 1), 2.75, n=7, phase=0.3), 0.5)
+    ba_wire(m, "BrimSag", head, [(-1.0, HD + 0.2, 2.6), (-0.6, HD - 0.8, 3.1), (0.5, HD - 1.0, 2.9), (1.0, HD + 0.1, 2.4)], 0.35)
     jaw = m.part("Jaw", (-2.2, HD - 1.5, -1.1), (2.8, 1.0, 2.2), pivot=(0.4, HD - 0.9, 0), parent=head, paint=ba_knot)
-    # wires coming loose off the back of the skull and hanging from the jaw
-    for i, (at, ln, rest) in enumerate((((1.4, HD + 2.2, 0.6), 3.6, (14, 0, -64)), ((1.6, HD + 1.8, -0.6), 4.6, (-16, 0, -82)))):
-        ba_strand(m, f"CrownWire{i}", "Crown", at, ln, 0.3, rest=rest, up=True, paint=ba_finger)
+    # short frayed wires under the jaw and off the back of the head, bared at the ends
     jaw_wires = []
     for i, (at, ln, rest) in enumerate((((-1.6, HD - 1.4, 0.6), 5.0, (-6, 0, 28)), ((-0.6, HD - 1.4, -0.6), 6.5, (8, 0, 34)),
                                         ((1.6, HD + 1.6, 0.2), 5.5, (4, 0, 40)))):
-        ba_strand(m, f"JawWire{i}", jaw if i < 2 else "Crown", at, ln, 0.3, rest=rest, flat=0.6, paint=ba_tendril)
+        ba_bone(m, f"JawWire{i}", jaw if i < 2 else "Crown", at, ln, rest=rest)
+        ba_seg(m, f"JawLoose{i}", f"JawWire{i}", at, _b_add(at, (0.3, -ln * 0.45, 0.2)), 0.3, phase=i, copper=True)
         jaw_wires.append(f"JawWire{i}")
 
     # ---- The mould it comes out of: a stain on the floor, buried under the carpet except while it rises or falls ----
@@ -5439,6 +5530,12 @@ def bacteria():
         128: {"Chest": R(), "Neck": R()},
         129: {"Chest": R(x=3, z=-2), "Neck": R(x=-4, z=3)},
         131: {"Chest": R(), "Neck": R()},
+        # twitches in the wire: a hand jerks, a forearm kinks and lets go, a knee buckles for a frame, the head shivers
+        18: {"HandR": R()}, 19: {"HandR": R(x=6, z=-14)}, 21: {"HandR": R(x=2, z=-4)}, 23: {"HandR": R()},
+        52: {"ForearmL": R()}, 53: {"ForearmL": R(x=-5, z=-9)}, 54: {"ForearmL": R(x=3, z=-3)}, 57: {"ForearmL": R()},
+        80: {"ShinR": R(), "ThighR": R()}, 81: {"ShinR": R(z=9), "ThighR": R(z=-5)}, 83: {"ShinR": R(), "ThighR": R()},
+        140: {"Head": R(), "ShoulderL": R()}, 141: {"Head": R(x=5, z=-2), "ShoulderL": R(x=4)}, 142: {"Head": R(x=-3)},
+        143: {"Head": R(x=2, z=1), "ShoulderL": R()}, 145: {"Head": R()},
     }, overlay=drift(3, 1, 0, 150), step=10))
 
     # Lurk (6 s): standing at the end of the corridor, watching. The head tilts over, slowly, far further than a neck

@@ -55,7 +55,7 @@ class Part:
         self.parent = parent
         self.rest = tuple(rest)
         self.paint = paint
-        self.faces = faces or FACES
+        self.faces = FACES if faces is None else tuple(faces)   # () makes a bone with nothing drawn
         self.glow = glow
         self.tag = tag or {}
         self.children = []
