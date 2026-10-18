@@ -36,6 +36,7 @@ static class Deep {
     // Thresholds in the sampled area
     var counts = new Dictionary<string,(int n,int x,int z)>();
     void Count(string name, int x, int z) { counts.TryGetValue(name, out var c); counts[name] = (c.n + 1, c.n == 0 ? x : c.x, c.n == 0 ? z : c.z); }
+    var vendingDoors = new List<(int x, int z)>();
     for (int mz = 0; mz < n; mz++) for (int mx = 0; mx < n; mx++) {
       var tiles = layout.BuildMacro(m0x + mx, m0z + mz);
       for (int i = 0; i < tiles.Length; i++) { var t = tiles[i]; int x = (m0x + mx) * 32 + i % 32, z = (m0z + mz) * 32 + i / 32;
@@ -52,6 +53,7 @@ static class Deep {
         if (t.Level == 7 && t.Zone == 1 && t.Stack == 0 && t.Kind == TileKind.Floor) Count("L7 entry room floor", x, z);
         if (t.Level == 6 && t.Zone == 1 && t.Variant == Props.VendingPile) Count("L6.1 vending pile", x, z);
         if (t.Level == 6 && t.Zone == 1 && t.Kind == TileKind.Doorway && t.Detail == WorldLayout.SnackVendingFront) Count("L6.1 vending room door", x, z);
+        if (t.Level == 6 && t.Zone == 1 && t.Kind == TileKind.Doorway && t.Detail == WorldLayout.SnackVendingFront) vendingDoors.Add((x, z));
         if (t.Level == 7 && t.Detail == WorldLayout.L7Pillar) Count(t.Depth > 0 ? "L7 sea stack tile" : "L7 island pillar tile", x, z);
         if (t.Level == 7 && t.Kind == TileKind.Floor && t.Height > 0) Count($"L7 island h{t.Height}", x, z);
         if (t.Level == 7 && t.Kind == TileKind.Floor && t.Detail == WorldLayout.L7TarUnder) Count("L7 shelter tar", x, z);
@@ -68,5 +70,14 @@ static class Deep {
       }
     }
     foreach (var (k, v) in counts.OrderBy(p => p.Key)) Console.WriteLine($"{k,-22}: {v.n,6}  e.g. {v.x},{v.z}");
+    // A plan of each vending room's front (# wall, D doorway, B broken machine in the doorway, V working machine, p heap, * other prop, . floor)
+    foreach (var (dx, dz) in vendingDoors.Take(2)) {
+      Console.WriteLine($"vending room at {dx},{dz} (layout version {layout.Version}):");
+      for (int z = dz - 7; z <= dz + 7; z++) { var row = new System.Text.StringBuilder();
+        for (int x = dx - 5; x <= dx + 5; x++) { var t = At(x, z);
+          row.Append(t.Kind == TileKind.Wall ? '#' : t.Kind == TileKind.Doorway ? 'D' : t.Variant == Props.BrokenVending ? 'B' : t.Variant == Props.SnackVending ? 'V'
+            : t.Variant == Props.VendingPile ? 'p' : t.Variant != 0 && t.Variant < Decor.First ? '*' : '.'); }
+        Console.WriteLine("  " + row); }
+    }
   }
 }

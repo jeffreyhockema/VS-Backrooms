@@ -644,7 +644,7 @@ public sealed partial class WorldLayout
                     // machines piled on top of each other" (about one food court in two has one)
                     if (Version >= 5 && kind == SnackUnit.Store
                         && Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + ux0, mz * MacroSize + qz0, SaltL6Unit + 1)) < 0.25) kind = SnackUnit.VendingRoom;
-                    BuildSnackUnit(b, ux0, ux1, north ? qz0 : qz1, north ? qz1 : qz0, north, kind, ref rng);
+                    BuildSnackUnit(b, ux0, ux1, north ? qz0 : qz1, north ? qz1 : qz0, north, kind, ref rng, Version >= 9);
                 }
             }
         }
@@ -703,7 +703,7 @@ public sealed partial class WorldLayout
     /// walls stand at x0 - 1 and x1 + 1 and its back wall at zBack - 1 (or + 1); the front row is open under a
     /// lintel, where the neon sign hangs.
     /// </summary>
-    private static void BuildSnackUnit(Builder b, int x0, int x1, int zBack, int zFront, bool north, SnackUnit kind, ref Rng rng)
+    private static void BuildSnackUnit(Builder b, int x0, int x1, int zBack, int zFront, bool north, SnackUnit kind, ref Rng rng, bool broken = false)
     {
         int dz = north ? 1 : -1; // from the back toward the front
         ArchPier toHall = north ? ArchPier.South : ArchPier.North;
@@ -785,7 +785,8 @@ public sealed partial class WorldLayout
             case SnackUnit.VendingRoom:
             {
                 // A shop front like a store's, and behind it machines wall to wall, standing, toppled and piled on
-                // each other, dead but for the one in the doorway (which still works)
+                // each other, dead but for the one in the doorway (which still works; from layout version 9 a broken one,
+                // which can be broken up to get in)
                 for (int x = x0; x <= x1; x++)
                 {
                     ref Tile front = ref At(x, zFront);
@@ -800,7 +801,7 @@ public sealed partial class WorldLayout
                         ArchPier any = (ArchPier)rng.Range(0, 3);
                         bool first = z == zFront - dz;
                         At(x, z).Sealed = true; // nobody is put down in the gaps of the heap
-                        if (first && x == mid) Put(x, z, Props.SnackVending, toHall);
+                        if (first && x == mid) Put(x, z, broken ? Props.BrokenVending : Props.SnackVending, toHall);
                         else if (!first && rng.Chance(0.12)) continue; // a gap in the heap
                         else if (!first && rng.Chance(0.3)) Put(x, z, Props.VendingPile, any, 1); // toppled
                         else Put(x, z, Props.VendingPile, first ? toHall : any);

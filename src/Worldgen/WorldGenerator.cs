@@ -120,6 +120,7 @@ public sealed partial class WorldGenerator
         (Props.SnackVending, "snackvending", true, null, false),
         (Props.DrinkFridge, "drinkfridge", true, null, false),
         (Props.VendingPile, "vendingpile", true, new[] { "standing", "toppled", "ontop" }, false),
+        (Props.BrokenVending, "brokenvending", true, null, false),
         (Props.BonePile, "bonepile", false, null, false),
         (Props.MothHive, "mothhive", false, null, false),
         (Props.ScrapMetal, "scrapmetal", false, null, false),
