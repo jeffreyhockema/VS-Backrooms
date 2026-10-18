@@ -12,6 +12,7 @@ import random
 import detail_textures
 import fire_fx
 import l1props as L1
+import l4props as L4
 import modelkit as K
 from gen_shapes import louvre, octagon, office_chair, round_pipe, round_riser
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
@@ -424,12 +425,15 @@ def doors():
             }, f"{english}, locked")
             name(f"{code}-*", english)
             continue
+        # (Level 4 art) Drawn from a shape as the steel door: a veneer leaf and its hardware on all four sides. Still locked
+        # (a pry bar forces it, see PryBar.cs); same code, groups and drawn size. No `textures`: they would override the shape's.
+        shapes = {part: shape(f"officedoor-{part}", L4.office_door(part)) for part in ("lower", "upper")}
         block(code, {
             "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
             "creativeinventory": {"general": ["*"], "construction": ["*"]},
-            "blockmaterial": "Metal" if code == "metaldoor" else "Wood", "drawtype": "cube",
-            "textures": {"all": {"base": f"block/detail/{tex}-{{part}}"}},
-            "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL if code == "metaldoor" else WOOD,
+            "blockmaterial": "Wood", "drawtype": "json",
+            "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
+            "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": WOOD,
         }, f"{english}, locked")
         name(f"{code}-*", english)
 
@@ -1290,22 +1294,32 @@ def framed(nm, x1, y1, x2, y2, z, tex="metaldark", w=0.5, proud=0.5):
 
 def level4():
     ceiling_alt()
-    cube_block("officewindowalt", {"blackout": "Blacked-Out Window", "blinds": "Window with Blinds"}, ["blackout", "blinds"],
-               {"blackout": "officewindow-blackout", "blinds": "officewindow-blinds"}, material="Glass", sounds=GLASS,
-               comment="Windows papered over or shut behind blinds. Most of Level 4's windows are", drops=[],
-               lightHsvByType={"*-blinds": [36, 1, 4]}, lightAbsorptionByType={"*-blinds": 0, "*": 99})
+    shape("officeglass", L4.glass_partition())  # (Level 4 art) the partition glass, inset from the floor and ceiling (blocktype: gen_blocktypes)
+    # (Level 4 art) The blacked-out window is a model (a framed pane painted black, recessed, taped), the blinds stay a cube
+    # (a light: its glow needs the cube) in four versions: down, half drawn up (two), slats tilted open. Codes and kinds as
+    # they were; the rain picture on the clear window (officewindow, a cube too) is gone, see gen_textures.office_window.
+    blackout = shape("officewindowalt-blackout", L4.blackout_window())
+    block("officewindowalt", {
+        "variantgroups": [{"code": "kind", "states": ["blackout", "blinds"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Glass", "drawtypeByType": {"*-blackout": "json", "*": "cube"},
+        "shapeByType": {"*-blackout": {"base": blackout}},
+        "texturesByType": {"*-blinds": {"all": {"base": "block/detail/officewindow-blinds", "alternates": [
+            {"base": f"block/detail/officewindow-blinds-{k}"} for k in (2, 3, 4)]}}},
+        "sideopaqueByType": {"*-blackout": {"all": False}}, "randomizeAxes": "xyz",
+        "lightAbsorptionByType": {"*-blinds": 0, "*": 99}, "lightHsvByType": {"*-blinds": [36, 1, 4]},
+        "resistance": 4, "sounds": GLASS, "drops": [],
+    }, "Windows papered over or shut behind blinds. Most of Level 4's windows are")
+    name("officewindowalt-blackout", "Blacked-Out Window")
+    name("officewindowalt-blinds", "Window with Blinds")
     cube_block("officecarpetalt", {"papers": "Office Carpet", "stain": "Stained Office Carpet"}, ["papers", "stain"],
                {"papers": "officecarpet-papers", "stain": "officecarpet-stain"}, material="Cloth", sounds=CLOTH)
     cube_block("drywallbase", "Office Wall", ["plain"], {"plain": "drywall-base"}, comment="Office drywall with a dark vinyl skirting")
 
     decors = [
-        Decor("fountain", "Drinking Fountain", {1: [
-            bx("Back", (4, 2, -0.8), (12, 14, 0), "fountainsteel"), bx("Basin", (3, 8, -6), (13, 11, -0.8), "fountainsteel"),
-            bx("Bowl", (4, 11, -5.5), (12, 11.05, -1.3), "steeldark", faces=("up",)),
-            bx("Skirt", (5, 2, -3), (11, 8, -0.8), "fountainsteel"), bx("Spout", (7.5, 11, -4), (8.5, 12, -3), "steel"),
-            bx("Button", (12.6, 9, -4), (13.4, 10, -3), "steel")]}, cls=("BackroomsDispenser", "BackroomsDispenser")),
-        Decor("clock", "Wall Clock", {3: [bx("Rim", (4, 2, -1.5), (12, 10, 0), "metaldark", faces=("east", "west", "up", "down")),
-                                          bx("Face", (4, 2, -1.5), (12, 10, -1.4), "clockface", faces=("north",), full=True)]}),
+        # (Level 4 art) the fountain at a real height (rim 0.89 m, bubbler 0.975 m) and the clock as geometry
+        Decor("fountain", "Drinking Fountain", {1: L4.fountain()}, cls=("BackroomsDispenser", "BackroomsDispenser")),
+        Decor("clock", "Wall Clock", {3: L4.wall_clock()}),
         # (B7) the board in an aluminium frame (geometry), on a tray with a marker
         Decor("whiteboard", "Whiteboard", {2: plate("Board", (0, 1, -0.8), (16, 14, 0), "whiteboard", "steel") +
                                            framed("Frame", 0, 1, 16, 14, -0.8, "alu") +
@@ -1338,21 +1352,8 @@ def level4():
                "faces": {}, "children": office_chair()}]
     prop("officechairtipped", "Office Chair", [], box=(0.1, 0, 0.1, 0.9, 0.85, 0.9), material="Cloth", sounds=CLOTH)
     shape_tree("officechairtipped", tipped)  # prop() wrote an empty model under the same name: write the real one over it
-    prop("ficus", "Dead Ficus", [
-        bx("Pot", (5, 0, 5), (11, 7, 11), "planter"), bx("Soil", (5.5, 6.9, 5.5), (10.5, 7.03, 10.5), "wooddark", faces=("up",)),
-        bx("Trunk", (7.5, 7, 7.5), (8.5, 24, 8.5), "wood"), bx("Branch", (8.5, 15.5, 7.5), (11, 16.5, 8.5), "wood"),
-        bx("Branch2", (5, 19.5, 7.5), (7.5, 20.5, 8.5), "wood"),
-        # (round 2) the clumps close round the trunk and its two branches, the canopy narrowing upward
-        bx("Leaves1", (4.5, 15, 5), (12, 21, 11), "ficusleaves"), bx("Leaves2", (3.5, 19, 4.5), (10.5, 24.5, 11), "ficusleaves"),
-        bx("Leaves3", (5.5, 23.5, 5.5), (10.5, 28.5, 10.5), "ficusleaves"),
-        bx("Fallen1", (2, 0, 10), (4, 0.2, 12), "dryleaf"), bx("Fallen2", (11, 0, 3), (13, 0.2, 4.5), "dryleaf")],
-         box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False, material="Plant", sounds=CLOTH, extra={"renderpass": "OpaqueNoCull"})
-    stack = []
-    for i in range(4):
-        y = i * 2.2
-        stack += [bx(f"Seat{i}", (3, 6 + y, 3), (13, 7 + y, 13), "plasticchair"), bx(f"Back{i}", (3, 7 + y, 12), (13, 15 + y, 13), "plasticchair")]
-    stack += [bx(f"Leg{i}", (x, 0, z), (x + 1, 6, z + 1), "foldsteel") for i, (x, z) in enumerate(((3, 3), (12, 3), (3, 12), (12, 12)))]
-    prop("chairstack", "Stacked Chairs", stack, box=(0.18, 0, 0.18, 0.82, 1.5, 0.82), oriented=False)
+    prop("ficus", "Dead Ficus", L4.ficus(), box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False, material="Plant", sounds=CLOTH)
+    prop("chairstack", "Stacked Chairs", L4.chair_stack(), box=(0.18, 0, 0.18, 0.82, 1.5, 0.82), oriented=False)
     # (B7) the copier: drawers as inset fronts with grips, the control panel's buttons and the paper output as geometry
     copier = K.bevelled_box("Body", (1, 0.5, 3), (15, 13, 15), "copier", b=0.5)
     copier += [bx("Plinth", (1.5, 0, 3.5), (14.5, 0.5, 14.5), "metaldark", faces=("north", "south", "east", "west")),
@@ -1405,13 +1406,7 @@ def level4():
               bx("FootX", (3, 0, 7.25), (13, 1, 8.75), "metaldark"),
               bx("FootZ", (7.25, 0, 3), (8.75, 0.99, 13), "metaldark", faces=("north", "south", "east", "west", "up"))]
     prop("roundtable", "Break Room Table", table, box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False)
-    prop("receptiondesk", "Reception Desk", [
-        bx("Front", (0, 0, 2), (16, 17, 4), "receptionfront", faces=("north",), full=True),
-        bx("FrontSides", (0, 0, 2), (16, 17, 4), "laminate", faces=("east", "west", "south")),
-        bx("Counter", (0, 17, 1.5), (16, 18, 6.5), "countertop"), bx("Worktop", (0, 11, 4), (16, 12, 15), "laminate"),
-        bx("Back", (0, 0, 14), (16, 11, 15), "laminate"), bx("Crt", (4, 12, 8), (10, 18, 14), "crt"),
-        bx("Screen", (4.5, 13, 14), (9.5, 17, 14.2), "crtscreen", faces=("south",), full=True)],
-         box=(0, 0, 0.06, 1, 1.15, 1))
+    prop("receptiondesk", "Reception Desk", L4.reception_desk(), box=(0, 0, 0.06, 1, 1.15, 1))
     # (B7) the wastebasket is open: four mesh walls round a floor, paper balls in it and one on top
     prop("wastebasket", "Wastebasket", [
         bx("WallN", (5, 0, 5), (11, 6, 5.5), "wastebin"), bx("WallS", (5, 0, 10.5), (11, 6, 11), "wastebin"),
@@ -1420,10 +1415,7 @@ def level4():
         bx("Ball1", (6, 0.5, 6), (8, 2.5, 8), "paper"), bx("Ball2", (7.5, 0.5, 7.75), (9.75, 2.25, 10), "paper"),
         bx("Ball", (6.5, 5, 7), (8.5, 7, 9), "paper")],
          oriented=False, collide=False, extra={"selectionbox": {"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.4, "z2": 0.7}})
-    prop("coatstand", "Coat Stand", [
-        bx("Base", (5, 0, 5), (11, 1, 11), "wooddark"), bx("Pole", (7.5, 1, 7.5), (8.5, 28, 8.5), "wooddark"),
-        bx("HookX", (5, 26, 7.5), (11, 27, 8.5), "wooddark"), bx("HookZ", (7.5, 26, 5), (8.5, 27, 11), "wooddark"),
-        bx("Coat", (5.5, 14, 8.5), (10.5, 26, 11), "coat")], box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False)
+    prop("coatstand", "Coat Stand", L4.coat_stand(), box=(0.3, 0, 0.3, 0.7, 1.8, 0.7), oriented=False)
     prop("bench", "Bench", [bx("Seat", (0, 6, 5), (16, 7.5, 11), "benchwood"),
                             bx("LegL", (1, 0, 5.5), (2.5, 6, 10.5), "metaldark"), bx("LegR", (13.5, 0, 5.5), (15, 6, 10.5), "metaldark")],
          box=(0, 0, 0.3, 1, 0.47, 0.7))

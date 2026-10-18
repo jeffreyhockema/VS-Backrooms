@@ -2355,37 +2355,32 @@ def filing_paint(top=False):
 
 
 def office_window(alt=0):
-    """The window onto rain and fog that never ends (a light block: a cube, its light unchanged): a dark painted frame
-    with a lit inner edge and a mullion, and between them fogged glass, an even grey-blue with a slow cloudy mottle
-    (no gradient: the windows stack and run on, so a gradient would band), long thin rain runs, each a pale line that
-    wavers down the pane with a darker trail and a bead where it stops, and a few droplets. The old one's 60 short
-    streaks read as static."""
-    img = M.noise_hv((92, 99, 108), 2, 521, S, 7, (16, 8), hue=1.5)
-    rng = random.Random(522 + 31 * alt)  # (round 2) a second version, so the runs are not the same on every pane
+    """(Level 4 art) The clear window, a light block (a cube, its light unchanged): the pane is dark, cold glass with nothing
+    to see through it (the wiki: any window not blacked out is a trap), a faint soft reflection of the room's strip lights
+    and a few smudges of old condensation, no rain: the picture of rain runs read as a static image and is gone. In a
+    satin aluminium frame with a lit inner edge and a mullion. Even, no gradient (the windows stack and run on)."""
+    img = M.noise_hv((58, 64, 72), 2, 521 + alt, S, 5, (16, 8), hue=1.5)
+    rng = random.Random(522 + 31 * alt)
     px = img.load()
-    for _ in range(11):
-        x, y = rng.uniform(3, 28), rng.randrange(S)
-        for k in range(rng.randint(7, 16)):
-            xi, yi = int(x) % S, (y + k) % S
-            px[xi, yi] = M.rgba(M.mix(px[xi, yi], (150, 160, 172), 0.55))
-            M.touch(img, xi + 1, yi, -0.06)
-            x += rng.choice((0, 0, 0, 0.5, -0.5))
-        M.touch(img, int(x), y + k + 1, 0.22)
-    for _ in range(26):
-        x, y = rng.randrange(S), rng.randrange(S)
-        M.touch(img, x, y, 0.16)
-        M.touch(img, x, y + 1, -0.06)
-    frame = (42, 44, 48)
+    for _ in range(3 + alt):  # soft smudges of condensation: a pale blot a few px wide
+        cx, cy, r = rng.randrange(4, 28), rng.randrange(4, 28), rng.randint(2, 4)
+        for y in range(cy - r, cy + r + 1):
+            for x in range(cx - r, cx + r + 1):
+                d = math.hypot(x - cx, y - cy)
+                if d <= r and 3 <= x < S - 3 and 3 <= y < S - 3:
+                    px[x, y] = M.rgba(M.lift(px[x, y], 7 * (1 - d / r)))
+    for y in range(3, S - 3):  # the reflection of a strip light: a faint pale bar, offset by version
+        for x in range(6 + 8 * alt, 8 + 8 * alt):
+            px[x, y] = M.rgba(M.lift(px[x, y], 5))
+    frame = (154, 156, 154)
     for i in range(S):
         for (x, y) in ((i, 0), (i, 1), (0, i), (1, i), (i, S - 1), (i, S - 2), (S - 1, i), (S - 2, i), (16, i)):
-            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2)))
-    for i in range(2, S - 2):  # the frame's inner edge: lit at the top and left, shade on the glass under the head
-        px[i, 2] = M.rgba(M.lift(px[i, 2], -14))
-        px[2, i] = M.rgba(M.lift(px[2, i], -8))
-        px[i, 1] = M.rgba(M.lift(frame, 14))
-        px[1, i] = M.rgba(M.lift(frame, 10))
-        px[15, i] = M.rgba(M.lift(px[15, i], -6))
-        px[17, i] = M.rgba(M.lift(px[17, i], 6))
+            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2) + (8 if y <= 1 or x <= 1 else -10 if y >= S - 2 or x >= S - 2 else 0)))
+    for i in range(2, S - 2):  # the frame's inner edge: shade on the glass under the head and beside the left jamb
+        px[i, 2] = M.rgba(M.lift(px[i, 2][:3], -16))
+        px[2, i] = M.rgba(M.lift(px[2, i][:3], -10))
+        px[15, i] = M.rgba(M.lift(px[15, i][:3], -8))
+        px[17, i] = M.rgba(M.lift(px[17, i][:3], 6))
     return img
 
 

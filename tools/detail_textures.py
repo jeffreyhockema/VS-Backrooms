@@ -1340,6 +1340,10 @@ def level4():
     for x in range(0, S, 8):
         ImageDraw.Draw(img).line([0, x, S - 1, x], fill=rgb(0x9A7E54))
     save(img, "benchwood")
+    # (Level 4 art) the dead ficus, reception desk, coat stand, stacked chairs, clock, office door, fountain and windows;
+    # written last, so the office door and the blinds replace the earlier versions above
+    import l4props_tex
+    l4props_tex.generate()
 
 
 # ---------------- Level 5 ----------------

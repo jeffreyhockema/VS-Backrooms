@@ -78,6 +78,7 @@ EXT = {
     "lamedge": "backrooms:block/level4/laminate-edge",
     "lamfleck": "backrooms:block/level4/laminate-fleck",
     "alu": "backrooms:block/level4/partitionrail-top",
+    "officeglass": "backrooms:block/level4/officeglass",
     "cable": "backrooms:block/level3/cable",
     "insulator": "backrooms:block/level3/insulator",
     "transformer": "backrooms:block/level3/transformer",

@@ -300,8 +300,10 @@ def level4():
                                                                          {"base": "block/level4/officewindow-2"}]))
     glass = {
         "code": "officeglass", "creativeinventory": {"general": ["*"], "construction": ["*"]},
-        "blockmaterial": "Glass", "drawtype": "cube", "renderpass": "Transparent",
-        "textures": {"all": {"base": "block/level4/officeglass"}},
+        # (Level 4 art) a model from detail/officeglass.json (gen_detail): the pane inset 0.05 from the floor and ceiling planes
+        # it used to lie on (the shimmer against the carpet and the ceiling tiles)
+        "blockmaterial": "Glass", "drawtype": "json", "renderpass": "Transparent",
+        "shape": {"base": "block/detail/officeglass"},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "faceCullMode": "NeverCull",
         "lightAbsorption": 0, "resistance": 1, "sounds": GLASS,
     }
