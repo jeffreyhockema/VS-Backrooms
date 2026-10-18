@@ -110,9 +110,12 @@ public sealed partial class WorldLayout
         // A ledge of concrete along any wall this cell shares with another level. The walls on its east and south
         // sides belong to the neighbouring cells, so those are judged by the neighbour's level.
         bool eastWall = LevelAt(mx + 1, mz) != 7, southWall = LevelAt(mx, mz + 1) != 7, cornerWall = LevelAt(mx + 1, mz + 1) != 7;
+        // (From layout version 9 this cell lines those walls with its own, a tile in: the ledge runs along the lining)
+        bool eastLined = LinesWallTo(7, mx, mz, mx + 1, mz), southLined = LinesWallTo(7, mx, mz, mx, mz + 1);
         bool WallAt(int x, int z)
         {
             if (x < 0 || z < 0) return false;
+            if (x == MacroSize - 1 && eastLined || z == MacroSize - 1 && southLined) return true;
             if (x >= MacroSize && z >= MacroSize) return cornerWall;
             if (x >= MacroSize) return eastWall;
             if (z >= MacroSize) return southWall;

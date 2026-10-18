@@ -603,8 +603,9 @@ public sealed partial class WorldLayout
         bool InCell(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize;
         bool IsOpen(int x, int z) => InCell(x, z) && b.At(x, z).Kind is TileKind.Floor or TileKind.Bars;
         bool IsWalkway(int x, int z) => InCell(x, z) && b.At(x, z).Kind == TileKind.Floor && b.At(x, z).Variant == 0;
-        // Near Level 2 the overhead runs are still pipes; deeper in they are cable bundles
-        bool pipes = TouchesLevel(mx, mz, 2);
+        // Near Level 2 the overhead runs are still pipes; deeper in they are cable bundles (up to layout version 8; from 9
+        // they are cable bundles right up to Level 2's wall)
+        bool pipes = Version < 9 && TouchesLevel(mx, mz, 2);
 
         for (int lz = 0; lz < MacroSize; lz++)
         {

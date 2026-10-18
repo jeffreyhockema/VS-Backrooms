@@ -223,7 +223,17 @@ public sealed partial class WorldLayout
     /// WallRiser, tunnelfitting-riservalve), a wall cabinet's conduits run on up into the ceiling
     /// (tunnelfitting-machinerytop), and a pump gallery's machine cabinet feeds the overhead bundle by a pipe up the wall
     /// behind it (machinecabinetfeed, feedpipe), whose wall carries no wall cabinet, valve or riser valve to clash with it
-    /// (PlaceL2Valve, ClearBehindCabinets; the generator's TunnelFitting).</item>
+    /// (PlaceL2Valve, ClearBehindCabinets; the generator's TunnelFitting).
+    /// Level edges: each level keeps its own look to the wall between it and the next (WorldLayout.Linings.cs). The cell on
+    /// the west or north side of a wall its neighbour owns lines it with its own wall a tile in (LineLevelWalls; in 1-8 that
+    /// side saw the next level's face), so the way through a gate is two deep, the next level's doorway at its far end;
+    /// Levels 0, 2 and 6 move their hallway along the wall in a tile with it (LiningWidens, EdgeHall), Level 7 its ledge,
+    /// and the fields line the rims of the enclosed places past the rings with their rock. The blends go: Level 0 no longer
+    /// wears to concrete and loses ceiling tiles beside Level 1 (WearAway), Level 1 grows no pipes beside Level 2
+    /// (AddCeilingPipes), Level 3's runs beside Level 2 are cables like the rest, Level 4 no longer turns hotel red beside
+    /// Level 5 (WarmTowardsHotel), and the Snackrooms' own edges stay Level 6's wall outside the mall's. Only the way through
+    /// a gate keeps a touch of the next level: its doorway or gap and the tile before it are worn to concrete in Level 0
+    /// toward Level 1 and are hotel carpet in Level 4 toward Level 5 (WearThresholds).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
@@ -481,15 +491,17 @@ public sealed partial class WorldLayout
         };
     }
 
-    /// <summary>A solid wall between two levels, pierced by a few doorways.</summary>
-    private Edge LevelBoundaryEdge(ref Rng rng, int mx, int mz, int level, int otherLevel, bool halls, bool west)
+    /// <summary>
+    /// The face a level gives the wall it owns between it and another level (<paramref name="halls"/>: the cell is one
+    /// of Level 1's maintenance halls).
+    /// </summary>
+    private WallPattern BoundaryPattern(int level, int otherLevel, int mx, int mz, bool halls)
     {
-        // The suburbs give way to the fields with no wall at all
-        if (IsOpenSky(level) && IsOpenSky(otherLevel)) return new Edge { Pattern = WallPattern.Rock };
-        WallPattern pattern = level == 0 ? RegionAt(mx, mz).PrimaryPattern : WallPattern.Chevron;
-        pattern = level switch
+        // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
+        if (IsOpenSky(level) || IsOpenSky(otherLevel)) return WallPattern.Rock;
+        return level switch
         {
-            0 => pattern,
+            0 => RegionAt(mx, mz).PrimaryPattern,
             1 => halls ? WallPattern.WhiteBlock : WallPattern.Concrete,
             2 => WallPattern.Tunnel,
             3 => Level3Material(mx, mz),
@@ -507,8 +519,14 @@ public sealed partial class WorldLayout
             Level188 => WallPattern.L188Wall,
             _ => WallPattern.Rock, // the caves; and the cliffs the open levels meet the rest at
         };
-        // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
-        if (IsOpenSky(level) || IsOpenSky(otherLevel)) pattern = WallPattern.Rock;
+    }
+
+    /// <summary>A solid wall between two levels, pierced by a few doorways.</summary>
+    private Edge LevelBoundaryEdge(ref Rng rng, int mx, int mz, int level, int otherLevel, bool halls, bool west)
+    {
+        // The suburbs give way to the fields with no wall at all
+        if (IsOpenSky(level) && IsOpenSky(otherLevel)) return new Edge { Pattern = WallPattern.Rock };
+        WallPattern pattern = BoundaryPattern(level, otherLevel, mx, mz, halls);
         var edge = new Edge { Pattern = pattern, Base = BaseFor(pattern), Tall = true, ExitSigns = level == 1 };
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
 
@@ -679,14 +697,18 @@ public sealed partial class WorldLayout
         }
 
         for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i].Level = (byte)b.Level;
-        OrientDoorways(b);
         Edge east = GetEdge(mx + 1, mz, west: true), south = GetEdge(mx, mz + 1, west: false);
+        // (From layout version 9, this level's own wall in front of the next level's: WorldLayout.Linings.cs)
+        LineLevelWalls(b, mx, mz, west, north, east, south);
+        OrientDoorways(b);
         // The Snackrooms are sealed on purpose, and their whole shop fronts are doorways
         if (!(b.Level == 6 && IsSnackrooms(mx, mz)))
         {
             ClearDoorways(b, east, south);
             SealPockets(b, east, south);
             OpenGates(b, mx, mz, west, north, east, south);
+            // (From layout version 9, the way through a gate worn the way the next level begins)
+            WearThresholds(b, mx, mz, west, north, east, south);
         }
         // (After the doorways are cleared and the pockets sealed, so the camp stays as it is laid out)
         if (b.Level == 4 && Version >= 5) PitchL4Camp(b, mx, mz);

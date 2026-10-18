@@ -165,8 +165,9 @@ public sealed partial class WorldLayout
                     && Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + x, mz * MacroSize + z, SaltL1Detail + 3)) < 0.08) t.Variant = 1;
             }
 
-        // Near Level 2, pipes start to appear along the ceiling
-        if (TouchesLevel(mx, mz, 2)) AddCeilingPipes(b, mx, mz);
+        // Near Level 2, pipes start to appear along the ceiling (up to layout version 8; from 9 a level keeps its own
+        // look to its walls)
+        if (Version < 9 && TouchesLevel(mx, mz, 2)) AddCeilingPipes(b, mx, mz);
 
         HangFireDoors(b, mx, mz);
         // Very rarely, a red EXIT door where no door should be: Level ! (its own salt: nothing else moves)

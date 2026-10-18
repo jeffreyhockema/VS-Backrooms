@@ -167,10 +167,11 @@ public sealed partial class WorldLayout
     {
         var edge = new Edge { Pattern = WallPattern.Tunnel, Planned = true };
         bool[] walled = WalledNeighbours(2, mx, mz);
+        var wide = walled == null ? default : LiningWidens(2, mx, mz);
         for (int i = 1; i < MacroSize; i++)
         {
             int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
-            bool open = L2At(gx, gz).Part != L2Part.Rock || (west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0));
+            bool open = L2At(gx, gz).Part != L2Part.Rock || (west ? EdgeHall(walled, 0, i, wide) : EdgeHall(walled, i, 0, wide));
             edge.Tiles[i] = open ? EdgeTile.Open : EdgeTile.Wall;
         }
         return edge;
