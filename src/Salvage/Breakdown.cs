@@ -116,7 +116,7 @@ public static class Breakdown
     /// </summary>
     private static readonly HashSet<string> FixedCodes = new()
     {
-        "firedoor", "metaldoor", "officedoor", "noclipwall", "tripwire", "manhole", "cinemascreen", "twilightgate",
+        "firedoor", "metaldoor", "officedoor", "noclipwall", "tripwire", "manhole", "manholeladder", "cinemascreen", "twilightgate",
         "glassmountain", "kingstatue", "megmarker", "backdrop", "diorama",
         // Invisible sound emitters
         "cityhum", "subwayrumble", "waveecho",
@@ -131,7 +131,7 @@ public static class Breakdown
             "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitlintelpair", "exitsign",
             "tunnelwall", "tunnelceiling", "l6block", "l6deco", "whiteblock", "whitecam", "oceanceiling",
             "subwaywall", "subwaydeco", "citypier", "cityfacade", "cityroof", "citydeco", "chimney", "snackceiling",
-            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting");
+            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting", "tunnelstep");
         Add(Floor, "concretefloor", "l1hallfloor", "dustyfloor", "l3floor", "subwayfloor", "cityfloor", "parkfloor", "snackfloor",
             "funfloor", "hotelfloor");
         Add(CarpetFloor, "carpet", "officecarpet", "officecarpetalt", "hotelcarpet");

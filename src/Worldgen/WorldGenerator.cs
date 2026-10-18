@@ -397,6 +397,9 @@ public sealed partial class WorldGenerator
 
     // Level 3
     private readonly int dustyFloorId, plasterCeilingId, transformerId, windowGlowId, manholeId, rungsId, sanctumStoneId;
+    /// <summary>A Level 3 manhole's ladder from layout version 9: [top left, top right, left, right][side it is on]; and the half step out of the water.</summary>
+    private readonly int[,] manholeLadderIds = new int[4, 4];
+    private readonly int tunnelStepId;
     private readonly Dictionary<WallPattern, int> l3WallIds = new();
     private readonly Dictionary<(WallPattern, ushort), int> l3FixtureIds = new();
     /// <summary>A Sanctum's vaulted ceiling: a plain vault cell, and one with a boss.</summary>
@@ -665,6 +668,11 @@ public sealed partial class WorldGenerator
         windowGlowId = BlockId("backrooms:windowglow");
         manholeId = BlockId("backrooms:manhole");
         rungsId = BlockId("backrooms:rungs");
+        string[] ladderParts = { "topleft", "topright", "left", "right" }, ladderSides = { "north", "east", "south", "west" };
+        for (int part = 0; part < 4; part++)
+            for (int side = 0; side < 4; side++)
+                manholeLadderIds[part, side] = BlockId($"backrooms:manholeladder-{ladderParts[part]}-{ladderSides[side]}");
+        tunnelStepId = BlockId("backrooms:tunnelstep");
         sanctumStoneId = Id("sanctumstone-plain");
         sanctumCeilingIds[0] = Id("sanctumceiling-vault");
         sanctumCeilingIds[1] = Id("sanctumceiling-boss");
@@ -1051,7 +1059,12 @@ public sealed partial class WorldGenerator
             // Level 3's flooded utility tunnel: 3 high, knee-deep freezing water, reached down a manhole shaft, its
             // floor deep in the clay silt the water has carried in
             if (rel == -5) return clayId != 0 ? clayId : concreteId;
+            // Layout version 9's manholes: the ladder from the dry landing at its foot up to the lip, the landing round
+            // it (shaft, a block either side and the row behind), and a half step out of the water onto it
+            if (t.Under == 2 && t.Zone != 0) return rel == -4 ? concreteId : ManholeLadder(t, false);
+            if (t.Under == 1 && t.Zone == WorldLayout.L3TunnelLanding) return rel is -4 or -1 ? concreteId : 0;
             if (rel == -4) fluid = waterId;
+            if (rel == -4 && t.Under == 1 && t.Zone == WorldLayout.L3TunnelStep && tunnelStepId != 0) return tunnelStepId;
             if (rel == -1) return t.Under == 2 ? rungsId : concreteId;
             return t.Under == 2 ? rungsId : 0;
         }
@@ -1063,6 +1076,13 @@ public sealed partial class WorldGenerator
         if (t.Kind == TileKind.Water && rel == -1) return floorIds[(int)FloorKind.Soaked];
         return concreteId;
     }
+
+    /// <summary>
+    /// A piece of a layout version 9 manhole's ladder: the top (at the floor, its rails standing on above it, the open
+    /// lid against the far side) or a length below, the left or right half as seen facing it, on the tile's Pier side.
+    /// </summary>
+    private int ManholeLadder(in Tile t, bool top) =>
+        manholeLadderIds[(top ? 0 : 2) + (t.Zone == WorldLayout.L3ShaftLeft ? 0 : 1), Facing(t.Pier)];
 
     // ---- Shared detail ----
 
@@ -1579,7 +1599,7 @@ public sealed partial class WorldGenerator
         int room = t.Grand ? WorldGeometry.MaxRoomHeight : t.Low ? WorldGeometry.RoomHeight - 1 : WorldGeometry.RoomHeight;
         if (rel > room + 1) return concreteId;
         if (t.Low && rel == room && !t.IsWallLike && t.Kind != TileKind.Bars) return 0; // nothing hangs where there is barely room to pass
-        if (rel == 0) return t.Under == 2 ? manholeId : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
+        if (rel == 0) return t.Under == 2 ? (t.Zone != 0 ? ManholeLadder(t, true) : manholeId) : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
         if (rel == room + 1)
         {
             if (t.IsWallLike) return concreteId;

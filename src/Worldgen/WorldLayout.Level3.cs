@@ -302,7 +302,12 @@ public sealed partial class WorldLayout
 
         CarveMachineNiches(b, mx, mz);
         DecorateLevel3(b, mx, mz);
-        if (kind is L3Kind.Tight or L3Kind.Wide && rng.Chance(0.3)) AddFloodedTunnel(b);
+        if (kind is L3Kind.Tight or L3Kind.Wide && rng.Chance(0.3))
+        {
+            // (From layout version 9 a manhole two blocks long with a ladder up to its lip and a dry landing at its foot)
+            if (Version >= 9) AddManholeTunnel(b);
+            else AddFloodedTunnel(b);
+        }
     }
 
     /// <summary>
@@ -744,7 +749,10 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>A manhole in a corridor dropping into a freezing, flooded tunnel running beneath it.</summary>
+    /// <summary>
+    /// Layout versions 1-8: a manhole in a corridor dropping into a freezing, flooded tunnel running beneath it (one
+    /// block, its rungs ending a block under the lip, the foot of them in the water; see <see cref="AddManholeTunnel"/>).
+    /// </summary>
     private static void AddFloodedTunnel(Builder b)
     {
         // Find a straight west-east corridor run of at least 6 blocks
@@ -767,5 +775,81 @@ public sealed partial class WorldLayout
                 }
             }
         }
+    }
+
+    // ---- Level 3's manholes from layout version 9 ----
+
+    /// <summary>
+    /// <see cref="Tile.Zone"/> of a Level 3 manhole shaft tile (<see cref="Tile.Under"/> 2) from layout version 9: the
+    /// left or right half of the two-block opening as seen facing its ladder (which is on the tile's
+    /// <see cref="Tile.Pier"/> side). 0 is the one-block manhole of versions 1-8.
+    /// </summary>
+    public const byte L3ShaftLeft = 1, L3ShaftRight = 2;
+    /// <summary>
+    /// <see cref="Tile.Zone"/> of a Level 3 tunnel tile (<see cref="Tile.Under"/> 1) from layout version 9: the dry
+    /// concrete landing at the foot of a manhole's ladder (no water within reach of the rungs), or the half step up
+    /// onto it from the flooded tunnel.
+    /// </summary>
+    public const byte L3TunnelLanding = 3, L3TunnelStep = 4;
+
+    /// <summary>
+    /// Layout version 9: a manhole two blocks long against a corridor's wall, its ladder two wide on the side the
+    /// corridor goes on past it, from the landing at the foot up to the lip, and a tunnel under the corridor flooded
+    /// beyond the landing (the clay is under the water). The ladder's back is a row of floor that is left clear, so
+    /// a player climbing out walks straight off the top of it, and the corridor is never closed by the hole. The
+    /// landing takes the shaft, a block either side of it and the row behind it, so nowhere within a climbing
+    /// player's reach of the rungs is in the water (feet in the water and a hand on the rungs, the game moves no one
+    /// sideways: the foot of the old ladder held people fast). Where no stretch of corridor fits there is no tunnel.
+    /// </summary>
+    private static void AddManholeTunnel(Builder b)
+    {
+        static bool Plain(in Tile t) => t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && !t.Sealed && t.Stack == 0
+            && t.Stair == 0 && t.Under == 0;
+        // The best spot: a wall behind the opening (so its lid has something to lean on), else the first that fits
+        (int Z, int Start, int End, int K, ArchPier Side)? best = null;
+        bool bestWalled = false;
+        for (int z = 1; z < MacroSize - 1 && !bestWalled; z++)
+        {
+            int runStart = -1;
+            for (int x = 1; x <= MacroSize - 1 && !bestWalled; x++)
+            {
+                bool ok = x < MacroSize - 1 && Plain(b.At(x, z));
+                if (ok && runStart < 0) runStart = x;
+                if (ok || runStart < 0) continue;
+                // A run [runStart, x): the landing at k - 1 .. k + 2, at least two flooded blocks after it
+                for (int k = runStart + 1; k + 4 < x && !bestWalled; k++)
+                    foreach (ArchPier side in new[] { ArchPier.South, ArchPier.North })
+                    {
+                        int exit = side == ArchPier.South ? z + 1 : z - 1, back = side == ArchPier.South ? z - 1 : z + 1;
+                        if (exit < 1 || exit > MacroSize - 2 || !Plain(b.At(k, exit)) || !Plain(b.At(k + 1, exit))) continue;
+                        bool walled = b.At(k, back).Kind == TileKind.Wall && b.At(k + 1, back).Kind == TileKind.Wall;
+                        if (best == null || walled && !bestWalled) (best, bestWalled) = ((z, runStart, x, k, side), walled);
+                        if (walled) break;
+                    }
+                runStart = -1;
+            }
+        }
+        if (best is not { } m) return;
+        int bz = m.Side == ArchPier.South ? m.Z - 1 : m.Z + 1;
+        for (int x = m.Start; x < m.End; x++) b.At(x, m.Z).Under = 1;
+        for (int x = m.K - 1; x <= m.K + 2; x++)
+        {
+            b.At(x, m.Z).Zone = L3TunnelLanding;
+            // The landing reaches under the row behind the opening too, where that is wall or bare floor
+            ref Tile behind = ref b.At(x, bz);
+            if (behind.Under == 0 && (behind.Kind == TileKind.Wall || Plain(behind))) { behind.Under = 1; behind.Zone = L3TunnelLanding; }
+        }
+        // The opening, its two halves named as seen facing the ladder
+        bool eastIsLeft = m.Side == ArchPier.South;
+        foreach (int x in new[] { m.K, m.K + 1 })
+        {
+            ref Tile t = ref b.At(x, m.Z);
+            t.Under = 2;
+            t.Pier = m.Side;
+            t.Zone = (x == m.K + 1) == eastIsLeft ? L3ShaftLeft : L3ShaftRight;
+        }
+        // A half step up out of the water onto the landing, either side
+        if (m.K - 2 >= m.Start) b.At(m.K - 2, m.Z).Zone = L3TunnelStep;
+        b.At(m.K + 3, m.Z).Zone = L3TunnelStep;
     }
 }

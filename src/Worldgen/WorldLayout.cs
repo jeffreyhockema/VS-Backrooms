@@ -250,7 +250,13 @@ public sealed partial class WorldLayout
     /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
     /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
     /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
-    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.</item>
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.
+    /// Level 3's manholes (AddManholeTunnel; in 1-8 AddFloodedTunnel, one block whose rungs stopped a block under the floor
+    /// with their foot in the water) open two blocks long against a corridor wall, the corridor's other row left clear
+    /// behind a ladder two wide (manholeladder) that runs from a dry landing up to the lip; the landing (shaft, a block
+    /// either side, the row behind) keeps the water out of reach of the rungs, with a half step (tunnelstep) down into the
+    /// flooded tunnel beyond. Tile.Zone tells the parts (L3ShaftLeft/Right with the ladder on the Pier side,
+    /// L3TunnelLanding, L3TunnelStep); a cell that has no such stretch of corridor has no tunnel.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

@@ -67,6 +67,8 @@
 	"block-ironbars-*": "Iron Bars",
 	"block-manhole": "Manhole",
 	"block-rungs": "Ladder Rungs",
+	"block-manholeladder-*": "Manhole Ladder",
+	"block-tunnelstep": "Tunnel Step",
 
 	"block-officewall": "Drywall",
 	"block-officewindow": "Window",

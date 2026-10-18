@@ -284,6 +284,29 @@ def level3():
     rungs = {"x1": 0.1875, "y1": 0, "z1": 0, "x2": 0.8125, "y2": 1, "z2": 0.1875}
     shaped("level3", "rungs", "block/rungs", material="Metal", sounds=METAL, oriented=False,
            comment="Ladder rungs down the manhole shaft", climbable=True, collisionbox=rungs, selectionbox=rungs)
+    # Layout version 9's manholes (WorldLayout.AddManholeTunnel, gen_shapes.manhole_ladder): an opening two blocks long
+    # with a ladder two wide down the side the corridor goes on past it, in halves (left and right as seen facing it),
+    # the top half at the floor. The collision box is the vanilla ladder's, 3 px deep against the wall, from the
+    # landing to the lip, so the opening is the whole two blocks bar the ladder, a player stepping in anywhere is
+    # within the game's reach of the rungs (0.5 blocks) and stops, and climbing out goes straight off the top of the
+    # ladder onto the floor behind it. The lip, rails above the floor and the open lid are drawn only.
+    parts = ["topleft", "topright", "left", "right"]
+    ladder_box = {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 0.1875}
+    write("level3", "manholeladder", {
+        "code": "manholeladder",
+        "variantgroups": [{"code": "part", "states": parts}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-topleft-north", "*-topright-north"], "decorative": ["*-topleft-north", "*-topright-north"]},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {f"*-{p}-{s}": {"base": f"block/manholeladder-{p}", "rotateY": ROTATE[s]} for p in parts for s in SIDES},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "climbable": True,
+        "collisionboxByType": {f"*-{s}": dict(ladder_box, rotateY=ROTATE[s]) for s in SIDES},
+        "selectionboxByType": {f"*-{s}": dict(ladder_box, rotateY=ROTATE[s]) for s in SIDES},
+        "lightAbsorption": 0, "resistance": 8, "requiredMiningTier": 3, "sounds": METAL,
+    }, "A manhole's ladder (layout version 9): the top half at the floor with its lip, rails and lid, or a length below")
+    shaped("level3", "tunnelstep", "block/tunnelstep", material="Stone", sounds=STONE, oriented=False,
+           comment="The half step out of a flooded tunnel onto the dry landing at the foot of a manhole's ladder",
+           box=(0, 0, 0, 1, 0.5, 1), resistance=8, requiredMiningTier=3)
 
 
 def level4():

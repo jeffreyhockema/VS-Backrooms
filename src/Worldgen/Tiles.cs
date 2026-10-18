@@ -610,7 +610,8 @@ public struct Tile
     public bool Sealed;
     /// <summary>
     /// What is below the floor, or a threshold to somewhere else: Level 3's 1 = flooded utility tunnel, 2 = manhole shaft
-    /// down into one; the rest are <see cref="Unders"/>.
+    /// down into one (from layout version 9 <see cref="Zone"/> tells their parts apart: <see cref="WorldLayout.L3ShaftLeft"/>,
+    /// <see cref="WorldLayout.L3TunnelLanding"/>...); the rest are <see cref="Unders"/>.
     /// </summary>
     public byte Under;
     /// <summary>What hangs under the ceiling or replaces a ceiling tile: one of <see cref="Overheads"/>.</summary>
