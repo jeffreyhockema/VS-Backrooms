@@ -915,8 +915,8 @@ def parking():
     # The cabin's floor is a long way under the beltline (the body's top at 11), so there is room for seats you could
     # sit in: a front pair facing forward, a bench behind, the dashboard under the windscreen with an instrument
     # hood over the driver's dials, a steering wheel on its column, door cards with armrests and pulls, a gear lever
-    # on the tunnel between the seats, a headliner and a mirror. The driver is on the east side of a north-facing car
-    # (right-hand drive). The wrecks have the same parts, torn and dirty: a split cushion with the foam out, a missing
+    # on the tunnel between the seats, a headliner and a mirror. The driver is on the west side of a north-facing car
+    # (left-hand drive, as in an American car park). The wrecks have the same parts, torn and dirty: a split cushion with the foam out, a missing
     # headrest, a folded seat back, a pulled-out radio, a bent wheel, a door card hanging off, the headliner sagging,
     # glass and litter on the floor. Every part is in the 1/16-block units of the rest of the car
     FLOOR = 5.5
@@ -1076,6 +1076,18 @@ def parking():
                 part("Mud", (6.0, FLOOR, 35.0), (10.4, 6.6, 38.4), "carpet"),
                 part("Paper", (12.0, FLOOR, 25.5), (14.6, 6.0, 27.8), "liner")]
 
+    def mirrored(els):
+        """The inside swapped east for west (x -> 32 - x): the parts are drawn right-hand drive, the cars are left-hand."""
+        swap = {"east": "west", "west": "east"}
+        for e in els:
+            e["from"][0], e["to"][0] = 32 - e["to"][0], 32 - e["from"][0]
+            if "rotationOrigin" in e:
+                e["rotationOrigin"][0] = 32 - e["rotationOrigin"][0]
+            if e.get("rotationZ"):
+                e["rotationZ"] = -e["rotationZ"]
+            e["faces"] = {swap.get(k, k): v for k, v in e["faces"].items()}
+        return els
+
     def interior(torn):
         els = [
             part("Carpet", (4.0, 5.0, 20.0), (28.0, FLOOR, 45.0), "carpet", faces=("up",)),
@@ -1085,7 +1097,7 @@ def parking():
         els += rear_bench(torn) + doorcards(torn) + roofliner(torn)
         if torn:
             els += litter()
-        return els
+        return mirrored(els)
 
     def shell():
         """The car without its inside: the body is open above the floor between the dashboard and the rear shelf."""
