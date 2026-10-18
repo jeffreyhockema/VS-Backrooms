@@ -238,6 +238,11 @@ public sealed partial class WorldLayout
     /// corridor whole from a panel or junction box to the wall opposite, ending in a cable box or rising into the
     /// fitting there (PlanL3FloorCables: FloorCable with Tile.Stack 1 or 2 at the ends, floorcableend; in 1-8 a block of
     /// cable here and there). Bulkheads are a little commoner on the walls left (L3WallFixture).
+    /// Level 5's boiler bays are plant rooms (PlaceBoilerPlant, MarkBoilerHeader; in 1-8 three boilers stood in a stack):
+    /// along the back wall a boiler and a furnace to a bay facing the aisle, a coal bin in front of the furnace, and over
+    /// the row a header the length of the hall (a flue duct with a steam main beside it, through the bay walls, ending
+    /// against the wall; Pipes.PlantRun to PlantThru) that the boilers' and furnaces' flues and steam pipes rise to
+    /// (plantriser, plantheader, plantthru, coalbin; the generator's PlantHeader).
     /// Level edges: each level keeps its own look to the wall between it and the next (WorldLayout.Linings.cs). The cell on
     /// the west or north side of a wall its neighbour owns lines it with its own wall a tile in (LineLevelWalls; in 1-8 that
     /// side saw the next level's face), so the way through a gate is two deep, the next level's doorway at its far end;

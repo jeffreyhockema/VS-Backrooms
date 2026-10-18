@@ -224,6 +224,7 @@ public partial class AtmosphereSystem : ModSystem
     {
         capi = api;
         api.Event.LevelFinalize += OnLevelFinalize;
+        HotelMusicInit();
     }
 
     private void OnLevelFinalize()
@@ -261,7 +262,7 @@ public partial class AtmosphereSystem : ModSystem
         foreach (ILoadedSound sound in new[]
         {
             poolTone, sirenTune, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
-            l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
+            l974Lullaby, l974Fridge, hotelTune, hotelFading, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
         })
         {
             sound?.Stop();
@@ -489,6 +490,7 @@ public partial class AtmosphereSystem : ModSystem
         L974Sounds(dt, pos, level == WorldLayout.Level974);
         L3999Sounds(dt, pos, level == WorldLayout.Level3999);
         L188Sounds(dt, pos, level == WorldLayout.Level188);
+        HotelSounds(dt, pos, level == 5);
 
         // The Poolrooms' room tone
         bool pool = level == WorldLayout.Poolrooms;

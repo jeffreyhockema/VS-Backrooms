@@ -1783,8 +1783,7 @@ def level5():
         # the larger glass and the bevelled frame are L5.gilt_mirror. The old "mirror" state is as it was for versions 1-8
         Decor("mirrorplain", "Gilt Mirror", {2: L5.gilt_mirror()}, wall="hotelplain"),
         Decor("speaker", "Speaker", {3: [bx("Box", (4, 3, -1.5), (12, 11, 0), "mahogany"),
-                                         bx("Grille", (4.5, 3.5, -1.6), (11.5, 10.5, -1.5), "speakergrille", faces=("north",), full=True)]},
-              ambient=("backrooms:ambient/jazz", 3)),
+                                         bx("Grille", (4.5, 3.5, -1.6), (11.5, 10.5, -1.5), "speakergrille", faces=("north",), full=True)]}),  # no ambient sound: the music is AtmosphereSystem.L5.cs
         Decor("housephone", "House Phone", {2: [bx("Plate", (5, 2, -1), (11, 13, 0), "bakelite"),
                                                 bx("Dial", (6.2, 3, -1.4), (9.8, 6.6, -1), "phonedial", faces=("north",), full=True),
                                                 bx("Handset", (4, 8, -2.6), (12, 9.6, -1.2), "bakelite"),

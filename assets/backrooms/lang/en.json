@@ -2581,5 +2581,9 @@
 	"suburbdoor-locked": "Locked. Nobody has been in since.",
 	"block-garagedoorcased-*": "Garage Door",
 	"block-chimneycap-*": "Chimney",
-	"block-housestairsrail-*": "Stairs"
+	"block-housestairsrail-*": "Stairs",
+	"block-plantheader-*": "Boiler Header",
+	"block-plantriser-*": "Flue",
+	"block-plantthru-*": "Stained Plaster",
+	"block-coalbin": "Coal Bin"
 }

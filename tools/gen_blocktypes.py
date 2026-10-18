@@ -560,8 +560,8 @@ def level2():
 def fix_ambients():
     """Adds ambient sounds to blocks that need them (done after writing, to keep the helpers simple)."""
     for folder, code, ambient, count in (("level3", "transformer", "backrooms:ambient/transformer", 4),
-                                         ("level4", "officewindow", "backrooms:ambient/rain", 12),
-                                         ("level5", "turntable", "backrooms:ambient/jazz", 1)):
+                                         ("level4", "officewindow", "backrooms:ambient/rain", 12)):
+        # (Level 5's turntable and speakers carry no ambient sound: AtmosphereSystem.L5.cs plays one tune at a time)
         path = os.path.join(OUT, folder, code + ".json")
         with open(path, encoding="utf-8") as f:
             lines = f.read()
