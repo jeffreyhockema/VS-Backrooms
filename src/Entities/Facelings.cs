@@ -16,7 +16,8 @@ namespace Backrooms.Entities;
 /// <item>On the client, its blank face turns, head and neck only, to follow a player who passes within a dozen
 /// blocks, slowly, as if it were watching.</item>
 /// <item>Greeted (a player right-clicks it with an empty hand or anything else, not striking it), it turns to them and
-/// waves, waits a moment, then turns and points the way to the nearest way out of the level it knows of. A child only
+/// waves, waits a moment, then turns and points the way to the nearest way out of the level it knows of (see
+/// <see cref="AiTaskGreet"/>, a task of its own so nothing else turns it away meanwhile). A child only
 /// waves. If it knows of nothing, it shrugs.</item>
 /// <item>Hurt by someone, the Facelings near it turn on them together: hit one in the city and the street comes for
 /// you. A child that is hurt throws a tantrum at whoever did it.</item>
@@ -62,52 +63,37 @@ public class EntityBehaviorFaceling : EntityBehavior
     {
         if (entity.World.Side != EnumAppSide.Server || mode != EnumInteractMode.Interact || byEntity is not EntityPlayer || !entity.Alive) return;
         var menace = entity.GetBehavior<EntityBehaviorMenace>();
-        if (menace != null && menace.Kind is Encounter.Hunt or Encounter.Leave) return; // not now
-        long now = entity.World.ElapsedMilliseconds;
-        if (now - greetedAtMs < 9000) return;
-        greetedAtMs = now;
+        if (menace != null && menace.Kind != Encounter.Ambient) return; // not now
+        AiTaskGreet greet = entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskGreet>();
+        if (greet == null) return;
         handled = EnumHandling.PreventDefault;
-
-        // Stop what it was doing, and turn to whoever greeted it
-        entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.StopTasks();
-        Face(byEntity.Pos.XYZ);
-        entity.AnimManager.StartAnimation("wave");
-        if (child) return;
-        entity.World.RegisterCallback(_ => PointTheWay(byEntity), 3000);
+        // (Clicking again mid-greeting does nothing; nor straight after, or it would never stop waving)
+        long now = entity.World.ElapsedMilliseconds;
+        if (greet.Busy || now - greetedAtMs < 4000) return;
+        greetedAtMs = now;
+        greet.Ask(byEntity);
     }
 
-    private void PointTheWay(Entity greeter)
+    /// <summary>
+    /// For /backrooms facelingtest: has a Faceling greet someone (or nobody) as if right-clicked, and says what it will
+    /// do: the gate it knows of, which way and how far, or that it will shrug.
+    /// </summary>
+    public static string TestGreeting(Entity faceling, Entity greeter)
     {
-        if (!entity.Alive) return;
-        entity.AnimManager.StopAnimation("wave");
-        WorldLayout layout = entity.Api.ModLoader.GetModSystem<MenaceSystem>()?.Layout;
-        int x = (int)Math.Floor(entity.Pos.X), z = (int)Math.Floor(entity.Pos.Z);
-        if (layout == null)
-        {
-            entity.AnimManager.StartAnimation("shrug");
-            return;
-        }
-        int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
-        if (layout.NearestGate(x, z, level, 400) is { } gate)
-        {
-            entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.StopTasks();
-            Face(new Vec3d(gate.X + 0.5, entity.Pos.Y, gate.Z + 0.5));
-            entity.AnimManager.StartAnimation("point");
-            // A nod back at whoever asked, after: too long, as they do
-            entity.World.RegisterCallback(_ =>
-            {
-                if (!entity.Alive) return;
-                if (greeter?.Alive == true) Face(greeter.Pos.XYZ);
-                entity.AnimManager.StartAnimation("nod");
-            }, 3200);
-        }
-        else entity.AnimManager.StartAnimation("shrug");
-    }
-
-    private void Face(Vec3d point)
-    {
-        float yaw = (float)Math.Atan2(point.X - entity.Pos.X, point.Z - entity.Pos.Z);
-        entity.Pos.Yaw = yaw;
+        AiTaskGreet greet = faceling.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskGreet>();
+        if (greet == null) return $"{faceling.Code.Path} #{faceling.EntityId} has no greeting task";
+        var menace = faceling.GetBehavior<EntityBehaviorMenace>();
+        string state = $"{faceling.Code.Path} #{faceling.EntityId} at {faceling.Pos.X:0} {faceling.Pos.Y:0} {faceling.Pos.Z:0} ({menace?.Kind.ToString() ?? "no menace"}, {(faceling.State == EnumEntityState.Active ? "active" : "inactive: its AI does not run")})";
+        // (Where it would walk afterwards, three times over, to show the choice varies and keeps off the walls)
+        string ambles = "";
+        if (faceling.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskAmble>() is { } amble)
+            for (int i = 0; i < 3; i++) ambles += "\n  then " + amble.DryRun();
+        greet.Ask(greeter);
+        if (faceling.Code.Path.EndsWith("child")) return state + ": a child, waves only" + ambles;
+        AiTaskGreet.Way way = AiTaskGreet.FindWay(faceling);
+        return (way == null
+            ? $"{state}: knows of no gate within {AiTaskGreet.SearchRadius} blocks; will wave and shrug"
+            : $"{state}: will wave, then point at the gate at {way.X} {way.Z} (to Level {WorldLayout.DisplayNumber(way.To)}), {way.Distance:0} blocks off, bearing {way.BearingDeg:0} ({way.Dir}, yaw {way.Yaw:0.00}), then nod") + ambles;
     }
 
     // ================= Defending their own (server) =================

@@ -152,7 +152,9 @@ public class EntityBehaviorMenace : EntityBehavior
         {
             case Encounter.Ambient:
                 // Wanderers drift off once nobody is near, and are never pulled out of sight of anyone
-                if (!seen && entity.World.GetNearestEntity(pos, 56, 32, e => e is EntityPlayer p && p.Alive) == null) Despawn();
+                // (One put down for a console test's straw dummy stays while the dummy is near, as for the other kinds above)
+                if (!seen && entity.World.GetNearestEntity(pos, 56, 32, e => e is EntityPlayer p && p.Alive) == null
+                    && !(target?.WatchedAttributes.GetBool("backrooms:testTarget") == true && target.Pos.DistanceTo(pos) < 56)) Despawn();
                 break;
             case Encounter.Glimpse:
                 if (PhaseMs > glimpseSeconds * 1000) Kind = Encounter.Leave;
