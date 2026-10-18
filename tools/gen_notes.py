@@ -594,10 +594,10 @@ strong as you think it is: drink your Almond Water first. Win, and he carries yo
 TRACKS.append(Track("run", "common", "Level !", RUN, entries=[
     E("run-1", "Slammed", """
 The door's locked behind you and there's no other way back. When the chained door bursts, run, and don't stop. Toys,
-boxes and cords on the floor will trip you if you sprint over them: go round."""),
+boxes, cords and fallen ceiling on the floor will trip you if you sprint over them: jump them."""),
     E("run-2", "Dead end", """
-Don't take the door if the hall turns beside it. The real one is at a dead end. The EXIT doors at the bends open on an
-empty room. Don't stop. They're still there.""", mark="door"),
+Don't take the door if the hall turns beside it. The real one is at a dead end, light under it. The EXIT doors at the
+bends have a dead letter in the sign and open on an empty room. Don't stop. They're still there.""", mark="door"),
     E("run-3", "Energy bars", """
 Eat the energy bars on the bedside table before the door goes: half a minute quicker. Some halls have a Safe Zone, a room
 they won't come into. They wait outside. After a couple of hours they stop waiting."""),
@@ -875,7 +875,7 @@ TRACKS.append(Track("rare-run", "rare", "Folded notes", RUN, chapter=RARE_CHAPTE
     E("r-run-1", "The third time", """
 What I worked out the third time. Seventeen halls. The real exit is at a dead end with no turn either side. One hall in
 three has a hole near the end, cracked floor before it, down to the caves. One in five has a Safe Zone: they wait outside
-for two hours, then they come in. Real exit marked.""", mark="door"),
+for three hours, then they come in. Real exit marked.""", mark="door"),
 ]))
 TRACKS.append(Track("rare-fun", "rare", "Folded notes", FUN, chapter=RARE_CHAPTER, entries=[
     E("r-fun-1", "How I got out", """

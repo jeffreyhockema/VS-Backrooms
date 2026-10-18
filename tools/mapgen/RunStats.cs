@@ -15,6 +15,7 @@ static partial class LevelModes
             case "runstats": RunStats(layout); return true;
             case "runmap": RunMap(layout, args.Length > 3 ? int.Parse(args[3]) : 0); return true;
             case "runsim": RunSim(layout); return true;
+            case "runfair": RunFair(layout); return true;
             case "runlinks": RunLinks(layout); return true;
             case "runhash":
                 // The layout hash without Level !'s ways in, then with them: only the levels they are in may differ
@@ -119,7 +120,8 @@ static partial class LevelModes
             string ev = string.Join(" ", L.Events.GroupBy(e => e.Kind).Select(g => $"{g.Key}:{g.Count()}"));
             Console.WriteLine($"lane {lane,2}: course {L.ExitS,3} (thirds at {L.Middle}, {L.Last}), signs {L.Signs.Count,2}, darkest {darkest}/{darkestLast}, " +
                 $"weave {weave,3} cols + {jumps,2} jumps at best, doors {doors,3}, obstacle rows {hard,3} (3+ to go round {walls,2}, needles {needles,2}, jump-or-weave {jumpRows,2}), worst {worst}, trip props {trips,2}, {ev}{(L.HasSafe ? $", SAFE {L.SafeFrom}-{L.SafeTo}" : "")}{(L.HasHole ? ", hole" : "")} -> {WorldLayout.DisplayNumber(L.Destination)}");
-            if (L.ExitS < 600 || L.ExitS > 640) Problem($"lane {lane}: course length {L.ExitS} outside 600-640");
+            var (shortest, longest) = layout.Version >= 9 ? (470, 510) : (600, 640);
+            if (L.ExitS < shortest || L.ExitS > longest) Problem($"lane {lane}: course length {L.ExitS} outside {shortest}-{longest}");
         }
         Console.WriteLine($"planned {WorldLayout.RunLanes} lanes in {sw.ElapsedMilliseconds} ms; safe zones {safe}, holes {holes}, exits " +
             string.Join(", ", dests.Select(d => $"{WorldLayout.DisplayNumber(d.Key)} x{d.Value}")));
@@ -338,6 +340,107 @@ static partial class LevelModes
                     if (pos >= L.ExitS) { result = $"escaped in {t:0.0} s, closest {minGap:0.0}"; break; }
                 }
                 Console.WriteLine($"  {name,-22} {result ?? "still running"}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// runfair: how often runners of three kinds get out, over every lane, with the chase as it is (RunChase) and as it was
+    /// before 0.514.0 (front at 0.90 / 0.94 of a sprint, no warm-up; trips -0.6 for 0.8 s). A runner here is a pace (a
+    /// share of a flat-floor sprint, kept through the weaving and jumping), snags (stopped dead for a second or so on a
+    /// barricade, per 100 blocks), trips (slowed for a moment on junk run over), and maybe a false exit opened (2.5 s).
+    /// </summary>
+    static void RunFair(WorldLayout layout)
+    {
+        double sprint = RunChase.SprintSpeed;
+        const double dt = 0.1;
+        var profiles = new (string Name, double Pace0, double Pace1, double Snags, int Trips0, int Trips1, double Fake)[]
+        {
+            ("good (pace 0.88-0.95, 0.6 snags/100, 2-5 trips)", 0.88, 0.95, 0.6, 2, 5, 0.15),
+            ("reasonable (0.82-0.90, 1.2 snags/100, 4-9 trips)", 0.82, 0.90, 1.2, 4, 9, 0.35),
+            ("clumsy (0.76-0.84, 2 snags/100, 7-14 trips)", 0.76, 0.84, 2.0, 7, 14, 0.6),
+            ("walks half the way (pace 0.5 from 40%)", -1, -1, 0.8, 3, 6, 0.3),
+        };
+        Console.WriteLine($"layout version {layout.Version}, sprint {sprint:0.00} b/s, Normal setting; 400 runs a lane, all 17 lanes");
+        foreach (bool old in new[] { true, false })
+        {
+            Console.WriteLine(old ? "BEFORE (front 0.90/0.94, no warm-up, trips -0.6 x 0.8 s):" : "AFTER (front 0.78/0.82, 20 s warm-up from -0.12, trips -0.5 x 0.6 s):");
+            foreach (var pr in profiles)
+            {
+                int escaped = 0, runs = 0;
+                double timeSum = 0, closeSum = 0;
+                var caughtAt = new List<double>();
+                for (int lane = 0; lane < WorldLayout.RunLanes; lane++)
+                {
+                    var L = layout.RunPlan(lane);
+                    var rng = new Random(lane * 7919 + 17);
+                    for (int k = 0; k < 400; k++)
+                    {
+                        runs++;
+                        var chase = new RunChase(sprint, 1, L.Last, -1, -1, -8);
+                        double pace = pr.Pace0 < 0 ? 0.88 : pr.Pace0 + rng.NextDouble() * (pr.Pace1 - pr.Pace0);
+                        double leave = 4 + rng.NextDouble() * 3;
+                        // Where the snags, trips and the false exit fall
+                        var stalls = new SortedDictionary<int, double>();
+                        int snags = (int)Math.Round(pr.Snags * L.ExitS / 100 * (0.6 + rng.NextDouble() * 0.8));
+                        for (int n = 0; n < snags; n++) stalls[rng.Next(20, L.ExitS - 5)] = 0.6 + rng.NextDouble() * 0.9;
+                        var trips = new HashSet<int>();
+                        int nt = rng.Next(pr.Trips0, pr.Trips1 + 1);
+                        for (int n = 0; n < nt; n++) trips.Add(rng.Next(20, L.ExitS - 5));
+                        if (rng.NextDouble() < pr.Fake) stalls[rng.NextDouble() < 0.5 ? L.Middle : L.Last] = 2.5;
+                        double tripSlow = old ? 0.6 : 0.5, tripFor = old ? 0.8 : 0.6;
+                        double pos = -4, t = 0, stall = 0, slowFor = 0, minGap = 999;
+                        double front = -8; bool loose = false; double looseAt = 0, leftAt = -1;
+                        bool caught = false;
+                        while (t < 400)
+                        {
+                            t += dt;
+                            double v = 0;
+                            if (t >= leave)
+                            {
+                                if (stall > 0) stall -= dt;
+                                else
+                                {
+                                    double p = pr.Pace0 < 0 && pos > 0.4 * L.ExitS ? 0.5 : pace;
+                                    if (slowFor > 0) { p *= 1 - tripSlow; slowFor -= dt; }
+                                    v = sprint * p;
+                                }
+                            }
+                            int before = (int)pos;
+                            pos += v * dt;
+                            for (int c = before + 1; c <= (int)pos; c++)
+                            {
+                                if (stalls.TryGetValue(c, out double st)) stall = st;
+                                if (trips.Contains(c)) slowFor = tripFor;
+                            }
+                            if (old)
+                            {
+                                // The chase before 0.514.0
+                                if (leftAt < 0 && pos > 0) leftAt = t;
+                                if (!loose) { loose = t >= 12 || leftAt >= 0 && t - leftAt >= 4; looseAt = t; }
+                                else
+                                {
+                                    double share = front >= L.Last ? 0.94 : 0.90;
+                                    if (pos - front > RunChase.Band) share = 1.0;
+                                    front += share * sprint * dt;
+                                    if (pos - front <= RunChase.CatchGap) caught = true;
+                                    minGap = Math.Min(minGap, pos - front);
+                                }
+                            }
+                            else
+                            {
+                                caught = chase.Step(dt, pos);
+                                if (chase.Loose) minGap = Math.Min(minGap, chase.Gap(pos));
+                            }
+                            if (caught) { caughtAt.Add(pos / L.ExitS); break; }
+                            if (pos >= L.ExitS) { escaped++; timeSum += t; closeSum += minGap; break; }
+                        }
+                    }
+                }
+                caughtAt.Sort();
+                string where = caughtAt.Count > 0 ? $", caught at a median {caughtAt[caughtAt.Count / 2] * 100:0}% of the way" : "";
+                Console.WriteLine($"  {pr.Name,-52} escape {100.0 * escaped / runs,5:0.0}%" +
+                    (escaped > 0 ? $" (in {timeSum / escaped:0} s, closest {closeSum / escaped:0.0} blocks on average)" : "") + where);
             }
         }
     }

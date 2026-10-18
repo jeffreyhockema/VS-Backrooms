@@ -341,7 +341,12 @@ public sealed partial class WorldLayout
     /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
     /// (in 1-8 as the Tower, its gallery floors and stair across the road). The machine in the doorway of a Level 6.1
     /// vending room is a broken one (Props.BrokenVending, brokenvending; in 1-8 the working snack machine, which cannot
-    /// be broken), which breaks up for the snacks it held and lets you into the heap behind it.</item>
+    /// be broken), which breaks up for the snacks it held and lets you into the heap behind it.
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level !'s hall is shorter: 15 rows of hallway (RunRows9; in 1-8 19), so the run is about 485 blocks (in 1-8 about
+    /// 615), the doglegs, the Safe Zone and the hole placed by the same rules over it; past the exit's row the lane is
+    /// solid wall (RunExitAt). Junk that trips a sprinter is put in the gaps of the gauntlet a little less often (in a
+    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
