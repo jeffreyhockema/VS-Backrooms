@@ -13,10 +13,15 @@ namespace Backrooms.Worldgen;
 /// the plane: the 9th Road, a marked way through islands of stability with M.E.G. markers and lamps along it, the
 /// settlements where it crosses itself, and vents in its walls. Everything else is rock to be hollowed out.
 ///
-/// <para>The road runs on a meandering lattice <see cref="RoadGrid"/> blocks apart, but most of the lattice is not
-/// there. Every <see cref="L8MainEvery"/>th road runs on unbroken, the long marked ways through; between them the
-/// side roads are a tree with a few loops (see <see cref="PlanLatticeTree"/>), so most turnings off the main road
-/// end in a blind cave wall. Only where a road reaches the edge of the level is there a way out.</para>
+/// <para>Up to layout version 8 the road runs on a meandering lattice <see cref="RoadGrid"/> blocks apart, but most of
+/// the lattice is not there. Every <see cref="L8MainEvery"/>th road runs on unbroken, the long marked ways through;
+/// between them the side roads are a tree with a few loops (see <see cref="PlanLatticeTree"/>), so most turnings off
+/// the main road end in a blind cave wall. Only where a road reaches the edge of the level is there a way out.</para>
+///
+/// <para>From layout version 9 the road is rare and the caves go on for ever: two long roads wander round the level,
+/// bending round rich mineral deposits, splitting round some and meeting again, with now and then a way out to the
+/// level's edge or across between them, and settlements on them or at the end of short spurs
+/// (WorldLayout.Level8.Network.cs).</para>
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -64,6 +69,8 @@ public sealed partial class WorldLayout
     /// <summary>Whether a block lies on the 9th Road (in Level 8).</summary>
     public bool IsNinthRoad(int gx, int gz)
     {
+        // (from layout version 9, a few long roads through endless caves: WorldLayout.Level8.Network.cs)
+        if (Version >= 9) return IsL8RoadV9(gx, gz);
         bool alongX = RoadOffsetX(gx, gz) < 3, alongZ = RoadOffsetZ(gx, gz) < 3;
         if (!alongX && !alongZ) return false;
         var (kz, kx) = RoadLines(gx, gz);
@@ -84,6 +91,15 @@ public sealed partial class WorldLayout
     }
 
     private void BuildLevel8(Builder b, int mx, int mz)
+    {
+        // From layout version 9 the road is planned a cell at a time (WorldLayout.Level8.Network.cs)
+        if (Version >= 9) BuildLevel8Network(b, mx, mz);
+        else BuildLevel8Lattice(b, mx, mz);
+        FurnishLevel8(b, mx, mz);
+    }
+
+    /// <summary>The road and its settlements in layout versions 1-8: on the lattice.</summary>
+    private void BuildLevel8Lattice(Builder b, int mx, int mz)
     {
         for (int lz = 0; lz < MacroSize; lz++)
         {
@@ -136,8 +152,11 @@ public sealed partial class WorldLayout
                 }
             }
         }
+    }
 
-        // Settlement furnishings, vents in the walls beside the road, the odd strange formation
+    /// <summary>Settlement furnishings, vents in the walls beside the road, the odd strange formation.</summary>
+    private void FurnishLevel8(Builder b, int mx, int mz)
+    {
         ref Rng rng = ref b.Rng;
         for (int lz = 1; lz < MacroSize - 1; lz++)
         {
@@ -211,6 +230,7 @@ public sealed partial class WorldLayout
     /// </summary>
     private bool IsCampClearing(int gx, int gz)
     {
+        if (Version >= 9) return IsL8CampV9(gx, gz);
         int ox = Hashing.Mod(RoadOffsetX(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         int oz = Hashing.Mod(RoadOffsetZ(gx, gz) + RoadGrid / 2, RoadGrid) - RoadGrid / 2;
         if (Math.Abs(ox - 1) > 8 || Math.Abs(oz - 1) > 8) return false;

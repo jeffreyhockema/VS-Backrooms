@@ -250,7 +250,18 @@ public sealed partial class WorldLayout
     /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
     /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
     /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
-    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.</item>
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.
+    /// Level 8's 9th Road is no longer a lattice (in 1-8 a road every 48 blocks, a main road every 192): two long roads
+    /// wander round the level a few hundred blocks apart, three and seven tenths of the way across (run together where it
+    /// narrows), bending round rich mineral deposits that lie in the rock on the inside of their bigger bends, now and
+    /// then splitting round one and meeting again; at the start of each stretch of about 520 blocks a way runs off the
+    /// roads through the level's wall into Level 9 one time in two, into Level 7 a little less often, and across between
+    /// the roads one time in three (in 1-8 every road that reached the wall ran through it); settlements sit where such
+    /// a way meets a road, at a bend's apex, beside a split's deposit, on the road or at the end of a short spur
+    /// (WorldLayout.Level8.Network.cs: L8Centres, L8Segment, PlanL8Cell). Lamps and M.E.G. markers keep their spacing
+    /// along every road, arrivals start from a road (L8ArrivalCell), Level 8's wanderers look 40 blocks for the road (in
+    /// 1-8, 12), and the deposits' heart is solid rock thick with one ore (CaveColumn.DepositGrade, drawn by the
+    /// generator when the layout reports a deposit, L8DepositAt).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

@@ -87,8 +87,18 @@ public sealed partial class WorldGenerator
 
     private void InitDeep()
     {
-        caveColumns = new CaveColumns((gx, gz) => new CaveColumn(seed, gx, gz, Geometry.FloorY, Geometry.BandBottom - 41, Geometry.BandTop + 1, Noise2,
-            SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins: layout.Version >= 5));
+        caveColumns = new CaveColumns((gx, gz) =>
+        {
+            var column = new CaveColumn(seed, gx, gz, Geometry.FloorY, Geometry.BandBottom - 41, Geometry.BandTop + 1, Noise2,
+                SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins: layout.Version >= 5);
+            // From layout version 9, the rich deposits the 9th Road goes round
+            if (layout.L8DepositAt(gx, gz) is int deposit and > 0)
+            {
+                column.DepositKind = deposit >> 8;
+                column.DepositStrength = (deposit & 255) / 255.0;
+            }
+            return column;
+        });
         l6WallId = Id("l6block-wall");
         l6FloorId = Id("l6block-floor");
         l6CeilingId = Id("l6block-ceiling");
@@ -590,6 +600,10 @@ public sealed partial class WorldGenerator
             if (coal != 0) return coal;
         }
 
+        // From layout version 9, a rich deposit the road goes round: one ore, thick in the rock
+        int rich = column.DepositGrade(y);
+        if (rich >= 0 && DepositOre(index, column.DepositKind, rich) is int deposit and not 0) return deposit;
+
         // Ore bodies, or from layout version 5 veins and pockets (see CaveColumn.OreGrade)
         int grade = column.OreGrade(y);
         if (grade >= 0)
@@ -614,6 +628,19 @@ public sealed partial class WorldGenerator
             if (pick >= 0.98 && clayId != 0) return clayId;
         }
         return strataIds[index];
+    }
+
+    /// <summary>The ores of Level 8's rich deposits (layout version 9), by the deposit's kind: copper, tin, iron, zinc, bismuth or coal.</summary>
+    private static readonly int[] DepositOres = { OreNativeCopper, OreMalachite, OreCassiterite, OreLimonite, OreHematite, OreSphalerite, OreBismuthinite, -1 };
+
+    /// <summary>A rich deposit's ore block in a stratum (a poorer grade where the rock has none so rich), or 0.</summary>
+    private int DepositOre(int stratum, int kind, int grade)
+    {
+        int ore = DepositOres[Math.Clamp(kind, 0, DepositOres.Length - 1)];
+        if (ore < 0) return mineralIds[stratum, MineralCoal];
+        for (int g = grade; g >= 0; g--)
+            if (gradedOreIds[stratum, ore, g] is int id and not 0) return id;
+        return 0;
     }
 
     // ---- Level 9: the suburbs under the night sky ----
