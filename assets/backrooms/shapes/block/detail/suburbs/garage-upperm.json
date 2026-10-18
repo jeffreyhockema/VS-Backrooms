@@ -1,0 +1,670 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"garagegap": "backrooms:block/detail/garagegap",
+		"garagepaint": "backrooms:block/detail/garagepaint",
+		"plaster-interior": "backrooms:block/detail/plaster-interior",
+		"suburbglass-dark-p": "backrooms:block/detail/suburbglass-dark-p",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "LiningHead",
+			"from": [
+				0,
+				14.5,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3333,
+						0,
+						10.6667,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						5.3333,
+						0.0,
+						10.6667,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingHead",
+			"from": [
+				0,
+				14.5,
+				-1.25
+			],
+			"to": [
+				16,
+				18.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.6296,
+						0.0,
+						10.3704,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.6296,
+						0,
+						10.3704,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "DripCap",
+			"from": [
+				0,
+				18.5,
+				-2
+			],
+			"to": [
+				16,
+				19.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.6727,
+						0.0,
+						10.3273,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.6727,
+						0,
+						10.3273,
+						2
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.6727,
+						0,
+						10.3273,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "StopHead",
+			"from": [
+				0,
+				13.75,
+				1.25
+			],
+			"to": [
+				16,
+				14.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.0575,
+						0.0,
+						10.9425,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.0575,
+						0,
+						10.9425,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Backer",
+			"from": [
+				0,
+				0,
+				3.5
+			],
+			"to": [
+				16,
+				14.5,
+				3.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagegap",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						7.7592
+					]
+				},
+				"south": {
+					"texture": "#garagegap",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						7.7592
+					]
+				}
+			}
+		},
+		{
+			"name": "Section2",
+			"from": [
+				0,
+				0,
+				2.5
+			],
+			"to": [
+				16,
+				6.85,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						6.85
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						6.85
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0,
+						10.8444,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel2x2",
+			"from": [
+				0,
+				0.85,
+				2.0
+			],
+			"to": [
+				2.0375,
+				5.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						2.0375,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						2.575,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						2.575,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel2x3",
+			"from": [
+				2.9375,
+				0.85,
+				2.0
+			],
+			"to": [
+				7.55,
+				5.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel2x4",
+			"from": [
+				8.45,
+				0.85,
+				2.0
+			],
+			"to": [
+				13.0625,
+				5.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel2x5",
+			"from": [
+				13.9625,
+				0.85,
+				2.0
+			],
+			"to": [
+				16,
+				5.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						2.575,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.0375,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.0375,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Section3RailB",
+			"from": [
+				0,
+				7.15,
+				2.5
+			],
+			"to": [
+				16,
+				8.65,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0,
+						10.8444,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0,
+						10.8444,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Section3RailT",
+			"from": [
+				0,
+				12.85,
+				2.5
+			],
+			"to": [
+				16,
+				14.35,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0.0,
+						10.8444,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0,
+						10.8444,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						5.1556,
+						0,
+						10.8444,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Section3Stile2",
+			"from": [
+				7.0,
+				8.65,
+				2.5
+			],
+			"to": [
+				9.0,
+				12.85,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						4.2
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						4.2
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						4.2
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						4.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite1",
+			"from": [
+				0,
+				8.65,
+				3.0
+			],
+			"to": [
+				7.0,
+				12.85,
+				3.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0.0,
+						0.0,
+						12.1081,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						3.8919,
+						0.0,
+						16.0,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite2",
+			"from": [
+				9.0,
+				8.65,
+				3.0
+			],
+			"to": [
+				16,
+				12.85,
+				3.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						3.8919,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0.0,
+						0.0,
+						12.1081,
+						16.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -55,6 +55,39 @@ public sealed partial class WorldLayout
     private const byte UpBedHead = 1, UpBedFoot = 2, UpNightstand = 3, UpDresser = 4, UpWardrobe = 5, UpToyBox = 6, UpTubHead = 7,
         UpTubFoot = 8, UpToilet = 9, UpMedCabinet = 10;
 
+    /// <summary>
+    /// From layout version 9, a Suburbs house's windows are tall (two blocks, rel 2-3 downstairs and 6-7 upstairs): a
+    /// sash window, the same with shutters, or a picture window three wide (whose part, left, middle or right, the
+    /// generator reads from its neighbours along the wall). Downstairs the shape is in a window tile's
+    /// <see cref="Tile.Stack"/> (0: the one-block window of 1-8) with <see cref="Tile.Variant"/> 1 or 2 (dark or lit);
+    /// upstairs, on an outside wall's tile, in <see cref="Tile.Detail"/>, with <see cref="WinLit"/> for a lit one.
+    /// </summary>
+    public const byte WinSash = 16, WinShutter = 17, WinPicture = 18, WinLit = 0x80;
+
+    /// <summary>
+    /// From layout version 9, a house's front and back doors are real doors that open and close: the doorway's (or, in a
+    /// locked house, the door's) <see cref="Tile.Stack"/> carries <see cref="DoorMark"/>, which side its hinges are on
+    /// (<see cref="DoorHingeEast"/>, else west), whether it was left open and whether it is locked.
+    /// </summary>
+    public const byte DoorMark = 0x20, DoorHingeEast = 1, DoorOpen = 2, DoorLocked = 4;
+
+    /// <summary>From layout version 9, a garage door tile's <see cref="Tile.Stack"/> has this added to its siding: the door is cased in trim.</summary>
+    public const byte GarageTrim = 16;
+
+    /// <summary>
+    /// From layout version 9, the house stairs' lower steps have a balustrade on their open side, in the step's
+    /// <see cref="Tile.Detail"/>: <see cref="StairRail"/>, the side it is on (<see cref="StairRailEast"/>, else west) and
+    /// <see cref="StairRailFoot"/> on the first step (its newel post).
+    /// </summary>
+    public const byte StairRail = 0x40, StairRailEast = 1, StairRailFoot = 2;
+
+    /// <summary>
+    /// From layout version 9: a brick chimney stack, in <see cref="Tile.Depth"/> of a Suburbs tile, the height above the
+    /// floor of its cap (counted as the roof's tile counts it, before a two-storey house lifts its roof a storey). On a
+    /// wall tile outside a house's gable end it rises from the ground; on a tile of the house, from the roof.
+    /// </summary>
+    public static bool IsChimney(in Tile t) => t.Level == 9 && t.Depth > 0 && t.Kind != TileKind.Water;
+
     /// <summary>Whether a storey value is a floor upstairs (so its <see cref="Tile.Detail"/> is a prop).</summary>
     public static bool IsUpstairsFloor(byte storey) => storey is StoreyFloor or StoreyLightOff or StoreyLightOn;
 
@@ -129,10 +162,7 @@ public sealed partial class WorldLayout
                     int lotX = bx * TownBlockX + 8 + (li % 3) * LotWidth, lotZ = bz * TownBlockZ + 8 + (li / 3) * LotDepth;
                     if (lotX > x0 + MacroSize || lotZ > z0 + MacroSize || lotX + LotWidth < x0 || lotZ + LotDepth < z0) continue;
                     bool facesSouth = li / 3 == 1; // the lots in the south half face the street to their south
-                    // No house is built where its street would lie beyond the edge of the town, nor where the edge
-                    // of the town would cut through it
-                    int streetLevel = LevelAt(MacroOf(lotX + LotWidth / 2), MacroOf(facesSouth ? lotZ + LotDepth + 3 : lotZ - 4));
-                    if (streetLevel is not (9 or 10) || !AllLevel(9, lotX, lotZ, LotWidth, LotDepth)) continue;
+                    if (!LotBuilt(lotX, lotZ)) continue;
                     Tile[] plan = LotPlan(lotX, lotZ);
                     for (int v = 0; v < LotDepth; v++)
                     {
@@ -244,6 +274,107 @@ public sealed partial class WorldLayout
     private enum LotKind { House, Field, Empty }
 
     /// <summary>
+    /// Whether a Suburbs lot is laid out at all: not where its street would lie beyond the edge of the town, nor where the
+    /// edge of the town would cut through it.
+    /// </summary>
+    private bool LotBuilt(int lotX, int lotZ)
+    {
+        bool facesSouth = Hashing.Mod(lotZ, TownBlockZ) == 8 + LotDepth;
+        int streetLevel = LevelAt(MacroOf(lotX + LotWidth / 2), MacroOf(facesSouth ? lotZ + LotDepth + 3 : lotZ - 4));
+        return streetLevel is 9 or 10 && AllLevel(9, lotX, lotZ, LotWidth, LotDepth);
+    }
+
+    /// <summary>What a lot is planned as (the first draw of <see cref="LotPlan"/>, made again).</summary>
+    private LotKind LotKindOf(int lotX, int lotZ)
+    {
+        var rng = new Rng(Hashing.Hash(seed, lotX, lotZ, SaltL9Lot));
+        double r = rng.NextDouble();
+        bool farOut = RingFraction(lotX + LotWidth / 2, lotZ + LotDepth / 2, 9) > 0.66;
+        return r < 0.88 ? LotKind.House : r < 0.89 && farOut ? LotKind.Field : LotKind.Empty;
+    }
+
+    /// <summary>How far from the front a lot's side fences begin: behind the house, or nearer the street on an open lot.</summary>
+    private static int FenceFrom(LotKind kind) => kind == LotKind.House ? 18 : 8;
+
+    /// <summary>
+    /// From layout version 9: whether a tile of a Suburbs lot carries the lot's wooden fence, in the lot's own
+    /// coordinates (u along the street, west to east; v back from the street). Two lots that meet share one fence on
+    /// the line between them (in 1-8 each built its own, side by side): the lot to the west keeps the fence between two
+    /// neighbours in a row, the lot in the north row the one between two backyards (unless the lot behind it is a
+    /// field, whose gate is in that fence), and a lot whose neighbour is not built keeps its own. A side fence begins
+    /// where the earlier of the two lots' would.
+    /// </summary>
+    private bool SharedFenceAt(int lotX, int lotZ, int u, int v, Func<int, int, (bool Built, LotKind Kind)> lot)
+    {
+        const int w = LotWidth, d = LotDepth;
+        if (u < 0 || u >= w || v < 0 || v >= d) return false;
+        bool south = Hashing.Mod(lotZ, TownBlockZ) == 8 + LotDepth;
+        int col = (Hashing.Mod(lotX, TownBlockX) - 8) / LotWidth;
+        var self = lot(lotX, lotZ);
+        if (!self.Built) return false;
+        if (v == d - 1)
+        {
+            var back = lot(lotX, south ? lotZ - LotDepth : lotZ + LotDepth);
+            bool ownsBack = south ? self.Kind == LotKind.Field || !back.Built : !(back.Built && back.Kind == LotKind.Field);
+            if (ownsBack) return !(self.Kind == LotKind.Field && u is 9 or 10); // (the gate to Level 10)
+        }
+        if (u == 0)
+        {
+            var west = col > 0 ? lot(lotX - LotWidth, lotZ) : (Built: false, Kind: LotKind.Empty);
+            if (!west.Built && v >= FenceFrom(self.Kind)) return true;
+        }
+        if (u == w - 1)
+        {
+            var east = col < 2 ? lot(lotX + LotWidth, lotZ) : (Built: false, Kind: LotKind.Empty);
+            int from = east.Built ? Math.Min(FenceFrom(self.Kind), FenceFrom(east.Kind)) : FenceFrom(self.Kind);
+            if (v >= from) return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// From layout version 9: puts a lot's share of the fences (<see cref="SharedFenceAt"/>) into its plan, each length
+    /// joined to the fences round it, its own or a neighbour's. Called on the finished plan (after any mirroring, so u
+    /// still runs west to east); the plan's north is toward its street, as everywhere in the plan.
+    /// </summary>
+    private void PlaceSharedFences(Tile[] tiles, int lotX, int lotZ)
+    {
+        const int w = LotWidth, d = LotDepth;
+        bool south = Hashing.Mod(lotZ, TownBlockZ) == 8 + LotDepth;
+        var known = new System.Collections.Generic.Dictionary<(int, int), (bool, LotKind)>();
+        (bool Built, LotKind Kind) Lot(int x, int z)
+        {
+            if (!known.TryGetValue((x, z), out var info)) known[(x, z)] = info = (LotBuilt(x, z), LotKindOf(x, z));
+            return info;
+        }
+        // A fence at a tile given in this lot's coordinates, which may lie in a neighbouring lot (or a street: none)
+        bool FenceAt(int u, int v)
+        {
+            int gx = lotX + u, gz = south ? lotZ + d - 1 - v : lotZ + v;
+            int sx = Hashing.Mod(gx, TownBlockX), sz = Hashing.Mod(gz, TownBlockZ);
+            if (sx < 8 || sz < 8) return false;
+            bool s2 = sz >= 8 + LotDepth;
+            int x0 = Hashing.FloorDiv(gx, TownBlockX) * TownBlockX + 8 + (sx - 8) / LotWidth * LotWidth;
+            int z0 = Hashing.FloorDiv(gz, TownBlockZ) * TownBlockZ + 8 + (s2 ? LotDepth : 0);
+            return SharedFenceAt(x0, z0, gx - x0, s2 ? z0 + d - 1 - gz : gz - z0, Lot);
+        }
+        // (a field lot that leaves the fence behind it to the field lot behind leaves its gate to that lot's)
+        bool ownsBack = FenceAt(1, d - 1);
+        for (int v = 0; v < d; v++)
+            for (int u = 0; u < w; u++)
+            {
+                if (u != 0 && u != w - 1 && v != d - 1) continue;
+                ref Tile t = ref tiles[v * w + u];
+                if (v == d - 1 && !ownsBack && t.Variant == Props.FieldGate) t.Variant = 0;
+                if (!FenceAt(u, v)) continue;
+                t.Kind = TileKind.Bars;
+                t.Pattern = WallPattern.Fence;
+                t.Variant = 0;
+                t.Stack = (byte)((FenceAt(u, v - 1) ? 1 : 0) | (FenceAt(u + 1, v) ? 2 : 0) | (FenceAt(u, v + 1) ? 4 : 0) | (FenceAt(u - 1, v) ? 8 : 0));
+            }
+    }
+
+    /// <summary>
     /// Plans one lot in its own coordinates: u runs along the street, v away from it (v = 0 is the front, at the
     /// pavement). <see cref="ArchPier.North"/> in the plan means "toward the street".
     /// </summary>
@@ -271,12 +402,17 @@ public sealed partial class WorldLayout
             t.Variant = 0;
             t.Stack = mask;
         }
+        // (From layout version 9 the fences go in last, shared with the neighbours: PlaceSharedFences)
+        bool v9 = Version >= 9;
         int fenceFrom = kind == LotKind.House ? 18 : 8;
-        for (int u = 0; u < w; u++) Fence(u, d - 1, (byte)((u > 0 ? 8 : 0) | (u < w - 1 ? 2 : 0) | (u == 0 || u == w - 1 ? 1 : 0)));
-        for (int v = fenceFrom; v < d - 1; v++)
+        if (!v9)
         {
-            Fence(0, v, (byte)(4 | (v > fenceFrom ? 1 : 0)));
-            Fence(w - 1, v, (byte)(4 | (v > fenceFrom ? 1 : 0)));
+            for (int u = 0; u < w; u++) Fence(u, d - 1, (byte)((u > 0 ? 8 : 0) | (u < w - 1 ? 2 : 0) | (u == 0 || u == w - 1 ? 1 : 0)));
+            for (int v = fenceFrom; v < d - 1; v++)
+            {
+                Fence(0, v, (byte)(4 | (v > fenceFrom ? 1 : 0)));
+                Fence(w - 1, v, (byte)(4 | (v > fenceFrom ? 1 : 0)));
+            }
         }
 
         void Tree(int u, int v)
@@ -291,7 +427,8 @@ public sealed partial class WorldLayout
         {
             case LotKind.House:
             {
-                var house = PlanHouse(tiles, w, ref rng, farmhouse: false, v5: Version >= 5);
+                var house = PlanHouse(tiles, w, ref rng, farmhouse: false, v5: Version >= 5,
+                    v9: v9 ? Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 9) | 1 : 0);
                 PlanFrontYard(tiles, w, house, ref rng);
                 PlanBackyard(tiles, w, d, house, ref rng);
                 // About one backyard pool in seventeen was never drained: lit teal at midnight, and its bottom is not the
@@ -362,6 +499,7 @@ public sealed partial class WorldLayout
                 break;
             }
         }
+        if (v9) PlaceSharedFences(tiles, lotX, lotZ);
         return tiles;
     }
 
@@ -380,6 +518,9 @@ public sealed partial class WorldLayout
             if (t.Kind == TileKind.Bars) t.Stack = MirrorMaskEW(t.Stack);
             // A corner of a house: the side its second face looks out on swaps too
             else if (t.Kind == TileKind.Wall && t.Stack is 1 or 2 && t.Pattern >= WallPattern.SidingWhite && t.Pattern <= WallPattern.Brick) t.Stack = (byte)(3 - t.Stack);
+            // (layout version 9) a door's hinges, and the stairs' balustrade, change sides
+            else if (t.Kind is TileKind.Door or TileKind.Doorway && (t.Stack & DoorMark) != 0) t.Stack ^= DoorHingeEast;
+            if (t.Stair > 0 && (t.Detail & StairRail) != 0) t.Detail ^= StairRailEast;
         }
         // A car's model hangs off its anchor's minimum corner, which is now the other side of it
         for (int v = 0; v < d; v++)
@@ -402,8 +543,14 @@ public sealed partial class WorldLayout
     /// From layout version 5 (<paramref name="v5"/>, the Suburbs only) the houses are less alike: about a third have two
     /// storeys (a hall up the middle with the stairs in it, bedrooms upstairs), half have a porch on posts with steps up
     /// to it, every door has a lamp by it, and the windows come in one of three rhythms.
+    /// From layout version 9 (<paramref name="v9"/>, the Suburbs only: a seed for what is new, drawn apart from
+    /// <paramref name="rng"/> so the rooms are as in 8) the outsides are those of real houses: tall windows set in each
+    /// room's stretch of wall (a picture window in the living room, shutters on a two-storey house's front), front and
+    /// back doors that open, a gable that faces the street on some houses and a garage under its own lower roof on
+    /// others, brick chimneys with caps, a garage door cased in trim, and stairs open overhead all the way up with a
+    /// balustrade on their open side (see <see cref="PlanExteriorV9"/>).
     /// </summary>
-    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false)
+    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false, ulong v9 = 0)
     {
         ref Tile At(int u, int v) => ref tiles[v * w + u];
         HousePlan kind = farmhouse ? HousePlan.Family : (HousePlan)rng.Range(0, 2);
@@ -577,8 +724,24 @@ public sealed partial class WorldLayout
                         Up(u, v, u == u0 || u == u1 || v == v0 || v == v1 ? StoreyOuter : StoreyFloor);
                 // The stairwell, walled in, open over the second and third steps
                 for (int v = v0 + 1; v <= v0 + 4; v++) { UpWall(hall, v); UpWall(stair + 1, v); }
-                UpWall(stair, v0 + 1); UpWall(stair, v0 + 2);
-                Up(stair, v0 + 3, StoreyHole); Up(stair, v0 + 4, StoreyHole);
+                UpWall(stair, v0 + 1);
+                if (v9 != 0)
+                {
+                    // Layout version 9: open over the whole flight, so there is headroom at every step (in 1-8 the floor
+                    // above came down over the first step, and anyone climbing struck their head on it going up onto the
+                    // second), and a balustrade along the hall side of the steps under the opening, so nobody climbing
+                    // drifts out from under it into the hall's ceiling
+                    for (int s = 1; s <= 3; s++)
+                    {
+                        Up(stair, v0 + 1 + s, StoreyHole);
+                        At(stair, v0 + 1 + s).Detail = (byte)(StairRail | (s == 1 ? StairRailFoot : 0));
+                    }
+                }
+                else
+                {
+                    UpWall(stair, v0 + 2);
+                    Up(stair, v0 + 3, StoreyHole); Up(stair, v0 + 4, StoreyHole);
+                }
                 // Two bedrooms at the front, across the landing from a bedroom, the bathroom and another bedroom
                 for (int u = u0 + 1; u < u1; u++)
                 {
@@ -836,12 +999,204 @@ public sealed partial class WorldLayout
             bool frontHalf = v - v0 <= v1 - v;
             for (int u = u0; u <= u1; u++) At(u, v).Roof = RoofBits.Make(Math.Min(v - v0, v1 - v), frontHalf ? ArchPier.North : ArchPier.South);
         }
+        if (v9 != 0) PlanExteriorV9(tiles, w, v9, u0, u1, v0, v1, kind, twoStorey, litWindows, locked, doorU, backDoorU, garageU0);
 
         if (locked)
             for (int v = v0 + 1; v < v1; v++)
                 for (int u = u0 + 1; u < u1; u++)
                     if (At(u, v).Kind == TileKind.Floor) At(u, v).Sealed = true;
         return new House(u0, u1, v0, v1, doorU, backDoorU, garage, garageU0 + 1, garageU0 + 3, locked);
+    }
+
+    /// <summary>
+    /// Layout version 9: the outside of a Suburbs house, laid over its plan once its rooms, doors, porch and gable roof are
+    /// in, with its own draws (<paramref name="seed"/>) so the rooms come out as in 8.
+    /// <list type="bullet">
+    /// <item>The roof: most houses keep the gable along the street; some single-storey houses and about a third of the
+    /// two-storey ones turn it to face the street (the ridge running back from it), and most houses with a garage put the
+    /// garage under a lower roof of its own whose gable faces the street, the house's gable end rising over it.</item>
+    /// <item>A chimney: on about half the houses whose gable is at the side, a brick stack two blocks wide outside the
+    /// gable end, from the ground to two blocks over the ridge; on some of the rest (most front-gabled ones), a stack
+    /// through the ridge. Each is capped (<see cref="IsChimney"/>). The old chimney in the side wall goes.</item>
+    /// <item>The windows (<see cref="WinSash"/>): each room's stretch of outside wall gets one, two or three, spaced
+    /// along it, the living room at the front a picture window; a two-storey house's front (and a third of the others')
+    /// has shutters, and upstairs the windows stand over the ones below. None beside the front door, where the lamp
+    /// hangs, nor behind a chimney.</item>
+    /// <item>The doors (<see cref="DoorMark"/>): hinged on the west of the plan (the side away from the lamp), a quarter
+    /// of front doors and some back doors left open; a locked house's front door is locked. The garage door is cased in
+    /// trim (<see cref="GarageTrim"/>).</item>
+    /// </list>
+    /// </summary>
+    private static void PlanExteriorV9(Tile[] tiles, int w, ulong seed, int u0, int u1, int v0, int v1, HousePlan kind, bool twoStorey,
+        bool litWindows, bool locked, int doorU, int backDoorU, int garageU0)
+    {
+        ref Tile At(int u, int v) => ref tiles[v * w + u];
+        var style = new Rng(seed);
+        bool garage = kind == HousePlan.Garage;
+        bool Siding(in Tile t) => t.Pattern >= WallPattern.SidingWhite && t.Pattern <= WallPattern.Brick;
+
+        // The roof
+        bool frontGable = !garage && style.Chance(twoStorey ? 0.35 : 0.4);
+        bool wing = garage && style.Chance(0.6);
+        if (frontGable)
+            for (int v = v0; v <= v1; v++)
+                for (int u = u0; u <= u1; u++)
+                    At(u, v).Roof = RoofBits.Make(Math.Min(u - u0, u1 - u), u - u0 <= u1 - u ? ArchPier.West : ArchPier.East);
+        if (wing)
+            for (int v = v0; v <= v1; v++)
+                for (int u = garageU0 + 1; u <= u1; u++)
+                    At(u, v).Roof = RoofBits.Make(Math.Min(u - garageU0 - 1, u1 - u), u - garageU0 - 1 <= u1 - u ? ArchPier.West : ArchPier.East);
+        int ridge = 0; // the height of the ridge, as a roof tile counts it
+        for (int v = v0; v <= v1; v++)
+            for (int u = u0; u <= u1; u++) ridge = Math.Max(ridge, RoofBits.Height(At(u, v).Roof));
+        int lift = twoStorey ? 4 : 0;
+
+        // The chimney
+        for (int v = v0; v <= v1; v++)
+            for (int u = u0; u <= u1; u++)
+                if (At(u, v).Kind == TileKind.Wall && At(u, v).Variant == 3) At(u, v).Variant = 0;
+        int cv = (v0 + v1) / 2; // (the two rows under the ridge of a gable along the street)
+        bool outside = !frontGable && style.Chance(0.5);
+        if (outside)
+        {
+            for (int v = cv; v <= cv + 1; v++)
+            {
+                ref Tile c = ref At(u0 - 1, v);
+                SetWall(ref c, WallPattern.Brick, BaseStyle.Plain);
+                c.Pier = ArchPier.West;
+                c.Variant = 0;
+                c.Depth = (byte)(lift + ridge + 2);
+            }
+        }
+        else if (style.Chance(frontGable ? 0.6 : 0.35))
+        {
+            // Up through the ridge, near the middle of the house
+            int ridgeEnd = wing ? garageU0 : u1;
+            (int, int)[] stack = frontGable
+                ? new[] { ((u0 + u1) / 2, v0 + (v1 - v0) * 2 / 3), ((u0 + u1) / 2 + 1, v0 + (v1 - v0) * 2 / 3) }
+                : new[] { (u0 + (ridgeEnd - u0) * 2 / 3, cv), (u0 + (ridgeEnd - u0) * 2 / 3, cv + 1) };
+            foreach (var (su, sv) in stack) At(su, sv).Depth = (byte)(RoofBits.Height(At(su, sv).Roof) + 2);
+        }
+
+        // The doors, and the garage door's casing
+        ref Tile front = ref At(doorU, v0);
+        front.Stack = (byte)(DoorMark | (locked ? DoorLocked : style.Chance(0.25) ? DoorOpen : 0));
+        if (backDoorU >= 0) At(backDoorU, v1).Stack = (byte)(DoorMark | (style.Chance(0.3) ? DoorOpen : 0));
+        if (garage)
+            for (int u = garageU0 + 1; u <= garageU0 + 3; u++)
+                if (At(u, v0).Pattern == WallPattern.GarageDoor) At(u, v0).Stack += GarageTrim;
+
+        // The windows: first the old ones out
+        for (int v = v0; v <= v1; v++)
+            for (int u = u0; u <= u1; u++)
+            {
+                ref Tile t = ref At(u, v);
+                if (t.Kind == TileKind.Wall && Siding(t) && t.Variant is 1 or 2) t.Variant = 0;
+            }
+        bool ranchShutters = !twoStorey && style.Chance(0.35);
+        bool picture = false;
+        // Each side: its tiles in order along it (corners left out), the step into the house and the step out
+        var sides = new (bool Front, (int U, int V)[] Tiles, int Du, int Dv)[]
+        {
+            (true, Line(u0 + 1, u1 - 1, u => (u, v0)), 0, 1),
+            (false, Line(u0 + 1, u1 - 1, u => (u, v1)), 0, -1),
+            (false, Line(v0 + 1, v1 - 1, v => (u0, v)), 1, 0),
+            (false, Line(v0 + 1, v1 - 1, v => (u1, v)), -1, 0),
+        };
+        foreach (var (isFront, line, du, dv) in sides)
+        {
+            bool Blocked(int u, int v) => At(u - du, v - dv).Depth > 0 || isFront && Math.Abs(u - doorU) <= 1;
+            // Downstairs
+            bool Ground(int i)
+            {
+                var (u, v) = line[i];
+                ref Tile t = ref At(u, v);
+                ref Tile inside = ref At(u + du, v + dv);
+                return t.Kind == TileKind.Wall && Siding(t) && t.Stack == 0 && inside.Kind == TileKind.Floor && !Blocked(u, v)
+                    && !(isFront && inside.Floor == FloorKind.Garage);
+            }
+            foreach (var (a, b) in Runs(line.Length, Ground))
+            {
+                var (iu, iv) = line[a];
+                FloorKind room = At(iu + du, iv + dv).Floor;
+                int len = b - a + 1;
+                bool lit = litWindows && style.Chance(0.5);
+                if (isFront && !picture && len >= 5 && room is FloorKind.HouseCarpet or FloorKind.HouseWood)
+                {
+                    picture = true;
+                    for (int k = 0; k < 3; k++) SetWindow(line[a + (len - 3) / 2 + k], WinPicture, lit);
+                    continue;
+                }
+                byte shape = isFront && (twoStorey || ranchShutters) ? WinShutter : WinSash;
+                foreach (int p in Spaced(a, len, room == FloorKind.HouseTile ? 1 : len <= 3 ? 1 : len <= 6 ? 2 : 3))
+                    SetWindow(line[p], shape, litWindows && style.Chance(0.5));
+            }
+            if (!twoStorey) continue;
+            // Upstairs, over the windows below where there are any (two over a picture window)
+            bool Upper(int i)
+            {
+                var (u, v) = line[i];
+                return At(u, v).Height is StoreyOuter or StoreyOuterBlank && IsUpstairsFloor(At(u + du, v + dv).Height) && At(u - du, v - dv).Depth == 0;
+            }
+            foreach (var (a, b) in Runs(line.Length, Upper))
+            {
+                var over = new System.Collections.Generic.List<int>();
+                for (int i = a; i <= b; i++)
+                {
+                    ref Tile below = ref At(line[i].U, line[i].V);
+                    bool win = below.Kind == TileKind.Wall && below.Variant is 1 or 2;
+                    bool pictureEnd = win && below.Stack == WinPicture
+                        && (i == 0 || At(line[i - 1].U, line[i - 1].V).Stack != WinPicture || i + 1 >= line.Length || At(line[i + 1].U, line[i + 1].V).Stack != WinPicture);
+                    if (win && (below.Stack != WinPicture || pictureEnd)) over.Add(i);
+                }
+                int len = b - a + 1;
+                if (over.Count == 0) over.AddRange(Spaced(a, len, len <= 3 ? 1 : len <= 6 ? 2 : 3));
+                foreach (int p in over)
+                {
+                    ref Tile t = ref At(line[p].U, line[p].V);
+                    t.Height = StoreyOuter;
+                    t.Detail = (byte)((isFront ? WinShutter : WinSash) | (litWindows && style.Chance(0.5) ? WinLit : 0));
+                }
+            }
+        }
+
+        void SetWindow((int U, int V) at, byte shape, bool lit)
+        {
+            ref Tile t = ref At(at.U, at.V);
+            t.Variant = (byte)(lit ? 2 : 1);
+            t.Stack = shape;
+        }
+    }
+
+    /// <summary>The values from <paramref name="first"/> to <paramref name="last"/>, each made into a tile position.</summary>
+    private static (int U, int V)[] Line(int first, int last, Func<int, (int, int)> at)
+    {
+        var list = new (int U, int V)[Math.Max(0, last - first + 1)];
+        for (int i = 0; i < list.Length; i++) list[i] = at(first + i);
+        return list;
+    }
+
+    /// <summary>The runs (first and last index) of consecutive indices below <paramref name="n"/> that pass a test.</summary>
+    private static System.Collections.Generic.List<(int A, int B)> Runs(int n, Func<int, bool> pass)
+    {
+        var runs = new System.Collections.Generic.List<(int, int)>();
+        for (int i = 0; i < n; i++)
+        {
+            if (!pass(i)) continue;
+            int j = i;
+            while (j + 1 < n && pass(j + 1)) j++;
+            runs.Add((i, j));
+            i = j;
+        }
+        return runs;
+    }
+
+    /// <summary><paramref name="count"/> positions spread evenly along a run of <paramref name="len"/> from <paramref name="a"/>.</summary>
+    private static int[] Spaced(int a, int len, int count)
+    {
+        var at = new int[count];
+        for (int k = 0; k < count; k++) at[k] = a + Math.Clamp((int)Math.Round((k + 0.5) * len / count - 0.5, MidpointRounding.AwayFromZero), 0, len - 1);
+        return at;
     }
 
     /// <summary>The front yard: a path to the door, beds of flowers and shrubs, the mailbox, a drive and a hoop, a picket fence.</summary>

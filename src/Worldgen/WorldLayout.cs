@@ -250,7 +250,17 @@ public sealed partial class WorldLayout
     /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
     /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
     /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
-    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.</item>
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.
+    /// Level 9's houses: the Suburbs are built up to 24 blocks over their floor (WorldGenerator.Band; in 1-8 nothing
+    /// over rel 9 was, so a two-storey house stopped flat at its eaves) and two lots that meet share one fence on the
+    /// line between them (PlaceSharedFences; in 1-8 each built its own, two side by side). Each house's outside is laid
+    /// over its plan with draws of its own (PlanExteriorV9): some gables face the street, some garages stand under a
+    /// lower roof of their own, a brick chimney stack stands outside a gable end or rises through the ridge (Tile.Depth,
+    /// IsChimney; the chimney in the side wall goes), the windows are two blocks tall and set in each room's stretch of
+    /// wall (WinSash, WinShutter, WinPicture; upstairs in Tile.Detail), the front and back doors are doors that open
+    /// (DoorMark on the doorway; a locked house's front door is one too, locked), the garage door is cased in trim
+    /// (GarageTrim), and the stairs are open overhead over every step (in 1-8 the floor above came down over the first,
+    /// and nobody could climb past it) with a balustrade on the hall side (StairRail).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

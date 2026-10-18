@@ -1,0 +1,521 @@
+// A Suburbs house's front or back door (layout version 9): right-click to open or shut it; a locked one stays shut
+{
+	"code": "suburbdoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open",
+				"locked"
+			]
+		},
+		{
+			"code": "hinge",
+			"states": [
+				"w",
+				"e"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-closed-w-lower-north"
+		],
+		"construction": [
+			"*-closed-w-lower-north"
+		]
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsSuburbDoor"
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-closed-w-lower-north": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 0
+		},
+		"*-closed-w-lower-east": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 270
+		},
+		"*-closed-w-lower-south": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 180
+		},
+		"*-closed-w-lower-west": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 90
+		},
+		"*-locked-w-lower-north": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 0
+		},
+		"*-locked-w-lower-east": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 270
+		},
+		"*-locked-w-lower-south": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 180
+		},
+		"*-locked-w-lower-west": {
+			"base": "block/detail/suburbs/door-closed-wlower",
+			"rotateY": 90
+		},
+		"*-closed-w-upper-north": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-closed-w-upper-east": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-closed-w-upper-south": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-closed-w-upper-west": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-locked-w-upper-north": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-locked-w-upper-east": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-locked-w-upper-south": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-locked-w-upper-west": {
+			"base": "block/detail/suburbs/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-closed-e-lower-north": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 0
+		},
+		"*-closed-e-lower-east": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 270
+		},
+		"*-closed-e-lower-south": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 180
+		},
+		"*-closed-e-lower-west": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 90
+		},
+		"*-locked-e-lower-north": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 0
+		},
+		"*-locked-e-lower-east": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 270
+		},
+		"*-locked-e-lower-south": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 180
+		},
+		"*-locked-e-lower-west": {
+			"base": "block/detail/suburbs/door-closed-elower",
+			"rotateY": 90
+		},
+		"*-closed-e-upper-north": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-closed-e-upper-east": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-closed-e-upper-south": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-closed-e-upper-west": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 90
+		},
+		"*-locked-e-upper-north": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-locked-e-upper-east": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-locked-e-upper-south": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-locked-e-upper-west": {
+			"base": "block/detail/suburbs/door-closed-eupper",
+			"rotateY": 90
+		},
+		"*-open-w-lower-north": {
+			"base": "block/detail/suburbs/door-open-wlower",
+			"rotateY": 0
+		},
+		"*-open-w-lower-east": {
+			"base": "block/detail/suburbs/door-open-wlower",
+			"rotateY": 270
+		},
+		"*-open-w-lower-south": {
+			"base": "block/detail/suburbs/door-open-wlower",
+			"rotateY": 180
+		},
+		"*-open-w-lower-west": {
+			"base": "block/detail/suburbs/door-open-wlower",
+			"rotateY": 90
+		},
+		"*-open-w-upper-north": {
+			"base": "block/detail/suburbs/door-open-wupper",
+			"rotateY": 0
+		},
+		"*-open-w-upper-east": {
+			"base": "block/detail/suburbs/door-open-wupper",
+			"rotateY": 270
+		},
+		"*-open-w-upper-south": {
+			"base": "block/detail/suburbs/door-open-wupper",
+			"rotateY": 180
+		},
+		"*-open-w-upper-west": {
+			"base": "block/detail/suburbs/door-open-wupper",
+			"rotateY": 90
+		},
+		"*-open-e-lower-north": {
+			"base": "block/detail/suburbs/door-open-elower",
+			"rotateY": 0
+		},
+		"*-open-e-lower-east": {
+			"base": "block/detail/suburbs/door-open-elower",
+			"rotateY": 270
+		},
+		"*-open-e-lower-south": {
+			"base": "block/detail/suburbs/door-open-elower",
+			"rotateY": 180
+		},
+		"*-open-e-lower-west": {
+			"base": "block/detail/suburbs/door-open-elower",
+			"rotateY": 90
+		},
+		"*-open-e-upper-north": {
+			"base": "block/detail/suburbs/door-open-eupper",
+			"rotateY": 0
+		},
+		"*-open-e-upper-east": {
+			"base": "block/detail/suburbs/door-open-eupper",
+			"rotateY": 270
+		},
+		"*-open-e-upper-south": {
+			"base": "block/detail/suburbs/door-open-eupper",
+			"rotateY": 180
+		},
+		"*-open-e-upper-west": {
+			"base": "block/detail/suburbs/door-open-eupper",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-closed-w-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-closed-w-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-closed-w-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-closed-w-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-closed-e-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-closed-e-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-closed-e-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-closed-e-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-open-w-*-north": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-w-*-east": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-open-w-*-south": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-open-w-*-west": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-open-e-*-north": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-e-*-east": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-open-e-*-south": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-open-e-*-west": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-locked-w-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-locked-w-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-locked-w-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-locked-w-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-locked-e-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-locked-e-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-locked-e-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-locked-e-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

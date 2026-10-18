@@ -69,6 +69,9 @@ if (args.Length > 2 && args[2] == "parts") { PartsStats.Run(layout, m0x + n / 2,
 if (args.Length > 2 && args[2] == "gates") { Gates.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "lorespots") { LoreSpots.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "l9houses") { L9Houses.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9stairs") { L9Stairs.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9fences") { L9Stairs.Fences(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9elev") { L9Elevations.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "archspots") { ArchSpots.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }

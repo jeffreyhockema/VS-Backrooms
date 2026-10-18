@@ -1,0 +1,570 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chimneycrown": "backrooms:block/detail/chimneycrown",
+		"fluepot": "backrooms:block/detail/fluepot",
+		"fluethroat": "backrooms:block/detail/fluethroat",
+		"siding-brick": "backrooms:block/detail/siding-brick"
+	},
+	"elements": [
+		{
+			"name": "Brick",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				5,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"south": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				},
+				"west": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Corbel",
+			"from": [
+				-0.75,
+				5,
+				-0.0
+			],
+			"to": [
+				16.75,
+				7,
+				16.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#siding-brick",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Crown",
+			"from": [
+				-1.25,
+				7,
+				-0.0
+			],
+			"to": [
+				17.25,
+				8.5,
+				17.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Wash",
+			"from": [
+				1,
+				8.5,
+				0
+			],
+			"to": [
+				15,
+				9.25,
+				15
+			],
+			"faces": {
+				"east": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						15,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						15,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#chimneycrown",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "PotA",
+			"from": [
+				5.5,
+				9.25,
+				6.5
+			],
+			"to": [
+				10.5,
+				15,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.75
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.75
+					]
+				},
+				"south": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.75
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.75
+					]
+				}
+			}
+		},
+		{
+			"name": "PotB",
+			"from": [
+				6.5,
+				9.25,
+				5.5
+			],
+			"to": [
+				9.5,
+				15,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.75
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.75
+					]
+				},
+				"south": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.75
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				5.75,
+				15,
+				5.75
+			],
+			"to": [
+				10.25,
+				16,
+				10.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						4.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Throat",
+			"from": [
+				6.5,
+				15.5,
+				6.5
+			],
+			"to": [
+				9.5,
+				16,
+				9.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#fluethroat",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "RimTop",
+			"from": [
+				5.75,
+				16,
+				5.75
+			],
+			"to": [
+				10.25,
+				16.25,
+				6.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.75
+					]
+				},
+				"north": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RimTopS",
+			"from": [
+				5.75,
+				16,
+				9.5
+			],
+			"to": [
+				10.25,
+				16.25,
+				10.25
+			],
+			"faces": {
+				"up": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RimTopW",
+			"from": [
+				5.75,
+				16,
+				6.5
+			],
+			"to": [
+				6.5,
+				16.25,
+				9.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RimTopE",
+			"from": [
+				9.5,
+				16,
+				6.5
+			],
+			"to": [
+				10.25,
+				16.25,
+				9.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						0.75,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#fluepot",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

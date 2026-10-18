@@ -1613,4 +1613,6 @@ def generate():
     level7()
     level8()
     level9()
+    import gen_suburbs  # (Level 9's houses from layout version 9)
+    gen_suburbs.generate()
     level10()

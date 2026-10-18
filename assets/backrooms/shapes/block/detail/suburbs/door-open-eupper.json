@@ -1,0 +1,2509 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"doorpaint": "backrooms:block/detail/doorpaint",
+		"plaster-interior": "backrooms:block/detail/plaster-interior",
+		"suburbglass-dark-p": "backrooms:block/detail/suburbglass-dark-p",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "LiningW",
+			"from": [
+				14.75,
+				0,
+				0
+			],
+			"to": [
+				16,
+				14.5,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						16,
+						7.6066
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						1.25,
+						0.0,
+						0.0,
+						7.6066
+					]
+				}
+			}
+		},
+		{
+			"name": "LiningE",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.25,
+				14.5,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						16,
+						7.6066
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						1.25,
+						0.0,
+						0.0,
+						7.6066
+					]
+				}
+			}
+		},
+		{
+			"name": "LiningHead",
+			"from": [
+				0,
+				14.5,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0,
+						0.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						16.0,
+						0.0,
+						0.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingW",
+			"from": [
+				14.75,
+				0,
+				-0.75
+			],
+			"to": [
+				17.5,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.75,
+						0.0,
+						0.0,
+						8.4364
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.75,
+						8.4364
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.75,
+						8.4364
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingE",
+			"from": [
+				-1.5,
+				0,
+				-0.75
+			],
+			"to": [
+				1.25,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.75,
+						0.0,
+						0.0,
+						8.4364
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.75,
+						8.4364
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.75,
+						8.4364
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingHead",
+			"from": [
+				-2,
+				14.5,
+				-1
+			],
+			"to": [
+				18,
+				17.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0.0,
+						0.0,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0,
+						0.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "DripCap",
+			"from": [
+				-2.5,
+				17.5,
+				-1.75
+			],
+			"to": [
+				18.5,
+				18.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0.0,
+						0.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0,
+						0.0,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						16.0,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingW",
+			"from": [
+				14.75,
+				0,
+				16
+			],
+			"to": [
+				17,
+				16.5,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.25,
+						0.0,
+						0.0,
+						8.1231
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.6,
+						8.1231
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.6,
+						8.1231
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.25,
+						0,
+						0.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingE",
+			"from": [
+				-1,
+				0,
+				16
+			],
+			"to": [
+				1.25,
+				16.5,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.25,
+						0.0,
+						0.0,
+						8.1231
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.6,
+						8.1231
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						0.6,
+						8.1231
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.25,
+						0,
+						0.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingHead",
+			"from": [
+				1.25,
+				14.5,
+				16
+			],
+			"to": [
+				14.75,
+				16.5,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						13.5,
+						0.0,
+						0.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						13.5,
+						0,
+						0.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafRail1",
+			"from": [
+				12.4,
+				12.65,
+				3.75
+			],
+			"to": [
+				14.15,
+				14.4,
+				17.05
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						1.75
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						1.75
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						1.75
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						1.75
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						13.3,
+						0,
+						0.0,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						13.3,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafRail3",
+			"from": [
+				12.4,
+				3.3,
+				3.75
+			],
+			"to": [
+				14.15,
+				5.05,
+				17.05
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						1.75
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						1.75
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						1.75
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						1.75
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						13.3,
+						0,
+						0.0,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						13.3,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile1_0",
+			"from": [
+				12.4,
+				0,
+				3.75
+			],
+			"to": [
+				14.15,
+				3.3,
+				5.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile1_1",
+			"from": [
+				12.4,
+				0,
+				15.3
+			],
+			"to": [
+				14.15,
+				3.3,
+				17.05
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile1_2",
+			"from": [
+				12.4,
+				0,
+				9.525
+			],
+			"to": [
+				14.15,
+				3.3,
+				11.275
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						3.3
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						3.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile2_0",
+			"from": [
+				12.4,
+				5.05,
+				3.75
+			],
+			"to": [
+				14.15,
+				12.65,
+				5.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile2_1",
+			"from": [
+				12.4,
+				5.05,
+				15.3
+			],
+			"to": [
+				14.15,
+				12.65,
+				17.05
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile2_2",
+			"from": [
+				12.4,
+				5.05,
+				9.525
+			],
+			"to": [
+				14.15,
+				12.65,
+				11.275
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						1.75,
+						7.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						1.75,
+						0.0,
+						0.0,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafPanel2",
+			"from": [
+				12.9,
+				0,
+				5.5
+			],
+			"to": [
+				13.65,
+				3.3,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						3.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafField2",
+			"from": [
+				12.4,
+				0,
+				6.5063
+			],
+			"to": [
+				12.9,
+				2.2937,
+				8.5188
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						2.0125,
+						2.2937
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						2.0125,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafFieldB2",
+			"from": [
+				13.65,
+				0,
+				6.5063
+			],
+			"to": [
+				14.15,
+				2.2937,
+				8.5188
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						2.0125,
+						2.2937
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						2.0125,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafPanel3",
+			"from": [
+				12.9,
+				0,
+				11.275
+			],
+			"to": [
+				13.65,
+				3.3,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						3.3
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafField3",
+			"from": [
+				12.4,
+				0,
+				12.2812
+			],
+			"to": [
+				12.9,
+				2.2937,
+				14.2938
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						2.0125,
+						2.2937
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						2.0125,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafFieldB3",
+			"from": [
+				13.65,
+				0,
+				12.2812
+			],
+			"to": [
+				14.15,
+				2.2937,
+				14.2938
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						2.0125,
+						2.2937
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.2937
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						2.0125,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4Pane",
+			"from": [
+				13.025,
+				5.05,
+				5.5
+			],
+			"to": [
+				13.525,
+				12.65,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadFT",
+			"from": [
+				11.9,
+				12.15,
+				5.5
+			],
+			"to": [
+				12.4,
+				12.65,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadFB",
+			"from": [
+				11.9,
+				5.05,
+				5.5
+			],
+			"to": [
+				12.4,
+				5.55,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadFL",
+			"from": [
+				11.9,
+				5.55,
+				5.5
+			],
+			"to": [
+				12.4,
+				12.15,
+				6.0
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadFR",
+			"from": [
+				11.9,
+				5.55,
+				9.025
+			],
+			"to": [
+				12.4,
+				12.15,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadBT",
+			"from": [
+				14.15,
+				12.15,
+				5.5
+			],
+			"to": [
+				14.65,
+				12.65,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadBB",
+			"from": [
+				14.15,
+				5.05,
+				5.5
+			],
+			"to": [
+				14.65,
+				5.55,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadBL",
+			"from": [
+				14.15,
+				5.55,
+				5.5
+			],
+			"to": [
+				14.65,
+				12.15,
+				6.0
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4BeadBR",
+			"from": [
+				14.15,
+				5.55,
+				9.025
+			],
+			"to": [
+				14.65,
+				12.15,
+				9.525
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4RevealT",
+			"from": [
+				12.4,
+				12.65,
+				5.5
+			],
+			"to": [
+				14.15,
+				13.15,
+				9.525
+			],
+			"faces": {
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite4RevealB",
+			"from": [
+				12.4,
+				4.55,
+				5.5
+			],
+			"to": [
+				14.15,
+				5.05,
+				9.525
+			],
+			"faces": {
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5Pane",
+			"from": [
+				13.025,
+				5.05,
+				11.275
+			],
+			"to": [
+				13.525,
+				12.65,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadFT",
+			"from": [
+				11.9,
+				12.15,
+				11.275
+			],
+			"to": [
+				12.4,
+				12.65,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadFB",
+			"from": [
+				11.9,
+				5.05,
+				11.275
+			],
+			"to": [
+				12.4,
+				5.55,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadFL",
+			"from": [
+				11.9,
+				5.55,
+				11.275
+			],
+			"to": [
+				12.4,
+				12.15,
+				11.775
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadFR",
+			"from": [
+				11.9,
+				5.55,
+				14.8
+			],
+			"to": [
+				12.4,
+				12.15,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadBT",
+			"from": [
+				14.15,
+				12.15,
+				11.275
+			],
+			"to": [
+				14.65,
+				12.65,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadBB",
+			"from": [
+				14.15,
+				5.05,
+				11.275
+			],
+			"to": [
+				14.65,
+				5.55,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						4.025,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadBL",
+			"from": [
+				14.15,
+				5.55,
+				11.275
+			],
+			"to": [
+				14.65,
+				12.15,
+				11.775
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5BeadBR",
+			"from": [
+				14.15,
+				5.55,
+				14.8
+			],
+			"to": [
+				14.65,
+				12.15,
+				15.3
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"south": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				},
+				"east": {
+					"texture": "#doorpaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						6.6
+					]
+				},
+				"north": {
+					"texture": "#doorpaint",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5RevealT",
+			"from": [
+				12.4,
+				12.65,
+				11.275
+			],
+			"to": [
+				14.15,
+				13.15,
+				15.3
+			],
+			"faces": {
+				"down": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Lite5RevealB",
+			"from": [
+				12.4,
+				4.55,
+				11.275
+			],
+			"to": [
+				14.15,
+				5.05,
+				15.3
+			],
+			"faces": {
+				"up": {
+					"texture": "#doorpaint",
+					"uv": [
+						4.025,
+						0,
+						0.0,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "BoltO",
+			"from": [
+				11.9,
+				2.0,
+				14.65
+			],
+			"to": [
+				12.4,
+				3.0,
+				15.65
+			],
+			"faces": {
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BoltI",
+			"from": [
+				14.15,
+				2.0,
+				14.65
+			],
+			"to": [
+				14.65,
+				3.0,
+				15.65
+			],
+			"faces": {
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				14.15,
+				0,
+				3.75
+			],
+			"to": [
+				14.4,
+				0.5,
+				4.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge2",
+			"from": [
+				14.15,
+				10.0,
+				3.75
+			],
+			"to": [
+				14.4,
+				12.5,
+				4.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.5,
+						0.0,
+						0.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						1.0,
+						0,
+						0.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

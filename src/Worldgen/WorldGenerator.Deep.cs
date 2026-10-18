@@ -58,6 +58,19 @@ public sealed partial class WorldGenerator
     private int porchDeckId, porchStepId, porchPostId;
     /// <summary>A porch post's foot in the railing, with the rails coming in to it, by the railing's mask (as <see cref="fenceIds"/>).</summary>
     private readonly int[] porchPostRailIds = new int[16];
+    // The Suburbs from layout version 9 (WorldLayout.PlanExteriorV9): how high its columns go (over its floor), the tall
+    // windows by glass (dark, lit), part (SuburbWindowParts) and side; the doors that open by state (closed, open,
+    // locked), hinge end (as modelled facing north: west, east), half and side; the cased garage door by part and side;
+    // the chimney's cap by the side its other half is on (or none); the stairs' balustraded steps by step (foot, flight),
+    // balustrade end and the way they climb
+    private const int SuburbTop = 24;
+    private static readonly string[] SuburbWindowParts =
+        { "sashlower", "sashupper", "shutterlower", "shutterupper", "picwlower", "picmlower", "picelower", "picwupper", "picmupper", "piceupper" };
+    private readonly int[,,] suburbWindowIds = new int[2, 10, 4];
+    private readonly int[,,,] suburbDoorIds = new int[3, 2, 2, 4];
+    private readonly int[,] casedGarageIds = new int[6, 4];
+    private readonly int[] chimneyCapIds = new int[5];
+    private readonly int[,,] stairRailIds = new int[2, 2, 4];
     private readonly int[] roofIds = new int[3];
     private readonly int[] barnWallIds = new int[2];
     private readonly int[] fenceIds = new int[16];
@@ -202,6 +215,20 @@ public sealed partial class WorldGenerator
         houseDoorUpperId = Id("housedoor-upper");
         garageLowerId = Id("garagedoor-lower");
         garageUpperId = Id("garagedoor-upper");
+        string[] glasses = { "dark", "lit" }, doorStates = { "closed", "open", "locked" }, ends = { "w", "e" }, halves2 = { "lower", "upper" };
+        string[] garageParts = { "lowerw", "lowerm", "lowere", "upperw", "upperm", "uppere" }, capJoins = { "none", "north", "east", "south", "west" };
+        for (int f = 0; f < 4; f++)
+        {
+            for (int gl = 0; gl < 2; gl++)
+                for (int p = 0; p < SuburbWindowParts.Length; p++) suburbWindowIds[gl, p, f] = Id($"suburbwindow-{glasses[gl]}-{SuburbWindowParts[p]}-{sides[f]}");
+            for (int st = 0; st < 3; st++)
+                for (int e = 0; e < 2; e++)
+                    for (int hf = 0; hf < 2; hf++) suburbDoorIds[st, e, hf, f] = Id($"suburbdoor-{doorStates[st]}-{ends[e]}-{halves2[hf]}-{sides[f]}");
+            for (int p = 0; p < garageParts.Length; p++) casedGarageIds[p, f] = Id($"garagedoorcased-{garageParts[p]}-{sides[f]}");
+            for (int foot = 0; foot < 2; foot++)
+                for (int e = 0; e < 2; e++) stairRailIds[foot, e, f] = Id($"housestairsrail-{(foot == 1 ? "foot" : "flight")}-{ends[e]}-{sides[f]}");
+        }
+        for (int c = 0; c < capJoins.Length; c++) chimneyCapIds[c] = Id($"chimneycap-{capJoins[c]}");
         barnWallIds[0] = Id("barnwall-red");
         barnWallIds[1] = Id("barnwall-grey");
         logId = GameId("game:log-grown-oak-ud", "game:log-placed-oak-ud");
@@ -634,6 +661,8 @@ public sealed partial class WorldGenerator
         int barnWall = barn ? barnWallIds[t.Pattern == WallPattern.BarnRed ? 0 : 1] : 0;
         var (lotX, lotZ) = layout.LotKeyAt(gx, gz);
         int material = barn ? 3 : roofMaterial >= 0 ? roofMaterial : (int)(Hashing.Hash(seed, lotX, lotZ, 0x9D09) % 3); // one colour of shingles per house
+        // From layout version 9: chimneys, tall windows, doors that open, the cased garage door
+        if (t.Level == 9 && layout.Version >= 9 && SuburbV9Block(t, gx, gz, rel, material) is int v9 and >= 0) return v9;
         switch (t.Kind)
         {
             case TileKind.Wall:
@@ -744,6 +773,101 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>
+    /// What a Suburbs house from layout version 9 has that the older ones don't (see WorldLayout.PlanExteriorV9), where
+    /// the tile is not drawn as ever (-1 where it is): a brick chimney stack and its cap; a tall window's lower or upper
+    /// half (rel 2-3); a front or back door that opens, closed, open or locked, its gable siding over it where the gable
+    /// faces the street; a garage door cased in trim.
+    /// </summary>
+    private int SuburbV9Block(in Tile t, int gx, int gz, int rel, int material)
+    {
+        bool siding = t.Pattern >= WallPattern.SidingWhite && t.Pattern <= WallPattern.Brick;
+        if (WorldLayout.IsChimney(t))
+        {
+            // From the ground outside a gable end, or from the roof up through the ridge; a cap on top
+            int from = RoofBits.IsSloped(t.Roof) ? RoofBits.Height(t.Roof) : 1;
+            if (rel >= from) return rel < t.Depth ? chimneyId : rel == t.Depth ? chimneyCapIds[ChimneyJoin(gx, gz)] : 0;
+        }
+        switch (t.Kind)
+        {
+            case TileKind.Wall when siding && t.Variant is 1 or 2 && t.Stack >= WorldLayout.WinSash && rel is 2 or 3:
+                return TallWindow(t.Variant == 2, t.Stack, rel == 3, t.Pier, gx, gz, upstairs: false);
+            case TileKind.Door when siding && t.Under == Unders.DollHouse:
+            {
+                // A doll's house's door, onto Level 94 (its gable, if it faces the street, closed over it)
+                int roof = RoofAt(t, rel, material, Siding(t), gx, gz, 1 + (t.Pattern - WallPattern.SidingWhite));
+                if (roof >= 0) return roof;
+                return rel > 4 ? 0 : rel == 1 ? dollDoorLowerId : rel == 2 ? dollDoorUpperId : Siding(t);
+            }
+            case TileKind.Door or TileKind.Doorway when siding && (t.Stack & WorldLayout.DoorMark) != 0:
+            {
+                // (where the gable faces the street, the siding goes on up over the door)
+                int roof = RoofAt(t, rel, material, Siding(t), gx, gz, 1 + (t.Pattern - WallPattern.SidingWhite));
+                if (roof >= 0) return roof;
+                if (rel > 4) return 0;
+                if (rel > 2) return Siding(t);
+                int state = (t.Stack & WorldLayout.DoorLocked) != 0 ? 2 : (t.Stack & WorldLayout.DoorOpen) != 0 ? 1 : 0;
+                int f = Facing(t.Pier);
+                return suburbDoorIds[state, ModelEnd(f, (t.Stack & WorldLayout.DoorHingeEast) != 0), rel - 1, f];
+            }
+            case TileKind.Door when t.Pattern == WallPattern.GarageDoor && t.Stack >= WorldLayout.GarageTrim:
+            {
+                int sd = Math.Min(t.Stack & 15, sidingIds.GetLength(0) - 1), f = Facing(t.Pier);
+                int roof = RoofAt(t, rel, material, sidingIds[sd, f], gx, gz, 1 + sd);
+                if (roof >= 0) return roof;
+                if (rel > 4) return 0;
+                if (rel > 2) return sidingIds[sd, f];
+                ArchPier pier = t.Pier;
+                int part = AlongWall(gx, gz, pier, n => n.Kind == TileKind.Door && n.Pattern == WallPattern.GarageDoor);
+                return casedGarageIds[(rel - 1) * 3 + part, f];
+            }
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Which end of a model (as modelled facing north: 0 its west end, 1 its east) a feature at one side of it lies at, for
+    /// a block facing <paramref name="f"/> (as <see cref="Facing"/> counts) with the feature on the world's east side or
+    /// its west. A model turned to face east has its west end to the north, and so on round.
+    /// </summary>
+    private static int ModelEnd(int f, bool east) => (east ? 1 : 3) == ((f + 3) & 3) ? 0 : 1;
+
+    /// <summary>
+    /// Where a tile lies in a row of its kind along a wall facing <paramref name="pier"/>: 0 at the row's end that is the
+    /// model's west end (as modelled facing north), 2 at its east end, 1 between (or alone).
+    /// </summary>
+    private int AlongWall(int gx, int gz, ArchPier pier, System.Func<Tile, bool> same)
+    {
+        int f = Facing(pier), w = (f + 3) & 3, e = (f + 1) & 3;
+        Tile tw = TileAt(gx + PipeFaces[w].Dx, gz + PipeFaces[w].Dz), te = TileAt(gx + PipeFaces[e].Dx, gz + PipeFaces[e].Dz);
+        bool hasW = tw.Pier == pier && same(tw), hasE = te.Pier == pier && same(te);
+        return !hasW && hasE ? 0 : hasW && !hasE ? 2 : 1;
+    }
+
+    /// <summary>A Suburbs window's shape (WorldLayout.WinSash ...) on a tile: downstairs from its Stack, upstairs from its Detail.</summary>
+    private static int WindowShape(in Tile n, bool upstairs) =>
+        upstairs ? n.Detail & 0x1F : n.Kind == TileKind.Wall && n.Variant is 1 or 2 ? n.Stack : 0;
+
+    /// <summary>A tall window's block: its glass, which of its parts this is, and its side.</summary>
+    private int TallWindow(bool lit, int shape, bool upper, ArchPier pier, int gx, int gz, bool upstairs)
+    {
+        int part = shape switch
+        {
+            WorldLayout.WinShutter => upper ? 3 : 2,
+            WorldLayout.WinPicture => (upper ? 7 : 4) + AlongWall(gx, gz, pier, n => WindowShape(n, upstairs) == WorldLayout.WinPicture),
+            _ => upper ? 1 : 0,
+        };
+        return suburbWindowIds[lit ? 1 : 0, part, Facing(pier)];
+    }
+
+    /// <summary>A chimney cap's join: 0 alone, else 1 + the side (as <see cref="Facing"/> counts) its stack's other half is on.</summary>
+    private int ChimneyJoin(int gx, int gz)
+    {
+        for (int f = 0; f < 4; f++)
+            if (WorldLayout.IsChimney(TileAt(gx + PipeFaces[f].Dx, gz + PipeFaces[f].Dz))) return 1 + f;
+        return 0;
+    }
+
+    /// <summary>
     /// What a Suburbs house from layout version 5 has that the older ones don't (see <see cref="WorldLayout.StoreyFloor"/>,
     /// kept in the tile's Height): the porch's deck, steps and posts and the lamp by the door; a two-storey house's
     /// stairs, the floor between its storeys, its rooms upstairs, and its roof a storey up. -1 where the tile is drawn
@@ -764,7 +888,15 @@ public sealed partial class WorldGenerator
             return -1;
         }
         // The stairs: solid under each step, open over it up through the floor above, the top step in that floor
-        if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? interiorIds[WallPattern.InteriorBeige] : houseStairIds[Facing(t.Pier)];
+        // (from layout version 9, the steps under the opening have a balustrade on their open side)
+        if (t.Stair > 0 && rel <= t.Stair)
+        {
+            if (rel < t.Stair) return interiorIds[WallPattern.InteriorBeige];
+            int f = Facing(t.Pier);
+            return (t.Detail & WorldLayout.StairRail) != 0 && layout.Version >= 9
+                ? stairRailIds[(t.Detail & WorldLayout.StairRailFoot) != 0 ? 1 : 0, ModelEnd(f, (t.Detail & WorldLayout.StairRailEast) != 0), f]
+                : houseStairIds[f];
+        }
         if (rel < 4) return t.Stair > 0 ? 0 : -1;
         if (storey is WorldLayout.StoreyOuter or WorldLayout.StoreyOuterBlank)
         {
@@ -772,6 +904,17 @@ public sealed partial class WorldGenerator
             if (rel == 4) return -1;
             Tile upper = t;
             upper.Height = 0;
+            if (layout.Version >= 9)
+            {
+                // Layout version 9: the windows upstairs are their own (in Detail), tall like the ones below
+                int shape = t.Detail & 0x1F;
+                if (shape >= WorldLayout.WinSash && rel is 6 or 7) return TallWindow((t.Detail & WorldLayout.WinLit) != 0, shape, rel == 7, t.Pier, gx, gz, upstairs: true);
+                upper.Kind = TileKind.Wall;
+                upper.Variant = 0;
+                upper.Under = 0;
+                if (upper.Stack is not (1 or 2)) upper.Stack = 0; // (a corner keeps its second face)
+                return Level9Block(upper, gx, gz, rel - 4, roofMaterial);
+            }
             if (t.Kind is TileKind.Door or TileKind.Doorway)
             {
                 upper.Kind = TileKind.Wall;
