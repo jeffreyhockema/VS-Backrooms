@@ -93,6 +93,10 @@ public sealed partial class WorldLayout
         return edge;
     }
 
+    /// <summary>A window's state from a roll: 1 blacked out, 2 behind blinds, 0 clear. From layout 9 fewer are clear and more
+    /// have blinds (older worlds: 55% blacked out, 27% blinds, 18% clear); the wiki says most are blacked out and any clear one is a trap.</summary>
+    private byte WindowVariant(double r) => Version >= 9 ? (byte)(r < 0.4 ? 1 : r < 0.86 ? 2 : 0) : (byte)(r < 0.55 ? 1 : r < 0.82 ? 2 : 0);
+
     private void BuildLevel4(Builder b, int mx, int mz)
     {
         for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i].Floor = FloorKind.OfficeCarpet;
@@ -111,7 +115,7 @@ public sealed partial class WorldLayout
                 if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.OfficeWindow)
                 {
                     // Most windows are papered over or shut behind blinds; the clear ones are not to be trusted
-                    t.Variant = (byte)(r < 0.55 ? 1 : r < 0.82 ? 2 : 0);
+                    t.Variant = WindowVariant(r);
                     continue;
                 }
                 if (t.IsWallLike) continue;
@@ -271,7 +275,9 @@ public sealed partial class WorldLayout
                 if (col == 2 && (row == 4 || row == 6)) { tile.Variant = Props.Desk; tile.Pier = rowA ? ArchPier.North : ArchPier.South; }
                 else if (col == 2 && (row == 3 || row == 7)) { tile.Variant = Props.OfficeChair; tile.Pier = rowA ? ArchPier.South : ArchPier.North; }
                 else if (col == 3 && (row == 4 || row == 6) && rng.Chance(0.4)) tile.Variant = Props.Wastebasket;
-                else if (col == 1 && (row == 4 || row == 6) && rng.Chance(0.25)) { tile.Variant = Props.FilingCabinet; tile.Pier = rowA ? ArchPier.South : ArchPier.North; }
+                else if (col == 1 && (row == 4 || row == 6) && rng.Chance(0.25)) { tile.Variant = Props.FilingCabinet;
+                    // Drawers face into the cubicle like the desk (from layout 9; older worlds had them against the partition)
+                    tile.Pier = Version >= 9 ? (rowA ? ArchPier.North : ArchPier.South) : (rowA ? ArchPier.South : ArchPier.North); }
             }
         }
     }

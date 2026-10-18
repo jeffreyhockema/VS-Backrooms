@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Wood",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/officedoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/officedoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/officedoor-upper"
 		}
 	},
 	"lightAbsorption": 99,

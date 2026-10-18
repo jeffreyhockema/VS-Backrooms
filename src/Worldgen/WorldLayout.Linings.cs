@@ -204,7 +204,7 @@ public sealed partial class WorldLayout
     {
         if (level != 4 || pattern != WallPattern.OfficeWindow) return 0;
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL4Detail));
-        return (ushort)(r < 0.55 ? 1 : r < 0.82 ? 2 : 0);
+        return WindowVariant(r);
     }
 
     /// <summary>
