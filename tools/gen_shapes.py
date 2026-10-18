@@ -1982,25 +1982,13 @@ def level5():
     for part in ("lower", "upper"):
         save(f"hoteldoor-{part}", dict(t, **HOTEL_DOOR_TEX), hotel_door(part))
 
-    oriented("bed-head", t, [
-        box("Frame", (1, 2, 0), (15, 6, 16), "wood"),
-        box("Mattress", (1.5, 6, 0.5), (14.5, 9, 16), "linen"),
-        box("Pillow", (3, 9, 1.5), (13, 10.5, 5), "linen"),
-        box("Headboard", (0.5, 0, -0.5), (15.5, 16, 1), "wood"),
-        box("Blanket", (1.3, 6.5, 6), (14.7, 9.3, 16), "blanket"),
-    ])
-    oriented("bed-foot", t, [
-        box("Frame", (1, 2, 0), (15, 6, 15), "wood"),
-        box("Mattress", (1.5, 6, 0), (14.5, 9, 14.5), "linen"),
-        box("Blanket", (1.3, 6.5, 0), (14.7, 9.3, 14.7), "blanket"),
-        box("Footboard", (0.5, 0, 14.5), (15.5, 11, 16), "wood"),
-    ])
-    oriented("nightstand", t, [
-        box("Body", (2, 0, 4), (14, 10, 14), "wood"),
-        box("LampBase", (6.5, 10, 7.5), (9.5, 11, 10.5), "brass"),
-        box("LampStem", (7.5, 11, 8.5), (8.5, 15, 9.5), "brass"),
-        box("Shade", (5, 14, 6.5), (11, 19, 12.5), "lampshade", glow=90),
-    ])
+    import l5props as L5  # (Level 5 art)
+    l5 = dict(t, **{k: f"backrooms:block/detail/{k}" for k in (
+        "l5sheet", "l5pillow", "l5coverlet", "l5mattress", "l5skirt")})
+    l5["mahogany"] = t["wood"]
+    oriented("bed-head", l5, L5.bed_head())
+    oriented("bed-foot", l5, L5.bed_foot())
+    oriented("nightstand", l5, L5.nightstand())
     oriented("wardrobe", t, wardrobe_b10())  # (B10)
     oriented("wingchair", t, wing_chair_b10())  # (B10)
     oriented("sofa", t, [
@@ -2030,11 +2018,7 @@ def level5():
         oriented("boiler", dict(t, **BOILER_TEX, **BOILER_D4_TEX), boiler_d4())
     else:
         oriented("boiler", dict(t, **BOILER_TEX), boiler())
-    oriented("furnace", t, [
-        box("Body", (1, 0, 2), (15, 14, 15), "iron"),
-        box("Door", (4, 2, 1.6), (12, 9, 2), "fire", glow=200, faces=("north",)),
-        box("Hood", (0, 14, 1), (16, 16, 16), "iron"),
-    ])
+    oriented("furnace", dict(t, **BOILER_TEX, **BOILER_D4_TEX, l5castiron="backrooms:block/detail/l5castiron"), L5.furnace())  # (Level 5 art)
 
 
 if __name__ == "__main__":

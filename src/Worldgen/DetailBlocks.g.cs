@@ -150,6 +150,7 @@ internal static class DetailBlocks
         ("officedeco", "poster1", 2, "poster1"),
         ("officedeco", "poster2", 2, "poster2"),
         ("hoteldeco", "mirror", 2, "mirror"),
+        ("hoteldeco", "mirrorplain", 2, "mirrorplain"),
         ("hoteldeco", "speaker", 3, "speaker"),
         ("hoteldeco", "housephone", 2, "housephone"),
         ("hoteldeco", "firehose", 2, "firehose"),

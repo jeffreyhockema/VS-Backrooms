@@ -46,6 +46,7 @@ EXT = {
     "brick": "backrooms:block/level3/l3wall-brick",
     "cinder": "backrooms:block/level3/l3wall-cinder",
     "hotelpanel": "backrooms:block/level5/hotelwall-panel",
+    "hotelplain": "backrooms:block/level5/hotelwall-plain",  # (Level 5 art) plain cream plaster, for the mirror's wall
     "wainscot": "backrooms:block/level5/hotelwall-wainscot",
     "frieze": "backrooms:block/level5/hotelwall-frieze",
     "plaster": "backrooms:block/level5/plaster",
@@ -368,8 +369,9 @@ class Decor:
     """A decoration on one face of a wall block. `rels` maps the block height above the floor (1 = bottom) to its
     boxes; a decoration spanning several heights becomes one part per height."""
 
-    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None):
+    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None, wall=None):
         self.code, self.english, self.rels = code, english, rels
+        self.wall = wall  # (Level 5 art) a wall texture key of its own, in place of the family's one for that height
         self.light, self.ambient, self.particles, self.cls = light, ambient, particles, cls
 
     def parts(self):
@@ -388,7 +390,7 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
     manifest = {}
     for d in decors:
         for state, rel, els in d.parts():
-            wall = walls[max([k for k in walls if k <= rel], default=min(walls))]
+            wall = d.wall or walls[max([k for k in walls if k <= rel], default=min(walls))]
             path = shape(f"{family}-{state}", [cube(wall)] + els)
             states.append(state)
             for s in SIDES:
