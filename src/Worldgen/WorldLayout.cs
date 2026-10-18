@@ -213,7 +213,24 @@ public sealed partial class WorldLayout
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
     /// <item>9: (in progress, 2026-10) levels no longer bleed into each other at their edges, only at the doorway
     /// between them; Level 1's stairs are two wide, its signs stand where they make sense and its parking bays are
-    /// never cut off by a wall. Each change's own line is added here as it lands.</item>
+    /// never cut off by a wall. Each change's own line is added here as it lands.
+    /// Public stairs are two blocks wide (PublicStairWidth; in 1-8 one): Level 1's stair cores (seven rows deep, a north
+    /// core's north wall the district's fire wall and its doors a row out into the aisle, a south core's north wall at the
+    /// back of the stalls behind it; StairCore.Top, Rows) and its halls' stairwells, Level 4's office stairwells (whose
+    /// landing takes in the room's south wall and leaves the corridor beyond a block wide; one in the last row of rooms of
+    /// its cell walls the first row of the office block south of it, WallBelowL4Stairwell, or keeps one-wide flights where
+    /// that is no office block), Level 5's staff stairs and Level 11's lobby stairs (an apartment lobby's basement door moves
+    /// along clear of them). Each flight is still one threshold (FeatureOrigin), and a trip out of one comes out on the
+    /// landing of the lane that stands for it (ThresholdNetwork.ToStairwell). House stairs (Levels 9, 94) and hidden ones
+    /// (Level 6's descents) stay one wide. In Level 1's car park nothing stands in the roadway: a puddle's wet floor sign or
+    /// cone stands beside it off the aisles and the stalls' mouths (CautionBesidePuddle; in 4-8 on the puddle, wherever it
+    /// was, now and then a traffic sign too), and the traffic signs stand where they mean something (PlaceCarParkSigns): an
+    /// EXIT sign just past each stair core's doors pointing at them, STOP signs on the driver's right where an aisle meets a
+    /// cross aisle (on the two-block end stall, then kept clear, or the last divider), and the narrow aisle along each
+    /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
+    /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
+    /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

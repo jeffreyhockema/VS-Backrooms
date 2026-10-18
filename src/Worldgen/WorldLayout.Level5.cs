@@ -234,7 +234,7 @@ public sealed partial class WorldLayout
                         bool wood = Hashing.Unit(h << 20) < 0.3;
                         if (wood) tile.Floor = FloorKind.HotelWood;
                         if (locked) tile.Sealed = true;
-                        else if (staffStairs) PlanStaffStairs(ref tile, u % RoomPitch, row, rowA);
+                        else if (staffStairs) PlanStaffStairs(ref tile, u % RoomPitch, row, rowA, PublicStairWidth);
                         else FurnishGuestRoom(ref tile, u % RoomPitch, row, rowA, h, wood);
                         // A cramped bathroom in the corner by the door, behind a partition (locked rooms too)
                         if (!staffStairs && Hashing.Unit(h << 52) < 0.7)
@@ -255,12 +255,14 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// A bare service stair along the back wall, climbing into the ceiling. Whoever climbs it comes out somewhere
-    /// in the dark of Level 6.
+    /// in the dark of Level 6. From layout version 9 it is two wide (<paramref name="width"/>), the row in front of the
+    /// back wall too.
     /// </summary>
-    private static void PlanStaffStairs(ref Tile tile, int x, int row, bool rowA)
+    private static void PlanStaffStairs(ref Tile tile, int x, int row, bool rowA, int width = 1)
     {
         tile.Floor = FloorKind.Dusty;
-        if (row != (rowA ? 1 : 15) || x < 1 || x > 3) return;
+        int back = rowA ? 1 : 15, fromBack = rowA ? row - back : back - row;
+        if (fromBack < 0 || fromBack >= width || x < 1 || x > 3) return;
         tile.Stair = (byte)x;
         tile.Pier = ArchPier.East;
     }

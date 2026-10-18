@@ -644,7 +644,7 @@ public sealed partial class WorldLayout
         f.Prop(1, last, Props.Vending, ArchPier.East);
         f.Prop(mid + 3, 1, Props.TrashCan, ArchPier.North);
         // Stairs that climb into the ceiling and stop
-        if (f.W >= 10) Stairs(f, f.W - 3, last - 2);
+        if (f.W >= 10) Stairs(f, f.W - 3, last - 2, PublicStairWidth);
         if (rng.Chance(0.5)) f.Prop(2, last, Props.Cooler, ArchPier.North);
     }
 
@@ -681,8 +681,10 @@ public sealed partial class WorldLayout
         if (rng.Chance(0.5)) WallDecor(f, mid + 2, last + 1, Decor.MissingPoster);
         // The elevator is out of order; the basement door is not locked
         if (f.W >= 9) Elevators(f, last + 1, f.W - 4);
-        Door(f, mid - 2, last + 1);
-        Stairs(f, 1, Math.Max(1, last - 2));
+        // (From layout version 9 the stairs are two wide: the basement door moves along clear of their top)
+        int stairWidth = PublicStairWidth;
+        Door(f, stairWidth > 1 && mid - 2 <= stairWidth ? stairWidth + 1 : mid - 2, last + 1);
+        Stairs(f, 1, Math.Max(1, last - 2), stairWidth);
         f.Prop(f.W - 2, 1, Props.Radiator, ArchPier.West);
         if (rng.Chance(0.4)) f.Prop(mid, 2, Props.Bench, ArchPier.North);
     }
@@ -1051,9 +1053,35 @@ public sealed partial class WorldLayout
         t.Pier = f.P(ArchPier.North);
     }
 
-    /// <summary>Three steps up toward the back, ending at the ceiling: stairs that lead nowhere.</summary>
-    private static void Stairs(Frame f, int u, int v)
+    /// <summary>
+    /// Three steps up toward the back, ending at the ceiling: stairs that lead nowhere. From layout version 9 a lobby's
+    /// are two wide (<paramref name="width"/>, east of <paramref name="u"/>), whatever stood on the second column moved
+    /// out of the way; where that column is not floor, one wide as before.
+    /// </summary>
+    private static void Stairs(Frame f, int u, int v, int width = 1)
     {
+        if (width > 1)
+        {
+            bool clear = true;
+            for (int k = 1; k <= 3 && clear; k++)
+                for (int du = 0; du < width && clear; du++)
+                    clear = f.Inside(u + du, v + k - 1) && f.At(u + du, v + k - 1).Kind == TileKind.Floor
+                            && (du > 0 || f.At(u, v + k - 1).Variant == 0);
+            if (clear)
+            {
+                for (int k = 1; k <= 3; k++)
+                    for (int du = 0; du < width; du++)
+                    {
+                        ref Tile t = ref f.At(u + du, v + k - 1);
+                        t.Variant = 0;
+                        t.Stack = 0;
+                        t.SupplyBox = false;
+                        t.Stair = (byte)k;
+                        t.Pier = f.P(ArchPier.South);
+                    }
+                return;
+            }
+        }
         for (int k = 1; k <= 3; k++)
         {
             if (!f.Inside(u, v + k - 1)) return;

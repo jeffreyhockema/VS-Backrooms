@@ -169,6 +169,8 @@ public sealed partial class WorldLayout
             Tile front = b.At(fx, fz);
             if (wall.Kind != TileKind.Wall || wall.Under != 0 || wall.Variant > 1 || wall.Pattern != WallPattern.Concrete) continue;
             if (front.Kind != TileKind.Floor || front.Variant != 0 || front.Stack != 0 || front.SupplyBox || front.Under != 0 || front.Stair != 0) continue;
+            // (From layout version 9 a stair core backing onto a fire wall has the wall inside it: no door from its landing)
+            if (Version >= 9 && front.Floor == FloorKind.L1Hall) continue;
             Tile a = westEdge ? b.At(0, i - 1) : b.At(i - 1, 0), c = westEdge ? b.At(0, i + 1) : b.At(i + 1, 0);
             if (a.Kind != TileKind.Wall || c.Kind != TileKind.Wall) continue;
             wall.Under = Unders.RunEntrance;
