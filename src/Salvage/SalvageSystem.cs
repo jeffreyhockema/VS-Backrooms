@@ -33,7 +33,7 @@ public class SalvageSystem : ModSystem
         "floorlamp", "suitcase", "coffeetable", "ashtraystand", "diningtable", "coalpile",
         // Levels 6 to 10: what can be raided, salvaged, dug or wiped away
         "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer", "vendingpile", "glowcapred", "glowcapmixed",
-        "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock",
+        "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock", "seachest",
         "tv", "toilet", "dresser", "mailbox", "seedsacks", "toolshelf", "pantryshelf", "kitchencabinet",
         "feedtrough", "toolrack", "nailbarrel", "wormmass", "farmland",
         "driftwood", "buoy", "flashlight", "grill", "hayroll", "icemachine", "laundry", "laundrycart", "plough",

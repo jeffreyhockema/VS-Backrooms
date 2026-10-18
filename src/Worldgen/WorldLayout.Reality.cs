@@ -170,7 +170,8 @@ public sealed partial class WorldLayout
         // Just inside the shore, where the sea is still shallow
         double angle = Hashing.Unit(h) * Math.PI * 2, radius = InnerEdge(7, angle) + 0.08 * (OuterEdge(7, angle) - InnerEdge(7, angle));
         var start = (spawnMacroX + (int)Math.Round(Math.Cos(angle) * radius), spawnMacroZ + (int)Math.Round(Math.Sin(angle) * radius));
-        bool EntryRoom(Tile t) => t.Zone == 1 && t.Stack == 0;
+        // (From layout version 9, at the foot of the stairs down from Level 6)
+        bool EntryRoom(Tile t) => Version >= 9 ? t.Zone == L7ZoneRoom && t.Detail == L7EntryFoot : t.Zone == 1 && t.Stack == 0;
         return FindArrival(7, key, null, (mx, mz) => true, EntryRoom, checkEscape: false, near: start)
             ?? FindArrival(7, key, null, (mx, mz) => true, EntryRoom, checkEscape: false);
     }

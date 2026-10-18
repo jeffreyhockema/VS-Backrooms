@@ -230,7 +230,8 @@ public class AiTaskClump : AiTaskBase
 /// The Thing on Level 7: something vast in the deep water. It circles a diver far out at the edge of what they can
 /// see, groaning now and then. A diver who stays below the twilight zone for too long with their mind coming apart
 /// (Reality Stability under a half) is struck once, hard, from the dark, and the Thing goes back down. It cannot be
-/// fought; surfacing ends it.
+/// fought; surfacing ends it. A diver breathing in the air under a sunken room's roof (layout version 9) is left alone
+/// while they stay there.
 /// </summary>
 public class AiTaskTheThing : AiTaskBase
 {
@@ -295,7 +296,10 @@ public class AiTaskTheThing : AiTaskBase
             return;
         }
 
-        bool deep = target.Pos.Y < floorY - 20;
+        // A diver who has come up into the air trapped under a sunken room's roof is out of the water: it circles, and
+        // waits for them to come back out
+        bool breathing = target is EntityAgent agent && !agent.IsEyesSubmerged();
+        bool deep = !breathing && target.Pos.Y < floorY - 20;
         deepFor = deep ? deepFor + 0.25f : 0;
         double distance = entity.Pos.DistanceTo(target.Pos);
 
@@ -325,7 +329,7 @@ public class AiTaskTheThing : AiTaskBase
         }
 
         // In the abyss it may come at anyone; above that, only at a diver who stayed down too long, coming apart
-        bool strike = menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5;
+        bool strike = !breathing && (menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5);
         if (strike && !Strike.IsCreative(target))
         {
             rushing = true;

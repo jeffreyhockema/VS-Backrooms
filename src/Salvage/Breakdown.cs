@@ -118,6 +118,8 @@ public static class Breakdown
     {
         "firedoor", "metaldoor", "officedoor", "noclipwall", "tripwire", "manhole", "cinemascreen", "twilightgate",
         "glassmountain", "kingstatue", "megmarker", "backdrop", "diorama",
+        // Level 7's high ceiling (layout version 9): over it is the top of the world
+        "seaceiling",
         // Invisible sound emitters
         "cityhum", "subwayrumble", "waveecho",
     };

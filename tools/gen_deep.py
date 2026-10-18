@@ -611,6 +611,14 @@ def level7():
     cube_block("oceanceiling", {"plain": "Concrete Ceiling", "glow": "Concrete Ceiling"}, ["plain", "glow"],
                {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]},
                lightAbsorptionByType={"*-glow": 0, "*": 99}, comment="The ceiling over the sea. The dim light seems to come from nowhere")
+    # Layout version 9: the high ceiling over the sea, 36 blocks up, with nothing over it. It lets the world's light
+    # through (absorbs none), which is the lore's "dim natural light" from nowhere (AtmosphereSystem holds it the same at
+    # every hour and dims it); its glowing patches glow by themselves (glowLevel), too far up for their light to reach
+    # anything. It never breaks (src/Salvage/Breakdown.cs): over it is the top of the world.
+    cube_block("seaceiling", {"plain": "High Concrete Ceiling", "glow": "High Concrete Ceiling"}, ["plain", "glow"],
+               {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]}, lightAbsorption=0,
+               vertexFlagsByType={"*-glow": {"glowLevel": 72}},
+               comment="The high ceiling over the sea (layout version 9): it lets through a dim light from nowhere")
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
                randomizeAxes="xyz",  # (D4) a stack's or pillar's blocks pick their versions by height too
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
@@ -661,6 +669,58 @@ def level7():
          box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False, sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 2, 1), ("game:rope", 0.6, 0.4), ("game:metalnailsandstrips-iron", 0.5, 0.4),
                                 ("game:boat-raft-aged", 0.06, 0), ("game:fishingpole-simple-wood", 0.08, 0), ("cannedbeans", 0.5, 0.5))})
+    # Layout version 9: the chest in a sunken room on the seabed (WorldLayout.AddSunkenRoom), its loot better the deeper
+    # it lies. The twilight zone's is a sailor's sea chest of what the drowned carried; the midnight zone's a riveted
+    # strongbox of the kind expeditions sealed their best in (metal, the good tools, temporal gears)
+    prop("seachest", "Sea Chest", {"twilight": sea_chest(), "midnight": strongbox()},
+         box=(0.05, 0, 0.12, 0.95, 0.75, 0.88), material="Wood", sounds=WOOD,
+         comment="A chest in a sunken room on Level 7's seabed: the deeper, the better what is in it",
+         extra={"dropsByType": {
+             "*-twilight-*": drops(("almondwater", 1, 0.8), ("cannedbeans", 0.8, 0.5), ("crackers", 0.6, 0.5), ("game:rope", 1, 0.6),
+                                   ("game:bandage-clean", 0.6, 0.4), ("chalk", 0.6, 0.3), ("game:candle", 0.8, 0.6), ("game:flint", 0.5, 0.5),
+                                   ("scrapwire", 1, 0.8), ("game:metalbit-copper", 2, 1.5), ("game:knife-generic-copper", 0.15, 0),
+                                   ("game:pickaxe-copper", 0.08, 0), ("game:gear-rusty", 0.25, 0), ("game:gear-temporal", 0.03, 0),
+                                   ("wanderernote-cache", 0.06, 0), ("wanderernote-way", 0.06, 0), ("seedpacket-carrot", 0.04, 0)),
+             "*-midnight-*": drops(("almondwater", 1.5, 1), ("cannedbeans", 1, 0.6), ("game:rope", 1.2, 0.6), ("game:bandage-clean", 1, 0.5),
+                                   ("chalk", 0.6, 0.3), ("game:ingot-copper", 0.7, 0.4), ("game:ingot-tinbronze", 0.35, 0.25),
+                                   ("game:metalbit-silver", 1.5, 1), ("game:metalbit-gold", 0.8, 0.8), ("game:pickaxe-tinbronze", 0.12, 0),
+                                   ("game:prospectingpick-copper", 0.1, 0), ("game:knife-generic-tinbronze", 0.15, 0),
+                                   ("game:gear-rusty", 0.6, 0.4), ("game:gear-temporal", 0.15, 0),
+                                   ("wanderernote-refuge", 0.08, 0), ("wanderernote-door", 0.08, 0))}})
+    LANG.pop("block-seachest-*", None)
+    name("seachest-twilight-*", "Sea Chest")
+    name("seachest-midnight-*", "Sunken Strongbox")
+
+
+def sea_chest():
+    """A sailor's sea chest, swollen with water: wet boards and a domed lid, two rusted iron straps over it, a brass
+    hasp on the front (north), rope beckets at the ends."""
+    w, b, r = "wetwood", "l7wreckboards", "rust"
+    els = [bx("Body", (1.5, 0, 3), (14.5, 8, 13), b),
+           bx("Lid", (1.25, 8, 2.75), (14.75, 10.5, 13.25), w),
+           bx("LidTop", (1.75, 10.5, 3.75), (14.25, 11.5, 12.25), w, faces=("up", "north", "south", "east", "west")),
+           bx("Hasp", (7, 6, 2.5), (9, 9.5, 3), "brass", faces=("north", "east", "west", "up", "down")),
+           bx("BecketW", (0.5, 5, 7), (1.5, 6, 9), "canvas"), bx("BecketE", (14.5, 5, 7), (15.5, 6, 9), "canvas")]
+    for i, x in enumerate((3.5, 11.5)):
+        els += [bx(f"StrapF{i}", (x, 0, 2.5), (x + 1, 10.5, 3), r, faces=("north", "east", "west")),
+                bx(f"StrapB{i}", (x, 0, 13), (x + 1, 10.5, 13.5), r, faces=("south", "east", "west")),
+                bx(f"StrapT{i}", (x, 11.5, 3.25), (x + 1, 11.75, 12.75), r, faces=("up", "north", "south", "east", "west"))]
+    return els
+
+
+def strongbox():
+    """A riveted steel strongbox, dark with the deep: a body and a flat lid with a rusted seam band between them, corner
+    straps, a carrying handle on top, a brass combination dial on the front (north)."""
+    m, r = "metaldark", "rust"
+    els = [bx("Body", (2, 0, 3.5), (14, 7, 12.5), m),
+           bx("Seam", (1.75, 7, 3.25), (14.25, 7.75, 12.75), r),
+           bx("Lid", (2, 7.75, 3.5), (14, 10, 12.5), m),
+           bx("HandleL", (6, 10, 7.5), (6.75, 11.25, 8.5), "metal"), bx("HandleR", (9.25, 10, 7.5), (10, 11.25, 8.5), "metal"),
+           bx("Grip", (6, 11.25, 7.5), (10, 12, 8.5), "metal"),
+           bx("Dial", (7, 3, 3), (9, 5, 3.5), "brass", faces=("north", "east", "west", "up", "down"))]
+    for i, (x, z) in enumerate(((1.5, 3), (13.5, 3), (1.5, 12), (13.5, 12))):
+        els.append(bx(f"Corner{i}", (x, 0, z), (x + 1, 10.25, z + 1), r))
+    return els
 
 
 def wreck_crate():

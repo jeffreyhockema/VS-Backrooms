@@ -1,0 +1,424 @@
+// A chest in a sunken room on Level 7's seabed: the deeper, the better what is in it
+{
+	"code": "seachest",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"twilight",
+				"midnight"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-twilight-north": {
+			"base": "block/detail/seachest-twilight",
+			"rotateY": 0
+		},
+		"*-twilight-east": {
+			"base": "block/detail/seachest-twilight",
+			"rotateY": 270
+		},
+		"*-twilight-south": {
+			"base": "block/detail/seachest-twilight",
+			"rotateY": 180
+		},
+		"*-twilight-west": {
+			"base": "block/detail/seachest-twilight",
+			"rotateY": 90
+		},
+		"*-midnight-north": {
+			"base": "block/detail/seachest-midnight",
+			"rotateY": 0
+		},
+		"*-midnight-east": {
+			"base": "block/detail/seachest-midnight",
+			"rotateY": 270
+		},
+		"*-midnight-south": {
+			"base": "block/detail/seachest-midnight",
+			"rotateY": 180
+		},
+		"*-midnight-west": {
+			"base": "block/detail/seachest-midnight",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-twilight-north"
+		],
+		"decorative": [
+			"*-twilight-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.95,
+			"y2": 0.75,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"dropsByType": {
+		"*-twilight-*": [
+			{
+				"type": "item",
+				"code": "almondwater",
+				"quantity": {
+					"avg": 1,
+					"var": 0.8
+				}
+			},
+			{
+				"type": "item",
+				"code": "cannedbeans",
+				"quantity": {
+					"avg": 0.8,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "crackers",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:rope",
+				"quantity": {
+					"avg": 1,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:bandage-clean",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:candle",
+				"quantity": {
+					"avg": 0.8,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:flint",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 1,
+					"var": 0.8
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalbit-copper",
+				"quantity": {
+					"avg": 2,
+					"var": 1.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:knife-generic-copper",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:pickaxe-copper",
+				"quantity": {
+					"avg": 0.08,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:gear-rusty",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:gear-temporal",
+				"quantity": {
+					"avg": 0.03,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-cache",
+				"quantity": {
+					"avg": 0.06,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-way",
+				"quantity": {
+					"avg": 0.06,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "seedpacket-carrot",
+				"quantity": {
+					"avg": 0.04,
+					"var": 0
+				}
+			}
+		],
+		"*-midnight-*": [
+			{
+				"type": "item",
+				"code": "almondwater",
+				"quantity": {
+					"avg": 1.5,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "cannedbeans",
+				"quantity": {
+					"avg": 1,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:rope",
+				"quantity": {
+					"avg": 1.2,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:bandage-clean",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:ingot-copper",
+				"quantity": {
+					"avg": 0.7,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:ingot-tinbronze",
+				"quantity": {
+					"avg": 0.35,
+					"var": 0.25
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalbit-silver",
+				"quantity": {
+					"avg": 1.5,
+					"var": 1
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalbit-gold",
+				"quantity": {
+					"avg": 0.8,
+					"var": 0.8
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:pickaxe-tinbronze",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:prospectingpick-copper",
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:knife-generic-tinbronze",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:gear-rusty",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:gear-temporal",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-refuge",
+				"quantity": {
+					"avg": 0.08,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-door",
+				"quantity": {
+					"avg": 0.08,
+					"var": 0
+				}
+			}
+		]
+	}
+}

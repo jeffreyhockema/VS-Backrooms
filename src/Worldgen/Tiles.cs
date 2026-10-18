@@ -621,7 +621,8 @@ public struct Tile
     public byte Roof;
     /// <summary>
     /// What part of its level this tile is in; meaning depends on the level (e.g. Level 6: 1 = the Snackrooms; Levels 1
-    /// and 4: which of a stairwell's flights a step is in, <see cref="WorldLayout.FlightZoneUp"/>).
+    /// and 4: which of a stairwell's flights a step is in, <see cref="WorldLayout.FlightZoneUp"/>; Level 7: the parts of
+    /// an entry room and, from layout version 9, of a sunken room, <see cref="WorldLayout.L7ZoneRoom"/>).
     /// </summary>
     public byte Zone;
     /// <summary>Level 11: flags on a building tile (see <see cref="CityDetail"/>).</summary>
@@ -745,7 +746,11 @@ public static class Unders
     public const byte Circle = 3;
     /// <summary>Level 7: an underwater cave mouth in the midnight zone, leading to Level 8.</summary>
     public const byte Cave = 4;
-    /// <summary>Level 6: stairs going down toward the sound of waves (step 1, 2, 3), to Level 7.</summary>
+    /// <summary>
+    /// Level 6: stairs going down toward the sound of waves (step 1, 2, 3), to Level 7. From layout version 9 a stairwell:
+    /// Descent1 on its steps (<see cref="Tile.Stair"/> their number), Descent2 on the first row of its landing and
+    /// Descent3 on the two beyond, which lead to Level 7 (see <see cref="WorldLayout.L6DescentSteps"/>).
+    /// </summary>
     public const byte Descent1 = 5;
     public const byte Descent2 = 6;
     public const byte Descent3 = 7;
@@ -1448,8 +1453,15 @@ public static class Props
     /// <summary>Level 188's courtyard: a bench (Pier its facing), a bollard lamp, a tuft of moss (walked through), the drain under the downpipe (walked through).</summary>
     public const ushort L188Bench = 540, L188Bollard = 541, L188MossTuft = 542, L188Drain = 543;
 
+    // ===== Level 7 from layout version 9 (590-599) =====
+    /// <summary>
+    /// A chest in a sunken room on Level 7's seabed (WorldLayout.AddSunkenRoom), facing Pier: Stack 0 a sea chest (the
+    /// twilight zone's), 1 a riveted strongbox (the midnight zone's, with better in it).
+    /// </summary>
+    public const ushort SeaChest = 590;
+
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
-    public const int Limit = 580;
+    public const int Limit = 600;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>

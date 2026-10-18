@@ -90,6 +90,10 @@ public sealed partial class WorldLayout
     public (int X, int Z)? NearestManhole(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
         NearestTile(gx, gz, 3, radius, t => t.Under == 2 && t.Kind != TileKind.Wall, skip: skip);
 
+    /// <summary>The buoy over the nearest sunken room in Level 7 (layout version 9), where its line goes down.</summary>
+    public (int X, int Z)? NearestSunkenRoom(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
+        Version < 9 ? null : NearestTile(gx, gz, 7, radius, t => t.Zone == L7ZoneLine, skip: skip);
+
     /// <summary>The nearest stretch of barn wall in Level 10 that isn't quite there (the way into the city).</summary>
     public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
         NearestTile(gx, gz, 10, radius, t => t.Under == Unders.Noclip, skip: skip);

@@ -241,8 +241,24 @@ public sealed partial class WorldLayout
     /// its cell walls the first row of the office block south of it, WallBelowL4Stairwell, or keeps one-wide flights where
     /// that is no office block), Level 5's staff stairs and Level 11's lobby stairs (an apartment lobby's basement door moves
     /// along clear of them). Each flight is still one threshold (FeatureOrigin), and a trip out of one comes out on the
-    /// landing of the lane that stands for it (ThresholdNetwork.ToStairwell). House stairs (Levels 9, 94) and hidden ones
-    /// (Level 6's descents) stay one wide. In Level 1's car park nothing stands in the roadway: a puddle's wet floor sign or
+    /// landing of the lane that stands for it (ThresholdNetwork.ToStairwell). House stairs (Levels 9, 94) stay one wide.
+    /// Level 6's stairs down to Level 7 are a stairwell two wide, eight steps down through the rock from the last four rows
+    /// of a chamber (running east or south, away from the trunks) to a landing of three rows eight blocks below, three
+    /// blocks of headroom the whole way (CutL6Stairwell; in 1-8 three steps in the middle of the chamber, a block wide), and
+    /// far rarer: one chamber in a hundred near Level 5 to one in five at the far edge, where it fits clear of food courts
+    /// and other levels (L6DescentChance, L6StairwellFits; in 1-8 0.2 + 0.6 times the depth). The threshold is the far two
+    /// rows of the landing, and it is two-way: it comes out at the foot of the stairs that come down into a Level 7 entry
+    /// room, and up those stairs is back to the landing's first row (ThresholdNetwork.DeepStairsHome). The chalk arrows
+    /// point to stairs up to 400 blocks off (220 in 1-8). Level 7's ceiling is the lore's high one, SeaCeiling (36) over
+    /// the water, with no mantle over it: it lets the world's light through as an even dim light (seaceiling), its walls
+    /// and pillars go on up to it, and where a cell's edge meets a lower wall it does not line, its own goes up from head
+    /// height (the generator's UnderLowerWall; in 1-8 the ceiling is 5 over the water). An entry room hangs from it in a
+    /// pier of concrete nine tiles by seven, its floor 5 over the water: the stairs from Level 6 come down into it, a
+    /// doorway across the room opens onto the sea, and a rope ladder hangs from it into the water (AddEntryRoomV9; in 1-8
+    /// a room five by five set into the low ceiling with a hole in its floor). Now and then a cell holds a sunken room in
+    /// the twilight or midnight zone, off its middle, with air under its roof, a buoy and a rope ladder down to it, a lit
+    /// light and windows, a hatch entered from below, and a sea chest (twilight) or strongbox (midnight) in it
+    /// (AddSunkenRoom, Props.SeaChest). In Level 1's car park nothing stands in the roadway: a puddle's wet floor sign or
     /// cone stands beside it off the aisles and the stalls' mouths (CautionBesidePuddle; in 4-8 on the puddle, wherever it
     /// was, now and then a traffic sign too), and the traffic signs stand where they mean something (PlaceCarParkSigns): an
     /// EXIT sign just past each stair core's doors pointing at them, STOP signs on the driver's right where an aisle meets a

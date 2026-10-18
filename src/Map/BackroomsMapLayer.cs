@@ -234,7 +234,8 @@ public class BackroomsMapLayer : MapLayer
                 floorY = geometry.FloorFor(level);
                 return y > floorY && y < floorY + WorldGeometry.MaxRoomHeight + 1;
             case 7:
-                return y > geometry.FloorY - 70 && y < geometry.FloorY + WorldGeometry.MaxRoomHeight + 1;
+                // (From layout version 9 the entry rooms hang higher, their floors five over the water, under a high ceiling)
+                return y > geometry.FloorY - 70 && y < geometry.FloorY + (layout.Version >= 9 ? WorldLayout.EntryFloor + 4 : WorldGeometry.MaxRoomHeight + 1);
             case 8:
                 if (y < geometry.FloorY - 62 || y > geometry.FloorY + 9) return false;
                 floorY = (int)Math.Floor(y) - 1;

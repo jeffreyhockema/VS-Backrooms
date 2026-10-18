@@ -152,6 +152,13 @@ public sealed class MarkResolver
                 icon = "star1";
                 ps = "door";
                 break;
+            case "sunken":
+                // (Level 7 from layout version 9: the buoy over a room on the seabed with air under its roof)
+                at = level == 7 ? layout.NearestSunkenRoom(x, z, 640 * k, skip) : null;
+                title = Lang.Get("backrooms:waypoint-note-sunken");
+                icon = "vessel";
+                ps = "cache";
+                break;
             case "party":
                 at = level == WorldLayout.FunLevel ? layout.NearestParty(x, z, 320, skip) : null;
                 title = Lang.Get("backrooms:waypoint-note-party");
