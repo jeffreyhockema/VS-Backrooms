@@ -213,7 +213,10 @@ public sealed partial class WorldLayout
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
     /// <item>9: (in progress, 2026-10) levels no longer bleed into each other at their edges, only at the doorway
     /// between them; Level 1's stairs are two wide, its signs stand where they make sense and its parking bays are
-    /// never cut off by a wall. Each change's own line is added here as it lands.</item>
+    /// never cut off by a wall. Each change's own line is added here as it lands.
+    /// Level 1's power boxes: the conduit that leaves the top no longer stops at a plain wall block under the
+    /// ceiling; a riser block (<c>powerbox4</c>) above it carries it up and ends it in a junction box on the slab
+    /// (drawn by the generator when Version >= 9; in older worlds the run still ends at the block above).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

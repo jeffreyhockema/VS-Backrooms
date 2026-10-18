@@ -1598,16 +1598,9 @@ def wall_pipe_flange():
 
 
 def drum(top):
-    img = noise_fill(hexrgb(0x2E4A6E), 8, 390 + top)
-    d = ImageDraw.Draw(img)
-    if top:
-        d.ellipse([3, 3, 28, 28], outline=(20, 34, 52, 255))
-        d.ellipse([20, 8, 24, 12], fill=(30, 30, 30, 255))
-    else:
-        for y in (8, 22):
-            d.line([0, y, S - 1, y], fill=(20, 34, 52, 255), width=2)
-        blotch(img, (10, 28), 7, (110, 70, 40), 0.6, 13)  # rust
-    return img
+    """The oil drum's wall (top=0) and lid (top=1): painted and rusted steel, drawn in tools/l1props_tex.py."""
+    import l1props_tex
+    return l1props_tex.drum(top)
 
 
 def props_textures():

@@ -8,6 +8,7 @@ internal static class DetailBlocks
     {
         ("l1deco", "powerbox", 2, "powerbox2"),
         ("l1deco", "powerbox", 3, "powerbox3"),
+        ("l1deco", "powerbox", 4, "powerbox4"),
         ("l1deco", "breaker", 2, "breaker"),
         ("l1deco", "outlet", 1, "outlet"),
         ("l1deco", "extinguisher", 2, "extinguisher"),
@@ -40,6 +41,7 @@ internal static class DetailBlocks
         ("l1deco", "levelsignb3", 2, "levelsignb3"),
         ("concretedeco", "powerbox", 2, "powerbox2"),
         ("concretedeco", "powerbox", 3, "powerbox3"),
+        ("concretedeco", "powerbox", 4, "powerbox4"),
         ("concretedeco", "breaker", 2, "breaker"),
         ("concretedeco", "outlet", 1, "outlet"),
         ("concretedeco", "extinguisher", 2, "extinguisher"),

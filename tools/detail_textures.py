@@ -199,66 +199,9 @@ def level1():
         img = T.inside_block(plain, img)
         save(T.match_mean(img, 113), "l1hallfloor" + v)
 
-    # (B4) The locked steel door, still a cube (the block has no facing to hang a modelled door on): dark painted
-    # steel with an orange-peel finish, the frame lit on its top and left edges and shaded where it meets the leaf,
-    # the push bar and the window's bead shaded as raised parts, the kick plate brushed, wear at the handle
-    for part in ("lower", "upper"):
-        img = M.painted_metal(seed_of("metaldoor" + part), base=(36, 38, 40), grain=2, mottle=4, panel=False, chips=3,
-                              under=(84, 86, 88))
-        px = img.load()
-        frame = (84, 86, 90)
-        for y in range(S):
-            for x in range(S):
-                if x < 2 or x >= S - 2 or (part == "upper" and y < 2) or (part == "lower" and y >= S - 2):
-                    px[x, y] = M.rgba(M.lift(frame, (2 - min(x, 2)) * 6 - (x >= S - 2) * 8 + (y < 2) * 6))
-        for y in range(S):  # the leaf's edge in the frame's shadow
-            M.touch(img, 2, y, -0.18)
-            M.touch(img, S - 3, y, 0.06)
-        if part == "upper":
-            for x in range(2, S - 2):
-                M.touch(img, x, 2, -0.18)
-        if part == "lower":
-            kick = M.brushed_metal(seed_of("metaldoorkick"), base=(120, 122, 124), grain=3)
-            kp = kick.load()
-            for y in range(19, 29):
-                for x in range(4, 28):
-                    px[x, y] = kp[x, y]
-            M.bevel(img, (4, 19, 28, 29), 1, 0.2)
-            for (sx, sy) in ((5, 20), (26, 20), (5, 27), (26, 27)):
-                px[sx, sy] = M.rgba((64, 66, 68))
-            bar = (168, 172, 176)  # the push bar: a lit top, a dark underside and a shadow on the leaf below it
-            for x in range(5, 27):
-                px[x, 2] = M.rgba(M.lift(bar, 16))
-                px[x, 3] = M.rgba(bar)
-                px[x, 4] = M.rgba(M.lift(bar, -38))
-                M.touch(img, x, 5, -0.2)
-                M.touch(img, x, 6, -0.08)
-            for y in range(1, 7):
-                for x in range(24, 27):
-                    px[x, y] = M.rgba(M.lift((124, 128, 132), 10 if y == 1 else -14 if y == 6 else 0))
-        else:
-            # wired glass in a raised bead: dark glass with a faint diagonal sheen and the wire mesh
-            for y in range(5, 21):
-                for x in range(9, 23):
-                    c = (26, 34, 38)
-                    if (x - 9 + y - 5) % 4 == 0 or (x - 9 - (y - 5)) % 4 == 0:
-                        c = (70, 80, 86)
-                    if 6 <= (x - 9) + (20 - y) <= 9:
-                        c = M.lift(c, 14)
-                    px[x, y] = M.rgba(c)
-            for x in range(8, 24):
-                M.touch(img, x, 4, 0.3)
-                M.touch(img, x, 21, -0.3)
-            for y in range(4, 22):
-                M.touch(img, 8, y, 0.24)
-                M.touch(img, 23, y, -0.26)
-            d = ImageDraw.Draw(img)
-            d.rectangle([7, 24, 24, 29], fill=rgb(0xD8B028))
-            text(img, "NO ENTRY", (7, 24, 25, 30), 0x1A1A1A, 5)
-            for x in range(7, 25):
-                M.touch(img, x, 24, 0.08)
-                M.touch(img, x, 29, -0.1)
-        save(img, f"metaldoor-{part}")
+    # (Level 1 props) The locked steel door's leaf, and every texture of the rebuilt props: tools/l1props_tex.py
+    import l1props_tex
+    l1props_tex.generate()
     img = noise(0x1E2022, 3, "firedoor")
     d = ImageDraw.Draw(img)
     d.rectangle([1, 1, S - 2, S - 2], outline=rgb(0x34373A))

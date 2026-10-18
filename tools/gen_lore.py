@@ -12,6 +12,7 @@ from detail_kit import GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, 
 from detail_textures import S, enamel_plaque, noise, rgb, save, text
 import matlib as M
 import modelkit as K
+import l1props as L1
 from gen_deep import door_block, drops, threshold
 from gen_detail import carton, cube_block, plate, rivets
 import fire_fx
@@ -287,11 +288,7 @@ def textures():
 # ======================= Blocks and props =======================
 
 def level1():
-    camera = [bx("Mount", (6.5, 10, -1.5), (9.5, 13, 0), "blackmetal"),
-              bx("Arm", (7.5, 8.5, -4), (8.5, 11, -1.5), "blackmetal"),
-              bx("Body", (6, 5, -10), (10, 8.5, -3), "camerabody", faces=("east", "west", "up", "down", "south")),
-              bx("Lens", (6, 5, -10), (10, 8.5, -3), "cameralens", faces=("north",), full=True),
-              bx("Hood", (5.5, 8.5, -11), (10.5, 9.2, -3), "camerabody")]
+    camera = L1.camera()  # (Level 1 props) modelled in tools/l1props.py
     for family, english, walls in (("concretecam", "Concrete Wall", {1: "concretewall"}), ("whitecam", "Painted Block Wall", {1: "whiteblock"})):
         wall_family(family, english, walls, [Decor("camera", "Security Camera", {3: camera})],
                     comment="A security camera high on the wall. It has not worked in a long time, if it ever did")

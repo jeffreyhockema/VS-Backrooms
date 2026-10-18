@@ -7,6 +7,7 @@
 			"states": [
 				"powerbox2",
 				"powerbox3",
+				"powerbox4",
 				"breaker",
 				"outlet",
 				"extinguisher",
@@ -90,6 +91,22 @@
 		},
 		"*-powerbox3-west": {
 			"base": "block/detail/l1deco-powerbox3",
+			"rotateY": 90
+		},
+		"*-powerbox4-north": {
+			"base": "block/detail/l1deco-powerbox4",
+			"rotateY": 0
+		},
+		"*-powerbox4-east": {
+			"base": "block/detail/l1deco-powerbox4",
+			"rotateY": 270
+		},
+		"*-powerbox4-south": {
+			"base": "block/detail/l1deco-powerbox4",
+			"rotateY": 180
+		},
+		"*-powerbox4-west": {
+			"base": "block/detail/l1deco-powerbox4",
 			"rotateY": 90
 		},
 		"*-breaker-north": {

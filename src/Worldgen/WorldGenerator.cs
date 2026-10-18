@@ -1051,6 +1051,9 @@ public sealed partial class WorldGenerator
     private int Decorated(in Tile t, int rel)
     {
         if (t.Variant < Decor.First || t.Variant >= Decor.Limit || rel < 0 || rel > 5) return 0;
+        // Level 1's power box conduit runs on up to a junction box under the ceiling (layout version 9 on; before it
+        // stopped at the plain wall block above the riser)
+        if (rel == 4 && t.Variant == Decor.PowerBox && (t.Level != 1 || layout.Version < 9)) return 0;
         return decorIds[(int)t.Pattern, t.Variant, rel, Facing(t.Pier)];
     }
 
