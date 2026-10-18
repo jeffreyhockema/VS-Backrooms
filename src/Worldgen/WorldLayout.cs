@@ -340,6 +340,12 @@ public sealed partial class WorldLayout
     /// along every road, arrivals start from a road (L8ArrivalCell), Level 8's wanderers look 40 blocks for the road (in
     /// 1-8, 12), and the deposits' heart is solid rock thick with one ore (CaveColumn.DepositGrade, drawn by the
     /// generator when the layout reports a deposit, L8DepositAt).
+    /// Level 8 has spider nests (WorldLayout.Level8.Nests.cs): a cell the den roll leaves empty is a nest one time in
+    /// fourteen in the level's inner part and one in seven further out (DenKind.Nest, after the dens' own roll, so every
+    /// other den stays as it was), where its heart is in the caves at least 22 blocks from the road and off the deposits.
+    /// It is a den for the director (the Giant Spider dwells there) but lays nothing out on the tiles; the generator
+    /// strings cobwebs through the caves within 18 blocks of its heart, thickest at the heart, under the ceilings and on
+    /// the walls, with now and then a dry carcass on the floor (CaveColumn.Nest, WorldGenerator.Nests.cs).
     /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4: the house is three rows
     /// deeper (<see cref="L974HouseDeep"/>), the doorway from the hall is two wide and four high (plan character T, a
     /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and a

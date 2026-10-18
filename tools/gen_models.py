@@ -6950,6 +6950,8 @@ MODELS = {
     "smiler": smiler, "clump": clump, "mangled": mangled, "thething": thething,
     "animation-clay": animation_clay, "animation-wooden": animation_wooden, "animation-paper": animation_paper, "roboman": roboman,
     "bacteria": bacteria, "wretch": wretch,
+    # (Level 8's Giant Spider lives in its own file)
+    "giantspider": lambda: __import__("gen_spider").giantspider(),
 }
 
 

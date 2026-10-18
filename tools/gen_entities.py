@@ -1139,6 +1139,13 @@ def wretch():
                      looks=("early", "fargone"), extra_anims=[anim("snarl", "snarl", weight=10)], weight=60)
 
 
+def giantspider():
+    # Level 8's nests and dark (tools/gen_spider.py has its model, its task config and the lore)
+    import gen_spider
+    LANG.update(gen_spider.LANG)
+    return gen_spider.entity(anim, common_client, server)
+
+
 def thething():
     tasks = [{"code": "backrooms-thething", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "speed": 0.035, "rushSpeed": 0.14,
               "orbitRadius": 18, "damage": 8, "patienceSeconds": 40, "groanSound": "backrooms:entity/groan"}]
@@ -1524,7 +1531,7 @@ def main():
     faceling_shape()
     faceling_textures()
     for entity in (hound(), smiler(), faceling(), faceling(child=True), skinstealer(), duller(), deathrat(), deathmoth(), wanderer(), clump(), mangled(), thething(), bacteria(), wretch(),
-                   animation_clay(), animation_wooden(), animation_paper(), roboman()):
+                   animation_clay(), animation_wooden(), animation_paper(), roboman(), giantspider()):
         write_json(sync_harvestable(entity), "entities", entity["code"] + ".json")
     firesalt()
     merge_lang()

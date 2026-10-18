@@ -356,7 +356,95 @@ def snarl():
     write("snarl", reverb(out, decay=0.3), 0.75)
 
 
+def _click(rng, length=0.012, lo=1800, hi=7000):
+    """One dry click of chitin on chitin."""
+    t = seconds(length)
+    return band(rng.normal(size=len(t)), lo, hi) * np.exp(-t * 600)
+
+
+def chitter():
+    """A Giant Spider unseen in the dark: its mouthparts clicking in quick runs, with a dry rattle under them."""
+    rng = np.random.default_rng(401)
+    out = np.zeros(int(1.6 * RATE))
+    at = 0.05
+    for burst in range(3):
+        n = int(rng.integers(5, 10))
+        for _ in range(n):
+            place(out, _click(rng) * rng.uniform(0.5, 1.0), at)
+            at += rng.uniform(0.025, 0.05)
+        at += rng.uniform(0.12, 0.25)
+    t = seconds(len(out) / RATE)
+    rattle = band(rng.normal(size=len(t)), 900, 3200) * 0.08 * (0.5 + 0.5 * np.sin(2 * np.pi * 38 * t)) * np.clip(np.sin(np.pi * t / t[-1]), 0, 1)
+    write("chitter", reverb(out + rattle, decay=0.4), 0.6)
+
+
+def spiderhiss():
+    """A Giant Spider rearing: a harsh hiss forced out with a rasp of stridulation through it, and a clack at its end."""
+    rng = np.random.default_rng(402)
+    t = seconds(1.1)
+    env = np.clip(t / 0.08, 0, 1) * np.clip((1.05 - t) / 0.4, 0, 1)
+    hiss = band(rng.normal(size=len(t)), 2200, 9000) * env
+    rasp = band(rng.normal(size=len(t)), 500, 2500) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * 55 * t))) * env * 0.7
+    out = hiss + rasp
+    place(out, _click(rng, 0.02, 800, 5000) * 3, 0.98)
+    write("spiderhiss", reverb(out, decay=0.3), 0.75)
+
+
+def spiderbite():
+    """The bite: a wet crunch as the fangs go in, and the click of them closing."""
+    rng = np.random.default_rng(403)
+    out = np.zeros(int(0.5 * RATE))
+    place(out, _click(rng, 0.02, 600, 6000) * 2.5, 0.0)
+    t = seconds(0.25)
+    place(out, band(rng.normal(size=len(t)), 200, 1800) * np.exp(-t * 18) * 0.9, 0.02)
+    place(out, _click(rng, 0.015) * 1.5, 0.2)
+    write("spiderbite", out, 0.8)
+
+
+def skitter():
+    """Many legs on rock somewhere off in the caves: a run of light, quick taps that comes and goes."""
+    rng = np.random.default_rng(404)
+    out = np.zeros(int(2.2 * RATE))
+    at = 0.05
+    while at < 1.9:
+        k = np.sin(np.pi * at / 2.0)
+        place(out, _click(rng, 0.008, 1200, 5000) * rng.uniform(0.3, 1.0) * k, at)
+        place(out, thud(0.03, rng.uniform(150, 260), rng, 0.2) * 0.25 * k, at)
+        at += rng.uniform(0.018, 0.06)
+    write("skitter", reverb(out, decay=0.5), 0.55)
+
+
+def spiderhurt():
+    """Struck: a shrill rasping squeal, short, and a burst of clicks."""
+    rng = np.random.default_rng(405)
+    t = seconds(0.6)
+    f = 1400 + 600 * np.sin(np.pi * t / 0.6)
+    tone = np.sin(2 * np.pi * np.cumsum(f) / RATE) * (0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 70 * t)))
+    out = (0.5 * tone + band(rng.normal(size=len(t)), 2000, 8000) * 0.6) * np.clip(t / 0.02, 0, 1) * np.clip((0.6 - t) / 0.3, 0, 1)
+    for i in range(6):
+        place(out, _click(rng) * 0.8, 0.3 + i * 0.03)
+    write("spiderhurt", reverb(out, decay=0.3), 0.7)
+
+
+def spiderdeath():
+    """Dying: a long falling hiss and rasp, legs scraping, a last few slow clicks."""
+    rng = np.random.default_rng(406)
+    t = seconds(2.0)
+    env = np.clip(t / 0.05, 0, 1) * np.exp(-t * 1.6)
+    rasp = band(rng.normal(size=len(t)), 400, 3000) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * (60 - 25 * t) * t))) * env
+    hiss = band(rng.normal(size=len(t)), 2500, 8000) * env * 0.6
+    out = rasp + hiss
+    for at in (1.1, 1.4, 1.75):
+        place(out, _click(rng, 0.015) * 0.6, at)
+    write("spiderdeath", reverb(out, decay=0.45), 0.7)
+
+
+SPIDER = (chitter, spiderhiss, spiderbite, skitter, spiderhurt, spiderdeath)
+
+
 def main():
+    for spider in SPIDER:
+        spider()
     howl()
     gurgle()
     snarl()
@@ -383,4 +471,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if sys.argv[1:] == ["spider"]:
+        for spider in SPIDER:
+            spider()
+    else:
+        main()

@@ -34,6 +34,7 @@ public class EntityClasses : ModSystem
         api.RegisterEntityBehaviorClass("backrooms-menace", typeof(EntityBehaviorMenace));
         api.RegisterEntity("EntityDeathmoth", typeof(EntityDeathmoth));
         api.RegisterEntity("EntityDeathRat", typeof(EntityDeathRat));
+        api.RegisterEntity("EntityGiantSpider", typeof(EntityGiantSpider));
         api.RegisterEntityBehaviorClass("backrooms-faceling", typeof(EntityBehaviorFaceling));
         AiTaskRegistry.Register<AiTaskCurious>("backrooms-curious");
         AiTaskRegistry.Register<AiTaskGreet>("backrooms-greet");
@@ -42,6 +43,7 @@ public class EntityClasses : ModSystem
         AiTaskRegistry.Register<AiTaskMoth>("backrooms-moth");
         AiTaskRegistry.Register<AiTaskClump>("backrooms-clump");
         AiTaskRegistry.Register<AiTaskTheThing>("backrooms-thething");
+        AiTaskRegistry.Register<AiTaskSpider>("backrooms-spider");
         api.RegisterBlockClass("BackroomsFiresalt", typeof(BlockFiresalt));
         api.RegisterBlockEntityClass("BackroomsFiresalt", typeof(BlockEntityFiresalt));
     }

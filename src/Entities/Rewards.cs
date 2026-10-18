@@ -36,6 +36,7 @@ public class Rewards : ModSystem
         ["wretch"] = (0.3, 0.8),
         ["bacteria"] = (1.0, 2.0),
         ["neighborhoodwatch"] = (1.0, 2.5),
+        ["giantspider"] = (1.0, 2.5),
         ["partygoer"] = (1.0, 2.5),
         ["partygoer-intern"] = (1.0, 2.5),
     };

@@ -158,10 +158,12 @@ public static class Roster
     public const string Beast = BeastSystem.Gentleman, BeastUnveiled = BeastSystem.Unveiled;
     /// <summary>A giant eyeball on six long legs, walking the Suburbs' streets (Entity 96).</summary>
     public const string NeighborhoodWatch = "backrooms:neighborhoodwatch";
+    /// <summary>Level 8's giant spiders: territorial, venomous, drawn by noise, and they cannot swim (AiTaskSpider).</summary>
+    public const string GiantSpider = "backrooms:giantspider";
 
     /// <summary>Every entity the director puts down.</summary>
     public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled, NeighborhoodWatch };
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled, NeighborhoodWatch, GiantSpider };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -247,6 +249,10 @@ public static class Roster
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Smiler, Approach, Menacing, 0.6) with { NeedsDark = true },
             E(Hound, Edge, Menacing, 0.8, 2, 3),
+            // Level 8's "spider problem": a giant one lying in wait in the dark off the road, out of sight, or coming
+            // out of it (and the dweller of the level's nests, below). (Not put down as an ambush, ahead of the player
+            // the way they look: in the caves that is mostly rock)
+            E(GiantSpider, Approach, Encounters.Stalk | Encounters.Hunt, 0.7) with { NeedsDark = true },
         },
         [9] = new[]
         {
@@ -340,6 +346,7 @@ public static class Roster
         Backrooms.Worldgen.DenKind.Dark => E(Smiler, Heart, Menacing, 1) with { NeedsDark = true },
         Backrooms.Worldgen.DenKind.Warren => E(DeathRat, Heart, Menacing, 1, 3, 5),
         Backrooms.Worldgen.DenKind.Lair => E(SkinStealer, Heart, Menacing, 1),
+        Backrooms.Worldgen.DenKind.Nest => E(GiantSpider, Heart, Encounters.Stalk | Encounters.Hunt, 1) with { NeedsDark = true },
         _ => null,
     };
 
@@ -416,6 +423,8 @@ public static class Roster
     private static readonly DistantSound Laughter = S("backrooms:sounds/entity/laughter", 0.9f, 1.15f, 0.55f);
     private static readonly DistantSound AllGlory = S("backrooms:sounds/entity/allglory", 0.95f, 1.05f, 0.45f);
     private static readonly DistantSound WatchSteps = S("backrooms:sounds/entity/watch-steps", 0.9f, 1.1f, 0.5f);
+    private static readonly DistantSound Chitter = S("backrooms:sounds/entity/chitter", 0.55f, 0.8f, 0.45f);
+    private static readonly DistantSound Skitter = S("backrooms:sounds/entity/skitter", 0.8f, 1.1f, 0.5f);
 
     private static readonly Dictionary<int, DistantSound[]> SoundsByLevel = new()
     {
@@ -427,7 +436,8 @@ public static class Roster
         [5] = new[] { Whisper, Knock, Footsteps, Wings, Cough, HoundGrowl },
         [6] = new[] { Footsteps, Whisper, Scratch, Scuttle },
         [7] = new[] { Groan },
-        [8] = new[] { Rockfall, Drifter, Footsteps, Squeak },
+        // ("Chittering and clicking from creatures unseen", and many legs on the rock)
+        [8] = new[] { Rockfall, Drifter, Footsteps, Squeak, Chitter, Skitter },
         [9] = new[] { HoundHowl, Slam, Static, Footsteps, Hurt, Squeak, WatchSteps },
         [10] = new[] { Worms, Wings, Cowbell },
         [11] = new[] { CarAlarm, Murmur, Footsteps, Squeak },
