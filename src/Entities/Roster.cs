@@ -151,10 +151,12 @@ public static class Roster
     public const string RoboMan = "backrooms:roboman";
     public const string Partygoer = "backrooms:partygoer";
     public const string PartygoerIntern = "backrooms:partygoer-intern";
+    /// <summary>The Beast of Level 5 (Entity 18), as a gentleman and unveiled: never put down by the director, but by his own event (BeastSystem).</summary>
+    public const string Beast = BeastSystem.Gentleman, BeastUnveiled = BeastSystem.Unveiled;
 
     /// <summary>Every entity the director puts down.</summary>
     public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern };
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -219,6 +221,7 @@ public static class Roster
             E(SkinStealer, Approach, Menacing, 0.6),
             E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
             E(Wretch, Approach, Menacing, 0.3),
+            // (The Beast of Level 5 is not put down by the director: he chooses his victims himself, see BeastSystem)
         },
         // Lights Out: the darkness is the entity. Things are heard; almost nothing is ever seen
         [6] = new[]

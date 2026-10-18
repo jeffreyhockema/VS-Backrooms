@@ -82,7 +82,8 @@ public partial class AtmosphereSystem
 
     private void HotelSounds(float dt, EntityPos pos, bool here)
     {
-        if (!here)
+        // The Beast of Level 5 about (his dread round this player, or him in sight): the music stops
+        if (!here || Entities.BeastSystem.Hushed)
         {
             if (hotelTune != null || hotelSource != null) HotelStop();
             hotelCandidates = 0;
