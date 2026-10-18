@@ -116,6 +116,24 @@ public class ItemAlmondWater : Item
     /// <summary>How much stability a drink restores, unless its <c>stabilityRestored</c> attribute says otherwise.</summary>
     private const double StabilityRestored = 0.15;
 
+    /// <summary>Drunk, not eaten: the game's own drinking sound (four swallows), as a held cup of water makes. The arm
+    /// raises the bottle to the mouth with the same "eat" pose every drink in the game uses, and it still counts as food.</summary>
+    protected override void tryEatBegin(ItemSlot slot, EntityAgent byEntity, ref EnumHandHandling handling, string eatSound = "eat", int eatSoundRepeats = 1)
+    {
+        base.tryEatBegin(slot, byEntity, ref handling, "drink", 4);
+    }
+
+    /// <summary>The hold-to-use hint reads "Drink", not "Eat".</summary>
+    public override WorldInteraction[] GetHeldInteractionHelp(ItemSlot inSlot)
+    {
+        WorldInteraction[] help = base.GetHeldInteractionHelp(inSlot);
+        foreach (WorldInteraction interaction in help)
+        {
+            if (interaction.ActionLangCode == "heldhelp-eat") interaction.ActionLangCode = "backrooms:heldhelp-drink";
+        }
+        return help;
+    }
+
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
     {
         int before = slot.StackSize;

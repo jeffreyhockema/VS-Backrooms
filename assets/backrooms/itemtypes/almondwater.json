@@ -8,12 +8,14 @@
 		{ name: "GroundStorable", properties: { layout: "Quadrants", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 }, selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.6875, z2: 1 } } }
 	],
 	creativeinventory: { "general": ["*"], "items": ["*"] },
-	// Drunk like food: holding right click consumes it
+	// Drunk like food: holding right click raises the bottle (drink sound and hint come from BackroomsAlmondWater)
 	nutritionProps: { satiety: 120, health: 1, foodcategory: "NoNutrition" },
 	materialDensity: 1000,
+	// Items are drawn in the inventory with the screen's y axis down and no extra half turn (blocks get 180 added), so the
+	// usual -22.6 would stand the bottle on its cap: 180 + 22.6 puts it the right way up, seen from above
 	guiTransform: {
-		rotation: { x: -22.6, y: -45.3, z: 0 },
-		origin: { x: 0.5, y: 0.3, z: 0.5 },
+		rotation: { x: 157.4, y: -45.3, z: 0 },
+		origin: { x: 0.5, y: 0.34, z: 0.5 },
 		scale: 2.2
 	},
 	fpHandTransform: {
