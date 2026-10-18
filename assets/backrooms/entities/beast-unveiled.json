@@ -1,0 +1,183 @@
+{
+	"code": "beast-unveiled",
+	"class": "BackroomsBeast",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 160,
+	"canClimb": true,
+	"hitboxSize": {
+		"x": 0.9,
+		"y": 1.95
+	},
+	"deadHitboxSize": {
+		"x": 0.9,
+		"y": 0.6
+	},
+	"eyeHeight": 2.4,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-beast"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/beast"
+		},
+		"texture": {
+			"base": "backrooms:entity/beast-unveiled"
+		},
+		"size": 1.4,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "fury",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "stalk",
+				"animationSpeed": 1.2,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "charge",
+				"animationSpeed": 1.2,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "rend",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "unveil",
+				"animation": "unveil",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 120,
+				"maxhealth": 120
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"stalkSeconds": 20,
+				"huntSeconds": 120
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-menace",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.024,
+						"runSpeed": 0.047,
+						"stalkMin": 6,
+						"stalkMax": 10,
+						"glimpseFleeDistance": 8,
+						"damage": 7,
+						"damageTier": 3,
+						"damageType": "SlashingAttack",
+						"knockback": 0.6,
+						"attackRange": 1.7,
+						"attackDurationMs": 870,
+						"damageAtMs": 420,
+						"attackCooldownMs": 1700,
+						"attackAnimation": "attack",
+						"emergeAnimation": "unveil",
+						"emergeMs": 2000,
+						"huntSound": "backrooms:entity/beast/roar",
+						"voices": [
+							"backrooms:entity/beast/voice",
+							"backrooms:entity/beast/clang"
+						],
+						"soundRange": 40
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:entity/beast/hurt",
+		"death": "backrooms:entity/beast/death"
+	}
+}
