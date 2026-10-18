@@ -37,8 +37,15 @@
 		"*-machinerybase": { wall: { base: "block/level2/tunnelwall-plain" } },
 		"*-pipesjoint": { wall: { base: "block/level2/tunnelwall-plain" } },
 		"*-pipesbracket": { wall: { base: "block/level2/tunnelwall-plain" } },
+		// Plain walls: three versions that share one ground, turned and picked at random (the third, with a faint damp run,
+		// in one block of eight), so no block edge or repeated mark shows. Brick, warning and machinery keep their one texture
+		"*-plain": { all: { base: "block/level2/tunnelwall-plain", alternates: [
+			{ base: "block/level2/tunnelwall-plain", rotation: 90 }, { base: "block/level2/tunnelwall-plain", rotation: 180 }, { base: "block/level2/tunnelwall-plain", rotation: 270 },
+			{ base: "block/level2/tunnelwall-plain-2" }, { base: "block/level2/tunnelwall-plain-2", rotation: 90 }, { base: "block/level2/tunnelwall-plain-2", rotation: 180 },
+			{ base: "block/level2/tunnelwall-plain-3", rotation: 270 }] } },
 		"*": { all: { base: "block/level2/tunnelwall-{type}" } }
 	},
+	randomizeAxes: "xyz",  // versions picked by height too (B13's lesson), so a column does not stack one
 	resistance: 8,
 	requiredMiningTier: 3,
 	lightAbsorption: 99,

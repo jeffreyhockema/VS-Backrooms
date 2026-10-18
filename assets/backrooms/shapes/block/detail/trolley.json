@@ -2,546 +2,2877 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"palletwood": "backrooms:block/detail/palletwood",
-		"rubber": "backrooms:block/detail/rubber",
+		"blackmetal": "backrooms:block/detail/blackmetal",
 		"steel": "backrooms:block/detail/steel",
-		"steeldark": "backrooms:block/detail/steeldark"
+		"trolleypaint": "backrooms:block/detail/trolleypaint",
+		"trolleyplank": "backrooms:block/detail/trolleyplank",
+		"trolleyplank2": "backrooms:block/detail/trolleyplank2",
+		"trolleyrust": "backrooms:block/detail/trolleyrust",
+		"trolleytyre": "backrooms:block/detail/trolleytyre"
 	},
 	"elements": [
 		{
-			"name": "Deck",
+			"name": "ChannelL",
 			"from": [
-				1,
-				4,
-				0.5
+				1.2,
+				3.0,
+				0.4
 			],
 			"to": [
-				15,
-				5.5,
-				15.5
+				2.4,
+				4.2,
+				15.6
 			],
 			"faces": {
 				"north": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						14,
-						1.5
+						1.2,
+						1.2000000000000002
 					]
 				},
 				"east": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						1.5
+						15.2,
+						1.2000000000000002
 					]
 				},
 				"south": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						14,
-						1.5
+						1.2,
+						1.2000000000000002
 					]
 				},
 				"west": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						1.5
+						15.2,
+						1.2000000000000002
 					]
 				},
 				"up": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						14,
-						15.0
+						1.2,
+						15.2
 					]
 				},
 				"down": {
-					"texture": "#palletwood",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						14,
-						15.0
+						1.2,
+						15.2
 					]
 				}
 			}
 		},
 		{
-			"name": "Frame",
+			"name": "LipL",
+			"from": [
+				2.4,
+				3.0,
+				0.4
+			],
+			"to": [
+				3.4,
+				3.5,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15.2
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ChannelR",
+			"from": [
+				13.6,
+				3.0,
+				0.4
+			],
+			"to": [
+				14.8,
+				4.2,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.200000000000001,
+						15.2
+					]
+				}
+			}
+		},
+		{
+			"name": "LipR",
+			"from": [
+				12.6,
+				3.0,
+				0.4
+			],
+			"to": [
+				13.6,
+				3.5,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						15.2
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cross0",
+			"from": [
+				3.4,
+				3.4,
+				1.5
+			],
+			"to": [
+				12.6,
+				4.2,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						1.2000000000000002
+					]
+				}
+			}
+		},
+		{
+			"name": "Cross1",
+			"from": [
+				3.4,
+				3.4,
+				7.0
+			],
+			"to": [
+				12.6,
+				4.2,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "Cross2",
+			"from": [
+				3.4,
+				3.4,
+				13.0
+			],
+			"to": [
+				12.6,
+				4.2,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						0.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						9.2,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "TowPlate",
+			"from": [
+				6.5,
+				3.2,
+				0.2
+			],
+			"to": [
+				9.5,
+				4.2,
+				1.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.4000000000000001,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.4000000000000001
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.4000000000000001
+					]
+				}
+			}
+		},
+		{
+			"name": "TowRingL",
+			"from": [
+				6.7,
+				3.4,
+				0.05
+			],
+			"to": [
+				7.5,
+				4.0,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.6000000000000001
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.95,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.7999999999999998,
+						0.95
+					]
+				}
+			}
+		},
+		{
+			"name": "TowRingR",
+			"from": [
+				8.5,
+				3.4,
+				0.05
+			],
+			"to": [
+				9.3,
+				4.0,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.6000000000000001
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.95,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.8000000000000007,
+						0.95
+					]
+				}
+			}
+		},
+		{
+			"name": "TowRingBar",
+			"from": [
+				7.5,
+				3.4,
+				0.05
+			],
+			"to": [
+				8.5,
+				4.0,
+				0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6000000000000001
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5499999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Plank0",
+			"from": [
+				1.4,
+				4.2,
+				0.2
+			],
+			"to": [
+				3.8,
+				5.5,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.2999999999999998
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4,
+						15.600000000000001
+					]
+				},
+				"south": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.2999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "Plank1",
+			"from": [
+				4.1,
+				4.2,
+				0.2
+			],
+			"to": [
+				6.5,
+				5.5,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						15.600000000000001
+					]
+				},
+				"south": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "PlankSplitF",
+			"from": [
+				6.800000000000001,
+				4.2,
+				0.2
+			],
+			"to": [
+				9.200000000000001,
+				5.5,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						7.3999999999999995,
+						1.2999999999999998
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						7.3999999999999995,
+						1.2999999999999998
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						7.3999999999999995
+					]
+				},
+				"south": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "PlankSplitR",
+			"from": [
+				6.800000000000001,
+				4.2,
+				8.5
+			],
+			"to": [
+				9.200000000000001,
+				5.3,
+				15.8
+			],
+			"faces": {
+				"south": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0999999999999996
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						7.300000000000001,
+						1.0999999999999996
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						7.300000000000001,
+						1.0999999999999996
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						7.300000000000001
+					]
+				},
+				"north": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.0999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				5.0,
+				15.8
+			],
+			"rotationX": -2.5
+		},
+		{
+			"name": "Plank3",
+			"from": [
+				9.500000000000002,
+				4.2,
+				0.2
+			],
+			"to": [
+				11.900000000000002,
+				5.5,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						1.2999999999999998
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						15.600000000000001
+					]
+				},
+				"south": {
+					"texture": "#trolleyplank2",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "Plank4",
+			"from": [
+				12.200000000000001,
+				4.2,
+				0.9
+			],
+			"to": [
+				14.600000000000001,
+				5.5,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				},
+				"east": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						14.9,
+						1.2999999999999998
+					]
+				},
+				"west": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						14.9,
+						1.2999999999999998
+					]
+				},
+				"up": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						14.9
+					]
+				},
+				"south": {
+					"texture": "#trolleyplank",
+					"uv": [
+						0,
+						0,
+						2.4000000000000004,
+						1.2999999999999998
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketL0",
+			"from": [
+				0.3,
+				3.4,
+				5.6
+			],
+			"to": [
+				1.4,
+				6.1,
+				7.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						2.6999999999999997
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						2.6999999999999997
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketTopL0",
+			"from": [
+				0.3,
+				6.1,
+				5.6
+			],
+			"to": [
+				1.4,
+				6.2,
+				7.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketMouthL0",
+			"from": [
+				0.6,
+				6.12,
+				5.8999999999999995
+			],
+			"to": [
+				1.0999999999999999,
+				6.25,
+				6.8
+			],
+			"faces": {
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9000000000000004
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketL1",
+			"from": [
+				0.3,
+				3.4,
+				9.0
+			],
+			"to": [
+				1.4,
+				6.1,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						2.6999999999999997
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						2.6999999999999997
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketTopL1",
+			"from": [
+				0.3,
+				6.1,
+				9.0
+			],
+			"to": [
+				1.4,
+				6.2,
+				10.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999999,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketMouthL1",
+			"from": [
+				0.6,
+				6.12,
+				9.3
+			],
+			"to": [
+				1.0999999999999999,
+				6.25,
+				10.2
+			],
+			"faces": {
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8999999999999986
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketR0",
+			"from": [
+				14.6,
+				3.4,
+				5.6
+			],
+			"to": [
+				15.7,
+				6.1,
+				7.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						2.6999999999999997
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						2.6999999999999997
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketTopR0",
+			"from": [
+				14.6,
+				6.1,
+				5.6
+			],
+			"to": [
+				15.7,
+				6.2,
+				7.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketMouthR0",
+			"from": [
+				14.9,
+				6.12,
+				5.8999999999999995
+			],
+			"to": [
+				15.399999999999999,
+				6.25,
+				6.8
+			],
+			"faces": {
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9000000000000004
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketR1",
+			"from": [
+				14.6,
+				3.4,
+				9.0
+			],
+			"to": [
+				15.7,
+				6.1,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						2.6999999999999997
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						2.6999999999999997
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.6999999999999997
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketTopR1",
+			"from": [
+				14.6,
+				6.1,
+				9.0
+			],
+			"to": [
+				15.7,
+				6.2,
+				10.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0999999999999996,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PocketMouthR1",
+			"from": [
+				14.9,
+				6.12,
+				9.3
+			],
+			"to": [
+				15.399999999999999,
+				6.25,
+				10.2
+			],
+			"faces": {
+				"up": {
+					"texture": "#blackmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8999999999999986
+					]
+				}
+			}
+		},
+		{
+			"name": "Stake",
+			"from": [
+				0.55,
+				6.2,
+				5.9
+			],
+			"to": [
+				1.15,
+				15.2,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						9.0
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						9.0
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						9.0
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						9.0
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.5999999999999999,
+						0.5999999999999996
+					]
+				}
+			},
+			"rotationOrigin": [
+				0.85,
+				6.2,
+				6.2
+			],
+			"rotationZ": 9
+		},
+		{
+			"name": "StakeCap",
 			"from": [
 				0.5,
-				3,
-				0
+				15.0,
+				5.85
 			],
 			"to": [
-				15.5,
-				4,
-				16
+				1.2,
+				15.6,
+				6.55
 			],
 			"faces": {
 				"north": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						1
+						0.7,
+						0.5999999999999996
 					]
 				},
 				"east": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						16,
-						1
+						0.7000000000000002,
+						0.5999999999999996
 					]
 				},
 				"south": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						1
+						0.7,
+						0.5999999999999996
 					]
 				},
 				"west": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						16,
-						1
+						0.7000000000000002,
+						0.5999999999999996
 					]
 				},
 				"up": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						16
+						0.7,
+						0.7000000000000002
 					]
 				},
 				"down": {
-					"texture": "#steeldark",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						15.0,
-						16
+						0.7,
+						0.7000000000000002
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				0.85,
+				6.2,
+				6.2
+			],
+			"rotationZ": 9
 		},
 		{
-			"name": "W1",
+			"name": "Axle3.2",
 			"from": [
-				1,
-				0,
-				1.5
+				0.6,
+				1.8,
+				2.8000000000000003
 			],
 			"to": [
-				3,
-				3,
-				4.5
+				15.4,
+				2.6,
+				3.6
 			],
 			"faces": {
 				"north": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
-					]
-				},
-				"east": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						3.0,
-						3
+						14.8,
+						0.8
 					]
 				},
 				"south": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
-					]
-				},
-				"west": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						3.0,
-						3
+						14.8,
+						0.8
 					]
 				},
 				"up": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3.0
+						14.8,
+						0.7999999999999998
 					]
 				},
 				"down": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3.0
+						14.8,
+						0.7999999999999998
 					]
 				}
 			}
 		},
 		{
-			"name": "W2",
+			"name": "Hanger3.2L",
 			"from": [
-				13,
-				0,
-				1.5
+				1.6,
+				2.6,
+				2.5
 			],
 			"to": [
-				15,
-				3,
-				4.5
+				2.6,
+				3.0,
+				3.9000000000000004
 			],
 			"faces": {
 				"north": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
-					]
-				},
-				"east": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						3.0,
-						3
+						1.0,
+						0.5
 					]
 				},
 				"south": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						0.5
 					]
 				},
 				"west": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						3.0,
-						3
-					]
-				},
-				"up": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						2,
-						3.0
-					]
-				},
-				"down": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						2,
-						3.0
+						1.4000000000000004,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "W3",
+			"name": "Hanger3.2R",
 			"from": [
-				1,
-				0,
-				11.5
+				13.4,
+				2.6,
+				2.5
 			],
 			"to": [
-				3,
-				3,
-				14.5
+				14.4,
+				3.0,
+				3.9000000000000004
 			],
 			"faces": {
 				"north": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
-					]
-				},
-				"east": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						3.0,
-						3
+						1.0,
+						0.5
 					]
 				},
 				"south": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						2,
-						3
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.4000000000000004,
+						0.5
 					]
 				},
 				"west": {
-					"texture": "#rubber",
+					"texture": "#trolleyrust",
 					"uv": [
 						0,
 						0,
-						3.0,
-						3
-					]
-				},
-				"up": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						2,
-						3.0
-					]
-				},
-				"down": {
-					"texture": "#rubber",
-					"uv": [
-						0,
-						0,
-						2,
-						3.0
+						1.4000000000000004,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "W4",
+			"name": "Tyre3.2L",
 			"from": [
-				13,
+				0.4,
 				0,
-				11.5
+				1.0
 			],
 			"to": [
-				15,
-				3,
-				14.5
+				1.6,
+				4.4,
+				5.4
 			],
 			"faces": {
 				"north": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						2,
-						3
+						1.2000000000000002,
+						4.4
 					]
 				},
 				"east": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						3.0,
-						3
+						4.4,
+						4.4
 					]
 				},
 				"south": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						2,
-						3
+						1.2000000000000002,
+						4.4
 					]
 				},
 				"west": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						3.0,
-						3
+						4.4,
+						4.4
 					]
 				},
 				"up": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						2,
-						3.0
+						1.2000000000000002,
+						4.4
 					]
 				},
 				"down": {
-					"texture": "#rubber",
+					"texture": "#trolleytyre",
 					"uv": [
 						0,
 						0,
-						2,
-						3.0
+						1.2000000000000002,
+						4.4
 					]
 				}
 			}
 		},
 		{
-			"name": "HandleL",
+			"name": "Tyre3.2L45",
+			"from": [
+				0.45,
+				0,
+				1.0
+			],
+			"to": [
+				1.55,
+				4.4,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.4,
+						4.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				2.2,
+				3.2
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Hub3.2L",
+			"from": [
+				0.2,
+				1.3,
+				2.3000000000000003
+			],
+			"to": [
+				0.4,
+				3.1,
+				4.1000000000000005
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000003
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre3.2R",
+			"from": [
+				14.4,
+				0,
+				1.0
+			],
+			"to": [
+				15.6,
+				4.4,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.4,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.4,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre3.2R45",
+			"from": [
+				14.450000000000001,
+				0,
+				1.0
+			],
+			"to": [
+				15.549999999999999,
+				4.4,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.4,
+						4.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				15.0,
+				2.2,
+				3.2
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Hub3.2R",
+			"from": [
+				15.6,
+				1.3,
+				2.3000000000000003
+			],
+			"to": [
+				15.799999999999999,
+				3.1,
+				4.1000000000000005
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000003
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000003
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.8000000000000003,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Axle12.8",
+			"from": [
+				0.6,
+				1.8,
+				12.4
+			],
+			"to": [
+				15.4,
+				2.6,
+				13.200000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Hanger12.8L",
+			"from": [
+				1.6,
+				2.6,
+				12.100000000000001
+			],
+			"to": [
+				2.6,
+				3.0,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.3999999999999986,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.3999999999999986,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hanger12.8R",
+			"from": [
+				13.4,
+				2.6,
+				12.100000000000001
+			],
+			"to": [
+				14.4,
+				3.0,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.3999999999999986,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						1.3999999999999986,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre12.8L",
+			"from": [
+				0.4,
+				0,
+				10.600000000000001
+			],
+			"to": [
+				1.6,
+				4.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						4.399999999999999
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.2000000000000002,
+						4.399999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre12.8L45",
+			"from": [
+				0.45,
+				0,
+				10.600000000000001
+			],
+			"to": [
+				1.55,
+				4.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.399999999999999
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1,
+						4.399999999999999
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				2.2,
+				12.8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Hub12.8L",
+			"from": [
+				0.2,
+				1.3,
+				11.9
+			],
+			"to": [
+				0.4,
+				3.1,
+				13.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000007
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre12.8R",
+			"from": [
+				14.4,
+				0,
+				10.600000000000001
+			],
+			"to": [
+				15.6,
+				4.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.399999999999999
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						4.399999999999999
+					]
+				}
+			}
+		},
+		{
+			"name": "Tyre12.8R45",
+			"from": [
+				14.450000000000001,
+				0,
+				10.600000000000001
+			],
+			"to": [
+				15.549999999999999,
+				4.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.399999999999999
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.0999999999999979,
+						4.399999999999999
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						4.399999999999999,
+						4.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				15.0,
+				2.2,
+				12.8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Hub12.8R",
+			"from": [
+				15.6,
+				1.3,
+				11.9
+			],
+			"to": [
+				15.799999999999999,
+				3.1,
+				13.700000000000001
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8000000000000007
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "SocketL",
 			"from": [
 				1.5,
 				5.5,
-				14.5
+				14.0
 			],
 			"to": [
-				2.5,
-				21,
-				15.5
+				3.1,
+				7.2,
+				15.7
 			],
 			"faces": {
 				"north": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						15.5
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						1.0,
-						15.5
+						1.6,
+						1.7000000000000002
 					]
 				},
 				"south": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						15.5
+						1.6,
+						1.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						1.7000000000000002
 					]
 				},
 				"west": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						15.5
+						1.6999999999999993,
+						1.7000000000000002
 					]
 				},
 				"up": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "UprightL",
+			"from": [
+				1.8,
+				7.2,
+				14.4
+			],
+			"to": [
+				2.8,
+				20.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.9999999999999998,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
 						1.0,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.9999999999999998,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						0.9999999999999998,
 						1.0
 					]
 				},
 				"down": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.9999999999999998,
 						1.0
 					]
 				}
 			}
 		},
 		{
-			"name": "HandleR",
+			"name": "SocketR",
 			"from": [
-				13.5,
+				12.5,
 				5.5,
-				14.5
+				14.0
 			],
 			"to": [
-				14.5,
-				21,
-				15.5
+				14.100000000000001,
+				7.2,
+				15.7
 			],
 			"faces": {
 				"north": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						15.5
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						1.0,
-						15.5
+						1.6000000000000014,
+						1.7000000000000002
 					]
 				},
 				"south": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						15.5
+						1.6000000000000014,
+						1.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						1.7000000000000002
 					]
 				},
 				"west": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						1.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.6000000000000014,
+						1.6999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "UprightR",
+			"from": [
+				12.8,
+				7.2,
+				14.4
+			],
+			"to": [
+				13.8,
+				20.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
 						1.0,
-						15.5
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.0
 					]
 				},
 				"up": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
@@ -550,7 +2881,7 @@
 					]
 				},
 				"down": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
@@ -561,70 +2892,259 @@
 			}
 		},
 		{
-			"name": "Bar",
+			"name": "LowerBar",
 			"from": [
-				1.5,
-				20,
+				2.8,
+				10.5,
 				14.5
 			],
 			"to": [
-				14.5,
-				21,
+				12.8,
+				11.3,
+				15.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.8000000000000007
+					]
+				},
+				"south": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.8000000000000007
+					]
+				},
+				"up": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#trolleyrust",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "Grip",
+			"from": [
+				3.6,
+				19.8,
+				14.0
+			],
+			"to": [
+				12.0,
+				21.2,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						8.4,
+						1.3999999999999986
+					]
+				},
+				"east": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.3999999999999986
+					]
+				},
+				"south": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						8.4,
+						1.3999999999999986
+					]
+				},
+				"west": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.3999999999999986
+					]
+				},
+				"up": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						8.4,
+						1.8000000000000007
+					]
+				},
+				"down": {
+					"texture": "#trolleytyre",
+					"uv": [
+						0,
+						0,
+						8.4,
+						1.8000000000000007
+					]
+				}
+			}
+		},
+		{
+			"name": "GripCapL",
+			"from": [
+				1.8,
+				19.9,
+				14.3
+			],
+			"to": [
+				3.6,
+				21.1,
 				15.5
 			],
 			"faces": {
 				"north": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						13.0,
-						1
+						1.8,
+						1.2000000000000028
 					]
 				},
 				"east": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						1
+						1.1999999999999993,
+						1.2000000000000028
 					]
 				},
 				"south": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						13.0,
-						1
+						1.8,
+						1.2000000000000028
 					]
 				},
 				"west": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						1.0,
-						1
+						1.1999999999999993,
+						1.2000000000000028
 					]
 				},
 				"up": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						13.0,
-						1.0
+						1.8,
+						1.1999999999999993
 					]
 				},
 				"down": {
-					"texture": "#steel",
+					"texture": "#trolleypaint",
 					"uv": [
 						0,
 						0,
-						13.0,
-						1.0
+						1.8,
+						1.1999999999999993
+					]
+				}
+			}
+		},
+		{
+			"name": "GripCapR",
+			"from": [
+				12.0,
+				19.9,
+				14.3
+			],
+			"to": [
+				13.8,
+				21.1,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.2000000000000028
+					]
+				},
+				"east": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.2000000000000028
+					]
+				},
+				"south": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.2000000000000028
+					]
+				},
+				"west": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.1999999999999993,
+						1.2000000000000028
+					]
+				},
+				"up": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.1999999999999993
+					]
+				},
+				"down": {
+					"texture": "#trolleypaint",
+					"uv": [
+						0,
+						0,
+						1.8000000000000007,
+						1.1999999999999993
 					]
 				}
 			}
