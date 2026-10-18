@@ -958,6 +958,43 @@ def glowcap_wall(caps):
     return out
 
 
+def stop_sign():
+    """The STOP sign (l94fence; the street's sign in Levels 1, 9 and 94): an octagonal plate as thin geometry, 12 units
+    across and 0.3 thick, its octagon cut by the textures' alpha (deep_textures.stopsign_textures) and its edges
+    closed by strips along the flats (the textures' edge pixels, so only the flats show) and four turned strips along
+    the cut corners; a plain aluminium back; a galvanised square post behind it; two bolts through the plate into the
+    post, their nuts on the back of the post."""
+    x0, x1, y0, y1, z0, z1 = 2, 14, 24, 36, 7.0, 7.3
+    cut = 12 * (1 - 1 / (1 + math.sqrt(2))) / 2
+    side = 12 - 2 * cut
+    back = "stopsignback"
+    e = 0.3  # the edge faces take the textures' outermost row or column of pixels (0.9 px of 48)
+
+    def face(tex, uv):
+        return {"texture": "#" + tex, "uv": [round(v, 4) for v in uv]}
+
+    plate = {"name": "Plate", "from": [x0, y0, z0], "to": [x1, y1, z1], "faces": {
+        "north": face("stopsign", (0, 0, 16, 16)), "south": face(back, (0, 0, 16, 16)),
+        "up": face(back, (0, 0, 16, e)), "down": face(back, (0, 16 - e, 16, 16)),
+        "east": face(back, (16 - e, 0, 16, 16)), "west": face(back, (0, 0, e, 16))}}
+    els = [bx("Post", (7.375, 0, z1), (8.625, 33.5, z1 + 1.25), "stopsignpost", uv=(0, 0, 1.25, 16)), plate]
+    cx, cy, t = 8, 30, 0.12
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            mx, my = cx + sx * (6 - cut / 2), cy + sy * (6 - cut / 2)
+            lo, hi = (my - t, my) if sy > 0 else (my, my + t)
+            strip = bx(f"Edge{'N' if sy > 0 else 'S'}{'E' if sx > 0 else 'W'}", (mx - side / 2, lo, z0), (mx + side / 2, hi, z1),
+                       back, faces=("up" if sy > 0 else "down",), uv=(4, 8, 12, 8.3),
+                       rot=(0, 0, -45 * sx * sy), origin=(mx, my, (z0 + z1) / 2))
+            els.append(strip)
+    for y in (y0 + 1.2, y1 - 1.2):  # the bolt heads on the face, the nuts on the back of the post
+        els.append(bx(f"Bolt{int(y)}", (7.65, y - 0.35, z0 - 0.25), (8.35, y + 0.35, z0), "stopsignpost",
+                      faces=("north", "east", "west", "up", "down")))
+        els.append(bx(f"Nut{int(y)}", (7.6, y - 0.4, z1 + 1.25), (8.4, y + 0.4, z1 + 1.5), "stopsignpost",
+                      faces=("south", "east", "west", "up", "down")))
+    return els
+
+
 # ======================= Level 9 =======================
 
 def level9():
@@ -1276,10 +1313,7 @@ def refinements():
 
     # Level 9: the street and the yards
     prop("firehydrant", "Fire Hydrant", L11.hydrant(), box=(0.3, 0, 0.3, 0.7, 0.81, 0.7), material="Metal", sounds=METAL)
-    prop("stopsign", "Stop Sign", [
-        bx("Pole", (7.5, 0, 7.5), (8.5, 26, 8.5), "metal"),
-        bx("Sign", (2, 24, 7), (14, 36, 7.6), "stopsign", faces=("north",), full=True),
-        bx("Back", (2, 24, 7.6), (14, 36, 8), "metal", faces=("south", "east", "west", "up", "down"))],
+    prop("stopsign", "Stop Sign", stop_sign(),
          box=(0.42, 0, 0.42, 0.58, 2, 0.58), material="Metal", sounds=METAL)
     prop("wheeliebin", "Wheelie Bin", [
         bx("Body", (3, 1, 3), (13, 15, 13), "binplastic"), bx("Lid", (2.5, 15, 2.5), (13.5, 16, 14), "binplastic"),
