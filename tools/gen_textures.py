@@ -1688,8 +1688,9 @@ def parking_textures():
         blotch(img, (8, 24), 7, (90, 80, 70), 0.35, 22)  # dust and grime
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 440)
+    glass.putalpha(104)  # tinted, so the interior shows through (the car blocktype is a Transparent pass)
     d = ImageDraw.Draw(glass)
-    d.line([4, 2, 14, 12], fill=(70, 84, 92, 255), width=2)  # reflection
+    d.line([4, 2, 14, 12], fill=(70, 84, 92, 170), width=2)  # reflection
     save(glass, "block/level1/car-glass.png")
     car_wreck_textures()
 
@@ -1709,16 +1710,17 @@ def car_wreck_textures():
                 blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (92, 88, 82), 0.5, 480 + k)
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 441)
+    glass.putalpha(120)
     d = ImageDraw.Draw(glass)
     cx, cy = 20, 12
     rng = random.Random(442)
     for k in range(9):  # cracks running out from the impact
         a = k * math.tau / 9 + rng.uniform(-0.2, 0.2)
         r = rng.randint(9, 22)
-        d.line([cx, cy, cx + r * math.cos(a), cy + r * math.sin(a)], fill=(150, 160, 164, 255), width=1)
+        d.line([cx, cy, cx + r * math.cos(a), cy + r * math.sin(a)], fill=(150, 160, 164, 220), width=1)
     for r in (3, 6):
-        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 255))
-    d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 255))  # the hole
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 200))
+    d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 0))  # the hole (nothing there)
     save(glass, "block/level1/car-glass-broken.png")
     seat = noise_fill(hexrgb(0x4A3426), 6, 443)
     d = ImageDraw.Draw(seat)
@@ -1726,6 +1728,79 @@ def car_wreck_textures():
         d.line([0, y, S - 1, y], fill=(58, 42, 30, 255))
     d.line([9, 10, 17, 19], fill=(176, 160, 120, 255), width=2)  # the foam showing through a split
     save(seat, "block/level1/car-seat.png")
+    car_interior_textures()
+
+
+def car_interior_textures():
+    """What you see through a car's glass (tools/gen_shapes.py `parking`): twill seat cloth, dashboard and door-card
+    plastic, floor carpet, the headliner, a door card with its stitched panel, the dials and the radio (painted in the
+    top-left corner of their texture: their faces map just that part), and for the wrecks the same worn, stained and
+    split, with the foam showing."""
+    def _lift(c, d):
+        return tuple(int(v) for v in M.lift(c, d))
+
+    def worn(img, seed, dirt, amount=0.35):
+        M.grime(img, amount, seed=seed, color=dirt, cover=0.7)
+        M.scratches(img, 5, seed=seed + 1, length=(3, 9), light=0.18)
+        return img
+
+    save(M.fabric(5300, base=(124, 112, 96), weave="twill", tone2=(116, 104, 90), contrast=7, grain=3, mottle=5),
+         "block/level1/car-cloth.png")
+
+    trim = M.rubber(5301, base=(66, 62, 58), grain=3, mottle=4)
+    M.scratches(trim, 3, seed=5302, length=(3, 7), light=0.1)
+    save(trim, "block/level1/car-trim.png")
+    save(worn(M.rubber(5301, base=(60, 57, 52), grain=3, mottle=5), 5303, (96, 88, 72)), "block/level1/car-trimworn.png")
+
+    save(M.carpet(5304, base=(86, 82, 78), mix2=0.2, tone2=(74, 72, 70), pile=6, grain=3, mottle=5), "block/level1/car-carpet.png")
+    worncarpet = M.carpet(5304, base=(80, 74, 66), mix2=0.3, tone2=(66, 62, 56), pile=6, grain=3, mottle=6)
+    M.stain(worncarpet, 5305, radius=8, color=(58, 50, 38), strength=0.5, at=(10, 12))
+    M.stain(worncarpet, 5306, radius=6, color=(104, 92, 66), strength=0.4, at=(23, 22))
+    save(worn(worncarpet, 5307, (92, 82, 62), 0.4), "block/level1/car-carpetworn.png")
+
+    save(M.fabric(5308, base=(170, 164, 148), weave="plain", contrast=4, grain=3, mottle=4), "block/level1/car-liner.png")
+    liner = M.fabric(5308, base=(150, 142, 120), weave="plain", contrast=4, grain=3, mottle=5)
+    M.stain(liner, 5309, radius=10, color=(112, 92, 56), strength=0.55, at=(14, 12))
+    save(liner, "block/level1/car-linerworn.png")
+
+    def doorcard(seed, base, wear):
+        img = M.rubber(seed, base=base, grain=3, mottle=4)
+        d = ImageDraw.Draw(img)
+        d.rectangle([2, 3, 29, 28], outline=_lift(base, -14) + (255,))   # the moulded panel
+        d.line([3, 17, 28, 17], fill=_lift(base, 12) + (255,))           # the seam where the vinyl insert starts
+        for x in range(4, 29, 3):
+            d.point((x, 18), fill=_lift(base, -16) + (255,))               # its stitching
+        M.bevel(img, box=(2, 3, 30, 29), width=1, strength=0.16)
+        return worn(img, seed + 1, (90, 82, 66), 0.3) if wear else img
+    save(doorcard(5310, (70, 66, 60), False), "block/level1/car-doorcard.png")
+    save(doorcard(5312, (64, 60, 52), True), "block/level1/car-doorcardworn.png")
+
+    # The instrument cluster: two round dials and a row of warning lamps, in the top-left 16 x 6 px (the cluster's face
+    # is 8 x 3 units, which the shape maps to just that part of the texture)
+    dials = M.rubber(5314, base=(36, 36, 36), grain=2, mottle=3)
+    d = ImageDraw.Draw(dials)
+    for cx in (4, 11):
+        d.ellipse([cx - 3, 0, cx + 3, 6], fill=(14, 16, 16, 255), outline=(120, 118, 108, 255))
+        d.line([cx, 3, cx + 1, 1], fill=(206, 196, 150, 255))
+        for a in range(-60, 61, 30):
+            d.point((cx + round(2.3 * math.sin(math.radians(a))), 3 - round(2.3 * math.cos(math.radians(a)))), fill=(190, 184, 160, 255))
+    for x, c in ((14, (190, 60, 40)), (15, (210, 170, 60))):
+        d.point((x, 5), fill=c + (255,))
+    save(dials, "block/level1/car-dials.png")
+
+    # The radio: a dark face with a station window, two knobs and a row of buttons, in the top-left 12 x 6 px
+    radio = M.rubber(5315, base=(40, 40, 42), grain=2, mottle=3)
+    d = ImageDraw.Draw(radio)
+    d.rectangle([2, 0, 9, 2], fill=(52, 70, 60, 255), outline=(96, 98, 92, 255))
+    for x in (0, 11):
+        d.rectangle([x, 0, x + 1, 2], fill=(120, 118, 110, 255))
+    for x in range(1, 11, 2):
+        d.point((x, 4), fill=(130, 126, 116, 255))
+    save(radio, "block/level1/car-radio.png")
+
+    # Foam showing through a split cushion
+    foam = M.noise_hv((170, 142, 78), 8, 5316, (S, S), 10, (16, 8), M.DRIFT)
+    save(foam, "block/level1/car-foam.png")
 
 
 def text_img(img, text, box, color, size):

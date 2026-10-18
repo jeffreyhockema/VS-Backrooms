@@ -37,6 +37,7 @@
 	"block-hanginglight-flicker-*": "Failing Hanging Fluorescent Light",
 	"block-hangingbulb-*": "Bare Bulb",
 	"block-conduit-*": "Conduit",
+	"block-conduitend-*": "Conduit Fitting",
 	"block-metalshelf-*": "Metal Shelving",
 	"block-concretestairs-*": "Concrete Stairs",
 	"block-pipes-*": "Pipes",
