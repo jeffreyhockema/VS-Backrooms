@@ -24,14 +24,11 @@ In numbers: 1,219 block textures, 59 creature and character textures, 62 item ic
 
 The same spot before the update (left) and after it (right).
 
-- [Level 2's machinery cabinets](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/01-level2-machinery.jpg): painted dials and grilles became modelled gauges, lamps, a louvred door and a handle.
-- [Level 3's breaker panel and wall fan](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/02-level3-breaker-panel.jpg): a painted panel became ten breakers and a main switch; the fan got blades behind a guard.
-- [Level 4's desk and cubicles](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/03-level4-desk.jpg): the blank box became a terminal with a screen and keyboard; drawers, a swivel chair, capped partitions.
-- [Level 5's guest-room door](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/04-level5-door.jpg): a flat painted door became a panelled door in its casing, with a brass plate, knob, hinges and peephole.
-- [Level 5's chandelier](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/05-level5-chandelier.jpg): a flat gold plate of candles became an eight-arm chandelier with crystal drops.
-- [The Snackrooms' shelves](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/06-level6-1-shelves.jpg): a painted picture that read as office binders became shelving stocked with snack packs.
-- [A Level 9 gable](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/07-level9-gable.jpg): the stepped white gable became the house's own siding up to the roof.
-- [Level 94's water tower](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress/08-level94-water-tower.jpg): a box on four posts became the white municipal tower, with braced legs, a round tank, a catwalk and a ladder.
+- [Level 3's switchgear and pipes](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/01-level3-switchgear.jpg): painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
+- [Level 4's potted plant](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/02-level4-ficus.jpg): a green block of noise became a potted ficus with a trunk and leaves.
+- [Level 5's elevator](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/03-level5-elevator.jpg): a printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
+- [Level 5's hall wall](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/04-level5-hall.jpg): the hotel wall gained a cornice, a framed portrait and sharper trim above the key rack.
+- [The Snackrooms' store kitchen](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/05-level6-1-kitchen.jpg): flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
 
 ## What's new in 0.513.0
 

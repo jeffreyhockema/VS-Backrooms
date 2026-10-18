@@ -1,0 +1,24 @@
+{
+ "note": "Before and after showcase for the 0.514.0 change notes and the mod page, made after the last rounds of fixes. Built by tools/shotbot/showcase.py. Before is review/baseline (main before the graphics pass), after is review/showcase514 (main at the 0.514.0 build), the same spots in the gfxreview world (seed 1672613597). review/ is git-ignored and exists only on the machine that shot it.",
+ "out": "docs/screenshots/progress-0514",
+ "moddb": "docs/moddb/img/progress-0514",
+ "moddb_width": 1280,
+ "overview_width": 1280,
+ "pairs": [
+  {"file": "01-level3-switchgear", "subject": "Level 3: switchgear and pipes",
+   "caption": "Painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.",
+   "before": "review/baseline/3/switchgear-close.jpg", "after": "review/showcase514/after/3/switchgear-close.jpg"},
+  {"file": "02-level4-ficus", "subject": "Level 4: potted plant",
+   "caption": "A green block of noise became a potted ficus with a trunk and leaves.",
+   "before": "review/baseline/4/ficus-close.jpg", "after": "review/showcase514/after/4/ficus-close.jpg"},
+  {"file": "03-level5-elevator", "subject": "Level 5: elevator",
+   "caption": "A printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.",
+   "before": "review/baseline/5/elevator-close.jpg", "after": "review/showcase514/after/5/elevator-close.jpg"},
+  {"file": "04-level5-hall", "subject": "Level 5: hall wall",
+   "caption": "The hotel wall gained a cornice, a framed portrait and sharper trim above the key rack.",
+   "before": "review/baseline/5/keyrack-close.jpg", "after": "review/showcase514/after2/5/keyrack-close.jpg"},
+  {"file": "05-level6-1-kitchen", "subject": "Level 6.1: store kitchen",
+   "caption": "Flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.",
+   "before": "review/baseline/6.1/fridge-close.jpg", "after": "review/showcase514/after/6.1/fridge-close.jpg"}
+ ]
+}

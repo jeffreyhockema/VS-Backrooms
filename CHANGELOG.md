@@ -75,16 +75,13 @@ In numbers: 1,219 block textures (611 of them new versions, so a surface no long
 
 ### Before and after
 
-The same spot in the game before the pass (left) and after it (right). All eight on one page: [docs/screenshots/progress/00-overview.jpg](docs/screenshots/progress/00-overview.jpg).
+The same spot in the game before the pass (left) and after it (right). All five on one page: [docs/screenshots/progress-0514/00-overview.jpg](docs/screenshots/progress-0514/00-overview.jpg).
 
-- [docs/screenshots/progress/01-level2-machinery.jpg](docs/screenshots/progress/01-level2-machinery.jpg): Level 2's machinery cabinets. Painted dials and grilles became modelled gauges in bezels, lamps, a louvred door and a handle.
-- [docs/screenshots/progress/02-level3-breaker-panel.jpg](docs/screenshots/progress/02-level3-breaker-panel.jpg): Level 3's breaker panel and wall fan. A painted panel became ten breakers, a bus cover and a red main switch; the fan's grille became blades behind a guard.
-- [docs/screenshots/progress/03-level4-desk.jpg](docs/screenshots/progress/03-level4-desk.jpg): Level 4's desk, terminal and cubicles. The blank box became a terminal with a screen in its bezel and a keyboard; the desk has drawers, the chair a five-star base, the partitions caps and posts.
-- [docs/screenshots/progress/04-level5-door.jpg](docs/screenshots/progress/04-level5-door.jpg): Level 5's guest-room door. A flat painted door became a panelled leaf in a casing, with a brass number plate, a knob, hinges and a peephole.
-- [docs/screenshots/progress/05-level5-chandelier.jpg](docs/screenshots/progress/05-level5-chandelier.jpg): Level 5's chandelier. A flat gold plate of candles became an eight-arm chandelier on a chain, with drip pans and crystal drops.
-- [docs/screenshots/progress/06-level6-1-shelves.jpg](docs/screenshots/progress/06-level6-1-shelves.jpg): the Snackrooms' store shelves. One painted picture that read as office binders became gondola shelving stocked with snack packs.
-- [docs/screenshots/progress/07-level9-gable.jpg](docs/screenshots/progress/07-level9-gable.jpg): a Level 9 gable end. The stepped white gable became the house's own siding running up to the roof under a rake board.
-- [docs/screenshots/progress/08-level94-water-tower.jpg](docs/screenshots/progress/08-level94-water-tower.jpg): Level 94's water tower. A box on four posts became the white municipal tower: braced legs, a round tank with a catwalk, a ladder.
+- [docs/screenshots/progress-0514/01-level3-switchgear.jpg](docs/screenshots/progress-0514/01-level3-switchgear.jpg): Level 3's switchgear and pipes. Painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
+- [docs/screenshots/progress-0514/02-level4-ficus.jpg](docs/screenshots/progress-0514/02-level4-ficus.jpg): Level 4's potted plant. A green block of noise became a potted ficus with a trunk and leaves.
+- [docs/screenshots/progress-0514/03-level5-elevator.jpg](docs/screenshots/progress-0514/03-level5-elevator.jpg): Level 5's elevator. A printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
+- [docs/screenshots/progress-0514/04-level5-hall.jpg](docs/screenshots/progress-0514/04-level5-hall.jpg): Level 5's hall wall. The hotel wall gained a cornice, a framed portrait and sharper trim above the key rack.
+- [docs/screenshots/progress-0514/05-level6-1-kitchen.jpg](docs/screenshots/progress-0514/05-level6-1-kitchen.jpg): The Snackrooms' store kitchen. Flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
 
 ## 0.513.3 — fixes from the first week
 
