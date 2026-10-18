@@ -167,20 +167,10 @@
 	},
 	"lightAbsorption": 99,
 	"resistance": 4,
-	"soundsByType": {
-		"*-speaker-*": {
-			"walk": "game:walk/wood",
-			"place": "game:block/planks",
-			"break": "game:block/planks",
-			"hit": "game:block/planks",
-			"ambient": "backrooms:ambient/jazz",
-			"ambientBlockCount": 3
-		},
-		"*": {
-			"walk": "game:walk/wood",
-			"place": "game:block/planks",
-			"break": "game:block/planks",
-			"hit": "game:block/planks"
-		}
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
 	}
 }

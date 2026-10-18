@@ -41,6 +41,7 @@ if (args.Length > 2 && args[2] == "edgedoors") { EdgeDoors.Run(layout, m0x, m0z,
 if (args.Length > 2 && args[2] == "edgecross") { EdgeCross.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "stats2") { Stats2.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "boxes") { Boxes.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 2 && args[2] == "plantmap") { PlantMap.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "boiler") { Boiler.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "cubes") { Cubes.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 3 && args[2] == "stairs") { StairCheck.RunLevel(layout, int.Parse(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 4); return; }

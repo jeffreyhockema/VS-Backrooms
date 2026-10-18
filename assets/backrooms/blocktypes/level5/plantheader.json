@@ -1,0 +1,136 @@
+// The header over a boiler bay: a flue duct and a steam main hung from the ceiling, with the boilers' flues rising into it
+{
+	"code": "plantheader",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"run",
+				"flue",
+				"both"
+			]
+		},
+		{
+			"code": "end",
+			"states": [
+				"mid",
+				"west",
+				"east"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"south"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-run-mid-north",
+			"*-both-mid-north"
+		],
+		"decorative": [
+			"*-run-mid-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-run-mid-north": {
+			"base": "block/plantheader-run-mid-north"
+		},
+		"*-run-mid-south": {
+			"base": "block/plantheader-run-mid-south"
+		},
+		"*-run-west-north": {
+			"base": "block/plantheader-run-west-north"
+		},
+		"*-run-west-south": {
+			"base": "block/plantheader-run-west-south"
+		},
+		"*-run-east-north": {
+			"base": "block/plantheader-run-east-north"
+		},
+		"*-run-east-south": {
+			"base": "block/plantheader-run-east-south"
+		},
+		"*-flue-mid-north": {
+			"base": "block/plantheader-flue-mid-north"
+		},
+		"*-flue-mid-south": {
+			"base": "block/plantheader-flue-mid-south"
+		},
+		"*-flue-west-north": {
+			"base": "block/plantheader-flue-west-north"
+		},
+		"*-flue-west-south": {
+			"base": "block/plantheader-flue-west-south"
+		},
+		"*-flue-east-north": {
+			"base": "block/plantheader-flue-east-north"
+		},
+		"*-flue-east-south": {
+			"base": "block/plantheader-flue-east-south"
+		},
+		"*-both-mid-north": {
+			"base": "block/plantheader-both-mid-north"
+		},
+		"*-both-mid-south": {
+			"base": "block/plantheader-both-mid-south"
+		},
+		"*-both-west-north": {
+			"base": "block/plantheader-both-west-north"
+		},
+		"*-both-west-south": {
+			"base": "block/plantheader-both-west-south"
+		},
+		"*-both-east-north": {
+			"base": "block/plantheader-both-east-north"
+		},
+		"*-both-east-south": {
+			"base": "block/plantheader-both-east-south"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0.35,
+		"z1": 0.15,
+		"x2": 1,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.35,
+		"z1": 0.15,
+		"x2": 1,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		}
+	]
+}

@@ -664,6 +664,14 @@ public static class Pipes
     /// <summary>Level 3: cable bundles with loops and loose ends hanging down.</summary>
     public const byte CableDroopX = 13;
     public const byte CableDroopZ = 14;
+    /// <summary>
+    /// Level 5's boiler plant, from layout version 9: what runs overhead (the top block of a boiler bay) along the back
+    /// wall over the row of boilers and furnaces. The header is a flue duct with a steam main beside it, along X
+    /// (the steam main on the wall side, by the row in the cell). PlantRun is the plain header,
+    /// PlantFlue a furnace's flue rising into it from below, PlantBoth a boiler's flue and steam pipe rising into it;
+    /// PlantThru, on a wall tile, is where the header passes through a bay wall.
+    /// </summary>
+    public const byte PlantRun = 15, PlantFlue = 16, PlantBoth = 17, PlantThru = 18;
 
     // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     public const byte RunFirst = 20, RunLast = 29;
@@ -1071,6 +1079,8 @@ public static class Props
     public const byte DiningTable = 114;
     public const byte GrandPiano = 115;
     public const byte CoalPile = 116;
+    /// <summary>From layout version 9, a wooden coal bin standing in front of a Level 5 furnace.</summary>
+    public const byte CoalBin = 119;
     /// <summary>
     /// From layout version 6, the velvet sofa as long as a real one, two tiles across, facing <see cref="Tile.Pier"/> (Stack 0 the
     /// left part, 1 the right, as you sit on it; see <see cref="WorldLayout.PartTile"/>). <see cref="Sofa"/> stays for older worlds.

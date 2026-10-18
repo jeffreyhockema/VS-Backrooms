@@ -1666,8 +1666,7 @@ def level5():
         Decor("mirror", "Gilt Mirror", {2: [bx("Frame", (3, 0, -1), (13, 16, 0), "gilt"),
                                             bx("Glass", (3.8, 0.8, -1.1), (12.2, 15.2, -1), "mirrorglass", faces=("north",), full=True)]}),
         Decor("speaker", "Speaker", {3: [bx("Box", (4, 3, -1.5), (12, 11, 0), "mahogany"),
-                                         bx("Grille", (4.5, 3.5, -1.6), (11.5, 10.5, -1.5), "speakergrille", faces=("north",), full=True)]},
-              ambient=("backrooms:ambient/jazz", 3)),
+                                         bx("Grille", (4.5, 3.5, -1.6), (11.5, 10.5, -1.5), "speakergrille", faces=("north",), full=True)]}),  # no ambient sound: the music is AtmosphereSystem.L5.cs
         Decor("housephone", "House Phone", {2: [bx("Plate", (5, 2, -1), (11, 13, 0), "bakelite"),
                                                 bx("Dial", (6.2, 3, -1.4), (9.8, 6.6, -1), "phonedial", faces=("north",), full=True),
                                                 bx("Handset", (4, 8, -2.6), (12, 9.6, -1.2), "bakelite"),

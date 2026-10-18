@@ -109,6 +109,7 @@ public sealed partial class WorldGenerator
         (Props.DiningTable, "diningtable", false, null, false),
         (Props.GrandPiano, "grandpiano", true, null, false),
         (Props.CoalPile, "coalpile", false, null, false),
+        (Props.CoalBin, "coalbin", false, null, false),
         (Props.Tripwire, "tripwire", true, null, false),
         (Props.CafeTable, "cafetable", false, null, false),
         (Props.CafeChair, "cafechair", true, null, false),
@@ -441,6 +442,10 @@ public sealed partial class WorldGenerator
     private readonly int[] domeIds = new int[3]; // on, off, flicker
     private readonly int[] bedHeadIds = new int[4], bedFootIds = new int[4], nightstandIds = new int[4], wardrobeIds = new int[4];
     private readonly int[] wingChairIds = new int[4], sofaIds = new int[4], boilerIds = new int[4], furnaceIds = new int[4];
+    /// <summary>(Layout version 9) Level 5's boiler plant: the header by kind (run, flue, both), end (mid, west, east) and side (north, south); the risers by part (furnace2, steam2, both3, flue3) and facing; the bay walls' top block by side.</summary>
+    private readonly int[,,] plantHeaderIds = new int[3, 3, 2];
+    private readonly int[,] plantRiserIds = new int[4, 4];
+    private readonly int[] plantThruIds = new int[2];
 
     /// <summary>
     /// Block entities to spawn for blocks placed by the terrain pass (flickering lights, dispensers), by column, until
@@ -783,6 +788,14 @@ public sealed partial class WorldGenerator
             boilerIds[i] = BlockId($"backrooms:boiler-{Sides[i]}");
             furnaceIds[i] = BlockId($"backrooms:furnace-{Sides[i]}");
         }
+        string[] plantKinds = { "run", "flue", "both" }, plantEnds = { "mid", "west", "east" }, plantParts = { "furnace2", "steam2", "both3", "flue3" };
+        for (int k = 0; k < 3; k++)
+            for (int e = 0; e < 3; e++)
+                for (int sd = 0; sd < 2; sd++) plantHeaderIds[k, e, sd] = BlockId($"backrooms:plantheader-{plantKinds[k]}-{plantEnds[e]}-{(sd == 0 ? "north" : "south")}");
+        for (int k = 0; k < 4; k++)
+            for (int f = 0; f < 4; f++) plantRiserIds[k, f] = BlockId($"backrooms:plantriser-{plantParts[k]}-{Sides[f]}");
+        plantThruIds[0] = BlockId("backrooms:plantthru-north");
+        plantThruIds[1] = BlockId("backrooms:plantthru-south");
 
         lighting = new WorldLighting(api, this, chunkSize);
     }
@@ -1766,6 +1779,8 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                // (Layout version 9) A boiler bay's wall carries the plant's header through it, over the bay's back row
+                if (rel == room && t.Pipe == Pipes.PlantThru && layout.Version >= 9) return plantThruIds[PlantSide(gz)];
                 int decor = Decorated(t, rel);
                 if (decor != 0) return decor;
                 if (t.Pattern == WallPattern.Marble) return marbleId;
@@ -1802,6 +1817,7 @@ public sealed partial class WorldGenerator
             if (t.Overhead == Overheads.CeilingFan) return ceilingFanId;
             if (boiler && t.Ceiling == CeilingKind.LightWarm) return bulbOnId;
             if (boiler && t.Ceiling == CeilingKind.LightOff) return bulbOffId;
+            if (t.Pipe is >= Pipes.PlantRun and <= Pipes.PlantBoth && layout.Version >= 9) return PlantHeader(t, gx, gz);
             return t.Pipe switch
             {
                 Pipes.RunX => pipeRunXId,
@@ -1811,6 +1827,10 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
         }
+        // (Layout version 9) A boiler's flue and steam pipe, and a furnace's flue, rise through the two blocks over them
+        // to the header
+        if (rel is 2 or 3 && layout.Version >= 9 && t.Variant is Props.Boiler or Props.Furnace)
+            return plantRiserIds[t.Variant == Props.Boiler ? (rel == 2 ? 1 : 2) : (rel == 2 ? 0 : 3), Facing(t.Pier)];
         if (rel != 1) return 0;
         int facing = Facing(t.Pier);
         return t.Variant switch
@@ -1829,6 +1849,20 @@ public sealed partial class WorldGenerator
             >= 40 => PropBlock(t),
             _ => t.SupplyBox ? BoxOf(t) : 0,
         };
+    }
+
+    /// <summary>Which side of its cell a boiler hall's row lies on: 0 the north bays (steam main on the north), 1 the south.</summary>
+    private static int PlantSide(int gz) => Hashing.Mod(gz, WorldLayout.MacroSize) < WorldLayout.MacroSize / 2 ? 0 : 1;
+
+    /// <summary>
+    /// (Layout version 9) The header over a boiler bay's back row: a flue duct and steam main, ending against the wall
+    /// where the row of bays does (nothing of the plant to its west or east), with the risers coming up into it.
+    /// </summary>
+    private int PlantHeader(in Tile t, int gx, int gz)
+    {
+        bool Joined(int x) => layout.TileAt(x, gz).Pipe is >= Pipes.PlantRun and <= Pipes.PlantThru;
+        int end = !Joined(gx - 1) ? 1 : !Joined(gx + 1) ? 2 : 0;
+        return plantHeaderIds[t.Pipe - Pipes.PlantRun, end, PlantSide(gz)];
     }
 
     /// <summary>Hotel walls: mahogany wainscot, then a red panel in a gilt frame, then a cream frieze.</summary>
