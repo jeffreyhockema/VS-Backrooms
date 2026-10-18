@@ -17,5 +17,12 @@
 	"worldattribute-backroomsMap-desc": "Cuánto te ayuda el mapa a encontrar el camino. Áreas vistas: el mapa se llena con lo que has visto, y marca los caminos entre niveles que tomaste y los lugares de los que hablan las notas. Sin puntos de referencia: el mismo mapa, pero no marca nada por ti. Ninguno: sin mapa ni minimapa en absoluto; las notas y el gis son todo lo que tienes para guiarte, y el gis es un poco más fácil de encontrar.",
 	"worldconfig-backroomsMap-Seen": "Áreas vistas",
 	"worldconfig-backroomsMap-NoWaypoints": "Áreas vistas, sin puntos de referencia",
-	"worldconfig-backroomsMap-None": "Ninguno (sin mapa: piérdete)"
+	"worldconfig-backroomsMap-None": "Ninguno (sin mapa: piérdete)",
+	"worldattribute-backroomsLevelSize": "Backrooms level size",
+	"worldattribute-backroomsLevelSize-desc": "How wide the levels are: how far you go through each one before the next begins. Only the distance changes: rooms, halls and buildings are as big as ever, and the city and the other far places lie where they always do. Fixed when the world is made; changing it later does nothing.",
+	"worldconfig-backroomsLevelSize-50%": "50% (half as far between levels)",
+	"worldconfig-backroomsLevelSize-75%": "75%",
+	"worldconfig-backroomsLevelSize-100%": "100% (the usual)",
+	"worldconfig-backroomsLevelSize-150%": "150%",
+	"worldconfig-backroomsLevelSize-200%": "200% (twice as far between levels)"
 }

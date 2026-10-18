@@ -9,7 +9,8 @@ using Backrooms.Worldgen;
 /// After the overall hash it prints the same per-level hash for the regions kept as 14 and up (each world), which
 /// are not part of the overall hash: compare the lines of the levels that existed before a change.
 /// It hashes layout version 1 (every world made before versions) unless LAYOUT_VERSION is set; a fix kept behind a
-/// newer version must leave the version 1 lines alone. FOOD_SCALE (default 1) hashes a world with that Backrooms scarcity.
+/// newer version must leave the version 1 lines alone. FOOD_SCALE (default 1) hashes a world with that Backrooms scarcity,
+/// RING_SCALE (default 1) one made with that Level size.
 /// </summary>
 static class LayoutHash
 {
@@ -36,12 +37,13 @@ static class LayoutHash
         // otherwise: run with LAYOUT_VERSION=1 and with the current version to cover both kinds of world
         int version = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int v) ? v : 1;
         double food = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double f) ? f : 1;
-        Console.WriteLine(food == 1 ? $"layout version {version}" : $"layout version {version}, food {food}");
+        double rings = double.TryParse(Environment.GetEnvironmentVariable("RING_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double rs) ? rs : 1;
+        Console.WriteLine((food == 1 ? $"layout version {version}" : $"layout version {version}, food {food}") + (rings == 1 ? "" : $", ring scale {rings}"));
         var all = new H();
         var extra = new List<string>();
         foreach (var (seed, smx) in worlds)
         {
-            var l = new WorldLayout(seed, smx, smx, version, food);
+            var l = new WorldLayout(seed, smx, smx, version, food, rings);
             // Sample cells: along 120 rays from spawn, the first few cells of each level met
             var samples = new Dictionary<int, List<(int, int)>>();
             for (int lv = 0; lv < WorldLayout.LevelCount; lv++) samples[lv] = new();

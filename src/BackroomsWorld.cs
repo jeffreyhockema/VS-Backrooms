@@ -24,15 +24,60 @@ public static class BackroomsWorld
     public const string WorldgenFoodKey = "backroomsWorldgenFood";
 
     /// <summary>
-    /// The layout of this world. It is stateless and derived from the seed, the layout version and the worldgen food
-    /// scale alone (all in the world config, which clients are sent), so the server and every client can each build
-    /// their own and always agree.
+    /// The world setting "Level size" (worldconfig.json), chosen when the world is made: how wide the levels' rings are,
+    /// in percent of the usual ("50" to "200"; see <see cref="LevelSizes"/>). Only its value at creation counts (see
+    /// <see cref="RingScale"/>).
+    /// </summary>
+    public const string LevelSizeCode = "backroomsLevelSize";
+
+    /// <summary>
+    /// World config key (synced to clients) holding the Level size the world was made with, in percent (see
+    /// <see cref="RingScale"/>).
+    /// </summary>
+    public const string LayoutLevelSizeKey = "backroomsLayoutLevelSize";
+
+    /// <summary>The Level size setting's choices, in percent of the usual ring widths.</summary>
+    public static readonly int[] LevelSizes = { 50, 75, 100, 150, 200 };
+
+    /// <summary>
+    /// The layout of this world. It is stateless and derived from the seed, the layout version, the worldgen food
+    /// scale and the ring scale alone (all in the world config, which clients are sent), so the server and every
+    /// client can each build their own and always agree.
     /// </summary>
     public static WorldLayout CreateLayout(IWorldAccessor world)
     {
         IBlockAccessor blockAccessor = world.BlockAccessor;
         return new WorldLayout(world.Seed, WorldLayout.MacroOf(blockAccessor.MapSizeX / 2), WorldLayout.MacroOf(blockAccessor.MapSizeZ / 2), LayoutVersion(world),
-            WorldgenFoodScale(world));
+            WorldgenFoodScale(world), RingScale(world));
+    }
+
+    /// <summary>
+    /// How wide this world's rings are against the usual (WorldLayout.RingScale): its Level size setting as it was when
+    /// the world was made. Like the layout version it is fixed for good, since chunks are generated as they are first
+    /// reached and must go on matching the ones already there: the server writes it into the world config (as a percent,
+    /// <see cref="LayoutLevelSizeKey"/>) the first time it is asked, the setting's value in a new world and 100 in a
+    /// world made before the setting (or before this was kept), so changing the setting afterwards changes nothing.
+    /// </summary>
+    public static double RingScale(IWorldAccessor world)
+    {
+        ITreeAttribute config = world.Config;
+        if (config == null) return 1;
+        if (world.Api is ICoreServerAPI sapi && sapi.WorldManager.SaveGame.WorldType == WorldTypeCode && !config.HasAttribute(LayoutLevelSizeKey))
+        {
+            bool isNew = sapi.WorldManager.SaveGame.IsNew;
+            int percent = isNew ? LevelSizeSetting(config) : 100;
+            config.SetInt(LayoutLevelSizeKey, percent);
+            sapi.Logger.Notification("[backrooms] level size {0}% ({1} world)", percent, isNew ? "new" : "existing");
+        }
+        return config.GetInt(LayoutLevelSizeKey, 100) / 100.0;
+    }
+
+    /// <summary>The Level size setting as it stands, in percent: one of <see cref="LevelSizes"/>, 100 if it is unset or anything else.</summary>
+    public static int LevelSizeSetting(ITreeAttribute config)
+    {
+        string value = config?[LevelSizeCode]?.GetValue()?.ToString();
+        return int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out int percent)
+            && System.Array.IndexOf(LevelSizes, percent) >= 0 ? percent : 100;
     }
 
     /// <summary>
