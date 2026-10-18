@@ -62,6 +62,14 @@ internal sealed class CaveColumn
     /// <summary>Whether a flooded pocket may lie here, whether tar pools here, whether a coal seam runs up this column.</summary>
     public readonly bool Pool, Tar, CoalSeam;
 
+    /// <summary>
+    /// From layout version 9, a rich deposit the 9th Road goes round (WorldLayout.L8DepositAt): its kind (0-7, or -1
+    /// where there is none) and how near its heart the column is (0 at the rim to 1). Its heart is solid, so the caves
+    /// go round it too.
+    /// </summary>
+    public int DepositKind { get; set; } = -1;
+    public double DepositStrength { get; set; }
+
     public CaveColumn(ulong seed, int gx, int gz, int floorY, int yMin, int yMax, Func<double, double, ulong, double> noise2, ulong saltCave, ulong saltTube, ulong saltStrata, ulong saltOre, ulong saltPool,
         bool veins = false)
     {
@@ -86,6 +94,7 @@ internal sealed class CaveColumn
     {
         int rel = y - floorY;
         if (rel > 8 || rel < -62) return false;
+        if (DepositKind >= 0 && DepositStrength > 0.3) return false;
         double fade = rel > 4 ? (rel - 4) * 0.08 : rel < -50 ? (-50 - rel) * 0.05 : 0;
         if (chamber.At(y) + 0.45 * detail.At(y) - fade > 0.42) return true;
         return Math.Abs(tube.At(y)) + fade < 0.055;
@@ -108,6 +117,20 @@ internal sealed class CaveColumn
         if (!inVein && (n < 0.62 || Hashing.Unit(Hashing.Hash(seed, gx, gz, saltOre + 3 + (ulong)(y & 1023))) > 0.4)) return -1;
         // Richest in the heart of a vein and where the ore noise is high
         return n > 0.45 || inVein && v < VeinWidth * 0.5 && n > 0.15 ? 2 : n > 0.1 ? 1 : 0;
+    }
+
+    /// <summary>
+    /// The grade (2 rich, 3 bountiful) of a rich deposit's ore at a height, or -1: thick in the rock from below the
+    /// floor up to the cave roofs, the more of it the nearer the deposit's heart.
+    /// </summary>
+    public int DepositGrade(int y)
+    {
+        if (DepositKind < 0) return -1;
+        int rel = y - floorY;
+        if (rel < -16 || rel > 9) return -1;
+        double n = ore.At(y);
+        if (n < 0.45 - 0.25 * DepositStrength) return -1;
+        return n > 0.55 || DepositStrength > 0.6 ? 3 : 2;
     }
 
     /// <summary>How close to its zero the vein noise must be for ore (half a vein's thickness, in noise).</summary>

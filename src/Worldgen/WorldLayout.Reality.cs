@@ -198,6 +198,8 @@ public sealed partial class WorldLayout
         double radius = LevelMidRadius(level, angle);
         int cx = spawnMacroX + (int)Math.Round(Math.Cos(angle) * radius);
         int cz = spawnMacroZ + (int)Math.Round(Math.Sin(angle) * radius);
+        // From layout version 9 Level 8's roads lie hundreds of blocks apart: start from one of them in that direction
+        if (level == 8 && Version >= 9) (cx, cz) = L8ArrivalCell(angle, h);
         if (level == 11)
         {
             // The city is not a ring: somewhere towards its middle, out on a sidewalk

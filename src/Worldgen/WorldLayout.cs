@@ -314,7 +314,18 @@ public sealed partial class WorldLayout
     /// wall (WinSash, WinShutter, WinPicture; upstairs in Tile.Detail), the front and back doors are doors that open
     /// (DoorMark on the doorway; a locked house's front door is one too, locked), the garage door is cased in trim
     /// (GarageTrim), and the stairs are open overhead over every step (in 1-8 the floor above came down over the first,
-    /// and nobody could climb past it) with a balustrade on the hall side (StairRail).</item>
+    /// and nobody could climb past it) with a balustrade on the hall side (StairRail).
+    /// Level 8's 9th Road is no longer a lattice (in 1-8 a road every 48 blocks, a main road every 192): two long roads
+    /// wander round the level a few hundred blocks apart, three and seven tenths of the way across (run together where it
+    /// narrows), bending round rich mineral deposits that lie in the rock on the inside of their bigger bends, now and
+    /// then splitting round one and meeting again; at the start of each stretch of about 520 blocks a way runs off the
+    /// roads through the level's wall into Level 9 one time in two, into Level 7 a little less often, and across between
+    /// the roads one time in three (in 1-8 every road that reached the wall ran through it); settlements sit where such
+    /// a way meets a road, at a bend's apex, beside a split's deposit, on the road or at the end of a short spur
+    /// (WorldLayout.Level8.Network.cs: L8Centres, L8Segment, PlanL8Cell). Lamps and M.E.G. markers keep their spacing
+    /// along every road, arrivals start from a road (L8ArrivalCell), Level 8's wanderers look 40 blocks for the road (in
+    /// 1-8, 12), and the deposits' heart is solid rock thick with one ore (CaveColumn.DepositGrade, drawn by the
+    /// generator when the layout reports a deposit, L8DepositAt).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

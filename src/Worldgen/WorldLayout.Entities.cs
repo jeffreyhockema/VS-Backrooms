@@ -73,6 +73,8 @@ public sealed partial class WorldLayout
     /// <summary>Roughly how many blocks it is from a Level 8 position to the nearest stretch of the 9th Road.</summary>
     public int NinthRoadDistance(int gx, int gz)
     {
+        // (from layout version 9, from the cell's road plan: the road and its settlements, up to 255)
+        if (Version >= 9) return L8PlanAt(gx, gz).Dist[L8Index(gx, gz)];
         if (IsNinthRoad(gx, gz)) return 0;
         int ox = RoadOffsetX(gx, gz), oz = RoadOffsetZ(gx, gz);
         var (kz, kx) = RoadLines(gx, gz);
@@ -107,7 +109,8 @@ public sealed partial class WorldLayout
                 return HotelZoneAt(mx, mz) == HotelZone.Boiler ? DarkPlace.Bad : DarkPlace.None;
             case 8:
                 // (Roads run on a 48-block grid, so where the roads either side are there nowhere is more than 23 from one,
-                // and the far stretch between them is the worst; where the lattice has a gap it counts as the full 48)
+                // and the far stretch between them is the worst; where the lattice has a gap it counts as the full 48. From
+                // layout version 9 the roads lie hundreds of blocks apart, and most of the caves are the worst)
                 int road = NinthRoadDistance(gx, gz);
                 return road > 18 ? DarkPlace.Worst : road > 12 ? DarkPlace.Bad : DarkPlace.None;
             default:
@@ -179,7 +182,10 @@ public sealed partial class WorldLayout
             for (int i = 0; i < tiles.Length; i++)
                 if (tiles[i].Detail == L4CampSite) return (mx * MacroSize + i % MacroSize, mz * MacroSize + i / MacroSize);
         }
-        for (int r = 0; r <= 12; r++)
+        // (From layout version 9 Level 8's road is rare, so its wanderers look further for it: to the cell's edges and a
+        // little beyond)
+        int reach = level == 8 && Version >= 9 ? 40 : 12;
+        for (int r = 0; r <= reach; r++)
         {
             for (int dz = -r; dz <= r; dz++)
             {
