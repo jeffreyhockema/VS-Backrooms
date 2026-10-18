@@ -211,9 +211,12 @@ public sealed partial class WorldLayout
     /// three in ten hill houses and a third of the town houses were white). Its towns' siren poles stand: they are
     /// placed after the house lots (in 1-7 the lots were laid over them, so none stood; NearestSirenPole gave the same
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
+    /// <item>9: (in progress, 2026-10) levels no longer bleed into each other at their edges, only at the doorway
+    /// between them; Level 1's stairs are two wide, its signs stand where they make sense and its parking bays are
+    /// never cut off by a wall. Each change's own line is added here as it lands.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 8;
+    public const int CurrentVersion = 9;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
