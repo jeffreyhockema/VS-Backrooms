@@ -2571,5 +2571,6 @@
 	"block-l3decocinder-wallcablesende-*": "Cable Run",
 	"block-l3decocinder-wallcablesendw-*": "Cable Run",
 	"block-l3decocinder-wallcablesendew-*": "Cable Run",
-	"block-floorcableend-*": "Floor Cables"
+	"block-floorcableend-*": "Floor Cables",
+	"block-hoteldeco-mirrorplain-*": "Gilt Mirror"
 }

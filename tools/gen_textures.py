@@ -3092,6 +3092,8 @@ def level5_textures():
         save(hotel_panel(alt), f"block/level5/hotelwall-panel{v}.png")
     save(wainscot(0), "block/level5/hotelwall-wainscot.png")
     save(frieze(), "block/level5/hotelwall-frieze.png")
+    # (Level 5 art) the mirror's wall: the panel's own cream plaster with nothing on it (same ground, 64 px)
+    save(M.plaster(5620, size=64, base=PANEL_CREAM, grain=2, mottle=3, roller=0.4, bumps=0.0), "block/level5/hotelwall-plain.png")
 
     # (B8) Carpets on a short pile, three versions each (turned at random); the walnut floor in five versions
     for kind in ("damask", "maroon", "lobby"):

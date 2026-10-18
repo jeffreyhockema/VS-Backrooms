@@ -338,6 +338,8 @@ public sealed partial class WorldGenerator
     private readonly bool[] propHeadFirst = new bool[Props.Limit];
     /// <summary>Wall decorations: [wall pattern, decoration, height above the floor, facing].</summary>
     private readonly int[,,,] decorIds = new int[PatternCount, Decor.Limit, 6, 4];
+    /// <summary>The hotel's gilt mirror on a plain cream wall block, one per facing (layout version 9 on; before it the mirror hung on the red framed panel).</summary>
+    private readonly int[] hotelMirrorPlainIds = new int[4];
     private static readonly int PatternCount = MaxPattern() + 1;
 
     private static int MaxPattern()
@@ -569,6 +571,7 @@ public sealed partial class WorldGenerator
             if (d == 0 || !DecorFamilies.TryGetValue(family, out WallPattern pattern)) continue;
             for (int f = 0; f < 4; f++) decorIds[(int)pattern, d, rel, f] = Id($"{family}-{state}-{Sides[f]}");
         }
+        for (int f = 0; f < 4; f++) hotelMirrorPlainIds[f] = Id($"hoteldeco-mirrorplain-{Sides[f]}");
         string[] exitMaterials = { "concrete", "whiteblock", "drywall" };
         for (int m = 0; m < 3; m++)
         {
@@ -1122,6 +1125,8 @@ public sealed partial class WorldGenerator
         // Level 1's power box conduit runs on up to a junction box under the ceiling (layout version 9 on; before it
         // stopped at the plain wall block above the riser)
         if (rel == 4 && t.Variant == Decor.PowerBox && (t.Level != 1 || layout.Version < 9)) return 0;
+        // The hotel's mirror hangs on a plain cream wall block, not on the red framed panel (layout version 9 on)
+        if (rel == 2 && t.Variant == Decor.Mirror && t.Pattern == WallPattern.Hotel && layout.Version >= 9) return hotelMirrorPlainIds[Facing(t.Pier)];
         return decorIds[(int)t.Pattern, t.Variant, rel, Facing(t.Pier)];
     }
 

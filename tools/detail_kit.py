@@ -46,6 +46,7 @@ EXT = {
     "brick": "backrooms:block/level3/l3wall-brick",
     "cinder": "backrooms:block/level3/l3wall-cinder",
     "hotelpanel": "backrooms:block/level5/hotelwall-panel",
+    "hotelplain": "backrooms:block/level5/hotelwall-plain",  # (Level 5 art) plain cream plaster, for the mirror's wall
     "wainscot": "backrooms:block/level5/hotelwall-wainscot",
     "frieze": "backrooms:block/level5/hotelwall-frieze",
     "plaster": "backrooms:block/level5/plaster",
@@ -370,7 +371,7 @@ class Decor:
 
     def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None, wall=None):
         self.code, self.english, self.rels = code, english, rels
-        self.wall = wall  # (deep props) a wall texture of this decoration's own, in place of the family's
+        self.wall = wall  # a wall texture key of this decoration's own, in place of the family's (deep props' signs, Level 5's mirror)
         self.light, self.ambient, self.particles, self.cls = light, ambient, particles, cls
 
     def parts(self):

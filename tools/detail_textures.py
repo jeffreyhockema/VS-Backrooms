@@ -1485,6 +1485,8 @@ def whiteboard_pair():
 
 
 def level5():
+    import l5props_tex  # (Level 5 art) curio cabinet, ice machine, clock, bed and mirror textures
+    l5props_tex.generate()
     # STAFF ONLY over the doors into the boiler halls: a black enamel plate in a brass frame, gilt capitals. Drawn in
     # rows 5-26 (the plate's UV band), the words centred on the middle of the texture
     img = noise(0x15120E, 2, "staffplaque")

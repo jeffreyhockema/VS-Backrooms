@@ -1,0 +1,645 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"gilt": "backrooms:block/level5/gilt",
+		"hotelplain": "backrooms:block/level5/hotelwall-plain",
+		"l5mirror": "backrooms:block/detail/l5mirror",
+		"l5mirrorbevel": "backrooms:block/detail/l5mirrorbevel"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#hotelplain",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0.75,
+				14.75,
+				-1.0
+			],
+			"to": [
+				15.25,
+				15.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0.75,
+				0.25,
+				-1.0
+			],
+			"to": [
+				15.25,
+				1.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameL",
+			"from": [
+				0.75,
+				1.25,
+				-1.0
+			],
+			"to": [
+				1.75,
+				14.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				14.25,
+				1.25,
+				-1.0
+			],
+			"to": [
+				15.25,
+				14.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						1.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadT",
+			"from": [
+				1.0,
+				15.0,
+				-1.35
+			],
+			"to": [
+				15.0,
+				15.5,
+				-1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadB",
+			"from": [
+				1.0,
+				0.5,
+				-1.35
+			],
+			"to": [
+				15.0,
+				1.0,
+				-1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadL",
+			"from": [
+				1.0,
+				1.0,
+				-1.35
+			],
+			"to": [
+				1.5,
+				15.0,
+				-1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadR",
+			"from": [
+				14.5,
+				1.0,
+				-1.35
+			],
+			"to": [
+				15.0,
+				15.0,
+				-1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"east": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#gilt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				1.75,
+				1.25,
+				-0.45
+			],
+			"to": [
+				14.25,
+				14.75,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5mirror",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "BevelT",
+			"from": [
+				1.75,
+				14.25,
+				-0.6
+			],
+			"to": [
+				14.25,
+				14.75,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BevelB",
+			"from": [
+				1.75,
+				1.25,
+				-0.6
+			],
+			"to": [
+				14.25,
+				1.75,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BevelL",
+			"from": [
+				1.75,
+				1.75,
+				-0.6
+			],
+			"to": [
+				2.25,
+				14.25,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"east": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"west": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BevelR",
+			"from": [
+				13.75,
+				1.75,
+				-0.6
+			],
+			"to": [
+				14.25,
+				14.25,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"east": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"west": {
+					"texture": "#l5mirrorbevel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				}
+			}
+		}
+	]
+}

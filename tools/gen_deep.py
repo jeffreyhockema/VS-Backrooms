@@ -7,6 +7,7 @@ import os
 import deep_textures
 import deepprops as DP
 import deepprops_tex
+import l5props as L5
 import modelkit as MK
 from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
                         name, prop, shape, wall_family, write_json)
@@ -1310,9 +1311,7 @@ def refinements():
          comment="A field gate off its hinges, lying flat in a trampled patch of the crops, its hanging post still standing")
 
     # Level 5: the corridors
-    prop("icemachine", "Ice Machine", [
-        bx("Body", (1, 0, 3), (15, 26, 15), "steel", faces=("east", "west", "up", "south")),
-        bx("Front", (1, 0, 3), (15, 26, 15), "icemachine", faces=("north",), full=True)],
+    prop("icemachine", "Ice Machine", L5.ice_machine(),  # (Level 5 art)
          box=(0.06, 0, 0.18, 0.94, 1.62, 0.94), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5))})
     prop("roomservicetray", "Room Service Tray", [

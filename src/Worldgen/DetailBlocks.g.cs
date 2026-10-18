@@ -161,6 +161,7 @@ internal static class DetailBlocks
         ("officedeco", "whiteboardl", 2, "whiteboardl"),
         ("officedeco", "whiteboardr", 2, "whiteboardr"),
         ("hoteldeco", "mirror", 2, "mirror"),
+        ("hoteldeco", "mirrorplain", 2, "mirrorplain"),
         ("hoteldeco", "speaker", 3, "speaker"),
         ("hoteldeco", "housephone", 2, "housephone"),
         ("hoteldeco", "firehose", 2, "firehose"),

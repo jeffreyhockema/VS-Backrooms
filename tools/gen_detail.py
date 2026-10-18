@@ -13,6 +13,7 @@ import detail_textures
 import fire_fx
 import l1props as L1
 import l4props as L4
+import l5props as L5
 import modelkit as K
 from gen_shapes import louvre, octagon, office_chair, round_pipe, round_riser
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
@@ -1777,8 +1778,10 @@ def level5():
                         bx(f"Tag{row}{col}", (x - 0.8, y - 3.4, -1.8), (x + 0.8, y - 2.2, -1.4), "keytag",
                            uv=[0, 0, 8, 8] if (row + col) % 2 else [8, 8, 16, 16])]
     decors = [
-        Decor("mirror", "Gilt Mirror", {2: [bx("Frame", (3, 0, -1), (13, 16, 0), "gilt"),
-                                            bx("Glass", (3.8, 0.8, -1.1), (12.2, 15.2, -1), "mirrorglass", faces=("north",), full=True)]}),
+        Decor("mirror", "Gilt Mirror", {2: L5.gilt_mirror()}),  # (Level 5 art) a bevelled frame round a larger glass
+        # (Level 5 art) From layout version 9 the mirror hangs on a plain cream wall block (no red framed panel round it);
+        # the larger glass and the bevelled frame are L5.gilt_mirror. The old "mirror" state is as it was for versions 1-8
+        Decor("mirrorplain", "Gilt Mirror", {2: L5.gilt_mirror()}, wall="hotelplain"),
         Decor("speaker", "Speaker", {3: [bx("Box", (4, 3, -1.5), (12, 11, 0), "mahogany"),
                                          bx("Grille", (4.5, 3.5, -1.6), (11.5, 10.5, -1.5), "speakergrille", faces=("north",), full=True)]},
               ambient=("backrooms:ambient/jazz", 3)),
@@ -1839,11 +1842,7 @@ def level5():
         bx("Vase", (10, 13, 11), (13, 18, 14), "vase"), bx("Flowers", (10.3, 18, 11.3), (12.7, 22, 13.7), "driedflowers")] + lamp,
          box=(0.06, 0, 0.55, 0.94, 0.82, 0.94), light=[6, 5, 8])
     prop("hotelbookshelf", "Bookshelf", hotel_bookshelf_b10(), box=(0, 0, 0.5, 1, 1.95, 1))  # (B10)
-    curio = [bx("Frame", (1, 0, 8), (15, 30, 16), "mahogany", faces=("east", "west", "up", "down", "south")),
-             bx("Glass", (2, 2, 8), (14, 28, 8.3), "curioglass", faces=("north",), full=True),
-             bx("FrameT", (1, 28, 7.6), (15, 30, 8.3), "mahogany"), bx("FrameB", (1, 0, 7.6), (15, 2, 8.3), "mahogany"),
-             bx("FrameL", (1, 2, 7.6), (2, 28, 8.3), "mahogany"), bx("FrameR", (14, 2, 7.6), (15, 28, 8.3), "mahogany"),
-             bx("Knob", (12.5, 14, 7), (13.5, 15, 7.6), "brass")]
+    curio = L5.curio_cabinet()  # (Level 5 art)
     prop("curiocabinet", "Curio Cabinet", curio, box=(0.06, 0, 0.47, 0.94, 1.9, 1))
     prop("luggagecart", "Luggage Cart", [
         bx("Deck", (1, 1, 1), (15, 2, 15), "cartcarpet"),
@@ -1863,10 +1862,12 @@ def level5():
         bx("Cloche", (5, 12, 5), (11, 14.5, 11), "silver"), bx("Knob", (7.5, 14.5, 7.5), (8.5, 15.3, 8.5), "silver"),
         bx("Plate", (11.5, 12, 3), (14, 12.3, 5.5), "china"), bx("Bottle", (2.5, 12, 10), (4, 17, 11.5), "bankergreen")],
          box=(0.06, 0, 0.12, 0.94, 0.8, 0.88), material="Cloth", sounds=CLOTH)
-    prop("radiator", "Radiator", [bx(f"Fin{i}", (1.5 + 2 * i, 1, 11), (2.7 + 2 * i, 13, 15), "radiator") for i in range(7)] +
+    # (Level 5 art) The fins stop under the top plate: they used to run up to y 13, the plate's own top, so the two tops
+    # lay in one plane and flickered where they overlap
+    prop("radiator", "Radiator", [bx(f"Fin{i}", (1.5 + 2 * i, 3, 11), (2.7 + 2 * i, 12, 15), "radiator") for i in range(7)] +
          [bx("Top", (1, 12, 11.5), (15, 13, 14.5), "radiator"), bx("Bottom", (1, 2, 11.5), (15, 3, 14.5), "radiator"),
-          bx("FootL", (2, 0, 12), (3, 1, 14), "metaldark"), bx("FootR", (13, 0, 12), (14, 1, 14), "metaldark"),
-          bx("Valve", (14.5, 2, 12.5), (16, 3.5, 14), "brass")], box=(0.06, 0, 0.66, 0.94, 0.82, 0.94), material="Metal", sounds=METAL)
+          bx("FootL", (2, 0, 12), (3, 2, 14), "metaldark"), bx("FootR", (13, 0, 12), (14, 2, 14), "metaldark"),
+          bx("Valve", (15, 2.25, 12.5), (16, 3.75, 14), "brass")], box=(0.06, 0, 0.66, 0.94, 0.82, 0.94), material="Metal", sounds=METAL)
     prop("writingdesk", "Writing Desk", [
         bx("Top", (0, 12, 5), (16, 13, 16), "mahogany"), bx("Drawers", (10, 1, 6), (15, 12, 15), "mahogany"),
         bx("Knob1", (12, 9, 5.5), (13, 10, 6), "brass"), bx("Knob2", (12, 4, 5.5), (13, 5, 6), "brass"),
@@ -1887,12 +1888,7 @@ def level5():
          box=(0.12, 0, 0.25, 0.88, 0.7, 0.75), material="Cloth", sounds=CLOTH)
     prop("coffeetable", "Coffee Table", coffee_table_b10(),  # (B10)
          box=(0.06, 0, 0.18, 0.94, 0.5, 0.82), oriented=False)
-    prop("grandfatherclock", "Grandfather Clock", [
-        bx("Base", (3, 0, 6), (13, 10, 14), "mahogany"), bx("Trunk", (4, 10, 6.5), (12, 24, 13.5), "mahogany"),
-        bx("Window", (5, 12, 6.3), (11, 22, 6.5), "clockpendulum", faces=("north",), full=True),
-        bx("Hood", (3, 24, 6), (13, 32, 14), "mahogany"),
-        bx("Face", (4.5, 25, 5.8), (11.5, 31, 6), "clockface-old", faces=("north",), full=True),
-        bx("Finial", (7.5, 32, 9.5), (8.5, 34, 10.5), "brass")],
+    prop("grandfatherclock", "Grandfather Clock", L5.grandfather_clock(),  # (Level 5 art)
          box=(0.18, 0, 0.36, 0.82, 1.95, 0.88), extra={"sounds": dict(WOOD, ambient="backrooms:ambient/clock", ambientBlockCount=1)})
     # (B8) The front desk's front is frame and panel as geometry (it was painted): a toe-recessed plinth, two raised and
     # fielded panels per block between stiles that meet the next block's, a brass rail under the counter's edge
