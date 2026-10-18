@@ -38,8 +38,16 @@ public class BlockDispenser : Block
             if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer buyer) Regions.L3999System.Vend(buyer, blockSel.Position, this, takes);
             return true;
         }
-        if (world.BlockAccessor.GetBlockEntity(blockSel.Position) is not BlockEntityDispenser dispenser)
-            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        BlockEntityDispenser dispenser = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BlockEntityDispenser;
+        if (dispenser == null && EntityClass != null && Attributes?["dispenses"].Exists == true)
+        {
+            // A dispenser placed before its block had a block entity (the Level 10 hand pump in older worlds) gets one now.
+            // The client has none either, so it must still say it handled the click, or the click never reaches the server
+            if (world.Side != EnumAppSide.Server) return true;
+            world.BlockAccessor.SpawnBlockEntity(EntityClass, blockSel.Position);
+            dispenser = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BlockEntityDispenser;
+        }
+        if (dispenser == null) return base.OnBlockInteractStart(world, byPlayer, blockSel);
 
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player && Code.Path.StartsWith("vendingmachine"))
         {
@@ -103,7 +111,9 @@ public class BlockEntityDispenser : BlockEntity
         {
             Api.World.SpawnItemEntity(stack, Pos.ToVec3d().Add(0.5, 1, 0.5));
         }
-        Api.World.PlaySoundAt(new AssetLocation("game:sounds/block/vesselopen"), Pos.X + 0.5, Pos.Y + 0.5, Pos.Z + 0.5, null, randomizePitch: true, range: 12);
+        // (A pump gives its own sound: dispenseSound)
+        string sound = Block.Attributes?["dispenseSound"].AsString("game:sounds/block/vesselopen") ?? "game:sounds/block/vesselopen";
+        Api.World.PlaySoundAt(new AssetLocation(sound), Pos.X + 0.5, Pos.Y + 0.5, Pos.Z + 0.5, null, randomizePitch: true, range: 12);
         MarkDirty();
     }
 

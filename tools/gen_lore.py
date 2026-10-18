@@ -4,6 +4,7 @@ Called from gen_detail.py, which writes them out along with everything else (pyt
 
 (Level 0's red wallpaper and red lamp are wallpaper and light variants, so their textures are in gen_textures.py.)
 """
+import math
 import random
 
 from PIL import Image, ImageDraw
@@ -252,47 +253,7 @@ def textures():
     # floor; dithered at its edges so the rock shows through), the milky water, the cream crust it lays down at
     # its source, and the pool it gathers in
     save(noise(0x55504A, 9, "seeprock"), "almondseep")
-    rng = random.Random(seed_of("seep"))
-    for name, top, bottom, start in (("seepstain", 2.0, 8.5, 6), ("seepstainlow", 8.5, 11.0, 0)):
-        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-        px = img.load()
-        for y in range(start, S):
-            hw = top + (bottom - top) * (y - start) / (S - 1 - start)
-            if name == "seepstainlow" and y >= S - 6:
-                hw += (y - (S - 7)) * 0.9  # spreading out where it meets the floor
-            for x in range(S):
-                d = abs(x - 15.5 - 1.2 * ((y // 7) % 2)) / hw
-                if d < 0.6 or (d < 1.15 and rng.random() < 1.15 - d):
-                    v = rng.randint(-5, 5)
-                    px[x, y] = (38 + v, 35 + v, 31 + v, 255)
-        if name == "seepstain":
-            for y in range(3, 7):
-                for x in range(14, 18):
-                    px[x, y] = (18, 16, 14, 255)  # the crack it comes out of
-        for x0 in (14, 17):
-            x = x0
-            for y in range(start + 1, S):
-                x += rng.choice((-1, 0, 0, 0, 1)) if y % 5 == 0 else 0
-                if rng.random() < 0.7:
-                    px[x, y] = (150, 144, 122, 255)  # a milky film
-        save(img, name)
-    img = noise(0xD8D2B8, 6, "seepwater")
-    ImageDraw.Draw(img).line([1, 0, 1, S - 1], fill=rgb(0xF4F0E0))
-    save(img, "seepwater")
-    img = noise(0xC8BC98, 8, "seepcrust")
-    T.blotch(img, (16, 16), 12, (226, 218, 190), 0.5, seed_of("seepcrust"))
-    save(img, "seepcrust")
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            d = (((x - 15.5) / 15.5) ** 2 + ((y - 15.5) / 15.5) ** 2) ** 0.5 + rng.uniform(-0.12, 0.12)
-            if d < 1:
-                v = rng.randint(-6, 6)
-                px[x, y] = (200 + v, 194 + v, 168 + v, 255) if d < 0.75 else (120 + v, 114 + v, 96 + v, 255)
-    for x, y in ((12, 13), (18, 17), (15, 20)):
-        px[x, y] = (244, 240, 224, 255)  # glints where the drips land
-    save(img, "seeppool")
+    seep_textures()
 
     # Pieces of a machine: a gear seen from above
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
@@ -611,6 +572,76 @@ SEEP_ROCKS = ("granite", "limestone", "andesite", "shale", "basalt", "sandstone"
               "halite")
 
 
+def seep_textures():
+    """(deep props) Almond Water seeping down a rock face. The wet stain is darker, bluer stone with glossy highlights
+    along the runs and a fringe of pale mineral (calcite) at its edges, dithered at the very edge so the rock shows
+    through (the cutout pass has no half-alpha); the water is a milky film with a bright core and a lit edge; the crust
+    is flowstone in layers; the pool is a milky basin of water with ripple rings and a wet rim."""
+    rng = random.Random(seed_of("seep"))
+    wet = (34, 36, 38)
+    for name, top, bottom, start in (("seepstain", 2.4, 9.0, 6), ("seepstainlow", 9.0, 11.5, 0)):
+        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+        px = img.load()
+        for y in range(start, S):
+            hw = top + (bottom - top) * (y - start) / (S - 1 - start)
+            if name == "seepstainlow" and y >= S - 6:
+                hw += (y - (S - 7)) * 0.9  # spreading out where it meets the floor
+            for x in range(S):
+                d = abs(x - 15.5 - 1.2 * ((y // 7) % 2) - 0.8 * math.sin(y * 0.55)) / hw
+                if d < 0.62 or (d < 1.1 and rng.random() < (1.1 - d) * 1.6):
+                    v = rng.randint(-4, 4) + (3 if (x * 5 + y * 3) % 11 == 0 else 0)
+                    px[x, y] = (wet[0] + v, wet[1] + v, wet[2] + v + 2, 255)
+                    if d > 0.4 and rng.random() < 0.18:
+                        px[x, y] = (24, 26, 28, 255)  # a deeper, wetter pit
+                elif d < 1.5 and rng.random() < 0.13 * (1.5 - d):
+                    c = rng.choice(((178, 166, 132), (156, 144, 112), (198, 188, 156)))
+                    px[x, y] = (c[0], c[1], c[2], 255)  # calcite speckle past the wet edge
+        if name == "seepstain":
+            for y in range(3, 7):
+                for x in range(14, 18):
+                    px[x, y] = (16, 14, 12, 255)  # the crack it comes out of
+            for x in (13, 18):
+                px[x, 4] = (170, 160, 128, 255)
+        for x0 in (14, 17):  # the glossy runs: a bright 1 px line that wanders, broken
+            x = x0
+            for y in range(start + 1, S):
+                x += rng.choice((-1, 0, 0, 0, 1)) if y % 5 == 0 else 0
+                if rng.random() < 0.72:
+                    px[x, y] = (176, 186, 190, 255) if rng.random() < 0.45 else (128, 138, 142, 255)
+        save(img, name)
+    img = noise(0xC4CCD0, 4, "seepwater")
+    d = ImageDraw.Draw(img)
+    d.line([1, 0, 1, S - 1], fill=rgb(0xF6F8FA))
+    d.line([0, 0, 0, S - 1], fill=rgb(0x9AA6AC))
+    d.line([2, 0, 2, S - 1], fill=rgb(0xA8B4BA))
+    for y in range(2, S, 9):
+        d.point((1, y), fill=(255, 255, 255, 255))
+    save(img, "seepwater")
+    img = noise(0xC8BC98, 8, "seepcrust")
+    for y in range(3, S, 5):  # flowstone grows in layers
+        ImageDraw.Draw(img).line([0, y, S - 1, y + 1 if y % 10 == 3 else y], fill=rgb(0xA89C78))
+        ImageDraw.Draw(img).line([0, y + 1, S - 1, y + 1 if y % 10 == 3 else y + 1], fill=rgb(0xE6DEC0))
+    T.blotch(img, (16, 16), 12, (226, 218, 190), 0.4, seed_of("seepcrust"))
+    save(img, "seepcrust")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            dd = (((x - 15.5) / 15.5) ** 2 + ((y - 15.5) / 15.5) ** 2) ** 0.5 + rng.uniform(-0.1, 0.1)
+            if dd < 1:
+                v = rng.randint(-5, 5)
+                px[x, y] = (178 + v, 190 + v, 192 + v, 255) if dd < 0.8 else (108 + v, 112 + v, 108 + v, 255)
+    for r in (0.28, 0.5, 0.7):  # ripple rings round where the drips land
+        for k in range(48):
+            a = k / 48 * 2 * math.pi
+            x, y = int(15.5 + 15.5 * r * math.cos(a)), int(15.5 + 15.5 * r * math.sin(a))
+            if px[x, y][3]:
+                px[x, y] = (222, 232, 234, 255)
+    for x, y in ((12, 13), (18, 17), (15, 20)):
+        px[x, y] = (250, 252, 252, 255)
+    save(img, "seeppool")
+
+
 def level8():
     # Almond Water seeping out of the rock: a rock cube (the host's own rock) with a crust of deposit where it comes out
     # of a crack, two milky trickles running down this face and the one below over a dark wet stain, and a pool on the
@@ -619,8 +650,16 @@ def level8():
             bx("StainLow", (0, -16, -0.12), (16, 0, -0.1), "seepstainlow", faces=("north",), full=True),
             bx("Crust", (6.2, 12.6, -0.7), (10.2, 14.2, 0), "seepcrust", faces=("north", "east", "west", "up", "down")),
             bx("Crust2", (7, 11.6, -0.4), (9.4, 12.6, 0), "seepcrust", faces=("north", "east", "west", "down")),
-            bx("Pool", (3.5, -15.85, -5), (12.5, -15.7, -0.1), "seeppool", faces=("up",), full=True, glow=20)]
-    for i, (x, y1, y2) in enumerate(((7.4, 6, 11.6), (7.9, -4, 6), (7.5, -15.9, -4), (8.9, 0.5, 11.6), (9.2, -15.9, 0.5))):
+            bx("Drape", (7.3, 9.4, -0.3), (9.1, 11.6, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            bx("Drip1", (7.7, 8.7, -0.28), (8.3, 9.4, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            bx("Drip2", (8.5, 9.0, -0.26), (8.9, 9.4, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            # the basin it gathers in, on the road in front: a low lip of the host rock round a milky pool
+            bx("Pool", (3.5, -15.0, -5.8), (12.5, -14.9, -0.5), "seeppool", faces=("up",), full=True, glow=20),
+            bx("LipF", (3.0, -16, -6.4), (13.0, -14.7, -5.7), "rock", faces=("north", "up", "east", "west")),
+            bx("LipL", (3.0, -16, -5.7), (3.7, -14.7, -0.5), "rock", faces=("up", "west", "east")),
+            bx("LipR", (12.3, -16, -5.7), (13.0, -14.7, -0.5), "rock", faces=("up", "west", "east"))]
+    for i, (x, y1, y2) in enumerate(((7.4, 6, 11.6), (7.9, -4, 6), (7.5, -15.9, -4), (8.9, 0.5, 11.6), (9.2, -15.9, 0.5),
+                                      (6.4, -8, 4), (10.4, -10, 1))):
         side.append(bx(f"Trickle{i}", (x, y1, -0.4), (x + 0.5, y2, -0.12), "seepwater", faces=("north", "east", "west"), glow=30))
     els = [bx("Rock", (0, 0, 0), (16, 16, 16), "rock")]
     for k in range(4):

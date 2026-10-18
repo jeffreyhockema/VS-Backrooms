@@ -368,8 +368,9 @@ class Decor:
     """A decoration on one face of a wall block. `rels` maps the block height above the floor (1 = bottom) to its
     boxes; a decoration spanning several heights becomes one part per height."""
 
-    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None):
+    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None, wall=None):
         self.code, self.english, self.rels = code, english, rels
+        self.wall = wall  # (deep props) a wall texture of this decoration's own, in place of the family's
         self.light, self.ambient, self.particles, self.cls = light, ambient, particles, cls
 
     def parts(self):
@@ -388,7 +389,7 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
     manifest = {}
     for d in decors:
         for state, rel, els in d.parts():
-            wall = walls[max([k for k in walls if k <= rel], default=min(walls))]
+            wall = d.wall or walls[max([k for k in walls if k <= rel], default=min(walls))]
             path = shape(f"{family}-{state}", [cube(wall)] + els)
             states.append(state)
             for s in SIDES:

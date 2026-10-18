@@ -5,6 +5,8 @@ import math
 import os
 
 import deep_textures
+import deepprops as DP
+import deepprops_tex
 import modelkit as MK
 from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
                         name, prop, shape, wall_family, write_json)
@@ -19,6 +21,23 @@ def threshold(kind):
 def drops(*items):
     """Drops for salvage: (code, average, variance); codes without a domain are ours."""
     return [{"type": "item", "code": c, "quantity": {"avg": a, "var": v}} for c, a, v in items]
+
+
+def door_json(code, english, geometry, kind, material="Metal", sounds=METAL, comment=None):
+    """(deep props) A door of the Snackrooms as geometry: `geometry` is {"lower": elements, "upper": elements}. The block
+    has no facing, so the parts are built for all four sides (deepprops). Codes, parts and footprint are the old cube's."""
+    paths = {part: shape(f"{code}-{part}", els) for part, els in geometry.items()}
+    data = {
+        "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": material, "drawtype": "json",
+        "shapeByType": {f"*-{part}": {"base": path} for part, path in paths.items()},
+        "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": sounds,
+    }
+    if kind:
+        data["behaviors"] = threshold(kind)
+    block(code, data, comment or english)
+    name(f"{code}-*", english)
 
 
 def door_block(code, english, tex, kind, material="Metal", sounds=METAL, comment=None):
@@ -179,16 +198,19 @@ def level61():
                {"grid": "snackceiling-grid", "skylight": "snackceiling-skylight"},
                lightHsvByType={"*-skylight": [7, 2, 15]}, lightAbsorptionByType={"*-skylight": 0, "*": 99},
                comment="Skylights show only darkness above, yet light the food court like day")
-    door_block("rustydoor", "Rusty Steel Door", "rustydoor", "rustydoor", comment="A rusty steel door marked EXIT. It leads back into Level 6, somewhere")
+    door_json("rustydoor", "Rusty Steel Door", {"lower": DP.exit_door(False), "upper": DP.exit_door(True)}, "rustydoor",
+              comment="A rusty steel door marked EXIT. It leads back into Level 6, somewhere")
     door_block("glassdoors", "Sliding Glass Doors", "glassdoors", "glassdoor", material="Glass", sounds=GLASS, comment="Sliding glass doors onto somewhere else entirely")
-    door_block("kitchendoor", "Kitchen Door", "kitchendoor", "kitchendoor", comment="A swinging kitchen door. It opens into another restaurant")
+    door_json("kitchendoor", "Kitchen Door", {"lower": DP.kitchen_door(False), "upper": DP.kitchen_door(True)}, "kitchendoor",
+              comment="A swinging kitchen door. It opens into another restaurant")
     block("ventgrate", {"creativeinventory": {"general": ["*"]}, "blockmaterial": "Metal", "drawtype": "cube",
                         "textures": {"all": {"base": "block/detail/ventgrate"}}, "behaviors": threshold("vent"),
                         "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL}, "A vent big enough to crawl into")
     name("ventgrate", "Vent")
 
     wall_family("snackdeco", "Mall Wall", {1: "snackwall-mall"}, [
-        Decor(code, english, {3: plate("Sign", (1, 3, -0.8), (15, 13, 0), code, "navy", glow=230)}, light=[0, 4, 8])
+        # (deep props) the sign is a case on the wall, and the wall under it is the restaurants' wood panelling
+        Decor(code, english, {3: DP.sign(code)}, light=[0, 4, 8], wall="snackwall-panel")
         for code, english in (("signburger", "Neon Sign"), ("signpizza", "Neon Sign"), ("signtaco", "Neon Sign"), ("signdonut", "Neon Sign"))
     ] + [
         Decor("menuboard", "Menu Board", {3: plate("Board", (1, 2, -0.6), (15, 14, 0), "menuboard", "wooddark", glow=60)}),
@@ -995,9 +1017,7 @@ def level9():
         bx("Stock", (1, 0, 8), (15, 28, 15), "pantry", faces=("north",), full=True),
         bx("Frame", (0.5, 0, 7.5), (15.5, 28, 16), "wood", faces=("east", "west", "up", "south"))], box=(0.03, 0, 0.47, 0.97, 1.75, 1),
          extra={"drops": drops(("cannedbeans", 1.2, 0.8), ("game:flour-spelt", 0.6, 0.5), ("game:salt", 0.6, 0.5), ("game:honeycomb", 0.15, 0))})
-    prop("toolshelf", "Tool Shelf", [
-        bx("Tools", (1, 0, 9), (15, 28, 15), "toolwall", faces=("north",), full=True),
-        bx("Frame", (0.5, 0, 8.5), (15.5, 28, 16), "metal", faces=("east", "west", "up", "south"))], box=(0.03, 0, 0.53, 0.97, 1.75, 1),
+    prop("toolshelf", "Tool Shelf", DP.tool_shelf(), box=(0.03, 0, 0.53, 0.97, 1.75, 1),
          material="Metal", sounds=METAL,
          extra={"drops": drops(("game:hammer-copper", 0.15, 0), ("game:saw-copper", 0.1, 0), ("game:shovel-copper", 0.12, 0),
                                 ("game:metalnailsandstrips-iron", 0.8, 0.6), ("game:rope", 0.5, 0.4), ("scrapwire", 0.6, 0.5))})
@@ -1096,20 +1116,12 @@ def level10():
                        "sounds": {"walk": "game:walk/sludge*", "place": "game:effect/squish*", "break": "game:effect/squish*", "hit": "game:effect/squish*"}},
           "The mass of worms writhing a metre under Level 10. Digging into it is a mistake")
     name("wormmass", "Writhing Worms")
-    prop("feedtrough", "Feed Trough", [
-        bx("Body", (0, 0, 4), (16, 7, 12), "wood", faces=("north", "east", "south", "west", "down")),
-        bx("Feed", (1, 5, 5), (15, 6, 11), "feed", faces=("up",)), bx("Legs", (1, 0, 5), (15, 2, 11), "wooddark")],
+    prop("feedtrough", "Feed Trough", DP.feed_trough(),
          box=(0, 0, 0.25, 1, 0.44, 0.75), sounds=WOOD, extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("game:drygrass", 1, 1))})
-    prop("toolrack", "Tool Rack", [
-        bx("Board", (0, 4, 14), (16, 26, 16), "toolwall", faces=("north",), full=True),
-        bx("BoardSides", (0, 4, 14), (16, 26, 16), "wood", faces=("east", "west", "up", "down", "south")),
-        bx("Handle1", (3, 2, 12), (4, 26, 13), "wood"), bx("Head1", (1, 2, 11), (6, 4, 13), "metaldark"),
-        bx("Handle2", (11, 6, 12), (12, 28, 13), "wood"), bx("Head2", (9, 24, 11.5), (16, 26, 13), "metaldark")],
+    prop("toolrack", "Tool Rack", DP.tool_rack(),
          box=(0, 0, 0.7, 1, 1.75, 1), extra={"drops": drops(("game:hoe-copper", 0.3, 0), ("game:scythe-copper", 0.2, 0), ("game:shovel-copper", 0.2, 0),
                                                               ("game:rope", 0.5, 0.4))})
-    prop("nailbarrel", "Barrel of Nails", [
-        bx("Barrel", (2, 0, 2), (14, 14, 14), "barrelwood", faces=("north", "east", "south", "west", "down")),
-        bx("Nails", (2.5, 12, 2.5), (13.5, 13, 13.5), "nails", faces=("up",))], box=(0.12, 0, 0.12, 0.88, 0.88, 0.88), oriented=False,
+    prop("nailbarrel", "Barrel of Nails", DP.nail_barrel(), box=(0.12, 0, 0.12, 0.88, 0.88, 0.88), oriented=False,
          extra={"drops": drops(("game:metalnailsandstrips-iron", 2, 1), ("game:plank-aged", 1, 1))})
 
 
@@ -1254,10 +1266,11 @@ def refinements():
         bx("Wheel", (0.5, 0, 12), (1.5, 6, 16), "redmetal"), bx("Handle", (7.5, 8, 14), (8.5, 14, 16), "wood")],
          box=(0.06, 0, 0, 0.94, 0.5, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1.5, 0.5), ("game:metalnailsandstrips-iron", 0.8, 0.5))})
-    prop("waterpump", "Hand Pump", [
-        bx("Base", (5, 0, 5), (11, 3, 11), "stone"), bx("Body", (6.5, 3, 6.5), (9.5, 16, 9.5), "blackmetal"),
-        bx("Spout", (7.5, 11, 3), (8.5, 12.5, 6.5), "blackmetal"), bx("Handle", (7.5, 16, 8), (8.5, 17, 15), "blackmetal", rot=(-20, 0, 0), origin=(8, 16, 8))],
-         box=(0.3, 0, 0.3, 0.7, 1.06, 0.7), oriented=False, material="Metal", sounds=METAL)
+    # (deep props) the pump works: it gives Almond Water like a seep, a few portions that come back (BackroomsDispenser)
+    prop("waterpump", "Hand Pump", DP.hand_pump(),
+         box=(0.3, 0, 0.3, 0.7, 1.06, 0.7), oriented=False, material="Metal", sounds=METAL,
+         extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
+                "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "dispenseSound": "game:sounds/effect/water-pour"}})
     prop("tractor", "Old Tractor", [
         bx("Body", (8, 10, 6), (24, 22, 30), "tractorgreen"), bx("Hood", (10, 12, 0), (22, 20, 8), "tractorgreen"),
         bx("Grille", (10.5, 12.5, -0.2), (21.5, 19.5, 0), "grate", faces=("north",), full=True),
@@ -1606,6 +1619,7 @@ def roofslope_shapes():
 
 def generate():
     deep_textures.generate()
+    deepprops_tex.generate()  # (deep props) the signs, doors, shelf, rack, barrel, trough and pump
     refinements()
     roofs()
     level6()
