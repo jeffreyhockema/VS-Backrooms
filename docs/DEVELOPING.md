@@ -100,7 +100,7 @@ When in doubt, load a world made with the last release and check it.
   - `conduitmap [radius]` draws Level 1's ceiling conduit round the first arrival from above and tallies what each run ends against, with the fitting (capped end, junction box) `WorldLayout.ConduitEnds` picks for it.
   - `links` goes through every threshold kind and back.
   - `reach` and `path` look for sealed pockets.
-- **Maps:** `overview <R> [step]` writes `overview.bin`, the level of every cell within R cells of spawn, and prints how far out each level starts; `render_overview.py overview.bin out.png` draws it (`docs/levels-overview.png` is `mapgen 12345 360 overview`). `region <level> [angle]`, `citymap`, `regionmap 37|94` and the per-level modes have their own `render_*.py`.
+- **Maps:** `overview <R> [step]` writes `overview.bin`, the level of every cell within R cells of spawn, and prints how far out each level starts; `render_overview.py overview.bin out.png` draws it (`docs/levels-overview.png` is `mapgen 12345 360 overview`). `region <level> [angle]`, `citymap`, `regionmap 37|94` and the per-level modes have their own `render_*.py`. `l4plan` (with `AT=L4`) draws Level 4's floor and reflected ceiling (`render_l4plan.py l4plan.bin out.png [scale] [x0 z0 w h]`: troffers, sprinkler heads, diffusers, columns, whiteboards) and prints the heads' spacing and clearances, the columns' spacing and the whiteboard pairs.
 - The other modes, such as `stats`, `loot`, `dens`, `gates` and the far places' own (`runstats`, `funstats`, …), print statistics. They're listed in `tools/mapgen/Program.cs`. `report.sh [seed] [cells] [angle] [levels…]` renders the middle of each level's ring and prints its layout metrics.
 
 ## Debugging

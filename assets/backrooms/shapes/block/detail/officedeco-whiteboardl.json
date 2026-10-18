@@ -1,0 +1,594 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/level4/partitionrail-top",
+		"drywall": "backrooms:block/level4/officewall",
+		"markerblue": "backrooms:block/detail/markerblue",
+		"markercap": "backrooms:block/detail/markercap",
+		"redmetal": "backrooms:block/detail/redmetal",
+		"steel": "backrooms:block/detail/steel",
+		"whiteboard2-l": "backrooms:block/detail/whiteboard2-l"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				0,
+				1,
+				-0.8
+			],
+			"to": [
+				15.75,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteboard2-l",
+					"uv": [
+						0.25,
+						0,
+						16,
+						14
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0,
+				14.5,
+				-1.3
+			],
+			"to": [
+				15.75,
+				15,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				1,
+				-1.3
+			],
+			"to": [
+				15.75,
+				1.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameEnd",
+			"from": [
+				15.25,
+				1.5,
+				-1.3
+			],
+			"to": [
+				15.75,
+				14.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tray",
+			"from": [
+				0,
+				0.25,
+				-2.25
+			],
+			"to": [
+				15,
+				1,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						2.25
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2.25,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "TrayLip",
+			"from": [
+				0,
+				1,
+				-2.25
+			],
+			"to": [
+				15,
+				1.5,
+				-1.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerRed",
+			"from": [
+				8,
+				1,
+				-1.8
+			],
+			"to": [
+				11,
+				1.6,
+				-1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						3,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerRedCap",
+			"from": [
+				6.75,
+				1,
+				-1.85
+			],
+			"to": [
+				8,
+				1.65,
+				-1.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.65
+					]
+				},
+				"south": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.65
+					]
+				},
+				"up": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.65
+					]
+				},
+				"east": {
+					"texture": "#redmetal",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerBlue",
+			"from": [
+				11.75,
+				1,
+				-1.8
+			],
+			"to": [
+				14.25,
+				1.6,
+				-1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#markerblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#markerblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#markerblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#markerblue",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#markerblue",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				3,
+				1,
+				-1.85
+			],
+			"to": [
+				4.25,
+				1.65,
+				-1.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#markercap",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.65
+					]
+				},
+				"south": {
+					"texture": "#markercap",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.65
+					]
+				},
+				"up": {
+					"texture": "#markercap",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#markercap",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.65
+					]
+				},
+				"west": {
+					"texture": "#markercap",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.65
+					]
+				}
+			}
+		}
+	]
+}

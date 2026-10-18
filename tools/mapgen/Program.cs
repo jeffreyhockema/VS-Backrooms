@@ -53,6 +53,7 @@ if (args.Length > 2 && args[2] == "links") { Links.Run(layout, seed, smx, smz); 
 if (args.Length > 3 && args[2] == "validatelevel") { int lv = int.Parse(args[3]); for (ulong k = 1; k <= (args.Length > 4 ? ulong.Parse(args[4]) : 2UL); k++) { var a = layout.FindArrival(lv, k * 99991UL); if (a == null) { Console.WriteLine("no arrival"); continue; }
   int cx = WorldLayout.MacroOf(a.Value.X) - n / 2, cz = WorldLayout.MacroOf(a.Value.Z) - n / 2; Console.WriteLine($"--- level {lv} around {a.Value}"); Validator.Run(layout, cx, cz, n, a.Value.X - cx * 32, a.Value.Z - cz * 32); } return; }
 if (args.Length > 2 && args[2] == "conduitmap") { ConduitMap.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
+if (args.Length > 2 && args[2] == "l4plan") { L4Plan.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 4 && args[2] == "peek") { Peek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "l6density") { Density.Run(layout, smx, smz); return; }
 if (args.Length > 6 && args[2] == "path") { PathCheck.Run(layout, n, int.Parse(args[3]), int.Parse(args[4]), int.Parse(args[5]), int.Parse(args[6])); return; }

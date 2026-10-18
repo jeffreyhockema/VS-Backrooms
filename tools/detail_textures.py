@@ -1212,6 +1212,7 @@ def level4():
             if 6 < t < 14:
                 px[x, y] = M.rgba(M.lift(px[x, y], 4))
     save(img, "whiteboard")
+    whiteboard_pair()
     img = noise(0xB08A5A, 8, "corkboard")
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x7A5A34), width=2)
@@ -1343,6 +1344,81 @@ def level4():
 
 
 # ---------------- Level 5 ----------------
+
+def whiteboard_pair():
+    """(Layout 9) The two-block whiteboard's face, drawn whole (64 x 28 px, two blocks at the board's 2 px a unit, in
+    a 64 x 32 canvas) and cut into its halves, `whiteboard2-l` and `whiteboard2-r` (the left half as you face it).
+    The single board's look: off-white with the faint grey of old writing wiped, a damp bloom and the sheen in pale
+    bands, and a meeting's worth of marker left on it in crisp one-pixel strokes: a heading and its bullet points in
+    blue, a little flow of boxes and arrows, one point ringed in red, a black bar chart. Also the markers' and the
+    eraser's materials."""
+    W, H = 64, 28
+    img = T.noise_fill(T.hexrgb(0xF6F6F4), 2, seed_of("whiteboard2"), size=W).crop((0, 0, W, 32))
+    d = ImageDraw.Draw(img)
+    rng = random.Random(seed_of("wb2ghost"))
+    for _ in range(18):  # wiped writing: faint grey rows
+        x, y = rng.randrange(2, W - 14), rng.randrange(3, H - 3)
+        d.line([x, y, x + rng.randint(5, 12), y], fill=rgb(0xDCDEE2))
+    T.blotch(img, (44, 18), 7, (200, 204, 210), 0.45, 336)
+    blue, red, black = rgb(0x2A4AA8), rgb(0xC82020), rgb(0x26282C)
+
+    def scrawl(x, y, n, colour, seed):
+        """A word of handwriting, n px long: a one-pixel line wandering over three rows, now and then a tall letter."""
+        r = random.Random(seed)
+        prev = None
+        for i in range(n):
+            if r.random() < 0.12 and prev is not None:  # a gap between words
+                prev = None
+                continue
+            dy = r.choice((0, 0, 1, 1, 2)) if r.random() < 0.85 else -1
+            p = (x + i, y + dy)
+            if prev is not None:
+                d.line([prev, p], fill=colour)
+            else:
+                d.point(p, fill=colour)
+            if r.random() < 0.15:
+                d.point((x + i, y + dy - 1), fill=colour)
+            prev = p
+
+    # The heading, underlined, and three bullet points
+    scrawl(4, 3, 17, blue, 1)
+    d.line([4, 6, 20, 6], fill=blue)
+    for k, (y, n) in enumerate(((9, 13), (14, 10), (19, 14))):
+        d.point((5, y + 1), fill=blue)
+        scrawl(8, y, n, blue, 10 + k)
+    # The second point ringed in red
+    d.ellipse([2, 12, 21, 17], outline=red)
+    # A little flow: two boxes and an arrow between them, a question under the second
+    d.rectangle([25, 9, 32, 14], outline=blue)
+    d.rectangle([40, 9, 47, 14], outline=blue)
+    d.line([33, 11, 39, 11], fill=blue)
+    d.line([37, 9, 39, 11], fill=blue)
+    d.line([37, 13, 39, 11], fill=blue)
+    scrawl(27, 11, 4, blue, 20)
+    scrawl(42, 11, 4, blue, 21)
+    d.line([43, 15, 43, 18], fill=blue)
+    scrawl(38, 20, 10, red, 22)
+    d.point((49, 20), fill=red)
+    d.line([49, 17, 49, 18], fill=red)
+    # A bar chart in black on the right
+    d.line([52, 4, 52, 22], fill=black)
+    d.line([52, 22, 61, 22], fill=black)
+    for x, h in ((54, 6), (57, 11), (60, 15)):
+        d.rectangle([x, 22 - h, x + 1, 21], outline=black)
+    # The sheen: pale bands across the board
+    px = img.load()
+    for y in range(H):
+        for x in range(W):
+            t = x - y * 0.8
+            if 6 < t < 14 or 38 < t < 43:
+                px[x, y] = M.rgba(M.lift(px[x, y], 4))
+    save(img.crop((0, 0, 32, 32)), "whiteboard2-l")
+    save(img.crop((32, 0, 64, 32)), "whiteboard2-r")
+    flat("markerblue", 0x2A4AA8, 5)
+    flat("markerblack", 0x2A2C30, 4)
+    flat("markercap", 0xE8E8E4, 3)
+    flat("wberaser", 0x5A5E64, 4)
+
 
 def level5():
     # STAFF ONLY over the doors into the boiler halls: a black enamel plate in a brass frame, gilt capitals. Drawn in

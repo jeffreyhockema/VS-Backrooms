@@ -149,6 +149,8 @@ internal static class DetailBlocks
         ("officedeco", "poster0", 2, "poster0"),
         ("officedeco", "poster1", 2, "poster1"),
         ("officedeco", "poster2", 2, "poster2"),
+        ("officedeco", "whiteboardl", 2, "whiteboardl"),
+        ("officedeco", "whiteboardr", 2, "whiteboardr"),
         ("hoteldeco", "mirror", 2, "mirror"),
         ("hoteldeco", "speaker", 3, "speaker"),
         ("hoteldeco", "housephone", 2, "housephone"),
