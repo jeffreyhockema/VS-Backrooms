@@ -2337,7 +2337,7 @@ ITEM_TRANSFORMS = {
     "groundTransform": {"rotation": {"x": 90, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2},
 }
 BOTTLE_TRANSFORMS = {
-    "guiTransform": {"rotation": {"x": -22.6, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": 0.3, "z": 0.5}, "scale": 2.4},
+    "guiTransform": {"rotation": {"x": 157.4, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": 0.3, "z": 0.5}, "scale": 2.4},
     "fpHandTransform": {"translation": {"x": 0, "y": 0.1, "z": 0.4}, "rotation": {"x": 0, "y": -30, "z": 0}, "scale": 2},
     "tpHandTransform": {"translation": {"x": -0.85, "y": -0.5, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": 0.8},
     "groundTransform": {"rotation": {"x": 0, "y": -45, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2.8},
