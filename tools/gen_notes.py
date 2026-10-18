@@ -175,7 +175,7 @@ circles at the edge of sight: if your gear fails down there, surface. A ring of 
 you come up in the Suburbs. A cave mouth in the deep: the caves. Neither returns.
 — A.L., survey""", gate=visited(6, 7), w="al"),
     E("m20", "The 9th Road", """
-M.E.G. FIELD NOTICE. Level 8: stay on the 9th Road. Gravel, lamps, our waypoints, camps at the crossings, Almond Water
+M.E.G. FIELD NOTICE. Level 8: stay on the 9th Road. Gravel, lamps, our waypoints, camps along it, Almond Water
 seeping from the rock beside it. Off it, drifters. All the ore is here: copper, tin, zinc, bismuth, gold, lead, coal and
 three kinds of iron. Halite grinds to salt in a quern. The vents beside the road go to Level 2 and back. Dress warm.
 — Field Team 9 (three of us)""", gate=visited(7, 8), w="meg"),
@@ -450,8 +450,8 @@ each, and the deeper the room the better what's in it. The deep ones are where t
 
 TRACKS.append(Track("l8", "common", "Level 8: Cave Systems", 8, entries=[
     E("l8-1", "The road", """
-M.E.G. FIELD NOTICE. Stay on the 9th Road: gravel, lamps, our waypoints, camps at the crossings. The main roads run
-unbroken; the side roads mostly end in rock. Where the road meets another level it runs on through the wall.
+M.E.G. FIELD NOTICE. Stay on the 9th Road: gravel, lamps, our waypoints, camps along it. It forks and joins
+again, but follow the lamps and it runs on. Where the road meets another level it runs on through the wall.
 — Field Team 9 (three of us)""", mark="door", w="meg"),
     E("l8-2", "Ore", """
 Native copper and malachite. Cassiterite for tin, sphalerite for zinc, bismuth, gold in quartz, galena for lead, coal,
