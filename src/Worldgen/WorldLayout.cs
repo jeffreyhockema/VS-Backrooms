@@ -325,7 +325,11 @@ public sealed partial class WorldLayout
     /// (WorldLayout.Level8.Network.cs: L8Centres, L8Segment, PlanL8Cell). Lamps and M.E.G. markers keep their spacing
     /// along every road, arrivals start from a road (L8ArrivalCell), Level 8's wanderers look 40 blocks for the road (in
     /// 1-8, 12), and the deposits' heart is solid rock thick with one ore (CaveColumn.DepositGrade, drawn by the
-    /// generator when the layout reports a deposit, L8DepositAt).</item>
+    /// generator when the layout reports a deposit, L8DepositAt).
+    /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4: the house is three rows
+    /// deeper (<see cref="L974HouseDeep"/>), the doorway from the hall is two wide and four high (plan character T, a
+    /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and a
+    /// second light. Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
