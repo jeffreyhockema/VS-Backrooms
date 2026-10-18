@@ -21,7 +21,10 @@ namespace Backrooms.Salvage;
 public class PrySystem : ModSystem
 {
     /// <summary>The locked doors a pry bar works on (the first part of their block codes).</summary>
-    public static readonly HashSet<string> Doors = new() { "metaldoor", "officedoor", "hoteldoor", "tunneldoor", "tunneldoorpaint", "housedoor" };
+    public static readonly HashSet<string> Doors = new() { "metaldoor", "officedoor", "hoteldoor", "tunneldoor", "tunneldoorpaint", "housedoor", "suburbdoor" };
+
+    /// <summary>Whether a block of one of the <see cref="Doors"/> is locked (a Suburbs door from layout version 9 only when it says so; the others always).</summary>
+    public static bool Locked(Block block) => block.FirstCodePart() != "suburbdoor" || block.Variant["state"] == "locked";
 
     /// <summary>How long it takes to force a door, in seconds.</summary>
     public const float PrySeconds = 4f;
@@ -48,7 +51,7 @@ public class PrySystem : ModSystem
         // Ahead of the doors' own behaviours, so that with a pry bar in hand you force the door rather than try it
         foreach (Block block in api.World.Blocks)
         {
-            if (block?.Code?.Domain != "backrooms" || !Doors.Contains(block.FirstCodePart())) continue;
+            if (block?.Code?.Domain != "backrooms" || !Doors.Contains(block.FirstCodePart()) || !Locked(block)) continue;
             block.BlockBehaviors = new BlockBehavior[] { new BlockBehaviorPryable(block) }.Concat(block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).ToArray();
         }
     }
@@ -59,7 +62,7 @@ public class PrySystem : ModSystem
         if (layout == null) return false;
         IBlockAccessor blocks = sapi.World.BlockAccessor;
         Block door = blocks.GetBlock(pos);
-        if (door.Code?.Domain != "backrooms" || !Doors.Contains(door.FirstCodePart())) return false;
+        if (door.Code?.Domain != "backrooms" || !Doors.Contains(door.FirstCodePart()) || !Locked(door)) return false;
         string family = door.FirstCodePart();
         // Not in somebody else's claim (TryAccess tells the player why)
         if (!sapi.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak)) return false;

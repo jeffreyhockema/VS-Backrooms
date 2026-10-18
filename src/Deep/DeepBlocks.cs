@@ -15,6 +15,7 @@ public class DeepBlocksSystem : ModSystem
         api.RegisterItemClass("BackroomsChalk", typeof(ItemChalk));
         api.RegisterBlockClass("BackroomsWorms", typeof(BlockWorms));
         api.RegisterBlockClass("BackroomsTar", typeof(BlockTar));
+        api.RegisterBlockBehaviorClass("BackroomsSuburbDoor", typeof(BlockBehaviorSuburbDoor));
     }
 }
 

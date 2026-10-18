@@ -962,6 +962,9 @@ public sealed partial class WorldGenerator
             _ => g.BandBottom,
         };
         int top = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
+        // From layout version 9 the Suburbs go on up to the roofs of their two-storey houses, their chimneys and the tops
+        // of their trees (in 1-8 nothing above the usual band was built: a two-storey house stopped at its eaves, flat)
+        if (level == 9 && layout.Version >= 9) top = Math.Min(g.TopY - 1, g.FloorY + SuburbTop);
         // Those levels are generated over their own band, and sealed just above it
         bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level188;
         if (region) top = g.BandTopFor(level);
