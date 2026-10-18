@@ -92,11 +92,12 @@ public partial class ThresholdSystem : ModSystem
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsThreshold", typeof(BlockBehaviorThreshold));
-        api.Network.RegisterChannel(Channel).RegisterMessageType<FacePacket>();
+        api.Network.RegisterChannel(Channel).RegisterMessageType<FacePacket>().RegisterMessageType<TransitionPacket>();
     }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
+        StartTransitionClient(api);
         api.Network.GetChannel(Channel).SetMessageHandler<FacePacket>(packet =>
         {
             // The camera decides which way the player looks; the entity follows it
@@ -197,7 +198,7 @@ public partial class ThresholdSystem : ModSystem
         if (passage.Sound != null) Play(pos, passage.Sound);
         if (kind != "elevator")
         {
-            Go(player, passage, destination);
+            Go(player, passage, destination, kind is "thinspot" or "vent" or "endvent" ? "plain" : "door");
             return;
         }
 
@@ -209,6 +210,7 @@ public partial class ThresholdSystem : ModSystem
         foreach (IServerPlayer rider in riders)
         {
             busyUntilMs[rider.PlayerUID] = sapi.World.ElapsedMilliseconds + ElevatorRideMs + CooldownMs;
+            SendTransition(rider, TransitionPhase.Begin, "elevator");
             boarded[rider.PlayerUID] = rider.Entity.Pos.XYZ;
         }
         sapi.Event.RegisterCallback(_ =>
@@ -219,12 +221,13 @@ public partial class ThresholdSystem : ModSystem
                 if (!CanTravel(rider) || rider.Entity.Pos.SquareDistanceTo(boarded[rider.PlayerUID]) > 2.5 * 2.5)
                 {
                     busyUntilMs.Remove(rider.PlayerUID);
+                    SendTransition(rider, TransitionPhase.End, "elevator");
                     continue;
                 }
                 Link to = Redirect(rider, passage, arrival);
                 bool redirected = !to.Equals(arrival);
                 Remember(rider, boarded[rider.PlayerUID], arrival, passage.TwoWay, arrived: !redirected);
-                Arrive(rider, redirected ? to with { Marker = false } : to);
+                Arrive(rider, redirected ? to with { Marker = false } : to, "elevator");
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
         }, ElevatorRideMs);
@@ -253,7 +256,7 @@ public partial class ThresholdSystem : ModSystem
         Link? destination = network.Take(passage, null);
         if (destination == null) return true;
         Play(pos, passage.Sound);
-        Go(player, passage, destination);
+        Go(player, passage, destination, "door");
         return true;
     }
 
@@ -313,7 +316,7 @@ public partial class ThresholdSystem : ModSystem
             // The far places (ids 14-20) may hold theirs shut
             if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage))) continue;
-            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null));
+            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null), dropping ? "fall" : "walk");
         }
     }
 
@@ -373,7 +376,7 @@ public partial class ThresholdSystem : ModSystem
 
     // ================= Shared =================
 
-    private bool Go(IServerPlayer player, Passage passage, Link? destination)
+    private bool Go(IServerPlayer player, Passage passage, Link? destination, string style = null)
     {
         // The map remembers where the threshold really leads (and the way back from there only if they arrive there);
         // someone redirected elsewhere is put down plainly, with no thin spot
@@ -382,7 +385,7 @@ public partial class ThresholdSystem : ModSystem
         bool redirected = !Nullable.Equals(real, destination);
         if (real is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay, arrived: !redirected);
         if (redirected && destination is { } other) destination = other with { Marker = false };
-        if (!Arrive(player, destination)) return false;
+        if (!Arrive(player, destination, style)) return false;
         if (passage.Message != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(passage.Message), EnumChatType.Notification);
         return true;
     }
@@ -438,7 +441,7 @@ public partial class ThresholdSystem : ModSystem
         return Arrive(player, new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false));
     }
 
-    private bool Arrive(IServerPlayer player, Link? destination)
+    private bool Arrive(IServerPlayer player, Link? destination, string style = null)
     {
         if (destination is not { } link)
         {
@@ -483,8 +486,13 @@ public partial class ThresholdSystem : ModSystem
         float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is
+        SendTransition(player, TransitionPhase.Begin, style);
+        long startedMs = sapi.World.ElapsedMilliseconds;
         player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, () =>
         {
+            SendTransition(player, TransitionPhase.End, style);
+            sapi.Logger.Debug("[backrooms] {0} put down at {1:0}, {2:0}, {3:0} after {4} ms ({5})", player.PlayerName, link.X, link.Y, link.Z,
+                sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
             if (link.Marker) LeaveThinSpot(link);
             if (onStairs) Face(player, DownFlight(onto.Pier));
             else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));

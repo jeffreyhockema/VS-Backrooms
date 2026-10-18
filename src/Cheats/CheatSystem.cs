@@ -254,6 +254,27 @@ public partial class CheatSystem : ModSystem
                 .WithArgs(sapi.ChatCommands.Parsers.OptionalWord("ignored"))
                 .HandleWith(OnBlockSweepCommand)
             .EndSubCommand()
+            .BeginSubCommand("transitiontest")
+                .WithDescription("Plays the screen effect of passing through a threshold on your screen alone, without taking you anywhere: a style (door, walk, fall, elevator or plain, default walk) and how long to hold it in seconds (default 2)")
+                .RequiresPlayer()
+                .WithArgs(parsers.OptionalWordRange("style", "door", "walk", "fall", "elevator", "plain"), parsers.OptionalDouble("seconds", 2))
+                .HandleWith(args =>
+                {
+                    string style = args[0] as string ?? "walk";
+                    double seconds = Math.Clamp((double)args[1], 0.2, 15);
+                    sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.TransitionTest((IServerPlayer)args.Caller.Player, style, (int)(seconds * 1000));
+                    return TextCommandResult.Success($"Transition ({style}) for {seconds:0.0} s");
+                })
+            .EndSubCommand()
+            .BeginSubCommand("transitionbench")
+                .WithDescription("Times how long the server takes to load (and if need be generate) the chunk column around x z, which is what a threshold waits for before it moves anyone; the answer is in the log")
+                .WithArgs(parsers.Int("x"), parsers.Int("z"))
+                .HandleWith(args =>
+                {
+                    sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.BenchLoad((int)args[0], (int)args[1], _ => { });
+                    return TextCommandResult.Success("Loading; see the log");
+                })
+            .EndSubCommand()
             .BeginSubCommand("die")
                 .WithDescription("Kills you, to test dying and waking up again")
                 .RequiresPlayer()
