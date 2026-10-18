@@ -1,0 +1,138 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiling": "backrooms:block/hub/ceiling"
+	},
+	"elements": [
+		{
+			"name": "Step0",
+			"from": [
+				0,
+				8,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						1,
+						8
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						15,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step1",
+			"from": [
+				0,
+				14,
+				14
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						1,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						1,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						14,
+						0,
+						15,
+						2
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						14,
+						16,
+						15
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		}
+	]
+}

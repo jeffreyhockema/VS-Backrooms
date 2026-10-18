@@ -329,7 +329,17 @@ public sealed partial class WorldLayout
     /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4: the house is three rows
     /// deeper (<see cref="L974HouseDeep"/>), the doorway from the hall is two wide and four high (plan character T, a
     /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and a
-    /// second light. Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.</item>
+    /// second light. Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.
+    /// The Hub's tunnels are vaulted, as in the lore's road-tunnel photos (in 1-8 a box under a flat roof, rel 8 over a
+    /// main tunnel and rel 6 over a side one): straight walls up to rel 6, then a main tunnel's roof curves over in quarter
+    /// rounds of radius 4 to a flat crown five blocks wide at rel 10, a side tunnel's in a half round of radius 3.5 to rel
+    /// 9.5, cut from curved pieces (hub-vault-{piece}-{side}, the table in WorldLayout.HubVault.g.cs from
+    /// tools/gen_hub_vault.py; WorldLayout.HubVault gives a column's roof, where tunnels meet the union of their vaults). The
+    /// jet fans and the lane-signal gantry hang under the crown (the gantry's four signals side by side over the middle,
+    /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
+    /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
+    /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

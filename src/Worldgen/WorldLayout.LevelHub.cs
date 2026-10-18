@@ -659,6 +659,49 @@ public sealed partial class WorldLayout
     /// <summary>The number of the tunnel (1 to 10) a block position lies in, or 0 if it is not one of the ten.</summary>
     public int HubTunnelAt(int x, int z) => HubSegAt(HubRoads, x, z) is { Kind: HubSpokeSeg } s ? s.Spoke : 0;
 
+    /// <summary>
+    /// The rounded roof over a block position in a tunnel (layout version 9; the generator asks only then): for each rel
+    /// from <see cref="HubVaultFrom"/> to <see cref="HubVaultTop"/>, 0 for air, 1 for solid roof, or the index of a
+    /// curved piece (<see cref="HubVaultPieces"/>, hub-vault-{piece}-{side}) and the way it faces, toward the middle of its
+    /// tunnel. Every tunnel through the position is a vault drawn along its stretch (WorldLayout.HubVault.g.cs, from
+    /// tools/gen_hub_vault.py: straight walls up to rel 6, then quarter rounds up to a main tunnel's flat crown, or a half
+    /// round over a side tunnel), and where tunnels meet the roof is their union: a cell any of them leaves open is open,
+    /// and one two of them cut takes the piece that leaves more of it open. False if no tunnel holds the position (an
+    /// approach to the Tower, a wall), which keeps its flat roof.
+    /// </summary>
+    public bool HubVault(int x, int z, byte[] cells, ArchPier[] facing)
+    {
+        HubPlan plan = HubRoads;
+        if (!plan.Bins.TryGetValue((Hashing.FloorDiv(x, HubBin), Hashing.FloorDiv(z, HubBin)), out var list)) return false;
+        bool any = false;
+        int n = HubVaultTop - HubVaultFrom + 1;
+        for (int i = 0; i < n; i++)
+        {
+            cells[i] = 1;
+            facing[i] = ArchPier.North;
+        }
+        foreach (HubSeg s in list)
+        {
+            if (!s.Inside(x, z)) continue;
+            any = true;
+            int across = s.Local(x, z).Across;
+            byte[,] table = s.Main ? HubVaultMain : HubVaultSide;
+            int c = Math.Min(Math.Abs(across), table.GetLength(0) - 1);
+            ArchPier inward = across >= 0 ? (s.AlongX ? ArchPier.North : ArchPier.West) : (s.AlongX ? ArchPier.South : ArchPier.East);
+            for (int i = 0; i < n; i++)
+            {
+                byte piece = table[c, i], here = cells[i];
+                if (here == 0 || piece == 1) continue;
+                if (piece == 0 || here == 1 || HubVaultOpen[piece] > HubVaultOpen[here])
+                {
+                    cells[i] = piece;
+                    facing[i] = inward;
+                }
+            }
+        }
+        return any;
+    }
+
     /// <summary>How far a block position is from the middle of the Tower.</summary>
     public double HubDistance(int gx, int gz)
     {
@@ -726,7 +769,8 @@ public sealed partial class WorldLayout
                     // Jet fans hung in pairs, and a gantry of lane signals, along each stretch
                     int a = along - s.A0;
                     if ((a == 24 || a == 72) && along <= s.A1 - 8 && across is -2 or 2) t.Overhead = s.AlongX ? Overheads.HubFanWE : Overheads.HubFanNS;
-                    else if (a == 48 && along <= s.A1 - 8 && across is -4 or -1 or 1 or 4)
+                    // (In layout version 9 the gantry's four signals hang together under the vault's flat crown)
+                    else if (a == 48 && along <= s.A1 - 8 && (Version >= 9 ? across is -2 or -1 or 1 or 2 : across is -4 or -1 or 1 or 4))
                     {
                         t.Overhead = Hashing.Unit(h) < 0.05 ? Overheads.HubSignalWE : Overheads.HubSignalNS;
                         t.Pier = s.AlongX ? (across < 0 ? ArchPier.East : ArchPier.West) : (across < 0 ? ArchPier.South : ArchPier.North);
@@ -821,7 +865,8 @@ public sealed partial class WorldLayout
             var (_, p, _, facing) = SlotTiles(s, new HubSlot(s.Id, side, a));
             double dist = HubDistance(p.X, p.Z);
             double deadShare = dist < HubKnownRadius ? 0.04 : 0.2 + 0.55 * Math.Clamp((dist - HubKnownRadius) / (HubRingRadii[^1] - HubKnownRadius), 0, 1);
-            Hang(p, facing, Hashing.Unit(Hashing.Hash(seed, p.X, p.Z, SaltHubLamp)) < deadShare ? HubWallDeadLamp : HubWallLamp, 4, 0);
+            // (In layout version 9 at the top of the straight wall, under the vault's springing, as in the lore's photo)
+            Hang(p, facing, Hashing.Unit(Hashing.Hash(seed, p.X, p.Z, SaltHubLamp)) < deadShare ? HubWallDeadLamp : HubWallLamp, (byte)(Version >= 9 ? 5 : 4), 0);
         }
         if (s.Kind == HubSpokeSeg)
         {
