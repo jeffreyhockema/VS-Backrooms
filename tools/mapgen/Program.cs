@@ -7,7 +7,9 @@ int smx = int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int spaw
 int layoutVersion = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int lvSet) ? lvSet : WorldLayout.CurrentVersion;
 // FOOD_SCALE=<x> lays out a world with that Backrooms scarcity (0.6 Sparse, 0.33 Scarce; default 1, Normal)
 double foodScale = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double fs) ? fs : 1;
-var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale);
+// RING_SCALE=<x> lays out a world made with that Level size (0.5 for 50% ... 2 for 200%; default 1, the usual size)
+double ringScale = double.TryParse(Environment.GetEnvironmentVariable("RING_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double rs) ? rs : 1;
+var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale, ringScale);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }
 // AT=<mx>,<mz> centres any mode's area on that cell (AT=L<level> on that level's first arrival, AT=S on a food court)

@@ -147,10 +147,13 @@ public class BackroomsModSystem : ModSystem
         int spawnMacroX = WorldLayout.MacroOf(sapi.WorldManager.MapSizeX / 2);
         int spawnMacroZ = WorldLayout.MacroOf(sapi.WorldManager.MapSizeZ / 2);
         layout = new WorldLayout(sapi.WorldManager.Seed, spawnMacroX, spawnMacroZ, BackroomsWorld.LayoutVersion(sapi.World),
-            BackroomsWorld.WorldgenFoodScale(sapi.World));
+            BackroomsWorld.WorldgenFoodScale(sapi.World), BackroomsWorld.RingScale(sapi.World));
         if (layout.Version >= 7)
             sapi.Logger.Notification("[backrooms] Worldgen thins crops by {0} (fixed for this world); scarcity {1} scales food by {2}",
                 (float)layout.FoodScale, sapi.World.Config.GetString(Salvage.ScarcitySystem.ConfigKey, "normal"), Salvage.ScarcitySystem.FoodScale(sapi.World));
+        if (layout.RingScale != 1 || BackroomsWorld.LevelSizeSetting(sapi.World.Config) != 100)
+            sapi.Logger.Notification("[backrooms] Level size {0}% (fixed for this world; the setting now reads {1}%)",
+                (int)Math.Round(layout.RingScale * 100), BackroomsWorld.LevelSizeSetting(sapi.World.Config));
         generator = new WorldGenerator(sapi, layout);
 
         // Y coordinates on the HUD are shown relative to sea level, so this makes the Level 0 floor read as y=0

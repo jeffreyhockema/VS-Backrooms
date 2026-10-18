@@ -274,7 +274,8 @@ public class GuiDialogCheats : GuiDialog
         int version = config?.GetInt(BackroomsWorld.LayoutVersionKey, 1) ?? 1;
         string food = config?.HasAttribute(BackroomsWorld.WorldgenFoodKey) == true ? $"{config.GetFloat(BackroomsWorld.WorldgenFoodKey):0.##}"
             : version < 7 ? "1 (no thinning before layout version 7)" : "not recorded yet";
-        y = Note(c, $"Layout version {version}, worldgen food {food}: fixed when the world was made, never changed here.", y);
+        int levelSize = config?.GetInt(BackroomsWorld.LayoutLevelSizeKey, 100) ?? 100;
+        y = Note(c, $"Layout version {version}, worldgen food {food}, level size {levelSize}%: fixed when the world was made, never changed here.", y);
         return Note(c, "Set sends /worldconfig. It takes effect after a server restart (dispensers and Kitty's fridge follow scarcity at once). "
             + "Worldgen thinning keeps the recorded worldgen food, whatever the scarcity. This menu shows new values once you rejoin.", y, lines: 3);
     }

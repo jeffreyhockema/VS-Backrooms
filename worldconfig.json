@@ -25,7 +25,8 @@
         "playerHungerSpeed": "1.25",
         "backroomsMenace": "normal",
         "backroomsScarcity": "normal",
-        "backroomsMap": "seen"
+        "backroomsMap": "seen",
+        "backroomsLevelSize": "100"
       }
     }
   ],
@@ -53,6 +54,14 @@
       "values": ["seen", "nowaypoints", "none"],
       "names": ["Seen", "NoWaypoints", "None"],
       "default": "seen"
+    },
+    {
+      "code": "backroomsLevelSize",
+      "dataType": "dropdown",
+      "category": "worldgen",
+      "values": ["50", "75", "100", "150", "200"],
+      "names": ["50%", "75%", "100%", "150%", "200%"],
+      "default": "100"
     }
   ]
 }

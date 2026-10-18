@@ -36,9 +36,23 @@ public sealed partial class WorldLayout
     /// journey of several kilometres. No ring is a circle: each is stretched by its own <see cref="RingShape"/>, so in
     /// one direction a level may end after a few hundred blocks and in another go on for several times that.
     /// (Smaller than they once were: with the walls between levels unbroken but for a few gates, it is finding the way
-    /// through rather than the distance that takes time.)
+    /// through rather than the distance that takes time.) A world made with another Level size has them all scaled by
+    /// its <see cref="RingScale"/> (see <see cref="RingWidth"/>).
     /// </summary>
     private static readonly double[] RingWidths = { 24, 18, 14, 16, 20, 20, 16, 22, 18, 24 };
+
+    /// <summary>The narrowest and widest <see cref="RingScale"/> a world can be made with (the Level size setting's 50% and 200%).</summary>
+    public const double MinRingScale = 0.5, MaxRingScale = 2;
+
+    /// <summary>
+    /// The narrowest a ring may be, in cells, in any direction, in a world whose <see cref="RingScale"/> narrows the
+    /// rings (Level 0's is its radius). Level 0 keeps at least 10 cells, so the six cells round spawn kept clear of dens
+    /// and red rooms are always Level 0 whatever the warp of its edge; every other ring 4, about the narrowest any ring
+    /// gets at the usual size (Level 2, 14 cells at <see cref="RingShape"/>'s floor of 0.3, is 4.2): narrower, and the
+    /// warp of the edges (some three cells either way) would cut it into pieces and let the levels either side meet.
+    /// A world of the usual size never comes into it (see <see cref="RingWidth"/>), and no ring of one is this narrow.
+    /// </summary>
+    private static readonly double[] MinRingWidths = { 10, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
 
     /// <summary>How strongly the rings are stretched: each ring's width varies by about e^±Stretch with direction.</summary>
     private const double Stretch = 1.45;
@@ -395,9 +409,25 @@ public sealed partial class WorldLayout
     /// </summary>
     public readonly double FoodScale;
 
+    /// <summary>
+    /// How wide this world's rings are against the usual (<see cref="RingWidths"/>): its Level size setting, fixed when
+    /// the world is made (the game side passes the one recorded then, BackroomsWorld.RingScale; 1 for every world made
+    /// before the setting). It scales how far each level runs before the next begins, and nothing else: the levels'
+    /// rooms, halls and lattices, and the places past the rings (the city, the Poolrooms, Motion and the rest), are
+    /// laid out where and as they are at 1. Between <see cref="MinRingScale"/> and <see cref="MaxRingScale"/>; below 1
+    /// no ring narrows past <see cref="MinRingWidths"/>, and above it the rings stop short of the city (RingSqueeze).
+    /// </summary>
+    public readonly double RingScale;
+
     private readonly ulong seed;
     private readonly int spawnMacroX;
     private readonly int spawnMacroZ;
+
+    // Each ring's average width in this world: RingWidths times RingScale (RingWidths itself at 1)
+    private readonly double[] ringWidths = new double[RingWidths.Length];
+
+    // How far out (cells) the rings of a world with wider rings may reach in any direction (see RingSqueeze)
+    private readonly double ringReach;
 
     // Each ring's shape: the amplitude and phase of its waves round the circle
     private readonly double[,] shapeAmplitude = new double[RingWidths.Length, ShapeHarmonics + 1];
@@ -407,10 +437,12 @@ public sealed partial class WorldLayout
     // wide does not keep one entry for every cell it ever looked at
     private readonly LatticeMemo<byte> levelCache;
 
-    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1)
+    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1, double ringScale = 1)
     {
         Version = Math.Clamp(version, 1, CurrentVersion);
         FoodScale = foodScale > 0 ? foodScale : 1;
+        RingScale = ringScale > 0 ? Math.Clamp(ringScale, MinRingScale, MaxRingScale) : 1;
+        for (int ring = 0; ring < RingWidths.Length; ring++) ringWidths[ring] = RingWidths[ring] * RingScale;
         this.seed = (ulong)seed;
         this.spawnMacroX = spawnMacroX;
         this.spawnMacroZ = spawnMacroZ;
@@ -433,6 +465,11 @@ public sealed partial class WorldLayout
             }
             for (int h = 1; h <= ShapeHarmonics; h++) shapeAmplitude[ring, h] /= total;
         }
+        // Wider rings stop short of the nearest of the places past them, the city's rim, so they never reach it. The
+        // edges are measured in RingDistance, whose warps (8% of the distance and 3.9 cells at most) could carry a cell
+        // that far past them, and the city's rim (its own 8% warp) as far in from CityRadius, so what is left between
+        // them is at least RingClearance however the warps fall
+        ringReach = 0.92 * RegionReach - CityRadius - 4 - RingClearance;
 
         // The Level 0 district the spawn point lies in (asked about for every district planned or zoned)
         int sgx = spawnMacroX * MacroSize + MacroSize / 2, sgz = spawnMacroZ * MacroSize + MacroSize / 2;
@@ -455,10 +492,10 @@ public sealed partial class WorldLayout
     {
         double dx = mx - spawnMacroX, dz = mz - spawnMacroZ;
         if (dx * dx + dz * dz < 9) return 0;
-        double d = RingDistance(mx, mz), angle = Math.Atan2(dz, dx), edge = 0;
+        double d = RingDistance(mx, mz), angle = Math.Atan2(dz, dx), edge = 0, squeeze = RingSqueeze(angle);
         for (int ring = 0; ring < RingWidths.Length; ring++)
         {
-            edge += RingWidths[ring] * RingShape(ring, angle);
+            edge += RingWidth(ring, angle, squeeze);
             if (d < edge) return ring;
         }
         // Far out in the fields lie the places no ring reaches: the city to the east, the Poolrooms to the west, and
@@ -501,11 +538,44 @@ public sealed partial class WorldLayout
         return Math.Max(ring == 0 ? 0.6 : 0.3, Math.Exp(Stretch * wave));
     }
 
+    /// <summary>
+    /// How much of the fields a world's wider rings leave at the least between the outermost ring and the city's rim
+    /// where they are squeezed (cells): a kilometre and a half.
+    /// </summary>
+    private const double RingClearance = 48;
+
+    /// <summary>
+    /// How wide a ring is (in cells) in a direction from spawn: its average width in this world, stretched by
+    /// <see cref="RingShape"/>, times the direction's <see cref="RingSqueeze"/>, and never under
+    /// <see cref="MinRingWidths"/>. A world of the usual size (<see cref="RingScale"/> 1) skips both, so its rings come
+    /// out as they always have, to the last bit.
+    /// </summary>
+    private double RingWidth(int ring, double angle, double squeeze)
+    {
+        double width = ringWidths[ring] * RingShape(ring, angle);
+        return RingScale == 1 ? width : Math.Max(width * squeeze, MinRingWidths[ring]);
+    }
+
+    /// <summary>
+    /// In a world with wider rings (<see cref="RingScale"/> over 1), what all of a direction's rings are scaled by so the
+    /// outermost ends at <see cref="ringReach"/> at the furthest, a little short of the city's rim (in a smaller world,
+    /// or in a direction the rings stretch far, they would otherwise run into it), but never narrower than at the usual
+    /// size (in some world sizes the usual rings already reach the city's rim, and they still do); 1 where they end
+    /// short of it anyway, and in every other world.
+    /// </summary>
+    private double RingSqueeze(double angle)
+    {
+        if (RingScale <= 1) return 1;
+        double total = 0;
+        for (int ring = 0; ring < RingWidths.Length; ring++) total += ringWidths[ring] * RingShape(ring, angle);
+        return total > ringReach ? Math.Max(ringReach / total, 1 / RingScale) : 1;
+    }
+
     /// <summary>Distance from spawn, along a direction, at which a level ends.</summary>
     private double OuterEdge(int level, double angle)
     {
-        double edge = 0;
-        for (int ring = 0; ring <= Math.Min(level, RingWidths.Length - 1); ring++) edge += RingWidths[ring] * RingShape(ring, angle);
+        double edge = 0, squeeze = RingSqueeze(angle);
+        for (int ring = 0; ring <= Math.Min(level, RingWidths.Length - 1); ring++) edge += RingWidth(ring, angle, squeeze);
         return edge;
     }
 
@@ -518,11 +588,11 @@ public sealed partial class WorldLayout
     /// </summary>
     private (double Inner, double Outer) RingEdges(int level, double angle)
     {
-        double inner = 0, edge = 0;
+        double inner = 0, edge = 0, squeeze = RingSqueeze(angle);
         for (int ring = 0; ring <= level; ring++)
         {
             if (ring == level) inner = edge;
-            edge += RingWidths[ring] * RingShape(ring, angle);
+            edge += RingWidth(ring, angle, squeeze);
         }
         return (inner, edge);
     }
