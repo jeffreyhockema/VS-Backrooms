@@ -128,6 +128,7 @@
 			"rotateY": 90
 		}
 	},
+	"renderpass": "Transparent",
 	"drops": [
 		{
 			"type": "item",

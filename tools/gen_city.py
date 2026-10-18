@@ -20,6 +20,8 @@ from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE,
 from detail_textures import S, noise, rgb, save, text
 from gen_detail import cube_block, plate
 from detail_kit import T, seed_of
+import l11art as L11
+import l11art_tex
 
 
 def drops(*items):
@@ -1658,6 +1660,7 @@ def b12_doors():
 
 
 def generate_textures():
+    l11art_tex.generate()  # (l11art) the basement door, directory, hydrant, mailboxes, booth, cabinet, piano, pantry shelf
     facade_textures()
     street_textures()
     door_textures()
@@ -1922,6 +1925,11 @@ def facades():
                                                   ("basementdoor", "Basement Door", "basement", "Metal", METAL),
                                                   ("substationdoor", "Substation Door", "substation", "Metal", METAL),
                                                   ("maintenancedoor", "Maintenance Door", "maintenance", "Metal", METAL)):
+        if code == "basementdoor":  # (l11art) the steel door as geometry, the same codes, parts and threshold
+            import gen_deep
+            gen_deep.door_json(code, english, {"lower": L11.basement_door(False), "upper": L11.basement_door(True)}, kind,
+                               comment="A steel door marked BASEMENT; the stair behind it leads down")
+            continue
         data = {
             "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
             "creativeinventory": {"general": ["*"], "construction": ["*"]},
@@ -1968,7 +1976,7 @@ def decorations():
     }, "Storefront fascia carrying half of a store's sign: two side by side make one sign centred over a two-wide door")
     wall_family("citydeco", "Plaster Wall", {1: "cityplaster"}, [
         Decor("mailboxes", "Mailboxes", {2: plate("Boxes", (1, 1, -1.5), (15, 15, 0), "mailboxes", "brass")}),
-        Decor("directory", "Directory Board", {2: plate("Board", (2, 2, -0.8), (14, 14, 0), "directory", "wooddark")}),
+        Decor("directory", "Directory Board", {2: L11.directory()}),  # (l11art) frame, felt, title plate and letter rows
         Decor("missingposter", "Missing Poster", {2: [bx("Poster", (3, 2, -0.1), (13, 14, 0), "missingposter", faces=("north",), full=True)]}),
     ] + [Decor(f"gallery{i}", "Painting", {2: plate("Picture", (1, 1, -0.8), (15, 15, 0), f"gallery{i}", "gilt")}) for i in range(8)],
                 material="Stone", sounds=STONE)
@@ -2074,15 +2082,10 @@ def props():
         bx("Face", (5.5, 16, 6), (10.5, 25, 10), "meterface", faces=("north",), full=True)],
          box=(0.34, 0, 0.37, 0.66, 1.56, 0.63), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:metalbit-copper", 1, 1), ("game:metalbit-silver", 0.15, 0), ("metalbracket", 0.5, 0.3))})
-    prop("phonebooth", "Phone Booth", [
-        bx("Base", (1, 0, 1), (15, 2, 15), "steeldark"), bx("Top", (1, 34, 1), (15, 36, 15), "steeldark"),
-        bx("Sign", (1, 30, 0.9), (15, 34, 1), "phonesign", faces=("north",), full=True),
-        bx("GlassL", (1, 2, 1), (1.5, 30, 15), "shelterglass", faces=("east", "west"), full=True),
-        bx("GlassR", (14.5, 2, 1), (15, 30, 15), "shelterglass", faces=("east", "west"), full=True),
-        bx("Back", (1.05, 2, 14.5), (14.95, 30, 15), "steel"),  # (its ends inside the side glass, not in its faces)
-        bx("Phone", (6, 14, 12), (10, 22, 14.5), "blackmetal"), bx("Handset", (5, 16, 11.5), (6, 21, 12.5), "blackmetal")],
+    prop("phonebooth", "Phone Booth", L11.phonebooth(),
          box=(0.06, 0, 0.06, 0.94, 2.25, 0.94), material="Metal", sounds=METAL,
-         extra={"drops": drops(("scrapwire", 1, 0.5), ("glassshard", 1, 0.5), ("metalbracket", 1, 0.5), ("game:metalbit-copper", 0.5, 0.4))})
+         extra={"renderpass": "Transparent",  # (l11art) the panes are glass; the frame and the sign are opaque in the same pass
+                "drops": drops(("scrapwire", 1, 0.5), ("glassshard", 1, 0.5), ("metalbracket", 1, 0.5), ("game:metalbit-copper", 0.5, 0.4))})
     prop("vendorcart", "Vendor's Cart", [
         bx("Body", (0, 6, 3), (16, 18, 13), "cartsteel", faces=("east", "west", "south", "up", "down")),
         bx("Front", (0, 6, 3), (16, 18, 13), "cartfront", faces=("north",), full=True),
@@ -2182,10 +2185,7 @@ def props():
     prop("adpillar", "Advertising Pillar", {k: column(k) for k in PILLARS}, box=(0.1, 0, 0.1, 0.9, 1.5, 0.9), oriented=False,
          material="Stone", sounds=STONE, extra={"drops": drops(("game:paper-parchment", 2, 1))},
          comment="An advertising pillar on a street corner, pasted all round with posters")
-    prop("postbox", "Mailbox", [
-        bx("Body", (3, 2, 4), (13, 18, 12), "postblue", faces=("east", "west", "south", "down")),
-        bx("Front", (3, 2, 4), (13, 18, 12), "postfront", faces=("north",), full=True),
-        bx("Dome", (3.5, 18, 4.5), (12.5, 21, 11.5), "postblue"), bx("Legs", (4, 0, 5), (12, 2, 11), "metaldark")],
+    prop("postbox", "Mailbox", L11.postbox(),
          box=(0.18, 0, 0.25, 0.82, 1.31, 0.75), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:paper-parchment", 1.5, 1), ("metalbracket", 0.5, 0.3))})
 
