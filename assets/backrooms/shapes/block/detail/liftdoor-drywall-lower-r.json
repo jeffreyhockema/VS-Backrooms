@@ -328,6 +328,258 @@
 					]
 				}
 			}
+		},
+		{
+			"name": "LeafBack",
+			"from": [
+				0,
+				0,
+				16
+			],
+			"to": [
+				16,
+				16,
+				16.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftdoor-lower-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "JambBack",
+			"from": [
+				0,
+				0,
+				16
+			],
+			"to": [
+				1.5,
+				16,
+				17.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "StileABack",
+			"from": [
+				1.75,
+				0,
+				16.5
+			],
+			"to": [
+				3.25,
+				16,
+				16.9
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StileBBack",
+			"from": [
+				14.0,
+				0,
+				16.5
+			],
+			"to": [
+				15.5,
+				16,
+				16.9
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailBottomBack",
+			"from": [
+				3.25,
+				0,
+				16.5
+			],
+			"to": [
+				14.0,
+				2.5,
+				16.9
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailMidBack",
+			"from": [
+				3.25,
+				12.5,
+				16.5
+			],
+			"to": [
+				14.0,
+				14.5,
+				16.9
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#liftsteel",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				}
+			}
 		}
 	]
 }

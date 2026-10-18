@@ -390,6 +390,82 @@ def lift_leaf_panels(part, half):
     return els
 
 
+def knife_switch():
+    """(L3 art) A double-pole knife switch on its slate base, closed: porcelain pedestals carry brass hinge lugs
+    (with ears and a pin) at the foot and jaws (two cheeks each) at the head, a copper blade in each, a phase barrier
+    of slate between the poles, a bakelite crossbar across both blades and a ribbed bakelite grip standing out of it.
+    Footprint as before: the slate 3..13 by 1..15, nothing deeper than about 4.4 in front of the wall."""
+    P, BR, CU, BK, SL = "ksporcelain", "ksbrass", "kscopper", "ksbakelite", "ksslate"
+    els = K.bevelled_box("Slate", (3, 1, -1), (13, 15, 0), SL, b=0.25)
+    for i, (x, y) in enumerate(((3.9, 1.9), (11.6, 1.9), (3.9, 13.4), (11.6, 13.4))):
+        els.append(bx(f"Screw{i}", (x, y, -1.3), (x + 0.5, y + 0.5, -1), BR, faces=("north", "east", "west", "up", "down")))
+    for pole, x in (("L", 4.25), ("R", 8.75)):
+        for end, (y1, y2) in (("Foot", (1.75, 4.25)), ("Head", (11.25, 13.75))):
+            n = pole + end
+            z0 = -3.0 if end == "Head" else -2.75
+            els += [K.box(n + "Pedestal", (x, y1, -1.5), (x + 3, y2, -1), P),
+                    K.box(n + "Plate", (x + 0.25, y1 + 0.25, -1.75), (x + 2.75, y2 - 0.25, -1.5), BR),
+                    K.box(n + "CheekA", (x + 0.25, y1 + 0.25, z0), (x + 0.75, y2 - 0.25, -1.75), BR),
+                    K.box(n + "CheekB", (x + 2.25, y1 + 0.25, z0), (x + 2.75, y2 - 0.25, -1.75), BR)]
+        els += [K.box(pole + "Blade", (x + 0.75, 2.75, -2.5), (x + 2.25, 13.0, -2.0), CU),
+                K.box(pole + "PinA", (x - 0.1, 2.9, -2.45), (x + 0.25, 3.5, -2.05), BR),
+                K.box(pole + "PinB", (x + 2.75, 2.9, -2.45), (x + 3.1, 3.5, -2.05), BR)]
+    els += [K.box("Barrier", (7.75, 2.5, -2.25), (8.25, 14.0, -1.0), SL),
+            K.box("Crossbar", (4.75, 8.25, -3.3), (11.25, 10.0, -2.45), BK),
+            K.box("CrossbarRivetL", (5.4, 8.8, -3.55), (6.0, 9.4, -3.3), BR, faces=("north", "east", "west", "up", "down")),
+            K.box("CrossbarRivetR", (10.0, 8.8, -3.55), (10.6, 9.4, -3.3), BR, faces=("north", "east", "west", "up", "down")),
+            K.box("Shaft", (7.5, 8.75, -3.9), (8.5, 9.5, -3.3), BK)]
+    els += K.bevelled_box("Grip", (6.75, 8.0, -4.4), (9.25, 10.25, -3.4), "ksgrip", b=0.25)
+    return els
+
+
+def mirror_z(els):
+    """(L3 art) The same elements seen from the other side of the block (z -> 16 - z, north faces south), so a door
+    set in a wall is a door from behind as well."""
+    out = []
+    for e in json.loads(json.dumps(els)):
+        e["from"][2], e["to"][2] = round(16 - e["to"][2], 4), round(16 - e["from"][2], 4)
+        f = e["faces"]
+        e["faces"] = {k: v for k, v in {"north": f.get("south"), "south": f.get("north"), "east": f.get("east"), "west": f.get("west"),
+                                        "up": f.get("up"), "down": f.get("down")}.items() if v is not None}
+        e["name"] += "Back"
+        out.append(e)
+    return out
+
+
+def l3_lift(part):
+    """(L3 art) Level 3's freight elevator, one block wide and two high, doors on all four sides (the corridor wall
+    has no facing to turn it by): a frame of dark painted steel, two steel leaves, each with raised stiles and rails
+    round an inset panel, a hazard stripe across the foot, the call plate on the right jamb and, in the upper block,
+    a lit floor indicator in the header."""
+    top = 16 if part == "lower" else 13.0
+    front = [bx("JambL", (0, 0, -0.9), (2.5, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down")),
+             bx("JambR", (13.5, 0, -0.9), (16, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down"))]
+    if part == "upper":
+        front += [bx("Header", (2.5, 13.0, -0.9), (13.5, 16, 0), "l3liftframe", faces=("north", "up", "down")),
+                  bx("IndBezel", (3.0, 13.4, -1.15), (13.0, 15.6, -0.9), "l3liftframe", faces=("north", "east", "west", "up", "down")),
+                  bx("Indicator", (3.5, 13.9, -1.2), (12.5, 15.1, -1.15), "l3liftind", glow=90, faces=("north",), full=True)]
+    for k, (x1, x2) in enumerate(((2.5, 7.9), (8.1, 13.5))):
+        front += [bx(f"Leaf{k}", (x1, 0, -0.45), (x2, top, -0.05), "l3liftleaf", faces=("north", "east", "west", "up")),
+                  bx(f"StileA{k}", (x1 + 0.4, 0, -0.9), (x1 + 1.6, top, -0.45), "l3liftframe", faces=("north", "east", "west")),
+                  bx(f"StileB{k}", (x2 - 1.6, 0, -0.9), (x2 - 0.4, top, -0.45), "l3liftframe", faces=("north", "east", "west")),
+                  bx(f"RailMid{k}", (x1 + 1.6, 7.0, -0.9), (x2 - 1.6, 8.0, -0.45), "l3liftframe", faces=("north", "up", "down"))]
+        if part == "lower":
+            front += [bx(f"Kick{k}", (x1 + 1.6, 0, -0.9), (x2 - 1.6, 2.5, -0.45), "l3liftframe", faces=("north", "up")),
+                      bx(f"Stripe{k}", (x1 + 1.6, 3.0, -0.9), (x2 - 1.6, 4.5, -0.45), "l3liftstripe", faces=("north",), full=True)]
+        else:
+            front.append(bx(f"RailTop{k}", (x1 + 1.6, top - 1.2, -0.9), (x2 - 1.6, top - 0.2, -0.45), "l3liftframe", faces=("north", "down")))
+    if part == "lower":
+        front += [bx("CallPlate", (13.6, 6.5, -1.3), (15.4, 11.5, -0.9), "l3liftcall", faces=("north",), full=True),
+                  bx("CallRim", (13.6, 6.5, -1.3), (15.4, 11.5, -0.9), "l3liftframe", faces=("east", "west", "up", "down")),
+                  bx("PullL", (6.1, 6.0, -1.5), (6.7, 9.5, -0.9), "ksbrass", faces=("north", "east", "west", "up", "down")),
+                  bx("PullR", (9.3, 6.0, -1.5), (9.9, 9.5, -0.9), "ksbrass", faces=("north", "east", "west", "up", "down"))]
+    els = [bx("Core", (0, 0, 0), (16, 16, 16), "l3liftframe")]
+    for t in range(4):
+        els += [dict(e, name=f"{e['name']}{t}") for e in K.turn(front, t)]
+    return els
+
+
 def cage_gate(half):
     """(B8) The antique lift's brass scissor gate as geometry: upright bars every 4 units and between each pair two
     diagonal straps crossing, so the gate is a lattice of diamonds; behind it the dark of the shaft (it was a picture of
@@ -463,7 +539,9 @@ def doors():
         for wall_name, wall_tex in walls.items():
             for part in parts:
                 for half in ("l", "r"):
-                    els = [cube(wall_tex[part])] + parts_fn(part, half)
+                    front = parts_fn(part, half)
+                    # (L3 art) The back of a lift is a lift too: someone who arrives behind the wall sees doors, not drywall
+                    els = [cube(wall_tex[part])] + front + mirror_z(front)
                     path = shape(f"{code}-{wall_name}-{part}-{half}", els)
                     for s in SIDES:
                         by_type[f"*-{wall_name}-{part}-{half}-{s}"] = {"base": path, "rotateY": ROTATE[s]}
@@ -492,6 +570,17 @@ def doors():
         "drywall": {"lower": "drywall-base", "upper": "drywall", "header": "drywall"},
         "hotel": {"lower": "wainscot", "upper": "hotelpanel", "header": "frieze"},
     }, header, "Modern elevator doors, two blocks wide. Use them: each elevator leads to one fixed place")
+
+    # (L3 art) Level 3's freight elevator (the old block was a cube with one painted line)
+    lift_shapes = {part: shape(f"l3lift-{part}", l3_lift(part)) for part in ("lower", "upper")}
+    block("elevatordoor", {
+        "variantgroups": [{"code": "type", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {f"*-{part}": {"base": path} for part, path in lift_shapes.items()},
+        "resistance": 2, "lightAbsorption": 99, "sounds": METAL, "drops": [],
+        "behaviors": [{"name": "BackroomsThreshold", "properties": {"kind": "elevator"}}],
+    }, "Freight elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level")
 
     def dial(part, half):
         outer = (14, 16) if half == "l" else (0, 2)
@@ -1010,10 +1099,7 @@ def level3():
     decors = [
         Decor("dangersign", "Danger Sign", {2: plate("Sign", (3, 3, -0.4), (13, 13, 0), "dangersign", "steel") + rivets("Sign", 3, 3, 13, 13, -0.4)}),
         Decor("gauges", "Pressure Gauges", {2: gauges}),
-        Decor("knifeswitch", "Knife Switch", {2: [bx("Slate", (3, 1, -1), (13, 15, 0), "slate"),
-                                                  bx("BladeL", (5, 4, -3), (6, 12, -1), "copper"), bx("BladeR", (10, 4, -3), (11, 12, -1), "copper"),
-                                                  bx("Handle", (4, 11, -4), (12, 12.5, -3), "rubber"),
-                                                  bx("ClipL", (4.5, 2, -1.8), (6.5, 4, -1), "copper"), bx("ClipR", (9.5, 2, -1.8), (11.5, 4, -1), "copper")]}),
+        Decor("knifeswitch", "Knife Switch", {2: knife_switch()}),
         # (B6) A cast box with a lid a size larger screwed on at the corners, the conduits in couplings
         Decor("junctionbox", "Junction Box", {
             2: [bx("Box", (4.25, 2.25, -2.5), (11.75, 10.75, 0), "l3paint", faces=("north", "east", "west", "up", "down")),

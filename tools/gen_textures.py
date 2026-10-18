@@ -2472,14 +2472,6 @@ def level4_textures():
     body, bottle = cooler_textures()
     save(match_rgb(body, L4_MEAN["cooler"]), "block/level4/cooler.png")
     save(bottle, "block/level4/coolerbottle.png")
-    for part in ("lower", "upper"):
-        img = noise_fill(hexrgb(0x9EA4A8), 4, 534)
-        d = ImageDraw.Draw(img)
-        d.line([15, 0, 15, S - 1], fill=(50, 52, 56, 255), width=2)
-        if part == "upper":
-            d.rectangle([12, 2, 19, 7], fill=(40, 40, 40, 255))
-            d.text((13, 1), "^", fill=(240, 200, 80, 255))
-        save(img, f"block/level4/elevatordoor-{part}.png")
 
 
 # ---------------- Level 5: the Terror Hotel (graphics pass B8) ----------------

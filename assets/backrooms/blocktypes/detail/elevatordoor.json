@@ -1,4 +1,4 @@
-// Elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level
+// Freight elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level
 {
 	"code": "elevatordoor",
 	"variantgroups": [
@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/level4/elevatordoor-{type}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/l3lift-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/l3lift-upper"
 		}
 	},
 	"resistance": 2,
