@@ -376,6 +376,13 @@ public sealed partial class WorldGenerator
     private readonly int pipeRunXId, pipeRunZId, pipeHubId, pipeLeakXId, pipeLeakZId, tarRunXId, tarRunZId, tarHubId;
     private readonly int[,] tunnelLightIds = new int[4, 4]; // state (white, warm, off, flicker) x pipes alongside (we, ns, hub, none)
     private readonly int[] cabinetIds = new int[4];
+    /// <summary>
+    /// (Layout version 9) Level 2's machine cabinets with their feed pipe straight up, and the pipe above them into the
+    /// overhead bundle, by facing; and the tunnel walls with fittings that lead somewhere (tunnelfitting: a wall cabinet's
+    /// conduits up into the ceiling, a gate valve in the wall pipes, a valve at a riser's foot).
+    /// </summary>
+    private readonly int[] cabinetFeedIds = new int[4], feedPipeIds = new int[4];
+    private readonly int tunnelMachineryTopId, tunnelPipesValveId, tunnelRiserValveId;
     /// <summary>Level 2's tunnel walls, by <see cref="TunnelWallTypes"/>.</summary>
     private readonly int[] tunnelWallIds = new int[TunnelWallTypes.Length];
     private static readonly string[] TunnelWallTypes = { "plain", "machinery", "brick", "warning", "pipes", "riser", "riserjoint", "valve", "machinerybase", "pipesjoint", "pipesbracket" };
@@ -619,7 +626,12 @@ public sealed partial class WorldGenerator
             shelfIds[i] = BlockId($"backrooms:metalshelf-{Sides[i]}");
             stairIds[i] = BlockId($"backrooms:concretestairs-{Sides[i]}");
             cabinetIds[i] = BlockId($"backrooms:machinecabinet-{Sides[i]}");
+            cabinetFeedIds[i] = Id($"machinecabinetfeed-{Sides[i]}");
+            feedPipeIds[i] = Id($"feedpipe-{Sides[i]}");
         }
+        tunnelMachineryTopId = Id("tunnelfitting-machinerytop");
+        tunnelPipesValveId = Id("tunnelfitting-pipesvalve");
+        tunnelRiserValveId = Id("tunnelfitting-riservalve");
         InitStairwells();
 
         tunnelFloorId = BlockId("backrooms:concretefloor-dark");
@@ -1249,6 +1261,7 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                if (layout.Version >= 9 && t.Pattern == WallPattern.Tunnel && TunnelFitting(t, rel, gx, gz) is int fitting and >= 0) return fitting;
                 return TunnelWall(t.Pattern == WallPattern.Tunnel ? t.Variant : Props.WallPlain, rel, gx, gz);
             case TileKind.Doorway:
                 return rel <= 2 ? 0 : tunnelWallIds[TunnelPlain];
@@ -1286,9 +1299,14 @@ public sealed partial class WorldGenerator
             };
         }
 
+        // (Layout version 9) A machine cabinet's feed pipe goes on up the wall behind it into the overhead bundle (in
+        // 1-8, and wherever the blocks are missing, the cabinet's own pipe turns back into the wall above it)
+        bool feed = t.Variant == Props.Cabinet && layout.Version >= 9 && cabinetFeedIds[0] != 0 && feedPipeIds[0] != 0;
+        if (feed && rel == 2) return feedPipeIds[Facing(Opposite(t.Pier))];
         if (rel == 1)
         {
             if (t.Variant == Props.Drum) return drumId;
+            if (feed) return cabinetFeedIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Cabinet) return cabinetIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Shelf) return shelfIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Desk) return deskIds[Facing(t.Pier)];
@@ -1315,6 +1333,30 @@ public sealed partial class WorldGenerator
             }
         }
         return TunnelWallBlock(variant, rel, gx, gz);
+    }
+
+    /// <summary>
+    /// (Layout version 9) A tunnel wall's fitting that leads somewhere, or -1 to draw the wall as in 1-8: over a wall
+    /// cabinet its conduits run on up into the ceiling; a valve wall has its valve in the wall pipes (at a corner of the
+    /// pipes, just the corner) and bare wall below them, where 1-8 put a wheel on the bare wall; a riser marked for one
+    /// (Tile.Stack 1, see WorldLayout.PlaceL2Valve) has a valve at its foot. Where a block is missing, the 1-8 wall.
+    /// </summary>
+    private int TunnelFitting(in Tile t, int rel, int gx, int gz)
+    {
+        switch (t.Variant)
+        {
+            case Props.WallMachinery when rel == 3 && tunnelMachineryTopId != 0:
+                return tunnelMachineryTopId;
+            case Props.WallValve when tunnelPipesValveId != 0:
+                if (rel == 1) return tunnelWallIds[TunnelPlain];
+                if (rel != 2) return -1;
+                int corner = WallPipeCorner(0, gx, gz);
+                return corner != 0 ? corner : tunnelPipesValveId;
+            case Props.WallRiser when rel == 1 && t.Stack == 1 && tunnelRiserValveId != 0:
+                // (Where the pipes turn a corner the riser makes way for them: no riser, no valve)
+                return WallPipeCorner(0, gx, gz) == 0 ? tunnelRiserValveId : -1;
+        }
+        return -1;
     }
 
     private int TunnelWallBlock(ushort variant, int rel, int gx, int gz) => tunnelWallIds[variant switch

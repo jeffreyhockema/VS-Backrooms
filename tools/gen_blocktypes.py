@@ -1,7 +1,8 @@
 """Generates block type definitions for Levels 3-5, which have many similar blocks.
 
 Run from the repo root:  python tools/gen_blocktypes.py
-Blocks for Levels 0-2 are hand-written in assets/backrooms/blocktypes.
+Blocks for Levels 0-2 are hand-written in assets/backrooms/blocktypes, but for Level 2's fittings of layout version 9
+(level2()).
 """
 import json
 import os
@@ -461,6 +462,63 @@ def level5():
            particlePropertiesByType=fire_fx.by_side(_furnace_fx), behaviors=[fire_fx.heat(8)])
 
 
+def level2():
+    """(L2 placement) Level 2's fittings that lead somewhere, placed from layout version 9 (the shapes are
+    tools/gen_shapes.py's tunnel_fittings, machine_cabinet("up") and feed_pipe). The rest of Level 2's blocks are
+    hand-written."""
+    # Wall blocks like tunnelwall's, the fittings on every face that looks into the tunnel
+    fittings = ["machinerytop", "pipesvalve", "riservalve"]
+    write("level2", "tunnelfitting", {
+        "code": "tunnelfitting",
+        "variantgroups": [{"code": "type", "states": fittings}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Stone",
+        "drawtype": "json",
+        "shapeByType": {f"*-{t}": {"base": f"block/tunnelfitting-{t}"} for t in fittings},
+        "textures": {"wall": {"base": "block/level2/tunnelwall-plain"}},
+        "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
+    }, "Level 2 tunnel walls with fittings that lead somewhere: a wall cabinet's conduits carried up into the ceiling, "
+       "a gate valve in the wall pipes, a valve at the foot of a riser")
+    # The machine cabinet (as the hand-written machinecabinet) with its feed pipe straight up out of its top, into the
+    # pipe above it
+    write("level2", "machinecabinetfeed", {
+        "code": "machinecabinetfeed",
+        "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Metal",
+        "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": "block/machinecabinet-feed", "rotateY": ROTATE[s]} for s in SIDES},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 3,
+        # Wiring and windings: copper for the crucible (as machinecabinet)
+        "drops": [
+            {"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.3, "var": 0.3}},
+            {"type": "item", "code": "scrapwire", "quantity": {"avg": 1.5, "var": 1}},
+            {"type": "item", "code": "game:metalbit-copper", "quantity": {"avg": 1.5, "var": 1}},
+        ],
+        "sounds": {"place": "game:block/anvil1", "break": "game:block/heavymetal-hit", "hit": "game:block/heavymetal-hit"},
+    }, "A machine cabinet whose feed pipe rises out of its top into the pipe above it (feedpipe)")
+    # The feed pipe above a machine cabinet, up into the overhead bundle (its model reaches into the block above)
+    pipe_box = {"x1": 0.6875, "y1": 0, "z1": 0.625, "x2": 0.875, "y2": 1, "z2": 1}
+    write("level2", "feedpipe", {
+        "code": "feedpipe",
+        "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Metal",
+        "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": "block/feedpipe", "rotateY": ROTATE[s]} for s in SIDES},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 3,
+        "collisionboxByType": {f"*-{s}": dict(pipe_box, rotateY=ROTATE[s]) for s in SIDES},
+        "selectionboxByType": {f"*-{s}": dict(pipe_box, rotateY=ROTATE[s]) for s in SIDES},
+        "sounds": METAL,
+    }, "The feed pipe from a machine cabinet up into the overhead pipes")
+
+
 def fix_ambients():
     """Adds ambient sounds to blocks that need them (done after writing, to keep the helpers simple)."""
     for folder, code, ambient, count in (("level3", "transformer", "backrooms:ambient/transformer", 4),
@@ -478,6 +536,7 @@ def fix_ambients():
 
 
 if __name__ == "__main__":
+    level2()
     level3()
     level4()
     level5()

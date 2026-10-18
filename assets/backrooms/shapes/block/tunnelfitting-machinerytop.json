@@ -1,0 +1,1313 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "wall": "backrooms:block/level2/tunnelwall-plain",
+  "rust": "backrooms:block/level2/pipe-rust",
+  "lagging": "backrooms:block/level2/pipe-lagging",
+  "red": "backrooms:block/level2/pipe-red",
+  "metal": "backrooms:block/props/metal",
+  "dark": "backrooms:block/props/metal-dark",
+  "wallrust": "backrooms:block/level2/wallpipe-rust",
+  "walllag": "backrooms:block/level2/wallpipe-lagging",
+  "flange": "backrooms:block/level2/wallpipe-flange",
+  "valve": "backrooms:block/props/valve",
+  "panel": "backrooms:block/props/cabinet-front",
+  "gauge": "backrooms:block/detail/gauge"
+ },
+ "elements": [
+  {
+   "name": "Cube",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit0",
+   "from": [
+    4.0,
+    0,
+    -1.5
+   ],
+   "to": [
+    5.5,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit20",
+   "from": [
+    10.0,
+    0,
+    -1.2
+   ],
+   "to": [
+    11.0,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip0",
+   "from": [
+    3.5,
+    6.0,
+    -1.85
+   ],
+   "to": [
+    6.0,
+    7.0,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip20",
+   "from": [
+    9.5,
+    6.5,
+    -1.55
+   ],
+   "to": [
+    11.5,
+    7.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate0",
+   "from": [
+    3.25,
+    15.4,
+    -2.25
+   ],
+   "to": [
+    6.25,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate20",
+   "from": [
+    9.25,
+    15.4,
+    -1.95
+   ],
+   "to": [
+    11.75,
+    16,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.95
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit1",
+   "from": [
+    16,
+    0,
+    4.0
+   ],
+   "to": [
+    17.5,
+    16,
+    5.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit21",
+   "from": [
+    16,
+    0,
+    10.0
+   ],
+   "to": [
+    17.2,
+    16,
+    11.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip1",
+   "from": [
+    16,
+    6.0,
+    3.5
+   ],
+   "to": [
+    17.85,
+    7.0,
+    6.0
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip21",
+   "from": [
+    16,
+    6.5,
+    9.5
+   ],
+   "to": [
+    17.55,
+    7.5,
+    11.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate1",
+   "from": [
+    16,
+    15.4,
+    3.25
+   ],
+   "to": [
+    18.25,
+    16,
+    6.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate21",
+   "from": [
+    16,
+    15.4,
+    9.25
+   ],
+   "to": [
+    17.95,
+    16,
+    11.75
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.95
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit2",
+   "from": [
+    10.5,
+    0,
+    16
+   ],
+   "to": [
+    12.0,
+    16,
+    17.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit22",
+   "from": [
+    5.0,
+    0,
+    16
+   ],
+   "to": [
+    6.0,
+    16,
+    17.2
+   ],
+   "faces": {
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip2",
+   "from": [
+    10.0,
+    6.0,
+    16
+   ],
+   "to": [
+    12.5,
+    7.0,
+    17.85
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip22",
+   "from": [
+    4.5,
+    6.5,
+    16
+   ],
+   "to": [
+    6.5,
+    7.5,
+    17.55
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate2",
+   "from": [
+    9.75,
+    15.4,
+    16
+   ],
+   "to": [
+    12.75,
+    16,
+    18.25
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate22",
+   "from": [
+    4.25,
+    15.4,
+    16
+   ],
+   "to": [
+    6.75,
+    16,
+    17.95
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.95
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit3",
+   "from": [
+    -1.5,
+    0,
+    10.5
+   ],
+   "to": [
+    0,
+    16,
+    12.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Conduit23",
+   "from": [
+    -1.1999999999999993,
+    0,
+    5.0
+   ],
+   "to": [
+    0,
+    16,
+    6.0
+   ],
+   "faces": {
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      1.2,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip3",
+   "from": [
+    -1.8500000000000014,
+    6.0,
+    10.0
+   ],
+   "to": [
+    0,
+    7.0,
+    12.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.85,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.85
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clip23",
+   "from": [
+    -1.5500000000000007,
+    6.5,
+    4.5
+   ],
+   "to": [
+    0,
+    7.5,
+    6.5
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.0
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.55,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.55
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate3",
+   "from": [
+    -2.25,
+    15.4,
+    9.75
+   ],
+   "to": [
+    0,
+    16,
+    12.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.25,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.0,
+      2.25
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate23",
+   "from": [
+    -1.9499999999999993,
+    15.4,
+    4.25
+   ],
+   "to": [
+    0,
+    16,
+    6.75
+   ],
+   "faces": {
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.6
+     ]
+    },
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.95,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.95
+     ]
+    }
+   }
+  }
+ ]
+}

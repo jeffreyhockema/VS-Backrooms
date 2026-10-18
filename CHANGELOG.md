@@ -27,6 +27,9 @@ In numbers: 1,219 block textures (611 of them new versions, so a surface no long
 - Level 2's plain tunnel wall keeps its dark grey tone but loses the shaded circle that sat in the middle of every block (and the tie holes and streaks that repeated with it): three versions share one soft ground, are turned and picked at random by height too, so no block edge or repeated mark shows, and one block in eight carries a faint damp run. The brick, warning and machinery walls are as before.
 - Level 2's flatbed trolley is rebuilt as a model: steel channel chassis with cross members and axles, five weathered deck boards (one split and sagging), stake pockets with a bent stake still in one, a tow ring, rubber tyres on hubs, and a push handle with a grip, all rusted and grimy.
 - Where a wall pipe in Levels 2 and 3 ran out at a door or a bare wall it ended in a capped flange; now it bends 90 degrees into the wall behind a union ring and a bolted wall plate, for both pipe sizes.
+- Level 2's machine cabinets no longer have an open pipe stub on top: the pipe rises out of a gland and turns back into the wall above the cabinet. This shows on every cabinet already placed, in Level 3 too.
+- Level 2, in worlds made from now on (layout version 9): the copper and steel conduits out of the top of the wall cabinets' gauge panels run on up the wall into the ceiling, held by clips and ending in ceiling plates. The pump galleries' machine cabinets feed the overhead pipes through a pipe up the wall behind them, and no wall cabinet hides behind a free-standing one any more.
+- Level 2, in worlds made from now on: the red valves are where valves belong. A valve sits in the wall pipes as a gate valve with its hand wheel at head height (never on the bare wall below them, and never two side by side), and about one riser in three has a valve at its foot. Existing worlds keep the layout they were made with.
 
 ### Before and after
 

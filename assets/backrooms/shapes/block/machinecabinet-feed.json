@@ -1,0 +1,2821 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "cabpaint": "backrooms:block/level2/cabinet-paint",
+  "cabpanel": "backrooms:block/level2/cabinet-panel",
+  "cabdark": "backrooms:block/level2/cabinet-dark",
+  "cabvent": "backrooms:block/level2/cabinet-vent",
+  "cabbezel": "backrooms:block/level2/cabinet-bezel",
+  "cabneedle": "backrooms:block/level2/cabinet-needle",
+  "cabdial": "backrooms:block/level2/cabinet-dial",
+  "cablampred": "backrooms:block/level2/cabinet-lampred",
+  "cablampamber": "backrooms:block/level2/cabinet-lampamber",
+  "cablabel": "backrooms:block/level2/cabinet-label",
+  "cabwarn": "backrooms:block/level2/cabinet-warning",
+  "cabtop": "backrooms:block/level2/cabinet-top",
+  "metal": "backrooms:block/props/metal",
+  "rust": "backrooms:block/level2/pipe-rust"
+ },
+ "elements": [
+  {
+   "name": "Toe",
+   "from": [
+    2.0,
+    0,
+    5.25
+   ],
+   "to": [
+    14.0,
+    1.0,
+    15.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabdark",
+     "uv": [
+      0,
+      0,
+      12.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabdark",
+     "uv": [
+      0,
+      0,
+      10.25,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabdark",
+     "uv": [
+      0,
+      0,
+      10.25,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#cabdark",
+     "uv": [
+      0,
+      0,
+      12.0,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Body",
+   "from": [
+    1.0,
+    1.0,
+    4.5
+   ],
+   "to": [
+    15.0,
+    14.25,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpanel",
+     "uv": [
+      0,
+      0,
+      14.0,
+      13.25
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      11.5,
+      13.25
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      11.5,
+      13.25
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      13.25
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      11.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Cap",
+   "from": [
+    0.75,
+    14.25,
+    4.0
+   ],
+   "to": [
+    15.25,
+    15.0,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.5,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.5,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      12.0,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#cabtop",
+     "uv": [
+      0,
+      0,
+      14.5,
+      12.0
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.5,
+      12.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontRail0",
+   "from": [
+    1.0,
+    1.0,
+    4.0
+   ],
+   "to": [
+    15.0,
+    2.0,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontRail1",
+   "from": [
+    1.0,
+    13.25,
+    4.0
+   ],
+   "to": [
+    15.0,
+    14.25,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontRail2",
+   "from": [
+    1.0,
+    7.125,
+    4.0
+   ],
+   "to": [
+    15.0,
+    8.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      14.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontStile0_0",
+   "from": [
+    1.0,
+    2.0,
+    4.0
+   ],
+   "to": [
+    2.0,
+    7.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      5.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontStile0_1",
+   "from": [
+    14.0,
+    2.0,
+    4.0
+   ],
+   "to": [
+    15.0,
+    7.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      5.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontStile1_0",
+   "from": [
+    1.0,
+    8.125,
+    4.0
+   ],
+   "to": [
+    2.0,
+    13.25,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      5.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrontStile1_1",
+   "from": [
+    14.0,
+    8.125,
+    4.0
+   ],
+   "to": [
+    15.0,
+    13.25,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      5.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      5.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLFace",
+   "from": [
+    2.85,
+    8.95,
+    4.4
+   ],
+   "to": [
+    6.35,
+    12.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabdial",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel0",
+   "from": [
+    3.6255,
+    11.95,
+    3.5
+   ],
+   "to": [
+    5.5745,
+    12.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel1",
+   "from": [
+    3.6255,
+    8.95,
+    3.5
+   ],
+   "to": [
+    5.5745,
+    9.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel2",
+   "from": [
+    2.85,
+    9.7255,
+    3.5
+   ],
+   "to": [
+    3.35,
+    11.6745,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.949
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezel3",
+   "from": [
+    5.85,
+    9.7255,
+    3.5
+   ],
+   "to": [
+    6.35,
+    11.6745,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.949
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialLBezelD0",
+   "from": [
+    4.6862,
+    11.5107,
+    3.6
+   ],
+   "to": [
+    6.6352,
+    12.0107,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    5.6607,
+    11.7607,
+    4.5
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLBezelD1",
+   "from": [
+    2.5648,
+    11.5107,
+    3.6
+   ],
+   "to": [
+    4.5138,
+    12.0107,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5393,
+    11.7607,
+    4.5
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLBezelD2",
+   "from": [
+    4.6862,
+    9.3893,
+    3.6
+   ],
+   "to": [
+    6.6352,
+    9.8893,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    5.6607,
+    9.6393,
+    4.5
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialLBezelD3",
+   "from": [
+    2.5648,
+    9.3893,
+    3.6
+   ],
+   "to": [
+    4.5138,
+    9.8893,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.5393,
+    9.6393,
+    4.5
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialLNeedle",
+   "from": [
+    4.35,
+    10.42,
+    4.15
+   ],
+   "to": [
+    4.85,
+    12.1,
+    4.3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    4.6,
+    10.7,
+    4.5
+   ],
+   "rotationZ": -30
+  },
+  {
+   "name": "DialLHub",
+   "from": [
+    4.1,
+    10.2,
+    3.9
+   ],
+   "to": [
+    5.1,
+    11.2,
+    4.15
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRFace",
+   "from": [
+    9.65,
+    8.95,
+    4.4
+   ],
+   "to": [
+    13.15,
+    12.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabdial",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel0",
+   "from": [
+    10.4255,
+    11.95,
+    3.5
+   ],
+   "to": [
+    12.3745,
+    12.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel1",
+   "from": [
+    10.4255,
+    8.95,
+    3.5
+   ],
+   "to": [
+    12.3745,
+    9.45,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel2",
+   "from": [
+    9.65,
+    9.7255,
+    3.5
+   ],
+   "to": [
+    10.15,
+    11.6745,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.949
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezel3",
+   "from": [
+    12.65,
+    9.7255,
+    3.5
+   ],
+   "to": [
+    13.15,
+    11.6745,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.949
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.949
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "DialRBezelD0",
+   "from": [
+    11.4862,
+    11.5107,
+    3.6
+   ],
+   "to": [
+    13.4352,
+    12.0107,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.4607,
+    11.7607,
+    4.5
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRBezelD1",
+   "from": [
+    9.3648,
+    11.5107,
+    3.6
+   ],
+   "to": [
+    11.3138,
+    12.0107,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    10.3393,
+    11.7607,
+    4.5
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRBezelD2",
+   "from": [
+    11.4862,
+    9.3893,
+    3.6
+   ],
+   "to": [
+    13.4352,
+    9.8893,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    12.4607,
+    9.6393,
+    4.5
+   ],
+   "rotationZ": 45
+  },
+  {
+   "name": "DialRBezelD3",
+   "from": [
+    9.3648,
+    9.3893,
+    3.6
+   ],
+   "to": [
+    11.3138,
+    9.8893,
+    4.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.85,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.949,
+      0.85
+     ]
+    }
+   },
+   "rotationOrigin": [
+    10.3393,
+    9.6393,
+    4.5
+   ],
+   "rotationZ": -45
+  },
+  {
+   "name": "DialRNeedle",
+   "from": [
+    11.15,
+    10.42,
+    4.15
+   ],
+   "to": [
+    11.65,
+    12.1,
+    4.3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "east": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "west": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.68
+     ]
+    },
+    "up": {
+     "texture": "#cabneedle",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    11.4,
+    10.7,
+    4.5
+   ],
+   "rotationZ": 40
+  },
+  {
+   "name": "DialRHub",
+   "from": [
+    10.9,
+    10.2,
+    3.9
+   ],
+   "to": [
+    11.9,
+    11.2,
+    4.15
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRBezel",
+   "from": [
+    7.25,
+    11.15,
+    4.0
+   ],
+   "to": [
+    8.75,
+    12.65,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampRLens",
+   "from": [
+    7.5,
+    11.4,
+    3.5
+   ],
+   "to": [
+    8.5,
+    12.4,
+    4.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampred",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampABezel",
+   "from": [
+    7.25,
+    8.85,
+    4.0
+   ],
+   "to": [
+    8.75,
+    10.35,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LampALens",
+   "from": [
+    7.5,
+    9.1,
+    3.5
+   ],
+   "to": [
+    8.5,
+    10.1,
+    4.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#cablampamber",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentRail0",
+   "from": [
+    2.75,
+    2.5,
+    3.5
+   ],
+   "to": [
+    9.75,
+    3.0,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentRail1",
+   "from": [
+    2.75,
+    6.125,
+    3.5
+   ],
+   "to": [
+    9.75,
+    6.625,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      7.0,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentStile0_0",
+   "from": [
+    2.75,
+    3.0,
+    3.5
+   ],
+   "to": [
+    3.25,
+    6.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      3.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentStile0_1",
+   "from": [
+    9.25,
+    3.0,
+    3.5
+   ],
+   "to": [
+    9.75,
+    6.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      0.5,
+      3.125
+     ]
+    },
+    "east": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.125
+     ]
+    },
+    "west": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentBack",
+   "from": [
+    3.25,
+    3.0,
+    4.25
+   ],
+   "to": [
+    9.25,
+    6.125,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabvent",
+     "uv": [
+      0,
+      0,
+      6.0,
+      3.125
+     ]
+    }
+   }
+  },
+  {
+   "name": "VentBlade0",
+   "from": [
+    3.25,
+    3.2708,
+    3.5
+   ],
+   "to": [
+    9.25,
+    3.7708,
+    4.3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.25,
+    3.5208,
+    3.9
+   ],
+   "rotationX": -40
+  },
+  {
+   "name": "VentBlade1",
+   "from": [
+    3.25,
+    4.3125,
+    3.5
+   ],
+   "to": [
+    9.25,
+    4.8125,
+    4.3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.25,
+    4.5625,
+    3.9
+   ],
+   "rotationX": -40
+  },
+  {
+   "name": "VentBlade2",
+   "from": [
+    3.25,
+    5.3542,
+    3.5
+   ],
+   "to": [
+    9.25,
+    5.8542,
+    4.3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "down": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#cabpaint",
+     "uv": [
+      0,
+      0,
+      6.0,
+      0.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    3.25,
+    5.6042,
+    3.9
+   ],
+   "rotationX": -40
+  },
+  {
+   "name": "HandleBar",
+   "from": [
+    11.625,
+    3.0,
+    3.0
+   ],
+   "to": [
+    12.375,
+    6.0,
+    3.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      3.0
+     ]
+    },
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      3.0
+     ]
+    },
+    "south": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      3.0
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      3.0
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "HandlePost0",
+   "from": [
+    11.7,
+    3.075,
+    3.75
+   ],
+   "to": [
+    12.3,
+    3.675,
+    4.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "HandlePost1",
+   "from": [
+    11.7,
+    5.325,
+    3.75
+   ],
+   "to": [
+    12.3,
+    5.925,
+    4.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#cabbezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "Gland",
+   "from": [
+    10.5,
+    15.0,
+    9.5
+   ],
+   "to": [
+    14.5,
+    15.5,
+    13.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      4.0,
+      4.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "GlandNut",
+   "from": [
+    10.85,
+    15.5,
+    9.85
+   ],
+   "to": [
+    14.15,
+    16.25,
+    13.15
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.3,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.3,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.3,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.3,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.3,
+      3.3
+     ]
+    }
+   }
+  },
+  {
+   "name": "Pipe",
+   "from": [
+    11.25,
+    15.5,
+    10.25
+   ],
+   "to": [
+    13.75,
+    16,
+    12.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}

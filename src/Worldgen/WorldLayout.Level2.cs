@@ -373,6 +373,7 @@ public sealed partial class WorldLayout
                         double stretch = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 10), Hashing.FloorDiv(gz, 10), SaltL2Wall + 2));
                         if (stretch < 0.7) tile.Variant = r < 0.08 ? Props.WallValve : r < 0.16 ? Props.WallRiser : Props.WallPipes;
                         else tile.Variant = r < 0.35 ? Props.WallMachinery : r < 0.6 ? Props.WallBrick : r < 0.7 ? Props.WallWarning : Props.WallPlain;
+                        if (Version >= 9) PlaceL2Valve(b, ref tile, lx, lz, gx, gz);
                     }
                     continue;
                 }
@@ -474,6 +475,44 @@ public sealed partial class WorldLayout
                 }
             }
         }
+        if (Version >= 9) ClearBehindCabinets(b);
+    }
+
+    /// <summary>
+    /// From layout version 9: valves stand where a valve makes sense. A valve wall's valve is in the wall pipes
+    /// themselves (the generator draws a gate valve in the steel pipe, not a wheel on the bare wall below them, as in
+    /// 1-8), never two side by side; and about one riser in three has a valve at its foot (<see cref="Tile.Stack"/> 1
+    /// on a <see cref="Props.WallRiser"/> wall).
+    /// </summary>
+    private void PlaceL2Valve(Builder b, ref Tile tile, int lx, int lz, int gx, int gz)
+    {
+        static bool Valve(in Tile n) => n.Kind == TileKind.Wall && n.Pattern == WallPattern.Tunnel && n.Variant == Props.WallValve;
+        if (tile.Variant == Props.WallValve && (lx > 0 && Valve(b.At(lx - 1, lz)) || lz > 0 && Valve(b.At(lx, lz - 1))))
+            tile.Variant = Props.WallPipes;
+        if (tile.Variant == Props.WallRiser && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL2Wall + 3)) < 0.34) tile.Stack = 1;
+    }
+
+    /// <summary>
+    /// From layout version 9: a pump gallery's machine cabinet feeds the overhead pipes by a pipe up the wall behind it
+    /// (WorldGenerator draws it), so that wall carries nothing for it to run into: a wall cabinet there is plain wall, a
+    /// valve there plain pipes, and a riser there has no valve at its foot (the cabinet hides it).
+    /// </summary>
+    private static void ClearBehindCabinets(Builder b)
+    {
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                ref Tile t = ref b.At(lx, lz);
+                if (t.Kind != TileKind.Floor || t.Variant != Props.Cabinet) continue;
+                int x = lx + (t.Pier == ArchPier.East ? 1 : t.Pier == ArchPier.West ? -1 : 0);
+                int z = lz + (t.Pier == ArchPier.South ? 1 : t.Pier == ArchPier.North ? -1 : 0);
+                if (x < 0 || z < 0 || x >= MacroSize || z >= MacroSize) continue;
+                ref Tile wall = ref b.At(x, z);
+                if (wall.Kind != TileKind.Wall || wall.Pattern != WallPattern.Tunnel) continue;
+                if (wall.Variant == Props.WallMachinery) wall.Variant = Props.WallPlain;
+                else if (wall.Variant == Props.WallValve) wall.Variant = Props.WallPipes;
+                else if (wall.Variant == Props.WallRiser) wall.Stack = 0;
+            }
     }
 
     private static ArchPier OppositeSide(ArchPier side) => side switch

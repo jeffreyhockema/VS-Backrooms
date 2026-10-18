@@ -517,7 +517,8 @@ def cab_frame(name, x1, y1, x2, y2, z1, z2, border, grid=(1, 1), mid=None):
 def machinery_head():
     """The wall cabinet's upper block, its front to the north (z < 0 is out of the wall, in the tunnel): a framed
     instrument panel with two dial gauges in chrome bezels, a red and an amber lamp and an equipment plate, under a
-    cap; a conduit in a gland and a rusty pipe run on up into the ceiling."""
+    cap; a conduit in a gland and a rusty pipe run up out of it (from layout version 9 the block above carries them on
+    into the ceiling, machinery_top)."""
     els = [K.box("Body", (1.5, 0, -2.0), (14.5, 11.5, 0), CAB, faces=("north", "east", "west"))]
     frame = cab_frame("Bezel", 1.5, 0, 14.5, 11.5, -2.5, -2.0, 1.0)[0]
     frame[0]["faces"].pop("down")  # on the door's top rail, at the block seam
@@ -548,10 +549,54 @@ def machinery_door():
     return els
 
 
-def machine_cabinet():
+# The free-standing cabinet's feed pipe (Levels 2 and 3), in the cabinet's frame (front north, its back and the wall
+# behind it at z 16): 2.5 square, its back 3.25 off the wall. That clears the wall pipes behind it at body height
+# (they stand 4 off the wall at most: it passes in front of them) and lies inside the near pipe of the overhead bundle
+# above the cabinet, whichever wall it stands against (the rusty pipe 3-6 off the wall, or the lagged one 1-6), without
+# a face in the plane of either.
+FEED_X = (11.25, 13.75)
+FEED_Z = (10.25, 12.75)
+
+
+def cabinet_feed(top):
+    """The feed pipe's gland on the cabinet's cap (y 15) and the pipe out of it, up to `top`."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    return [K.box("Gland", (x1 - 0.75, 15.0, z1 - 0.75), (x2 + 0.75, 15.5, z2 + 0.75), "metal", faces=("north", "east", "west", "south", "up")),
+            K.box("GlandNut", (x1 - 0.4, 15.5, z1 - 0.4), (x2 + 0.4, 16.25, z2 + 0.4), "metal", faces=("north", "east", "west", "south", "up")),
+            K.box("Pipe", (x1, 15.5, z1), (x2, top, z2), "rust", faces=("north", "east", "west", "south"))]
+
+
+def cabinet_feed_elbow():
+    """(L2 placement) Where nothing carries the feed on (Level 3, and Level 2 worlds made before layout version 9): the
+    pipe rises out of its gland to waist height of the block above, between the wall pipes there (the lagged one tops
+    out at y 6.25 of that block, the rusty one starts at 10.5), and turns back into the wall through a wall plate."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    y1, y2 = 23.25, 25.75  # the horizontal run, 7.25-9.75 up the block above
+    return cabinet_feed(y2) + [
+        # The elbow: a fitting a little fatter than the pipe round the turn, then the run back into the wall
+        K.box("Elbow", (x1 - 0.3, y1 - 0.3, z1 - 0.3), (x2 + 0.3, y2 + 0.3, z2 + 0.3), "rust", faces=("north", "east", "west", "up", "down")),
+        K.box("Run", (x1, y1, z2 + 0.3), (x2, y2, 16), "rust", faces=("east", "west", "up", "down")),
+        K.box("WallPlate", (x1 - 0.9, y1 - 0.9, 15.5), (x2 + 0.9, y2 + 0.9, 16), "metal", faces=("north", "east", "west", "up", "down")),
+    ]
+
+
+def feed_pipe():
+    """(L2 placement) The feed pipe carried on above a machine cabinet (cabinet frame, block above the cabinet): up
+    from the cabinet's gland, held to the wall by a clamp and a strut between the wall pipes, into the overhead
+    bundle's near pipe, whose middle is 12.5 up the block above this one."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    return [K.box("Pipe", (x1, 0, z1), (x2, 28.5, z2), "rust", faces=("north", "east", "west", "south")),
+            K.box("Clamp", (x1 - 0.5, 7.5, z1 - 0.5), (x2 + 0.5, 9.0, z2 + 0.5), "metal"),
+            K.box("Strut", (12.0, 7.75, z2 + 0.5), (13.0, 8.75, 16), "metal", faces=("east", "west", "up", "down")),
+            K.box("Foot", (11.25, 7.0, 15.5), (13.75, 9.5, 16), "metal", faces=("north", "east", "west", "up", "down"))]
+
+
+def machine_cabinet(feed="elbow"):
     """The free-standing machine cabinet (Levels 2 and 3), front to the north: carcass and cap, a framed front with an
-    instrument panel (two gauges, two lamps) over a louvred door with a bar handle, on a toe-recessed plinth; a pipe
-    stub out of the top at the back."""
+    instrument panel (two gauges, two lamps) over a louvred door with a bar handle, on a toe-recessed plinth; the feed
+    pipe out of a gland on the top at the back. With feed "elbow" the pipe turns back into the wall above the cabinet
+    (cabinet_feed_elbow); with "up" (L2 placement, machinecabinetfeed) it rises out of the block into the feed pipe
+    above (feedpipe). The old open stub led nowhere."""
     els = [K.box("Toe", (2.0, 0, 5.25), (14.0, 1.0, 15.5), "cabdark", faces=("north", "east", "west", "south")),
            K.box("Body", (1.0, 1.0, 4.5), (15.0, 14.25, 16), CAB, faces=("north", "east", "west", "south", "down")),
            K.box("Cap", (0.75, 14.25, 4.0), (15.25, 15.0, 16), {"all": "cabpaint", "top": "cabtop"})]
@@ -561,7 +606,7 @@ def machine_cabinet():
     els += cab_lamp("LampR", 8.0, 11.9, 4.5, "cablampred") + cab_lamp("LampA", 8.0, 9.6, 4.5, "cablampamber")
     els += louvre("Vent", 2.75, 2.5, 9.75, 6.625, 4.5, 3)
     els += K.handle("Handle", 12.0, 4.5, 4.5, length=3.0, axis="y", standoff=0.75, thick=0.75, tex="cabbezel")
-    els.append(K.box("Pipe", (11, 15.0, 11), (14, 16, 14), "rust", faces=("north", "east", "west", "south", "up")))
+    els += cabinet_feed_elbow() if feed == "elbow" else cabinet_feed(16)
     return els
 
 
@@ -619,7 +664,74 @@ def level2():
     save("tunnelwall-machinerybase", mwall, [CUBE("wall")] + sides_turned(machinery_door()))
 
     # Machine cabinet, front panel facing north, back against the wall to the south
-    save("machinecabinet", dict(CABINET_TEX, metal="backrooms:block/props/metal", rust=PIPE_TEX["rust"]), machine_cabinet())
+    cab = dict(CABINET_TEX, metal="backrooms:block/props/metal", rust=PIPE_TEX["rust"])
+    save("machinecabinet", cab, machine_cabinet())
+    # (L2 placement, layout version 9) Level 2's cabinets feed the overhead bundle: the cabinet with its pipe straight
+    # up, and the pipe carried on above it (blocktypes machinecabinetfeed and feedpipe, from gen_blocktypes.py)
+    save("machinecabinet-feed", cab, machine_cabinet("up"))
+    save("feedpipe", {"metal": "backrooms:block/props/metal", "rust": PIPE_TEX["rust"]}, feed_pipe())
+    tunnel_fittings(wall)
+
+
+# ---------------- (L2 placement) Level 2's fittings that lead somewhere, from layout version 9 ----------------
+# Blocktype tunnelfitting (gen_blocktypes.py): wall blocks like tunnelwall's, with their fittings on all four faces.
+
+def machinery_top():
+    """Above the wall cabinet's instrument head: its two conduits (bright steel, and the copper-coloured one) carried on
+    up the wall from the head's gland into the ceiling, each held by a saddle clip and ending in a ceiling plate where
+    it goes through. They pass behind the overhead bundle's near pipe where one runs along the wall (as the risers do)."""
+    els = [K.box("Conduit", (4.0, 0, -1.5), (5.5, 16, 0), "metal", faces=("north", "east", "west")),
+           K.box("Conduit2", (10.0, 0, -1.2), (11.0, 16, 0), "rust", faces=("north", "east", "west")),
+           K.box("Clip", (3.5, 6.0, -1.85), (6.0, 7.0, 0), "metal", faces=("north", "east", "west", "up", "down")),
+           K.box("Clip2", (9.5, 6.5, -1.55), (11.5, 7.5, 0), "metal", faces=("north", "east", "west", "up", "down")),
+           K.box("Plate", (3.25, 15.4, -2.25), (6.25, 16, 0), "metal", faces=("north", "east", "west", "down")),
+           K.box("Plate2", (9.25, 15.4, -1.95), (11.75, 16, 0), "metal", faces=("north", "east", "west", "down"))]
+    return els
+
+
+def valve_wheel(name, cx, cy, z):
+    """The red hand wheel, as the old tunnelwall-valve's: a square rim 7 across with two spokes, its back face at z
+    (the wheel 1 deep in front of it)."""
+    return [box(f"{name}RimTop", (cx - 3, cy + 2.5, z - 1), (cx + 3, cy + 3.5, z), "valve"),
+            box(f"{name}RimBottom", (cx - 3, cy - 3.5, z - 1), (cx + 3, cy - 2.5, z), "valve"),
+            box(f"{name}RimLeft", (cx - 3.5, cy - 3, z - 1), (cx - 2.5, cy + 3, z), "valve"),
+            box(f"{name}RimRight", (cx + 2.5, cy - 3, z - 1), (cx + 3.5, cy + 3, z), "valve"),
+            box(f"{name}Spoke", (cx - 0.5, cy - 3, z - 0.8), (cx + 0.5, cy + 3, z - 0.2), "valve"),
+            box(f"{name}SpokeH", (cx - 3, cy - 0.5, z - 0.8), (cx + 3, cy + 0.5, z - 0.2), "valve")]
+
+
+def pipe_valve():
+    """A gate valve in the steel wall pipe (WALL_PIPE_RUST): bolted flanges either side of a fat body, a bonnet out of
+    its front and the hand wheel on the spindle, facing the tunnel at about head height."""
+    yc, zc, r = WALL_PIPE_RUST
+    out = []
+    for i, (x1, x2) in enumerate(((4.75, 5.5), (10.5, 11.25))):
+        out += round_pipe(f"VFlange{i}", yc, zc, r + 0.75, "flange", x1, x2, shaded=False, faces=("east", "west"))
+    out += round_pipe("VBody", yc, zc, r + 0.5, "flange", 5.5, 10.5, shaded=False)
+    front = zc - r - 0.5  # the body's front
+    wheel = front - 1.25  # the wheel's back
+    out += [box("Bonnet", (6.75, yc - 1.25, front - 0.75), (9.25, yc + 1.25, front + 0.5), "flange", faces=("north", "east", "west", "up", "down")),
+            # (on into the spokes, so its end never shows between them and the bonnet)
+            box("Spindle", (7.5, yc - 0.5, wheel - 0.5), (8.5, yc + 0.5, front - 0.75), "metal", faces=("north", "east", "west", "up", "down"))]
+    return out + valve_wheel("Wheel", 8, yc, wheel)
+
+
+def riser_valve():
+    """The riser (as tunnelwall-riser's) with a valve in it at its foot: flanges, a body, a bonnet and the hand wheel,
+    a little below knee height."""
+    out = [box("Riser", (6, 0, -4.05), (10, 16, 0), "rust", faces=("north", "east", "west")),
+           box("FlangeLow", (5.25, 3.75, -4.8), (10.75, 4.5, 0), "flange", faces=("north", "east", "west", "up", "down")),
+           box("FlangeHigh", (5.25, 10.5, -4.8), (10.75, 11.25, 0), "flange", faces=("north", "east", "west", "up", "down")),
+           box("Body", (5.5, 4.5, -4.6), (10.5, 10.5, 0), "flange", faces=("north", "east", "west")),
+           box("Bonnet", (6.75, 6.25, -5.35), (9.25, 8.75, -4.6), "flange", faces=("north", "east", "west", "up", "down")),
+           box("Spindle", (7.5, 7.0, -6.1), (8.5, 8.0, -5.35), "metal", faces=("north", "east", "west", "up", "down"))]
+    return out + valve_wheel("Wheel", 8, 7.5, -5.6)
+
+
+def tunnel_fittings(wall):
+    save("tunnelfitting-machinerytop", wall, [CUBE("wall")] + sides_turned(machinery_top()))
+    save("tunnelfitting-pipesvalve", wall, [CUBE("wall")] + all_sides(WALL_PIPES + pipe_valve()))
+    save("tunnelfitting-riservalve", wall, [CUBE("wall")] + all_sides(riser_valve()))
 
 
 # ---------------- Level 1 fixtures and props ----------------
