@@ -11,6 +11,7 @@ import random
 
 import detail_textures
 import fire_fx
+import l1props as L1
 import modelkit as K
 from gen_shapes import louvre, octagon, office_chair, round_pipe, round_riser
 from detail_kit import (ASSETS, CEILING_DROPS, CLOTH, DEAD_LIGHT_DROPS, GLASS, LANG, MANIFEST, METAL, ROTATE, SIDES,
@@ -410,6 +411,19 @@ def cage_gate(half):
 
 def doors():
     for code, english, tex in (("metaldoor", "Steel Door", "metaldoor"), ("officedoor", "Office Door", "officedoor")):
+        if code == "metaldoor":
+            # (Level 1 props) Drawn from a shape (the leaf and its hardware on all four sides), as Level 2's tunnel doors;
+            # same code, groups and drawn size. No `textures` here: that would override every key of the shape.
+            shapes = {part: shape(f"metaldoor-{part}", L1.steel_door(part)) for part in ("lower", "upper")}
+            block(code, {
+                "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+                "creativeinventory": {"general": ["*"], "construction": ["*"]},
+                "blockmaterial": "Metal", "drawtype": "json",
+                "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
+                "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL,
+            }, f"{english}, locked")
+            name(f"{code}-*", english)
+            continue
         block(code, {
             "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
             "creativeinventory": {"general": ["*"], "construction": ["*"]},
@@ -597,26 +611,18 @@ def level1():
              bx("Bracket", (7, 2, -3.5), (9, 14, 0), "metal", faces=("north", "east", "west", "up", "down"))]
     riser = [bx("Riser", (6, 0, -4), (10, 16, 0), "redpipe", faces=("north", "east", "west"))]
     decors = [
-        Decor("powerbox", "Power Box", {
-            2: plate("Box", (3, 2, -3), (11, 12, 0), "powerbox", "steeldark") +
-               [bx("Conduit", (6.25, 12, -1.75), (7.75, 16, -0.25), "metal"), bx("Small", (12, 5, -2), (15, 9, 0), "steeldark")],
-            3: [bx("Conduit", (6.25, 0, -1.75), (7.75, 16, -0.25), "metal")]}),
-        Decor("breaker", "Breaker Panel", {2: plate("Panel", (2, 0, -2), (14, 15, 0), "breaker", "steeldark")}),
+        Decor("powerbox", "Power Box", {2: L1.power_box(), 3: L1.power_riser3(), 4: L1.power_riser4()}),
+        Decor("breaker", "Breaker Panel", {2: L1.breaker_panel()}),
         Decor("outlet", "Wall Outlet", {1: plate("Outlet", (6, 4, -0.4), (10, 9, 0), "outlet", "white")}),
-        Decor("extinguisher", "Fire Extinguisher", {2: cyl("Body", 8, -2.5, 2, 0, 10, "extinguisher") + [
-            bx("Head", (7, 10, -3.5), (9, 12, -1.5), "rubber"), bx("Hose", (9.8, 4, -2.2), (10.6, 10.5, -1.4), "rubber"),
-            bx("Bracket", (6.5, 3, -0.6), (9.5, 4, 0), "metaldark")] + plate("Sign", (5.5, 12.5, -0.2), (10.5, 16, 0), "extsign", "redmetal")}),
-        Decor("alarm", "Fire Alarm", {2: plate("Pull", (6, 4, -1.5), (10, 9, 0), "firealarm", "redmetal")}),
-        Decor("hosecab", "Fire Hose Cabinet", {2: plate("Cabinet", (2, 0, -3), (14, 14, 0), "hosecab", "redmetal")}),
+        Decor("extinguisher", "Fire Extinguisher", {2: L1.extinguisher()}),
+        Decor("alarm", "Fire Alarm", {2: L1.fire_alarm()}),
+        Decor("hosecab", "Fire Hose Cabinet", {2: L1.hose_cabinet()}),
         Decor("levelsign", "Level Marking", {2: [bx("Paint", (1, 1, -0.1), (15, 15, 0), "levelsign", faces=("north",), full=True)]}),
         Decor("stairsign", "Stairs Sign", {2: plate("Sign", (3, 5, -0.4), (13, 12, 0), "stairsign", "steel")}),
         Decor("note", "Note", {2: [bx("Paper", (6, 4, -0.15), (11, 10, 0), "note", faces=("north",), full=True)]}),
         Decor("graffiti", "Graffiti", {2: [bx("Paint", (0, 1, -0.1), (16, 15, 0), "graffiti", faces=("north",), full=True)]}),
         Decor("pipes", "Wall Pipes", {3: pipes}),
-        Decor("standpipe", "Fire Standpipe", {
-            1: riser + [bx("Outlet", (5.5, 6, -6), (10.5, 10, -4), "brass"), bx("Cap", (6.5, 7, -7), (9.5, 9, -6), "brass"),
-                        bx("Wheel", (4, 11.5, -5.5), (12, 12.5, -4.5), "valve")],
-            2: riser + [bx("Clamp", (5.5, 7, -4.5), (10.5, 8.5, 0), "metal")], 3: riser, 4: riser}),
+        Decor("standpipe", "Fire Standpipe", {rel: L1.standpipe(rel) for rel in (1, 2, 3, 4)}),
     ]
     paintings = []
     for i in range(4):
@@ -645,20 +651,9 @@ def level1():
     prop("cardboardboxes", "Cardboard Boxes", carton("A", (1, 0, 1), (9, 7, 9)) + carton("B", (9.5, 0, 2), (15, 5, 8.5)) +
          carton("C", (2, 0, 9.5), (10, 6, 15)) + carton("D", (2, 7, 2), (8, 12, 8)) + carton("E", (10.5, 0, 10), (15, 9, 14.5)) +
          carton("F", (11, 9, 10.5), (14.5, 13, 14)), box=(0.06, 0, 0.06, 0.94, 0.8, 0.94), oriented=False, sounds=CLOTH)
-    prop("workbench", "Workbench", [
-        bx("Top", (0, 13, 2), (16, 15, 14), "benchtop"),
-        bx("LegFL", (0.5, 0, 2.5), (2, 13, 4), "wood"), bx("LegFR", (14, 0, 2.5), (15.5, 13, 4), "wood"),
-        bx("LegBL", (0.5, 0, 12), (2, 13, 13.5), "wood"), bx("LegBR", (14, 0, 12), (15.5, 13, 13.5), "wood"),
-        bx("Shelf", (1, 3, 3), (15, 4, 13), "plywood"),
-        bx("Pegboard", (0, 15, 13.5), (16, 31, 15), "pegboard", faces=("north",), full=True),
-        bx("PegboardSides", (0, 15, 13.5), (16, 31, 15), "wood", faces=("east", "west", "up", "south")),
-        bx("Vise", (12.5, 15, 2.5), (15, 18, 6), "metaldark"), bx("Screw", (13.4, 16, 1), (14.1, 16.7, 2.5), "steel"),
-        bx("Handle", (5, 15, 5), (10, 15.8, 6), "wood"), bx("HammerHead", (9.5, 15, 4.5), (11, 16.4, 6.5), "metaldark"),
-        bx("Toolbox", (4, 4, 5), (10, 7, 10), "toolboxred")], box=(0, 0, 0.125, 1, 0.95, 0.94))
-    prop("toolbox", "Toolbox", [
-        bx("Box", (3, 0, 5), (13, 6, 11), "toolboxred"), bx("Lid", (3, 6, 5), (13, 6.5, 11), "redmetal"),
-        bx("PostL", (6, 6.5, 7.7), (6.6, 8, 8.3), "metaldark"), bx("PostR", (9.4, 6.5, 7.7), (10, 8, 8.3), "metaldark"),
-        bx("Grip", (6, 7.6, 7.6), (10, 8.3, 8.4), "rubber")], box=(0.18, 0, 0.3, 0.82, 0.5, 0.7), material="Metal", sounds=METAL)
+    L1.write_drum()
+    prop("workbench", "Workbench", L1.workbench(), box=(0, 0, 0.125, 1, 0.95, 0.94))
+    prop("toolbox", "Toolbox", L1.toolbox(), box=(0.18, 0, 0.3, 0.82, 0.5, 0.7), material="Metal", sounds=METAL)
     prop("plywood", "Plywood Sheets", [
         bx("Sheet1", (1, 0, 8.5), (15, 30, 9.5), "plywood", rot=(12, 0, 0), origin=(8, 0, 9)),
         bx("Sheet2", (1.5, 0, 7), (14.5, 28, 8), "plywood", rot=(14, 0, 0), origin=(8, 0, 7.5)),
@@ -745,10 +740,7 @@ def level1():
         bx("T2", (5.2, 4, 5.2), (10.8, 6.5, 10.8), "conewhite"), bx("T3", (5.9, 6.5, 5.9), (10.1, 9, 10.1), "orange"),
         bx("T4", (6.6, 9, 6.6), (9.4, 11, 9.4), "conewhite"), bx("T5", (7.2, 11, 7.2), (8.8, 13, 8.8), "orange")],
          box=(0.15, 0, 0.15, 0.85, 0.8, 0.85), oriented=False, material="Cloth", sounds=CLOTH)
-    prop("wetfloorsign", "Wet Floor Sign", [
-        bx("PanelN", (3, 0, 6.6), (13, 15, 7.2), "wetfloor", faces=("north", "south"), full=True, rot=(12, 0, 0), origin=(8, 15, 6.9)),
-        bx("PanelS", (3, 0, 8.8), (13, 15, 9.4), "wetfloor", faces=("north", "south"), full=True, rot=(-12, 0, 0), origin=(8, 15, 9.1)),
-        bx("Cap", (3, 14.5, 6.6), (13, 15.5, 9.4), "orange")], box=(0.19, 0, 0.25, 0.81, 0.95, 0.75), material="Cloth", sounds=CLOTH)
+    prop("wetfloorsign", "Wet Floor Sign", L1.caution_sign(), box=(0.19, 0, 0.25, 0.81, 0.95, 0.75), material="Cloth", sounds=CLOTH)
     prop("pallet", "Pallet", [bx(f"Deck{i}", (0, 3, z), (16, 4, z + 3.5), "palletwood") for i, z in enumerate((0, 6.25, 12.5))] +
          [bx(f"Stringer{i}", (x, 0, 0), (x + 2, 3, 16), "palletwood") for i, x in enumerate((0.5, 7, 13.5))],
          box=(0, 0, 0, 1, 0.25, 1), oriented=False)
