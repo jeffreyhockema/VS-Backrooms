@@ -912,7 +912,7 @@ public class MenaceSystem : ModSystem
         {
             NeedsDark = code == Roster.Smiler,
             Aquatic = code == Roster.TheThing,
-            Ambush = code == Roster.Clump,
+            Ambush = code is Roster.Clump or Roster.GiantSpider,
         };
         // Put it down at the right distance (or the one asked for); failing that, anywhere 14 blocks off
         int distance = args.Parsers[4].IsMissing ? 14 : (int)args[4];

@@ -70,6 +70,9 @@ internal sealed class CaveColumn
     public int DepositKind { get; set; } = -1;
     public double DepositStrength { get; set; }
 
+    /// <summary>From layout version 9, how deep into a spider nest the column lies (1 at its heart, 0 outside one: WorldLayout.L8NestNear).</summary>
+    public double Nest { get; set; }
+
     public CaveColumn(ulong seed, int gx, int gz, int floorY, int yMin, int yMax, Func<double, double, ulong, double> noise2, ulong saltCave, ulong saltTube, ulong saltStrata, ulong saltOre, ulong saltPool,
         bool veins = false)
     {

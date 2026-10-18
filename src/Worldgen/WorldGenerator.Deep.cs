@@ -114,6 +114,8 @@ public sealed partial class WorldGenerator
                 column.DepositKind = deposit >> 8;
                 column.DepositStrength = (deposit & 255) / 255.0;
             }
+            // From layout version 9, the spider nests whose webs are strung through the caves
+            if (layout.Version >= 9) column.Nest = layout.L8NestNear(gx, gz);
             return column;
         });
         l6WallId = Id("l6block-wall");
@@ -702,6 +704,8 @@ public sealed partial class WorldGenerator
             // Tapering speleothems, glowworms, lichen, bracket fungi and cave-ins (WorldGenerator.Caves.cs); never
             // over the road, whose air the cave noise knows nothing of
             if (!open && CaveFeature(gx, y, gz, rel) is int feature and >= 0) return feature;
+            // From layout version 9, a spider nest's webs where nothing else grows (WorldGenerator.Nests.cs)
+            if (!open && layout.Version >= 9 && NestWeb(gx, y, gz) is int web and >= 0) return web;
             double spikeRoll = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltSpike + (ulong)(y & 255)));
             // (nothing over the road either, where it would lie on the road's air)
             return !open && spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
