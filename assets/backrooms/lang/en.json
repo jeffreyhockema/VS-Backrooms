@@ -2597,5 +2597,7 @@
 
 	"block-hub-vault-*": "Concrete Tunnel Vault",
 
-	"block-hub-asphalt-edge-*": "Asphalt with Edge Line"
+	"block-hub-asphalt-edge-*": "Asphalt with Edge Line",
+
+	"block-brokenvending-*": "Broken Vending Machine"
 }

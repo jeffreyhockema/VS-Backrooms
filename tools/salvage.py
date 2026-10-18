@@ -75,6 +75,9 @@ SALVAGE = {
                 ("metalbracket", 1, 0.5), ("scrapwire", 0.5, 0.5)),
     # Level 6.1's vending rooms: the dead machines of the heap, a few snacks still stuck in their spirals
     "vendingpile": d(("metalbracket", 2, 1), ("glassshard", 1, 0.5), ("scrapwire", 1, 0.5), ("chips", 0.3, 0.3), ("soda", 0.25, 0.25)),
+    # The broken snack machine in a vending room's doorway: what it still held (and a coin box nobody emptied)
+    "brokenvending": d(("chips", 2, 1), ("candybar", 1.5, 1), ("crackers", 1.5, 1), ("soda", 1.5, 1), ("cashewwater", 0.5, 0.5),
+                       ("almondwater", 0.4, 0.4), ("metalbracket", 2, 1), ("glassshard", 1.5, 1), ("scrapwire", 1, 0.5)),
     "trashcan": d((PAPER, 0.5, 0.5), ("rottenwood", 0.4, 0.4), ("glassshard", 0.3, 0.3), ("game:gear-rusty", 0.05, 0)),
     # Copper cable on wooden drums, motor windings, old pipe: copper (and lead) for the crucible
     "cablespool": d(("game:metalbit-copper", 4, 2), (PLANK, 1, 0.5)),

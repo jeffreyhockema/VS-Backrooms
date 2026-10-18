@@ -413,7 +413,7 @@ public sealed partial class WorldGenerator
                 };
         }
         // In a vending machine room, another machine lying across the top of this one (layout version 5)
-        if (rel == 2 && t.Detail == WorldLayout.SnackPiledOn && t.Variant is Props.SnackVending or Props.VendingPile)
+        if (rel == 2 && t.Detail == WorldLayout.SnackPiledOn && t.Variant is Props.SnackVending or Props.VendingPile or Props.BrokenVending)
             return propIds[Props.VendingPile, 2, Facing(t.Pier)];
         return rel == 1 ? AnyProp(t, rel) : 0;
     }

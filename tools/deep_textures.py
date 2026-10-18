@@ -901,6 +901,65 @@ def machine_textures():
     M.grime(img, 0.25, 6375, color=(50, 40, 32), cells=(4, 2), cover=0.5)
     b9_save(img, "vendpilepanel")
     b9_save(M.noise_hv((14, 16, 16), 1, 6376, mottle=2), "vendpilelcd")
+    broken_vending_textures()
+
+
+def _dent(img, cx, cy, r, depth=0.16):
+    """A hollow knocked into sheet metal: lit on its far rim, shaded on the near one, hardly changed at its middle."""
+    p = img.load()
+    w, h = img.size
+    for y in range(int(cy - r - 1), int(cy + r + 2)):
+        for x in range(int(cx - r - 1), int(cx + r + 2)):
+            d = math.hypot(x - cx, y - cy) / r
+            if d > 1.0:
+                continue
+            slope = ((x - cx) + (y - cy)) / (2.0 * r)  # toward the lower right, away from the light
+            M.touch(img, x % w, y % h, depth * slope * math.sin(d * math.pi) * 1.6)
+
+
+def broken_vending_textures():
+    """(snackvend) The broken snack machine at the doorway of a vending room: the snack machine's blue, dented, rusted
+    and scraped, with its sign unlit and faded, its display dead and its glass smashed out at one corner."""
+    img = M.painted_metal(6380, base=(40, 98, 164), grain=2, mottle=5, panel=False, chips=3)
+    M.rust(img, 0.2, 6381, pits=True, edges=True)
+    M.grime(img, 0.28, 6382, color=(56, 46, 36), cells=(8, 4, 2), cover=0.5)
+    for cx, cy, r in ((8, 9, 6), (22, 22, 7), (24, 6, 4), (6, 26, 4)):
+        _dent(img, cx, cy, r)
+    M.scratches(img, 9, 6383, length=(3, 9), light=0.35)
+    b9_save(img, "brokenvbody")
+    # The sign, dark and faded, and a crack through its panel
+    img = machine_header(6384, (34, 80, 132), (122, 124, 118), (84, 60, 56), "SNACKS", faded=True)
+    d = ImageDraw.Draw(img)
+    d.line([(9, 1), (11, 4), (10, 7)], fill=(30, 32, 34, 255))
+    d.line([(21, 2), (19, 5), (22, 8)], fill=(30, 32, 34, 255))
+    M.grime(img, 0.2, 6385, color=(56, 46, 36), cells=(4, 2), cover=0.5)
+    b9_save(img, "brokenvhead")
+    # The display, dead: black glass, a crack, two segments that still show faintly
+    img = M.noise_hv((10, 12, 12), 1, 6386, mottle=2)
+    p = img.load()
+    for x in range(S):
+        y = 12 + (x * 5) // 16 - 3
+        if 0 <= y < S:
+            p[x, y] = M.rgba((46, 52, 52))
+    for x in (6, 7, 8, 9):
+        p[x, 5] = M.rgba((40, 78, 52))
+    p[18, 6] = M.rgba((36, 66, 46))
+    b9_save(img, "brokenvlcd")
+    # The glass, smashed: a star of cracks from the blow and a hole where the top corner was. What is left of the
+    # pane is a clear frame of splinters round the edges (the opaque pass cuts out what is clear)
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for pts in (((9, 22), (16, 17), (24, 13)), ((9, 22), (6, 12), (3, 4)), ((9, 22), (14, 29), (13, 31)),
+                ((9, 22), (2, 24), (0, 25)), ((9, 22), (20, 25), (31, 22)), ((16, 17), (18, 8), (17, 0))):
+        d.line(pts, fill=(226, 232, 236, 215))
+    for poly in (((0, 0), (7, 0), (4, 5), (0, 8)), ((0, 26), (6, 28), (4, 31), (0, 31)), ((24, 31), (31, 28), (31, 31)),
+                 ((27, 14), (31, 12), (31, 20), (28, 18))):
+        d.polygon(poly, fill=(204, 222, 232, 150))  # splinters still in the frame
+    for poly in (((18, 0), (31, 0), (31, 9), (26, 6), (22, 3)),):
+        d.polygon(poly, fill=(0, 0, 0, 0))  # the hole
+    for pt in ((18, 0), (22, 3), (26, 6), (31, 9)):
+        d.point(pt, fill=(236, 240, 244, 255))
+    b9_save(img, "brokenvglass")
 
 
 def level61_b9():

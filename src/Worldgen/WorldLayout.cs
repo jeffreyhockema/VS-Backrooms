@@ -339,7 +339,9 @@ public sealed partial class WorldLayout
     /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
     /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
     /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
-    /// (in 1-8 as the Tower, its gallery floors and stair across the road).</item>
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road). The machine in the doorway of a Level 6.1
+    /// vending room is a broken one (Props.BrokenVending, brokenvending; in 1-8 the working snack machine, which cannot
+    /// be broken), which breaks up for the snacks it held and lets you into the heap behind it.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

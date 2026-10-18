@@ -1112,6 +1112,8 @@ public static class Props
     /// machine puts another lying across its top.
     /// </summary>
     public const byte VendingPile = 129;
+    /// <summary>Layout version 9: the broken snack machine in the doorway of a vending room (a blocker you can break).</summary>
+    public const byte BrokenVending = 136;
     // Level 7
     public const byte BonePile = 130;
     public const byte ScrapMetal = 131;

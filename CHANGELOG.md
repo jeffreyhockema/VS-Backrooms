@@ -6,6 +6,7 @@ Every texture and model the mod adds was reviewed in the game against the vanill
 
 In numbers: 1,219 block textures (611 of them new versions, so a surface no longer repeats block by block), 59 creature and character textures, 62 item icons and 608 block models were redrawn or rebuilt across all 22 levels. At the start 180 asset families were graded against vanilla and none matched it; at the end 196 families were compared side by side, before and after, and all but one were kept (13 after a tweak), the exception being Level 2's concrete tunnel walls, which went back to their old look.
 
+- Level 6.1: the vending machine in the doorway of a vending-machine room is now a broken one (cracked glass, dented panel, a few packets fallen inside, dead display) that you can break up for the snacks it held, so you can get in.
 - Surfaces: wallpapers, carpets, concrete, brick, tile, plaster, asphalt, turf and marble are built from a shared material kit with real structure and shading, tile without visible block edges, and no longer repeat the same mark on every block.
 - Hardware is geometry, not paint: gauges, dials, grilles, door handles, kick plates, hinges, breaker panels, cable trays, lamps, chandeliers, sconces, elevator doors and call buttons.
 - Furniture is modelled: desks, office chairs, filing cabinets, diner booths, store shelves stocked with packs, food-court chairs and tables, arcade cabinets, vending machines, the hospital bed, the Fort Surrender furniture.

@@ -272,6 +272,46 @@ def level61():
          box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL, light=[8, 2, 7],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
                 "attributes": {"dispenses": ["backrooms:chips", "backrooms:candybar", "backrooms:crackers", "backrooms:soda"], "restock": True}})
+    # (snackvend) The broken snack machine that stands in the doorway of a vending room: the same cabinet, dented and
+    # rusted, its sign dark and its display dead, the glass smashed out at the top corner and the pane hanging ajar,
+    # most of the packets gone from their coils, a few fallen to the bottom, the delivery flap bent down. Nothing in it
+    # glows. It breaks with a little effort (salvage.py gives it what such a machine held).
+    broken_rows = []
+    for r, y in enumerate((8, 12.3, 16.6, 20.9)):
+        broken_rows.append(bx(f"Shelf{r}", (5, y, 3), (13.5, y + 0.5, 8), "snackchrome", faces=("north", "up")))
+        for c in range(3):
+            x = 5.3 + c * 2.75
+            band = (r + c) % 4 * 4
+            broken_rows.append(bx(f"Coil{r}{c}", (x - 0.05, y + 0.5, 3.6), (x + 2.45, y + 3.3, 3.75), "vendspiral", faces=("north",),
+                                  uv=[0, 0, 2.5, 2.8]))
+            if (r, c) in ((0, 0), (1, 0), (1, 2), (2, 1), (2, 2)):  # the packets that are left
+                broken_rows.append(bx(f"Packets{r}{c}", (x, y + 0.5, 4), (x + 2.4, y + 3.3, 7.8), "snackvendrows",
+                                      faces=("north", "up"), uv=[band, 0, band + 2.4, 2.8]))
+    fallen = [bx("Fallen0", (5.6, 7, 4.2), (8.2, 8.1, 7), "snackvendrows", faces=("north", "up", "east", "west"), uv=[0, 0, 2.4, 2.8], rot=(0, 0, 8)),
+              bx("Fallen1", (8.6, 7, 3.6), (11.2, 8.1, 6.6), "snackvendrows", faces=("north", "up", "east", "west"), uv=[8, 0, 10.4, 2.8], rot=(0, 18, -6)),
+              bx("Fallen2", (10.6, 7, 5), (13.2, 8.1, 7.6), "snackvendrows", faces=("north", "up", "east", "west"), uv=[12, 0, 14.4, 2.8], rot=(0, -12, 4)),
+              bx("Fallen3", (7.2, 8.1, 4.6), (9.8, 9.2, 7.2), "snackvendrows", faces=("north", "up", "east", "west"), uv=[4, 0, 6.4, 2.8], rot=(0, 25, 3))]
+    broken_panel = [bx("Lcd", (1.75, 22, 0.75), (4.25, 23.5, 1), "brokenvlcd", faces=FRONT, uv=[0, 0, 7, 3.5]),
+                    bx("Coin", (2, 19, 0.6), (4, 21.25, 1), "coinplate", faces=FRONT, full=True),
+                    bx("Bill", (1.75, 12, 0.7), (4.25, 13.25, 1), "snackchrome", faces=FRONT),
+                    bx("BillSlot", (2.25, 12.5, 0.65), (3.75, 12.75, 0.7), "metaldark", faces=("north",)),
+                    bx("Return", (2.25, 8.5, 0.5), (3.75, 10.5, 1), "snackchrome", faces=FRONT),
+                    bx("ReturnCup", (2.5, 8.75, 0.45), (3.5, 9.75, 0.5), "metaldark", faces=("north",))]
+    broken_panel += vend_keypad("Keys", 1.75, 14.75, 1)
+    prop("brokenvending", "Broken Vending Machine", [
+        bx("Body", (1, 0, 8), (15, 29, 15), "brokenvbody", faces=("east", "west", "up", "south")),
+        bx("Inside", (5, 7, 8), (13.5, 25, 8.5), "snackvendinside", faces=("north",)),
+        bx("Header", (1, 25, 1.4), (15, 29, 8), "brokenvbody", faces=("east", "west", "up", "down")),
+        bx("HeaderFace", (1, 25, 1.4), (15, 29, 8), "brokenvhead", faces=("north",), uv=[0, 0, 16, 4.5]),
+        bx("Stile", (13.5, 7, 1.4), (15, 25, 8), "brokenvbody", faces=("north", "east", "west")),
+        bx("Panel", (1, 7, 1), (5, 25, 8), "brokenvbody", faces=("east", "west", "up", "down")),
+        bx("PanelFace", (1, 7, 1), (5, 25, 8), "snackvendpanel", faces=("north",), uv=[6, 0, 10, 16]),
+        bx("Base", (1, 0, 1.4), (15, 7, 8), "brokenvbody", faces=("north", "east", "west", "up")),
+        bx("Flap", (5.5, 2, 1.1), (13.5, 5.5, 1.4), "metaldark", faces=("north", "up", "east", "west"), rot=(35, 0, 0), origin=(9.5, 2, 1.25)),
+        bx("Glass", (5, 7, 2.2), (13.5, 25, 2.3), "brokenvglass", faces=("north",), full=True, rot=(0, 14, 0), origin=(13.5, 16, 2.25))]
+        + broken_rows + fallen + broken_panel,
+         box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL,
+         extra={"resistance": 4})
     # The drinks fridge: a white cabinet with a lit header and a kick-plate grille; a glass door in a dark frame with a
     # bar handle; behind it, lit cold white, four wire shelves of cans and bottles, five to a shelf. B9: the kick grille
     # is a louvre, the bottles have necks and caps
