@@ -1,4 +1,4 @@
-// Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside (runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry). The true door's lower half shows light under it and gives off a pale daylight
+// Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside (runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry). The true and fake doors' lower halves stop short of the floor; the true one shows a faint daylight in the gap and gives off a soft light, the fake one only dark
 {
 	"code": "run-exitdoor",
 	"variantgroups": [
@@ -333,7 +333,7 @@
 		"*-true-lower-*": [
 			8,
 			2,
-			14
+			8
 		]
 	},
 	"lightAbsorptionByType": {

@@ -451,8 +451,17 @@ def textures():
         for x in range(S):
             edge = min(x, S - 1 - x) / 6
             f = min(1.0, 0.72 + 0.28 * edge) * (1 - 0.06 * abs(y - 3.5) / 3.5)
-            px[x, y] = (clamp(255 * f), clamp(246 * f), clamp(222 * f), 255)
+            px[x, y] = (clamp(236 * f), clamp(220 * f), clamp(188 * f), 255)
     save(img, "exitdaylight")
+    # (0.514.0) The same gap under a fake exit: only the dark of the closet behind it, a little lighter at the middle
+    img = Image.new("RGBA", (S, 8))
+    px = img.load()
+    for y in range(8):
+        for x in range(S):
+            edge = min(x, S - 1 - x) / 6
+            f = min(1.0, 0.8 + 0.2 * edge)
+            px[x, y] = (clamp(30 * f), clamp(24 * f), clamp(22 * f), 255)
+    save(img, "exitgap")
     # The inside of the door you came in by: pale, with a huge red "!" painted across it, running
     big = Image.new("RGBA", (S, 2 * S))
     big.paste(door_leaf(0xD8D6CE, "markedhi", 2), (0, 0))
@@ -1082,14 +1091,16 @@ def exit_doors():
                     bx("Hinge", (-0.3, 4, 1), (0.6, 7, 3), "steelframe")]
             return els
         front = "markeddoor-" + part if st == "marked" else "exitdoor-" + part
-        if st == "true" and part == "lower":
-            # (0.514.0) The real exit has light under it: the leaf stops short of the floor and daylight shows in the gap,
-            # white in a red hall (the lore's way out leads somewhere lit and safe; a false exit's closet is dark). The
-            # block gives off that light too (lightHsvByType), so the last steps of the dead end are lit white
+        if st in ("true", "fake") and part == "lower":
+            # (0.514.0) Both exits' leaves stop short of the floor, so the doors match. Under the real exit a faint
+            # daylight shows in the gap (the lore's way out leads somewhere lit and safe) and the block gives off a soft
+            # light (lightHsvByType); under a fake exit the gap is only the dark of the closet behind it
+            lit = st == "true"
+            gap = "exitdaylight" if lit else "exitgap"
             els += [bx("Leaf", (0, 1.25, 1), (16, 16, 3), front, faces=("north",), uv=[0, 0, 16, 14.75]),
                     bx("LeafBack", (0, 1.25, 1), (16, 16, 3), "exitdoor-back", faces=("south", "east", "west", "up", "down")),
-                    bx("Daylight", (0.4, 0, 2.2), (15.6, 1.25, 2.4), "exitdaylight", glow=255, faces=("north",), uv=[0, 0, 16, 2]),
-                    bx("Sill", (0, 0, 0.6), (16, 0.15, 2.2), "exitdaylight", glow=200, faces=("up",), uv=[0, 0, 16, 2])]
+                    bx("Gap", (0.4, 0, 2.2), (15.6, 1.25, 2.4), gap, glow=110 if lit else 0, faces=("north",), uv=[0, 0, 16, 2]),
+                    bx("Sill", (0, 0, 0.6), (16, 0.15, 2.2), gap, glow=60 if lit else 0, faces=("up",), uv=[0, 0, 16, 2])]
             els += panic() + [bx("Kick", (1, 1.75, 0.5), (15, 4.5, 1), "panicbar", faces=("north", "up", "down", "east", "west"))]
             return els
         els += leaf(front, "exitdoor-back")
@@ -1104,9 +1115,9 @@ def exit_doors():
               "fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside "
               "(runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an "
               "escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry). The "
-              "true door's lower half shows light under it and gives off a pale daylight",
+              "true and fake doors' lower halves stop short of the floor; the true one shows a faint daylight in the gap and gives off a soft light, the fake one only dark",
               passable=("fake-open",), selection=sel,
-              light={"lightHsvByType": {"*-true-lower-*": [8, 2, 14]}, "lightAbsorptionByType": {"*-true-lower-*": 0, "*": 99}})
+              light={"lightHsvByType": {"*-true-lower-*": [8, 2, 8]}, "lightAbsorptionByType": {"*-true-lower-*": 0, "*": 99}})
 
 
 def chained_door():

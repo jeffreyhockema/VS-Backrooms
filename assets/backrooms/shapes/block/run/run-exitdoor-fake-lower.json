@@ -4,6 +4,7 @@
 	"textures": {
 		"exitdoor-back": "backrooms:block/run/exitdoor-back",
 		"exitdoor-lower": "backrooms:block/run/exitdoor-lower",
+		"exitgap": "backrooms:block/run/exitgap",
 		"panicbar": "backrooms:block/run/panicbar",
 		"steelframe": "backrooms:block/run/steelframe"
 	},
@@ -150,7 +151,7 @@
 			"name": "Leaf",
 			"from": [
 				0,
-				0,
+				1.25,
 				1
 			],
 			"to": [
@@ -165,7 +166,7 @@
 						0,
 						0,
 						16,
-						16
+						14.75
 					]
 				}
 			}
@@ -174,7 +175,7 @@
 			"name": "LeafBack",
 			"from": [
 				0,
-				0,
+				1.25,
 				1
 			],
 			"to": [
@@ -189,7 +190,7 @@
 						0,
 						0,
 						16,
-						16
+						14.75
 					]
 				},
 				"east": {
@@ -198,7 +199,7 @@
 						0,
 						0,
 						2,
-						16
+						14.75
 					]
 				},
 				"west": {
@@ -207,7 +208,7 @@
 						0,
 						0,
 						2,
-						16
+						14.75
 					]
 				},
 				"up": {
@@ -221,6 +222,54 @@
 				},
 				"down": {
 					"texture": "#exitdoor-back",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Gap",
+			"from": [
+				0.4,
+				0,
+				2.2
+			],
+			"to": [
+				15.6,
+				1.25,
+				2.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#exitgap",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				0.6
+			],
+			"to": [
+				16,
+				0.15,
+				2.2
+			],
+			"faces": {
+				"up": {
+					"texture": "#exitgap",
 					"uv": [
 						0,
 						0,
@@ -441,12 +490,12 @@
 			"name": "Kick",
 			"from": [
 				1,
-				0.5,
+				1.75,
 				0.5
 			],
 			"to": [
 				15,
-				3.5,
+				4.5,
 				1
 			],
 			"faces": {
@@ -456,10 +505,19 @@
 						0,
 						0,
 						14,
-						3.0
+						2.75
 					]
 				},
 				"up": {
+					"texture": "#panicbar",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
 					"texture": "#panicbar",
 					"uv": [
 						0,
@@ -474,7 +532,7 @@
 						0,
 						0,
 						0.5,
-						3.0
+						2.75
 					]
 				},
 				"west": {
@@ -483,7 +541,7 @@
 						0,
 						0,
 						0.5,
-						3.0
+						2.75
 					]
 				}
 			}
