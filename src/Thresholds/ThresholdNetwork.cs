@@ -423,7 +423,14 @@ public sealed partial class ThresholdNetwork
             for (int attempt = 0; attempt < StairwellSearches; attempt++, k = Hashing.Mix(k))
             {
                 if (layout.FindArrival(level, k, first) is not { } a) continue;
-                if (layout.FeatureBeside(a.X, a.Z, first) != null) return (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z));
+                if (layout.FeatureBeside(a.X, a.Z, first) != null)
+                {
+                    // (From layout version 9 a public stairwell's flights are two wide, with a landing tile before each lane's
+                    // first step: the one taken is always the landing of the lane that stands for the flight, where whoever
+                    // comes back down it is put too, FlightLanding)
+                    if (layout.Version >= 9 && layout.FeatureBeside(a.X, a.Z, flight) is { } whole && FlightLandingAt(whole) is { } landing) a = landing;
+                    return (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z));
+                }
                 fallback ??= a;
             }
             return fallback is { } f ? (f.X, f.Z, layout.ArrivalHeight(f.X, f.Z)) : null;

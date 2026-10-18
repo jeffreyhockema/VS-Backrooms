@@ -399,6 +399,7 @@ public sealed partial class WorldLayout
             }
         }
         if (Version >= 4 && core is { } stairs) BuildL4StairwellV4(b, mx, mz, stairs.RoomX, stairs.RoomZ + 1);
+        if (Version >= 9) WallBelowL4Stairwell(b, mx, mz);
     }
 
     /// <summary>
@@ -419,28 +420,83 @@ public sealed partial class WorldLayout
     /// The corridor between the stairwell and the restroom is walled up from crossing to crossing. The shaft over the
     /// flight up is walled off from the void over the drop ceiling: the column of its first step is solid above the
     /// ceiling, and every tile round the rest of it is wall.
+    /// From layout version 9 the flights and the landing are two wide (iz 3-4 up, 5 the wall between, 6-7 down), so the
+    /// stairwell takes in its room's south wall too, and its own south wall is the near side of the corridor beyond
+    /// (iz 0 of the next row of rooms), which is left a block wide there; where the stairwell is in the last row of rooms
+    /// of its cell, the south wall is the first row of the cell beyond, which that cell builds
+    /// (<see cref="WallBelowL4Stairwell"/>), where that is an office block too; otherwise it keeps one-wide flights.
     /// </summary>
     private void BuildL4StairwellV4(Builder b, int mx, int mz, int roomX, int roomZ)
     {
         int x0 = mx * MacroSize, z0 = mz * MacroSize;
         int farX = (roomX + 1) * L4OfficeGrid + 2 - x0, northZ = roomZ * L4OfficeGrid + 2 - z0;
-        ref Tile At(int a, int c) => ref b.At(farX - a, northZ + c);
+        int width = PublicStairWidth;
+        if (width > 1 && !L4StairwellFits(mx, mz, northZ)) width = 1;
+        // (Whatever lies past the cell's south edge is the next cell's to build)
+        var beyondCell = new Tile[1];
+        // (The landing's last row across: the room's last, iz 6, or from version 9 its south wall's, iz 7; the wall
+        // beyond it, at both ends of the corridor taken in and, from version 9, all along the landing)
+        int last = width == 1 ? 4 : StairwellSpan(width) - 2, beyond = last + 1;
+        ref Tile At(int a, int c)
+        {
+            if (northZ + c >= MacroSize) return ref beyondCell[0];
+            return ref b.At(farX - a, northZ + c);
+        }
         // The room and the corridor beside it, cleared (the old stairs along the back wall too)
         for (int a = 1; a <= 7; a++)
-            for (int c = 1; c <= 4; c++)
+            for (int c = 1; c <= last; c++)
             {
                 ref Tile t = ref At(a, c);
                 t = new Tile { Kind = TileKind.Floor, Floor = FloorKind.OfficeCarpet, Level = t.Level };
             }
-        // The corridor walled up at both ends
+        // The corridor walled up at both ends (and from version 9 the landing's south wall, across the corridor beyond)
         for (int a = 1; a <= 2; a++)
         {
             SetWall(ref At(a, 0), WallPattern.Drywall, BaseStyle.Plain);
-            SetWall(ref At(a, 5), WallPattern.Drywall, BaseStyle.Plain);
+            SetWall(ref At(a, beyond), WallPattern.Drywall, BaseStyle.Plain);
         }
-        StampStairwellV4((a, c) => ref At(a, c), ArchPier.East, 3, WallPattern.Drywall, false, -1);
+        for (int a = 3; a <= 8 && width > 1; a++)
+        {
+            ref Tile south = ref At(a, beyond);
+            south.Variant = 0;
+            south.Stack = 0;
+            SetWall(ref south, WallPattern.Drywall, BaseStyle.Plain);
+        }
+        StampStairwellV4((a, c) => ref At(a, c), ArchPier.East, 3, WallPattern.Drywall, false, -1, width);
         // A light over the landing's far corner, as likely as any other room's to be dead
-        At(7, 4).Ceiling = Level4LightState(x0 + farX - 7, z0 + northZ + 4, 0.5);
+        At(7, last).Ceiling = Level4LightState(x0 + farX - 7, z0 + northZ + last, 0.5);
+    }
+
+    /// <summary>
+    /// From layout version 9: whether a building core's stairwell, its north wall at <paramref name="northZ"/> in its
+    /// cell, has room for flights two wide: its south wall in the cell, or in the first row of the office block south
+    /// of it (whose corridors run straight on across the edge, so that row is open corridor until it is walled).
+    /// </summary>
+    private bool L4StairwellFits(int mx, int mz, int northZ) =>
+        northZ + StairwellSpan(2) <= MacroSize
+        || northZ + StairwellSpan(2) == MacroSize + 1 && LevelAt(mx, mz + 1) == 4 && IsOfficeBlock(mx, mz + 1);
+
+    /// <summary>
+    /// From layout version 9: where the building core of the cell north of this one has its stairwell in its last row of
+    /// rooms, with flights two wide, the stairwell's south wall is this cell's first row, under its landing and flights
+    /// (see <see cref="BuildL4StairwellV4"/>).
+    /// </summary>
+    private void WallBelowL4Stairwell(Builder b, int mx, int mz)
+    {
+        if (L4Core(mx, mz - 1) is not { } core) return;
+        int northZ = (core.RoomZ + 1) * L4OfficeGrid + 2 - (mz - 1) * MacroSize;
+        if (northZ + StairwellSpan(2) <= MacroSize || !L4StairwellFits(mx, mz - 1, northZ)) return;
+        int farX = (core.RoomX + 1) * L4OfficeGrid + 2 - mx * MacroSize;
+        for (int a = 0; a <= 8; a++)
+        {
+            int x = farX - a;
+            if (x < 0 || x >= MacroSize) continue;
+            ref Tile t = ref b.At(x, 0);
+            t.Variant = 0;
+            t.Stack = 0;
+            t.Ceiling = CeilingKind.Tile;
+            SetWall(ref t, WallPattern.Drywall, BaseStyle.Plain);
+        }
     }
 
     /// <summary>One tile of an office-block room (interior 3-6 each way; the door is on the north or west wall).</summary>

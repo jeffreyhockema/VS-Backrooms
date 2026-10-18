@@ -211,9 +211,9 @@ public sealed partial class WorldLayout
     /// three in ten hill houses and a third of the town houses were white). Its towns' siren poles stand: they are
     /// placed after the house lots (in 1-7 the lots were laid over them, so none stood; NearestSirenPole gave the same
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
-    /// <item>9: (in progress, 2026-10) levels no longer bleed into each other at their edges, only at the doorway
-    /// between them; Level 1's stairs are two wide, its signs stand where they make sense and its parking bays are
-    /// never cut off by a wall. Each change's own line is added here as it lands.
+    /// <item>9 (0.514.0): levels no longer bleed into each other at their edges, only at the doorway between them;
+    /// public stairs are two wide; Level 1's signs stand where they make sense and its parking bays are never cut off by
+    /// a wall; Level 1's and Level 2's conduits and feed pipes end somewhere and Level 2's valves sit on pipes. In detail:
     /// Level 1's power boxes: the conduit that leaves the top no longer stops at a plain wall block under the
     /// ceiling; a riser block (<c>powerbox4</c>) above it carries it up and ends it in a junction box on the slab
     /// (drawn by the generator when Version >= 9; in older worlds the run still ends at the block above).
@@ -233,7 +233,24 @@ public sealed partial class WorldLayout
     /// (AddCeilingPipes), Level 3's runs beside Level 2 are cables like the rest, Level 4 no longer turns hotel red beside
     /// Level 5 (WarmTowardsHotel), and the Snackrooms' own edges stay Level 6's wall outside the mall's. Only the way through
     /// a gate keeps a touch of the next level: its doorway or gap and the tile before it are worn to concrete in Level 0
-    /// toward Level 1 and are hotel carpet in Level 4 toward Level 5 (WearThresholds).</item>
+    /// toward Level 1 and are hotel carpet in Level 4 toward Level 5 (WearThresholds).
+    /// Public stairs are two blocks wide (PublicStairWidth; in 1-8 one): Level 1's stair cores (seven rows deep, a north
+    /// core's north wall the district's fire wall and its doors a row out into the aisle, a south core's north wall at the
+    /// back of the stalls behind it; StairCore.Top, Rows) and its halls' stairwells, Level 4's office stairwells (whose
+    /// landing takes in the room's south wall and leaves the corridor beyond a block wide; one in the last row of rooms of
+    /// its cell walls the first row of the office block south of it, WallBelowL4Stairwell, or keeps one-wide flights where
+    /// that is no office block), Level 5's staff stairs and Level 11's lobby stairs (an apartment lobby's basement door moves
+    /// along clear of them). Each flight is still one threshold (FeatureOrigin), and a trip out of one comes out on the
+    /// landing of the lane that stands for it (ThresholdNetwork.ToStairwell). House stairs (Levels 9, 94) and hidden ones
+    /// (Level 6's descents) stay one wide. In Level 1's car park nothing stands in the roadway: a puddle's wet floor sign or
+    /// cone stands beside it off the aisles and the stalls' mouths (CautionBesidePuddle; in 4-8 on the puddle, wherever it
+    /// was, now and then a traffic sign too), and the traffic signs stand where they mean something (PlaceCarParkSigns): an
+    /// EXIT sign just past each stair core's doors pointing at them, STOP signs on the driver's right where an aisle meets a
+    /// cross aisle (on the two-block end stall, then kept clear, or the last divider), and the narrow aisle along each
+    /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
+    /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
+    /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
