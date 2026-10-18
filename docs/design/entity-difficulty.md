@@ -87,6 +87,7 @@ Speeds are shares of a sprint; "hits" is how many land on an unarmoured player w
 | Wretch (bite; packs in Level 8) | 1 | 96 % | 4.0 | 4 | 19 |
 | | 8 | 112 % | 6.3 (tier 2) | 3 | 33 |
 | Bacteria (hunts only a runner near the Lobby's exits, briefly: see §4) | 0 | 92 % | 6.0 | 3 | 20 |
+| Neighborhood Watch (Level 9; chases only what it sees, never indoors) | 9 | 110 % | 12.4 (tier 3) | 2 | 64 |
 
 The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since 2026-10-10) and The Thing are events and keep their own numbers.
 
@@ -122,6 +123,7 @@ The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since
 | Deathmoth female | 0.05 | 0.2 | 0.15 |
 | Wretch (plus one or two belongings) | 0.3 | 0.8 | 0.7 |
 | Bacteria | 1.0 | 2.0 | 2.0 |
+| Neighborhood Watch (Level 9: 3.05) | 1.0 | 2.5 | |
 | Partygoer, intern (Fun, danger .9: 3.25) | 1.0 | 2.5 | 2.3 |
 
   Facelings carry no bounty, and neither does any of Level !'s horde.

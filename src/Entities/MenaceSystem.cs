@@ -826,6 +826,8 @@ public class MenaceSystem : ModSystem
         var spot = new Vec3d(x + 0.5, y, z + 0.5);
         if (entry.SubwayOnly && y >= geometry.CityFloorY - 1) return null;
         if (entry.NeedsDark && Senses.LightAt(sapi.World, spot.AddCopy(0, 1, 0), target) >= Senses.LitLevel) return null;
+        // (Under the open sky, with room for something three blocks tall)
+        if (entry.Outdoors && (sapi.World.BlockAccessor.GetRainMapHeightAt(x, z) > y || Senses.FindFloor(sapi.World, x, y, z, 3, 0) != y)) return null;
         if (!ambient && Wards.Warded(sapi.World, spot)) return null;
         return spot;
     }
@@ -913,6 +915,7 @@ public class MenaceSystem : ModSystem
             NeedsDark = code == Roster.Smiler,
             Aquatic = code == Roster.TheThing,
             Ambush = code == Roster.Clump,
+            Outdoors = code == Roster.NeighborhoodWatch,
         };
         // Put it down at the right distance (or the one asked for); failing that, anywhere 14 blocks off
         int distance = args.Parsers[4].IsMissing ? 14 : (int)args[4];

@@ -426,7 +426,7 @@ The levels nest around the place you woke: Level 0 at the centre, Level 1 around
 
 **Level 8, Cave Systems.** Cold (9 °C) real rock, ore, coal and clay, in the dark, with packs of Wretches where the light fails. Stalactites and stalagmites, hanging lichen, bracket fungi on the walls (tinder, and some to eat), glowing mushrooms in some stretches (mostly blood-red; they give nothing but rot), boulders from cave-ins, crystals deep down, and rare colonies of glowworms. Ore runs through the rock in veins and pockets. Dress warmly. Keep to the lamps of the 9th Road and its camps: the road restores you and the dark off it drains you. The road winds through the rock, forking and joining again; follow its lamps and it runs on, and where it meets another level it runs through the wall. Almond Water seeps from the rock beside the road: use a seep to fill a bottle.
 
-**Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds and Skin-Stealers, and once in a long while the Mangled.
+**Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds and Skin-Stealers, the Neighborhood Watch walking the streets (it sees a light from far off), and once in a long while the Mangled.
 
 **Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay, bee skeps, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Hounds at its edge, Clumps by the barns.
 
@@ -684,6 +684,14 @@ There is only one. It comes with its own weather: over most of a minute the air 
 - It cannot be killed. Striking it only keeps it longer.
 - Its tendrils take whoever they reach up into the dark and let go. Get indoors: it needs a clear line to you, and walls stop it.
 - It leaves after three minutes or so, and the fog lifts.
+
+**The Neighborhood Watch** (the Suburbs' streets, out from the middle of the level)
+A bloodshot eyeball the size of a man, carried three blocks up on six long legs, walking the streets and yards. It has no ears and no nose: it finds you by sight, and by touch close up.
+- In the dark it sees you only within a dozen blocks; carrying a torch or lantern, standing under a working street lamp, in a lit room or by a fire, it sees you from forty. Crouching shrinks both. Put the light away on the streets.
+- Its eye glows faintly: you see it before it sees you. When the eye turns toward you, it is making you out. Get out of its sight, and do not meet its eye: that makes it sure of you faster.
+- Once sure, it stares, and comes, faster than you run. It chases only what it sees: break its line of sight (round a house, behind a hedge, through a door) and it goes to where it last saw you and searches. It may walk off and wait a little way away, watching: give it time.
+- It is too tall for any door. Indoors you are safe from it, but it looks in through the windows and taps on the glass, and being watched wears on your stability: keep away from the windows until it goes.
+- It can be killed, and it is worth a good bounty, but it hits hard and knocks you flat.
 
 **Animations** (Level 94, by night)
 Puppets, clay and wooden figures and paper cut-outs that move a frame at a time, and hunt anything that does not look animated. Very strong, not clever: the clay ones are slower than a walk and smother, the wooden ones club and knock you about, the paper ones come in a crowd and are frail. The wooden and paper ones fear fire. They never come indoors (a porch is not indoors), and at dawn they are gone. Stand quite still for a few seconds and they take you for a doll. Whoever carries a shard of the King's crown is one of their own. Worst in the towns, on the roads, and near the glass mountain.

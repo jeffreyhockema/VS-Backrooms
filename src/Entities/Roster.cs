@@ -66,6 +66,9 @@ public sealed record RosterEntry(string Code, MenaceBand MinBand, Encounters Kin
 
     /// <summary>Put down in a frenzy: rats in the Screaming, crossing the way ahead at a run.</summary>
     public bool Frenzy { get; init; }
+
+    /// <summary>Only put down under the open sky (the Neighborhood Watch, too tall for any door).</summary>
+    public bool Outdoors { get; init; }
 }
 
 /// <summary>A distant sound, with how its pitch may vary.</summary>
@@ -151,10 +154,12 @@ public static class Roster
     public const string RoboMan = "backrooms:roboman";
     public const string Partygoer = "backrooms:partygoer";
     public const string PartygoerIntern = "backrooms:partygoer-intern";
+    /// <summary>A giant eyeball on six long legs, walking the Suburbs' streets (Entity 96).</summary>
+    public const string NeighborhoodWatch = "backrooms:neighborhoodwatch";
 
     /// <summary>Every entity the director puts down.</summary>
     public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern };
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, NeighborhoodWatch };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -250,6 +255,8 @@ public static class Roster
             E(SkinStealer, Approach, Menacing, 0.5),
             E(Wretch, Approach, Menacing, 0.4, 1, 2),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
+            // The Neighborhood Watch: a giant eyeball on legs walking the streets, finding people by sight (AiTaskWatch)
+            E(NeighborhoodWatch, Approach, Menacing, 0.7) with { Outdoors = true },
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
         // The fields are safe; only near the barns where the city lies through the wall do Hounds come
@@ -405,6 +412,7 @@ public static class Roster
     private static readonly DistantSound Lapping = S("backrooms:sounds/ambient/poollap", 0.9f, 1.1f, 0.35f);
     private static readonly DistantSound Laughter = S("backrooms:sounds/entity/laughter", 0.9f, 1.15f, 0.55f);
     private static readonly DistantSound AllGlory = S("backrooms:sounds/entity/allglory", 0.95f, 1.05f, 0.45f);
+    private static readonly DistantSound WatchSteps = S("backrooms:sounds/entity/watch-steps", 0.9f, 1.1f, 0.5f);
 
     private static readonly Dictionary<int, DistantSound[]> SoundsByLevel = new()
     {
@@ -417,7 +425,7 @@ public static class Roster
         [6] = new[] { Footsteps, Whisper, Scratch, Scuttle },
         [7] = new[] { Groan },
         [8] = new[] { Rockfall, Drifter, Footsteps, Squeak },
-        [9] = new[] { HoundHowl, Slam, Static, Footsteps, Hurt, Squeak },
+        [9] = new[] { HoundHowl, Slam, Static, Footsteps, Hurt, Squeak, WatchSteps },
         [10] = new[] { Worms, Wings, Cowbell },
         [11] = new[] { CarAlarm, Murmur, Footsteps, Squeak },
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[] { Drip, Lapping },
