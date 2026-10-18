@@ -27,7 +27,7 @@ The same spot before the update (left) and after it (right).
 - [Level 3's switchgear and pipes](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/01-level3-switchgear.jpg): painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
 - [Level 4's potted plant](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/02-level4-ficus.jpg): a green block of noise became a potted ficus with a trunk and leaves.
 - [Level 5's elevator](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/03-level5-elevator.jpg): a printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
-- [Level 5's hall wall](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/04-level5-hall.jpg): the hotel wall gained a cornice, a framed portrait and sharper trim above the key rack.
+- [Level 5's guest-room door](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/04-level5-door.jpg): a flat painted door became a panelled leaf in a casing, with a brass number plate, knob, hinges and peephole.
 - [The Snackrooms' store kitchen](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/05-level6-1-kitchen.jpg): flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
 
 ## What's new in 0.513.0

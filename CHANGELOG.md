@@ -80,7 +80,7 @@ The same spot in the game before the pass (left) and after it (right). All five 
 - [docs/screenshots/progress-0514/01-level3-switchgear.jpg](docs/screenshots/progress-0514/01-level3-switchgear.jpg): Level 3's switchgear and pipes. Painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
 - [docs/screenshots/progress-0514/02-level4-ficus.jpg](docs/screenshots/progress-0514/02-level4-ficus.jpg): Level 4's potted plant. A green block of noise became a potted ficus with a trunk and leaves.
 - [docs/screenshots/progress-0514/03-level5-elevator.jpg](docs/screenshots/progress-0514/03-level5-elevator.jpg): Level 5's elevator. A printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
-- [docs/screenshots/progress-0514/04-level5-hall.jpg](docs/screenshots/progress-0514/04-level5-hall.jpg): Level 5's hall wall. The hotel wall gained a cornice, a framed portrait and sharper trim above the key rack.
+- [docs/screenshots/progress-0514/04-level5-door.jpg](docs/screenshots/progress-0514/04-level5-door.jpg): Level 5's guest-room door. A flat painted door became a panelled leaf in a casing, with a brass number plate, knob, hinges and peephole.
 - [docs/screenshots/progress-0514/05-level6-1-kitchen.jpg](docs/screenshots/progress-0514/05-level6-1-kitchen.jpg): The Snackrooms' store kitchen. Flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
 
 ## 0.513.3 — fixes from the first week
