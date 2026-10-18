@@ -32,6 +32,12 @@ public sealed class Passage
     /// the stairwells' flights put people down on their landings instead (<see cref="ThresholdNetwork.FlightLanding"/>).
     /// </summary>
     public bool Upstairs;
+    /// <summary>
+    /// A door or an elevator (two-way, used rather than walked into): where it would leave a thin spot, the level's own
+    /// door or elevator is built there instead, where one can stand (see ThresholdNetwork.WayBack.cs). Set by
+    /// <see cref="ThresholdNetwork.Used"/> from the kind of block.
+    /// </summary>
+    public WayBackKind WayBack;
 }
 
 /// <summary>
@@ -46,8 +52,10 @@ public sealed class Passage
 /// stairwells, doors, vents, gates and walls that aren't quite there are two-way: the first trip also writes down
 /// the way back. Where the arrival is beside a threshold of the same kind that nothing else leads back from yet (an
 /// elevator arriving beside an elevator, stairs beside stairs, a door beside a locked door), that threshold becomes
-/// the way back, whatever it would have led to otherwise. Where there is none, a thin spot is left at the arrival:
-/// step through it to return. Pits, manholes, fallen-in streets, dives, tripwires, hungry vending machines and
+/// the way back, whatever it would have led to otherwise. Where there is none, a door or an elevator that leads on
+/// has one of the level's own built in a wall beside the arrival, where one can stand naturally, as its way back (an
+/// elevator for an elevator, a door for a door: ThresholdNetwork.WayBack.cs); otherwise a thin spot is left at the
+/// arrival: step through it to return. Pits, manholes, fallen-in streets, dives, tripwires, hungry vending machines and
 /// every way out of the Snackrooms are one-way.
 ///
 /// Vintage Story's own translocators work the same way: a repaired translocator picks its exit once, builds its
@@ -478,6 +486,14 @@ public sealed partial class ThresholdNetwork
     /// </summary>
     public Passage Used(int x, int z, string kind, out string refusal)
     {
+        Passage passage = UsedThreshold(x, z, kind, out refusal);
+        // Doors and elevators that lead on can have a door or an elevator built where they come out, as the way back
+        if (passage is { TwoWay: true, Find: not null }) passage.WayBack = WayBackKindOf(kind);
+        return passage;
+    }
+
+    private Passage UsedThreshold(int x, int z, string kind, out string refusal)
+    {
         refusal = null;
         (int X, int Z) at = (x, z);
         int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
@@ -864,8 +880,17 @@ public sealed partial class ThresholdNetwork
         arrival ??= spare;
         if (arrival is not { } a) return null;
 
-        int level = layout.LevelAt(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z));
         bool marker = home != null && back == null && !links.ContainsKey(Id((a.X, a.Z)));
+        // A door or an elevator that would leave a thin spot: the level's own door or elevator in a wall beside the
+        // arrival instead, where one can stand, and the arrival on the floor in front of it
+        WayBack? built = null;
+        if (marker && passage.WayBack != WayBackKind.None && PlanWayBack(passage.WayBack, a.X, a.Z) is { } plan)
+        {
+            built = plan.Way;
+            a = (plan.X, plan.Z, layout.ArrivalHeight(plan.X, plan.Z));
+            marker = false;
+        }
+        int level = layout.LevelAt(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z));
         var link = new Link(a.X + 0.5, geometry.FloorFor(level) + a.Height, a.Z + 0.5, marker);
         // Up one flight and out near the top of another that climbs into the ceiling, its way back, rather than at its
         // foot. (Links written down before this was so are read back as they were saved, and keep putting people at the
@@ -875,6 +900,12 @@ public sealed partial class ThresholdNetwork
             link = top;
         links[Id(passage.Source)] = link;
         if (home != null && back != null) links[Id(back.Value)] = home.Value;
+        else if (home != null && built is { } way)
+        {
+            // (Every leaf of it: using either one asks for its own position, see Used)
+            foreach ((int X, int Z) tile in way.Tiles) links[Id(tile)] = home.Value;
+            wayBacks[Id(passage.Source)] = way;
+        }
         else if (marker) links[Id((a.X, a.Z))] = home.Value;
         Dirty = true;
         return link;
@@ -917,6 +948,7 @@ public sealed partial class ThresholdNetwork
     public bool Load(byte[] data)
     {
         links.Clear();
+        wayBacks.Clear();
         Dirty = false;
         if (data == null || data.Length == 0) return true;
         try

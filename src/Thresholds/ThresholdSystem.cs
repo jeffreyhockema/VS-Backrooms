@@ -113,6 +113,7 @@ public partial class ThresholdSystem : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
+        api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () => RegisterWayBackCommand(api));
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
@@ -129,10 +130,14 @@ public partial class ThresholdSystem : ModSystem
                 api.Logger.Error("[backrooms] The saved threshold links could not all be read (kept as {0}-unreadable); {1} were, the rest will find their places again",
                     SaveKey, network.Count);
             }
+            LoadWayBacks(api);
             thinSpotId = api.World.GetBlock(new AssetLocation("backrooms:thinspot"))?.BlockId ?? 0;
             api.Event.GameWorldSave += () =>
             {
-                if (network.Dirty) api.WorldManager.SaveGame.StoreData(SaveKey, network.Save());
+                if (!network.Dirty) return;
+                // (The ways back built at arrivals go beside the links, under a key of their own: the links' layout is unchanged)
+                api.WorldManager.SaveGame.StoreData(WayBackSaveKey, network.SaveWayBacks());
+                api.WorldManager.SaveGame.StoreData(SaveKey, network.Save());
             };
             api.Event.RegisterGameTickListener(OnTick, 200);
             api.Event.PlayerNowPlaying += SoftenFalls;
@@ -229,7 +234,7 @@ public partial class ThresholdSystem : ModSystem
                 Link to = Redirect(rider, passage, arrival);
                 bool redirected = !to.Equals(arrival);
                 Remember(rider, boarded[rider.PlayerUID], arrival, passage.TwoWay, arrived: !redirected);
-                Arrive(rider, redirected ? to with { Marker = false } : to, "elevator");
+                Arrive(rider, redirected ? to with { Marker = false } : to, "elevator", redirected ? null : passage.Source);
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
         }, ElevatorRideMs);
@@ -387,7 +392,7 @@ public partial class ThresholdSystem : ModSystem
         bool redirected = !Nullable.Equals(real, destination);
         if (real is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay, arrived: !redirected);
         if (redirected && destination is { } other) destination = other with { Marker = false };
-        if (!Arrive(player, destination, style)) return false;
+        if (!Arrive(player, destination, style, redirected ? null : passage.Source)) return false;
         if (passage.Message != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(passage.Message), EnumChatType.Notification);
         return true;
     }
@@ -443,7 +448,11 @@ public partial class ThresholdSystem : ModSystem
         return Arrive(player, new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false));
     }
 
-    private bool Arrive(IServerPlayer player, Link? destination, string style = null)
+    /// <summary>
+    /// Puts a player down at a destination. <paramref name="source"/> is the threshold they came through, when they arrive
+    /// where it leads (not redirected): a door or an elevator built there as its way back is seen to once they are.
+    /// </summary>
+    private bool Arrive(IServerPlayer player, Link? destination, string style = null, (int X, int Z)? source = null)
     {
         if (destination is not { } link)
         {
@@ -489,6 +498,9 @@ public partial class ThresholdSystem : ModSystem
             : arrivalLevel is 6 or 7 ? network.DeepStairsFacing(ax, az) : null;
         // Put down on the Hub's narrow sidewalk, they look along the road rather than at the wall beside them
         float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
+        // Put down in front of a door or an elevator built as the way back, they face away from it, as if just come out
+        WayBack? wayBack = source is { } from ? network.WayBackOf(from) : null;
+        if (!onStairs && away == null && wayBack is { } built) away = WayBackFacing(built);
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is
         SendTransition(player, TransitionPhase.Begin, style);
@@ -499,6 +511,7 @@ public partial class ThresholdSystem : ModSystem
             sapi.Logger.Debug("[backrooms] {0} put down at {1:0}, {2:0}, {3:0} after {4} ms ({5})", player.PlayerName, link.X, link.Y, link.Z,
                 sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
             if (link.Marker) LeaveThinSpot(link);
+            if (wayBack != null) BuildWayBack(player, source.Value);
             if (onStairs) Face(player, DownFlight(onto.Pier));
             else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
             else if (look is { } yaw) Face(player, yaw);

@@ -190,7 +190,8 @@ The rings are only how the world is built; the network of ways between the level
 **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.**
 
 - **Two-way thresholds with a partner:** an elevator arrives beside another elevator, a stairwell on another stairwell, a door beside a locked door. That partner becomes the way back, whatever it would have led to otherwise. Go through it and you come out where you left. (The stairwells of Levels 1 and 4 pair like the floors of a real building: go up a flight and you come out on the landing at the top of another stairwell's flight down, as if you had just come up it; go down and you come out at the foot of another stairwell's flight up, as if you had just come down it; either way you face away from the stairs, and turning round takes you back. Level 1's stairwells are each on a floor, painted on the landing's wall, from P5 at the top down to P1 and on to B1, B2 and B3: up comes out a floor higher, down a floor lower. Climb Level 1's stairs to nowhere and you come out on the landing at the top of a stairwell's flight down, or now and then standing near the top of a Level 4 stairwell's flight, facing down it; that one takes you nowhere until you have stepped off it, so walk down and come back up to go back.)
-- **Two-way thresholds without a partner** leave a **thin spot** where they put you down: a pale, wavering seam in the air that hums like a translocator. Right-click it to step back through. It stays there for good.
+- **Doors and elevators without a partner** leave one of their kind instead (from 0.514.0, the first time anyone goes through): you step out of a door or an elevator in a wall nearby, in the level's own style (a wooden door or a lift in Level 0, a steel door or a freight lift in Levels 1 and 3, a steel door in Level 2, an office door or a lift in Level 4, a guest-room door or a lift in Level 5, a POOL door in Level 37), and using it takes you back. Where there is no plain stretch of wall near enough, or the level has no doors of its own, it leaves a thin spot, as below.
+- **Other two-way thresholds without a partner** leave a **thin spot** where they put you down: a pale, wavering seam in the air that hums like a translocator. Right-click it to step back through. It stays there for good.
 - **One-way thresholds** drop you somewhere fixed, with no way back from there.
 - **The screen goes dark** the moment you go through any threshold and clears when you are put down. Where you are going may have to be made first, which can take a few seconds, so the dark is the Backrooms working, not the game hanging.
 
@@ -198,26 +199,26 @@ This is how Vintage Story's own translocators behave: a repaired one picks its e
 
 | From | Threshold | To | Way back |
 |---|---|---|---|
-| Levels 3, 4, 5 | An elevator (everyone standing in the car rides along) | Another elevator in Level 3, 4 or 5; from the hotel, now and then Level 1 | The elevator you arrive beside (in Level 1, a thin spot) |
+| Levels 3, 4, 5 | An elevator (everyone standing in the car rides along) | Another elevator in Level 3, 4 or 5; from the hotel, now and then Level 1 | The elevator you arrive beside (in Level 1, a freight elevator in the wall) |
 | Level 1 | Climbing a stairwell's flight up (a stair core's or a maintenance hall's) through the ceiling, two steps on into the dark of its shaft | A stairwell of the next floor up (from P5, another P5): on the landing at the top of its flight down, facing away from it. From P4 and P5, one flight in seven comes out instead on the landing at the top of a flight down in Level 4 | That flight down, back to the foot of the first |
 | Level 1 | Going down a stairwell's flight down through the floor, to its last step, four blocks down in the dark under the wall | A stairwell of the next floor down: at the foot of its flight up, facing away from it | That flight up, back to the top of the first |
 | Level 1 | Going down a flight down on the bottom floor, B3 | One flight in four (always the same ones) leads into a pipe tunnel of Level 2, standing on its floor, where the stairs give out; the rest lead to another B3 stairwell, at the foot of its flight up (the stairs keep going down) | Level 2: a thin spot. Another B3: its flight up |
 | Level 1 | Climbing the stairs to nowhere into the wall | Another stairwell in Level 1 (on any floor, on the landing at the top of its flight down), or now and then in Level 4: near the top of its flight, facing down it, as if you had come up it and over | The stairwell you arrive at (back near the top of the first) |
 | Level 4 | Climbing a stairwell's flight up through the ceiling into the dark | Another stairwell of the office, on the landing at the top of its flight down: the stairs only ever come back to the same floor | That flight down |
 | Level 4 | Going down a stairwell's flight down through the floor, to its last step under the wall | Another stairwell of the office, at the foot of its flight up; one flight in five (always the same ones) comes out in Level 0 instead | That flight up (in Level 0, a thin spot) |
-| Level 5 | A hotel door: most are locked for good, a few open | Another part of the hotel, Level 3 or Level 0 | The hotel door you arrive beside, which now opens (elsewhere, a thin spot) |
+| Level 5 | A hotel door: most are locked for good, a few open | Another part of the hotel, Level 3 or Level 0 | The hotel door you arrive beside, which now opens (elsewhere, a door in the wall) |
 | Level 5 | Climbing the staff stairs behind an open door under a STAFF sign | Level 6 | Thin spot |
 | Level 6 | Walking down a stairwell toward the sound of waves and on across its landing (worlds made from 0.514.0) | Level 7, at the foot of the stairs into an entry room, facing into the room | Those stairs, back to the landing (if they already lead to another stairwell, a thin spot) |
 | Level 7 | Climbing an entry room's stairs into the dark of the shaft over it (worlds made from 0.514.0) | Level 6, on the landing of a stairwell down, facing up it | That stairwell (or a thin spot) |
 | Level 5 | Climbing a front hall's grand staircase up through the ceiling, onto its third step | Level 4, on the landing at the top of a stairwell's flight down, facing away from it | That flight down, back near the top of the grand staircase |
-| Level 2 | A steel door in a tunnel wall: most are locked, some open | Level 3, Level 4 or Level 1 | Thin spot |
+| Level 2 | A steel door in a tunnel wall: most are locked, some open | Level 3, Level 4 or Level 1 | A door in the wall (or a thin spot) |
 | Level 8 | A vent beside the 9th Road | Level 2 | Thin spot |
 | Level 9 | The gate at the end of a field behind the houses | Level 10 | Thin spot |
 | Level 10 | Walking into a stretch of barn wall that isn't quite there (in some barns, on the east wall between the stalls) | Level 11, the Endless City | Thin spot |
 | Level 11 | An office tower's elevators / a hotel's elevators | Level 4 / Level 5 | The elevator you arrive beside |
 | Level 11 | A rowhouse's front door | Level 9 | The locked front door you arrive beside, which now opens |
 | Level 11 | A diner's kitchen door | Level 6.1 | The kitchen door you arrive beside in the food court |
-| Level 11 | An apartment block's basement door / a substation's steel door / a subway maintenance door | Level 0 / Level 3 / Level 2 | Thin spot |
+| Level 11 | An apartment block's basement door / a substation's steel door / a subway maintenance door | Level 0 / Level 3 / Level 2 | A door in the wall (or a thin spot) |
 | Level 11 | A parking garage's ramp down / a dark doorway off an alley / standing in a patch of wheat in a park | Level 1 / Level 6 / Level 10 | Thin spot |
 | Level 5, Level 11 | A cyan door marked POOL (now and then one of the hotel's locked doors; the city's public baths) | Level 37, out of one of its own POOL doors | The POOL door you arrive beside |
 | Level 37 | A POOL door | A corridor of Level 5, beside a locked guest door | That hotel door, which now opens |

@@ -36,5 +36,13 @@
 		"place": "game:block/anvil1",
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
-	}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "locked"
+			}
+		}
+	]
 }
