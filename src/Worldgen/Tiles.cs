@@ -1010,6 +1010,7 @@ public static class Props
     public const byte Conveyor = 66;
     public const byte Candelabra = 67;
     public const byte AngelStatue = 68;
+    /// <summary>Cables on the floor (Pier North along X, East along Z); from layout version 9, Stack 1 a cable box and 2 a rise up the wall at the end of a crossing, Pier toward that wall.</summary>
     public const byte FloorCable = 69;
     public const byte PipeStack = 70;
     /// <summary>

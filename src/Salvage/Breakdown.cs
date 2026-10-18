@@ -131,7 +131,8 @@ public static class Breakdown
             "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitlintelpair", "exitsign",
             "tunnelwall", "tunnelceiling", "l6block", "l6deco", "whiteblock", "whitecam", "oceanceiling",
             "subwaywall", "subwaydeco", "citypier", "cityfacade", "cityroof", "citydeco", "chimney", "snackceiling",
-            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting");
+            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting",
+            "l3fitting");
         Add(Floor, "concretefloor", "l1hallfloor", "dustyfloor", "l3floor", "subwayfloor", "cityfloor", "parkfloor", "snackfloor",
             "funfloor", "hotelfloor");
         Add(CarpetFloor, "carpet", "officecarpet", "officecarpetalt", "hotelcarpet");
@@ -150,7 +151,7 @@ public static class Breakdown
             "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
             "cagelift", "suburbsign", "suburbsignblade", "citysign");
-        Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
+        Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "floorcableend", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
             "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "roadlamparm", "trafficlight", "porchlamp");
         Add(Glass, "officeglass", "officewindow", "officewindowalt", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
         Add(Ground, "dirtroad", "fieldstubble");

@@ -97,6 +97,7 @@ When in doubt, load a world made with the last release and check it.
 - **Checks:**
   - **`layouthash`** hashes every level's layout. Run it before and after any change to world generation: for every layout version but the newest, the output must not change (see *Layout versions* above).
   - `validate` and `validatelevel <n>` check reachability, blocked doorways, elevator pairs and decor facing.
+  - `l3runs` tallies Level 3's wall pipes (pieces by length as the player sees them), cable runs, floor cables, gauges and the switchgear cabinets with a pipe coming out of their front, over the area round `AT`; `l3dump x z r` writes `l3dump.json` for `render_l3runs.py l3dump.json out.png`, a map of them from above.
   - `conduitmap [radius]` draws Level 1's ceiling conduit round the first arrival from above and tallies what each run ends against, with the fitting (capped end, junction box) `WorldLayout.ConduitEnds` picks for it.
   - `links` goes through every threshold kind and back.
   - `reach` and `path` look for sealed pockets.
