@@ -1,0 +1,231 @@
+{
+	"code": "neighborhoodwatch",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-land"
+	],
+	"weight": 260,
+	"hitboxSize": {
+		"x": 1.4,
+		"y": 2.9
+	},
+	"deadHitboxSize": {
+		"x": 1.6,
+		"y": 0.9
+	},
+	"selectionBoxSize": {
+		"x": 1.6,
+		"y": 3.0
+	},
+	"eyeHeight": 2.4,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-neighborhoodwatch"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/neighborhoodwatch"
+		},
+		"texture": {
+			"base": "backrooms:entity/neighborhoodwatch"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "backrooms-watcheye"
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "scan",
+				"animation": "scan",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "stare",
+				"animation": "stare",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "peer",
+				"animation": "peer",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 30,
+				"maxhealth": 30
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 24,
+				"decayedBlock": "game:carcass-medium"
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "backrooms-menace",
+				"glimpseSeconds": 30,
+				"stalkSeconds": 180,
+				"huntSeconds": 240
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-watch",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.044,
+						"darkSight": 12,
+						"litSight": 40,
+						"touchRange": 2.5,
+						"halfAngle": 70,
+						"scanHalfAngle": 100,
+						"noticeSeconds": 1.6,
+						"loseSeconds": 3.0,
+						"searchSeconds": 14,
+						"feintSeconds": 16,
+						"peerSeconds": 40,
+						"damage": 6.5,
+						"damageTier": 2,
+						"damageType": "BluntAttack",
+						"knockback": 0.9,
+						"attackRange": 1.7,
+						"attackDurationMs": 900,
+						"damageAtMs": 500,
+						"attackCooldownMs": 1900,
+						"retreatBelow": 0.3,
+						"walkAnimation": "walk",
+						"runAnimation": "run",
+						"attackAnimation": "attack",
+						"scanAnimation": "scan",
+						"stareAnimation": "stare",
+						"stareMs": 1100,
+						"peerAnimation": "peer",
+						"noticeSound": "backrooms:entity/watch-notice",
+						"attackSound": "backrooms:entity/watch-slam",
+						"tapSound": "backrooms:entity/watch-tap",
+						"soundRange": 32
+					},
+					{
+						"code": "idle",
+						"priority": 1.2,
+						"priorityForCancel": 1.35,
+						"animation": "scan",
+						"minduration": 5000,
+						"maxduration": 9000,
+						"mincooldown": 6000,
+						"maxcooldown": 20000
+					},
+					{
+						"code": "wander",
+						"priority": 1.0,
+						"priorityForCancel": 1.35,
+						"movespeed": 0.006,
+						"animation": "walk",
+						"animationSpeed": 1.0,
+						"maxDistanceToSpawn": 24
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "game:effect/squish*",
+		"death": "backrooms:effect/squelch"
+	}
+}
