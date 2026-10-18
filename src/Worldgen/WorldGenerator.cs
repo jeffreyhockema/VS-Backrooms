@@ -363,6 +363,8 @@ public sealed partial class WorldGenerator
     private readonly int[,] hangingLightIds = new int[3, 2]; // state (on, off, flicker) x axis (we, ns)
     private readonly int[,] fireDoorIds = new int[2, 4]; // leaf (left, right) x facing
     private readonly int bulbOnId, conduitXId, conduitZId, dripXId, dripZId;
+    private readonly int[,] conduitEndIds = new int[4, 2]; // side (east, north, west, south) x kind (cap, box), see ConduitBlock
+    private readonly int[,] conduitStubIds = new int[2, 4]; // axis (we, ns) x ends (cc, cb, bc, bb)
     private readonly int[] shelfIds = new int[4];
     private readonly int[] stairIds = new int[4];
     private readonly int wheelStopId, carColliderId;
@@ -598,6 +600,11 @@ public sealed partial class WorldGenerator
         bulbOnId = BlockId("backrooms:hangingbulb-on");
         conduitXId = BlockId("backrooms:conduit-we");
         conduitZId = BlockId("backrooms:conduit-ns");
+        string[] conduitSides = { "east", "north", "west", "south" }, conduitKinds = { "cap", "box" }, conduitStubEnds = { "cc", "cb", "bc", "bb" };
+        for (int s = 0; s < 4; s++)
+            for (int k = 0; k < 2; k++) conduitEndIds[s, k] = Id($"conduitend-end-{conduitSides[s]}-{conduitKinds[k]}");
+        for (int a = 0; a < 2; a++)
+            for (int e = 0; e < 4; e++) conduitStubIds[a, e] = Id($"conduitend-stub-{(a == 0 ? "we" : "ns")}-{conduitStubEnds[e]}");
         dripXId = Id("drippipe-we");
         dripZId = Id("drippipe-ns");
         wheelStopId = BlockId("backrooms:wheelstop");
@@ -1200,8 +1207,7 @@ public sealed partial class WorldGenerator
                 Pipes.Hub => pipeHubId,
                 Pipes.DripX => dripXId,
                 Pipes.DripZ => dripZId,
-                Pipes.ConduitX => conduitXId,
-                Pipes.ConduitZ => conduitZId,
+                Pipes.ConduitX or Pipes.ConduitZ => ConduitBlock(t, gx, gz),
                 _ => 0,
             };
         }
@@ -1475,6 +1481,29 @@ public sealed partial class WorldGenerator
             corners |= code << (4 + 2 * c);
         }
         return corners == 0 ? 0 : wallPipeCornerIds[wall, key | corners];
+    }
+
+    /// <summary>
+    /// Level 1's ceiling conduit in a column. From layout version 9 a run is finished off where it ends
+    /// (<see cref="WorldLayout.ConduitEnds"/>): a capped end, or a junction box where it meets a wall or a beam, one block
+    /// of the run on its own having one at each end; before that the bare tubes were left as they stood.
+    /// </summary>
+    private int ConduitBlock(in Tile t, int gx, int gz)
+    {
+        bool x = t.Pipe == Pipes.ConduitX;
+        if (layout.Version < 9) return x ? conduitXId : conduitZId;
+        (int low, int high) = WorldLayout.ConduitEnds(TileAt, gx, gz, out _);
+        if (low == 0 && high == 0) return x ? conduitXId : conduitZId;
+        // (the low end of a run along X is its west end, of one along Z its north end; the stub blocks name their ends
+        // west then east, which an "ns" block turns to south then north)
+        if (low != 0 && high != 0)
+        {
+            int west = (x ? low : high) - 1, east = (x ? high : low) - 1;
+            return conduitStubIds[x ? 0 : 1, west * 2 + east];
+        }
+        bool isLow = low != 0;
+        int side = x ? (isLow ? 2 : 0) : (isLow ? 1 : 3);
+        return conduitEndIds[side, (isLow ? low : high) - 1];
     }
 
     /// <summary>The four columns beside a column, in the order every neighbour check here looks at them (east, west, south, north).</summary>

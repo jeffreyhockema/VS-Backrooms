@@ -150,7 +150,7 @@ public static class Breakdown
             "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
             "cagelift", "suburbsign", "suburbsignblade", "citysign");
-        Add(Electrical, "conduit", "cables", "floorcable", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
+        Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
             "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "roadlamparm", "trafficlight", "porchlamp");
         Add(Glass, "officeglass", "officewindow", "officewindowalt", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
         Add(Ground, "dirtroad", "fieldstubble");

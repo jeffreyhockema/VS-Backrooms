@@ -1,7 +1,12 @@
 """Renders isometric previews of block shapes (seen from the north-west, above), to judge models without the client.
 
     python tools/preview_shapes.py out.png shapes/block/detail/desk.json ...   (globs allowed, relative to assets/backrooms)
-        [--flat] [--size 256] [--cols 8]
+        [--flat] [--size 256] [--cols 8] [--yaw 225] [--pitch 30] [--zoom 1] [--centre x,y,z] [--hide Prefix,Prefix]
+
+--yaw/--pitch turn the camera (yaw is atan2(z, x) in degrees from the model's centre to the camera: 225 north-west, the
+default; 270 from the north, 90 from the south, 180 west, 0 east), --zoom scales the frame, --centre (shape units) says
+where the frame is centred, and --hide leaves out the elements whose names start with one of the prefixes (a roof, say, to
+look into a car from above). A car is 32 by 64 units: --centre 16,8,32 --zoom 0.6.
 
 By default each face shows its real texture: the face's UV rectangle (from the shape JSON, or worked out from the
 element's size where the face has none, as the game does) is cut out of the texture and mapped onto the face with
@@ -87,12 +92,26 @@ def auto_uv(face, f0, t0):
             "up": (x0, z0, x1, z1), "down": (x0, 16 - z1, x1, 16 - z0)}[face]
 
 
+# The camera, set by --yaw/--pitch/--zoom/--centre/--hide. yaw: the horizontal direction the camera sits in from the
+# model's centre, atan2(z, x) in degrees (225 is north-west, the default view; 270 is north of the model, looking south;
+# 90 is south of it, looking north; 180 west; 0 east); pitch: degrees above the horizon; zoom: scale on the default
+# 44-unit frame; centre: the point in shape units the frame is centred on; hide: element-name prefixes left out.
+CAM = {"yaw": 225.0, "pitch": 30.0, "zoom": 1.0, "centre": (8.0, 0.0, 8.0), "hide": ()}
+
+
+def view_vector():
+    b, a = math.radians(CAM["pitch"]), math.radians(CAM["yaw"])
+    return (math.cos(a) * math.cos(b), math.sin(b), math.sin(a) * math.cos(b))
+
+
 def project(p, scale, cx, cy):
-    # Camera to the north-west, above, looking south-east and down 30 degrees: fronts (north faces) and west sides show
-    x, y, z = p[0] - 8, p[1], p[2] - 8
-    h = (x + z) / math.sqrt(2)
-    b = math.radians(30)
-    sx = (z - x) / math.sqrt(2)
+    # Default: camera to the north-west, above, looking south-east and down 30 degrees: fronts (north faces) and west
+    # sides show
+    x, y, z = p[0] - CAM["centre"][0], p[1] - CAM["centre"][1], p[2] - CAM["centre"][2]
+    b, a = math.radians(CAM["pitch"]), math.radians(CAM["yaw"])
+    hx, hz = math.cos(a), math.sin(a)
+    h = -(hx * x + hz * z)
+    sx = hz * x - hx * z
     sy = y * math.cos(b) + h * math.sin(b)
     depth = y * math.sin(b) - h * math.cos(b)
     return cx + sx * scale, cy - sy * scale, depth
@@ -168,9 +187,13 @@ def render(shape_path, size=200, flat=False):
     tex = data.get("textures", {})
     tw, th = data.get("textureWidth", 16), data.get("textureHeight", 16)
     sizes = {tex.get(k, k): tuple(v) for k, v in data.get("textureSizes", {}).items()}
-    scale = size / 44
+    scale = size / 44 * CAM["zoom"]
+    VIEW = view_vector()
+    cy0 = size * 0.78 if CAM["centre"][1] == 0 else size / 2
     faces = []
     for el, chain in walk(data["elements"]):
+        if el.get("name", "").startswith(CAM["hide"]):
+            continue
         f0, t0 = el["from"], el["to"]
         for face, info in el.get("faces", {}).items():
             if info.get("enabled") is False or face not in FACES or "texture" not in info:
@@ -179,7 +202,7 @@ def render(shape_path, size=200, flat=False):
             if n[0] * VIEW[0] + n[1] * VIEW[1] + n[2] * VIEW[2] <= 0.01:
                 continue  # facing away from the camera
             corners = [place(tuple(f0[i] + (t0[i] - f0[i]) * c[i] for i in range(3)), el, chain) for c in FACES[face]]
-            pr = [project(c, scale, size / 2, size * 0.78) for c in corners]
+            pr = [project(c, scale, size / 2, cy0) for c in corners]
             depth = sum(p[2] for p in pr) / 4
             path = tex.get(info["texture"].lstrip("#"), "?")
             k = SHADE[face] if not info.get("glow") else 1.1
@@ -219,7 +242,7 @@ def render(shape_path, size=200, flat=False):
         mask = Image.composite(alpha, mask, mask)
         _zpaste(out, zbuf, rgb, mask, x0, y0, zs[0], za, zb)
     # ground grid of the block's own footprint
-    g = [project(p, scale, size / 2, size * 0.78) for p in ((0, 0, 0), (16, 0, 0), (16, 0, 16), (0, 0, 16))]
+    g = [project(p, scale, size / 2, cy0) for p in ((0, 0, 0), (16, 0, 0), (16, 0, 16), (0, 0, 16))]
     d.polygon([(p[0], p[1]) for p in g], outline=(120, 200, 120, 255))
     return img
 
@@ -235,6 +258,19 @@ if __name__ == "__main__":
             i = args.index(o)
             opts[o] = int(args[i + 1])
             del args[i:i + 2]
+    for o, key in (("--yaw", "yaw"), ("--pitch", "pitch"), ("--zoom", "zoom")):
+        if o in args:
+            i = args.index(o)
+            CAM[key] = float(args[i + 1])
+            del args[i:i + 2]
+    if "--centre" in args:
+        i = args.index("--centre")
+        CAM["centre"] = tuple(float(v) for v in args[i + 1].split(","))
+        del args[i:i + 2]
+    if "--hide" in args:
+        i = args.index("--hide")
+        CAM["hide"] = tuple(args[i + 1].split(","))
+        del args[i:i + 2]
     if len(args) < 2:
         sys.exit(__doc__)
     out = args[0]

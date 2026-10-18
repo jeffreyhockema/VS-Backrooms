@@ -601,6 +601,50 @@ def level1():
         box("Clip", (7.5, 14, 3.5), (8.5, 16, 7.5), "metal"),
     ])
 
+    # Where a run of the conduit ends (WorldLayout.ConduitEnds, from layout version 9) it is finished off, so the tubes
+    # are never open: "cap" where there is open space or a light beyond (a collar on each tube and a plate over both),
+    # "box" where it meets a wall or a beam (the tubes go into a junction box, with a lid and screws, mounted on it).
+    # Modelled for the east end; the blocks turn them (conduitend-<side>-<kind>) and the "stub" blocks have an end at
+    # each side of a length on its own (conduit-stub-<west><east>, c = cap, b = box)
+    ctex = {"conduit": "backrooms:block/props/conduit", "metal": "backrooms:block/props/metal",
+            "dark": "backrooms:block/props/metal-dark"}
+    all6 = ("north", "south", "down", "east", "west")
+
+    def conduit_end(kind, west):
+        """The fitting at one end of a run: the east end, or the west one (the same turned about the block's middle)."""
+        if kind == "cap":
+            els = [box("Collar1", (13.2, 14.1, 3.5), (14.8, 15.9, 5.5), "metal", faces=all6 + ("up",)),
+                   box("Collar2", (13.2, 14.1, 5.5), (14.8, 15.9, 7.5), "metal", faces=all6 + ("up",)),
+                   box("EndPlate", (15.2, 13.8, 3.2), (16, 15.9, 7.8), "metal")]
+        else:
+            els = [box("JBox", (12.2, 12.6, 2.6), (16, 16, 8.4), "metal", faces=("north", "south", "down", "west")),
+                   box("Lid", (12.8, 12.1, 3.2), (15.4, 12.6, 7.8), "dark", faces=("north", "south", "down", "west", "east")),
+                   box("Screw1", (13.1, 11.7, 3.4), (13.7, 12.1, 4.0), "metal"), box("Screw2", (14.5, 11.7, 3.4), (15.1, 12.1, 4.0), "metal"),
+                   box("Screw3", (13.1, 11.7, 7.0), (13.7, 12.1, 7.6), "metal"), box("Screw4", (14.5, 11.7, 7.0), (15.1, 12.1, 7.6), "metal"),
+                   box("Nipple1", (11.0, 14.2, 3.6), (12.2, 15.8, 5.4), "metal", faces=("north", "south", "down", "up", "west")),
+                   box("Nipple2", (11.0, 14.2, 5.6), (12.2, 15.8, 7.4), "metal", faces=("north", "south", "down", "up", "west"))]
+        if west:
+            for i, e in enumerate(els):
+                x1, x2 = e["from"][0], e["to"][0]
+                e["from"][0], e["to"][0] = 16 - x2, 16 - x1
+                f = e["faces"]
+                e["faces"] = {k: v for k, v in {"east": f.get("west"), "west": f.get("east"), "north": f.get("north"), "south": f.get("south"),
+                                                "up": f.get("up"), "down": f.get("down")}.items() if v is not None}
+                e["name"] += "W"
+        return els
+
+    def conduit_tubes(x0, x1):
+        # (their ends are closed by the fitting, or by the next block's tube)
+        return [box("Conduit1", (x0, 14.5, 4), (x1, 15.5, 5), "conduit", faces=("north", "south", "down")),
+                box("Conduit2", (x0, 14.5, 6), (x1, 15.5, 7), "conduit", faces=("north", "south", "down"))]
+
+    for kind in ("cap", "box"):
+        run = conduit_tubes(0, 15.2 if kind == "cap" else 12.5) + [box("Clip", (4.5, 14, 3.5), (5.5, 16, 7.5), "metal")]  # (the tubes run into the fitting)
+        save(f"conduit-end-{kind}", ctex, run + conduit_end(kind, False))
+    for w, e in (("c", "c"), ("c", "b"), ("b", "c"), ("b", "b")):
+        els = conduit_tubes(0.8 if w == "c" else 3.5, 15.2 if e == "c" else 12.5)
+        save(f"conduit-stub-{w}{e}", ctex, els + conduit_end("cap" if w == "c" else "box", True) + conduit_end("cap" if e == "c" else "box", False))
+
     # Metal shelving with boxes, open side facing north
     shelf = [
         box("Post1", (0.5, 0, 0.5), (1.5, 16, 1.5), "metal"),
@@ -691,25 +735,220 @@ def parking():
                     box(f"QuarterR{i}", (4, y1, 39), (28, y2, zr), "glass", faces=("east", "west"))]
         return els
 
+    # ---- The inside, seen through the glass ----
+    # The cabin's floor is a long way under the beltline (the body's top at 11), so there is room for seats you could
+    # sit in: a front pair facing forward, a bench behind, the dashboard under the windscreen with an instrument
+    # hood over the driver's dials, a steering wheel on its column, door cards with armrests and pulls, a gear lever
+    # on the tunnel between the seats, a headliner and a mirror. The driver is on the east side of a north-facing car
+    # (right-hand drive). The wrecks have the same parts, torn and dirty: a split cushion with the foam out, a missing
+    # headrest, a folded seat back, a pulled-out radio, a bent wheel, a door card hanging off, the headliner sagging,
+    # glass and litter on the floor. Every part is in the 1/16-block units of the rest of the car
+    FLOOR = 5.5
+    SEAT_X = {"pass": (6.6, 14.8), "drive": (17.2, 25.4)}
+
+    def part(name, frm, to, tex, faces=DIRS, spin=None, uv=None):
+        """A box, turned by spin = (origin, rotationX, rotationZ) where it is, with its faces' UV fixed by uv."""
+        b = box("In" + name, frm, to, tex, faces=faces)
+        if spin:
+            b["rotationOrigin"] = list(spin[0])
+            if spin[1]:
+                b["rotationX"] = spin[1]
+            if spin[2]:
+                b["rotationZ"] = spin[2]
+        if uv:
+            for f in b["faces"].values():
+                f["uv"] = list(uv)
+        return b
+
+    def front_seat(tag, who, torn):
+        x1, x2 = SEAT_X[who]
+        cx = (x1 + x2) / 2
+        back = ((cx, 8.2, 35.8), 8, 0)
+        els = [
+            part(f"Seat{tag}Rail", (x1 + 1.2, FLOOR, 30.4), (x2 - 1.2, 6.8, 34.6), "trim"),
+            part(f"Seat{tag}Cushion", (x1, 6.8, 29.6), (x2, 8.2, 35.4), "seat"),
+            part(f"Seat{tag}BolsterL", (x1, 8.2, 30.2), (x1 + 1.2, 8.9, 35.4), "seat"),
+            part(f"Seat{tag}BolsterR", (x2 - 1.2, 8.2, 30.2), (x2, 8.9, 35.4), "seat"),
+            part(f"Seat{tag}Back", (x1, 8.2, 35.0), (x2, 15.0, 36.7), "seat", spin=back),
+            part(f"Seat{tag}WingL", (x1, 9.4, 34.4), (x1 + 1.2, 14.2, 35.0), "seat", spin=back),
+            part(f"Seat{tag}WingR", (x2 - 1.2, 9.4, 34.4), (x2, 14.2, 35.0), "seat", spin=back),
+        ]
+        posts = [(cx - 1.9, 15.0, 35.5), (cx + 1.4, 15.0, 35.5)]
+        if torn and who == "pass":
+            # The headrest is gone: two bare posts, one bent
+            els.append(part(f"Seat{tag}PostL", posts[0], (posts[0][0] + 0.5, 16.8, posts[0][2] + 0.6), "metal", spin=back))
+            els.append(part(f"Seat{tag}PostR", posts[1], (posts[1][0] + 0.5, 16.2, posts[1][2] + 0.6), "metal", spin=((posts[1][0], 15.0, 35.5), 8 + 30, 0)))
+        else:
+            els += [part(f"Seat{tag}PostL", posts[0], (posts[0][0] + 0.5, 16.2, posts[0][2] + 0.6), "metal", spin=back),
+                    part(f"Seat{tag}PostR", posts[1], (posts[1][0] + 0.5, 16.2, posts[1][2] + 0.6), "metal", spin=back)]
+            head = part(f"Seat{tag}Head", (x1 + 2.2, 16.0, 35.1), (x2 - 2.2, 18.2, 36.7), "seat", spin=back)
+            if torn:  # slumped to one side
+                head = part(f"Seat{tag}Head", (x1 + 2.2, 15.6, 35.1), (x2 - 2.2, 17.8, 36.7), "seat", spin=((cx, 15.6, 35.9), 8, 22))
+            els.append(head)
+        if torn and who == "pass":
+            els.append(part(f"Seat{tag}Foam", (x1 + 2.0, 8.2, 31.0), (x1 + 5.6, 8.7, 34.0), "foam", faces=("up", "north", "east", "west", "south")))
+        if torn and who == "drive":
+            els.append(part(f"Seat{tag}Split", (cx - 2.8, 9.6, 34.5), (cx - 1.4, 13.6, 35.0), "foam", spin=back))
+            els.append(part(f"Seat{tag}Foam", (cx + 0.6, 8.2, 31.4), (cx + 3.4, 8.7, 33.4), "foam"))
+        return els
+
+    def rear_bench(torn):
+        els = [part("BenchRail", (6.5, FLOOR, 39.4), (26.5, 6.8, 42.0), "trim"),
+               part("BenchCushion", (5.0, 6.8, 38.8), (27.0 if not torn else 18.0, 8.3, 42.8), "seat"),
+               part("BenchBack", (5.0, 8.3, 42.3), (27.0 if not torn else 18.0, 12.8, 43.4), "seat")]
+        if torn:
+            # The right-hand part of the back has folded forward onto where its cushion was
+            els.append(part("BenchBackFolded", (18.0, 8.3, 42.3), (27.0, 12.8, 43.4), "seat", spin=((22.5, 8.3, 42.8), -62, 0)))
+            els.append(part("BenchFoam", (8.0, 8.3, 39.6), (11.4, 8.8, 41.8), "foam"))
+        return els
+
+    def wheel(torn):
+        cx, cy, z0, a, length, t = 21.3, 8.7, 27.4, 2.55, 2.7, 0.8
+        els = []
+        for i in range(8):
+            if torn and i == 5:
+                continue  # a piece of the rim snapped off
+            th = math.radians(i * 45)
+            mx, my = cx + a * math.cos(th), cy + a * math.sin(th)
+            if i % 2 == 0:  # the straight sides: top, bottom, left, right
+                half = (t / 2, length / 2) if i in (0, 4) else (length / 2, t / 2)
+                els.append(part(f"WheelRim{i}", (mx - half[0], my - half[1], z0), (mx + half[0], my + half[1], z0 + t), "trim"))
+            else:
+                els.append(part(f"WheelRim{i}", (mx - length / 2, my - t / 2, z0), (mx + length / 2, my + t / 2, z0 + t), "trim",
+                                spin=((mx, my, z0 + t / 2), 0, -45 if i in (1, 5) else 45)))
+        els += [part("WheelSpokeH", (cx - a, cy - 0.4, z0 + 0.1), (cx + a, cy + 0.4, z0 + 0.7), "trim"),
+                part("WheelSpokeV", (cx - 0.4, cy - a, z0 + 0.1), (cx + 0.4, cy, z0 + 0.7), "trim"),
+                part("WheelHub", (cx - 1.1, cy - 1.1, z0 - 0.1), (cx + 1.1, cy + 1.1, z0 + 1.0), "trim"),
+                part("WheelCap", (cx - 0.6, cy - 0.6, z0 + 1.0), (cx + 0.6, cy + 0.6, z0 + 1.4), "metal"),
+                part("WheelColumn", (cx - 0.7, 8.0, 24.6), (cx + 0.7, 9.4, z0), "trim", faces=("north", "east", "west", "up", "down"))]
+        return els
+
+    def doorcards(torn):
+        els = []
+        for east in (False, True):
+            def X(a, b):
+                return (32 - b, 32 - a) if east else (a, b)
+            tag = "E" if east else "W"
+            inner = "west" if east else "east"
+            c0, c1 = X(4.0, 5.2)
+            card_faces = (inner, "up", "north", "south")
+            if torn and not east:
+                # The lower half of this card has come away and hangs from the armrest by a strip of vinyl
+                els.append(part(f"Card{tag}Upper", (c0, 8.2, 21.0), (c1, 10.9, 44.2), "doorcard", faces=card_faces))
+                els.append(part(f"Card{tag}Flap", (c0 + 1.0, 5.8, 25.0), (c1 + 1.0, 8.2, 36.0), "doorcard", faces=("east", "west", "north", "south", "down"),
+                                spin=((c0 + 1.0, 8.2, 30.5), 0, 28)))
+                els.append(part(f"Card{tag}Bare", (c0, 5.8, 21.0), (c0 + 0.5, 8.2, 44.2), "tyre", faces=(inner,)))
+            else:
+                els.append(part(f"Card{tag}", (c0, 5.8, 21.0), (c1, 10.9, 44.2), "doorcard", faces=card_faces))
+            a0, a1 = X(5.2, 6.6)
+            els.append(part(f"Armrest{tag}", (a0, 9.4, 27.0), (a1, 10.4, 37.0), "trim"))
+            p0, p1 = X(5.2, 6.0)
+            els.append(part(f"Pull{tag}", (p0, 8.0, 36.5), (p1, 8.6, 40.0), "metal"))
+            s0, s1 = X(5.2, 5.7)
+            els.append(part(f"Speaker{tag}", (s0, 6.4, 24.0), (s1, 8.0, 28.0), "tyre", faces=(inner, "up", "down", "north", "south")))
+        return els
+
+    def dashboard(torn):
+        els = [
+            part("DashPad", (4.0, 9.0, 20.3), (28.0, 11.0, 26.0), "trim", faces=("up", "south", "down")),
+            part("DashKnee", (4.0, 6.8, 20.3), (28.0, 9.0, 24.6), "trim", faces=("south", "down")),
+            # The binnacle over the driver's dials, with its hood
+            part("DashHump", (16.6, 9.0, 22.6), (25.6, 12.4, 26.4), "trim", faces=("north", "east", "west")),
+            # (the dials' plate: just the top-left 16 x 6 px of its texture, which is where they are painted)
+            part("DashDials", (16.6, 9.0, 26.4), (25.6, 12.4, 26.9), "dials", faces=("south",), uv=(0, 0, 8, 3)),
+            part("DashDialsSides", (16.6, 9.0, 26.4), (25.6, 12.4, 26.9), "trim", faces=("east", "west", "down")),
+            part("DashHood", (16.2, 12.4, 22.6), (26.0, 13.1, 27.2), "trim"),
+            part("Glovebox", (6.6, 7.2, 24.6), (13.2, 8.8, 25.1), "doorcard", faces=("south", "east", "west", "up", "down")),
+            part("GloveHandle", (9.4, 8.3, 25.1), (10.4, 8.7, 25.4), "metal"),
+            part("Tunnel", (15.0, FLOOR, 23.0), (17.0, 6.9, 41.0), "trim", faces=("up", "north", "south", "east", "west")),
+            part("Console", (15.0, 6.9, 30.5), (17.0, 8.3, 36.5), "trim", faces=("up", "north", "south", "east", "west")),
+            part("GearLever", (15.75, 6.9, 26.4), (16.25, 9.7, 26.9), "metal", spin=((16.0, 6.9, 26.6), -10, 0)),
+            part("GearKnob", (15.55, 9.6, 26.2), (16.45, 10.6, 27.1), "trim"),
+            part("PedalA", (17.6, FLOOR, 22.4), (19.0, 6.4, 24.0), "tyre"),
+            part("PedalB", (19.8, FLOOR, 22.4), (21.2, 6.4, 24.0), "tyre"),
+            part("PedalC", (22.4, FLOOR, 22.4), (23.6, 6.2, 23.8), "tyre"),
+        ]
+        if torn:
+            # The radio has been pulled out of its slot, leaving the hole
+            els.append(part("RadioHole", (13.0, 9.2, 26.0), (16.2, 10.8, 26.3), "tyre", faces=("south",)))
+        else:
+            els.append(part("Radio", (13.0, 9.2, 26.0), (16.2, 10.8, 26.3), "radio", faces=("south",), uv=(0, 0, 6, 3)))
+        # The mirror hanging from the roof
+        if not torn:
+            els += [part("MirrorStem", (15.7, 17.6, 25.7), (16.3, 18.5, 26.2), "metal"),
+                    part("Mirror", (14.0, 15.8, 25.8), (18.0, 17.6, 26.4), "trim"),
+                    part("MirrorGlass", (14.4, 16.0, 26.4), (17.6, 17.4, 26.6), "glass", faces=("south",))]
+        return els
+
+    def roofliner(torn):
+        els = [part("Visor", (6.0, 17.6, 25.8), (13.4, 18.5, 27.4), "trim"),
+               part("VisorDrive", (18.6, 17.6, 25.8), (26.0, 18.5, 27.4), "trim"),
+               part("DomeLamp", (15.0, 18.0, 31.0), (17.4, 18.5, 33.4), "lamp")]
+        if torn:
+            # The headliner has come unglued and sags from the back
+            els.append(part("LinerSag", (5.5, 17.9, 26.8), (26.5, 18.5, 37.8), "liner", faces=("up", "down", "north", "east", "west"),
+                            spin=((16.0, 18.5, 37.8), -9, 0)))
+        return els
+
+    def litter():
+        # Glass crumbs on the seats and floor, a rusted can, a mound of mud and leaves, paper
+        return [part("GlassA", (6.9, 8.2, 31.2), (8.3, 8.7, 32.6), "glass"),
+                part("GlassB", (20.0, FLOOR, 29.0), (21.8, 6.0, 30.4), "glass"),
+                part("GlassC", (24.0, FLOOR, 24.6), (25.6, 6.0, 25.5), "glass"),
+                part("GlassD", (10.0, FLOOR, 36.0), (11.2, 6.0, 37.0), "glass"),
+                part("Can", (22.0, FLOOR, 24.8), (23.6, 7.0, 26.4), "rim"),
+                part("Mud", (6.0, FLOOR, 35.0), (10.4, 6.6, 38.4), "carpet"),
+                part("Paper", (12.0, FLOOR, 25.5), (14.6, 6.0, 27.8), "liner")]
+
+    def interior(torn):
+        els = [
+            part("Carpet", (4.0, 5.0, 20.0), (28.0, FLOOR, 45.0), "carpet", faces=("up",)),
+            part("Shelf", (4.0, 10.0, 43.4), (28.0, 10.6, 45.0), "trim", faces=("up", "down", "north")),
+        ]
+        els += dashboard(torn) + wheel(torn) + front_seat("P", "pass", torn) + front_seat("D", "drive", torn)
+        els += rear_bench(torn) + doorcards(torn) + roofliner(torn)
+        if torn:
+            els += litter()
+        return els
+
+    def shell():
+        """The car without its inside: the body is open above the floor between the dashboard and the rear shelf."""
+        front = box("Body", (4, 3, 1), (28, 11, 20), "body")
+        front["faces"]["south"]["texture"] = "#trim"
+        rear = box("BodyRear", (4, 3, 45), (28, 11, 63), "body")
+        rear["faces"]["north"]["texture"] = "#trim"
+        els = [front, rear,
+               box("BodyFloor", (4, 3, 20), (28, FLOOR, 45), "body", faces=("down",)),
+               *side(1, 4, 1),
+               *side(28, 31, 31),
+               *glasshouse(),
+               box("BumperFront", (1, 3, 0), (31, 6.5, 1), "metal"),
+               box("BumperRear", (1, 3, 63), (31, 6.5, 64), "metal"),
+               box("Grille", (10, 6.5, 0.7), (22, 9.5, 1), "tyre"),
+               box("LampLeft", (3, 7, 0.6), (8, 9.5, 1), "lamp", glow=60),
+               box("LampRight", (24, 7, 0.6), (29, 9.5, 1), "lamp", glow=60),
+               box("TailLeft", (3, 7.5, 63), (8, 9.5, 63.4), "tail"),
+               box("TailRight", (24, 7.5, 63), (29, 9.5, 63.4), "tail")]
+        for e in els:
+            if e["name"] == "Roof":
+                e["faces"]["down"]["texture"] = "#liner"  # (the headliner, from inside)
+        return els
+
+    def interior_textures(worn):
+        """The texture keys the inside uses: clean, or the wrecks' (worn, stained, split)."""
+        t = "backrooms:block/level1/car-"
+        if not worn:
+            return {"seat": t + "cloth", "trim": t + "trim", "carpet": t + "carpet", "liner": t + "liner", "doorcard": t + "doorcard",
+                    "dials": t + "dials", "radio": t + "radio", "foam": t + "foam"}
+        return {"seat": t + "seat", "trim": t + "trimworn", "carpet": t + "carpetworn", "liner": t + "linerworn",
+                "doorcard": t + "doorcardworn", "dials": t + "dials", "radio": t + "radio", "foam": t + "foam"}
+
     for colour in ("red", "blue", "white", "black"):
         textures = {"body": f"backrooms:block/level1/car-{colour}", "glass": "backrooms:block/level1/car-glass",
                     "tyre": "backrooms:block/props/metal-dark", "metal": "backrooms:block/props/metal",
-                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve"}
-        clean = [
-            # The body under the beltline (bonnet and boot lid on top), its sides added round the wheel arches
-            box("Body", (4, 3, 1), (28, 11, 63), "body"),
-            *side(1, 4, 1),
-            *side(28, 31, 31),
-            *glasshouse(),
-            box("BumperFront", (1, 3, 0), (31, 6.5, 1), "metal"),
-            box("BumperRear", (1, 3, 63), (31, 6.5, 64), "metal"),
-            box("Grille", (10, 6.5, 0.7), (22, 9.5, 1), "tyre"),
-            box("LampLeft", (3, 7, 0.6), (8, 9.5, 1), "lamp", glow=60),
-            box("LampRight", (24, 7, 0.6), (29, 9.5, 1), "lamp", glow=60),
-            box("TailLeft", (3, 7.5, 63), (8, 9.5, 63.4), "tail"),
-            box("TailRight", (24, 7.5, 63), (29, 9.5, 63.4), "tail"),
-        ]
-        save(f"car-{colour}", textures, clean)
+                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve",
+                    **interior_textures(False)}
+        save(f"car-{colour}", textures, shell() + interior(False))
 
     # Level 1's abandoned cars are wrecks of the same car: sat down on flat tyres, the side glass gone (the seats show
     # through), the windscreen crazed round a hole and the rear window out, a headlamp smashed, the bonnet sprung, a
@@ -718,7 +957,7 @@ def parking():
 
     def wrecked():
         els = []
-        for e in json.loads(json.dumps(clean)):
+        for e in json.loads(json.dumps(shell() + interior(True))):
             n = e["name"]
             if n.startswith(("Cabin", "Quarter", "Wheel", "Hub", "RearWindow")):
                 continue
@@ -744,21 +983,19 @@ def parking():
                     hx = (1.3, 1.6) if out_ < 0 else (30.4, 30.7)
                     els.append(box(f"Rim{tag}", (hx[0], 2, c - 1.5), (hx[1], 5, c + 1.5), "rim"))
         floor = 11 - sag
-        els += [box("SeatFL", (6, floor, 26.5), (14, floor + 2, 31), "seat"), box("SeatFLBack", (6, floor, 31), (14, floor + 7, 32.5), "seat"),
-                box("SeatFR", (18, floor, 26.5), (26, floor + 2, 31), "seat"), box("SeatFRBack", (18, floor, 31), (26, floor + 7, 32.5), "seat"),
-                box("Bench", (5, floor, 37), (27, floor + 2, 40.5), "seat"), box("BenchBack", (5, floor, 40.5), (27, floor + 6, 42), "seat"),
-                box("Wheelhub", (19.5, floor + 3, 23.5), (22.5, floor + 6, 24.5), "tyre"),
-                dict(box("Bonnet", (5, floor, 1.5), (27, floor + 0.7, 15), "body"), rotationOrigin=[16, floor, 15], rotationX=-7)]
+        els.append(dict(box("Bonnet", (5, floor, 1.5), (27, floor + 0.7, 15), "body"), rotationOrigin=[16, floor, 15], rotationX=-7))
         return els
 
     for state, base in (("redwreck", "red"), ("bluewreck", "blue"), ("whitewreck", "white"), ("burnt", "black")):
         textures = {"body": f"backrooms:block/level1/car-{state}", "glass": "backrooms:block/level1/car-glass",
-                    "glassbroken": "backrooms:block/level1/car-glass-broken", "seat": "backrooms:block/level1/car-seat"
-                    if state != "burnt" else "backrooms:block/level1/car-burnt", "rim": PIPE_TEX["rust"],
+                    "glassbroken": "backrooms:block/level1/car-glass-broken", "rim": PIPE_TEX["rust"],
                     "tyre": "backrooms:block/props/metal-dark", "metal": "backrooms:block/props/metal",
-                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve"}
+                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve",
+                    **interior_textures(True)}
         if state == "burnt":
-            textures.update(metal=PIPE_TEX["rust"], lamp="backrooms:block/props/metal-dark", tail="backrooms:block/props/metal-dark")
+            ash = "backrooms:block/level1/car-burnt"
+            textures.update(metal=PIPE_TEX["rust"], lamp="backrooms:block/props/metal-dark", tail="backrooms:block/props/metal-dark",
+                            seat=ash, trim=ash, carpet=ash, liner=ash, doorcard=ash)
         save(f"car-{state}", textures, wrecked())
 
 

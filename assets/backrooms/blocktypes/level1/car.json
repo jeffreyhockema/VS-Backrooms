@@ -18,6 +18,8 @@
 		"*-east": { base: "block/car-{colour}", rotateY: 270 },
 		"*-west": { base: "block/car-{colour}", rotateY: 90 }
 	},
+	// Transparent pass: the tinted side glass shows the inside (seats, dashboard) through it
+	renderpass: "Transparent",
 	sidesolid: { all: false },
 	sideopaque: { all: false },
 	lightAbsorption: 0,
