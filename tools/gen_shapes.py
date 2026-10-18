@@ -1370,7 +1370,77 @@ def level3():
     save("rungs", {"metal": PIPE_TEX["rust"]}, [
         box(f"Rung{i}", (4, y, 2), (12, y + 1, 3), "metal") for i, y in enumerate((2, 6, 10, 14))
     ] + [box("RailL", (3, 0, 0.5), (4, 16, 3), "metal"), box("RailR", (12, 0, 0.5), (13, 16, 3), "metal")])
+    manhole_ladder()
 
+
+
+# ---------------- Level 3: the manholes of layout version 9 ----------------
+
+MANHOLE_TEX = {"ladder": "backrooms:block/level3/manholeladder", "iron": "backrooms:block/level3/manhole",
+               "lip": "backrooms:block/level3/hazardlip", "lid": "backrooms:block/level3/hatchlid",
+               "concrete": "backrooms:block/concrete"}
+
+
+def manhole_ladder():
+    """Layout version 9's manhole (WorldLayout.AddManholeTunnel): an opening two blocks long with a ladder two wide
+    down one side of it, from the dry landing at the foot to the lip, in two halves (left and right as seen facing
+    the ladder; the blocktype turns them to the side they are on). Modelled on the north face: the ladder stands off
+    the wall at z 0-3.5 (its collision box is the vanilla ladder's, 3 px deep), the opening runs on to z 16. The
+    rails are at the two outer ends only and the rungs run on across the join, so the pair reads as one ladder.
+
+    The top half (at the floor) carries the lip: a hazard-striped steel frame half a pixel proud of the floor round
+    the opening, drawn only (the opening is the whole two blocks, nothing to stand on but the ladder's own top);
+    the rails standing on above the floor and hooking over the opening, as a manhole's grab rails do; and the open
+    lid, a chequer-plate leaf standing up on its hinges along the far edge. None of these has a collision box, so
+    nothing narrows the way in."""
+    def half(left, top):
+        def X(a, b):  # a span across the half, measured from its outer end (mirrored for the right half)
+            return (a, b) if left else (16 - b, 16 - a)
+
+        def bx(name, x, y, z, tex, faces=DIRS):
+            (x1, x2) = X(*x)
+            return box(name, (x1, y[0], z[0]), (x2, y[1], z[1]), tex, faces=faces)
+
+        outer = ("west",) if left else ("east",)
+        inner = ("east",) if left else ("west",)
+        els = [bx("Rail", (1, 2.5), (0, 16), (1, 3.5), "ladder"),
+               bx("BracketLow", (1.25, 2.25), (3, 4), (0, 1), "iron", faces=("east", "west", "up", "down")),
+               bx("BracketHigh", (1.25, 2.25), (11, 12), (0, 1), "iron", faces=("east", "west", "up", "down")),
+               # The stay in the middle of the span, against the wall (half of it in each half)
+               bx("Stay", (15, 16), (5.5, 6.5), (0, 1.75), "iron", faces=outer + ("south", "up", "down"))]
+        for i, y in enumerate((1.5, 5.5, 9.5, 13.5)):
+            els.append(bx(f"Rung{i}", (2.5, 16), (y, y + 1), (1.75, 3.25), "ladder", faces=("north", "south", "up", "down")))
+        if not top:
+            return els
+        # The lip round the opening: along the far edge, the outer end and the ladder's own edge
+        els += [bx("LipFar", (0, 16), (15, 16.5), (14.5, 16), "lip", faces=("up", "north")),
+                bx("LipEnd", (0, 1.5), (15, 16.5), (1, 14.5), "lip", faces=("up",) + inner),
+                bx("LipNear", (0, 16), (15, 16.5), (0, 1), "lip", faces=("up", "south"))]
+        # The rails stand on above the floor and hook over the opening
+        els += [bx("RailTop", (1, 2.5), (16, 27), (1, 3.5), "ladder"),
+                bx("RailHook", (1, 2.5), (25.5, 27), (3.5, 8), "ladder", faces=("east", "west", "up", "down", "south")),
+                bx("RailHookDrop", (1, 2.5), (21, 25.5), (6.5, 8), "ladder", faces=("east", "west", "down", "north", "south"))]
+        # The open lid, standing up along the far edge on two hinges, a pull handle on the face toward the opening
+        lid = bx("Lid", (1, 16), (16.5, 29.5), (13, 14), "lid", faces=("north", "south", "up") + outer)
+        lid["rotationOrigin"], lid["rotationX"] = [8, 16.5, 13.5], -5
+        els += [lid,
+                bx("HingeA", (4, 6.5), (15.5, 17.5), (13, 15), "iron"),
+                bx("HingeB", (11, 13.5), (15.5, 17.5), (13, 15), "iron"),
+                bx("Handle", (12, 16), (24, 25), (11.8, 12.8), "iron", faces=("north", "up", "down") + outer)]
+        return els
+
+    for top in (True, False):
+        for left in (True, False):
+            name = ("top" if top else "") + ("left" if left else "right")
+            save(f"manholeladder-{name}", MANHOLE_TEX, half(left, top))
+    # The half step up out of the flooded tunnel onto the landing, its edges painted
+    save("tunnelstep", MANHOLE_TEX, [
+        box("Step", (0, 0, 0), (16, 8, 16), "concrete"),
+        box("NoseN", (0, 8, 0), (16, 8.2, 1.5), "lip", faces=("up", "north")),
+        box("NoseS", (0, 8, 14.5), (16, 8.2, 16), "lip", faces=("up", "south")),
+        box("NoseW", (0, 8, 1.5), (1.5, 8.2, 14.5), "lip", faces=("up", "west")),
+        box("NoseE", (14.5, 8, 1.5), (16, 8.2, 14.5), "lip", faces=("up", "east")),
+    ])
 
 # ---------------- Level 4: the office furniture (graphics pass B7, hardware and furniture from tools/modelkit.py) ----------------
 

@@ -59,7 +59,8 @@ public partial class CheatSystem : ModSystem
         // purpified thing in a Level 3 wall, from two blocks in front of it, looking at it)
         ("tram", "Level 2 dead tram", 384, 1024),
         ("purpified", "Level 3 purpified", 384, 1024),
-        // (Down a Level 3 manhole: in the flooded tunnel at the foot of the rungs, looking at them, to test the ladder)
+        // (Down a Level 3 manhole: at the foot of the rungs, looking at them, to test the ladder; in the flooded tunnel in
+        // worlds of layout versions 1-8, on the dry landing from 9)
         ("manhole", "Level 3 manhole ladder", 384, 1024),
         // (Layout version 5: a Level 10 field's shed, trough or fallen gate, from four blocks south of it; a Level 11
         // billboard, from the street in front of its building; an advertising pillar, from three blocks south-east of
@@ -611,11 +612,15 @@ public partial class CheatSystem : ModSystem
             {
                 if (level != 3) return TextCommandResult.Error("Manholes are in Level 3");
                 if (layout.NearestManhole(gx, gz, radius) is not { } m) { found = null; break; }
-                // Down in the shaft itself, on the tunnel's clay floor (rel -5) in its knee-deep water, the rungs on the
-                // shaft's north side in front of you (WorldGenerator.BelowFloor): walk forward to climb
+                // Down in the shaft itself (WorldGenerator.BelowFloor), the rungs in front of you: walk forward to climb.
+                // Layout versions 1-8: on the tunnel's clay floor (rel -5) in its knee-deep water, the rungs on the
+                // shaft's north side; from 9, on the dry landing (rel -4) at the foot of the ladder, on the tile's Pier side
                 int md = (int)Math.Sqrt((double)(m.X - gx) * (m.X - gx) + (double)(m.Z - gz) * (m.Z - gz));
-                Teleport((IServerPlayer)args.Caller.Player, m.X + 0.5, geometry.FloorFor(level) - 4 + 0.05, m.Z + 0.5);
-                return TextCommandResult.Success($"{target.Name} (heading 0 looks at the rungs), {md} blocks from where you were ({FromSpawn(m.X, m.Z)})");
+                Tile shaft = layout.TileAt(m.X, m.Z);
+                bool ladder = shaft.Zone != 0;
+                Teleport((IServerPlayer)args.Caller.Player, m.X + 0.5, geometry.FloorFor(level) - (ladder ? 3 : 4) + 0.05, m.Z + 0.5);
+                int heading = ladder ? PierHeading(shaft.Pier, false) : 0;
+                return TextCommandResult.Success($"{target.Name} (heading {heading} looks at the {(ladder ? "ladder" : "rungs")}), {md} blocks from where you were ({FromSpawn(m.X, m.Z)})");
             }
             case "fieldthing":
                 if (level != 10) return TextCommandResult.Error("That is in Level 10");

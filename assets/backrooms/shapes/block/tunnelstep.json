@@ -1,0 +1,214 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "ladder": "backrooms:block/level3/manholeladder",
+  "iron": "backrooms:block/level3/manhole",
+  "lip": "backrooms:block/level3/hazardlip",
+  "lid": "backrooms:block/level3/hatchlid",
+  "concrete": "backrooms:block/concrete"
+ },
+ "elements": [
+  {
+   "name": "Step",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    8,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "east": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "south": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "west": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      8
+     ]
+    },
+    "up": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#concrete",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "NoseN",
+   "from": [
+    0,
+    8,
+    0
+   ],
+   "to": [
+    16,
+    8.2,
+    1.5
+   ],
+   "faces": {
+    "up": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      16,
+      1.5
+     ]
+    },
+    "north": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "NoseS",
+   "from": [
+    0,
+    8,
+    14.5
+   ],
+   "to": [
+    16,
+    8.2,
+    16
+   ],
+   "faces": {
+    "up": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      16,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "NoseW",
+   "from": [
+    0,
+    8,
+    1.5
+   ],
+   "to": [
+    1.5,
+    8.2,
+    14.5
+   ],
+   "faces": {
+    "up": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      1.5,
+      13.0
+     ]
+    },
+    "west": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "NoseE",
+   "from": [
+    14.5,
+    8,
+    1.5
+   ],
+   "to": [
+    16,
+    8.2,
+    14.5
+   ],
+   "faces": {
+    "up": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      1.5,
+      13.0
+     ]
+    },
+    "east": {
+     "texture": "#lip",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -2086,8 +2086,43 @@ def l3_fixture_textures():
         save(wall_pipe_tex(kind).transpose(Image.Transpose.TRANSPOSE), f"block/level3/{name}.png")
 
 
+def manhole_ladder_textures():
+    """Layout version 9's manholes (gen_shapes.manhole_ladder): the ladder in worn safety-yellow paint over dark steel,
+    so it reads down a dark shaft; the hazard stripes on the lip round the opening and on the step out of the water
+    (black and yellow at 45 degrees, 8 px to a pair so they tile); the open lid's chequer plate."""
+    ladder = M.painted_metal(seed=5301, base=(196, 158, 44), grain=3, mottle=6, panel=False, chips=10,
+                             under=(70, 64, 58))
+    M.rust(ladder, 0.12, seed=5302, cells=(4, 2))
+    M.grime(ladder, 0.12, seed=5303)
+    save(ladder, "block/level3/manholeladder.png")
+
+    lip = M.noise_hv((40, 38, 34), 3, 5304, S, 4)
+    yellow = M.noise_hv((206, 166, 46), 3, 5305, S, 5)
+    p, q = lip.load(), yellow.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 8 < 4:
+                p[x, y] = q[x, y]
+    M.grime(lip, 0.2, seed=5306)  # trodden dust
+    M.scratches(lip, 8, seed=5307)
+    save(lip, "block/level3/hazardlip.png")
+
+    lid = M.noise_hv((92, 90, 86), 3, 5308, S, 6)
+    for y in range(0, S, 8):  # diamond tread: raised lenses, alternately turned, lit on top, a shadow under
+        for x in range(0, S, 8):
+            turn = (x // 8 + y // 8) % 2
+            for i in range(-2, 3):
+                cx, cy = (x + 4 + i, y + 4 - i) if turn else (x + 4 + i, y + 4 + i)
+                M.touch(lid, cx % S, cy % S, 0.2)
+                M.touch(lid, cx % S, (cy + 1) % S, -0.16)
+    M.rust(lid, 0.18, seed=5309, edges=True)
+    M.grime(lid, 0.14, seed=5310)
+    save(lid, "block/level3/hatchlid.png")
+
+
 def level3_textures():
     l3_fixture_textures()
+    manhole_ladder_textures()
     for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
         save(l3_glazed(alt), f"block/level3/l3wall-glazed{v}.png")
         save(l3_brick(alt), f"block/level3/l3wall-brick{v}.png")
