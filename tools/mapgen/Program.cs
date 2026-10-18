@@ -107,6 +107,7 @@ if (args.Length > 2 && args[2] == "features") { Features.Run(layout, m0x, m0z, n
 if (args.Length > 2 && args[2] == "validate") { var (vx, vz) = layout.FindSpawn(); Validator.Run(layout, m0x, m0z, n, vx - m0x * 32, vz - m0z * 32); return; }
 if (args.Length > 2 && args[2] == "spots") { Spots.Run(layout); return; }
 if (args.Length > 2 && args[2] == "probe2") { Probe2.Run(layout, smx, smz); return; }
+if (args.Length > 2 && args[2] == "l10stock") { L10Stock.Run(layout, smx, smz); return; }
 if (args.Length > 4 && args[2] == "farm") { FindFarm.Run(layout, int.Parse(args[3]), int.Parse(args[4]), 20); return; }
 if (args.Length > 2 && args[2] != "region" && args[2] != "at") { Finder.Run(layout); return; }
 var sw = System.Diagnostics.Stopwatch.StartNew();
