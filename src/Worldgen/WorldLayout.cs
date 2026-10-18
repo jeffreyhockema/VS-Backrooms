@@ -346,7 +346,16 @@ public sealed partial class WorldLayout
     /// Level !'s hall is shorter: 15 rows of hallway (RunRows9; in 1-8 19), so the run is about 485 blocks (in 1-8 about
     /// 615), the doglegs, the Safe Zone and the hole placed by the same rules over it; past the exit's row the lane is
     /// solid wall (RunExitAt). Junk that trips a sprinter is put in the gaps of the gauntlet a little less often (in a
-    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55).</item>
+    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55).
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 3999's rooms of tall neon pillars, the units that were atria 18 high, have lower ceilings
+    /// (<see cref="L3999LowAtriumHeight"/>): 10 over a lobby or a natatorium, 11 over a food court or a game hall, whose
+    /// gallery ring at rel 7 keeps a storey of three over it; their pillars, tubes, wall neon and pool tops come down with
+    /// the ceiling, a food court's gallery windows sit at rel 8-10 (in 1-8, 9-11), and the ground above is solid up to the
+    /// walls' 18. The concourses and junctions keep their 18. Level Fun's elevator lobbies are eleven wide west to east
+    /// rather than nine (<see cref="FunLobbyHalfX"/>), and each pair of brass elevator doors stands a block further out
+    /// (north wall offsets -4 and -3, south 3 and 4; in 1-8 -3 and -2, 2 and 3), so wall stands either side of every pair
+    /// instead of the promenade's opening right beside it; the lobby's party dressing moves out with the walls.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

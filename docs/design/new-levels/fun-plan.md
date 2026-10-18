@@ -333,7 +333,7 @@ Blocks count from `FunOriginX/Z` as `PoolBlockOf` does. The `FunPlanner` helper 
   - **They jog.** The centre line steps sideways by 2–4 blocks every 10–16 blocks (hashed per segment, both directions possible). No sight line along a promenade runs further than about 16 blocks. This answers the user's dislike of long straight halls and Fandom's "twisting corridors".
   - Promenades are always continuous; they are how you cross the level.
 - **Elevator lobbies** sit at every block-line crossing (Wikidot: "the elevators are the hub").
-  - 9 × 9, 4 high, carpeted in deep red with brass trim.
+  - 9 × 9, 4 high, carpeted in deep red with brass trim. (Layout version 9: 11 wide west to east, so each pair of elevator doors has wall on both sides, not the promenade's opening beside it.)
   - Two pairs of brass elevator doors (props; they never open; one says "OUT OF ORDER =)").
   - A deck sign pointing down each promenade, a ship's directory board and a potted palm.
   - **They are the region's arrival points:** safe-feeling, lit, and never a party room.

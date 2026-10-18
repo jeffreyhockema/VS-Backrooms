@@ -106,6 +106,14 @@ public sealed partial class WorldLayout
     /// <summary>The air over the floors: corridors, party rooms, the play rooms, the bounce halls, an open deck.</summary>
     private const int FunCorridorHeight = 3, FunRoomHeight = 4, FunPlayHeight = 5, FunBounceHeight = 8, FunDeckHeight = 14;
 
+    /// <summary>
+    /// How far an elevator lobby's floor reaches west and east of its crossing: 4 (nine wide) before layout version 9; from
+    /// 9, 5 (eleven wide), so the two-wide elevator doors on its north and south walls stand between wall on both sides
+    /// rather than right beside the promenade's opening. North to south it stays nine deep (4 either way), so the walls
+    /// behind the doors still back onto solid ship, not a promenade's jog.
+    /// </summary>
+    private int FunLobbyHalfX => Version >= 9 ? 5 : 4;
+
     /// <summary>How far below the deck the sea's bottom lies, and its surface.</summary>
     public const int FunSeaDepth = 10, FunSeaSurface = -6;
 
@@ -282,7 +290,9 @@ public sealed partial class WorldLayout
         int ux = gx - FunOriginX, uz = gz - FunOriginZ;
         int lineX = (int)Math.Round(ux / 32.0), lineZ = (int)Math.Round(uz / 32.0);
         int offX = ux - lineX * 32, offZ = uz - lineZ * 32;
-        if (Hashing.Mod(lineX, 3) == 0 && Hashing.Mod(lineZ, 3) == 0 && Math.Abs(offX) <= 4 && Math.Abs(offZ) <= 4)
+        // (Layout version 9 on: a lobby is eleven wide west to east, not nine, so its elevator doors have wall either side
+        // of them, not the promenade's opening right beside them)
+        if (Hashing.Mod(lineX, 3) == 0 && Hashing.Mod(lineZ, 3) == 0 && Math.Abs(offX) <= FunLobbyHalfX && Math.Abs(offZ) <= 4)
             return (FunZone.Lobby, Math.Abs(offX) == 2 && Math.Abs(offZ) == 2, lineX + lineZ);
         bool ns = InFunBand(1, lineX, offX, uz), we = InFunBand(0, lineZ, offZ, ux);
         if (!ns && !we) return (FunZone.None, false, 0);
@@ -1428,35 +1438,50 @@ public sealed partial class WorldLayout
                 int offX = ux - lineX * 32, offZ = uz - lineZ * 32;
                 ref Tile t = ref p.At(u, v);
                 ulong look = Hashing.Hash(seed, lineX, lineZ, SaltFunLobby);
-                // Elevators on the north wall (west of the way in) and the south wall (east of it)
-                if (t.Kind == TileKind.Wall && offZ == -5 && offX is -3 or -2)
+                // Elevators on the north wall (west of the way in) and the south wall (east of it); from layout version 9
+                // one further out in the wider lobby, so a block of wall stands either side of each pair
+                int shift = FunLobbyHalfX - 4;
+                if (t.Kind == TileKind.Wall && offZ == -5 && (offX == -3 - shift || offX == -2 - shift))
                 {
                     t.Pattern = WallPattern.FunElevator;
                     t.Pier = ArchPier.South;
-                    t.Variant = (ushort)(offX == -3 ? party && (look & 1) == 0 ? 2 : 0 : 1);
+                    t.Variant = (ushort)(offX == -3 - shift ? party && (look & 1) == 0 ? 2 : 0 : 1);
                 }
-                else if (t.Kind == TileKind.Wall && offZ == 5 && offX is 2 or 3)
+                else if (t.Kind == TileKind.Wall && offZ == 5 && (offX == 2 + shift || offX == 3 + shift))
                 {
                     t.Pattern = WallPattern.FunElevator;
                     t.Pier = ArchPier.North;
-                    t.Variant = (ushort)(offX == 3 ? party && (look & 1) == 1 ? 2 : 0 : 1);
+                    t.Variant = (ushort)(offX == 3 + shift ? party && (look & 1) == 1 ? 2 : 0 : 1);
                 }
                 else if (t.Kind == TileKind.Floor && offZ == -4 && offX == 3) FunItem(p, u, v, FunWallItems.DeckSign, ArchPier.South);
-                else if (party && t.Kind == TileKind.Floor && t.Zone == (byte)FunZone.Lobby) DressFunLobbyTile(p, u, v, offX, offZ, look);
+                else if (party && t.Kind == TileKind.Floor && t.Zone == (byte)FunZone.Lobby) DressFunLobbyTile(p, u, v, offX, offZ, look, shift);
             }
     }
 
     /// <summary>
-    /// A lobby's party (layout version 5), by the tile's place in it (offsets from the crossing, -4 to 4): string lights
+    /// A lobby's party (layout version 5), by the tile's place in it (offsets from the crossing, -4 to 4; from layout version 9, -5 to 5 west to east): string lights
     /// along the top of the wall over each pair of elevator doors and confetti trodden into the carpet in front of them,
     /// balloons bunched on the floor beside them, a TIME 4 FUN =) poster by the deck sign, the ship's directory board and
     /// a potted palm (the plan's, never placed before), a cluster of balloons against the ceiling in the middle with
     /// crepe streamers running out from it to the four ways out. The doors' approach and the four openings stay clear
     /// (confetti and the balloons are walked through; the palm stands in a corner).
     /// </summary>
-    private static void DressFunLobbyTile(FunPlanner p, int u, int v, int offX, int offZ, ulong look)
+    private static void DressFunLobbyTile(FunPlanner p, int u, int v, int offX, int offZ, ulong look, int shift)
     {
         ref Tile t = ref p.At(u, v);
+        // (Layout version 9 on, the lobby is a block wider west and east: what stood against its west wall and before the
+        // elevator doors moves out with them, the balloons by the south doors to the new corner; the poster keeps its place
+        // by the deck sign, and where things stood before is bare carpet)
+        if (shift != 0)
+            (offX, offZ) = (offX, offZ) switch
+            {
+                (-5, _) => (-4, offZ),
+                (-4 or -3, -4) => (offX + 1, -4),
+                (3 or 4, 4) => (offX - 1, 4),
+                (5, 4) => (4, 4),
+                (-2, -4) or (2, 4) or (-4, 2) or (-4, 4) => (offX, 99),
+                _ => (offX, offZ),
+            };
         // The balloons' set and the streamers' colours, as a party room's palette holds them
         byte palette = (byte)((int)((look >> 8) % 3) | (int)((look >> 16) % 3) << 6);
         switch (offX, offZ)
