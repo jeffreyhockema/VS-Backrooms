@@ -44,6 +44,9 @@
 	"block-tunnellight-flicker-*": "Failing Fluorescent Fixture",
 	"block-tunnellight-*": "Fluorescent Fixture",
 	"block-machinecabinet-*": "Machine Cabinet",
+	"block-machinecabinetfeed-*": "Machine Cabinet",
+	"block-feedpipe-*": "Pipe",
+	"block-tunnelfitting-*": "Tunnel Wall",
 	"block-wheelstop": "Wheel Stop",
 
 	"block-l3wall-glazed": "Glazed Tile Wall",

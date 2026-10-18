@@ -931,7 +931,10 @@ public static class CityDetail
 public static class Props
 {
     public const byte Drum = 1;
-    /// <summary>Level 2 machine cabinet, facing away from <see cref="Tile.Pier"/>.</summary>
+    /// <summary>
+    /// Level 2 machine cabinet, facing away from <see cref="Tile.Pier"/> (from layout version 9 with its feed pipe up
+    /// the wall behind it into the overhead pipes).
+    /// </summary>
     public const byte Cabinet = 2;
     /// <summary>Level 1 metal shelving with boxes, facing away from <see cref="Tile.Pier"/>.</summary>
     public const byte Shelf = 3;
@@ -1453,9 +1456,15 @@ public static class Props
     public const byte WallPipes = 1;
     public const byte WallMachinery = 2;
     public const byte WallBrick = 3;
-    /// <summary>Level 2 wall with a vertical riser pipe from floor to ceiling.</summary>
+    /// <summary>
+    /// Level 2 wall with a vertical riser pipe from floor to ceiling; from layout version 9, <see cref="Tile.Stack"/> 1
+    /// puts a valve at its foot.
+    /// </summary>
     public const byte WallRiser = 4;
-    /// <summary>Level 2 wall with pipes and a valve wheel.</summary>
+    /// <summary>
+    /// Level 2 wall with pipes and a valve wheel (in 1-8 on the bare wall below the pipes; from layout version 9 a gate
+    /// valve in the steel pipe).
+    /// </summary>
     public const byte WallValve = 5;
     public const byte WallWarning = 6;
     /// <summary>Level 3 wall with an electrical panel.</summary>

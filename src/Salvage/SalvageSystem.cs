@@ -19,7 +19,7 @@ public class SalvageSystem : ModSystem
     /// <summary>First part of the code of every block that can be broken and carried off.</summary>
     private static readonly HashSet<string> Salvageable = new()
     {
-        "supplybox", "crate", "metalshelf", "oildrum", "machinecabinet",
+        "supplybox", "crate", "metalshelf", "oildrum", "machinecabinet", "machinecabinetfeed",
         "ceilingtile", "officeceiling",
         "desk", "officechair", "filingcabinet", "partition", "conferencetable",
         "bed", "nightstand", "wardrobe", "wingchair", "sofa", "longsofa", "pottedpalm", "mahjongtable", "turntable",

@@ -131,7 +131,7 @@ public static class Breakdown
             "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitlintelpair", "exitsign",
             "tunnelwall", "tunnelceiling", "l6block", "l6deco", "whiteblock", "whitecam", "oceanceiling",
             "subwaywall", "subwaydeco", "citypier", "cityfacade", "cityroof", "citydeco", "chimney", "snackceiling",
-            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner");
+            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting");
         Add(Floor, "concretefloor", "l1hallfloor", "dustyfloor", "l3floor", "subwayfloor", "cityfloor", "parkfloor", "snackfloor",
             "funfloor", "hotelfloor");
         Add(CarpetFloor, "carpet", "officecarpet", "officecarpetalt", "hotelcarpet");
@@ -146,7 +146,7 @@ public static class Breakdown
             "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan",
             "housestorey", "housestairs", "porchdeck", "porchpost");
         Add(Joinery, "kitchencounter", "hotelreception", "thronetable", "grandfatherclock", "grandpiano");
-        Add(Metal, "pipes", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
+        Add(Metal, "pipes", "feedpipe", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
             "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
             "cagelift", "suburbsign", "suburbsignblade", "citysign");

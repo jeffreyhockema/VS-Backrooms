@@ -213,7 +213,13 @@ public sealed partial class WorldLayout
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
     /// <item>9: (in progress, 2026-10) levels no longer bleed into each other at their edges, only at the doorway
     /// between them; Level 1's stairs are two wide, its signs stand where they make sense and its parking bays are
-    /// never cut off by a wall. Each change's own line is added here as it lands.</item>
+    /// never cut off by a wall. Each change's own line is added here as it lands. Level 2's fittings lead somewhere: a
+    /// valve wall's valve is a gate valve in the wall pipes (tunnelfitting-pipesvalve; in 1-8 a wheel on the bare wall
+    /// under them) and never beside another, about one riser in three has a valve at its foot (Tile.Stack 1 on a
+    /// WallRiser, tunnelfitting-riservalve), a wall cabinet's conduits run on up into the ceiling
+    /// (tunnelfitting-machinerytop), and a pump gallery's machine cabinet feeds the overhead bundle by a pipe up the wall
+    /// behind it (machinecabinetfeed, feedpipe), whose wall carries no wall cabinet, valve or riser valve to clash with it
+    /// (PlaceL2Valve, ClearBehindCabinets; the generator's TunnelFitting).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

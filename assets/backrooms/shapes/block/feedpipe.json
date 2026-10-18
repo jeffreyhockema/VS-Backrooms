@@ -1,0 +1,241 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "metal": "backrooms:block/props/metal",
+  "rust": "backrooms:block/level2/pipe-rust"
+ },
+ "elements": [
+  {
+   "name": "Pipe",
+   "from": [
+    11.25,
+    0,
+    10.25
+   ],
+   "to": [
+    13.75,
+    28.5,
+    12.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#rust",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clamp",
+   "from": [
+    10.75,
+    7.5,
+    9.75
+   ],
+   "to": [
+    14.25,
+    9.0,
+    13.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      1.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      3.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      3.5,
+      3.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Strut",
+   "from": [
+    12.0,
+    7.75,
+    13.25
+   ],
+   "to": [
+    13.0,
+    8.75,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.75,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.75,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.75
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "Foot",
+   "from": [
+    11.25,
+    7.0,
+    15.5
+   ],
+   "to": [
+    13.75,
+    9.5,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      2.5
+     ]
+    },
+    "east": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#metal",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}
