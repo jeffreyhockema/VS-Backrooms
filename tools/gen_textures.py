@@ -1264,6 +1264,35 @@ def tunnel_concrete(seed):
     return img
 
 
+def tunnel_plain(alt=0):
+    """(Graphics pass, Level 2) The tunnel wall's plain concrete: the original's tone and quiet grain, without the
+    shaded circle that sat in every block (and the tie holes and streaks that repeated with it). Three versions share
+    one faint low-frequency ground and are turned and mixed at random by the blocktype (`matlib.turn_safe`), so no
+    block edge shows; only version 3 (one block in eight) has a mark, a faint damp run, kept inside the block."""
+    base = hexrgb(0x43484D)
+    ground = M.noise_hv(base, 0, 3500, S, 5, (16, 8), hue=0)
+    img = noise_fill(base, 4, 3510 + alt)
+    px, gp = img.load(), ground.load()
+    for y in range(S):  # the original's grain over the shared ground
+        for x in range(S):
+            px[x, y] = M.rgba(tuple(px[x, y][i] + gp[x, y][i] - base[i] for i in range(3)))
+    M.turn_safe(img, ground, band=8, keep=0.6)
+    rng = random.Random(3520 + alt)
+    for _ in range(18):  # pores and aggregate, as before
+        x, y = rng.randrange(S), rng.randrange(S)
+        px[x, y] = shade(px[x, y], 0.86)
+    plain = img.copy()
+    if alt == 2:
+        sx, phase = rng.randrange(11, 19), rng.random() * 6.283
+        for y in range(S):
+            k = 0.07 + 0.05 * math.sin(y * 6.283 / S + phase)
+            dx = round(1.5 * math.sin(y * 0.35 + phase))
+            for x, w in ((sx + dx, 1.0), (sx + dx + 1, 0.6), (sx + dx - 1, 0.3)):
+                px[x, y] = shade(px[x, y], 1 - k * w)
+    img = inside_block(plain, img)
+    return match_rgb(img, (66, 70, 74), "tunnelwall")
+
+
 def tunnel_brick(seed=360):
     """(B5) The brick panels in Level 2's walls: dark, sooty engineering brick in running bond (`matlib.brick`), each
     brick its own shade and a little hue, lit on top, the 2 px joints recessed and darker than the brick, as the old
@@ -3055,7 +3084,8 @@ def level_textures():
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")
     # The plain wall as it was before B5 (D1: the user's choice), the brick from matlib (B5)
-    save(tunnel_wall("plain"), "block/level2/tunnelwall-plain.png")
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):  # three versions, one shared ground, turned at random
+        save(tunnel_plain(alt), f"block/level2/tunnelwall-plain{v}.png")
     save(tunnel_brick(), "block/level2/tunnelwall-brick.png")
     save(tunnel_wall("machinery"), "block/level2/tunnelwall-machinery.png")
     cabinet_textures()

@@ -108,6 +108,29 @@ def tunnel_door_shape(part):
     return shape(f"tunneldoor-{part}", els)
 
 
+def trolley_textures():
+    """(Level 2 art) The flatbed trolley's materials: faded ochre paint on the stake pockets and handle, bare rusty steel
+    for the chassis, two weathered deck boards, and a worn tyre. Each shows rust, grime or runs; the model's faces show
+    a texture from its corner, so nothing is tied to its edges."""
+    def steel(key, base, rust, mean):
+        im = M.painted_metal(seed_of(key), base=base, grain=3, mottle=6, panel=False, chips=5, under=(96, 78, 62))
+        M.rust(im, rust, seed_of(key + "rust"), color=(142, 74, 38), dark=(86, 46, 30))
+        M.grime(im, 0.22, seed_of(key + "grime"), cover=0.55)
+        M.drips(im, 4, seed_of(key + "runs"), color=(110, 62, 36), length=(6, 16), strength=0.35)
+        return T.match_mean(im, mean)
+    save(steel("trolleypaint", (168, 138, 66), 0.16, 104), "trolleypaint")
+    save(steel("trolleyrust", (84, 66, 52), 0.5, 66), "trolleyrust")
+    for k, base, mean in (("", (150, 112, 70), 96), ("2", (128, 94, 60), 84)):
+        im = M.wood_planks(seed_of("trolleyplank" + k), base=base, planks=[S], direction="v", grain=4, contrast=1.1,
+                           flecks=1.2, per_plank=4)
+        M.grime(im, 0.3, seed_of("trolleyplankgrime" + k), color=(48, 40, 30), cover=0.6)
+        M.stain(im, seed_of("trolleyplankstain" + k), radius=7, color=(60, 48, 34), strength=0.3)
+        save(T.match_mean(im, mean), "trolleyplank" + k)
+    im = M.rubber(seed_of("trolleytyre"), base=(52, 50, 50), grain=3, mottle=5)
+    M.grime(im, 0.25, seed_of("trolleytyregrime"), color=(86, 80, 70), cover=0.5)
+    save(im, "trolleytyre")
+
+
 def tram_textures():
     """Level 2's tramway (layout version 5): rusted rail, the B.N.T.G.'s locomotive in faded green with a yellow band
     and its initials, its grimy cab glass and grilles; the candle stubs a den's visitors left.
@@ -304,6 +327,65 @@ def level1():
          comment="A traffic sign in Level 1's car park. They point at walls and dead ends as often as not")
 
 
+def trolley_parts():
+    """(Level 2 art) The flatbed trolley as geometry, front to the north: two steel channels with cross members and the
+    axles under them, five deck boards with gaps (one split and sagging), stake pockets along both sides with one bent
+    stake still in its pocket, a tow ring at the front, rubber tyres on hubs, and a push handle at the back (two
+    uprights in sockets, a lower bar and a grip). Footprint and collision as before; the top of the deck is at 5.5."""
+    els = []
+    # chassis: channels (web and inward lip), cross members, tow ring
+    for nm, x1, x2, lx1, lx2 in (("L", 1.2, 2.4, 2.4, 3.4), ("R", 13.6, 14.8, 12.6, 13.6)):
+        els += [bx(f"Channel{nm}", (x1, 3.0, 0.4), (x2, 4.2, 15.6), "trolleyrust"),
+                bx(f"Lip{nm}", (lx1, 3.0, 0.4), (lx2, 3.5, 15.6), "trolleyrust", faces=("north", "south", "up", "down", "east", "west"))]
+    for i, z in enumerate((1.5, 7.0, 13.0)):
+        els.append(bx(f"Cross{i}", (3.4, 3.4, z), (12.6, 4.2, z + 1.2), "trolleyrust", faces=("north", "south", "down")))
+    els += [bx("TowPlate", (6.5, 3.2, 0.2), (9.5, 4.2, 1.6), "trolleyrust"),
+            bx("TowRingL", (6.7, 3.4, 0.05), (7.5, 4.0, 1.0), "trolleypaint", faces=("north", "east", "up")),
+            bx("TowRingR", (8.5, 3.4, 0.05), (9.3, 4.0, 1.0), "trolleypaint", faces=("north", "west", "up")),
+            bx("TowRingBar", (7.5, 3.4, 0.05), (8.5, 4.0, 0.6), "trolleypaint", faces=("north", "up"))]
+    # deck boards along Z with gaps, uneven wear
+    for i in range(5):
+        x1 = 1.4 + i * 2.7
+        key = "trolleyplank" if i % 2 == 0 else "trolleyplank2"
+        top = (4.2, 5.5)
+        if i == 2:  # split across the middle: the rear half sags
+            els += [bx("PlankSplitF", (x1, 4.2, 0.2), (x1 + 2.4, 5.5, 7.6), key, faces=("north", "east", "west", "up", "south")),
+                    bx("PlankSplitR", (x1, 4.2, 8.5), (x1 + 2.4, 5.3, 15.8), key, faces=("south", "east", "west", "up", "north"),
+                       rot=(-2.5, 0, 0), origin=(x1 + 1.2, 5.0, 15.8))]
+            continue
+        z1 = 0.9 if i == 4 else 0.2  # one board worn short at the front
+        els.append(bx(f"Plank{i}", (x1, top[0], z1), (x1 + 2.4, top[1], 15.8), key, faces=("north", "east", "west", "up", "south")))
+    # stake pockets (sockets with a dark mouth) on both sides, a bent stake in one
+    for nm, x1, x2 in (("L", 0.3, 1.4), ("R", 14.6, 15.7)):
+        for j, z in enumerate((5.6, 9.0)):
+            els += [bx(f"Pocket{nm}{j}", (x1, 3.4, z), (x2, 6.1, z + 1.5), "trolleypaint", faces=("north", "south", "east", "west", "down")),
+                    bx(f"PocketTop{nm}{j}", (x1, 6.1, z), (x2, 6.2, z + 1.5), "trolleypaint", faces=("up",)),
+                    bx(f"PocketMouth{nm}{j}", (x1 + 0.3, 6.12, z + 0.3), (x2 - 0.3, 6.25, z + 1.2), "blackmetal", faces=("up",))]
+    els += [bx("Stake", (0.55, 6.2, 5.9), (1.15, 15.2, 6.5), "trolleypaint", rot=(0, 0, 9), origin=(0.85, 6.2, 6.2)),
+            bx("StakeCap", (0.5, 15.0, 5.85), (1.2, 15.6, 6.55), "trolleyrust", rot=(0, 0, 9), origin=(0.85, 6.2, 6.2))]
+    # axles with their hangers, and four wheels (a square plus the square turned 45 degrees, so it reads round)
+    for z in (3.2, 12.8):
+        els += [bx(f"Axle{z}", (0.6, 1.8, z - 0.4), (15.4, 2.6, z + 0.4), "trolleyrust", faces=("north", "south", "up", "down")),
+                bx(f"Hanger{z}L", (1.6, 2.6, z - 0.7), (2.6, 3.0, z + 0.7), "trolleyrust", faces=("north", "south", "east", "west")),
+                bx(f"Hanger{z}R", (13.4, 2.6, z - 0.7), (14.4, 3.0, z + 0.7), "trolleyrust", faces=("north", "south", "east", "west"))]
+        for nm, x1, x2, side in (("L", 0.4, 1.6, "west"), ("R", 14.4, 15.6, "east")):
+            xm = (x1 + x2) / 2
+            els += [bx(f"Tyre{z}{nm}", (x1, 0, z - 2.2), (x2, 4.4, z + 2.2), "trolleytyre"),
+                    bx(f"Tyre{z}{nm}45", (x1 + 0.05, 0, z - 2.2), (x2 - 0.05, 4.4, z + 2.2), "trolleytyre",
+                       faces=("north", "south", "up", "down", side), rot=(45, 0, 0), origin=(xm, 2.2, z)),
+                    bx(f"Hub{z}{nm}", (x1 - 0.2 if nm == "L" else x2, 1.3, z - 0.9), (x1 if nm == "L" else x2 + 0.2, 3.1, z + 0.9),
+                       "steel", faces=("north", "south", "up", "down", side))]
+    # the push handle at the back: sockets, uprights, a lower bar, a grip
+    for nm, x1 in (("L", 1.8), ("R", 12.8)):
+        els += [bx(f"Socket{nm}", (x1 - 0.3, 5.5, 14.0), (x1 + 1.3, 7.2, 15.7), "trolleypaint", faces=("north", "south", "east", "west", "up")),
+                bx(f"Upright{nm}", (x1, 7.2, 14.4), (x1 + 1.0, 20.2, 15.4), "trolleypaint")]
+    els += [bx("LowerBar", (2.8, 10.5, 14.5), (12.8, 11.3, 15.3), "trolleyrust", faces=("north", "south", "up", "down")),
+            bx("Grip", (3.6, 19.8, 14.0), (12.0, 21.2, 15.8), "trolleytyre"),
+            bx("GripCapL", (1.8, 19.9, 14.3), (3.6, 21.1, 15.5), "trolleypaint"),
+            bx("GripCapR", (12.0, 19.9, 14.3), (13.8, 21.1, 15.5), "trolleypaint")]
+    return els
+
+
 def level2():
     # (B5) Drawn from a shape (the leaf and its hardware), not as a cube; codes, groups and behaviour as before
     shapes = {part: tunnel_door_shape(part) for part in ("lower", "upper")}
@@ -330,12 +412,7 @@ def level2():
         "A steel door off one of Level 2's tunnels, painted white, grey or cream. Most are locked. A few open, onto another level")
     name("tunneldoorpaint-*", "Steel Door")
     tramway()
-    prop("trolley", "Flatbed Trolley", [
-        bx("Deck", (1, 4, 0.5), (15, 5.5, 15.5), "palletwood"), bx("Frame", (0.5, 3, 0), (15.5, 4, 16), "steeldark"),
-        bx("W1", (1, 0, 1.5), (3, 3, 4.5), "rubber"), bx("W2", (13, 0, 1.5), (15, 3, 4.5), "rubber"),
-        bx("W3", (1, 0, 11.5), (3, 3, 14.5), "rubber"), bx("W4", (13, 0, 11.5), (15, 3, 14.5), "rubber"),
-        bx("HandleL", (1.5, 5.5, 14.5), (2.5, 21, 15.5), "steel"), bx("HandleR", (13.5, 5.5, 14.5), (14.5, 21, 15.5), "steel"),
-        bx("Bar", (1.5, 20, 14.5), (14.5, 21, 15.5), "steel")],
+    prop("trolley", "Flatbed Trolley", trolley_parts(),
          box=(0.03, 0, 0, 0.97, 0.38, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("metalbracket", 1.5, 0.5))},
          comment="A flatbed trolley left in a tunnel")
@@ -581,6 +658,7 @@ def lang():
 def generate():
     textures()
     tram_textures()
+    trolley_textures()
     level1()
     level2()
     level3()

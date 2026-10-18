@@ -244,8 +244,9 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
         lo, hi = cuts[i], cuts[i + 1]
         mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
         d = r * math.sqrt(1 - mid * mid)
-        x1 = round(d - a, 3) if left == "w" else 0.0
-        x2 = round(16 + a + d, 3) if right == "w" else round(16 - a - d, 3) if right == "j" else 16.0
+        x1 = round(d - a, 3) if left == "w" else round(16 - elbow_x(r) - ELBOW_CHAMFER * d, 3) if left == "c" else 0.0
+        x2 = (round(16 + a + d, 3) if right == "w" else round(16 - a - d, 3) if right == "j"
+              else round(elbow_x(r) + ELBOW_CHAMFER * d, 3) if right == "c" else 16.0)
         # The block's own part, and what reaches past its edges round an outer corner
         for part, p, q in (("L", x1, 0.0), ("", max(x1, 0.0), min(x2, 16.0)), ("R", 16.0, x2)):
             if q - p < 0.01:
@@ -253,8 +254,10 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
             fs = ["north"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
             # Only the end of a turn shows; "o" runs on into the next block's pipe (as the straight blocks) and a
             # blind flange covers "c" (an end face there would fight with the flange's face in the same plane)
-            if q == x2 and right == "w":
+            if q == x2 and right in ("w", "c"):
                 fs.append("east")
+            if p == x1 and left == "c":
+                fs.append("west")
             b = box(f"{name}{part}{i}", (p, yc + lo * r, zc - d), (q, yc + hi * r, zc + d), tex, faces=tuple(fs))
             u1, u2 = (p + 16, q + 16) if part == "L" else (p - 16, q - 16) if part == "R" else (p, q)
             b["faces"]["north"]["uv"] = [u1, v(hi), u2, v(lo)]
@@ -264,22 +267,83 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
                 b["faces"]["down"]["uv"] = [u1, 14.8, u2, 16] if lo <= -1 else [u1, v(lo) - 0.3, u2, v(lo)]
             if "east" in b["faces"]:
                 # Round an outer corner the end is the front of the turn: shaded like the next face's pipe
-                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)]
+                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)] if right == "w" else [7, 7, 9, 9]
+            if "west" in b["faces"]:
+                b["faces"]["west"]["uv"] = [7, 7, 9, 9]
             out.append(b)
     return out
+
+
+ELBOW_CHAMFER = 0.7  # the elbow's outer corner is cut: the pipe's round end steps in over this fraction of its radius
+ELBOW_PLATE = 1.1    # the escutcheon plate stands this far out round the pipe
+
+
+def elbow_x(r):
+    """Where the elbow into the wall sits along a pipe of radius r that ends at a block's right edge: its escutcheon
+    plate (radius r + ELBOW_PLATE) stops 0.05 short of the edge (four-sided hardware, as the straight blocks' flanges)."""
+    return round(15.95 - (r + ELBOW_PLATE), 3)
 
 
 def wall_pipe_cap(name, end):
-    """A blind flange on the end of both wall pipes, flush with the block's edge ("left" end x 0, "right" x 16). The
-    steel pipe's flange is wider than the pipe stands off the wall, so its back is cut flat a hair in front of the
-    wall (else its face at the block's edge shows a sliver in the wall's own face where that shows, beside a door)."""
+    """(Level 2 art) Where a wall pipe's run ends, it turns 90 degrees into the wall instead of ending in a blind
+    flange: the pipe runs on to the elbow's centre, its outer corner cut (`wall_pipe_turning` shortens it), a short
+    stepped knuckle carries on to the wall, and a round escutcheon plate with four bolt heads covers where it goes in.
+    The plate's back is cut flat a hair in front of the wall (else its face lies in the wall's own plane where that
+    shows, beside a door). "right" ends the run at x 16, "left" is that mirrored."""
     out = []
-    for nm, (yc, zc, r), grow, tex, t in (("CapA", WALL_PIPE_RUST, 0.7, "flange", 0.8), ("CapB", WALL_PIPE_LAG, 0.35, "metal", 0.6)):
-        x1, x2 = (0.0, t) if end == "left" else (16 - t, 16.0)
-        for b in round_pipe(f"{name}{nm}", yc, zc, r + grow, tex, x1, x2, shaded=False, faces=("east", "west")):
-            b["to"][2] = min(b["to"][2], -0.02)
+    cuts = (-1.0, -0.86, -0.6, -0.28, 0.28, 0.6, 0.86, 1.0)
+
+    def v(f):
+        return round(16 * (0.5 - math.asin(max(-1.0, min(1.0, f))) / math.pi), 3)
+    for nm, (yc, zc, r), tex in (("A", WALL_PIPE_RUST, "wallrust"), ("B", WALL_PIPE_LAG, "walllag")):
+        xe, pr = elbow_x(r), r + ELBOW_PLATE
+        for i in range(len(cuts) - 1):
+            lo, hi = cuts[i], cuts[i + 1]
+            mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
+            d = r * math.sqrt(1 - mid * mid)
+            # the knuckle: the step the pipe's end gives up to its cut corner, running on to the plate
+            p, q = round(xe + ELBOW_CHAMFER * d, 3), round(xe + d, 3)
+            fs = ["north", "east"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
+            b = box(f"{name}K{nm}{i}", (p, yc + lo * r, zc - ELBOW_CHAMFER * d), (q, yc + hi * r, -0.3), tex, faces=tuple(fs))
+            b["faces"]["north"]["uv"] = [p, v(hi), q, v(lo)]
+            if "up" in b["faces"]:
+                b["faces"]["up"]["uv"] = [p, 0, q, 1.2] if hi >= 1 else [p, v(hi), q, v(hi) + 0.3]
+            if "down" in b["faces"]:
+                b["faces"]["down"]["uv"] = [p, 14.8, q, 16] if lo <= -1 else [p, v(lo) - 0.3, q, v(lo)]
+            b["faces"]["east"]["uv"] = [7, 7, 9, 9]
             out.append(b)
+        # a union ring behind the bend marks it as a fitting
+        out += round_pipe(f"{name}Ring{nm}", yc, zc, r + 0.35, "flange", round(xe - r - 0.5, 3), round(xe - r + 0.4, 3),
+                          shaded=False, faces=("east", "west"))
+        # the plate, a stepped disc on the wall, and its bolts
+        for i in range(len(cuts) - 1):
+            lo, hi = cuts[i], cuts[i + 1]
+            mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
+            d = pr * math.sqrt(1 - mid * mid)
+            fs = ["north", "east", "west"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
+            out.append(box(f"{name}Plate{nm}{i}", (xe - d, yc + lo * pr, -1.0), (xe + d, yc + hi * pr, -0.02), "flange", faces=tuple(fs)))
+        for k, (sx, sy) in enumerate(((1, 1), (-1, 1), (1, -1), (-1, -1))):
+            bx_, by_ = xe + sx * pr * 0.68, yc + sy * pr * 0.68
+            out.append(box(f"{name}Bolt{nm}{k}", (bx_ - 0.3, by_ - 0.3, -1.35), (bx_ + 0.3, by_ + 0.3, -1.0), "metal",
+                           faces=("north", "east", "west", "up", "down")))
+    if end == "left":
+        out = [mirror_x(b) for b in out]
     return out
+
+
+def mirror_x(b):
+    """A box mirrored across the block's middle (x to 16 - x), its east and west faces swapped and its U turned."""
+    b = json.loads(json.dumps(b))
+    (x1, y1, z1), (x2, y2, z2) = b["from"], b["to"]
+    b["from"], b["to"] = [round(16 - x2, 3), y1, z1], [round(16 - x1, 3), y2, z2]
+    faces = {}
+    for f, v in b["faces"].items():
+        if f in ("north", "south", "up", "down"):
+            u1, v1, u2, v2 = v["uv"]
+            v["uv"] = [round(16 - u2, 3), v1, round(16 - u1, 3), v2]
+        faces[{"east": "west", "west": "east"}.get(f, f)] = v
+    b["faces"] = faces
+    return b
 
 
 def wall_pipe_configs():
