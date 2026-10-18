@@ -36,5 +36,13 @@
 		"place": "game:block/planks",
 		"break": "game:block/planks",
 		"hit": "game:block/planks"
-	}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "locked"
+			}
+		}
+	]
 }

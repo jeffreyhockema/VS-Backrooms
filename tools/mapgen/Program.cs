@@ -53,6 +53,7 @@ if (args.Length > 2 && args[2] == "noclip") { NoclipFind.Run(layout, smx, smz); 
 // elevsides [level ...]: what stands beside every elevator along its wall round a level's arrivals (ElevSides.cs; DUMP=1 for a plan)
 if (args.Length > 2 && args[2] == "elevsides") { ElevSides.Run(layout, args, n); return; }
 if (args.Length > 2 && args[2] == "links") { Links.Run(layout, seed, smx, smz); return; }
+if (args.Length > 2 && args[2] == "wayback") { WayBacks.Run(layout, seed, args.Length > 3 ? int.Parse(args[3]) : 100); return; }
 if (args.Length > 3 && args[2] == "validatelevel") { int lv = int.Parse(args[3]); for (ulong k = 1; k <= (args.Length > 4 ? ulong.Parse(args[4]) : 2UL); k++) { var a = layout.FindArrival(lv, k * 99991UL); if (a == null) { Console.WriteLine("no arrival"); continue; }
   int cx = WorldLayout.MacroOf(a.Value.X) - n / 2, cz = WorldLayout.MacroOf(a.Value.Z) - n / 2; Console.WriteLine($"--- level {lv} around {a.Value}"); Validator.Run(layout, cx, cz, n, a.Value.X - cx * 32, a.Value.Z - cz * 32); } return; }
 // l3runs: Level 3's wall pipes, cable runs, floor cables, gauges and switchgear as the player sees them; l3dump x z r for render_l3runs.py

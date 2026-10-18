@@ -489,6 +489,9 @@ def cage_gate(half):
 
 
 def doors():
+    # Locked doors that can be tried: "locked" unless something on the other side has opened onto one (a door built in a
+    # wall as the way back of a door or an elevator that comes out there, ThresholdNetwork.WayBack.cs)
+    locked = [{"name": "BackroomsThreshold", "properties": {"kind": "locked"}}]
     for code, english, tex in (("metaldoor", "Steel Door", "metaldoor"), ("officedoor", "Office Door", "officedoor")):
         if code == "metaldoor":
             # (Level 1 props) Drawn from a shape (the leaf and its hardware on all four sides), as Level 2's tunnel doors;
@@ -499,7 +502,7 @@ def doors():
                 "creativeinventory": {"general": ["*"], "construction": ["*"]},
                 "blockmaterial": "Metal", "drawtype": "json",
                 "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
-                "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL,
+                "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL, "behaviors": locked,
             }, f"{english}, locked")
             name(f"{code}-*", english)
             continue
@@ -511,7 +514,7 @@ def doors():
             "creativeinventory": {"general": ["*"], "construction": ["*"]},
             "blockmaterial": "Wood", "drawtype": "json",
             "shapeByType": {f"*-{part}": {"base": path} for part, path in shapes.items()},
-            "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": WOOD,
+            "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": WOOD, "behaviors": locked,
         }, f"{english}, locked")
         name(f"{code}-*", english)
 
