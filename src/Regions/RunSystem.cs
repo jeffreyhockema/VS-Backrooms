@@ -47,7 +47,14 @@ public class RunSystem : ModSystem
     public enum Phase { None, Waiting, Alarm, Safe }
 
     private const string CaughtStat = "backroomsRunCaught", TripStat = "backroomsRunTrip", WindStat = "backroomsSecondWind";
-    private const float SecondWind = 0.12f, TripSlow = -0.6f, Pinned = -0.9f;
+    // (0.514.0: a trip was -0.6 for 0.8 s, at most every 2 s)
+    private const float SecondWind = 0.12f, TripSlow = -0.5f, TripSeconds = 0.6f, TripEvery = 3f, Pinned = -0.9f;
+    /// <summary>
+    /// The share of a sprint of what bursts out of a dented door, and of a vent's Hound once its burst of speed is spent:
+    /// slower than the horde, so it falls back into it ("much slower", the canon says). (0.514.0: 0.8, faster than the
+    /// horde's 0.78 now; a Hound dropped from a vent ran at 1.0 for 6 s, 3 blocks behind.)
+    /// </summary>
+    private const double ChaserShare = 0.65, VentShare = 0.95, VentSeconds = 4, VentBehind = 4;
     private const int TickMs = 100;
     private const double PresentAt = 48, DespawnAt = 60;
 
@@ -95,6 +102,7 @@ public class RunSystem : ModSystem
         public double NextPin;
         public bool[] Restored;
         public double TripUntil, TripCooldown;
+        public bool Tripped;
         public bool Active = true;
         /// <summary>Held by the horde at the last tick (so a death then is theirs).</summary>
         public bool Caught;
@@ -356,6 +364,10 @@ public class RunSystem : ModSystem
             foreach (var f in plan.FakeExits)
                 if (Math.Abs(lx - f.X) <= 1 && lz > f.Z && lz <= f.Z + 3) at = plan.ProgressAt(f.FrontX, f.FrontZ);
         if (at != null) run.P = at.Value;
+        // Anywhere in the Safe Zone counts as in it: its side rooms lie off the course, and the far one's back is further
+        // along it than the zone's far end (so resting by its cot let the horde in)
+        if (plan.HasSafe && plan.In(lx, lz) && plan.At(lx, lz).Zone == WorldLayout.RunZone.Safe)
+            run.P = Math.Clamp(run.P, plan.SafeFrom, plan.SafeTo);
 
         // Keep the stretch ahead as it was meant to be (only active runs get here: see OnTick)
         RestoreAhead(run);
@@ -456,7 +468,8 @@ public class RunSystem : ModSystem
             run.Horde.Clear();
             return;
         }
-        int want = chase.Front >= run.Plan.Last ? 3 : 5;
+        // Fewer while it gathers speed after the burst, and fewer, "but more aggressive", in the last third
+        int want = chase.Front >= run.Plan.Last || chase.Elapsed - chase.LooseAt < RunChase.WarmUp ? 3 : 5;
         run.NextHordeSpawn -= dt;
         if (show && run.Horde.Count < want && run.NextHordeSpawn <= 0 && menace != null)
         {
@@ -577,11 +590,18 @@ public class RunSystem : ModSystem
     private void UpdateChasers(IServerPlayer player, Run run, float dt)
     {
         long now = sapi.World.ElapsedMilliseconds;
+        // Nothing comes into the Safe Zone: what was behind the runner falls back into the horde at its door
+        if (run.Chase.InSafe(run.P))
+        {
+            foreach (Chaser c in run.Chasers) Despawn(c.Entity);
+            run.Chasers.Clear();
+            return;
+        }
         foreach (Chaser c in run.Chasers)
         {
             if (!c.Entity.Alive) continue;
             // A vent's Hound keeps up for a few seconds, then falls back into the horde
-            double speed = now < c.Until ? c.Speed : 0.8 * run.Chase.Sprint;
+            double speed = now < c.Until ? c.Speed : ChaserShare * run.Chase.Sprint;
             c.S = Math.Min(c.S + speed * dt, run.P - 0.9);
             Move(run, c.Entity, c.S, c.Lateral, c.Entity.Code.Path.StartsWith("deathmoth") ? 2.2 : 0);
             if (run.P - c.S <= 1.2 && player.Entity.Alive)
@@ -647,8 +667,8 @@ public class RunSystem : ModSystem
                         if (p > e.S + 6) break;
                         SetDoor(run, (e.X, e.Z), "run-sidedoor-open", e.Face);
                         Play("run/doorbreak", Centre(run, (e.X, e.Z)), 32, 0.8f);
-                        if (rand.NextDouble() < 0.6) Chase(player, run, Roster.SkinStealer, e.S - 2, 0.8, 0, 12);
-                        else for (int r = 0; r < 3; r++) Chase(player, run, Roster.DeathRat, e.S - 2 - r * 0.5, 0.8, (r - 1) * 1.2, 12);
+                        if (rand.NextDouble() < 0.6) Chase(player, run, Roster.SkinStealer, e.S - 2, ChaserShare, 0, 12);
+                        else for (int r = 0; r < 3; r++) Chase(player, run, Roster.DeathRat, e.S - 2 - r * 0.5, ChaserShare, (r - 1) * 1.2, 12);
                     }
                     else if (p >= e.S - 22 && rand.NextDouble() < dt / 0.9)
                         Play("run/bang" + rand.Next(1, 4), Centre(run, (e.X, e.Z)), 24, 0.7f);
@@ -657,7 +677,7 @@ public class RunSystem : ModSystem
                     run.Fired.Add(i);
                     SetPart(run, (e.X, e.Z), 5, "run-ceiling-vent-burst");
                     Play("run/ventburst", Centre(run, (e.X, e.Z), 3), 24, 1f);
-                    Chase(player, run, Roster.Hound, p - 3, 1.0, 0, 6);
+                    Chase(player, run, Roster.Hound, p - VentBehind, VentShare, 0, VentSeconds);
                     break;
                 case WorldLayout.RunEventKind.Sign when i == run.SignEvent:
                     SignBurst(player, run, e, dt);
@@ -737,10 +757,16 @@ public class RunSystem : ModSystem
         var (lx, lz) = layout.RunLocal(run.Lane, (int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z));
         if (!run.Plan.In(lx, lz)) return;
         if (run.Plan.At(lx, lz).Variant is not (Worldgen.Props.RunToyCar or Worldgen.Props.RunBoxes or Worldgen.Props.RunCord or Worldgen.Props.RunDebris)) return;
-        run.TripCooldown = 2;
-        run.TripUntil = 0.8;
+        run.TripCooldown = TripEvery;
+        run.TripUntil = TripSeconds;
         entity.Stats.Set("walkspeed", TripStat, TripSlow, false);
         Play("run/trip", entity.Pos.XYZ, 12, 1f);
+        // The first time, say what happened, so the next heap is jumped
+        if (!run.Tripped)
+        {
+            run.Tripped = true;
+            player.SendIngameError("backrooms-run", Lang.Get("backrooms:run-trip"));
+        }
     }
 
     // ================= The doors of the start room, and the rest =================
