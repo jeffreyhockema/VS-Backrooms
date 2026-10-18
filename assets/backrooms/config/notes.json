@@ -560,6 +560,11 @@
      "key": "l7-6",
      "gate": [],
      "mark": null
+    },
+    {
+     "key": "l7-7",
+     "gate": [],
+     "mark": "sunken"
     }
    ]
   },

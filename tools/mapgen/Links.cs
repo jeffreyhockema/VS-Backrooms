@@ -33,6 +33,12 @@ static class Links {
     foreach (int level in new[] { WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Hub, WorldLayout.Level974,
         WorldLayout.Level3999, WorldLayout.Level188 })
       for (ulong k = 1; k <= 4; k++) if (layout.FindArrival(level, k * 104729UL + 7) is { } a) AddCells(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z), 2);
+    // From layout version 9 Level 6's stairwells down are rare: a few of them, and a few of Level 7's entry rooms, which
+    // are their way back (after everything else again)
+    for (ulong k = 1; k <= 6; k++) {
+      if (layout.FindDescentLanding(k * 104729UL + 11) is { } d) AddCells(WorldLayout.MacroOf(d.X), WorldLayout.MacroOf(d.Z), 0);
+      if (layout.Version >= 9 && layout.FindEntryRoomArrival(k * 104729UL + 11) is { } e) AddCells(WorldLayout.MacroOf(e.X), WorldLayout.MacroOf(e.Z), 0);
+    }
     Console.WriteLine($"sampling {cells.Count} cells");
 
     var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -42,11 +48,13 @@ static class Links {
       for (int i = 0; i < tiles.Length; i++) {
         Tile t = tiles[i]; int x = mx * 32 + i % 32, z = mz * 32 + i / 32;
         // Thresholds you walk, fall or swim into
-        // (Up into the shaft over a Level 1 stair core last, so every other threshold is found as it was)
-        foreach (double rel in new[] { 3.0, 1.2, -300.0, 6.0 }) {
+        // (Up into the shaft over a Level 1 stair core last, so every other threshold is found as it was; then up an entry
+        // room's stairs into Level 7's pier, from layout version 9, which only trips that high)
+        foreach (double rel in new[] { 3.0, 1.2, -300.0, 6.0, 10.0 }) {
           Passage p = net.Walked(x, z, t, rel);
           if (p == null) continue;
-          string label = $"L{t.Level,-2} " + (t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
+          if (rel == 10.0 && !WorldLayout.IsEntryStair(t)) continue;
+          string label = $"L{t.Level,-2} " + (t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : WorldLayout.IsEntryStair(t) ? "entry room stairs" : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
               : t.Zone == WorldLayout.FlightZoneFun ? "flight up to Fun" : "flight up")
             : t.Variant == Props.Tripwire ? "tripwire" : t.Variant == Props.FieldGate ? "field gate" : t.Under switch { Unders.Circle => "stone circle", Unders.Cave => "sea cave",
               Unders.Descent2 or Unders.Descent3 => "stairs down", Unders.LakeBottom => "lake bottom", Unders.Noclip => "barn wall", Unders.GarageRamp => "garage ramp",

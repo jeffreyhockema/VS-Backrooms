@@ -41,7 +41,10 @@ static class Deep {
       for (int i = 0; i < tiles.Length; i++) { var t = tiles[i]; int x = (m0x + mx) * 32 + i % 32, z = (m0z + mz) * 32 + i / 32;
         if (t.Level == 5 && t.Stair == 1) Count("L5 staff stairs", x, z);
         if (t.Level == 6 && t.Variant == Props.Tripwire && t.Kind == TileKind.Floor && t.Zone == 0) Count("L6 tripwire", x, z);
-        if (t.Level == 6 && t.Under == Unders.Descent3) Count("L6 descent", x, z);
+        // (From layout version 9 a stairwell's landing has four such tiles: the one with the sound of waves under it)
+        if (t.Level == 6 && t.Under == Unders.Descent3 && (layout.Version < 9 || t.Detail == WorldLayout.L6WaveEcho)) Count("L6 descent", x, z);
+        if (t.Level == 7 && t.Zone == WorldLayout.L7ZoneBellHatch) Count(t.Height >= WorldLayout.MidnightDepth ? "L7 sunken room, midnight" : "L7 sunken room, twilight", x, z);
+        if (t.Level == 7 && layout.Version >= 9 && t.Detail == WorldLayout.L7EntryFoot) Count("L7 entry room foot", x, z);
         if (t.Level == 6 && t.Zone == 1 && t.Kind == TileKind.Door) Count($"L6.1 exit v{t.Variant}", x, z);
         if (t.Level == 6 && t.Zone == 1 && t.Kind == TileKind.Doorway && t.Variant >= Decor.First) Count("L6.1 shop sign", x, z);
         if (t.Level == 7 && t.Under == Unders.Circle) Count("L7 circle", x, z);

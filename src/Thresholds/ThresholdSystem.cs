@@ -27,7 +27,9 @@ namespace Backrooms.Thresholds;
 /// Level 6.1, the Snackrooms. Its rusty doors lead back into Level 6, its glass doors to the offices or the hotel,
 /// its vents to the Electrical Station, and its kitchen doors into another food court.</item>
 /// <item>Level 6's stairs down, found by the sound of waves, come out in an entry room in the ceiling of Level 7,
-/// and you fall through into the sea.</item>
+/// and you fall through into the sea. From layout version 9 they are a stairwell walked down to its landing, and come
+/// out at the foot of the stairs that come down into an entry room hung from the high ceiling, a doorway across it onto
+/// the sea and a rope ladder down; back up those stairs is back to that landing.</item>
 /// <item>In Level 7, swim down into the circle of stones to reach Level 9, or into a cave mouth in the midnight
 /// zone to reach the 9th Road in Level 8. Level 8's vents lead up into Level 2.</item>
 /// <item>A gate at the end of a field behind the houses of Level 9 opens onto Level 10, and diving to the bottom
@@ -481,7 +483,10 @@ public partial class ThresholdSystem : ModSystem
         else offStairsFirst.Remove(player.PlayerUID);
         // Put down on the landing of a stairwell's flight (Levels 1 and 4; at the foot of a flight up, at the top of a flight
         // down: that is never a step, so no step-off is needed), they face away from it, as if just come off it
-        (int Dx, int Dz)? away = onStairs || arrivalLevel is not (1 or 4) ? null : network.AwayFromFlight(ax, az);
+        // (Between Levels 6 and 7, from layout version 9: at the foot of an entry room's stairs, facing into the room; on a
+        // stairwell's landing, facing back up it)
+        (int Dx, int Dz)? away = onStairs ? null : arrivalLevel is 1 or 4 ? network.AwayFromFlight(ax, az)
+            : arrivalLevel is 6 or 7 ? network.DeepStairsFacing(ax, az) : null;
         // Put down on the Hub's narrow sidewalk, they look along the road rather than at the wall beside them
         float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back

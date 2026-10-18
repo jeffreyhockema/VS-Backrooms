@@ -16,7 +16,8 @@ namespace Backrooms.Entities;
 /// when it was a wanderer. Nothing for Facelings.</item>
 /// <item>Fuller caches: a box, crate, cupboard or fridge broken open in a deep level may give its contents twice, and
 /// may hold something extra besides, better the deeper you are (metal, medicine, rusty gears, very rarely a
-/// temporal gear).</item>
+/// temporal gear). In Level 7, deeper means down the sea too: a cache on the bottom of the midnight zone pays as one
+/// in the city does.</item>
 /// </list>
 /// </summary>
 public class Rewards : ModSystem
@@ -59,6 +60,8 @@ public class Rewards : ModSystem
     private static ICoreServerAPI sapi;
     private MenaceSystem director;
     private readonly HashSet<int> caches = new();
+    /// <summary>The shared floor's height: Level 7's water surface, for how deep a cache on its seabed lay.</summary>
+    private int floorY = int.MinValue;
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -71,6 +74,7 @@ public class Rewards : ModSystem
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             director = api.ModLoader.GetModSystem<MenaceSystem>();
+            floorY = BackroomsWorld.CreateGeometry(api.World).FloorY;
             foreach (Block block in api.World.Blocks)
             {
                 if (block?.Code?.Domain == "backrooms" && block.Drops != null && Array.Exists(block.Drops, IsLoot)) caches.Add(block.BlockId);
@@ -99,6 +103,8 @@ public class Rewards : ModSystem
         int level = director.Layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z));
         double d = Danger.OfLevel(level);
         if (d <= 0) return;
+        // Level 7's caches pay more the deeper they lie: on the bottom of the midnight zone, as much as the city's
+        if (level == 7 && pos.Y < floorY) d = Math.Min(1, d + 0.3 * Math.Clamp((floorY - pos.Y) / (double)WorldLayout.AbyssDepth, 0, 1));
         Random rand = sapi.World.Rand;
         Vec3d at = pos.ToVec3d().Add(0.5, 0.5, 0.5);
         Block block = sapi.World.GetBlock(oldblockId);

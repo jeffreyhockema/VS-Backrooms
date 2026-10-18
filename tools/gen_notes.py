@@ -42,7 +42,7 @@ POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS = 12, 13, 1
 LEVEL_IDS = set(range(0, 12)) | {POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS}
 
 # What an entry may mark besides its paper's own mark (src/Notes/MarkResolver.cs)
-MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party"}
+MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party", "sunken"}
 
 # The recurring writers (for the catalogue only; the signatures are part of each text)
 WRITERS = {
@@ -167,7 +167,7 @@ first turnip came up yesterday.
 M.E.G. FIELD NOTICE. Level 6 is dark. Not dim: dark. Your brightest light shows a few paces and your map forgets
 everything past arm's reach. Chalk the walls (right-click a wall; F chooses arrow, cross or circle): chalk stays, and
 shows on the map. Keep to the long dry corridors; the wet ones end blind. Follow the sound of waves to the stairs down.
-They only go down.
+They are few, and deep in.
 — Field Team 9 (four of us)""", gate=visited(5, 6), w="meg"),
     E("m19", "The sea", """
 Level 7: water under a ceiling. Driftwood burns; fish bite. Depth costs light and steadiness, and something large
@@ -394,7 +394,7 @@ between are a maze with one way in. The narrow wet passages wind off a little wa
 — A.L., survey""", w="al"),
     E("l6-2", "Waves", """
 M.E.G. FIELD NOTICE. Listen for waves: you hear them within a hundred and sixty paces of stairs down, louder as you close
-in, and chalk arrows on the corridor walls point there. The stairs drop you out of a ceiling into the sea.
+in, and chalk arrows on the corridor walls point there. The stairs come out in a room hung over the sea.
 — Field Team 9 (four of us)""", mark="way", w="meg"),
     E("l6-3", "The wire", """
 A wire strung low across a straight corridor. Trip it and you're in a food court, bright and full. You can't get back to
@@ -441,6 +441,11 @@ it strikes, once, hard. In the abyss it may come at anyone. It cannot be fought.
 — Field Team 9 (three of us)""", w="meg"),
     E("l7-6", "Salvage", """
 Driftwood is firewood. Fish bite. The seabed has wreck crates and lost packs. Mind the tar pools: they're scalding."""),
+    E("l7-7", "Air down there", """
+A buoy out over deep water, a rope ladder hanging from it all the way down: under it a room on the seabed, its light still
+on, air trapped under its roof. Climb down, swim in under it, come up through the hatch and breathe. There's a chest in
+each, and the deeper the room the better what's in it. The deep ones are where the big thing circles.
+— Dez""", mark="sunken", w="dez"),
 ]))
 
 TRACKS.append(Track("l8", "common", "Level 8: Cave Systems", 8, entries=[
@@ -1119,6 +1124,7 @@ def write_lang():
         "waypoint-note-hubdoor": "A way into the Hub (a note)",
         "waypoint-note-redroom": "The Red Rooms (a note)",
         "waypoint-note-party": "A party =) (a note)",
+        "waypoint-note-sunken": "Air under the sea (a note)",
         "waypoint-note-runexit": "The real exit (a note)",
         "waypoint-note-hubopen": "A carved door that opens (a note)",
         "waypoint-note-staffdoor": "STAFF ONLY: one in six opens (a note)",

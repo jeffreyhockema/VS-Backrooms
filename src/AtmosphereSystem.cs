@@ -115,6 +115,14 @@ public partial class AtmosphereSystem : ModSystem
         new(0.005f, 0.60f, 0.58f, 0.55f, 0f),
     };
 
+    /// <summary>
+    /// Level 7 from layout version 9, under its high ceiling: the lore's "dim natural light" from nowhere, the same at every
+    /// hour (the light comes in through the ceiling and the world is held at half its brightness), and a thin grey-blue sea
+    /// haze over the water that takes the far distance, the mist lying on the surface. The sky sphere (L10Sky) takes the
+    /// band of sky that would otherwise show between the sea and the ceiling past the view distance.
+    /// </summary>
+    private static readonly Atmosphere HighSea = new(0.011f, 0.19f, 0.23f, 0.27f, -0.25f, scene: 0.5f, fogMin: 0.06f);
+
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
     private static readonly Atmosphere Reservoir = new(0.03f, 0.18f, 0.02f, 0.03f, 0f);
 
@@ -315,7 +323,8 @@ public partial class AtmosphereSystem : ModSystem
         int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
         bool castle = level == WorldLayout.Motion && layout.InCastle(bx, bz) && pos.Y > geometry.FloorFor(level) + WorldLayout.MountainHeight - 1;
         bool blinding = castle && layout.TileAt(bx, bz).Zone == 4;
-        Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle : Levels[level];
+        Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle
+            : level == 7 && layout.Version >= 9 ? HighSea : Levels[level];
         int titleKey = snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level;
         // The five kept as 14-18 tune their own air, and name their own parts, in their own files
         switch (level)
@@ -456,7 +465,8 @@ public partial class AtmosphereSystem : ModSystem
         fog.CloudDensity.Weight = cloudWeight;
         fog.CloudBrightness.Value = baseCloudBright;
         fog.CloudBrightness.Weight = cloudWeight;
-        L10Sky(k, level == 10);
+        // (Level 7 too: its ceiling ends at the view distance, and the sky past it would show as a bright band on the horizon)
+        L10Sky(k, level is 10 or 7);
 
         fog.FlatFogDensity.Value += (groundFog - fog.FlatFogDensity.Value) * Math.Max(k, Math.Min(1f, dt * 2f));
         // Flat fog height is relative to sea level, which the server sets to the floor; compute it absolutely anyway

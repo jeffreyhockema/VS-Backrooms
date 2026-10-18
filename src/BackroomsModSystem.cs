@@ -347,9 +347,13 @@ public class BackroomsModSystem : ModSystem
         int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
         // (The five kept as 14-18: the band each is lit over, from its own floor)
         bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level188;
-        int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel), _ => floor - 10 };
+        // (Level 7 from layout version 9: down to the midnight zone's seabed, and up to the high ceiling)
+        bool highSea = dumpLevel == 7 && layout.Version >= 9;
+        int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel),
+            _ when highSea => floor - WorldLayout.AbyssDepth - 4, _ => floor - 10 };
         int y1 = dumpLevel switch
         {
+            _ when highSea => Math.Min(g.TopY, floor + WorldLayout.SeaCeiling + 1),
             11 => Math.Min(g.TopY, floor + 90),
             WorldLayout.Poolrooms => floor + 16,
             WorldLayout.Motion => Math.Min(g.TopY, floor + 66),

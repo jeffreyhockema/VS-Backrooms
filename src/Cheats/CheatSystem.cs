@@ -82,6 +82,8 @@ public partial class CheatSystem : ModSystem
         ("shelter", "Level 7 shelter", 768, 2048),
         ("vendingroom", "Level 6.1 vending room", 96, 256),
         ("glowcaps", "Level 8 glowcaps", 384, 1024),
+        // (Layout version 9: inside a room on Level 7's seabed with air under its roof, beside the hatch)
+        ("sunkenroom", "Level 7 sunken room", 768, 4096),
         // (Layout version 5's Suburbs: a two-storey house, from the street in front of it looking at its porch and
         // windows; the foot of its stairs, looking up them; a street-name sign and a DOWNTOWN sign, from across the corner)
         ("l9house", "Level 9 two-storey house", 384, 1024),
@@ -736,6 +738,19 @@ public partial class CheatSystem : ModSystem
                 found = (layout.L188BuildX0 + WorldLayout.L188PipeBx, layout.L188BuildZ0 + WorldLayout.L188PipeBz + 5);
                 detail = " (heading 0 looks at it; its head is under the parapet, 21 blocks up)";
                 break;
+            case "sunkenroom":
+            {
+                if (level != 7) return TextCommandResult.Error("Sunken rooms are in Level 7 (worlds from layout version 9)");
+                if (NearestTile(gx, gz, radius, level, t => t.Zone == WorldLayout.L7ZoneBellHatch, out _) is not { } hatch)
+                    return TextCommandResult.Error($"No sunken room within {radius} blocks");
+                // On the floor in the middle of the room, a tile in from the hatch, in the air under its roof
+                Tile ht = layout.TileAt(hatch.X, hatch.Z);
+                (int stepX, int stepZ) = ht.Pier switch { ArchPier.North => (0, -1), ArchPier.East => (1, 0), ArchPier.South => (0, 1), _ => (-1, 0) };
+                int rx = hatch.X - stepX, rz = hatch.Z - stepZ;
+                int far = (int)Math.Sqrt((double)(rx - gx) * (rx - gx) + (double)(rz - gz) * (rz - gz));
+                Teleport((IServerPlayer)args.Caller.Player, rx + 0.5, geometry.FloorFor(7) - ht.Height + 4.05, rz + 0.5);
+                return TextCommandResult.Success($"{target.Name}, {ht.Height} deep, {far} blocks from where you were ({FromSpawn(rx, rz)})");
+            }
             case "seapillar":
             case "shelter":
             case "vendingroom":

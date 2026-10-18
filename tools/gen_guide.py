@@ -414,11 +414,15 @@ The levels nest around the place you woke: Level 0 at the centre, Level 1 around
 
 **Level 5, the Terror Hotel.** Beds (the head end comes away as a real bed), clothes, linen, silver and brass, coal in the boiler halls (42 °C, with scalding sumps underfoot). The lobby is neutral, the corridors wear on you, the boiler halls badly; the Beverly Room is safe and restores you. Elevators; a few of its locked doors open; the staff stairs behind an open STAFF door lead to Level 6, and the grand staircases by a lobby's front desk back up to Level 4. Hounds, Skin-Stealers, moths.
 
-**Level 6, Lights Out.** Cold (8 °C), total darkness. Hold the brightest light you have and mark your way with [chalk](item-backrooms:chalk): chalk marks show white on the map. Keep to the long dry corridors; passages wet underfoot end blind. Lost backpacks. Stairs down drop you into Level 7: listen for the waves, which grow louder the nearer you come, and look for arrows chalked along the corridors. Smilers and Dullers.
+**Level 6, Lights Out.** Cold (8 °C), total darkness. Hold the brightest light you have and mark your way with [chalk](item-backrooms:chalk): chalk marks show white on the map. Keep to the long dry corridors; passages wet underfoot end blind. Lost backpacks. Stairs down lead to Level 7: they are few, and the deeper into the level the likelier. Listen for the waves, which grow louder the nearer you come, and look for arrows chalked along the corridors. The stairwell is two wide and goes down through the rock to a landing; walk on and you come out at the foot of the stairs into a room hung over the sea, and those stairs bring you back. (In worlds made before 0.514.0 the stairs are three steps, they are common, and they drop you out of a room in the ceiling into the sea, one way.) Smilers and Dullers.
 
 **Level 6.1, the Snackrooms.** Sealed food courts, bright and safe, their machines and shelves full and refilling. Some shops are heaped to the ceiling with dead vending machines; only the one in the doorway still works. You cannot walk in, and nearly every door out shuts behind you.
 
-**Level 7, Thalassophobia.** A cold sea (12 °C, 6 °C under water) under a concrete ceiling. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom. The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long.
+**Level 7, Thalassophobia.** A cold sea (12 °C, 6 °C under water) under a high concrete ceiling, in a dim light that comes from nowhere and is the same at every hour; it fades as you dive, and the midnight zone is dark. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom. The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long.
+
+**The entry rooms** hang from the ceiling in piers of concrete: a study with a bookcase, a coffee table and a chair, its carpet soaked, the stairs from Level 6 coming down into it, and across from them a doorway onto the sea five blocks above the water. A rope ladder hangs from the doorway into the water: the way back up.
+
+**Air under the sea.** Out over deep water a buoy floats with a rope ladder hanging from it all the way to the bottom. Under it lies a room on the seabed with air still trapped under its roof and its light still on, showing through its windows. Climb down the line, swim in under the room through the low tunnel beside it and come up through the hatch in its floor: you can breathe there before you go back up. Each room has a chest, and the deeper the room the better what is in it: a sea chest in the twilight zone (rope, bandages, candles, copper bits, the odd copper tool), a strongbox in the midnight zone (copper and bronze ingots, silver and gold bits, bronze tools, now and then a temporal gear). The midnight zone is where the Thing circles. (In worlds made from 0.514.0.)
 
 **Level 8, Cave Systems.** Cold (9 °C) real rock, ore, coal and clay, in the dark, with packs of Wretches where the light fails. Stalactites and stalagmites, hanging lichen, bracket fungi on the walls (tinder, and some to eat), glowing mushrooms in some stretches (mostly blood-red; they give nothing but rot), boulders from cave-ins, crystals deep down, and rare colonies of glowworms. Ore runs through the rock in veins and pockets. Dress warmly. Keep to the lamps of the 9th Road and its camps: the road restores you, the dark off it drains you, and its side roads often end in rock while its main roads run through. Almond Water seeps from the rock beside the road: use a seep to fill a bottle.
 
@@ -504,6 +508,7 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - Level 8 vents beside the 9th Road: Level 2.
 - Level 9, the gate at the end of a field behind the houses: Level 10.
 - Level 10, a stretch of barn wall that is not quite there (east wall, between the stalls, in some barns): Level 11.
+- Level 6, a stairwell down toward the sound of waves, walked to its landing: the foot of the stairs into one of Level 7's entry rooms, which lead back up to the landing.
 
 **Two-way, from the city (Level 11)**
 - Office tower elevators: Level 4. Hotel elevators: Level 5.
@@ -555,7 +560,7 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - Level 0 pits: Level 2.
 - Level 4, a vending machine that takes you (the same few always do): the Snackrooms.
 - Level 6, a wire across a passage: the Snackrooms.
-- Level 6, stairs down toward the sound of waves: Level 7, from the ceiling.
+- Level 6, stairs down toward the sound of waves (worlds made before 0.514.0): Level 7, from the ceiling.
 - The Snackrooms: rusty doors to Level 6, glass doors to Level 4 or 5, vents to Level 3, kitchen doors to another food court (except the one you arrived beside from a diner, which leads back).
 - Level 7, diving into the ring of standing stones: Level 9. Swimming into a cave mouth in the deep: Level 8.
 - Level 10, diving to the bottom of a pond: Level 7.
@@ -672,7 +677,7 @@ A bundle of limbs that buries itself where it waits: all you see is an arm stick
 - Where there is room, walk round. In a narrow tunnel there is none: go back, or take the grab and be quick.
 
 **The Thing** (deep in Level 7)
-Something vast circles divers out at the edge of sight. Stay more than twenty blocks down for long with your stability failing, or go below fifty-five, and it strikes, once, hard, and leaves. It cannot be fought: surface.
+Something vast circles divers out at the edge of sight. Stay more than twenty blocks down for long with your stability failing, or go below fifty-five, and it strikes, once, hard, and leaves. It cannot be fought: surface, or come up for air under the roof of a sunken room, where it only waits.
 
 **The Mangled** (the Suburbs, rarely; far likelier during a Reality Shift)
 There is only one. It comes with its own weather: over most of a minute the air turns cold, a grey fog rolls in, and voices start calling out of it, someone saying hello, someone hurt. Then a black pillar walks out of the fog, slower than a walking man: a mass of human faces held high above the roofs on legs like trees. Its reach is the danger, not its pace.
@@ -844,7 +849,7 @@ BRIDGES["beehivekiln"] = """
 """
 
 BRIDGES["shipbuilding"] = """
-**In the Backrooms:** the only sea is Level 7's, under a concrete ceiling only a few blocks above the water, and nobody has yet found whether a sailboat fits under it. The raft from a waterlogged crate is the Backrooms' boat. Logs and boards exist (the trees of Levels 9 to 11 and 94, a saw), and rope comes from crates and toolboxes.
+**In the Backrooms:** the only sea is Level 7's, under a concrete ceiling (in worlds made from 0.514.0 a high one, thirty-six blocks over the water; before, only a few blocks above it), and nobody has yet found whether a sailboat fits under it. The raft from a waterlogged crate is the Backrooms' boat. Logs and boards exist (the trees of Levels 9 to 11 and 94, a saw), and rope comes from crates and toolboxes.
 """
 
 BRIDGES["mountableanimals"] = """

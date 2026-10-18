@@ -127,6 +127,7 @@ public sealed partial class WorldGenerator
         (Props.Ribcage, "ribcage", true, null, false),
         (Props.Backpack, "backpack", true, null, false),
         (Props.WreckCrate, "wreckcrate", false, null, false),
+        (Props.SeaChest, "seachest", true, new[] { "twilight", "midnight" }, false),
         (Props.MegMarker, "megmarker", true, null, false),
         (Props.RoadLamp, "roadlamp", false, null, false),
         (Props.GlowcapRed, "glowcapred", true, new[] { "floor", "wall" }, false),
@@ -891,7 +892,8 @@ public sealed partial class WorldGenerator
             for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
         }
         FillLayer(chunks, 0, mantleId);
-        if (!openSky) FillLayer(chunks, cap, mantleId);
+        bool highSea = HighSea(level);
+        if (!openSky && !highSea) FillLayer(chunks, cap, mantleId);
 
         IMapChunk mapChunk = chunks[0].MapChunk;
         var entities = new List<(BlockPos, string)>();
@@ -937,7 +939,7 @@ public sealed partial class WorldGenerator
                 }
                 if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
-                int rainHeight = openSky ? top : cap;
+                int rainHeight = openSky ? top : highSea ? bandTop : cap;
                 mapChunk.RainHeightMap[column] = (ushort)rainHeight;
                 mapChunk.WorldGenTerrainHeightMap[column] = (ushort)(openSky ? Math.Max(g.FloorFor(level), top) : g.FloorY);
                 yMax = Math.Max(yMax, rainHeight);
@@ -978,11 +980,20 @@ public sealed partial class WorldGenerator
         // From layout version 9 the Suburbs go on up to the roofs of their two-storey houses, their chimneys and the tops
         // of their trees (in 1-8 nothing above the usual band was built: a two-storey house stopped at its eaves, flat)
         if (level == 9 && layout.Version >= 9) top = Math.Min(g.TopY - 1, g.FloorY + SuburbTop);
+        // (Level 7 from layout version 9: up to its high ceiling, with no mantle over it: see HighSea)
+        if (HighSea(level)) top = g.FloorY + WorldLayout.SeaCeiling;
         // Those levels are generated over their own band, and sealed just above it
         bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level188;
         if (region) top = g.BandTopFor(level);
         return (bottom, top, region ? top + 1 : g.CapY);
     }
+
+    /// <summary>
+    /// Level 7 from layout version 9: its ceiling (<see cref="WorldLayout.SeaCeiling"/>) is near the top of the world, and
+    /// no mantle is laid over it, so the world's light comes in through it (seaceiling absorbs none) as the lore's dim
+    /// light from nowhere (AtmosphereSystem holds it the same at every hour); no rain falls under it.
+    /// </summary>
+    private bool HighSea(int level) => level == 7 && layout.Version >= 9;
 
     /// <summary>The block entity class a block needs, or null.</summary>
     private string EntityClassOf(int blockId) => (uint)blockId < (uint)entityClassById.Length ? entityClassById[blockId] : null;

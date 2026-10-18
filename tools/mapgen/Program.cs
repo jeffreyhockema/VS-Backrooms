@@ -94,6 +94,7 @@ if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout
 if (args.Length > 2 && args[2] == "poolstats") { Regions.PoolStats(layout, args.Length > 3 ? int.Parse(args[3]) : 4); return; }
 if (args.Length > 2 && args[2] == "motionstats") { Regions.MotionStats(layout, n); return; }
 if (args.Length > 2 && args[2] == "deep") { Deep.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 2 && args[2] == "l7") { L7Stats.Run(layout, args, seed, smx, smz); return; }
 if (args.Length > 2 && args[2] == "features") { Features.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "validate") { var (vx, vz) = layout.FindSpawn(); Validator.Run(layout, m0x, m0z, n, vx - m0x * 32, vz - m0z * 32); return; }
 if (args.Length > 2 && args[2] == "spots") { Spots.Run(layout); return; }

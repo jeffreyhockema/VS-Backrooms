@@ -70,7 +70,12 @@ public sealed partial class ThresholdNetwork
 
     // What makes up each kind of threshold (and so what an arrival can stand beside to come back by)
     public static readonly Func<Tile, bool> Elevator = t => t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator;
-    public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0;
+    public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0 && !WorldLayout.IsEntryStair(t);
+    /// <summary>
+    /// Level 6's stairs down to Level 7, and (from layout version 9) the stairs that come down into an entry room of Level 7:
+    /// each is the way back of the other.
+    /// </summary>
+    public static readonly Func<Tile, bool> Descent = t => WorldLayout.IsDescent(t), EntryStairs = t => WorldLayout.IsEntryStair(t);
     /// <summary>
     /// The two flights of the stairwells of Levels 1 and 4 from layout version 4 (see
     /// <see cref="WorldLayout.StairwellSteps"/>): up through the ceiling into a shaft, and down through the floor into
@@ -248,7 +253,31 @@ public sealed partial class ThresholdNetwork
                 var stairs = Whole(Stairs);
                 return BothWays(stairs, KeyOf(stairs, SaltDeep + 5), 6);
             }
-            case 6 when tile.Under is Unders.Descent2 or Unders.Descent3 && rel < -0.8:
+            case 6 when layout.Version >= 9 && tile.Under == Unders.Descent3 && rel < WorldLayout.L6DescentTripRel:
+            {
+                // From layout version 9: down the stairwell to its landing and on, "directly" into an entry room of Level 7,
+                // at the foot of the stairs that come down into it; back up those stairs is back to this landing
+                var descent = Whole(t => WorldLayout.IsDescent(t));
+                return new Passage
+                {
+                    Source = descent, Key = KeyOf(descent, SaltDeep + 6), TwoWay = true, ReturnFeature = EntryStairs,
+                    Find = key => layout.FindEntryRoomArrival(key) is { } room ? (room.X, room.Z, EntryRoomHeight)
+                        : layout.FindArrival(7, key) is { } sea ? (sea.X, sea.Z, layout.ArrivalHeight(sea.X, sea.Z)) : null,
+                };
+            }
+            case 7 when layout.Version >= 9 && WorldLayout.IsEntryStair(tile) && tile.Stair >= WorldLayout.EntryStairSteps && rel >= WorldLayout.EntryStairTripRel:
+            {
+                // Up an entry room's stairs into the dark of its shaft, and out on the landing of one of Level 6's stairwells
+                // down, as if just come down it; that stairwell is the way back
+                var stairs = Whole(EntryStairs);
+                return new Passage
+                {
+                    Source = stairs, Key = KeyOf(stairs, SaltDeep + 70), TwoWay = true, ReturnFeature = Descent,
+                    Find = key => layout.FindDescentLanding(key) is { } landing ? (landing.X, landing.Z, WorldLayout.L6LandingHeight)
+                        : layout.FindArrival(6, key) is { } dark ? (dark.X, dark.Z, StandHeight) : null,
+                };
+            }
+            case 6 when layout.Version < 9 && tile.Under is Unders.Descent2 or Unders.Descent3 && rel < -0.8:
             {
                 // Down the stairs, toward the waves, and out of a doorway in the ceiling of the sea
                 var descent = Whole(t => t.Under is >= Unders.Descent1 and <= Unders.Descent3);
@@ -654,7 +683,46 @@ public sealed partial class ThresholdNetwork
     /// (<see cref="Passage.Upstairs"/>), otherwise on the clear floor beside it.
     /// </summary>
     public Link? HomeFor(Passage passage) =>
-        FlightLanding(passage.Source) ?? (passage.Upstairs && TopOfFlight(passage.Source) is { } top ? top : HomeBeside(passage.Source));
+        FlightLanding(passage.Source) ?? DeepStairsHome(passage.Source)
+        ?? (passage.Upstairs && TopOfFlight(passage.Source) is { } top ? top : HomeBeside(passage.Source));
+
+    /// <summary>
+    /// From layout version 9, where someone coming back down (or up) the stairs between Levels 6 and 7 is put: on the
+    /// first row of the landing of a Level 6 stairwell down, as if just come down it (the far rows take you on), and on
+    /// the floor at the foot of an entry room's stairs, as if just come down them. Null for anything else.
+    /// </summary>
+    public Link? DeepStairsHome((int X, int Z) source)
+    {
+        if (layout.Version < 9) return null;
+        Tile t = layout.TileAt(source.X, source.Z);
+        if (WorldLayout.IsDescent(t) && layout.L6LandingOf(source.X, source.Z) is { } landing)
+            return new Link(landing.X + 0.5, geometry.FloorFor(6) + WorldLayout.L6LandingHeight, landing.Z + 0.5, false);
+        if (!WorldLayout.IsEntryStair(t)) return null;
+        // The stairs climb toward their Pier from the foot, step n n tiles on from it
+        (int dx, int dz) = Climb(t.Pier);
+        int fx = source.X - dx * t.Stair, fz = source.Z - dz * t.Stair;
+        return new Link(fx + 0.5, geometry.FloorFor(7) + EntryRoomHeight, fz + 0.5, false);
+    }
+
+    /// <summary>
+    /// The way to face on being put down at the foot of an entry room's stairs (away from them, into the room, toward the
+    /// doorway onto the sea) or on the landing of a Level 6 stairwell down (back up its steps), from layout version 9, as a
+    /// step along x and z. Null anywhere else.
+    /// </summary>
+    public (int Dx, int Dz)? DeepStairsFacing(int x, int z)
+    {
+        if (layout.Version < 9) return null;
+        Tile t = layout.TileAt(x, z);
+        if (t.Level == 6 && t.Under == Unders.Descent2)
+        {
+            (int dx, int dz) = Climb(t.Pier); // (the way the stairwell goes down)
+            return (-dx, -dz);
+        }
+        if (t.Level != 7 || t.Detail != WorldLayout.L7EntryFoot) return null;
+        foreach ((int dx, int dz) in FlightSteps)
+            if (WorldLayout.IsEntryStair(layout.TileAt(x + dx, z + dz)) && layout.TileAt(x + dx, z + dz).Stair == 1) return (-dx, -dz);
+        return null;
+    }
 
     /// <summary>The way a flight climbs, toward its <see cref="Tile.Pier"/>.</summary>
     private static (int Dx, int Dz) Climb(ArchPier pier) => pier switch

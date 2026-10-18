@@ -21,6 +21,10 @@ public sealed partial class WorldGenerator
     // Level 7
     private int oceanCeilingId, oceanGlowId, islandRockId, seabedId, tarId, roomFloorId;
     private const ulong SaltCeilingGlow = 0x7C20;
+    // Level 7 from layout version 9: the high ceiling (plain and glowing), the sunken rooms' windows, and vanilla's rope
+    // ladder by the side it hangs against (as Sides)
+    private int seaCeilingId, seaCeilingGlowId, glassId;
+    private readonly int[] ropeLadderIds = new int[4];
 
     // Level 8: the road lamp with its arm out over the road (layout version 5), by the side it reaches toward
     private readonly int[] roadLampArmIds = new int[4];
@@ -132,6 +136,10 @@ public sealed partial class WorldGenerator
         roomFloorId = seabedId; // the entry room's carpet, soaked with the water pooling on it
         floorIds[(int)FloorKind.Seabed] = seabedId;
         floorIds[(int)FloorKind.Tar] = tarId;
+        seaCeilingId = Id("seaceiling-plain");
+        seaCeilingGlowId = Id("seaceiling-glow");
+        glassId = GameId("game:glass-plain", "game:glass-quartz");
+        for (int f = 0; f < 4; f++) ropeLadderIds[f] = GameId($"game:ladder-rope-{Sides[f]}", $"game:ladder-wood-{Sides[f]}");
 
         // Level 8: rock types in order of the strata (deliberately not geological order), with their ores. Limestone,
         // chalk and halite are there for the quern: lime for mortar and leather, salt for curing meat
@@ -338,12 +346,32 @@ public sealed partial class WorldGenerator
     /// <summary>The stairs going down toward the waves: step k of 3 is a stair block k-1 below the floor.</summary>
     private int DescentBlock(in Tile t, int rel)
     {
+        if (layout.Version >= 9) return StairwellBlock(t, rel);
         int step = t.Under - Unders.Descent1; // 0, 1, 2
         int stairRel = -step;
         if (rel == stairRel) return stairIds[Facing(Opposite(t.Pier))];
         if (rel > stairRel) return 0;
         if (step == 2 && rel == stairRel - 1) return waveEchoId; // the faint sound of waves, from somewhere below
         return concreteId;
+    }
+
+    /// <summary>
+    /// From layout version 9, the stairwell down toward the waves (<see cref="WorldLayout.L6DescentSteps"/>), at or below
+    /// the floor: step n's tread is a stair block n - 1 down, solid under it. The first four steps are open to the chamber
+    /// over them; the rest are cut on into the rock with three blocks of headroom over each tread, stepping down with
+    /// the stairs, and the floor over them stays (as the floor of whatever passage crosses there). The landing's floor
+    /// is a block lower than the last step, three blocks high, with the faint sound of waves under its far end.
+    /// </summary>
+    private int StairwellBlock(in Tile t, int rel)
+    {
+        bool landing = t.Under != Unders.Descent1;
+        int step = landing ? WorldLayout.L6DescentSteps + 1 : t.Stair;
+        int tread = 1 - step;
+        if (rel == tread) return landing ? l6FloorId : stairIds[Facing(Opposite(t.Pier))];
+        // (Under the far end of the landing, the waves)
+        if (rel < tread) return rel == tread - 1 && t.Detail == WorldLayout.L6WaveEcho ? waveEchoId : concreteId;
+        if (step <= 4 && !t.IsWallLike) return 0; // open to the chamber
+        return rel <= tread + 3 && rel < 0 ? 0 : concreteId;
     }
 
     // ---- Level 6.1: the Snackrooms ----
@@ -385,6 +413,8 @@ public sealed partial class WorldGenerator
     private int Level7Block(in Tile t, int gx, int gz, int rel, out int fluid)
     {
         fluid = 0;
+        // From layout version 9: the high ceiling, the entry rooms' piers hung from it, and the sunken rooms
+        if (layout.Version >= 9 && HighSeaBlock(t, gx, gz, rel, out fluid) is int high and >= 0) return high;
         // Above the water: the ceiling, and the entry rooms set into it
         if (rel >= 5)
         {
@@ -469,6 +499,152 @@ public sealed partial class WorldGenerator
         }
         if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : seabedId;
         return concreteId;
+    }
+
+    /// <summary>
+    /// Level 7 from layout version 9 (<see cref="WorldLayout.SeaCeiling"/>), where it differs from the sea of 1-8; -1 to
+    /// leave a block to the rules of 1-8 (the water and the seabed, the islands and ledges up to head height). Over the
+    /// water there is open air up to the ceiling, which lets the world's light through (seaceiling: the lore's dim light
+    /// from nowhere, held the same at every hour by AtmosphereSystem, and dimming in the water with depth); the walls
+    /// and the islands' pillars go on up to it. The entry rooms hang from it in their piers (<see cref="WorldLayout.AddEntryRoomV9"/>),
+    /// and the sunken rooms lie on the seabed (<see cref="SunkenRoomBlock"/>).
+    /// </summary>
+    private int HighSeaBlock(in Tile t, int gx, int gz, int rel, out int fluid)
+    {
+        fluid = 0;
+        const int ceiling = WorldLayout.SeaCeiling, floor = WorldLayout.EntryFloor;
+        byte zone = t.Zone;
+        if (rel <= 0)
+        {
+            // Under the water: the sunken rooms and the lines down to them; the entry room's ladder dips into the sea
+            if (zone >= WorldLayout.L7ZoneBellWall) return SunkenRoomBlock(t, rel, out fluid);
+            if (zone == WorldLayout.L7ZoneLadder && rel >= -1)
+            {
+                fluid = waterId;
+                return ropeLadderIds[Facing(t.Pier)];
+            }
+            return -1;
+        }
+        if (rel > ceiling) return 0;
+        if (zone == WorldLayout.L7ZoneLine) return rel == 1 ? propIds[Props.Buoy, 0, 0] : rel == ceiling ? SeaCeilingBlock(gx, gz) : 0;
+        if (zone == WorldLayout.L7ZoneLadder) return rel <= floor ? ropeLadderIds[Facing(t.Pier)] : rel == ceiling ? SeaCeilingBlock(gx, gz) : 0;
+        if (zone != 0 && zone < WorldLayout.L7ZoneBellWall && rel < floor) return 0; // (under the pier, air down to the water)
+        switch (zone)
+        {
+            case WorldLayout.L7ZonePier:
+                return concreteId;
+            case WorldLayout.L7ZoneRoom:
+                if (rel == floor) return roomFloorId; // the carpet, soaked, under a puddle's worth of water
+                if (rel == floor + 1)
+                    return t.Stack switch
+                    {
+                        1 => propIds[Props.HotelBookshelf, 0, Facing(t.Pier)],
+                        2 => propIds[Props.CoffeeTable, 0, 0],
+                        3 => propIds[Props.HotelChair, 0, Facing(t.Pier)],
+                        _ => 0,
+                    };
+                if (rel <= floor + 3) return 0;
+                if (rel == floor + 4) return t.Ceiling == CeilingKind.LightOn ? lightOnId : concreteId;
+                return concreteId;
+            case WorldLayout.L7ZoneStairs:
+            {
+                // Step n is a stair block n over the room's floor, solid under it; three blocks of air over each tread (the
+                // first stays under the room's ceiling), up through it into the dark of the shaft
+                int tread = floor + t.Stair;
+                if (rel < tread) return concreteId;
+                if (rel == tread) return stairIds[Facing(t.Pier)];
+                return rel <= (t.Stair == 1 ? floor + 3 : tread + 3) ? 0 : concreteId;
+            }
+            case WorldLayout.L7ZoneDoorway:
+                // A doorway a block wide and two high onto the sea, its sill five blocks over the water
+                return rel == floor + 1 || rel == floor + 2 ? 0 : concreteId;
+        }
+        // The walls between the levels and the islands' pillars go on up to the ceiling
+        if (t.Detail == WorldLayout.L7Pillar && t.IsWallLike) return rel < ceiling ? islandRockId : SeaCeilingBlock(gx, gz);
+        if (t.IsWallLike) return rel < floor ? -1 : concreteId;
+        if (rel >= 3 && UnderLowerWall(gx, gz)) return concreteId;
+        if (rel == ceiling) return SeaCeilingBlock(gx, gz);
+        // (Islands and ledges keep their own up to head height; over that, and over the water, the open air)
+        return rel < floor ? -1 : 0;
+    }
+
+    /// <summary>The high ceiling over the sea (layout version 9), glowing in patches as the low one did.</summary>
+    private int SeaCeilingBlock(int gx, int gz) => CeilingGlows(gx, gz) ? seaCeilingGlowId : seaCeilingId;
+
+    /// <summary>
+    /// Whether a column on a Level 7 cell's east or south edge stands beside the next level's wall, where this cell does
+    /// not line it (a gate's passage, or a tile the lining had to leave open): that wall is only as high as the next
+    /// level's roof, so here Level 7's own goes on up from head height to the ceiling.
+    /// </summary>
+    private bool UnderLowerWall(int gx, int gz)
+    {
+        int lx = Hashing.Mod(gx, WorldLayout.MacroSize), lz = Hashing.Mod(gz, WorldLayout.MacroSize);
+        const int last = WorldLayout.MacroSize - 1;
+        if (lx != last && lz != last) return false;
+        int mx = WorldLayout.MacroOf(gx), mz = WorldLayout.MacroOf(gz);
+        return lx == last && layout.LevelAt(mx + 1, mz) != 7 || lz == last && layout.LevelAt(mx, mz + 1) != 7
+            || lx == last && lz == last && layout.LevelAt(mx + 1, mz + 1) != 7;
+    }
+
+    /// <summary>
+    /// A sunken room (layout version 9, <see cref="WorldLayout.AddSunkenRoom"/>), at or under the water's surface. Its
+    /// base is the seabed's depth at its middle (<see cref="Tile.Height"/>), and over the base: the footing (1-2), the floor
+    /// (3), the air (4-6), the roof (7), the fluorescent light in its middle still on. The tunnel's mouth and the tunnel
+    /// under the floor are water in the footing; the hatch is water up to the floor, the air over it. The windows are a
+    /// block of glass in the middle of each side but the tunnel's. Over the roof, the sea; the line is a rope ladder from
+    /// the buoy at the surface down to the seabed beside the tunnel's mouth.
+    /// </summary>
+    private int SunkenRoomBlock(in Tile t, int rel, out int fluid)
+    {
+        fluid = 0;
+        int baseRel = -t.Height;
+        if (t.Zone == WorldLayout.L7ZoneLine)
+        {
+            if (rel <= Math.Max(baseRel, -t.Depth)) return -1; // the seabed as ever
+            fluid = waterId;
+            return ropeLadderIds[Facing(t.Pier)];
+        }
+        if (rel > baseRel + 7)
+        {
+            fluid = waterId;
+            return 0;
+        }
+        // Its concrete is the sea ceiling's, not the plain concrete that deep under the floor gives way to the ground's rock
+        int wall = oceanCeilingId;
+        // (A footing under it where the seabed falls away; under that, and under the seabed, the ground as ever)
+        if (rel <= baseRel) return rel > -t.Depth ? wall : -1;
+        int up = rel - baseRel;
+        int roof = t.Ceiling == CeilingKind.LightOn ? lightOnId : wall;
+        switch (t.Zone)
+        {
+            case WorldLayout.L7ZoneBellWall:
+                return wall;
+            case WorldLayout.L7ZoneBellWindow:
+                return up == 5 ? glassId : wall;
+            case WorldLayout.L7ZoneBellMouth:
+                if (up > 2) return wall;
+                fluid = waterId;
+                return 0;
+            case WorldLayout.L7ZoneBellHatch:
+                if (up <= 3)
+                {
+                    fluid = waterId;
+                    return 0;
+                }
+                return up == 7 ? roof : 0;
+            case WorldLayout.L7ZoneBellTunnel:
+                if (up <= 2)
+                {
+                    fluid = waterId;
+                    return 0;
+                }
+                return up == 3 ? roomFloorId : up == 7 ? roof : 0;
+            default:
+                if (up <= 2) return wall;
+                if (up == 3) return roomFloorId;
+                if (up == 4) return t.Variant != 0 ? AnyProp(t, 1) : t.SupplyBox ? BoxOf(t) : 0;
+                return up == 7 ? roof : 0;
+        }
     }
 
     /// <summary>

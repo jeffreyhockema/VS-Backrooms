@@ -12,7 +12,9 @@ namespace Backrooms.Worldgen;
 /// the mains the minor trunks (two wide) form a maze of their own: a tree grown in from one side, so most wrong turns
 /// end, a hundred blocks and more on, against a blank wall. Off the trunks, narrow side passages, wet underfoot, wind a
 /// little way into the rock and stop. At some crossings the trunks open into a chamber; deeper into the level, the
-/// likelier a chamber is to hold stairs going down toward the faint sound of waves (Level 7). Chalk on the walls,
+/// likelier a chamber is to hold stairs going down toward the faint sound of waves (Level 7): from layout version 9 a
+/// stairwell two wide, cut down through the rock to a landing eight blocks below, and only in a few chambers, most of
+/// them deep in the level (<see cref="L6DescentChance"/>). Chalk on the walls,
 /// left by those who came before, marks the dead ends and points along the trunks toward the stairs, and a wire
 /// strung across a side passage here and there trips the unwary straight into Level 6.1.</para>
 ///
@@ -152,8 +154,156 @@ public sealed partial class WorldLayout
         int x0 = L6Line(0, bx), z0 = L6Line(1, bz);
         int size = Hashing.Unit(h << 8) < 0.5 ? 7 : 9;
         double depth = RingFraction(x0 + size, z0 + size, 6);
-        bool stairs = Hashing.Unit(h << 16) < 0.2 + 0.6 * depth && LevelAt(MacroOf(x0 + size), MacroOf(z0 + size)) == 6;
-        return (true, size, stairs, Hashing.Unit(h << 24) < 0.5);
+        bool east = Hashing.Unit(h << 24) < 0.5;
+        bool stairs = Version >= 9
+            ? Hashing.Unit(h << 16) < L6DescentChance(depth) && L6StairwellFits(bx, bz, size, east)
+            : Hashing.Unit(h << 16) < 0.2 + 0.6 * depth && LevelAt(MacroOf(x0 + size), MacroOf(z0 + size)) == 6;
+        return (true, size, stairs, east);
+    }
+
+    // ================= The stairwell down to Level 7 (layout version 9) =================
+
+    /// <summary>
+    /// From layout version 9 a Level 6 descent is a stairwell two wide and this many steps deep: step n's tread is a
+    /// stair block n - 1 below the floor, the first four open under the chamber, the rest cut on into the rock with three
+    /// blocks of headroom under its floor; then a landing of <see cref="L6LandingRows"/> rows whose floor block lies
+    /// <see cref="L6DescentSteps"/> below the chamber's. The first row of the landing is only a landing (whoever comes
+    /// back up from Level 7 is put down there); walking on onto the last two takes you down into Level 7.
+    /// </summary>
+    public const int L6DescentSteps = 8, L6LandingRows = 3;
+
+    /// <summary>How far below the floor (at the feet) someone on the far rows of a stairwell's landing is taken to Level 7.</summary>
+    public const double L6DescentTripRel = -6.5;
+
+    /// <summary>The height over the floor at which someone is put down on a stairwell's landing (its floor's top is 7 below the floor's).</summary>
+    public const double L6LandingHeight = 1.05 - L6DescentSteps;
+
+    /// <summary>
+    /// The chance that a chamber holds the stairs down, by how far into the ring it lies (0 at the inner edge, 1 at the
+    /// outer): from layout version 9 the lore's "deep enough", one chamber in a hundred near Level 5, one in sixteen
+    /// halfway and one in five at the far edge (in 1-8, 0.2 + 0.6 times the depth: half of all chambers on average).
+    /// </summary>
+    private static double L6DescentChance(double depth) => 0.01 + 0.2 * depth * depth;
+
+    /// <summary>
+    /// Where a chamber's stairwell runs (layout version 9): the corners of its two lanes, in global coordinates, from the
+    /// first step to the far end of the landing. It runs east (or south) from the chamber's last four rows, away from the
+    /// trunks on the unit's west and north sides, on into the rock.
+    /// </summary>
+    private (int X0, int Z0, int X1, int Z1) L6StairwellSpan(int bx, int bz, int size, bool east)
+    {
+        int gx = L6Line(0, bx) + L6Width(bx), gz = L6Line(1, bz) + L6Width(bz);
+        int along = (east ? gx : gz) + size - 4, across = (east ? gz : gx) + size / 2 - 1;
+        int run = L6DescentSteps + L6LandingRows - 1;
+        return east ? (along, across, along + run, across + 1) : (across, along, across + 1, along + run);
+    }
+
+    /// <summary>
+    /// Whether a chamber's stairwell (layout version 9) fits: it stays inside the unit, short of the next trunk, and every
+    /// cell it touches is Level 6 all round and no food court (nor beside one), so nothing else is laid over it.
+    /// </summary>
+    private bool L6StairwellFits(int bx, int bz, int size, bool east)
+    {
+        var (x0, z0, x1, z1) = L6StairwellSpan(bx, bz, size, east);
+        if (east ? x1 >= L6Line(0, bx + 1) - 1 : z1 >= L6Line(1, bz + 1) - 1) return false;
+        foreach ((int x, int z) in new[] { (x0, z0), (x1, z0), (x0, z1), (x1, z1) })
+        {
+            int mx = MacroOf(x), mz = MacroOf(z);
+            if (!SurroundedByLevel6(mx, mz) || IsSnackrooms(mx, mz) || IsSnackrooms(mx - 1, mz) || IsSnackrooms(mx, mz - 1)) return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Cuts a chamber's stairwell (layout version 9) into a unit's plan: <see cref="Unders.Descent1"/> on the steps
+    /// (<see cref="Tile.Stair"/> their number), <see cref="Unders.Descent2"/> on the landing's first row and
+    /// <see cref="Unders.Descent3"/> on the two beyond, <see cref="Tile.Pier"/> the way it goes down. The tiles keep what
+    /// they are above the floor: the chamber's floor over the first steps, the rock or a side passage over the rest.
+    /// </summary>
+    private static void CutL6Stairwell(L6Unit u, int hw, int hh, int size, bool east)
+    {
+        int along0 = (east ? hw : hh) + size - 4, across0 = (east ? hh : hw) + size / 2 - 1;
+        for (int k = 0; k < L6DescentSteps + L6LandingRows; k++)
+            for (int lane = 0; lane < 2; lane++)
+            {
+                int a = along0 + k, c = across0 + lane;
+                ref Tile t = ref east ? ref u.At(a, c) : ref u.At(c, a);
+                t.Variant = 0;
+                t.Stack = 0;
+                t.SupplyBox = false;
+                t.Chalk = 0;
+                t.Under = k < L6DescentSteps ? Unders.Descent1 : k == L6DescentSteps ? Unders.Descent2 : Unders.Descent3;
+                t.Stair = (byte)(k < L6DescentSteps ? k + 1 : 0);
+                t.Pier = east ? ArchPier.East : ArchPier.South;
+                t.Sealed = true; // nobody is put down on a staircase
+                // (The faint sound of waves, from under the far end of the landing)
+                t.Detail = k == L6DescentSteps + L6LandingRows - 1 && lane == 0 ? L6WaveEcho : (byte)0;
+            }
+    }
+
+    /// <summary>Level 6's <see cref="Tile.Detail"/> (layout version 9): the sound of waves comes from under this tile of a stairwell's landing.</summary>
+    public const byte L6WaveEcho = 1;
+
+    /// <summary>
+    /// The first row of the landing of the stairwell down that a tile of it belongs to (layout version 9), in the tile's
+    /// own lane: where whoever comes back up from Level 7 is put down. Null for anything else.
+    /// </summary>
+    public (int X, int Z)? L6LandingOf(int x, int z)
+    {
+        if (Version < 9) return null;
+        Tile t = TileAt(x, z);
+        if (t.Level != 6 || t.Under is not (Unders.Descent1 or Unders.Descent2 or Unders.Descent3)) return null;
+        (int dx, int dz) = t.Pier == ArchPier.East ? (1, 0) : (0, 1);
+        // How far along the stairwell the tile is (0 the first step); the two far rows of the landing tell themselves apart
+        // by what lies two back
+        int k = t.Under == Unders.Descent1 ? t.Stair - 1 : t.Under == Unders.Descent2 ? L6DescentSteps
+            : TileAt(x - dx, z - dz).Under == Unders.Descent2 ? L6DescentSteps + 1 : L6DescentSteps + 2;
+        int off = L6DescentSteps - k;
+        return (x + dx * off, z + dz * off);
+    }
+
+    /// <summary>
+    /// The landing of a stairwell down to Level 7 (layout version 9) for a key: the same key always finds the same one.
+    /// The search starts at a point picked from the key in the deeper half of the Level 6 ring and looks outward for the
+    /// nearest stairwell. Null if there is none (or before version 9).
+    /// </summary>
+    public (int X, int Z)? FindDescentLanding(ulong key)
+    {
+        if (Version < 9) return null;
+        ulong h = Hashing.Mix(key ^ SaltL6Chamber);
+        double angle = Hashing.Unit(h) * Math.PI * 2;
+        double inner = InnerEdge(6, angle), outer = OuterEdge(6, angle);
+        double radius = inner + (0.55 + 0.4 * Hashing.Unit(Hashing.Mix(h))) * (outer - inner);
+        int gx = (spawnMacroX + (int)Math.Round(Math.Cos(angle) * radius)) * MacroSize + MacroSize / 2;
+        int gz = (spawnMacroZ + (int)Math.Round(Math.Sin(angle) * radius)) * MacroSize + MacroSize / 2;
+        for (int reach = 400; reach <= 3200; reach *= 2)
+            if (NearestDescentLanding(gx, gz, reach) is { } landing) return landing;
+        return null;
+    }
+
+    /// <summary>The first row of the landing (in its first lane) of the nearest stairwell down within a radius (layout version 9).</summary>
+    private (int X, int Z)? NearestDescentLanding(int gx, int gz, int radius)
+    {
+        (int, int)? best = null;
+        long bestD = long.MaxValue;
+        for (int bz = L6UnitOf(1, gz - radius); bz <= L6UnitOf(1, gz + radius); bz++)
+            for (int bx = L6UnitOf(0, gx - radius); bx <= L6UnitOf(0, gx + radius); bx++)
+            {
+                if (L6StairwellAt(bx, bz) is not { } s) continue;
+                bool east = s.X1 - s.X0 > s.Z1 - s.Z0;
+                int x = east ? s.X0 + L6DescentSteps : s.X0, z = east ? s.Z0 : s.Z0 + L6DescentSteps;
+                long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
+                if (d < bestD && d <= (long)radius * radius) { bestD = d; best = (x, z); }
+            }
+        return best;
+    }
+
+    /// <summary>The span of the stairwell a unit's chamber holds (layout version 9), or null if it holds none.</summary>
+    private (int X0, int Z0, int X1, int Z1)? L6StairwellAt(int bx, int bz)
+    {
+        var c = L6Chamber(bx, bz);
+        if (!c.Chamber || !c.Stairs || !(L6Stretch(0, bx, bz) || L6Stretch(1, bz, bx)) || !L6CrossingOpen(bx, bz)) return null;
+        return L6StairwellSpan(bx, bz, c.Size, c.East);
     }
 
     /// <summary>The middle of the nearest stairs down to Level 7 within a radius, if any (for the sound of the waves).</summary>
@@ -164,10 +314,22 @@ public sealed partial class WorldLayout
         for (int bz = L6UnitOf(1, gz - radius); bz <= L6UnitOf(1, gz + radius); bz++)
             for (int bx = L6UnitOf(0, gx - radius); bx <= L6UnitOf(0, gx + radius); bx++)
             {
-                var c = L6Chamber(bx, bz);
-                if (!c.Stairs || !L6CrossingOpen(bx, bz)) continue;
-                int x = L6Line(0, bx) + L6Width(bx) + c.Size / 2, z = L6Line(1, bz) + L6Width(bz) + c.Size / 2;
-                if (IsSnackrooms(MacroOf(x), MacroOf(z))) continue;
+                int x, z;
+                if (Version >= 9)
+                {
+                    // (The middle of the landing, down in the rock, where the sound comes from)
+                    if (L6StairwellAt(bx, bz) is not { } s) continue;
+                    x = (s.X0 + s.X1 + 1) / 2;
+                    z = (s.Z0 + s.Z1 + 1) / 2;
+                }
+                else
+                {
+                    var c = L6Chamber(bx, bz);
+                    if (!c.Stairs || !L6CrossingOpen(bx, bz)) continue;
+                    x = L6Line(0, bx) + L6Width(bx) + c.Size / 2;
+                    z = L6Line(1, bz) + L6Width(bz) + c.Size / 2;
+                    if (IsSnackrooms(MacroOf(x), MacroOf(z))) continue;
+                }
                 long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
                 if (d < bestD && d <= (long)radius * radius) { bestD = d; best = (x, z); }
             }
@@ -246,7 +408,7 @@ public sealed partial class WorldLayout
             for (int v = hh; v < hh + chamber.Size; v++)
                 for (int x = hw; x < hw + chamber.Size; x++)
                     Carve(x, v, false);
-            if (chamber.Stairs && !Snack(x0 + hw + chamber.Size / 2, z0 + hh + chamber.Size / 2))
+            if (Version < 9 && chamber.Stairs && !Snack(x0 + hw + chamber.Size / 2, z0 + hh + chamber.Size / 2))
             {
                 ArchPier dir = chamber.East ? ArchPier.East : ArchPier.West;
                 int sv = hh + chamber.Size / 2, sx = hw + chamber.Size / 2 - 1;
@@ -276,8 +438,13 @@ public sealed partial class WorldLayout
                 if (rng.Chance(0.75)) SidePassage(s.U0 + s.Along.X * a, s.V0 + s.Along.Z * a, s.Along, s.In, ref rng, Carve);
         }
 
-        // Chalk on the trunk walls, pointing the way toward the nearest stairs down
-        if (NearestDescent(x0 + u.W / 2, z0 + u.H / 2, 220) is { } target)
+        // From layout version 9, the stairwell down to Level 7, cut through the rock under the chamber and on beyond it
+        // (after the side passages, which would otherwise carve over it)
+        if (Version >= 9 && chamber.Chamber && chamber.Stairs && crossing && (west || north)) CutL6Stairwell(u, hw, hh, chamber.Size, chamber.East);
+
+        // Chalk on the trunk walls, pointing the way toward the nearest stairs down (from layout version 9, which are
+        // rarer, from further off)
+        if (NearestDescent(x0 + u.W / 2, z0 + u.H / 2, Version >= 9 ? 400 : 220) is { } target)
         {
             void Arrow(int x, int v, ArchPier wall)
             {
