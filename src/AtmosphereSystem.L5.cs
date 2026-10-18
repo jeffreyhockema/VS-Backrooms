@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -34,10 +35,18 @@ public partial class AtmosphereSystem
 
     private void HotelMusicInit()
     {
-        capi.ChatCommands.Create("bkmusic").WithDescription("Level 5: which music source is playing")
-            .HandleWith(_ => TextCommandResult.Success(hotelSource == null
-                ? $"No music playing ({hotelCandidates} sources on nearby)."
-                : $"Playing the source at {hotelSource.X} {hotelSource.Y} {hotelSource.Z}, {hotelLastDistance:0.0} blocks away ({hotelCandidates} sources on nearby)."));
+        capi.ChatCommands.Create("bkmusic").WithDescription("Level 5, 94 and Fun: which music source is playing")
+            .HandleWith(_ => TextCommandResult.Success(musicLevel switch
+            {
+                5 => hotelSource == null
+                    ? $"Level 5: no music playing ({hotelCandidates} sources on nearby)."
+                    : $"Level 5: playing the source at {hotelSource.X} {hotelSource.Y} {hotelSource.Z}, {hotelLastDistance:0.0} blocks away ({hotelCandidates} sources on nearby).",
+                WorldLayout.FunLevel => FunMusicReport(),
+                WorldLayout.Motion => sirenAt == null
+                    ? $"Level 94: no siren tune (none of a town's poles within {TuneHeard} blocks, or it is night)."
+                    : $"Level 94: siren pole at {sirenAt.Value.X} {sirenAt.Value.Z}, {sirenDistance:0.0} blocks away, volume {SirenVolume}, heard to {TuneHeard} blocks.",
+                _ => "No music of this kind in this level (Levels 5, 94 and Fun have it).",
+            }));
     }
 
     private static uint HotelHash(Vec3i p)
