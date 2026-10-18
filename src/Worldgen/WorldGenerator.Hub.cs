@@ -16,7 +16,9 @@ public sealed partial class WorldGenerator
 {
     private int hubAsphaltId, hubWornId, hubPatchId, hubStudId, hubSidewalkId, hubCeilingId, hubMarbleId, hubAshlarId,
         hubVoidId, hubFalseWallId, hubTileId;
-    private readonly int[] hubWallIds = new int[4], hubCrumbIds = new int[3], hubFanIds = new int[2];
+    private readonly int[] hubWallIds = new int[4], hubCrumbIds = new int[3], hubFanIds = new int[2], hubCurbIds = new int[4], hubEdgeLineIds = new int[4];
+    /// <summary>(Layout version 9) the rounded tunnels' vault pieces, by piece index (<see cref="WorldLayout.HubVaultPieces"/>) and facing.</summary>
+    private int[,] hubVaultIds;
     private readonly int[,] hubLampIds = new int[2, 4], hubSignalIds = new int[2, 4], hubStencilIds = new int[12, 4],
         hubPlaqueIds = new int[3, 4], hubSigilIds = new int[45, 4], hubSigilSideIds = new int[2, 4], hubServiceIds = new int[2, 4];
     private readonly int[,,] hubDoorIds = new int[3, 4, 4], hubPinkIds = new int[3, 4, 4], hubOrnateIds = new int[2, 3, 4], hubForbiddenIds = new int[2, 3, 4],
@@ -65,12 +67,17 @@ public sealed partial class WorldGenerator
         for (int i = 1; i <= 2; i++) hubCrumbIds[i] = HubId($"hub-tilecrumb-{i}", hubWallIds[0]);
         hubFanIds[0] = HubId("hub-jetfan-ns", 0);
         hubFanIds[1] = HubId("hub-jetfan-we", 0);
+        hubVaultIds = new int[WorldLayout.HubVaultPieces.Length, 4];
+        for (int p = 2; p < WorldLayout.HubVaultPieces.Length; p++)
+            for (int f = 0; f < 4; f++) hubVaultIds[p, f] = HubId($"hub-vault-{WorldLayout.HubVaultPieces[p]}-{Sides[f]}", hubCeilingId);
         string[] cols = { "l", "c", "r" };
         for (int f = 0; f < 4; f++)
         {
             string side = Sides[f];
             hubLampIds[0, f] = HubId($"hub-lamp-on-{side}", hubWallIds[0]);
             hubLampIds[1, f] = HubId($"hub-lamp-dead-{side}", hubWallIds[0]);
+            hubCurbIds[f] = HubId($"hub-curb-{side}", hubSidewalkId);
+            hubEdgeLineIds[f] = HubId($"hub-asphalt-edge-{side}", hubAsphaltId);
             hubSignalIds[0, f] = HubId($"hub-lanesignal-go-{side}", 0);
             hubSignalIds[1, f] = HubId($"hub-lanesignal-stop-{side}", 0);
             for (int n = 1; n <= 10; n++) hubStencilIds[n, f] = HubId($"hub-stencil-{n}-{side}", hubWallIds[0]);
@@ -127,7 +134,10 @@ public sealed partial class WorldGenerator
         int f = Facing(t.Pier);
         switch (t.Kind)
         {
-            case TileKind.Floor or TileKind.Pit when t.Zone is WorldLayout.HubZoneTower or WorldLayout.HubZoneVoid && t.Height > WorldLayout.HubSideHeight:
+            // (The roundabout's inner corners lie in the Tower's zone too, and were built as the Tower, with its gallery
+            // floors and stair across the road; in layout version 9 they are the tunnel they are, vaulted like the rest)
+            case TileKind.Floor or TileKind.Pit when t.Zone is WorldLayout.HubZoneTower or WorldLayout.HubZoneVoid && t.Height > WorldLayout.HubSideHeight
+                && !(layout.Version >= 9 && HubVaultAt(gx, gz, out _, out _)):
                 return HubTowerBlock(t, gx, gz, rel);
             case TileKind.Floor or TileKind.Pit:
             {
@@ -137,10 +147,28 @@ public sealed partial class WorldGenerator
                     // A rectangular hole in the road, down into black
                     return rel >= -2 ? 0 : rel == -3 ? hubVoidId : concreteId;
                 }
-                if (rel < 0 || rel > height + 1) return concreteId;
-                if (rel == height + 1) return t.Floor == FloorKind.PoolTile ? hubTileId : t.Zone == WorldLayout.HubZoneTower ? hubAshlarId : hubCeilingId;
+                // (Layout version 9) the tunnels are vaulted: straight walls up to rel 6, then the roof curves over
+                bool round = false;
+                if (layout.Version >= 9 && rel >= WorldLayout.HubVaultFrom)
+                {
+                    // A false wall stands in the wall's line: above the doorway-high gap it is the wall
+                    if (t.Under == Unders.HubFalseWall) return rel <= WorldLayout.HubVaultTop ? HubWallBlock(t, gx, gz, rel) : concreteId;
+                    if (HubVaultAt(gx, gz, out byte[] cells, out ArchPier[] dirs))
+                    {
+                        if (rel > WorldLayout.HubVaultTop) return concreteId;
+                        int cell = cells[rel - WorldLayout.HubVaultFrom];
+                        if (cell == 1) return t.Floor == FloorKind.PoolTile ? hubTileId : hubCeilingId;
+                        if (cell >= 2) return hubVaultIds[cell, Facing(dirs[rel - WorldLayout.HubVaultFrom])];
+                        round = true;
+                    }
+                }
+                if (rel < 0 || !round && rel > height + 1) return concreteId;
+                if (!round && rel == height + 1) return t.Floor == FloorKind.PoolTile ? hubTileId : t.Zone == WorldLayout.HubZoneTower ? hubAshlarId : hubCeilingId;
                 if (rel == 0)
                 {
+                    // (Layout version 9) the road's white edge line along the kerb
+                    if (layout.Version >= 9 && t.Floor is FloorKind.HubAsphalt or FloorKind.HubAsphaltWorn or FloorKind.HubAsphaltPatch
+                        && HubEdgeLine(gx, gz) is int edge and >= 0) return edge;
                     return t.Floor switch
                     {
                         FloorKind.HubStud => hubStudId,
@@ -154,7 +182,7 @@ public sealed partial class WorldGenerator
                 }
                 // A stretch of wall that isn't there: it looks like the wall, and you walk into it
                 if (t.Under == Unders.HubFalseWall) return hubFalseWallId != 0 ? hubFalseWallId : 0;
-                if (rel == 1 && t.Floor == FloorKind.HubSidewalk) return hubSidewalkId;
+                if (rel == 1 && t.Floor == FloorKind.HubSidewalk) return layout.Version >= 9 ? HubKerb(gx, gz) : hubSidewalkId;
                 // What hangs on the wall behind this tile: a lamp, a stencil, a plaque, the M.E.G.'s banner and key cabinet
                 if (t.Detail != 0 && rel == t.Depth)
                 {
@@ -180,7 +208,8 @@ public sealed partial class WorldGenerator
                         case Props.HubAmberSign: return hubAmberSignIds[f];
                     }
                 }
-                if (rel == height)
+                // (Under a vault's flat crown in layout version 9)
+                if (rel == (layout.Version >= 9 && t.Overhead != 0 && HubVaultAt(gx, gz, out _, out _) ? WorldLayout.HubVaultTop - 1 : height))
                 {
                     switch (t.Overhead)
                     {
@@ -345,10 +374,85 @@ public sealed partial class WorldGenerator
     /// <summary>A tunnel wall: concrete slabs two wide and three high with seams between, and whatever hangs on it.</summary>
     private int HubWallBlock(in Tile t, int gx, int gz, int rel)
     {
-        if (rel <= 0 || rel > WorldLayout.HubMainHeight + 1) return concreteId;
+        // (Up to the vaults' crown in layout version 9, where a tunnel's end wall shows that high)
+        if (rel <= 0 || rel > (layout.Version >= 9 ? WorldLayout.HubVaultTop : WorldLayout.HubMainHeight + 1)) return concreteId;
         if (t.Kind == TileKind.Wall && t.Stack is 1 or 2) return hubCrumbIds[t.Stack];
         bool left = Hashing.Mod(gx + gz, 2) == 0, bottom = Hashing.Mod(rel - 1, 3) == 0;
         return hubWallIds[(left ? 1 : 0) + (bottom ? 2 : 0)];
+    }
+
+    [ThreadStatic] private static WorldLayout vaultLayout;
+    [ThreadStatic] private static int vaultX, vaultZ;
+    [ThreadStatic] private static bool vaultHit;
+    [ThreadStatic] private static byte[] vaultCells;
+    [ThreadStatic] private static ArchPier[] vaultDirs;
+
+    /// <summary>
+    /// (Layout version 9) the vault over a tunnel column (<see cref="WorldLayout.HubVault"/>), kept for the column the
+    /// thread asked about last, since its blocks are asked for one height at a time.
+    /// </summary>
+    private bool HubVaultAt(int gx, int gz, out byte[] cells, out ArchPier[] dirs)
+    {
+        if (vaultCells == null)
+        {
+            vaultCells = new byte[WorldLayout.HubVaultTop - WorldLayout.HubVaultFrom + 1];
+            vaultDirs = new ArchPier[vaultCells.Length];
+        }
+        if (vaultLayout != layout || vaultX != gx || vaultZ != gz)
+        {
+            vaultHit = layout.HubVault(gx, gz, vaultCells, vaultDirs);
+            vaultLayout = layout;
+            vaultX = gx;
+            vaultZ = gz;
+        }
+        cells = vaultCells;
+        dirs = vaultDirs;
+        return vaultHit;
+    }
+
+    /// <summary>
+    /// (Layout version 9) the sidewalk's edge: a kerb with a rounded lip toward the road where the sidewalk runs along one
+    /// wall (or door) with the road in front of it; the plain slab at corners and at the ends where a junction opens.
+    /// </summary>
+    private int HubKerb(int gx, int gz)
+    {
+        int walls = 0, wall = -1;
+        for (int i = 0; i < 4; i++)
+        {
+            var (dx, dz) = Neighbours4[i];
+            if (!HubOpen(layout.TileAt(gx + dx, gz + dz))) { walls++; wall = i; }
+        }
+        if (walls != 1) return hubSidewalkId;
+        // The road straight out from the wall (Neighbours4: east, west, south, north)
+        var (wx, wz) = Neighbours4[wall];
+        Tile road = layout.TileAt(gx - wx, gz - wz);
+        if (!HubOpen(road) || road.Floor is FloorKind.HubSidewalk or FloorKind.PoolTile) return hubSidewalkId;
+        ArchPier side = wx > 0 ? ArchPier.West : wx < 0 ? ArchPier.East : wz > 0 ? ArchPier.North : ArchPier.South;
+        return hubCurbIds[Facing(side)];
+    }
+
+    private static bool HubOpen(in Tile n) => n.Kind is TileKind.Floor or TileKind.Pit && n.Under != Unders.HubFalseWall;
+
+    /// <summary>
+    /// (Layout version 9) a road block beside the sidewalk where it runs along a straight wall (a kerb there): asphalt with
+    /// the white edge line on that side, or -1.
+    /// </summary>
+    private int HubEdgeLine(int gx, int gz)
+    {
+        int found = -1;
+        for (int i = 0; i < 4; i++)
+        {
+            var (dx, dz) = Neighbours4[i];
+            Tile n = layout.TileAt(gx + dx, gz + dz);
+            if (!HubOpen(n) || n.Floor != FloorKind.HubSidewalk) continue;
+            // The sidewalk's wall straight behind it
+            if (HubOpen(layout.TileAt(gx + 2 * dx, gz + 2 * dz))) continue;
+            if (found >= 0) return -1; // a corner: no line
+            found = i;
+        }
+        if (found < 0) return -1;
+        var (sx, sz) = Neighbours4[found];
+        return hubEdgeLineIds[Facing(sx > 0 ? ArchPier.East : sx < 0 ? ArchPier.West : sz > 0 ? ArchPier.South : ArchPier.North)];
     }
 
     /// <summary>

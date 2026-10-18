@@ -10,7 +10,8 @@ Options: --no-sounds, --no-keymaster (skip the slow parts while iterating).
 
 Modules: gen_hub_kit.py (writers, boxes, textures, tunnel blocks), gen_hub_sigils.py (the sigil table),
 gen_hub_doors.py, gen_hub_tower.py (Tower and outposts), gen_hub_items.py (Level Keys), gen_hub_sounds.py,
-gen_hub_keymaster.py (the Keymaster's model and entity).
+gen_hub_keymaster.py (the Keymaster's model and entity), gen_hub_vault.py (the rounded tunnels' vault pieces, layout
+version 9, and src/Worldgen/WorldLayout.HubVault.g.cs, the table the world generator reads them from).
 
 Everything is written to hub/ folders: textures/block/hub, shapes/block/hub, blocktypes/hub, textures/item/hub,
 shapes/item/hub, itemtypes/hub, sounds/{ambient,effect}/hub, plus the Keymaster's shape, texture and entity type
@@ -78,6 +79,8 @@ def main():
     K.outpost_textures()
     K.b15_textures()  # (B15) the graphics pass's surfaces, over the old ones (drop to revert)
     K.tunnel_blocks()
+    import gen_hub_vault  # (layout version 9) the rounded tunnels' vault pieces, and the generator's table of them
+    gen_hub_vault.generate(os.path.join(K.ROOT, "src", "Worldgen", "WorldLayout.HubVault.g.cs"))
     import gen_hub_doors
     gen_hub_doors.generate()
     import gen_hub_tower

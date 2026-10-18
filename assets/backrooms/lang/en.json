@@ -2593,5 +2593,9 @@
 
 	"note-l7-7": "A buoy out over deep water, a rope ladder hanging from it all the way down: under it a room on the seabed, its light still on, air trapped under its roof. Climb down, swim in under it, come up through the hatch and breathe. There's a chest in each, and the deeper the room the better what's in it. The deep ones are where the big thing circles.<br>— Dez",
 	"notetitle-l7-7": "Air down there",
-	"waypoint-note-sunken": "Air under the sea (a note)"
+	"waypoint-note-sunken": "Air under the sea (a note)",
+
+	"block-hub-vault-*": "Concrete Tunnel Vault",
+
+	"block-hub-asphalt-edge-*": "Asphalt with Edge Line"
 }

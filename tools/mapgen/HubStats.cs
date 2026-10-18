@@ -8,6 +8,9 @@ using Backrooms.Worldgen;
 /// their tunnels), whether every tunnel can be walked to from the roundabout, and where every carved door leads.</item>
 /// <item><c>hubmap [step]</c>: the region to hubmap.bin (a byte per tile, see <see cref="Code"/>) for render_hub.py.</item>
 /// <item><c>hubentrances [cells]</c>: the Hub's doors in Levels 1 and 2 and Level 37's asphalt corridors in a sample.</item>
+/// <item><c>hubvault x z [r]</c>: the tiles and the rounded roof (layout version 9, <see cref="WorldLayout.HubVault"/>) of the
+/// square of radius r (default 40) round x, z to hubvault.bin, for render_hubvault.py (a slice across a tunnel, the roof
+/// from below, a view down a tunnel).</item>
 /// </list>
 /// </summary>
 static partial class LevelModes
@@ -21,6 +24,7 @@ static partial class LevelModes
             case "hubstats": HubStats(layout); return true;
             case "hubmap": HubMap(layout, args.Length > 3 ? int.Parse(args[3]) : 1); return true;
             case "hubentrances": HubEntrances(layout, args.Length > 3 ? int.Parse(args[3]) : 400); return true;
+            case "hubvault": HubVaultDump(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 40); return true;
             case "hubtile":
             {
                 int x = int.Parse(args[3]), z = int.Parse(args[4]);
@@ -34,6 +38,45 @@ static partial class LevelModes
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// hubvault.bin: "HUBV", then x0, z0, size (ints), then per column (rows of z, x along each) 21 bytes: the tile's Kind,
+    /// Floor, Height, Overhead, Detail, Depth, Pier, Pattern, Under, whether a tunnel holds it (the vault), the five vault cells
+    /// (rel HubVaultFrom to HubVaultTop: 0 air, 1 solid, else a piece index), their facings, and the tile's Zone.
+    /// </summary>
+    static void HubVaultDump(WorldLayout layout, int x, int z, int r)
+    {
+        int size = 2 * r + 1, x0 = x - r, z0 = z - r, n = WorldLayout.HubVaultTop - WorldLayout.HubVaultFrom + 1;
+        var cells = new byte[n];
+        var dirs = new ArchPier[n];
+        using var f = new BinaryWriter(File.Create("hubvault.bin"));
+        f.Write("HUBV"u8.ToArray());
+        f.Write(x0);
+        f.Write(z0);
+        f.Write(size);
+        int vaulted = 0, towerZone = 0;
+        var pieces = new int[WorldLayout.HubVaultPieces.Length];
+        for (int dz = 0; dz < size; dz++)
+            for (int dx = 0; dx < size; dx++)
+            {
+                Tile t = layout.TileAt(x0 + dx, z0 + dz);
+                bool v = t.Kind is TileKind.Floor or TileKind.Pit && layout.HubVault(x0 + dx, z0 + dz, cells, dirs);
+                if (!v) { Array.Clear(cells); Array.Clear(dirs); }
+                else
+                {
+                    vaulted++;
+                    foreach (byte c in cells) pieces[c]++;
+                }
+                f.Write(new[] { (byte)t.Kind, (byte)t.Floor, t.Height, t.Overhead, t.Detail, t.Depth, (byte)t.Pier, (byte)t.Pattern, t.Under, (byte)(v ? 1 : 0) });
+                f.Write(cells);
+                foreach (ArchPier d in dirs) f.Write((byte)d);
+                f.Write(t.Zone);
+                if (v && t.Zone is WorldLayout.HubZoneTower or WorldLayout.HubZoneVoid && t.Height > WorldLayout.HubSideHeight) towerZone++;
+            }
+        Console.WriteLine($"hubvault.bin: {size}x{size} from {x0},{z0}; {vaulted} vaulted columns (the Tower's middle is at {layout.HubOriginX},{layout.HubOriginZ}); {towerZone} of them in the Tower's zone, built as the Tower before layout version 9");
+        for (int p = 0; p < pieces.Length; p++)
+            if (pieces[p] > 0) Console.WriteLine($"  {(p == 0 ? "air" : p == 1 ? "solid" : WorldLayout.HubVaultPieces[p]),-6} {pieces[p]}");
     }
 
     /// <summary>A tile as a byte: 0 solid, 1 wall face, 2 road, 3 stud, 4 sidewalk, 5 marble, 6 carved door (dead), 7 live door, 8 service door,

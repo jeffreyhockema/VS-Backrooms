@@ -81,6 +81,13 @@ Verified with the layout harness and a headless server (port 42477), rendered fr
 - The level ranges in `HubSystem` (names, keys, the Keymaster's and the M.E.G.'s lists) and `HubStats` now reach ids 19 and 20.
 - **Checked:** `hubstats` shows all 20 doors placed, reached and leading to the right level, and the window placed and reached. `regions` 60/60. `links` unchanged. `layouthash` identical with and without these changes.
 
+**Round tunnels (2026-10-18, layout version 9).** The lore's pictures (Wikidot's Dirif photo, Fandom's road tunnels) show vaulted tunnels, not boxes, so in layout version 9:
+- **Profile:** straight walls up to rel 6 (over the sigils on rel 5). A main tunnel's roof then curves over in quarter rounds of radius 4 to a flat crown 5 blocks wide at rel 10 (air up to rel 9); a side tunnel's in a half round of radius 3.5, its crown at rel 9.5.
+- **Blocks:** `hub-vault-{piece}-{side}` (14 pieces, `m6r6` … `s0r9`: the part of a cell above the curve, in 1 px steps, in the roof's concrete), from `tools/gen_hub_vault.py`, which also writes the generator's table (`src/Worldgen/WorldLayout.HubVault.g.cs`). `WorldLayout.HubVault` gives a column's roof: every tunnel through it is a vault along its stretch, and the roof is their union, so junctions and crossings meet as groins and an L-bend's outer corner is the two tunnels' flat end walls.
+- **Fittings:** the jet fans and the lane-signal gantry (now four signals side by side, over -2 … 2) hang under the crown on rel 9; the lamps at the top of the straight wall (rel 5); a white edge line along each kerb (`hub-asphalt-edge-{side}`); `hub-curb` placed along straight walls. The approaches to the Tower keep their flat roofs (they open under the springing).
+- **Fixed on the way:** the roundabout's inner corners lie inside the Tower's zone and were built by the Tower's column code (marble road, gallery floors, stair steps); in version 9 they are vaulted tunnel.
+- **Evidence:** harness mode `hubvault x z [r]` and `tools/mapgen/render_hubvault.py` (a slice, the roof from below, a view down a tunnel).
+
 **Deviations:** lamps are on rel 4, on both walls of main tunnels. The Level 1/2 entrances are a grey door with sigil 0 (not a carved 4-high door: Level 2's rooms are 3 high). No amber chalk (plain chalk arrows). No `hub-curb`, `hub-holelip` or crumb floors.
 
 **Not built yet:**
