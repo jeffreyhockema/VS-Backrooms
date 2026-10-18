@@ -232,7 +232,7 @@ Where two levels meet the wall is solid, but every few hundred blocks along it t
 - **The doorway itself.** Each level looks like itself right up to its wall; only the short passage through a gate shows the next level, with its doorway at the far end: Level 0's carpet worn to the concrete in the doorway to Level 1, the hotel's red carpet in Level 4's doorway to Level 5. (In worlds made before 0.514.0 the next level showed itself sooner: worn carpet and missing ceiling tiles near Level 1, pipes along Level 1's ceiling near Level 2, hotel red in Level 4's carpet near Level 5.)
 - **Chalk arrows** on the walls, left by those who came before, point the way to the nearest gate from about a hundred blocks out (Levels 0 to 6). Chalk shows white on the map, so an arrow you have seen is a lead.
 - **Chalk crosses** mean a dead end (most of the Lobby's blind hallways carry one), or, in a ring of them round a place with bones on the floor, a den: keep out.
-- **Facelings** (the faceless people of Levels 1, 3, 4, 5 and 9): greet one with {rightmouse} and it waves, then points toward the nearest gate it knows of within a few hundred blocks.
+- **Facelings** (the faceless people of Levels 1, 3, 4, 5 and 9): greet one with {rightmouse} and it waves, then turns and points toward the nearest gate it knows of within a few hundred blocks, and you are told which way it pointed and roughly how far.
 - **Wanderers' notes** ({rightmouse} to read) mark a place on your map, by the paper: a note *of a door* marks the nearest gate (where there are no gates, the nearest way out); *of a way*, the nearest elevator, stairwell or pit; *of something left*, the nearest sealed box or crate; *of a refuge*, the nearest safe place or trader. The text tells you the direction and about how many paces. A note with nothing of its kind in range is handed back, to read somewhere else.
 
 **Notes and the journal**
@@ -640,7 +640,7 @@ Pale, hairless, on all fours, in packs of two or three. You hear them first. Som
 
 **Facelings** (Levels 1, 3, 4, 5, 9, the city, the Snackrooms; their children in 5, 9, the city and the Snackrooms)
 People with no faces, going about nothing; seldom met, except in the city. Their blank faces turn to follow you.
-- Greet one ({rightmouse}): it waves, then points the way to the nearest gate out of the level, as far as it knows.
+- Greet one ({rightmouse}): it waves, then turns and points the way to the nearest gate out of the level, as far as it knows, and nods. You are told which way it pointed and roughly how far. One that knows of no gate shrugs; a child only waves.
 - Harmless unless you hurt one, and then every grown Faceling near turns on you together for a minute and a half, even where the level is safe.
 - The children come to look at you and run if you rush them. When they hurry away, Hounds are near.
 

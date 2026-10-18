@@ -216,6 +216,11 @@ public class MenaceSystem : ModSystem
                 .WithDescription("Headless tests: the director also directs the straw dummies put down by /backrooms encounter (on/off), and reports where each stands")
                 .WithArgs(api.ChatCommands.Parsers.OptionalBool("on"))
                 .HandleWith(OnDummiesCommand)
+            .EndSubCommand()
+            .BeginSubCommand("facelingtest")
+                .WithDescription("Has the nearest Faceling greet you as if right-clicked, and says which gate it knows of and which way it will point. From the console, give x and z: the Faceling nearest there greets the straw dummy there")
+                .WithArgs(api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"))
+                .HandleWith(OnFacelingTestCommand)
             .EndSubCommand();
     }
 
@@ -453,6 +458,24 @@ public class MenaceSystem : ModSystem
                 dummy.EntityId, dummy.Pos.X, dummy.Pos.Y, dummy.Pos.Z, a.Level, a.Band, a.Value, a.Depth * 100, a.ToNextLevel == int.MaxValue ? "no" : a.ToNextLevel.ToString(), CountMenacing(dummy));
         }
         return TextCommandResult.Success(text.ToString());
+    }
+
+    private TextCommandResult OnFacelingTestCommand(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        Entity greeter = args.Caller.Entity;
+        Vec3d at;
+        if (greeter != null) at = greeter.Pos.XYZ;
+        else
+        {
+            if (args.Parsers[0].IsMissing || args.Parsers[1].IsMissing) return TextCommandResult.Error("From the console, give x and z");
+            int x = (int)args[0], z = (int)args[1];
+            at = new Vec3d(x + 0.5, geometry.FloorFor(layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))) + 1, z + 0.5);
+            greeter = sapi.World.GetNearestEntity(at, 16, 64, e => e.Alive && e.WatchedAttributes.GetBool("backrooms:testTarget"));
+        }
+        Entity faceling = sapi.World.GetNearestEntity(at, 48, 32, e => e.Alive && e.Code.Domain == "backrooms" && e.Code.Path.StartsWith("faceling"));
+        if (faceling == null) return TextCommandResult.Error("No Faceling within 48 blocks (put one down with /backrooms encounter faceling ambient)");
+        return TextCommandResult.Success(EntityBehaviorFaceling.TestGreeting(faceling, greeter));
     }
 
     private void Direct(Entity target, Watch watch, bool creative)

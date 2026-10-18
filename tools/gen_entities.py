@@ -867,7 +867,7 @@ FACELING_ANIMS = [
     anim("stretch", "stretch", 0.9),
     anim("yawn", "yawn", 1.0),
     anim("facewipe", "facepalm", 0.7),      # a hand rubbed over where a face should be
-    anim("point", "point", 1.0),           # showing the way, when a player greets one
+    anim("point", "point", 0.8),           # showing the way, when a player greets one (held a beat)
     anim("tantrum", "rage", 1.3),          # a child's, when frightened or hurt
 ]
 
@@ -884,6 +884,9 @@ def faceling(child=False):
         # They leave when the Hounds come, before you see the Hounds
         {"code": "fleeentity", "entityCodes": ["hound"], "priority": 1.55, "movespeed": 0.03, "seekingRange": 16, "animation": "run",
          "fleeingDistance": 24, "fleeDurationMs": 9000},
+        # Greeted (right-clicked): waves, turns and points toward the nearest gate, nods; above everything but fleeing
+        # and being hurt, so nothing turns it away or walks it off meanwhile
+        {"code": "backrooms-greet", "priority": 1.5, "priorityForCancel": 1.5, "mincooldown": 0, "maxcooldown": 0},
     ]
     if child:
         # Curious: comes to look at a player, keeps a few steps off, and runs if they come at it
@@ -900,7 +903,11 @@ def faceling(child=False):
             idle("stretch", 1.14, 2500, 2500, 60000, 180000),
             idle("facewipe", 1.17, 2800, 2800, 90000, 240000),
         ]
-    tasks += [dict(WANDER, movespeed=0.01 if not child else 0.014), LOOKAROUND]
+    # Walks somewhere it can reach along the halls (never at a wall), mostly on the way it was going, turns to look
+    # down the most open way at the end and stands a while (in place of vanilla's wander and lookaround)
+    tasks.append({"code": "backrooms-amble", "priority": 1.0, "priorityForCancel": 1.35, "movespeed": 0.01 if not child else 0.014,
+                  "walkAnimation": "walk", "maxDistanceToSpawn": 24, "minWalk": 5 if not child else 4, "maxWalk": 16 if not child else 14,
+                  "mincooldown": 3000 if not child else 2000, "maxcooldown": 12000 if not child else 8000})
     client = common_client(f"backrooms:entity/{code}",
                            {"base": f"backrooms:entity/faceling-{first}" if not child else f"backrooms:entity/faceling-{first}",
                             "alternates": [{"base": f"backrooms:entity/faceling-{c}"} for c in looks if c != first]},

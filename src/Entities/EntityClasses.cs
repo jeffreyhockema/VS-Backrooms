@@ -36,6 +36,8 @@ public class EntityClasses : ModSystem
         api.RegisterEntity("EntityDeathRat", typeof(EntityDeathRat));
         api.RegisterEntityBehaviorClass("backrooms-faceling", typeof(EntityBehaviorFaceling));
         AiTaskRegistry.Register<AiTaskCurious>("backrooms-curious");
+        AiTaskRegistry.Register<AiTaskGreet>("backrooms-greet");
+        AiTaskRegistry.Register<AiTaskAmble>("backrooms-amble");
         AiTaskRegistry.Register<AiTaskMenace>("backrooms-menace");
         AiTaskRegistry.Register<AiTaskMoth>("backrooms-moth");
         AiTaskRegistry.Register<AiTaskClump>("backrooms-clump");
