@@ -631,12 +631,14 @@ public sealed partial class WorldLayout
                     double stretch = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 8), Hashing.FloorDiv(gz, 8), SaltL3Wall + 1));
                     if (face == null)
                     {
-                        // Only open to bars or machinery: fittings that work from any side
-                        tile.Variant = stretch < 0.45 ? Props.WallPipes : r < 0.32 ? Props.WallPanel : Props.WallPlain;
+                        // Only open to bars or machinery: fittings that work from any side (from layout version 9 the
+                        // pipes are laid afterwards as whole runs, PlanL3WallRuns)
+                        tile.Variant = Version >= 9 ? (r < 0.25 ? Props.WallPanel : Props.WallPlain)
+                            : stretch < 0.45 ? Props.WallPipes : r < 0.32 ? Props.WallPanel : Props.WallPlain;
                         continue;
                     }
                     tile.Pier = face.Value;
-                    tile.Variant = r < 0.035 ? Decor.Bulkhead : r < 0.06 ? Decor.DangerSign : r < 0.085 ? Decor.Gauges
+                    tile.Variant = Version >= 9 ? L3WallFixture(r) : r < 0.035 ? Decor.Bulkhead : r < 0.06 ? Decor.DangerSign : r < 0.085 ? Decor.Gauges
                         : r < 0.1 ? Decor.KnifeSwitch : r < 0.125 ? Decor.JunctionBox : r < 0.137 ? Decor.SparkOutlet
                         : r < 0.145 ? Decor.AlarmBell : r < 0.16 ? Decor.Risers
                         : stretch < 0.45 ? Props.WallPipes : stretch < 0.62 ? Decor.WallCables
@@ -688,8 +690,9 @@ public sealed partial class WorldLayout
                 if (tile.Variant != 0) continue;
                 int neighbours = (e ? 1 : 0) + (w ? 1 : 0) + (s ? 1 : 0) + (n ? 1 : 0);
                 if (neighbours == 1 && r > 0.8) tile.SupplyBox = true;
-                // Cables trail across the floor from the machinery, and things are left lying about
-                else if ((alongX || alongZ) && r < 0.05)
+                // Cables trail across the floor from the machinery (from layout version 9 they cross a corridor whole,
+                // PlanL3FloorCables), and things are left lying about
+                else if (Version < 9 && (alongX || alongZ) && r < 0.05)
                 {
                     tile.Variant = Props.FloorCable;
                     tile.Pier = alongX ? ArchPier.North : ArchPier.East;
@@ -700,6 +703,11 @@ public sealed partial class WorldLayout
                     tile.Pier = alongX ? ArchPier.North : ArchPier.East;
                 }
             }
+        }
+        if (Version >= 9)
+        {
+            PlanL3WallRuns(b, mx, mz);
+            PlanL3FloorCables(b, mx, mz);
         }
     }
 

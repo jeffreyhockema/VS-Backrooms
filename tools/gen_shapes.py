@@ -1216,6 +1216,64 @@ def breaker_panel():
     return els
 
 
+# ---------------- (L3 placement) Level 3's fittings that lead somewhere, from layout version 9 ----------------
+# Blocktype l3fitting (gen_blocktypes.py): Level 3 wall blocks like l3wallfixture's, their fittings on all four faces.
+
+def pipe_gauges():
+    """Two pressure gauges in the wall pipes (WALL_PIPE_RUST, WALL_PIPE_LAG), on the north face: one standing on a stem
+    out of the top of the lagged pipe, through a steel band round the lagging, the other hanging on a stem from a clamp
+    on the steel pipe, both in the gap between the pipes with their dials to the room. In 1-8 the gauges were a
+    decoration with a length of pipe of their own, at another height from the wall pipes beside them."""
+    ly, lz, lr = WALL_PIPE_LAG
+    ry, rz, rr = WALL_PIPE_RUST
+    f = ("north", "east", "west", "up", "down")
+    out = round_pipe("GABand", ly, lz, lr + 0.3, "flange", 4.1, 5.9, shaded=False, faces=("east", "west"))
+    out.append(K.box("GAStem", (4.6, ly + lr - 0.25, lz - 0.4), (5.4, 6.7, lz + 0.4), "flange", faces=f))
+    out += K.gauge("GaugeA", 5.0, 8.4, lz + 0.65, r=1.8, angle=-50, face="cabdial", body="cabbezel", needle="cabneedle",
+                   depth=1.3, stem=False)
+    out += round_pipe("GBClamp", ry, rz, rr + 0.3, "flange", 10.4, 11.6, shaded=False, faces=("east", "west"))
+    out.append(K.box("GBStem", (10.6, 9.8, rz - 0.4), (11.4, ry - rr + 0.25, rz + 0.4), "flange", faces=f))
+    out += K.gauge("GaugeB", 11.0, 8.15, rz + 0.65, r=1.7, angle=30, face="cabdial", body="cabbezel", needle="cabneedle",
+                   depth=1.3, stem=False)
+    return out
+
+
+CABLE_HEIGHTS = ((4.75, 0.8), (7.0, 1.0), (9.5, 0.65))  # gen_detail.wall_cables: each cable's centre height and radius
+
+
+def panel_box(east=False, west=False):
+    """Over a breaker panel (breaker_panel): its conduit carried on up the wall from the panel's gland, in a saddle
+    clip, into a cast junction box with a lid screwed on at the corners. With `east` or `west` a cable run along the wall
+    comes into the box's side there (gen_detail.wall_cables: three cables, each in a gland reaching to the block's edge,
+    where the run's own cables end). In 1-8 the conduit stopped at the wall block above the panel."""
+    f = ("north", "east", "west", "up", "down")
+    out = [K.box("Conduit", (7.25, 0, -1.75), (8.75, 3.0, -0.25), "metal", faces=("north", "east", "west")),
+           K.box("Clip", (6.75, 1.0, -2.0), (9.25, 1.75, 0), "metal", faces=f),
+           K.box("Coupling", (6.9, 3.0, -2.0), (9.1, 3.5, 0), "metal", faces=f),
+           K.box("Box", (2.75, 3.5, -2.75), (13.25, 12.0, 0), "l3paint", faces=f),
+           K.box("Lid", (2.5, 3.25, -3.25), (13.5, 12.25, -2.75), "l3paint", faces=f)]
+    for i, (x, y) in enumerate(((3.1, 3.6), (12.3, 3.6), (3.1, 11.3), (12.3, 11.3))):
+        out.append(K.box(f"Screw{i}", (x, y, -3.5), (x + 0.6, y + 0.6, -3.25), "metal", faces=f))
+    out += cab_plate("Label", 5.0, 9.25, 11.0, 10.75, -3.25, "cablabel")
+    for side, on in (("E", east), ("W", west)):
+        if not on:
+            continue
+        for i, (yc, r) in enumerate(CABLE_HEIGHTS):
+            zc = -r - 0.05
+            x1, x2 = (13.25, 15.95) if side == "E" else (0.05, 2.75)
+            out.append(K.box(f"Gland{side}{i}", (x1, yc - r - 0.2, zc - r - 0.2), (x2, yc + r + 0.2, 0), "metal", faces=f))
+    return out
+
+
+def l3_fittings(tex):
+    """The l3fitting shapes for one Level 3 wall (tex: the wall's texture dict)."""
+    material = tex["wall"].rsplit("-", 1)[1]
+    gtex = dict(tex, **CABINET_TEX)
+    save(f"l3fitting-{material}-pipesgauge", gtex, [CUBE("wall")] + sides_turned(WALL_PIPES + pipe_gauges()))
+    for name, east, west in (("panelbox", False, False), ("panelboxe", True, False), ("panelboxw", False, True), ("panelboxew", True, True)):
+        save(f"l3fitting-{material}-{name}", gtex, [CUBE("wall")] + sides_turned(panel_box(east, west)))
+
+
 def wall_fan():
     """An extract fan set in a wall's north face: a square housing standing 3 px out, its opening rounded by corner
     fillets, four galvanised blades pitched on a hub over a dark well, behind a guard of crossed wire bars. The old
@@ -1342,6 +1400,8 @@ def level3():
         ftex = dict(tex, **L3_TEX, cablabel=CABINET_TEX["cablabel"], cabneedle=CABINET_TEX["cabneedle"])
         save(f"l3wall-{material}-panel", ftex, [CUBE("wall")] + sides_turned(breaker_panel()))
         save(f"l3wall-{material}-fan", ftex, [CUBE("wall")] + sides_turned(wall_fan()))
+        # (L3 placement, layout version 9) gauges in the wall pipes, and the junction box over a panel
+        l3_fittings(ftex)
 
     # Bars standing in a west-east plane across the middle of the block: round steel (two crossed boxes each), every
     # face showing the whole width of the bar texture's shading so the specular stripe runs down each; the rails take

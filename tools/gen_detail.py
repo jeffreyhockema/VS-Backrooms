@@ -921,6 +921,69 @@ def wall_cables():
     return out
 
 
+def wall_cables_end(east, west):
+    """(L3 placement, layout version 9) The end of a cable run (wall_cables): at the east end (x 16), the west, or both,
+    the cables run into a gland plate screwed to the wall and through it, each in a gland, into the wall. In 1-8 a run
+    stopped short at the block's edge, wherever it was."""
+    x1, x2 = (3.4 if west else 0.0), (12.6 if east else 16.0)
+    out = []
+    for i, (yc, r) in enumerate(((4.75, 0.8), (7.0, 1.0), (9.5, 0.65))):
+        zc = -r - 0.05
+        out += [bx(f"C{i}", (x1, yc - r, zc - r * 0.6), (x2, yc + r, zc + r * 0.6), "cable", faces=("north", "up", "down")),
+                bx(f"C{i}b", (x1, yc - r * 0.6, zc - r), (x2, yc + r * 0.6, zc + r * 0.6), "cable", faces=("north", "up", "down"))]
+        # (the clips as wall_cables', but where a gland plate takes the one at that end)
+        for j, x in enumerate((4, 8, 12)):
+            if x == 4 and west or x == 12 and east:
+                continue
+            out.append(bx(f"Clip{i}{j}", (x - 0.5, yc - r - 0.3, zc - r - 0.25), (x + 0.5, yc + r + 0.3, 0), "metal",
+                          faces=("north", "east", "west", "up", "down")))
+    for side, on in (("E", east), ("W", west)):
+        if not on:
+            continue
+        # the plate (its back a hair off the wall, so it never lies in the wall's own face) and a gland round each cable
+        px1, px2 = (12.0, 15.2) if side == "E" else (0.8, 4.0)
+        out.append(bx(f"Plate{side}", (px1, 3.0, -0.6), (px2, 11.25, -0.02), "metal", faces=("north", "east", "west", "up", "down")))
+        out += rivets(f"Plate{side}", px1, 3.0, px2, 11.25, -0.6, inset=0.35, size=0.5)
+        for i, (yc, r) in enumerate(((4.75, 0.8), (7.0, 1.0), (9.5, 0.65))):
+            zc = -r - 0.05
+            gx1, gx2 = (12.5, 14.0) if side == "E" else (2.0, 3.5)
+            out.append(bx(f"Gland{side}{i}", (gx1, yc - r - 0.25, zc - r - 0.25), (gx2, yc + r + 0.25, -0.6), "metal",
+                          faces=("north", "east", "west", "up", "down")))
+    return out
+
+
+FLOOR_CABLES = ((0.8, 5.5, 6.3), (1.0, 7.5, 8.6), (0.7, 9.8, 10.4))  # the floor cables' heights and their spans across
+
+
+def floor_cable_end(kind, mirrored):
+    """(L3 placement, layout version 9) The end of a crossing of cables on Level 3's floor (WorldLayout.PlanL3FloorCables),
+    the wall it ends at to the north: the cables come in from the south as the straight lengths lie (floorcable, its
+    cables across X turned to run along Z, so at x 16 - z; `mirrored` puts them at x z, for the ends at walls to the east
+    and south, which the generator turns the other way), and end in a cable box against the wall ("box"), or turn up the
+    wall into the panel or junction box over them ("riser"), held by two clips."""
+    out = []
+    for i, (h, a, b) in enumerate(FLOOR_CABLES):
+        xa, xb = (a, b) if mirrored else (16 - b, 16 - a)
+        if kind == "box":
+            out.append(bx(f"C{i}", (xa, 0, 4.75), (xb, h, 16), "cable", faces=("east", "west", "up")))
+            out.append(bx(f"Gland{i}", (xa - 0.3, 0, 4.4), (xb + 0.3, h + 0.3, 5.0), "metal", faces=("south", "east", "west", "up")))
+        else:
+            # along the floor to the foot of the wall, and up it into the fitting over them
+            out.append(bx(f"C{i}", (xa, 0, 0.35 + h), (xb, h, 16), "cable", faces=("east", "west", "up")))
+            out.append(bx(f"Up{i}", (xa, 0, 0.35), (xb, 19.0, 0.35 + h), "cable", faces=("south", "east", "west")))
+    if kind == "box":
+        f = ("north", "south", "east", "west", "up")
+        out += [bx("Box", (3.75, 0, 0.1), (12.25, 4.5, 4.4), "metaldark", faces=f),
+                bx("Lid", (3.5, 4.5, 0.1), (12.5, 5.0, 4.65), "metal", faces=f),
+                bx("Screw1", (4.0, 5.0, 3.6), (4.6, 5.25, 4.2), "metal", faces=f),
+                bx("Screw2", (11.4, 5.0, 3.6), (12.0, 5.25, 4.2), "metal", faces=f)]
+    else:
+        f = ("south", "east", "west", "up", "down")
+        for j, y in enumerate((5.0, 12.0)):
+            out.append(bx(f"Clip{j}", (5.0, y, 0.05), (11.0, y + 0.8, 1.75), "metal", faces=f))
+    return out
+
+
 def risers(y0, foot=False, strut=False):
     """Level 3's hot pipes up a wall: a lagged pipe and a bare one, round (gen_shapes.round_riser); with `foot` the
     flanged feet they stand in, with `strut` a channel strut across the wall and a clamp round each pipe."""
@@ -1164,6 +1227,8 @@ def level3():
             light=[50, 6, 5]),
     ] + [Decor(f"roomsign{i}", "Room Sign", {2: plate("Sign", (3, 4, -0.3), (13, 13, 0), f"l3plaque{i}", "white") + rivets("Sign", 3, 4, 13, 13, -0.3)})
          for i in range(8)]
+    # (L3 placement, layout version 9) A cable run's ends: into a gland in the wall at its east end, its west, or both
+    decors += [Decor(f"wallcablesend{k}", "Cable Run", {3: wall_cables_end("e" in k, "w" in k)}) for k in ("e", "w", "ew")]
     for material in ("glazed", "brick", "cinder"):
         wall_family(f"l3deco{material}", "Level 3 Wall", {1: material}, decors)
     wall_family("l3decostone", "Ashlar Stone", {1: "sanctumwall"}, [d for d in decors if d.code == "bulkhead"])
@@ -1265,6 +1330,11 @@ def level3():
         bx("C1", (0, 0, 5.5), (16, 0.8, 6.3), "cable"), bx("C2", (0, 0, 7.5), (16, 1, 8.6), "cable"),
         bx("C3", (0, 0, 9.8), (16, 0.7, 10.4), "cable")], collide=False, material="Metal", sounds=METAL,
          extra={"selectionbox": {"x1": 0, "y1": 0, "z1": 0.3, "x2": 1, "y2": 0.07, "z2": 0.7}})
+    # (L3 placement, layout version 9) The ends of a crossing of cables on the floor: a cable box, or the rise into a fitting
+    prop("floorcableend", "Floor Cables", {"box": floor_cable_end("box", False), "boxm": floor_cable_end("box", True),
+                                           "riser": floor_cable_end("riser", False), "riserm": floor_cable_end("riser", True)},
+         collide=False, material="Metal", sounds=METAL,
+         extra={"selectionbox": {"x1": 0.2, "y1": 0, "z1": 0, "x2": 0.8, "y2": 0.3, "z2": 1}})
     prop("pipestack", "Stacked Pipes", [bx(f"P{i}", (0, y, z), (16, y + 3, z + 3), "rust") for i, (y, z) in
                                         enumerate(((0, 2), (0, 6), (0, 10), (3, 4), (3, 8), (6, 6)))] +
          [bx("Chock1", (2, 0, 1), (3.5, 2, 15), "wood"), bx("Chock2", (12.5, 0, 1), (14, 2, 15), "wood")],

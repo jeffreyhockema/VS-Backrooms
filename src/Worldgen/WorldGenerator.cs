@@ -412,6 +412,23 @@ public sealed partial class WorldGenerator
     /// 1-3 Level 3's glazed tile, brick, cinder) and <see cref="WallPipeCorner"/>'s key; 0 where there is no such block.
     /// </summary>
     private readonly int[,] wallPipeCornerIds = new int[4, 1 << 12];
+    /// <summary>
+    /// (Layout version 9) Level 3's fittings that lead somewhere (l3fitting), by wall (glazed tile, brick, cinder): the
+    /// wall pipes with their pressure gauges in them, and the junction box a panel's conduit runs up into (with a cable
+    /// run coming into it from neither side, its east, its west or both, as the box faces north).
+    /// </summary>
+    private readonly int[] l3GaugePipeIds = new int[3];
+    private readonly int[,] l3PanelBoxIds = new int[3, 4];
+    /// <summary>
+    /// (Layout version 9) Level 3's cable runs ending in a gland in the wall, by wall, by end (the decoration's east end,
+    /// its west end, both) and facing.
+    /// </summary>
+    private readonly int[,,] l3CableEndIds = new int[3, 3, 4];
+    /// <summary>
+    /// (Layout version 9) The ends of a crossing of cables on Level 3's floor (floorcableend): a cable box, and its cables
+    /// laid for a wall to the east or south; a rise into the fitting on the wall, and the same mirrored; by facing.
+    /// </summary>
+    private readonly int[,] floorCableEndIds = new int[4, 4];
     private readonly int cableXId, cableZId, cableHubId, cableDroopXId, cableDroopZId, cableGapXId, cableGapZId;
     private readonly int[,] cableLightIds = new int[3, 5]; // state (warm, off, flicker) x axis (we, ns, no tray, on tar pipes we, ns)
     /// <summary>Overhead runs ending with open space beyond them, by the side they end on (north, east, south, west): Level 2's
@@ -685,7 +702,18 @@ public sealed partial class WorldGenerator
             l3FixtureIds[(pattern, Props.WallFan)] = BlockId($"backrooms:l3wallfixture-{code}-fan");
             l3PipeRunIds[(pattern, TunnelPipesJoint)] = BlockId($"backrooms:l3wallfixture-{code}-pipesjoint");
             l3PipeRunIds[(pattern, TunnelPipesBracket)] = BlockId($"backrooms:l3wallfixture-{code}-pipesbracket");
+            // (Layout version 9)
+            int m = L3WallIndex(pattern);
+            l3GaugePipeIds[m] = Id($"l3fitting-{code}-pipesgauge");
+            string[] boxes = { "panelbox", "panelboxe", "panelboxw", "panelboxew" };
+            for (int k = 0; k < 4; k++) l3PanelBoxIds[m, k] = Id($"l3fitting-{code}-{boxes[k]}");
+            string[] cableEnds = { "e", "w", "ew" };
+            for (int e = 0; e < 3; e++)
+                for (int f = 0; f < 4; f++) l3CableEndIds[m, e, f] = Id($"l3deco{code}-wallcablesend{cableEnds[e]}-{Sides[f]}");
         }
+        string[] floorCableEnds = { "box", "boxm", "riser", "riserm" };
+        for (int k = 0; k < 4; k++)
+            for (int f = 0; f < 4; f++) floorCableEndIds[k, f] = Id($"floorcableend-{floorCableEnds[k]}-{Sides[f]}");
         InitWallPipeCorners();
         l3WallIds[WallPattern.Stone] = sanctumStoneId;
         InitCity();
@@ -1511,7 +1539,8 @@ public sealed partial class WorldGenerator
     private bool CarriesWallPipes(in Tile n) => n.Kind == TileKind.Wall && n.Level switch
     {
         2 => n.Pattern == WallPattern.Tunnel && n.Variant is Props.WallPipes or Props.WallRiser or Props.WallValve,
-        3 => n.Variant == Props.WallPipes && n.Pattern != WallPattern.Stone,
+        // (From layout version 9 a pressure gauge sits in the pipes: WorldLayout.PlanL3WallRuns)
+        3 => (n.Variant == Props.WallPipes || n.Variant == Decor.Gauges && layout.Version >= 9) && n.Pattern != WallPattern.Stone,
         _ => false,
     };
 
@@ -1614,12 +1643,14 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                WallPattern fixturePattern = l3WallIds.ContainsKey(t.Pattern) ? t.Pattern : WallPattern.GlazedTile;
+                if (layout.Version >= 9 && t.Pattern != WallPattern.Stone && L3Fitting(t, rel, gx, gz, fixturePattern) is int fitting and not 0)
+                    return fitting;
                 int decor = Decorated(t, rel);
                 if (decor != 0) return decor;
-                WallPattern fixturePattern = l3WallIds.ContainsKey(t.Pattern) ? t.Pattern : WallPattern.GlazedTile;
                 // Where Level 3's wall pipes turn a corner or end
                 if (rel == 2 && t.Variant == Props.WallPipes && t.Pattern != WallPattern.Stone
-                    && WallPipeCorner(fixturePattern switch { WallPattern.RedBrick => 2, WallPattern.Cinder => 3, _ => 1 }, gx, gz) is int corner and not 0)
+                    && WallPipeCorner(L3WallIndex(fixturePattern) + 1, gx, gz) is int corner and not 0)
                     return corner;
                 if (rel == 2 && t.Variant == Props.WallPipes && WallPipeRun(gx, gz) != TunnelPipes
                     && l3PipeRunIds.TryGetValue((fixturePattern, WallPipeRun(gx, gz)), out int run) && run != 0) return run;
@@ -1669,6 +1700,14 @@ public sealed partial class WorldGenerator
         }
         if (rel == 1)
         {
+            // (Layout version 9) The ends of a crossing of cables on the floor (WorldLayout.PlanL3FloorCables): a box against
+            // the wall, or the rise into the fitting on it (Stack 1, 2). Their cables are mirrored for a wall to the east or
+            // south, so that they line up with the lengths between, which are not symmetric.
+            if (t.Variant == Props.FloorCable && t.Stack is 1 or 2 && layout.Version >= 9)
+            {
+                int end = floorCableEndIds[(t.Stack - 1) * 2 + (t.Pier is ArchPier.East or ArchPier.South ? 1 : 0), Facing(t.Pier)];
+                if (end != 0) return end;
+            }
             if (t.Variant == Props.Transformer) return transformerId;
             if (t.Variant == Props.Drum) return drumId;
             if (t.Variant == Props.Boiler) return boilerIds[Facing(t.Pier)];
@@ -1681,6 +1720,74 @@ public sealed partial class WorldGenerator
         if (t.Variant == Props.Shelf && rel == 2) return shelfIds[Facing(Opposite(t.Pier))];
         if (t.Variant == 0 && rel <= t.Stack) return CrateOf(t);
         return 0;
+    }
+
+    /// <summary>Level 3's walls in the order their blocks are kept: glazed tile, brick, cinder (and the wallpipecorner wall less one).</summary>
+    private static int L3WallIndex(WallPattern pattern) => pattern switch { WallPattern.RedBrick => 1, WallPattern.Cinder => 2, _ => 0 };
+
+    /// <summary>
+    /// (Layout version 9) A Level 3 wall's fitting where its runs lead somewhere (WorldLayout.PlanL3WallRuns), or 0 to draw
+    /// the wall as in 1-8: a pressure gauge sits in the wall pipes (in 1-8 on a length of pipe of its own, which lined up
+    /// with nothing; where the pipes turn a corner there, just the corner); a panel's conduit runs on up the wall into a
+    /// junction box (in 1-8 it stopped at the wall above), which takes the cables of a run beside it; and a cable run
+    /// ends in a gland in the wall, at either end or both, unless it runs on into a panel's junction box there.
+    /// </summary>
+    private int L3Fitting(in Tile t, int rel, int gx, int gz, WallPattern pattern)
+    {
+        int m = L3WallIndex(pattern);
+        switch (t.Variant)
+        {
+            case Decor.Gauges when rel == 2:
+                int corner = WallPipeCorner(m + 1, gx, gz);
+                return corner != 0 ? corner : l3GaugePipeIds[m];
+            case Props.WallPanel when rel == 3:
+            {
+                // A cable run beside it comes into the box's side: a run on its face f to the east of it (a quarter
+                // clockwise from f, the way the box's own east lies on that face) comes into its east side
+                bool east = false, west = false;
+                foreach (ArchPier dir in new[] { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West })
+                {
+                    Tile n = Beside(gx, gz, dir);
+                    if (n.Kind != TileKind.Wall || n.Level != 3 || n.Variant != Decor.WallCables) continue;
+                    if (dir == Clockwise(n.Pier)) east = true;
+                    else if (dir == Opposite(Clockwise(n.Pier))) west = true;
+                }
+                return l3PanelBoxIds[m, (east ? 1 : 0) + (west ? 2 : 0)];
+            }
+            case Decor.WallCables when rel == 3:
+            {
+                // The decoration faces t.Pier, so its own east end lies a quarter clockwise from it
+                ArchPier east = Clockwise(t.Pier);
+                bool e = CablesRunOn(t, gx, gz, east), w = CablesRunOn(t, gx, gz, Opposite(east));
+                return e && w ? 0 : l3CableEndIds[m, !e && !w ? 2 : !e ? 0 : 1, Facing(t.Pier)];
+            }
+        }
+        return 0;
+    }
+
+    /// <summary>A direction a quarter clockwise from another, seen from above.</summary>
+    private static ArchPier Clockwise(ArchPier dir) => dir switch
+    {
+        ArchPier.North => ArchPier.East,
+        ArchPier.East => ArchPier.South,
+        ArchPier.South => ArchPier.West,
+        _ => ArchPier.North,
+    };
+
+    /// <summary>The tile beside a column one way.</summary>
+    private Tile Beside(int gx, int gz, ArchPier dir) => dir switch
+    {
+        ArchPier.North => TileAt(gx, gz - 1),
+        ArchPier.South => TileAt(gx, gz + 1),
+        ArchPier.East => TileAt(gx + 1, gz),
+        _ => TileAt(gx - 1, gz),
+    };
+
+    /// <summary>Whether a Level 3 cable run goes on past a wall block one way: into more of the run, or a panel's junction box.</summary>
+    private bool CablesRunOn(in Tile t, int gx, int gz, ArchPier dir)
+    {
+        Tile n = Beside(gx, gz, dir);
+        return n.Kind == TileKind.Wall && n.Level == 3 && (n.Variant == Decor.WallCables && n.Pier == t.Pier || n.Variant == Props.WallPanel);
     }
 
     private int BarsBlock(in Tile t) => t.Pier is ArchPier.North or ArchPier.South ? barsNsId : barsWeId;

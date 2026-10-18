@@ -57,6 +57,8 @@
 	"block-wallpipecorner-*": "Wall Pipes",
 	"block-l3wallfixture-*-panel": "Electrical Panel",
 	"block-l3wallfixture-*-fan": "Industrial Fan",
+	"block-l3fitting-*-pipesgauge": "Pressure Gauges",
+	"block-l3fitting-*": "Junction Box",
 	"block-dustyfloor": "Dusty Concrete",
 	"block-plasterceiling": "Plaster Ceiling",
 	"block-roomsign-*": "Room Sign",
@@ -2559,5 +2561,15 @@
 	"block-concretedeco-powerbox4-*": "Power Box",
 
 	"block-officedeco-whiteboardl-*": "Whiteboard",
-	"block-officedeco-whiteboardr-*": "Whiteboard"
+	"block-officedeco-whiteboardr-*": "Whiteboard",
+	"block-l3decoglazed-wallcablesende-*": "Cable Run",
+	"block-l3decoglazed-wallcablesendw-*": "Cable Run",
+	"block-l3decoglazed-wallcablesendew-*": "Cable Run",
+	"block-l3decobrick-wallcablesende-*": "Cable Run",
+	"block-l3decobrick-wallcablesendw-*": "Cable Run",
+	"block-l3decobrick-wallcablesendew-*": "Cable Run",
+	"block-l3decocinder-wallcablesende-*": "Cable Run",
+	"block-l3decocinder-wallcablesendw-*": "Cable Run",
+	"block-l3decocinder-wallcablesendew-*": "Cable Run",
+	"block-floorcableend-*": "Floor Cables"
 }

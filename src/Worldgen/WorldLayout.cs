@@ -224,6 +224,20 @@ public sealed partial class WorldLayout
     /// (tunnelfitting-machinerytop), and a pump gallery's machine cabinet feeds the overhead bundle by a pipe up the wall
     /// behind it (machinecabinetfeed, feedpipe), whose wall carries no wall cabinet, valve or riser valve to clash with it
     /// (PlaceL2Valve, ClearBehindCabinets; the generator's TunnelFitting).
+    /// Level 3's runs are laid whole (WorldLayout.Level3Runs.cs; in 1-8 each wall block took its own fitting, the pipes and
+    /// cables by the eight-block square it stood in, so they came in short pieces ending in mid-air): the wall pipes go
+    /// round a whole block of solid wall and the room in it, inside and out, or none of it (PlanL3WallRuns: runs sharing
+    /// a block, and a room's walls meeting in its corners, go together; none of fewer than four faces), turning its
+    /// corners and bending into the wall at their ends; the walls beside a switchgear cabinet carry no run, panel or fan
+    /// (a run along them came out of its front; the wall behind it may, the pipes going into its sides); the pressure
+    /// gauges sit in the pipes on a straight length between two of the run's blocks (l3fitting-*-pipesgauge; in 1-8 a
+    /// decoration with a pipe of its own); a cable run takes a whole stretch of wall three blocks or more long, now and
+    /// then from a panel, and ends in a gland in the wall (l3deco*-wallcablesend*) or in the panel's junction box; a
+    /// panel's conduit runs on up into a junction box (l3fitting-*-panelbox*; in 1-8 it stopped at the wall block above,
+    /// and the generator draws the box over every panel of a version 9 world); and the cables on the floor cross a
+    /// corridor whole from a panel or junction box to the wall opposite, ending in a cable box or rising into the
+    /// fitting there (PlanL3FloorCables: FloorCable with Tile.Stack 1 or 2 at the ends, floorcableend; in 1-8 a block of
+    /// cable here and there). Bulkheads are a little commoner on the walls left (L3WallFixture).
     /// Level edges: each level keeps its own look to the wall between it and the next (WorldLayout.Linings.cs). The cell on
     /// the west or north side of a wall its neighbour owns lines it with its own wall a tile in (LineLevelWalls; in 1-8 that
     /// side saw the next level's face), so the way through a gate is two deep, the next level's doorway at its far end;

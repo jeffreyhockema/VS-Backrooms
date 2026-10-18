@@ -184,6 +184,21 @@ def level3():
         "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
     }
     write("level3", "l3wallfixture", fixture, "Level 3 walls carrying 3D pipes (with a flanged joint, or a bracket), electrical panels or industrial fans")
+    # (L3 placement) Level 3's fittings that lead somewhere, placed from layout version 9 (the shapes are
+    # tools/gen_shapes.py's l3_fittings): the wall pipes with pressure gauges in them, and the junction box over a panel
+    # that its conduit runs up into, with a cable run coming into its side (e, w) or both, or none
+    fittings = ["pipesgauge", "panelbox", "panelboxe", "panelboxw", "panelboxew"]
+    write("level3", "l3fitting", {
+        "code": "l3fitting",
+        "variantgroups": [{"code": "material", "states": ["glazed", "brick", "cinder"]}, {"code": "fitting", "states": fittings}],
+        "creativeinventory": {"general": ["*-pipesgauge", "*-panelbox"], "construction": ["*-pipesgauge", "*-panelbox"]},
+        "blockmaterial": "Stone",
+        "drawtype": "json",
+        "shapeByType": {"*": {"base": "block/l3fitting-{material}-{fitting}"}},
+        "textures": {"wall": {"base": "block/level3/l3wall-{material}"}},
+        "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
+    }, "Level 3 walls with fittings that lead somewhere: pressure gauges in the wall pipes, and the junction box a panel's "
+       "conduit runs up into")
     # The wall pipes of Levels 2 and 3 turning corners and ending: the state names the faces open to the tunnel and
     # what the pipes do at each corner (see tools/gen_shapes.py, wall_pipe_configs)
     from gen_shapes import wall_pipe_corner_states
