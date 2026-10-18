@@ -1135,10 +1135,11 @@ public sealed partial class WorldLayout
         WallPattern pattern = RegionAt(mx, mz).PrimaryPattern;
         var edge = new Edge { Pattern = pattern, Base = BaseFor(pattern), Planned = true };
         bool[] walled = WalledNeighbours(0, mx, mz);
+        var wide = walled == null ? default : LiningWidens(0, mx, mz);
         for (int i = 1; i < MacroSize; i++)
         {
             Tile t = west ? L0TileAt(mx * MacroSize, mz * MacroSize + i) : L0TileAt(mx * MacroSize + i, mz * MacroSize);
-            bool edgeHall = west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0);
+            bool edgeHall = west ? EdgeHall(walled, 0, i, wide) : EdgeHall(walled, i, 0, wide);
             edge.Tiles[i] = IsWalkable(t) || edgeHall ? EdgeTile.Open : EdgeTile.Wall;
         }
         return edge;
@@ -1205,7 +1206,9 @@ public sealed partial class WorldLayout
             PlaceSpawnBox(b);
             PlaceSpawnBox(b);
         }
-        if (TouchesLevel(mx, mz, 1)) WearAway(b, mx, mz);
+        // (Up to layout version 8 the Lobby wore away toward Level 1; from 9 it is the Lobby to its walls, and only the
+        // way through a gate is worn: see WorldLayout.Linings.cs)
+        if (Version < 9 && TouchesLevel(mx, mz, 1)) WearAway(b, mx, mz);
     }
 
     /// <summary>
@@ -1244,7 +1247,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Next to Level 1 the Lobby starts to give way: carpet worn through to concrete and ceiling tiles missing,
-    /// so walking out of Level 0 feels gradual.
+    /// so walking out of Level 0 feels gradual (layout versions 1-8; from 9 a level keeps its own look to its walls).
     /// </summary>
     private void WearAway(Builder b, int mx, int mz)
     {

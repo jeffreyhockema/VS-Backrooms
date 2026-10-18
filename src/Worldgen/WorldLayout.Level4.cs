@@ -141,8 +141,9 @@ public sealed partial class WorldLayout
 
         DecorateOfficeWalls(b, mx, mz);
 
-        // Approaching the Terror Hotel the carpet warms to red and wood panelling creeps in
-        if (TouchesLevel(mx, mz, 5)) WarmTowardsHotel(b, mx, mz);
+        // Approaching the Terror Hotel the carpet warms to red and wood panelling creeps in (up to layout version 8; from 9
+        // the office is grey to the hotel's wall, and only the way through a gate has the hotel's carpet: WorldLayout.Linings.cs)
+        if (Version < 9 && TouchesLevel(mx, mz, 5)) WarmTowardsHotel(b, mx, mz);
 
         // The End's way in (end-plan.md): now and then a lone wooden doorway stands on an open-plan floor
         if (EndEntrances && !IsOfficeBlock(mx, mz)) PlaceEndDoorframe(b, mx, mz);

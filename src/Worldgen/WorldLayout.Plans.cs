@@ -87,11 +87,16 @@ public sealed partial class WorldLayout
     /// the wall looking for a gate.
     /// </summary>
     /// <param name="other">The cell's <see cref="WalledNeighbours"/>.</param>
-    private static bool EdgeHall(bool[] other, int lx, int lz)
+    /// <param name="wide">
+    /// Whether the cell lines the next level's wall on its east and on its south side (from layout version 9, see
+    /// <see cref="LiningWidens"/>): the lining takes the tile by the wall, so the hallway takes one more further in.
+    /// </param>
+    private static bool EdgeHall(bool[] other, int lx, int lz, (bool East, bool South) wide = default)
     {
         if (other == null) return false;
         bool Other(int dx, int dz) => other[(dz + 1) * 3 + dx + 1];
-        bool west = lx is >= 1 and <= 2, east = lx >= MacroSize - 2, north = lz is >= 1 and <= 2, south = lz >= MacroSize - 2;
+        bool west = lx is >= 1 and <= 2, east = lx >= MacroSize - (wide.East ? 3 : 2), north = lz is >= 1 and <= 2,
+            south = lz >= MacroSize - (wide.South ? 3 : 2);
         if (west && Other(-1, 0) || east && Other(1, 0) || north && Other(0, -1) || south && Other(0, 1)) return true;
         // Where the wall turns a corner round another cell, the hallway turns with it
         bool w = lx <= 2, n = lz <= 2;
@@ -106,12 +111,16 @@ public sealed partial class WorldLayout
     {
         bool[] other = WalledNeighbours(b.Level, mx, mz);
         if (other == null) return;
+        var wide = LiningWidens(b.Level, mx, mz);
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 if (lx == 0 && (lz == 0 || !west.Planned) || lz == 0 && !north.Planned) continue;
                 ref Tile t = ref b.At(lx, lz);
-                if (t.Tall || IsWalkable(t) || !EdgeHall(other, lx, lz)) continue;
+                // (From layout version 9, where the hallway moves in a tile for the lining, an arch or a doorway left
+                // standing in it by the tile the lining takes goes too, so the lining runs on unbroken)
+                bool orphan = t.Kind is TileKind.ArchDoor or TileKind.Doorway && (wide.East && lx >= MacroSize - 2 || wide.South && lz >= MacroSize - 2);
+                if (t.Tall || IsWalkable(t) && !orphan || !EdgeHall(other, lx, lz, wide)) continue;
                 t.Kind = TileKind.Floor;
                 t.Variant = 0;
                 t.Outlet = false;

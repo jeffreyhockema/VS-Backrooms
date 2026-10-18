@@ -358,10 +358,11 @@ public sealed partial class WorldLayout
         if (IsSnackrooms(mx, mz) || IsSnackrooms(nx, nz)) return edge; // sealed
         edge.Planned = true;
         bool[] walled = WalledNeighbours(6, mx, mz);
+        var wide = walled == null ? default : LiningWidens(6, mx, mz);
         for (int i = 1; i < MacroSize; i++)
         {
             Tile t = west ? L6TileAt(mx * MacroSize, mz * MacroSize + i) : L6TileAt(mx * MacroSize + i, mz * MacroSize);
-            bool edgeHall = west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0);
+            bool edgeHall = west ? EdgeHall(walled, 0, i, wide) : EdgeHall(walled, i, 0, wide);
             if (IsWalkable(t) || edgeHall) edge.Tiles[i] = EdgeTile.Open;
         }
         return edge;
@@ -448,6 +449,9 @@ public sealed partial class WorldLayout
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile t = ref b.At(lx, lz);
+                // From layout version 9 the cell's own edges stay Level 6's wall on the outside: the mall's own wall stands
+                // inside them (in 1-8 the edges were the mall's, so the maze saw the Snackrooms' wall on two sides)
+                if (Version >= 9 && (lx == 0 || lz == 0) && t.Kind != TileKind.Floor) continue;
                 t.Zone = 1;
                 t.Floor = FloorKind.SnackTerrazzo;
                 if (t.Kind != TileKind.Floor) { t.Pattern = WallPattern.SnackMall; continue; }

@@ -300,7 +300,9 @@ No ring is a circle. Each one is stretched and lopsided in its own way: a level 
 
 Level 6.1 is not a ring: it is rare sealed cells scattered through Level 6. Where two levels meet there is a full-height wall; its gates are lined up with the corridors on either side where there are any.
 
-Some areas next to a boundary blend, as the wikis describe the transitions:
+Each level looks like itself right up to the wall it shares with the next: the wall is two thick, each side with its own face, and the way through a gate is a short passage with the next level's doorway at its far end. Only that passage carries a touch of the next level: Level 0's carpet is worn to the concrete in the doorway to Level 1, and Level 4's carpet is the hotel's red in the doorway to Level 5.
+
+In worlds made before 0.514.0, the wall is one thick, so one side of it shows the next level's face, and some areas next to a boundary blend, as the wikis describe the transitions:
 
 | Boundary | What blends |
 |---|---|
