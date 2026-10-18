@@ -2556,5 +2556,8 @@
 	"block-watertowerframe-*": "Water Tower",
 
 	"block-l1deco-powerbox4-*": "Power Box",
-	"block-concretedeco-powerbox4-*": "Power Box"
+	"block-concretedeco-powerbox4-*": "Power Box",
+
+	"block-officedeco-whiteboardl-*": "Whiteboard",
+	"block-officedeco-whiteboardr-*": "Whiteboard"
 }

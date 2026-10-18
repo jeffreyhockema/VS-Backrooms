@@ -273,6 +273,7 @@ public sealed partial class WorldGenerator
             ["junctionbox"] = Decor.JunctionBox, ["sparkoutlet"] = Decor.SparkOutlet, ["bulkhead"] = Decor.Bulkhead,
             ["alarmbell"] = Decor.AlarmBell, ["wallcables"] = Decor.WallCables, ["risers"] = Decor.Risers, ["purpified"] = Decor.Purpified,
             ["fountain"] = Decor.Fountain, ["clock"] = Decor.Clock, ["whiteboard"] = Decor.Whiteboard, ["corkboard"] = Decor.Corkboard,
+            ["whiteboardl"] = Decor.WhiteboardLeft, ["whiteboardr"] = Decor.WhiteboardRight,
             ["evacmap"] = Decor.EvacMap, ["switch"] = Decor.LightSwitch, ["frameghost"] = Decor.FrameGhost, ["phone"] = Decor.Phone,
             ["callbutton"] = Decor.CallButton, ["mirror"] = Decor.Mirror, ["speaker"] = Decor.Speaker, ["housephone"] = Decor.HousePhone,
             ["firehose"] = Decor.FireHose, ["keyrack"] = Decor.KeyRack, ["callplate"] = Decor.CallPlate, ["landscape"] = Decor.Landscape,

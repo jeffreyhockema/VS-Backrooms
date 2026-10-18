@@ -19,7 +19,9 @@
 				"stairsign",
 				"poster0",
 				"poster1",
-				"poster2"
+				"poster2",
+				"whiteboardl",
+				"whiteboardr"
 			]
 		},
 		{
@@ -281,6 +283,38 @@
 		},
 		"*-poster2-west": {
 			"base": "block/detail/officedeco-poster2",
+			"rotateY": 90
+		},
+		"*-whiteboardl-north": {
+			"base": "block/detail/officedeco-whiteboardl",
+			"rotateY": 0
+		},
+		"*-whiteboardl-east": {
+			"base": "block/detail/officedeco-whiteboardl",
+			"rotateY": 270
+		},
+		"*-whiteboardl-south": {
+			"base": "block/detail/officedeco-whiteboardl",
+			"rotateY": 180
+		},
+		"*-whiteboardl-west": {
+			"base": "block/detail/officedeco-whiteboardl",
+			"rotateY": 90
+		},
+		"*-whiteboardr-north": {
+			"base": "block/detail/officedeco-whiteboardr",
+			"rotateY": 0
+		},
+		"*-whiteboardr-east": {
+			"base": "block/detail/officedeco-whiteboardr",
+			"rotateY": 270
+		},
+		"*-whiteboardr-south": {
+			"base": "block/detail/officedeco-whiteboardr",
+			"rotateY": 180
+		},
+		"*-whiteboardr-west": {
+			"base": "block/detail/officedeco-whiteboardr",
 			"rotateY": 90
 		}
 	},

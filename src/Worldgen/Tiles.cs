@@ -1538,6 +1538,12 @@ public static class Decor
     public const byte OfficeStairSign = 91;
     /// <summary>Three framed motivational posters, 92-94.</summary>
     public const byte Poster = 92;
+    /// <summary>
+    /// From layout version 9: a whiteboard two blocks wide, in halves on two wall tiles side by side facing the same way
+    /// (the left half as you face it on the tile with the larger coordinate when it faces north or east, the smaller
+    /// when south or west). In 1-8 every whiteboard was one block wide (<see cref="Whiteboard"/>).
+    /// </summary>
+    public const byte WhiteboardLeft = 97, WhiteboardRight = 98;
     // Level 5: hotel panelling
     public const byte Mirror = 100;
     public const byte Speaker = 101;

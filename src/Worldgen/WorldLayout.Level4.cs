@@ -10,7 +10,9 @@ namespace Backrooms.Worldgen;
 /// papered over or shut behind blinds; the few left clear look out onto rain and fog that never ends. Safe and
 /// cool: drinking fountains, water coolers and vending machines still give Almond Water.
 ///
-/// Cells are either open-plan floors or office blocks. Open floors have columns on a regular grid, troffer rows,
+/// Cells are either open-plan floors or office blocks. Open floors have columns on a regular grid (from layout version
+/// 9 a long-span one, 12 by 18 blocks: the lore's picture of Level 4 is a wide floor with its columns in the outer
+/// walls, and none standing in it), troffer rows, sprinkler heads on a grid of their own (version 9),
 /// and in places the cubicle farms that once filled them, row after row continuing from one cell to the next, nearly
 /// all cleared out now: partitions round pale squares of carpet. Office blocks are a 2-wide corridor grid with small
 /// rooms between (offices, mostly emptied out, some locked; glass conference rooms, break rooms, copy rooms, server
@@ -22,6 +24,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     private const int L4ColumnGrid = 8;
+    /// <summary>From layout version 9 the open floors' column grid: 12 blocks east to west, 18 north to south (<see cref="L4ColumnV9"/>).</summary>
+    private const int L4ColumnSpanX = 12, L4ColumnSpanZ = 18;
     private const int L4OfficeGrid = 8;
     /// <summary>Every this many rooms of the office grid, each way, the rooms give way to a concourse.</summary>
     private const int L4ConcourseEvery = 6;
@@ -105,6 +109,9 @@ public sealed partial class WorldLayout
         else BuildOpenPlan(b, mx, mz);
 
         ref Rng rng = ref b.Rng;
+        // From layout version 9 the sprinkler heads are laid out on a grid (in 1-8 one ceiling tile in about thirteen,
+        // wherever it fell, often two side by side)
+        bool[] heads = Version >= 9 ? L4SprinklerHeads(b, mx, mz) : null;
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
@@ -120,7 +127,9 @@ public sealed partial class WorldLayout
                 }
                 if (t.IsWallLike) continue;
                 // Missing ceiling tiles show the dark void above; others hold diffusers, sprinklers, stains
-                if (t.Ceiling == CeilingKind.Tile)
+                if (t.Ceiling == CeilingKind.Tile && heads != null && heads[lz * MacroSize + lx])
+                    t.Overhead = Overheads.CeilingSprinkler;
+                else if (t.Ceiling == CeilingKind.Tile)
                 {
                     double c = Hashing.Unit(h << 20);
                     if (c < 0.05)
@@ -132,7 +141,7 @@ public sealed partial class WorldLayout
                         if (c < droop) t.Pipe = c < droop / 2 ? Pipes.CableDroopX : Pipes.CableDroopZ;
                     }
                     else if (c < 0.12) t.Overhead = Overheads.CeilingVent;
-                    else if (c < 0.2) t.Overhead = Overheads.CeilingSprinkler;
+                    else if (c < 0.2) t.Overhead = heads == null ? Overheads.CeilingSprinkler : Overheads.None;
                     else if (c < 0.24) t.Overhead = Overheads.CeilingStain;
                 }
                 if (t.Floor == FloorKind.OfficeCarpet && t.Variant == 0)
@@ -192,7 +201,7 @@ public sealed partial class WorldLayout
                 ref Tile tile = ref b.At(lx, lz);
                 if (tile.Kind != TileKind.Floor) continue;
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
-                if (Hashing.Mod(gx, L4ColumnGrid) == 3 && Hashing.Mod(gz, L4ColumnGrid) == 3)
+                if (Version >= 9 ? L4ColumnV9(b, lx, lz, gx, gz) : Hashing.Mod(gx, L4ColumnGrid) == 3 && Hashing.Mod(gz, L4ColumnGrid) == 3)
                 {
                     SetWall(ref tile, WallPattern.Drywall, BaseStyle.Plain);
                     continue;
@@ -229,7 +238,47 @@ public sealed partial class WorldLayout
 
         AddCubicleFarm(b, mx, mz);
         if (rng.Chance(0.12)) AddReception(b);
-        if (rng.Chance(0.3)) AddBreakNook(b);
+        // (From version 9 a nook always finds a column, so it is put in half as often: about as many as before)
+        if (rng.Chance(Version >= 9 ? 0.15 : 0.3))
+        {
+            if (Version >= 9) AddBreakNookV9(b);
+            else AddBreakNook(b);
+        }
+    }
+
+    /// <summary>
+    /// From layout version 9 the open floors' columns stand <see cref="L4ColumnSpanX"/> blocks apart east to west and
+    /// <see cref="L4ColumnSpanZ"/> north to south, as in a long-span office floor (in 1-8 every 8 blocks each way, a
+    /// forest of them). The grid is the floor's planning grid: each column stands where a back partition between two
+    /// rows of cubicles meets a side partition (or, where the cubicles are gone, between the pale rows where desks
+    /// stood), midway between a row of troffers and a sprinkler branch line, so it never stands in an aisle or a doorway.
+    /// None stands on the cell's edge rows or beside a doorway.
+    /// </summary>
+    private static bool L4ColumnV9(Builder b, int lx, int lz, int gx, int gz) =>
+        Hashing.Mod(gx, L4ColumnSpanX) == 4 && Hashing.Mod(gz, L4ColumnSpanZ) == 5
+        && lx >= 1 && lz >= 1 && lx < MacroSize - 1 && lz < MacroSize - 1
+        && !IsDoorAt(b, lx + 1, lz) && !IsDoorAt(b, lx - 1, lz) && !IsDoorAt(b, lx, lz + 1) && !IsDoorAt(b, lx, lz - 1);
+
+    /// <summary>
+    /// From layout version 9: the break nook against one of the cell's columns, picked from all of them (with the
+    /// columns far apart, the random tries of <see cref="AddBreakNook"/> would seldom find one).
+    /// </summary>
+    private static void AddBreakNookV9(Builder b)
+    {
+        ref Rng rng = ref b.Rng;
+        var spots = new List<(int X, int Z)>();
+        for (int z = 2; z < MacroSize - 2; z++)
+            for (int x = 2; x < MacroSize - 2; x++)
+                if (b.At(x, z).Kind == TileKind.Wall && b.At(x, z + 1) is { Kind: TileKind.Floor, Variant: 0 } && b.At(x + 1, z + 1) is { Kind: TileKind.Floor, Variant: 0 })
+                    spots.Add((x, z));
+        if (spots.Count == 0) return;
+        var (sx, sz) = spots[rng.Range(0, spots.Count - 1)];
+        // Props face away from the column they stand against
+        b.At(sx, sz + 1).Variant = Props.Vending;
+        b.At(sx, sz + 1).Pier = ArchPier.South;
+        b.At(sx + 1, sz + 1).Variant = Props.Cooler;
+        b.At(sx + 1, sz + 1).Pier = ArchPier.South;
+        if (b.At(sx - 1, sz + 1) is { Kind: TileKind.Floor, Variant: 0 }) b.At(sx - 1, sz + 1).Variant = Props.Wastebasket;
     }
 
     /// <summary>
@@ -631,12 +680,147 @@ public sealed partial class WorldLayout
                 else
                     decor = r < 0.05 ? Decor.Whiteboard : r < 0.09 ? Decor.Corkboard : r < 0.13 ? Decor.Clock
                         : r < 0.2 ? Decor.FrameGhost : r < 0.24 ? (byte)(Decor.Poster + (int)((h >> 24) % 3)) : (byte)0;
+                if (decor == Decor.Whiteboard && Version >= 9)
+                {
+                    PairWhiteboard(lx, lz, face.Value);
+                    continue;
+                }
                 if (decor == 0) continue;
                 t.Variant = decor;
                 t.Pier = face.Value;
             }
         }
+
+        // From layout version 9 a whiteboard is two blocks wide: on this wall tile and the next along the wall that faces
+        // the same room and holds nothing (the one after it, else the one before), or none at all
+        void PairWhiteboard(int lx, int lz, ArchPier face)
+        {
+            var (ax, az) = face is ArchPier.North or ArchPier.South ? (1, 0) : (0, 1);
+            var (fx, fz) = face switch { ArchPier.North => (0, -1), ArchPier.South => (0, 1), ArchPier.East => (1, 0), _ => (-1, 0) };
+            var (lsx, lsz) = L4BoardLeft(face);
+            foreach (int s in new[] { 1, -1 })
+            {
+                int px = lx + s * ax, pz = lz + s * az;
+                if (px < 0 || pz < 0 || px >= MacroSize || pz >= MacroSize) continue;
+                ref Tile p = ref b.At(px, pz);
+                if (p.Kind != TileKind.Wall || p.Pattern != WallPattern.Drywall || p.Variant != 0 || p.Stair != 0) continue;
+                if (!Walkable(px + fx, pz + fz) || office && L4Corridor(mx * MacroSize + px + fx, mz * MacroSize + pz + fz)) continue;
+                // The left half as you face the board is toward L4BoardLeft
+                bool partnerLeft = s * ax == lsx && s * az == lsz;
+                ref Tile t = ref b.At(lx, lz);
+                t.Variant = partnerLeft ? Decor.WhiteboardRight : Decor.WhiteboardLeft;
+                p.Variant = partnerLeft ? Decor.WhiteboardLeft : Decor.WhiteboardRight;
+                t.Pier = p.Pier = face;
+                return;
+            }
+        }
     }
+
+    /// <summary>
+    /// The step along the wall toward a two-block whiteboard's left half, as you face a board facing
+    /// <paramref name="face"/>: toward the larger coordinate when it faces north or east, the smaller when south or
+    /// west (as the generator's halves are drawn; see WorldGenerator.Signs.cs, LeftIsHigher).
+    /// </summary>
+    private static (int X, int Z) L4BoardLeft(ArchPier face) => face switch
+    {
+        ArchPier.North => (1, 0),
+        ArchPier.South => (-1, 0),
+        ArchPier.East => (0, 1),
+        _ => (0, -1),
+    };
+
+    /// <summary>
+    /// From layout version 9, last of all in a Level 4 cell: a two-block whiteboard that lost a half to something laid
+    /// out after the walls were decorated (a level's lining, the way through a gate) is taken down whole.
+    /// </summary>
+    private static void MendL4Whiteboards(Builder b)
+    {
+        var lost = new List<(int X, int Z)>();
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                Tile t = b.At(lx, lz);
+                if (t.Kind != TileKind.Wall || t.Variant is not (Decor.WhiteboardLeft or Decor.WhiteboardRight)) continue;
+                var (dx, dz) = L4BoardLeft(t.Pier);
+                int s = t.Variant == Decor.WhiteboardLeft ? -1 : 1, px = lx + s * dx, pz = lz + s * dz;
+                byte other = t.Variant == Decor.WhiteboardLeft ? Decor.WhiteboardRight : Decor.WhiteboardLeft;
+                bool whole = px >= 0 && pz >= 0 && px < MacroSize && pz < MacroSize
+                             && b.At(px, pz) is { Kind: TileKind.Wall } p && p.Variant == other && p.Pier == t.Pier;
+                if (!whole) lost.Add((lx, lz));
+            }
+        foreach (var (x, z) in lost) b.At(x, z).Variant = 0;
+    }
+
+    /// <summary>
+    /// From layout version 9: which of the cell's ceiling tiles hold a sprinkler head, laid out as a fire engineer lays
+    /// out an office's (heads about 3-4 m apart on branch lines, each centred in a ceiling tile, clear of the troffers and
+    /// the walls, never two side by side; in 1-8 one tile in about thirteen held one, wherever it fell). A head hangs in
+    /// the middle of its block's south half (<c>officeceilingalt-sprinkler</c>), so it wants a plain ceiling tile off the
+    /// stairs with neither a wall nor a light just south of it, a quarter of a block away; a wall or light on any other
+    /// side is half a block or more from it.
+    /// <list type="bullet">
+    /// <item>Open floors and concourses: branch lines east to west every 4 blocks, midway between the rows of troffers,
+    /// with a head every 3 blocks in line with the troffers' columns. A head that would sit against a light or a wall
+    /// (a cubicle farm's own lights, a column) moves a block along its line, or is left out.</item>
+    /// <item>The office blocks' corridors: a head over each crossing (beside its troffer) and one midway between
+    /// crossings, so every 4 blocks down each corridor, none within two tiles of a concourse, whose own grid covers it.</item>
+    /// <item>The rooms: one head each, just off the middle between the two troffers.</item>
+    /// </list>
+    /// </summary>
+    private bool[] L4SprinklerHeads(Builder b, int mx, int mz)
+    {
+        var heads = new bool[MacroSize * MacroSize];
+        bool office = IsOfficeBlock(mx, mz);
+        int x0 = mx * MacroSize, z0 = mz * MacroSize;
+        bool Clear(int lx, int lz)
+        {
+            if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize - 1) return false;
+            Tile t = b.At(lx, lz), s = b.At(lx, lz + 1);
+            return t.Kind == TileKind.Floor && t.Ceiling == CeilingKind.Tile && t.Stair == 0 && !s.IsWallLike && s.Ceiling == CeilingKind.Tile;
+        }
+        bool NearConcourse(int gx, int gz)
+        {
+            for (int dz = -2; dz <= 2; dz++)
+                for (int dx = -2; dx <= 2; dx++)
+                    if (L4Concourse(gx + dx, gz + dz)) return true;
+            return false;
+        }
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                int gx = x0 + lx, gz = z0 + lz;
+                if (!office || L4Concourse(gx, gz))
+                {
+                    if (Hashing.Mod(gx, 3) != 1 || Hashing.Mod(gz, 4) != 0) continue;
+                    foreach (int dx in L4HeadShifts)
+                    {
+                        int x = lx + dx;
+                        if (office && !L4Concourse(gx + dx, gz) || !Clear(x, lz)) continue;
+                        // (Moved, never onto the cell's outer columns or beside the head before it, which may have moved
+                        // this way, so heads in the next cell and on this line stay two blocks apart or more)
+                        if (dx != 0 && (x == 0 || x == MacroSize - 1 || heads[lz * MacroSize + x - 1])) continue;
+                        heads[lz * MacroSize + x] = true;
+                        break;
+                    }
+                    continue;
+                }
+                int ix = Hashing.Mod(gx, L4OfficeGrid), iz = Hashing.Mod(gz, L4OfficeGrid);
+                bool head;
+                if (ix < 2 || iz < 2)
+                    head = (ix == 1 && iz is 1 or 5 || ix == 5 && iz == 0) && !NearConcourse(gx, gz) && Clear(lx, lz);
+                else
+                    // A room's head: off the middle between its troffers (ix 4 and 5 on the diagonal), else in a corner of
+                    // the middle clear of them
+                    head = ix == 4 && iz == 5 ? Clear(lx, lz)
+                        : ix == 6 && iz == 4 ? Clear(lx, lz) && !Clear(lx - 2, lz + 1)
+                        : ix == 3 && iz == 4 && Clear(lx, lz) && !Clear(lx + 1, lz + 1) && !Clear(lx + 3, lz);
+                if (head) heads[lz * MacroSize + lx] = true;
+            }
+        return heads;
+    }
+
+    /// <summary>Where a sprinkler head of the open grid goes when its own tile will not do: a block along its branch line.</summary>
+    private static readonly int[] L4HeadShifts = { 0, 1, -1 };
 
     private CeilingKind Level4LightState(int gx, int gz, double deadChance)
     {

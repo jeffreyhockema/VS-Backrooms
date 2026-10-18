@@ -1378,6 +1378,47 @@ def framed(nm, x1, y1, x2, y2, z, tex="metaldark", w=0.5, proud=0.5):
             bx(nm + "R", (x2 - w, y1 + w, z - proud), (x2, y2 - w, z), tex, faces=("north", "east", "west"))]
 
 
+def whiteboard_pair():
+    """(Layout 9) The whiteboard two blocks wide, as (left, right): the halves a viewer facing the board sees on the
+    left and the right, each on the north face of its wall block (the left half in the block east of the seam, as
+    detail_kit.seam_halves has it). One continuous board 2 m by 0.875 across both blocks, its face at the board's 2 px a
+    unit (`whiteboard2-l`, `whiteboard2-r`, cut from one picture so the writing runs on over the seam), in the single
+    board's aluminium frame; under it a tray the length of the board with a lip along its front, two markers and a cap
+    left on it in the left half, a black marker and the eraser in the right. Nothing lies on the seam but the board,
+    the frame's long strips and the tray, whose end faces there are left out."""
+    z0, fz = -0.8, -1.3  # the board's face; the frame's face, half a unit proud of it
+
+    def half(left):
+        # x runs 0-16 in each block; the board's outer end is a quarter unit in from x 16 in the left half and from x 0
+        # in the right, so nothing of it lies on the plane between two blocks
+        a, b = (0, 15.75) if left else (0.25, 16)
+        end = "east" if left else "west"
+        tex = "whiteboard2-l" if left else "whiteboard2-r"
+        lo, hi = (0, 15) if left else (1, 16)  # the tray stops short of the board's end
+        ex1, ex2 = (15.25, 15.75) if left else (0.25, 0.75)
+        els = [K.box("Board", (a, 1, z0), (b, 15, 0), {"front": tex, "side": "steel"}, faces=("north", "up", end)),
+               K.box("FrameT", (a, 14.5, fz), (b, 15, z0), "alu", faces=("north", "up", "down", end)),
+               K.box("FrameB", (a, 1, fz), (b, 1.5, z0), "alu", faces=("north", "up", end)),
+               K.box("FrameEnd", (ex1, 1.5, fz), (ex2, 14.5, z0), "alu", faces=("north", "east", "west")),
+               K.box("Tray", (lo, 0.25, -2.25), (hi, 1, 0), "alu", faces=("north", "up", "down", end)),
+               K.box("TrayLip", (lo, 1, -2.25), (hi, 1.5, -1.95), "alu", faces=("north", "south", "up", end))]
+        # (the board's front shows its half of the picture at 2 px a unit, the top 28 of 32 rows; a north face's U runs
+        # from east to west, so the seam is at U 16 in the left half and U 0 in the right)
+        els[0]["faces"]["north"]["uv"] = [0.25, 0, 16, 14] if left else [0, 0, 15.75, 14]
+        if left:
+            els += [K.box("MarkerRed", (8, 1, -1.8), (11, 1.6, -1.2), "redmetal", faces=("north", "south", "up", "east")),
+                    K.box("MarkerRedCap", (6.75, 1, -1.85), (8, 1.65, -1.15), "redmetal", faces=("north", "south", "up", "west", "east")),
+                    K.box("MarkerBlue", (11.75, 1, -1.8), (14.25, 1.6, -1.2), "markerblue", faces=("north", "south", "up", "east", "west")),
+                    K.box("Cap", (3, 1, -1.85), (4.25, 1.65, -1.15), "markercap", faces=("north", "south", "up", "east", "west"))]
+        else:
+            els += [K.box("MarkerBlack", (3, 1, -1.8), (6.25, 1.6, -1.2), "markerblack", faces=("north", "south", "up", "east", "west")),
+                    K.box("EraserFelt", (9, 1, -1.9), (13, 1.5, -1.05), "markerblack", faces=("north", "south", "east", "west")),
+                    K.box("Eraser", (9, 1.5, -1.9), (13, 2.5, -1.05), "wberaser", faces=("north", "south", "up", "east", "west"))]
+        return els
+
+    return half(True), half(False)
+
+
 def level4():
     ceiling_alt()
     shape("officeglass", L4.glass_partition())  # (Level 4 art) the partition glass, inset from the floor and ceiling (blocktype: gen_blocktypes)
@@ -1426,6 +1467,9 @@ def level4():
         Decor("stairsign", "Stairwell Sign", {2: plate("Sign", (4, 4, -0.4), (12, 12, 0), "stairsign-office", "steel")}),
     ] + [Decor(f"poster{i}", "Framed Poster", {2: plate("Poster", (2, 1, -0.8), (14, 15, 0), f"poster{i}", "metaldark") +
                                                 framed("Frame", 2, 1, 14, 15, -0.8)}) for i in range(3)]
+    # (Layout 9) the whiteboard two blocks wide, in halves; the one-block board stays for the worlds made before
+    wb_left, wb_right = whiteboard_pair()
+    decors += [Decor("whiteboardl", "Whiteboard", {2: wb_left}), Decor("whiteboardr", "Whiteboard", {2: wb_right})]
     # (B7) each poster with two more prints, so a corridor of them is not the same three pictures (the layout still
     # places three kinds; the block picks a print for each)
     prints = {f"poster{i}": {"base": f"block/detail/poster{i}",

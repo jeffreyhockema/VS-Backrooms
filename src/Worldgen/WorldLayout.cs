@@ -256,7 +256,20 @@ public sealed partial class WorldLayout
     /// behind a ladder two wide (manholeladder) that runs from a dry landing up to the lip; the landing (shaft, a block
     /// either side, the row behind) keeps the water out of reach of the rungs, with a half step (tunnelstep) down into the
     /// flooded tunnel beyond. Tile.Zone tells the parts (L3ShaftLeft/Right with the ladder on the Pier side,
-    /// L3TunnelLanding, L3TunnelStep); a cell that has no such stretch of corridor has no tunnel.</item>
+    /// L3TunnelLanding, L3TunnelStep); a cell that has no such stretch of corridor has no tunnel.
+    /// Level 4's sprinkler heads are laid out on a grid, not rolled tile by tile (L4SprinklerHeads; in 1-8 one ceiling
+    /// tile in about thirteen, often two side by side, some against a light): on the open floors and concourses branch
+    /// lines east to west every 4 blocks midway between the troffer rows, a head every 3 blocks in line with the troffers'
+    /// columns (moved a block along the line off a light or a column, never next to another head); in the office blocks'
+    /// corridors a head over each crossing and one midway, every 4 blocks; one in each room, by its middle. None has a
+    /// light or a wall just south of it (the head hangs in its block's south half). Diffusers, stains and missing tiles
+    /// keep their rolls, but not on a head's tile. The open floors' columns stand 12 blocks apart east to west and 18
+    /// north to south (L4ColumnV9; in 1-8 every 8 each way), where a side partition meets the back partition of the
+    /// cubicle rows, off the cell's edge rows and never beside a doorway; the break nook picks one of them, in 15% of
+    /// open cells (in 1-8 it was tried in 30% and found a column about two times in five). Whiteboards are two blocks wide
+    /// (Decor.WhiteboardLeft and WhiteboardRight, officedeco-whiteboardl/r), on two free wall tiles side by side facing
+    /// the same room, or not at all; a pair that loses a half to anything laid out later is taken down whole
+    /// (MendL4Whiteboards).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
@@ -740,6 +753,8 @@ public sealed partial class WorldLayout
         MarkWayToGates(b, mx, mz);
         // (Last: the tents and sleeping bags as big as the real things, and nothing left of one in part)
         if (Version >= 6) LayOutParts(b, mx, mz);
+        // (Version 9: and nothing left of a Level 4 whiteboard in part)
+        if (Version >= 9 && b.Level == 4) MendL4Whiteboards(b);
         // (In version 7 a scarce world's fields and gardens bear less)
         if (Version >= 7 && FoodScale < 1 && b.Level is 9 or 10) ThinFood(b, mx, mz);
         return b.Tiles;
