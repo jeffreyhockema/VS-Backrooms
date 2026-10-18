@@ -339,7 +339,17 @@ public sealed partial class WorldLayout
     /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
     /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
     /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
-    /// (in 1-8 as the Tower, its gallery floors and stair across the road).</item>
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 94's picket fences stand back from the road and go round a hill's ground (PlanHillFence; in 1-8 they ran
+    /// along the kerb through some squares of the hill lattice, broken every 23 blocks on a diagonal and never joined
+    /// across a slanting road): about half the houses' hills (fewer of the lone rooms, trees, cars and water towers) have
+    /// one, behind a grass verge two blocks wide (FenceSetback), along the hill's border with each road it meets, a
+    /// joined staircase along a slanting road, turning and joined where two roads meet and ending where the border has
+    /// no road; it is open three blocks wide where the path from the front door comes down and halfway along each road
+    /// (on the line between the two hills), and no length is shorter than four. A front yard's fence (Level 94's hills
+    /// and towns; in 1-8 a loose row a block in from the front of the lot) goes round the yard, across the front and
+    /// back along both sides to the house's front corners, with a gate at the path (FenceFrontYard), and a town house
+    /// has one more often (LiftFrontFence, SaltTownYard).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

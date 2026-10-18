@@ -1307,6 +1307,86 @@ def level10():
     # (the barrel of nails is modelled now: deepprops_tex)
 
 
+# ---------------- The STOP sign (Levels 1, 9 and 94; l94fence) ----------------
+
+STOP_PX = 48          # the plate's texture: 48 px over its 12 units, 4 px a unit
+STOP_CUT = STOP_PX * (1 - 1 / (1 + math.sqrt(2))) / 2   # the octagon's corner cut, px (its sides all equal)
+
+# Its lettering in a pixel face, 8 by 12 with 2 px strokes, so STOP reads crisp from across a road (B9's lesson)
+STOP_FONT = {
+    "S": [".######.", "########", "##....##", "##......", "###.....", ".#####..", "..#####.", ".....###", "......##",
+          "##....##", "########", ".######."],
+    "T": ["########", "########"] + ["...##..."] * 10,
+    "O": [".######.", "########"] + ["##....##"] * 8 + ["########", ".######."],
+    "P": ["#######.", "########", "##....##", "##....##", "##....##", "########", "#######."] + ["##......"] * 5,
+}
+
+
+def stop_inside(x, y, inset=0.0, n=STOP_PX, cut=STOP_CUT):
+    """Whether a point (in px from the top left) is inside the octagon, or inside it by `inset` px."""
+    h = n / 2
+    dx, dy = abs(x - h), abs(y - h)
+    return dx <= h - inset and dy <= h - inset and dx + dy <= 2 * h - cut - inset * math.sqrt(2)
+
+
+def stop_mask(img):
+    """Cuts the plate's corners away: the shape's plate is a square box, and the octagon is its texture's alpha."""
+    p = img.load()
+    for y in range(STOP_PX):
+        for x in range(STOP_PX):
+            if not stop_inside(x + 0.5, y + 0.5):
+                p[x, y] = (0, 0, 0, 0)
+    return img
+
+
+def stopsign_textures():
+    """The STOP sign, redrawn for l94fence: an octagonal plate of red sheeting (the octagon cut out by the texture's
+    alpha, so the plate is thin geometry), a white border just in from its edge and white STOP in a pixel face, at
+    four pixels a unit; its back plain aluminium; its post a galvanised square tube punched with holes."""
+    n = STOP_PX
+    red, white = (178, 30, 34), (238, 235, 226)
+    img = M.noise_hv(red, 2, seed_of("stopsign-red"), (n, n), 4, (16, 8), hue=0.6)
+    sheet = M.noise_hv(white, 2, seed_of("stopsign-white"), (n, n), 3, (16, 8), hue=0.6)
+    p, w = img.load(), sheet.load()
+    letters = [[False] * n for _ in range(n)]
+    x0, y0 = (n - (4 * 8 + 3 * 2)) // 2, (n - 12) // 2
+    for k, ch in enumerate("STOP"):
+        for r, row in enumerate(STOP_FONT[ch]):
+            for c, bit in enumerate(row):
+                if bit == "#":
+                    letters[y0 + r][x0 + k * 10 + c] = True
+    for y in range(n):
+        for x in range(n):
+            # The border, a little in from the edge: antialiased against the red by 4x4 samples
+            hits = sum(1 for sy in range(4) for sx in range(4)
+                       if stop_inside(x + (sx + 0.5) / 4, y + (sy + 0.5) / 4, 1.25)
+                       and not stop_inside(x + (sx + 0.5) / 4, y + (sy + 0.5) / 4, 3.5))
+            t = 1.0 if letters[y][x] else hits / 16
+            c = M.mix(p[x, y], w[x, y], t)
+            # The sheeting catches the sky: a little lighter toward the top, and its very edge darker
+            c = M.lift(c, 5 - 10 * y / n)
+            if not stop_inside(x + 0.5, y + 0.5, 1.0):
+                c = M.lift(c, -14)
+            p[x, y] = M.rgba(c)
+    save(stop_mask(img), "stopsign")
+
+    back = M.brushed_metal(seed_of("stopsign-back"), (n, n), base=(166, 168, 170), grain=3, streak=6, sheen=6)
+    q = back.load()
+    for y in range(n):
+        for x in range(n):
+            if not stop_inside(x + 0.5, y + 0.5, 1.0):
+                q[x, y] = M.rgba(M.lift(q[x, y], -18))   # the rolled edge
+    save(stop_mask(back), "stopsignback")
+
+    post = M.galvanised(seed_of("stopsign-post"), 32, base=(168, 172, 174), spangle=8, grain=2)
+    pp = post.load()
+    for y in range(1, 32, 4):     # a hole punched every two units up the face, shaded under its top edge
+        pp[1, y] = M.rgba(M.lift(pp[1, y], -70))
+        pp[1, y + 1] = M.rgba(M.lift(pp[1, y + 1], -44))
+        pp[1, y + 2] = M.rgba(M.lift(pp[1, y + 2], 10))
+    save(post, "stopsignpost")
+
+
 # ---------------- Refinements: Levels 5 to 10 in more detail ----------------
 
 def refinements():
@@ -1364,11 +1444,7 @@ def refinements():
         d.ellipse([8, 8, 23, 23], fill=rgb(0xFFF4D0 if on else 0xD8D4CA), outline=rgb(0xB0A890))
         save(img, f"houseceiling-{name}")
     # Exterior things
-    img = Image.new("RGBA", (S, S), rgb(0xE8E6E0))
-    d = ImageDraw.Draw(img)
-    d.polygon([(10, 2), (22, 2), (30, 10), (30, 22), (22, 30), (10, 30), (2, 22), (2, 10)], fill=rgb(0xB01818), outline=rgb(0xF0F0F0))
-    text(img, "STOP", (4, 10, 28, 22), 0xF4F4F4, 9)
-    save(img, "stopsign")
+    stopsign_textures()
     flat("binplastic", 0x2A4A2E, 4)
     img = noise(0xF0F0EC, 2, "backboard")
     ImageDraw.Draw(img).rectangle([10, 14, 21, 25], outline=rgb(0xD04A18), width=2)
