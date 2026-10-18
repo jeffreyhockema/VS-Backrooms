@@ -339,7 +339,15 @@ public sealed partial class WorldLayout
     /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
     /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
     /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
-    /// (in 1-8 as the Tower, its gallery floors and stair across the road).</item>
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 3999's rooms of tall neon pillars, the units that were atria 18 high, have lower ceilings
+    /// (<see cref="L3999LowAtriumHeight"/>): 10 over a lobby or a natatorium, 11 over a food court or a game hall, whose
+    /// gallery ring at rel 7 keeps a storey of three over it; their pillars, tubes, wall neon and pool tops come down with
+    /// the ceiling, a food court's gallery windows sit at rel 8-10 (in 1-8, 9-11), and the ground above is solid up to the
+    /// walls' 18. The concourses and junctions keep their 18. Level Fun's elevator lobbies are eleven wide west to east
+    /// rather than nine (<see cref="FunLobbyHalfX"/>), and each pair of brass elevator doors stands a block further out
+    /// (north wall offsets -4 and -3, south 3 and 4; in 1-8 -3 and -2, 2 and 3), so wall stands either side of every pair
+    /// instead of the promenade's opening right beside it; the lobby's party dressing moves out with the walls.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;

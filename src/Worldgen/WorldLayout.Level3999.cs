@@ -52,6 +52,23 @@ public sealed partial class WorldLayout
     /// <summary>Ceiling heights: a hall, an atrium, a service corridor; the galleries' slab; a doorway's opening.</summary>
     public const int L3999HallHeight = 7, L3999AtriumHeight = 18, L3999CorridorHeight = 4, L3999SlabRel = 7, L3999DoorHeight = 4;
 
+    /// <summary>
+    /// Layout version 9 on, the ceilings of the units that were atria (the lobbies, food courts, game halls and natatoria,
+    /// the rooms of tall neon pillars): 10 over a lobby or a natatorium; 11 over a food court or a game hall, whose gallery
+    /// ring (its slab at rel 7, the escalator's seven steps up to it) needs a storey of three blocks over it. The walls
+    /// still run to 18, the concourses and junctions keep their 18, and above a unit's ceiling the ground is solid.
+    /// </summary>
+    public const int L3999LowAtriumHeight = 10, L3999LowGalleryHeight = 11;
+
+    /// <summary>A unit's ceiling over its floor.</summary>
+    private int L3999UnitHeight(L3999Kind kind) => kind switch
+    {
+        L3999Kind.Game or L3999Kind.Lanes or L3999Kind.Shuttered => L3999HallHeight,
+        _ when Version < 9 => L3999AtriumHeight,
+        L3999Kind.FoodCourt or L3999Kind.GameHall => L3999LowGalleryHeight,
+        _ => L3999LowAtriumHeight,
+    };
+
     /// <summary>What part of the level a tile is in (<see cref="Tile.Zone"/>).</summary>
     public enum L3999Zone : byte { Concourse, Junction, Service, Game, GameHall, FoodCourt, Lobby, Lanes, Shuttered, MiniArcade, Natatorium, Rim }
 
@@ -556,7 +573,6 @@ public sealed partial class WorldLayout
             L3999Kind.Shuttered => L3999Zone.Shuttered,
             _ => L3999Zone.Natatorium,
         };
-        bool hall = kind is L3999Kind.Game or L3999Kind.Lanes or L3999Kind.Shuttered;
         FloorKind floor = kind switch
         {
             L3999Kind.Game or L3999Kind.GameHall => FloorKind.L3999Floor,
@@ -571,7 +587,7 @@ public sealed partial class WorldLayout
             for (int u = 0; u < f.W; u++)
                 L3999F(p, f, u, w) = new Tile
                 {
-                    Kind = TileKind.Floor, Floor = floor, Height = (byte)(hall ? L3999HallHeight : L3999AtriumHeight), Zone = (byte)zone,
+                    Kind = TileKind.Floor, Floor = floor, Height = (byte)L3999UnitHeight(kind), Zone = (byte)zone,
                     Detail = colour, Ceiling = kind == L3999Kind.Shuttered && (u % 8 == 4 && w % 8 == 4) ? CeilingKind.L3999Fluoro : CeilingKind.L3999Ceiling,
                     Pattern = WallPattern.L3999Wall,
                 };
