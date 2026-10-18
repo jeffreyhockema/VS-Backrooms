@@ -500,6 +500,25 @@ public sealed partial class WorldLayout
             for (int k = 0; k < 2; k++) { ref Tile s = ref f.At(u, v + k); s.Kind = TileKind.Doorway; }
         }
 
+        // From layout version 9 most ground floors are planned anew, with draws of their own (WorldLayout.Level11.Rooms.cs).
+        // The old plan is still laid first and taken up again, so the block's later draws, and every lot after this
+        // one, come out as they always have.
+        if (Version >= 9 && FitsOutV9(spec.Kind, f))
+        {
+            Rng own = rng;
+            own = new Rng(Hashing.Mix(own.NextULong() ^ SaltCityFitOut));
+            Tile[] before = SaveLot(f);
+            GroundFloor(f, spec, ref rng);
+            RestoreLot(f, before);
+            FitOutV9(f, spec, ref own);
+            return;
+        }
+        GroundFloor(f, spec, ref rng);
+    }
+
+    /// <summary>A ground floor as it was laid out up to layout version 8 (and still is for the kinds version 9 leaves alone).</summary>
+    private void GroundFloor(Frame f, Spec spec, ref Rng rng)
+    {
         switch (spec.Kind)
         {
             case CityKind.Office: OfficeLobby(f, ref rng); break;
@@ -1404,8 +1423,11 @@ public sealed partial class WorldLayout
             t.Pipe = (byte)ax;
             if (station)
             {
-                // Stairs down to the platforms at both ends of the station, against the buildings on both sides
-                int step = sl is >= 1 and <= 5 ? sl : sl >= StationLength - 6 && sl <= StationLength - 2 ? StationLength - 1 - sl : 0;
+                // Stairs down to the platforms at both ends of the station, against the buildings on both sides (from
+                // layout version 9 six steps, the first level with the sidewalk; in 1-8 five, the first a block down,
+                // so the top of the flight was a block below the street: see CityStationStepRel)
+                int step = Version >= 9 ? (sl <= 5 ? sl + 1 : sl >= StationLength - 6 ? StationLength - sl : 0)
+                    : sl is >= 1 and <= 5 ? sl : sl >= StationLength - 6 && sl <= StationLength - 2 ? StationLength - 1 - sl : 0;
                 bool stairColumn = ax <= 1 || ax >= AveWidth - 2;
                 if (stairColumn && step > 0)
                 {
@@ -1424,6 +1446,10 @@ public sealed partial class WorldLayout
                 }
                 stationStairs = sl <= 8 || sl >= StationLength - 9;
             }
+            // (Layout version 9: nothing on the sidewalk in the two rows before the top of a flight, which in 1-8 a
+            // newsstand or a bin could stand in)
+            else if (Version >= 9 && (ax <= 1 || ax >= AveWidth - 2) && (sl >= StreetPitch * StationEvery - 2 || sl is StationLength or StationLength + 1))
+                stationStairs = true;
         }
 
         bool aveRoad = ave && ax >= 3 && ax <= 13, streetRoad = street && sz >= 3 && sz <= 11;

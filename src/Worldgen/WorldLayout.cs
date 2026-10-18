@@ -339,7 +339,20 @@ public sealed partial class WorldLayout
     /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
     /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
     /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
-    /// (in 1-8 as the Tower, its gallery floors and stair across the road).</item>
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 11's subway stairs have six steps, the first in the sidewalk itself with its tread level with the street
+    /// (CityStationStepRel; in 1-8 five, the top one a block under the sidewalk, so you had to jump out), nothing stands
+    /// on the sidewalk in the two rows before the top of a flight, and no Almond Water machine at the foot of one
+    /// (CityPlatformProp). Most of its ground floors are planned anew with draws of their own, after the old plan has
+    /// been laid and taken up again, so every lot comes out where it was (WorldLayout.Level11.Rooms.cs): an office
+    /// tower's lobby opens onto an open-plan office (and a conference room in a wide one), a hotel's onto a dining
+    /// room, an apartment block's onto a corridor of flats, a few furnished (in a narrow block one flat), and a store's
+    /// onto a stockroom; furniture stands as people would set it (seats at their tables, desks facing the way in,
+    /// nothing against the plate glass or in front of a doorway, door or elevator), each room's lights are spread
+    /// evenly over it, and an apartment block has a home's plaster ceiling and domed lights (the generator's
+    /// CityCeiling). A church is laid out on the middle of its door, and its stained glass, every third block out from
+    /// that middle and over the door, is marked in Tile.Stack (CityStainedGlass; in 1-8 every third block of the world,
+    /// so it fell unevenly about the door).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
