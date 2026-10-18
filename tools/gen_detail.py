@@ -11,6 +11,7 @@ import random
 
 import detail_textures
 import fire_fx
+import l11art as L11
 import l1props as L1
 import l4props as L4
 import l5props as L5
@@ -825,9 +826,7 @@ def level1():
         bx("LegFL", (4, 0, 4), (5, 7, 5), "foldsteel"), bx("LegFR", (11, 0, 4), (12, 7, 5), "foldsteel"),
         bx("LegBL", (4, 0, 11), (5, 15, 12), "foldsteel"), bx("LegBR", (11, 0, 11), (12, 15, 12), "foldsteel"),
         bx("Back", (4.5, 10, 11), (11.5, 15, 12), "foldsteel")], box=(0.25, 0, 0.22, 0.75, 0.95, 0.78), material="Metal", sounds=METAL)
-    prop("medcabinet", "Medical Cabinet", [
-        bx("Body", (2, 0, 6), (14, 24, 15), "medcab"),
-        bx("Front", (2.2, 0.5, 5.8), (13.8, 23.5, 6), "medcabfront", faces=("north",), full=True)],
+    prop("medcabinet", "Medical Cabinet", L11.medcabinet(),
          box=(0.125, 0, 0.375, 0.875, 1.5, 0.94), material="Metal", sounds=METAL)
     prop("trafficcone", "Traffic Cone", [
         bx("Base", (2.5, 0, 2.5), (13.5, 1, 13.5), "orange"), bx("T1", (4.5, 1, 4.5), (11.5, 4, 11.5), "orange"),
@@ -1920,16 +1919,7 @@ def level5():
         bx("Glass1", (10, 12, 3), (11, 14, 4), "crystal"), bx("Glass2", (5, 12, 12), (6, 14, 13), "crystal"),
         bx("Candle", (7.5, 12, 7.5), (8.5, 16, 8.5), "tubewarm", glow=180), bx("Holder", (7, 12, 7), (9, 12.8, 9), "silver")],
          box=(0.03, 0, 0.03, 0.97, 0.78, 0.97), oriented=False, light=[6, 5, 7], extra={"particleProperties": DININGTABLE_FLAMES})
-    prop("grandpiano", "Grand Piano", [
-        bx("Body", (0, 9, 1), (16, 13, 22), "pianoblack"), bx("Tail", (2, 9, 22), (13, 13, 28), "pianoblack"),
-        bx("Lid", (0, 13, 4), (16, 13.6, 22), "pianoblack", rot=(-25, 0, 0), origin=(8, 13, 22)),
-        bx("Prop", (13, 13, 8), (13.6, 21, 8.6), "pianoblack"),
-        bx("Keys", (0, 10, -3), (16, 12, 1), "pianokeys", faces=("up",), uv=[0, 0, 16, 8]),
-        bx("KeySides", (0, 10, -3), (16, 12, 1), "pianoblack", faces=("north", "east", "west", "down")),
-        bx("Fallboard", (0, 12, 0), (16, 15, 1), "pianoblack"),
-        bx("LegA", (1, 0, -1), (3, 9, 1), "pianoblack"), bx("LegB", (13, 0, -1), (15, 9, 1), "pianoblack"),
-        bx("LegC", (6, 0, 24), (8, 9, 26), "pianoblack"), bx("Pedals", (6, 0, 0), (10, 2, 2), "brass"),
-        bx("Bench", (3, 4, -10), (13, 7, -5), "velvet"), bx("BenchLegs", (3.5, 0, -9.5), (12.5, 4, -5.5), "pianoblack")],
+    prop("grandpiano", "Grand Piano", L11.grandpiano(),
          box=(0, 0, 0, 1, 0.85, 1), material="Wood", sounds=WOOD)
     # (B6) The heap's three tiers now have lumps of coal on and round them, each its own box, turned a little
     prop("coalpile", "Coal", [

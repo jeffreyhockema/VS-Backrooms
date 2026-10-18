@@ -6,6 +6,7 @@ import os
 
 import deep_textures
 import deepprops as DP
+import l11art as L11
 import deepprops_tex
 import l5props as L5
 import modelkit as MK
@@ -1074,9 +1075,7 @@ def level9():
         bx("Base", (0, 0, 3), (16, 14, 16), "cabinetfront", faces=("north",), full=True),
         bx("Sides", (0, 0, 3), (16, 14, 16), "dresserwood", faces=("east", "west", "south")),
         bx("Top", (0, 14, 2), (16, 15, 16), "formica")], box=(0, 0, 0.12, 1, 0.94, 1), extra={"drops": kitchen})
-    prop("pantryshelf", "Pantry Shelf", [
-        bx("Stock", (1, 0, 8), (15, 28, 15), "pantry", faces=("north",), full=True),
-        bx("Frame", (0.5, 0, 7.5), (15.5, 28, 16), "wood", faces=("east", "west", "up", "south"))], box=(0.03, 0, 0.47, 0.97, 1.75, 1),
+    prop("pantryshelf", "Pantry Shelf", L11.pantryshelf(), box=(0.03, 0, 0.47, 0.97, 1.75, 1),
          extra={"drops": drops(("cannedbeans", 1.2, 0.8), ("game:flour-spelt", 0.6, 0.5), ("game:salt", 0.6, 0.5), ("game:honeycomb", 0.15, 0))})
     prop("toolshelf", "Tool Shelf", DP.tool_shelf(), box=(0.03, 0, 0.53, 0.97, 1.75, 1),
          material="Metal", sounds=METAL,
@@ -1125,14 +1124,7 @@ def level9():
          box=(0.4, 0, 0.4, 0.6, 2, 0.6), material="Metal", sounds=METAL,
          extra={"lightHsvByType": {"*-on-*": [6, 3, 15]}, "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
                 "attributesByType": {f"*-flicker-{s}": {"offBlock": f"backrooms:streetlight-off-{s}"} for s in SIDES}})
-    prop("mailbox", "Mailbox", [
-        bx("Post", (7.25, 0, 7.25), (8.75, 12, 8.75), "wood"), bx("Board", (6, 11.5, 5), (10, 12, 12), "wood"),
-        bx("Box", (5, 12, 4), (11, 16, 13), "mailbox"), bx("Top", (5.5, 16, 4), (10.5, 17, 13), "mailbox"),
-        bx("Crown", (6.5, 17, 4), (9.5, 17.5, 13), "mailbox"),
-        bx("Door", (5.25, 12.25, 3.6), (10.75, 16.5, 4), "mailbox", faces=("north", "east", "west", "up")),
-        bx("Latch", (7.5, 15.5, 3.3), (8.5, 16.2, 3.6), "metal"),
-        bx("Pivot", (11, 14.5, 9), (11.5, 15.5, 10), "metal"), bx("Flag", (11.5, 14, 9.25), (12, 19, 9.75), "redmetal"),
-        bx("FlagTip", (11.5, 17.5, 9.75), (12, 19, 11.5), "redmetal")], box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
+    prop("mailbox", "Mailbox", L11.mailbox(), box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 0.6, 0.4), ("game:paper-parchment", 0.4, 0.4))})
     prop("seedsacks", "Seed Sacks", [
         bx("Sack1", (1, 0, 2), (8, 9, 8), "burlap"), bx("Sack2", (8.5, 0, 3), (15, 8, 9), "burlap"), bx("Sack3", (3, 0, 9), (10, 7, 15), "burlap"),
@@ -1243,10 +1235,7 @@ def refinements():
         ], material="Wood", sounds=WOOD)
 
     # Level 9: the street and the yards
-    prop("firehydrant", "Fire Hydrant", [
-        bx("Body", (5, 0, 5), (11, 11, 11), "redmetal"), bx("Cap", (6, 11, 6), (10, 13, 10), "redmetal"),
-        bx("NozzleL", (3, 6, 7), (5, 8.5, 9), "metaldark"), bx("NozzleR", (11, 6, 7), (13, 8.5, 9), "metaldark"),
-        bx("Front", (7, 5, 3.5), (9, 8, 5), "metaldark")], box=(0.3, 0, 0.3, 0.7, 0.81, 0.7), material="Metal", sounds=METAL)
+    prop("firehydrant", "Fire Hydrant", L11.hydrant(), box=(0.3, 0, 0.3, 0.7, 0.81, 0.7), material="Metal", sounds=METAL)
     prop("stopsign", "Stop Sign", [
         bx("Pole", (7.5, 0, 7.5), (8.5, 26, 8.5), "metal"),
         bx("Sign", (2, 24, 7), (14, 36, 7.6), "stopsign", faces=("north",), full=True),
