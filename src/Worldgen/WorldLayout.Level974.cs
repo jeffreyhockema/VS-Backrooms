@@ -29,6 +29,12 @@ public sealed partial class WorldLayout
     /// <summary>A house, with its outer walls: its size, and where it stands in its cell.</summary>
     public const int L974HouseW = 19, L974HouseD = 17, L974HouseX0 = 6, L974HouseZ0 = 7;
 
+    /// <summary>The house's depth from layout version 9 on: the master bedroom's end of it runs three rows further south.</summary>
+    public const int L974HouseDeep = 20;
+
+    /// <summary>How deep a house is in this world (<see cref="L974HouseD"/>; <see cref="L974HouseDeep"/> from layout version 9).</summary>
+    public int L974Depth => Version >= 9 ? L974HouseDeep : L974HouseD;
+
     /// <summary>The rooms of a house, kept in <see cref="Tile.Zone"/>.</summary>
     public enum L974Room : byte { None, Living, Hall, Bedroom, Bath, HalfBath, Kitchen, Master }
 
@@ -95,6 +101,17 @@ public sealed partial class WorldLayout
     public enum L974SpotKind : byte { Watch, SleepWatch, Kneel, Table, Kitchen }
 
     /// <summary>Where Kitty may stand: in doorways, at the ends of the hall, in far corners, by the bed and the cat bed.</summary>
+    private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots9 =
+    {
+        // As below, with the master bedroom grown three rows to the south: the cat bed in the middle of its back wall
+        (8, 4, L974SpotKind.Watch), (8, 12, L974SpotKind.Watch), (11, 5, L974SpotKind.Watch), (11, 9, L974SpotKind.Watch),
+        (11, 13, L974SpotKind.Watch), (16, 11, L974SpotKind.Watch), (3, 8, L974SpotKind.Watch), (5, 8, L974SpotKind.Watch),
+        (9, 1, L974SpotKind.Watch), (10, 15, L974SpotKind.Watch), (1, 1, L974SpotKind.Watch), (7, 7, L974SpotKind.Watch),
+        (1, 7, L974SpotKind.Watch), (15, 3, L974SpotKind.Watch), (12, 14, L974SpotKind.Watch), (2, 9, L974SpotKind.Watch),
+        (15, 5, L974SpotKind.Watch), (12, 17, L974SpotKind.Watch), (15, 17, L974SpotKind.Watch),
+        (15, 4, L974SpotKind.SleepWatch), (16, 15, L974SpotKind.Kneel), (6, 14, L974SpotKind.Table), (4, 12, L974SpotKind.Kitchen),
+    };
+
     private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots =
     {
         // Doorways and the archway's ends
@@ -110,8 +127,9 @@ public sealed partial class WorldLayout
     /// <summary>The places in a house Kitty keeps to, as block coordinates.</summary>
     public List<(int X, int Z, L974SpotKind Kind)> L974Spots(int mx, int mz)
     {
-        var list = new List<(int, int, L974SpotKind)>(L974PlanSpots.Length);
-        foreach (var (u, v, kind) in L974PlanSpots)
+        var spots = Version >= 9 ? L974PlanSpots9 : L974PlanSpots;
+        var list = new List<(int, int, L974SpotKind)>(spots.Length);
+        foreach (var (u, v, kind) in spots)
         {
             var (x, z) = L974At(mx, mz, u, v);
             list.Add((x, z, kind));
@@ -134,11 +152,12 @@ public sealed partial class WorldLayout
     private void BuildLevel974(Builder b, int mx, int mz)
     {
         Tile[] house = (l974Plans ??= new PlanCache<Tile[]>(64, PlanKittyHouse)).Get(mx, mz);
+        int depth = L974Depth;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 int u = lx - L974HouseX0, v = lz - L974HouseZ0;
-                b.At(lx, lz) = u >= 0 && v >= 0 && u < L974HouseW && v < L974HouseD ? house[v * L974HouseW + u]
+                b.At(lx, lz) = u >= 0 && v >= 0 && u < L974HouseW && v < depth ? house[v * L974HouseW + u]
                     : new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L974Wall, Tall = true };
             }
     }
@@ -165,7 +184,36 @@ public sealed partial class WorldLayout
         "###################",
     };
 
-    private static L974Room L974RoomAt(int u, int v) =>
+    /// <summary>
+    /// The plan from layout version 9: the same house, but the master bedroom is 6 by 7 (it was 6 by 4), its doorway from
+    /// the hall two wide and four high (Kitty no longer stoops to come in), and a window in its south wall. Blank is solid.
+    /// </summary>
+    private static readonly string[] L974Plan9 =
+    {
+        "###WW#########WW###",
+        "#.......#..#......#",
+        "#.......#..#....xx#",
+        "#.......#..#......#",
+        "#.......D..#......#",
+        "#.......#..D....xx#",
+        "#.......#..#..x...#",
+        "#.......#..########",
+        "###AAA###..#...#..#",
+        "#.......#..D...#..#",
+        "#.......#..#...#..#",
+        "#.......#..#####D##",
+        "W.......D..#......#",
+        "W.......#..T......W",
+        "#.......#..T......W",
+        "#.......#..#......#",
+        "############......#",
+        "           #......#",
+        "           #......#",
+        "           ###WW###",
+    };
+
+    private static L974Room L974RoomAt(int u, int v, bool grown) =>
+        grown && u >= 12 && u <= 17 && v >= 12 && v <= 18 ? L974Room.Master :
         u >= 1 && u <= 7 && v >= 1 && v <= 7 ? L974Room.Living
         : u >= 1 && u <= 7 && v >= 9 && v <= 15 ? L974Room.Kitchen
         : u >= 9 && u <= 10 && v >= 1 && v <= 15 ? L974Room.Hall
@@ -181,7 +229,10 @@ public sealed partial class WorldLayout
     /// </summary>
     private Tile[] PlanKittyHouse(int mx, int mz)
     {
-        const int W = L974HouseW, D = L974HouseD;
+        const int W = L974HouseW;
+        bool grown = Version >= 9;
+        int D = L974Depth;
+        string[] plan = grown ? L974Plan9 : L974Plan;
         var tiles = new Tile[W * D];
         bool mirror = L974Mirrored(mx, mz);
         var rng = new Rng(Hashing.Hash(seed, mx, mz, SaltL974House + 1));
@@ -193,9 +244,9 @@ public sealed partial class WorldLayout
         for (int v = 0; v < D; v++)
             for (int u = 0; u < W; u++)
             {
-                char c = L974Plan[v][u];
+                char c = plan[v][u];
                 ref Tile t = ref At(u, v);
-                L974Room room = L974RoomAt(u, v);
+                L974Room room = L974RoomAt(u, v, grown);
                 switch (c)
                 {
                     case '.':
@@ -208,10 +259,12 @@ public sealed partial class WorldLayout
                         break;
                     case 'D':
                     case 'A':
+                    case 'T':
                     {
                         // A doorway's passage runs across the wall it is in
-                        bool wallRunsWE = L974Plan[v][u - 1] != '.' && L974Plan[v][u + 1] != '.';
-                        t = new Tile { Kind = TileKind.Doorway, Floor = FloorKind.L974Floor, Pier = wallRunsWE ? ArchPier.North : ArchPier.East, Stack = (byte)(c == 'A' ? 1 : 0) };
+                        // (T: a tall opening with no lintel, four blocks high, for Kitty)
+                        bool wallRunsWE = plan[v][u - 1] != '.' && plan[v][u + 1] != '.';
+                        t = new Tile { Kind = TileKind.Doorway, Floor = FloorKind.L974Floor, Pier = wallRunsWE ? ArchPier.North : ArchPier.East, Stack = (byte)(c == 'T' ? 2 : c == 'A' ? 1 : 0) };
                         break;
                     }
                     case 'W':
@@ -221,6 +274,9 @@ public sealed partial class WorldLayout
                         t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L974Window, Pier = F(into), Tall = true };
                         break;
                     }
+                    case ' ':
+                        t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L974Wall, Tall = true };
+                        break;
                     default:
                         t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L974Paint, Tall = true };
                         break;
@@ -342,8 +398,10 @@ public sealed partial class WorldLayout
         Light(16, 9);
 
         // The master bedroom: empty, but for a pink and white cat bed at the back wall
-        Put(17, 14, Props.L974CatBed, ArchPier.West);
+        // (Layout version 9 on, the room is three rows deeper: the bed is in the middle of the back wall, and a second light)
+        Put(17, grown ? 15 : 14, Props.L974CatBed, ArchPier.West);
         Light(14, 13);
+        if (grown) Light(14, 17);
 
         // The walls take their finish from the rooms they face: tile round the bathrooms, subway tile behind the counters
         for (int v = 0; v < D; v++)

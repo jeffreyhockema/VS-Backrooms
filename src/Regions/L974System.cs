@@ -901,7 +901,7 @@ public class L974System : ModSystem
         var pos = new BlockPos(0, 0, 0);
         string from = on ? "-off" : "-on", to = on ? "-on" : "-off";
         for (int x = x0; x < x0 + WorldLayout.L974HouseW; x++)
-            for (int z = z0; z < z0 + WorldLayout.L974HouseD; z++)
+            for (int z = z0; z < z0 + WorldLayout.L974HouseDeep; z++)
                 for (int y = floor + 4; y <= floor + 5; y++)
                 {
                     pos.Set(x, y, z);

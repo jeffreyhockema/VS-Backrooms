@@ -94,7 +94,7 @@ static partial class LevelModes
                 drawn++;
                 Console.WriteLine($"  house {mx},{mz}{(layout.L974Mirrored(mx, mz) ? " (mirrored)" : "")}:");
                 var (x0, z0) = WorldLayout.L974HouseCorner(mx, mz);
-                for (int z = z0; z < z0 + WorldLayout.L974HouseD; z++)
+                for (int z = z0; z < z0 + layout.L974Depth; z++)
                 {
                     var sb = new System.Text.StringBuilder("    ");
                     for (int x = x0; x < x0 + WorldLayout.L974HouseW; x++) sb.Append(Glyph(T(x, z)));
@@ -121,7 +121,7 @@ static partial class LevelModes
 
     static char Glyph(Tile t)
     {
-        if (t.Kind == TileKind.Doorway) return t.Stack == 1 ? 'A' : 'D';
+        if (t.Kind == TileKind.Doorway) return t.Stack == 2 ? 'T' : t.Stack == 1 ? 'A' : 'D';
         if (t.Kind == TileKind.Wall) return t.Pattern switch
         {
             WallPattern.L974Window => 'W',

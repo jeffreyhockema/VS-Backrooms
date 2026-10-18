@@ -130,6 +130,7 @@ public sealed partial class WorldGenerator
             {
                 int axis = t.Pier is ArchPier.North or ArchPier.South ? 0 : 1;
                 if (rel == 0) return l974Floor[0];
+                if (t.Stack == 2) return 0; // (a tall opening, from layout version 9: no lintel, no casing)
                 if (rel == 4) return l974Lintel[axis];
                 return t.Stack == 1 ? 0 : l974Casing[axis];
             }
