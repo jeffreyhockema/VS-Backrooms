@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Backrooms.Reality;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
@@ -134,10 +135,20 @@ public partial class AtmosphereSystem : ModSystem
     private const int ReservoirKey = 371, CastleKey = 941;
 
     /// <summary>How far off the Reservoir's chanting is heard, and a siren pole's tune.</summary>
-    private const int ChantHeard = 160, TuneHeard = 72;
+    private const int ChantHeard = 160;
 
-    private ILoadedSound poolTone, sirenTune;
-    private string sirenPlaying;
+    /// <summary>
+    /// Level 94's siren-pole tune: how far off it is heard, and how loud. It used to be heard 72 blocks off at 0.9, which
+    /// in a town was a blast from every street; now a radio heard through a house wall (40 blocks, a third of the volume).
+    /// </summary>
+    private const int TuneHeard = 40;
+    private const float SirenVolume = 0.3f;
+
+    private ILoadedSound poolTone;
+    private MusicVoice sirenVoice;
+    private int musicLevel;
+    private (int X, int Z)? sirenAt;
+    private double sirenDistance;
     private float nextChant = 6, nextPoolSound = 8;
 
     /// <summary>Level 7's water just under the surface, a blue that darkens to black as the player dives.</summary>
@@ -269,9 +280,9 @@ public partial class AtmosphereSystem : ModSystem
         // Every loop the levels may have running, so none is left playing after the world closes
         foreach (ILoadedSound sound in new[]
         {
-            poolTone, sirenTune, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
+            poolTone, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
             l974Lullaby, l974Fridge, hotelTune, hotelFading, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
-        })
+        }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []))
         {
             sound?.Stop();
             sound?.Dispose();
@@ -492,9 +503,11 @@ public partial class AtmosphereSystem : ModSystem
     /// </summary>
     private void LevelSounds(float dt, EntityPos pos, int level, bool reservoir, bool castle)
     {
+        musicLevel = level;
         // The five kept as 14-18 start and stop their own (every tick, so they can stop when the player leaves)
         RunSounds(dt, pos, level == WorldLayout.RunLevel);
         FunSounds(dt, pos, level == WorldLayout.FunLevel);
+        FunMusic(pos, level == WorldLayout.FunLevel);
         EndSounds(dt, pos, level == WorldLayout.TheEnd);
         HubSounds(dt, pos, level == WorldLayout.Hub);
         L974Sounds(dt, pos, level == WorldLayout.Level974);
@@ -547,7 +560,7 @@ public partial class AtmosphereSystem : ModSystem
             }
         }
 
-        // Motion's siren poles, by day
+        // Motion's siren poles, by day: one voice, heard as a radio through a house wall (see TuneHeard)
         string tune = null;
         (int X, int Z)? pole = null;
         if (level == WorldLayout.Motion && !castle && !Regions.MotionSystem.IsNight(capi.World.Calendar))
@@ -555,25 +568,15 @@ public partial class AtmosphereSystem : ModSystem
             pole = layout.NearestSirenPole((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z), TuneHeard);
             if (pole != null) tune = Regions.MotionSystem.IsDusk(capi.World.Calendar) ? "sirentune-dusk" : "sirentune";
         }
-        if (tune != sirenPlaying || tune != null && sirenTune != null && sirenTune.Params.Position is { } at0
-            && (Math.Abs(at0.X - (pole.Value.X + 0.5)) > 1 || Math.Abs(at0.Z - (pole.Value.Z + 0.5)) > 1))
+        sirenVoice ??= new MusicVoice(capi);
+        if (tune == null) sirenVoice.Set(null, null, 0, 0, fadeOut: 0.6f); // at dusk it cuts out
+        else
         {
-            sirenTune?.Stop();
-            sirenTune?.Dispose();
-            sirenTune = null;
-            sirenPlaying = tune;
-            if (tune != null)
-            {
-                int ground = geometry.FloorFor(level) + layout.TileAt(pole.Value.X, pole.Value.Z).Height;
-                sirenTune = capi.World.LoadSound(new SoundParams
-                {
-                    Location = new AssetLocation("backrooms:sounds/ambient/" + tune), ShouldLoop = true, DisposeOnFinish = false,
-                    Position = new Vec3f(pole.Value.X + 0.5f, ground + 3.5f, pole.Value.Z + 0.5f), Range = TuneHeard, Volume = 0.9f,
-                    SoundType = EnumSoundType.Ambient,
-                });
-                sirenTune?.Start();
-            }
+            int ground = geometry.FloorFor(level) + layout.TileAt(pole.Value.X, pole.Value.Z).Height;
+            sirenVoice.Set("ambient/" + tune, new Vec3f(pole.Value.X + 0.5f, ground + 3.5f, pole.Value.Z + 0.5f), TuneHeard, SirenVolume);
         }
+        sirenAt = pole;
+        sirenDistance = pole == null ? -1 : Math.Sqrt((pole.Value.X + 0.5 - pos.X) * (pole.Value.X + 0.5 - pos.X) + (pole.Value.Z + 0.5 - pos.Z) * (pole.Value.Z + 0.5 - pos.Z));
     }
 
     /// <summary>Names the level the player has just walked or fallen into, with a word of advice for the worst.</summary>

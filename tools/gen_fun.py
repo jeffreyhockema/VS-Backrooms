@@ -1870,7 +1870,7 @@ def wall_props():
     on = sp + [bx("Led", (9.6, 4.1, 10.25), (10.2, 4.5, 10.4), "bulb-green", glow=200, rot=(-10, 0, 0), origin=(8, 12, 14.5))]
     prop("fun-speaker", "Wall Speaker", {"on": on, "off": sp}, collide=False, material="Metal", sounds=PLASTIC,
          box=(0.3, 0.25, 0.6, 0.7, 0.75, 1), comment="Level Fun: a wall speaker over a party room's door; -on plays Happy Birthday",
-         extra={"soundsByType": {"*-on-*": dict(PLASTIC, ambient="backrooms:ambient/fun/funtune", ambientBlockCount=1), "*": PLASTIC},
+         extra={"soundsByType": {"*-on-*": PLASTIC, "*": PLASTIC},
                 "drops": drops(("scrapwire", 1, 0.5), ("metalbracket", 0.3, 0.3))})
     # String lights along the top of a wall: a sagging wire, four coloured bulbs that glow
     els = [bx("Wire1", (0, 14.0, 15.2), (8.2, 14.25, 15.45), "wire", rot=(0, 0, -12), origin=(0, 15, 15.3)),
