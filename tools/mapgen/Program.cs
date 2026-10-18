@@ -82,6 +82,9 @@ if (args.Length > 2 && args[2] == "l9elev") { L9Elevations.Run(layout, n); retur
 if (args.Length > 2 && args[2] == "archspots") { ArchSpots.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }
+if (args.Length > 2 && args[2] == "l11stairs") { L11Checks.Stairs(layout, args.Length > 3 ? int.Parse(args[3]) : 2); return; }
+if (args.Length > 2 && args[2] == "l11church") { L11Checks.Church(layout, args.Length > 3 ? int.Parse(args[3]) : 8); return; }
+if (args.Length > 2 && args[2] == "l11rooms") { L11Rooms.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 3, args.Length > 4 ? int.Parse(args[4]) : 3); return; }
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return; }
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }

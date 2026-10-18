@@ -243,10 +243,7 @@ public sealed partial class WorldGenerator
         if ((detail & CityDetail.Party) != 0) return storey == 0 && style != 1 ? facadeIds[style, PartBand, side] : facadeIds[style, PartWall, side];
         // A church's tall windows of coloured glass
         if (kind == CityKind.Church)
-        {
-            int at = facing is ArchPier.North or ArchPier.South ? gx : gz;
-            return rel >= 2 && rel <= 7 && Hashing.Mod(at, 3) == 1 ? stainedGlassId : facadeIds[style, rel % 8 == 0 ? PartBand : PartWall, side];
-        }
+            return layout.CityStainedGlass(t, gx, gz, rel, facing) ? stainedGlassId : facadeIds[style, rel % 8 == 0 ? PartBand : PartWall, side];
         if (storey == 0) return facadeIds[style, PartBand, side];
         int along = facing is ArchPier.North or ArchPier.South ? gx : gz;
         bool window = style switch
@@ -339,7 +336,9 @@ public sealed partial class WorldGenerator
 
     private int CityCeiling(in Tile t, CityKind kind)
     {
-        if (kind is CityKind.Hotel or CityKind.Church)
+        // (From layout version 9 an apartment block's lobby, corridors and flats have a plain plaster ceiling and domed
+        // lights, as a home would, not an office's tiles and troffers)
+        if (kind is CityKind.Hotel or CityKind.Church || kind == CityKind.Apartment && layout.Version >= 9)
         {
             return t.Ceiling switch
             {
@@ -372,9 +371,10 @@ public sealed partial class WorldGenerator
         bool station = t.Under == Unders.Station;
         if (t.Stair > 0)
         {
-            // The stairs down from the sidewalk
-            if (rel == -t.Stair) return stairIds[Facing(t.Pier)];
-            if (rel > -t.Stair) return 0;
+            // The stairs down from the sidewalk (from layout version 9 the first step is in the sidewalk itself)
+            int stepRel = layout.CityStationStepRel(t);
+            if (rel == stepRel) return stairIds[Facing(t.Pier)];
+            if (rel > stepRel) return 0;
             return rel >= -6 ? subwayFloorIds[3] : concreteId;
         }
         if (rel <= -8) return rel == -8 && ax == 8 && Hashing.Mod(gz, 40) == 0 ? subwayRumbleId : concreteId;
@@ -409,10 +409,12 @@ public sealed partial class WorldGenerator
             if (rel == -5)
             {
                 // Benches facing the tracks, an Almond Water machine, a bin
-                int k = Hashing.Mod(along, 9);
-                if ((ax == 2 || ax == 14) && k == 0) return propIds[Props.Bench, 0, Facing(ax == 2 ? ArchPier.East : ArchPier.West)];
-                if ((ax == 1 || ax == 15) && Hashing.Mod(along, 17) == 8) return vendingIds[Facing(ax == 1 ? ArchPier.East : ArchPier.West)];
-                if ((ax == 3 || ax == 13) && k == 4) return propIds[Props.TrashCan, 0, 0];
+                switch (layout.CityPlatformProp(ax, along))
+                {
+                    case Props.Bench: return propIds[Props.Bench, 0, Facing(ax == 2 ? ArchPier.East : ArchPier.West)];
+                    case Props.Vending: return vendingIds[Facing(ax == 1 ? ArchPier.East : ArchPier.West)];
+                    case Props.TrashCan: return propIds[Props.TrashCan, 0, 0];
+                }
             }
             return 0;
         }

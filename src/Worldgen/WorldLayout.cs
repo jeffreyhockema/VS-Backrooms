@@ -366,7 +366,21 @@ public sealed partial class WorldLayout
     /// (on the line between the two hills), and no length is shorter than four. A front yard's fence (Level 94's hills
     /// and towns; in 1-8 a loose row a block in from the front of the lot) goes round the yard, across the front and
     /// back along both sides to the house's front corners, with a gate at the path (FenceFrontYard), and a town house
-    /// has one more often (LiftFrontFence, SaltTownYard).</item>
+    /// has one more often (LiftFrontFence, SaltTownYard).
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 11's subway stairs have six steps, the first in the sidewalk itself with its tread level with the street
+    /// (CityStationStepRel; in 1-8 five, the top one a block under the sidewalk, so you had to jump out), nothing stands
+    /// on the sidewalk in the two rows before the top of a flight, and no Almond Water machine at the foot of one
+    /// (CityPlatformProp). Most of its ground floors are planned anew with draws of their own, after the old plan has
+    /// been laid and taken up again, so every lot comes out where it was (WorldLayout.Level11.Rooms.cs): an office
+    /// tower's lobby opens onto an open-plan office (and a conference room in a wide one), a hotel's onto a dining
+    /// room, an apartment block's onto a corridor of flats, a few furnished (in a narrow block one flat), and a store's
+    /// onto a stockroom; furniture stands as people would set it (seats at their tables, desks facing the way in,
+    /// nothing against the plate glass or in front of a doorway, door or elevator), each room's lights are spread
+    /// evenly over it, and an apartment block has a home's plaster ceiling and domed lights (the generator's
+    /// CityCeiling). A church is laid out on the middle of its door, and its stained glass, every third block out from
+    /// that middle and over the door, is marked in Tile.Stack (CityStainedGlass; in 1-8 every third block of the world,
+    /// so it fell unevenly about the door).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 9;
