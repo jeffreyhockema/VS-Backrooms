@@ -925,6 +925,66 @@ def level3():
         save(img, k)
     save(grate(), "grate")
     save(hazard_floor(), "l3hazard")
+    knife_and_lift_textures()
+
+
+def knife_and_lift_textures():
+    """(L3 art) The knife switch's materials (slate base, glazed porcelain, copper, brass, bakelite) and the freight
+    lift's (green-grey painted steel, its darker frame, a hazard stripe, the floor indicator and a call plate)."""
+    # Slate: dark blue-grey, fine grain, a few paler veins
+    img = M.noise_hv((50, 54, 60), 3, seed_of("ksslate"), mottle=5, cells=(16, 8), hue=1.0)
+    rng = random.Random(seed_of("ksslatev"))
+    for _ in range(3):
+        y = rng.randrange(S)
+        for x in range(S):
+            M.touch(img, x, (y + x // 5) % S, 0.07)
+    save(img, "ksslate")
+    # Glazed porcelain: cream, smooth, a soft sheen across the top rows
+    img = M.noise_hv((226, 222, 206), 2, seed_of("ksporc"), mottle=3, cells=(16, 8), hue=0.8)
+    for y in range(S):
+        for x in range(S):
+            M.touch(img, x, y, 0.06 * (1 - y / S) - 0.04 * (y / S))
+    save(img, "ksporcelain")
+    save(M.brushed_metal(seed_of("kscopper"), base=(184, 112, 66), grain=3, direction="v", streak=6, sheen=8), "kscopper")
+    save(M.brushed_metal(seed_of("ksbrass"), base=(178, 150, 72), grain=3, direction="v", streak=6, sheen=8), "ksbrass")
+    img = M.rubber(seed_of("ksbake"), base=(52, 34, 26), grain=2, mottle=3)
+    for y in range(S):
+        for x in range(S):
+            M.touch(img, x, y, 0.07 if (x + y) % 11 < 2 else 0)
+    save(img, "ksbakelite")
+    save(M.rubber(seed_of("ksgrip"), base=(34, 30, 30), grain=2, mottle=2, pattern="ribs", pitch=4), "ksgrip")
+
+    # Freight lift: leaf paint (green-grey, scuffed), frame paint (darker), plate steel
+    leaf = M.painted_metal(seed_of("l3liftleaf"), base=(122, 140, 130), grain=3, mottle=5, panel=False, chips=5, under=(150, 146, 138))
+    M.grime(leaf, 0.18, seed_of("l3liftleafg"), cover=0.5)
+    M.scratches(leaf, 3, seed_of("l3liftleafs"))
+    save(leaf, "l3liftleaf")
+    frame = M.painted_metal(seed_of("l3liftframe"), base=(60, 68, 66), grain=3, mottle=5, panel=False, chips=4, under=(120, 116, 108))
+    M.grime(frame, 0.2, seed_of("l3liftframeg"), cover=0.5)
+    save(frame, "l3liftframe")
+    img = Image.new("RGBA", (S, S))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            c = (206, 164, 36) if ((x + y) // 4) % 2 == 0 else (36, 34, 32)
+            px[x, y] = M.rgba(M.lift(c, random.Random(x * 97 + y).uniform(-3, 3)))
+    save(img, "l3liftstripe")
+    # The floor indicator: a dark window, an amber "3" and an arrow
+    img = Image.new("RGBA", (S, S), rgb(0x16120C))
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x2A241A), width=1)
+    text(img, "3", (3, 4, 17, 28), 0xF0A020, 20)
+    d.polygon([(25, 10), (29, 16), (21, 16)], fill=rgb(0xF0A020))
+    d.polygon([(21, 19), (29, 19), (25, 25)], fill=rgb(0x7A5010))
+    save(img, "l3liftind")
+    # The call plate: brushed steel with an up and a down button in a lit ring
+    img = M.brushed_metal(seed_of("l3liftcall"), base=(170, 170, 164), grain=3, direction="v", streak=6, sheen=6)
+    d = ImageDraw.Draw(img)
+    d.ellipse([10, 5, 21, 14], fill=rgb(0x2A2A28), outline=rgb(0x5A5A58))
+    d.ellipse([12, 7, 19, 12], fill=rgb(0xF0A020))
+    d.ellipse([10, 18, 21, 27], fill=rgb(0x2A2A28), outline=rgb(0x5A5A58))
+    d.ellipse([12, 20, 19, 25], fill=rgb(0x8A5A14))
+    save(img, "l3liftcall")
 
 
 # ---------------- Level 4 ----------------

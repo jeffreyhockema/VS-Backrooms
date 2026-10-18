@@ -331,9 +331,7 @@ def level4():
         "lightAbsorption": 0, "resistance": 0.8, "sounds": GLASS,
     }
     write("level4", "officelight", light, "Fluorescent troffers; about half are dead and their switches are missing")
-    cube("level4", "elevatordoor", "block/level4/elevatordoor-{type}", material="Metal", sounds=METAL, states=["lower", "upper"],
-         comment="Elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level",
-         drops=[], behaviors=threshold("elevator"))
+    # (L3 art) elevatordoor is a model now (a freight lift on all four sides): gen_detail.py writes it
     partition = {
         "code": "partition", "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},

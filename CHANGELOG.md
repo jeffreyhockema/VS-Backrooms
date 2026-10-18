@@ -35,6 +35,9 @@ In numbers: 1,219 block textures (611 of them new versions, so a surface no long
 - Level 2's machine cabinets no longer have an open pipe stub on top: the pipe rises out of a gland and turns back into the wall above the cabinet. This shows on every cabinet already placed, in Level 3 too.
 - Level 2, in worlds made from now on (layout version 9): the copper and steel conduits out of the top of the wall cabinets' gauge panels run on up the wall into the ceiling, held by clips and ending in ceiling plates. The pump galleries' machine cabinets feed the overhead pipes through a pipe up the wall behind them, and no wall cabinet hides behind a free-standing one any more.
 - Level 2, in worlds made from now on: the red valves are where valves belong. A valve sits in the wall pipes as a gate valve with its hand wheel at head height (never on the bare wall below them, and never two side by side), and about one riser in three has a valve at its foot. Existing worlds keep the layout they were made with.
+- Level 3's knife switch is rebuilt as a model: a bevelled slate base, porcelain pedestals under brass hinge lugs and jaws, copper blades, a slate phase barrier, and a bakelite crossbar with a ribbed grip. Same block, same place and size.
+- Level 3's elevator doors are new: green-grey steel leaves with raised stiles and rails, a hazard stripe, brass pulls, a call plate on the jamb and a lit floor indicator in the header, on all four sides (it was a plain cube with one painted line). The same block code, so existing elevators are updated.
+- Elevators in Levels 4 and 5 (and wherever a modern or cage lift is used) now have their doors on the back as well. Arriving from another level can put you down on the far side of the lift wall, where Level 4's elevator showed only plain drywall; now you see the doors from both sides. Nothing about where an elevator leads changed.
 
 ### Before and after
 
