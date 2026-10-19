@@ -125,7 +125,7 @@ public static class Breakdown
     };
 
     /// <summary>Ours, but with a class of its own that decides what breaking it does: left exactly as they are.</summary>
-    private static readonly HashSet<string> OwnRules = new() { "firesalt", "redsprout", "tar", "trialchair", "picketfence" };
+    private static readonly HashSet<string> OwnRules = new() { "firesalt", "mothhiveheart", "clumpremnant", "redsprout", "tar", "trialchair", "picketfence" };
 
     static Breakdown()
     {

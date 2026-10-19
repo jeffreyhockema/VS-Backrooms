@@ -28,7 +28,7 @@ public static class Strike
         }, scaled);
         director?.NoteCloseCall(target);
         // A fight is heard (venom burning on is not)
-        if (type != EnumDamageType.Poison) director?.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "fight", target);
+        if (type != EnumDamageType.Poison) director?.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "bite", target);
         Log(attacker, "hit {0} for {1:0.0}", target.Code, scaled);
     }
 

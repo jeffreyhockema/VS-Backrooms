@@ -90,7 +90,7 @@ public class BaitSystem : ModSystem
         for (int i = baits.Count - 1; i >= 0; i--)
         {
             (Entity item, long until) = baits[i];
-            if (!item.Alive || now > until)
+            if (!item.Alive || item.ShouldDespawn || item.World.GetEntityById(item.EntityId) == null || now > until)
             {
                 baits.RemoveAt(i);
                 continue;
@@ -168,7 +168,7 @@ public class AiTaskBait : AiTaskBase
 
     public override bool ShouldExecute()
     {
-        if (!entity.Alive) return false;
+        if (!entity.Alive || entity.Attributes.GetBool(AiTaskMenace.FrenzyKey)) return false;
         long now = entity.World.ElapsedMilliseconds;
         if (now < nextLookMs) return false;
         nextLookMs = now + 500;

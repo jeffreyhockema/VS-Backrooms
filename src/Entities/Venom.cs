@@ -32,6 +32,9 @@ public class VenomSystem : ModSystem
     /// <summary>The stack attribute: how many hits of venom are left.</summary>
     public const string Key = "backrooms:venom";
 
+    public const string ByKey = "backrooms:venomBy";
+    public const string AtKey = "backrooms:venomAtMs";
+
     private const string HarmonyId = "backroomsss.venom";
 
     /// <summary>Total damage, how long it takes and in how many ticks: 1 every 2 s for 6 s.</summary>
@@ -193,7 +196,7 @@ public class VenomSystem : ModSystem
             {
                 ItemStack shot = projectile.ProjectileStack;
                 if (Charges(shot) <= 0) return;
-                if (Envenom(__instance) && !IsArrow(shot)) Spend(shot);
+                if (Envenom(__instance, projectile.FiredBy ?? striker)) Spend(shot);
             }
             else if (striker is EntityPlayer player && damageSource.Source == EnumDamageSource.Player)
             {
@@ -201,7 +204,7 @@ public class VenomSystem : ModSystem
                 ItemSlot slot = Senses.RightHand(player);
                 ItemStack held = slot?.Itemstack;
                 if (Charges(held) <= 0 || IsArrow(held)) return;
-                if (Envenom(__instance))
+                if (Envenom(__instance, player))
                 {
                     Spend(held);
                     slot.MarkDirty();
@@ -214,17 +217,34 @@ public class VenomSystem : ModSystem
         }
     }
 
+    /// <summary>Who killed something: the cause of the death, or, for a death by our poison (the stamp under ten seconds old), the player who envenomed it.</summary>
+    public static EntityPlayer KillerOf(Entity victim, DamageSource source)
+    {
+        if (source?.GetCauseEntity() is EntityPlayer direct) return direct;
+        if (source != null && source.GetCauseEntity() == null && source.Source == EnumDamageSource.Internal && source.Type == EnumDamageType.Poison
+            && victim?.Attributes != null && victim.Attributes.HasAttribute(ByKey)
+            && victim.World.ElapsedMilliseconds - victim.Attributes.GetLong(AtKey) < 10_000)
+            return victim.World.GetEntityById(victim.Attributes.GetLong(ByKey)) as EntityPlayer;
+        return null;
+    }
+
     /// <summary>Poisons a living thing: 1 damage every 2 seconds for 6 seconds, starting over if it is still burning from before. Returns whether it took.</summary>
-    public static bool Envenom(Entity target)
+    public static bool Envenom(Entity target, Entity striker = null)
     {
         if (target is not { Alive: true }) return false;
         var health = target.GetBehavior<EntityBehaviorHealth>();
         if (health == null) return false;
+        // (Who did it, for the bounty and the shame when it kills: read by the menace and faceling death handlers)
+        if (striker != null && target.Attributes != null)
+        {
+            target.Attributes.SetLong(ByKey, striker.EntityId);
+            target.Attributes.SetLong(AtKey, target.World.ElapsedMilliseconds);
+        }
         // (Still burning: it starts over rather than adding up, and without a stopped effect left to tick once more)
         DamageOverTimeEffect burning = health.ActiveDoTEffects.FirstOrDefault(e => e.EffectType == (int)EnumDamageOverTimeEffectType.Poison && e.TicksLeft > 0);
         if (burning != null)
         {
-            burning.TicksLeft = Ticks;
+            if (burning.TicksLeft < Ticks) burning.TicksLeft = Ticks;
             return true;
         }
         health.ApplyDoTEffect(EnumDamageSource.Internal, EnumDamageType.Poison, 0, Damage, Duration, Ticks, EnumDamageOverTimeEffectType.Poison);
@@ -246,3 +266,4 @@ public class VenomSystem : ModSystem
         dsc.AppendLine(IsArrow(stack) ? Lang.Get("backrooms:venom-info-arrow") : Lang.Get("backrooms:venom-info", charges));
     }
 }
+

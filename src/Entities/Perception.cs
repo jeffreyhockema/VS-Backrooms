@@ -245,7 +245,7 @@ public sealed class NoiseBus
     public IReadOnlyList<NoiseEvent> Recent(long now)
     {
         Prune(now);
-        return events;
+        return events.ToArray();
     }
 
     /// <summary>The noise heard best at a position by a listener with a hearing range, or null; optionally only from one entity.</summary>
@@ -270,7 +270,9 @@ public sealed class NoiseBus
     private void Prune(long now)
     {
         // (A time in the future is one left from an earlier server in this process)
-        events.RemoveAll(e => now - e.AtMs > KeepMs || e.AtMs > now);
+        // (Appended in time order: nothing to do while the oldest is fresh)
+        if (events.Count > 0 && now - events[0].AtMs > KeepMs) events.RemoveAll(e => now - e.AtMs > KeepMs);
+        if (events.Count > 0 && (events[0].AtMs > now || events[^1].AtMs > now)) events.RemoveAll(e => e.AtMs > now);
     }
 }
 

@@ -320,7 +320,7 @@ public class EntityBehaviorMenace : EntityBehavior
         if (entity.World.Side == EnumAppSide.Server)
         {
             DropStolen();
-            if (damageSourceForDeath?.GetCauseEntity() is EntityPlayer killer) Rewards.Bounty(entity, killer);
+            if (VenomSystem.KillerOf(entity, damageSourceForDeath) is EntityPlayer killer) Rewards.Bounty(entity, killer);
             // A Clump put down leaves a remnant (one that merely goes, from Despawn, dies with no damage source)
             if (damageSourceForDeath != null && entity.Code.Path == "clump") BlockClumpRemnant.PlaceWhereDied(entity);
         }

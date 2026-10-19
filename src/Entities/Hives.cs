@@ -147,7 +147,7 @@ public class BlockEntityClumpRemnant : BlockEntity
         }
         if (HoursLeft > 0) return;
         Entity player = Api.World.GetNearestEntity(Center, PlayerRange, PlayerRange,
-            e => e is EntityPlayer { Alive: true } p && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator || e.Alive && Senses.IsTestTarget(e));
+            e => e is EntityPlayer { Alive: true } p && p.Player?.WorldData.CurrentGameMode is not (EnumGameMode.Spectator or EnumGameMode.Creative) || e.Alive && Senses.IsTestTarget(e));
         if (player == null) return;
         if (Api.ModLoader.GetModSystem<MenaceSystem>()?.SpawnJuvenileClump(Center, player) == null) return;
         Api.World.BlockAccessor.SetBlock(0, Pos);

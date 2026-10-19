@@ -1337,7 +1337,7 @@ public class AiTaskMenace : AiTaskBase
             KnockbackStrength = knock,
         }, scaled);
         director.NoteCloseCall(target);
-        director.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "fight", target);
+        director.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "bite", target);
         lastBloodMs = lastHitMs = entity.World.ElapsedMilliseconds;
         Log("hit {0} for {1:0.0}", target.Code, scaled);
         if (feedsOnKill && !target.Alive) Feed();
@@ -1784,15 +1784,13 @@ public class AiTaskMenace : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         if (!entity.Attributes.HasAttribute(FirstOwnerKey) && EntityBehaviorMenace.OwnerOf(entity) >= 0)
             entity.Attributes.SetLong(FirstOwnerKey, EntityBehaviorMenace.OwnerOf(entity));
-        if (cause.EntityId != entity.Attributes.GetLong(FirstOwnerKey, -1))
+        // (Whoever it is, the owner too: a fed Skin-Stealer or a scavenger rat struck by its own owner goes back to what it was after retaliateSeconds)
+        if (retaliationStartMs < 0)
         {
-            if (retaliationStartMs < 0)
-            {
-                kindBeforeRetaliation = Kind;
-                passiveBeforeRetaliation = menace.Passive;
-            }
-            retaliationStartMs = now;
+            kindBeforeRetaliation = Kind;
+            passiveBeforeRetaliation = menace.Passive;
         }
+        retaliationStartMs = now;
         if (menace.Target?.EntityId != cause.EntityId) ResetBelief();
         menace.Target = cause;
         if (Perceives) belief.Take(cause.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
@@ -1837,7 +1835,7 @@ public class AiTaskMenace : AiTaskBase
     {
         if (retaliateSeconds <= 0 || retaliationStartMs < 0) return false;
         long first = entity.Attributes.GetLong(FirstOwnerKey, -1);
-        if (first < 0 || target.EntityId == first)
+        if (first < 0 || target.EntityId == first && kindBeforeRetaliation != Encounter.Ambient)
         {
             retaliationStartMs = -1;
             return false;

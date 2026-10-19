@@ -32,7 +32,7 @@ public partial class MenaceSystem
     /// <summary>A noise has been made: a loud one near a spider nest rouses it.</summary>
     private void NestHeard(Vec3d at, double loudness, Entity who)
     {
-        if (loudness < NestWakeLoudness || layout == null || who == null || !who.Alive) return;
+        if (loudness < NestWakeLoudness || layout == null || who == null || !who.Alive || !Setting.Entities || Paused) return;
         // (Spiders come for whoever made it: a player, or a straw dummy in a test; not for a fight between other things)
         if (who is not EntityPlayer && !Senses.IsTestTarget(who) || Strike.IsCreative(who)) return;
         if (layout.NestHeartNear((int)Math.Floor(at.X), (int)Math.Floor(at.Z), NestWakeRange) is not { } heart) return;
@@ -52,11 +52,11 @@ public partial class MenaceSystem
     private int Reinforce(int hx, int hz, Entity who, int about)
     {
         long now = sapi.World.ElapsedMilliseconds, key = DenKey(hx, hz);
-        if (about >= NestSpiders || !types.TryGetValue(Roster.GiantSpider, out EntityProperties type)) return 0;
+        if (!Setting.Entities || Paused || about >= NestSpiders || !types.TryGetValue(Roster.GiantSpider, out EntityProperties type)) return 0;
         if (nestReinforcedMs.TryGetValue(key, out long last) && now >= last && now - last < NestReinforceEveryMs) return 0;
         Assessment a = AssessmentOf(who);
         if (a.Band == MenaceBand.Safe) return 0;
-        int want = Math.Min(NestSpiders - about, 1 + rand.Next(2)), added = 0;
+        int want = Math.Min(NestSpiders - about, Math.Max(1, (int)Math.Round((1 + rand.Next(2)) * Setting.Spawns))), added = 0;
         for (int attempt = 0; attempt < 24 && added < want; attempt++)
         {
             double angle = rand.NextDouble() * Math.PI * 2, d = 4 + rand.NextDouble() * 12;

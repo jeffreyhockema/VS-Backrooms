@@ -345,6 +345,15 @@ public class AiTaskWatcher : AiTaskBase
 
     private void Fire(Entity who)
     {
+        // (Damage set to none: it only stares)
+        if ((director?.Setting.Damage ?? 1) <= 0)
+        {
+            SetMode(Mode.Cooldown);
+            coolUntilMs = Now + (long)(cooldownSeconds * 1000);
+            chargeOn = null;
+            entity.AnimManager.StopAnimation(chargeAnim);
+            return;
+        }
         Vec3d from = BeamOrigin(), to = Senses.Centre(who);
         entity.AnimManager.StopAnimation(chargeAnim);
         entity.AnimManager.StartAnimation(beamAnim);

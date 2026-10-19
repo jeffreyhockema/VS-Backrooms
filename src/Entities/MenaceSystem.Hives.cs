@@ -142,7 +142,7 @@ public partial class MenaceSystem
     /// </summary>
     public void HiveHeartBroken(BlockPos pos, Entity cause)
     {
-        if (layout == null || cause == null) return;
+        if (layout == null || cause == null || !Setting.Entities || Paused) return;
         AiTaskMoth.AlarmAt(sapi.World, pos.ToVec3d().Add(0.5, 0.5, 0.5), cause);
         if (Logging) sapi.Logger.Notification("[backrooms] a hive heart is broken at {0},{1},{2} by {3}: the alarm, and {4} waves", pos.X, pos.Y, pos.Z, cause.Code.Path, WaveCount);
         SendWave(cause, WaveCount);
@@ -150,7 +150,7 @@ public partial class MenaceSystem
 
     private void SendWave(Entity cause, int remaining)
     {
-        if (cause == null || !cause.Alive || remaining <= 0 || layout == null) return;
+        if (cause == null || !cause.Alive || remaining <= 0 || layout == null || !Setting.Entities || Paused) return;
         RosterEntry entry = Roster.DenEntry(DenKind.Hive);
         int about = sapi.World.GetEntitiesAround(cause.Pos.XYZ, 48, 24, e => e.Alive && e.Code.Path == "deathmoth-female").Length;
         if (types.ContainsKey(entry.Code) && about < WaveFemalesMax)
@@ -158,8 +158,11 @@ public partial class MenaceSystem
             packUncapped = true;
             try
             {
-                if (TrySpawn(cause, AssessmentOf(cause), entry, Encounter.Hunt))
-                    foreach (Entity moth in lastPack.ToList()) AiTaskMoth.Rally(moth, cause);
+                // (The wave's size follows the world's spawn setting, at least one)
+                int wave = Math.Max(1, (int)Math.Round(Setting.Spawns));
+                for (int i = 0; i < wave && about + i < WaveFemalesMax; i++)
+                    if (TrySpawn(cause, AssessmentOf(cause), entry, Encounter.Hunt))
+                        foreach (Entity moth in lastPack.ToList()) AiTaskMoth.Rally(moth, cause);
             }
             finally { packUncapped = false; }
         }
@@ -175,7 +178,10 @@ public partial class MenaceSystem
     /// </summary>
     public Entity SpawnJuvenileClump(Vec3d at, Entity target)
     {
-        if (layout == null || target == null || !types.TryGetValue(Roster.Clump, out EntityProperties type)) return null;
+        if (layout == null || target == null || !Setting.Entities || Paused || !types.TryGetValue(Roster.Clump, out EntityProperties type)) return null;
+        // (Only for a player in danger: otherwise it waits)
+        if (!target.Alive || (target is EntityPlayer player ? player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator : !Senses.IsTestTarget(target))
+            || AssessmentOf(target).Band == MenaceBand.Safe) return null;
         Entity clump = Spawn(type, at, target, Encounter.Stalk, passive: false);
         if (clump?.GetBehavior<EntityBehaviorHealth>() is { } health)
         {

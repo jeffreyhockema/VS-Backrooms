@@ -138,6 +138,9 @@ public partial class MenaceSystem : ModSystem
     /// <summary>Stops the director putting anything down or playing distant sounds (/backrooms director, for testing).</summary>
     public bool Paused;
 
+    /// <summary>When any Faceling last shoved someone (the shove's own noise must not set the neighbours off).</summary>
+    public long LastShoveMs = -1_000_000;
+
     /// <summary>
     /// Headless tests (/backrooms dummies): the director also directs the straw dummies put down by /backrooms
     /// encounter, as if they were players, so what gathers round one or two of them can be watched without a client.
@@ -175,7 +178,13 @@ public partial class MenaceSystem : ModSystem
             api.Event.DidBreakBlock += (player, _, sel) => MakeNoise(player?.Entity, BreakNoise, sel == null ? null : sel.Position.ToVec3d().Add(0.5, 0.5, 0.5), BreakLoudness, "break");
             StartListening(api);
         });
-        api.Event.PlayerDisconnect += player => watches.Remove(player.Entity?.EntityId ?? -1);
+        api.Event.PlayerDisconnect += player =>
+        {
+            long id = player.Entity?.EntityId ?? -1;
+            watches.Remove(id);
+            shames.Remove(id);
+            jumping.Remove(id);
+        };
         StartHives(api);
 
         IChatCommand command = api.ChatCommands.Get("backrooms");
@@ -246,6 +255,7 @@ public partial class MenaceSystem : ModSystem
         // (Static, so it would outlast this world into the next one opened in the same process)
         Senses.LightsOut = false;
         Perception.Reset();
+        BlockEntityClumpRemnant.Live.Clear();
         base.Dispose();
     }
 
@@ -743,10 +753,13 @@ public partial class MenaceSystem : ModSystem
         RosterEntry[] options = roster.Where(e => (e.Kinds & Encounters.Ambient) != 0 && types.ContainsKey(e.Code)
             && (a.Band != MenaceBand.Safe || a.NearWanderer || e.MinBand == MenaceBand.Safe) && (!e.SubwayOnly || a.Subway)).ToArray();
         if (options.Length == 0) return;
-        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient).Length;
+        // (Scavenger rats and fed Skin-Stealers have counts of their own, not this one)
+        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient
+            && e.Code.Path != "deathrat" && !e.Attributes.HasAttribute(EntityBehaviorMenace.FedKey)).Length;
         if (count >= AmbientCap) return;
         RosterEntry entry = Pick(options);
         if (entry == null || rand.NextDouble() > entry.Rarity) return;
+        if (entry.Code == Roster.DeathRat && RatPacksNear(target) >= MaxRatPacks) return;
         // Facelings come by ones and twos (a few more in the city's crowds)
         if (entry.Code is Roster.Faceling or Roster.FacelingChild)
         {
@@ -853,6 +866,19 @@ public partial class MenaceSystem : ModSystem
         return length < 48 || facing ? Math.Atan2(dz, dx) : null;
     }
 
+    /// <summary>At most this many scavenger rat packs about one person.</summary>
+    private const int MaxRatPacks = 2;
+
+    /// <summary>How many packs of scavenger (Ambient) rats are within 48 blocks: rats within ten blocks of each other are one pack.</summary>
+    private int RatPacksNear(Entity target)
+    {
+        Entity[] rats = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path == "deathrat" && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient);
+        var leaders = new List<Entity>();
+        foreach (Entity rat in rats)
+            if (!leaders.Any(l => l.Pos.DistanceTo(rat.Pos) <= 10)) leaders.Add(rat);
+        return leaders.Count;
+    }
+
     private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
     {
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
@@ -862,7 +888,7 @@ public partial class MenaceSystem : ModSystem
         bool scavengers = entry.Code == Roster.DeathRat && a.Band == MenaceBand.Heartland && !entry.Frenzy && kind != Encounter.Ambient && !setPiece;
         if (scavengers)
         {
-            if (sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path == "deathrat" && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient).Length >= packMax) return;
+            if (RatPacksNear(target) >= MaxRatPacks) return;
             kind = Encounter.Ambient;
         }
         // The Skin-Stealer's day: now and then one put down is fed already, so docile (the heartland, where they only wander, and a fifth further out)

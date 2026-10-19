@@ -108,7 +108,7 @@ public class EntityBehaviorFaceling : EntityBehavior
             lastNoiseId = noise.Id;
             if (!ready || noise.Source is not ("break" or "fight" or "test")) continue;
             // (The shove is a fight too: it must not set the next one off)
-            if (noise.Source == "fight" && now - AiTaskOutburst.LastShoveMs < 800) continue;
+            if (noise.Source == "fight" && now - director.LastShoveMs < 800) continue;
             Entity who = entity.World.GetEntityById(noise.Who);
             if (who == null || !who.Alive || who is not EntityPlayer && !who.WatchedAttributes.GetBool("backrooms:testTarget")) continue;
             if (who is EntityPlayer p && p.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) continue;
@@ -229,9 +229,10 @@ public class EntityBehaviorFaceling : EntityBehavior
 
     public override void OnEntityDeath(DamageSource damageSourceForDeath)
     {
-        if (entity.World.Side != EnumAppSide.Server || IsEvolved(entity)) return;
+        base.OnEntityDeath(damageSourceForDeath);
+        if (entity.World.Side != EnumAppSide.Server || IsEvolved(entity) || Provoked(entity)) return;
         // Killing a docile one is the one penalty (the others are already after the killer): the Backrooms take note
-        if (damageSourceForDeath?.GetCauseEntity() is not EntityPlayer killer || killer.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) return;
+        if (VenomSystem.KillerOf(entity, damageSourceForDeath) is not EntityPlayer killer || killer.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) return;
         entity.Api.ModLoader.GetModSystem<MenaceSystem>()?.Shame(killer, ShameAmount, ShameMinutes);
     }
 

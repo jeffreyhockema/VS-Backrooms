@@ -26,8 +26,6 @@ public class AiTaskOutburst : AiTaskBase
     private bool shoved, charging;
     private string playing;
 
-    /// <summary>When any Faceling last shoved someone (the shove's own noise must not set the neighbours off).</summary>
-    public static long LastShoveMs = -1_000_000;
 
     public AiTaskOutburst(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -124,7 +122,7 @@ public class AiTaskOutburst : AiTaskBase
                     shoved = true;
                     if (distance <= 2.2 && !Strike.IsCreative(target))
                     {
-                        LastShoveMs = entity.World.ElapsedMilliseconds;
+                        if (entity.Api.ModLoader.GetModSystem<MenaceSystem>() is { } boss) boss.LastShoveMs = entity.World.ElapsedMilliseconds;
                         Strike.Hit(entity, target, damage, EnumDamageType.BluntAttack, 0, knockback);
                     }
                     else Strike.Log(entity, "outburst: shove missed, {0:0.0} blocks off", distance);
