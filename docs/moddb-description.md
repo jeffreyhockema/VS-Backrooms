@@ -1,6 +1,6 @@
 # Backrooms: Survival Story
 
-<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms). moddb-description.html is the same text with the page's styling and images; keep both in sync. -->
+<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms). moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text. -->
 
 **Wake up in the Backrooms with nothing.** No tools, no food, no daylight. A folded note in your pocket, two supply boxes beside you, and an endless expanse of mono-yellow rooms under buzzing fluorescent lights. The carpet is damp. The hum never stops. Somewhere down the hall a light is failing.
 
