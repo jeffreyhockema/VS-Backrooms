@@ -44,3 +44,7 @@ changed, what was carried and why.)
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
 section 9 and in `docs/design/entity-models-todo.md` section 5.)
+
+- **Never stop Vintage Story servers by image name** (`taskkill //IM VintagestoryServer.exe`, `Get-CimInstance ... | Stop-Process` on the name): several agents run headless servers at once, and two batches killed everyone's, which looked like a crash in the gate run. Stop only your own server, by PID, or by a command-line filter on your own data folder.
+- Headless entities think but never walk, so paths "fail" and a hunt goes Hunt -> Stalk by the old no-path rule; test decisions by timeouts, and retry spots.
+- With several agents' servers and builds running, everything is slow: a build may wait minutes for the lock; a harness run takes 15 to 20 minutes.
