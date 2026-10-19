@@ -461,8 +461,8 @@ public sealed partial class WorldLayout
             bool right = g > c;
             if (piano && right)
             {
+                // The piano's model brings its own bench, standing in the tile in front of the keyboard (west of it): keep that clear
                 f.Put(g + 1, 5, Props.GrandPiano, ArchPier.West);
-                f.Put(g, 5, Props.HotelChair, ArchPier.East);
                 continue;
             }
             f.Floor(new Room(g, g + 3, 4, 6), FloorKind.HotelRug);
