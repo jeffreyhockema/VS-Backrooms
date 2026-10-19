@@ -361,7 +361,8 @@ ERR_RE = re.compile(r"\[backrooms\].*(error|exception)|^\s+at \S+\(|Exception:",
 class Enc:
     """One entity put down for a dummy; reads its log lines out of the console."""
 
-    def __init__(self, c, code, kind, dist, light=0, level=LEVEL, min_band=None):
+    def __init__(self, c, code, kind, dist, light=0, level=LEVEL, min_band=None, ident=True):
+        # (ident=False: the entity logs no "starts:" line (Watcher, Neighborhood Watch); lines() then reads every line of that code)
         self.c, self.srv, self.code = c, c.srv, code
         c.reset()
         c.srv.cmd("/backrooms entitylog on")
@@ -403,18 +404,19 @@ class Enc:
             raise RuntimeError("encounter %s %s did not start" % (code, kind))
         self.t0 = time.time()
         self.id = None
-        end = time.time() + 10
+        end = time.time() + (10 if ident else 0)
         while time.time() < end and self.id is None:
             for l in c.srv.since(m):
                 mm = ENT_LINE_RE.search(l)
                 if mm and mm.group(1) == code and "starts:" in mm.group(3):
                     self.id = mm.group(2)
             time.sleep(0.2)
-        if self.id is None:
+        if self.id is None and ident:
             raise RuntimeError("no 'starts' line for %s (reply: %s)" % (code, self.reply))
 
     def lines(self):
-        return [m.group(3) for m in (ENT_LINE_RE.search(l) for l in self.srv.since(self.mark)) if m and m.group(2) == self.id]
+        return [m.group(3) for m in (ENT_LINE_RE.search(l) for l in self.srv.since(self.mark))
+                if m and (m.group(2) == self.id if self.id is not None else m.group(1) == self.code)]
 
     def kinds(self):
         return [(m.group(3), m.group(4)) for m in (KIND_RE.search(l) for l in self.srv.since(self.mark)) if m and m.group(2) == self.id]
@@ -463,7 +465,7 @@ def started(c, *a, min_dist=0, tries=6, **kw):
 def t_p1_hunt_to_search(c):
     # (A hunt whose first path fails goes straight back to Stalk: that is a spot with no way through, not belief; retry elsewhere)
     skipped = 0
-    for _ in range(5):
+    for _ in range(8):
         e = Enc(c, "hound", "hunt", 20)
         e.wait_for(lambda: e.dist() is not None, 8)
         time.sleep(5)    # (a path that cannot be found drops the hunt to Stalk within a few seconds)
@@ -471,7 +473,9 @@ def t_p1_hunt_to_search(c):
             break
         skipped += 1
         e.finish()
-    ok1 = e.wait_for(lambda: e.has("Hunt", "Search"), 25)
+    # A hunt the director sent ("sent hunt") refreshes its belief every 2 s for its first sentHuntSeconds (10), then memory (8 s
+    # for the Hound) fades: Hunt -> Search at about 18 to 40 s. Allow 45 s.
+    ok1 = e.wait_for(lambda: e.has("Hunt", "Search"), 45)
     t_search = time.time() - e.t0
     ok2 = e.wait_for(lambda: e.has("Search", "Stalk") or e.has("Search", "Leave"), 40)
     ks = e.kinds()
@@ -479,7 +483,7 @@ def t_p1_hunt_to_search(c):
     rehunt = [k for k in ks[first:] if k[1] == "Hunt"]
     ev = "changes %s; Hunt>Search after %.0f s; %d spots abandoned (too close to be out of sight, or Hunt>Stalk at once: first path failed); started %.0f blocks off" % (e.changes(), t_search, skipped, e.dist() or -1)
     e.finish()
-    return ok1 and ok2 and not rehunt and t_search <= 20, ev
+    return ok1 and ok2 and not rehunt and t_search <= 45, ev
 
 
 def t_p1_stalk_to_investigate(c):
@@ -555,7 +559,7 @@ def t_p1_legacy(c):
             continue
         time.sleep(30)
         bad = [k for k in e.kinds() if k[1] in ("Investigate", "Search")]
-        bad += [l for l in e.lines() if re.search(r"senses:", l)]
+        # (They have senses profiles since P2, so a "senses:" line is expected; what must stay out is the belief-based kinds)
         out.append("%s: changes %s, %d lines, bad %s" % (code, e.changes() or "none", len(e.lines()), bad))
         ok = ok and not bad
         e.finish()
@@ -565,6 +569,84 @@ def t_p1_legacy(c):
 P1_CASES = [("p1-hunt-to-search", t_p1_hunt_to_search), ("p1-stalk-to-investigate", t_p1_stalk_to_investigate),
             ("p1-sight-hunt", t_p1_sight_hunt), ("p1-glimpse-to-stalk", t_p1_glimpse_to_stalk),
             ("p1-vague-track", t_p1_vague_track), ("p1-legacy", t_p1_legacy), ("p1-no-errors", None)]
+
+
+# ---------------------------------------------------------------- P2/P4 decisions (group p26)
+
+def t_p2_fed_stealer(c):
+    e = Enc(c, "skinstealer", "ambient", 6, ident=False)    # (an Ambient stealer logs no "starts:" line)
+    time.sleep(1)
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms feed fed")
+    r = c.srv.wait(lambda l: ("Skin-Stealer #" in l and l) or ("No Skin-Stealer" in l and l), m, 8)
+    e.mark = c.srv.mark()    # (kind changes from here on)
+    time.sleep(20)
+    bad = [k for k in e.kinds() if k[1] in ("Stalk", "Hunt")]
+    bad += [l for l in e.lines() if "Stalk" in l.split(",")[0] or "Hunt" in l.split(",")[0]]
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms feed status")
+    st = c.srv.wait(lambda l: ("Skin-Stealer #" in l and l) or ("No Skin-Stealer" in l and l), m, 8)
+    ev = "feed reply %r; 20 s later status %r; kind changes %s" % (r and r.split("]")[-1].strip()[:80], st and st.split("]")[-1].strip()[:80], e.changes() or "none")
+    e.finish()
+    return bool(r) and bool(st) and "No Skin-Stealer" not in r + st and ", Ambient" in st and not bad, ev
+
+
+def t_p4_strider_fear(c):
+    # Hunting Hound plus a Strider put down for the same Level 9 dummy: the Strider's Frighten() sends the Hound to Leave.
+    notes = []
+    for attempt in range(6):
+        try:
+            e = Enc(c, "hound", "hunt", 10, level="9")
+        except RuntimeError as ex:
+            notes.append(str(ex))
+            continue
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms encounter neighborhoodwatch hunt %d %d 6" % e.dummy)
+        r = c.srv.wait(lambda l: ("put down" in l and l) or ("Found nowhere" in l and l) or ("No such" in l and l), m, 15)
+        if not (r and "put down" in r):
+            notes.append("strider not put down (%s)" % (r or "no reply")[-60:])
+            e.finish()
+            continue
+        # (The Watch sets the Hound's kind from outside, so the Hound logs no "Hunt -> Leave" itself; what shows is the Watch's
+        # "frightens" line and the Hound's own progress lines ("Hunt, N blocks from", every 3 s) stopping: it is running off)
+        fright = lambda: [l for l in c.srv.since(m) if re.search(r"neighborhoodwatch #\d+ at [^:]*: frightens hound #%s " % e.id, l)]
+        e.wait_for(fright, 12)
+        f = fright()
+        mark_f = c.srv.mark()
+        time.sleep(10)
+        after = [l for l in (ENT_LINE_RE.search(x) for x in c.srv.since(mark_f)) if l and l.group(2) == e.id and re.match(r"(Hunt|Stalk), [\d.]+ blocks from", l.group(3))]
+        ev = "attempt %d: strider line %s; hound progress lines in the 10 s after: %d; hound kind changes %s" % (
+            attempt + 1, f[0].split("]")[-1].strip() if f else "none", len(after), e.changes() or "none")
+        e.finish()
+        if f and not after:
+            return True, ev
+        notes.append(ev)
+    return False, "no 'frightens hound' followed by a silent Hound in 6 tries: " + " | ".join(notes[-2:])
+
+
+def t_p4_watcher_fires(c):
+    notes = []
+    for attempt in range(8):
+        try:
+            e = Enc(c, "watcher", "hunt", 10, light=14, level="9", ident=False)
+        except RuntimeError as ex:
+            notes.append(str(ex))
+            continue
+        e.wait_for(lambda: e.count_lines("fires at") > 0, 30)
+        charges, fires = e.count_lines("charges at"), e.count_lines("fires at")
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms dummies off")
+        r = c.srv.wait(lambda l: re.search(r"#\d+ at .*", l) and l, m, 5)
+        ev = "attempt %d: %d charge lines, %d fire lines; last watcher lines %s; dummies: %s" % (
+            attempt + 1, charges, fires, e.lines()[-2:], (r or "no reply").split("]")[-1].strip()[:120])
+        e.finish()
+        if charges and fires:
+            return True, ev
+        notes.append(ev)
+    return False, "no charge+fire in 8 spots: " + " | ".join(notes[-2:])
+
+
+P26_CASES = [("p2-fed-stealer", t_p2_fed_stealer), ("p4-strider-fear", t_p4_strider_fear), ("p4-watcher-fires", t_p4_watcher_fires)]
 
 
 def smoke(c):
@@ -599,6 +681,8 @@ def main():
     only = set(a.only.split(",")) if a.only else None
     if only and "p1" in only:
         only = (only - {"p1"}) | {n for n, _ in P1_CASES}
+    if only and "p26" in only:
+        only = (only - {"p26"}) | {n for n, _ in P26_CASES}
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
@@ -610,7 +694,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
