@@ -65,6 +65,9 @@
 				},
 				{
 					"base": "backrooms:entity/faceling-teacher"
+				},
+				{
+					"base": "backrooms:entity/faceling-evolved"
 				}
 			]
 		},
@@ -281,6 +284,19 @@
 						"priorityForCancel": 1.5,
 						"mincooldown": 0,
 						"maxcooldown": 0
+					},
+					{
+						"code": "backrooms-outburst",
+						"priority": 1.52,
+						"priorityForCancel": 1.52,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"range": 6,
+						"cooldownSeconds": 30,
+						"damage": 1,
+						"knockback": 0.35,
+						"gesture": "stretch",
+						"walkSpeed": 0.02
 					},
 					{
 						"code": "idle",

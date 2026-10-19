@@ -128,6 +128,10 @@ LOOKS = {
     "suburban":  dict(skin="light", hair=("ponytail", "blonde"), top=("sweater", (196, 130, 140), None), bottom=("jeans", (90, 108, 140)), shoes=("sneakers", (236, 234, 230)), extras=()),
     "street":    dict(skin="dark", hair=("curly", "darkbrown"), top=("jacket", (78, 96, 130), (200, 196, 186)), bottom=("slacks", (50, 48, 46)), shoes=("sneakers", (40, 40, 44)), extras=("cap",)),
     "teacher":   dict(skin="olive", hair=("long", "brown"), top=("sweater", (120, 128, 96), None), bottom=("skirt", (80, 70, 60)), shoes=("dress", (60, 44, 36)), extras=("glasses", "bag")),
+    # APPEND ONLY (texture indices are saved with the entities). Level 3's Evolved Facelings: the lore's half-formed face
+    # (a lumpy brow, a slit where a mouth would be, two shallow dimples for eyes), worn by every Faceling put down
+    # there. MenaceSystem.ChooseLook gives it by index (EvolvedLook, the last one); never chosen elsewhere.
+    "evolved":   dict(skin="weathered", hair=("bald", "grey"), top=("tshirt", (118, 116, 108), None), bottom=("slacks", (68, 64, 58)), shoes=("boots", (48, 42, 38)), extras=(), evolved=True),
 }
 
 
@@ -299,6 +303,39 @@ def paint_face(ctx, base, weathered):
             if warm > 0:
                 c = mix(c, (210, 120, 110), warm)
             px[ctx.x + xx, ctx.y + yy] = c + (255,)
+
+
+def paint_evolved_face(ctx, base):
+    """A face that has not finished forming: the blank face with a lumpy brow ridge, two shallow dimples where eyes
+    would be and a slit, barely lipped, for a mouth. Only shading, as the blank face is."""
+    paint_face(ctx, base, True)
+    w, h = ctx.w, ctx.h
+    px = ctx.img.load()
+    rng = random.Random("evolved-face")
+    bumps = [rng.uniform(-0.04, 0.04) for _ in range(w)]
+    eyes = ((0.29, 0.52), (0.71, 0.5))
+    for yy in range(h):
+        v = (yy + 0.5) / h
+        for xx in range(w):
+            u = (xx + 0.5) / w
+            k = 1.0
+            # the brow: a ridge across, uneven, lit on top and shadowed under
+            ridge = 0.33 + bumps[xx] + 0.03 * math.sin(u * 17)
+            k += 0.13 * max(0.0, 1 - abs(v - (ridge - 0.04)) / 0.07)
+            k -= 0.20 * max(0.0, 1 - abs(v - (ridge + 0.07)) / 0.07)
+            # the dimples: soft shallow hollows with a pale rim
+            for (eu, ev) in eyes:
+                d = math.hypot((u - eu) * 1.0, (v - ev) * 1.0)
+                k -= 0.55 * max(0.0, 1 - d / 0.11) ** 0.8
+                k += 0.08 * max(0.0, 1 - abs(d - 0.13) / 0.035)
+            # the slit: a dark line, with a puckered lip above and below
+            mid = 0.74 + 0.012 * math.sin(u * 11)
+            if 0.27 < u < 0.73:
+                edge = min(u - 0.27, 0.73 - u) / 0.46
+                k -= 0.55 * max(0.0, 1 - abs(v - mid) / (0.022 + 0.012 * edge))
+                k += 0.07 * max(0.0, 1 - abs(abs(v - mid) - 0.05) / 0.03)
+            old = px[ctx.x + xx, ctx.y + yy]
+            px[ctx.x + xx, ctx.y + yy] = clamp(tuple(ch * k for ch in old[:3])) + (255,)
 
 
 # ---- Clothes
@@ -660,7 +697,10 @@ def paint_look(code, look):
             ctx = _ctx(img, name, side, face["uv"], rng)
             if name == "Head":
                 if side == "west":
-                    paint_face(ctx, skin, weathered)
+                    if look.get("evolved"):
+                        paint_evolved_face(ctx, skin)
+                    else:
+                        paint_face(ctx, skin, weathered)
                 else:
                     paint_skin(ctx, skin, weathered)
                     if look["hair"][0] == "buzz" and side in ("up", "east", "north", "south"):
@@ -898,11 +938,17 @@ def faceling(child=False):
         {"code": "backrooms-greet", "priority": 1.5, "priorityForCancel": 1.5, "mincooldown": 0, "maxcooldown": 0},
     ]
     if child:
+        # Calmed with food (right-click mid-tantrum): follows that player at a few blocks for a minute
+        tasks.append({"code": "backrooms-companion", "priority": 1.45, "priorityForCancel": 1.45, "mincooldown": 0, "maxcooldown": 0,
+                      "walkSpeed": 0.016, "runSpeed": 0.04, "minDistance": 2, "maxDistance": 4})
         # Curious: comes to look at a player, keeps a few steps off, and runs if they come at it
         tasks.append({"code": "backrooms-curious", "priority": 1.3, "priorityForCancel": 1.35, "walkSpeed": 0.016, "runSpeed": 0.04,
                       "seekingRange": 14, "keepAway": 3.5, "fleeDistance": 2.2, "mincooldown": 8000, "maxcooldown": 30000})
         tasks += [idle("sit", 1.25, 8000, 20000, 20000, 60000), idle("lookaround", 1.2, 3000, 5000, 6000, 20000), idle("wave", 1.16, 3500, 3500, 30000, 90000)]
     else:
+        # Disturbed (a block broken, a fall, a blow nearby): turns, throws its arms about, shoves once, calms
+        tasks.append({"code": "backrooms-outburst", "priority": 1.52, "priorityForCancel": 1.52, "mincooldown": 0, "maxcooldown": 0,
+                      "range": 6, "cooldownSeconds": 30, "damage": 1, "knockback": 0.35, "gesture": "stretch", "walkSpeed": 0.02})
         tasks += [
             idle("sit", 1.25, 20000, 60000, 30000, 120000),
             idle("lookaround", 1.2, 3000, 5000, 6000, 20000),
