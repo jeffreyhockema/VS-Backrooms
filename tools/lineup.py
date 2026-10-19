@@ -32,17 +32,20 @@ ROSTER = [
     ("Clump", "clump", "clump", 1.0, 1),
     ("Bacteria", "bacteria", "bacteria", 1.0, 1),
     ("Wretch", "wretch", "wretch", 1.0, 1),
+    ("The Beast\nof Level 5", "beast", "beast", 1.0, 1),
+    ("Giant Spider", "giantspider", "giantspider", 1.0, 1),
+    ("Neighborhood\nWatch", "neighborhoodwatch", "neighborhoodwatch", 1.0, 1),
     ("Partygoer", "fun-partygoer", "fun-partygoer", 1.0, 1),
     ("Kitty", "974/l974-kitty", "974/l974-kitty", 1.0, 1),
     ("Window Arm", "188/l188-arm", "188/l188-arm", 1.0, 1),
-    ("Clay Animation", "animation-clay", "animation-clay", 1.0, 1),
-    ("Wooden Animation", "animation-wooden", "animation-wooden", 1.0, 1),
-    ("Paper Animation", "animation-paper", "animation-paper", 1.0, 1),
+    ("Clay\nAnimation", "animation-clay", "animation-clay", 1.0, 1),
+    ("Wooden\nAnimation", "animation-wooden", "animation-wooden", 1.0, 1),
+    ("Paper\nAnimation", "animation-paper", "animation-paper", 1.0, 1),
     ("Robo-Man", "roboman", "roboman", 1.0, 1),
     ("Lure Balloon", "fun-lureballoon", "fun-lureballoon", 1.0, 1),
     ("Keymaster", "hub-keymaster", "hub-keymaster", 1.0, 1),
     ("Attendant", "3999/attendant", "3999/attendant", 1.0, 1),
-    ("The Thing (half scale)", "thething", "thething", 1.0, 0.5),
+    ("The Thing\n(half scale)", "thething", "thething", 1.0, 0.5),
     ("The Mangled (half scale)", "mangled", "mangled", 1.5, 0.5),
 ]
 
@@ -114,7 +117,7 @@ def font(names, size):
 
 
 # Three rows: the small and human-sized first, then the far levels' own; The Thing last, the Mangled beside them all
-ROWS = [8, 7, 6]
+ROWS = [8, 8, 8]
 # Drawn standing at the right, beside every row, so the rows need not be as tall as it
 SIDE = {"The Mangled (half scale)"}
 SIZE = (1920, 1080)
@@ -130,13 +133,25 @@ def render_all(ppb, yaw, pitch):
     return figures
 
 
+LINE_H = 34  # each further line of a two-line label
+
+
+def label_w(label_font, label):
+    """A label's width: its longest line (a label may break over two lines with a newline)."""
+    return max(label_font.getbbox(line)[2] for line in label.split("\n"))
+
+
+def label_lines(row):
+    return max(label.count("\n") + 1 for label, _, _ in row)
+
+
 def layout(figures, label_font, gap):
     """Per row: (figures, width, height above the ground line, height below it)."""
     rows, i = [], 0
     for n in ROWS:
         row = figures[i:i + n]
         i += n
-        width = sum(max(img.width, label_font.getbbox(label)[2]) for label, img, _ in row) + gap * (len(row) - 1)
+        width = sum(max(img.width, label_w(label_font, label)) for label, img, _ in row) + gap * (len(row) - 1)
         rows.append((row, width, max(g for _, _, g in row), max(img.height - g for _, img, g in row)))
     return rows
 
@@ -152,8 +167,8 @@ def main():
     opts = dict(a.split("=", 1) for a in sys.argv[2:])
     yaw, pitch = float(opts.get("yaw", 65)), float(opts.get("pitch", 8))
     W, H = SIZE
-    label_font, title_font = font(["georgia.ttf", "times.ttf"], 30), font(["georgiab.ttf", "timesbd.ttf"], 52)
-    gap, margin, top, label_h, row_gap = 40, 60, 130, 62, 24
+    label_font, title_font = font(["georgia.ttf", "times.ttf"], 28), font(["georgiab.ttf", "timesbd.ttf"], 52)
+    gap, margin, top, label_h, row_gap = 26, 60, 130, 58, 18
 
     # Measure at a reference scale, then render again at the largest scale that fits the frame (labels keep their
     # size, so shrink a little more until every row fits beside the side figure's column)
@@ -161,14 +176,14 @@ def main():
     figs, side = split(render_all(ref, yaw, pitch))
     rows = layout(figs, label_font, gap)
     fit_w = min((W - 2 * margin) / (w - gap * (len(r) - 1)) * 1.0 for r, w, _, _ in rows)
-    fit_h = (H - top - 30 - len(rows) * label_h - row_gap * (len(rows) - 1)) / sum(a + b for _, _, a, b in rows)
+    fit_h = (H - top - 30 - sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) - row_gap * (len(rows) - 1)) / sum(a + b for _, _, a, b in rows)
     if side:
         fit_h = min(fit_h, (H - top - 30 - label_h) / side[1].height)
     ppb = ref * min(fit_w, fit_h) * 0.97
     while True:
         figs, side = split(render_all(ppb, yaw, pitch))
         rows = layout(figs, label_font, gap)
-        side_w = (max(side[1].width, label_font.getbbox(side[0])[2]) + gap) if side else 0
+        side_w = (max(side[1].width, label_w(label_font, side[0])) + gap) if side else 0
         region = W - 2 * margin - side_w
         if all(w <= region for _, w, _, _ in rows) or ppb < 20:
             break
@@ -183,7 +198,7 @@ def main():
     d.text((margin, 40), "What lives here", font=title_font, fill=(240, 234, 218))
 
     # Share the spare height out between the rows; the rows sit left of the side figure's column
-    used = sum(a + b for _, _, a, b in rows) + len(rows) * label_h + row_gap * (len(rows) - 1)
+    used = sum(a + b for _, _, a, b in rows) + sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) + row_gap * (len(rows) - 1)
     spare = max(0, H - top - 30 - used) / (len(rows) + 1)
     y = top + spare
     base = 0
@@ -192,16 +207,17 @@ def main():
         x = margin + (region - width) / 2
         d.line([(x - 20, base + 2), (x + width + 20, base + 2)], fill=(86, 84, 94), width=2)
         for label, img, ground in row:
-            lw = label_font.getbbox(label)[2]
+            lw = label_w(label_font, label)
             slot = max(img.width, lw)
             sheet.alpha_composite(img, (int(x + (slot - img.width) / 2), int(base - ground)))
-            d.text((x + (slot - lw) / 2, base + int(below) + 16), label, font=label_font, fill=(222, 216, 204))
+            d.multiline_text((x + slot / 2, base + int(below) + 16), label, font=label_font, fill=(222, 216, 204),
+                             anchor="ma", align="center", spacing=LINE_H - 30)
             x += slot + gap
         last_below = below
-        y = base + below + label_h + row_gap + spare
+        y = base + below + label_h + LINE_H * (label_lines(row) - 1) + row_gap + spare
     if side:
         label, img, ground = side
-        lw = label_font.getbbox(label)[2]
+        lw = label_w(label_font, label)
         slot = max(img.width, lw)
         x = W - margin - slot
         d.line([(x - 20, base + 2), (x + slot + 20, base + 2)], fill=(86, 84, 94), width=2)

@@ -20,15 +20,21 @@ Links: [Player guide (spoilers)](https://github.com/jeffreyhockema/VS-Backrooms/
 
 In numbers: 1,219 block textures, 59 creature and character textures, 62 item icons and 608 block models were redrawn or rebuilt across all 22 levels, and 196 asset families were compared side by side, before and after; all but one were kept.
 
+**New in this version.** Three new creatures: the Neighborhood Watch walks Level 9's streets and hunts by sight, Giant Spiders lie low in Level 8's caves round cobwebbed nests, and the Beast of Level 5 comes out of the hotel's boiler halls to offer a deal; the Bacteria is now a tangle of black wire. In worlds made from now on, the Hub's tunnels are rounded vaults with kerbs and edge lines, Kitty's room is nearly twice as big, Level 11's ground floors are laid out by kind of building (hotel lobbies with a grand piano, office lobbies, flats, stockrooms), and Level 94's picket fences stand back from the road with gates and a proper STOP sign. A door or an elevator that leads somewhere with no way back now leaves one, in that level's own style. And a new world setting, *Backrooms level size*, makes the rings of levels from half to twice as wide.
+
 ### Before and after
 
-The same spot before the update (left) and after it (right).
+The same spot in the released 0.513.3 (left) and in 0.514.0 (right).
 
-- [Level 3's switchgear and pipes](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/01-level3-switchgear.jpg): painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
-- [Level 4's potted plant](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/02-level4-ficus.jpg): a green block of noise became a potted ficus with a trunk and leaves.
-- [Level 5's elevator](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/03-level5-elevator.jpg): a printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
-- [Level 5's guest-room door](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/04-level5-door.jpg): a flat painted door became a panelled leaf in a casing, with a brass number plate, knob, hinges and peephole.
-- [The Snackrooms' store kitchen](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/05-level6-1-kitchen.jpg): flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
+- [A Level 11 hotel lobby](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/01-level11-hotel-lobby.jpg): ground floors are laid out by kind of building: a hotel lobby gets its front desk facing the door, sitting areas and a grand piano, now rebuilt with keys, a raised lid and pedals.
+- [Level 11's street furniture](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/02-level11-street.jpg): the mailbox, fire hydrant and streetlights are rebuilt with real parts in the same places, the sidewalk and asphalt are the new materials, and behind the glass the lobby is furnished as a hotel's.
+- [Level 94's fences and STOP sign](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/03-level94-fences.jpg): picket fences stand back from the road behind a grass verge, joined round the bends, with gates and openings; the STOP sign is a proper octagonal plate on a galvanised post.
+- [A Hub tunnel](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/04-hub-tunnel.jpg): the tunnels are rounded like the road tunnels in the pictures, the walls curving into a vault, the lamps at the top of the wall, a white edge line on the road and a rounded kerb.
+- [Kitty's room in Level 974](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/05-level974-kittys-room.jpg): the master bedroom with the cat bed is nearly twice as big, with a second window and a second light, and a doorway Kitty can walk through upright (shot by the shotbot's daylight).
+- [The junk on Level !'s floor](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/06-level-run-junk.jpg): flat litter became bulky junk you can see coming: loops of orange extension cord, a wheelchair, dumped boxes and a barricade of chairs (shot with a held lantern).
+- [A Snackrooms vending room's doorway](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/07-snackrooms-vending.jpg): the machine blocking a vending room's doorway is a broken one, cracked glass, a dented panel and a dead display, that can be broken up for its snacks.
+- [A Level 9 house](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/08-level9-house.jpg): houses get windows two blocks tall with sashes, casings and sills, shutters on the front, a picture window and a panelled front door that opens (shot by the shotbot's daylight).
+- [What lives here](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/09-creatures.jpg): every creature repainted, the Bacteria rebuilt as a tangle of black wire, and three new ones: the Beast of Level 5 (as the gentleman), the Giant Spider and the Neighborhood Watch.
 
 ## What's new in 0.513.0
 
@@ -123,6 +129,9 @@ Every creature has a counter you earn as you go; the handbook page *What Lives H
 | The Mangled | Cold and fog, then voices, then a pillar of faces walking Level 9's streets | Indoors, where it does not fit through the door; waiting it out |
 | Bacteria | A tall figure of black wires down Level 0's outer halls; it runs down whoever runs | Walking, not running |
 | Wretch | Wanderers worn down to nothing: they gurgle as they follow, then charge | Keeping fed; the 9th Road and its camps; a wanderer's company |
+| The Beast | Rare, deep in Level 5's boiler halls: a gentleman who offers a deal (healed now, he collects in three days); refuse him and he hunts you with blades | Holding his gaze for five seconds; leaving the hotel or reaching the Beverly Room |
+| Giant Spider | Lies low in the dark off Level 8's road and round its cobwebbed nests; coming close, running or noise wakes it, and its bite is venomous | Creeping past; a fire; water, since spiders can't swim; getting well clear of its ground |
+| Neighborhood Watch | A man-sized eyeball on six tall legs walking Level 9's streets; it hunts by sight alone and comes faster than you can run | Breaking its line of sight; staying indoors, where it does not fit; no light in the dark |
 | The Windows | Some of Level 188's windows whisper and beckon; an arm drags you to the glass | Two blows to the arm; keeping your distance; a shut door |
 | Animations | Level 94's night: figures of clay, wood and paper that walk the hills | Indoors by dusk; standing still; fire, for the wooden and paper ones |
 | Robo-Men | The guards of Level 94's castle; touch its things and they come | Leaving the castle's things alone |
