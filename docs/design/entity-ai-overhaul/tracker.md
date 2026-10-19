@@ -7,15 +7,16 @@ inherited by every later batch. The plan is [README.md](README.md).
 
 | Batch | Branch | Worker | State | Gate | Notes |
 |---|---|---|---|---|---|
-| P0 Senses, noise, harness | ai/p0-senses (worktree VS Backrooms-ai) | Opus (code), Sonnet (harness), Haiku (buttons, docs) | done | passed: harness 11/11 | merged into ai/p1-machine |
-| P1 State machine v2; Hound and Smiler | ai/p1-machine (VS Backrooms-ai1) | Sonnet x2 (task; director and profiles) | built, under review and test | | integration branch for the release |
-| P2 Skin-Stealer, Duller, Death Rat, Wretch | | | waiting on P1's fixes (edits the same task) | | |
-| P3a Deathmoth hives, Clumps | ai/p3a-hives-clumps (VS Backrooms-ai3a) | Sonnet | running | | off P1's first commit |
-| P3b Facelings | ai/p3b-facelings (VS Backrooms-ai3b) | Sonnet | running | | off P1's first commit |
-| P4 The Watch (Strider refined, Watcher built), the Spider, the Beast, the Thing, Partygoers | | | not started | | the three entity branches are on main |
-| P5 Levels | ai/p5-levels (VS Backrooms-ai5) | Haiku | part 1 done (ed4e259) | passed: roster diff matches section 8 | Level 5's extra hive dens dropped: den frequency is worldgen and would need a layout version; the splash for Level 7 skipped (no such sound) |
-| P6 Harvest and materials | | | not started | | |
-| P7 Play-test tuning | | | not started | | needs the user's play notes |
+| P0 Senses, noise, harness | ai/p0-senses | Opus (code), Sonnet (harness), Haiku (buttons, docs) | merged | harness 11/11 | |
+| P1 State machine v2; Hound and Smiler | ai/p1-machine | Sonnet x2, Sonnet blind review and fix round | merged (integration branch) | review fixed 9 findings; harness p1 cases pass but for one timing expectation | the integration branch for the release |
+| P2 Skin-Stealer, Duller, Death Rat, Wretch | ai/p2-stealers | Sonnet | merged | headless decisions checked | health read as level-scaled effective values (Skin-Stealer base 51, Duller 20) |
+| P3a Deathmoth hives, Clumps | ai/p3a-hives-clumps | Sonnet | merged | headless incl. blocksweep and save data | hive heart code is `mothhiveheart` (`mothhive` was taken by a worldgen prop); juvenile Clumps are full size (scale is per type) |
+| P3b Facelings | ai/p3b-facelings | Sonnet | merged | headless: Evolved look, outburst trigger | outbursts only from breaking and fighting |
+| P4a The Strider, the Spider, the Beast, the Thing, Partygoers | ai/p4a-senses | Sonnet | merged | headless: fear, colony | Partygoer hearing and the spider's lurk test kept bespoke (a like-for-like move would change them) |
+| P4b The floating Watcher | ai/p4b-watcher | Sonnet | merged | headless: charge and beam; render reviewed | |
+| P5 Levels | ai/p5-levels | Haiku | merged | roster diff matches section 8 | Level 5's extra hive dens dropped (worldgen, would need a layout version); Level 7 splash skipped (no such sound) |
+| P6 Harvest and materials | ai/p6-materials | Sonnet | merged | headless: recipes load, harvest configs, venom on an arrow | venom via a Harmony patch on ReceiveDamage (under final review) |
+| P7 Play-test tuning | | | waiting for the user's play-test | | client check-lists from every batch are the starting point |
 | P8 Finish | | | not started | | |
 
 ## Reports
