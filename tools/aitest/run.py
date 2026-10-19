@@ -339,6 +339,223 @@ CASES = [("dark-far", t_dark_far), ("lit-far", t_lit_far), ("dark-near", t_dark_
          ("noise-heard", t_noise_heard), ("noise-deaf", t_noise_deaf), ("lost", t_lost), ("fear", t_fear), ("run", t_run)]
 
 
+# ---------------------------------------------------------------- P1: the belief-based Menace task (README 5)
+# Entities think but do not walk on a headless server, so these cases test decisions (timeouts, noises, sight), not movement.
+
+KIND_RE = re.compile(r"\[backrooms\] (\S+) #(\d+) at [^:]*: (\w+) -> (\w+)")
+ENT_LINE_RE = re.compile(r"\[backrooms\] (\S+) #(\d+) at [^:]*: (.*)")
+ERR_RE = re.compile(r"\[backrooms\].*(error|exception)|^\s+at \S+\(|Exception:", re.I)
+
+
+class Enc:
+    """One entity put down for a dummy; reads its log lines out of the console."""
+
+    def __init__(self, c, code, kind, dist, light=0, level=LEVEL, min_band=None):
+        self.c, self.srv, self.code = c, c.srv, code
+        c.reset()
+        c.srv.cmd("/backrooms entitylog on")
+        self.band = "?"
+        for _ in range(12 if min_band else 1):
+            m0 = c.srv.mark()
+            k, self.dlight = c.place(None, level)
+            if not min_band:
+                break
+            # (`dummies off` replies with each dummy's band; the director does not direct them)
+            m1 = c.srv.mark()
+            c.srv.cmd("/backrooms dummies off")
+            r = c.srv.wait(lambda l: re.search(r"#\d+ at .*band (\w+)", l), m1, 5)
+            self.band = r.group(1) if r else "?"
+            if self.band in min_band:
+                break
+            c.reset()
+        else:
+            raise RuntimeError("no dummy in a %s band in Level %s (last: %s)" % ("/".join(min_band), level, self.band))
+        self.dummy = None
+        for l in c.srv.since(m0):
+            m = DUMMY_RE.search(l)
+            if m:
+                self.dummy = (int(m.group(2)), int(m.group(4)))
+        if light:
+            c.srv.cmd("/backrooms dummy light %d" % light)
+        time.sleep(1)
+        self.mark = c.srv.mark()
+        self.reply = None
+        for attempt in range(6):
+            m = c.srv.mark()
+            c.srv.cmd("/backrooms encounter %s %s %d %d %d" % (code, kind, self.dummy[0], self.dummy[1], dist))
+            r = c.srv.wait(lambda l: ("put down" in l and l) or ("Found nowhere" in l and l) or ("not loaded" in l and l) or ("No such" in l and l), m, 15)
+            if r and "put down" in r:
+                self.reply = r
+                break
+            time.sleep(5)
+        else:
+            raise RuntimeError("encounter %s %s did not start" % (code, kind))
+        self.t0 = time.time()
+        self.id = None
+        end = time.time() + 10
+        while time.time() < end and self.id is None:
+            for l in c.srv.since(m):
+                mm = ENT_LINE_RE.search(l)
+                if mm and mm.group(1) == code and "starts:" in mm.group(3):
+                    self.id = mm.group(2)
+            time.sleep(0.2)
+        if self.id is None:
+            raise RuntimeError("no 'starts' line for %s (reply: %s)" % (code, self.reply))
+
+    def lines(self):
+        return [m.group(3) for m in (ENT_LINE_RE.search(l) for l in self.srv.since(self.mark)) if m and m.group(2) == self.id]
+
+    def kinds(self):
+        return [(m.group(3), m.group(4)) for m in (KIND_RE.search(l) for l in self.srv.since(self.mark)) if m and m.group(2) == self.id]
+
+    def changes(self):
+        return ", ".join("%s>%s" % k for k in self.kinds())
+
+    def wait_for(self, pred, timeout):
+        end = time.time() + timeout
+        while time.time() < end:
+            if pred():
+                return True
+            time.sleep(0.3)
+        return pred()
+
+    def dist(self):
+        """The distance in the first 'Kind, D blocks from' progress line (None before it comes)."""
+        for l in self.lines():
+            m = re.match(r"\w+, ([\d.]+) blocks from", l)
+            if m:
+                return float(m.group(1))
+        return None
+
+    def has(self, frm, to):
+        return (frm, to) in self.kinds()
+
+    def count_lines(self, text):
+        return sum(1 for l in self.lines() if text in l)
+
+    def finish(self):
+        self.c.reset()
+        time.sleep(1)
+
+
+def started(c, *a, min_dist=0, tries=6, **kw):
+    """An Enc whose entity starts at least min_dist blocks off (a short tunnel may put it closer): retried."""
+    for _ in range(tries):
+        e = Enc(c, *a, **kw)
+        e.wait_for(lambda: e.dist() is not None, 8)
+        if (e.dist() or 0) >= min_dist:
+            return e
+        e.finish()
+    raise RuntimeError("entity always started nearer than %d blocks" % min_dist)
+
+
+def t_p1_hunt_to_search(c):
+    # (A hunt whose first path fails goes straight back to Stalk: that is a spot with no way through, not belief; retry elsewhere)
+    skipped = 0
+    for _ in range(5):
+        e = Enc(c, "hound", "hunt", 20)
+        e.wait_for(lambda: e.dist() is not None, 8)
+        time.sleep(5)    # (a path that cannot be found drops the hunt to Stalk within a few seconds)
+        if not e.has("Hunt", "Stalk") and (e.dist() or 0) >= 15:
+            break
+        skipped += 1
+        e.finish()
+    ok1 = e.wait_for(lambda: e.has("Hunt", "Search"), 25)
+    t_search = time.time() - e.t0
+    ok2 = e.wait_for(lambda: e.has("Search", "Stalk") or e.has("Search", "Leave"), 40)
+    ks = e.kinds()
+    first = next((i for i, k in enumerate(ks) if k == ("Hunt", "Search")), len(ks))
+    rehunt = [k for k in ks[first:] if k[1] == "Hunt"]
+    ev = "changes %s; Hunt>Search after %.0f s; %d spots abandoned (too close to be out of sight, or Hunt>Stalk at once: first path failed); started %.0f blocks off" % (e.changes(), t_search, skipped, e.dist() or -1)
+    e.finish()
+    return ok1 and ok2 and not rehunt and t_search <= 20, ev
+
+
+def t_p1_stalk_to_investigate(c):
+    e = Enc(c, "hound", "stalk", 20)
+    time.sleep(3)
+    c.srv.cmd("/backrooms dummy noise 0.8")
+    ok1 = e.wait_for(lambda: e.has("Stalk", "Investigate"), 8)
+    heard = [l for l in e.lines() if l.startswith("hears")]
+    ok2 = e.wait_for(lambda: e.has("Investigate", "Stalk") or e.has("Investigate", "Hunt"), 25)
+    ev = "changes %s; heard lines %s" % (e.changes(), heard[:2])
+    e.finish()
+    return ok1 and ok2, ev
+
+
+def t_p1_sight_hunt(c):
+    # (The hound is put down at a random angle: the maze may not give a clear line, so try several spots)
+    for dist in (14, 14, 14, 10, 10, 8):
+        e = Enc(c, "hound", "stalk", dist, light=14, min_band=("Approach", "Threshold"))
+        ok = e.wait_for(lambda: e.has("Stalk", "Hunt"), 8)
+        t = time.time() - e.t0
+        growl = [l for l in e.lines() if "growl" in l]
+        ev = "%d blocks: changes %s after %.1f s; growl lines %s; sees-lines %d" % (dist, e.changes() or "none", t, growl, e.count_lines("sees its target"))
+        sees = e.count_lines("sees its target")
+        e.finish()
+        if sees:
+            return ok and bool(growl), ev
+    return False, "never saw the lit dummy at 14/10/8 blocks in 6 spots; last: " + ev
+
+
+def t_p1_glimpse_to_stalk(c):
+    # Needs an Approach-or-worse band and a clear line, and a glimpse that stands (40% are crossings, which with no walking
+    # go straight to Leave): spots and glimpses are retried until one qualifies.
+    notes = []
+    for attempt in range(8):
+        try:
+            e = Enc(c, "hound", "glimpse", 20, light=14, level="6", min_band=("Approach", "Threshold"))
+        except RuntimeError as ex:
+            notes.append(str(ex))
+            continue
+        e.wait_for(lambda: e.count_lines("sees its target") or e.has("Glimpse", "Leave"), 6)
+        saw, left = e.count_lines("sees its target"), e.has("Glimpse", "Leave")
+        t_seen = time.time() - e.t0
+        ok = bool(saw) and e.wait_for(lambda: e.has("Glimpse", "Stalk"), 8)
+        ev = "attempt %d (band %s): sight at %.1f s, changes %s, stalk after %.1f s, %d lines of 'watched long enough'" % (
+            attempt + 1, e.band, t_seen, e.changes() or "none", time.time() - e.t0, e.count_lines("watched them long enough"))
+        e.finish()
+        if ok:
+            return True, ev
+        if saw and not left:
+            return False, ev
+        notes.append(("crossing" if left and not saw else "no sight") + " at %s" % e.band)
+    return None, "no standing glimpse with a clear line in an Approach-or-worse band in 8 tries (Level 6): " + ", ".join(notes)
+
+
+def t_p1_vague_track(c):
+    e = started(c, "hound", "stalk", 30, min_dist=20)
+    time.sleep(40)
+    n = e.count_lines("vague idea")
+    rehunt = [k for k in e.kinds() if k[1] == "Hunt"]
+    ev = "changes %s; vague-idea lines %d" % (e.changes() or "none", n)
+    e.finish()
+    return n >= 2 and not rehunt, ev
+
+
+def t_p1_legacy(c):
+    out, ok = [], True
+    for code in ("skinstealer", "deathrat"):
+        try:
+            e = Enc(c, code, "stalk", 8)
+        except RuntimeError as ex:
+            out.append("%s: %s" % (code, ex))
+            ok = False
+            continue
+        time.sleep(30)
+        bad = [k for k in e.kinds() if k[1] in ("Investigate", "Search")]
+        bad += [l for l in e.lines() if re.search(r"senses:", l)]
+        out.append("%s: changes %s, %d lines, bad %s" % (code, e.changes() or "none", len(e.lines()), bad))
+        ok = ok and not bad
+        e.finish()
+    return ok, "; ".join(out)
+
+
+P1_CASES = [("p1-hunt-to-search", t_p1_hunt_to_search), ("p1-stalk-to-investigate", t_p1_stalk_to_investigate),
+            ("p1-sight-hunt", t_p1_sight_hunt), ("p1-glimpse-to-stalk", t_p1_glimpse_to_stalk),
+            ("p1-vague-track", t_p1_vague_track), ("p1-legacy", t_p1_legacy), ("p1-no-errors", None)]
+
+
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
     c.reset()
@@ -364,12 +581,15 @@ def main():
     ap.add_argument("--keep", action="store_true")
     ap.add_argument("--only")
     ap.add_argument("--no-smoke", action="store_true")
+    ap.add_argument("--port", type=int, default=42733)
     a = ap.parse_args()
     data = a.data or tempfile.mkdtemp(prefix="aitest-")
     os.makedirs(data, exist_ok=True)
     only = set(a.only.split(",")) if a.only else None
+    if only and "p1" in only:
+        only = (only - {"p1"}) | {n for n, _ in P1_CASES}
     started = time.time()
-    srv = Server(a.mods, os.path.join(data, "vs"))
+    srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
     try:
         if not srv.ready.wait(900):
@@ -377,16 +597,21 @@ def main():
             return 2
         time.sleep(5)
         c = Ctx(srv)
-        for name, fn in CASES:
+        p1_start = srv.mark()
+        for name, fn in CASES + P1_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
             try:
-                ok, ev = fn(c)
+                if name == "p1-no-errors":
+                    bad = [l for l in srv.since(p1_start) if ERR_RE.search(l) and "perceive" not in l]
+                    ok, ev = not bad, "%d error/exception lines in the p1 run%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:5]))
+                else:
+                    ok, ev = fn(c)
             except Exception as e:  # noqa: BLE001
                 ok, ev = False, "harness error: %r" % (e,)
             results.append((name, ok))
-            print("%s %s (%.0fs): %s" % ("PASS" if ok else "FAIL", name, time.time() - t0, ev), flush=True)
+            print("%s %s (%.0fs): %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", name, time.time() - t0, ev), flush=True)
         if not only and not a.no_smoke:
             ok, ev = smoke(c)
             results.append(("dummies-smoke", ok))
@@ -398,7 +623,7 @@ def main():
             f.write("\n".join(srv.lines))
     errors = [l for l in srv.lines if re.search(r"\[backrooms\].*(error|exception)|exception.*backrooms", l, re.I)]
     print("log: %d lines, %d backrooms error/exception lines%s" % (len(srv.lines), len(errors), "".join("\n  " + e[:200] for e in errors[:5])))
-    failed = [n for n, ok in results if not ok]
+    failed = [n for n, ok in results if ok is False]
     print("%d/%d passed in %.0f s; log %s" % (len(results) - len(failed), len(results), time.time() - started, os.path.join(data, "aitest.log")))
     if not a.keep and not a.data:
         shutil.rmtree(data, ignore_errors=True)
