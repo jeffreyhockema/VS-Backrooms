@@ -526,10 +526,19 @@ serialised through `locked.sh`. P5 can start once P1 is merged. One at a time is
 
 ## 13. Orchestration
 
-As the graphics pass: Opus does the work, Fable plans and gates (`docs/design/graphics-pass/README.md` section 8).
-Mode A: one Fable overseer spawns one Opus worker per batch (`model: "opus"`, the worker prompt from prompts.md with
-the batch filled in), waits for its report, spawns a fresh Opus reviewer when it wants a second opinion, and holds the
-merge. The overseer never edits code. The three roles stay apart.
+The user's direction (2026-10-18): distribute the work to agents, on the least expensive model that can do it. One
+overseer session plans, briefs, integrates and gates; within a batch it splits the work into pieces with disjoint
+files and runs them as parallel agents in the batch's worktree (builds serialise through `tools/locked.sh`).
+
+| Work | Model |
+|---|---|
+| Mechanical edits that follow a pattern: cheat-menu buttons, docs, lang text, generator number changes | haiku |
+| Most implementation, the headless harness and its runs, blind reviews | sonnet |
+| The hardest design-heavy code (state machine v2 if a sonnet attempt falls short, cross-file refactors) | opus |
+
+Every Agent call names its `model`. The overseer reads each piece's report and the diff, and holds the merge. One
+blind review round plus one fix round per batch. Branch work happens in a worktree beside the main tree
+(`../VS Backrooms-ai`), never by switching the main tree's branch.
 
 Other sessions share the tree (memory: `peer-sessions-git`): a batch stages only its own paths, never switches
 branches in the main tree while another session is in it, and messages the owning session before touching

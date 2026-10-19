@@ -1,6 +1,6 @@
 # Prompts for the entity AI overhaul
 
-Two prompts: the worker (one Opus session per batch) and the blind reviewer (an Opus session the worker or the
+Two prompts: the worker (one agent per batch piece, on the cheapest model that fits: see README section 13) and the blind reviewer (a sonnet agent the worker or the
 overseer spawns). Fill in the batch. The overseer's own checklist is at the end.
 
 ## Worker
@@ -42,7 +42,7 @@ Rules:
   (/backrooms encounter <entity> <kind> x z, /backrooms dummies on, /backrooms perceive) but movement needs a client.
   Write a numbered client check-list (what to spawn, what to do, what you should see) and run it yourself if a client
   is free; list what you could not check.
-- When done, spawn a blind reviewer (model opus) with the reviewer prompt below and your branch name, fix what it
+- When done, spawn a blind reviewer (model sonnet) with the reviewer prompt below and your branch name, fix what it
   finds, re-run the harness, at most three rounds. Then append your report to tracker.md: what changed per entity,
   harness results, the client check-list with what was seen, numbers changed, lessons, what was carried and why.
   Leave the branch unmerged and say so. Do not edit README.md's design sections; if the plan is wrong, say so in the
