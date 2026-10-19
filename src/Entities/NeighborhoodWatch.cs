@@ -49,7 +49,12 @@ public class AiTaskWatch : AiTaskBase
     public const string WatchOnKey = "backrooms:watchOn";
 
     // ---- Config ----
-    private readonly float walkSpeed, runSpeed, darkSight, litSight, touchRange, halfAngle, scanHalfAngle;
+    private readonly float walkSpeed, runSpeed, scanHalfAngle, fearRange;
+    /// <summary>
+    /// What it sees by (the shared model, see <see cref="Perception"/>; glass does not stop it): the cone of its gaze as it
+    /// walks, as it stands sweeping the street, and the wide one while it chases or peers (it keeps its eye on them).
+    /// </summary>
+    private readonly SenseProfile senses, scanSenses, chaseSenses;
     private readonly float noticeSeconds, loseSeconds, searchSeconds, feintSeconds, peerSeconds;
     private readonly float damage, knockback, attackRange, retreatBelow, cryRange;
     private readonly int damageTier, attackDurationMs, damageAtMs, attackCooldownMs, stareMs;
@@ -76,11 +81,15 @@ public class AiTaskWatch : AiTaskBase
     {
         walkSpeed = taskConfig["walkSpeed"].AsFloat(0.016f);
         runSpeed = taskConfig["runSpeed"].AsFloat(0.044f);
-        darkSight = taskConfig["darkSight"].AsFloat(12);
-        litSight = taskConfig["litSight"].AsFloat(40);
-        touchRange = taskConfig["touchRange"].AsFloat(2.5f);
-        halfAngle = taskConfig["halfAngle"].AsFloat(70);
+        // (Someone in the dark within a dozen blocks, in light within forty; a crouch shrinks both to 0.6; no hearing, no smell)
+        senses = SenseProfile.Parse(taskConfig["senses"]) ?? new SenseProfile
+        {
+            SightLit = 40, SightDim = 12, SightDark = 12, SightCone = 70, Touch = 2.5f, SneakFactor = 0.6f, Hearing = 0, HearsRunning = false, Glass = true,
+        };
         scanHalfAngle = taskConfig["scanHalfAngle"].AsFloat(100);
+        fearRange = taskConfig["fearRange"].AsFloat(24);
+        scanSenses = senses.With("sightCone=" + scanHalfAngle.ToString(System.Globalization.CultureInfo.InvariantCulture), out _);
+        chaseSenses = senses.With("sightCone=150", out _);
         noticeSeconds = taskConfig["noticeSeconds"].AsFloat(1.6f);
         loseSeconds = taskConfig["loseSeconds"].AsFloat(3);
         searchSeconds = taskConfig["searchSeconds"].AsFloat(14);
@@ -154,6 +163,7 @@ public class AiTaskWatch : AiTaskBase
         if (!entity.Alive || menace == null) return false;
         Encounter kind = Kind;
         if (kind == Encounter.Ambient) return false;
+        Frighten();
 
         if (attackStartMs >= 0)
         {
@@ -212,6 +222,28 @@ public class AiTaskWatch : AiTaskBase
         return true;
     }
 
+    /// <summary>What fears the Watch ("Deathmoths, Smilers, Skin-Stealers, and Hounds all seem to fear these creatures", Wikidot).</summary>
+    private static readonly System.Collections.Generic.HashSet<string> Feared = new() { "hound", "smiler", "skinstealer", "deathmoth-male", "deathmoth-female" };
+
+    private long nextFearMs;
+
+    /// <summary>
+    /// Once a second: whichever of the creatures that fear the Watch is out hunting, stalking or watching within
+    /// <c>fearRange</c> blocks of it turns tail and leaves (the ambient ones are left to their business).
+    /// </summary>
+    private void Frighten()
+    {
+        long now = Now;
+        if (now < nextFearMs || fearRange <= 0) return;
+        nextFearMs = now + 1000;
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, fearRange, fearRange, e => e != entity && e.Alive && e.Code?.Domain == "backrooms" && Feared.Contains(e.Code.Path)))
+        {
+            if (e.GetBehavior<EntityBehaviorMenace>() is not { } other || other.Kind is Encounter.Ambient or Encounter.Leave) continue;
+            Log("frightens {0} #{1} ({2:0} blocks)", e.Code.Path, e.EntityId, e.Pos.DistanceTo(entity.Pos));
+            other.Kind = Encounter.Leave;
+        }
+    }
+
     private void OnKindChanged(Encounter kind)
     {
         // A hunt the director sent: it has not seen anyone yet, but searches round where they are
@@ -234,12 +266,12 @@ public class AiTaskWatch : AiTaskBase
     {
         if (mode is Mode.Chase or Mode.Peer) return; // (the chase keeps its own eye on whoever it chases)
         bool alert = mode is Mode.Search or Mode.Feint;
-        float half = pose == scanAnim ? scanHalfAngle : halfAngle;
+        SenseProfile gaze = pose == scanAnim ? scanSenses : senses;
         Entity best = null;
         double bestV = 0;
         foreach (Entity who in Candidates())
         {
-            double v = Visibility(who, half, out _);
+            double v = Visibility(who, gaze, out _);
             if (v > bestV) { bestV = v; best = who; }
         }
         if (best != null && (noticing == null || noticing == best || bestV > 0.5))
@@ -266,7 +298,7 @@ public class AiTaskWatch : AiTaskBase
             Vec3d eye = Senses.Eyes(entity);
             float toward = (float)Math.Atan2(t.Pos.X - entity.Pos.X, t.Pos.Z - entity.Pos.Z);
             Log("{0}: {1:0.0} blocks, {2:0} degrees off its gaze (it looks {3:0} wide), {4}, line of sight {5}, notice {6:0.00}",
-                mode, eye.DistanceTo(Senses.Centre(t)), Math.Abs(GameMath.AngleRadDistance(entity.Pos.Yaw, toward)) * GameMath.RAD2DEG, half,
+                mode, eye.DistanceTo(Senses.Centre(t)), Math.Abs(GameMath.AngleRadDistance(entity.Pos.Yaw, toward)) * GameMath.RAD2DEG, gaze.SightCone,
                 Lit(t) ? "lit" : "in the dark", SightLine(entity.World, eye, Senses.Centre(t)) ? "clear" : "blocked", notice);
         }
     }
@@ -276,36 +308,32 @@ public class AiTaskWatch : AiTaskBase
     /// <summary>Everyone it could be watching: the players near, and a console test's straw dummy.</summary>
     private System.Collections.Generic.IEnumerable<Entity> Candidates()
     {
-        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, litSight + 2, 16, e => e is EntityPlayer p && p.Alive))
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, senses.SightLit + 2, 16, e => e is EntityPlayer p && p.Alive))
             if (!IsCreative(e)) yield return e;
         Entity target = menace.Target;
         if (target != null && target.Alive && target.WatchedAttributes.GetBool("backrooms:testTarget")) yield return target;
     }
 
     /// <summary>
-    /// How plainly it sees someone (0: not at all): within its range for the light they are in, inside the cone of its
-    /// gaze, with nothing but glass between; closer, lit, and meeting its eye, plainer; crouched, less. Within touch it
-    /// knows them whatever the light.
+    /// How plainly it sees someone (0: not at all): <see cref="Perception.Sight"/> (the range for the light they are in,
+    /// the cone of its gaze, nothing but glass between; closer, plainer; a crouch shrinks it), made plainer by being lit
+    /// and by meeting its eye. Within touch it knows them whatever the light. The light is its own reckoning: only lamps,
+    /// windows, fires and what they carry, not the sky.
     /// </summary>
-    private double Visibility(Entity who, float half, out bool throughGlass)
+    private double Visibility(Entity who, SenseProfile gaze, out bool throughGlass)
     {
         throughGlass = false;
-        Vec3d eye = Senses.Eyes(entity), centre = Senses.Centre(who);
-        double d = eye.DistanceTo(centre);
-        if (entity.Pos.DistanceTo(who.Pos) <= touchRange && Senses.ClearLine(entity.World, Senses.Centre(entity), centre)) return 4;
+        if (Perception.Sensed(entity, who, gaze) == "touch") return 4;
         bool lit = Lit(who);
-        bool crouched = who is EntityAgent agent && agent.ServerControls.Sneak;
-        double range = (lit ? litSight : darkSight) * (crouched ? 0.6 : 1);
-        if (d > range) return 0;
-        float toward = (float)Math.Atan2(who.Pos.X - entity.Pos.X, who.Pos.Z - entity.Pos.Z);
-        if (Math.Abs(GameMath.AngleRadDistance(entity.Pos.Yaw, toward)) * GameMath.RAD2DEG > half) return 0;
-        if (!SightLine(entity.World, eye, centre) && !SightLine(entity.World, eye, Senses.Eyes(who))) return 0;
-        throughGlass = !Senses.ClearLine(entity.World, eye, centre);
+        double plain = Perception.Sight(entity, who, gaze, out _, lit ? Senses.LitLevel : 0);
+        if (plain <= 0) return 0;
+        Vec3d eye = Senses.Eyes(entity);
+        throughGlass = !Senses.ClearLine(entity.World, eye, Senses.Centre(who));
         double v = lit ? 1.5 : 1.0;
-        if (crouched) v *= 0.6;
+        if (Senses.Sneaking(who)) v *= 0.6;
         // Meeting its eye: "The Ones That Gaze Into Souls"
         if (Senses.LooksAt(who, eye, 10)) v += 1;
-        return v * (1.25 - 0.75 * d / range);
+        return v * plain;
     }
 
     /// <summary>Whether someone stands in light it can see them by: what they carry, or the lamps, windows and fires about them (not the sky).</summary>
@@ -427,7 +455,7 @@ public class AiTaskWatch : AiTaskBase
             EndHunt();
             return;
         }
-        double v = Visibility(watched, 150, out bool glass);
+        double v = Visibility(watched, chaseSenses, out bool glass);
         if (v > 0)
         {
             lastSeen = watched.Pos.XYZ;
@@ -568,7 +596,7 @@ public class AiTaskWatch : AiTaskBase
             EndHunt();
             return;
         }
-        double v = Visibility(watched, 150, out bool glass);
+        double v = Visibility(watched, chaseSenses, out bool glass);
         if (v > 0)
         {
             lastSeen = watched.Pos.XYZ;

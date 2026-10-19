@@ -185,9 +185,12 @@
 						"maxcooldown": 0,
 						"walkSpeed": 0.016,
 						"runSpeed": 0.05,
-						"trespass": 5.0,
-						"hearing": 20,
 						"leash": 24,
+						"senses": {
+							"touch": 5.0,
+							"hearing": 20,
+							"sneakFactor": 0.55
+						},
 						"attackRange": 0.55,
 						"damage": 3.5,
 						"damageTier": 2,

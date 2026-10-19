@@ -282,7 +282,7 @@ public class AiTaskClump : AiTaskBase
 /// </summary>
 public class AiTaskTheThing : AiTaskBase
 {
-    private readonly float speed, rushSpeed, orbitRadius, damage, patienceSeconds;
+    private readonly float speed, rushSpeed, orbitRadius, damage, patienceSeconds, lampRange, lampBreakSeconds;
     private readonly AssetLocation groanSound;
 
     private EntityBehaviorMenace menace;
@@ -290,6 +290,7 @@ public class AiTaskTheThing : AiTaskBase
     private float think, phase, deepFor, nextGroan = 8;
     private bool rushing;
     private Vec3d goal;
+    private long brokenOffUntilMs;
 
     public AiTaskTheThing(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -299,6 +300,8 @@ public class AiTaskTheThing : AiTaskBase
         orbitRadius = taskConfig["orbitRadius"].AsFloat(18);
         damage = taskConfig["damage"].AsFloat(8);
         patienceSeconds = taskConfig["patienceSeconds"].AsFloat(40);
+        lampRange = taskConfig["lampRange"].AsFloat(12);
+        lampBreakSeconds = taskConfig["lampBreakSeconds"].AsFloat(20);
         string sound = taskConfig["groanSound"].AsString(null);
         groanSound = sound == null ? null : AssetLocation.Create(sound, "backrooms").WithPathPrefixOnce("sounds/");
     }
@@ -350,6 +353,18 @@ public class AiTaskTheThing : AiTaskBase
         deepFor = deep ? deepFor + 0.25f : 0;
         double distance = entity.Pos.DistanceTo(target.Pos);
 
+        long now = entity.World.ElapsedMilliseconds;
+        if (rushing && LampHeld() is { } lamp)
+        {
+            // "A lit torch or lantern held under water" shows it what it is rushing: it turns away, and circles again
+            Strike.Log(entity, "breaks off its rush: {0} holds a light under water", lamp.Code);
+            rushing = false;
+            entity.AnimManager.StopAnimation("rush");
+            brokenOffUntilMs = now + (long)(lampBreakSeconds * 1000);
+            double away = Math.Atan2(entity.Pos.Z - lamp.Pos.Z, entity.Pos.X - lamp.Pos.X);
+            goal = entity.Pos.XYZ.Add(Math.Cos(away) * orbitRadius, -4, Math.Sin(away) * orbitRadius);
+            return;
+        }
         if (rushing)
         {
             goal = target.Pos.XYZ.Add(0, 0.5, 0);
@@ -376,7 +391,7 @@ public class AiTaskTheThing : AiTaskBase
         }
 
         // In the abyss it may come at anyone; above that, only at a diver who stayed down too long, coming apart
-        bool strike = !breathing && (menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5);
+        bool strike = !breathing && now >= brokenOffUntilMs && (menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5);
         if (strike && !Strike.IsCreative(target))
         {
             rushing = true;
@@ -385,6 +400,21 @@ public class AiTaskTheThing : AiTaskBase
             Strike.Log(entity, "rushes {0} from {1:0} blocks", target.Code, distance);
             if (groanSound != null) entity.World.PlaySoundAt(groanSound, entity.Pos.X, entity.Pos.Y, entity.Pos.Z, null, 0.45f, 64, 1f);
         }
+    }
+
+    /// <summary>
+    /// Whoever within <c>lampRange</c> blocks holds a lit lantern or oil lamp under water (a torch goes out there), or
+    /// null. A straw dummy in a test counts with a light of 15 or more, whatever it stands in.
+    /// </summary>
+    private Entity LampHeld()
+    {
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, lampRange, lampRange, e => e.Alive && (e is EntityPlayer || Senses.IsTestTarget(e))))
+        {
+            if (entity.Pos.DistanceTo(e.Pos) > lampRange) continue;
+            if (Senses.IsTestTarget(e)) { if (Senses.HeldLight(e) >= 15) return e; continue; }
+            if (e is EntityAgent agent && agent.IsEyesSubmerged() && Senses.HeldLamp(agent)) return e;
+        }
+        return null;
     }
 
     private void Steer()

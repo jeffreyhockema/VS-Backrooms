@@ -647,7 +647,12 @@ def entity_types():
                        damage=7, damageTier=3, damageType="SlashingAttack", knockback=0.6, attackRange=1.7,
                        attackDurationMs=870, damageAtMs=420, attackCooldownMs=1700, attackAnimation="attack",
                        emergeAnimation="unveil", emergeMs=2000, huntSound="backrooms:entity/beast/roar",
-                       voices=["backrooms:entity/beast/voice", "backrooms:entity/beast/clang"], soundRange=40)
+                       voices=["backrooms:entity/beast/voice", "backrooms:entity/beast/clang"], soundRange=40,
+                       # What he perceives (README section 6.2, the shared model): he smells fear (the unsteady, within 24),
+                       # sees 30 lit, 20 dim and 10 in the dark, hears 20; a runner who hides in a dark room is lost for
+                       # a while, and he searches where he last had them
+                       senses=dict(sightLit=30, sightDim=20, sightDark=10, hearing=20, fearSense=24, memorySeconds=10),
+                       investigateSeconds=8, searchSeconds=14)
     unveiled = {
         "code": "beast-unveiled",
         "class": "BackroomsBeast",

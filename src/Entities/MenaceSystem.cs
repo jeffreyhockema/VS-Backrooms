@@ -292,6 +292,7 @@ public partial class MenaceSystem : ModSystem
     {
         if (layout == null || at == null) return;
         Noises.Raise(at, loudness, source, who, sapi.World.ElapsedMilliseconds);
+        NestHeard(at, loudness, who);
         if (Logging && source != "run") sapi.Logger.Notification("[backrooms] noise {0} {1:0.00} at {2:0},{3:0},{4:0}{5}", source, loudness, at.X, at.Y, at.Z, who == null ? "" : " by " + who.Code.Path + " #" + who.EntityId);
     }
 
@@ -980,6 +981,9 @@ public partial class MenaceSystem : ModSystem
     /// A place an entity could stand at a column: in the target's level, not in a sanctuary or a sealed room, a solid
     /// floor with room above it near the target's height, and dark if the entity needs the dark.
     /// </summary>
+    /// <summary>How far (blocks) from Level 10's wall the Neighborhood Watch is never put down.</summary>
+    private const int WatchClearOfLevel10 = 200;
+
     private Vec3d FindSpot(Entity target, Assessment a, RosterEntry entry, Encounter kind, int x, int z, int? nearY = null)
     {
         if (target.Pos.XYZ.HorizontalSquareDistanceTo(x + 0.5, z + 0.5) < NoSpawnRadius * NoSpawnRadius) return null;
@@ -989,6 +993,8 @@ public partial class MenaceSystem : ModSystem
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         if (level != a.Level) return null;
         if (a.Snackrooms != (level == 6 && layout.IsSnackrooms(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)))) return null;
+        // The Watch is not found "in areas that go to Level 10" (Wikidot): never within 200 blocks of the wall into it
+        if (entry.Code == Roster.NeighborhoodWatch && layout.BlocksToNextLevel(x, z, level) < WatchClearOfLevel10) return null;
         bool ambient = kind == Encounter.Ambient;
         if (!ambient && layout.IsSanctuary(x, z, level)) return null;
         // The layout knows where the rooms, walls and sealed places are on every level but the sea and the caves

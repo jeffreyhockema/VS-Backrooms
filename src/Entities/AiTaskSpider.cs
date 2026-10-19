@@ -46,6 +46,8 @@ public class AiTaskSpider : AiTaskBase
 {
     private enum State { Lurk, Rear, Chase, Return, Flee }
 
+    /// <summary>What it notices by (see <see cref="SenseProfile"/>): <c>touch</c> is the trespass it will not stand, <c>hearing</c> how far it hears a racket, <c>sneakFactor</c> how much creeping shrinks both.</summary>
+    private readonly SenseProfile senses;
     private readonly float walkSpeed, runSpeed, trespass, hearing, leash, attackRange, damage, knockback, venom, retreatBelow, mendPerSecond;
     private readonly int damageTier, attackDurationMs, damageAtMs, attackCooldownMs, rearMs, venomTicks, venomEveryMs;
     private readonly AssetLocation chitterSound, hissSound, biteSound;
@@ -69,8 +71,9 @@ public class AiTaskSpider : AiTaskBase
     {
         walkSpeed = taskConfig["walkSpeed"].AsFloat(0.016f);
         runSpeed = taskConfig["runSpeed"].AsFloat(0.05f);
-        trespass = taskConfig["trespass"].AsFloat(5.5f);
-        hearing = taskConfig["hearing"].AsFloat(20);
+        senses = SenseProfile.Parse(taskConfig["senses"]) ?? new SenseProfile { Touch = 5.5f, Hearing = 20, SneakFactor = 0.55f };
+        trespass = senses.Touch;
+        hearing = senses.Hearing;
         leash = taskConfig["leash"].AsFloat(24);
         attackRange = taskConfig["attackRange"].AsFloat(1.1f);
         damage = taskConfig["damage"].AsFloat(3.5f);
@@ -160,7 +163,7 @@ public class AiTaskSpider : AiTaskBase
                 if (creative) return true;
                 if (now < calmUntilMs && gap > 2.5) return true;
                 bool sneaking = target is EntityAgent sneaker && sneaker.ServerControls.Sneak;
-                bool near = gap < (sneaking ? trespass * 0.55 : trespass) && dy < 4;
+                bool near = gap < (sneaking ? trespass * senses.SneakFactor : trespass) && dy < 4;
                 bool loud = distance < hearing && (director != null && director.AssessmentOf(target).Noise > 0.35 || target is EntityAgent runner && Senses.Running(runner));
                 if (near || loud || menace.Kind == Encounter.Hunt)
                 {
@@ -185,6 +188,13 @@ public class AiTaskSpider : AiTaskBase
                     return true;
                 }
                 if (!pathTraverser.Active && now - lastPathMs > 1500) Go(home, walkSpeed, 1.2f);
+                if (!creative && menace.Kind == Encounter.Hunt)
+                {
+                    // (Roused by a noise at its nest, WakeFor)
+                    Strike.Log(entity, "wakes (a racket at the nest)");
+                    Rear();
+                    return true;
+                }
                 // Back on its ground, someone still trespassing or running wakes it again
                 if (!creative && now >= calmUntilMs && (gap < trespass * 0.6 || distance < hearing * 0.5 && target is EntityAgent r && Senses.Running(r)) && GivesChaseTo(target)) Rear();
                 return true;
@@ -193,6 +203,23 @@ public class AiTaskSpider : AiTaskBase
     }
 
     // ================= Lying in wait =================
+
+    /// <summary>
+    /// A racket at its nest (MenaceSystem.NestHeard): it wakes and goes after whoever made it, unless it is already
+    /// at someone's throat, running off or hurt too badly. Returns whether it took it up.
+    /// </summary>
+    public bool WakeFor(Entity who)
+    {
+        menace ??= entity.GetBehavior<EntityBehaviorMenace>();
+        if (menace == null || !entity.Alive || menace.Kind == Encounter.Leave || state == State.Flee) return false;
+        if (state is State.Chase or State.Rear && menace.Target is { Alive: true }) return false;
+        menace.Target = who;
+        menace.Kind = Encounter.Hunt;
+        calmUntilMs = 0;
+        // (Its ground reaches past where its prey stands, as for a hunt it was put down for)
+        if (home != null) reach = Math.Max(reach, (float)Math.Sqrt(who.Pos.XYZ.HorizontalSquareDistanceTo(home.X, home.Z)) + 12);
+        return true;
+    }
 
     private void Lurk()
     {

@@ -40,6 +40,30 @@ changed, what was carried and why.)
   endings: restore line-ending-only files with `git checkout HEAD -- <files>` after checking `git diff
   --ignore-cr-at-eol --stat`. A dummy spot whose chunks never load answers "No floor"; pick another key.
 
+### P4a (2026-10-19): senses for the Partygoer, the Strider, the Spider, the Beast, the Thing
+
+- **Onto `Perception`:** the Partygoer's `Notices` (sight = `Perception.Sight` with `senses` 12/7/4, cone 70, sneak 0.6; while
+  hunting a copy with all three ranges 12, cone 360); the Strider's `Visibility` (`Perception.Sensed` for touch, `Perception.Sight`
+  with its own lit/dark light reckoning passed in through the new `light` argument, `glass` special, scan and chase cones as
+  profile copies; its notice accumulation, lit and eye-contact multipliers stay on top); the Spider's trespass and hearing
+  numbers now come from its `senses` (`touch`, `hearing`, `sneakFactor`); the unveiled Beast gets `senses` (30/20/10, fear 24,
+  hearing 20), so the common menace task works from belief for him.
+- **Kept bespoke, and why:** the Partygoer's hearing (running or a bang within `hearing`, flat: `Perception.Heard` would cut
+  running from 6 to 2.4 blocks) and its disguise; the Spider's lurk test (gap-based, vertical limit, no line needed; `Sensed`
+  would need a clear line and use the centre distance); the Strider's window peering, search and feint; the Strider's light
+  (lamps and fires only, not the sky: `Sight` gets it through its `light` argument); the Thing's `senses` (`water`, hearing
+  40) is read by `/backrooms perceive` only, since its task goes by depth and not by what it hears.
+- **Strider:** fear (Hound, Smiler, Skin-Stealer, Deathmoths within 24 go to Leave, once a second, in its own tick);
+  never placed within 200 blocks of Level 10's wall (`FindSpot`); `rangedDamageMul: 2` on its menace behaviour (any
+  `IProjectile` source); names are "Strider of the Neighborhood Watch" (entity code unchanged).
+- **Spider:** a noise of 0.5 or more within 24 blocks of a nest heart (`WorldLayout.NestHeartNear`, `MenaceSystem.Colony.cs`,
+  hooked in `RaiseNoise`) wakes the nest's spiders (`AiTaskSpider.WakeFor`) and puts down one or two more from the nest's dark
+  if fewer than three are about (45 s between); raw bushmeat x1 drop.
+- **Thing:** a lit lantern or oil lamp under water within 12 blocks breaks the rush off for 20 s (`lampRange`, `lampBreakSeconds`).
+- **Harness:** `/backrooms dummy place nest` (cheat-menu button "Dummy at a nest"). Headless: see the report to the overseer.
+- **Lessons:** a headless world made without `backroomsLayoutVersion: 9` in `WorldConfig` is layout version 1 and has no
+  spider nests. `encounter` leaves entities behind: filter log lines by position when counting.
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README

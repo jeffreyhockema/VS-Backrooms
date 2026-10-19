@@ -1262,13 +1262,19 @@ def giantspider():
     # Level 8's nests and dark (tools/gen_spider.py has its model, its task config and the lore)
     import gen_spider
     LANG.update(gen_spider.LANG)
-    # (Bushmeat to cook, and silk: 2 plus or minus 1)
+    # (Its meat: the cookbook's "Deep fried Arachnid", "singe off the hairs"; raw bushmeat, cooked like any. And silk: 2 plus or minus 1)
     return gen_spider.entity(anim, common_client, server, [drop("game:bushmeat-raw", 1), drop("backrooms:spidersilk", 2, 1)])
 
 
 def thething():
     tasks = [{"code": "backrooms-thething", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "speed": 0.035, "rushSpeed": 0.14,
-              "orbitRadius": 18, "damage": 8, "patienceSeconds": 40, "groanSound": "backrooms:entity/groan"}]
+              "orbitRadius": 18, "damage": 8, "patienceSeconds": 40, "groanSound": "backrooms:entity/groan",
+              # It perceives only what is in the water, and hears swimming within 40 (README section 6.2; the profile is
+              # what /backrooms perceive shows: the task itself goes by depth)
+              "senses": dict(special="water", hearing=40),
+              # A lit lantern or oil lamp held under water within 12 blocks of its rush breaks the rush off: it turns
+              # away and circles again, not rushing for 20 seconds (a torch goes out in water)
+              "lampRange": 12, "lampBreakSeconds": 20}]
     return {
         "code": "thething",
         "class": "EntityAgent",

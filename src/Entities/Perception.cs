@@ -309,9 +309,11 @@ public static class Perception
     /// <summary>
     /// How plainly an entity sees someone (0: not at all; about 0.5 at the edge of its range, 1.25 close by), and if
     /// not, why not. The range comes from the light on them, widened for a carried light and narrowed for a sneak; they
-    /// must be inside its gaze (unless within touch) and, for most, in a clear line.
+    /// must be inside its gaze (unless within touch) and, for most, in a clear line. <paramref name="light"/> is the
+    /// light they stand in where the caller knows it better than <see cref="LightOn"/> does (the Watch counts only
+    /// lamps and fires, not the sky); -1 measures it.
     /// </summary>
-    public static double Sight(Entity viewer, Entity who, SenseProfile p, out string why)
+    public static double Sight(Entity viewer, Entity who, SenseProfile p, out string why, int light = -1)
     {
         why = null;
         if (p.NoSight) { why = "it has no eyes"; return 0; }
@@ -319,7 +321,7 @@ public static class Perception
         IWorldAccessor world = viewer.World;
         Vec3d eye = Senses.Eyes(viewer), centre = Senses.Centre(who);
         double d = eye.DistanceTo(centre);
-        int light = LightOn(who);
+        if (light < 0) light = LightOn(who);
         double range = light >= Senses.LitLevel ? p.SightLit : light >= 4 ? p.SightDim : p.SightDark;
         int held = Senses.HeldLight(who);
         if (held > 0 && p.CarriedLight != 1) range *= 1 + (p.CarriedLight - 1) * Math.Min(1, held / 14.0);

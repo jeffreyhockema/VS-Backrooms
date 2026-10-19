@@ -500,10 +500,15 @@ def entity():
         "code": "backrooms-watch", "priority": 1.6, "priorityForCancel": 1.6, "mincooldown": 0, "maxcooldown": 0,
         # (Speeds compare with a player's 0.025 walking and 0.05 sprinting; Level 9's danger adds a quarter)
         "walkSpeed": 0.016, "runSpeed": 0.044,
-        # What it sees by: someone in the dark within 12 blocks, someone in light (a torch, a lit room, a working
-        # street lamp, a fire) within 40; a crouch shrinks both; anything within 2.5 it feels. Its gaze is a cone of
-        # 70 degrees either way (100 while it sweeps the street); glass does not stop it.
-        "darkSight": 12, "litSight": 40, "touchRange": 2.5, "halfAngle": 70, "scanHalfAngle": 100,
+        # What it sees by (the shared perception, Perception.cs): someone in the dark within 12 blocks, someone in light
+        # (a torch, a lit room, a working street lamp, a fire) within 40; a crouch shrinks both to 0.6; anything within
+        # 2.5 it feels. Its gaze is a cone of 70 degrees either way (scanHalfAngle, 100, while it sweeps the street);
+        # glass does not stop it; no hearing and no smell. The Watch reckons light by lamps and fires only, not the sky.
+        "senses": {"sightLit": 40, "sightDim": 12, "sightDark": 12, "sightCone": 70, "touch": 2.5, "sneakFactor": 0.6,
+                   "hearing": 0, "hearsRunning": False, "special": "glass"},
+        "scanHalfAngle": 100,
+        # What fears it (Hounds, Smilers, Skin-Stealers and Deathmoths, Wikidot) within this many blocks goes to Leave
+        "fearRange": 24,
         "noticeSeconds": 1.6, "loseSeconds": 3.0, "searchSeconds": 14, "feintSeconds": 16, "peerSeconds": 40,
         "damage": 6.5, "damageTier": 2, "damageType": "BluntAttack", "knockback": 0.9, "attackRange": 1.7,
         "attackDurationMs": 900, "damageAtMs": 500, "attackCooldownMs": 1900, "retreatBelow": 0.3,
@@ -528,7 +533,7 @@ def entity():
         "eyeHeight": 2.4,
         "attributes": {"killedByInfoText": f"backrooms:deadcreature-{CODE}"},
         "client": client,
-        "server": ge.server(30, tasks, None, menace={"glimpseSeconds": 30, "stalkSeconds": 180, "huntSeconds": 240}),
+        "server": ge.server(30, tasks, None, menace={"glimpseSeconds": 30, "stalkSeconds": 180, "huntSeconds": 240, "rangedDamageMul": 2}),
         "sounds": {"hurt": "game:effect/squish*", "death": "backrooms:effect/squelch"},
     }
     ge.sync_harvestable(data)
@@ -589,9 +594,9 @@ def sounds():
 # ---------------------------------------------------------------- Names
 
 LANG = {
-    "item-creature-neighborhoodwatch": "Neighborhood Watch",
-    "prefixandcreature-neighborhoodwatch": "the Neighborhood Watch",
-    "deadcreature-neighborhoodwatch": "Seen by the Neighborhood Watch",
+    "item-creature-neighborhoodwatch": "Strider of the Neighborhood Watch",
+    "prefixandcreature-neighborhoodwatch": "a Strider of the Neighborhood Watch",
+    "deadcreature-neighborhoodwatch": "Seen by a Strider of the Neighborhood Watch",
 }
 
 

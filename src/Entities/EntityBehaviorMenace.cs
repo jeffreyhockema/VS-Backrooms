@@ -54,6 +54,8 @@ public class EntityBehaviorMenace : EntityBehavior
     private AssetLocation[] fedVoices = Array.Empty<AssetLocation>();
     private float nextFedVoice = 10;
     private float checkIn;
+    /// <summary>What damage from an arrow, a thrown spear or any other projectile is multiplied by (the Watch: "ranged weapons work on them").</summary>
+    private float rangedDamageMul = 1;
     private long leftAtMs, lastSeenMs;
 
     public EntityBehaviorMenace(Entity entity) : base(entity) { }
@@ -76,6 +78,7 @@ public class EntityBehaviorMenace : EntityBehavior
         harmlessLooks = attributes["harmlessLooks"].AsArray(Array.Empty<int>());
         fedVoices = Array.ConvertAll(attributes["fedVoices"].AsArray(Array.Empty<string>()),
             code => AssetLocation.Create(code, "backrooms").WithPathPrefixOnce("sounds/"));
+        rangedDamageMul = attributes["rangedDamageMul"].AsFloat(1);
     }
 
     public override void AfterInitialized(bool onFirstSpawn)
@@ -298,6 +301,7 @@ public class EntityBehaviorMenace : EntityBehavior
             else if (cause != null) Kind = Encounter.Leave;
             return;
         }
+        if (rangedDamageMul != 1 && damage > 0 && damageSource.SourceEntity is IProjectile) damage *= rangedDamageMul;
         if (bleedsClear && damage > 0 && damageSource.Type != EnumDamageType.Heal) BleedClear();
         if (cause is EntityPlayer && Passive) Passive = false;
         // Striking it is heard: a fight draws more

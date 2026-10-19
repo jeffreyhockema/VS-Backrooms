@@ -154,7 +154,7 @@ public partial class MenaceSystem
             .BeginSubCommand("dummy")
                 .WithDescription("Straw dummies for perception tests, standing in for a player: place, move, light, sneak, run, stability, noise, remove")
                 .BeginSubCommand("place")
-                    .WithDescription("Puts a straw dummy down: in a level (a number or name, as for goto) at one of its arrival spots, or 'here', in front of you. The first try may only load the chunks: try again")
+                    .WithDescription("Puts a straw dummy down: in a level (a number or name, as for goto) at one of its arrival spots, or 'here', in front of you, or 'nest', 8 blocks from the heart of a Level 8 spider nest (worlds from layout version 9). The first try may only load the chunks: try again")
                     .WithArgs(parsers.Word("where"), parsers.OptionalInt("key"))
                     .HandleWith(OnDummyPlace)
                 .EndSubCommand()
@@ -245,6 +245,30 @@ public partial class MenaceSystem
             x = (int)Math.Floor(caller.Pos.X + view.X / length * 3);
             z = (int)Math.Floor(caller.Pos.Z + view.Z / length * 3);
             y = (int)Math.Floor(caller.Pos.Y);
+        }
+        else if (where.Equals("nest", StringComparison.OrdinalIgnoreCase))
+        {
+            (int X, int Z)? heart = null;
+            int arrivals = 0;
+            for (int k = 0; k < 12 && heart == null; k++)
+                if (layout.FindArrival(8, (ulong)k) is { } arrival) { arrivals++; heart = layout.NearestNest(arrival.X, arrival.Z, 100); }
+            if (heart is not { } nest)
+            {
+                int l8 = 0, dens = 0;
+                if (layout.FindArrival(8, 0) is { } probe)
+                    for (int dz = -60; dz <= 60; dz++)
+                        for (int dx = -60; dx <= 60; dx++)
+                        {
+                            int mx = WorldLayout.MacroOf(probe.X) + dx, mz = WorldLayout.MacroOf(probe.Z) + dz;
+                            if (layout.LevelAt(mx, mz) != 8) continue;
+                            l8++;
+                            if (layout.DenAt(mx, mz) != DenKind.None) dens++;
+                        }
+                return TextCommandResult.Error($"Found no spider nest ({arrivals} Level 8 spots tried; layout version {layout.Version}; {l8} Level 8 cells near the first, {dens} with dens)");
+            }
+            x = nest.X + 8;
+            z = nest.Z;
+            y = geometry.FloorFor(8) + 1;
         }
         else
         {

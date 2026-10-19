@@ -163,7 +163,17 @@
 							"backrooms:entity/beast/voice",
 							"backrooms:entity/beast/clang"
 						],
-						"soundRange": 40
+						"soundRange": 40,
+						"senses": {
+							"sightLit": 30,
+							"sightDim": 20,
+							"sightDark": 10,
+							"hearing": 20,
+							"fearSense": 24,
+							"memorySeconds": 10
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 14
 					},
 					{
 						"code": "lookaround",

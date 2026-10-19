@@ -428,7 +428,7 @@ The distances on this page are for the usual *Backrooms level size*. That world 
 
 **Level 8, Cave Systems.** Cold (9 °C) real rock, ore, coal and clay, in the dark, with packs of Wretches where the light fails and Giant Spiders waiting in it, and here and there stretches of cave strung with their webs. Stalactites and stalagmites, hanging lichen, bracket fungi on the walls (tinder, and some to eat), glowing mushrooms in some stretches (mostly blood-red; they give nothing but rot), boulders from cave-ins, crystals deep down, and rare colonies of glowworms. Ore runs through the rock in veins and pockets. Dress warmly. Keep to the lamps of the 9th Road and its camps: the road restores you and the dark off it drains you. The road winds through the rock, forking and joining again; follow its lamps and it runs on, and where it meets another level it runs through the wall. Almond Water seeps from the rock beside the road: use a seep to fill a bottle.
 
-**Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds and Skin-Stealers, the Neighborhood Watch walking the streets (it sees a light from far off), and once in a long while the Mangled.
+**Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds and Skin-Stealers, the Striders of the Neighborhood Watch walking the streets (they see a light from far off), and once in a long while the Mangled.
 
 **Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay, bee skeps, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Hounds at its edge, Clumps by the barns.
 
@@ -666,7 +666,8 @@ Wanderers worn down to nothing by hunger, thirst and sleeplessness, still dresse
 As long as you are and low on its legs, waiting in the dark where its eyes catch your light; you hear its mouthparts clicking before you see it. Come within a few steps of it (fewer if you creep), run or make a racket within earshot, or strike it, and it rears with a hiss, then runs you down faster than a sprint. Its bite is venomous and burns on for a few seconds.
 - It is territorial: run the moment it rears, away from where it waited, and it lets you go once you are well clear of its ground. It will not follow into water (spiders can't swim), up to a fire, or onto the road.
 - Cobwebs slow you to a crawl and not it: keep out of them, or burn them. In worlds made from now on, whole stretches of cave well off the road are strung with them round a nest, where the spiders are what comes.
-- It climbs the walls. It mends while it waits; badly hurt, it flees. It carries a good bounty in rusty gears.
+- Noise carries to the whole nest: a bang, a block broken, a fight or a forced door within two dozen blocks of its heart wakes every spider of it and sends them after you, and the dark puts down one or two more if there are few. Be quiet in a nest, or do not go.
+- It climbs the walls. It mends while it waits; badly hurt, it flees. It carries a good bounty in rusty gears, and a little raw meat ("extra protein", and only worth eating cooked).
 
 **Dullers** (Levels 3, 4, 6, 8, the city's subway)
 Tall and grey, and quick. They reach through walls at people passing close on the other side, then run. Plaster puffs out of the wall where the hand comes through.
@@ -685,7 +686,7 @@ A bundle of limbs that buries itself where it waits: all you see is an arm stick
 - Where there is room, walk round. In a narrow tunnel there is none: go back, or take the grab and be quick.
 
 **The Thing** (deep in Level 7)
-Something vast circles divers out at the edge of sight. Stay more than twenty blocks down for long with your stability failing, or go below fifty-five, and it strikes, once, hard, and leaves. It cannot be fought: surface, or come up for air under the roof of a sunken room, where it only waits.
+Something vast circles divers out at the edge of sight. Stay more than twenty blocks down for long with your stability failing, or go below fifty-five, and it strikes, once, hard, and leaves. It cannot be fought: surface, or come up for air under the roof of a sunken room, where it only waits. A lit lantern or oil lamp held under water within a dozen blocks of it as it rushes shows it what it is rushing at: it breaks off and circles for twenty seconds. A torch goes out in the water.
 
 **The Mangled** (the Suburbs, rarely; far likelier during a Reality Shift)
 There is only one. It comes with its own weather: over most of a minute the air turns cold, a grey fog rolls in, and voices start calling out of it, someone saying hello, someone hurt. Then a black pillar walks out of the fog, slower than a walking man: a mass of human faces held high above the roofs on legs like trees. Its reach is the danger, not its pace.
@@ -699,13 +700,14 @@ There is only one, and he chooses you. The hotel's music stops round you, a drum
 - **Hold his gaze:** stand your ground and look him in the eye for five seconds, not running. He is startled as nobody startles him, stands frozen, and is gone. It frees you from a debt too.
 - **Refuse him** (strike him, walk away, or let the offer lapse) and his suit opens into moth wings: half as tall again, blades for claws, a little short of a sprint, and two of his blows will nearly kill you. A hunt that draws no blood for twenty seconds is given up, and safe places turn him away. Brought down, he dissolves and leaves Level 5's [Level Key](item-backrooms:hub-key-l5); not for long.
 
-**The Neighborhood Watch** (the Suburbs' streets, out from the middle of the level)
+**The Striders of the Neighborhood Watch** (the Suburbs' streets, out from the middle of the level, never near the wall into Level 10)
 A bloodshot eyeball the size of a man, carried three blocks up on six long legs, walking the streets and yards. It has no ears and no nose: it finds you by sight, and by touch close up.
+- The other things of the dark fear it: Hounds, Smilers, Skin-Stealers and Deathmoths within two dozen blocks of one turn tail. That is no help to you, only to them.
 - In the dark it sees you only within a dozen blocks; carrying a torch or lantern, standing under a working street lamp, in a lit room or by a fire, it sees you from forty. Crouching shrinks both. Put the light away on the streets.
 - Its eye glows faintly: you see it before it sees you. When the eye turns toward you, it is making you out. Get out of its sight, and do not meet its eye: that makes it sure of you faster.
 - Once sure, it stares, and comes, faster than you run. It chases only what it sees: break its line of sight (round a house, behind a hedge, through a door) and it goes to where it last saw you and searches. It may walk off and wait a little way away, watching: give it time.
 - It is too tall for any door. Indoors you are safe from it, but it looks in through the windows and taps on the glass, and being watched wears on your stability: keep away from the windows until it goes.
-- It can be killed, and it is worth a good bounty, but it hits hard and knocks you flat.
+- It can be killed, and it is worth a good bounty, but it hits hard and knocks you flat. Arrows and thrown spears hurt it twice as much as blows do.
 
 **Animations** (Level 94, by night)
 Puppets, clay and wooden figures and paper cut-outs that move a frame at a time, and hunt anything that does not look animated. Very strong, not clever: the clay ones are slower than a walk and smother, the wooden ones club and knock you about, the paper ones come in a crowd and are frail. The wooden and paper ones fear fire. They never come indoors (a porch is not indoors), and at dawn they are gone. Stand quite still for a few seconds and they take you for a doll. Whoever carries a shard of the King's crown is one of their own. Worst in the towns, on the roads, and near the glass mountain.
