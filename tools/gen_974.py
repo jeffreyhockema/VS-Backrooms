@@ -507,8 +507,8 @@ def lights():
         "blockmaterial": "Stone", "sounds": STONE, "lightAbsorption": 99, "resistance": 6, "drops": [], "sidesolid": {"all": True},
         # A lit lamp must not absorb its own light, or worldgen lighting spreads none of it
         "lightAbsorptionByType": {"l974-downlight-on": 0, "*": 99},
-        "lightHsvByType": {"l974-downlight-on": [4, 2, 15]}, "attributes": {"l974structure": True, "l974light": True},
-    }, comment="Level 974: a round recessed downlight in the ceiling (on: light 15, warm white, faintly pink)")
+        "lightHsvByType": {"l974-downlight-on": [4, 2, 19]}, "attributes": {"l974structure": True, "l974light": True},
+    }, comment="Level 974: a round recessed downlight in the ceiling (on: light 19 (15 before 0.514.0), warm white, faintly pink)")
 
     def fairy(v):
         on = v["state"] == "on"
