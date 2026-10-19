@@ -37,19 +37,6 @@ The same spot in the released 0.513.3 (left) and in 0.514.0 (right).
 - [A Level 9 house](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/09-level9-house.jpg): houses get windows two blocks tall with sashes, casings and sills, shutters on the front, a picture window and a panelled front door that opens (shot by the shotbot's daylight).
 - [What lives here](https://raw.githubusercontent.com/jeffreyhockema/VS-Backrooms/main/docs/moddb/img/progress-0514/10-creatures.jpg): every creature repainted, the Bacteria rebuilt as a tangle of black wire, and three new ones: the Beast of Level 5 (as the gentleman), the Giant Spider and the Neighborhood Watch.
 
-## What's new in 0.513.0
-
-The first update, built from the first players' feedback. Existing worlds carry on as they are.
-
-- **Mapless mode.** A new world setting, *Backrooms map*: keep the map as it was, keep it but with nothing marked for you, or have no map at all and find your way by notes and chalk.
-- **Scarcer food.** A new *Scarce* setting (about a third of the food). Scarcity now reaches every food and drink, the vending machines and water coolers, Level 10's livestock, and, in new worlds, the fields and berry bushes of Levels 9 and 10.
-- **The early tools matter.** Flint is now a Level 1 find, so the glass shiv and the improvised scraper carry you through the Lobby, and they cut wallpaper and carpet two strips at a time. Metal brackets are rarer. The First Steps tutorial no longer asks for flint in Level 0.
-- **Pottery shards.** The potted plants of Levels 4 and 5 break for shards; shards pounded with a stone make ceramic grit, and grit with soil makes clay. Slow, but it saves the trip to Level 3.
-- **Everything can be set down.** Every item of the mod can be placed on the ground (shift + right-click).
-- **Fixes.** Scrap wire, circuit boards and coin mechanisms go in a crucible, as the handbook always said. The ladders down Level 3's manholes can be climbed. The furniture of the far levels gives what is in it again.
-
-The full list is in the [changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md).
-
 ---
 
 ## Work in Progress
@@ -64,7 +51,7 @@ What version 0.514.0 contains:
 - A map that shows only what you have seen and remembers it, with every transition you have used marked; or a map that marks nothing; or no map at all.
 - Discoverable wanderers' notes, an expedition journal, and a handbook rewritten for the Backrooms.
 - A fifteen-step tutorial for the first hour.
-- World settings for creature activity, resource scarcity and the map.
+- World settings for creature activity, resource scarcity, the map and the size of the levels.
 - Multiplayer: server and clients compare builds on joining and warn in chat if they differ.
 
 ---
@@ -97,12 +84,12 @@ If that is too much help, the *Backrooms map* world setting can keep the map but
 
 ## The topology lies
 
-The levels are laid out in nested regions around where you wake: Level 0 in the middle, Level 1 around it, Level 2 around that, and so on out to Level 10. No region is a circle. A level may end after a few hundred blocks in one direction and run for kilometres in another, and the short way through one level need not line up with the short way through the next. Where two levels meet, the wall is solid but for gates every few hundred blocks. Beyond the rings lie places no amount of walking reaches, only noclipping.
+The levels are laid out in nested regions around where you wake: Level 0 in the middle, Level 1 around it, Level 2 around that, and so on out to Level 10. How wide the rings are is a world setting, from half to twice the usual. No region is a circle. A level may end after a few hundred blocks in one direction and run for kilometres in another, and the short way through one level need not line up with the short way through the next. Where two levels meet, the wall is solid but for gates every few hundred blocks. Beyond the rings lie places no amount of walking reaches, only noclipping.
 
 That is only how the world is built. The real map is the network of ways between levels, and it follows two rules so you can learn it:
 
 1. **Every way between levels always leads to the same place.** Where it leads is fixed the first time anyone goes through it and saved with the world.
-2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors, and that partner becomes the way back. Where there is no partner, a thin spot is left in the air to step back through. A few doors close behind you for good: the Hub's carved doors, every way out of the Snackrooms but one, the doors into Level !, and a lone doorframe in the Office.
+2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors, and that partner becomes the way back. Where there is no partner, the way back is built for you: a door or an elevator in a wall nearby, in that level's own style, or, where no wall will take one, a thin spot in the air to step back through. A few doors close behind you for good: the Hub's carved doors, every way out of the Snackrooms but one, the doors into Level !, and a lone doorframe in the Office.
 
 Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that aren't quite there, cinema screens, backyard pools, fountains, manholes, tripwires, hungry vending machines, posters, windows where no window should be: more than seventy different ways tie the levels together, the same way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
 
@@ -160,9 +147,9 @@ There are also Flickerings out towards the edge of Level 1, the Screaming of the
 - **Level 6, Lights Out.** Darkness that light barely reaches. Trunk corridors, blind mazes, chalk arrows left by earlier explorers, and the sound of waves from the way the stairs lie.
 - **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out, unless you know the right diner in the city.
 - **Level 7, Thalassophobia.** An endless sea under a concrete ceiling, deeper and darker the further out you swim. Entry rooms in the ceiling, islands with old camps, kelp, a dead reef, and something that circles divers.
-- **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road runs through it, with camps at its crossings.
-- **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, fenced backyards, cars at the kerb, and foxes and raccoons in the long grass.
-- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, livestock in the paddocks, ponds in the hollows. One of the safest places there is. The soil is thin, though.
+- **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road runs through it, with camps at its crossings; off the road, in the dark, giant spiders keep their cobwebbed nests.
+- **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, fenced backyards, cars at the kerb, foxes and raccoons in the long grass, and the Neighborhood Watch walking the streets.
+- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, chickens, pigs, sheep and goats round the farmyards and meadows, ponds in the hollows. One of the safest places there is. The soil is thin, though.
 - **Level 11, the Endless City.** Not a ring: fifty kilometres out, behind a wall of black glass that nobody walks through. You noclip in through a barn wall in Level 10. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
 
 **Beyond the rings**
@@ -191,6 +178,10 @@ World settings under *Survival challenges* when creating a world:
 - **Backrooms entities:** Off (sounds only), Low, Normal, High.
 - **Backrooms scarcity:** Plentiful (twice the food), Normal, Sparse (about 60%), Scarce (about a third).
 - **Backrooms map:** Seen areas; Seen areas, no waypoints; None (no map or minimap at all).
+
+Under *World generation*:
+
+- **Backrooms level size:** 50%, 75%, 100% (the usual), 150% or 200%. How wide each ring of levels is, and so how far you walk from one level to the next; each level's rooms stay the same size. It is fixed when the world is made.
 
 ---
 
