@@ -150,7 +150,8 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"stalkSeconds": 90
+				"stalkSeconds": 90,
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",

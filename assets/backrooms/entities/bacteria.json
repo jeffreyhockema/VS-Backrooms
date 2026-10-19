@@ -143,7 +143,8 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"stalkSeconds": 120
+				"stalkSeconds": 120,
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",
@@ -176,7 +177,20 @@
 						"huntAnimation": "howl",
 						"huntAnimationMs": 1500,
 						"huntSound": "backrooms:entity/howl",
-						"soundRange": 48
+						"soundRange": 48,
+						"senses": {
+							"sightLit": 32,
+							"sightDim": 16,
+							"sightDark": 10,
+							"sightCone": 70,
+							"hearing": 28,
+							"memorySeconds": 6,
+							"trackSeconds": 15,
+							"trackError": 10
+						},
+						"investigateSeconds": 6,
+						"searchSeconds": 8,
+						"retaliateSeconds": 60
 					},
 					{
 						"code": "idle",

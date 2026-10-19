@@ -23,6 +23,8 @@ public class EntityBehaviorMenace : EntityBehavior
     public const string RalliedKey = "backrooms:rallied";
     /// <summary>What a Duller took; dropped where it goes.</summary>
     public const string StolenKey = "backrooms:stolen";
+    /// <summary>When (elapsed ms) the entity first stopped being Ambient; never reset by a later change of kind (the encounter's budget).</summary>
+    public const string EncounterSinceKey = "backrooms:encounterSinceMs";
     /// <summary>When (elapsed ms) something last struck an unkillable thing that does not withdraw (the Mangled).</summary>
     public const string StruckKey = "backrooms:struckMs";
 
@@ -38,7 +40,7 @@ public class EntityBehaviorMenace : EntityBehavior
     }
 
     private bool immortal, unmoved;
-    private int glimpseSeconds, stalkSeconds, huntSeconds;
+    private int glimpseSeconds, stalkSeconds, huntSeconds, investigateSeconds, searchSeconds, maxEncounterSeconds;
     private float checkIn;
     private long leftAtMs, lastSeenMs;
 
@@ -54,7 +56,22 @@ public class EntityBehaviorMenace : EntityBehavior
         glimpseSeconds = attributes["glimpseSeconds"].AsInt(30);
         stalkSeconds = attributes["stalkSeconds"].AsInt(150);
         huntSeconds = attributes["huntSeconds"].AsInt(180);
+        investigateSeconds = attributes["investigateCapSeconds"].AsInt(30);
+        searchSeconds = attributes["searchCapSeconds"].AsInt(40);
+        maxEncounterSeconds = attributes["maxEncounterSeconds"].AsInt(0);
     }
+
+    /// <summary>What this entity believes about where its target is (used by the menace task when it has senses; shared with its pack).</summary>
+    public Belief Belief { get; } = new();
+
+    /// <summary>How long (ms) since the entity first stopped being Ambient, or 0 if it has not.</summary>
+    public long EncounterMs => entity.Attributes.HasAttribute(EncounterSinceKey) ? entity.World.ElapsedMilliseconds - entity.Attributes.GetLong(EncounterSinceKey) : 0;
+
+    /// <summary>
+    /// How long (ms) the encounter has left before it is sent to Leave. The budget is opt-in: the behaviour attribute
+    /// <c>maxEncounterSeconds</c> defaults to 0, meaning none (scripted creatures are untouched), so this is then unbounded.
+    /// </summary>
+    public long EncounterLeftMs => maxEncounterSeconds <= 0 ? long.MaxValue : maxEncounterSeconds * 1000L - EncounterMs;
 
     /// <summary>Marks a new entity, before it is spawned, as put down for a target and an encounter.</summary>
     public static void Prepare(Entity entity, Entity target, Encounter kind, bool passive, long now, double untilHours = -1, bool duringShift = false)
@@ -63,6 +80,7 @@ public class EntityBehaviorMenace : EntityBehavior
         entity.Attributes.SetDouble(UntilKey, untilHours);
         entity.Attributes.SetBool(ShiftKey, duringShift);
         entity.Attributes.SetInt(KindKey, (int)kind);
+        if (kind != Encounter.Ambient) entity.Attributes.SetLong(EncounterSinceKey, now);
         entity.Attributes.SetLong(SinceKey, now);
         entity.Attributes.SetLong(OwnerKey, target.EntityId);
         entity.Attributes.SetBool(PassiveKey, passive);
@@ -83,6 +101,8 @@ public class EntityBehaviorMenace : EntityBehavior
             if (value == Kind) return;
             entity.Attributes.SetInt(KindKey, (int)value);
             entity.Attributes.SetLong(SinceKey, entity.World.ElapsedMilliseconds);
+            if (value != Encounter.Ambient && !entity.Attributes.HasAttribute(EncounterSinceKey))
+                entity.Attributes.SetLong(EncounterSinceKey, entity.World.ElapsedMilliseconds);
             if (value == Encounter.Leave) leftAtMs = entity.World.ElapsedMilliseconds;
         }
     }
@@ -142,6 +162,8 @@ public class EntityBehaviorMenace : EntityBehavior
             double until = entity.Attributes.GetDouble(UntilKey, -1);
             if (until > 0 && entity.World.Calendar.TotalHours > until) Kind = Encounter.Leave;
             if (entity.Attributes.GetBool(ShiftKey) && (entity.Api.ModLoader.GetModSystem<Reality.RealitySystem>()?.ShiftStrength ?? 0) <= 0) Kind = Encounter.Leave;
+            // An encounter has a budget, however many times it changes kind
+            if (maxEncounterSeconds > 0 && EncounterMs > maxEncounterSeconds * 1000L) Kind = Encounter.Leave;
         }
 
         long now = entity.World.ElapsedMilliseconds;
@@ -164,6 +186,12 @@ public class EntityBehaviorMenace : EntityBehavior
                 break;
             case Encounter.Hunt:
                 if (PhaseMs > huntSeconds * 1000) Kind = Encounter.Leave;
+                break;
+            case Encounter.Investigate:
+                if (PhaseMs > investigateSeconds * 1000) Kind = Encounter.Leave;
+                break;
+            case Encounter.Search:
+                if (PhaseMs > searchSeconds * 1000) Kind = Encounter.Leave;
                 break;
             case Encounter.Leave:
                 // Gone the moment nobody is looking, or once far enough off and out of sight

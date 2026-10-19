@@ -38,6 +38,13 @@ public sealed class SenseProfile
     public float SneakFactor = 0.5f;
     /// <summary>How long a last known position is believed after contact is lost, in seconds.</summary>
     public float MemorySeconds = 8;
+    /// <summary>
+    /// Tracking: a stalker that has lost its target gets, every this many seconds (give or take a quarter), a vague
+    /// idea of where they are (see <see cref="Belief.Vague"/>), off by up to <see cref="TrackError"/> blocks. 0: never.
+    /// </summary>
+    public float TrackSeconds;
+    /// <summary>How far (blocks) a tracked guess may be off.</summary>
+    public float TrackError = 10;
     /// <summary>The Duller: it senses someone just the other side of a wall (within 2.6 blocks, no line between).</summary>
     public bool Wall;
     /// <summary>The Clump: no eyes; it only hears and touches.</summary>
@@ -68,6 +75,8 @@ public sealed class SenseProfile
             Touch = senses["touch"].AsFloat(Default.Touch),
             SneakFactor = senses["sneakFactor"].AsFloat(Default.SneakFactor),
             MemorySeconds = senses["memorySeconds"].AsFloat(Default.MemorySeconds),
+            TrackSeconds = senses["trackSeconds"].AsFloat(0),
+            TrackError = senses["trackError"].AsFloat(10),
         };
         foreach (string special in (senses["special"].AsString("") ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             p.SetSpecial(special);
@@ -111,6 +120,8 @@ public sealed class SenseProfile
                 case "touch" when ok: p.Touch = f; break;
                 case "sneakfactor" when ok: p.SneakFactor = f; break;
                 case "memoryseconds" when ok: p.MemorySeconds = f; break;
+                case "trackseconds" when ok: p.TrackSeconds = f; break;
+                case "trackerror" when ok: p.TrackError = f; break;
                 case "special": p.SetSpecial(value); break;
                 default: error = $"Unknown sense or bad value: {pair}"; return null;
             }
@@ -119,9 +130,10 @@ public sealed class SenseProfile
     }
 
     public override string ToString() => string.Format(CultureInfo.InvariantCulture,
-        "sight {0}/{1}/{2} cone {3}{4}, carried x{5}, hearing {6}{7}, fear {8}, touch {9}, sneak x{10}, memory {11}s{12}{13}{14}{15}",
+        "sight {0}/{1}/{2} cone {3}{4}, carried x{5}, hearing {6}{7}, fear {8}, touch {9}, sneak x{10}, memory {11}s{16}{12}{13}{14}{15}",
         SightLit, SightDim, SightDark, SightCone, SightNeedsLine ? "" : " (no line needed)", CarriedLight, Hearing, HearsRunning ? " (hears running)" : "",
-        FearSense, Touch, SneakFactor, MemorySeconds, Wall ? ", wall" : "", NoSight ? ", no sight" : "", Glass ? ", glass" : "", Water ? ", water" : "");
+        FearSense, Touch, SneakFactor, MemorySeconds, Wall ? ", wall" : "", NoSight ? ", no sight" : "", Glass ? ", glass" : "", Water ? ", water" : "",
+        TrackSeconds > 0 ? string.Format(CultureInfo.InvariantCulture, ", tracks every {0}s (off by {1})", TrackSeconds, TrackError) : "");
 
     private static readonly Dictionary<string, SenseProfile> ByCode = new();
 
@@ -169,6 +181,12 @@ public sealed class Belief
     /// <summary>How sure that contact was: 1 seen, 0.8 sensed, 0.6 heard.</summary>
     public double Strength;
     public Contact Source;
+    /// <summary>
+    /// A guess from tracking (a stalker's vague idea of where someone is), not a contact: it lets a stalker move
+    /// towards the area, but never counts as contact, never turns a stalk to the hunt, and is never shared with a pack
+    /// as the stronger belief. Cleared by any real <see cref="Take"/>.
+    /// </summary>
+    public bool Vague;
     /// <summary>Sounds heard in a row (each narrows the guess), reset by any other contact.</summary>
     public int HeardInARow;
 
@@ -182,6 +200,7 @@ public sealed class Belief
     {
         if (strength < ConfidenceAt(now, memorySeconds)) return false;
         HeardInARow = source == Contact.Heard ? HeardInARow + 1 : 0;
+        Vague = false;
         Pos = pos.Clone();
         AtMs = now;
         Strength = strength;
@@ -196,6 +215,7 @@ public sealed class Belief
         Strength = 0;
         Source = Contact.None;
         HeardInARow = 0;
+        Vague = false;
     }
 }
 
@@ -378,7 +398,7 @@ public static class Perception
             NoiseEvent? noise = Heard(entity, who, p, bus, now);
             if (noise is { } n)
             {
-                int inARow = belief.Source == Contact.Heard && !belief.Lost(now, p.MemorySeconds) ? belief.HeardInARow + 1 : 1;
+                int inARow = belief.Source == Contact.Heard && !belief.Vague && !belief.Lost(now, p.MemorySeconds) ? belief.HeardInARow + 1 : 1;
                 double error = HeardError / inARow;
                 // (The same noise always gives the same guess, so a guess does not jitter while one noise lasts)
                 var rand = new Random(n.Id * 7919 + (int)(entity.EntityId & 0xFFFF));

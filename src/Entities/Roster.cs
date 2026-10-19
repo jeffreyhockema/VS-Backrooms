@@ -30,6 +30,10 @@ public enum Encounter
     Hunt,
     /// <summary>Leaving: running off to be despawned out of sight.</summary>
     Leave,
+    /// <summary>Heard something: walks to where it came from and stands looking about, then back to following (or to the hunt, if it sees them).</summary>
+    Investigate = 5,
+    /// <summary>Lost the person it was hunting: goes to where it last believed them to be and sweeps the places near it, looking.</summary>
+    Search = 6,
 }
 
 [Flags]

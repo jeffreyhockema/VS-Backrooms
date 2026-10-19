@@ -96,7 +96,8 @@
 				"code": "backrooms-menace",
 				"immortal": true,
 				"glimpseSeconds": 25,
-				"stalkSeconds": 120
+				"stalkSeconds": 120,
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",
@@ -127,7 +128,22 @@
 						"lightBound": true,
 						"stalkSound": "backrooms:entity/smiler",
 						"huntSound": "backrooms:entity/smiler",
-						"soundRange": 20
+						"soundRange": 20,
+						"senses": {
+							"sightLit": 48,
+							"sightDim": 16,
+							"sightDark": 6,
+							"sightCone": 80,
+							"hearing": 24,
+							"fearSense": 16,
+							"memorySeconds": 10,
+							"trackSeconds": 20,
+							"trackError": 12
+						},
+						"drawnToLight": true,
+						"investigateSeconds": 6,
+						"searchSeconds": 8,
+						"retaliateSeconds": 60
 					}
 				]
 			},

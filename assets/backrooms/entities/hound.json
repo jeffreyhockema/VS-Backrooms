@@ -144,8 +144,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 14,
-				"maxhealth": 14
+				"currenthealth": 16,
+				"maxhealth": 16
 			},
 			{
 				"code": "deaddecay",
@@ -223,8 +223,23 @@
 							"carriedLight": 1.5,
 							"hearing": 32,
 							"fearSense": 12,
-							"memorySeconds": 8
-						}
+							"memorySeconds": 8,
+							"trackSeconds": 12,
+							"trackError": 10
+						},
+						"huntsOnSight": true,
+						"glimpseTurnsToStalk": true,
+						"growlBeforeCharge": true,
+						"growlMs": 900,
+						"barks": true,
+						"huntBarkSeconds": 2,
+						"huntBarkLevels": [
+							3
+						],
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"lookAnimation": "sniff"
 					},
 					{
 						"code": "idle",

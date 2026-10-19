@@ -801,7 +801,11 @@ def hound():
                     attackAnimation="attack", fearsFire=True, slowedByLight=True, retreatBelow=0.35, staredDown=True,
                     stalkSound="game:creature/wolf/growl*", huntSound="game:creature/wolf/howl*", attackSound="game:creature/wolf/attack*", soundRange=40,
                     # What it perceives (docs/design/entity-ai-overhaul/README.md section 6.1): hostile on sight, hears running
-                    senses=dict(sightLit=40, sightDim=18, sightDark=8, sightCone=70, carriedLight=1.5, hearing=32, fearSense=12, memorySeconds=8)),
+                    senses=dict(sightLit=40, sightDim=18, sightDark=8, sightCone=70, carriedLight=1.5, hearing=32, fearSense=12, memorySeconds=8, trackSeconds=12, trackError=10),
+                    # Encounter v2 (README sections 5 and 6.1): a glimpse that sees turns to a stalk, a growl before the charge, barks
+                    # while hunting in Level 3, investigates noise, searches a lost target, retaliation bounded
+                    huntsOnSight=True, glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
+                    investigateSeconds=8, searchSeconds=10, retaliateSeconds=60, lookAnimation="sniff"),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),
         idle("scratch", 1.15, 2500, 2500, 30000, 90000),
         WANDER,
@@ -820,7 +824,7 @@ def hound():
         # (Which look, the director decides: mostly the common one, a quarter starved, now and then an old one)
         "client": common_client("backrooms:entity/hound", {"base": "backrooms:entity/hound",
                                                            "alternates": [{"base": "backrooms:entity/hound-starved"}, {"base": "backrooms:entity/hound-elder"}]}, animations),
-        "server": server(14, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1)]),
+        "server": server(16, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1)]),
         "sounds": {"hurt": "game:creature/wolf/hurt", "death": "game:creature/wolf/hurt"},
     }
 
@@ -830,7 +834,10 @@ def smiler():
         menace_task(walkSpeed=0.016, runSpeed=0.05, stalkMin=10, stalkMax=18, glimpseFleeDistance=14,
                     damage=6, damageTier=3, damageType="PiercingAttack", knockback=0.3, attackRange=0.9,
                     attackDurationMs=700, damageAtMs=300, attackCooldownMs=1800, walkAnimation="walk", runAnimation="run", attackAnimation="attack",
-                    lightBound=True, stalkSound="backrooms:entity/smiler", huntSound="backrooms:entity/smiler", soundRange=20),
+                    lightBound=True, stalkSound="backrooms:entity/smiler", huntSound="backrooms:entity/smiler", soundRange=20,
+                    # What it perceives (README section 6.2): sees far in the light, comes for the unsteady and for light
+                    senses=dict(sightLit=48, sightDim=16, sightDark=6, sightCone=80, hearing=24, fearSense=16, memorySeconds=10, trackSeconds=20, trackError=12),
+                    drawnToLight=True, investigateSeconds=6, searchSeconds=8, retaliateSeconds=60),
     ]
     return {
         "code": "smiler",
@@ -847,7 +854,7 @@ def smiler():
                                  # (Struck, it flinches back into the dark: the hit comes before it withdraws)
                                  anim("hurt", "hurt", 1.5, weight=10, blendMode="AddAverage")]),
         # No health: it cannot be killed (struck, it withdraws)
-        "server": server(0, tasks, menace={"immortal": True, "glimpseSeconds": 25, "stalkSeconds": 120}),
+        "server": server(0, tasks, menace={"immortal": True, "glimpseSeconds": 25, "stalkSeconds": 120, "maxEncounterSeconds": 300}),
         "sounds": {},
     }
 
@@ -970,7 +977,7 @@ def skinstealer():
                        voices=["backrooms:entity/cough", "game:player/hurt*", "backrooms:effect/whisper", "backrooms:entity/hello"],
                        soundRange=28)
     # The model stands 38.7 px; drawn at 0.92 it is 35.6 px (2.2 blocks), a head taller than a player, eyes at 2.05
-    return tall_body("skinstealer", (0.8, 1.95), 2.05, 34, task, {"stalkSeconds": 180},
+    return tall_body("skinstealer", (0.8, 1.95), 2.05, 34, task, {"stalkSeconds": 180, "maxEncounterSeconds": 300},
                         [drop("game:hide-raw-large", 1)], {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
                         size=0.92, idle_anim="skinadjust")
 
@@ -984,7 +991,7 @@ def duller():
                        voices=["backrooms:entity/scratch", "backrooms:entity/drag", "backrooms:entity/knock"],
                        grabSound="backrooms:entity/grab", soundRange=20)
     # The model stands 39.5 px; drawn at 0.92 it is 36 px (2.3 blocks); the head is at about 2.1
-    return tall_body("duller", (0.6, 1.95), 2.1, 15, task, {"stalkSeconds": 150}, None,
+    return tall_body("duller", (0.6, 1.95), 2.1, 15, task, {"stalkSeconds": 150, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"}, size=0.92)
 
 
@@ -1016,7 +1023,7 @@ def deathrat():
         # (Which look, the director decides: hairless in Level 2's heat)
         "client": common_client("backrooms:entity/deathrat", {"base": "backrooms:entity/deathrat", "alternates": [{"base": "backrooms:entity/deathrat-hairless"}]}, animations),
         "server": server(5, tasks, [drop("game:bushmeat-raw", 1.5, 0.5), drop("game:hide-raw-small", 0.5, 0.5), drop("game:bone", 0.5, 0.5)],
-                         decay="game:carcass-small"),
+                         menace={"maxEncounterSeconds": 300}, decay="game:carcass-small"),
         "sounds": {"hurt": "game:creature/hare-hurt", "death": "game:creature/hare-hurt"},
     }
 
@@ -1114,10 +1121,13 @@ def bacteria():
                        damage=6, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
                        attackDurationMs=1000, damageAtMs=440, attackCooldownMs=1800, attackAnimation="attack",
                        prefersHidden=True, huntsInLobby=True, emergeAnimation="emerge", emergeMs=2500,
-                       huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48)
+                       huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48,
+                       # What it perceives (README section 6.2)
+                       senses=dict(sightLit=32, sightDim=16, sightDark=10, sightCone=70, hearing=28, memorySeconds=6, trackSeconds=15, trackError=10),
+                       investigateSeconds=6, searchSeconds=8, retaliateSeconds=60)
     # The model stoops to 44 px (2.76 blocks), just under Level 0's ceiling; the hitbox is kept to a doorway's two
     # blocks, the head above it. Its long arms reach 1.6 blocks ahead.
-    return tall_body("bacteria", (0.7, 1.95), 2.5, 20, task, {"stalkSeconds": 120}, None,
+    return tall_body("bacteria", (0.7, 1.95), 2.5, 20, task, {"stalkSeconds": 120, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "backrooms:entity/howl"},
                      idles=[idle("lurk", 1.15, 6000, 12000, 15000, 45000)],
                      extra_anims=[anim("emerge", "emerge", weight=10), anim("howl", "howl", weight=10)], weight=80)
@@ -1135,7 +1145,7 @@ def wretch():
                        voices=["backrooms:entity/gurgle", "backrooms:entity/cough", "backrooms:effect/whisper", "game:player/hurt*"],
                        soundRange=24)
     # The model is 28.9 px hunched (1.8 blocks), the eyes at 1.6
-    return tall_body("wretch", (0.65, 1.8), 1.6, 16, task, {"stalkSeconds": 90}, None,
+    return tall_body("wretch", (0.65, 1.8), 1.6, 16, task, {"stalkSeconds": 90, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
                      idles=[idle("huddle", 1.15, 6000, 12000, 20000, 60000), idle("gnaw", 1.2, 2000, 6000, 15000, 45000)],
                      looks=("early", "fargone"), extra_anims=[anim("snarl", "snarl", weight=10)], weight=60)
@@ -1196,6 +1206,9 @@ def optional_sounds(*codes):
     return [c for c in codes if os.path.exists(os.path.join(ASSETS, "sounds", *c.split(":", 1)[1].split("/")) + ".ogg")]
 
 
+ANIMATION_MENACE = {"stalkSeconds": 150, "maxEncounterSeconds": 300}
+
+
 def motion_body(code, hitbox, eye, health, task, attack, drops, sounds, weight=60, size=1.0, mechanical=False, menace=None):
     """One of the Animations: walk, run, idle, its attack, hurt and die, all in its own stop-motion."""
     animations = [
@@ -1232,7 +1245,7 @@ def animation_clay():
                        attackAnimation="smother", stalkSound="game:effect/clayform", attackSound="game:effect/squish*",
                        voices=optional_sounds("backrooms:entity/allglory"), soundRange=24)
     return motion_body("animation-clay", (0.75, 1.65), 1.45, 24, task, "smother",
-                       [drop("game:clay-blue", 6, 2)], {"hurt": "game:effect/squish*", "death": "game:effect/clayform"}, weight=80)
+                       [drop("game:clay-blue", 6, 2)], {"hurt": "game:effect/squish*", "death": "game:effect/clayform"}, weight=80, menace=ANIMATION_MENACE)
 
 
 def animation_wooden():
@@ -1244,7 +1257,7 @@ def animation_wooden():
                        voices=optional_sounds("backrooms:entity/allglory", "backrooms:entity/laughter"), soundRange=28)
     return motion_body("animation-wooden", (0.6, 1.8), 1.65, 18, task, "club",
                        [drop("game:stick", 4, 2), drop("game:plank-oak", 2, 1)],
-                       {"hurt": "game:block/stickhit", "death": "game:block/stickbreak"}, weight=40)
+                       {"hurt": "game:block/stickhit", "death": "game:block/stickbreak"}, weight=40, menace=ANIMATION_MENACE)
 
 
 def animation_paper():
@@ -1255,7 +1268,7 @@ def animation_paper():
                        attackAnimation="slap", fearsFire=True, retreatBelow=0.3, stalkSound="game:effect/writing",
                        attackSound="game:effect/swoosh", voices=optional_sounds("backrooms:entity/laughter"), soundRange=20)
     return motion_body("animation-paper", (0.5, 1.45), 1.3, 5, task, "slap",
-                       [drop("game:paper-parchment", 2, 1)], {"hurt": "game:effect/clothrip", "death": "game:effect/clothrip"}, weight=5)
+                       [drop("game:paper-parchment", 2, 1)], {"hurt": "game:effect/clothrip", "death": "game:effect/clothrip"}, weight=5, menace=ANIMATION_MENACE)
 
 
 def roboman():

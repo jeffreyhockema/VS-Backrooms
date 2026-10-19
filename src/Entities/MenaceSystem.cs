@@ -16,7 +16,9 @@ namespace Backrooms.Entities;
 /// The entities' director. Every two seconds it weighs how much danger each player is in (the menace: how deep into
 /// their level they are, how close to the edge into the next or to a threshold, their Reality Stability, whether they
 /// stand in the dark, whether a Reality Shift has put the lights out) and, now and then, does something about it: a
-/// sound down the hall, something seen far off, something that follows, something that hunts. Wanderers that mean no
+/// sound down the hall, something seen far off, something that follows, something that hunts. Spawn rolls are made
+/// once per place (people within 24 blocks of each other share one, for whoever is in most danger), and a pack is
+/// clipped to the cap of the current band. Wanderers that mean no
 /// harm (Facelings, the city's Hounds) are kept around separately.
 ///
 /// Entities are put down out of the player's reach, from the layout (so never inside a wall or a sealed room), and
@@ -453,6 +455,8 @@ public partial class MenaceSystem : ModSystem
     {
         Senses.LightsOut = (reality?.ShiftStrength ?? 0) > 0.5;
         if (Paused) return;
+        // Assess everyone first (players, and the dummies if they are directed), then direct them by place
+        var directed = new List<(Entity Entity, Watch Watch, bool Creative)>();
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
         {
             if (online is not IServerPlayer player || player.Entity == null || !player.Entity.Alive) continue;
@@ -460,22 +464,68 @@ public partial class MenaceSystem : ModSystem
             EntityPlayer entity = player.Entity;
             if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
             Assess(entity, watch);
-            Direct(entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative);
+            directed.Add((entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative));
         }
-        if (DirectsDummies) DirectDummies();
+        if (DirectsDummies)
+        {
+            dummies.RemoveAll(d => !d.Alive);
+            foreach (Entity dummy in dummies)
+            {
+                if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
+                Assess(dummy, watch);
+                directed.Add((dummy, watch, false));
+            }
+        }
+        DirectByPlace(directed);
+        if (DirectsDummies) ReportDummies();
     }
 
-    /// <summary>Directs the straw dummies as players (see <see cref="DirectsDummies"/>), and logs what is about them every half minute.</summary>
-    private void DirectDummies()
+    /// <summary>Players (and dummies) in the same level this close share one spawn roll (README section 5: spawn attempts are per place).</summary>
+    private const double PlaceRadius = 24;
+
+    /// <summary>
+    /// Directs everyone, rolling for a spawn once per place: those within <see cref="PlaceRadius"/> blocks of each other
+    /// in the same level (greedily, each joining the first group that has a member that near) share one roll, made for
+    /// the member in the most danger (the highest menace). Wanderers, the Flickering and the Screaming stay per person.
+    /// Someone alone in their place is directed exactly as before.
+    /// </summary>
+    private void DirectByPlace(List<(Entity Entity, Watch Watch, bool Creative)> directed)
     {
-        dummies.RemoveAll(d => !d.Alive);
-        bool report = Logging && ++dummyTicks % 15 == 0;
+        var groups = new List<List<int>>();
+        for (int i = 0; i < directed.Count; i++)
+        {
+            Entity e = directed[i].Entity;
+            List<int> home = null;
+            foreach (List<int> group in groups)
+            {
+                foreach (int j in group)
+                {
+                    Entity o = directed[j].Entity;
+                    double dx = e.Pos.X - o.Pos.X, dz = e.Pos.Z - o.Pos.Z;
+                    if (directed[j].Watch.Now.Level != directed[i].Watch.Now.Level || dx * dx + dz * dz > PlaceRadius * PlaceRadius) continue;
+                    home = group;
+                    break;
+                }
+                if (home != null) break;
+            }
+            if (home == null) groups.Add(home = new List<int>());
+            home.Add(i);
+        }
+        foreach (List<int> group in groups)
+        {
+            int rolls = group[0];
+            foreach (int i in group) if (directed[i].Watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
+            foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls);
+        }
+    }
+
+    /// <summary>Logs what is about the straw dummies (see <see cref="DirectsDummies"/>) every half minute.</summary>
+    private void ReportDummies()
+    {
+        if (!Logging || ++dummyTicks % 15 != 0) return;
         foreach (Entity dummy in dummies)
         {
-            if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
-            Assess(dummy, watch);
-            Direct(dummy, watch, creative: false);
-            if (!report) continue;
+            Watch watch = watches[dummy.EntityId];
             int own = sapi.World.GetEntitiesAround(dummy.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.OwnerOf(e) == dummy.EntityId && EntityBehaviorMenace.KindOf(e) != Encounter.Ambient).Length;
             sapi.Logger.Notification("[backrooms] about {0} #{1}: {2} menacing within 64 blocks ({3} its own), band {4}, menace {5:0.00}, cap {6}",
                 dummy.Code.Path, dummy.EntityId, CountMenacing(dummy), own, watch.Now.Band, watch.Now.Value, Roster.Cap(watch.Now.Band, watch.Now.Level));
@@ -516,7 +566,11 @@ public partial class MenaceSystem : ModSystem
         return TextCommandResult.Success(EntityBehaviorFaceling.TestGreeting(faceling, greeter));
     }
 
-    private void Direct(Entity target, Watch watch, bool creative)
+    /// <summary>
+    /// <paramref name="rolls"/>: whether this one makes the place's spawn roll (see <see cref="DirectByPlace"/>); the
+    /// wanderers, the Flickering and the Screaming are rolled for everyone.
+    /// </summary>
+    private void Direct(Entity target, Watch watch, bool creative, bool rolls = true)
     {
         Assessment a = watch.Now;
         if (a.Trial) return; // the King's trial is his own affair
@@ -543,6 +597,7 @@ public partial class MenaceSystem : ModSystem
             return;
         }
 
+        if (!rolls) return;
         double danger = Danger.OfLevel(a.Level);
         double chance = (0.02 + 0.12 * a.Value) * (1 + 0.8 * danger) * Setting.Spawns;
         if (rand.NextDouble() >= chance) return;
@@ -657,11 +712,11 @@ public partial class MenaceSystem : ModSystem
 
     /// <summary>
     /// How many menacing (not Ambient) entities are about a player already, whoever they were put down for: the cap
-    /// is on the place, so two people together are not hunted by twice as much, and what turns on a second player
+    /// is on the place (and a pack is clipped to the current band's cap), so two people together are not hunted by twice as much, and what turns on a second player
     /// (see <see cref="AiTaskMenace.OnEntityHurt"/>) still counts for the first.
     /// </summary>
     private int CountMenacing(Entity target) =>
-        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave).Length;
+        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search).Length;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
     public void PlayDistantSound(Entity target, int level)
@@ -757,7 +812,7 @@ public partial class MenaceSystem : ModSystem
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
         bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
-        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(MenaceBand.Threshold, a.Level) - CountMenacing(target)));
+        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(a.Band, a.Level) - CountMenacing(target)));
         Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
         for (int i = 1; i < count; i++)
         {
