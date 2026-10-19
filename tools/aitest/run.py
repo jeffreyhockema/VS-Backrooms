@@ -27,6 +27,10 @@ DONE_RE = re.compile(r"perceive (\w+)#(\d+) done: seen (\d+)/(\d+), sensed (\d+)
 DUMMY_RE = re.compile(r"Dummy #(\d+) at (-?\d+) (-?\d+) (-?\d+), Level (\S+), light (-?\d+)")
 
 
+class ServerDied(Exception):
+    pass
+
+
 class Server:
     def __init__(self, mods, data, port=42733):
         self.lines = []
@@ -64,8 +68,13 @@ class Server:
     def cmd(self, c):
         with self.lock:
             self.lines.append(">>> " + c)
-        self.p.stdin.write((c + "\r\n").encode("utf-8"))
-        self.p.stdin.flush()
+        if self.p.poll() is not None:
+            raise ServerDied("server exited with code %s" % self.p.returncode)
+        try:
+            self.p.stdin.write((c + chr(13) + chr(10)).encode("utf-8"))
+            self.p.stdin.flush()
+        except OSError as e:
+            raise ServerDied("server stdin closed (%r), exit code %s" % (e, self.p.poll()))
 
     def wait(self, pred, mark, timeout):
         """Waits for a line after `mark` for which pred(line) is truthy; returns that value or None."""
@@ -79,6 +88,8 @@ class Server:
                 r = pred(line)
                 if r:
                     return r
+            if self.p.poll() is not None:
+                raise ServerDied("server exited with code %s" % self.p.returncode)
             time.sleep(0.1)
         return None
 
@@ -591,6 +602,7 @@ def main():
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
+    died = None
     try:
         if not srv.ready.wait(900):
             print("FAIL server never became ready")
@@ -608,26 +620,49 @@ def main():
                     ok, ev = not bad, "%d error/exception lines in the p1 run%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:5]))
                 else:
                     ok, ev = fn(c)
+            except ServerDied as e:
+                died = str(e)
+                results.append((name, False))
+                print("FAIL %s (%.0fs): SERVER DIED: %s" % (name, time.time() - t0, died), flush=True)
+                break
             except Exception as e:  # noqa: BLE001
                 ok, ev = False, "harness error: %r" % (e,)
             results.append((name, ok))
             print("%s %s (%.0fs): %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", name, time.time() - t0, ev), flush=True)
-        if not only and not a.no_smoke:
+        if not only and not a.no_smoke and not died:
             ok, ev = smoke(c)
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
-        c.reset()
+        if not died:
+            c.reset()
+    except ServerDied as e:
+        died = str(e)
+        print("FAIL SERVER DIED: " + died, flush=True)
     finally:
         srv.stop()
         with open(os.path.join(data, "aitest.log"), "w", encoding="utf-8") as f:
             f.write("\n".join(srv.lines))
+    if died:
+        print("*** SERVER DIED: %s. Last 40 lines of the server log:" % died)
+        logs = os.path.join(data, "vs", "Logs", "server-main.log")
+        try:
+            with open(logs, encoding="utf-8", errors="replace") as f:
+                tail = f.read().splitlines()[-40:]
+        except OSError:
+            tail = srv.lines[-40:]
+        print(chr(10).join("  " + l for l in tail))
+        crash = os.path.join(data, "vs", "Logs", "server-crash.log")
+        if os.path.exists(crash):
+            print("  (see also %s)" % crash)
     errors = [l for l in srv.lines if re.search(r"\[backrooms\].*(error|exception)|exception.*backrooms", l, re.I)]
     print("log: %d lines, %d backrooms error/exception lines%s" % (len(srv.lines), len(errors), "".join("\n  " + e[:200] for e in errors[:5])))
     failed = [n for n, ok in results if ok is False]
     print("%d/%d passed in %.0f s; log %s" % (len(results) - len(failed), len(results), time.time() - started, os.path.join(data, "aitest.log")))
     if not a.keep and not a.data:
         shutil.rmtree(data, ignore_errors=True)
-    return 1 if failed or errors else 0
+    for n, ok in results:
+        print("  %-8s %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", n))
+    return 1 if failed or errors or died else 0
 
 
 if __name__ == "__main__":
