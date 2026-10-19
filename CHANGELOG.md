@@ -99,13 +99,17 @@ In numbers: 1,219 block textures (611 of them new versions, so a surface no long
 
 ### Before and after
 
-The same spot in the game before the pass (left) and after it (right). All five on one page: [docs/screenshots/progress-0514/00-overview.jpg](docs/screenshots/progress-0514/00-overview.jpg).
+The same spot in the released 0.513.3 (left) and in 0.514.0 (right), each in a world it made, so the new layout (version 9) shows too. All nine on one page: [docs/screenshots/progress-0514/00-overview.jpg](docs/screenshots/progress-0514/00-overview.jpg).
 
-- [docs/screenshots/progress-0514/01-level3-switchgear.jpg](docs/screenshots/progress-0514/01-level3-switchgear.jpg): Level 3's switchgear and pipes. Painted dials became modelled gauges, buttons and a louvred cabinet, and the pipe end gained a ribbed cap.
-- [docs/screenshots/progress-0514/02-level4-ficus.jpg](docs/screenshots/progress-0514/02-level4-ficus.jpg): Level 4's potted plant. A green block of noise became a potted ficus with a trunk and leaves.
-- [docs/screenshots/progress-0514/03-level5-elevator.jpg](docs/screenshots/progress-0514/03-level5-elevator.jpg): Level 5's elevator. A printed pattern became a real folding brass gate, and the call plate and wall panels gained depth.
-- [docs/screenshots/progress-0514/04-level5-door.jpg](docs/screenshots/progress-0514/04-level5-door.jpg): Level 5's guest-room door. A flat painted door became a panelled leaf in a casing, with a brass number plate, knob, hinges and peephole.
-- [docs/screenshots/progress-0514/05-level6-1-kitchen.jpg](docs/screenshots/progress-0514/05-level6-1-kitchen.jpg): The Snackrooms' store kitchen. Flat painted ovens and fridge doors became modelled cooktops, grills, a toaster and double doors.
+- [docs/screenshots/progress-0514/01-level11-hotel-lobby.jpg](docs/screenshots/progress-0514/01-level11-hotel-lobby.jpg): A Level 11 hotel lobby. Ground floors are laid out by kind of building: a hotel lobby gets its front desk facing the door, sitting areas and a grand piano, now rebuilt with keys, a raised lid and pedals.
+- [docs/screenshots/progress-0514/02-level11-street.jpg](docs/screenshots/progress-0514/02-level11-street.jpg): Level 11's street furniture. The mailbox, fire hydrant and streetlights are rebuilt with real parts in the same places, the sidewalk and asphalt are the new materials, and behind the glass the lobby is furnished as a hotel's.
+- [docs/screenshots/progress-0514/03-level94-fences.jpg](docs/screenshots/progress-0514/03-level94-fences.jpg): Level 94's fences and STOP sign. Picket fences stand back from the road behind a grass verge, joined round the bends, with gates and openings; the STOP sign is a proper octagonal plate on a galvanised post.
+- [docs/screenshots/progress-0514/04-hub-tunnel.jpg](docs/screenshots/progress-0514/04-hub-tunnel.jpg): A Hub tunnel. The tunnels are rounded like the road tunnels in the pictures, the walls curving into a vault, the lamps at the top of the wall, a white edge line on the road and a rounded kerb.
+- [docs/screenshots/progress-0514/05-level974-kittys-room.jpg](docs/screenshots/progress-0514/05-level974-kittys-room.jpg): Kitty's room in Level 974. The master bedroom with the cat bed is nearly twice as big, with a second window and a second light, and a doorway Kitty can walk through upright (shot by the shotbot's daylight).
+- [docs/screenshots/progress-0514/06-level-run-junk.jpg](docs/screenshots/progress-0514/06-level-run-junk.jpg): The junk on Level !'s floor. Flat litter became bulky junk you can see coming: loops of orange extension cord, a wheelchair, dumped boxes and a barricade of chairs (shot with a held lantern).
+- [docs/screenshots/progress-0514/07-snackrooms-vending.jpg](docs/screenshots/progress-0514/07-snackrooms-vending.jpg): A Snackrooms vending room's doorway. The machine blocking a vending room's doorway is a broken one, cracked glass, a dented panel and a dead display, that can be broken up for its snacks.
+- [docs/screenshots/progress-0514/08-level9-house.jpg](docs/screenshots/progress-0514/08-level9-house.jpg): A Level 9 house. Houses get windows two blocks tall with sashes, casings and sills, shutters on the front, a picture window and a panelled front door that opens (shot by the shotbot's daylight).
+- [docs/screenshots/progress-0514/09-creatures.jpg](docs/screenshots/progress-0514/09-creatures.jpg): What lives here. Every creature repainted, the Bacteria rebuilt as a tangle of black wire, and three new ones: the Beast of Level 5 (as the gentleman), the Giant Spider and the Neighborhood Watch.
 
 ## 0.513.3 — fixes from the first week
 

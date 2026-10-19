@@ -1,6 +1,6 @@
 {
  "level": "gallery",
- "note": "The gallery's spots (docs/screenshots, file names = spot names), in a fresh world at the review seed (batch.py --world gfxgallery). Shots come out at the screen's size; scale them to 1920x1080.",
+ "note": "The gallery's spots (docs/screenshots, file names = spot names), in a fresh world at the review seed (batch.py --world gfxgallery9, layout version 9). Shots come out at the screen's size; scale them to 1920x1080.",
  "spots": [
   {
    "name": "01-level0-where-you-wake",
@@ -354,48 +354,48 @@
   {
    "name": "16-level8-settlement",
    "tp": [
-    512300.5,
+    513121.5,
     217.05,
-    505635.5
+    505543.5
    ],
    "look": [
-    95,
+    250,
     -6
    ],
    "fov": 70,
    "pre": [
     "slot 8",
-    "tp 512300.5 217.05 505635.5",
+    "tp 513122 217.05 505544",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "Level 8: a settlement of tents, its sign and lamps"
+   "subject": "Level 8: a settlement off the winding road, tents, burn barrels and crates under its dome"
   },
   {
    "name": "17-level8-9th-road",
    "tp": [
-    512380.5,
+    512320.5,
     217.05,
-    505681.5
+    505614.5
    ],
    "look": [
-    90,
-    -4
+    260,
+    -2
    ],
    "fov": 70,
    "pre": [
     "slot 8",
-    "tp 512380.5 217.05 505681.5",
+    "tp 512320 217.05 505614",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "Level 8: the 9th Road with its lamps"
+   "subject": "Level 8: the winding 9th Road, a M.E.G. sign, its lamps and an Almond Water seep"
   },
   {
    "name": "18-level9-suburbs-night",
@@ -523,18 +523,18 @@
   {
    "name": "23-level11-endless-city",
    "tp": [
-    640696.26,
+    640835.5,
     169.05,
-    499318.26
+    499169.5
    ],
    "look": [
-    110,
-    2
+    270,
+    -2
    ],
    "fov": 70,
    "pre": [
     "slot 8",
-    "tp 640696.26 169.05 499318.26",
+    "tp 640836 169.05 499170",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
@@ -542,7 +542,7 @@
     "wait 3000",
     "/time set 12:00"
    ],
-   "subject": "Level 11: a crossing, towers and an advertising pillar"
+   "subject": "Level 11: a sidewalk along a hotel's glass lobby, a mailbox, fire hydrant and streetlights"
   },
   {
    "name": "24-level11-diner",
@@ -618,17 +618,17 @@
    "name": "27-level94-motion",
    "tp": [
     512016.5,
-    187.0,
-    384466.5
+    187.05,
+    384412.5
    ],
    "look": [
-    0,
-    3
+    330,
+    0
    ],
    "fov": 70,
    "pre": [
     "slot 8",
-    "tp 512016.5 187 384466.5",
+    "tp 512016 187.05 384412",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
@@ -636,7 +636,7 @@
     "wait 3000",
     "/time set 12:00"
    ],
-   "subject": "Level 94: a road between the hills, a house above"
+   "subject": "Level 94: a winding road between picket fences set back behind the verge, a STOP sign at the corner"
   },
   {
    "name": "28-level94-hills",
@@ -665,9 +665,9 @@
   {
    "name": "29-level-run-hallway",
    "tp": [
-    511792.5,
-    217.0,
-    639740.5
+    511791.5,
+    217.05,
+    640155.5
    ],
    "look": [
     180,
@@ -676,14 +676,14 @@
    "fov": 70,
    "pre": [
     "slot 8",
-    "tp 511792.5 217 639740.5",
+    "tp 511792 217.05 640156",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "Level !: the hallway under its EXIT sign"
+   "subject": "Level !: the hall's last stretch, fallen ceiling and dumped boxes, EXIT signs on to the real exit"
   },
   {
    "name": "30-level-run-start-room",
@@ -803,48 +803,50 @@
   {
    "name": "35-the-hub",
    "tp": [
-    625177.5,
+    625153.5,
     189.05,
-    624802.4
+    624790.5
    ],
    "look": [
     0,
-    0
+    6
    ],
-   "fov": 85,
+   "fov": 80,
    "pre": [
     "slot 8",
-    "tp 625177.5 189.05 624802.4",
+    "tp 625154 189.05 624790",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "The Hub: a door and its lamps across the street"
+   "subject": "The Hub: a rounded side tunnel, its lamps, doors, kerbs and edge lines"
   },
   {
    "name": "36-level974-kittys-room",
    "tp": [
     398996.5,
     217.05,
-    622763.1
+    622771.3
    ],
    "look": [
-    350,
-    -12
+    160,
+    -14
    ],
-   "fov": 75,
+   "fov": 80,
    "pre": [
     "slot 8",
-    "tp 398996.5 217.05 622763.1",
+    "tp 398996 217.05 622771",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
-    "wait 3000"
+    "wait 3000",
+    "/time set 12:00",
+    "daylight"
    ],
-   "subject": "974: Kitty's room, desk and window"
+   "subject": "974: Kitty's room (layout 9, nearly twice as big), the cat bed and two windows, by the shotbot's daylight"
   },
   {
    "name": "37-level974-bed",

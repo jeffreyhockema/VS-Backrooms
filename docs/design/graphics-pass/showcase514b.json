@@ -1,0 +1,78 @@
+{
+ "note": "Before and after for the 0.514.0 change notes and the mod page, chosen to show this release's newest work (layout version 9, the rebuilt props and the new creatures). Built by tools/shotbot/showcase.py. Before is the released 0.513.3 (bin/backroomsss_0.513.3.zip) in a world it made (rel0513, layout version 7); after is the 0.514.0 build in a world it made (gfxgallery9, layout version 9); both at the review seed 1672613597, the same spots (review/shots514/spots/pairs-old.json and pairs-new.json; Level !'s hall is shorter in layout 9, so its spot stands the same distance before each world's real exit). The creature lineup's before is the 0.513 gallery's (review/b18/gallery-old). review/ is git-ignored and exists only on the machine that shot it.",
+ "out": "docs/screenshots/progress-0514",
+ "moddb": "docs/moddb/img/progress-0514",
+ "moddb_width": 1280,
+ "overview_width": 1280,
+ "pairs": [
+  {
+   "file": "01-level11-hotel-lobby",
+   "subject": "Level 11: a hotel lobby",
+   "caption": "Ground floors are laid out by kind of building: a hotel lobby gets its front desk facing the door, sitting areas and a grand piano, now rebuilt with keys, a raised lid and pedals.",
+   "before": "review/shots514/pairs-old2/p01-l11lobby.png",
+   "after": "review/shots514/final2/pairs-new-final/p01-l11lobby.png"
+  },
+  {
+   "file": "02-level11-street",
+   "subject": "Level 11: street furniture",
+   "caption": "The mailbox, fire hydrant and streetlights are rebuilt with real parts in the same places, the sidewalk and asphalt are the new materials, and behind the glass the lobby is furnished as a hotel's.",
+   "before": "review/shots514/pairs-old2/p02-l11street.png",
+   "after": "review/shots514/final2/pairs-new-final/p02-l11street.png"
+  },
+  {
+   "file": "03-level94-fences",
+   "subject": "Level 94: fences and the STOP sign",
+   "caption": "Picket fences stand back from the road behind a grass verge, joined round the bends, with gates and openings; the STOP sign is a proper octagonal plate on a galvanised post.",
+   "before": "review/shots514/pairs-old2/p03-l94.png",
+   "after": "review/shots514/final2/pairs-new-final/p03-l94.png"
+  },
+  {
+   "file": "04-hub-tunnel",
+   "subject": "The Hub: a side tunnel",
+   "caption": "The tunnels are rounded like the road tunnels in the pictures, the walls curving into a vault, the lamps at the top of the wall, a white edge line on the road and a rounded kerb.",
+   "before": "review/shots514/pairs-old2/p04-hub.png",
+   "after": "review/shots514/final2/pairs-new-final/p04-hub.png"
+  },
+  {
+   "file": "05-level974-kittys-room",
+   "subject": "Level 974: Kitty's room",
+   "caption": "The master bedroom with the cat bed is nearly twice as big, with a second window and a second light, and a doorway Kitty can walk through upright (shot by the shotbot's daylight).",
+   "before": "review/shots514/pairs-old2/p05-kitty.png",
+   "after": "review/shots514/final2/pairs-new-final/p05-kitty.png"
+  },
+  {
+   "file": "06-level-run-junk",
+   "subject": "Level !: the junk on the floor",
+   "caption": "Flat litter became bulky junk you can see coming: loops of orange extension cord, a wheelchair, dumped boxes and a barricade of chairs (shot with a held lantern).",
+   "before": "review/shots514/pairs-old2/p06-run.png",
+   "after": "review/shots514/final2/pairs-new-final/p06-run.png"
+  },
+  {
+   "file": "07-snackrooms-vending",
+   "subject": "The Snackrooms: the vending room's doorway",
+   "caption": "The machine blocking a vending room's doorway is a broken one, cracked glass, a dented panel and a dead display, that can be broken up for its snacks.",
+   "before": "review/shots514/pairs-old2/p07-vend.png",
+   "after": "review/shots514/final2/pairs-new-final/p07-vend.png",
+   "crop": [
+    0.35,
+    0.22,
+    0.65,
+    0.72
+   ]
+  },
+  {
+   "file": "08-level9-house",
+   "subject": "Level 9: a two-storey house",
+   "caption": "Houses get windows two blocks tall with sashes, casings and sills, shutters on the front, a picture window and a panelled front door that opens (shot by the shotbot's daylight).",
+   "before": "review/shots514/pairs-old2/p08-l9house.png",
+   "after": "review/shots514/final2/pairs-new-final/p08-l9house.png"
+  },
+  {
+   "file": "09-creatures",
+   "subject": "What lives here",
+   "caption": "Every creature repainted, the Bacteria rebuilt as a tangle of black wire, and three new ones: the Beast of Level 5 (as the gentleman), the Giant Spider and the Neighborhood Watch.",
+   "before": "review/b18/gallery-old/42-what-lives-here.png",
+   "after": "docs/screenshots/42-what-lives-here.png"
+  }
+ ]
+}

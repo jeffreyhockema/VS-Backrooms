@@ -1,5 +1,5 @@
 {
- "note": "Before and after showcase for the 0.514.0 change notes and the mod page, made after the last rounds of fixes. Built by tools/shotbot/showcase.py. Before is review/baseline (main before the graphics pass), after is review/showcase514 (main at the 0.514.0 build), the same spots in the gfxreview world (seed 1672613597). review/ is git-ignored and exists only on the machine that shot it.",
+ "note": "Superseded by showcase514b.json (the same out folder now holds its pairs; re-running this list would mix the two sets). Before and after showcase for the 0.514.0 change notes and the mod page, made after the last rounds of fixes. Built by tools/shotbot/showcase.py. Before is review/baseline (main before the graphics pass), after is review/showcase514 (main at the 0.514.0 build), the same spots in the gfxreview world (seed 1672613597). review/ is git-ignored and exists only on the machine that shot it.",
  "out": "docs/screenshots/progress-0514",
  "moddb": "docs/moddb/img/progress-0514",
  "moddb_width": 1280,

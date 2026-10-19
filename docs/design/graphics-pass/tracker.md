@@ -259,6 +259,11 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 - (L1 props) A tool run from the repo root: the checkout is CRLF on disk (autocrlf) and the generators write LF, so every
   regenerated file shows as modified. Compare with `git show HEAD:path` after normalising line endings and check the rest
   out (`restore.py` in the L1 props batch's scratch notes did this: 1154 files restored, the real changes stood).
+- (shots514) `batch.py --data <new dir>` copies the user's `clientsettings.json` as it is, so the client shot in the user's window
+  (2197x1318, not 16:9) and the gallery PNGs came out stretched when scaled to 1920x1080. Set `gameWindowMode` 1 and
+  `screenWidth`/`screenHeight` 3856/2176 in a new data dir before shooting, and check a shot's size before installing it.
+- (shots514) The Snackrooms' lights can be off for a whole shot (one scout frame of a vending room came out at a third of
+  the brightness of the same frame in the next run); retake a dark Snackrooms frame before judging it.
 
 ## Batches
 
