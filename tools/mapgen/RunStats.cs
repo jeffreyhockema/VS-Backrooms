@@ -118,6 +118,8 @@ static partial class LevelModes
             int doors = 0, events = L.Events.Count;
             for (int i = 0; i < L.Tiles.Length; i++) if (L.Tiles[i].Kind == TileKind.Door && L.Tiles[i].Pattern is WallPattern.RunSideDoor or WallPattern.RunDentedDoor or WallPattern.RunSwingDoor) doors++;
             string ev = string.Join(" ", L.Events.GroupBy(e => e.Kind).Select(g => $"{g.Key}:{g.Count()}"));
+            if (Environment.GetEnvironmentVariable("SIGNGAPS") != null)
+                Console.WriteLine($"signgaps lane {lane}: course {L.ExitS} signs {L.Signs.Count} mean gap {(L.Signs.Count > 1 ? (double)(L.Signs[^1] - L.Signs[0]) / (L.Signs.Count - 1) : 0):0.0} at {string.Join(",", L.Signs)}");
             Console.WriteLine($"lane {lane,2}: course {L.ExitS,3} (thirds at {L.Middle}, {L.Last}), signs {L.Signs.Count,2}, darkest {darkest}/{darkestLast}, " +
                 $"weave {weave,3} cols + {jumps,2} jumps at best, doors {doors,3}, obstacle rows {hard,3} (3+ to go round {walls,2}, needles {needles,2}, jump-or-weave {jumpRows,2}), worst {worst}, trip props {trips,2}, {ev}{(L.HasSafe ? $", SAFE {L.SafeFrom}-{L.SafeTo}" : "")}{(L.HasHole ? ", hole" : "")} -> {WorldLayout.DisplayNumber(L.Destination)}");
             var (shortest, longest) = layout.Version >= 9 ? (470, 510) : (600, 640);

@@ -366,7 +366,9 @@ public sealed partial class WorldLayout
     /// Level !'s hall is shorter: 15 rows of hallway (RunRows9; in 1-8 19), so the run is about 485 blocks (in 1-8 about
     /// 615), the doglegs, the Safe Zone and the hole placed by the same rules over it; past the exit's row the lane is
     /// solid wall (RunExitAt). Junk that trips a sprinter is put in the gaps of the gauntlet a little less often (in a
-    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55).
+    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55). Its hanging EXIT signs run steadily
+    /// down the centre line, 12 +- 2 apart (in 1-8 10 +- 3 with clusters 4 apart), with dark gaps only in the last third
+    /// and none over 26 blocks (in 1-8 up to 32 and 40); the signs over the exits are unchanged.
     /// (in 1-8 as the Tower, its gallery floors and stair across the road).
     /// Level 3999's rooms of tall neon pillars, the units that were atria 18 high, have lower ceilings
     /// (<see cref="L3999LowAtriumHeight"/>): 10 over a lobby or a natatorium, 11 over a food court or a game hall, whose
