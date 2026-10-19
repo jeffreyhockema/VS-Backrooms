@@ -23,7 +23,7 @@ namespace Backrooms.Entities;
 /// <item>Hurt by someone, the Facelings near it turn on them together: hit one in the city and the street comes for
 /// you. A child that is hurt throws a tantrum at whoever did it, and is calmed by a right-click with food: it waves
 /// and follows that player for a minute.</item>
-/// <item>Disturbed (a player breaks a block, jumps or fights within six blocks of a grown one that can see them,
+/// <item>Disturbed (a player breaks a block or fights within six blocks of a grown one that can see them,
 /// heard on the noise bus; the director raises those anyway, so listening costs a look at a short list four times a
 /// second), it has an outburst (<see cref="AiTaskOutburst"/>).</item>
 /// <item>Killed while docile, it shames its killer for ten minutes (<see cref="MenaceSystem.Shame"/>).</item>
@@ -87,9 +87,9 @@ public class EntityBehaviorFaceling : EntityBehavior
     // ================= Outbursts (server) =================
 
     /// <summary>
-    /// "Easily angered by even small disturbances": a block broken, a jump or a fight near a grown Faceling that can see
-    /// who did it sets it off, once in thirty seconds. This reads the noise bus (the director already puts a break, a
-    /// jump and a fight on it) rather than hooking DidBreakBlock again for each Faceling: a few events held two seconds.
+    /// "Easily angered by even small disturbances": a block broken or a fight near a grown Faceling that can see
+    /// who did it sets it off, once in thirty seconds. This reads the noise bus (the director already puts a break and a
+    /// fight on it) rather than hooking DidBreakBlock again for each Faceling: a few events held two seconds.
     /// </summary>
     private void Listen()
     {
@@ -106,7 +106,7 @@ public class EntityBehaviorFaceling : EntityBehavior
         {
             if (noise.Id <= lastNoiseId) continue;
             lastNoiseId = noise.Id;
-            if (!ready || noise.Source is not ("break" or "jump" or "fight" or "test")) continue;
+            if (!ready || noise.Source is not ("break" or "fight" or "test")) continue;
             // (The shove is a fight too: it must not set the next one off)
             if (noise.Source == "fight" && now - AiTaskOutburst.LastShoveMs < 800) continue;
             Entity who = entity.World.GetEntityById(noise.Who);
