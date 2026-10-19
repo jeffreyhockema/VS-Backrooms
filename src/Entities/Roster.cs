@@ -162,12 +162,13 @@ public static class Roster
     public const string Beast = BeastSystem.Gentleman, BeastUnveiled = BeastSystem.Unveiled;
     /// <summary>A giant eyeball on six long legs, walking the Suburbs' streets (Entity 96).</summary>
     public const string NeighborhoodWatch = "backrooms:neighborhoodwatch";
+    public const string Watcher = "backrooms:watcher";
     /// <summary>Level 8's giant spiders: territorial, venomous, drawn by noise, and they cannot swim (AiTaskSpider).</summary>
     public const string GiantSpider = "backrooms:giantspider";
 
     /// <summary>Every entity the director puts down.</summary>
     public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled, NeighborhoodWatch, GiantSpider };
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled, NeighborhoodWatch, GiantSpider, Watcher };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -284,6 +285,8 @@ public static class Roster
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
             // The Neighborhood Watch: a giant eyeball on legs walking the streets, finding people by sight (AiTaskWatch)
             E(NeighborhoodWatch, Approach, Menacing, 0.7) with { Outdoors = true },
+            // The Watcher: its floating form, an eye that levitates over the streets and turns the seen to dust (AiTaskWatcher)
+            E(Watcher, Approach, Menacing, 0.4) with { Outdoors = true },
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
         // The fields are safe; only near the barns where the city lies through the wall do Hounds come

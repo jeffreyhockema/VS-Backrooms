@@ -2449,6 +2449,12 @@
 	"item-creature-neighborhoodwatch": "Neighborhood Watch",
 	"prefixandcreature-neighborhoodwatch": "the Neighborhood Watch",
 	"deadcreature-neighborhoodwatch": "Seen by the Neighborhood Watch",
+	"item-creature-watcher": "Watcher",
+	"prefixandcreature-watcher": "a Watcher",
+	"deadcreature-watcher": "Turned to dust by a Watcher",
+	"deathmsg-watcher-1": "Player {0} was turned to dust by a Watcher.",
+	"deathmsg-watcher-2": "Player {0} looked a Watcher in the eye.",
+	"deathmsg-watcher-3": "Player {0} stayed in the light too long.",
 
 	"block-exitlintelpair-*": "EXIT Sign",
 	"block-staffplaque-*": "Staff Only Sign",

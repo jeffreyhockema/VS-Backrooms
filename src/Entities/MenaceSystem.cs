@@ -977,8 +977,28 @@ public partial class MenaceSystem : ModSystem
         if (entry.NeedsDark && Senses.LightAt(sapi.World, spot.AddCopy(0, 1, 0), target) >= Senses.LitLevel) return null;
         // (Under the open sky, with room for something three blocks tall)
         if (entry.Outdoors && (sapi.World.BlockAccessor.GetRainMapHeightAt(x, z) > y || Senses.FindFloor(sapi.World, x, y, z, 3, 0) != y)) return null;
+        // (The Watcher: never two within 48 blocks, never within 200 of Level 10's wall)
+        if (entry.Code == Roster.Watcher && !WatcherSpotOk(spot)) return null;
         if (!ambient && Wards.Warded(sapi.World, spot)) return null;
         return spot;
+    }
+
+    /// <summary>Whether a Watcher may be put down at a spot: no other within 48 blocks, no Level 10 within 200 (the lore's "never near Level 10").</summary>
+    private bool WatcherSpotOk(Vec3d spot)
+    {
+        if (sapi.World.GetNearestEntity(spot, 48, 48, e => e.Alive && e.Code.Path == "watcher") != null) return false;
+        int mx = WorldLayout.MacroOf((int)Math.Floor(spot.X)), mz = WorldLayout.MacroOf((int)Math.Floor(spot.Z));
+        int reach = 200 / WorldLayout.MacroSize + 2;
+        for (int dz = -reach; dz <= reach; dz++)
+            for (int dx = -reach; dx <= reach; dx++)
+            {
+                if (layout.LevelAt(mx + dx, mz + dz) != 10) continue;
+                // (The distance to the nearest point of that cell)
+                double nx = Math.Clamp(spot.X, (mx + dx) * WorldLayout.MacroSize, (mx + dx + 1) * WorldLayout.MacroSize);
+                double nz = Math.Clamp(spot.Z, (mz + dz) * WorldLayout.MacroSize, (mz + dz + 1) * WorldLayout.MacroSize);
+                if ((nx - spot.X) * (nx - spot.X) + (nz - spot.Z) * (nz - spot.Z) < 200.0 * 200.0) return false;
+            }
+        return true;
     }
 
     /// <summary>Somewhere in open, deep water around a column, near the target's depth (for The Thing).</summary>
@@ -1065,7 +1085,7 @@ public partial class MenaceSystem : ModSystem
             NeedsDark = code == Roster.Smiler,
             Aquatic = code == Roster.TheThing,
             Ambush = code is Roster.Clump or Roster.GiantSpider,
-            Outdoors = code == Roster.NeighborhoodWatch,
+            Outdoors = code is Roster.NeighborhoodWatch or Roster.Watcher,
         };
         // Put it down at the right distance (or the one asked for); failing that, anywhere 14 blocks off
         int distance = args.Parsers[4].IsMissing ? 14 : (int)args[4];
