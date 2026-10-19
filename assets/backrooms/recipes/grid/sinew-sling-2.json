@@ -1,0 +1,27 @@
+{
+	"ingredientPattern": "T,L",
+	"ingredients": {
+		"T": {
+			"type": "item",
+			"code": "backrooms:clumpsinew"
+		},
+		"L": {
+			"type": "item",
+			"code": "game:hide-pelt-*",
+			"tags": {
+				"anyOf": [
+					"size-small",
+					"size-medium"
+				]
+			}
+		}
+	},
+	"requiresTrait": "improviser",
+	"width": 1,
+	"height": 2,
+	"name": "sling (sinew)",
+	"output": {
+		"type": "item",
+		"code": "game:sling"
+	}
+}

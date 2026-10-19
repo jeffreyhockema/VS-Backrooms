@@ -116,6 +116,8 @@ public class AiTaskMoth : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         drawn = 0;
 
+        // Moth jelly set down within 24 blocks draws every male to it, whatever else is about (MothJelly.cs)
+        if (!bites && BaitPull(now)) return;
         if (kind == Encounter.Leave || target == null || !target.Alive)
         {
             TakeOff();
@@ -201,6 +203,33 @@ public class AiTaskMoth : AiTaskBase
             double y = floor == int.MinValue ? entity.Pos.Y : floor + 1.4 + rand.NextDouble() * 1.2;
             goal = new Vec3d(home.X + Math.Cos(angle) * d, y, home.Z + Math.Sin(angle) * d);
         }
+    }
+
+    // ================= Moth jelly =================
+
+    /// <summary>
+    /// A male drawn to moth jelly: flies to the spot beside it and feeds there until it is gone (a player within
+    /// scavengeAvoid keeps it off, as with any food). Returns whether it is doing that.
+    /// </summary>
+    private bool BaitPull(long now)
+    {
+        Entity bait = BaitSystem.Nearest(entity, BaitSystem.Range);
+        if (bait == null) return false;
+        Vec3d spot = SpotBeside(bait);
+        if (spot == null || PlayerNear(spot, scavengeAvoid)) return false;
+        perch = spot;
+        goal = spot;
+        double dx = entity.Pos.X - spot.X, dz = entity.Pos.Z - spot.Z, dy = entity.Pos.Y - spot.Y;
+        if (dx * dx + dz * dz < 1.0 && dy < 1.2)
+        {
+            if (settle != Settle.Feeding) entity.AnimManager.StartAnimation("feed");
+            settle = Settle.Feeding;
+            settledUntilMs = now + 4000;
+            return true;
+        }
+        if (settle is Settle.Resting or Settle.Feeding) TakeOff();
+        settle = Settle.None;
+        return true;
     }
 
     // ================= Settling =================

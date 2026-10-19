@@ -27,6 +27,7 @@ from PIL import Image
 ICONS = {
     "item/candybar", "item/cashewwater", "item/chalk", "item/chips", "item/soda", "item/waterbottle",
     "item/almondmilk", "item/crownshard", "item/epsomsalt", "item/redwater", "item/prybar",
+    "item/mothquill", "item/spidersilk", "item/clumpsinew", "item/mothjelly",
     "item/seedpacket-carrot", "item/seedpacket-flax", "item/seedpacket-onion", "item/seedpacket-spelt",
     "item/seedpacket-turnip", "item/wanderernote", "item/wanderernote-folded",
     "item/salvage/carpetfibre", "item/salvage/ceramicgrit", "item/salvage/glassshard", "item/salvage/glassshiv",

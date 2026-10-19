@@ -25,8 +25,21 @@ public class BlockMothHiveHeart : Block
     public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1f) =>
         HiveHeartDrops(world, pos, byPlayer, dropQuantityMultiplier);
 
-    /// <summary>What a broken hive heart yields. Nothing yet: the materials batch (P6) sets the quills and the moth jelly here.</summary>
-    public static ItemStack[] HiveHeartDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier) => Array.Empty<ItemStack>();
+    /// <summary>The level whose hive hearts also hold moth jelly, and the chance of one.</summary>
+    public const int JellyLevel = 5;
+    public const double JellyChance = 1.0 / 3;
+
+    /// <summary>What a broken hive heart yields: 2 to 4 Deathmoth quills, and in Level 5 a moth jelly now and then (1 in 3).</summary>
+    public static ItemStack[] HiveHeartDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier)
+    {
+        var drops = new List<ItemStack>();
+        Item quill = world.GetItem(new AssetLocation("backrooms:mothquill"));
+        if (quill != null) drops.Add(new ItemStack(quill, Math.Max(1, (int)Math.Round((2 + world.Rand.Next(3)) * Math.Max(0.5f, dropQuantityMultiplier)))));
+        Item jelly = world.GetItem(new AssetLocation("backrooms:mothjelly"));
+        if (jelly != null && pos != null && Backrooms.Salvage.ProtectionSystem.LevelAt(world, pos.X, pos.Z) == JellyLevel && world.Rand.NextDouble() < JellyChance)
+            drops.Add(new ItemStack(jelly, 1));
+        return drops.ToArray();
+    }
 }
 
 /// <summary>
@@ -54,8 +67,12 @@ public class BlockClumpRemnant : Block
     public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1f) =>
         RemnantDrops(world, pos, byPlayer, dropQuantityMultiplier);
 
-    /// <summary>What a broken remnant yields. Nothing yet: the materials batch (P6) sets the sinew here.</summary>
-    public static ItemStack[] RemnantDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier) => Array.Empty<ItemStack>();
+    /// <summary>What a broken remnant yields: 1 to 2 Clump sinew.</summary>
+    public static ItemStack[] RemnantDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier)
+    {
+        Item sinew = world.GetItem(new AssetLocation("backrooms:clumpsinew"));
+        return sinew == null ? Array.Empty<ItemStack>() : new[] { new ItemStack(sinew, 1 + world.Rand.Next(2)) };
+    }
 
     public override string GetPlacedBlockInfo(IWorldAccessor world, BlockPos pos, IPlayer forPlayer)
     {

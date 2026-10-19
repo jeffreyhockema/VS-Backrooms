@@ -1,0 +1,26 @@
+{
+	"ingredientPattern": "SQ",
+	"ingredients": {
+		"S": {
+			"type": "item",
+			"code": "game:spear-*",
+			"name": "spear"
+		},
+		"Q": {
+			"type": "item",
+			"code": "backrooms:mothquill"
+		}
+	},
+	"width": 2,
+	"height": 1,
+	"shapeless": true,
+	"copyAttributesFrom": "S",
+	"name": "envenomed spear",
+	"output": {
+		"type": "item",
+		"code": "game:spear-{spear}",
+		"attributes": {
+			"backrooms:venom": 3
+		}
+	}
+}
