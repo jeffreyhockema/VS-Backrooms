@@ -66,6 +66,50 @@ SOCKET = (76, 60, 46)
 MOUTH = (46, 28, 28)
 
 
+# The fed look (AI overhaul, README 6.1): a fed Skin-Stealer is docile and wears a person's clothes over a fresher, less
+# waxy skin (the lore: it keeps the skin warm with pumped blood). Painted on the common atlas, so it is a texture
+# alternate; the tells stay (the sunken eyes, the long forearms, the cuffs ending short of the knuckles).
+SK_FED = False
+SK_FRESH = dict(SK_BASE=(236, 212, 188), SK_CREAM=(248, 230, 214), SK_TAN=(214, 172, 146), SK_PINK=(218, 152, 144),
+                SK_BROWN=(150, 106, 84), SK_BRUISE=(172, 132, 142), SK_GREEN=(196, 182, 156))
+SK_SHIRT = (84, 98, 120)       # a faded blue work shirt
+SK_TROUSERS = (64, 58, 52)     # dark, worn trousers
+SK_SHOE = (38, 30, 26)
+
+
+def clothe(ctx, colour, until=1.0, seam=True):
+    """Cloth over the skin on the top `until` of a face: a weave, a seam, a fold or two."""
+    if not SK_FED:
+        return
+    px = ctx.img.load()
+    rows = max(1, int(round(ctx.h * until)))
+    for yy in range(rows):
+        for xx in range(ctx.w):
+            k = {"up": 1.08, "down": 0.72, "north": 0.94, "south": 0.94, "east": 0.88, "west": 1.0}[ctx.face]
+            m = 1 + 0.07 * (ctx.rng.random() - 0.5) * 2
+            if (xx + yy) % 2 == 0:
+                m *= 0.95                                           # the weave
+            px[ctx.x + xx, ctx.y + yy] = shade(colour, k * m) + (255,)
+    if seam and ctx.face in ("west", "east", "north", "south"):
+        line(ctx, 0.5, 0.0, 0.5, until, shade(colour, 0.7), 0.45)
+        line(ctx, 0.0, until * 0.55, 1.0, until * 0.5, shade(colour, 0.8), 0.4)      # a crease where it bunches
+    if until < 1.0 and ctx.face in ("west", "east", "north", "south"):
+        texrow(ctx, rows - 1, 0, -1, shade(colour, 0.65), 0.8)    # the hem or cuff
+
+
+def worn(paint, colour, until=1.0, buttons=False):
+    """A painter that puts clothes on whatever `paint` draws, when painting the fed look (and is `paint` itself otherwise)."""
+    def wrapped(ctx):
+        paint(ctx)
+        if SK_FED:
+            clothe(ctx, colour, until)
+            if buttons and ctx.face == "west":
+                for yy in range(1, ctx.h - 1, 3):
+                    texel(ctx, ctx.w // 2, yy, shade(colour, 1.5), 0.9)
+    wrapped.__name__ = paint.__name__
+    return wrapped
+
+
 def blotch(ctx, colour, count, rmin, rmax, alpha):
     """Soft patches of discolouration: the stolen skin does not fit evenly."""
     px = ctx.img.load()
@@ -114,8 +158,10 @@ def texrow(ctx, ty, x0, x1, colour, alpha=1.0):
         texel(ctx, tx, ty, colour, alpha)
 
 
-def sk_base(ctx, base=SK_BASE):
+def sk_base(ctx, base=None):
     """Waxy, stretched, old skin: a flat base with slow mottling, a bruise now and then, a faint sheen on top faces."""
+    if base is None:
+        base = SK_BASE
     fill(ctx, base, 0.035)
     blotch(ctx, SK_TAN, 2, 1.5, 4.5, 0.35)
     blotch(ctx, SK_CREAM, 1, 1.5, 4.0, 0.3)
@@ -372,25 +418,25 @@ def skinstealer():
     m = Model("skinstealer", atlas_width=64, seed=10)
     # Torso chain. The rest rotations give the forward hunch: belly 3, chest 6 and neck 10 lean forward (19 in all);
     # the head takes 10 back so it pitches forward by 9 and sits forward of the shoulders on its too-long neck.
-    pelvis = m.part("Pelvis", (-1.5, 16.5, -2.75), (3, 3, 5.5), pivot=(0, 18, 0), paint=sk_pelvis)
-    belly = m.part("TorsoLower", (-1.75, 19.5, -2.75), (3.5, 4.5, 5.5), pivot=(0, 19.5, 0), parent=pelvis, rest=(0, 0, 3), paint=sk_belly)
-    chest = m.part("TorsoUpper", (-2.25, 24, -3.5), (4, 5.5, 7), pivot=(0, 24, 0), parent=belly, rest=(0, 0, 6), paint=sk_chest)
+    pelvis = m.part("Pelvis", (-1.5, 16.5, -2.75), (3, 3, 5.5), pivot=(0, 18, 0), paint=worn(sk_pelvis, SK_TROUSERS))
+    belly = m.part("TorsoLower", (-1.75, 19.5, -2.75), (3.5, 4.5, 5.5), pivot=(0, 19.5, 0), parent=pelvis, rest=(0, 0, 3), paint=worn(sk_belly, SK_SHIRT, buttons=True))
+    chest = m.part("TorsoUpper", (-2.25, 24, -3.5), (4, 5.5, 7), pivot=(0, 24, 0), parent=belly, rest=(0, 0, 6), paint=worn(sk_chest, SK_SHIRT, buttons=True))
     neck = m.part("Neck", (-1.125, 29.5, -1.125), (2.25, 3.5, 2.25), pivot=(0, 29.5, 0), parent=chest, rest=(0, 0, 10), paint=sk_neck)
     head = m.part("Head", (-3, 32.5, -2.25), (5, 6, 4.5), pivot=(0, 33, 0), parent=neck, rest=(5, -4, -10), paint=sk_head)
     m.part("Jaw", (-3.25, 32, -2.25), (2.75, 2, 4.5), pivot=(-0.5, 34, 0), parent=head, paint=sk_jaw)
     m.part("NeckFold", (-1.8, 30.9, -1.5), (0.75, 1.3, 3), pivot=(-1.05, 32.2, 0), parent=head, rest=(0, 0, -8), paint=sk_fold)
 
     # Arms: ordinary upper arms, forearms too long, flat hands with three stiff fingers reaching the knee.
-    arm = m.part("ArmL", (-1.25, 22, 3.75), (2.5, 7, 2.5), pivot=(0, 28.75, 5), parent=chest, rest=(-3, 0, -15), paint=sk_upperarm)
-    fore = m.part("ForearmL", (-1, 14, 4), (2, 8, 2), pivot=(0, 22, 5), parent=arm, rest=(4, 0, -12), paint=sk_forearm)
+    arm = m.part("ArmL", (-1.25, 22, 3.75), (2.5, 7, 2.5), pivot=(0, 28.75, 5), parent=chest, rest=(-3, 0, -15), paint=worn(sk_upperarm, SK_SHIRT))
+    fore = m.part("ForearmL", (-1, 14, 4), (2, 8, 2), pivot=(0, 22, 5), parent=arm, rest=(4, 0, -12), paint=worn(sk_forearm, SK_SHIRT, 0.8))
     palm = m.part("HandL", (-0.75, 11.5, 3.875), (1.5, 2.5, 2.25), pivot=(0, 14, 5), parent=fore, rest=(0, 0, 4), paint=sk_palm)
     for i in range(3):
         z = 4.0 + i * 0.8
         m.part(f"Finger{i}L", (-0.55, 9, z), (0.7, 2.5, 0.6), pivot=(-0.2, 11.5, z + 0.3), parent=palm, rest=(0, 0, -4 + 3 * i), paint=sk_finger)
     # Legs: thin, knees very slightly bent, feet flat and a little long, toes turned out a touch.
-    thigh = m.part("ThighL", (-1.5, 9, 0.4), (3, 7.5, 3), pivot=(0, 16.5, 1.9), parent=pelvis, rest=(0, 0, -4), paint=sk_thigh)
-    shin = m.part("ShinL", (-1.25, 1.5, 0.65), (2.5, 7.5, 2.5), pivot=(0, 9, 1.9), parent=thigh, rest=(0, 0, 8), paint=sk_shin)
-    m.part("FootL", (-3.6, 0, 0.65), (4.75, 1.5, 2.5), pivot=(0, 1.5, 1.9), parent=shin, rest=(0, 7, -4), paint=sk_foot)
+    thigh = m.part("ThighL", (-1.5, 9, 0.4), (3, 7.5, 3), pivot=(0, 16.5, 1.9), parent=pelvis, rest=(0, 0, -4), paint=worn(sk_thigh, SK_TROUSERS))
+    shin = m.part("ShinL", (-1.25, 1.5, 0.65), (2.5, 7.5, 2.5), pivot=(0, 9, 1.9), parent=thigh, rest=(0, 0, 8), paint=worn(sk_shin, SK_TROUSERS, 0.85))
+    m.part("FootL", (-3.6, 0, 0.65), (4.75, 1.5, 2.5), pivot=(0, 1.5, 1.9), parent=shin, rest=(0, 7, -4), paint=worn(sk_foot, SK_SHOE))
     m.mirror("ArmL", "ArmR")
     m.mirror("ThighL", "ThighR")
     # Asymmetry: the right shoulder rides higher and the right arm hangs a little further forward
@@ -530,6 +576,21 @@ def skinstealer():
                                      "Jaw": pose((0, 0, 20))}})[0],
     }, end="Hold", stopped="Stop")
     return m
+
+
+def skinstealer_variant_textures():
+    """The fed look, painted on the common atlas layout so it works as a texture alternate (index 1)."""
+    global SK_FED
+    g = globals()
+    saved = {k: g[k] for k in SK_FRESH}
+    g.update(SK_FRESH)
+    SK_FED = True
+    m = skinstealer()
+    width, height = m._pack()
+    m._paint(width, height).save(os.path.join(ASSETS, "textures", "entity", "skinstealer-fed.png"))
+    print(f"wrote skinstealer-fed texture {width}x{height}")
+    SK_FED = False
+    g.update(saved)
 
 
 # Hound variants, painted on the common Hound's atlas so they work as texture alternates: the starved ones, paler and
@@ -6958,6 +7019,8 @@ MODELS = {
 def build(names=None):
     for name in names or list(MODELS):
         MODELS[name]().save()
+        if name == "skinstealer":
+            skinstealer_variant_textures()
         if name == "deathrat":
             deathrat_variant_textures()
         if name == "clump":

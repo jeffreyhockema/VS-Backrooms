@@ -42,6 +42,7 @@ public class EntityClasses : ModSystem
         AiTaskRegistry.Register<AiTaskCompanion>("backrooms-companion");
         AiTaskRegistry.Register<AiTaskAmble>("backrooms-amble");
         AiTaskRegistry.Register<AiTaskMenace>("backrooms-menace");
+        AiTaskRegistry.Register<AiTaskScavenge>("backrooms-scavenge");
         AiTaskRegistry.Register<AiTaskMoth>("backrooms-moth");
         AiTaskRegistry.Register<AiTaskClump>("backrooms-clump");
         AiTaskRegistry.Register<AiTaskTheThing>("backrooms-thething");

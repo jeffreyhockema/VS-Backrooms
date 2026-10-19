@@ -75,13 +75,13 @@ Speeds are shares of a sprint; "hits" is how many land on an unarmoured player w
 | Smiler (stops at light 8 or more) | 0 | 100 % | 6.0 | 3 | immortal |
 | | 2 | 107 % | 7.6 | 2 | |
 | | 9 | 125 % | 11.4 (tier 4) | 2 | |
-| Skin-Stealer (slow, strong) | 1 | 70 % | 7.9 | 2 | 40 |
-| | 5 | 79 % | 11.0 | 2 | 59 |
-| | 9 | 85 % | 13.3 (tier 3) | 2 | 73 |
+| Skin-Stealer (slow, strong; a hit of 5 stuns it for 1.2 s, 8 s apart; fed, it is docile; 2026-10-18) | 1 | 70 % | 7.9 | 2 | 60 |
+| | 5 | 79 % | 11.0 | 2 | 88 |
+| | 9 | 85 % | 13.3 (tier 3) | 2 | 110 |
 | Death Rat (packs of 2 to 6) | 1 | 99 % | 1.4 | 11 | 6 |
 | | 8 | 117 % | 2.2 (tier 1) | 7 | 10 |
-| Duller (grab through a wall) | 3 | 120 % | 4.2 | 4 | 23 |
-| | 8 | 132 % | 5.4 (tier 2) | 3 | 31 |
+| Duller (grab through a wall; takes no damage from players but from its grab to 1.5 s after; flees at 1.3 x a sprint; 2026-10-18) | 3 | 120 % | 4.2 | 4 | 30 |
+| | 8 | 132 % | 5.4 (tier 2) | 3 | 41 |
 | Clump (grab; crawl) | 2 | 60 % | 6.3 | 3 | 27 |
 | Deathmoth female (bite) | 1 | | 1.7 | | 3 |
 | Wretch (bite; packs in Level 8) | 1 | 96 % | 4.0 | 4 | 19 |

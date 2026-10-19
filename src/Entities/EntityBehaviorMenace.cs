@@ -1,8 +1,10 @@
 using System;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 
 namespace Backrooms.Entities;
 
@@ -27,6 +29,10 @@ public class EntityBehaviorMenace : EntityBehavior
     public const string EncounterSinceKey = "backrooms:encounterSinceMs";
     /// <summary>When (elapsed ms) something last struck an unkillable thing that does not withdraw (the Mangled).</summary>
     public const string StruckKey = "backrooms:struckMs";
+    /// <summary>Calendar hours until which a Skin-Stealer is fed (and docile); absent or past: hungry. New in the AI overhaul, read with a default.</summary>
+    public const string FedKey = "backrooms:fedUntilHours";
+    /// <summary>Until when (elapsed ms) a Duller, hard to catch, can be hurt by a player: its grab and a moment after it.</summary>
+    public const string CatchableKey = "backrooms:catchableUntilMs";
 
     /// <summary>Different every time a server starts, so entities saved with the world can be told apart.</summary>
     private static string Session = Guid.NewGuid().ToString("N");
@@ -41,6 +47,12 @@ public class EntityBehaviorMenace : EntityBehavior
 
     private bool immortal, unmoved;
     private int glimpseSeconds, stalkSeconds, huntSeconds, investigateSeconds, searchSeconds, maxEncounterSeconds;
+    /// <summary>Bleeds clear (a Skin-Stealer: a pale burst of particles when struck), cannot be hurt by players but in its window (a Duller), and the looks (texture indices) that never bite (Level 2's bald rats).</summary>
+    private bool bleedsClear, hardToCatch;
+    private int[] harmlessLooks = Array.Empty<int>();
+    /// <summary>What a fed (docile) Skin-Stealer says now and then, standing about.</summary>
+    private AssetLocation[] fedVoices = Array.Empty<AssetLocation>();
+    private float nextFedVoice = 10;
     private float checkIn;
     private long leftAtMs, lastSeenMs;
 
@@ -59,6 +71,53 @@ public class EntityBehaviorMenace : EntityBehavior
         investigateSeconds = attributes["investigateCapSeconds"].AsInt(30);
         searchSeconds = attributes["searchCapSeconds"].AsInt(40);
         maxEncounterSeconds = attributes["maxEncounterSeconds"].AsInt(0);
+        bleedsClear = attributes["bleedsClear"].AsBool(false);
+        hardToCatch = attributes["hardToCatch"].AsBool(false);
+        harmlessLooks = attributes["harmlessLooks"].AsArray(Array.Empty<int>());
+        fedVoices = Array.ConvertAll(attributes["fedVoices"].AsArray(Array.Empty<string>()),
+            code => AssetLocation.Create(code, "backrooms").WithPathPrefixOnce("sounds/"));
+    }
+
+    public override void AfterInitialized(bool onFirstSpawn)
+    {
+        base.AfterInitialized(onFirstSpawn);
+        // The Duller takes no damage from players but in the window of its grab (before the health behaviour applies it)
+        if (hardToCatch && entity.World.Side == EnumAppSide.Server && entity.GetBehavior<EntityBehaviorHealth>() is { } health)
+            health.onDamaged += (damage, source) => HardToCatch(damage, source);
+    }
+
+    private float HardToCatch(float damage, DamageSource source)
+    {
+        if (damage <= 0 || source.Type == EnumDamageType.Heal) return damage;
+        Entity by = source.GetCauseEntity();
+        if (by is not EntityPlayer && !Senses.IsTestTarget(by)) return damage;
+        return entity.World.ElapsedMilliseconds <= entity.Attributes.GetLong(CatchableKey, 0) ? damage : 0;
+    }
+
+    /// <summary>Whether this one is fed (a Skin-Stealer within its day of a kill: docile).</summary>
+    public bool Fed => entity.Attributes.GetDouble(FedKey, 0) > entity.World.Calendar.TotalHours;
+
+    /// <summary>Feeds it for this many in-game hours.</summary>
+    public void Feed(double hours) => entity.Attributes.SetDouble(FedKey, entity.World.Calendar.TotalHours + hours);
+
+    /// <summary>Hungry again at once (a test).</summary>
+    public void Starve() => entity.Attributes.RemoveAttribute(FedKey);
+
+    /// <summary>Whether its look is one that never bites (Level 2's hairless rats).</summary>
+    public bool Harmless => harmlessLooks.Length > 0 && Array.IndexOf(harmlessLooks, entity.WatchedAttributes.GetInt("textureIndex", 0)) >= 0;
+
+    /// <summary>A hard-to-catch one can be hurt by a player for this long from now (a Duller's grab).</summary>
+    public void OpenCatchWindow(long ms) => entity.Attributes.SetLong(CatchableKey, entity.World.ElapsedMilliseconds + ms);
+
+    /// <summary>The pale, translucent burst a Skin-Stealer bleeds instead of blood: "blood runs clear, don't get near".</summary>
+    private void BleedClear()
+    {
+        Vec3d at = Senses.Centre(entity);
+        var burst = new SimpleParticleProperties(10, 16, ColorUtil.ToRgba(140, 238, 246, 250),
+            at.AddCopy(-0.2, -0.15, -0.2), at.AddCopy(0.2, 0.25, 0.2),
+            new Vec3f(-0.8f, 0.1f, -0.8f), new Vec3f(0.8f, 1.1f, 0.8f), 1.1f, 0.6f, 0.08f, 0.22f, EnumParticleModel.Quad);
+        burst.SelfPropelled = true;
+        entity.World.SpawnParticles(burst);
     }
 
     /// <summary>What this entity believes about where its target is (used by the menace task when it has senses; shared with its pack).</summary>
@@ -157,6 +216,21 @@ public class EntityBehaviorMenace : EntityBehavior
             Kind = Kind == Encounter.Ambient ? Encounter.Ambient : Encounter.Leave;
         }
 
+        // A Skin-Stealer's day: docile and talking to itself while fed, hungry (and stalking, as it was put down to) after
+        if (entity.Attributes.HasAttribute(FedKey))
+        {
+            if (!Fed)
+            {
+                entity.Attributes.RemoveAttribute(FedKey);
+                if (Kind == Encounter.Ambient && target is { Alive: true }) Kind = Encounter.Stalk;
+            }
+            else if (Kind == Encounter.Ambient && fedVoices.Length > 0 && (nextFedVoice -= 1) <= 0)
+            {
+                nextFedVoice = 15 + (float)entity.World.Rand.NextDouble() * 25;
+                entity.World.PlaySoundAt(fedVoices[entity.World.Rand.Next(fedVoices.Length)], entity.Pos.X, entity.Pos.Y + 1.5, entity.Pos.Z, null, true, 24);
+            }
+        }
+
         if (Kind is not (Encounter.Ambient or Encounter.Leave))
         {
             double until = entity.Attributes.GetDouble(UntilKey, -1);
@@ -224,6 +298,7 @@ public class EntityBehaviorMenace : EntityBehavior
             else if (cause != null) Kind = Encounter.Leave;
             return;
         }
+        if (bleedsClear && damage > 0 && damageSource.Type != EnumDamageType.Heal) BleedClear();
         if (cause is EntityPlayer && Passive) Passive = false;
         // Striking it is heard: a fight draws more
         if (cause is EntityPlayer && damage > 0)

@@ -176,6 +176,12 @@ public static class Roster
     private const MenaceBand Safe = MenaceBand.Safe, Heart = MenaceBand.Heartland, Approach = MenaceBand.Approach, Edge = MenaceBand.Threshold;
     private const Encounters Amb = Encounters.Ambient, Menacing = Encounters.Menacing;
 
+    /// <summary>
+    /// How likely a wanderer picked for the moment is a (fed, docile) Skin-Stealer: they are on the rosters of their levels
+    /// as wanderers too, so the heart of a level can have one standing about (README 6.1: fed ones in the heartland).
+    /// </summary>
+    private const double SkinStealerWanders = 0.15;
+
     private static readonly Dictionary<int, RosterEntry[]> ByLevel = new()
     {
         // The Lobby: empty, as the lore has it, but for eyes in the blackouts and something waiting at the edge
@@ -195,7 +201,7 @@ public static class Roster
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Wretch, Approach, Menacing, 0.3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing, 0.4),
+            E(SkinStealer, Approach, Menacing | Amb, 0.4) with { Rarity = SkinStealerWanders },
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 3, 5),
             // Level 1's table: Dullers in the walls behind the rooms (the Duller's home, with 3 and 4 and the subway)
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
@@ -222,7 +228,7 @@ public static class Roster
             E(Faceling, Approach, Menacing, 0.4),
             E(Smiler, Heart, Menacing, 0.8) with { NeedsDark = true },
             E(Hound, Approach, Menacing, 1.0, 2, 3),
-            E(SkinStealer, Approach, Menacing, 0.5),
+            E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Clump, Approach, Encounters.Stalk, 0.3) with { Ambush = true },
             // Level 3's page: Wretches rarer
@@ -242,7 +248,7 @@ public static class Roster
             E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 2, 3),
             // "Normal entities are fairly scarce" (Hound 1.0 to 0.8); the Death Rats listed on the page, in the boiler halls
             E(Hound, Approach, Menacing, 0.8, 2, 3),
-            E(SkinStealer, Approach, Menacing, 0.6),
+            E(SkinStealer, Approach, Menacing | Amb, 0.6) with { Rarity = SkinStealerWanders },
             E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
             E(Wretch, Approach, Menacing, 0.3),
             E(DeathRat, Heart, Menacing, 0.3, 2, 4),
@@ -279,7 +285,7 @@ public static class Roster
             E(DeathRat, Heart, Menacing, 0.8, 2, 4),
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing, 0.5),
+            E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
             // "Many Wretches" (Level 9's page)
             E(Wretch, Approach, Menacing, 0.6, 1, 2),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
@@ -310,7 +316,7 @@ public static class Roster
             E(AnimationPaper, Approach, Encounters.Stalk | Encounters.Hunt, 0.7, 3, 5),
             // Wikidot's Level 94 lists "Smilers, Skin-Stealers, Hounds and male Deathmoths" at night, besides the Animations
             E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing, 0.3),
+            E(SkinStealer, Approach, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
             E(Hound, Approach, Menacing, 0.4, 2, 3),
             E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.4, 2, 3),
         },
@@ -339,7 +345,7 @@ public static class Roster
         // the dark (Miraheze's list, kept light)
         [Backrooms.Worldgen.WorldLayout.Level188] = new[]
         {
-            E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
+            E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt | Amb, 0.5) with { Rarity = SkinStealerWanders },
             E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
         },
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway

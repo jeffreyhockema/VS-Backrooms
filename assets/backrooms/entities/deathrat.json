@@ -192,7 +192,10 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"maxEncounterSeconds": 300
+				"maxEncounterSeconds": 300,
+				"harmlessLooks": [
+					1
+				]
 			},
 			{
 				"code": "taskai",
@@ -223,7 +226,44 @@
 						"retreatBelow": 0.5,
 						"stalkSound": "backrooms:entity/squeak",
 						"attackSound": "backrooms:entity/squeak",
-						"soundRange": 20
+						"soundRange": 20,
+						"senses": {
+							"sightLit": 14,
+							"sightDim": 10,
+							"sightDark": 6,
+							"sightCone": 120,
+							"hearing": 24,
+							"memorySeconds": 4,
+							"trackSeconds": 0
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60
+					},
+					{
+						"code": "backrooms-scavenge",
+						"priority": 1.4,
+						"priorityForCancel": 1.4,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.022,
+						"runSpeed": 0.048,
+						"foodRange": 16,
+						"scatterRange": 6,
+						"sneakScatterRange": 3,
+						"lightScatterRange": 8,
+						"torchLight": 10,
+						"scatterDistance": 8,
+						"scatterSeconds": 5,
+						"eatSeconds": 4,
+						"carcassSeconds": 10,
+						"corneredRange": 2,
+						"corneredOpen": 3,
+						"packBites": 4,
+						"packBiteHealth": 0.5,
+						"packRange": 12,
+						"eatAnimation": "eat",
+						"eatSound": "game:creature/animal-eat-small"
 					},
 					{
 						"code": "idle",

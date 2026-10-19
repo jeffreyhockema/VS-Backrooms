@@ -115,8 +115,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 15,
-				"maxhealth": 15
+				"currenthealth": 20,
+				"maxhealth": 20
 			},
 			{
 				"code": "deaddecay",
@@ -130,7 +130,8 @@
 			{
 				"code": "backrooms-menace",
 				"stalkSeconds": 150,
-				"maxEncounterSeconds": 300
+				"maxEncounterSeconds": 300,
+				"hardToCatch": true
 			},
 			{
 				"code": "taskai",
@@ -167,7 +168,21 @@
 							"backrooms:entity/knock"
 						],
 						"grabSound": "backrooms:entity/grab",
-						"soundRange": 20
+						"soundRange": 20,
+						"senses": {
+							"special": "wall",
+							"sightLit": 20,
+							"sightDim": 12,
+							"sightDark": 6,
+							"hearing": 16,
+							"memorySeconds": 8,
+							"trackSeconds": 0
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"fleeSpeed": 0.065,
+						"catchWindowSeconds": 1.5
 					},
 					{
 						"code": "idle",

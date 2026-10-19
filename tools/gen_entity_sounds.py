@@ -356,6 +356,29 @@ def snarl():
     write("snarl", reverb(out, decay=0.3), 0.75)
 
 
+def plea():
+    """A Wretch's last words: a dry, cracked "pleeease" that falls into a groan, a word shaped by a throat with
+    nothing left to push it (README 6.1: played while it follows someone)."""
+    rng = np.random.default_rng(317)
+    t = seconds(2.2)
+    # The pitch: a hopeful lift on the first syllable, then sagging away, shaking
+    f0 = 118 + 38 * np.clip(t / 0.5, 0, 1) - 70 * np.clip((t - 0.9) / 1.1, 0, 1) + 7 * np.sin(2 * np.pi * 5.5 * t) + 6 * rng.normal(size=len(t)).cumsum() / np.sqrt(len(t))
+    ee = vowel(t, f0, ((300, 80, 1.0), (2300, 260, 0.45), (3100, 300, 0.15)), breath=0.55, rng=rng)
+    ah = vowel(t, f0, ((650, 130, 1.0), (1100, 150, 0.6), (2500, 300, 0.15)), breath=0.7, rng=rng)
+    # "p-l": a puff of air and a lateral glide, then the vowel opens from ee towards ah as the word trails off
+    open_ = np.clip((t - 0.55) / 0.9, 0, 1)
+    voice = ee / max(1e-9, np.max(np.abs(ee))) * (1 - open_) + ah / max(1e-9, np.max(np.abs(ah))) * open_
+    env = np.clip((t - 0.12) / 0.2, 0, 1) * np.clip((2.1 - t) / 0.9, 0, 1) * (0.75 + 0.25 * np.sin(2 * np.pi * 5.5 * t))
+    out = voice * env
+    # The "z" in the middle of the word: a buzzy hiss, and the lips' "p" before it
+    z = band(rng.normal(size=len(t)), 4000, 9000) * np.exp(-((t - 0.78) / 0.12) ** 2) * 0.35
+    p = band(rng.normal(size=len(t)), 300, 3000) * np.exp(-((t - 0.1) / 0.015) ** 2) * 0.8
+    out = out + z + p
+    # Where the breath gives out: a wet rattle
+    rattle = band(rng.normal(size=len(t)), 200, 1200) * np.clip((t - 1.5) / 0.3, 0, 1) * np.clip((2.15 - t) / 0.3, 0, 1) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * 11 * t))) * 0.35
+    write("plea", reverb(band(out + rattle, 70, 6500), decay=0.25), 0.6)
+
+
 def _click(rng, length=0.012, lo=1800, hi=7000):
     """One dry click of chitin on chitin."""
     t = seconds(length)
@@ -447,6 +470,7 @@ def main():
         spider()
     howl()
     gurgle()
+    plea()
     snarl()
     ratscream()
     rumble()
@@ -472,7 +496,9 @@ def main():
 
 if __name__ == "__main__":
     import sys
-    if sys.argv[1:] == ["spider"]:
+    if sys.argv[1:] == ["plea"]:
+        plea()
+    elif sys.argv[1:] == ["spider"]:
         for spider in SPIDER:
             spider()
     else:
