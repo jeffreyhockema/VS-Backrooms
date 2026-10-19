@@ -1183,14 +1183,15 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The EXIT signs, the only light: one every 10 blocks or so down the centre line, with clusters and dark gaps (more
-    /// of them, and darker, toward the end), always one at each corner and before the exit. The rest of the ceiling:
+    /// of them, and darker, toward the end), always one at each corner and before the exit. (Layout version 9: one every
+    /// 12 +- 2, no clusters, dark gaps only in the last third and at most 26 long.) The rest of the ceiling:
     /// acoustic tile, dead troffers, now and then an air vent.
     /// </summary>
     private void PlanRunSigns(RunLane L)
     {
         var rng = new Rng(Hashing.Hash(seed, L.Index, 5, SaltRunSigns));
         var forced = new HashSet<int> { 2, L.Middle, L.Last, L.ExitS - 2 };
-        int last = -100, next = 4;
+        int last = Version >= 9 ? 0 : -100, next = 4;
         for (int s = 1; s < L.ExitS; s++)
         {
             var (x, z) = L.Line[s];
@@ -1199,8 +1200,9 @@ public sealed partial class WorldLayout
             bool lastThird = L.Third(s) == 2;
             int seg = s / 32;
             double roll = Hashing.Unit(Hashing.Hash(seed, L.Index * 64 + seg, 6, SaltRunSigns));
-            bool dark = roll < (lastThird ? 0.35 : 0.15), cluster = roll > 0.9;
-            bool due = s >= next && !dark || forced.Contains(s) || s - last >= (lastThird ? 40 : 32);
+            // Layout version 9: a steady run of signs (12 +- 2 apart, no clusters), dark gaps only in the last third and none over 26
+            bool dark = Version >= 9 ? lastThird && roll < 0.25 : roll < (lastThird ? 0.35 : 0.15), cluster = Version < 9 && roll > 0.9;
+            bool due = s >= next && !dark || forced.Contains(s) || s - last >= (Version >= 9 ? (lastThird ? 26 : 16) : lastThird ? 40 : 32);
             bool inSafe = t.Zone == RunZone.Safe;
             if (due && !inSafe)
             {
@@ -1210,7 +1212,7 @@ public sealed partial class WorldLayout
                 if (crossways) t.Detail |= RunSignWE;
                 L.Signs.Add(s);
                 last = s;
-                next = s + (cluster ? 4 : 10 + rng.Range(-3, 3));
+                next = s + (cluster ? 4 : Version >= 9 ? 12 + rng.Range(-2, 2) : 10 + rng.Range(-3, 3));
                 continue;
             }
             if (inSafe) continue;
