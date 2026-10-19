@@ -29,8 +29,8 @@ public sealed partial class WorldLayout
     /// <summary>A house, with its outer walls: its size, and where it stands in its cell.</summary>
     public const int L974HouseW = 19, L974HouseD = 17, L974HouseX0 = 6, L974HouseZ0 = 7;
 
-    /// <summary>The house's depth from layout version 9 on: the master bedroom's end of it runs three rows further south.</summary>
-    public const int L974HouseDeep = 20;
+    /// <summary>The house's depth from layout version 9 on: the bedroom is four rows longer and the master bedroom three, so its east side runs further south.</summary>
+    public const int L974HouseDeep = 24;
 
     /// <summary>How deep a house is in this world (<see cref="L974HouseD"/>; <see cref="L974HouseDeep"/> from layout version 9).</summary>
     public int L974Depth => Version >= 9 ? L974HouseDeep : L974HouseD;
@@ -103,13 +103,14 @@ public sealed partial class WorldLayout
     /// <summary>Where Kitty may stand: in doorways, at the ends of the hall, in far corners, by the bed and the cat bed.</summary>
     private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots9 =
     {
-        // As below, with the master bedroom grown three rows to the south: the cat bed in the middle of its back wall
-        (8, 4, L974SpotKind.Watch), (8, 12, L974SpotKind.Watch), (11, 5, L974SpotKind.Watch), (11, 9, L974SpotKind.Watch),
-        (11, 13, L974SpotKind.Watch), (16, 11, L974SpotKind.Watch), (3, 8, L974SpotKind.Watch), (5, 8, L974SpotKind.Watch),
-        (9, 1, L974SpotKind.Watch), (10, 15, L974SpotKind.Watch), (1, 1, L974SpotKind.Watch), (7, 7, L974SpotKind.Watch),
-        (1, 7, L974SpotKind.Watch), (15, 3, L974SpotKind.Watch), (12, 14, L974SpotKind.Watch), (2, 9, L974SpotKind.Watch),
-        (15, 5, L974SpotKind.Watch), (12, 17, L974SpotKind.Watch), (15, 17, L974SpotKind.Watch),
-        (15, 4, L974SpotKind.SleepWatch), (16, 15, L974SpotKind.Kneel), (6, 14, L974SpotKind.Table), (4, 12, L974SpotKind.Kitchen),
+        // As below, with the bedroom grown four rows to the south (so the bathrooms and the master bedroom, and the hall
+        // down to them, lie four rows further on) and the master bedroom three rows deeper: the cat bed mid-wall
+        (8, 4, L974SpotKind.Watch), (8, 12, L974SpotKind.Watch), (11, 5, L974SpotKind.Watch), (11, 13, L974SpotKind.Watch),
+        (11, 17, L974SpotKind.Watch), (16, 15, L974SpotKind.Watch), (3, 8, L974SpotKind.Watch), (5, 8, L974SpotKind.Watch),
+        (9, 1, L974SpotKind.Watch), (10, 19, L974SpotKind.Watch), (1, 1, L974SpotKind.Watch), (7, 7, L974SpotKind.Watch),
+        (1, 7, L974SpotKind.Watch), (15, 3, L974SpotKind.Watch), (12, 18, L974SpotKind.Watch), (2, 9, L974SpotKind.Watch),
+        (15, 5, L974SpotKind.Watch), (12, 21, L974SpotKind.Watch), (15, 21, L974SpotKind.Watch), (15, 8, L974SpotKind.Watch),
+        (15, 4, L974SpotKind.SleepWatch), (16, 19, L974SpotKind.Kneel), (6, 14, L974SpotKind.Table), (4, 12, L974SpotKind.Kitchen),
     };
 
     private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots =
@@ -185,8 +186,10 @@ public sealed partial class WorldLayout
     };
 
     /// <summary>
-    /// The plan from layout version 9: the same house, but the master bedroom is 6 by 7 (it was 6 by 4), its doorway from
-    /// the hall two wide and four high (Kitty no longer stoops to come in), and a window in its south wall. Blank is solid.
+    /// The plan from layout version 9: the same house, but the bedroom is 6 by 10 (it was 6 by 6; the bathrooms, the hall
+    /// to them and the master bedroom lie four rows further south, and it has a window in its east wall), the master
+    /// bedroom is 6 by 7 (it was 6 by 4), its doorway from the hall two wide and four high (Kitty no longer stoops to
+    /// come in), and a window in its south wall. Blank is solid.
     /// </summary>
     private static readonly string[] L974Plan9 =
     {
@@ -196,24 +199,28 @@ public sealed partial class WorldLayout
         "#.......#..#......#",
         "#.......D..#......#",
         "#.......#..D....xx#",
+        "#.......#..#......#",
+        "#.......#..#......#",
+        "###AAA###..#......W",
+        "#.......#..#......W",
         "#.......#..#..x...#",
         "#.......#..########",
-        "###AAA###..#...#..#",
-        "#.......#..D...#..#",
+        "W.......D..#...#..#",
+        "W.......#..D...#..#",
         "#.......#..#...#..#",
         "#.......#..#####D##",
-        "W.......D..#......#",
-        "W.......#..T......W",
-        "#.......#..T......W",
-        "#.......#..#......#",
-        "############......#",
+        "#########..#......#",
+        "        #..T......W",
+        "        #..T......W",
+        "        #..#......#",
+        "        ####......#",
         "           #......#",
         "           #......#",
         "           ###WW###",
     };
 
     private static L974Room L974RoomAt(int u, int v, bool grown) =>
-        grown && u >= 12 && u <= 17 && v >= 12 && v <= 18 ? L974Room.Master :
+        grown ? L974RoomAt9(u, v) :
         u >= 1 && u <= 7 && v >= 1 && v <= 7 ? L974Room.Living
         : u >= 1 && u <= 7 && v >= 9 && v <= 15 ? L974Room.Kitchen
         : u >= 9 && u <= 10 && v >= 1 && v <= 15 ? L974Room.Hall
@@ -221,6 +228,16 @@ public sealed partial class WorldLayout
         : u >= 12 && u <= 14 && v >= 8 && v <= 10 ? L974Room.Bath
         : u >= 16 && u <= 17 && v >= 8 && v <= 10 ? L974Room.HalfBath
         : u >= 12 && u <= 17 && v >= 12 && v <= 15 ? L974Room.Master
+        : L974Room.None;
+
+    private static L974Room L974RoomAt9(int u, int v) =>
+        u >= 12 && u <= 17 && v >= 16 && v <= 22 ? L974Room.Master :
+        u >= 1 && u <= 7 && v >= 1 && v <= 7 ? L974Room.Living
+        : u >= 1 && u <= 7 && v >= 9 && v <= 15 ? L974Room.Kitchen
+        : u >= 9 && u <= 10 && v >= 1 && v <= 19 ? L974Room.Hall
+        : u >= 12 && u <= 17 && v >= 1 && v <= 10 ? L974Room.Bedroom
+        : u >= 12 && u <= 14 && v >= 12 && v <= 14 ? L974Room.Bath
+        : u >= 16 && u <= 17 && v >= 12 && v <= 14 ? L974Room.HalfBath
         : L974Room.None;
 
     /// <summary>
@@ -321,9 +338,11 @@ public sealed partial class WorldLayout
         Put(12, 1, Props.L974Desk, ArchPier.East, 0);
         Put(12, 2, Props.L974Desk, ArchPier.East, 1);
         Put(13, 2, Props.L974Chair, ArchPier.West, 0);
-        Put(12, 6, Props.L974Dresser, ArchPier.North);
-        At(13, 6).Overhead = Overheads.L974ClosetRod;
-        At(13, 6).Pier = F(ArchPier.North);
+        // (Layout version 9 on, the bedroom is four rows longer: the open closet stands at its far end)
+        int closetV = grown ? 10 : 6;
+        Put(12, closetV, Props.L974Dresser, ArchPier.North);
+        At(13, closetV).Overhead = Overheads.L974ClosetRod;
+        At(13, closetV).Pier = F(ArchPier.North);
         Put(13, 3, Props.L974Rug, ArchPier.North, mirror ? 1 : 0);
         Put(14, 3, Props.L974Rug, ArchPier.North, mirror ? 0 : 1);
         Put(13, 4, Props.L974Rug, ArchPier.North, mirror ? 3 : 2);
@@ -333,7 +352,7 @@ public sealed partial class WorldLayout
         int Poster() { int i = rng.Range(0, posters.Count - 1); int p = posters[i]; posters.RemoveAt(i); return L974Hung.PosterFirst + p; }
         Hang(13, 1, Poster(), ArchPier.South);
         Hang(17, 1, Poster(), ArchPier.South);
-        Hang(15, 6, Poster(), ArchPier.East);
+        Hang(15, closetV, Poster(), ArchPier.East);
         Hang(12, 1, L974Hung.ShelfPlush, ArchPier.East);
         Hang(12, 2, L974Hung.ShelfFigures, ArchPier.East);
         for (int u = 12; u <= 17; u++) At(u, 1).Depth = (byte)((L974HighFairy << 2) | (int)F(ArchPier.South));
@@ -347,6 +366,13 @@ public sealed partial class WorldLayout
         if (Version >= 5) At(13, 4).Under = Unders.L974Arrival;
         else At(14, 5).Under = Unders.L974Arrival;
         Light(14, 3);
+        if (grown)
+        {
+            // The long room's far half: a plush heap in the corner by the closet, a poster on the south wall, a second light
+            Put(17, 10, Props.L974PlushHeap, ArchPier.West, rng.Range(0, 1));
+            Hang(16, 10, Poster(), ArchPier.North);
+            Light(14, 8);
+        }
 
         // The kitchen: fridge, pantry and counters down the west wall, the stove on the south; the dining corner's
         // banquette wrapping two sides of the table
@@ -378,30 +404,39 @@ public sealed partial class WorldLayout
         Hang(10, 2, frame, ArchPier.West);
         Hang(9, 14, frame, ArchPier.East);
         Hang(10, 11, frame, ArchPier.West);
+        if (grown) Hang(9, 18, frame, ArchPier.East);
         Hang(10, 8, L974Hung.NightLight, ArchPier.West);
         Light(9, 3);
         Light(10, 13);
         // (Layout version 5 on, a third downlight halfway down: with two, the hall was the darkest place in the house)
         if (Version >= 5) Light(9, 8);
+        if (grown) Light(9, 18); // (the hall is four rows longer)
 
-        // The bathrooms
-        Put(12, 8, Props.L974Basin, ArchPier.South);
-        Put(14, 8, Props.L974Toilet, ArchPier.South);
-        Put(14, 10, Props.L974Bathtub, ArchPier.West, 0);
-        Put(13, 10, Props.L974Bathtub, ArchPier.West, 1);
-        Hang(12, 8, L974Hung.Mirror, ArchPier.South);
-        Hang(13, 8, L974Hung.TowelRail, ArchPier.South);
-        Light(13, 9);
-        Put(16, 8, Props.L974Basin, ArchPier.South);
-        Put(17, 8, Props.L974Toilet, ArchPier.South);
-        Hang(16, 8, L974Hung.Mirror, ArchPier.South);
-        Light(16, 9);
+        // The bathrooms (layout version 9 on, four rows further south)
+        int b0 = grown ? 12 : 8;
+        Put(12, b0, Props.L974Basin, ArchPier.South);
+        Put(14, b0, Props.L974Toilet, ArchPier.South);
+        Put(14, b0 + 2, Props.L974Bathtub, ArchPier.West, 0);
+        Put(13, b0 + 2, Props.L974Bathtub, ArchPier.West, 1);
+        Hang(12, b0, L974Hung.Mirror, ArchPier.South);
+        Hang(13, b0, L974Hung.TowelRail, ArchPier.South);
+        Light(13, b0 + 1);
+        Put(16, b0, Props.L974Basin, ArchPier.South);
+        Put(17, b0, Props.L974Toilet, ArchPier.South);
+        Hang(16, b0, L974Hung.Mirror, ArchPier.South);
+        Light(16, b0 + 1);
 
         // The master bedroom: empty, but for a pink and white cat bed at the back wall
         // (Layout version 9 on, the room is three rows deeper: the bed is in the middle of the back wall, and a second light)
-        Put(17, grown ? 15 : 14, Props.L974CatBed, ArchPier.West);
-        Light(14, 13);
-        if (grown) Light(14, 17);
+        Put(17, grown ? 19 : 14, Props.L974CatBed, ArchPier.West);
+        if (grown)
+        {
+            // Three downlights, staggered (two in a line left its east side dim)
+            Light(13, 17);
+            Light(16, 19);
+            Light(13, 21);
+        }
+        else Light(14, 13);
 
         // The walls take their finish from the rooms they face: tile round the bathrooms, subway tile behind the counters
         for (int v = 0; v < D; v++)

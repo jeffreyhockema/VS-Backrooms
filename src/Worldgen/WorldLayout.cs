@@ -346,10 +346,13 @@ public sealed partial class WorldLayout
     /// It is a den for the director (the Giant Spider dwells there) but lays nothing out on the tiles; the generator
     /// strings cobwebs through the caves within 18 blocks of its heart, thickest at the heart, under the ceilings and on
     /// the walls, with now and then a dry carcass on the floor (CaveColumn.Nest, WorldGenerator.Nests.cs).
-    /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4: the house is three rows
-    /// deeper (<see cref="L974HouseDeep"/>), the doorway from the hall is two wide and four high (plan character T, a
-    /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and a
-    /// second light. Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.
+    /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4 and the furnished
+    /// bedroom (the bed in its alcove, the desk, the open closet) is 6 by 10 rather than 6 by 6: the house is seven rows
+    /// deeper (<see cref="L974HouseDeep"/>; the bathrooms and the master bedroom lie four rows further south, and the hall
+    /// runs down to them), the bedroom has a second window (east) and a second light, with the closet at its far end, the
+    /// master bedroom's doorway from the hall is two wide and four high (plan character T, a
+    /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and three lights.
+    /// Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.
     /// The Hub's tunnels are vaulted, as in the lore's road-tunnel photos (in 1-8 a box under a flat roof, rel 8 over a
     /// main tunnel and rel 6 over a side one): straight walls up to rel 6, then a main tunnel's roof curves over in quarter
     /// rounds of radius 4 to a flat crown five blocks wide at rel 10, a side tunnel's in a half round of radius 3.5 to rel
