@@ -864,7 +864,7 @@ def hound():
         # (Which look, the director decides: mostly the common one, a quarter starved, now and then an old one)
         "client": common_client("backrooms:entity/hound", {"base": "backrooms:entity/hound",
                                                            "alternates": [{"base": "backrooms:entity/hound-starved"}, {"base": "backrooms:entity/hound-elder"}]}, animations),
-        "server": server(16, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1)], menace={"maxEncounterSeconds": 300}),
+        "server": server(16, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1), drop("game:bone", 1)], menace={"maxEncounterSeconds": 300}),
         "sounds": {"hurt": "game:creature/wolf/hurt", "death": "game:creature/wolf/hurt"},
     }
 
@@ -1055,6 +1055,8 @@ def deathrat():
         idle("eat", 1.16, 4000, 8000, 30000, 90000),
         dict(WANDER, movespeed=0.012, animation="scamper"),
         LOOKAROUND,
+        # Moth jelly set down within 24 blocks draws it (src/Entities/MothJelly.cs); outranks the menace task
+        {"code": "backrooms-bait", "priority": 2.0, "priorityForCancel": 2.0, "mincooldown": 0, "maxcooldown": 0, "speed": 0.04},
     ]
     return {
         "code": "deathrat",
@@ -1119,6 +1121,17 @@ def deathmoth():
         },
         "sounds": {},
     }
+    # A female can be harvested for a quill (0 to 1); a male leaves nothing, so only the female has the behaviour, on
+    # both sides with the same duration (see sync_harvestable). Her body goes in a day, as the game's creatures' do
+    import copy
+    female_server = copy.deepcopy(entity["server"])
+    behaviors = female_server["behaviors"]
+    behaviors.insert(3, {"code": "deaddecay", "hoursToDecay": 24})
+    behaviors.insert(4, {"code": "harvestable", "duration": HARVEST_SECONDS, "drops": [drop("backrooms:mothquill", 0.5, 0.5)]})
+    female_client = copy.deepcopy(entity["client"])
+    female_client["behaviors"].append({"code": "harvestable", "duration": HARVEST_SECONDS})
+    entity["serverByType"] = {"*-female": female_server, "*": entity.pop("server")}
+    entity["clientByType"] = {"*-female": female_client, "*": entity.pop("client")}
     return entity
 
 
@@ -1214,7 +1227,8 @@ def giantspider():
     # Level 8's nests and dark (tools/gen_spider.py has its model, its task config and the lore)
     import gen_spider
     LANG.update(gen_spider.LANG)
-    return gen_spider.entity(anim, common_client, server)
+    # (Bushmeat to cook, and silk: 2 plus or minus 1)
+    return gen_spider.entity(anim, common_client, server, [drop("game:bushmeat-raw", 1), drop("backrooms:spidersilk", 2, 1)])
 
 
 def thething():

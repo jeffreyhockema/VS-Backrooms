@@ -25,177 +25,375 @@
 	"attributes": {
 		"killedByInfoText": "backrooms:deadcreature-deathmoth"
 	},
-	"client": {
-		"renderer": "Shape",
-		"shapeByType": {
-			"*-male": {
-				"base": "backrooms:entity/deathmoth-male"
-			},
-			"*-female": {
-				"base": "backrooms:entity/deathmoth-female"
-			}
-		},
-		"textureByType": {
-			"*-male": {
-				"base": "backrooms:entity/deathmoth-male"
-			},
-			"*-female": {
-				"base": "backrooms:entity/deathmoth-female"
-			}
-		},
-		"size": 1.0,
-		"behaviors": [
-			{
-				"code": "controlledphysics",
-				"stepHeight": 1.0001
-			},
-			{
-				"code": "interpolateposition"
-			}
-		],
-		"animationsByType": {
-			"*-female": [
-				{
-					"code": "fly",
-					"animation": "fly",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
-				},
-				{
-					"code": "glide",
-					"animation": "glide",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
-				},
-				{
-					"code": "rest",
-					"animation": "rest",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
-				},
-				{
-					"code": "feed",
-					"animation": "feed",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
-				},
-				{
-					"code": "bite",
-					"animation": "bite",
-					"animationSpeed": 1.0,
-					"blendMode": "AddAverage",
-					"weight": 10
-				},
-				{
-					"code": "threat",
-					"animation": "threat",
-					"animationSpeed": 1.0,
-					"blendMode": "Average",
-					"weight": 5
+	"sounds": {},
+	"serverByType": {
+		"*-female": {
+			"attributes": {
+				"pathfinder": {
+					"minTurnAnglePerSec": 900,
+					"maxTurnAnglePerSec": 1800
 				}
-			],
-			"*": [
+			},
+			"behaviors": [
 				{
-					"code": "fly",
-					"animation": "fly",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
+					"code": "controlledphysics",
+					"stepHeight": 1.0001
 				},
 				{
-					"code": "glide",
-					"animation": "glide",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
+					"code": "health",
+					"currenthealthByType": {
+						"*-female": 3,
+						"*": 2
+					},
+					"maxhealthByType": {
+						"*-female": 3,
+						"*": 2
+					}
 				},
 				{
-					"code": "rest",
-					"animation": "rest",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
+					"code": "backrooms-menace",
+					"glimpseSeconds": 60,
+					"stalkSeconds": 150
 				},
 				{
-					"code": "feed",
-					"animation": "feed",
-					"animationSpeed": 1.0,
-					"blendMode": "Average"
+					"code": "deaddecay",
+					"hoursToDecay": 24
+				},
+				{
+					"code": "harvestable",
+					"duration": 2,
+					"drops": [
+						{
+							"type": "item",
+							"code": "backrooms:mothquill",
+							"quantity": {
+								"avg": 0.5,
+								"var": 0.5
+							}
+						}
+					]
+				},
+				{
+					"code": "taskai",
+					"aitasksByType": {
+						"*-female": [
+							{
+								"code": "backrooms-moth",
+								"priority": 1.5,
+								"speed": 0.04,
+								"damage": 1.5,
+								"bites": true,
+								"orbitRadius": 1.3,
+								"biteSound": "game:creature/beesting",
+								"senses": {
+									"sightLit": 24,
+									"sightDim": 8,
+									"sightDark": 0,
+									"hearing": 10
+								}
+							}
+						],
+						"*": [
+							{
+								"code": "backrooms-moth",
+								"priority": 1.5,
+								"speed": 0.03,
+								"damage": 1.5,
+								"bites": false,
+								"orbitRadius": 1.8,
+								"biteSound": "game:creature/beesting",
+								"aggressiveLevel": 3,
+								"scavengeRange": 12,
+								"scavengeAvoid": 5,
+								"senses": {
+									"sightLit": 24,
+									"sightDim": 8,
+									"sightDark": 0,
+									"hearing": 10
+								}
+							}
+						]
+					}
+				},
+				{
+					"code": "entitystatetags"
+				}
+			]
+		},
+		"*": {
+			"attributes": {
+				"pathfinder": {
+					"minTurnAnglePerSec": 900,
+					"maxTurnAnglePerSec": 1800
+				}
+			},
+			"behaviors": [
+				{
+					"code": "controlledphysics",
+					"stepHeight": 1.0001
+				},
+				{
+					"code": "health",
+					"currenthealthByType": {
+						"*-female": 3,
+						"*": 2
+					},
+					"maxhealthByType": {
+						"*-female": 3,
+						"*": 2
+					}
+				},
+				{
+					"code": "backrooms-menace",
+					"glimpseSeconds": 60,
+					"stalkSeconds": 150
+				},
+				{
+					"code": "taskai",
+					"aitasksByType": {
+						"*-female": [
+							{
+								"code": "backrooms-moth",
+								"priority": 1.5,
+								"speed": 0.04,
+								"damage": 1.5,
+								"bites": true,
+								"orbitRadius": 1.3,
+								"biteSound": "game:creature/beesting",
+								"senses": {
+									"sightLit": 24,
+									"sightDim": 8,
+									"sightDark": 0,
+									"hearing": 10
+								}
+							}
+						],
+						"*": [
+							{
+								"code": "backrooms-moth",
+								"priority": 1.5,
+								"speed": 0.03,
+								"damage": 1.5,
+								"bites": false,
+								"orbitRadius": 1.8,
+								"biteSound": "game:creature/beesting",
+								"aggressiveLevel": 3,
+								"scavengeRange": 12,
+								"scavengeAvoid": 5,
+								"senses": {
+									"sightLit": 24,
+									"sightDim": 8,
+									"sightDark": 0,
+									"hearing": 10
+								}
+							}
+						]
+					}
+				},
+				{
+					"code": "entitystatetags"
 				}
 			]
 		}
 	},
-	"server": {
-		"attributes": {
-			"pathfinder": {
-				"minTurnAnglePerSec": 900,
-				"maxTurnAnglePerSec": 1800
+	"clientByType": {
+		"*-female": {
+			"renderer": "Shape",
+			"shapeByType": {
+				"*-male": {
+					"base": "backrooms:entity/deathmoth-male"
+				},
+				"*-female": {
+					"base": "backrooms:entity/deathmoth-female"
+				}
+			},
+			"textureByType": {
+				"*-male": {
+					"base": "backrooms:entity/deathmoth-male"
+				},
+				"*-female": {
+					"base": "backrooms:entity/deathmoth-female"
+				}
+			},
+			"size": 1.0,
+			"behaviors": [
+				{
+					"code": "controlledphysics",
+					"stepHeight": 1.0001
+				},
+				{
+					"code": "interpolateposition"
+				},
+				{
+					"code": "harvestable",
+					"duration": 2
+				}
+			],
+			"animationsByType": {
+				"*-female": [
+					{
+						"code": "fly",
+						"animation": "fly",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "glide",
+						"animation": "glide",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "rest",
+						"animation": "rest",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "feed",
+						"animation": "feed",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "bite",
+						"animation": "bite",
+						"animationSpeed": 1.0,
+						"blendMode": "AddAverage",
+						"weight": 10
+					},
+					{
+						"code": "threat",
+						"animation": "threat",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 5
+					}
+				],
+				"*": [
+					{
+						"code": "fly",
+						"animation": "fly",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "glide",
+						"animation": "glide",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "rest",
+						"animation": "rest",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "feed",
+						"animation": "feed",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					}
+				]
 			}
 		},
-		"behaviors": [
-			{
-				"code": "controlledphysics",
-				"stepHeight": 1.0001
-			},
-			{
-				"code": "health",
-				"currenthealthByType": {
-					"*-female": 3,
-					"*": 2
+		"*": {
+			"renderer": "Shape",
+			"shapeByType": {
+				"*-male": {
+					"base": "backrooms:entity/deathmoth-male"
 				},
-				"maxhealthByType": {
-					"*-female": 3,
-					"*": 2
+				"*-female": {
+					"base": "backrooms:entity/deathmoth-female"
 				}
 			},
-			{
-				"code": "backrooms-menace",
-				"glimpseSeconds": 60,
-				"stalkSeconds": 150
-			},
-			{
-				"code": "taskai",
-				"aitasksByType": {
-					"*-female": [
-						{
-							"code": "backrooms-moth",
-							"priority": 1.5,
-							"speed": 0.04,
-							"damage": 1.5,
-							"bites": true,
-							"orbitRadius": 1.3,
-							"biteSound": "game:creature/beesting",
-							"senses": {
-								"sightLit": 24,
-								"sightDim": 8,
-								"sightDark": 0,
-								"hearing": 10
-							}
-						}
-					],
-					"*": [
-						{
-							"code": "backrooms-moth",
-							"priority": 1.5,
-							"speed": 0.03,
-							"damage": 1.5,
-							"bites": false,
-							"orbitRadius": 1.8,
-							"biteSound": "game:creature/beesting",
-							"aggressiveLevel": 3,
-							"scavengeRange": 12,
-							"scavengeAvoid": 5,
-							"senses": {
-								"sightLit": 24,
-								"sightDim": 8,
-								"sightDark": 0,
-								"hearing": 10
-							}
-						}
-					]
+			"textureByType": {
+				"*-male": {
+					"base": "backrooms:entity/deathmoth-male"
+				},
+				"*-female": {
+					"base": "backrooms:entity/deathmoth-female"
 				}
 			},
-			{
-				"code": "entitystatetags"
+			"size": 1.0,
+			"behaviors": [
+				{
+					"code": "controlledphysics",
+					"stepHeight": 1.0001
+				},
+				{
+					"code": "interpolateposition"
+				}
+			],
+			"animationsByType": {
+				"*-female": [
+					{
+						"code": "fly",
+						"animation": "fly",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "glide",
+						"animation": "glide",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "rest",
+						"animation": "rest",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "feed",
+						"animation": "feed",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "bite",
+						"animation": "bite",
+						"animationSpeed": 1.0,
+						"blendMode": "AddAverage",
+						"weight": 10
+					},
+					{
+						"code": "threat",
+						"animation": "threat",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 5
+					}
+				],
+				"*": [
+					{
+						"code": "fly",
+						"animation": "fly",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "glide",
+						"animation": "glide",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "rest",
+						"animation": "rest",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					},
+					{
+						"code": "feed",
+						"animation": "feed",
+						"animationSpeed": 1.0,
+						"blendMode": "Average"
+					}
+				]
 			}
-		]
-	},
-	"sounds": {}
+		}
+	}
 }

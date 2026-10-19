@@ -2628,5 +2628,18 @@
 	"blockdesc-mothhiveheart": "Resin walled round columns of pale larvae, at the heart of a Deathmoth hive. Breaking it brings every female near, and more after them.",
 	"block-clumpremnant": "Clump Remnant",
 	"blockdesc-clumpremnant": "What is left of a Clump: a patch of flesh on the floor. Left alone, it grows a new one in about a day. Fire ends it.",
-	"clumpremnant-hoursleft": "Grows a new Clump in about {0} hours"
+	"clumpremnant-hoursleft": "Grows a new Clump in about {0} hours",
+
+	"item-mothquill": "Deathmoth Quill",
+	"itemdesc-mothquill": "A hollow quill, a hand's length, pale with a dark tip, shed by a larva. Combine it with a spear in the crafting grid to coat the spear in venom (three hits), or with eight arrows to coat them (one hit each).",
+	"item-spidersilk": "Spider Silk",
+	"itemdesc-spidersilk": "A skein of grey-white silk, strong and very fine. Two make a flax twine in the crafting grid.",
+	"item-clumpsinew": "Clump Sinew",
+	"itemdesc-clumpsinew": "A coil of dried pale sinew. It does for string: bows and slings can be made with it in place of twine or rope, and four make a rope.",
+	"item-mothjelly": "Moth Jelly",
+	"itemdesc-mothjelly": "A lump of amber jelly from a Deathmoth hive. Right-click to set it down: for a minute it draws every male Deathmoth and Death Rat within twenty-four blocks to it.",
+	"venom-name": "{0} (envenomed, {1})",
+	"venom-name-arrow": "{0} (envenomed)",
+	"venom-info": "The next {0} hits poison what they wound: 1 damage every 2 seconds for 6 seconds.",
+	"venom-info-arrow": "Poisons what it wounds: 1 damage every 2 seconds for 6 seconds."
 }

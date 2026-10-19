@@ -1,0 +1,35 @@
+{
+	"ingredientPattern": "_FT,BLT,_FT",
+	"ingredients": {
+		"B": {
+			"type": "item",
+			"code": "game:bowstave-long-dry"
+		},
+		"T": {
+			"type": "item",
+			"code": "backrooms:clumpsinew"
+		},
+		"L": {
+			"type": "item",
+			"code": "game:leather-normal-plain"
+		},
+		"F": {
+			"type": "item",
+			"code": "game:{coating}"
+		}
+	},
+	"allowedVariants": {
+		"coating": [
+			"fat-rendered",
+			"resin",
+			"beeswax"
+		]
+	},
+	"width": 3,
+	"height": 3,
+	"name": "long bow (sinew)",
+	"output": {
+		"type": "item",
+		"code": "game:bow-long"
+	}
+}

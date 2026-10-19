@@ -51,6 +51,10 @@
 			},
 			{
 				"code": "interpolateposition"
+			},
+			{
+				"code": "harvestable",
+				"duration": 2
 			}
 		],
 		"animations": [
@@ -141,6 +145,28 @@
 			{
 				"code": "floatupwhenstuck",
 				"onlyWhenDead": true
+			},
+			{
+				"code": "harvestable",
+				"duration": 2,
+				"drops": [
+					{
+						"type": "item",
+						"code": "game:bushmeat-raw",
+						"quantity": {
+							"avg": 1,
+							"var": 0
+						}
+					},
+					{
+						"type": "item",
+						"code": "backrooms:spidersilk",
+						"quantity": {
+							"avg": 2,
+							"var": 1
+						}
+					}
+				]
 			},
 			{
 				"code": "backrooms-menace",
