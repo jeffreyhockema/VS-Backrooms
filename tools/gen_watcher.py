@@ -301,18 +301,23 @@ def p_iris(ctx):
 
 
 def p_hot(ctx):
-    """The hot disc behind the pupil: white-hot in the middle, orange, then red at its rim; its corners are the limbus."""
+    """The hot disc behind the pupil: white-hot in the middle, orange, then red at its rim; outside the circle it is
+    transparent (alpha 0), so a square never shows over the iris."""
+    px = ctx.img.load()
     if ctx.face != "west":
-        fill(ctx, HOT_OUT, 0.02, face_shade=False)
+        for yy in range(ctx.h):
+            for xx in range(ctx.w):
+                px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
         return
-
-    def f(r, ang):
-        if r > 1.0:
-            return LIMBUS
-        if r < 0.45:
-            return mix(HOT_IN, HOT_MID, r / 0.45)
-        return mix(HOT_MID, HOT_OUT, (r - 0.45) / 0.55)
-    _disc(ctx, f)
+    cx, cy, rad = ctx.w / 2, ctx.h / 2, ctx.w / 2
+    for yy in range(ctx.h):
+        for xx in range(ctx.w):
+            r = math.hypot(xx + 0.5 - cx, yy + 0.5 - cy) / rad
+            if r > 1.0:
+                px[ctx.x + xx, ctx.y + yy] = (0, 0, 0, 0)
+            else:
+                c = mix(HOT_IN, HOT_MID, r / 0.45) if r < 0.45 else mix(HOT_MID, HOT_OUT, (r - 0.45) / 0.55)
+                px[ctx.x + xx, ctx.y + yy] = clamp(c) + (255,)
 
 
 def p_pupil(ctx):
