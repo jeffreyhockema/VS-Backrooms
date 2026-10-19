@@ -219,6 +219,16 @@ public class GuiDialogCheats : GuiDialog
             B("Stop probes", "/backrooms perceive stop", "Ends every perception probe (Perceive), and its reports"),
         }, 4);
 
+        y = Heading(c, "Hives and Clumps", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Hive hearts here", "/backrooms hiveheart", "Puts down hive hearts at the nearest Deathmoth hive den (you must be within 40 blocks of it); breaking one raises the alarm and sends waves of females"),
+            B("Break nearest heart", "/backrooms hiveheart break", "Breaks the nearest hive heart within 24 blocks as you would: every female within 16 blocks answers, and waves of 3 to 5 come for a minute"),
+            B("Place remnant", "/backrooms remnant place", "A Clump remnant on the floor before you: burn it with a torch or firestarter, or it grows a Clump"),
+            B("Burn remnants", "/backrooms remnant burn", "Burns every loaded Clump remnant away, as a lit torch or firestarter would (a puff of smoke)"),
+            B("Grow remnants", "/backrooms remnant grow", "Makes every loaded Clump remnant ripe: each grows its Clump at its next check if you are within 48 blocks"),
+        }, 3);
+
         y = Heading(c, "Manage", y + RowGap);
         return ButtonGrid(c, y, new[]
         {

@@ -48,5 +48,8 @@ public class EntityClasses : ModSystem
         AiTaskRegistry.Register<AiTaskSpider>("backrooms-spider");
         api.RegisterBlockClass("BackroomsFiresalt", typeof(BlockFiresalt));
         api.RegisterBlockEntityClass("BackroomsFiresalt", typeof(BlockEntityFiresalt));
+        api.RegisterBlockClass("BackroomsMothHiveHeart", typeof(BlockMothHiveHeart));
+        api.RegisterBlockClass("BackroomsClumpRemnant", typeof(BlockClumpRemnant));
+        api.RegisterBlockEntityClass("BackroomsClumpRemnant", typeof(BlockEntityClumpRemnant));
     }
 }

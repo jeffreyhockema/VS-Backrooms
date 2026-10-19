@@ -2622,5 +2622,11 @@
 	"beast-reprieve": "You got away. He will come again for what is his.",
 	"item-creature-giantspider": "Giant Spider",
 	"prefixandcreature-giantspider": "a Giant Spider",
-	"deadcreature-giantspider": "Killed by a Giant Spider"
+	"deadcreature-giantspider": "Killed by a Giant Spider",
+
+	"block-mothhiveheart": "Deathmoth Hive Heart",
+	"blockdesc-mothhiveheart": "Resin walled round columns of pale larvae, at the heart of a Deathmoth hive. Breaking it brings every female near, and more after them.",
+	"block-clumpremnant": "Clump Remnant",
+	"blockdesc-clumpremnant": "What is left of a Clump: a patch of flesh on the floor. Left alone, it grows a new one in about a day. Fire ends it.",
+	"clumpremnant-hoursleft": "Grows a new Clump in about {0} hours"
 }

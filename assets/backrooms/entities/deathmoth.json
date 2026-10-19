@@ -161,7 +161,13 @@
 							"damage": 1.5,
 							"bites": true,
 							"orbitRadius": 1.3,
-							"biteSound": "game:creature/beesting"
+							"biteSound": "game:creature/beesting",
+							"senses": {
+								"sightLit": 24,
+								"sightDim": 8,
+								"sightDark": 0,
+								"hearing": 10
+							}
 						}
 					],
 					"*": [
@@ -169,8 +175,19 @@
 							"code": "backrooms-moth",
 							"priority": 1.5,
 							"speed": 0.03,
+							"damage": 1.5,
 							"bites": false,
-							"orbitRadius": 1.8
+							"orbitRadius": 1.8,
+							"biteSound": "game:creature/beesting",
+							"aggressiveLevel": 3,
+							"scavengeRange": 12,
+							"scavengeAvoid": 5,
+							"senses": {
+								"sightLit": 24,
+								"sightDim": 8,
+								"sightDark": 0,
+								"hearing": 10
+							}
 						}
 					]
 				}

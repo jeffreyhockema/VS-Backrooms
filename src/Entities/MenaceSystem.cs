@@ -176,6 +176,7 @@ public partial class MenaceSystem : ModSystem
             StartListening(api);
         });
         api.Event.PlayerDisconnect += player => watches.Remove(player.Entity?.EntityId ?? -1);
+        StartHives(api);
 
         IChatCommand command = api.ChatCommands.Get("backrooms");
         if (command == null) return;
@@ -236,6 +237,7 @@ public partial class MenaceSystem : ModSystem
                 .HandleWith(OnFacelingTestCommand)
             .EndSubCommand();
         RegisterProbeCommands(api, command);
+        RegisterHiveCommands(api, command);
     }
 
     public override void Dispose()
@@ -494,6 +496,7 @@ public partial class MenaceSystem : ModSystem
             EntityPlayer entity = player.Entity;
             if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
             Assess(entity, watch);
+            NoteDen(entity, watch.Now);
             directed.Add((entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative));
         }
         if (DirectsDummies)
@@ -503,6 +506,7 @@ public partial class MenaceSystem : ModSystem
             {
                 if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
                 Assess(dummy, watch);
+                NoteDen(dummy, watch.Now);
                 directed.Add((dummy, watch, false));
             }
         }
@@ -853,8 +857,9 @@ public partial class MenaceSystem : ModSystem
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
         bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
-        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
-        Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
+        if (kind != Encounter.Ambient && !packUncapped) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
+        lastPack.Clear();
+        if (Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy) is { } first) lastPack.Add(first);
         for (int i = 1; i < count; i++)
         {
             for (int attempt = 0; attempt < 6; attempt++)
@@ -862,7 +867,7 @@ public partial class MenaceSystem : ModSystem
                 int x = (int)Math.Floor(spot.X) + rand.Next(-3, 4), z = (int)Math.Floor(spot.Z) + rand.Next(-3, 4);
                 Vec3d near = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z, (int)Math.Floor(spot.Y));
                 if (near == null) continue;
-                Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
+                if (Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy) is { } another) lastPack.Add(another);
                 break;
             }
         }
