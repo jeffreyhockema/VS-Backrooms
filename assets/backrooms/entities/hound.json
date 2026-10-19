@@ -214,7 +214,17 @@
 						"stalkSound": "game:creature/wolf/growl*",
 						"huntSound": "game:creature/wolf/howl*",
 						"attackSound": "game:creature/wolf/attack*",
-						"soundRange": 40
+						"soundRange": 40,
+						"senses": {
+							"sightLit": 40,
+							"sightDim": 18,
+							"sightDark": 8,
+							"sightCone": 70,
+							"carriedLight": 1.5,
+							"hearing": 32,
+							"fearSense": 12,
+							"memorySeconds": 8
+						}
 					},
 					{
 						"code": "idle",

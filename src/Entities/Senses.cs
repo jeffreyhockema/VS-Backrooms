@@ -15,9 +15,19 @@ public static class Senses
     /// <summary>Light at or above this keeps Smilers back: a torch, a lantern, a fire, a working lamp. A candle is not enough.</summary>
     public const int LitLevel = 8;
 
+    /// <summary>Marks the straw dummies console tests put down in place of a player (see /backrooms encounter, dummy, perceive).</summary>
+    public const string TestTargetKey = "backrooms:testTarget";
+
+    /// <summary>What a test dummy pretends: the light it carries (0 to 20), and whether it sneaks or runs (/backrooms dummy).</summary>
+    public const string TestLightKey = "backrooms:testLight", TestSneakKey = "backrooms:testSneak", TestRunKey = "backrooms:testRun";
+
+    /// <summary>Whether an entity is a console test's straw dummy standing in for a player.</summary>
+    public static bool IsTestTarget(Entity entity) => entity?.WatchedAttributes.GetBool(TestTargetKey) == true;
+
     /// <summary>How bright the light a player carries is (0 to about 20; a candle is 7, a torch 14, a lantern 18).</summary>
     public static int HeldLight(Entity entity)
     {
+        if (IsTestTarget(entity)) return entity.WatchedAttributes.GetInt(TestLightKey);
         if (entity is not EntityAgent agent) return 0;
         // (Players also glow for a while after respawning; only what is in the hands counts here)
         return Math.Max(LightOf(entity.World, RightHand(agent)), LightOf(entity.World, LeftHand(agent)));
@@ -124,7 +134,15 @@ public static class Senses
     }
 
     /// <summary>Whether a player is running (sprinting while moving).</summary>
-    public static bool Running(EntityAgent player) => player.ServerControls.Sprint && player.ServerControls.TriesToMove;
+    public static bool Running(EntityAgent player) =>
+        player.ServerControls.Sprint && player.ServerControls.TriesToMove || IsTestTarget(player) && player.WatchedAttributes.GetBool(TestRunKey);
+
+    /// <summary>Whether anyone is running (only agents can).</summary>
+    public static bool Running(Entity who) => who is EntityAgent agent && Running(agent);
+
+    /// <summary>Whether someone is sneaking (crouched, creeping).</summary>
+    public static bool Sneaking(Entity who) =>
+        who is EntityAgent agent && agent.ServerControls.Sneak || IsTestTarget(who) && who.WatchedAttributes.GetBool(TestSneakKey);
 
     /// <summary>A player's Reality Stability (1 is steady, 0 is coming apart).</summary>
     public static double Stability(Entity player) => player.WatchedAttributes.GetDouble("temporalStability", 1);
@@ -134,12 +152,14 @@ public static class Senses
 
     public static Vec3d Eyes(Entity entity) => entity.Pos.XYZ.Add(0, entity.LocalEyePos.Y, 0);
 
-    /// <summary>Whether nothing solid lies on the straight line between two points.</summary>
-    public static bool ClearLine(IWorldAccessor world, Vec3d from, Vec3d to)
+    /// <summary>Whether nothing solid lies on the straight line between two points (with <paramref name="throughGlass"/>, nothing but glass).</summary>
+    public static bool ClearLine(IWorldAccessor world, Vec3d from, Vec3d to, bool throughGlass = false)
     {
         BlockSelection blockSel = null;
         EntitySelection entitySel = null;
-        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel, (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000, e => false);
+        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel,
+            (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000
+                            && !(throughGlass && block.BlockMaterial == EnumBlockMaterial.Glass), e => false);
         return blockSel == null;
     }
 

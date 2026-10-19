@@ -26,6 +26,8 @@ public static class Strike
             KnockbackStrength = knockback,
         }, scaled);
         director?.NoteCloseCall(target);
+        // A fight is heard (venom burning on is not)
+        if (type != EnumDamageType.Poison) director?.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "fight", target);
         Log(attacker, "hit {0} for {1:0.0}", target.Code, scaled);
     }
 

@@ -799,7 +799,9 @@ def hound():
                     damage=3.5, damageTier=2, damageType="SlashingAttack", knockback=0.35, attackRange=1.0,
                     attackDurationMs=1000, damageAtMs=600, attackCooldownMs=1200, walkAnimation="walk", runAnimation="run",
                     attackAnimation="attack", fearsFire=True, slowedByLight=True, retreatBelow=0.35, staredDown=True,
-                    stalkSound="game:creature/wolf/growl*", huntSound="game:creature/wolf/howl*", attackSound="game:creature/wolf/attack*", soundRange=40),
+                    stalkSound="game:creature/wolf/growl*", huntSound="game:creature/wolf/howl*", attackSound="game:creature/wolf/attack*", soundRange=40,
+                    # What it perceives (docs/design/entity-ai-overhaul/README.md section 6.1): hostile on sight, hears running
+                    senses=dict(sightLit=40, sightDim=18, sightDark=8, sightCone=70, carriedLight=1.5, hearing=32, fearSense=12, memorySeconds=8)),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),
         idle("scratch", 1.15, 2500, 2500, 30000, 90000),
         WANDER,

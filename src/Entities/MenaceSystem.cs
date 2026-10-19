@@ -22,7 +22,7 @@ namespace Backrooms.Entities;
 /// Entities are put down out of the player's reach, from the layout (so never inside a wall or a sealed room), and
 /// despawn once they have done their job (see <see cref="EntityBehaviorMenace"/>).
 /// </summary>
-public class MenaceSystem : ModSystem
+public partial class MenaceSystem : ModSystem
 {
     private const int IntervalMs = 2000;
     /// <summary>Nothing is put down closer than this to anyone.</summary>
@@ -89,6 +89,16 @@ public class MenaceSystem : ModSystem
 
     /// <summary>How fast noise dies away (per second), and how much breaking something or running makes.</summary>
     private const double NoiseDecay = 0.05, BreakNoise = 0.3, RunNoisePerSecond = 0.08;
+
+    /// <summary>
+    /// How loud things are for whatever listens (the noise bus; 1 carries as far as an entity's full hearing). See
+    /// docs/design/entity-ai-overhaul/README.md, section 4.2.
+    /// </summary>
+    public const double RunLoudness = 0.4, JumpLoudness = 0.3, BreakLoudness = 0.5, FightLoudness = 0.6, DoorLoudness = 0.3,
+        QuietDoorLoudness = 0.05, FireLoudness = 0.4, ImpactLoudness = 0.5, CryLoudness = 0.6;
+
+    /// <summary>The noises of the last two seconds, for entities that listen.</summary>
+    public NoiseBus Noises { get; } = new();
 
     /// <summary>Player attribute (synced to the client, which darkens the world) holding when a Flickering ends.</summary>
     public const string FlickerKey = "backrooms:flickerUntil";
@@ -160,7 +170,8 @@ public class MenaceSystem : ModSystem
             }
             api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] entity director: {0}", e), IntervalMs, 1000);
             // Breaking things open is loud
-            api.Event.DidBreakBlock += (player, _, _) => MakeNoise(player?.Entity, BreakNoise);
+            api.Event.DidBreakBlock += (player, _, sel) => MakeNoise(player?.Entity, BreakNoise, sel == null ? null : sel.Position.ToVec3d().Add(0.5, 0.5, 0.5), BreakLoudness, "break");
+            StartListening(api);
         });
         api.Event.PlayerDisconnect += player => watches.Remove(player.Entity?.EntityId ?? -1);
 
@@ -222,12 +233,14 @@ public class MenaceSystem : ModSystem
                 .WithArgs(api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"))
                 .HandleWith(OnFacelingTestCommand)
             .EndSubCommand();
+        RegisterProbeCommands(api, command);
     }
 
     public override void Dispose()
     {
         // (Static, so it would outlast this world into the next one opened in the same process)
         Senses.LightsOut = false;
+        Perception.Reset();
         base.Dispose();
     }
 
@@ -254,13 +267,27 @@ public class MenaceSystem : ModSystem
 
     /// <summary>
     /// Something the player did was loud (breaking a box open, prying a door, lighting a fire): it carries, and what
-    /// hunts by sound comes to see. Amounts add up to at most 1, and die away over half a minute or so.
+    /// hunts by sound comes to see. Amounts add up to at most 1, and die away over half a minute or so. The noise is
+    /// also put on the noise bus, where it was made (the player's feet unless <paramref name="at"/> says), as loud as
+    /// <paramref name="loudness"/> (by default the amount).
     /// </summary>
-    public void MakeNoise(Entity target, double amount)
+    public void MakeNoise(Entity target, double amount, Vec3d at = null, double? loudness = null, string source = "noise")
     {
         if (target == null || layout == null) return;
         if (!watches.TryGetValue(target.EntityId, out Watch watch)) watches[target.EntityId] = watch = new Watch();
         watch.Noise = Math.Min(1, watch.Noise + amount);
+        RaiseNoise(at ?? target.Pos.XYZ, loudness ?? amount, source, target);
+    }
+
+    /// <summary>
+    /// Puts a noise on the noise bus only (it does not raise anyone's menace): a fight, a cry, a door, a stone landing.
+    /// <paramref name="who"/> is whom it gives away (a player, for a noise they made or a fight they are in).
+    /// </summary>
+    public void RaiseNoise(Vec3d at, double loudness, string source, Entity who)
+    {
+        if (layout == null || at == null) return;
+        Noises.Raise(at, loudness, source, who, sapi.World.ElapsedMilliseconds);
+        if (Logging && source != "run") sapi.Logger.Notification("[backrooms] noise {0} {1:0.00} at {2:0},{3:0},{4:0}{5}", source, loudness, at.X, at.Y, at.Z, who == null ? "" : " by " + who.Code.Path + " #" + who.EntityId);
     }
 
     private void Assess(Entity target, Watch watch)
@@ -319,7 +346,11 @@ public class MenaceSystem : ModSystem
     private double TimeOut(Entity target, Watch watch, Assessment a)
     {
         double seconds = IntervalMs / 1000.0;
-        if (target is EntityAgent agent && Senses.Running(agent)) watch.Noise = Math.Min(1, watch.Noise + RunNoisePerSecond * seconds);
+        if (target is EntityAgent agent && Senses.Running(agent))
+        {
+            watch.Noise = Math.Min(1, watch.Noise + RunNoisePerSecond * seconds);
+            RaiseNoise(target.Pos.XYZ, RunLoudness, "run", target);
+        }
         watch.Noise = Math.Max(0, watch.Noise - NoiseDecay * seconds);
 
         double now = sapi.World.Calendar.TotalHours;
@@ -412,6 +443,13 @@ public class MenaceSystem : ModSystem
     // ================= The director =================
 
     private void OnTick(float dt)
+    {
+        long started = System.Diagnostics.Stopwatch.GetTimestamp();
+        try { Tick(); }
+        finally { NoteTickCost(System.Diagnostics.Stopwatch.GetTimestamp() - started); }
+    }
+
+    private void Tick()
     {
         Senses.LightsOut = (reality?.ShiftStrength ?? 0) > 0.5;
         if (Paused) return;
@@ -877,6 +915,7 @@ public class MenaceSystem : ModSystem
         {
             text.AppendFormat("\n{0}: {1}, {2:0} blocks", e.Code.Path, e.GetBehavior<EntityBehaviorMenace>().Kind, e.Pos.DistanceTo(entity.Pos.XYZ));
         }
+        text.Append('\n').Append(CostLine());
         return TextCommandResult.Success(text.ToString());
     }
 

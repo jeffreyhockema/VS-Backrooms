@@ -197,6 +197,9 @@ public class EntityBehaviorMenace : EntityBehavior
             return;
         }
         if (cause is EntityPlayer && Passive) Passive = false;
+        // Striking it is heard: a fight draws more
+        if (cause is EntityPlayer && damage > 0)
+            entity.Api.ModLoader.GetModSystem<MenaceSystem>()?.RaiseNoise(entity.Pos.XYZ, MenaceSystem.FightLoudness, "fight", cause);
     }
 
     public void Despawn()

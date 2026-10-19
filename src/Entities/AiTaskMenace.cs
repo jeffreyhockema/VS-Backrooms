@@ -315,7 +315,11 @@ public class AiTaskMenace : AiTaskBase
             announcedHunt = true;
             if (!entity.Attributes.GetBool(EntityBehaviorMenace.RalliedKey))
             {
-                if (huntSound != null) PlaySound(huntSound);
+                if (huntSound != null)
+                {
+                    PlaySound(huntSound);
+                    director.RaiseNoise(entity.Pos.XYZ, MenaceSystem.CryLoudness, "cry", entity);
+                }
                 RallyPack();
             }
             if (huntAnim != null) Hold(huntAnim, huntAnimMs);
@@ -693,6 +697,7 @@ public class AiTaskMenace : AiTaskBase
             KnockbackStrength = knock,
         }, scaled);
         director.NoteCloseCall(target);
+        director.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "fight", target);
         lastBloodMs = entity.World.ElapsedMilliseconds;
         Log("hit {0} for {1:0.0}", target.Code, scaled);
     }
