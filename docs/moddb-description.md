@@ -95,6 +95,38 @@ Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that a
 
 ---
 
+## The levels
+
+**The rings**
+
+- **Level 0, the Lobby.** The classic: damp Berber carpet, yellow chevron wallpaper, a fissured drop ceiling and lights in a grid. A labyrinth of rooms and hallways that turn, zigzag and open into one another. Pillar halls, arched rooms, open offices, blackout zones, pit rooms, the Manila Room, and the Red Rooms nobody should enter.
+- **Level 1, the Habitable Zone.** A car park that never ends: columns, bay letters, abandoned cars, puddles, dead security cameras, stair cores under lit EXIT signs. Maintenance halls of tight corridors, workshops, pump rooms and wanderers' camps.
+- **Level 2, Pipe Dreams.** Hot, dark utility tunnels with real 3D pipework overhead and along the walls, hissing joints, steel doors that are mostly locked, and a maze of service tunnels with far too many dead ends.
+- **Level 3, the Electrical Station.** Brick and glazed-tile halls crowded with transformers, switchgear, generators and cable trays. Numbered electrical rooms, boiler rooms, flooded tunnels under manholes, and the hushed Sanctums.
+- **Level 4, the Abandoned Office.** One quiet office floor: grey carpet with the marks of desks long gone, cubicle farms stripped to partitions, break rooms, server rooms, elevator lobbies, and windows that look out on rain that never ends.
+- **Level 5, the Terror Hotel.** A 1930s grand hotel, oddly well kept. Double-loaded corridors of numbered rooms, grand lobbies under chandeliers, dining halls laid for a dinner nobody comes to, the Beverly Room, and boiler halls behind STAFF ONLY doors.
+- **Level 6, Lights Out.** Darkness that light barely reaches. Trunk corridors, blind mazes, chalk arrows left by earlier explorers, and the sound of waves from the way the stairs lie.
+- **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out, unless you know the right diner in the city.
+- **Level 7, Thalassophobia.** An endless sea under a concrete ceiling, deeper and darker the further out you swim. Entry rooms in the ceiling, islands with old camps, kelp, a dead reef, and something that circles divers.
+- **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road runs through it, with camps at its crossings; off the road, in the dark, giant spiders keep their cobwebbed nests.
+- **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, fenced backyards, cars at the kerb, foxes and raccoons in the long grass, and the Neighborhood Watch walking the streets.
+- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, chickens, pigs, sheep and goats round the farmyards and meadows, ponds in the hollows. One of the safest places there is. The soil is thin, though.
+- **Level 11, the Endless City.** Not a ring: fifty kilometres out, behind a wall of black glass that nobody walks through. You noclip in through a barn wall in Level 10. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
+
+**Beyond the rings**
+
+- **Level 37, Sublimity (the Poolrooms).** White mosaic tile and lukewarm water in rotundas, natatoriums, serpentine halls and tunnels of arches, lit by glare from slits you can never see behind. The water heals. Far out lies the Sanguine Reservoir.
+- **Level 94, Motion.** A stop-motion picture that never stops being made: striped green hills with one cream house on each, winding roads, water towers of Almond Water, a glass mountain with a castle on top. Safe by day. Be indoors by dusk.
+- **Level !, Run For Your Life!** One hospital hallway lit by red EXIT signs, an alarm, and a horde behind you. Sprinting is the only answer.
+- **Level Fun =).** An endless party on a ship that cannot be this big. Cake, balloons, bunting, and guests who are not people.
+- **The End.** A library that looks like the way out, and is the cruellest trap in the Backrooms.
+- **The Hub.** A crossroads of road tunnels lined with carved doors to almost every level. Three open for anyone; the rest want a Level Key, and the pink one wants something cute. Cold, silent and safe.
+- **Level 974, Kitty's House.** A small pink house with no outside, where something three metres tall takes you if you carry something cute.
+- **Level 3999, the Neon Paradise.** An endless arcade-mall of tickets and prizes, safe at its heart and dark at its fringe.
+- **Level 188, the Courtyard of Windows.** A hotel courtyard walled in by 160 windows. Some of them show other places. Some of them beckon.
+
+---
+
 ## Things that live here
 
 What lives in the Backrooms is there to be heard and glimpsed far more than fought. In the heart of a level you hear things down the hall and see things far off that leave when you come near. Further out, things follow at a distance. Near the edge into the next level, and near its elevators, stairs and pits, they hunt.
@@ -131,38 +163,6 @@ Every creature has a counter you earn as you go; the handbook page *What Lives H
 | The horde | Level !: it runs at nearly your sprint, and anything it catches is dead | Sprinting; an Energy Bar; the Safe Zone, or the true exit |
 
 There are also Flickerings out towards the edge of Level 1, the Screaming of the rats, and the horde of Level !. Wanderers who trade keep camps along the way, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, burns for half a day and, like a lit firepit, keeps Hounds, Skin-Stealers, rats, moths, Partygoers and the wooden and paper Animations eight blocks off; its light holds Smilers too.
-
----
-
-## The levels
-
-**The rings**
-
-- **Level 0, the Lobby.** The classic: damp Berber carpet, yellow chevron wallpaper, a fissured drop ceiling and lights in a grid. A labyrinth of rooms and hallways that turn, zigzag and open into one another. Pillar halls, arched rooms, open offices, blackout zones, pit rooms, the Manila Room, and the Red Rooms nobody should enter.
-- **Level 1, the Habitable Zone.** A car park that never ends: columns, bay letters, abandoned cars, puddles, dead security cameras, stair cores under lit EXIT signs. Maintenance halls of tight corridors, workshops, pump rooms and wanderers' camps.
-- **Level 2, Pipe Dreams.** Hot, dark utility tunnels with real 3D pipework overhead and along the walls, hissing joints, steel doors that are mostly locked, and a maze of service tunnels with far too many dead ends.
-- **Level 3, the Electrical Station.** Brick and glazed-tile halls crowded with transformers, switchgear, generators and cable trays. Numbered electrical rooms, boiler rooms, flooded tunnels under manholes, and the hushed Sanctums.
-- **Level 4, the Abandoned Office.** One quiet office floor: grey carpet with the marks of desks long gone, cubicle farms stripped to partitions, break rooms, server rooms, elevator lobbies, and windows that look out on rain that never ends.
-- **Level 5, the Terror Hotel.** A 1930s grand hotel, oddly well kept. Double-loaded corridors of numbered rooms, grand lobbies under chandeliers, dining halls laid for a dinner nobody comes to, the Beverly Room, and boiler halls behind STAFF ONLY doors.
-- **Level 6, Lights Out.** Darkness that light barely reaches. Trunk corridors, blind mazes, chalk arrows left by earlier explorers, and the sound of waves from the way the stairs lie.
-- **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out, unless you know the right diner in the city.
-- **Level 7, Thalassophobia.** An endless sea under a concrete ceiling, deeper and darker the further out you swim. Entry rooms in the ceiling, islands with old camps, kelp, a dead reef, and something that circles divers.
-- **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road runs through it, with camps at its crossings; off the road, in the dark, giant spiders keep their cobwebbed nests.
-- **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, fenced backyards, cars at the kerb, foxes and raccoons in the long grass, and the Neighborhood Watch walking the streets.
-- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, chickens, pigs, sheep and goats round the farmyards and meadows, ponds in the hollows. One of the safest places there is. The soil is thin, though.
-- **Level 11, the Endless City.** Not a ring: fifty kilometres out, behind a wall of black glass that nobody walks through. You noclip in through a barn wall in Level 10. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
-
-**Beyond the rings**
-
-- **Level 37, Sublimity (the Poolrooms).** White mosaic tile and lukewarm water in rotundas, natatoriums, serpentine halls and tunnels of arches, lit by glare from slits you can never see behind. The water heals. Far out lies the Sanguine Reservoir.
-- **Level 94, Motion.** A stop-motion picture that never stops being made: striped green hills with one cream house on each, winding roads, water towers of Almond Water, a glass mountain with a castle on top. Safe by day. Be indoors by dusk.
-- **Level !, Run For Your Life!** One hospital hallway lit by red EXIT signs, an alarm, and a horde behind you. Sprinting is the only answer.
-- **Level Fun =).** An endless party on a ship that cannot be this big. Cake, balloons, bunting, and guests who are not people.
-- **The End.** A library that looks like the way out, and is the cruellest trap in the Backrooms.
-- **The Hub.** A crossroads of road tunnels lined with carved doors to almost every level. Three open for anyone; the rest want a Level Key, and the pink one wants something cute. Cold, silent and safe.
-- **Level 974, Kitty's House.** A small pink house with no outside, where something three metres tall takes you if you carry something cute.
-- **Level 3999, the Neon Paradise.** An endless arcade-mall of tickets and prizes, safe at its heart and dark at its fringe.
-- **Level 188, the Courtyard of Windows.** A hotel courtyard walled in by 160 windows. Some of them show other places. Some of them beckon.
 
 ---
 
