@@ -1,6 +1,6 @@
 {
  "level": "gallery",
- "note": "The gallery's spots (docs/screenshots, file names = spot names), in a fresh world at the review seed (batch.py --world gfxgallery9, layout version 9). Shots come out at the screen's size; scale them to 1920x1080.",
+ "note": "The gallery's spots (docs/screenshots, file names = spot names), in a fresh world at the review seed (batch.py --world gfxgallery9, layout version 9; 29, 36 and 37 retaken in gfxgallery9c from a build of 3ef62b0). Shots come out at the screen's size; scale them to 1920x1080.",
  "spots": [
   {
    "name": "01-level0-where-you-wake",
@@ -683,7 +683,7 @@
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "Level !: the hall's last stretch, fallen ceiling and dumped boxes, EXIT signs on to the real exit"
+   "subject": "Level !: the hall's last stretch, fallen ceiling and dumped boxes, one hanging EXIT sign (evenly spaced from 3ef62b0) and the real exit"
   },
   {
    "name": "30-level-run-start-room",
@@ -828,7 +828,7 @@
    "tp": [
     398996.5,
     217.05,
-    622771.3
+    622775.3
    ],
    "look": [
     160,
@@ -837,16 +837,14 @@
    "fov": 80,
    "pre": [
     "slot 8",
-    "tp 398996 217.05 622771",
+    "tp 398996 217.05 622775",
     "ready 48",
     "/weather seti clearsky",
     "/weather setw still",
     "/weather setprecip 0",
-    "wait 3000",
-    "/time set 12:00",
-    "daylight"
+    "wait 3000"
    ],
-   "subject": "974: Kitty's room (layout 9, nearly twice as big), the cat bed and two windows, by the shotbot's daylight"
+   "subject": "974: Kitty's room (layout 9 from 3ef62b0: four rows further south, 6 by 7, three lights), the cat bed and two windows, by its own lights"
   },
   {
    "name": "37-level974-bed",
@@ -856,7 +854,7 @@
     622762.5
    ],
    "look": [
-    90,
+    100,
     -14
    ],
    "fov": 70,
@@ -869,7 +867,7 @@
     "/weather setprecip 0",
     "wait 3000"
    ],
-   "subject": "974: the bed in its alcove"
+   "subject": "974: the bed in its alcove, the longer bedroom (6 by 10 from 3ef62b0) opening to the right with its east window"
   },
   {
    "name": "38-level3999-neon-paradise",
