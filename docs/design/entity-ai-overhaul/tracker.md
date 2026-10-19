@@ -65,6 +65,17 @@ changed, what was carried and why.)
 - **Lessons:** a headless world made without `backroomsLayoutVersion: 9` in `WorldConfig` is layout version 1 and has no
   spider nests. `encounter` leaves entities behind: filter log lines by position when counting.
 
+### Integration (2026-10-19)
+
+- All of P0 to P6 merged on `ai/p1-machine`; a final cross-batch blind review found 13 issues (the new blocks needed a
+  copper pick through Breakdown's Structure class, venom kills paid no bounty, hive waves ignored the entities setting,
+  Facelings shoved bite victims, statics surviving reloads, and smaller ones); all fixed in 8a4732a.
+- Final harness on 26d667e: 20 of 21 pass, `p1-glimpse-to-stalk` skipped (no qualifying spot in 8 tries), and
+  `p1-hunt-to-search` failed only because every spot's first path failed headless (entities never walk there, so the
+  hunt fell back to Stalk by the old no-path rule); it passed in the previous full run (Search at 17 s). Treat it as
+  flaky headless, and check hunts losing you in the play-test.
+- Next: P7, the user's play-test with [playtest.md](playtest.md).
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
