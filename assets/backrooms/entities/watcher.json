@@ -1,0 +1,153 @@
+{
+	"code": "watcher",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-air"
+	],
+	"habitat": "Air",
+	"weight": 300,
+	"hitboxSize": {
+		"x": 2.2,
+		"y": 2.4
+	},
+	"deadHitboxSize": {
+		"x": 2.2,
+		"y": 2.4
+	},
+	"selectionBoxSize": {
+		"x": 2.2,
+		"y": 2.4
+	},
+	"eyeHeight": 1.25,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-watcher"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/watcher"
+		},
+		"texture": {
+			"base": "backrooms:entity/watcher"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.0001
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "backrooms-watchereye"
+			}
+		],
+		"animations": [
+			{
+				"code": "float",
+				"animation": "float",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "scan",
+				"animation": "scan",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "charge",
+				"animation": "charge",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "beam",
+				"animation": "beam",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 12
+			}
+		]
+	},
+	"server": {
+		"attributes": {
+			"pathfinder": {
+				"minTurnAnglePerSec": 120,
+				"maxTurnAnglePerSec": 240
+			}
+		},
+		"behaviors": [
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.0001
+			},
+			{
+				"code": "backrooms-menace",
+				"immortal": true,
+				"unmoved": true,
+				"glimpseSeconds": 30,
+				"stalkSeconds": 180,
+				"huntSeconds": 240
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "Default",
+				"aitasks": [
+					{
+						"code": "backrooms-watcher",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"speed": 0.025,
+						"hoverMin": 4,
+						"hoverMax": 6,
+						"fireRange": 12,
+						"chargeSeconds": 2.0,
+						"beamSeconds": 0.5,
+						"searchSeconds": 10,
+						"cooldownSeconds": 4,
+						"loseGraceSeconds": 0.4,
+						"senses": {
+							"sightLit": 40,
+							"sightDim": 20,
+							"sightDark": 14,
+							"sightCone": 90,
+							"special": "glass",
+							"hearing": 0,
+							"hearsRunning": false,
+							"sneakFactor": 0.6
+						},
+						"floatAnimation": "float",
+						"scanAnimation": "scan",
+						"chargeAnimation": "charge",
+						"beamAnimation": "beam",
+						"humSound": "backrooms:entity/watcher-hum",
+						"chargeSound": "backrooms:entity/watcher-charge",
+						"beamSound": "backrooms:entity/watcher-beam",
+						"soundRange": 40
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {}
+}
