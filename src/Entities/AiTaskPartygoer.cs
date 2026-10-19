@@ -34,7 +34,9 @@ public class AiTaskPartygoer : AiTaskBase
     private enum State { Party, Patrol, Gaze, Hunt, Search, Return }
     private enum Motion { Still, Walk, Run }
 
-    private readonly float walkSpeed, runSpeed, sightLit, sightDim, sightDark, latchDamage, clawDamage, attackRange;
+    private readonly float walkSpeed, runSpeed, latchDamage, clawDamage, attackRange;
+    /// <summary>What it sees and hears by (the shared model, see <see cref="Perception"/>), and the same while it hunts: as far as it can see in good light, in any light, all round.</summary>
+    private readonly SenseProfile senses, huntSenses;
     private readonly AssetLocation gazeSound, latchSound, clawSound;
 
     private EntityBehaviorMenace menace;
@@ -63,9 +65,9 @@ public class AiTaskPartygoer : AiTaskBase
     {
         walkSpeed = taskConfig["walkSpeed"].AsFloat(0.016f);
         runSpeed = taskConfig["runSpeed"].AsFloat(0.031f);
-        sightLit = taskConfig["sightLit"].AsFloat(12);
-        sightDim = taskConfig["sightDim"].AsFloat(7);
-        sightDark = taskConfig["sightDark"].AsFloat(4);
+        senses = SenseProfile.Parse(taskConfig["senses"]) ?? new SenseProfile { SightLit = 12, SightDim = 7, SightDark = 4, SightCone = 70, SneakFactor = 0.6f, Hearing = 6, Touch = 2 };
+        huntSenses = senses.With(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "sightLit={0},sightDim={0},sightDark={0},sightCone=360,sneakFactor=1", senses.SightLit), out _);
         latchDamage = taskConfig["latchDamage"].AsFloat(2.5f);
         clawDamage = taskConfig["clawDamage"].AsFloat(4f);
         attackRange = taskConfig["attackRange"].AsFloat(1.6f);
@@ -228,28 +230,22 @@ public class AiTaskPartygoer : AiTaskBase
         return best;
     }
 
-    /// <summary>Whether it notices someone: by sight (in front of it, in the light, nothing between) or by a noise close by.</summary>
+    /// <summary>
+    /// Whether it notices someone: by sight (the shared model: in front of it, as far as the light lets it, nothing
+    /// between; hunting, all round and as far as good light) or by a noise close by. Its hearing is its own rule: only
+    /// someone running, or a bang, within <c>hearing</c>, and it has no belief of where they were.
+    /// </summary>
     private bool Notices(Entity who, bool hunting)
     {
         if (who is not EntityAgent agent) return false;
-        Vec3d eyes = entity.Pos.XYZ.Add(0, entity.LocalEyePos.Y, 0), them = Senses.Centre(who);
+        Vec3d eyes = Senses.Eyes(entity), them = Senses.Centre(who);
         double distance = eyes.DistanceTo(them);
         bool running = agent is EntityPlayer && Senses.Running(agent);
         // A bang or someone running, close by, it hears even behind it
-        if (!hunting && distance <= 6 && (running || FunSystemHeard(who))) return Senses.ClearLine(entity.World, eyes, them) || distance <= 3;
+        if (!hunting && distance <= senses.Hearing && (running || FunSystemHeard(who))) return Senses.ClearLine(entity.World, eyes, them) || distance <= 3;
         // One of its own, as far as it can tell
         if (!hunting && distance > 3 && !running && !FunSystem.StruckLately(who) && FunSystem.Disguised(agent)) return false;
-        int light = Senses.LightAt(entity.World, Senses.Eyes(who), who);
-        double range = light >= Senses.LitLevel ? sightLit : light >= 4 ? sightDim : sightDark;
-        if (agent.ServerControls.Sneak) range *= 0.6;
-        if (hunting) range = Math.Max(range, sightLit);
-        if (distance > range) return false;
-        if (distance > 2)
-        {
-            double facing = Math.Atan2(them.X - entity.Pos.X, them.Z - entity.Pos.Z);
-            if (Math.Abs(GameMath.AngleRadDistance(entity.Pos.Yaw, (float)facing)) > 70 * GameMath.DEG2RAD && !hunting) return false;
-        }
-        return Senses.ClearLine(entity.World, eyes, them);
+        return Perception.Sight(entity, who, hunting ? huntSenses : senses, out _) > 0;
     }
 
     private static readonly Dictionary<long, long> HeardMs = new();

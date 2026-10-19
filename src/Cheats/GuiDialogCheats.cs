@@ -354,6 +354,7 @@ public class GuiDialogCheats : GuiDialog
         y = ButtonGrid(c, y, new[]
         {
             B("Dummy here", "/backrooms dummy place here", "Puts a straw dummy down in front of you, to stand in for a player (the first try may only load the chunks: try again)"),
+            B("Dummy at a nest", "/backrooms dummy place nest", "Puts a straw dummy down 8 blocks from the heart of a Level 8 spider nest, to test what a noise there does (the first try may only load the chunks: try again)"),
             B("Dummy: torch", "/backrooms dummy light 14", "The nearest straw dummy carries a torch"),
             B("Dummy: no light", "/backrooms dummy light 0", "The nearest straw dummy carries no light"),
             B("Dummy: sneak", "/backrooms dummy sneak", "Toggles whether the nearest straw dummy sneaks"),

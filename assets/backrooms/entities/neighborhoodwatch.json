@@ -149,7 +149,8 @@
 				"code": "backrooms-menace",
 				"glimpseSeconds": 30,
 				"stalkSeconds": 180,
-				"huntSeconds": 240
+				"huntSeconds": 240,
+				"rangedDamageMul": 2
 			},
 			{
 				"code": "taskai",
@@ -163,11 +164,19 @@
 						"maxcooldown": 0,
 						"walkSpeed": 0.016,
 						"runSpeed": 0.044,
-						"darkSight": 12,
-						"litSight": 40,
-						"touchRange": 2.5,
-						"halfAngle": 70,
+						"senses": {
+							"sightLit": 40,
+							"sightDim": 12,
+							"sightDark": 12,
+							"sightCone": 70,
+							"touch": 2.5,
+							"sneakFactor": 0.6,
+							"hearing": 0,
+							"hearsRunning": false,
+							"special": "glass"
+						},
 						"scanHalfAngle": 100,
+						"fearRange": 24,
 						"noticeSeconds": 1.6,
 						"loseSeconds": 3.0,
 						"searchSeconds": 14,

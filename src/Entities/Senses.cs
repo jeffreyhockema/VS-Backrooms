@@ -90,6 +90,15 @@ public static class Senses
         return HeldLight(player) < LitLevel && WorldLight(player.World, eyes) < LitLevel;
     }
 
+    /// <summary>Whether someone holds a lit lantern or oil lamp (a torch is not counted: it goes out in water).</summary>
+    public static bool HeldLamp(EntityAgent agent) => IsLamp(agent.World, RightHand(agent)) || IsLamp(agent.World, LeftHand(agent));
+
+    private static bool IsLamp(IWorldAccessor world, ItemSlot slot)
+    {
+        string path = slot?.Itemstack?.Collectible?.Code?.Path;
+        return path != null && (path.StartsWith("lantern") || path.StartsWith("oillamp")) && LightOf(world, slot) > 0;
+    }
+
     /// <summary>
     /// How much the light a player carries draws Deathmoths: an open flame most, a candle a little, a closed lantern
     /// not at all.

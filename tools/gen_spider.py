@@ -538,7 +538,11 @@ def entity(anim, common_client, server, drops=None):
     task = {"code": "backrooms-spider", "priority": 1.6, "priorityForCancel": 1.6, "mincooldown": 0, "maxcooldown": 0,
             # (Speeds compare with a player's 0.025 walking and 0.05 sprinting; Level 8's danger adds a fifth: a sprint
             # and a bit, so the head start its rearing gives is what saves you)
-            "walkSpeed": 0.016, "runSpeed": 0.05, "trespass": 5.0, "hearing": 20, "leash": 24,
+            "walkSpeed": 0.016, "runSpeed": 0.05, "leash": 24,
+            # What it notices by (the shared model, AiTaskSpider): someone within 5 blocks it will not stand (creeping
+            # shrinks it to 55 %), a racket or a runner within 20. A loud noise (0.5) within 24 blocks of its nest's
+            # heart wakes the whole nest (MenaceSystem.NestHeard)
+            "senses": {"touch": 5.0, "hearing": 20, "sneakFactor": 0.55},
             "attackRange": 0.55, "damage": 3.5, "damageTier": 2, "knockback": 0.4,
             "attackDurationMs": 900, "damageAtMs": 450, "attackCooldownMs": 1500, "rearMs": 900,
             "venom": 0.5, "venomTicks": 5, "venomEveryMs": 1200, "retreatBelow": 0.25, "mendPerSecond": 0.25,

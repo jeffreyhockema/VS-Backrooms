@@ -42,6 +42,8 @@ public class EntityBehaviorMenace : EntityBehavior
     private bool immortal, unmoved;
     private int glimpseSeconds, stalkSeconds, huntSeconds, investigateSeconds, searchSeconds, maxEncounterSeconds;
     private float checkIn;
+    /// <summary>What damage from an arrow, a thrown spear or any other projectile is multiplied by (the Watch: "ranged weapons work on them").</summary>
+    private float rangedDamageMul = 1;
     private long leftAtMs, lastSeenMs;
 
     public EntityBehaviorMenace(Entity entity) : base(entity) { }
@@ -59,6 +61,7 @@ public class EntityBehaviorMenace : EntityBehavior
         investigateSeconds = attributes["investigateCapSeconds"].AsInt(30);
         searchSeconds = attributes["searchCapSeconds"].AsInt(40);
         maxEncounterSeconds = attributes["maxEncounterSeconds"].AsInt(0);
+        rangedDamageMul = attributes["rangedDamageMul"].AsFloat(1);
     }
 
     /// <summary>What this entity believes about where its target is (used by the menace task when it has senses; shared with its pack).</summary>
@@ -224,6 +227,7 @@ public class EntityBehaviorMenace : EntityBehavior
             else if (cause != null) Kind = Encounter.Leave;
             return;
         }
+        if (rangedDamageMul != 1 && damage > 0 && damageSource.SourceEntity is IProjectile) damage *= rangedDamageMul;
         if (cause is EntityPlayer && Passive) Passive = false;
         // Striking it is heard: a fight draws more
         if (cause is EntityPlayer && damage > 0)

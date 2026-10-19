@@ -47,4 +47,43 @@ public sealed partial class WorldLayout
         double d = Math.Sqrt((nest.X - gx) * (nest.X - gx) + (nest.Z - gz) * (nest.Z - gz));
         return Math.Clamp(1 - d / DenRadius, 0, 1);
     }
+
+    /// <summary>
+    /// The heart of the nearest spider nest within <paramref name="range"/> blocks of a position (at most 24, which
+    /// the neighbouring cells cover), or null. A query only: nothing in the world is changed by asking.
+    /// </summary>
+    public (int X, int Z)? NestHeartNear(int gx, int gz, double range)
+    {
+        if (Version < 9 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return null;
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        (int X, int Z)? best = null;
+        double bestSq = range * range;
+        for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
+            for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
+            {
+                if (DenAt(mx, mz) != DenKind.Nest) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                double sq = (double)(cx - gx) * (cx - gx) + (double)(cz - gz) * (cz - gz);
+                if (sq <= bestSq) (best, bestSq) = ((cx, cz), sq);
+            }
+        return best;
+    }
+
+    /// <summary>The heart of the spider nest nearest a position within <paramref name="cells"/> cells of it (for a test to go to), or null.</summary>
+    public (int X, int Z)? NearestNest(int gx, int gz, int cells)
+    {
+        if (Version < 9) return null;
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        (int X, int Z)? best = null;
+        double bestSq = double.MaxValue;
+        for (int mz = mz0 - cells; mz <= mz0 + cells; mz++)
+            for (int mx = mx0 - cells; mx <= mx0 + cells; mx++)
+            {
+                if (DenAt(mx, mz) != DenKind.Nest) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                double sq = (double)(cx - gx) * (cx - gx) + (double)(cz - gz) * (cz - gz);
+                if (sq < bestSq) (best, bestSq) = ((cx, cz), sq);
+            }
+        return best;
+    }
 }
