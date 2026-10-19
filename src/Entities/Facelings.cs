@@ -1,4 +1,5 @@
 using System;
+using Backrooms.Salvage;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -20,14 +21,35 @@ namespace Backrooms.Entities;
 /// <see cref="AiTaskGreet"/>, a task of its own so nothing else turns it away meanwhile). A child only
 /// waves. If it knows of nothing, it shrugs.</item>
 /// <item>Hurt by someone, the Facelings near it turn on them together: hit one in the city and the street comes for
-/// you. A child that is hurt throws a tantrum at whoever did it.</item>
+/// you. A child that is hurt throws a tantrum at whoever did it, and is calmed by a right-click with food: it waves
+/// and follows that player for a minute.</item>
+/// <item>Disturbed (a player breaks a block, jumps or fights within six blocks of a grown one that can see them,
+/// heard on the noise bus; the director raises those anyway, so listening costs a look at a short list four times a
+/// second), it has an outburst (<see cref="AiTaskOutburst"/>).</item>
+/// <item>Killed while docile, it shames its killer for ten minutes (<see cref="MenaceSystem.Shame"/>).</item>
 /// </list>
 /// </summary>
 public class EntityBehaviorFaceling : EntityBehavior
 {
     private const string ProvokedKey = "backrooms:provoked";
-    private long greetedAtMs = -100_000;
+    private const string TantrumKey = "backrooms:tantrumUntil";
+
+    /// <summary>Who a calmed child follows (entity id) and until when (server milliseconds). Absent means nobody.</summary>
+    public const string FollowKey = "backrooms:follows", FollowUntilKey = "backrooms:followUntil";
+
+    /// <summary>The texture alternate of Level 3's Evolved Facelings (the last of the adult looks; gen_entities.py appends it), and how many ordinary ones there are.</summary>
+    public const int EvolvedLook = 14, AdultLooks = 14;
+
+    public const double ShameAmount = 0.3, ShameMinutes = 10;
+    private const long TantrumMs = 15_000, FollowMs = 60_000;
+
+    private long greetedAtMs = -100_000, nextHearMs, lastNoiseId = -1;
     private bool child, noHead;
+    private MenaceSystem director;
+    private AiTaskOutburst outburst;
+
+    /// <summary>Whether this is one of Level 3's Evolved Facelings (hostile, half-formed face).</summary>
+    public static bool IsEvolved(Entity who) => who.Code.Path == "faceling" && who.WatchedAttributes.GetInt("textureIndex", -1) == EvolvedLook;
 
     public EntityBehaviorFaceling(Entity entity) : base(entity) { }
 
@@ -43,7 +65,12 @@ public class EntityBehaviorFaceling : EntityBehavior
 
     public override void OnGameTick(float dt)
     {
-        if (noHead || entity.World.Side != EnumAppSide.Client) return;
+        if (entity.World.Side == EnumAppSide.Server)
+        {
+            if (!child) Listen();
+            return;
+        }
+        if (noHead) return;
         IAnimationManager anim = entity.AnimManager;
         if (anim?.Animator == null || anim.HeadController is FacelingHeadController) return;
         try
@@ -57,11 +84,51 @@ public class EntityBehaviorFaceling : EntityBehavior
         }
     }
 
+    // ================= Outbursts (server) =================
+
+    /// <summary>
+    /// "Easily angered by even small disturbances": a block broken, a jump or a fight near a grown Faceling that can see
+    /// who did it sets it off, once in thirty seconds. This reads the noise bus (the director already puts a break, a
+    /// jump and a fight on it) rather than hooking DidBreakBlock again for each Faceling: a few events held two seconds.
+    /// </summary>
+    private void Listen()
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        if (now < nextHearMs || !entity.Alive) return;
+        nextHearMs = now + 250;
+        if (IsEvolved(entity) || Provoked(entity)) return;
+        director ??= entity.Api.ModLoader.GetModSystem<MenaceSystem>();
+        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        if (director == null || menace == null || menace.Kind != Encounter.Ambient) return;
+        outburst ??= entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskOutburst>();
+        bool ready = outburst != null && outburst.Ready(now);
+        foreach (NoiseEvent noise in director.Noises.Recent(now))
+        {
+            if (noise.Id <= lastNoiseId) continue;
+            lastNoiseId = noise.Id;
+            if (!ready || noise.Source is not ("break" or "jump" or "fight" or "test")) continue;
+            // (The shove is a fight too: it must not set the next one off)
+            if (noise.Source == "fight" && now - AiTaskOutburst.LastShoveMs < 800) continue;
+            Entity who = entity.World.GetEntityById(noise.Who);
+            if (who == null || !who.Alive || who is not EntityPlayer && !who.WatchedAttributes.GetBool("backrooms:testTarget")) continue;
+            if (who is EntityPlayer p && p.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) continue;
+            if (noise.Pos.DistanceTo(entity.Pos.XYZ) > outburst.Range || who.Pos.DistanceTo(entity.Pos) > outburst.Range + 4) continue;
+            if (!Senses.ClearLine(entity.World, Senses.Centre(entity), Senses.Eyes(who))) continue;
+            outburst.Ask(who);
+            return;
+        }
+    }
+
     // ================= Greetings (server) =================
 
     public override void OnInteract(EntityAgent byEntity, ItemSlot itemslot, Vec3d hitPosition, EnumInteractMode mode, ref EnumHandling handled)
     {
         if (entity.World.Side != EnumAppSide.Server || mode != EnumInteractMode.Interact || byEntity is not EntityPlayer || !entity.Alive) return;
+        if (child && TryCalm(byEntity, itemslot))
+        {
+            handled = EnumHandling.PreventDefault;
+            return;
+        }
         var menace = entity.GetBehavior<EntityBehaviorMenace>();
         if (menace != null && menace.Kind != Encounter.Ambient) return; // not now
         AiTaskGreet greet = entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskGreet>();
@@ -72,6 +139,47 @@ public class EntityBehaviorFaceling : EntityBehavior
         if (greet.Busy || now - greetedAtMs < 4000) return;
         greetedAtMs = now;
         greet.Ask(byEntity);
+    }
+
+    // ================= Calming a child (server) =================
+
+    /// <summary>Whether a child is in a tantrum now: hurt in the last quarter minute, or set on someone.</summary>
+    public bool Tantrumming
+    {
+        get
+        {
+            long now = entity.World.ElapsedMilliseconds;
+            return entity.Attributes.GetLong(TantrumKey, 0) > now || entity.GetBehavior<EntityBehaviorMenace>()?.Kind is Encounter.Hunt or Encounter.Stalk && Provoked(entity);
+        }
+    }
+
+    /// <summary>A right-click with food on a child mid-tantrum calms it: one food item is used up, it waves, and follows that player.</summary>
+    private bool TryCalm(EntityAgent by, ItemSlot slot)
+    {
+        if (!Tantrumming || slot?.Itemstack == null || !ScarcitySystem.IsFood(slot.Itemstack.Collectible)) return false;
+        Calm(by);
+        if (by is EntityPlayer { Player.WorldData.CurrentGameMode: not EnumGameMode.Creative })
+        {
+            slot.TakeOut(1);
+            slot.MarkDirty();
+        }
+        return true;
+    }
+
+    /// <summary>Calms the child (for the interaction and for the test): the tantrum stops, it waves, and it follows <paramref name="whom"/> for a minute.</summary>
+    public void Calm(Entity whom)
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        entity.Attributes.RemoveAttribute(TantrumKey);
+        entity.Attributes.RemoveAttribute(ProvokedKey);
+        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        if (menace != null && menace.Kind != Encounter.Ambient) menace.Kind = Encounter.Ambient;
+        entity.GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.StopTasks();
+        entity.AnimManager.StopAnimation("tantrum");
+        entity.AnimManager.StartAnimation("wave");
+        entity.Attributes.SetLong(FollowKey, whom.EntityId);
+        entity.Attributes.SetLong(FollowUntilKey, now + FollowMs);
+        Strike.Log(entity, "calmed by {0}: follows for {1} s", whom.Code.Path, FollowMs / 1000);
     }
 
     /// <summary>
@@ -103,7 +211,11 @@ public class EntityBehaviorFaceling : EntityBehavior
         if (entity.World.Side != EnumAppSide.Server || damage <= 0) return;
         if (damageSource.GetCauseEntity() is not EntityPlayer attacker) return;
         if (attacker.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) return;
-        if (child) entity.AnimManager.StartAnimation("tantrum");
+        if (child)
+        {
+            entity.AnimManager.StartAnimation("tantrum");
+            entity.Attributes.SetLong(TantrumKey, entity.World.ElapsedMilliseconds + TantrumMs);
+        }
 
         // Every grown Faceling within sixteen blocks that can see what happened (or is close) turns on the attacker
         foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, 16, 6, e => e != entity && e.Alive && e.Code.Path.StartsWith("faceling")))
@@ -113,6 +225,14 @@ public class EntityBehaviorFaceling : EntityBehavior
             Provoke(other, attacker);
         }
         Provoke(entity, attacker);
+    }
+
+    public override void OnEntityDeath(DamageSource damageSourceForDeath)
+    {
+        if (entity.World.Side != EnumAppSide.Server || IsEvolved(entity)) return;
+        // Killing a docile one is the one penalty (the others are already after the killer): the Backrooms take note
+        if (damageSourceForDeath?.GetCauseEntity() is not EntityPlayer killer || killer.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) return;
+        entity.Api.ModLoader.GetModSystem<MenaceSystem>()?.Shame(killer, ShameAmount, ShameMinutes);
     }
 
     /// <summary>Sets an entity hunting someone who wronged it, even where it otherwise would leave them be (a calm level, the city).</summary>

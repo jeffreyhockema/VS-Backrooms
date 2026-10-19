@@ -292,6 +292,35 @@ public partial class MenaceSystem : ModSystem
         if (Logging && source != "run") sapi.Logger.Notification("[backrooms] noise {0} {1:0.00} at {2:0},{3:0},{4:0}{5}", source, loudness, at.X, at.Y, at.Z, who == null ? "" : " by " + who.Code.Path + " #" + who.EntityId);
     }
 
+    /// <summary>Marks a Faceling put down as Evolved (for its health).</summary>
+    private const string EvolvedKey = "backrooms:evolvedFaceling";
+
+    private readonly Dictionary<long, List<(double Amount, long Start, long End)>> shames = new();
+
+    /// <summary>
+    /// Raises a player's menace by <paramref name="amount"/> for <paramref name="minutes"/> real minutes, fading away
+    /// evenly over them (killing something docile: a Faceling). Kept in memory only, per player; they add up.
+    /// </summary>
+    public void Shame(Entity player, double amount, double minutes)
+    {
+        if (player == null || amount <= 0 || minutes <= 0) return;
+        long now = sapi.World.ElapsedMilliseconds;
+        if (!shames.TryGetValue(player.EntityId, out var list)) shames[player.EntityId] = list = new();
+        list.Add((amount, now, now + (long)(minutes * 60_000)));
+        if (Logging) sapi.Logger.Notification("[backrooms] shame {0:0.00} for {1} minutes on {2} (now {3:0.00})", amount, minutes, player.Code.Path, ShameOf(player));
+    }
+
+    /// <summary>What shame is on someone now, from 0 up.</summary>
+    public double ShameOf(Entity target)
+    {
+        if (!shames.TryGetValue(target.EntityId, out var list)) return 0;
+        long now = sapi.World.ElapsedMilliseconds;
+        list.RemoveAll(s => s.End <= now);
+        double sum = 0;
+        foreach (var s in list) sum += s.Amount * (s.End - now) / (double)(s.End - s.Start);
+        return sum;
+    }
+
     private void Assess(Entity target, Watch watch)
     {
         Assessment a = watch.Now;
@@ -336,6 +365,7 @@ public partial class MenaceSystem : ModSystem
         // The longer you are out, the more the Backrooms notice you; and what hears you comes
         value += Math.Min(ExposureMax, ExposurePerHour * a.OutHours);
         value += 0.3 * a.Noise;
+        value += ShameOf(target);
         if (sapi.World.ElapsedMilliseconds < watch.CalmUntilMs) value -= 0.3;
         a.Value = Math.Clamp(value, 0, 1);
     }
@@ -856,7 +886,8 @@ public partial class MenaceSystem : ModSystem
         if (entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is { } health)
         {
             // Deeper down, harder to put down; an old Hound half as hard again
-            float extra = Danger.ExtraHealth(danger) + (elder ? 0.5f : 0f);
+            // (Evolved Facelings are weak: 12 against the ordinary 10)
+            float extra = Danger.ExtraHealth(danger) + (elder ? 0.5f : 0f) + (entity.Attributes.GetBool(EvolvedKey) ? 0.2f : 0f);
             if (extra > 0)
             {
                 health.SetMaxHealthModifiers("backrooms-danger", health.BaseMaxHealth * extra);
@@ -884,6 +915,15 @@ public partial class MenaceSystem : ModSystem
                 int look = r < 0.12 ? 2 : r < 0.37 ? 1 : 0;
                 entity.WatchedAttributes.SetInt("textureIndex", look);
                 return look == 2;
+            case "faceling":
+                // Level 3's are all Evolved (hostile, half-formed faces); elsewhere any of the ordinary looks (the Evolved
+                // one is only ever given by index, never left to the client's chance)
+                int here = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z)));
+                bool evolved = here == 3;
+                entity.WatchedAttributes.SetInt("textureIndex", evolved ? EntityBehaviorFaceling.EvolvedLook : rand.Next(EntityBehaviorFaceling.AdultLooks));
+                if (evolved) entity.Attributes.SetBool(EvolvedKey, true);
+                if (Logging) sapi.Logger.Notification("[backrooms] faceling look {0} (level {1}{2})", entity.WatchedAttributes.GetInt("textureIndex"), here, evolved ? ", Evolved" : "");
+                return false;
             case "wretch":
                 // The further down, the longer they have been down here: still dressed near the top, all but gone deep
                 double d = Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));

@@ -209,6 +209,8 @@ public static class Roster
         [3] = new[]
         {
             E(Faceling, Heart, Amb, 0.4) with { Rarity = 0.35 },
+            // "Every single one of them is hostile": the Evolved look is given to all put down here (ChooseLook)
+            E(Faceling, Approach, Menacing, 0.4),
             E(Smiler, Heart, Menacing, 0.8) with { NeedsDark = true },
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(SkinStealer, Approach, Menacing, 0.5),

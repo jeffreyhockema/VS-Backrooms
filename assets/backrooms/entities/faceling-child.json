@@ -259,6 +259,17 @@
 						"maxcooldown": 0
 					},
 					{
+						"code": "backrooms-companion",
+						"priority": 1.45,
+						"priorityForCancel": 1.45,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.04,
+						"minDistance": 2,
+						"maxDistance": 4
+					},
+					{
 						"code": "backrooms-curious",
 						"priority": 1.3,
 						"priorityForCancel": 1.35,
