@@ -1028,13 +1028,20 @@ def deathrat():
     }
 
 
+# Both moths: light-led sight (a flame is seen from far, the dark not at all) and a hearing of 10 for the alarm
+MOTH_SENSES = dict(sightLit=24, sightDim=8, sightDark=0, hearing=10)
+
+
 def deathmoth():
     animations = [anim("fly", "fly", 1.0), anim("glide", "glide", 1.0), anim("rest", "rest", 1.0), anim("feed", "feed", 1.0)]
     female_animations = animations + [anim("bite", "bite", 1.0, weight=10, blendMode="AddAverage"), anim("threat", "threat", 1.0, weight=5)]
     tasks_by = {
         "*-female": [{"code": "backrooms-moth", "priority": 1.5, "speed": 0.04, "damage": 1.5, "bites": True, "orbitRadius": 1.3,
-                      "biteSound": "game:creature/beesting"}],
-        "*": [{"code": "backrooms-moth", "priority": 1.5, "speed": 0.03, "bites": False, "orbitRadius": 1.8}],
+                      "biteSound": "game:creature/beesting", "senses": MOTH_SENSES}],
+        # (A male scavenges within scavengeRange of food, keeps scavengeAvoid from a player, and in aggressiveLevel
+        # bites like a female: the lore has Level 3's males aggressive too)
+        "*": [{"code": "backrooms-moth", "priority": 1.5, "speed": 0.03, "damage": 1.5, "bites": False, "orbitRadius": 1.8,
+               "biteSound": "game:creature/beesting", "aggressiveLevel": 3, "scavengeRange": 12, "scavengeAvoid": 5, "senses": MOTH_SENSES}],
     }
     entity = {
         "code": "deathmoth",
@@ -1072,8 +1079,14 @@ def deathmoth():
 # ---------------------------------------------------------------- The optional three
 
 def clump():
-    tasks = [{"code": "backrooms-clump", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "reach": 1.3, "damage": 5,
-              "cooldownMs": 3000, "grabsBeforeLeaving": 2, "crawlSpeed": 0.028, "hearing": 14,
+    # Brittle bones (README 6.1: effective health 27 to 18 and grab 6.3 to 7 at Level 2, whose danger scale is 1.35
+    # on health and 1.26 on damage, so the bases are 13 and 5.5). No eyes: it only hears (running is a noise of 0.4,
+    # and several runners are heard from further off) and touches. Fed, it buries again within buryAfterFeedMs and
+    # stays dormant for fedDormantSeconds.
+    tasks = [{"code": "backrooms-clump", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "reach": 1.3, "damage": 5.5,
+              "cooldownMs": 3000, "grabsBeforeLeaving": 2, "crawlSpeed": 0.028, "wakeRange": 4,
+              "buryAfterFeedMs": 10000, "fedDormantSeconds": 60,
+              "senses": dict(special="noiseOnly", hearing=14, touch=2.5),
               "grabSound": "backrooms:entity/grab", "stirSound": "backrooms:effect/squelch"}]
     return {
         "code": "clump",
@@ -1091,7 +1104,7 @@ def clump():
                                  # (Weighted well over the idle, which would otherwise pull the buried mass half up out of the floor)
                                  anim("dormant", "dormant", 1.0, weight=20), anim("emerge", "emerge", 1.0, weight=20),
                                  anim("die", "die", 1.0, weight=10, triggeredBy={"onControls": ["dead"]})], movable=False),
-        "server": server(20, tasks, menace={"stalkSeconds": 180}, movable=False),
+        "server": server(13, tasks, menace={"stalkSeconds": 180}, movable=False),
         "sounds": {"hurt": "game:effect/squish*", "death": "backrooms:effect/squelch"},
     }
 
@@ -1452,6 +1465,105 @@ def firesalt():
     }, "recipes", "grid", "firesalt.json")
 
 
+# ---------------------------------------------------------------- Hive heart and Clump remnant
+
+def _plain_texture(name, base, flecks, seed, streaks=None):
+    img = Image.new("RGBA", (16, 16))
+    rng = random.Random(seed)
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            v = rng.random()
+            c = base if v > 0.2 else flecks[0]
+            if v > 0.92:
+                c = flecks[1]
+            m = 0.88 + 0.22 * rng.random()
+            px[x, y] = tuple(min(255, int(k * m)) for k in c) + (255,)
+    for (x0, y0, x1, y1, col) in streaks or ():
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                px[x, y] = col + (255,)
+    path = os.path.join(ASSETS, "textures", "block", name + ".png")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    img.save(path)
+    print("wrote", os.path.relpath(path, ROOT))
+
+
+def _box(name, frm, to, tex, faces=("north", "east", "south", "west", "up", "down")):
+    return {"name": name, "from": list(frm), "to": list(to), "faces": {s: {"texture": "#" + tex, "uv": [0, 0, 16, 16]} for s in faces}}
+
+
+def mothhiveheart():
+    """The hive's heart: a resin column ringed by larval columns. Placed at runtime (MenaceSystem.Hives.cs)."""
+    _plain_texture("mothhiveheart-resin", (122, 96, 58), [(78, 58, 34), (170, 138, 84)], 301)
+    # Larvae: pale, ringed with darker segments
+    segs = [(0, y, 16, y + 1, (168, 156, 124)) for y in range(1, 16, 4)]
+    _plain_texture("mothhiveheart-larva", (222, 210, 176), [(190, 176, 140), (240, 232, 204)], 302, segs)
+    elements = [_box("Core", (4, 0, 4), (12, 13, 12), "resin"), _box("Cap", (3, 13, 3), (13, 15, 13), "resin")]
+    for i, (x, z) in enumerate([(2, 2), (10, 2), (2, 10), (10, 10)]):
+        elements.append(_box(f"Larva{i}", (x, 1, z), (x + 4, 12 - (i % 2) * 2, z + 4), "larva"))
+    shape = {"textureWidth": 16, "textureHeight": 16,
+             "textures": {"resin": "backrooms:block/mothhiveheart-resin", "larva": "backrooms:block/mothhiveheart-larva"}, "elements": elements}
+    write_json(shape, "shapes", "block", "mothhiveheart.json")
+    block = {
+        "code": "mothhiveheart",
+        "class": "BackroomsMothHiveHeart",
+        "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+        "shape": {"base": "backrooms:block/mothhiveheart"},
+        "textures": {"resin": {"base": "backrooms:block/mothhiveheart-resin"}, "larva": {"base": "backrooms:block/mothhiveheart-larva"}},
+        "drawtype": "json",
+        "blockmaterial": "Plant",
+        "lightAbsorption": 0,
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        # Slow to break by hand: it is meant to be a decision
+        "resistance": 6,
+        "collisionbox": {"x1": 0.125, "y1": 0, "z1": 0.125, "x2": 0.875, "y2": 0.95, "z2": 0.875},
+        "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.95, "z2": 0.9},
+        # Nothing yet: BlockMothHiveHeart.HiveHeartDrops is where the quills and moth jelly are added
+        "drops": [],
+        "materialDensity": 400,
+        "sounds": {"place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"},
+        "guiTransform": {"rotation": {"x": -30, "y": 45, "z": 0}, "origin": {"x": 0.5, "y": 0.4, "z": 0.5}, "scale": 1.6},
+    }
+    write_json(block, "blocktypes", "mothhiveheart.json")
+
+
+def clumpremnant():
+    """A killed Clump's remains: a flat patch of flesh. After a day it grows a new Clump unless burnt (BlockEntityClumpRemnant)."""
+    veins = [(3, 2, 4, 9, (96, 40, 52)), (9, 5, 10, 14, (96, 40, 52)), (5, 9, 12, 10, (84, 34, 46))]
+    _plain_texture("clumpremnant", (176, 112, 112), [(132, 72, 78), (214, 168, 150)], 303, veins)
+    elements = [
+        _box("Patch", (2, 0, 2), (14, 1, 14), "flesh"),
+        _box("Lump", (5, 1, 5), (11, 2, 11), "flesh", ("north", "east", "south", "west", "up")),
+        _box("Knuckle", (8, 1, 9), (10, 3, 11), "flesh", ("north", "east", "south", "west", "up")),
+    ]
+    write_json({"textureWidth": 16, "textureHeight": 16, "textures": {"flesh": "backrooms:block/clumpremnant"}, "elements": elements}, "shapes", "block", "clumpremnant.json")
+    block = {
+        "code": "clumpremnant",
+        "class": "BackroomsClumpRemnant",
+        "entityClass": "BackroomsClumpRemnant",
+        "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+        "shape": {"base": "backrooms:block/clumpremnant"},
+        "textures": {"flesh": {"base": "backrooms:block/clumpremnant"}},
+        "drawtype": "json",
+        "blockmaterial": "Plant",
+        "lightAbsorption": 0,
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "replaceable": 5000,
+        "resistance": 0.5,
+        "collisionbox": None,
+        "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.2, "z2": 0.9},
+        # Nothing yet: BlockClumpRemnant.RemnantDrops is where the sinew is added
+        "drops": [],
+        "materialDensity": 600,
+        "sounds": {"place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"},
+        "guiTransform": {"rotation": {"x": -30, "y": 45, "z": 0}, "origin": {"x": 0.5, "y": 0.1, "z": 0.5}, "scale": 2.2},
+    }
+    write_json(block, "blocktypes", "clumpremnant.json")
+
+
 # ---------------------------------------------------------------- Names
 
 LANG = {
@@ -1514,6 +1626,11 @@ LANG = {
     "block-firesalt": "Firesalt",
     "blockdesc-firesalt": "A strange salt that burns with a hot red light once set down. While it burns, nothing hostile comes near. Burns for half a day.",
     "firesalt-hoursleft": "Burns for about {0} more hours",
+    "block-mothhiveheart": "Deathmoth Hive Heart",
+    "blockdesc-mothhiveheart": "Resin walled round columns of pale larvae, at the heart of a Deathmoth hive. Breaking it brings every female near, and more after them.",
+    "block-clumpremnant": "Clump Remnant",
+    "blockdesc-clumpremnant": "What is left of a Clump: a patch of flesh on the floor. Left alone, it grows a new one in about a day. Fire ends it.",
+    "clumpremnant-hoursleft": "Grows a new Clump in about {0} hours",
 }
 
 
@@ -1549,6 +1666,8 @@ def main():
                    animation_clay(), animation_wooden(), animation_paper(), roboman(), giantspider()):
         write_json(sync_harvestable(entity), "entities", entity["code"] + ".json")
     firesalt()
+    mothhiveheart()
+    clumpremnant()
     merge_lang()
 
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -44,25 +45,29 @@ public static class Strike
 /// <summary>
 /// A Clump: a bundle of limbs that buries itself where it waits, a single arm left out of the floor like something
 /// dropped there, a finger twitching now and then. Whoever comes within a few blocks wakes it: the floor gives up the
-/// whole knot of limbs, and anyone within reach is grabbed and dragged at, after which it feeds a moment. It hunts by
-/// sound: a player who runs or makes a racket within earshot brings it crawling after them, and when they go quiet
-/// it buries itself again where it stopped. After a couple of grabs, or once hurt, it crawls off to be gone.
+/// whole knot of limbs, and anyone within reach is grabbed and dragged at, after which it feeds a moment and, fed,
+/// buries itself again and stays dormant for a while. It hunts by sound, on the shared perception model (no eyes:
+/// hearing and touch): a racket within earshot brings it crawling, and so does running, which is a quiet noise
+/// but heard from further off the more people run ("retreat at the sound of multiple people running"); when it goes
+/// quiet it buries itself again where it stopped. After a couple of grabs, or once hurt, it crawls off to be gone.
 /// </summary>
 public class AiTaskClump : AiTaskBase
 {
     private enum State { Buried, Awake, Crawling, Leaving }
 
-    private readonly float reach, damage, crawlSpeed, hearing;
-    private readonly int cooldownMs, grabsBeforeLeaving;
+    private readonly float reach, damage, crawlSpeed, wakeRange;
+    private readonly int cooldownMs, grabsBeforeLeaving, buryAfterFeedMs, fedDormantSeconds;
     private readonly AssetLocation grabSound, stirSound;
+    private readonly SenseProfile senses;
 
     private EntityBehaviorMenace menace;
     private MenaceSystem director;
     private State state;
     private float think, quietFor;
-    private long lastGrabMs, lastPathMs;
+    private long lastGrabMs, lastPathMs, buryAtMs, dormantUntilMs;
     private int grabs;
     private bool started, crawling;
+    private Vec3d lastHeard;
 
     public AiTaskClump(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -71,7 +76,10 @@ public class AiTaskClump : AiTaskBase
         cooldownMs = taskConfig["cooldownMs"].AsInt(3500);
         grabsBeforeLeaving = taskConfig["grabsBeforeLeaving"].AsInt(2);
         crawlSpeed = taskConfig["crawlSpeed"].AsFloat(0.02f);
-        hearing = taskConfig["hearing"].AsFloat(14);
+        wakeRange = taskConfig["wakeRange"].AsFloat(4);
+        buryAfterFeedMs = taskConfig["buryAfterFeedMs"].AsInt(10000);
+        fedDormantSeconds = taskConfig["fedDormantSeconds"].AsInt(60);
+        senses = SenseProfile.Parse(taskConfig["senses"]) ?? new SenseProfile { NoSight = true };
         grabSound = Sound(taskConfig["grabSound"].AsString(null));
         stirSound = Sound(taskConfig["stirSound"].AsString(null));
     }
@@ -112,14 +120,19 @@ public class AiTaskClump : AiTaskBase
         double distance = entity.Pos.DistanceTo(target.Pos);
         double gap = distance - (entity.SelectionBox.XSize + target.SelectionBox.XSize) / 2;
         double dy = Math.Abs(target.Pos.Y - entity.Pos.Y);
-        bool loud = director != null && director.AssessmentOf(target).Noise > 0.35 || target is EntityAgent agent && Senses.Running(agent);
+        long now = entity.World.ElapsedMilliseconds;
+        NoiseEvent? heard = Hear(target, now);
+        bool loud = heard != null;
+        if (heard is { } noise) lastHeard = noise.Pos;
         quietFor = loud ? 0 : quietFor + 0.2f;
 
         switch (state)
         {
             case State.Buried:
-                if (gap < 4 && dy < 2) Wake(State.Awake);
-                else if (loud && distance < hearing && !Strike.IsCreative(target)) Wake(State.Crawling);
+                // (Fed, it lies dormant: neither a footstep nor a shout wakes it for a while)
+                if (now < dormantUntilMs) return true;
+                if (gap < wakeRange && dy < 2) Wake(State.Awake);
+                else if (loud && !Strike.IsCreative(target)) Wake(State.Crawling);
                 return true;
 
             case State.Crawling:
@@ -137,14 +150,23 @@ public class AiTaskClump : AiTaskBase
                 {
                     lastPathMs = entity.World.ElapsedMilliseconds;
                     Crawl(true);
-                    pathTraverser.NavigateTo_Async(target.Pos.XYZ.Clone(), crawlSpeed * Danger.Speed(Danger.Of(entity)), reach * 0.8f, () => Crawl(false), () => Crawl(false), () => Crawl(false), 1500, 1);
+                    pathTraverser.NavigateTo_Async((lastHeard ?? target.Pos.XYZ).Clone(), crawlSpeed * Danger.Speed(Danger.Of(entity)), reach * 0.8f, () => Crawl(false), () => Crawl(false), () => Crawl(false), 1500, 1);
                 }
                 return true;
 
             case State.Awake:
-                if (gap <= reach && dy < 1.5 && entity.World.ElapsedMilliseconds - lastGrabMs > cooldownMs && !Strike.IsCreative(target))
+                // Fed, it buries itself again
+                if (buryAtMs > 0 && now >= buryAtMs)
                 {
-                    lastGrabMs = entity.World.ElapsedMilliseconds;
+                    buryAtMs = 0;
+                    dormantUntilMs = now + fedDormantSeconds * 1000L;
+                    Bury();
+                    return true;
+                }
+                if (gap <= reach && dy < 1.5 && now - lastGrabMs > cooldownMs && !Strike.IsCreative(target))
+                {
+                    lastGrabMs = now;
+                    buryAtMs = now + buryAfterFeedMs;
                     entity.Pos.Yaw = (float)Math.Atan2(target.Pos.X - entity.Pos.X, target.Pos.Z - entity.Pos.Z);
                     entity.AnimManager.StartAnimation("grab");
                     if (grabSound != null) entity.World.PlaySoundAt(grabSound, entity.Pos.X, entity.Pos.Y + 0.5, entity.Pos.Z, null, true, 20);
@@ -159,11 +181,33 @@ public class AiTaskClump : AiTaskBase
                         return true;
                     }
                 }
-                else if (gap > reach + 0.5 && loud && distance < hearing) state = State.Crawling;
+                else if (gap > reach + 0.5 && loud) state = State.Crawling;
                 else if (gap > 5 && quietFor > 8) Bury();
                 return true;
         }
         return true;
+    }
+
+    /// <summary>
+    /// What it hears: the loudest noise within its hearing (the noise bus), else its target's running as it happens,
+    /// else several people running, each further runner letting the lot be heard from further off (the second
+    /// nearest from twice a lone runner's distance, the third from three times). Null if nothing.
+    /// </summary>
+    private NoiseEvent? Hear(Entity target, long now)
+    {
+        NoiseBus bus = director?.Noises;
+        if (bus == null) return null;
+        if (Perception.HeardAnything(entity, senses, bus, now) is { } any) return any;
+        if (target != null && Perception.Heard(entity, target, senses, bus, now) is { } own) return own;
+        Vec3d ears = Senses.Eyes(entity);
+        var runners = new List<(double Distance, NoiseEvent Noise)>();
+        var counted = new HashSet<long>();
+        foreach (NoiseEvent e in bus.Recent(now))
+            if (e.Source == "run" && counted.Add(e.Who)) runners.Add((e.Pos.DistanceTo(ears), e));
+        runners.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+        for (int i = 1; i < runners.Count; i++)
+            if (runners[i].Distance <= senses.Hearing * MenaceSystem.RunLoudness * (i + 1)) return runners[0].Noise;
+        return null;
     }
 
     private void Wake(State next)
@@ -217,6 +261,7 @@ public class AiTaskClump : AiTaskBase
         base.OnEntityHurt(source, damage);
         // Struck, it goes
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
+        buryAtMs = 0;
         if (menace != null && source.GetCauseEntity() is EntityAgent) menace.Kind = Encounter.Leave;
     }
 

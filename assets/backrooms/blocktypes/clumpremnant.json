@@ -1,0 +1,61 @@
+{
+	"code": "clumpremnant",
+	"class": "BackroomsClumpRemnant",
+	"entityClass": "BackroomsClumpRemnant",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"shape": {
+		"base": "backrooms:block/clumpremnant"
+	},
+	"textures": {
+		"flesh": {
+			"base": "backrooms:block/clumpremnant"
+		}
+	},
+	"drawtype": "json",
+	"blockmaterial": "Plant",
+	"lightAbsorption": 0,
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"replaceable": 5000,
+	"resistance": 0.5,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.1,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.9,
+		"y2": 0.2,
+		"z2": 0.9
+	},
+	"drops": [],
+	"materialDensity": 600,
+	"sounds": {
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": -30,
+			"y": 45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.1,
+			"z": 0.5
+		},
+		"scale": 2.2
+	}
+}
