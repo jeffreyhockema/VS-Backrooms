@@ -205,8 +205,10 @@ public class GuiDialogCheats : GuiDialog
             .AddDropDown(Distances, Distances.Select(d => d == "auto" ? "auto (as the director would)" : d + " blocks").ToArray(),
                 Math.Max(0, Array.IndexOf(Distances, distance)), (code, _) => distance = code, ElementBounds.Fixed(90, y, 220, ButtonHeight), "distance");
         c.AddSmallButton("Spawn", () => Send(SpawnCommand()), ElementBounds.Fixed(330, y, 120, ButtonHeight));
+        c.AddSmallButton("Perceive", () => Send(PerceiveCommand()), ElementBounds.Fixed(460, y, 120, ButtonHeight));
         y += ButtonHeight + Gap;
-        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails.", y);
+        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails. "
+            + "Perceive puts the creature down that many blocks off (held still, 20 on auto) and reports each second what it sees, hears and believes of you.", y, lines: 3);
 
         y = Heading(c, "Director", y + RowGap);
         y = ButtonGrid(c, y, new[]
@@ -214,7 +216,8 @@ public class GuiDialogCheats : GuiDialog
             B("Pause director", "/backrooms director off", "Nothing new is put down near anyone and no distant sounds play; what is out stays"),
             B("Resume director", "/backrooms director on"),
             B("Make noise", "/backrooms noise", "As loud as you can be: what hunts by sound comes to see"),
-        }, 3);
+            B("Stop probes", "/backrooms perceive stop", "Ends every perception probe (Perceive), and its reports"),
+        }, 4);
 
         y = Heading(c, "Manage", y + RowGap);
         return ButtonGrid(c, y, new[]
@@ -337,6 +340,19 @@ public class GuiDialogCheats : GuiDialog
             B("Forget all notes", "/backrooms note reset", "Empties your journal, so the sequence starts again"),
         }, 3);
 
+        y = Heading(c, "Perception tests", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Dummy here", "/backrooms dummy place here", "Puts a straw dummy down in front of you, to stand in for a player (the first try may only load the chunks: try again)"),
+            B("Dummy: torch", "/backrooms dummy light 14", "The nearest straw dummy carries a torch"),
+            B("Dummy: no light", "/backrooms dummy light 0", "The nearest straw dummy carries no light"),
+            B("Dummy: sneak", "/backrooms dummy sneak", "Toggles whether the nearest straw dummy sneaks"),
+            B("Dummy: run", "/backrooms dummy run", "Toggles whether the nearest straw dummy counts as running"),
+            B("Dummy: unsteady", "/backrooms dummy stability 0.3", "Sets the nearest straw dummy's Reality Stability to 0.3"),
+            B("Dummy: noise", "/backrooms dummy noise 0.5", "The nearest straw dummy makes a noise, at loudness 0.5, which the creatures can hear"),
+            B("Remove dummies", "/backrooms dummy remove", "Removes every straw dummy put down for tests"),
+        }, 4);
+
         y = Heading(c, "Feature tests", y + RowGap);
         var crucible = CheatSystem.Kits.First(k => k.Code == "crucible");
         var pottery = CheatSystem.Kits.First(k => k.Code == "pottery");
@@ -401,6 +417,14 @@ public class GuiDialogCheats : GuiDialog
         string code = creature.Split(':')[1];
         // (The encounter command takes x and z before the distance; a player's own position is used whatever they are)
         return distance == "auto" ? $"/backrooms encounter {code} {encounter}" : $"/backrooms encounter {code} {encounter} 0 0 {distance}";
+    }
+
+    /// <summary>A perception probe of the chosen creature, at the chosen distance (20 on auto).</summary>
+    private string PerceiveCommand()
+    {
+        string code = creature.Split(':')[1];
+        string blocks = distance == "auto" ? "20" : distance;
+        return $"/backrooms perceive {code} {blocks}";
     }
 
     /// <summary>A command about the column you stand in, which takes its x and z (world coordinates, not the HUD's).</summary>
