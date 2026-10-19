@@ -148,6 +148,14 @@ public class AiTaskMenace : AiTaskBase
     private int searchIndex;
     /// <summary>Retaliation (see <see cref="OnEntityHurt"/>): when it last turned on a new target, and when it last hit one.</summary>
     private long retaliationStartMs = -1, lastHitMs = -1, nextTrackMs;
+    /// <summary>What it was (and whether passive) before it first turned on a retaliation target, to go back to.</summary>
+    private Encounter kindBeforeRetaliation = Encounter.Stalk;
+    private bool passiveBeforeRetaliation;
+    /// <summary>A hunt the director put down: until when (and how often) its belief is refreshed with a head start.</summary>
+    private bool sentHunt;
+    private long nextSentReseedMs, nextShareMs, nextPackCheckMs, noEdgeUntilMs, edgeComputedMs;
+    private bool packNear = true;
+    private readonly float sentHuntSeconds, sentHuntError;
 
     public AiTaskMenace(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -210,6 +218,8 @@ public class AiTaskMenace : AiTaskBase
         searchSeconds = taskConfig["searchSeconds"].AsFloat(10);
         retaliateSeconds = taskConfig["retaliateSeconds"].AsFloat(60);
         lookAnim = Anim(taskConfig["lookAnimation"].AsString(null));
+        sentHuntSeconds = taskConfig["sentHuntSeconds"].AsFloat(10);
+        sentHuntError = taskConfig["sentHuntError"].AsFloat(3);
     }
 
     /// <summary>An animation code, or null for none (an empty string in the config).</summary>
@@ -412,11 +422,15 @@ public class AiTaskMenace : AiTaskBase
         if (kind != Encounter.Investigate) investigateArrived = false;
         if (kind == Encounter.Search) searchBegun = false;
         if (kind == Encounter.Hunt) nextBark = huntBarkSeconds;
+        sentHunt = false;
         if (kind == Encounter.Stalk && before != Encounter.Hunt && stalkSound != null && entity.World.Rand.NextDouble() < 0.6) PlaySound(stalkSound);
         if (kind == Encounter.Hunt)
         {
             huntSinceMs = lastBloodMs = entity.World.ElapsedMilliseconds;
             huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000;
+            // (A hunt the director put down, rather than one that came of following, investigating, searching or a blow)
+            sentHunt = before == (Encounter)(-1) && !huntProvoked && retaliationStartMs < 0;
+            nextSentReseedMs = huntSinceMs + SentReseedMs;
         }
         if (kind == Encounter.Hunt && !announcedHunt)
         {
@@ -435,7 +449,10 @@ public class AiTaskMenace : AiTaskBase
         // The warning: a growl before it comes (not when it was struck into it, nor out of a search)
         if (kind == Encounter.Hunt && growlBeforeCharge && before is Encounter.Stalk or Encounter.Investigate && !huntProvoked
             && !(huntAnim != null && announcedHunt && entity.World.ElapsedMilliseconds < holdUntilMs))
+        {
+            Log("growls before it charges ({0} ms)", growlMs);
             Hold("growl", growlMs, true);
+        }
     }
 
     // ================= Encounters =================
@@ -559,7 +576,7 @@ public class AiTaskMenace : AiTaskBase
         {
             // Smilers come only for those in the dark
             if (!a.Dark) return false;
-            return runningFor > 1 || Senses.Stability(target) < 0.4 || a.Band == MenaceBand.Threshold && rand.NextDouble() < 0.08 * 0.3;
+            return runningFor > 1 || (!Perceives || seen.Contact != Contact.None) && Senses.Stability(target) < 0.4 || a.Band == MenaceBand.Threshold && rand.NextDouble() < 0.08 * 0.3;
         }
         if (avoidsLight && Senses.HeldLight(target) >= 10) return false;
         // Hostile on sight: a Hound that sees them close by comes
@@ -621,6 +638,8 @@ public class AiTaskMenace : AiTaskBase
         if (Perceives && (belief.Lost(now, senses.MemorySeconds) || believedDistance < ArriveWithin && seen.Contact == Contact.None && now - belief.AtMs > ArrivedLostMs))
         {
             Log("has lost them");
+            // (Lost for good: the search must not take the stale belief for a fresh contact)
+            belief.Strength = 0;
             Stop();
             Kind = Encounter.Search;
             return;
@@ -758,7 +777,7 @@ public class AiTaskMenace : AiTaskBase
             growling = false;
             Log("its nerve breaks: it comes on");
             if (huntSound != null) PlaySound(huntSound);
-            if (!menace.Passive) Kind = Encounter.Hunt;
+            if (!menace.Passive) Kind = Perceives && Confidence(entity.World.ElapsedMilliseconds) <= HuntConfidence ? Encounter.Stalk : Encounter.Hunt;
             return false;
         }
         if (!growling || !entity.AnimManager.ActiveAnimationsByAnimCode.ContainsKey("growl"))
@@ -815,12 +834,17 @@ public class AiTaskMenace : AiTaskBase
         seen = Perception.Perceive(entity, target, senses, belief, director.Noises, now);
         ShareBelief(now);
         if (kind == Encounter.Stalk) Track(now);
+        if (kind == Encounter.Hunt && sentHunt) HeadStart(now);
         if (seen.Contact == Contact.Seen && !sawTarget)
         {
             sawTarget = true;
             Log("sees its target");
             if (barks) Bark();
-            if (growlBeforeCharge && kind == Encounter.Stalk) Hold("growl", growlMs, true);
+            if (growlBeforeCharge && kind == Encounter.Stalk)
+            {
+                Log("growls at the sight of them ({0} ms)", growlMs);
+                Hold("growl", growlMs, true);
+            }
         }
     }
 
@@ -831,17 +855,46 @@ public class AiTaskMenace : AiTaskBase
     private void Track(long now)
     {
         if (senses.TrackSeconds <= 0 || now < nextTrackMs || Confidence(now) >= TrackBelow) return;
+        nextTrackMs = now + (long)(senses.TrackSeconds * 1000 * (0.75 + entity.World.Rand.NextDouble() * 0.5));
+        SetVague(target, now);
+        Log("has a vague idea where they are");
+    }
+
+    /// <summary>A vague belief (see <see cref="Belief.Vague"/>) of where someone is, off by up to <c>trackError</c> blocks.</summary>
+    private void SetVague(Entity who, long now)
+    {
         Random rand = entity.World.Rand;
-        nextTrackMs = now + (long)(senses.TrackSeconds * 1000 * (0.75 + rand.NextDouble() * 0.5));
         double angle = rand.NextDouble() * Math.PI * 2, off = rand.NextDouble() * senses.TrackError;
-        belief.Pos = target.Pos.XYZ.Add(Math.Cos(angle) * off, 0, Math.Sin(angle) * off);
+        belief.Pos = who.Pos.XYZ.Add(Math.Cos(angle) * off, 0, Math.Sin(angle) * off);
         belief.AtMs = now;
         belief.Strength = TrackBelow;
         belief.Source = Contact.Heard;
         belief.HeardInARow = 0;
         belief.Vague = true;
-        Log("has a vague idea where they are");
     }
+
+    /// <summary>
+    /// A hunt the director put down closes in for its first <c>sentHuntSeconds</c>: every two seconds its belief is
+    /// refreshed to about where the target is (off by up to <c>sentHuntError</c>). After that it is honest.
+    /// </summary>
+    private void HeadStart(long now)
+    {
+        if (sentHuntSeconds <= 0 || now - huntSinceMs > sentHuntSeconds * 1000 || now < nextSentReseedMs) return;
+        nextSentReseedMs = now + SentReseedMs;
+        if (Confidence(now) >= SentHuntBelief) return;
+        Random rand = entity.World.Rand;
+        double angle = rand.NextDouble() * Math.PI * 2, off = rand.NextDouble() * sentHuntError;
+        belief.Pos = target.Pos.XYZ.Add(Math.Cos(angle) * off, 0, Math.Sin(angle) * off);
+        belief.AtMs = now;
+        belief.Strength = SentHuntBelief;
+        belief.Source = Contact.Sensed;
+        belief.HeardInARow = 0;
+        belief.Vague = false;
+        Log("closing in on a sent hunt");
+    }
+
+    private const long SentReseedMs = 2000;
+    private const double SentHuntBelief = 0.7;
 
     /// <summary>A vague belief's strength, and the confidence below which a stalker gets one: under the hunt's threshold.</summary>
     private const double TrackBelow = 0.25;
@@ -856,6 +909,8 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>The pack shares the best belief among them: packmates close by, and those whose bark was heard.</summary>
     private void ShareBelief(long now)
     {
+        if (now < nextShareMs) return;
+        nextShareMs = now + ShareEveryMs;
         long owner = EntityBehaviorMenace.OwnerOf(entity);
         double memory = senses.MemorySeconds, mine = belief.ConfidenceAt(now, memory);
         void Learn(Entity other)
@@ -872,7 +927,14 @@ public class AiTaskMenace : AiTaskBase
             belief.Vague = false;
             mine = theirsNow;
         }
-        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, PackReach, 8, e => e != entity && e.Alive && e.Code == entity.Code)) Learn(other);
+        // (Alone at the last look: not asking again for a few seconds)
+        if (packNear || now >= nextPackCheckMs)
+        {
+            Entity[] mates = entity.World.GetEntitiesAround(entity.Pos.XYZ, PackReach, 8, e => e != entity && e.Alive && e.Code == entity.Code);
+            packNear = mates.Length > 0;
+            nextPackCheckMs = now + PackRecheckMs;
+            foreach (Entity other in mates) Learn(other);
+        }
         foreach (NoiseEvent noise in director.Noises.Recent(now))
         {
             if (noise.Source != "bark" || noise.Who == entity.EntityId) continue;
@@ -885,13 +947,16 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>How far a packmate is for the pack to share what it knows.</summary>
     private const float PackReach = 20;
 
+    /// <summary>The pack shares at most this often (ms), and an entity with no packmates near looks again after this long.</summary>
+    private const long ShareEveryMs = 1000, PackRecheckMs = 5000;
+
     /// <summary>
     /// A stalker (or a glimpse that has turned hostile) that hears something, and does not have its eyes on its target,
     /// goes to see what it was. Returns whether it set off.
     /// </summary>
     private bool TryInvestigate(MenaceSystem.Assessment a, long now)
     {
-        if (!Perceives || now < investigateAgainMs || Kind is not (Encounter.Stalk or Encounter.Glimpse)) return false;
+        if (!Perceives || menace.Passive || now < investigateAgainMs || Kind is not (Encounter.Stalk or Encounter.Glimpse)) return false;
         NoiseEvent? noise = null;
         // (Its target's own noise, when it has not just had its eyes on them: it goes to where they were heard)
         if (seen.Contact == Contact.Heard && seen.Noise is { } own && !(belief.Source == Contact.Seen && now - belief.AtMs < RecentSightMs)) noise = own;
@@ -903,6 +968,12 @@ public class AiTaskMenace : AiTaskBase
         }
         if (noise is not { } heard) return false;
         investigateAt = heard.Pos.Clone();
+        // Never into the light: a noise in a lit place is gone to as far as the edge of it, or not at all
+        if (lightBound && LitHere(heard.Pos.AddCopy(0, 1, 0)))
+        {
+            investigateAt = FindEdge(heard.Pos, entity.Pos.XYZ, EdgeReach);
+            if (investigateAt == null) return false;
+        }
         lastInvestigatedNoise = heard.Id;
         investigateStartMs = now;
         investigateArrived = false;
@@ -1007,7 +1078,7 @@ public class AiTaskMenace : AiTaskBase
     private void Search(double distance, MenaceSystem.Assessment a, long now)
     {
         if (GazeBlock(distance)) return;
-        if (Confidence(now) > HuntConfidence)
+        if (seen.Contact != Contact.None && Confidence(now) > HuntConfidence)
         {
             Spotted(distance, a);
             return;
@@ -1104,40 +1175,56 @@ public class AiTaskMenace : AiTaskBase
     private bool DrawnToEdge(long now)
     {
         Vec3d at = belief.Pos;
-        if (at == null || belief.Source != Contact.Seen || now - belief.AtMs > RecentSightMs * 2) return false;
+        if (at == null || belief.Source != Contact.Seen || now - belief.AtMs > RecentSightMs * 2 || NoPathLately || now < noEdgeUntilMs) return false;
         if (!LitHere(at.AddCopy(0, 1, 0))) return false;
-        double dx = entity.Pos.X - at.X, dz = entity.Pos.Z - at.Z, length = Math.Sqrt(dx * dx + dz * dz);
-        if (length < 1e-3) return false;
-        // Waiting at the edge it picked: not looking for it again while it stands there
-        if (edgePoint != null && entity.Pos.XYZ.HorizontalSquareDistanceTo(edgePoint.X, edgePoint.Z) < EdgeWithin * EdgeWithin && !LitHere(edgePoint.AddCopy(0, 1, 0)) && edgeFor.DistanceTo(at) < 2)
+        // (The edge is worked out at most once a second; found none, it is not looked for again for two)
+        if (edgePoint == null || now - edgeComputedMs > EdgeCacheMs || edgeFor.DistanceTo(at) >= 2)
+        {
+            Vec3d edge = FindEdge(at, entity.Pos.XYZ, EdgeReach);
+            edgeComputedMs = now;
+            if (edge == null)
+            {
+                edgePoint = null;
+                noEdgeUntilMs = now + NoEdgeWaitMs;
+                return false;
+            }
+            edgePoint = edge;
+            edgeFor = at.Clone();
+        }
+        if (entity.Pos.XYZ.HorizontalSquareDistanceTo(edgePoint.X, edgePoint.Z) < EdgeWithin * EdgeWithin)
         {
             Stop();
             StalkSounds();
             return true;
         }
-        if (now - lastPathMs <= 1200 && pathTraverser.Active) return true;
-        Vec3d edge = null;
-        for (int i = 1; i <= Math.Min(EdgeReach, (int)length + 1); i++)
+        if (now - lastPathMs > RepathMs)
         {
-            int x = (int)Math.Floor(at.X + dx / length * i), z = (int)Math.Floor(at.Z + dz / length * i);
-            if (LitHere(new Vec3d(x + 0.5, at.Y + 1, z + 0.5))) continue;
-            int y = Senses.FindFloor(entity.World, x, (int)Math.Floor(at.Y), z, 2, 4);
-            if (y == int.MinValue) continue;
-            edge = new Vec3d(x + 0.5, y, z + 0.5);
-            break;
+            bool urgent = runningFor > 0 || seen.Contact == Contact.Heard;
+            Go(edgePoint, urgent ? runSpeed : walkSpeed, 1);
         }
-        if (edge == null) return false;
-        edgePoint = edge;
-        edgeFor = at.Clone();
-        if (entity.Pos.XYZ.HorizontalSquareDistanceTo(edge.X, edge.Z) < EdgeWithin * EdgeWithin)
-        {
-            Stop();
-            return true;
-        }
-        bool urgent = runningFor > 0 || seen.Contact == Contact.Heard;
-        Go(edge, urgent ? runSpeed : walkSpeed, 1);
         return true;
     }
+
+    /// <summary>
+    /// The first standable, unlit point on the line from one place out towards another (one block at a time, up to the
+    /// distance between them or <paramref name="maxSteps"/>), or null.
+    /// </summary>
+    private Vec3d FindEdge(Vec3d from, Vec3d toward, int maxSteps)
+    {
+        double dx = toward.X - from.X, dz = toward.Z - from.Z, length = Math.Sqrt(dx * dx + dz * dz);
+        if (length < 1e-3) return null;
+        for (int i = 1; i <= Math.Min(maxSteps, (int)length + 1); i++)
+        {
+            int x = (int)Math.Floor(from.X + dx / length * i), z = (int)Math.Floor(from.Z + dz / length * i);
+            if (LitHere(new Vec3d(x + 0.5, from.Y + 1, z + 0.5))) continue;
+            int y = Senses.FindFloor(entity.World, x, (int)Math.Floor(from.Y), z, 2, 4);
+            if (y == int.MinValue) continue;
+            return new Vec3d(x + 0.5, y, z + 0.5);
+        }
+        return null;
+    }
+
+    private const long EdgeCacheMs = 1000, NoEdgeWaitMs = 2000;
 
     /// <summary>Within this many blocks of the edge point it has arrived.</summary>
     private const double EdgeWithin = 1.5;
@@ -1637,7 +1724,15 @@ public class AiTaskMenace : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         if (!entity.Attributes.HasAttribute(FirstOwnerKey) && EntityBehaviorMenace.OwnerOf(entity) >= 0)
             entity.Attributes.SetLong(FirstOwnerKey, EntityBehaviorMenace.OwnerOf(entity));
-        if (cause.EntityId != entity.Attributes.GetLong(FirstOwnerKey, -1)) retaliationStartMs = now;
+        if (cause.EntityId != entity.Attributes.GetLong(FirstOwnerKey, -1))
+        {
+            if (retaliationStartMs < 0)
+            {
+                kindBeforeRetaliation = Kind;
+                passiveBeforeRetaliation = menace.Passive;
+            }
+            retaliationStartMs = now;
+        }
         if (menace.Target?.EntityId != cause.EntityId) ResetBelief();
         menace.Target = cause;
         if (Perceives) belief.Take(cause.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
@@ -1672,11 +1767,22 @@ public class AiTaskMenace : AiTaskBase
         retaliationStartMs = -1;
         Entity owner = entity.World.GetEntityById(first);
         Stop();
-        if (owner != null && owner.Alive && owner.Pos.DistanceTo(entity.Pos) < giveUpAt)
+        if (kindBeforeRetaliation == Encounter.Ambient)
+        {
+            // It was going about its own business (a provoked Faceling, a city Hound): back to that
+            Log("is done with {0}: calm again", target.Code.Path);
+            if (owner != null && owner.Alive) menace.Target = target = owner;
+            ResetBelief();
+            menace.Passive = passiveBeforeRetaliation;
+            Kind = Encounter.Ambient;
+        }
+        else if (owner != null && owner.Alive && owner.Pos.DistanceTo(entity.Pos) < giveUpAt)
         {
             Log("is done with {0}: back to following {1}", target.Code.Path, owner.Code.Path);
             menace.Target = target = owner;
             ResetBelief();
+            // (It does not know where the owner is: only a vague idea, as a tracker has)
+            if (Perceives) SetVague(owner, now);
             Kind = Encounter.Stalk;
         }
         else

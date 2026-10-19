@@ -481,7 +481,7 @@ public partial class MenaceSystem : ModSystem
     }
 
     /// <summary>Players (and dummies) in the same level this close share one spawn roll (README section 5: spawn attempts are per place).</summary>
-    private const double PlaceRadius = 24;
+    private const double PlaceRadius = 24, PlaceHeight = 12;
 
     /// <summary>
     /// Directs everyone, rolling for a spawn once per place: those within <see cref="PlaceRadius"/> blocks of each other
@@ -502,7 +502,9 @@ public partial class MenaceSystem : ModSystem
                 {
                     Entity o = directed[j].Entity;
                     double dx = e.Pos.X - o.Pos.X, dz = e.Pos.Z - o.Pos.Z;
-                    if (directed[j].Watch.Now.Level != directed[i].Watch.Now.Level || dx * dx + dz * dz > PlaceRadius * PlaceRadius) continue;
+                    Assessment ai = directed[i].Watch.Now, aj = directed[j].Watch.Now;
+                    if (ai.Level != aj.Level || ai.Snackrooms != aj.Snackrooms || ai.Castle != aj.Castle || Math.Abs(e.Pos.Y - o.Pos.Y) > PlaceHeight
+                        || dx * dx + dz * dz > PlaceRadius * PlaceRadius) continue;
                     home = group;
                     break;
                 }
@@ -513,8 +515,16 @@ public partial class MenaceSystem : ModSystem
         }
         foreach (List<int> group in groups)
         {
-            int rolls = group[0];
-            foreach (int i in group) if (directed[i].Watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
+            // Only someone who can be hunted rolls (not a creative player, the King's trial, or the Safe band); a real
+            // player's place is not rolled for the dummies in it
+            bool anyPlayer = group.Any(i => directed[i].Entity is EntityPlayer);
+            int rolls = -1;
+            foreach (int i in group)
+            {
+                (Entity entity, Watch watch, bool creative) = directed[i];
+                if (creative || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
+                if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
+            }
             foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls);
         }
     }
@@ -649,7 +659,7 @@ public partial class MenaceSystem : ModSystem
         watch.Now.Flickering = watch.Now.Dark = true;
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         RosterEntry hounds = roster.FirstOrDefault(e => e.Code == Roster.Hound);
-        if (hounds != null && CountMenacing(target) < Roster.Cap(MenaceBand.Threshold)) TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours);
+        if (hounds != null && CountMenacing(target) < Roster.Cap(MenaceBand.Threshold)) TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true);
     }
 
     /// <summary>
@@ -676,7 +686,7 @@ public partial class MenaceSystem : ModSystem
         var pack = new RosterEntry(Roster.DeathRat, MenaceBand.Heartland, Encounters.Glimpse, 1, 4, 6) { Frenzy = true };
         sapi.World.RegisterCallback(_ =>
         {
-            if (target.Alive) TrySpawn(target, watch.Now, pack, Encounter.Glimpse);
+            if (target.Alive) TrySpawn(target, watch.Now, pack, Encounter.Glimpse, setPiece: true);
         }, 2500);
     }
 
@@ -735,7 +745,8 @@ public partial class MenaceSystem : ModSystem
     // ================= Putting entities down =================
 
     /// <summary>Puts down an entity (and the rest of its pack) for an encounter with a target. Returns whether it did.</summary>
-    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1)
+    /// <param name="setPiece">The Flickering's hounds, the Screaming's rats, a test: the pack is clipped to the Threshold cap rather than the current band's.</param>
+    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false)
     {
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
         (double min, double max) = kind switch
@@ -784,11 +795,11 @@ public partial class MenaceSystem : ModSystem
                 if (kind != Encounter.Glimpse) fallback ??= spot;
                 continue;
             }
-            SpawnPack(target, entry, kind, type, spot, a, untilHours);
+            SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
             return true;
         }
         if (fallback == null) return false;
-        SpawnPack(target, entry, kind, type, fallback, a, untilHours);
+        SpawnPack(target, entry, kind, type, fallback, a, untilHours, setPiece);
         return true;
     }
 
@@ -806,13 +817,13 @@ public partial class MenaceSystem : ModSystem
         return length < 48 || facing ? Math.Atan2(dz, dx) : null;
     }
 
-    private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours)
+    private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
     {
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
         bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
-        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(a.Band, a.Level) - CountMenacing(target)));
+        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
         Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
         for (int i = 1; i < count; i++)
         {
@@ -1013,7 +1024,7 @@ public partial class MenaceSystem : ModSystem
         };
         // Put it down at the right distance (or the one asked for); failing that, anywhere 14 blocks off
         int distance = args.Parsers[4].IsMissing ? 14 : (int)args[4];
-        if (args.Parsers[4].IsMissing && TrySpawn(target, a, entry, kind)) return TextCommandResult.Success($"{code} ({kind}) put down for {target.Code}");
+        if (args.Parsers[4].IsMissing && TrySpawn(target, a, entry, kind, setPiece: true)) return TextCommandResult.Success($"{code} ({kind}) put down for {target.Code}");
         for (int attempt = 0; attempt < 60; attempt++)
         {
             // (In a maze of narrow tunnels most points at a set distance are rock: try nearer ones too)

@@ -470,7 +470,7 @@ Kept exactly: every entity code (section 8 of the code map), the behaviour names
 `:mangledFog`, `:killedBy`, the Run and Fun keys), the world data `backrooms-wanderers` and `backrooms-fun`, and the
 world config `backroomsMenace` with its four values.
 
-Added with defaults: `backrooms:encounterSinceMs`, `:belief*`, `:fedUntilHours` (Skin-Stealer), `:venom` on item
+Added with defaults: `backrooms:encounterSinceMs`, `:firstOwner` (bounded retaliation), `:fedUntilHours` (Skin-Stealer), the behaviour attributes `maxEncounterSeconds` (0 = off), `investigateCapSeconds`, `searchCapSeconds`, the world data `backrooms-dens` (dens whose hive hearts were placed), `:venom` on item
 stacks, the new item codes (7), the new entity code `backrooms:watcher`, the new block codes `backrooms:mothhive`,
 `backrooms:clumpremnant`, `backrooms:spiderweb` (if the spider branch does not already add one).
 
