@@ -196,6 +196,10 @@ public static class Roster
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing, 0.4),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 3, 5),
+            // Level 1's table: Dullers in the walls behind the rooms (the Duller's home, with 3 and 4 and the subway)
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
+            // Level 1's table: Clumps "rushing… no eyes"
+            E(Clump, Approach, Encounters.Stalk, 0.2) with { Ambush = true },
         },
         // Pipe Dreams: rats in the pipes and the eyes of the Smilers in every dark stretch
         [2] = new[]
@@ -205,6 +209,10 @@ public static class Roster
             E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.6, 2, 3),
             // Bundles of limbs, wedged into the tight spots, that grab whoever squeezes past
             E(Clump, Approach, Encounters.Stalk, 0.5) with { Ambush = true },
+            // The blackout's aftermath: a Wretch now and then among the wanderers
+            E(Wretch, Approach, Menacing, 0.2),
+            // Deathmoth females, rare (the edge, as on Level 1)
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.2, 3, 5),
         },
         [3] = new[]
         {
@@ -214,7 +222,8 @@ public static class Roster
             E(SkinStealer, Approach, Menacing, 0.5),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Clump, Approach, Encounters.Stalk, 0.3) with { Ambush = true },
-            E(Wretch, Approach, Menacing, 0.4, 1, 2),
+            // Level 3's page: Wretches rarer
+            E(Wretch, Approach, Menacing, 0.2, 1, 2),
         },
         // The Abandoned Office: a calm place where people rest; a Duller in the walls, the odd Hound near the stairs
         [4] = new[]
@@ -228,17 +237,19 @@ public static class Roster
             E(Faceling, Heart, Amb, 0.6) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.15) with { Rarity = 0.35 },
             E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 2, 3),
-            E(Hound, Approach, Menacing, 1.0, 2, 3),
+            // "Normal entities are fairly scarce" (Hound 1.0 to 0.8); the Death Rats listed on the page, in the boiler halls
+            E(Hound, Approach, Menacing, 0.8, 2, 3),
             E(SkinStealer, Approach, Menacing, 0.6),
             E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
             E(Wretch, Approach, Menacing, 0.3),
+            E(DeathRat, Heart, Menacing, 0.3, 2, 4),
             // (The Beast of Level 5 is not put down by the director: he chooses his victims himself, see BeastSystem)
         },
         // Lights Out: the darkness is the entity. Things are heard; almost nothing is ever seen
+        // (Wikidot says no entities have been found on Level 6; eyes that never approach are the one allowance, decisions.md item 5)
         [6] = new[]
         {
-            E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.8),
+            E(Smiler, Approach, Encounters.Glimpse, 0.2) with { NeedsDark = true },
         },
         // Thalassophobia: something vast below the twilight zone, which is why nothing else lives down there
         [7] = new[]
@@ -266,7 +277,8 @@ public static class Roster
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing, 0.5),
-            E(Wretch, Approach, Menacing, 0.4, 1, 2),
+            // "Many Wretches" (Level 9's page)
+            E(Wretch, Approach, Menacing, 0.6, 1, 2),
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
             // The Neighborhood Watch: a giant eyeball on legs walking the streets, finding people by sight (AiTaskWatch)
             E(NeighborhoodWatch, Approach, Menacing, 0.7) with { Outdoors = true },
@@ -291,6 +303,11 @@ public static class Roster
             E(AnimationClay, Approach, Menacing, 1.0, 1, 2),
             E(AnimationWooden, Approach, Menacing, 1.0, 1, 2),
             E(AnimationPaper, Approach, Encounters.Stalk | Encounters.Hunt, 0.7, 3, 5),
+            // Wikidot's Level 94 lists "Smilers, Skin-Stealers, Hounds and male Deathmoths" at night, besides the Animations
+            E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
+            E(SkinStealer, Approach, Menacing, 0.3),
+            E(Hound, Approach, Menacing, 0.4, 2, 3),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.4, 2, 3),
         },
         // The far places (ids 14-20). Level !: nothing from the director (the chase is its own)
         [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<RosterEntry>(),
