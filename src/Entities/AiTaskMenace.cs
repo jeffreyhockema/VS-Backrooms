@@ -157,6 +157,24 @@ public class AiTaskMenace : AiTaskBase
     private bool packNear = true;
     private readonly float sentHuntSeconds, sentHuntError;
 
+    // ---- The AI overhaul's second batch (README 6.1); every key is optional and off by default ----
+    /// <summary>The speed it runs from what faces it (a Duller's flight: 1.3 times a sprint); the run speed when not given.</summary>
+    private readonly float fleeSpeed;
+    /// <summary>A kill feeds it for this many in-game hours, and sends it away (a Skin-Stealer: fed, it is docile).</summary>
+    private readonly bool feedsOnKill;
+    private readonly float fedHours;
+    /// <summary>A hit of this much damage or more stuns it (0: never) for stunSeconds, with a cooldown; the animation it plays meanwhile.</summary>
+    private readonly float stunDamage, stunSeconds, stunCooldownSeconds;
+    private readonly string stunAnim;
+    private long stunReadyMs;
+    /// <summary>How long after a grab a hard-to-catch entity can be hurt (a Duller: 1.5 s).</summary>
+    private readonly float catchWindowSeconds;
+    /// <summary>Its speed by look (the texture index): a Wretch in its early stage is slower, a far-gone one faster. Read when it first thinks.</summary>
+    private readonly float[] lookSpeeds;
+    private float lookSpeed = 1;
+    /// <summary>Set on a rat that bit because it was cornered: it bites once, then goes back to being a scavenger.</summary>
+    public const string CorneredKey = "backrooms:cornered";
+
     public AiTaskMenace(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
         walkSpeed = taskConfig["walkSpeed"].AsFloat(0.02f);
@@ -220,6 +238,15 @@ public class AiTaskMenace : AiTaskBase
         lookAnim = Anim(taskConfig["lookAnimation"].AsString(null));
         sentHuntSeconds = taskConfig["sentHuntSeconds"].AsFloat(10);
         sentHuntError = taskConfig["sentHuntError"].AsFloat(3);
+        fleeSpeed = taskConfig["fleeSpeed"].AsFloat(runSpeed);
+        feedsOnKill = taskConfig["feedsOnKill"].AsBool(false);
+        fedHours = taskConfig["fedHours"].AsFloat(24);
+        stunDamage = taskConfig["stunDamage"].AsFloat(0);
+        stunSeconds = taskConfig["stunSeconds"].AsFloat(1.2f);
+        stunCooldownSeconds = taskConfig["stunCooldownSeconds"].AsFloat(8);
+        stunAnim = Anim(taskConfig["stunAnimation"].AsString("hurt"));
+        catchWindowSeconds = taskConfig["catchWindowSeconds"].AsFloat(0);
+        lookSpeeds = taskConfig["lookSpeeds"].AsArray(Array.Empty<float>());
     }
 
     /// <summary>An animation code, or null for none (an empty string in the config).</summary>
@@ -271,6 +298,8 @@ public class AiTaskMenace : AiTaskBase
             turnMul = (float)(1 + 2 * d);
             giveUpAt = 40 + 25 * d;
             patienceMs = (HuntPatienceSeconds + 15 * d) * 1000;
+            int look = entity.WatchedAttributes.GetInt("textureIndex", 0);
+            if (look >= 0 && look < lookSpeeds.Length) lookSpeed = lookSpeeds[look];
         }
         if (emergeAnim != null && !emerged)
         {
@@ -593,7 +622,7 @@ public class AiTaskMenace : AiTaskBase
     /// </summary>
     private bool CanHunt(double distance, MenaceSystem.Assessment a)
     {
-        if (menace.Passive || a.Band < MenaceBand.Approach || NoPathLately) return false;
+        if (menace.Passive || menace.Harmless || a.Band < MenaceBand.Approach || NoPathLately) return false;
         // Lately given up on them (see Hunt)
         if (entity.World.ElapsedMilliseconds < calmUntilMs) return false;
         if (IsCreative(target)) return false;
@@ -605,7 +634,7 @@ public class AiTaskMenace : AiTaskBase
 
     private void Hunt(double distance, MenaceSystem.Assessment a)
     {
-        if (menace.Passive || IsCreative(target))
+        if (menace.Passive || menace.Harmless || IsCreative(target))
         {
             Kind = Encounter.Stalk;
             return;
@@ -805,7 +834,7 @@ public class AiTaskMenace : AiTaskBase
         }
         if (!pathTraverser.Active || entity.World.ElapsedMilliseconds - lastPathMs > 2500)
         {
-            MoveAwayFrom(target.Pos.XYZ, 24, runSpeed);
+            MoveAwayFrom(target.Pos.XYZ, 24, fleeSpeed);
         }
     }
 
@@ -1295,6 +1324,8 @@ public class AiTaskMenace : AiTaskBase
 
     private void Hit(float knock)
     {
+        // (Level 2's rats have lost their teeth along with their fur)
+        if (menace.Harmless) return;
         float scaled = damage * damageMul * (float)director.Setting.Damage * GlobalConstants.CreatureDamageModifier;
         if (scaled <= 0) return;
         target.ReceiveDamage(new DamageSource
@@ -1309,6 +1340,22 @@ public class AiTaskMenace : AiTaskBase
         director.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "fight", target);
         lastBloodMs = lastHitMs = entity.World.ElapsedMilliseconds;
         Log("hit {0} for {1:0.0}", target.Code, scaled);
+        if (feedsOnKill && !target.Alive) Feed();
+        // A cornered rat bites once, and is a scavenger again
+        if (entity.Attributes.GetBool(CorneredKey))
+        {
+            entity.Attributes.RemoveAttribute(CorneredKey);
+            Log("bit once, cornered: it scatters again");
+            Kind = Encounter.Ambient;
+        }
+    }
+
+    /// <summary>It has killed: fed for a day (a Skin-Stealer is docile then), and it goes.</summary>
+    private void Feed()
+    {
+        menace.Feed(fedHours);
+        Log("has fed: docile for {0:0} hours", fedHours);
+        Kind = Encounter.Leave;
     }
 
     /// <summary>Gives up the hunt: gone, or back to following at a distance; either way, no new hunt for a minute.</summary>
@@ -1334,6 +1381,12 @@ public class AiTaskMenace : AiTaskBase
         PlasterDust(Senses.Centre(entity), Senses.Centre(target));
         if (stealChance > 0 && entity.World.Rand.NextDouble() < stealChance && Steal(target)) { }
         else Hit(-1.6f);
+        // The one moment it can be caught: its arm is out, and the wall is between (a hard-to-catch Duller, see EntityBehaviorMenace)
+        if (catchWindowSeconds > 0)
+        {
+            menace.OpenCatchWindow((long)(catchWindowSeconds * 1000));
+            Log("grabbed: can be hurt for {0:0.0} s", catchWindowSeconds);
+        }
         Kind = Encounter.Leave;
         return true;
     }
@@ -1471,7 +1524,7 @@ public class AiTaskMenace : AiTaskBase
         SetMotion(speed >= runSpeed * 0.75f ? Motion.Run : Motion.Walk);
         // (The traverser keeps the point it is given and steers it; it must not be one this task goes on changing)
         to = to.Clone();
-        speed *= speedMul;
+        speed *= speedMul * lookSpeed;
         if (straight) pathTraverser.WalkTowards(to, speed, within, OnArrived, OnStuck);
         else if (async) pathTraverser.NavigateTo_Async(to, speed, within, OnArrived, OnStuck, OnNoPath, 2500, 1);
         else
@@ -1714,6 +1767,13 @@ public class AiTaskMenace : AiTaskBase
         Entity cause = source.GetCauseEntity();
         if (cause is not EntityAgent) return;
         lastHurtByTargetMs = entity.World.ElapsedMilliseconds;
+        if (stunDamage > 0 && damage >= stunDamage) TryStun();
+        // A rat without teeth only runs
+        if (menace.Harmless)
+        {
+            Kind = Encounter.Leave;
+            return;
+        }
         if (coward)
         {
             Kind = Encounter.Leave;
@@ -1738,6 +1798,25 @@ public class AiTaskMenace : AiTaskBase
         if (Perceives) belief.Take(cause.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
         menace.Passive = false;
         if (Kind != Encounter.Leave) Kind = Encounter.Hunt;
+    }
+
+    /// <summary>
+    /// A hard blow (<c>stunDamage</c> or more) holds it where it stands, flinching, for <c>stunSeconds</c>, and not again
+    /// for <c>stunCooldownSeconds</c>: the Skin-Stealer's opening. An attack in progress is broken off.
+    /// </summary>
+    private void TryStun()
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        if (now < stunReadyMs) return;
+        stunReadyMs = now + (long)(stunCooldownSeconds * 1000);
+        if (attackStartMs >= 0)
+        {
+            if (attackAnim != null) entity.AnimManager.StopAnimation(attackAnim);
+            attackStartMs = -1;
+            lastAttackMs = now;
+        }
+        Log("stunned for {0:0.0} s", stunSeconds);
+        Hold(stunAnim ?? "hurt", (int)(stunSeconds * 1000));
     }
 
     /// <summary>Set once, on the entity, to whoever it was put down for before it first turned on anyone else.</summary>

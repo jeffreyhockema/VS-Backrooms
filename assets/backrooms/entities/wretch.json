@@ -185,11 +185,31 @@
 						"huntSound": "backrooms:entity/snarl",
 						"voices": [
 							"backrooms:entity/gurgle",
+							"backrooms:entity/plea",
 							"backrooms:entity/cough",
 							"backrooms:effect/whisper",
 							"game:player/hurt*"
 						],
-						"soundRange": 24
+						"soundRange": 24,
+						"senses": {
+							"sightLit": 24,
+							"sightDim": 12,
+							"sightDark": 6,
+							"sightCone": 90,
+							"hearing": 20,
+							"fearSense": 10,
+							"memorySeconds": 8,
+							"trackSeconds": 12,
+							"trackError": 10
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"lookSpeeds": [
+							1.0,
+							0.9,
+							1.15
+						]
 					},
 					{
 						"code": "idle",

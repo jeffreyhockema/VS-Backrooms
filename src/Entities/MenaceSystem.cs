@@ -238,6 +238,7 @@ public partial class MenaceSystem : ModSystem
             .EndSubCommand();
         RegisterProbeCommands(api, command);
         RegisterHiveCommands(api, command);
+        RegisterStealerCommands(api, command);
     }
 
     public override void Dispose()
@@ -854,12 +855,23 @@ public partial class MenaceSystem : ModSystem
     private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
     {
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
+        // In the heart of a level, rats are scavengers (README 6.1): a pack that goes about its own business, to food on the
+        // floor, and runs from you (AiTaskScavenge). At the edge and in dens they are put down hunting, as before. Not
+        // too many of them about one person at a time.
+        bool scavengers = entry.Code == Roster.DeathRat && a.Band == MenaceBand.Heartland && !entry.Frenzy && kind != Encounter.Ambient && !setPiece;
+        if (scavengers)
+        {
+            if (sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path == "deathrat" && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient).Length >= packMax) return;
+            kind = Encounter.Ambient;
+        }
+        // The Skin-Stealer's day: now and then one put down is fed already, so docile (the heartland, where they only wander, and a fifth further out)
+        double fedChance = entry.Code == Roster.SkinStealer && kind != Encounter.Ambient ? (a.Band == MenaceBand.Heartland ? SkinStealerFedHeartland : SkinStealerFedOut) : 0;
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
-        bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
+        bool single = !scavengers && (kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy));
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
         if (kind != Encounter.Ambient && !packUncapped) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
         lastPack.Clear();
-        if (Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy) is { } first) lastPack.Add(first);
+        if (Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } first) lastPack.Add(first);
         for (int i = 1; i < count; i++)
         {
             for (int attempt = 0; attempt < 6; attempt++)
@@ -867,7 +879,7 @@ public partial class MenaceSystem : ModSystem
                 int x = (int)Math.Floor(spot.X) + rand.Next(-3, 4), z = (int)Math.Floor(spot.Z) + rand.Next(-3, 4);
                 Vec3d near = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z, (int)Math.Floor(spot.Y));
                 if (near == null) continue;
-                if (Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy) is { } another) lastPack.Add(another);
+                if (Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } another) lastPack.Add(another);
                 break;
             }
         }
@@ -886,10 +898,20 @@ public partial class MenaceSystem : ModSystem
         return Spawn(type, at, target, Encounter.Hunt, passive: false, dangerOverride: ownNumbers ? 0 : null);
     }
 
-    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false, double? dangerOverride = null)
+    /// <summary>The chance a Skin-Stealer the director puts down is fed (docile): in the heartland, and further out. The calendar hours a meal lasts.</summary>
+    private const double SkinStealerFedHeartland = 0.5, SkinStealerFedOut = 0.2, SkinStealerFedHours = 24;
+
+    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false, double? dangerOverride = null, double fedChance = 0)
     {
         Entity entity = sapi.World.ClassRegistry.CreateEntity(type);
         if (frenzy) entity.Attributes.SetBool(AiTaskMenace.FrenzyKey, true);
+        // A fed Skin-Stealer is docile, whatever it was put down to do: it wanders (and wears the disguise look, see ChooseLook).
+        // One put down as a wanderer (Ambient) is always fed
+        if (type.Code.Path == "skinstealer" && (kind == Encounter.Ambient || rand.NextDouble() < fedChance))
+        {
+            kind = Encounter.Ambient;
+            entity.Attributes.SetDouble(EntityBehaviorMenace.FedKey, sapi.World.Calendar.TotalHours + SkinStealerFedHours);
+        }
         entity.Pos.SetPos(at.X, at.Y + 0.02, at.Z);
         entity.Pos.Yaw = (float)Math.Atan2(target.Pos.X - at.X, target.Pos.Z - at.Z);
         EntityBehaviorMenace.Prepare(entity, target, kind, passive, sapi.World.ElapsedMilliseconds, untilHours, duringShift);
@@ -939,6 +961,10 @@ public partial class MenaceSystem : ModSystem
                 entity.WatchedAttributes.SetInt("textureIndex", evolved ? EntityBehaviorFaceling.EvolvedLook : rand.Next(EntityBehaviorFaceling.AdultLooks));
                 if (evolved) entity.Attributes.SetBool(EvolvedKey, true);
                 if (Logging) sapi.Logger.Notification("[backrooms] faceling look {0} (level {1}{2})", entity.WatchedAttributes.GetInt("textureIndex"), here, evolved ? ", Evolved" : "");
+                return false;
+            case "skinstealer":
+                // Fed, it wears clothes over a fresher skin (index 1); hungry, the waxy one
+                entity.WatchedAttributes.SetInt("textureIndex", entity.Attributes.GetDouble(EntityBehaviorMenace.FedKey, 0) > sapi.World.Calendar.TotalHours ? 1 : 0);
                 return false;
             case "wretch":
                 // The further down, the longer they have been down here: still dressed near the top, all but gone deep

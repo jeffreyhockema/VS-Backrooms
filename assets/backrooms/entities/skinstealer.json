@@ -26,7 +26,12 @@
 			"base": "backrooms:entity/skinstealer"
 		},
 		"texture": {
-			"base": "backrooms:entity/skinstealer"
+			"base": "backrooms:entity/skinstealer",
+			"alternates": [
+				{
+					"base": "backrooms:entity/skinstealer-fed"
+				}
+			]
 		},
 		"size": 0.92,
 		"behaviors": [
@@ -119,8 +124,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 34,
-				"maxhealth": 34
+				"currenthealth": 51,
+				"maxhealth": 51
 			},
 			{
 				"code": "deaddecay",
@@ -148,7 +153,13 @@
 			{
 				"code": "backrooms-menace",
 				"stalkSeconds": 180,
-				"maxEncounterSeconds": 300
+				"maxEncounterSeconds": 300,
+				"bleedsClear": true,
+				"fedVoices": [
+					"backrooms:entity/hello",
+					"backrooms:entity/hello",
+					"backrooms:entity/cough"
+				]
 			},
 			{
 				"code": "taskai",
@@ -184,7 +195,26 @@
 							"backrooms:effect/whisper",
 							"backrooms:entity/hello"
 						],
-						"soundRange": 28
+						"soundRange": 28,
+						"senses": {
+							"sightLit": 30,
+							"sightDim": 14,
+							"sightDark": 8,
+							"sightCone": 80,
+							"hearing": 24,
+							"memorySeconds": 12,
+							"trackSeconds": 15,
+							"trackError": 10
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"feedsOnKill": true,
+						"fedHours": 24,
+						"stunDamage": 5,
+						"stunSeconds": 1.2,
+						"stunCooldownSeconds": 8,
+						"stunAnimation": "hurt"
 					},
 					{
 						"code": "idle",

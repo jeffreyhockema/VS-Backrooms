@@ -1021,11 +1021,21 @@ def skinstealer():
                        attackDurationMs=1100, damageAtMs=650, attackCooldownMs=2000, attackAnimation="attack",
                        fearsFire=True, prefersHidden=True, retreatBelow=0.25, opensDoors=True,
                        voices=["backrooms:entity/cough", "game:player/hurt*", "backrooms:effect/whisper", "backrooms:entity/hello"],
-                       soundRange=28)
+                       soundRange=28,
+                       # What it perceives (README 6.1): patient, sees well in the light, hears a good way
+                       senses=dict(sightLit=30, sightDim=14, sightDark=8, sightCone=80, hearing=24, memorySeconds=12, trackSeconds=15, trackError=10),
+                       investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,
+                       # Harder (README 6.1): a kill feeds it for a day (fed, it is docile: the director's, and the behaviour's, to
+                       # say), and a hit of 5 or more stuns it for a moment, once in a while: the opening
+                       feedsOnKill=True, fedHours=24, stunDamage=5, stunSeconds=1.2, stunCooldownSeconds=8, stunAnimation="hurt")
     # The model stands 38.7 px; drawn at 0.92 it is 35.6 px (2.2 blocks), a head taller than a player, eyes at 2.05
-    return tall_body("skinstealer", (0.8, 1.95), 2.05, 34, task, {"stalkSeconds": 180, "maxEncounterSeconds": 300},
-                        [drop("game:hide-raw-large", 1)], {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
-                        size=0.92, idle_anim="skinadjust")
+    # (Health 34 to 51: 40 to 60 at Level 1, where the danger adds 17 %. Its second look, the fed one in its disguise, is
+    # chosen by the director; the behaviour bleeds clear when struck, and a fed one says "hello?" now and then)
+    return tall_body("skinstealer", (0.8, 1.95), 2.05, 51, task,
+                     {"stalkSeconds": 180, "maxEncounterSeconds": 300, "bleedsClear": True,
+                      "fedVoices": ["backrooms:entity/hello", "backrooms:entity/hello", "backrooms:entity/cough"]},
+                     [drop("game:hide-raw-large", 1)], {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
+                     size=0.92, idle_anim="skinadjust", looks=("fed",))
 
 
 def duller():
@@ -1035,9 +1045,16 @@ def duller():
                        grabsThroughWalls=True, respectsAlmond=True, coward=True, prefersHidden=True, stealChance=0.25,
                        # What gives one away, from the other side of the wall: scraping, dragging, a knock
                        voices=["backrooms:entity/scratch", "backrooms:entity/drag", "backrooms:entity/knock"],
-                       grabSound="backrooms:entity/grab", soundRange=20)
+                       grabSound="backrooms:entity/grab", soundRange=20,
+                       # What it perceives (README 6.1): the wall is its sense; its eyes are for seeing who faces it
+                       senses=dict(special="wall", sightLit=20, sightDim=12, sightDark=6, hearing=16, memorySeconds=8, trackSeconds=0),
+                       investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,
+                       # Faced, it flees at 1.3 times a sprint (a player sprints at 0.05); it can be hurt only from its grab until
+                       # 1.5 s after it (the behaviour's hardToCatch)
+                       fleeSpeed=0.065, catchWindowSeconds=1.5)
     # The model stands 39.5 px; drawn at 0.92 it is 36 px (2.3 blocks); the head is at about 2.1
-    return tall_body("duller", (0.6, 1.95), 2.1, 15, task, {"stalkSeconds": 150, "maxEncounterSeconds": 300}, None,
+    # (Health 15 to 20: 23 to 30 at Level 3)
+    return tall_body("duller", (0.6, 1.95), 2.1, 20, task, {"stalkSeconds": 150, "maxEncounterSeconds": 300, "hardToCatch": True}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"}, size=0.92)
 
 
@@ -1048,7 +1065,18 @@ def deathrat():
                     damage=1.2, damageTier=0, damageType="PiercingAttack", knockback=0.1, attackRange=0.7,
                     attackDurationMs=600, damageAtMs=300, attackCooldownMs=900, attackAnimation="attack",
                     avoidsLight=True, fearsFire=True, retreatBelow=0.5,
-                    stalkSound="backrooms:entity/squeak", attackSound="backrooms:entity/squeak", soundRange=20),
+                    stalkSound="backrooms:entity/squeak", attackSound="backrooms:entity/squeak", soundRange=20,
+                    # What it perceives (README 6.1): small eyes that see wide, good ears, a short memory
+                    senses=dict(sightLit=14, sightDim=10, sightDark=6, sightCone=120, hearing=24, memorySeconds=4, trackSeconds=0),
+                    investigateSeconds=8, searchSeconds=10, retaliateSeconds=60),
+        # Scavenger first (README 6.1): rats put down in the heart of a level are Ambient; they go to food on the floor and
+        # eat it, scatter from a walking person (6 blocks; 3 if they creep or stand) and from a carried light (8), and
+        # bite only when cornered or when a pack of 4 is round someone below half health
+        {"code": "backrooms-scavenge", "priority": 1.4, "priorityForCancel": 1.4, "mincooldown": 0, "maxcooldown": 0,
+         "walkSpeed": 0.022, "runSpeed": 0.048, "foodRange": 16, "scatterRange": 6, "sneakScatterRange": 3, "lightScatterRange": 8,
+         "torchLight": 10, "scatterDistance": 8, "scatterSeconds": 5, "eatSeconds": 4, "carcassSeconds": 10,
+         "corneredRange": 2, "corneredOpen": 3, "packBites": 4, "packBiteHealth": 0.5, "packRange": 12,
+         "eatAnimation": "eat", "eatSound": "game:creature/animal-eat-small"},
         idle("sniff", 1.2, 2000, 4000, 4000, 12000),
         idle("groom", 1.18, 3000, 3000, 20000, 60000),
         idle("rearup", 1.17, 2000, 2000, 20000, 70000),
@@ -1069,7 +1097,8 @@ def deathrat():
         # (Which look, the director decides: hairless in Level 2's heat)
         "client": common_client("backrooms:entity/deathrat", {"base": "backrooms:entity/deathrat", "alternates": [{"base": "backrooms:entity/deathrat-hairless"}]}, animations),
         "server": server(5, tasks, [drop("game:bushmeat-raw", 1.5, 0.5), drop("game:hide-raw-small", 0.5, 0.5), drop("game:bone", 0.5, 0.5)],
-                         menace={"maxEncounterSeconds": 300}, decay="game:carcass-small"),
+                         # (Level 2's hairless look, texture 1, never bites)
+                         menace={"maxEncounterSeconds": 300, "harmlessLooks": [1]}, decay="game:carcass-small"),
         "sounds": {"hurt": "game:creature/hare-hurt", "death": "game:creature/hare-hurt"},
     }
 
@@ -1201,8 +1230,14 @@ def wretch():
                        prefersHidden=True, retreatBelow=0.2, huntAnimation="snarl", huntAnimationMs=1200,
                        stalkSound="backrooms:entity/gurgle", huntSound="backrooms:entity/snarl",
                        # What is left of the person: a cough, a whispered plea, a cry
-                       voices=["backrooms:entity/gurgle", "backrooms:entity/cough", "backrooms:effect/whisper", "game:player/hurt*"],
-                       soundRange=24)
+                       # (and a plea, a word with nothing left behind it: sounds/entity/plea)
+                       voices=["backrooms:entity/gurgle", "backrooms:entity/plea", "backrooms:entity/cough", "backrooms:effect/whisper", "game:player/hurt*"],
+                       soundRange=24,
+                       # What it perceives (README 6.1): it comes for the starving (fearSense 10: the director weighs them 3 times)
+                       senses=dict(sightLit=24, sightDim=12, sightDark=6, sightCone=90, hearing=20, fearSense=10, memorySeconds=8, trackSeconds=12, trackError=10),
+                       investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,
+                       # Its speed by look (texture 0 common, 1 early, 2 far-gone): the early ones are slower, the far-gone quicker
+                       lookSpeeds=[1.0, 0.9, 1.15])
     # The model is 28.9 px hunched (1.8 blocks), the eyes at 1.6
     return tall_body("wretch", (0.65, 1.8), 1.6, 16, task, {"stalkSeconds": 90, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
