@@ -264,6 +264,13 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   `screenWidth`/`screenHeight` 3856/2176 in a new data dir before shooting, and check a shot's size before installing it.
 - (shots514) The Snackrooms' lights can be off for a whole shot (one scout frame of a vending room came out at a third of
   the brightness of the same frame in the next run); retake a dark Snackrooms frame before judging it.
+- (shots514c) Level 974 by its own lights (light 19 from 3ef62b0) reads as bright as the shotbot's daylight (mean luma within
+  2 of each other in every bedroom and Kitty's room frame), so the house is shot without daylight now. One frame of Kitty's
+  room came out at a third of the brightness right after a daylight spot in the bedroom; the same spot shot again (and after
+  30 s) was bright: retake a dark 974 frame before judging it.
+- (shots514c) Level !'s gallery spot (29) is red and dark by its own light, as before (luma 18, the earlier frame 18); the
+  changelog pair shoots that hall with a held lantern. `batch.py` reported a shot MISSING when the client still held the
+  screenshot file ("shot move failed"): shoot that spot again.
 
 ## Batches
 

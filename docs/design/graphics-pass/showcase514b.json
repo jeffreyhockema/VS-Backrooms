@@ -1,5 +1,5 @@
 {
- "note": "Before and after for the 0.514.0 change notes and the mod page, chosen to show this release's newest work (layout version 9, the rebuilt props and the new creatures). Built by tools/shotbot/showcase.py. Before is the released 0.513.3 (bin/backroomsss_0.513.3.zip) in a world it made (rel0513, layout version 7); after is the 0.514.0 build in a world it made (gfxgallery9, layout version 9); both at the review seed 1672613597, the same spots (review/shots514/spots/pairs-old.json and pairs-new.json; Level !'s hall is shorter in layout 9, so its spot stands the same distance before each world's real exit). The creature lineup's before is the 0.513 gallery's (review/b18/gallery-old). review/ is git-ignored and exists only on the machine that shot it.",
+ "note": "Before and after for the 0.514.0 change notes and the mod page, chosen to show this release's newest work (layout version 9, the rebuilt props and the new creatures). Built by tools/shotbot/showcase.py. Before is the released 0.513.3 (bin/backroomsss_0.513.3.zip) in a world it made (rel0513, layout version 7); after is the 0.514.0 build in a world it made (gfxgallery9, layout version 9; the hotel lobby, Kitty's room, the bedroom and Level !'s junk retaken in gfxgallery9c from a build of 3ef62b0, after the piano's chair, the bigger bedroom, the brighter downlights and the evenly spaced EXIT signs); all at the review seed 1672613597, the same spots (review/shots514/spots/pairs-old.json and pairs-new.json, review/shots514c/spots/; Kitty's room lies four rows further south from 3ef62b0, so its spot moved with it; Level !'s hall is shorter in layout 9, so its spot stands the same distance before each world's real exit). The creature lineup's before is the 0.513 gallery's (review/b18/gallery-old). review/ is git-ignored and exists only on the machine that shot it.",
  "out": "docs/screenshots/progress-0514",
  "moddb": "docs/moddb/img/progress-0514",
  "moddb_width": 1280,
@@ -8,9 +8,9 @@
   {
    "file": "01-level11-hotel-lobby",
    "subject": "Level 11: a hotel lobby",
-   "caption": "Ground floors are laid out by kind of building: a hotel lobby gets its front desk facing the door, sitting areas and a grand piano, now rebuilt with keys, a raised lid and pedals.",
+   "caption": "Ground floors are laid out by kind of building: a hotel lobby gets its front desk facing the door, sitting areas and a grand piano, now rebuilt with keys, a raised lid and pedals, and standing with its own bench.",
    "before": "review/shots514/pairs-old2/p01-l11lobby.png",
-   "after": "review/shots514/final2/pairs-new-final/p01-l11lobby.png"
+   "after": "review/shots514c/final/pairs-new/p01-l11lobby.png"
   },
   {
    "file": "02-level11-street",
@@ -36,19 +36,26 @@
   {
    "file": "05-level974-kittys-room",
    "subject": "Level 974: Kitty's room",
-   "caption": "The master bedroom with the cat bed is nearly twice as big, with a second window and a second light, and a doorway Kitty can walk through upright (shot by the shotbot's daylight).",
+   "caption": "The master bedroom with the cat bed is nearly twice as big (6 by 7 blocks, it was 6 by 4), with a second window, three lights and a doorway Kitty can walk through upright (before by the shotbot's daylight, after by the room's own lights).",
    "before": "review/shots514/pairs-old2/p05-kitty.png",
-   "after": "review/shots514/final2/pairs-new-final/p05-kitty.png"
+   "after": "review/shots514c/final/pairs-new/p05-kitty.png"
   },
   {
-   "file": "06-level-run-junk",
+   "file": "06-level974-bedroom",
+   "subject": "Level 974: the bedroom where you wake",
+   "caption": "The bedroom with the twin bed, the desk and the open closet is much longer (6 by 10 blocks, it was 6 by 6), with a second window and a second light; the closet stands at its far end. Both by the house's own lights.",
+   "before": "review/shots514c/final/pairs-old/p10-bedroom.png",
+   "after": "review/shots514c/final/pairs-new/p10-bedroom.png"
+  },
+  {
+   "file": "07-level-run-junk",
    "subject": "Level !: the junk on the floor",
-   "caption": "Flat litter became bulky junk you can see coming: loops of orange extension cord, a wheelchair, dumped boxes and a barricade of chairs (shot with a held lantern).",
+   "caption": "Flat litter became bulky junk you can see coming: loops of orange extension cord, a wheelchair, dumped boxes and a barricade of chairs; overhead, the hanging EXIT signs run in a steady line about twelve blocks apart instead of in clusters (shot with a held lantern).",
    "before": "review/shots514/pairs-old2/p06-run.png",
-   "after": "review/shots514/final2/pairs-new-final/p06-run.png"
+   "after": "review/shots514c/final/pairs-new/p06-run.png"
   },
   {
-   "file": "07-snackrooms-vending",
+   "file": "08-snackrooms-vending",
    "subject": "The Snackrooms: the vending room's doorway",
    "caption": "The machine blocking a vending room's doorway is a broken one, cracked glass, a dented panel and a dead display, that can be broken up for its snacks.",
    "before": "review/shots514/pairs-old2/p07-vend.png",
@@ -61,14 +68,14 @@
    ]
   },
   {
-   "file": "08-level9-house",
+   "file": "09-level9-house",
    "subject": "Level 9: a two-storey house",
    "caption": "Houses get windows two blocks tall with sashes, casings and sills, shutters on the front, a picture window and a panelled front door that opens (shot by the shotbot's daylight).",
    "before": "review/shots514/pairs-old2/p08-l9house.png",
    "after": "review/shots514/final2/pairs-new-final/p08-l9house.png"
   },
   {
-   "file": "09-creatures",
+   "file": "10-creatures",
    "subject": "What lives here",
    "caption": "Every creature repainted, the Bacteria rebuilt as a tangle of black wire, and three new ones: the Beast of Level 5 (as the gentleman), the Giant Spider and the Neighborhood Watch.",
    "before": "review/b18/gallery-old/42-what-lives-here.png",
