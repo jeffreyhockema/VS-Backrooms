@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Level 8's 9th Road is lonelier, in worlds made from now on (layout version 10). Camps are about a third as many, so there is no longer a campfire every few hundred blocks, and there are fewer branches and ways off the road. The road is also broken in places: it ends in a wall of rubble (a rockfall, with the lamps stopped short), solid rock lies beyond, and the road starts again a few dozen blocks further on. The way past is through the caves: a dark, unlit passage opens in the rock beside the road a little before the rubble, runs down and under the fall, and comes up beside the road on the far side. Worlds made earlier keep the road as it was.
+
 ## 0.514.0 — the graphics pass
 
 Every texture and model the mod adds was reviewed in the game against the vanilla blocks beside it, level by level, and rebuilt where it fell short. Nothing vanilla changed, no block or item codes changed, and existing worlds keep working: new looks apply to every block already placed, and the few props with new shapes (Level 9's roofs and gables, Level 94's water towers) appear in chunks generated from now on.

@@ -36,6 +36,15 @@ public sealed partial class WorldLayout
     private const double L8SegmentLength = 520;
     /// <summary>Half the road's width: a tile is on it within this many blocks of its middle line.</summary>
     private const double L8HalfWidth = 1.5;
+    /// <summary>
+    /// From layout version 10, how many of a road's stretches of a segment are broken (a rockfall that ends the road with a
+    /// gap of rock beyond, the way on a cave passage under it), how much of the settlements, braids and exits of version 9
+    /// are kept, and how long the passage's ramp down is.
+    /// </summary>
+    private const double L8BreakChance = 0.3, L8CampKeep = 0.27, L8BraidKeep = 0.55, L8ExitKeep = 0.5;
+    private const double L8RampLength = 18, L8RubbleLength = 6.5;
+    /// <summary>From layout version 10, <see cref="Tile.Zone"/> on a rock tile over the passage round a break, and on the rubble (this plus its height).</summary>
+    public const byte L8ZoneCrawl = 1, L8ZoneRubble = 10;
 
     private sealed class L8Segment
     {
@@ -50,6 +59,8 @@ public sealed partial class WorldLayout
         /// <summary>Where the exits at the start of the segment leave the roads, and which there are.</summary>
         public double ExitAt;
         public bool ExitInner, ExitOuter, ExitBetween;
+        /// <summary>From layout version 10, where each road is broken here: the middle of the gap along the ring, half its length (0 where the road runs on), and which side of the road the way round runs.</summary>
+        public readonly double[] BreakAt = new double[2], BreakHalf = new double[2], BreakSide = new double[2];
     }
 
     private sealed class L8Camp
@@ -324,6 +335,9 @@ public sealed partial class WorldLayout
         double omega = L8BraidOmega(net, p.Road, p.Kind == L8Kind.Main ? k : p.K, s);
         if (p.Road == 1 && !draw1) return null;
         if (p.Kind == L8Kind.Main && omega > 0) return null;
+        // (From layout version 10, nothing stands on the road near a break: no lamp, no settlement)
+        if (Version >= 10 && p.Kind == L8Kind.Main
+            && Math.Abs(L8BreakU(net, net.Seg[k], p.Road, s)) < net.Seg[k].BreakHalf[p.Road] + L8RubbleLength + 12) return null;
         if (p.Kind != L8Kind.Main && net.Seg[p.K].BraidWidth[p.Road] * omega < 6) return null;
         double q = p.Road == 0 ? q0 : q1;
         if (p.Kind != L8Kind.Main) q += L8BranchOffset(net, p, s);
@@ -333,6 +347,66 @@ public sealed partial class WorldLayout
     /// <summary>The point on an exit at a distance q out from spawn.</summary>
     private (double X, double Z) L8ExitPoint(L8Network net, int k, double q) =>
         L8Ray(net.ThetaOf(net.Seg[k].ExitAt - L8Wobble(k, q)), q);
+
+    // ---------------- Breaks in the road (layout version 10) ----------------
+
+    /// <summary>
+    /// Decides whether a road is broken in a segment, and where. A break is a stretch of road a few dozen blocks long gone
+    /// under a rockfall: the road ends in a wall of rubble at either end of it, with solid rock between. The way on lies
+    /// in the dark, a cave passage that leaves the road's wall before the rubble, runs down and along under the rock and
+    /// comes up again past it (<see cref="L8CrawlAt"/>). Kept clear of the segment's ends (where its exits leave the road)
+    /// and of its bend's apex (where its settlement and deposit are).
+    /// </summary>
+    private void PlanL8Break(L8Segment seg, int k, int road, double len)
+    {
+        ulong b = Hashing.Hash(seed, k, road + 1, SaltL8Net + 0x40);
+        if (Hashing.Unit(b) >= L8BreakChance) return;
+        double half = 22 + 14 * Hashing.Unit(Hashing.Mix(b + 1));
+        double at = (k + 0.2 + 0.6 * Hashing.Unit(Hashing.Mix(b + 2))) * len;
+        double clear = half + 35, side = Hashing.Unit(Hashing.Mix(b + 3)) < 0.5 ? -1 : 1;
+        if (Math.Abs(at - seg.Centre) < clear)
+        {
+            // (pushed out to the nearer side that has room, or the other)
+            double a = at < seg.Centre ? seg.Centre - clear : seg.Centre + clear;
+            double lo = (k + 0.2) * len, hi = (k + 0.8) * len;
+            if (a < lo || a > hi) a = at < seg.Centre ? seg.Centre + clear : seg.Centre - clear;
+            if (a < lo || a > hi) return;
+            at = a;
+        }
+        seg.BreakAt[road] = at;
+        seg.BreakHalf[road] = half;
+        seg.BreakSide[road] = side;
+    }
+
+    /// <summary>How far along the ring a position lies from the middle of a road's break in its segment (infinite where it has none).</summary>
+    private double L8BreakU(L8Network net, L8Segment seg, int road, double s) =>
+        seg.BreakHalf[road] > 0 ? net.WrapS(s - seg.BreakAt[road]) : double.PositiveInfinity;
+
+    /// <summary>
+    /// The height of the rubble over a tile of a road's wall of rubble at either end of a break (4 filling the road, then
+    /// 3, 2 and 1 as a heap running out, each a block lower here and there), or 0 where the road runs on.
+    /// </summary>
+    private byte L8Plug(L8Network net, L8Segment seg, int road, double s, int gx, int gz)
+    {
+        double e = Math.Abs(L8BreakU(net, seg, road, s)) - seg.BreakHalf[road];
+        if (e < 0 || e >= L8RubbleLength) return 0;
+        int h = e < 2 ? 4 : e < 3.5 ? 3 : e < 5 ? 2 : 1;
+        if (h > 1 && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL8Road + 7)) < 0.3) h--;
+        return (byte)h;
+    }
+
+    /// <summary>
+    /// The passage round a break in the road, from layout version 10: 0 where there is none, else its depth plus one. The
+    /// passage leaves the road's wall a few blocks before the rubble, three blocks high and as wide, a little to one
+    /// side of the road, steps down a block for every two it runs until it is eight under the road's floor, runs along
+    /// there under the rock, bending as it goes, and climbs back the same way to the road's wall past the other wall of
+    /// rubble. So the way on is always open, but through the dark, and nothing lights it. Only in Level 8.
+    /// </summary>
+    public int L8CrawlAt(int gx, int gz)
+    {
+        if (Version < 10 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return 0;
+        return L8PlanAt(gx, gz).Crawl[L8Index(gx, gz)];
+    }
 
     // ---------------- The network, once per world ----------------
 
@@ -390,7 +464,7 @@ public sealed partial class WorldLayout
                 seg.Half[road] = (0.45 + 0.5 * Hashing.Unit(Hashing.Mix(r + 2))) * len;
                 // A braid where there is room for one: road 0 alone where the roads run as one, either where they run apart
                 bool fits = road == 0 ? sep < 0.5 || sep >= 150 : sep >= 150;
-                if (fits && room >= 70 && Hashing.Unit(Hashing.Mix(r + 3)) < 0.22)
+                if (fits && room >= 70 && Hashing.Unit(Hashing.Mix(r + 3)) < (Version >= 10 ? 0.22 * L8BraidKeep : 0.22))
                 {
                     seg.Braid[road] = true;
                     seg.Bend[road] = 0;
@@ -399,13 +473,15 @@ public sealed partial class WorldLayout
                     seg.BraidSplit[road] = 0.3 + 0.4 * Hashing.Unit(Hashing.Mix(r + 6));
                     if (road == 0 && sep < 0.5) seg.BraidSolo = true;
                 }
+                if (Version >= 10 && !seg.Braid[road]) PlanL8Break(seg, k, road, len);
             }
             ulong e = Hashing.Hash(seed, k, 3, SaltL8Net);
             seg.ExitAt = (k + 0.12 * (Hashing.Unit(e) - 0.5)) * len;
-            seg.ExitInner = Hashing.Unit(Hashing.Mix(e + 1)) < 0.45;
-            seg.ExitOuter = Hashing.Unit(Hashing.Mix(e + 2)) < 0.5;
+            double exitKeep = Version >= 10 ? L8ExitKeep : 1;
+            seg.ExitInner = Hashing.Unit(Hashing.Mix(e + 1)) < 0.45 * exitKeep;
+            seg.ExitOuter = Hashing.Unit(Hashing.Mix(e + 2)) < 0.5 * exitKeep;
             var (_, wE) = L8RingAtS(net, seg.ExitAt);
-            seg.ExitBetween = L8Sep(wE) >= 40 && Hashing.Unit(Hashing.Mix(e + 3)) < 0.35;
+            seg.ExitBetween = L8Sep(wE) >= 40 && Hashing.Unit(Hashing.Mix(e + 3)) < 0.35 * exitKeep;
         }
 
         net.Camps = new List<L8Camp>[net.Segments];
@@ -426,13 +502,15 @@ public sealed partial class WorldLayout
         L8Segment seg = net.Seg[k];
         ulong h = Hashing.Hash(seed, k, 4, SaltL8Net);
         double roll = Hashing.Unit(h);
+        // (from layout version 10 settlements are rare: a place to rest now and then, not a fire every hundred blocks)
+        double keep = Version >= 10 ? L8CampKeep : 1;
         double s = seg.ExitAt;
         var (inner, width) = L8RingAtS(net, s);
         L8Centres(net, s, inner, width, out double q0, out double q1, out bool draw1);
         int road = draw1 && Hashing.Unit(Hashing.Mix(h + 1)) < 0.5 ? 1 : 0;
         bool exits = seg.ExitInner || seg.ExitOuter || seg.ExitBetween;
         void Add(L8Camp camp, double along) => net.Camps[L8SegmentOf(net, along)].Add(camp);
-        if (exits && roll < 0.6)
+        if (exits && roll < 0.6 * keep)
         {
             // Where the exit meets the road (the exit's own field is zero there)
             if (draw1 && !seg.ExitBetween) road = seg.ExitInner == (q0 < q1) ? 0 : 1;
@@ -445,7 +523,7 @@ public sealed partial class WorldLayout
             }
             if (L8RoadPoint(net, new L8Piece(L8Kind.Main, road, 0), at) is { } p) Add(new L8Camp { X = p.X, Z = p.Z }, at);
         }
-        else if (!exits && roll < 0.45 && L8RoadPoint(net, new L8Piece(L8Kind.Main, road, 0), s) is { } p)
+        else if (!exits && roll < 0.45 * keep && L8RoadPoint(net, new L8Piece(L8Kind.Main, road, 0), s) is { } p)
         {
             if (Hashing.Unit(Hashing.Mix(h + 2)) < 0.5) Add(new L8Camp { X = p.X, Z = p.Z }, s);
             else
@@ -461,10 +539,10 @@ public sealed partial class WorldLayout
         for (int r = 0; r < 2; r++)
         {
             // At a bend's apex, beside the deposit it goes round
-            if (!seg.Braid[r] && Hashing.Unit(Hashing.Mix(h + 30 + (ulong)r)) < 0.3
+            if (!seg.Braid[r] && Hashing.Unit(Hashing.Mix(h + 30 + (ulong)r)) < 0.3 * keep
                 && L8RoadPoint(net, new L8Piece(L8Kind.Main, r, 0), seg.Centre) is { } apex)
                 Add(new L8Camp { X = apex.X, Z = apex.Z }, seg.Centre);
-            if (!seg.Braid[r] || Hashing.Unit(Hashing.Mix(h + 10 + (ulong)r)) >= 0.4) continue;
+            if (!seg.Braid[r] || Hashing.Unit(Hashing.Mix(h + 10 + (ulong)r)) >= 0.4 * keep) continue;
             var branch = new L8Piece(Hashing.Unit(Hashing.Mix(h + 20 + (ulong)r)) < 0.5 ? L8Kind.Plus : L8Kind.Minus, r, k);
             if (L8RoadPoint(net, branch, seg.Centre) is { } p) Add(new L8Camp { X = p.X, Z = p.Z }, seg.Centre);
         }
@@ -525,6 +603,41 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>
+    /// For the layout harness (<c>l8roads</c>): what the network holds. Segments, settlements (and the mean distance from each
+    /// to its nearest neighbour, blocks), braids, exits (inner, outer, between the roads), the roads' breaks and the length
+    /// of the roads (blocks).
+    /// </summary>
+    public string L8Census()
+    {
+        L8Network net = L8Net;
+        var camps = new List<L8Camp>();
+        foreach (var list in net.Camps) camps.AddRange(list);
+        double nearest = 0;
+        foreach (L8Camp a in camps)
+        {
+            double best = double.MaxValue;
+            foreach (L8Camp c in camps)
+                if (c != a) best = Math.Min(best, Math.Sqrt((a.X - c.X) * (a.X - c.X) + (a.Z - c.Z) * (a.Z - c.Z)));
+            nearest += best < double.MaxValue ? best : 0;
+        }
+        int braids = 0, inner = 0, outer = 0, between = 0, breaks = 0, spurs = 0;
+        foreach (L8Segment seg in net.Seg)
+        {
+            for (int r = 0; r < 2; r++)
+            {
+                if (seg.Braid[r]) braids++;
+                if (seg.BreakHalf[r] > 0) breaks++;
+            }
+            if (seg.ExitInner) inner++;
+            if (seg.ExitOuter) outer++;
+            if (seg.ExitBetween) between++;
+        }
+        foreach (L8Camp c in camps) if (c.Spur) spurs++;
+        return $"ring {net.Perimeter:0} blocks round in {net.Segments} segments; settlements {camps.Count} ({spurs} on spurs), mean to the nearest {nearest / Math.Max(1, camps.Count):0} blocks; "
+            + $"braids {braids}, exits {inner}+{outer}+{between} (inner, outer, between), breaks {breaks}";
+    }
+
     // ---------------- A cell's road ----------------
 
     private sealed class L8Plan
@@ -543,6 +656,8 @@ public sealed partial class WorldLayout
         public readonly ushort[] Deposit = new ushort[MacroSize * MacroSize];
         /// <summary>The piece a road tile is nearest the middle of (an index into the plan's own list), or -1.</summary>
         public readonly sbyte[] Piece = new sbyte[MacroSize * MacroSize];
+        /// <summary>From layout version 10: the passage round a break's depth plus one (0 outside one), and the height of rubble over a tile of the road's wall of rubble at the break's ends (0 outside one).</summary>
+        public readonly byte[] Crawl = new byte[MacroSize * MacroSize], Plug = new byte[MacroSize * MacroSize];
     }
 
     private PlanCache<L8Plan> l8Plans;
@@ -662,7 +777,8 @@ public sealed partial class WorldLayout
                     L8Piece piece = pieces[p];
                     bool active = piece.Kind switch
                     {
-                        L8Kind.Main => (piece.Road == 0 || draw1) && L8BraidOmega(net, piece.Road, k, s) <= 0,
+                        L8Kind.Main => (piece.Road == 0 || draw1) && L8BraidOmega(net, piece.Road, k, s) <= 0
+                            && !(Version >= 10 && Math.Abs(L8BreakU(net, net.Seg[k], piece.Road, s)) < net.Seg[k].BreakHalf[piece.Road]),
                         L8Kind.Plus or L8Kind.Minus => L8BraidOmega(net, piece.Road, piece.K, s) > 0,
                         L8Kind.ExitInner => hi <= 1,
                         L8Kind.ExitOuter => lo >= -1,
@@ -689,6 +805,13 @@ public sealed partial class WorldLayout
                             dist = 0;
                             break;
                         }
+                // At either end of a break the road ends in a wall of rubble
+                if (best >= 0 && Version >= 10 && pieces[best].Kind == L8Kind.Main
+                    && L8Plug(net, net.Seg[k], pieces[best].Road, s, x0 + lx, z0 + lz) is byte plug and > 0)
+                {
+                    plan.Plug[index] = plug;
+                    best = -1;
+                }
                 if (best >= 0)
                 {
                     L8Piece piece = pieces[best];
@@ -728,6 +851,7 @@ public sealed partial class WorldLayout
                     plan.Line[index] = 250;
                 }
                 plan.Dist[index] = (byte)Math.Min(255, (int)Math.Round(dist));
+                if (Version >= 10 && plan.Plug[index] == 0) PlanL8Crawl(net, plan, index, k, s, draw1, d);
 
                 foreach (L8Deposit dep in deposits)
                 {
@@ -741,6 +865,28 @@ public sealed partial class WorldLayout
 
         PlaceL8Lights(net, plan, pieces, x0, z0, tileS, tileQ);
         return plan;
+    }
+
+    /// <summary>The passage round a break in a road, at a tile (see <see cref="L8CrawlAt"/>); d is how far the tile lies out from each long road's middle.</summary>
+    private void PlanL8Crawl(L8Network net, L8Plan plan, int index, int k, double s, bool draw1, double[] d)
+    {
+        L8Segment seg = net.Seg[k];
+        for (int road = 0; road < 2; road++)
+        {
+            double half = seg.BreakHalf[road];
+            if (half <= 0 || road == 1 && !draw1) continue;
+            double u = L8BreakU(net, seg, road, s), a = Math.Abs(u), reach = half + L8RampLength / 2;
+            if (a > reach) continue;
+            // Three blocks wide, bending out to a little further from the road the deeper it runs
+            double deep = Math.Clamp((reach - a) / 12, 0, 1);
+            double middle = seg.BreakSide[road] * (3.0 + (2.0 + 1.3 * Math.Sin(u / 9.0)) * deep);
+            if (Math.Abs(d[road] - middle) >= 1.5) continue;
+            int depth = Math.Clamp((int)Math.Round((reach - a) / 2), 0, 8);
+            // (where it passes under another road or a settlement it lies too deep to show in its floor)
+            if (depth < 5 && (plan.Flags[index] & (L8Plan.Road | L8Plan.Camp)) != 0) continue;
+            plan.Crawl[index] = (byte)(depth + 1);
+            return;
+        }
     }
 
     /// <summary>How far out to the side of the road's middle a lamp or marker is looked for, in turn.</summary>
@@ -824,10 +970,24 @@ public sealed partial class WorldLayout
         double s = net.AlongAt(angle);
         var (inner, width) = L8RingAtS(net, s);
         L8Centres(net, s, inner, width, out _, out _, out bool draw1);
-        var road = new L8Piece(L8Kind.Main, draw1 && (Hashing.Mix(h + 7) & 1) == 1 ? 1 : 0, 0);
-        var point = L8RoadPoint(net, road, s) ?? L8RoadPoint(net, new L8Piece(L8Kind.Plus, road.Road, L8SegmentOf(net, s)), s)
-            ?? L8RoadPoint(net, new L8Piece(L8Kind.Main, 0, 0), s) ?? (0, 0);
-        return (MacroOf((int)Math.Floor(point.X)), MacroOf((int)Math.Floor(point.Z)));
+        int first = draw1 && (Hashing.Mix(h + 7) & 1) == 1 ? 1 : 0;
+        (double X, double Z)? point = null;
+        // (From layout version 10 a road may be broken where the angle points: the nearest stretch of road along the ring,
+        // on this road or the other, a long enough walk from the rubble to be worth arriving on)
+        for (int step = 0; step <= (Version >= 10 ? 8 : 0) && point == null; step++)
+        {
+            double at = s + (step % 2 == 0 ? 1 : -1) * 60 * ((step + 1) / 2);
+            var (ri, rw) = L8RingAtS(net, at);
+            L8Centres(net, at, ri, rw, out _, out _, out bool d1);
+            for (int r = 0; r < (Version >= 10 ? 2 : 1) && point == null; r++)
+            {
+                int road = step == 0 ? (r == 0 ? first : 1 - first) : r;
+                if (road == 1 && !d1) continue;
+                point = L8RoadPoint(net, new L8Piece(L8Kind.Main, road, 0), at) ?? L8RoadPoint(net, new L8Piece(L8Kind.Plus, road, L8SegmentOf(net, at)), at);
+            }
+        }
+        point ??= L8RoadPoint(net, new L8Piece(L8Kind.Main, 0, 0), s) ?? (0, 0);
+        return (MacroOf((int)Math.Floor(point.Value.X)), MacroOf((int)Math.Floor(point.Value.Z)));
     }
 
     /// <summary>One of Level 8's tiles, from layout version 9, laid out from its cell's road plan.</summary>
@@ -840,11 +1000,18 @@ public sealed partial class WorldLayout
             {
                 ref Tile t = ref b.At(lx, lz);
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz, i = TileIndex(lx, lz);
-                if (t.Kind != TileKind.Floor) continue;
+                if (t.Kind != TileKind.Floor)
+                {
+                    // (the passage round a break and the rubble run along a cell's edge too, where the tiles are walls already)
+                    if (Version >= 10 && t.Kind == TileKind.Wall && !t.Tall && t.Pattern == WallPattern.Rock) MarkL8Break(ref t, plan, i);
+                    continue;
+                }
                 bool road = (plan.Flags[i] & L8Plan.Road) != 0, camp = (plan.Flags[i] & L8Plan.Camp) != 0;
                 if (!road && !camp)
                 {
                     SetWall(ref t, WallPattern.Rock, BaseStyle.Plain);
+                    // (from layout version 10, rubble where the road ends at a break, and the dark passage round it)
+                    if (Version >= 10) MarkL8Break(ref t, plan, i);
                     continue;
                 }
                 t.Floor = FloorKind.Gravel;
@@ -881,6 +1048,17 @@ public sealed partial class WorldLayout
                 }
             }
         }
+    }
+
+    /// <summary>A rock tile over the passage round a break in the road, or in the wall of rubble where the road ends (from layout version 10).</summary>
+    private static void MarkL8Break(ref Tile t, L8Plan plan, int i)
+    {
+        if (plan.Plug[i] != 0)
+        {
+            t.Zone = (byte)(L8ZoneRubble + plan.Plug[i]);
+            t.Height = 4;
+        }
+        else if (plan.Crawl[i] != 0) t.Zone = L8ZoneCrawl;
     }
 
     /// <summary>The road's arch over a tile, as <see cref="RoadRoof"/> (five where two pieces of road meet).</summary>

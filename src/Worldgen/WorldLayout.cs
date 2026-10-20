@@ -409,7 +409,10 @@ public sealed partial class WorldLayout
     /// <item><b>10</b>: Level 3's tunnels go somewhere. In 1-9 a manhole's tunnel ran under its own stretch of corridor and
     /// stopped there, a few blocks. Now every Level 3 cell has a flooded tunnel running its whole width under a corridor row
     /// (the same row in every cell, so the tunnel runs on from cell to cell under the level), and a manhole's tunnel joins it
-    /// (<see cref="AddL3TunnelNetwork"/>).</item>
+    /// (<see cref="AddL3TunnelNetwork"/>). Level 8's 9th Road is lonelier: about a third as many settlements, fewer braids and
+    /// ways off the road, and the road is broken now and then by a rockfall (a wall of rubble at either end of a gap of rock) with a
+    /// dark cave passage round it, leaving the road's wall before the rubble, down under the fall and up past it
+    /// (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 10;
