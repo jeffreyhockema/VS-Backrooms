@@ -75,6 +75,8 @@ public partial class MenaceSystem : ModSystem
         public double Noise, RestingFor;
         /// <summary>In-game hours: when the next Screaming may come.</summary>
         public double NextScreamHours;
+        /// <summary>World milliseconds before which this one hears no more distant sounds (see <see cref="Roster.SoundGapSeconds"/>).</summary>
+        public long NextSoundMs;
     }
 
     /// <summary>How long the rats' Screaming keeps the lights failing, and how long before another can come (in-game hours).</summary>
@@ -106,7 +108,7 @@ public partial class MenaceSystem : ModSystem
     public const string FlickerKey = "backrooms:flickerUntil";
 
     /// <summary>How long a Flickering lasts and how long until another can come, in in-game hours (an hour is two real minutes).</summary>
-    private const double FlickerHours = 0.75, FlickerCooldownHours = 10;
+    private const double FlickerHours = 0.75, FlickerCooldownHours = 14;
 
     /// <summary>How the world's "backroomsMenace" setting scales things.</summary>
     public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities);
@@ -672,7 +674,7 @@ public partial class MenaceSystem : ModSystem
 
         if (CountMenacing(target) >= Roster.Cap(a.Band, a.Level))
         {
-            PlayDistantSound(target, a.Level);
+            PlayDistantSound(target, a.Level, fallback: true);
             return;
         }
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
@@ -683,7 +685,7 @@ public partial class MenaceSystem : ModSystem
         // In a den, mostly what lives there comes
         if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < 0.75) options = new[] { dweller };
         RosterEntry entry = Pick(options);
-        if (entry == null || !TrySpawn(target, a, entry, kind)) PlayDistantSound(target, a.Level);
+        if (entry == null || !TrySpawn(target, a, entry, kind)) PlayDistantSound(target, a.Level, fallback: true);
     }
 
     /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
@@ -705,7 +707,17 @@ public partial class MenaceSystem : ModSystem
         watch.Now.Flickering = watch.Now.Dark = true;
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         RosterEntry hounds = roster.FirstOrDefault(e => e.Code == Roster.Hound);
-        if (hounds != null && CountMenacing(target) < Roster.Cap(MenaceBand.Threshold)) TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true);
+        if (hounds != null) SendFlickerHounds(target, watch, hounds, FlickerTries);
+    }
+
+    /// <summary>How many times the Flickering looks for an unseen place for its Hounds (every few seconds), and how long between.</summary>
+    private const int FlickerTries = 6, FlickerRetryMs = 4000;
+
+    private void SendFlickerHounds(Entity target, Watch watch, RosterEntry hounds, int tries)
+    {
+        if (!target.Alive || sapi.World.Calendar.TotalHours >= watch.FlickerUntilHours) return;
+        if (CountMenacing(target) < Roster.Cap(MenaceBand.Threshold) && TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true)) return;
+        if (tries > 1) sapi.World.RegisterCallback(_ => SendFlickerHounds(target, watch, hounds, tries - 1), FlickerRetryMs);
     }
 
     /// <summary>
@@ -778,10 +790,20 @@ public partial class MenaceSystem : ModSystem
         sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search).Length;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
-    public void PlayDistantSound(Entity target, int level)
+    /// <param name="fallback">Played only because a spawn failed or the cap was hit: some levels (Level 0) stay silent then.</param>
+    public void PlayDistantSound(Entity target, int level, bool fallback = false)
     {
         DistantSound[] sounds = Roster.SoundsFor(level);
         if (sounds.Length == 0) return;
+        if (fallback && Roster.NoFallbackSound(level)) return;
+        // (A minimum gap between one person's distant sounds, longer in Level 0, where they were too frequent)
+        long now = sapi.World.ElapsedMilliseconds;
+        double gap = Roster.SoundGapSeconds(level);
+        if (gap > 0 && watches.TryGetValue(target.EntityId, out Watch heard))
+        {
+            if (now < heard.NextSoundMs) return;
+            heard.NextSoundMs = now + (long)(gap * 1000 * (1 + SoundGapJitter * rand.NextDouble()));
+        }
         DistantSound sound = sounds[rand.Next(sounds.Length)];
         double angle = rand.NextDouble() * Math.PI * 2, distance = 14 + rand.NextDouble() * 22;
         double x = target.Pos.X + Math.Cos(angle) * distance, z = target.Pos.Z + Math.Sin(angle) * distance;
@@ -805,7 +827,6 @@ public partial class MenaceSystem : ModSystem
             Encounter.Hunt => (14.0, 24.0),
             _ => (18.0, 40.0),
         };
-        Vec3d eyes = Senses.Eyes(target);
         (double ox, double oz) = layout.Outward((int)target.Pos.X, (int)target.Pos.Z);
         Vec3f view = target.Pos.GetViewVector();
         // At the edge of a level, the danger comes from the way the player is going: between them and the gate they are
@@ -819,7 +840,6 @@ public partial class MenaceSystem : ModSystem
         }
         // Things that lie in wait are put ahead of the player, the way they are looking
         if (entry.Ambush) (min, max) = (8.0, 16.0);
-        Vec3d fallback = null;
 
         for (int attempt = 0; attempt < 18; attempt++)
         {
@@ -831,25 +851,72 @@ public partial class MenaceSystem : ModSystem
             Vec3d spot = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z);
             if (spot == null) continue;
 
-            // A glimpse is meant to be seen; stalkers and hunters arrive unseen, and so do wanderers. What lies in
-            // wait, and what moves in the deep, can be put down anywhere.
+            // A glimpse is meant to be seen; stalkers, hunters, what lies in wait and wanderers arrive unseen.
+            // Nothing is put down where someone could see any part of it: no spawn is better than a visible one. (What moves
+            // in the deep can be put down anywhere.)
             bool wanted = true;
-            if (!entry.Ambush && !entry.Aquatic)
+            if (!entry.Aquatic)
             {
-                bool seen = Senses.ClearLine(sapi.World, eyes, spot.AddCopy(0, 1.5, 0));
-                wanted = kind == Encounter.Glimpse ? seen : !seen;
+                bool seen = SeenBySomeone(target, spot, type);
+                wanted = kind == Encounter.Glimpse && !entry.Ambush ? seen : !seen;
             }
-            if (!wanted)
-            {
-                if (kind != Encounter.Glimpse) fallback ??= spot;
-                continue;
-            }
+            if (!wanted) continue;
             SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
             return true;
         }
-        if (fallback == null) return false;
-        SpawnPack(target, entry, kind, type, fallback, a, untilHours, setPiece);
-        return true;
+        return false;
+    }
+
+    /// <summary>The heights (fractions of the hitbox) and sides rays are cast to when asking whether something could be seen.</summary>
+    private static readonly (double Up, double Side)[] SightPoints = { (0.05, 0), (0.5, 0), (0.5, -0.5), (0.5, 0.5), (0.95, 0), (0.95, -0.5), (0.95, 0.5) };
+
+    /// <summary>How far (blocks) someone can see something put down, the client's view cone (degrees wide, with margin), and how far it counts.</summary>
+    private const double SoundGapJitter = 0.5;
+    private const double SightRange = 64, ViewConeDegrees = 110, ViewConeRange = 48;
+
+    /// <summary>
+    /// Whether the player (or dummy) <paramref name="target"/>, or any other player about, could see any part of an entity
+    /// of this type standing at <paramref name="spot"/>: a ray from their eyes to its feet, middle or head (and the sides of
+    /// its body) is not stopped by a solid block (glass does not stop it). A spot in someone's view cone within
+    /// <see cref="ViewConeRange"/> blocks counts as seen unless every ray is blocked; outside the cone it counts as seen all
+    /// the same when a ray is clear, since they only have to turn round.
+    /// </summary>
+    private bool SeenBySomeone(Entity target, Vec3d spot, EntityProperties type)
+    {
+        float height = type.CollisionBoxSize?.Y ?? 1.85f, width = type.CollisionBoxSize?.X ?? 0.6f;
+        if (SeenBy(target, spot, height, width)) return true;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+        {
+            EntityPlayer other = online.Entity;
+            if (other == null || other == target || !other.Alive || other.Pos.Dimension != target.Pos.Dimension) continue;
+            if (online.WorldData.CurrentGameMode == EnumGameMode.Spectator) continue;
+            if (other.Pos.DistanceTo(spot) > SightRange) continue;
+            if (SeenBy(other, spot, height, width)) return true;
+        }
+        return false;
+    }
+
+    private bool SeenBy(Entity viewer, Vec3d spot, float height, float width)
+    {
+        Vec3d eyes = Senses.Eyes(viewer);
+        double dx = spot.X - eyes.X, dz = spot.Z - eyes.Z, flat = Math.Sqrt(dx * dx + dz * dz);
+        if (eyes.DistanceTo(spot) > SightRange) return false;
+        // (The sideways rays run across the line of sight)
+        double sx = flat > 0.01 ? -dz / flat : 1, sz = flat > 0.01 ? dx / flat : 0;
+        bool clear = false;
+        foreach ((double up, double side) in SightPoints)
+        {
+            var to = new Vec3d(spot.X + sx * side * width, spot.Y + up * height, spot.Z + sz * side * width);
+            if (Senses.ClearLine(sapi.World, eyes, to, throughGlass: true)) { clear = true; break; }
+        }
+        if (Logging)
+        {
+            Vec3f view = viewer.Pos.GetViewVector();
+            double cos = flat > 0.01 ? (dx * view.X + dz * view.Z) / flat : 1;
+            bool inCone = flat <= ViewConeRange && cos >= Math.Cos(ViewConeDegrees / 2 * Math.PI / 180);
+            sapi.Logger.Notification("[backrooms] sight test {0:0} blocks off, {1}: {2}", flat, inCone ? "in view cone" : "out of cone", clear ? "REFUSED (clear line)" : "hidden, ok");
+        }
+        return clear;
     }
 
     /// <summary>
@@ -885,6 +952,7 @@ public partial class MenaceSystem : ModSystem
         // In the heart of a level, rats are scavengers (README 6.1): a pack that goes about its own business, to food on the
         // floor, and runs from you (AiTaskScavenge). At the edge and in dens they are put down hunting, as before. Not
         // too many of them about one person at a time.
+        bool unseen = kind != Encounter.Glimpse && !entry.Aquatic; // (every member of a pack is put down out of sight too)
         bool scavengers = entry.Code == Roster.DeathRat && a.Band == MenaceBand.Heartland && !entry.Frenzy && kind != Encounter.Ambient && !setPiece;
         if (scavengers)
         {
@@ -905,11 +973,20 @@ public partial class MenaceSystem : ModSystem
             {
                 int x = (int)Math.Floor(spot.X) + rand.Next(-3, 4), z = (int)Math.Floor(spot.Z) + rand.Next(-3, 4);
                 Vec3d near = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z, (int)Math.Floor(spot.Y));
-                if (near == null) continue;
+                if (near == null || unseen && SeenBySomeone(target, near, type)) continue;
                 if (Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } another) lastPack.Add(another);
                 break;
             }
         }
+        if (Logging)
+            foreach (Entity member in lastPack)
+            {
+                // (Checked on the entity as it stands, as a second opinion on SeenBySomeone: any ray from the eyes to feet, middle, head)
+                Vec3d eyesNow = Senses.Eyes(target);
+                float h = member.Properties.CollisionBoxSize?.Y ?? 1.85f;
+                bool anyClear = new[] { 0.05, 0.5, 0.95 }.Any(f => Senses.ClearLine(sapi.World, eyesNow, member.Pos.XYZ.Add(0, f * h, 0), throughGlass: true));
+                sapi.Logger.Notification("[backrooms] placed {0} ({1}) {2:0} blocks off: {3}", member.Code.Path, kind, member.Pos.DistanceTo(target.Pos.XYZ), anyClear ? "CLEAR LINE to the eyes" : "no line to the eyes");
+            }
         if (Logging) sapi.Logger.Notification("[backrooms] {0} x{1} ({2}) for {3}, {4:0} blocks off, band {5}", entry.Code, count, kind, (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString(), spot.DistanceTo(target.Pos.XYZ), a.Band);
     }
 

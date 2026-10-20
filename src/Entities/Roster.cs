@@ -198,7 +198,7 @@ public static class Roster
         {
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
             E(DeathRat, Heart, Menacing, 0.6, 2, 4),
-            E(Hound, Approach, Menacing, 1.0, 2, 3),
+            E(Hound, Approach, Menacing, Level1HoundWeight, 2, 3),
             E(Wretch, Approach, Menacing, 0.3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing | Amb, 0.4) with { Rarity = SkinStealerWanders },
@@ -422,6 +422,21 @@ public static class Roster
         double hunt = band switch { MenaceBand.Heartland => 0.03 * d, MenaceBand.Approach => 0.15 * d, _ => 0.25 * d };
         return (Math.Max(0.1, w.Sound - stalk - hunt), w.Glimpse, w.Stalk + stalk, w.Hunt + hunt);
     }
+
+    /// <summary>
+    /// Level 1's Hounds (play-test: too frequent, and now they hit like wolves-to-bears): was 1.0 of a table whose other
+    /// Stalk/Hunt weights sum to about 2.0 (a third of the Approach band's menacing rolls), now 0.35 (about 15%).
+    /// </summary>
+    public const double Level1HoundWeight = 0.35;
+
+    /// <summary>
+    /// The least time (seconds) between one person's distant sounds, by level: Level 0's background sounds were too frequent
+    /// (play-test), so there they come at a third of the rate. Elsewhere there is no gap beyond the director's own rolls.
+    /// </summary>
+    public static double SoundGapSeconds(int level) => level == 0 ? 75 : 0;
+
+    /// <summary>Whether a level plays no distant sound just because a spawn failed or the cap was hit (Level 0: the Lobby stays quiet).</summary>
+    public static bool NoFallbackSound(int level) => level == 0;
 
     private static DistantSound S(string location, float pitchMin = 0.9f, float pitchMax = 1.1f, float volume = 0.7f) =>
         new(location, pitchMin, pitchMax, volume);
