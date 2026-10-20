@@ -73,7 +73,13 @@ public sealed partial class ThresholdNetwork
     private const ulong SaltWayBack = 0x7E10;
 
     /// <summary>How many steps over open floor from the arrival a wall for the way back is looked for, and how much floor at most.</summary>
-    private const int WayBackReach = 32, WayBackSearch = 4000;
+    private const int WayBackReach = 48, WayBackSearch = 12000;
+
+    /// <summary>
+    /// How near (steps) a place counts as near: a way back with solid behind it within this is preferred to one with
+    /// open floor behind it (a thin partition between two aisles) nearer still, and that to a solid one farther off.
+    /// </summary>
+    private const int WayBackNear = 24;
 
     /// <summary>Ways back built at arrivals, by the threshold that leads there (its <see cref="Id"/>).</summary>
     private readonly Dictionary<long, WayBack> wayBacks = new();
@@ -172,35 +178,47 @@ public sealed partial class ThresholdNetwork
         var queue = new Queue<(int X, int Z, int Steps)>();
         queue.Enqueue((ax, az, 0));
         bool wide = new WayBack(0, 0, ArchPier.North, style).Wide;
+        // (The nearest with solid behind it, and the nearest with open floor behind it: a car park's fire wall is one block
+        // thick, with the next aisle on its other side)
+        (WayBack Way, int X, int Z, int Steps)? solid = null, open = null;
         while (queue.Count > 0)
         {
             (int x, int z, int steps) = queue.Dequeue();
+            if (solid != null && (steps > WayBackNear || open != null)) break;
             if (StandsBeforeWayBack(level, layout.TileAt(x, z)) && !links.ContainsKey(Id((x, z))))
                 foreach (ArchPier toWall in WayBackFaces)
                     for (int offset = 0; offset >= (wide ? -1 : 0); offset--)
-                        if (WayBackFits(level, style, x, z, toWall, offset) is { } way) return (way, x, z);
+                    {
+                        if (solid == null && WayBackFits(level, style, x, z, toWall, offset) is { } way) { solid = (way, x, z, steps); goto Found; }
+                        if (open == null && WayBackFits(level, style, x, z, toWall, offset, openBehind: true) is { } through) { open = (through, x, z, steps); goto Found; }
+                    }
+            Found:
+            if (solid is { Steps: <= WayBackNear }) break;
             if (steps >= WayBackReach || seen.Count > WayBackSearch) continue;
             foreach ((int dx, int dz) in FlightSteps)
             {
                 (int X, int Z) next = (x + dx, z + dz);
                 if (seen.Contains(next)) continue;
                 Tile n = layout.TileAt(next.X, next.Z);
-                if (n.Level != level || n.Kind != TileKind.Floor || n.Sealed) continue;
+                if (n.Level != level || n.Kind is not (TileKind.Floor or TileKind.Doorway or TileKind.ArchDoor or TileKind.Door) || n.Sealed) continue;
                 seen.Add(next);
                 queue.Enqueue((next.X, next.Z, steps + 1));
             }
         }
+        // (Solid behind within reach of the arrival first; else open floor behind if that is near; else the solid one farther off)
+        var pick = solid is { Steps: <= WayBackNear } || open == null || open.Value.Steps > WayBackNear && solid != null ? solid : open;
+        if (pick is { } p) return (p.Way, p.X, p.Z);
         return null;
     }
 
     /// <summary>
     /// Whether a way back fits in the wall the given way from a floor tile, with that tile in front of its first leaf
     /// (<paramref name="offset"/> 0) or its second (-1): every leaf in the level's own wall, nothing written down on it
-    /// or on the floor in front, solid behind (wall, or a sealed room nobody walks into, never open floor: it would
+    /// or on the floor in front, solid behind (wall, or a sealed room nobody walks into, open floor only with <paramref name="openBehind"/>: it would
     /// show in another room), and the wall running straight on past it at both ends with floor all along in front, so it
     /// stands in a plain stretch of wall, not in a corner, a doorway, a stairwell or the end of a corridor.
     /// </summary>
-    private WayBack? WayBackFits(int level, WayBackStyle style, int fx, int fz, ArchPier toWall, int offset)
+    private WayBack? WayBackFits(int level, WayBackStyle style, int fx, int fz, ArchPier toWall, int offset, bool openBehind = false)
     {
         (int dx, int dz) = Climb(toWall);
         var way = new WayBack(0, 0, Opposite(toWall), style);
@@ -224,7 +242,7 @@ public sealed partial class ThresholdNetwork
             if (!WallTakesWayBack(level, wall) || links.ContainsKey(Id((wx, wz)))) return null;
             if (!StandsBeforeWayBack(level, front) || links.ContainsKey(Id((wx - dx, wz - dz)))) return null;
             Tile behind = layout.TileAt(wx + dx, wz + dz);
-            if (behind.Level != level || behind.Stair != 0 || !(behind.Kind == TileKind.Wall || behind.Kind == TileKind.Floor && behind.Sealed)) return null;
+            if (behind.Level != level || behind.Stair != 0 || !(behind.Kind == TileKind.Wall || behind.Kind == TileKind.Floor && (behind.Sealed || openBehind))) return null;
         }
         return way with { X = x0, Z = z0 };
     }
