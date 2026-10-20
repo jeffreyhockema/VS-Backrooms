@@ -109,10 +109,10 @@ Effective values (base x the level's danger multipliers of section 2; speed / da
 
 | Entity (base before, after) | Level | Before | After |
 | --- | --- | --- | --- |
-| Hound (run .046 -> .050, bite 3.5 -> 7.2, health 16 -> 18, cooldown 1.2 -> 1.1 s) | 1 | .048 / 4.0 / 19 | .052 / 8.2 / 21 (a wolf) |
-| | 3 | .051 / 4.9 / 24 | .055 / 10.1 / 27 (a black bear's bite, a brown bear's run) |
-| | 5 | .053 / 5.5 / 28 | .058 / 11.3 / 31 |
-| | 9 | .057 / 6.7 / 34 | .062 / 13.7 / 39 (tier 3) |
+| Hound (run .046 -> .050, bite 3.5 -> 7.2, health 16 -> 26, cooldown 1.2 -> 1.1 s) | 1 | .048 / 4.0 / 19 | .052 / 8.2 / 30 (a wolf's bite and speed, twice its health) |
+| | 3 | .051 / 4.9 / 24 | .055 / 10.1 / 39 (a black bear: its bite and nearly its health, a brown bear's run) |
+| | 5 | .053 / 5.5 / 28 | .058 / 11.3 / 45 |
+| | 9 | .057 / 6.7 / 34 | .062 / 13.7 / 56 (tier 3; a brown bear) |
 | Skin-Stealer (run .034 -> .036, hit 7 -> 10.6, health 51 -> 55) | 1 | .035 / 7.9 / 60 | .037 / 12.0 / 64 (a brown bear) |
 | | 3 | .038 / 9.8 / 77 | .040 / 14.8 / 83 |
 | | 5 | .039 / 11.0 / 88 | .042 / 16.7 / 95 |

@@ -144,8 +144,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 18,
-				"maxhealth": 18
+				"currenthealth": 26,
+				"maxhealth": 26
 			},
 			{
 				"code": "deaddecay",

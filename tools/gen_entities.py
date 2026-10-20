@@ -866,7 +866,7 @@ def hound():
         # (Which look, the director decides: mostly the common one, a quarter starved, now and then an old one)
         "client": common_client("backrooms:entity/hound", {"base": "backrooms:entity/hound",
                                                            "alternates": [{"base": "backrooms:entity/hound-starved"}, {"base": "backrooms:entity/hound-elder"}]}, animations),
-        "server": server(18, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1), drop("game:bone", 1)], menace={"maxEncounterSeconds": 300}),
+        "server": server(26, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1), drop("game:bone", 1)], menace={"maxEncounterSeconds": 300}),
         "sounds": {"hurt": "game:creature/wolf/hurt", "death": "game:creature/wolf/hurt"},
     }
 
