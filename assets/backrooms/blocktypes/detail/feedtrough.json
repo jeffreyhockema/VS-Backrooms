@@ -130,11 +130,11 @@
 	},
 	"drops": [
 		{
-			"type": "item",
-			"code": "game:plank-aged",
+			"type": "block",
+			"code": "game:trough-genericwood-small-ns",
 			"quantity": {
-				"avg": 1.5,
-				"var": 0.5
+				"avg": 1,
+				"var": 0
 			}
 		},
 		{

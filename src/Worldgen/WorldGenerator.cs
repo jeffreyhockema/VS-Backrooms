@@ -572,6 +572,7 @@ public sealed partial class WorldGenerator
                 for (int f = 0; f < 4; f++) propIds[prop, k, f] = Id(oriented ? $"{code}{kind}-{Sides[f]}" : $"{code}{kind}");
             }
         }
+        if (layout.Version >= 10) UseVanillaProps();
         foreach (var (family, decor, rel, state) in DetailBlocks.Decorations)
         {
             byte d = DecorFor(family, decor);
@@ -1009,7 +1010,7 @@ public sealed partial class WorldGenerator
     {
         if (pendingEntities.TryRemove(ChunkKey(request.ChunkX, request.ChunkZ), out var entities))
         {
-            foreach ((BlockPos pos, string entityClass) in entities) blockAccessor.SpawnBlockEntity(entityClass, pos);
+            foreach ((BlockPos pos, string entityClass) in entities) SpawnEntity(blockAccessor, entityClass, pos);
             return;
         }
         IServerChunk[] chunks = request.Chunks;
@@ -1026,10 +1027,17 @@ public sealed partial class WorldGenerator
                     string entityClass = EntityClassOf(GetBlock(chunks, lx, y, lz));
                     if (entityClass == null) continue;
                     at.Set(x0 + lx, y, z0 + lz);
-                    if (blockAccessor.GetBlockEntity(at) == null) blockAccessor.SpawnBlockEntity(entityClass, at.Copy());
+                    if (blockAccessor.GetBlockEntity(at) == null) SpawnEntity(blockAccessor, entityClass, at.Copy());
                 }
             }
         }
+    }
+
+    /// <summary>Spawns a block entity; a vanilla lantern the generator put down (a camp's) is iron, not the copper it defaults to.</summary>
+    private static void SpawnEntity(IBlockAccessor blockAccessor, string entityClass, BlockPos pos)
+    {
+        blockAccessor.SpawnBlockEntity(entityClass, pos);
+        if (entityClass == "Lantern" && blockAccessor.GetBlockEntity(pos) is Vintagestory.GameContent.BELantern lantern) lantern.material = "iron";
     }
 
     private static long ChunkKey(int chunkX, int chunkZ) => ((long)chunkX << 32) | (uint)chunkZ;
@@ -2095,6 +2103,26 @@ public sealed partial class WorldGenerator
             return 0;
         }
         return block.BlockId;
+    }
+
+    /// <summary>
+    /// From layout version 10, props that added nothing over a vanilla block are vanilla's own: the camping lantern is
+    /// a small vanilla lantern (held in the offhand, picked up with a right-click), the round bale a hay block lying on
+    /// its side and the feed trough a small vanilla trough. The old blocks stay for worlds made before, and break into
+    /// the vanilla thing (their drops). A missing block leaves the old prop in place.
+    /// </summary>
+    private void UseVanillaProps()
+    {
+        int lantern = BlockId("game:lantern-small-up");
+        int hayAlongX = BlockId("game:hay-normal-we"), hayAlongZ = BlockId("game:hay-normal-ns");
+        int troughAlongX = BlockId("game:trough-genericwood-small-ns"), troughAlongZ = BlockId("game:trough-genericwood-small-we");
+        for (int f = 0; f < 4; f++)
+        {
+            bool alongX = f is 0 or 2; // modelled lengthways across the block when facing north or south
+            if (lantern != 0) propIds[Props.Lantern, 0, f] = lantern;
+            if (hayAlongX != 0 && hayAlongZ != 0) propIds[Props.HayRoll, 0, f] = alongX ? hayAlongX : hayAlongZ;
+            if (troughAlongX != 0 && troughAlongZ != 0) propIds[Props.FeedTrough, 0, f] = alongX ? troughAlongX : troughAlongZ;
+        }
     }
 
     /// <summary>A block of this mod by code path.</summary>

@@ -359,6 +359,12 @@ def prop(code, english, parts, box=None, oriented=True, material="Wood", sounds=
         data["lightHsv"] = light
     if extra:
         data.update(extra)
+        if oriented:
+            # A box given outright is given for the side the prop faces north; it turns with the model
+            for key in ("selectionbox", "collisionbox"):
+                if isinstance(data.get(key), dict) and "rotateY" not in data[key]:
+                    b = data.pop(key)
+                    data[key + "ByType"] = {f"*-{s}": dict(b, **({"rotateY": ROTATE[s]} if ROTATE[s] else {})) for s in SIDES}
     block(code, data, comment or english)
     name(code + "-*" if groups else code, english)
 
