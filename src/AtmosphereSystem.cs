@@ -317,6 +317,10 @@ public partial class AtmosphereSystem : ModSystem
         }
     }
 
+    /// <summary>Whether the player was in a Red Room last tick, and the seconds left of the quick change of air after crossing its wall.</summary>
+    private bool wasRed;
+    private float redSwitch;
+
     private void OnTick(float dt)
     {
         EntityPlayer entity = capi.World.Player?.Entity;
@@ -437,7 +441,11 @@ public partial class AtmosphereSystem : ModSystem
 
         // Ease towards the level's own atmosphere over a couple of seconds (faster in and out of the dark);
         // darkness is applied on top at once
-        float k = snapNext ? 1f : Math.Min(1f, dt * (dark || baseFogMin > 0.2f ? 3f : 0.6f));
+        // Stepping into or out of a Red Room (its wall is the threshold) turns the air over in well under a second, so
+        // the red is whole as soon as you are inside the wallpaper rather than creeping in over the first few blocks
+        if (red != wasRed) { wasRed = red; redSwitch = 1.5f; }
+        redSwitch = Math.Max(0f, redSwitch - dt);
+        float k = snapNext ? 1f : Math.Min(1f, dt * (redSwitch > 0 ? 5f : dark || baseFogMin > 0.2f ? 3f : 0.6f));
         snapNext = false;
         baseDensity += (density - baseDensity) * k;
         baseFogMin += (fogMin - baseFogMin) * k;
