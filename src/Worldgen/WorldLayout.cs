@@ -406,9 +406,13 @@ public sealed partial class WorldLayout
     /// CityCeiling). A church is laid out on the middle of its door, and its stained glass, every third block out from
     /// that middle and over the door, is marked in Tile.Stack (CityStainedGlass; in 1-8 every third block of the world,
     /// so it fell unevenly about the door).</item>
+    /// <item><b>10</b>: Level 3's tunnels go somewhere. In 1-9 a manhole's tunnel ran under its own stretch of corridor and
+    /// stopped there, a few blocks. Now every Level 3 cell has a flooded tunnel running its whole width under a corridor row
+    /// (the same row in every cell, so the tunnel runs on from cell to cell under the level), and a manhole's tunnel joins it
+    /// (<see cref="AddL3TunnelNetwork"/>).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 9;
+    public const int CurrentVersion = 10;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -904,7 +908,7 @@ public sealed partial class WorldLayout
             case 0: BuildLevel0(b, mx, mz, west, north); break;
             case 1: BuildLevel1(b, mx, mz); break;
             case 2: BuildLevel2(b, mx, mz, west, north); break;
-            case 3: BuildLevel3(b, mx, mz, west, north); break;
+            case 3: BuildLevel3(b, mx, mz, west, north); if (Version >= 10) AddL3TunnelNetwork(b); break;
             case 4: BuildLevel4(b, mx, mz); break;
             case 5: BuildLevel5(b, mx, mz, west, north); break;
             case 6: BuildLevel6(b, mx, mz, west, north); break;

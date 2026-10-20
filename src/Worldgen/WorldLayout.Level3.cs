@@ -305,7 +305,7 @@ public sealed partial class WorldLayout
         if (kind is L3Kind.Tight or L3Kind.Wide && rng.Chance(0.3))
         {
             // (From layout version 9 a manhole two blocks long with a ladder up to its lip and a dry landing at its foot)
-            if (Version >= 9) AddManholeTunnel(b);
+            if (Version >= 9) AddManholeTunnel(b, Version >= 10);
             else AddFloodedTunnel(b);
         }
     }
@@ -809,7 +809,7 @@ public sealed partial class WorldLayout
     /// player's reach of the rungs is in the water (feet in the water and a hand on the rungs, the game moves no one
     /// sideways: the foot of the old ladder held people fast). Where no stretch of corridor fits there is no tunnel.
     /// </summary>
-    private static void AddManholeTunnel(Builder b)
+    private static void AddManholeTunnel(Builder b, bool joinTrunk = false)
     {
         static bool Plain(in Tile t) => t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && !t.Sealed && t.Stack == 0
             && t.Stair == 0 && t.Under == 0;
@@ -818,6 +818,8 @@ public sealed partial class WorldLayout
         bool bestWalled = false;
         for (int z = 1; z < MacroSize - 1 && !bestWalled; z++)
         {
+            // (From layout version 10 not within reach of the trunk tunnel's row, whose water must not lap the landing)
+            if (joinTrunk && Math.Abs(z - L3TrunkRow) <= 2) continue;
             int runStart = -1;
             for (int x = 1; x <= MacroSize - 1 && !bestWalled; x++)
             {
@@ -859,5 +861,29 @@ public sealed partial class WorldLayout
         // A half step up out of the water onto the landing, either side
         if (m.K - 2 >= m.Start) b.At(m.K - 2, m.Z).Zone = L3TunnelStep;
         b.At(m.K + 3, m.Z).Zone = L3TunnelStep;
+        // From layout version 10 the tunnel runs on, from the east end of its stretch, to the trunk tunnel of the cell
+        if (joinTrunk)
+            for (int z = Math.Min(m.Z, L3TrunkRow); z <= Math.Max(m.Z, L3TrunkRow); z++)
+            {
+                ref Tile t = ref b.At(m.End - 1, z);
+                if (t.Under == 0 && t.Kind is not (TileKind.Pit or TileKind.Water)) t.Under = 1;
+            }
+    }
+
+    /// <summary>The row (in each Level 3 cell) the trunk tunnel runs along, the same in every cell so the tunnel is continuous.</summary>
+    private const int L3TrunkRow = 4;
+
+    /// <summary>
+    /// Layout version 10: a flooded tunnel the whole width of the cell, under row <see cref="L3TrunkRow"/> (whatever is
+    /// above it), so that it meets the tunnel of the cell either side and runs on under the level; the manholes' own
+    /// stretches join it (<see cref="AddManholeTunnel"/>). Nothing is changed where the tile already has something below it.
+    /// </summary>
+    private static void AddL3TunnelNetwork(Builder b)
+    {
+        for (int x = 0; x < MacroSize; x++)
+        {
+            ref Tile t = ref b.At(x, L3TrunkRow);
+            if (t.Under == 0 && t.Kind is not (TileKind.Pit or TileKind.Water)) t.Under = 1;
+        }
     }
 }
