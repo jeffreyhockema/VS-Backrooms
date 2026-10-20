@@ -18,8 +18,8 @@
 		"*-east": { base: "block/car-{colour}", rotateY: 270 },
 		"*-west": { base: "block/car-{colour}", rotateY: 90 }
 	},
-	// Transparent pass: the tinted side glass shows the inside (seats, dashboard) through it
-	renderpass: "Transparent",
+	// Opaque cutout pass (a Transparent pass blended the whole body semi-transparent): the glass is a checkerboard mesh of tint that shows the inside
+	renderpass: "OpaqueNoCull",
 	sidesolid: { all: false },
 	sideopaque: { all: false },
 	lightAbsorption: 0,

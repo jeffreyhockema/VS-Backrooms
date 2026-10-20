@@ -1667,6 +1667,18 @@ def props_textures():
         save(img, f"block/level1/concretefloor-line{axis}.png")
 
 
+def cutout_glass(img, keep_alpha=False):
+    """Cars draw in an opaque (alpha-tested) pass so their bodies are solid: the tinted glass is a checkerboard of
+    opaque tinted texels and empty ones, so the seats still show through. Marks drawn with partial alpha (reflections, cracks) turn opaque; keep_alpha leaves texels already empty."""
+    px = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            r, g, b, a = px[x, y]
+            if keep_alpha and a == 0:
+                continue
+            px[x, y] = (r, g, b, 255 if (x + y) % 2 == 0 or a != 255 else 0)
+
+
 def parking_textures():
     for axis in ("we", "ns"):
         img = concrete_floor("plain", 1)
@@ -1688,9 +1700,10 @@ def parking_textures():
         blotch(img, (8, 24), 7, (90, 80, 70), 0.35, 22)  # dust and grime
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 440)
-    glass.putalpha(104)  # tinted, so the interior shows through (the car blocktype is a Transparent pass)
+    glass.putalpha(255)
     d = ImageDraw.Draw(glass)
     d.line([4, 2, 14, 12], fill=(70, 84, 92, 170), width=2)  # reflection
+    cutout_glass(glass)  # the car is an opaque pass: the glass is a fine mesh of tint, not blended alpha
     save(glass, "block/level1/car-glass.png")
     car_wreck_textures()
 
@@ -1710,7 +1723,7 @@ def car_wreck_textures():
                 blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (92, 88, 82), 0.5, 480 + k)
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 441)
-    glass.putalpha(120)
+    glass.putalpha(255)
     d = ImageDraw.Draw(glass)
     cx, cy = 20, 12
     rng = random.Random(442)
@@ -1721,6 +1734,7 @@ def car_wreck_textures():
     for r in (3, 6):
         d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 200))
     d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 0))  # the hole (nothing there)
+    cutout_glass(glass, keep_alpha=True)
     save(glass, "block/level1/car-glass-broken.png")
     seat = noise_fill(hexrgb(0x4A3426), 6, 443)
     d = ImageDraw.Draw(seat)

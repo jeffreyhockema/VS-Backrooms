@@ -255,18 +255,32 @@ def dial_face(r):
 
 
 def door_plate():
-    """The NO ENTRY plate on the steel door's upper leaf: 19 x 12 px, black on yellow, two lines."""
+    """The NO ENTRY plate on the steel door's upper leaf: a red plate with a white rim, the white bar of the no-entry
+    roundel across its middle and NO above, ENTRY below, in white. The plate is 12.5 x 8 units and shows the whole
+    texture (uv 0 0 12.5 16 in `l1props.steel_door`), so 25 x 32 px: 2 px per unit across, 4 down. Each letter is the
+    3x5 face drawn two rows to a pixel, so every stroke is half a unit thick."""
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    rect(img, 0, 0, 18, 11, (216, 178, 34))
-    for x in range(19):
-        M.touch(img, x, 0, 0.1)
-    word(img, "NO", 6, 2, (24, 24, 22))
-    word(img, "ENTRY", 2, 7, (24, 24, 22))
-    for y in range(12):
-        M.touch(img, 0, y, 0.08)
-        M.touch(img, 18, y, -0.12)
-    for x in range(19):
-        M.touch(img, x, 11, -0.18)
+    W = 25
+    red, white = (178, 28, 30), (238, 236, 228)
+    rect(img, 0, 0, W - 1, S - 1, white)
+    rect(img, 1, 1, W - 2, S - 2, red)
+    px = img.load()
+
+    def tall(s, x, y):
+        for c in s:
+            for j, row in enumerate(FONT[c]):
+                for i, v in enumerate(row):
+                    if v == "1":
+                        px[x + i, y + 2 * j] = px[x + i, y + 2 * j + 1] = rgb(white)
+            x += len(FONT[c][0]) + 1
+    tall("NO", 9, 2)
+    rect(img, 2, 14, W - 3, 17, white)
+    tall("ENTRY", 3, 20)
+    for x in range(W):
+        M.touch(img, x, 0, 0.06)
+        M.touch(img, x, S - 1, -0.18)
+    for y in range(S):
+        M.touch(img, W - 1, y, -0.12)
     return img
 
 
