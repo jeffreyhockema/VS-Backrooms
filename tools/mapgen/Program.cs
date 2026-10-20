@@ -93,6 +93,7 @@ if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
 // manholes [maps]: Level 3's manholes round the level's arrival, <cells> across: the way in, the ladder, its foot (Manholes.cs)
 if (args.Length > 2 && args[2] == "manholes") { Manholes.Run(layout, seed, n, args.Length > 3 && args[3] == "maps"); return; }
+if (args.Length > 2 && args[2] == "tunnels") { Tunnels.Run(layout, n); return; }
 // shotgrid and feet: camera planning for the graphics pass's spot lists (ShotGrid.cs)
 if (args.Length > 2 && ShotGrid.Run(layout, args)) return;
 // Each of the levels kept as 14-20 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats), in its own file

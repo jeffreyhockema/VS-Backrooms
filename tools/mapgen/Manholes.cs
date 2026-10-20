@@ -290,3 +290,42 @@ static class Manholes
         Console.WriteLine($"  ladder side {(s0.Zone == 0 ? "north (old rungs)" : s0.Pier.ToString().ToLowerInvariant())}, x from {x0}");
     }
 }
+
+/// <summary><c>mapgen &lt;seed&gt; &lt;cells&gt; tunnels</c>: from each Level 3 manhole round the arrival, how many tunnel blocks (Under 1 or 2) are joined to it, by flood fill.</summary>
+static class Tunnels
+{
+    public static void Run(WorldLayout layout, int cells)
+    {
+        var a = layout.FindArrival(3, 99991UL);
+        if (a == null) { Console.WriteLine("no Level 3 arrival"); return; }
+        int amx = WorldLayout.MacroOf(a.Value.X), amz = WorldLayout.MacroOf(a.Value.Z);
+        var lens = new List<int>();
+        const int Cap = 5000;
+        bool Tun(int x, int z) { var t = layout.TileAt(x, z); return t.Level == 3 && (t.Under == 1 || t.Under == 2); }
+        for (int mz = amz - cells / 2; mz <= amz + cells / 2; mz++)
+            for (int mx = amx - cells / 2; mx <= amx + cells / 2; mx++)
+            {
+                if (layout.LevelAt(mx, mz) != 3) continue;
+                (int, int)? shaft = null;
+                for (int lz = 0; lz < WorldLayout.MacroSize && shaft == null; lz++)
+                    for (int lx = 0; lx < WorldLayout.MacroSize; lx++)
+                    {
+                        int gx = mx * WorldLayout.MacroSize + lx, gz = mz * WorldLayout.MacroSize + lz;
+                        var t = layout.TileAt(gx, gz);
+                        if (t.Under == 2 && t.Kind != TileKind.Wall) { shaft = (gx, gz); break; }
+                    }
+                if (shaft is not { } s) continue;
+                var seen = new HashSet<(int, int)> { s };
+                var q = new Queue<(int, int)>(); q.Enqueue(s);
+                while (q.Count > 0 && seen.Count < Cap)
+                {
+                    var (x, z) = q.Dequeue();
+                    foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                        if (Tun(x + dx, z + dz) && seen.Add((x + dx, z + dz))) q.Enqueue((x + dx, z + dz));
+                }
+                lens.Add(seen.Count);
+            }
+        lens.Sort();
+        Console.WriteLine($"layout version {layout.Version}: {lens.Count} manholes; reachable tunnel blocks min {lens.FirstOrDefault()}, p10 {lens[lens.Count / 10]}, median {lens[lens.Count / 2]}, p90 {lens[lens.Count * 9 / 10]}, max {lens.LastOrDefault()}; under 40: {lens.Count(l => l < 40)}; capped at {Cap}: {lens.Count(l => l >= Cap)}");
+    }
+}
