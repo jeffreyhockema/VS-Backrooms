@@ -1247,7 +1247,8 @@ def level10():
           "The mass of worms writhing a metre under Level 10. Digging into it is a mistake")
     name("wormmass", "Writhing Worms")
     prop("feedtrough", "Feed Trough", DP.feed_trough(),
-         box=(0, 0, 0.25, 1, 0.44, 0.75), sounds=WOOD, extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("game:drygrass", 1, 1))})
+         box=(0, 0, 0.25, 1, 0.44, 0.75), sounds=WOOD, extra={"drops": [{"type": "block", "code": "game:trough-genericwood-small-ns", "quantity": {"avg": 1, "var": 0}}]
+                            + drops(("game:drygrass", 1, 1))})  # (from layout version 10 a vanilla trough stands here)
     prop("toolrack", "Tool Rack", DP.tool_rack(),
          box=(0, 0, 0.7, 1, 1.75, 1), extra={"drops": drops(("game:hoe-copper", 0.3, 0), ("game:scythe-copper", 0.2, 0), ("game:shovel-copper", 0.2, 0),
                                                               ("game:rope", 0.5, 0.4))})

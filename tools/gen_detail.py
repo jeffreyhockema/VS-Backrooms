@@ -344,7 +344,9 @@ def exit_signs():
         "blockmaterial": "Glass", "drawtype": "json",
         "shapeByType": {"*-we": {"base": path, "rotateY": 0}, "*-ns": {"base": path, "rotateY": 90}},
         "sidesolid": {"all": False}, "sideopaque": {"all": False},
-        "collisionbox": None, "selectionbox": {"x1": 0.1, "y1": 0.05, "z1": 0.4, "x2": 0.9, "y2": 1, "z2": 0.6},
+        "collisionbox": None,
+        "selectionboxByType": {"*-we": {"x1": 0.1, "y1": 0.05, "z1": 0.4, "x2": 0.9, "y2": 1, "z2": 0.6},
+                               "*-ns": {"x1": 0.1, "y1": 0.05, "z1": 0.4, "x2": 0.9, "y2": 1, "z2": 0.6, "rotateY": 90}},
         "lightHsv": [0, 6, 5], "lightAbsorption": 0, "resistance": 1, "sounds": GLASS,
     }, "Double-sided EXIT sign hanging from the ceiling")
     name("exithanging-*", "EXIT Sign")
@@ -777,7 +779,10 @@ def level1():
         bx("Post3", (6.2, 1, 9.2), (6.8, 5.5, 9.8), "metaldark"), bx("Post4", (9.2, 1, 9.2), (9.8, 5.5, 9.8), "metaldark"),
         bx("Cap", (5.8, 5.5, 5.8), (10.2, 6.5, 10.2), "metaldark"), bx("Top", (7, 6.5, 7), (9, 7, 9), "metaldark"),
         bx("Handle", (7.6, 7, 7.8), (8.4, 9, 8.2), "metal")], box=(0.36, 0, 0.36, 0.64, 0.45, 0.64), oriented=False,
-         material="Metal", sounds=METAL, light=[8, 5, 11])
+         material="Metal", sounds=METAL, light=[8, 5, 11],
+         # From layout version 10 a camp holds vanilla's lantern; one left in an older world breaks into it
+         extra={"drops": [{"type": "block", "code": "game:lantern-small-up", "quantity": {"avg": 1, "var": 0},
+                           "attributes": {"material": "iron", "lining": "plain", "glass": "quartz"}}]})
     smoke = [{
         "hsvaColor": [{"avg": 0, "var": 0}, {"avg": 0, "var": 0}, {"avg": 70, "var": 20}, {"avg": 120, "var": 30}],
         "opacityEvolve": {"transform": "linear", "factor": -100}, "gravityEffect": {"avg": -0.01, "var": 0},

@@ -126,7 +126,14 @@ def shaped(folder, code, shape, material="Wood", sounds=WOOD, oriented=True, box
     })
     if box:
         x1, y1, z1, x2, y2, z2 = box
-        block["collisionbox"] = block["selectionbox"] = {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2}
+        cuboid = {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2}
+        square = abs(x1 - z1) + abs(x2 - z2) + abs(x1 + x2 - 1) < 1e-9  # a centred square looks the same turned
+        if oriented and not square:
+            # The box turns with the model: a desk facing east is long north to south, and so is the box round it
+            by_side = {f"*-{s}": dict(cuboid, rotateY=ROTATE[s]) if ROTATE[s] else dict(cuboid) for s in SIDES}
+            block["collisionboxByType"] = block["selectionboxByType"] = by_side
+        else:
+            block["collisionbox"] = block["selectionbox"] = cuboid
     block.update(extra)
     write(folder, code, block, comment)
 
