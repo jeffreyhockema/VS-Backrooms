@@ -834,10 +834,12 @@ def idle(animation, priority=1.2, min_ms=4000, max_ms=12000, cool_min=8000, cool
 def hound():
     animations = model_anims(anim("sniff", "sniff"), anim("howl", "howl"), anim("growl", "growl"), anim("scratch", "scratch"))
     tasks = [
-        # (Speeds compare with a player's 0.025 walking and 0.05 sprinting; the level's danger adds up to 30 %)
-        menace_task(walkSpeed=0.02, runSpeed=0.046, stalkMin=9, stalkMax=15, glimpseFleeDistance=16,
-                    damage=3.5, damageTier=2, damageType="SlashingAttack", knockback=0.35, attackRange=1.0,
-                    attackDurationMs=1000, damageAtMs=600, attackCooldownMs=1200, walkAnimation="walk", runAnimation="run",
+        # (Speeds compare with a player's 0.025 walking and 0.05 sprinting; the level's danger adds up to 30 %. Like a vanilla
+        # wolf in Level 1 (8 damage at tier 2, 15 health, a run a sprint cannot shake) and a bear (10 to 12) from Level 3;
+        # see docs/design/entity-difficulty.md)
+        menace_task(walkSpeed=0.022, runSpeed=0.05, stalkMin=9, stalkMax=15, glimpseFleeDistance=16,
+                    damage=7.2, damageTier=2, damageType="SlashingAttack", knockback=0.35, attackRange=1.0,
+                    attackDurationMs=1000, damageAtMs=600, attackCooldownMs=1100, walkAnimation="walk", runAnimation="run",
                     attackAnimation="attack", fearsFire=True, slowedByLight=True, retreatBelow=0.35, staredDown=True,
                     stalkSound="game:creature/wolf/growl*", huntSound="game:creature/wolf/howl*", attackSound="game:creature/wolf/attack*", soundRange=40,
                     # What it perceives (docs/design/entity-ai-overhaul/README.md section 6.1): hostile on sight, hears running
@@ -864,7 +866,7 @@ def hound():
         # (Which look, the director decides: mostly the common one, a quarter starved, now and then an old one)
         "client": common_client("backrooms:entity/hound", {"base": "backrooms:entity/hound",
                                                            "alternates": [{"base": "backrooms:entity/hound-starved"}, {"base": "backrooms:entity/hound-elder"}]}, animations),
-        "server": server(16, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1), drop("game:bone", 1)], menace={"maxEncounterSeconds": 300}),
+        "server": server(18, tasks, [drop("game:bushmeat-raw", 3, 1), drop("game:hide-raw-medium", 1), drop("game:bone", 1)], menace={"maxEncounterSeconds": 300}),
         "sounds": {"hurt": "game:creature/wolf/hurt", "death": "game:creature/wolf/hurt"},
     }
 
@@ -1016,8 +1018,8 @@ def tall_body(code, hitbox, eye, health, task, menace, drops, sounds, size=1.0, 
 def skinstealer():
     # It wears a person and has their hands: hunting someone shut in, out towards the edge of a level, it knocks on the
     # door and opens it (AiTaskMenace, opensDoors). A barred door it only knocks on; it fears fire.
-    task = menace_task(walkSpeed=0.016, runSpeed=0.034, stalkMin=10, stalkMax=16, glimpseFleeDistance=12,
-                       damage=7, damageTier=2, damageType="BluntAttack", knockback=0.5, attackRange=1.2,
+    task = menace_task(walkSpeed=0.016, runSpeed=0.036, stalkMin=10, stalkMax=16, glimpseFleeDistance=12,
+                       damage=10.6, damageTier=2, damageType="BluntAttack", knockback=0.5, attackRange=1.2,
                        attackDurationMs=1100, damageAtMs=650, attackCooldownMs=2000, attackAnimation="attack",
                        fearsFire=True, prefersHidden=True, retreatBelow=0.25, opensDoors=True,
                        voices=["backrooms:entity/cough", "game:player/hurt*", "backrooms:effect/whisper", "backrooms:entity/hello"],
@@ -1031,7 +1033,7 @@ def skinstealer():
     # The model stands 38.7 px; drawn at 0.92 it is 35.6 px (2.2 blocks), a head taller than a player, eyes at 2.05
     # (Health 34 to 51: 40 to 60 at Level 1, where the danger adds 17 %. Its second look, the fed one in its disguise, is
     # chosen by the director; the behaviour bleeds clear when struck, and a fed one says "hello?" now and then)
-    return tall_body("skinstealer", (0.8, 1.95), 2.05, 51, task,
+    return tall_body("skinstealer", (0.8, 1.95), 2.05, 55, task,
                      {"stalkSeconds": 180, "maxEncounterSeconds": 300, "bleedsClear": True,
                       "fedVoices": ["backrooms:entity/hello", "backrooms:entity/hello", "backrooms:entity/cough"]},
                      [drop("game:hide-raw-large", 1)], {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
@@ -1171,7 +1173,7 @@ def clump():
     # on health and 1.26 on damage, so the bases are 13 and 5.5). No eyes: it only hears (running is a noise of 0.4,
     # and several runners are heard from further off) and touches. Fed, it buries again within buryAfterFeedMs and
     # stays dormant for fedDormantSeconds.
-    tasks = [{"code": "backrooms-clump", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "reach": 1.3, "damage": 5.5,
+    tasks = [{"code": "backrooms-clump", "priority": 1.6, "mincooldown": 0, "maxcooldown": 0, "reach": 1.3, "damage": 6.5,
               "cooldownMs": 3000, "grabsBeforeLeaving": 2, "crawlSpeed": 0.028, "wakeRange": 4,
               "buryAfterFeedMs": 10000, "fedDormantSeconds": 60,
               "senses": dict(special="noiseOnly", hearing=14, touch=2.5),
@@ -1192,7 +1194,7 @@ def clump():
                                  # (Weighted well over the idle, which would otherwise pull the buried mass half up out of the floor)
                                  anim("dormant", "dormant", 1.0, weight=20), anim("emerge", "emerge", 1.0, weight=20),
                                  anim("die", "die", 1.0, weight=10, triggeredBy={"onControls": ["dead"]})], movable=False),
-        "server": server(13, tasks, menace={"stalkSeconds": 180}, movable=False),
+        "server": server(15, tasks, menace={"stalkSeconds": 180}, movable=False),
         "sounds": {"hurt": "game:effect/squish*", "death": "backrooms:effect/squelch"},
     }
 
@@ -1216,10 +1218,10 @@ def mangled():
 def bacteria():
     # Level 0's dark figures: seen far off down the halls, now and then following. It never hunts in the Lobby but
     # for someone who runs near the way out, and then it howls first. It rises out of the black mould where it appears.
-    # Its run is a little short of a sprint (it once outran one, and with nothing to make it give up, one hunt was
-    # death): a runner who keeps going pulls away, and the hunt itself is short (AiTaskMenace.Hunt, huntsInLobby).
-    task = menace_task(walkSpeed=0.022, runSpeed=0.046, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
-                       damage=6, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
+    # Its run in the Lobby's fright is a little short of a sprint (AiTaskMenace: x0.92 unless struck; it once outran one,
+    # and with nothing to make it give up, one hunt was death); struck, it comes at a sprint and hits hard: a runner who keeps going pulls away, and the hunt itself is short (AiTaskMenace.Hunt, huntsInLobby).
+    task = menace_task(walkSpeed=0.022, runSpeed=0.05, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
+                       damage=8, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
                        attackDurationMs=1000, damageAtMs=440, attackCooldownMs=1800, attackAnimation="attack",
                        prefersHidden=True, huntsInLobby=True, emergeAnimation="emerge", emergeMs=2500,
                        huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48,
@@ -1228,7 +1230,7 @@ def bacteria():
                        investigateSeconds=6, searchSeconds=8, retaliateSeconds=60)
     # The model stoops to 44 px (2.76 blocks), just under Level 0's ceiling; the hitbox is kept to a doorway's two
     # blocks, the head above it. Its long arms reach 1.6 blocks ahead.
-    return tall_body("bacteria", (0.7, 1.95), 2.5, 20, task, {"stalkSeconds": 120, "maxEncounterSeconds": 300}, None,
+    return tall_body("bacteria", (0.7, 1.95), 2.5, 30, task, {"stalkSeconds": 120, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "backrooms:entity/howl"},
                      idles=[idle("lurk", 1.15, 6000, 12000, 15000, 45000)],
                      extra_anims=[anim("emerge", "emerge", weight=10), anim("howl", "howl", weight=10)], weight=80)
@@ -1237,8 +1239,8 @@ def bacteria():
 def wretch():
     # Wanderers worn down by hunger, thirst and sleeplessness: a slow shamble, a sprint past yours, a bite. In
     # ones and twos wherever wanderers gather, and Level 8's feral dark; drawn to anyone starving.
-    task = menace_task(walkSpeed=0.018, runSpeed=0.046, stalkMin=8, stalkMax=14, glimpseFleeDistance=12,
-                       damage=3.5, damageTier=1, damageType="PiercingAttack", knockback=0.3, attackRange=0.9,
+    task = menace_task(walkSpeed=0.02, runSpeed=0.048, stalkMin=8, stalkMax=14, glimpseFleeDistance=12,
+                       damage=5.5, damageTier=1, damageType="PiercingAttack", knockback=0.3, attackRange=0.9,
                        attackDurationMs=1000, damageAtMs=430, attackCooldownMs=1400, attackAnimation="attack",
                        prefersHidden=True, retreatBelow=0.2, huntAnimation="snarl", huntAnimationMs=1200,
                        stalkSound="backrooms:entity/gurgle", huntSound="backrooms:entity/snarl",
@@ -1250,9 +1252,9 @@ def wretch():
                        senses=dict(sightLit=24, sightDim=12, sightDark=6, sightCone=90, hearing=20, fearSense=10, memorySeconds=8, trackSeconds=12, trackError=10),
                        investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,
                        # Its speed by look (texture 0 common, 1 early, 2 far-gone): the early ones are slower, the far-gone quicker
-                       lookSpeeds=[1.0, 0.9, 1.15])
+                       lookSpeeds=[1.0, 0.9, 1.2])
     # The model is 28.9 px hunched (1.8 blocks), the eyes at 1.6
-    return tall_body("wretch", (0.65, 1.8), 1.6, 16, task, {"stalkSeconds": 90, "maxEncounterSeconds": 300}, None,
+    return tall_body("wretch", (0.65, 1.8), 1.6, 18, task, {"stalkSeconds": 90, "maxEncounterSeconds": 300}, None,
                      {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
                      idles=[idle("huddle", 1.15, 6000, 12000, 20000, 60000), idle("gnaw", 1.2, 2000, 6000, 15000, 45000)],
                      looks=("early", "fargone"), extra_anims=[anim("snarl", "snarl", weight=10)], weight=60)

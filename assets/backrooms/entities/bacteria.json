@@ -129,8 +129,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 20,
-				"maxhealth": 20
+				"currenthealth": 30,
+				"maxhealth": 30
 			},
 			{
 				"code": "deaddecay",
@@ -157,11 +157,11 @@
 						"mincooldown": 0,
 						"maxcooldown": 0,
 						"walkSpeed": 0.022,
-						"runSpeed": 0.046,
+						"runSpeed": 0.05,
 						"stalkMin": 12,
 						"stalkMax": 20,
 						"glimpseFleeDistance": 18,
-						"damage": 6,
+						"damage": 8,
 						"damageTier": 2,
 						"damageType": "SlashingAttack",
 						"knockback": 0.6,

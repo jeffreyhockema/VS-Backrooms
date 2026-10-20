@@ -64,7 +64,7 @@ What danger `d` does:
 
 ## 3. New base stats (Level 0) and what they become
 
-Speeds are shares of a sprint; "hits" is how many land on an unarmoured player with 15 health.
+Speeds are shares of a sprint; "hits" is how many land on an unarmoured player with 15 health. (The Hound, Skin-Stealer, Wretch, Clump, Giant Spider and Bacteria rows are superseded by section 3b.)
 
 | Entity | Level | Speed | Damage | Hits | Health |
 | --- | --- | --- | --- | --- | --- |
@@ -92,6 +92,58 @@ Speeds are shares of a sprint; "hits" is how many land on an unarmoured player w
 
 The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since 2026-10-10) and The Thing are events and keep their own numbers.
 
+## 3b. Play-test pass: killable creatures as real threats (2026-10-20, batch P7)
+
+The first play-test found a Hound met in Level 0 that did not fight (even struck, with a stick), a Wretch that was easy
+to outrun, and Hounds that were "not a true threat". The vanilla yardsticks (assets/survival/entities/animal/mammal):
+
+| Vanilla | Health | Bite | Tier | Cooldown | Run |
+| --- | --- | --- | --- | --- | --- |
+| Wolf | 15 | 8 | 2 | 0.5 to 1.5 s (wind-up 0.9 s at x1.5 anim speed) | 0.045 chase, 0.052 flee |
+| Black bear | 44 | 10 | 2 | 1.5 s | 0.040 |
+| Brown bear | 64 | 12 | 2 | 1.5 s | 0.055 |
+| Polar bear | 66 | 16 | 2 | 1.5 s | 0.060 |
+
+Effective values (base x the level's danger multipliers of section 2; speed / damage per hit / health; a player has
+15 health and sprints at 0.05). Tier is 2, and 3 from Level 6.
+
+| Entity (base before, after) | Level | Before | After |
+| --- | --- | --- | --- |
+| Hound (run .046 -> .050, bite 3.5 -> 7.2, health 16 -> 18, cooldown 1.2 -> 1.1 s) | 1 | .048 / 4.0 / 19 | .052 / 8.2 / 21 (a wolf) |
+| | 3 | .051 / 4.9 / 24 | .055 / 10.1 / 27 (a black bear's bite, a brown bear's run) |
+| | 5 | .053 / 5.5 / 28 | .058 / 11.3 / 31 |
+| | 9 | .057 / 6.7 / 34 | .062 / 13.7 / 39 (tier 3) |
+| Skin-Stealer (run .034 -> .036, hit 7 -> 10.6, health 51 -> 55) | 1 | .035 / 7.9 / 60 | .037 / 12.0 / 64 (a brown bear) |
+| | 3 | .038 / 9.8 / 77 | .040 / 14.8 / 83 |
+| | 5 | .039 / 11.0 / 88 | .042 / 16.7 / 95 |
+| | 9 | .042 / 13.3 / 110 | .045 / 20.2 / 118 (tier 3) |
+| Wretch, common look (run .046 -> .048, bite 3.5 -> 5.5, health 16 -> 18) | 1 | .048 / 4.0 / 19 | .050 / 6.2 / 21 |
+| | 3 | .051 / 4.9 / 24 | .053 / 7.7 / 27 (outruns a sprint) |
+| | 5 | .053 / 5.5 / 28 | .055 / 8.6 / 31 |
+| | 9 | .057 / 6.7 / 34 | .060 / 10.5 / 39 |
+| Wretch, far-gone look (x1.15 -> x1.2) | 3 | .059 / 4.9 / 24 | .064 / 7.7 / 27 |
+| | 9 | .066 / 6.7 / 34 | .072 / 10.5 / 39 |
+| Clump (grab 5.5 -> 6.5, health 13 -> 15; crawls at .028) | 1 | 6.2 / 15 | 7.4 / 18 |
+| | 3 | 7.7 / 20 | 9.1 / 23 |
+| | 5 | 8.6 / 22 | 10.2 / 26 |
+| | 9 | 10.5 / 28 | 12.4 / 32 |
+| Giant Spider (bite 3.5 -> 4.5, plus the venom; health 20, run .050) | 1 | .052 / 4.0 / 23 | .052 / 5.1 / 23 |
+| | 5 | .058 / 5.5 / 35 | .058 / 7.1 / 35 |
+| | 9 | .062 / 6.7 / 43 | .062 / 8.6 / 43 |
+| Bacteria (Level 0, danger 0; run .046 -> .050, hit 6 -> 8, health 20 -> 30) | 0 | .046 / 6.0 / 20 | .050 (x0.92 in the Lobby's fright, a full sprint once struck) / 8.0 / 30 |
+
+Unchanged: the Death Rat, Deathmoths, Smilers, Dullers, the Partygoer (Fun, danger .9: claw 4 x 1.99 = 8, health
+30 x 2.26 = 68, a slow 0.031 walk: already past the Hound's bite there) and the events. The Hound stays killable
+(18 health base against a wolf's 15) because the player has no armour to speak of, and its counters stay: a torch or
+lantern slows it, fire wards it, a steady stare buys a few seconds (unless it is struck), doors stop it.
+
+Why a candle seemed to scare them: it did not, in code (it gives light 7, under the 8 and 10 thresholds; held light
+only widens what a creature sees). The Hound's `slowedByLight` slowed it to 70 % whenever the player was not in the
+dark, and the Level 0 halls are lit, so it was slow with or without a candle; and a struck Hound still obeyed the
+stare-down (a player facing it, as one does with a stick, held it back) and its hunt was refused by the Lobby rules
+(no hunting outside the Red Rooms) once it lost track, while the Bacteria's hunt was called off at the first wound
+unless it already counted as provoked. All fixed in `AiTaskMenace.cs`.
+
 ## 4. Skill: what keeps you alive now
 
 - **Running only works early.** From Level 3 a Hound outruns you, and running is what turns a stalker into a hunter.
@@ -99,9 +151,12 @@ The Mangled (5, plus being lifted 7 blocks and dropped; slower than a walk since
   hunter goes back to following and will not hunt again for a minute. The Lobby's Bacteria hunts only while you keep
   running near the way out: walk for four seconds, head back towards the heart, take one blow, or last 25 seconds,
   and it sinks back into the mould (strike it and it fights, bounded only by the 20 seconds).
-- **Light** still slows Hounds to 70 % and keeps Smilers and rats back. **Fire** still wards off Hounds,
+- **Light**: a torch or lantern in hand (light 10 or more; not a candle, which is 7, and not the lit halls) slows Hounds to 70 %; Smilers stay out of light 8 or more, and rats keep clear of a carried torch (10). A candle scares nothing. **Fire** still wards off Hounds,
   Skin-Stealers, rats and moths.
-- **Stare a Hound down** for a few seconds' grace.
+- **Stare a Hound down** for a few seconds' grace (not one you have struck: that one fights).
+- **Struck, it fights** (2026-10-20): anything killable that is hit turns on the striker and stays on it (no stare-down,
+  no Lobby call-off, no band or sanctuary rule, patience restarted), knowing where they are while they stay within 16
+  blocks, for `retaliateSeconds` (60) after the last blow.
 - **Doors**: nothing hostile opens one but the Skin-Stealer (2026-10-10): hunting someone shut in, out towards the
   edge of a level or worse, it knocks on the nearest door near them, waits two seconds, and opens it. A door barred
   from the inside (a vanilla bar lock) only gets the knock; fire keeps it away from the door altogether.

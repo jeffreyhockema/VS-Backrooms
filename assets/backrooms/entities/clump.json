@@ -125,8 +125,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 13,
-				"maxhealth": 13
+				"currenthealth": 15,
+				"maxhealth": 15
 			},
 			{
 				"code": "deaddecay",
@@ -151,7 +151,7 @@
 						"mincooldown": 0,
 						"maxcooldown": 0,
 						"reach": 1.3,
-						"damage": 5.5,
+						"damage": 6.5,
 						"cooldownMs": 3000,
 						"grabsBeforeLeaving": 2,
 						"crawlSpeed": 0.028,
