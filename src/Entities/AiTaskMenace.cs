@@ -91,6 +91,9 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>The longest a hunt in the Lobby lasts (see <see cref="huntsInLobby"/>).</summary>
     private const long LobbyHuntMs = 25_000;
 
+    /// <summary>The light in hand (a torch is 14, a candle 7) that slows what is slowed by light.</summary>
+    private const int TorchLight = 10;
+
     /// <summary>How long (seconds, in all) a glimpse must have seen its target before it turns to a stalk (see <c>glimpseTurnsToStalk</c>).</summary>
     private const float GlimpseSeenSeconds = 2;
 
@@ -389,7 +392,7 @@ public class AiTaskMenace : AiTaskBase
 
         // Whatever it is doing, it gives up on someone who reaches a sanctuary, and the hurt ones run
         bool provoked = EntityBehaviorFaceling.Provoked(entity);
-        if (a.Band == MenaceBand.Safe && kind != Encounter.Glimpse && !provoked || retreatBelow > 0 && HealthFraction() < retreatBelow)
+        if (a.Band == MenaceBand.Safe && kind != Encounter.Glimpse && !provoked && !huntProvoked || retreatBelow > 0 && HealthFraction() < retreatBelow)
         {
             Kind = Encounter.Leave;
             return true;
@@ -456,7 +459,7 @@ public class AiTaskMenace : AiTaskBase
         if (kind == Encounter.Hunt)
         {
             huntSinceMs = lastBloodMs = entity.World.ElapsedMilliseconds;
-            huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000;
+            huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000 || retaliationStartMs >= 0;
             // (A hunt the director put down, rather than one that came of following, investigating, searching or a blow)
             sentHunt = before == (Encounter)(-1) && !huntProvoked && retaliationStartMs < 0;
             nextSentReseedMs = huntSinceMs + SentReseedMs;
@@ -599,6 +602,7 @@ public class AiTaskMenace : AiTaskBase
     private bool ShouldTurnToHunt(double distance, MenaceSystem.Assessment a)
     {
         if (!CanHunt(distance, a)) return false;
+        if (retaliationStartMs >= 0 && !lightBound) return true;
         double believedDistance = Perceives ? entity.Pos.DistanceTo(Believed) : distance;
         Random rand = entity.World.Rand;
         if (lightBound)
@@ -622,6 +626,9 @@ public class AiTaskMenace : AiTaskBase
     /// </summary>
     private bool CanHunt(double distance, MenaceSystem.Assessment a)
     {
+        // Struck, it fights: no band, Lobby or calm rules hold it back from whoever hurt it (only a way through, and knowing where they are)
+        if (retaliationStartMs >= 0 && !menace.Passive && !menace.Harmless && !NoPathLately && !IsCreative(target))
+            return !Perceives || Confidence(entity.World.ElapsedMilliseconds) > HuntConfidence;
         if (menace.Passive || menace.Harmless || a.Band < MenaceBand.Approach || NoPathLately) return false;
         // Lately given up on them (see Hunt)
         if (entity.World.ElapsedMilliseconds < calmUntilMs) return false;
@@ -699,7 +706,8 @@ public class AiTaskMenace : AiTaskBase
             }
         }
 
-        if (hasNerve && StaredDown(distance)) return;
+        // (Not one it was struck into: a Hound that is hit fights, whoever stares)
+        if (hasNerve && !huntProvoked && StaredDown(distance)) return;
 
         // A Smiler held in someone's gaze, who neither runs nor looks away, freezes
         if (gazeHolds && runningFor == 0 && Starer(48) != null)
@@ -757,7 +765,10 @@ public class AiTaskMenace : AiTaskBase
         }
 
         float speed = runSpeed;
-        if (slowedByLight && !Senses.InDark(target)) speed *= 0.7f;
+        // (A torch or a lantern in hand slows it; a candle, or the lit halls themselves, do not)
+        if (slowedByLight && Senses.HeldLight(target) >= TorchLight) speed *= 0.7f;
+        // The Lobby's fright is a little short of a sprint; struck, it comes in earnest
+        if (huntsInLobby && a.Level == 0 && !a.Worst && !huntProvoked) speed *= 0.92f;
         // A new path when there is none or the prey has moved on (as vanilla's seek does); otherwise steer the old one at it
         // (It goes to where it believes them to be: there, and nobody, it waits for the search above)
         if (Perceives && believedDistance < ArriveWithin)
@@ -861,6 +872,9 @@ public class AiTaskMenace : AiTaskBase
         // Put down for them, it was sent to about where they are
         if (belief.AtMs < 0) belief.Take(target.Pos.XYZ, SeedConfidence, Contact.Sensed, now, senses.MemorySeconds);
         seen = Perception.Perceive(entity, target, senses, belief, director.Noises, now);
+        // Struck, it knows where whoever hurt it is while they stay near (a grudge, bounded by retaliateSeconds): it does not lose them in a corner of the eye
+        if (kind == Encounter.Hunt && huntProvoked && retaliationStartMs >= 0 && entity.Pos.DistanceTo(target.Pos) < GrudgeRange)
+            belief.Take(target.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
         ShareBelief(now);
         if (kind == Encounter.Stalk) Track(now);
         if (kind == Encounter.Hunt && sentHunt) HeadStart(now);
@@ -923,6 +937,9 @@ public class AiTaskMenace : AiTaskBase
     }
 
     private const long SentReseedMs = 2000;
+
+    /// <summary>How near (blocks) someone who struck it must stay for it to keep knowing where they are.</summary>
+    private const double GrudgeRange = 16;
     private const double SentHuntBelief = 0.7;
 
     /// <summary>A vague belief's strength, and the confidence below which a stalker gets one: under the hunt's threshold.</summary>
@@ -1791,6 +1808,9 @@ public class AiTaskMenace : AiTaskBase
             passiveBeforeRetaliation = menace.Passive;
         }
         retaliationStartMs = now;
+        // Struck, it fights: no Lobby call-off, no stare-down, no sanctuary, and patience starts afresh
+        huntProvoked = true;
+        lastBloodMs = now;
         if (menace.Target?.EntityId != cause.EntityId) ResetBelief();
         menace.Target = cause;
         if (Perceives) belief.Take(cause.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);

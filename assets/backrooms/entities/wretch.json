@@ -136,8 +136,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 16,
-				"maxhealth": 16
+				"currenthealth": 18,
+				"maxhealth": 18
 			},
 			{
 				"code": "deaddecay",
@@ -163,12 +163,12 @@
 						"priorityForCancel": 1.6,
 						"mincooldown": 0,
 						"maxcooldown": 0,
-						"walkSpeed": 0.018,
-						"runSpeed": 0.046,
+						"walkSpeed": 0.02,
+						"runSpeed": 0.048,
 						"stalkMin": 8,
 						"stalkMax": 14,
 						"glimpseFleeDistance": 12,
-						"damage": 3.5,
+						"damage": 5.5,
 						"damageTier": 1,
 						"damageType": "PiercingAttack",
 						"knockback": 0.3,
@@ -208,7 +208,7 @@
 						"lookSpeeds": [
 							1.0,
 							0.9,
-							1.15
+							1.2
 						]
 					},
 					{

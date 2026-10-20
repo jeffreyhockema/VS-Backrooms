@@ -648,6 +648,54 @@ def t_p4_watcher_fires(c):
 
 P26_CASES = [("p2-fed-stealer", t_p2_fed_stealer), ("p4-strider-fear", t_p4_strider_fear), ("p4-watcher-fires", t_p4_watcher_fires)]
 
+# ---------------------------------------------------------------- P7 combat (group p7)
+
+def _struck_fights(c, code, kind):
+    # Level 0 (the Lobby: nothing hunts there), the dummy carrying a candle (light 7): struck, the creature must go to Hunt
+    # and stay there (no stare-down, no Lobby call-off, no Leave), whatever it was doing.
+    e = None
+    for _ in range(4):
+        try:
+            e = Enc(c, code, kind, 5, light=7, level="0")
+            break
+        except RuntimeError:
+            c.reset()
+    if e is None:
+        return None, "no Level 0 spot"
+    e.wait_for(lambda: e.dist() is not None, 8)
+    time.sleep(2)
+    before = e.changes()
+    e.mark2 = c.srv.mark()
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms strike 2")
+    r = c.srv.wait(lambda l: ("health" in l.lower() and l) or ("No living" in l and l) or ("No Backrooms" in l and l), m, 8)
+    time.sleep(12)
+    after = [k for k in e.kinds()]
+    hunted = ("Hunt" in [k[1] for k in after])
+    bad_lines = [l for l in e.lines() if "stared down" in l or "gives up" in l or "nerve" in l]
+    last = after[-1][1] if after else "?"
+    ev = "strike reply %r; kinds %s; last %s; stare/give-up lines %d" % ((r or "")[-70:], e.changes() or "none", last, len(bad_lines))
+    e.finish()
+    return hunted and last == "Hunt" and not bad_lines and bool(r) and "No " not in (r or ""), ev
+
+
+def t_p7_hound_struck(c):
+    # (A spot where the pathfinder finds no way to the dummy drops any hunt to Stalk, struck or not: try three spots)
+    for _ in range(3):
+        ok, ev = _struck_fights(c, "hound", "stalk")
+        if ok:
+            break
+    return (False, ev) if ok is None else (ok, ev)
+
+
+def t_p7_bacteria_struck(c):
+    ok, ev = _struck_fights(c, "bacteria", "stalk")
+    return (False, ev) if ok is None else (ok, ev)
+
+
+P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_bacteria_struck)]
+
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -683,6 +731,8 @@ def main():
         only = (only - {"p1"}) | {n for n, _ in P1_CASES}
     if only and "p26" in only:
         only = (only - {"p26"}) | {n for n, _ in P26_CASES}
+    if only and "p7" in only:
+        only = (only - {"p7"}) | {n for n, _ in P7_CASES}
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
@@ -694,7 +744,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

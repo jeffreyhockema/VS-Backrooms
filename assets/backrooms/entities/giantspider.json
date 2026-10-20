@@ -192,7 +192,7 @@
 							"sneakFactor": 0.55
 						},
 						"attackRange": 0.55,
-						"damage": 3.5,
+						"damage": 4.5,
 						"damageTier": 2,
 						"knockback": 0.4,
 						"attackDurationMs": 900,

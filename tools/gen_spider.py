@@ -543,7 +543,7 @@ def entity(anim, common_client, server, drops=None):
             # shrinks it to 55 %), a racket or a runner within 20. A loud noise (0.5) within 24 blocks of its nest's
             # heart wakes the whole nest (MenaceSystem.NestHeard)
             "senses": {"touch": 5.0, "hearing": 20, "sneakFactor": 0.55},
-            "attackRange": 0.55, "damage": 3.5, "damageTier": 2, "knockback": 0.4,
+            "attackRange": 0.55, "damage": 4.5, "damageTier": 2, "knockback": 0.4,
             "attackDurationMs": 900, "damageAtMs": 450, "attackCooldownMs": 1500, "rearMs": 900,
             "venom": 0.5, "venomTicks": 5, "venomEveryMs": 1200, "retreatBelow": 0.25, "mendPerSecond": 0.25,
             "chitterSound": "backrooms:entity/chitter", "hissSound": "backrooms:entity/spiderhiss", "biteSound": "backrooms:entity/spiderbite"}
