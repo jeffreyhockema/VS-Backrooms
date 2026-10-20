@@ -118,7 +118,7 @@ The ground under the floors is also an ordinary world's: rock strata, caves and 
 Iron ore is plentiful in Level 8, but a [bloomery](search:bloomery) is built of fire bricks, and the ground under the levels holds no fire clay. **The only fire clay in the Backrooms is in Level 94:** dig down through the hills, and three to seven blocks under the turf, over much of the ground, run pale seams of it, five blocks thick. Bring a shovel and bags, dig by day, and carry it home: a bloomery base and chimney want a few dozen bricks. From there iron is made exactly as the other guides say, with Level 8's limonite, hematite and magnetite and its coal, and the bloomery also makes glass from Level 8's quartz. Until then, iron comes only as finds: the odd tool in a toolbox or a deep cache, and the wanderers' trade.
 
 **Steel Age**
-Steel is the same long road as anywhere: a cementation furnace of refractory bricks (some 65 of them, so a great deal of Level 94's fire clay), coke from a coke oven of the same bricks, and an iron anvil. Nothing about the process is different here; only the clay has to be fetched from a world of stop-motion hills, and carried past the Animations by night.
+Steel is the same long road as anywhere: a cementation furnace of refractory bricks (some 65 of them, so a great deal of Level 94's fire clay), coke from a coke oven of the same bricks, and an iron anvil. Nothing about the process is different here; only the clay has to be fetched from a world of stop-motion hills, and carried past the Animations by night, and the sand for the bricks' mortar dived for on the floor of Level 7's sea.
 
 **Salt, lime, leather**
 Level 8's limestone and chalk grind to lime in a quern, and its halite to salt; the seashells on Level 7's islands grind to lime too. There is a quern in the barns of Level 10, or make one from Level 8's hard rock. Hides come from the wildlife of Level 9, the livestock of Level 10, and what hunts you.
@@ -420,7 +420,7 @@ The distances on this page are for the usual *Backrooms level size*. That world 
 
 **Level 6.1, the Snackrooms.** Sealed food courts, bright and safe, their machines and shelves full and refilling. Some shops are heaped to the ceiling with dead vending machines; only the one in the doorway still works. You cannot walk in, and nearly every door out shuts behind you.
 
-**Level 7, Thalassophobia.** A cold sea (12 °C, 6 °C under water) under a high concrete ceiling, in a dim light that comes from nowhere and is the same at every hour; it fades as you dive, and the midnight zone is dark. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom. The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long.
+**Level 7, Thalassophobia.** A cold sea (12 °C, 6 °C under water) under a high concrete ceiling, in a dim light that comes from nowhere and is the same at every hour; it fades as you dive, and the midnight zone is dark. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom, and a floor of sand (the Backrooms' only sand to speak of, and so the mortar for fire bricks). The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long.
 
 **The entry rooms** hang from the ceiling in piers of concrete: a study with a bookcase, a coffee table and a chair, its carpet soaked, the stairs from Level 6 coming down into it, and across from them a doorway onto the sea five blocks above the water. A rope ladder hangs from the doorway into the water: the way back up.
 
@@ -430,7 +430,7 @@ The distances on this page are for the usual *Backrooms level size*. That world 
 
 **Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds and Skin-Stealers, the Striders of the Neighborhood Watch walking the streets (they see a light from far off), and once in a long while the Mangled.
 
-**Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay, bee skeps, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Hounds at its edge, Clumps by the barns.
+**Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay (and a little sand on the bed of a few), bee skeps, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Hounds at its edge, Clumps by the barns.
 
 **Level 11, the Endless City.** Not a ring: far out past the fields, reached through a barn wall. Safe on the streets, and they restore you (the subway drains, and Dullers live in it). Stores full of food, tools and clothes, diners, a subway, Almond Water everywhere, wanderers, and ways to almost every level: see [Ways Between Levels](backrooms-thresholds). Nothing attacks unless you start it.
 """)
@@ -797,11 +797,11 @@ BRIDGES["animalhusbandry"] = """
 """
 
 BRIDGES["panning"] = """
-**In the Backrooms:** there is almost nothing to pan. No sand or gravel lies under the floors; the only gravel is the surface of Level 8's road and the park paths of the city, and the muddy gravel of the pond beds will not pan. Copper comes far more easily from salvage: see the [Progression Guide](craftinginfo-progressionguide).
+**In the Backrooms:** there is almost nothing to pan. No sand or gravel lies under the floors; the only gravel is the surface of Level 8's road and the park paths of the city, and the muddy gravel of the pond beds will not pan. The one place with sand to pan is the floor of Level 7's sea (worlds made from 0.514.0), and a few of Level 10's ponds have a little. Copper comes far more easily from salvage: see the [Progression Guide](craftinginfo-progressionguide).
 """
 
 BRIDGES["smelting"] = """
-**In the Backrooms:** the crucible and moulds need clay (Level 3's tunnel, Level 10's ponds, Level 94), and the heat needs coal (heaped by Level 3's generators and in Level 5's boiler halls) or charcoal (crates, grills, or your own pit). Copper comes as bits from cable spools, machine cabinets, stacked pipes, fans and wrecked cars rather than from ore: 20 metal bits = 1 ingot, and 10 scrap wire or 10 circuit boards melt to a copper ingot too. Ore proper is in Level 8 and in the ground under the floors. Tongs are made as usual. Iron ore needs a bloomery, and the bloomery needs fire bricks: the fire clay for them is in Level 94, and nowhere else.
+**In the Backrooms:** the crucible and moulds need clay (Level 3's tunnel, Level 10's ponds, Level 94), and the heat needs coal (heaped by Level 3's generators and in Level 5's boiler halls) or charcoal (crates, grills, or your own pit). Copper comes as bits from cable spools, machine cabinets, stacked pipes, fans and wrecked cars rather than from ore: 20 metal bits = 1 ingot, and 10 scrap wire or 10 circuit boards melt to a copper ingot too. Ore proper is in Level 8 and in the ground under the floors. Tongs are made as usual. Iron ore needs a bloomery, and the bloomery needs fire bricks: the fire clay for them is in Level 94, and nowhere else, and the mortar to lay them wants sand: it lies on the floor of Level 7's sea, with a little in some of Level 10's ponds (worlds made from 0.514.0).
 """
 
 BRIDGES["smithing"] = """
@@ -821,11 +821,11 @@ BRIDGES["mechanicalpower"] = """
 """
 
 BRIDGES["steelmaking"] = """
-**In the Backrooms:** refractory bricks need fire clay, and the only fire clay in the Backrooms is in the seams under Level 94's hills, three to seven blocks down. A cementation furnace wants some 65 bricks, so plan several trips with bags; the iron and the coal come from Level 8. Everything else is as usual.
+**In the Backrooms:** refractory bricks need fire clay, and the only fire clay in the Backrooms is in the seams under Level 94's hills, three to seven blocks down. A cementation furnace wants some 65 bricks, so plan several trips with bags; the iron and the coal come from Level 8. The bricks are laid in mortar (slaked lime and sand): sand lies thick on the floor of Level 7's sea, so plan a dive, and a few of Level 10's ponds have a little on the bed (worlds made from 0.514.0). Everything else is as usual.
 """
 
 BRIDGES["cokeoven"] = """
-**In the Backrooms:** the coke oven is built of refractory bricks, whose fire clay comes only from the seams under Level 94's hills. Coal itself is plentiful: Level 3's generators, Level 5's boilers and Level 8's seams.
+**In the Backrooms:** the coke oven is built of refractory bricks, whose fire clay comes only from the seams under Level 94's hills and whose mortar wants sand, from the floor of Level 7's sea (or, a little, some of Level 10's ponds; worlds made from 0.514.0). Coal itself is plentiful: Level 3's generators, Level 5's boilers and Level 8's seams.
 """
 
 BRIDGES["weather"] = """

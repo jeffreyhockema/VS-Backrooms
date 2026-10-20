@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vintagestory.API.Common;
 
 namespace Backrooms.Worldgen;
@@ -45,6 +46,8 @@ public sealed partial class WorldGenerator
     /// <summary>Mineral blocks by stratum and mineral, 0 where vanilla has none.</summary>
     private int[,] mineralIds;
     private int gravelId, clayId, carpetSeamId, wallpaperSeamId;
+    /// <summary>Vanilla sand by rock (all of them in the mortar recipe's list), for Level 7's sea floor and Level 10's ponds (layout version 10).</summary>
+    private int[] sandIds = Array.Empty<int>();
 
     // Levels 9 and 10
     private int asphaltId, asphaltLeavesId, asphaltWetId, sidewalkId, lawnId, bareSoilId, logId, leavesId, wormId, lakeBedId;
@@ -174,6 +177,7 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.Gravel] = gravelId;
         for (int f = 0; f < 4; f++) roadLampArmIds[f] = Id($"roadlamparm-{Sides[f]}");
         clayId = GameId("game:rawclay-blue-none", "game:rawclay-red-none");
+        sandIds = new[] { "limestone", "sandstone", "chalk", "granite" }.Select(r => OptionalId($"game:sand-{r}")).Where(i => i != 0).ToArray();
         carpetSeamId = BlockId("backrooms:carpet-normal");
         wallpaperSeamId = BlockId("backrooms:wallpaper-chevron-upper");
         InitCaves(); // the living detail of Levels 7 and 8 (WorldGenerator.Caves.cs)
@@ -509,8 +513,23 @@ public sealed partial class WorldGenerator
             if (rel <= bed + 4 && SeabedGrowth(t, gx, gz, rel, bed) is int growth and >= 0) return growth;
             return rel == bed + 1 && t.Variant != 0 && t.Variant != Props.Kelp ? AnyProp(t, 1) : rel == bed + 1 && t.SupplyBox ? BoxOf(t) : 0;
         }
-        if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : seabedId;
+        if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : SeaFloor(t, gx, gz);
         return concreteId;
+    }
+
+    /// <summary>
+    /// The floor of the open sea. From layout version 10 it is sand (the Backrooms' only, so the mortar, and with it the
+    /// refractory brick, is within reach of a dive), a kind to a patch, with outcrops of the islands' rock and a fringe of
+    /// gravel round them; before that, soaked carpet.
+    /// </summary>
+    private int SeaFloor(in Tile t, int gx, int gz)
+    {
+        if (layout.Version < 10 || sandIds.Length == 0) return seabedId;
+        double outcrop = Noise2(gx / 9.0, gz / 9.0, SaltShallows + 5);
+        if (outcrop > 0.5) return islandRockId;
+        if (outcrop > 0.38 && gravelId != 0) return gravelId;
+        double kind = Noise2(gx / 40.0, gz / 40.0, SaltShallows + 6) * 0.5 + 0.5;
+        return sandIds[Math.Min((int)(kind * sandIds.Length), sandIds.Length - 1)];
     }
 
     /// <summary>
@@ -1182,6 +1201,10 @@ public sealed partial class WorldGenerator
             if (rel > 0) return 0;
             if (rel > -t.Depth) { fluid = waterId; return 0; }
             // The pond bed: mud, with banks of clay in places; the worms keep clear of the water
+            // (From layout version 10 a few ponds have a patch of sand on the bed, the little a player can scrape up
+            // before the dive to Level 7's sea floor)
+            if (rel == -t.Depth && layout.Version >= 10 && sandIds.Length > 0 && Noise2(gx / 14.0, gz / 14.0, SaltPool + 11) > 0.62
+                && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltPool + 12)) < 0.5) return sandIds[0];
             if (rel == -t.Depth && clayId != 0 && Noise2(gx / 5.0, gz / 5.0, SaltPool + 7) > 0.15) return clayId;
             return rel >= -6 ? lakeBedId : concreteId;
         }
