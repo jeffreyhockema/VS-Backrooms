@@ -146,12 +146,12 @@ def steel_door(part):
         hw.append(b("LockCyl", (2.95, 7.4, -0.8), (3.65, 8.6, -0.5), "brass", faces=NOSOUTH))
     else:
         hw.append(b("RailT", (1.55, 14.5, -0.5), (14.45, 16, 0), fr, faces=("north", "down")))
-        bead, _ = K.frame_members("Bead", 4.5, 8.0, 11.5, 14.25, -0.75, 0, 0.5, fr)
+        bead, _ = K.frame_members("Bead", 4.5, 9.6, 11.5, 14.25, -0.75, 0, 0.5, fr)
         for e in bead:
             e["faces"].pop("south", None)
         hw += bead
-        hw.append(b("Glass", (5, 8.5, -0.35), (11, 13.75, -0.2), "l1wired", faces=("north",)))
-        hw.append(b("Plate", (3.25, 1.0, -0.5), (12.75, 7.0, 0), mat(front="l1doorplate", all="l1yellow"), faces=NOSOUTH))
+        hw.append(b("Glass", (5, 10.1, -0.35), (11, 13.75, -0.2), "l1wired", faces=("north",)))
+        hw.append(b("Plate", (1.75, 1.0, -0.5), (14.25, 9.0, 0), mat(front="l1doorplate", all="l1steeldark"), faces=NOSOUTH, uv=[0, 0, 12.5, 16]))
         hw += K.hinge("HingeA", 15.2, 10.0, 13.0, 0, tex="l1steeldark", side="right")
     els = [b("Leaf", (0, 0, 0), (16, 16, 16), f"metaldoor-{part}", uv=[0, 0, 16, 16])]
     for i in range(4):
