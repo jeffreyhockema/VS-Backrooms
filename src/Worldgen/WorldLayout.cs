@@ -409,7 +409,9 @@ public sealed partial class WorldLayout
     /// <item><b>10</b>: Level 3's tunnels go somewhere. In 1-9 a manhole's tunnel ran under its own stretch of corridor and
     /// stopped there, a few blocks. Now every Level 3 cell has a flooded tunnel running its whole width under a corridor row
     /// (the same row in every cell, so the tunnel runs on from cell to cell under the level), and a manhole's tunnel joins it
-    /// (<see cref="AddL3TunnelNetwork"/>).</item>
+    /// (<see cref="AddL3TunnelNetwork"/>). Level 94's fences stand on even ground: a house's fenced front yard is a level plot
+    /// (the lot's falling ground starts outside the fence, not along its sides), the fences round a hill take the median ground
+    /// along their length (LevelFence), and pickets join only across level ground, a post either side of a one-block step.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 10;

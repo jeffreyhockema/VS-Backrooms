@@ -75,6 +75,23 @@ static class L94Fences
                 if (joined && !there && At(x + dx, z + dz).Kind != TileKind.Wall) C("join to nothing", x, z);
                 if (!joined && there) C("fence beside, not joined", x, z);
             }
+            // Heights: a joined neighbour more than a block higher or lower is a fence the ground leaves behind; one block is a step
+            foreach (var (dx, dz, bit) in dirs)
+            {
+                if ((t.Stack & bit) == 0) continue;
+                int dh = Math.Abs(At(x + dx, z + dz).Height - t.Height);
+                if (dh > 1) C("joined across a drop of 2+", x, z);
+                else if (dh == 1) C("joined across a step of 1", x, z);
+            }
+            // (every pair of neighbouring fence blocks once, joined or not)
+            foreach (var (dx, dz) in new[] { (1, 0), (0, 1) })
+                if (fence.Contains((x + dx, z + dz)))
+                {
+                    int dh = Math.Abs(At(x + dx, z + dz).Height - t.Height);
+                    if (dh > 1) C("neighbours 2+ apart in height", x, z);
+                    else if (dh == 1) C("neighbours 1 apart in height", x, z);
+                    else C("neighbours level", x, z);
+                }
             if (joins == 0) C("lone post", x, z);
             if (joins == 1) C("end", x, z);
             if (t.Floor is FloorKind.MotionPath or FloorKind.Driveway or FloorKind.Sidewalk) C("fence on a path or drive", x, z);
@@ -82,6 +99,20 @@ static class L94Fences
                 if (At(x + dx, z + dz).Kind is TileKind.Door or TileKind.Doorway) C("fence beside a door", x, z);
             if (fence.Contains((x + 1, z)) && fence.Contains((x, z + 1)) && fence.Contains((x + 1, z + 1))) C("2x2 block of fence", x, z);
         }
+
+        // Walkable ground more than a block above its neighbour (a drop the player cannot climb, whatever the fences do)
+        for (int z = z0; z < z0 + size - 1; z++)
+            for (int x = x0; x < x0 + size - 1; x++)
+            {
+                Tile a = At(x, z);
+                if (a.Level != WorldLayout.Motion || a.Zone != 0 || a.Kind != TileKind.Floor) continue;
+                foreach (var (dx, dz) in new[] { (1, 0), (0, 1) })
+                {
+                    Tile b = At(x + dx, z + dz);
+                    if (b.Level == WorldLayout.Motion && b.Zone == 0 && b.Kind == TileKind.Floor && Math.Abs(a.Height - b.Height) > 1)
+                        C("floor neighbours 2+ apart in height", x, z);
+                }
+            }
 
         // One-block gaps in a straight line of fence
         foreach (var (x, z) in fence)
