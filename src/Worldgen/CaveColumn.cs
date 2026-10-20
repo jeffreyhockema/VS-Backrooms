@@ -72,12 +72,12 @@ internal sealed class CaveColumn
 
     /// <summary>
     /// From layout version 10, the depth plus one of the cave passage round a break in the 9th Road under this column
-    /// (WorldLayout.L8CrawlAt), or 0: three blocks of air, the floor <c>CrawlDepth - 1</c> blocks under the road's.
+    /// (WorldLayout.L8CrawlAt), or 0: four blocks of air, the floor <c>CrawlDepth - 1</c> blocks under the road's.
     /// </summary>
     public int CrawlDepth { get; set; }
 
     /// <summary>Whether a block of the column lies in the passage round a break in the road: its height from the road's floor.</summary>
-    public bool InCrawl(int rel) => CrawlDepth > 0 && rel > 1 - CrawlDepth && rel <= 4 - CrawlDepth;
+    public bool InCrawl(int rel) => CrawlDepth > 0 && rel > 1 - CrawlDepth && rel <= 5 - CrawlDepth;
 
     /// <summary>From layout version 9, how deep into a spider nest the column lies (1 at its heart, 0 outside one: WorldLayout.L8NestNear).</summary>
     public double Nest { get; set; }

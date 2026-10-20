@@ -126,20 +126,8 @@ static class L8Roads
         Console.WriteLine($"Level 8 tiles {l8}: road {road} ({100.0 * road / l8:0.00}%), camp clearings {camp}, lamps {lamps}, markers {markers}, vents and seeps {vents}, deposit rock tiles {dep}");
         Console.WriteLine($"rock to nearest road: mean {sumDist / Math.Max(1, rock):0.0} blocks, max {maxDist}; over 100 blocks {100.0 * far100 / Math.Max(1, rock):0.0}%, over 200 {100.0 * far200 / Math.Max(1, rock):0.0}%");
         Console.WriteLine("network: " + layout.L8Census());
-        if (Environment.GetEnvironmentVariable("L8DBG") is { } dbg)
-        {
-            var pr = dbg.Split(',').Select(int.Parse).ToArray();
-            for (int zz = pr[1]; zz < pr[1] + 30; zz++)
-            {
-                var sb = new System.Text.StringBuilder($"{zz,7} ");
-                for (int xx = pr[0]; xx < pr[0] + 40; xx++)
-                {
-                    Tile tt = layout.BuildMacro(WorldLayout.MacroOf(xx), WorldLayout.MacroOf(zz))[WorldLayout.TileIndex(xx - WorldLayout.MacroOf(xx) * 32, zz - WorldLayout.MacroOf(zz) * 32)];
-                    sb.Append(layout.IsNinthRoad(xx, zz) ? 'R' : tt.Zone == 1 ? 'z' : tt.Zone > 10 ? 'P' : layout.L8CrawlAt(xx, zz) > 0 ? 'c' : '.');
-                }
-                Console.WriteLine(sb);
-            }
-        }
+        // (L8PASS=1: walk every passage round a break, tile by tile)
+        if (Environment.GetEnvironmentVariable("L8PASS") != null) Console.WriteLine("check: " + layout.L8PassageCheck());
         {
             // Settlements in the map: the clearings, counted as pieces of connected tiles
             var seenCamp = new bool[map.Length]; int camps = 0;

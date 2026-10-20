@@ -33,6 +33,8 @@ public sealed partial class WorldLayout
         L8Plan plan = L8PlanAt(cx, cz);
         int i = L8Index(cx, cz);
         if (plan.Dist[i] < NestClearOfRoad || plan.Deposit[i] != 0 || plan.Flags[i] != 0) return DenKind.None;
+        // (from layout version 10 never on the passage round a break in the road, though its webs may reach one: its heart a dozen blocks off at least)
+        if (Version >= 10 && L8SpineDistance(cx, cz, 14) < 14) return DenKind.None;
         return DenKind.Nest;
     }
 

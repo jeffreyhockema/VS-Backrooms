@@ -24,8 +24,9 @@ namespace Backrooms.Worldgen;
 /// (WorldLayout.Level8.Network.cs).</para>
 ///
 /// <para>From layout version 10 the road is lonelier still: settlements are about a third as many, braids and exits fewer,
-/// and now and then the road breaks, ending in a wall of rubble with solid rock beyond and starting again a few dozen blocks
-/// on. A dark cave passage round the break (down and under it) keeps the way on open to anyone who goes into the dark.</para>
+/// and now and then the road breaks, ending in a wall of rubble with 90-180 blocks of solid rock beyond and starting again on
+/// the far side. A winding unlit cave passage (away from the road and down, with chambers and dead-end spurs) keeps the way on
+/// open to anyone who goes into the dark.</para>
 /// </summary>
 public sealed partial class WorldLayout
 {

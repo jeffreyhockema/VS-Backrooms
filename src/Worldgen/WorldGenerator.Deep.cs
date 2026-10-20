@@ -726,7 +726,7 @@ public sealed partial class WorldGenerator
             return !open && spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
         }
         // A pool of scalding tar on some cave floors
-        if (caveColumns.Get(gx, gz).Tar && IsCave(gx, y + 1, gz)) return tarId;
+        if (caveColumns.Get(gx, gz).Tar && caveColumns.Get(gx, gz).CrawlDepth == 0 && IsCave(gx, y + 1, gz)) return tarId;
         return RockAt(gx, y, gz);
     }
 
@@ -760,7 +760,8 @@ public sealed partial class WorldGenerator
         return 0;
     }
 
-    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool;
+    // (no flooded pocket over the passage round a break in the road, which would pour in)
+    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool && caveColumns.Get(gx, gz).CrawlDepth == 0;
 
     /// <summary>
     /// Whether water here would stay put: every open cave beside it is flooded too (and so, a step further, is

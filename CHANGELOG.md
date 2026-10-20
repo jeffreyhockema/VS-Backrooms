@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Level 8's 9th Road is lonelier, in worlds made from now on (layout version 10). Camps are about a third as many, so there is no longer a campfire every few hundred blocks, and there are fewer branches and ways off the road. The road is also broken in places: it ends in a wall of rubble (a rockfall, with the lamps stopped short), solid rock lies beyond, and the road starts again a few dozen blocks further on. The way past is through the caves: a dark, unlit passage opens in the rock beside the road a little before the rubble, runs down and under the fall, and comes up beside the road on the far side. Worlds made earlier keep the road as it was.
+- Level 8's 9th Road is lonelier, in worlds made from now on (layout version 10). Camps are about a third as many, so there is no longer a campfire every few hundred blocks, and there are fewer branches and ways off the road. The road is also broken in places: it ends in a wall of rubble (a rockfall, with the lamps stopped short), a hundred blocks or more of solid rock lie beyond, and the road starts again on the far side. The way on is down through the caves, away from the light: a cave mouth opens in the road's wall just before the rubble, and an unlit passage winds off from the road, down and out into the dark, past chambers and side passages that lead nowhere, and back up to the road beyond the break. Worlds made earlier keep the road as it was.
 
 ## 0.514.0 — the graphics pass
 
