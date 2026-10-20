@@ -6,6 +6,8 @@ static class Validator
     static bool Walkable(in Tile t)
     {
         if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true;
+        // (Level 8's dark passage round a break in the road is rock tiles in the layout, but a way on)
+        if (t.Level == 8 && t.Zone == WorldLayout.L8ZoneCrawl && t.Kind == TileKind.Wall) return true;
         if (t.Kind != TileKind.Floor) return false;
         if (t.Stack > 0 && t.Variant == 0) return false; // crates
         return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts

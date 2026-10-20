@@ -117,6 +117,8 @@ public sealed partial class WorldGenerator
                 column.DepositKind = deposit >> 8;
                 column.DepositStrength = (deposit & 255) / 255.0;
             }
+            // From layout version 10, the cave passage round a break in the road
+            if (layout.Version >= 10) column.CrawlDepth = layout.L8CrawlAt(gx, gz);
             // From layout version 9, the spider nests whose webs are strung through the caves
             if (layout.Version >= 9) column.Nest = layout.L8NestNear(gx, gz);
             return column;
@@ -692,6 +694,17 @@ public sealed partial class WorldGenerator
     private int Level8Block(in Tile t, int gx, int gz, int y, int rel, out int fluid)
     {
         fluid = 0;
+        // From layout version 10, the rubble where the 9th Road ends at a break: the fallen rock heaped across the road
+        if (t.Zone > WorldLayout.L8ZoneRubble && t.Zone <= WorldLayout.L8ZoneRubble + 4 && layout.Version >= 10 && rel is >= 0 and <= 5)
+        {
+            int heap = t.Zone - WorldLayout.L8ZoneRubble;
+            if (rel == 0) return IsCave(gx, y - 1, gz) ? RockAt(gx, y, gz) : gravelId;
+            if (rel <= heap) return RockAt(gx, y, gz);
+            // (loose boulders on the heap's top, and the road's air over it up to the arch)
+            if (rel == heap + 1 && heap < 4 && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltRubble + 7)) < 0.35
+                && boulderIds.TryGetValue(StrataName(gx, y - 1, gz), out int boulder)) return boulder;
+            if (rel <= 4) return 0;
+        }
         // The 9th Road and its settlements, and the road running on through the walls into other levels
         bool open = !t.IsWallLike || t.Kind == TileKind.Doorway;
         // Four blocks of air; from layout version 5, Height: an arch over the road, a dome over a settlement
@@ -714,6 +727,8 @@ public sealed partial class WorldGenerator
 
         if (IsCave(gx, y, gz))
         {
+            // The passage round a break in the road is bare: nothing hangs from its roof or stands on its floor
+            if (layout.Version >= 10 && caveColumns.Get(gx, gz).InCrawl(rel)) return 0;
             // Flooded deep pockets, speleothems hanging from ceilings and rising from floors
             if (rel < -18 && IsPool(gx, gz) && PoolHeldIn(gx, y, gz))
             {
@@ -730,7 +745,7 @@ public sealed partial class WorldGenerator
             return !open && spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
         }
         // A pool of scalding tar on some cave floors
-        if (caveColumns.Get(gx, gz).Tar && IsCave(gx, y + 1, gz)) return tarId;
+        if (caveColumns.Get(gx, gz).Tar && caveColumns.Get(gx, gz).CrawlDepth == 0 && IsCave(gx, y + 1, gz)) return tarId;
         return RockAt(gx, y, gz);
     }
 
@@ -764,7 +779,8 @@ public sealed partial class WorldGenerator
         return 0;
     }
 
-    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool;
+    // (no flooded pocket over the passage round a break in the road, which would pour in)
+    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool && caveColumns.Get(gx, gz).CrawlDepth == 0;
 
     /// <summary>
     /// Whether water here would stay put: every open cave beside it is flooded too (and so, a step further, is

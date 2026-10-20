@@ -411,7 +411,11 @@ public sealed partial class WorldLayout
     /// (the same row in every cell, so the tunnel runs on from cell to cell under the level), and a manhole's tunnel joins it
     /// (<see cref="AddL3TunnelNetwork"/>). Level 94's fences stand on even ground: a house's fenced front yard is a level plot
     /// (the lot's falling ground starts outside the fence, not along its sides), the fences round a hill take the median ground
-    /// along their length (LevelFence), and pickets join only across level ground, a post either side of a one-block step.</item>
+    /// along their length (LevelFence), and pickets join only across level ground, a post either side of a one-block step.
+    /// Level 8's 9th Road is lonelier: about a third as many settlements, fewer braids and
+    /// ways off the road, and the road is broken now and then by a rockfall (a wall of rubble at either end of a gap of 90-180
+    /// blocks of rock) with a cave passage to find in the dark: a mouth in the road's wall before the rubble, a winding unlit way
+    /// off from the road and down to 20-35 blocks under it, and back up past the break (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 10;

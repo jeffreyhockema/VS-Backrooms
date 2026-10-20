@@ -5,7 +5,7 @@ using Backrooms.Worldgen;
 /// ring straight out from spawn at the angle (degrees, default 0), or on AT. Writes l8map.bin (int size, then a byte
 /// per block: 0 another level's floor, 1 another level's wall, 2 Level 8 rock, 3 road, 4 camp clearing, 5 lamp,
 /// 6 M.E.G. marker, 7 vent or seep, 8 doorway in a wall between levels, 9 deposit rock, 10 camp furniture, 11 Level 7
-/// sea) for render_l8roads.py, and prints how much road there is, how far the caves lie from it, the gaps between
+/// sea, 12 the passage round a break in the road, 13 rubble at a break) for render_l8roads.py, and prints how much road there is, how far the caves lie from it, the gaps between
 /// roads along radial and circumferential lines, the ways through the level's walls, the pieces of road that lead
 /// nowhere (cut off inside the map), and how long a cell takes to lay out.
 /// </summary>
@@ -65,6 +65,8 @@ static class L8Roads
                         else if (t.Kind != TileKind.Floor)
                         {
                             c = t.Variant is Props.CaveVent or Props.AlmondSeep ? (byte)7 : (byte)2;
+                            if (t.Zone == WorldLayout.L8ZoneCrawl) c = 12; // the dark passage round a break
+                            else if (t.Zone > WorldLayout.L8ZoneRubble) c = 13; // rubble where the road ends
                             if (c == 2 && deposit != null && (int)deposit.Invoke(layout, new object[] { gx, gz }) > 0) c = 9;
                         }
                         else if (t.Variant == Props.RoadLamp) c = 5;
@@ -123,6 +125,31 @@ static class L8Roads
         long rock = l8 - road - camp;
         Console.WriteLine($"Level 8 tiles {l8}: road {road} ({100.0 * road / l8:0.00}%), camp clearings {camp}, lamps {lamps}, markers {markers}, vents and seeps {vents}, deposit rock tiles {dep}");
         Console.WriteLine($"rock to nearest road: mean {sumDist / Math.Max(1, rock):0.0} blocks, max {maxDist}; over 100 blocks {100.0 * far100 / Math.Max(1, rock):0.0}%, over 200 {100.0 * far200 / Math.Max(1, rock):0.0}%");
+        Console.WriteLine("network: " + layout.L8Census());
+        // (L8PASS=1: walk every passage round a break, tile by tile)
+        if (Environment.GetEnvironmentVariable("L8PASS") != null) Console.WriteLine("check: " + layout.L8PassageCheck());
+        {
+            // Settlements in the map: the clearings, counted as pieces of connected tiles
+            var seenCamp = new bool[map.Length]; int camps = 0;
+            for (int k0 = 0; k0 < map.Length; k0++)
+            {
+                if (seenCamp[k0] || map[k0] is not (4 or 10)) continue;
+                camps++;
+                var st = new Stack<int>(); st.Push(k0); seenCamp[k0] = true;
+                while (st.Count > 0)
+                {
+                    int k1 = st.Pop(), x1 = k1 % size, z1 = k1 / size;
+                    foreach (var (ox, oz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                    {
+                        int nx = x1 + ox, nz = z1 + oz;
+                        if (nx < 0 || nz < 0 || nx >= size || nz >= size) continue;
+                        int k2 = nz * size + nx;
+                        if (!seenCamp[k2] && map[k2] is 4 or 10) { seenCamp[k2] = true; st.Push(k2); }
+                    }
+                }
+            }
+            Console.WriteLine($"settlements in the map: {camps} ({camps / (l8 / 1e6):0.0} per km2 of Level 8)");
+        }
         Console.WriteLine($"road per km2 of Level 8: {road / 3.0 / (l8 / 1e6):0} m of road (3 wide)");
 
         // Gaps between roads along straight lines out from spawn and round the ring (through the map only)
@@ -196,12 +223,12 @@ static class L8Roads
         }
         Console.WriteLine("ways through Level 8's walls: " + (ways.Count == 0 ? "none" : string.Join(", ", ways.OrderBy(p => p.Key).Select(p => $"to Level {p.Key} {p.Value}"))) + $"; {blind} not from a road into open floor");
 
-        // Pieces of road (with camps and doorways) cut off from everything inside the map, and the biggest one
+        // Pieces of road (with camps, doorways and the passages round breaks) cut off from everything inside the map, and the biggest one
         var comp = new int[size * size];
         int pieces = 0, closed = 0, closedTiles = 0;
         for (int k = 0; k < map.Length; k++)
         {
-            if (!(Road(k) || map[k] == 8) || !level8[k] && map[k] != 8 || comp[k] != 0) continue;
+            if (!(Road(k) || map[k] is 8 or 12) || !level8[k] && map[k] != 8 || comp[k] != 0) continue;
             pieces++;
             var q = new Queue<int>(); q.Enqueue(k); comp[k] = pieces; bool edge = false, door = false; int count = 0;
             while (q.Count > 0)
@@ -214,7 +241,7 @@ static class L8Roads
                     int nx = x + dx, nz = z + dz;
                     if (nx < 0 || nz < 0 || nx >= size || nz >= size) continue;
                     int nk = nz * size + nx;
-                    if (comp[nk] == 0 && (Road(nk) && level8[nk] || map[nk] == 8)) { comp[nk] = pieces; q.Enqueue(nk); }
+                    if (comp[nk] == 0 && (Road(nk) && level8[nk] || map[nk] is 8 or 12)) { comp[nk] = pieces; q.Enqueue(nk); }
                 }
             }
             if (!edge && !door) { closed++; closedTiles += count; if (closed <= 5) Console.WriteLine($"  cut-off road piece of {count} tiles at {x0 + k % size},{z0 + k / size}"); }
