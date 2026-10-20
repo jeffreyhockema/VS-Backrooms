@@ -76,6 +76,30 @@ changed, what was carried and why.)
   flaky headless, and check hunts losing you in the play-test.
 - Next: P7, the user's play-test with [playtest.md](playtest.md).
 
+### P7, round 1 (2026-10-20): the user's first play-test
+
+Six fixes, six Sonnet agents in parallel, each merged to main after its gate:
+- **Spawning:** stalkers and hunters (and every pack member) are never put down where any player could see any part of
+  them (seven rays per viewer, through glass too; no in-sight fallback); the Flickering retries its Hounds. Level 1 Hounds
+  rarer (weight 1.0 to 0.35, Flickering cooldown 10 to 14 h); Level 0's distant sounds at most one per 75 s or more, no
+  sound as a fallback there.
+- **Combat:** nothing feared a candle (light 7 is under every threshold); what read as fear was the Hound slowed in any
+  lit place, the stare-down still holding a struck Hound, and the Lobby rules refusing a struck creature's hunt. Now a
+  struck creature hunts its striker anywhere, with a grudge (it keeps track of them within 16 blocks); a struck Bacteria
+  runs at a full sprint. Hounds a wolf at Level 1 and a bear from Level 3 (bite 8 to 14, health 30 to 56, faster than a
+  sprint), Skin-Stealers a brown bear from Level 1, Wretches outrun a sprint from Level 3 (table in entity-difficulty.md 3b).
+- **Level 1 art:** cars were drawn in the Transparent pass whole; now opaque with cut-out (dithered) glass. The NO ENTRY
+  plate is red with bold white NO / ENTRY and the roundel's bar.
+- **Red Rooms:** the client eased into the red air over three to five seconds; it now switches at the wall in about half
+  a second.
+- **Way back:** the wall search stopped at doorways and refused one-block partitions, so half of Level 1's way-backs fell
+  back to a thin spot; now 0% in Levels 0 to 3. Level 4's open office floors still fall back about 29% (no walls near).
+- **Manhole:** each tunnel was one run inside one cell (9 to 34 blocks); from layout version 10 a flooded trunk tunnel with
+  a clay bed runs through every Level 3 cell and every manhole joins it (at least 351 blocks reach). New worlds only.
+
+Still to check in a client: the cars' dithered glass up close, the sign at 4 to 6 blocks, and the feel of the new
+Hound, Skin-Stealer and Wretch. `p1-hunt-to-search` is flaky headless (fails on the unmodified build too).
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
