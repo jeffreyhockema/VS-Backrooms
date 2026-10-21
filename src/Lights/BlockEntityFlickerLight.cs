@@ -29,7 +29,7 @@ public class BlockEntityFlickerLight : BlockEntity
 
         int hash = Pos.GetHashCode();
         rand = new Random(hash);
-        mode = (Mode)(Math.Abs(hash) % 3);
+        mode = (Mode)(int)(Math.Abs((long)hash) % 3);
         timer = (float)rand.NextDouble() * 4f;
         api.ModLoader.GetModSystem<FlickerSystem>()?.Register(this);
     }

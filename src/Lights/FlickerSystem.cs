@@ -12,7 +12,11 @@ public class FlickerSystem : ModSystem
     private const float Range = 24f;
 
     private readonly HashSet<BlockEntityFlickerLight> lights = new();
+    // The lights within Range of the player as of the last refresh: only these are visited at the animation rate
+    private readonly List<BlockEntityFlickerLight> near = new();
     private readonly List<BlockEntityFlickerLight> scratch = new();
+    private long nextRefreshMs;
+    private const int RefreshMs = 250;
     private ICoreClientAPI capi;
     private long tickListener;
     private Backrooms.Reality.RealitySystem reality;
@@ -41,10 +45,15 @@ public class FlickerSystem : ModSystem
         if (capi != null) capi.Event.UnregisterGameTickListener(tickListener);
         lock (OffMeshes) OffMeshes.Clear();
         lights.Clear();
+        near.Clear();
         base.Dispose();
     }
 
-    public void Unregister(BlockEntityFlickerLight light) => lights.Remove(light);
+    public void Unregister(BlockEntityFlickerLight light)
+    {
+        lights.Remove(light);
+        near.Remove(light);
+    }
 
     private void OnTick(float dt)
     {
@@ -53,14 +62,29 @@ public class FlickerSystem : ModSystem
 
         reality ??= capi.ModLoader.GetModSystem<Backrooms.Reality.RealitySystem>();
         bool realityShift = reality?.ShiftStrength > 0.3;
-        scratch.Clear();
-        scratch.AddRange(lights);
-        foreach (BlockEntityFlickerLight light in scratch)
+        // Finding which lights are near is the costly part (every loaded light in a lit level), so it is done a few
+        // times a second; the animation of the few dozen near ones runs at the full rate
+        long now = capi.World.ElapsedMilliseconds;
+        if (now >= nextRefreshMs)
         {
-            BlockPos p = light.Pos;
-            double dx = p.X + 0.5 - pos.X, dy = p.Y - pos.Y, dz = p.Z + 0.5 - pos.Z;
-            if (dx * dx + dy * dy + dz * dz < Range * Range) light.Animate(dt, realityShift);
-            else light.SetLit(true);
+            nextRefreshMs = now + RefreshMs;
+            scratch.Clear();
+            near.Clear();
+            foreach (BlockEntityFlickerLight light in lights)
+            {
+                if (IsNear(light.Pos, pos)) near.Add(light);
+                else scratch.Add(light);
+            }
+            // Distant ones are shown lit (a light that has just left the range may have been mid-flicker)
+            foreach (BlockEntityFlickerLight light in scratch) light.SetLit(true);
+            scratch.Clear();
         }
+        foreach (BlockEntityFlickerLight light in near) light.Animate(dt, realityShift);
+    }
+
+    private static bool IsNear(BlockPos p, EntityPos pos)
+    {
+        double dx = p.X + 0.5 - pos.X, dy = p.Y - pos.Y, dz = p.Z + 0.5 - pos.Z;
+        return dx * dx + dy * dy + dz * dz < Range * Range;
     }
 }

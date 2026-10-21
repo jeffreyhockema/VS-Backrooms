@@ -92,10 +92,10 @@ public class CreatureSystem : ModSystem
         foreach (var (level, spawns) in ByLevel)
         {
             spawns.Resolved = spawns.Kinds.Select(k => all.Where(t => t.Code.Path.StartsWith(k.Prefix) && !t.Code.Path.Contains("baby") && !t.Code.Path.Contains("poult")).ToArray()).ToArray();
-            spawns.Codes = spawns.Resolved.SelectMany(r => r).Select(t => t.Code.ToString()).ToHashSet();
+            spawns.Codes = spawns.Resolved.SelectMany(r => r).Select(t => t.Code.Path).ToHashSet();
             // (The young count towards the cap as well)
             foreach (EntityProperties adult in spawns.Resolved.SelectMany(r => r).ToList())
-                if (YoungOf(adult) is { } young) spawns.Codes.Add(young.Code.ToString());
+                if (YoungOf(adult) is { } young) spawns.Codes.Add(young.Code.Path);
             int found = spawns.Resolved.Count(r => r.Length > 0);
             if (found < spawns.Kinds.Length)
                 sapi.Logger.Warning("[backrooms] Level {0}: only {1} of {2} creature kinds were found", level, found, spawns.Kinds.Length);
@@ -116,7 +116,7 @@ public class CreatureSystem : ModSystem
             if (sapi.World.Rand.NextDouble() >= 0.6 * Math.Min(1, food)) continue;
             int cap = spawns.Food ? Math.Max(1, (int)Math.Round(spawns.Cap * food)) : spawns.Cap;
 
-            int count = sapi.World.GetEntitiesAround(pos.XYZ, CountRadius, 64, e => e.Alive && spawns.Codes.Contains(e.Code.ToString())).Length;
+            int count = sapi.World.GetEntitiesAround(pos.XYZ, CountRadius, 64, e => e.Alive && spawns.Codes.Contains(e.Code.Path)).Length;
             if (count >= cap) continue;
             TrySpawn(level, spawns, pos, cap - count);
         }

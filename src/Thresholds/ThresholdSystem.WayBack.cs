@@ -23,10 +23,12 @@ public partial class ThresholdSystem
     /// <summary>How many times building a way back waits for its chunk to load, and how long each time.</summary>
     private const int WayBackTries = 6, WayBackRetryMs = 500;
 
-    /// <summary>The same salt as the generator's (Level 2's steel doors are painted by their place), and the hotel's plaques.</summary>
-    private const ulong TunnelPaintSalt = 0x2B0D, PlaqueSalt = 0x7E11;
-
-    private static readonly string[] TunnelPaints = { "white", "grey", "cream" };
+    /// <summary>
+    /// <see cref="TunnelPaint"/> is the generator's own rule, so a built door is painted as the level's own (Level 2's steel
+    /// doors are painted by their place); <see cref="PlaqueSalt"/> is the way back's own (the generator takes a hotel
+    /// plaque from the tile's variant): one of rooms 201 to 208 by place.
+    /// </summary>
+    private const ulong PlaqueSalt = 0x7E11;
 
     private void LoadWayBacks(ICoreServerAPI api)
     {
@@ -73,8 +75,8 @@ public partial class ThresholdSystem
             case WayBackStyle.FreightLift: return $"elevatordoor-{part}";
             case WayBackStyle.TunnelDoor:
             {
-                int paint = (int)(Hashing.Hash(seed, x, z, TunnelPaintSalt) % 4);
-                return paint < TunnelPaints.Length ? $"tunneldoorpaint-{TunnelPaints[paint]}-{part}" : $"tunneldoor-{part}";
+                int paint = TunnelPaint.PaintOf(seed, x, z);
+                return paint >= 0 ? $"tunneldoorpaint-{TunnelPaint.Names[paint]}-{part}" : $"tunneldoor-{part}";
             }
             case WayBackStyle.HotelDoor:
                 // (Rooms 201 to 208, as the hotel's own guest doors)
@@ -91,9 +93,10 @@ public partial class ThresholdSystem
         int level = layout.TileAt(way.X, way.Z).Level;
         int y = geometry.FloorFor(level) + 1;
         var blocks = new List<(BlockPos, Block)>();
-        for (int leaf = 0; leaf < way.Tiles.Length; leaf++)
+        (int X, int Z)[] tiles = way.Tiles; // (built anew on each access)
+        for (int leaf = 0; leaf < tiles.Length; leaf++)
             for (int rel = 1; rel <= WayBackHeight(way.Style); rel++)
-                blocks.Add((new BlockPos(way.Tiles[leaf].X, y + rel - 1, way.Tiles[leaf].Z), sapi.World.GetBlock(new AssetLocation("backrooms", WayBackCode(way, leaf, rel)))));
+                blocks.Add((new BlockPos(tiles[leaf].X, y + rel - 1, tiles[leaf].Z), sapi.World.GetBlock(new AssetLocation("backrooms", WayBackCode(way, leaf, rel)))));
         return blocks;
     }
 
@@ -148,7 +151,7 @@ public partial class ThresholdSystem
             if (network.GiveUpWayBack(source) is { Marker: true } thin)
             {
                 LeaveThinSpot(thin);
-                if (player != null) inThinSpot[player.PlayerUID] = true;
+                if (player != null && player.ConnectionState == EnumClientState.Playing) inThinSpot[player.PlayerUID] = true;
             }
             done?.Invoke("cannot be built (" + why + "): a thin spot instead");
             return;
@@ -285,9 +288,10 @@ public partial class ThresholdSystem
         {
             var results = new List<string>();
             int level = layout.TileAt(way.X, way.Z).Level;
-            for (int leaf = 0; leaf < way.Tiles.Length; leaf++)
+            (int X, int Z)[] tiles = way.Tiles;
+            for (int leaf = 0; leaf < tiles.Length; leaf++)
             {
-                (int x, int z) = way.Tiles[leaf];
+                (int x, int z) = tiles[leaf];
                 for (int rel = 1; rel <= WayBackHeight(way.Style); rel++)
                 {
                     var pos = new BlockPos(x, geometry.FloorFor(level) + rel, z);

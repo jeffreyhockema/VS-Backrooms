@@ -86,8 +86,6 @@ public partial class ThresholdSystem : ModSystem
     // anywhere until they have (or they would climb straight back the way they came)
     private readonly HashSet<string> offStairsFirst = new();
 
-    // Per-player cache of the cell they are standing in, so the tick does not rebuild it every time
-    private readonly Dictionary<string, (int Mx, int Mz, Tile[] Tiles)> cellCache = new();
     // Where each player was at the last tick, to notice them walking through a gate into another level
     private readonly Dictionary<string, (int Level, double X, double Z)> lastSpot = new();
 
@@ -144,7 +142,6 @@ public partial class ThresholdSystem : ModSystem
             api.Event.PlayerDisconnect += player =>
             {
                 busyUntilMs.Remove(player.PlayerUID);
-                cellCache.Remove(player.PlayerUID);
                 preloadedPit.Remove(player.PlayerUID);
                 inThinSpot.Remove(player.PlayerUID);
                 offStairsFirst.Remove(player.PlayerUID);
@@ -293,10 +290,11 @@ public partial class ThresholdSystem : ModSystem
 
             int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
             int level = layout.LevelAt(mx, mz);
-            if (!busy) NoticeGate(player, level, pos);
+            NoticeGate(player, level, pos, busy);
             if (level is 2 or 3 or 8) continue;
 
-            Tile tile = CellOf(player, mx, mz)[WorldLayout.TileIndex(x - mx * WorldLayout.MacroSize, z - mz * WorldLayout.MacroSize)];
+            // (The layout's own cell cache serves this: it is the same cell, built once for everyone)
+            Tile tile = layout.TileAt(x, z);
             double rel = pos.Y - geometry.FloorFor(level);
 
             // Dropping into a hole in the floor: whatever comes of it, the fall will not kill (see FallGraceKey). And a
@@ -373,14 +371,6 @@ public partial class ThresholdSystem : ModSystem
 
     private bool ThinSpotAt(int x, int y, int z) => sapi.World.BlockAccessor.GetBlock(probe.Set(x, y, z)).BlockId == thinSpotId;
 
-    private Tile[] CellOf(IServerPlayer player, int mx, int mz)
-    {
-        if (cellCache.TryGetValue(player.PlayerUID, out var cached) && cached.Mx == mx && cached.Mz == mz) return cached.Tiles;
-        Tile[] tiles = layout.BuildMacro(mx, mz);
-        cellCache[player.PlayerUID] = (mx, mz, tiles);
-        return tiles;
-    }
-
     // ================= Shared =================
 
     private bool Go(IServerPlayer player, Passage passage, Link? destination, string style = null)
@@ -422,11 +412,13 @@ public partial class ThresholdSystem : ModSystem
     /// Walking (not being taken) from one level into the next means going through a gate in the wall between them:
     /// it is marked on the map the first time.
     /// </summary>
-    private void NoticeGate(IServerPlayer player, int level, EntityPos pos)
+    private void NoticeGate(IServerPlayer player, int level, EntityPos pos, bool busy)
     {
+        // The last spot is kept up to date even while busy (just after an arrival), so a gate walked through in that
+        // window is not compared against a stale position later; only the marking waits
         bool known = lastSpot.TryGetValue(player.PlayerUID, out var last);
         lastSpot[player.PlayerUID] = (level, pos.X, pos.Z);
-        if (!known || last.Level == level) return;
+        if (busy || !known || last.Level == level) return;
         double dx = pos.X - last.X, dz = pos.Z - last.Z;
         if (dx * dx + dz * dz > 6 * 6) return; // taken, not walked
         if (WorldLayout.IsOpenSky(level) && WorldLayout.IsOpenSky(last.Level)) return; // no wall there to have a gate in

@@ -149,8 +149,9 @@ public static class Breakdown
             "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan",
             "housestorey", "housestairs", "porchdeck", "porchpost");
         Add(Joinery, "kitchencounter", "hotelreception", "thronetable", "grandfatherclock", "grandpiano");
+        // (trafficsign is not here: it is carried off whole, as a salvage item - see SalvageSystem.Salvageable)
         Add(Metal, "pipes", "feedpipe", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
-            "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
+            "stopsign", "streetsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
             "cagelift", "suburbsign", "suburbsignblade", "citysign");
         Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "floorcableend", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
@@ -408,6 +409,8 @@ public class BlockBehaviorWreck : BlockBehavior
                 Block part = blocks.GetBlock(next);
                 if (part.Code?.Domain != "backrooms" || part.FirstCodePart() is not ("car" or "carcollider")) continue;
                 seen.Add(next);
+                // A car that straddles a claim's edge does not lose the part inside it to someone who may not build there
+                if (byPlayer != null && !world.Claims.TryAccess(byPlayer, next, EnumBlockAccessFlags.BuildOrBreak)) continue;
                 queue.Enqueue(next);
                 // The car block holds the scrap; the hull gives nothing
                 if (drops && part.FirstCodePart() == "car" && part.Drops != null)

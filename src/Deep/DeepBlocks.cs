@@ -123,7 +123,8 @@ public class BlockWorms : Block
         }
         // Worms spill out
         EntityProperties worm = world.GetEntityType(new AssetLocation("game", "earthworm"));
-        for (int i = 0; worm != null && i < 3 + world.Rand.Next(3); i++)
+        int worms = 3 + world.Rand.Next(3);
+        for (int i = 0; worm != null && i < worms; i++)
         {
             Entity e = world.ClassRegistry.CreateEntity(worm);
             e.Pos.SetPos(pos.X + world.Rand.NextDouble(), pos.Y + 1, pos.Z + world.Rand.NextDouble());
