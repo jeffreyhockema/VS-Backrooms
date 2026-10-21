@@ -64,6 +64,8 @@ if (args.Length > 4 && args[2] == "l3dump") { L3Runs.Dump(layout, int.Parse(args
 if (args.Length > 2 && args[2] == "conduitmap") { ConduitMap.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "l4plan") { L4Plan.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 4 && args[2] == "peek") { Peek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
+// dark LEVEL [half-size] [mx mz]: connected dark stretches of Level 0 or 1 (DarkAreas.cs)
+if (args.Length > 3 && args[2] == "dark") { DarkAreas.Run(layout, smx, smz, args); return; }
 if (args.Length > 2 && args[2] == "l6density") { Density.Run(layout, smx, smz); return; }
 if (args.Length > 6 && args[2] == "path") { PathCheck.Run(layout, n, int.Parse(args[3]), int.Parse(args[4]), int.Parse(args[5]), int.Parse(args[6])); return; }
 if (args.Length > 4 && args[2] == "l0") { for (int i = 3; i + 1 < args.Length; i += 2) Console.WriteLine(layout.DescribeLevel0(int.Parse(args[i]), int.Parse(args[i + 1]))); return; }
