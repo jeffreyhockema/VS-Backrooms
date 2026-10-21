@@ -582,11 +582,13 @@ public sealed partial class WorldGenerator
             case WorldLayout.L7ZoneStairs:
             {
                 // Step n is a stair block n over the room's floor, solid under it; three blocks of air over each tread (the
-                // first stays under the room's ceiling), up through it into the dark of the shaft
+                // first stays under the room's ceiling in 9), up through it into the dark of the shaft. In 9 the first step's
+                // air stopped at floor + 3, a block under the room's ceiling, so a climber stepping from its back (7.0) onto
+                // the second step's front (7.5) bumped their head on the ceiling (9.35 against 9.0); from 10 it has three too
                 int tread = floor + t.Stair;
                 if (rel < tread) return concreteId;
                 if (rel == tread) return stairIds[Facing(t.Pier)];
-                return rel <= (t.Stair == 1 ? floor + 3 : tread + 3) ? 0 : concreteId;
+                return rel <= (t.Stair == 1 && layout.Version < 10 ? floor + 3 : tread + 3) ? 0 : concreteId;
             }
             case WorldLayout.L7ZoneDoorway:
                 // A doorway a block wide and two high onto the sea, its sill five blocks over the water
