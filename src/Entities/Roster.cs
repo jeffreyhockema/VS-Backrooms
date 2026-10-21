@@ -385,15 +385,15 @@ public static class Roster
     };
 
     /// <summary>
-    /// How likely each kind of encounter is in a band: sounds, glimpses, stalkers, hunters. (The director rolls bodies and
-    /// sounds apart now, EncounterRoll: the body roll splits by the last three only, renormalised.)
+    /// How likely each kind of body is in a band: glimpses, stalkers, hunters (relative weights; the body roll
+    /// renormalises them). Sounds are not here: the director rolls them apart from bodies (EncounterRoll, SoundMinutes).
     /// </summary>
-    public static (double Sound, double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band) => band switch
+    public static (double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band) => band switch
     {
-        MenaceBand.Heartland => (0.65, 0.35, 0, 0),
-        MenaceBand.Approach => (0.45, 0.25, 0.25, 0.05),
-        MenaceBand.Threshold => (0.3, 0.2, 0.25, 0.25),
-        _ => (1, 0, 0, 0),
+        MenaceBand.Heartland => (0.35, 0, 0),
+        MenaceBand.Approach => (0.25, 0.25, 0.05),
+        MenaceBand.Threshold => (0.2, 0.25, 0.25),
+        _ => (0, 0, 0),
     };
 
     /// <summary>
@@ -408,7 +408,7 @@ public static class Roster
         _ => 0,
     };
 
-    /// <summary>The cap, with one more allowed from Level 5 down and another from Level 9.</summary>
+    /// <summary>The cap, with one more allowed where the level's danger is 0.5 or more (Level 5 down, and the Poolrooms) and another at 0.8 (Level 9 down, and Level 3999's Blackout).</summary>
     public static int Cap(MenaceBand band, int level)
     {
         int cap = Cap(band);
@@ -418,17 +418,17 @@ public static class Roster
     }
 
     /// <summary>
-    /// The encounter weights deeper down: fewer of the encounters are only a sound, and more of them stalk and hunt.
-    /// Even the heart of a deep level is not quiet.
+    /// The body weights deeper down: more of the bodies stalk and hunt, and fewer are only glimpsed. Even the heart of a
+    /// deep level is not quiet.
     /// </summary>
-    public static (double Sound, double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band, int level)
+    public static (double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band, int level)
     {
         var w = Weights(band);
         double d = Danger.OfLevel(level);
         if (band == MenaceBand.Safe || d <= 0) return w;
         double stalk = band == MenaceBand.Heartland ? 0.15 * d : 0.1 * d;
         double hunt = band switch { MenaceBand.Heartland => 0.03 * d, MenaceBand.Approach => 0.15 * d, _ => 0.25 * d };
-        return (Math.Max(0.1, w.Sound - stalk - hunt), w.Glimpse, w.Stalk + stalk, w.Hunt + hunt);
+        return (w.Glimpse, w.Stalk + stalk, w.Hunt + hunt);
     }
 
     /// <summary>

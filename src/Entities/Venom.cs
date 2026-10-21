@@ -22,8 +22,8 @@ namespace Backrooms.Entities;
 /// 1 damage every 2 seconds for 6 seconds. A spear loses a charge per hit (the attribute goes at 0); an arrow is
 /// spent by the hit anyway.
 ///
-/// Two Harmony postfixes do it, as the game has no event for a creature being hurt and the items are vanilla ones:
-/// <c>Entity.ReceiveDamage</c> (server: who struck, with what) and <c>CollectibleObject.GetHeldItemName</c> /
+/// Harmony postfixes do it, as the game has no event for a creature being hurt and the items are vanilla ones:
+/// <c>Entity.ReceiveDamage</c> (and the <c>EntityAgent</c> override of it; server: who struck, with what) and <c>CollectibleObject.GetHeldItemName</c> /
 /// <c>GetHeldItemInfo</c> (the name shows "(envenomed, N)", the help says what it does). Saves: the attribute is
 /// read with a default of 0 and written only by the recipes and this code.
 /// </summary>
@@ -164,7 +164,7 @@ public class VenomSystem : ModSystem
     /// <summary>Hits of venom left on a stack (0 for none).</summary>
     public static int Charges(ItemStack stack) => stack?.Attributes?.GetInt(Key, 0) ?? 0;
 
-    private static bool IsArrow(ItemStack stack) => stack?.Collectible?.Code?.Path.StartsWith("arrow") == true;
+    private static bool IsArrow(ItemStack stack) => stack?.Collectible?.Code?.Path.StartsWith("arrow", System.StringComparison.Ordinal) == true;
 
     /// <summary>Takes a charge off a stack: the attribute is removed at 0.</summary>
     private static void Spend(ItemStack stack)

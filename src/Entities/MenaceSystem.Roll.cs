@@ -165,7 +165,7 @@ public partial class MenaceSystem
         if (!args.Parsers[3].IsMissing)
         {
             string extra = ((string)args[3]).Trim().ToLowerInvariant();
-            if (!extra.StartsWith("menacing=") || !int.TryParse(extra.Substring(9), out menacing)) return TextCommandResult.Error("The last argument is menacing=<n>");
+            if (!extra.StartsWith("menacing=", StringComparison.Ordinal) || !int.TryParse(extra.Substring(9), out menacing)) return TextCommandResult.Error("The last argument is menacing=<n>");
         }
         if (levelWord == "here")
         {

@@ -99,7 +99,7 @@ public static class Senses
     private static bool IsLamp(IWorldAccessor world, ItemSlot slot)
     {
         string path = slot?.Itemstack?.Collectible?.Code?.Path;
-        return path != null && (path.StartsWith("lantern") || path.StartsWith("oillamp")) && LightOf(world, slot) > 0;
+        return path != null && (path.StartsWith("lantern", StringComparison.Ordinal) || path.StartsWith("oillamp", StringComparison.Ordinal)) && LightOf(world, slot) > 0;
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ public static class Senses
     {
         string path = slot?.Itemstack?.Collectible?.Code?.Path;
         if (path == null || LightOf(world, slot) == 0) return 0;
-        return path.StartsWith("torch") ? 1.0 : path.StartsWith("oillamp") ? 0.5 : path.StartsWith("candle") ? 0.3 : path.StartsWith("lantern") ? 0 : 0.6;
+        return path.StartsWith("torch", StringComparison.Ordinal) ? 1.0 : path.StartsWith("oillamp", StringComparison.Ordinal) ? 0.5 : path.StartsWith("candle", StringComparison.Ordinal) ? 0.3 : path.StartsWith("lantern", StringComparison.Ordinal) ? 0 : 0.6;
     }
 
     /// <summary>The floor height (the y an entity stands at) of a column near a height, or int.MinValue.</summary>
@@ -213,13 +213,21 @@ public static class Wards
 
     private static readonly Dictionary<(int, int, int), (long At, Vec3d[] Wards)> Cache = new();
 
+    /// <summary>Which block ids are wards, filled as blocks are met (the ward set is fixed for a session, and a scan reads thousands of blocks).</summary>
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, bool> WardIds = new();
+
     /// <summary>Whether a block is a ward.</summary>
     public static bool IsWard(Block block)
     {
-        if (block?.Code == null) return false;
-        string path = block.Code.Path;
-        if (block.Code.Domain == "game") return path == "firepit-lit";
-        return block.Code.Domain == "backrooms" && (path.StartsWith("firesalt") || path.StartsWith("angelstatue"));
+        if (block?.Code == null || block.Id == 0) return false;
+        return WardIds.GetOrAdd(block.Id, _ => IsWardCode(block.Code));
+    }
+
+    private static bool IsWardCode(AssetLocation code)
+    {
+        string path = code.Path;
+        if (code.Domain == "game") return path == "firepit-lit";
+        return code.Domain == "backrooms" && (path.StartsWith("firesalt", StringComparison.Ordinal) || path.StartsWith("angelstatue", StringComparison.Ordinal));
     }
 
     /// <summary>The nearest ward within reach of a position, or null.</summary>
@@ -245,7 +253,7 @@ public static class Wards
         lock (Cache)
         {
             // (A time in the future is one left from an earlier server in this process)
-            if (Cache.TryGetValue((cx, cy, cz), out var hit) && now - hit.At < 2500 && hit.At <= now) return hit.Wards;
+            if (Cache.TryGetValue((cx, cy, cz), out var hit) && now - hit.At < 4000 && hit.At <= now) return hit.Wards;
             if (Cache.Count > 4096) Cache.Clear();
         }
 
@@ -254,7 +262,7 @@ public static class Wards
         IBlockAccessor ba = world.BlockAccessor;
         var at = new BlockPos(0);
         List<Vec3d> found = null;
-        for (int y = y0 - 5; y <= y0 + 4; y++)
+        for (int y = y0 - 6; y <= y0 + 6; y++)
         {
             for (int z = z0 - r; z <= z0 + r; z++)
             {
@@ -281,4 +289,11 @@ public static class Wards
 
     /// <summary>Forgets what is cached around a position (a fire was lit or put out there).</summary>
     public static void Invalidate() { lock (Cache) Cache.Clear(); }
+
+    /// <summary>A new server session: block ids may differ from the last world's, so forget which are wards as well.</summary>
+    public static void Reset()
+    {
+        WardIds.Clear();
+        Invalidate();
+    }
 }

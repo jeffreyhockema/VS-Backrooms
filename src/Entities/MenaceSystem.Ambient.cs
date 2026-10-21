@@ -27,25 +27,51 @@ public partial class MenaceSystem
     /// <summary>Per player (by entity id): the real time (ElapsedMilliseconds) before which no ambient creature is put down.</summary>
     private readonly Dictionary<long, long> ambientNextMs = new();
 
+    /// <summary>How long (ms) an ambient roll is put off when the cap of wanderers about was full.</summary>
+    private const long CapBlockedRecheckMs = 10_000;
+
+    private static readonly Vintagestory.API.Common.ActionConsumable<Entity> AmbientAlive = e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient;
+
+    /// <summary>The ambient-capable entries of a roster, worked out once per roster array (the rosters are static).</summary>
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<RosterEntry[], RosterEntry[]> ambientCapable = new();
+
+    private static RosterEntry[] AmbientCapable(RosterEntry[] roster)
+    {
+        lock (ambientCapable)
+        {
+            if (!ambientCapable.TryGetValue(roster, out RosterEntry[] capable))
+                ambientCapable.Add(roster, capable = roster.Where(e => (e.Kinds & Encounters.Ambient) != 0).ToArray());
+            return capable;
+        }
+    }
+
     private void SpawnAmbient(Entity target, Assessment a, RosterEntry[] roster)
     {
         long now = sapi.World.ElapsedMilliseconds;
         if (ambientNextMs.TryGetValue(target.EntityId, out long next) && now < next) return;
-        RosterEntry[] options = roster.Where(e => (e.Kinds & Encounters.Ambient) != 0 && types.ContainsKey(e.Code)
-            && (a.Band != MenaceBand.Safe || a.NearWanderer || e.MinBand == MenaceBand.Safe) && (!e.SubwayOnly || a.Subway)).ToArray();
-        if (options.Length == 0) return;
+        RosterEntry[] capable = AmbientCapable(roster);
+        if (capable.Length == 0) return;
         bool crowd = a.Level == 11 || a.Snackrooms;
-        // (Everything wandering counts, scavenger rats and fed Skin-Stealers too; the rats' packs have a cap of their own besides)
-        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, AmbientRadius, 16, e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient).Length;
-        if (count >= (crowd ? AmbientCapCrowd : AmbientCap)) return;
-        RosterEntry entry = Pick(options);
+        // (Everything wandering counts, scavenger rats and fed Skin-Stealers too; the rats' packs have a cap of their own besides.)
+        // Counted first, before anything is built: a full cap is the usual state beside a Faceling, and this runs every tick.
+        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, AmbientRadius, 16, AmbientAlive).Length;
+        if (count >= (crowd ? AmbientCapCrowd : AmbientCap))
+        {
+            ambientNextMs[target.EntityId] = now + CapBlockedRecheckMs; // (not looked at again every tick)
+            return;
+        }
+        var options = new List<RosterEntry>(capable.Length);
+        foreach (RosterEntry e in capable)
+            if (types.ContainsKey(e.Code) && (a.Band != MenaceBand.Safe || a.NearWanderer || e.MinBand == MenaceBand.Safe) && (!e.SubwayOnly || a.Subway)) options.Add(e);
+        if (options.Count == 0) return;
+        RosterEntry entry = Pick(options.ToArray());
         if (entry == null || rand.NextDouble() > entry.Rarity) return;
         if (entry.Code == Roster.DeathRat && RatPacksNear(target) >= MaxRatPacks) return;
         if (entry.Code is Roster.Faceling or Roster.FacelingChild)
         {
             int max = a.Level == 11 ? FacelingMaxCity : a.Snackrooms ? FacelingMaxSnackrooms : FacelingMax;
             float radius = crowd ? FacelingRadiusCrowd : FacelingRadius;
-            int facelings = sapi.World.GetEntitiesAround(target.Pos.XYZ, radius, 16, e => e.Alive && e.Code.Path.StartsWith("faceling")).Length;
+            int facelings = sapi.World.GetEntitiesAround(target.Pos.XYZ, radius, 16, e => e.Alive && e.Code.Path.StartsWith("faceling", StringComparison.Ordinal)).Length;
             if (facelings >= max) return;
         }
         if (!TrySpawn(target, a, entry, Encounter.Ambient)) return;

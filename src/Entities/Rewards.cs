@@ -86,6 +86,14 @@ public class Rewards : ModSystem
         });
     }
 
+    public override void Dispose()
+    {
+        // (The static would otherwise keep a dead world's server for Bounty to use in the next one opened in this process)
+        if (sapi != null) sapi.Event.DidBreakBlock -= OnBrokeBlock;
+        sapi = null;
+        base.Dispose();
+    }
+
     /// <summary>Whether a drop is something worth finding (food, medicine, metal, gears), as opposed to the material the thing was made of.</summary>
     private static bool IsLoot(BlockDropItemStack drop)
     {
@@ -94,13 +102,13 @@ public class Rewards : ModSystem
         string p = code.Path;
         if (code.Domain == "backrooms")
             return p is "almondwater" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle" or "cashewwater" or "firesalt" or "seedpacket";
-        return p.StartsWith("gear-") || p.StartsWith("metalbit-") || p.StartsWith("bandage") || p.StartsWith("poultice") || p.StartsWith("fruit-")
-            || p.StartsWith("cheese-") || p.StartsWith("candle") || p.StartsWith("seeds-");
+        return p.StartsWith("gear-", StringComparison.Ordinal) || p.StartsWith("metalbit-", StringComparison.Ordinal) || p.StartsWith("bandage", StringComparison.Ordinal) || p.StartsWith("poultice", StringComparison.Ordinal) || p.StartsWith("fruit-", StringComparison.Ordinal)
+            || p.StartsWith("cheese-", StringComparison.Ordinal) || p.StartsWith("candle", StringComparison.Ordinal) || p.StartsWith("seeds-", StringComparison.Ordinal);
     }
 
     private void OnBrokeBlock(IServerPlayer byPlayer, int oldblockId, BlockSelection blockSel)
     {
-        if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || director?.Layout == null) return;
+        if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || director?.Layout == null || blockSel?.Position == null) return;
         BlockPos pos = blockSel.Position;
         int level = director.Layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z));
         double d = Danger.OfLevel(level);

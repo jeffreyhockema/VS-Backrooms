@@ -245,7 +245,7 @@ public sealed class NoiseBus
     public IReadOnlyList<NoiseEvent> Recent(long now)
     {
         Prune(now);
-        return events.ToArray();
+        return events.Count == 0 ? Array.Empty<NoiseEvent>() : events.ToArray(); // (usually empty: no garbage per listener per look)
     }
 
     /// <summary>The noise heard best at a position by a listener with a hearing range, or null; optionally only from one entity.</summary>

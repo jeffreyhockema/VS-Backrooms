@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -41,7 +42,7 @@ public class EntityBehaviorMenace : EntityBehavior
     public static void NewSession()
     {
         Session = Guid.NewGuid().ToString("N");
-        Wards.Invalidate();
+        Wards.Reset();
         AlmondWater.Invalidate();
     }
 
@@ -208,7 +209,9 @@ public class EntityBehaviorMenace : EntityBehavior
 
         Entity target = Target;
         Vec3d pos = entity.Pos.XYZ;
-        bool anyoneNear = entity.World.GetNearestEntity(pos, 72, 48, e => e is EntityPlayer p && p.Alive) != null;
+        // One scan for the players about, from which "anyone near", the wanderer's 56 x 32 test and who could see it all follow
+        Entity[] players = entity.World.GetEntitiesAround(pos, 72, 48, e => e is EntityPlayer p && p.Alive);
+        bool anyoneNear = players.Length > 0;
         if (!anyoneNear && target?.WatchedAttributes.GetBool("backrooms:testTarget") != true)
         {
             Despawn();
@@ -244,7 +247,7 @@ public class EntityBehaviorMenace : EntityBehavior
         }
 
         long now = entity.World.ElapsedMilliseconds;
-        bool seen = SeenByAnyone(48);
+        bool seen = SeenByAnyone(players, 48);
         if (seen) lastSeenMs = now;
 
         switch (Kind)
@@ -252,7 +255,7 @@ public class EntityBehaviorMenace : EntityBehavior
             case Encounter.Ambient:
                 // Wanderers drift off once nobody is near, and are never pulled out of sight of anyone
                 // (One put down for a console test's straw dummy stays while the dummy is near, as for the other kinds above)
-                if (!seen && entity.World.GetNearestEntity(pos, 56, 32, e => e is EntityPlayer p && p.Alive) == null
+                if (!seen && !players.Any(p => Math.Abs(p.Pos.Y - pos.Y) <= 32 && p.Pos.SquareHorDistanceTo(pos) <= 56 * 56)
                     && !(target?.WatchedAttributes.GetBool("backrooms:testTarget") == true && target.Pos.DistanceTo(pos) < 56)) Despawn();
                 break;
             case Encounter.Glimpse:
@@ -279,10 +282,17 @@ public class EntityBehaviorMenace : EntityBehavior
     }
 
     /// <summary>Whether any player could see this entity right now.</summary>
-    public bool SeenByAnyone(double range)
+    public bool SeenByAnyone(double range) =>
+        SeenByAnyone(entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)range, (float)range, e => e is EntityPlayer p && p.Alive), range);
+
+    /// <summary>The same, from the players already found about (alive ones, at least as far as <paramref name="range"/>): those beyond the range or spectating do not count.</summary>
+    private bool SeenByAnyone(Entity[] players, double range)
     {
-        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)range, (float)range, e => e is EntityPlayer p && p.Alive && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator))
+        Vec3d pos = entity.Pos.XYZ;
+        foreach (Entity e in players)
         {
+            if (Math.Abs(e.Pos.Y - pos.Y) > range || e.Pos.SquareHorDistanceTo(pos) > range * range) continue;
+            if (e is EntityPlayer { Player: { } who } && who.WorldData.CurrentGameMode == EnumGameMode.Spectator) continue;
             if (Senses.Sees(e, entity, range)) return true;
         }
         Entity target = Target;

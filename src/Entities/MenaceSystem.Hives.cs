@@ -59,11 +59,15 @@ public partial class MenaceSystem
             try { densDone = new HashSet<long>(SerializerUtil.Deserialize<long[]>(data)); }
             catch (Exception e) { api.Logger.Warning("[backrooms] could not read the dens that have hearts: {0}", e.Message); }
         });
-        api.Event.GameWorldSave += () =>
-        {
-            if (layout != null) api.WorldManager.SaveGame.StoreData(DensSaveKey, SerializerUtil.Serialize(densDone.ToArray()));
-        };
+        api.Event.GameWorldSave += SaveDens;
     }
+
+    private void SaveDens()
+    {
+        if (layout != null) sapi.WorldManager.SaveGame.StoreData(DensSaveKey, SerializerUtil.Serialize(densDone.ToArray()));
+    }
+
+    private void StopHives(ICoreServerAPI api) => api.Event.GameWorldSave -= SaveDens;
 
     // ================= Hive hearts =================
 

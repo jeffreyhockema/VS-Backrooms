@@ -36,7 +36,17 @@ public partial class MenaceSystem
         api.Event.DidUseBlock += OnUsedBlock;
         api.Event.DidPlaceBlock += OnPlacedBlock;
         api.Event.OnEntitySpawn += OnSpawned;
-        api.Event.RegisterGameTickListener(Listen, e => api.Logger.Error("[backrooms] entity director (listening): {0}", e), ListenMs, 500);
+        listenListener = api.Event.RegisterGameTickListener(Listen, e => api.Logger.Error("[backrooms] entity director (listening): {0}", e), ListenMs, 500);
+    }
+
+    private long listenListener;
+
+    private void StopListening(ICoreServerAPI api)
+    {
+        api.Event.DidUseBlock -= OnUsedBlock;
+        api.Event.DidPlaceBlock -= OnPlacedBlock;
+        api.Event.OnEntitySpawn -= OnSpawned;
+        if (listenListener != 0) api.Event.UnregisterGameTickListener(listenListener);
     }
 
     /// <summary>A door opened or shut: heard down the hall, unless it was done quietly (sneaking).</summary>
@@ -53,7 +63,7 @@ public partial class MenaceSystem
     {
         if (player?.Entity == null || sel?.Position == null) return;
         AssetLocation code = stack?.Collectible?.Code;
-        if (code == null || code.Domain != "backrooms" || !code.Path.StartsWith("firesalt")) return;
+        if (code == null || code.Domain != "backrooms" || !code.Path.StartsWith("firesalt", StringComparison.Ordinal)) return;
         RaiseNoise(sel.Position.ToVec3d().Add(0.5, 0.5, 0.5), FireLoudness, "fire", player.Entity);
     }
 

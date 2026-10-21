@@ -218,7 +218,7 @@ public class EntityBehaviorFaceling : EntityBehavior
         }
 
         // Every grown Faceling within sixteen blocks that can see what happened (or is close) turns on the attacker
-        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, 16, 6, e => e != entity && e.Alive && e.Code.Path.StartsWith("faceling")))
+        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, 16, 6, e => e != entity && e.Alive && e.Code.Path.StartsWith("faceling", StringComparison.Ordinal)))
         {
             if (other.Code.Path.EndsWith("child")) continue;
             if (other.Pos.DistanceTo(entity.Pos) > 6 && !Senses.ClearLine(entity.World, Senses.Centre(other), Senses.Centre(entity))) continue;

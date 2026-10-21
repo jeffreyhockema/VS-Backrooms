@@ -43,7 +43,7 @@ public class BlockMothHiveHeart : Block
 }
 
 /// <summary>
-/// What a killed Clump leaves: a patch of flesh on the floor, which after a day grows a new, smaller Clump unless it is
+/// What a killed Clump leaves: a patch of flesh on the floor, which after a while grows a new, smaller Clump (about twenty in-game hours later, <see cref="BlockEntityClumpRemnant.GrowHours"/>) unless it is
 /// burnt (right-click it with a lit torch or a firestarter, or keep a lit firepit or burning Firesalt within two
 /// blocks) or broken.
 /// </summary>
@@ -54,7 +54,7 @@ public class BlockClumpRemnant : Block
     {
         string path = stack?.Collectible?.Code?.Path;
         if (path == null) return false;
-        return path == "firestarter" || path.StartsWith("torch") && !path.Contains("extinct");
+        return path == "firestarter" || path.StartsWith("torch", StringComparison.Ordinal) && !path.Contains("extinct");
     }
 
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
@@ -164,7 +164,7 @@ public class BlockEntityClumpRemnant : BlockEntity
                     Block block = ba.GetBlock(at.Set(Pos.X + dx, Pos.Y + dy, Pos.Z + dz));
                     if (block?.Code == null) continue;
                     string path = block.Code.Path;
-                    if (block.Code.Domain == "game" && path == "firepit-lit" || block.Code.Domain == "backrooms" && path.StartsWith("firesalt")) return true;
+                    if (block.Code.Domain == "game" && path == "firepit-lit" || block.Code.Domain == "backrooms" && path.StartsWith("firesalt", StringComparison.Ordinal)) return true;
                 }
         return false;
     }

@@ -83,6 +83,21 @@ public class BeastSystem : ModSystem
         AiTaskRegistry.Register<AiTaskBeast>("backrooms-beast");
     }
 
+    private long tickListener;
+
+    private static void OnNowPlaying(IServerPlayer player) => player.Entity?.WatchedAttributes.SetFloat(DreadKey, 0);
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        long id = player.Entity?.EntityId ?? -1;
+        if (events.TryGetValue(id, out Event e))
+        {
+            SendAway(e.Target);
+            nextAllowedHours[id] = sapi.World.Calendar.TotalHours + CooldownHours;
+            events.Remove(id);
+        }
+    }
+
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
@@ -91,21 +106,12 @@ public class BeastSystem : ModSystem
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             director = api.ModLoader.GetModSystem<MenaceSystem>();
-            api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] the Beast of Level 5: {0}", e), 1000, 1700);
+            tickListener = api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] the Beast of Level 5: {0}", e), 1000, 1700);
             api.Event.OnEntityDeath += OnEntityDeath;
         });
         // (Nothing of an event outlives a restart: the dread starts at nothing)
-        api.Event.PlayerNowPlaying += player => player.Entity?.WatchedAttributes.SetFloat(DreadKey, 0);
-        api.Event.PlayerDisconnect += player =>
-        {
-            long id = player.Entity?.EntityId ?? -1;
-            if (events.TryGetValue(id, out Event e))
-            {
-                SendAway(e.Target);
-                nextAllowedHours[id] = sapi.World.Calendar.TotalHours + CooldownHours;
-                events.Remove(id);
-            }
-        };
+        api.Event.PlayerNowPlaying += OnNowPlaying;
+        api.Event.PlayerDisconnect += OnPlayerDisconnect;
 
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("beast")
@@ -157,12 +163,14 @@ public class BeastSystem : ModSystem
         {
             if (online is not IServerPlayer player || player.Entity is not { } entity || events.ContainsKey(entity.EntityId)) continue;
             if (!entity.Alive || player.WorldData.CurrentGameMode is EnumGameMode.Spectator or EnumGameMode.Creative || !director.Setting.Entities) continue;
-            if (hours < nextAllowedHours.GetValueOrDefault(entity.EntityId)) continue;
             MenaceSystem.Assessment a = director.AssessmentOf(entity);
 
-            // A debt that has fallen due is collected wherever its debtor is (only the Hub, of all places, is closed to him)
+            // A debt that has fallen due is collected wherever its debtor is (only the Hub, of all places, is closed to him),
+            // and the cooldown after an event does not hold it back, or the reprieve would really be the longer cooldown
             double due = entity.WatchedAttributes.GetDouble(DueKey, double.MaxValue);
-            if (hours >= due && a.Level != WorldLayout.Hub)
+            bool dueNow = hours >= due && a.Level != WorldLayout.Hub;
+            if (!dueNow && hours < nextAllowedHours.GetValueOrDefault(entity.EntityId)) continue;
+            if (dueNow)
             {
                 events[entity.EntityId] = new Event { Target = entity, Collect = true, GlimpseAt = 20 + rand.NextDouble() * 15 };
                 Log("he comes to collect from {0}", player.PlayerName);
@@ -254,11 +262,12 @@ public class BeastSystem : ModSystem
                     events.Remove(target?.EntityId ?? -1);
                     foreach (var pair in events.Where(p => p.Value == e).ToList()) events.Remove(pair.Key);
                     if (target != null) nextAllowedHours[target.EntityId] = hours + CooldownHours;
-                    // Got away from a collection: he will come again
-                    if (target is { Alive: true } && e.Collect && e.Came && Owes(target) && hours >= target.WatchedAttributes.GetDouble(DueKey))
+                    // Got away from a collection: he will come again. One that never got going (no place to stand him in) puts the
+                    // debt off the same way, silently, or the next tick would start it again at once.
+                    if (target is { Alive: true } && e.Collect && Owes(target) && hours >= target.WatchedAttributes.GetDouble(DueKey))
                     {
                         target.WatchedAttributes.SetDouble(DueKey, hours + ReprieveHours);
-                        Tell(target, "backrooms:beast-reprieve");
+                        if (e.Came) Tell(target, "backrooms:beast-reprieve");
                     }
                     Log("the music comes back");
                 }
@@ -520,6 +529,13 @@ public class BeastSystem : ModSystem
     public override void Dispose()
     {
         Hushed = false;
+        if (sapi != null)
+        {
+            sapi.Event.PlayerNowPlaying -= OnNowPlaying;
+            sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+            sapi.Event.OnEntityDeath -= OnEntityDeath;
+            if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
+        }
         base.Dispose();
     }
 
