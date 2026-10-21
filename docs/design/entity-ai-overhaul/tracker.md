@@ -160,3 +160,20 @@ Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmb
 - Could not check: a real client, the 15-minute cooldown end to end, Level 94 by day, the Snackrooms.
 - Reviewer (sonnet, one round): no defects. Notes for the merge: the call site `rand.NextDouble() < 0.25` in `Direct` still exists (piece A's file; the cooldown gives the spacing, but the "roll once" wording needs that line removed); menacing-roll fed Skin-Stealers and scavenger packs do not start the cooldown; `--only smoke` in `run.py` runs nothing (smoke runs only without `--only`), I called `run.smoke` directly.
 - Lessons: `Ctx.place` needs retries for a Heartland dummy (try several keys and read the band from `dummies off`).
+
+### P7, round 2 (2026-10-20): integration (overseer)
+
+- Merged to `main` in the order A (c5afcec), C (plus the removal of the 25 % pre-roll before `SpawnAmbient`, f3d9cb8), B
+  (5547c56; conflicts in `tools/aitest/run.py` and this file resolved by keeping both sides, the case list now
+  `ISO_CASES + ISO_HOUND_CASES`) and D. Cheat-menu buttons "Dummy: face toward / away" added for piece B's
+  `/backrooms dummy face` (8cc9fbb).
+- Gates: piece A had an independent blind review (shared body gate, den band, Level 0 rule folded into the roll: all
+  fixed); the merged A + C build passed the full harness 26/27 (only the known-flaky `p1-hunt-to-search`); the Release
+  build of the whole round (`bin/backroomsss_0.515.0.zip`, rebuilt 22:55) was run through the full harness again (see
+  the session's final note below).
+- Decisions taken on the way: the Lobby's heart is sounds only (no body entry; the Bacteria begins in the approach
+  band); the 0.4 x mean hard gap plus a 0.6 x mean exponential keeps the stated mean; the Bacteria's Lobby fright with
+  no way through ends in Search then Leave (it shares `leavesAfterSearch`); "too close" does not fire while a stare
+  holds the Hound.
+- Still to check in a client: everything in playtest.md section 9 (above all the four Hound counters, doors headless-
+  untested, and the felt rate of bodies and sounds).
