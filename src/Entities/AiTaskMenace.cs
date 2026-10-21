@@ -495,6 +495,7 @@ public class AiTaskMenace : AiTaskBase
     {
         Encounter before = lastKind;
         plannedAt = chasing = null;
+        backTurnedFor = 0;
         doorAt = null;
         lastPathMs = 0;
         StopLook();
@@ -661,7 +662,7 @@ public class AiTaskMenace : AiTaskBase
         watchedFor = Math.Max(0, watchedFor - 0.1f);
 
         if (grabsThroughWalls && TryGrab(distance)) return;
-        if (hasNerve && StaredDown(distance)) return;
+        if (hasNerve && retaliationStartMs < 0 && StaredDown(distance)) return;
 
         if (ShouldTurnToHunt(distance, a))
         {
@@ -1192,7 +1193,7 @@ public class AiTaskMenace : AiTaskBase
     private void Spotted(double distance, MenaceSystem.Assessment a)
     {
         // (A Hound that sights them again follows, and the charge triggers decide: sight alone is not enough)
-        Kind = !chargesWhenBacked && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
+        Kind = (!chargesWhenBacked || retaliationStartMs >= 0) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
     }
 
     /// <summary>A length of time in the config's seconds, a little over or under (up to two seconds either way), in ms.</summary>
@@ -1737,7 +1738,11 @@ public class AiTaskMenace : AiTaskBase
         // (One that leaves when it loses them looks about where the way ended, and goes: a shut door stops a Hound)
         if (Kind == Encounter.Hunt)
         {
-            if (leavesAfterSearch) Log("no way through: it looks about where the way ended");
+            if (leavesAfterSearch)
+            {
+                Log("no way through: it looks about where the way ended");
+                belief.Strength = 0; // (so the search does not take the old belief, or a noise behind the door, for a fresh find)
+            }
             Kind = leavesAfterSearch ? Encounter.Search : Encounter.Stalk;
         }
         plannedAt = null;
