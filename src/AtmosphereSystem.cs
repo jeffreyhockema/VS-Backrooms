@@ -281,8 +281,8 @@ public partial class AtmosphereSystem : ModSystem
         foreach (ILoadedSound sound in new[]
         {
             poolTone, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
-            l974Lullaby, l974Fridge, hotelTune, hotelFading, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
-        }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []))
+            l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
+        }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();
             sound?.Dispose();

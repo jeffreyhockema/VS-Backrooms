@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -26,9 +25,8 @@ public partial class AtmosphereSystem
     private const double HotelCycleSeconds = 360, HotelOnSeconds = 90;
     private const float HotelFade = 2.5f, HotelVolume = 0.5f;
 
-    private HashSet<int> hotelMusicIds;
-    private readonly Dictionary<long, (double At, List<Vec3i> Sources)> hotelChunks = new();
-    private ILoadedSound hotelTune, hotelFading;
+    private BlockFinder hotelSpeakers;
+    private MusicVoice hotelVoice;
     private Vec3i hotelSource;
     private double hotelScanAt, hotelLastDistance = -1;
     private int hotelCandidates;
@@ -49,43 +47,18 @@ public partial class AtmosphereSystem
             }));
     }
 
-    private static uint HotelHash(Vec3i p)
-    {
-        unchecked
-        {
-            uint h = (uint)(p.X * 73856093 ^ p.Y * 19349663 ^ p.Z * 83492791);
-            h ^= h >> 15; h *= 2246822519u; h ^= h >> 13;
-            return h;
-        }
-    }
-
     /// <summary>Whether the source at <paramref name="p"/> has its record on, at this many seconds of real time.</summary>
     private static bool HotelSourceOn(Vec3i p, double seconds) =>
-        (seconds + HotelHash(p) % (uint)HotelCycleSeconds) % HotelCycleSeconds < HotelOnSeconds;
-
-    private void HotelStop()
-    {
-        if (hotelTune != null)
-        {
-            ILoadedSound old = hotelTune;
-            hotelTune = null;
-            hotelFading = old;
-            old.FadeOut(HotelFade, s =>
-            {
-                s.Stop();
-                s.Dispose();
-                if (hotelFading == s) hotelFading = null;
-            });
-        }
-        hotelSource = null;
-    }
+        (seconds + MusicHash(p) % (uint)HotelCycleSeconds) % HotelCycleSeconds < HotelOnSeconds;
 
     private void HotelSounds(float dt, EntityPos pos, bool here)
     {
+        hotelVoice ??= new MusicVoice(capi);
         // The Beast of Level 5 about (his dread round this player, or him in sight): the music stops
         if (!here || Entities.BeastSystem.Hushed)
         {
-            if (hotelTune != null || hotelSource != null) HotelStop();
+            hotelVoice.Set(null, null, 0, 0, HotelFade, HotelFade);
+            hotelSource = null;
             hotelCandidates = 0;
             return;
         }
@@ -93,87 +66,36 @@ public partial class AtmosphereSystem
         if (now < hotelScanAt) return;
         hotelScanAt = now + 0.5;
 
-        if (hotelMusicIds == null)
-        {
-            hotelMusicIds = new HashSet<int>();
-            foreach (Block block in capi.World.Blocks)
-            {
-                if (block.Code == null || block.Code.Domain != "backrooms") continue;
-                string path = block.Code.Path;
-                if (path == "turntable" || (path.StartsWith("hoteldeco-") && path.Contains("-speaker-"))) hotelMusicIds.Add(block.BlockId);
-            }
-        }
-        if (hotelMusicIds.Count == 0) return;
+        hotelSpeakers ??= new BlockFinder(capi, b => b.Code.Path == "turntable"
+            || (b.Code.Path.StartsWith("hoteldeco-", StringComparison.Ordinal) && b.Code.Path.Contains("-speaker-", StringComparison.Ordinal)));
 
         // The nearest source that is on, among the chunks around the player
-        IBlockAccessor chunks = capi.World.BlockAccessor;
-        int cs = GlobalConstants.ChunkSize;
-        int pcx = (int)Math.Floor(pos.X) / cs, pcy = (int)Math.Floor(pos.Y) / cs, pcz = (int)Math.Floor(pos.Z) / cs;
         Vec3i best = null;
-        double range2 = HotelMusicRange * HotelMusicRange, bestD = range2, currentD = double.MaxValue;
+        double bestD = double.MaxValue, currentD = double.MaxValue;
         hotelCandidates = 0;
-        for (int dx = -1; dx <= 1; dx++)
-            for (int dy = -1; dy <= 1; dy++)
-                for (int dz = -1; dz <= 1; dz++)
-                {
-                    int cx = pcx + dx, cy = pcy + dy, cz = pcz + dz;
-                    IWorldChunk chunk = chunks.GetChunk(cx, cy, cz);
-                    if (chunk?.Data == null) continue;
-                    long key = ((long)cx & 0xFFFFF) | (((long)cy & 0xFFF) << 20) | (((long)cz & 0xFFFFF) << 32);
-                    if (!hotelChunks.TryGetValue(key, out var entry) || now > entry.At)
-                    {
-                        var found = new List<Vec3i>();
-                        bool any = false;
-                        foreach (int id in hotelMusicIds)
-                            if (chunk.Data.ContainsBlock(id)) { any = true; break; }
-                        if (any)
-                            for (int i = 0; i < cs * cs * cs; i++)
-                            {
-                                if (!hotelMusicIds.Contains(chunk.Data.GetBlockIdUnsafe(i))) continue;
-                                found.Add(new Vec3i(cx * cs + i % cs, cy * cs + i / (cs * cs), cz * cs + i / cs % cs));
-                            }
-                        entry = (now + 8, found);
-                        hotelChunks[key] = entry;
-                    }
-                    foreach (Vec3i s in entry.Sources)
-                    {
-                        if (!HotelSourceOn(s, now)) continue;
-                        double ex = s.X + 0.5 - pos.X, ey = s.Y + 0.5 - pos.Y, ez = s.Z + 0.5 - pos.Z;
-                        double d = ex * ex + ey * ey + ez * ez;
-                        if (d > range2) continue;
-                        hotelCandidates++;
-                        if (hotelSource != null && s.Equals(hotelSource)) currentD = d;
-                        if (d < bestD) { bestD = d; best = s; }
-                    }
-                }
-        if (hotelChunks.Count > 200) hotelChunks.Clear();
+        foreach (var (s, d2) in hotelSpeakers.Near(pos, HotelMusicRange, now))
+        {
+            if (!HotelSourceOn(s, now)) continue;
+            hotelCandidates++;
+            if (hotelSource != null && s.Equals(hotelSource)) currentD = d2;
+            if (d2 < bestD) { bestD = d2; best = s; }
+        }
 
         // Keep the tune playing unless it has gone off or another source is clearly nearer (about four blocks)
-        if (hotelSource != null)
+        Vec3i chosen = best;
+        double chosenD = bestD;
+        if (hotelSource != null && currentD < double.MaxValue && (best == null || bestD > currentD - 16 || best.Equals(hotelSource)))
         {
-            bool stillOn = currentD < double.MaxValue;
-            if (stillOn && (best == null || bestD > currentD - 16 || best.Equals(hotelSource)))
-            {
-                hotelLastDistance = Math.Sqrt(currentD);
-                return;
-            }
-            HotelStop();
+            chosen = hotelSource;
+            chosenD = currentD;
         }
-        if (best == null || hotelFading != null) return; // one tune at a time: wait for the old one to fade
-        hotelSource = best;
-        hotelLastDistance = Math.Sqrt(bestD);
-        hotelTune = capi.World.LoadSound(new SoundParams
+        hotelSource = chosen;
+        if (chosen == null)
         {
-            Location = new AssetLocation("backrooms:sounds/ambient/jazz"), ShouldLoop = true, RelativePosition = false, DisposeOnFinish = false,
-            Position = new Vec3f(best.X + 0.5f, best.Y + 0.5f, best.Z + 0.5f), Range = 20f, Volume = 0.01f, SoundType = EnumSoundType.Ambient,
-        });
-        if (hotelTune == null)
-        {
-            hotelSource = null;
+            hotelVoice.Set(null, null, 0, 0, HotelFade, HotelFade);
             return;
         }
-        hotelTune.Start();
-        hotelTune.PlaybackPosition = (float)(Random.Shared.NextDouble() * hotelTune.SoundLengthSeconds);
-        hotelTune.FadeTo(HotelVolume, HotelFade, _ => { });
+        hotelLastDistance = Math.Sqrt(chosenD);
+        hotelVoice.Set("ambient/jazz", new Vec3f(chosen.X + 0.5f, chosen.Y + 0.5f, chosen.Z + 0.5f), 20f, HotelVolume, HotelFade, HotelFade);
     }
 }
