@@ -542,17 +542,24 @@ def textures():
     save(noisy(0xFFE6A8, 3, "lampglow"), "lampglow")
     save(noisy(0xFFF6E6, 2, "diffuser"), "diffuser")
     # Shrink wrap: milky, crinkled, catching the light; brown packing tape
-    img = Image.new("RGBA", (S, S), (232, 236, 238, 110))
+    # Drawn as a cut-out (texels fully opaque or fully empty) because the stock block renders in an opaque pass:
+    # a sparse milky film, bright glints and grey creases, with the goods showing through the gaps
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     rng = random.Random(seed_of("wrap"))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x % 3 == 0 and y % 3 == 0) or rng.random() < 0.05:
+                px[x, y] = (226, 232, 235, 255)
     d = ImageDraw.Draw(img)
     for _ in range(9):
         x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-6, 6), y + rng.randint(4, 12)], fill=(255, 255, 255, 170))
+        d.line([x, y, x + rng.randint(-6, 6), y + rng.randint(4, 12)], fill=(255, 255, 255, 255))
     for _ in range(5):
         x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-5, 5), y + rng.randint(3, 8)], fill=(196, 204, 210, 140))
+        d.line([x, y, x + rng.randint(-5, 5), y + rng.randint(3, 8)], fill=(176, 186, 194, 255))
     save(img, "wrap")
-    img = noisy(0xC9A46A, 4, "tape", alpha=225)
+    img = noisy(0xC9A46A, 4, "tape", alpha=255)
     save(img, "tape")
     save(noisy(0xEDEFEF, 3, "cleartape", alpha=120), "cleartape")
     img = noisy(0xC8A878, 7, "pallet")
@@ -1632,9 +1639,6 @@ def furniture():
             faces_box("Shade", (8.5, 19.5, 9), (14.5, 22, 12), {"north": "greenglass", "south": "greenglass", "east": "greenglass", "west": "greenglass", "up": "greenglass"}),
             faces_box("ShadeGlow", (8.7, 19.45, 9.2), (14.3, 19.5, 11.8), {"down": "lampglow"}, glow_by_face={"down": 255}),
             bx("Chain", (13.6, 17.5, 10.4), (13.8, 19.5, 10.6), "brass")]
-    wrap = [faces_box("Wrap", (1.4, 0, 1.4), (14.6, 17.6, 14.6), {"north": "wrap", "south": "wrap", "east": "wrap", "west": "wrap", "up": "wrap"})]
-    for k, y in enumerate((5, 13)):
-        wrap.append(faces_box(f"Tape{k}", (1.3, y, 1.3), (14.7, y + 1.2, 14.7), {"north": "tape", "south": "tape", "east": "tape", "west": "tape"}))
     armchair = [bx("FootFW", (1, 0, 1.5), (2.5, 3, 3), "maple-dark"), bx("FootFE", (13.5, 0, 1.5), (15, 3, 3), "maple-dark"),
                 bx("FootBW", (1, 0, 13), (2.5, 3, 14.5), "maple-dark"), bx("FootBE", (13.5, 0, 13), (15, 3, 14.5), "maple-dark"),
                 bx("Base", (0.5, 3, 1), (15.5, 8, 15), "mustard"), bx("Cushion", (3, 8, 1.4), (13, 10.2, 12.5), "mustard"),
@@ -1663,7 +1667,7 @@ def furniture():
         "table": table_els(),
         "lamptable": table_els() + lamp,
         "chair": chair_els(),
-        "wrapped": chair_els() + wrap,
+        "wrapped": chair_els(),  # the old "chair in plastic" code: now a plain chair (the square wrap sat wrong on an L-shaped chair)
         "armchair": armchair,
         "carrel": carrel,
         "displaytable": display,
@@ -1673,7 +1677,7 @@ def furniture():
     for kind, els in kinds.items():
         shapes.update(by_side(f"*-{kind}", shp(f"end-furniture-{kind}", els)))
     boxes = {"table": [(0, 0, 0, 1, 0.875, 1)], "lamptable": [(0, 0, 0, 1, 0.875, 1)], "chair": [(0.12, 0, 0.12, 0.88, 0.6, 0.88)],
-             "wrapped": [(0.09, 0, 0.09, 0.91, 1.1, 0.91)], "armchair": [(0.03, 0, 0.06, 0.97, 0.65, 0.94)],
+             "wrapped": [(0.12, 0, 0.12, 0.88, 0.6, 0.88)], "armchair": [(0.03, 0, 0.06, 0.97, 0.65, 0.94)],
              "carrel": [(0, 0, 0.12, 1, 1.5, 1)], "displaytable": [(0, 0, 0.06, 1, 0.55, 0.94)], "magrack": [(0, 0, 0.25, 1, 1.4, 1)]}
     sel = {}
     for kind, b in boxes.items():
@@ -1686,9 +1690,8 @@ def furniture():
         "creativeinventory": inv("*-table-north"), "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": shapes, **OPEN, "resistance": 1.5, "sounds": WOOD,
         "collisionboxesByType": coll, "selectionboxesByType": sel,
-        "renderpassByType": {"*-wrapped-*": "Transparent"},
         "lightHsvByType": {"*-lamptable-*": [8, 4, 10]},
-        "soundsByType": {"*-armchair-*": CLOTH, "*-wrapped-*": CLOTH, "*": WOOD},
+        "soundsByType": {"*-armchair-*": CLOTH, "*": WOOD},
         "dropsByType": {
             "*-table-*": drops((TABLE, 0.5, 0), (PLANK, 1.5, 0.5)),
             "*-lamptable-*": drops((TABLE, 0.5, 0), (PLANK, 1.5, 0.5), ("game:metalbit-brass", 0.6, 0.4), ("glassshard", 0.5, 0.5)),
@@ -1702,7 +1705,7 @@ def furniture():
     }, "The End: reading-room furniture, facing the side named (a chair's sitter faces it): study table, table with a "
        "banker's lamp, library chair, a chair still in its plastic, armchair, study carrel, display table, magazine rack")
     for kind, eng in (("table", "Study Table"), ("lamptable", "Study Table with Lamp"), ("chair", "Library Chair"),
-                      ("wrapped", "Chair in Plastic"), ("armchair", "Armchair"), ("carrel", "Study Carrel"),
+                      ("wrapped", "Library Chair"), ("armchair", "Armchair"), ("carrel", "Study Carrel"),
                       ("displaytable", "Display Table"), ("magrack", "Magazine Rack")):
         name(f"end-furniture-{kind}-*", eng)
 
@@ -1803,7 +1806,7 @@ def stock():
         "creativeinventory": inv("*-pallet-north"), "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": shapes, **OPEN, "resistance": 1.5, "sounds": WOOD,
         "collisionboxesByType": coll, "selectionboxesByType": coll,
-        "renderpassByType": {"*-pallet-*": "Transparent", "*-ladderwrapped-*": "Transparent"},
+        "renderpassByType": {"*-pallet-*": "OpaqueNoCull", "*-ladderwrapped-*": "OpaqueNoCull"},  # the wrap is a cut-out texture, so the stock shows solid through it
         "dropsByType": {
             "*-pallet-*": drops((PLANK, 3, 1), (NAILS, 0.5, 0.5), ("block:supplybox", 1, 0)),
             "*-trolley-*": drops((STICK, 2, 1), ("metalbracket", 1, 0.5), (PLANK, 1, 0.5)),
