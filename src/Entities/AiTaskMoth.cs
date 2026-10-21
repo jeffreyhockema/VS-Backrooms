@@ -43,7 +43,9 @@ public class AiTaskMoth : AiTaskBase
     private EntityBehaviorMenace menace;
     private MenaceSystem director;
     private Vec3d goal, home, perch;
-    private float think, phase, nextBite;
+    private float think, sinceThink, phase, nextBite;
+    /// <summary>The target the alarm (<see cref="AlarmedKey"/>) was last seen to hold this moth on; a different one ends the alarm.</summary>
+    private Entity alarmedOn;
     /// <summary>What the level's danger does to its speed (see <see cref="Danger"/>), read when it first flies.</summary>
     private float speedMul = -1;
     private double drawn;
@@ -95,11 +97,15 @@ public class AiTaskMoth : AiTaskBase
     {
         if (!entity.Alive) return false;
         think -= dt;
+        sinceThink += dt;
         phase += dt * (1.6f + (float)drawn);
         if (think <= 0)
         {
             think = 0.25f;
-            Decide();
+            // (Real seconds since the last decision, not the nominal 0.25: a think is a whole tick or more late)
+            float elapsed = sinceThink;
+            sinceThink = 0;
+            Decide(elapsed);
         }
         Steer(dt);
         return true;
@@ -107,7 +113,13 @@ public class AiTaskMoth : AiTaskBase
 
     private bool Alarmed => Bites && entity.Attributes.GetBool(AlarmedKey);
 
-    private void Decide()
+    private void ClearAlarm()
+    {
+        alarmedOn = null;
+        if (entity.Attributes.HasAttribute(AlarmedKey)) entity.Attributes.RemoveAttribute(AlarmedKey);
+    }
+
+    private void Decide(float elapsed)
     {
         if (++thoughts % 20 == 0) Log("{0}, {1}, drawn {2:0.0}, {3:0.0} blocks from its target", menace.Kind, settle, drawn, menace.Target == null ? -1 : entity.Pos.DistanceTo(menace.Target.Pos));
         Entity target = menace.Target;
@@ -116,8 +128,20 @@ public class AiTaskMoth : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         drawn = 0;
 
+        // An alarm lasts while the one that raised it is the target: it ends when she is left to wander, or turns to another
+        if (kind is Encounter.Ambient or Encounter.Leave) ClearAlarm();
+        else if (Alarmed)
+        {
+            // (Hunting, it is on whoever the alarm last named; otherwise a different target than it was alarmed on ends the alarm)
+            if (alarmedOn == null || kind == Encounter.Hunt) alarmedOn = target;
+            else if (target != alarmedOn) ClearAlarm();
+        }
+        else alarmedOn = null;
+
         // Moth jelly set down within 24 blocks draws every male to it, whatever else is about (MothJelly.cs)
         if (!bites && BaitPull(now)) return;
+        // (Nothing put it down for anyone and it is not leaving: nothing to fly off from)
+        if (kind == Encounter.Ambient && target == null) return;
         if (kind == Encounter.Leave || target == null || !target.Alive)
         {
             TakeOff();
@@ -160,7 +184,7 @@ public class AiTaskMoth : AiTaskBase
             goal = flame.Add(Math.Cos(phase) * r, 0.3 * Math.Sin(phase * 1.9), Math.Sin(phase) * r);
             home = target.Pos.XYZ;
 
-            nextBite -= 0.25f;
+            nextBite -= elapsed;
             if (Bites && kind == Encounter.Hunt && drawn >= 0.5 && entity.Pos.XYZ.DistanceTo(flame) < 2.2 && nextBite <= 0 && !IsCreative(target))
             {
                 nextBite = 2 + (float)rand.NextDouble() * 2.5f;
@@ -251,7 +275,7 @@ public class AiTaskMoth : AiTaskBase
 
     /// <summary>Whether something edible lies on the floor: a dropped food item.</summary>
     private bool IsFoodItem(Entity e) =>
-        e is EntityItem { Alive: true } item && item.Itemstack?.Collectible?.GetNutritionProperties(entity.World, item.Itemstack, null) != null;
+        e is EntityItem { Alive: true } item && item.Itemstack?.Collectible?.GetNutritionProperties(entity.World, item.Itemstack, entity) != null;
 
     /// <summary>A male's: beside dropped food or a body within scavenging range, or at the edge of water (Almond Water too), and never by a player.</summary>
     private Vec3d FindFood()
@@ -281,7 +305,7 @@ public class AiTaskMoth : AiTaskBase
 
     /// <summary>Whether a living player (not in spectator mode) is within a range of a spot.</summary>
     private bool PlayerNear(Vec3d at, double range) =>
-        entity.World.GetNearestEntity(at, (float)range, (float)range, e => e is EntityPlayer { Alive: true } p && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator) != null;
+        entity.World.GetNearestEntity(at, (float)range, (float)range, e => e is EntityPlayer { Alive: true } && !Strike.IsSpectator(e)) != null;
 
     /// <summary>Whether a loud noise (a break, a fight) has just been heard near enough to startle it.</summary>
     private bool Startled(long now) =>
@@ -300,7 +324,7 @@ public class AiTaskMoth : AiTaskBase
                     at.Set(x0 + dx, y0 + dy, z0 + dz);
                     if (ba.GetBlock(at, BlockLayersAccess.Fluid).IsLiquid()) return true;
                     Block block = ba.GetBlock(at);
-                    if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("almond")) return true;
+                    if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("almond", StringComparison.Ordinal)) return true;
                 }
         return entity.World.GetNearestEntity(spot, 1.5f, 1.5f, e => !e.Alive && e is EntityAgent || IsFoodItem(e)) != null;
     }
@@ -331,7 +355,7 @@ public class AiTaskMoth : AiTaskBase
     }
 
     /// <summary>Whether a Deathmoth bites and answers the alarm: the females, and the males of a level that makes them aggressive.</summary>
-    public static bool IsAggressive(Entity moth) => moth.Code.Path.EndsWith("female") || moth.Attributes.GetBool(AggressiveKey);
+    public static bool IsAggressive(Entity moth) => moth.Code.Path.EndsWith("female", StringComparison.Ordinal) || moth.Attributes.GetBool(AggressiveKey);
 
     /// <summary>Sets every Deathmoth within sixteen blocks of one onto a cause: the females to attack, the males away.</summary>
     public static void Alarm(Entity moth, Entity cause) => AlarmAt(moth.World, moth.Pos.XYZ, cause);
@@ -340,7 +364,7 @@ public class AiTaskMoth : AiTaskBase
     public static void AlarmAt(IWorldAccessor world, Vec3d at, Entity cause, float radius = AlarmRadius)
     {
         if (cause == null) return;
-        foreach (Entity other in world.GetEntitiesAround(at, radius, 8, e => e.Alive && e.Code.Path.StartsWith("deathmoth")))
+        foreach (Entity other in world.GetEntitiesAround(at, radius, 8, e => e.Alive && e.Code.Path.StartsWith("deathmoth", StringComparison.Ordinal)))
         {
             var behavior = other.GetBehavior<EntityBehaviorMenace>();
             if (behavior == null) continue;
@@ -421,8 +445,7 @@ public class AiTaskMoth : AiTaskBase
         sapi.Logger.Notification("[backrooms] {0} #{1} at {2:0},{3:0},{4:0}: {5}", entity.Code.Path, entity.EntityId, entity.Pos.X, entity.Pos.Y, entity.Pos.Z, string.Format(format, args));
     }
 
-    private static bool IsCreative(Entity target) =>
-        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+    private static bool IsCreative(Entity target) => Strike.IsCreative(target);
 
     public override void FinishExecute(bool cancelled)
     {
@@ -474,7 +497,7 @@ public static class AlmondWater
                 for (int x = x0 - r; x <= x0 + r && !found; x++)
                 {
                     Block block = ba.GetBlock(at.Set(x, y, z));
-                    if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("almond")) found = true;
+                    if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("almond", StringComparison.Ordinal)) found = true;
                 }
         lock (Cache) Cache[(cx, cy, cz)] = (now, found);
         return found;

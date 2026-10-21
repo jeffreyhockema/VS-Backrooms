@@ -491,10 +491,12 @@ public class AiTaskWatch : AiTaskBase
         // Only where it saw them: it does not know where they have gone
         Vec3d to = v > 0 ? watched.Pos.XYZ : lastSeen;
         bool moved = chasing == null || chasing.SquareDistanceTo(to.X, to.Y, to.Z) >= 4;
-        if (!pathTraverser.Active || moved && Now - lastPathMs > 750)
+        if (!pathTraverser.Active && Now - lastPathMs > 600 || moved && Now - lastPathMs > 750)
         {
             chasing = to.Clone();
-            Go(chasing, runSpeed, attackRange * 0.6f + (entity.SelectionBox.XSize + watched.SelectionBox.XSize) / 2, null, async: false);
+            // (Asynchronous, off the main thread; a search still pending would be taken for this one's answer, so stop first)
+            pathTraverser.Stop();
+            Go(chasing, runSpeed, attackRange * 0.6f + (entity.SelectionBox.XSize + watched.SelectionBox.XSize) / 2, null);
         }
         else if (v > 0)
         {
@@ -769,7 +771,7 @@ public class AiTaskWatch : AiTaskBase
 
     // ================= Movement, poses and sounds =================
 
-    private void Go(Vec3d to, float speed, float within, Action onArrived, bool async = true)
+    private void Go(Vec3d to, float speed, float within, Action onArrived)
     {
         lastPathMs = Now;
         SetPose(null);
@@ -792,12 +794,7 @@ public class AiTaskWatch : AiTaskBase
             noPathUntilMs = Now + 4000;
             onArrived?.Invoke();
         }
-        if (async) pathTraverser.NavigateTo_Async(to, speed, within, Arrived, Stuck, NoPath, 2500, 1);
-        else
-        {
-            pathTraverser.Stop();
-            pathTraverser.NavigateTo(to, speed, within, Arrived, Stuck, NoPath, false, 2000, 1);
-        }
+        pathTraverser.NavigateTo_Async(to, speed, within, Arrived, Stuck, NoPath, 2500, 1);
     }
 
     private void Stop()
@@ -865,8 +862,7 @@ public class AiTaskWatch : AiTaskBase
         return health == null || health.MaxHealth <= 0 ? 1 : health.Health / health.MaxHealth;
     }
 
-    private static bool IsCreative(Entity who) =>
-        who is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+    private static bool IsCreative(Entity who) => Strike.IsCreative(who);
 
     private void Log(string format, params object[] args)
     {

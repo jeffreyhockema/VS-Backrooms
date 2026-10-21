@@ -133,7 +133,6 @@
 							"hearsRunning": false,
 							"sneakFactor": 0.6
 						},
-						"floatAnimation": "float",
 						"scanAnimation": "scan",
 						"chargeAnimation": "charge",
 						"beamAnimation": "beam",

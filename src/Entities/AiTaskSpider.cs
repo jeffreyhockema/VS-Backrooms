@@ -25,7 +25,7 @@ public class EntityGiantSpider : EntityAgent
         return multiplier;
     }
 
-    private static bool IsWeb(Block block) => block?.Code != null && block.Code.Domain == "game" && block.Code.Path.StartsWith("spiderweb");
+    private static bool IsWeb(Block block) => block?.Code != null && block.Code.Domain == "game" && block.Code.Path.StartsWith("spiderweb", StringComparison.Ordinal);
 }
 
 /// <summary>
@@ -66,6 +66,10 @@ public class AiTaskSpider : AiTaskBase
     private float reach;
     private Vec3d chasing;
     private Entity venomTarget;
+    private bool venomScheduled, fleeGoing;
+
+    /// <summary>The least between two path searches of an idle traverser while it chases.</summary>
+    private const long RepathMs = 600;
 
     public AiTaskSpider(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -137,6 +141,13 @@ public class AiTaskSpider : AiTaskBase
         think -= dt;
         if (think > 0) return true;
         think = 0.25f;
+
+        // (Fleeing, but no floor was found to run to: look again, rather than stand there for good)
+        if (state == State.Flee && !fleeGoing && now - lastPathMs > 1500)
+        {
+            Flee(target);
+            return true;
+        }
 
         if (menace.Kind == Encounter.Leave || target == null || !target.Alive)
         {
@@ -321,10 +332,11 @@ public class AiTaskSpider : AiTaskBase
                 pathTraverser.WalkTowards(target.Pos.XYZ.Clone(), runSpeed * (float)speedMul, within, OnArrived, OnArrived);
             }
         }
-        else if (!pathTraverser.Active || moved && now - lastPathMs > 750)
+        else if (!pathTraverser.Active && now - lastPathMs > RepathMs || moved && now - lastPathMs > 750)
         {
             chasing = target.Pos.XYZ;
-            Go(chasing, runSpeed, within, sync: true);
+            // (Asynchronous, as the other hunters: the traverser is not active until a later tick, so the repath is rate limited, not gated on it)
+            Go(chasing, runSpeed, within);
         }
         else
         {
@@ -392,10 +404,14 @@ public class AiTaskSpider : AiTaskBase
     private void Envenom(Entity target)
     {
         if (venom <= 0 || venomTicks <= 0) return;
-        bool running = venomLeft > 0 && venomTarget == target;
+        // (One chain of ticks at a time: a bite on someone else only retargets the chain already scheduled)
         venomTarget = target;
         venomLeft = venomTicks;
-        if (!running) entity.World.RegisterCallback(_ => VenomTick(), venomEveryMs);
+        if (!venomScheduled)
+        {
+            venomScheduled = true;
+            entity.World.RegisterCallback(_ => VenomTick(), venomEveryMs);
+        }
     }
 
     private void VenomTick()
@@ -404,11 +420,13 @@ public class AiTaskSpider : AiTaskBase
         if (venomLeft <= 0 || target == null || !target.Alive)
         {
             venomLeft = 0;
+            venomScheduled = false;
             return;
         }
         venomLeft--;
         Strike.Hit(entity, target, venom * (float)damageMul, EnumDamageType.Poison, 0, 0);
         if (venomLeft > 0) entity.World.RegisterCallback(_ => VenomTick(), venomEveryMs);
+        else venomScheduled = false;
     }
 
     // ================= Going =================
@@ -416,6 +434,7 @@ public class AiTaskSpider : AiTaskBase
     private void Flee(Entity from)
     {
         SetState(State.Flee);
+        fleeGoing = false;
         entity.AnimManager.StopAnimation("lurk");
         entity.AnimManager.StopAnimation("rear");
         Vec3d away = from?.Pos.XYZ ?? entity.Pos.XYZ.Add(1, 0, 0);
@@ -427,23 +446,20 @@ public class AiTaskSpider : AiTaskBase
             int y = Senses.FindFloor(entity.World, x, (int)Math.Floor(entity.Pos.Y), z, 1, 6);
             if (y == int.MinValue) continue;
             Go(new Vec3d(x + 0.5, y, z + 0.5), runSpeed, 1);
+            fleeGoing = true;
             return;
         }
     }
 
-    private void Go(Vec3d to, float speed, float within, bool sync = false)
+    private void Go(Vec3d to, float speed, float within)
     {
         lastPathMs = entity.World.ElapsedMilliseconds;
         SetMoving(true, speed >= runSpeed * 0.75f);
         // (The traverser keeps the point it is given and steers it; it must not be one this task goes on changing)
         to = to.Clone();
-        if (sync)
-        {
-            // A search still pending would be taken for this one's answer
-            pathTraverser.Stop();
-            pathTraverser.NavigateTo(to, speed * (float)speedMul, within, OnArrived, OnArrived, OnNoPath, false, 2000, 1);
-        }
-        else pathTraverser.NavigateTo_Async(to, speed * (float)speedMul, within, OnArrived, OnArrived, OnNoPath, 1800, 1);
+        // (A search still pending would be taken for this one's answer, so stop the traverser first)
+        pathTraverser.Stop();
+        pathTraverser.NavigateTo_Async(to, speed * (float)speedMul, within, OnArrived, OnArrived, OnNoPath, 1800, 1);
     }
 
     private void OnArrived() => SetMoving(false, false);

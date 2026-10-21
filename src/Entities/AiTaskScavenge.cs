@@ -44,6 +44,7 @@ public class AiTaskScavenge : AiTaskBase
     private string moveAnim;
     /// <summary>What it has had its fill of, or cannot reach, and until when (entity id to elapsed ms).</summary>
     private readonly Dictionary<long, long> ignored = new();
+    private readonly List<long> expired = new();
 
     public AiTaskScavenge(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -112,7 +113,7 @@ public class AiTaskScavenge : AiTaskBase
     }
 
     private static bool IsPerson(Entity e) =>
-        e.Alive && (Senses.IsTestTarget(e) || e is EntityPlayer p && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator);
+        e.Alive && (Senses.IsTestTarget(e) || e is EntityPlayer && !Strike.IsSpectator(e));
 
     /// <summary>Whether someone is walking about (not creeping, not standing still); a straw dummy always is, unless it sneaks.</summary>
     private static bool Walking(Entity e)
@@ -164,10 +165,16 @@ public class AiTaskScavenge : AiTaskBase
     /// <summary>The nearest thing to eat: food lying on the floor, or a carcass.</summary>
     private Entity FindFood(long now)
     {
-        foreach (long id in new List<long>(ignored.Keys)) if (ignored[id] < now) ignored.Remove(id);
+        if (ignored.Count > 0)
+        {
+            // (Forget what has been ignored long enough; the key list is reused, not copied afresh at every look)
+            expired.Clear();
+            foreach (KeyValuePair<long, long> pair in ignored) if (pair.Value < now) expired.Add(pair.Key);
+            foreach (long id in expired) ignored.Remove(id);
+        }
         Entity best = null;
         double bestDistance = double.MaxValue;
-        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, foodRange, 6, e => IsFood(e) && !ignored.ContainsKey(e.EntityId)))
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, foodRange, 6, IsUnignoredFood))
         {
             double d = entity.Pos.DistanceTo(e.Pos);
             if (d >= bestDistance) continue;
@@ -176,6 +183,8 @@ public class AiTaskScavenge : AiTaskBase
         }
         return best;
     }
+
+    private bool IsUnignoredFood(Entity e) => !ignored.ContainsKey(e.EntityId) && IsFood(e);
 
     private bool IsFood(Entity e)
     {
@@ -196,7 +205,8 @@ public class AiTaskScavenge : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         startedMs = now;
         arrived = stuck = noPath = eating = false;
-        Log("{0}", mode == Mode.Scatter ? "scatters from " + threat.Code.Path : "goes to eat " + food.Code.Path);
+        if (mode == Mode.Scatter) Log("scatters from {0}", threat.Code.Path);
+        else Log("goes to eat {0}", food.Code.Path);
         moveAnim = mode == Mode.Scatter ? "run" : "walk";
         entity.AnimManager.StartAnimation(moveAnim);
         if (mode == Mode.Scatter) Scatter(now);

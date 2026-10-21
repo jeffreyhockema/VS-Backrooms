@@ -138,7 +138,8 @@ public class AiTaskWatcher : AiTaskBase
         switch (mode)
         {
             case Mode.Charge:
-                Charging(best);
+                // (The one it charges at, not whoever is plainest now: a second, plainer person must not cancel the warning)
+                Charging(Observe(chargeOn));
                 return;
             case Mode.Cooldown:
                 if (Now >= coolUntilMs)
@@ -291,6 +292,14 @@ public class AiTaskWatcher : AiTaskBase
         return best;
     }
 
+    /// <summary>How far off and how open the line is to one given person, or null if it cannot see them at all.</summary>
+    private Seen Observe(Entity who)
+    {
+        if (who == null || !who.Alive || IsCreative(who) || Perception.Sight(entity, who, senses, out _) <= 0) return null;
+        Vec3d eye = Senses.Eyes(entity), centre = Senses.Centre(who);
+        return new Seen { Who = who, Distance = eye.DistanceTo(centre), Open = Senses.ClearLine(entity.World, eye, centre, false) };
+    }
+
     // ================= Charge and beam =================
 
     private void StartCharge(Entity who)
@@ -305,7 +314,7 @@ public class AiTaskWatcher : AiTaskBase
 
     private void Charging(Seen best)
     {
-        bool still = best != null && best.Who == chargeOn;
+        bool still = best != null;
         if (!still)
         {
             if (lostSinceMs < 0) lostSinceMs = Now;
@@ -427,6 +436,9 @@ public class AiTaskWatcher : AiTaskBase
         return Math.Max(y, roof + 3.0);
     }
 
+    private int roofAhead;
+    private long roofAheadAtMs;
+
     private void Steer(float dt)
     {
         // What it faces: whoever it is charging, peering at or closing in on
@@ -450,7 +462,12 @@ public class AiTaskWatcher : AiTaskBase
         double h = Math.Sqrt(dx * dx + dz * dz);
         if (h > 0.1)
         {
-            int roofAhead = entity.World.BlockAccessor.GetRainMapHeightAt((int)Math.Floor(entity.Pos.X + dx / h * 3), (int)Math.Floor(entity.Pos.Z + dz / h * 3));
+            // (Looked up once a think, not every frame: it moves a block or two in that time)
+            if (Now - roofAheadAtMs >= 200)
+            {
+                roofAheadAtMs = Now;
+                roofAhead = entity.World.BlockAccessor.GetRainMapHeightAt((int)Math.Floor(entity.Pos.X + dx / h * 3), (int)Math.Floor(entity.Pos.Z + dz / h * 3));
+            }
             if (roofAhead + 2.5 > entity.Pos.Y) dy = Math.Max(dy, roofAhead + 3.5 - entity.Pos.Y);
         }
         double length = Math.Sqrt(dx * dx + dy * dy + dz * dz);
@@ -491,8 +508,7 @@ public class AiTaskWatcher : AiTaskBase
         if (entity.WatchedAttributes.GetLong(WatcherOnKey, -1) != id) entity.WatchedAttributes.SetLong(WatcherOnKey, id);
     }
 
-    private static bool IsCreative(Entity who) =>
-        who is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+    private static bool IsCreative(Entity who) => Strike.IsCreative(who);
 
     private void Log(string format, params object[] args)
     {

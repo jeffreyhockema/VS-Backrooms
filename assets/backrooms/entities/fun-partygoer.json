@@ -217,15 +217,20 @@
 						"maxcooldown": 0,
 						"walkSpeed": 0.016,
 						"runSpeed": 0.031,
-						"sightLit": 12,
-						"sightDim": 7,
-						"sightDark": 4,
+						"senses": {
+							"sightLit": 12,
+							"sightDim": 7,
+							"sightDark": 4,
+							"sightCone": 70,
+							"sneakFactor": 0.6,
+							"hearing": 6,
+							"touch": 2
+						},
 						"latchDamage": 2.5,
 						"clawDamage": 4.0,
 						"attackRange": 1.6,
 						"gazeSound": "backrooms:entity/partygoer/gaze",
 						"latchSound": "backrooms:entity/partygoer/latch",
-						"carapaceSound": "backrooms:entity/partygoer/carapace",
 						"clawSound": "backrooms:entity/partygoer/claw"
 					},
 					{

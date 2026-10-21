@@ -46,7 +46,10 @@ public class AiTaskPartygoer : AiTaskBase
     private Entity target;
     private Vec3d home, lastSeenAt;
     private float think, turnTo;
-    private long stateMs, lastSeenMs, attackStartMs = -1, lastAttackMs, lastPathMs;
+    private long stateMs, lastSeenMs, attackStartMs = -1, lastAttackMs, lastPathMs, wardedSinceMs = -1;
+
+    /// <summary>How long (ms) a hunt stands off from a target kept at bay by a fire before it is given up.</summary>
+    private const long WardedGiveUpMs = 20_000;
     private bool damageDone, dangerRead, clawing;
     private float speedMul = 1, damageMul = 1, cooldownMul = 1;
     private int tierBonus;
@@ -211,7 +214,7 @@ public class AiTaskPartygoer : AiTaskBase
         }
     }
 
-    public static bool IsPartygoer(Entity e) => e.Code?.Domain == "backrooms" && e.Code.Path.StartsWith("partygoer");
+    public static bool IsPartygoer(Entity e) => e.Code?.Domain == "backrooms" && e.Code.Path.StartsWith("partygoer", StringComparison.Ordinal);
 
     // ================= Seeing =================
 
@@ -223,7 +226,7 @@ public class AiTaskPartygoer : AiTaskBase
         // (A straw dummy put down for a headless test counts as someone)
         foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, 18, 6, e => e.Alive && (e is EntityPlayer || e.WatchedAttributes.GetBool("backrooms:testTarget"))))
         {
-            if (e is EntityPlayer { Player: { } p } && p.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator) continue;
+            if (Strike.IsCreative(e)) continue;
             double d = entity.Pos.DistanceTo(e.Pos);
             if (d < bestD && Notices(e, hunting: false)) { best = e; bestD = d; }
         }
@@ -314,7 +317,7 @@ public class AiTaskPartygoer : AiTaskBase
 
     private void Hunt(long now)
     {
-        if (target is not { Alive: true } || target is EntityPlayer { Player: { } p } && p.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator)
+        if (target is not { Alive: true } || Strike.IsCreative(target))
         {
             SetState(Guest ? State.Return : State.Patrol, now);
             return;
@@ -330,9 +333,18 @@ public class AiTaskPartygoer : AiTaskBase
         // Fire: it will not go near
         if (Wards.Warded(entity.World, target.Pos.XYZ, Wards.Radius + 1))
         {
+            // (It sees them all the while, so nothing else ends this: after a while of standing off, the pack gives up and goes back to the party)
+            if (wardedSinceMs < 0) wardedSinceMs = now;
+            if (now - wardedSinceMs > WardedGiveUpMs)
+            {
+                wardedSinceMs = -1;
+                SetState(Guest ? State.Return : State.Patrol, now);
+                return;
+            }
             Stop();
             return;
         }
+        wardedSinceMs = -1;
         double gap = Gap(target);
         long cooldown = (long)((Berserk ? 900 : 1500) * cooldownMul);
         if (gap <= attackRange && now - lastAttackMs > cooldown)

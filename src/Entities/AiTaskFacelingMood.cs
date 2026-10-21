@@ -183,7 +183,8 @@ public class AiTaskOutburst : AiTaskBase
 public class AiTaskCompanion : AiTaskBase
 {
     private readonly float walkSpeed, runSpeed, minDistance, maxDistance;
-    private long nextLookMs;
+    private long nextLookMs, lastPathMs;
+    private Vec3d pathGoal;
     private float think;
     private string anim;
 
@@ -230,11 +231,18 @@ public class AiTaskCompanion : AiTaskBase
         if (distance > 40) return false;
         if (distance > maxDistance)
         {
-            if (!pathTraverser.Active)
+            // (A new path when there is none, or when the leader has moved on three blocks since this one was made: it
+            // would otherwise walk to where they stood and only then look again, trailing a whole path behind in a chase)
+            long now = entity.World.ElapsedMilliseconds;
+            bool moved = pathTraverser.Active && pathGoal != null && pathGoal.SquareDistanceTo(leader.Pos.XYZ) >= 9;
+            if (!pathTraverser.Active || moved && now - lastPathMs > 750)
             {
+                lastPathMs = now;
+                pathGoal = leader.Pos.XYZ.Clone();
                 bool far = distance > maxDistance + 6;
                 SetAnim(far ? "run" : "walk");
-                pathTraverser.NavigateTo_Async(leader.Pos.XYZ.Clone(), far ? runSpeed : walkSpeed, (minDistance + maxDistance) / 2, () => SetAnim(null), () => SetAnim(null), () => SetAnim(null), 1500, 1);
+                pathTraverser.Stop();
+                pathTraverser.NavigateTo_Async(pathGoal.Clone(), far ? runSpeed : walkSpeed, (minDistance + maxDistance) / 2, () => SetAnim(null), () => SetAnim(null), () => SetAnim(null), 1500, 1);
             }
         }
         else

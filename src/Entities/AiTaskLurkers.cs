@@ -32,8 +32,16 @@ public static class Strike
         Log(attacker, "hit {0} for {1:0.0}", target.Code, scaled);
     }
 
+    /// <summary>
+    /// Whether a target is a player in creative or spectator mode, whom nothing hunts. A player whose <c>Player</c> is not
+    /// attached yet (still joining, or just gone) counts as one too: its game mode is unknown, so it is not a target for that tick.
+    /// </summary>
     public static bool IsCreative(Entity target) =>
-        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+        target is EntityPlayer player && (player.Player == null || player.Player.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator);
+
+    /// <summary>Whether an entity is a player in spectator mode (the filter of scatter and draw checks, where creative players still count).</summary>
+    public static bool IsSpectator(Entity target) =>
+        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode == EnumGameMode.Spectator;
 
     public static void Log(Entity entity, string format, params object[] args)
     {
@@ -188,6 +196,9 @@ public class AiTaskClump : AiTaskBase
         return true;
     }
 
+    private readonly List<(double Distance, NoiseEvent Noise)> runners = new();
+    private readonly HashSet<long> counted = new();
+
     /// <summary>
     /// What it hears: the loudest noise within its hearing (the noise bus), else its target's running as it happens,
     /// else several people running, each further runner letting the lot be heard from further off (the second
@@ -199,10 +210,15 @@ public class AiTaskClump : AiTaskBase
         if (bus == null) return null;
         if (Perception.HeardAnything(entity, senses, bus, now) is { } any) return any;
         if (target != null && Perception.Heard(entity, target, senses, bus, now) is { } own) return own;
+        // (Nothing to count unless somebody is running: the usual case, which must not allocate)
+        IReadOnlyList<NoiseEvent> recent = bus.Recent(now);
+        bool anyRun = false;
+        for (int i = 0; i < recent.Count && !anyRun; i++) anyRun = recent[i].Source == "run";
+        if (!anyRun) return null;
         Vec3d ears = Senses.Eyes(entity);
-        var runners = new List<(double Distance, NoiseEvent Noise)>();
-        var counted = new HashSet<long>();
-        foreach (NoiseEvent e in bus.Recent(now))
+        runners.Clear();
+        counted.Clear();
+        foreach (NoiseEvent e in recent)
             if (e.Source == "run" && counted.Add(e.Who)) runners.Add((e.Pos.DistanceTo(ears), e));
         runners.Sort((a, b) => a.Distance.CompareTo(b.Distance));
         for (int i = 1; i < runners.Count; i++)

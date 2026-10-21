@@ -48,7 +48,7 @@ public class AiTaskGreet : AiTaskBase
 
     public AiTaskGreet(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
-        child = entity.Code.Path.EndsWith("child");
+        child = entity.Code.Path.EndsWith("child", StringComparison.Ordinal);
     }
 
     /// <summary>Asks it to greet someone (null for nobody in particular, from a test): it does on its next tick, if nothing more pressing is going on.</summary>
@@ -108,7 +108,7 @@ public class AiTaskGreet : AiTaskBase
                 else
                 {
                     Play("shrug");
-                    Tell(greeter, Lang.Get("backrooms:faceling-shrugs"));
+                    Tell(greeter, "backrooms:faceling-shrugs");
                     Go(Step.Shrug);
                 }
                 return true;
@@ -118,7 +118,7 @@ public class AiTaskGreet : AiTaskBase
                 if (Turn(way.Yaw, 2.6f, dt) > 0.05f && stepTime < 2.5f) return true;
                 entity.Pos.Yaw = way.Yaw;
                 Play("point");
-                Tell(greeter, Lang.Get("backrooms:faceling-points", Lang.Get("backrooms:dir-" + way.Dir), Lang.Get(way.Distance < 96 ? "backrooms:faceling-near" : way.Distance < 224 ? "backrooms:faceling-mid" : "backrooms:faceling-far")));
+                Tell(greeter, "backrooms:faceling-points", "backrooms:dir-" + way.Dir, way.Distance < 96 ? "backrooms:faceling-near" : way.Distance < 224 ? "backrooms:faceling-mid" : "backrooms:faceling-far");
                 Go(Step.Point);
                 return true;
 
@@ -188,9 +188,13 @@ public class AiTaskGreet : AiTaskBase
         return Math.Abs(delta - by);
     }
 
-    private static void Tell(Entity who, string text)
+    /// <summary>Says a lang entry to a player in that player's own language (the server's language is not theirs); the arguments are lang keys too.</summary>
+    private static void Tell(Entity who, string key, params string[] argKeys)
     {
-        if (who is EntityPlayer { Player: IServerPlayer player }) player.SendMessage(GlobalConstants.GeneralChatGroup, text, EnumChatType.Notification);
+        if (who is not EntityPlayer { Player: IServerPlayer player }) return;
+        object[] args = new object[argKeys.Length];
+        for (int i = 0; i < args.Length; i++) args[i] = Lang.GetL(player.LanguageCode, argKeys[i]);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.GetL(player.LanguageCode, key, args), EnumChatType.Notification);
     }
 
     private static string Who(Entity e) => e == null ? "nobody" : e is EntityPlayer p ? p.Player?.PlayerName ?? "a player" : e.Code.Path + " #" + e.EntityId;

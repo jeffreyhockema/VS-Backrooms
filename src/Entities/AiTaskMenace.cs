@@ -31,7 +31,7 @@ namespace Backrooms.Entities;
 /// Each kind of entity sets what holds it back in its task config: <c>lightBound</c> (Smilers never step into light,
 /// and freeze while stared at), <c>fearsFire</c> (keeps clear of lit firepits, Firesalt and angel statues),
 /// <c>grabsThroughWalls</c> and <c>respectsAlmond</c> (Dullers), <c>avoidsLight</c> (rats keep out of a carried
-/// light), <c>slowedByLight</c>, <c>coward</c> (flees when hurt or faced), <c>retaliates</c>.
+/// light), <c>coward</c> (flees when hurt or faced), <c>retaliates</c>.
 /// Two flags shape how a hunt starts and ends: <c>chargesWhenBacked</c> (the Hound: seeing them is not enough; it charges
 /// when they run, turn their back, are too close, or its nerve breaks under a stare) and <c>leavesAfterSearch</c> (a search
 /// that finds nothing, or a hunt with no way through, ends in leaving rather than going back to following).
@@ -48,14 +48,14 @@ public class AiTaskMenace : AiTaskBase
     private readonly AssetLocation stalkSound, huntSound, attackSound, grabSound;
     private readonly AssetLocation[] voices;
     private readonly float voicesWhenSeen;
-    private readonly bool lightBound, fearsFire, grabsThroughWalls, respectsAlmond, avoidsLight, slowedByLight, coward, retaliates, prefersHidden;
+    private readonly bool lightBound, fearsFire, grabsThroughWalls, respectsAlmond, avoidsLight, coward, retaliates, prefersHidden;
     /// <summary>The gaze block: frozen while stared at and not running (then gone after six seconds), and a nerve spent under a stare (see <see cref="StaredDown"/>).</summary>
     private readonly bool gazeHolds, hasNerve;
     private readonly float gazeNerveMin, gazeNerveMax;
     /// <summary>What it perceives (null: it knows where its target is), and the perception-driven extras.</summary>
     private readonly SenseProfile senses;
-    private readonly bool glimpseTurnsToStalk, growlBeforeCharge, barks, drawnToLight, huntsOnSight;
-    /// <summary>The Hound's rule in place of <c>huntsOnSight</c> (see <see cref="ChargeTrigger"/>), and the Search that ends in leaving (see <see cref="EndSearch"/>).</summary>
+    private readonly bool glimpseTurnsToStalk, growlBeforeCharge, barks, drawnToLight;
+    /// <summary>The Hound's rule for starting a hunt (see <see cref="ChargeTrigger"/>), and the Search that ends in leaving (see <see cref="EndSearch"/>).</summary>
     private readonly bool chargesWhenBacked, leavesAfterSearch;
     /// <summary>The charge triggers: how far off (blocks) a turned back counts, for how long (s), the cone (degrees either side of a stare) that is not a turned back, and how close is too close.</summary>
     private readonly float backTurnedRange, backTurnedSeconds, backTurnedCone, chargeCloseRange;
@@ -83,11 +83,17 @@ public class AiTaskMenace : AiTaskBase
     private MenaceSystem director;
     private Entity target;
     private Motion motion;
-    private float think, watchedFor, heldFor, runningFor, walkingFor, nextVoice = 10, nextGrowl = 4;
+    private float think, sinceThink, thinkStep = 0.3f, watchedFor, heldFor, runningFor, walkingFor, nextVoice = 10, nextGrowl = 4;
     // When the hunt began, when it last drew blood, and until when it will not turn to the hunt again (see Hunt)
     private long huntSinceMs = -1, lastBloodMs, calmUntilMs;
     // Whether this hunt was started by being struck (a fight someone picked) rather than by a runner
     private bool huntProvoked;
+    /// <summary>
+    /// Whether it holds a grudge against its target: struck and retaliating (the timer), or in a hunt a blow started
+    /// (<see cref="huntProvoked"/>, which outlives the timer when an owner's blow clears it at once). A creature with a
+    /// grudge is not held by a stare-down and hunts without the band, Lobby or calm rules.
+    /// </summary>
+    private bool Grudge => retaliationStartMs >= 0 || huntProvoked;
     /// <summary>
     /// Turning on the target (see <c>turnsWhenCornered</c>, <c>turnsWhenChased</c>): the hunt is provoked and the target
     /// kept in mind (a grudge) while it lasts. The seconds the target has been close in a row, and the seconds spent chased.
@@ -109,8 +115,8 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>The longest a hunt in the Lobby lasts (see <see cref="huntsInLobby"/>).</summary>
     private const long LobbyHuntMs = 25_000;
 
-    /// <summary>The light in hand (a torch is 14, a candle 7) that slows what is slowed by light.</summary>
-    private const int TorchLight = 10;
+    /// <summary>The light in hand (a torch is 14, a candle 7) that rats and the like keep clear of (<c>avoidsLight</c>).</summary>
+    private const int AvoidedLight = 10;
 
     /// <summary>How long (seconds, in all) a glimpse must have seen its target before it turns to a stalk (see <c>glimpseTurnsToStalk</c>).</summary>
     private const float GlimpseSeenSeconds = 2;
@@ -232,7 +238,6 @@ public class AiTaskMenace : AiTaskBase
         grabsThroughWalls = taskConfig["grabsThroughWalls"].AsBool(false);
         respectsAlmond = taskConfig["respectsAlmond"].AsBool(false);
         avoidsLight = taskConfig["avoidsLight"].AsBool(false);
-        slowedByLight = taskConfig["slowedByLight"].AsBool(false);
         coward = taskConfig["coward"].AsBool(false);
         retaliates = taskConfig["retaliates"].AsBool(true);
         prefersHidden = taskConfig["prefersHidden"].AsBool(false);
@@ -265,7 +270,6 @@ public class AiTaskMenace : AiTaskBase
         huntBarkSeconds = taskConfig["huntBarkSeconds"].AsFloat(0);
         huntBarkLevels = taskConfig["huntBarkLevels"].AsArray(Array.Empty<int>());
         drawnToLight = taskConfig["drawnToLight"].AsBool(false);
-        huntsOnSight = taskConfig["huntsOnSight"].AsBool(false);
         chargesWhenBacked = taskConfig["chargesWhenBacked"].AsBool(false);
         leavesAfterSearch = taskConfig["leavesAfterSearch"].AsBool(false);
         backTurnedRange = taskConfig["backTurnedRange"].AsFloat(BackTurnedRange);
@@ -349,6 +353,7 @@ public class AiTaskMenace : AiTaskBase
         Log("starts: {0}", menace.Kind);
         if (Perceives) Log("senses: {0}", senses);
         think = 0;
+        sinceThink = 0;
         plannedAt = null;
         motion = Motion.Still;
         attackStartMs = -1;
@@ -387,9 +392,13 @@ public class AiTaskMenace : AiTaskBase
         }
 
         think -= dt;
+        sinceThink += dt;
         if (motion == Motion.Still && target != null && kind != Encounter.Leave) TurnTowards(FacePoint(), dt);
         if (think > 0) return true;
         think = 0.3f;
+        // (The seconds since the last pass: a pass is 0.3 s rounded up to a tick, more under lag, and the counters below are in real seconds)
+        thinkStep = sinceThink;
+        sinceThink = 0;
 
         if (target == null || !target.Alive)
         {
@@ -450,13 +459,13 @@ public class AiTaskMenace : AiTaskBase
 
         if (target is EntityAgent agent && Senses.Running(agent) && (!Perceives || seen.Contact != Contact.None))
         {
-            runningFor += 0.3f;
+            runningFor += thinkStep;
             walkingFor = 0;
         }
         else
         {
             runningFor = 0;
-            walkingFor += 0.3f;
+            walkingFor += thinkStep;
         }
 
         if (chargesWhenBacked)
@@ -464,7 +473,7 @@ public class AiTaskMenace : AiTaskBase
             // Their back turned, in sight and not far off (the stare test's own look: where they face, and the Hound's place)
             bool backTurned = seen.Contact == Contact.Seen && entity.Pos.DistanceTo(Believed) < backTurnedRange
                 && target is EntityAgent && !Senses.LooksAt(target, Senses.Centre(entity), backTurnedCone);
-            backTurnedFor = backTurned ? backTurnedFor + 0.3f : 0;
+            backTurnedFor = backTurned ? backTurnedFor + thinkStep : 0;
         }
 
         if (kind is Encounter.Glimpse or Encounter.Stalk && (turnsWhenCornered || turnsWhenChased) && TryTurnOnTarget(kind, distance, a, now)) return true;
@@ -487,7 +496,7 @@ public class AiTaskMenace : AiTaskBase
                 Search(distance, a, now);
                 break;
         }
-        PlayVoice(dt: 0.3f, distance);
+        PlayVoice(dt: thinkStep, distance);
         return true;
     }
 
@@ -544,7 +553,7 @@ public class AiTaskMenace : AiTaskBase
     private void Glimpse(double distance, MenaceSystem.Assessment a, long now)
     {
         // Hostile the moment they see a human: a glimpse that has watched them for a while, out towards the edge, follows
-        if (glimpseTurnsToStalk && seen.Contact == Contact.Seen) glimpseSeenFor += 0.3f;
+        if (glimpseTurnsToStalk && seen.Contact == Contact.Seen) glimpseSeenFor += thinkStep;
         if (glimpseTurnsToStalk && glimpseSeenFor > GlimpseSeenSeconds && a.Band >= MenaceBand.Approach && !menace.Passive)
         {
             Log("has watched them long enough: it follows");
@@ -580,10 +589,10 @@ public class AiTaskMenace : AiTaskBase
         // Stared at, it goes
         if (Starer(64, 10) != null)
         {
-            watchedFor += 0.3f;
+            watchedFor += thinkStep;
             if (watchedFor > 3) Kind = Encounter.Leave;
         }
-        else watchedFor = Math.Max(0, watchedFor - 0.15f);
+        else watchedFor = Math.Max(0, watchedFor - thinkStep / 2);
     }
 
     /// <summary>
@@ -604,7 +613,7 @@ public class AiTaskMenace : AiTaskBase
         bool cornered = false, chased = false;
         if (turnsWhenCornered)
         {
-            corneredFor = distance <= corneredRange ? corneredFor + 0.3f : 0;
+            corneredFor = distance <= corneredRange ? corneredFor + thinkStep : 0;
             cornered = corneredFor >= corneredSeconds;
         }
         if (turnsWhenChased && kind == Encounter.Stalk)
@@ -612,7 +621,7 @@ public class AiTaskMenace : AiTaskBase
             bool closing = lastChaseDistance >= 0 && distance < lastChaseDistance - 0.05
                 || distance < stalkMin - 1 && (motion != Motion.Still || pathTraverser.Active);
             lastChaseDistance = distance;
-            chasedFor = distance <= chaseRange && closing ? chasedFor + 0.3f : Math.Max(0, chasedFor - 0.15f);
+            chasedFor = distance <= chaseRange && closing ? chasedFor + thinkStep : Math.Max(0, chasedFor - thinkStep / 2);
             chased = chasedFor >= chaseSeconds;
         }
         if (!cornered && !chased) return false;
@@ -643,7 +652,7 @@ public class AiTaskMenace : AiTaskBase
     {
         // How far it is from where it believes them to be (what it keeps its distance by)
         double believedDistance = Perceives ? entity.Pos.DistanceTo(Believed) : distance;
-        Entity starer = Starer(48);
+        Entity starer = coward || gazeHolds ? Starer(48) : null;
         bool stared = starer != null;
 
         // A Duller confronted runs; a Smiler held in someone's gaze, who neither runs nor looks away, freezes and at last withdraws
@@ -655,14 +664,14 @@ public class AiTaskMenace : AiTaskBase
         if (gazeHolds && stared && runningFor == 0)
         {
             Stop();
-            watchedFor += 0.3f;
+            watchedFor += thinkStep;
             if (watchedFor > 6) Kind = Encounter.Leave;
             return;
         }
-        watchedFor = Math.Max(0, watchedFor - 0.1f);
+        watchedFor = Math.Max(0, watchedFor - thinkStep / 3);
 
         if (grabsThroughWalls && TryGrab(distance)) return;
-        if (hasNerve && retaliationStartMs < 0 && StaredDown(distance)) return;
+        if (hasNerve && !Grudge && StaredDown(distance)) return;
 
         if (ShouldTurnToHunt(distance, a))
         {
@@ -696,7 +705,7 @@ public class AiTaskMenace : AiTaskBase
     private void StalkSounds()
     {
         if (stalkSound == null) return;
-        nextGrowl -= 0.3f;
+        nextGrowl -= thinkStep;
         if (nextGrowl <= 0)
         {
             nextGrowl = 8 + (float)entity.World.Rand.NextDouble() * 12;
@@ -708,7 +717,7 @@ public class AiTaskMenace : AiTaskBase
     private bool ShouldTurnToHunt(double distance, MenaceSystem.Assessment a)
     {
         if (!CanHunt(distance, a)) return false;
-        if (retaliationStartMs >= 0 && !lightBound) return true;
+        if (Grudge && !lightBound) return true;
         double believedDistance = Perceives ? entity.Pos.DistanceTo(Believed) : distance;
         Random rand = entity.World.Rand;
         if (lightBound)
@@ -717,9 +726,7 @@ public class AiTaskMenace : AiTaskBase
             if (!a.Dark) return false;
             return runningFor > 1 || (!Perceives || seen.Contact != Contact.None) && Senses.Stability(target) < 0.4 || a.Band == MenaceBand.Threshold && rand.NextDouble() < 0.08 * 0.3;
         }
-        if (avoidsLight && Senses.HeldLight(target) >= 10) return false;
-        // Hostile on sight: a Hound that sees them close by comes
-        if (huntsOnSight && seen.Contact == Contact.Seen && believedDistance < stalkMax + 6) return true;
+        if (avoidsLight && Senses.HeldLight(target) >= AvoidedLight) return false;
         // The Hound is not set off by the sight of them: only by what the lore says sets it off
         if (chargesWhenBacked && ChargeTrigger(believedDistance) is { } why) return Charge(why);
         // Running is what gives you away: anything following within earshot gives chase
@@ -754,7 +761,7 @@ public class AiTaskMenace : AiTaskBase
     private bool CanHunt(double distance, MenaceSystem.Assessment a)
     {
         // Struck, it fights: no band, Lobby or calm rules hold it back from whoever hurt it (only a way through, and knowing where they are)
-        if (retaliationStartMs >= 0 && !menace.Passive && !menace.Harmless && !NoPathLately && !IsCreative(target))
+        if (Grudge && !menace.Passive && !menace.Harmless && !NoPathLately && !IsCreative(target))
             return !Perceives || Confidence(entity.World.ElapsedMilliseconds) > HuntConfidence;
         if (menace.Passive || menace.Harmless || a.Band < MenaceBand.Approach || NoPathLately) return false;
         // Lately given up on them (see Hunt)
@@ -810,7 +817,7 @@ public class AiTaskMenace : AiTaskBase
         // The pack barks as it runs them down (Level 3's packs), twice as often when close
         if (huntBarkSeconds > 0 && Array.IndexOf(huntBarkLevels, a.Level) >= 0)
         {
-            nextBark -= believedDistance < HuntBarkClose ? 0.6f : 0.3f;
+            nextBark -= believedDistance < HuntBarkClose ? 2 * thinkStep : thinkStep;
             if (nextBark <= 0)
             {
                 nextBark = huntBarkSeconds;
@@ -834,26 +841,26 @@ public class AiTaskMenace : AiTaskBase
         }
 
         // (Not one it was struck into: a Hound that is hit fights, whoever stares)
-        if (hasNerve && !huntProvoked && StaredDown(distance)) return;
+        if (hasNerve && !Grudge && StaredDown(distance)) return;
 
         // A Smiler held in someone's gaze, who neither runs nor looks away, freezes
         if (gazeHolds && runningFor == 0 && Starer(48) != null)
         {
             Stop();
-            watchedFor += 0.3f;
+            watchedFor += thinkStep;
             if (watchedFor > 6) Kind = Encounter.Leave;
             return;
         }
-        watchedFor = Math.Max(0, watchedFor - 0.1f);
+        watchedFor = Math.Max(0, watchedFor - thinkStep / 3);
 
         // What holds it back: a Smiler stops dead at the edge of the light (the next step would be lit), the rest at
         // the edge of a fire's reach, and rats keep clear of a carried light. Held back too long, it gives up.
         bool heldBack = lightBound && LitHere(NextStepTowards(goal, 1.5))
             || fearsFire && Wards.Warded(entity.World, goal, Wards.Radius + 1)
-            || avoidsLight && Senses.HeldLight(target) >= 10 && distance < 5;
+            || avoidsLight && Senses.HeldLight(target) >= AvoidedLight && distance < 5;
         if (heldBack)
         {
-            heldFor += 0.3f;
+            heldFor += thinkStep;
             if (heldFor > 20)
             {
                 Kind = Encounter.Leave;
@@ -892,13 +899,11 @@ public class AiTaskMenace : AiTaskBase
         }
 
         float speed = runSpeed;
-        // (A torch or a lantern in hand slows it; a candle, or the lit halls themselves, do not)
-        if (slowedByLight && Senses.HeldLight(target) >= TorchLight) speed *= 0.7f;
         // The Lobby's fright is a little short of a sprint; struck, it comes in earnest
         if (huntsInLobby && a.Level == 0 && !a.Worst && !huntProvoked) speed *= 0.92f;
         // A new path when there is none or the prey has moved on (as vanilla's seek does); otherwise steer the old one at it
         // (It goes to where it believes them to be: there, and nobody, it waits for the search above)
-        if (Perceives && believedDistance < ArriveWithin)
+        if (Perceives && believedDistance < ArriveWithin && seen.Contact == Contact.None)
         {
             Stop();
             return;
@@ -943,7 +948,7 @@ public class AiTaskMenace : AiTaskBase
             growling = false;
             return false;
         }
-        nerve -= 0.3f;
+        nerve -= thinkStep;
         if (nerve <= 0)
         {
             nerve = 0;
@@ -952,7 +957,7 @@ public class AiTaskMenace : AiTaskBase
             Log("its nerve breaks: it comes on");
             if (chargesWhenBacked) Log("hunts: nerve");
             if (huntSound != null) PlaySound(huntSound);
-            if (!menace.Passive) Kind = Perceives && Confidence(entity.World.ElapsedMilliseconds) <= HuntConfidence ? Encounter.Stalk : Encounter.Hunt;
+            if (!menace.Passive) Kind = Perceives && Confidence(entity.World.ElapsedMilliseconds) <= HuntConfidence || !CanHunt(distance, director.AssessmentOf(target)) ? Encounter.Stalk : Encounter.Hunt;
             return false;
         }
         if (!growling || !entity.AnimManager.ActiveAnimationsByAnimCode.ContainsKey("growl"))
@@ -1181,19 +1186,19 @@ public class AiTaskMenace : AiTaskBase
         if (gazeHolds && runningFor == 0 && Starer(48) != null)
         {
             Stop();
-            watchedFor += 0.3f;
+            watchedFor += thinkStep;
             if (watchedFor > 6) Kind = Encounter.Leave;
             return true;
         }
-        watchedFor = Math.Max(0, watchedFor - 0.1f);
-        return hasNerve && StaredDown(distance);
+        watchedFor = Math.Max(0, watchedFor - thinkStep / 3);
+        return hasNerve && !Grudge && StaredDown(distance);
     }
 
     /// <summary>It has found its target (or its trail) again: the hunt, if the hunt is open to it, else following.</summary>
     private void Spotted(double distance, MenaceSystem.Assessment a)
     {
         // (A Hound that sights them again follows, and the charge triggers decide: sight alone is not enough)
-        Kind = (!chargesWhenBacked || retaliationStartMs >= 0 || huntProvoked) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
+        Kind = (!chargesWhenBacked || Grudge) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
     }
 
     /// <summary>A length of time in the config's seconds, a little over or under (up to two seconds either way), in ms.</summary>
@@ -1465,7 +1470,7 @@ public class AiTaskMenace : AiTaskBase
             int step = i;
             entity.World.RegisterCallback(_ =>
             {
-                if (!who.Alive) return;
+                if (!who.Alive || who.State == EnumEntityState.Despawned) return;
                 who.TeleportToDouble(who.Pos.X, startY + step, who.Pos.Z);
             }, 90 * i);
         }
@@ -1889,11 +1894,26 @@ public class AiTaskMenace : AiTaskBase
 
     // ================= Senses =================
 
+    /// <summary>
+    /// Whether a point is lit. The people carrying a light near this entity are looked up once in a quarter second and
+    /// shared by every point asked about in that time (an edge search asks about up to forty): a carried light of at
+    /// most 20 does not reach further than that from whoever holds it, so one wide gather round the entity serves them all.
+    /// </summary>
     private bool LitHere(Vec3d pos)
     {
-        var carriers = entity.World.GetEntitiesAround(pos, 20, 8, e => e is EntityAgent && Senses.HeldLight(e) > 0);
-        return Senses.LightAt(entity.World, pos, carriers) >= Senses.LitLevel;
+        long now = entity.World.ElapsedMilliseconds;
+        if (lightCarriers == null || now - lightCarriersAtMs > 250)
+        {
+            lightCarriers = entity.World.GetEntitiesAround(entity.Pos.XYZ, 48, 24, IsLightCarrier);
+            lightCarriersAtMs = now;
+        }
+        return Senses.LightAt(entity.World, pos, lightCarriers) >= Senses.LitLevel;
     }
+
+    private static bool IsLightCarrier(Entity e) => e is EntityAgent && Senses.HeldLight(e) > 0;
+
+    private Entity[] lightCarriers;
+    private long lightCarriersAtMs;
 
     /// <summary>
     /// Whoever is looking straight at this entity and can see it (within a few degrees, for a stare): the one it was
@@ -1904,18 +1924,20 @@ public class AiTaskMenace : AiTaskBase
     {
         Vec3d centre = Senses.Centre(entity);
         if (target is EntityAgent viewer && Senses.LooksAt(viewer, centre, lookAngle) && Senses.Sees(viewer, entity, range)) return target;
-        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)range, (float)range, e => e != target && e is EntityPlayer p && p.Alive && p.Player?.WorldData.CurrentGameMode != EnumGameMode.Spectator))
+        foreach (Entity other in entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)range, (float)range, IsLivePlayer))
         {
+            if (other == target) continue;
             if (Senses.LooksAt(other, centre, lookAngle) && Senses.Sees(other, entity, range)) return other;
         }
         return null;
     }
 
+    private static bool IsLivePlayer(Entity e) => e is EntityPlayer { Alive: true } && !Strike.IsSpectator(e);
+
     /// <summary>Whether Almond Water, drunk in the last five minutes, keeps a Duller off someone.</summary>
     private static bool Protected(Entity target) => AlmondWater.Protects(target) || AlmondWater.Near(target.World, target.Pos.XYZ);
 
-    private static bool IsCreative(Entity target) =>
-        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+    private static bool IsCreative(Entity target) => Strike.IsCreative(target);
 
     private float HealthFraction()
     {

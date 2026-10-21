@@ -34,7 +34,7 @@ public class AiTaskBeast : AiTaskBase
 
     private EntityBehaviorMenace menace;
     private State state;
-    private float think, stared, lostSight, elapsed, shockedFor;
+    private float think, sinceThink, stared, lostSight, elapsed, shockedFor;
     private long startMs, lastPathMs;
     private bool walking;
 
@@ -85,9 +85,13 @@ public class AiTaskBeast : AiTaskBase
         Entity target = menace.Target;
         if (state == State.Offer || state == State.Glimpse) Face(target);
         think -= dt;
+        sinceThink += dt;
         if (think > 0) return true;
         think = 0.2f;
-        elapsed += 0.2f;
+        // (The counters are in real seconds: a pass comes a tick or more after the nominal 0.2 s)
+        float step = sinceThink;
+        sinceThink = 0;
+        elapsed += step;
 
         if (target == null || !target.Alive)
         {
@@ -107,7 +111,7 @@ public class AiTaskBeast : AiTaskBase
                 return true;
 
             case State.Shocked:
-                shockedFor += 0.2f;
+                shockedFor += step;
                 if (shockedFor >= shockedSeconds) Finish(flash: true);
                 return true;
 
@@ -129,14 +133,14 @@ public class AiTaskBeast : AiTaskBase
                 // Held in a steady gaze by someone who stands their ground: he is startled
                 if (looking && !(target is EntityAgent agent && Senses.Running(agent)))
                 {
-                    stared += 0.2f;
+                    stared += step;
                     if (stared >= stareSeconds)
                     {
                         Shock(target);
                         return true;
                     }
                 }
-                lostSight = inSight ? 0 : lostSight + 0.2f;
+                lostSight = inSight ? 0 : lostSight + step;
                 if (distance > refuseDistance || lostSight > lostSightSeconds || elapsed > offerSeconds)
                 {
                     Refuse(target, distance > refuseDistance ? "walked away" : lostSight > lostSightSeconds ? "out of sight" : "lapsed");

@@ -2642,9 +2642,11 @@ def entities():
     snd = "backrooms:entity/partygoer/"
     # The task the code registers (src/Entities/AiTaskPartygoer.cs); keys and defaults as the plan's "Manifest changes" C4
     task = {"code": "backrooms-partygoer", "priority": 1.6, "priorityForCancel": 1.6, "mincooldown": 0, "maxcooldown": 0,
-            "walkSpeed": 0.016, "runSpeed": 0.031, "sightLit": 12, "sightDim": 7, "sightDark": 4,
+            "walkSpeed": 0.016, "runSpeed": 0.031,
+            # (What the task reads is the nested senses object; flat sight keys on the task itself are ignored)
+            "senses": {"sightLit": 12, "sightDim": 7, "sightDark": 4, "sightCone": 70, "sneakFactor": 0.6, "hearing": 6, "touch": 2},
             "latchDamage": 2.5, "clawDamage": 4.0, "attackRange": 1.6,
-            "gazeSound": snd + "gaze", "latchSound": snd + "latch", "carapaceSound": snd + "carapace", "clawSound": snd + "claw"}
+            "gazeSound": snd + "gaze", "latchSound": snd + "latch", "clawSound": snd + "claw"}
     tasks = [task, E.idle("idle", 1.1, 4000, 12000, 4000, 12000)]
 
     def partygoer(code, shape_, extra_drops):

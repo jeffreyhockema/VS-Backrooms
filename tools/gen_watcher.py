@@ -510,7 +510,7 @@ def entity():
         # glass (but its beam does not go through glass); it has no hearing and no smell
         "senses": {"sightLit": 40, "sightDim": 20, "sightDark": 14, "sightCone": 90, "special": "glass", "hearing": 0,
                    "hearsRunning": False, "sneakFactor": 0.6},
-        "floatAnimation": "float", "scanAnimation": "scan", "chargeAnimation": "charge", "beamAnimation": "beam",
+        "scanAnimation": "scan", "chargeAnimation": "charge", "beamAnimation": "beam",
         "humSound": "backrooms:entity/watcher-hum", "chargeSound": "backrooms:entity/watcher-charge",
         "beamSound": "backrooms:entity/watcher-beam", "soundRange": 40,
     }
