@@ -1243,7 +1243,7 @@ public sealed partial class WorldLayout
     /// </summary>
     private bool L3999DarkNear(int bi, int bj, int reach)
     {
-        if (L3999BlockFraction(bi, bj) + reach * (double)L3999Block / MacroSize / L3999Radius < 0.65) return false;
+        if (L3999BlockFraction(bi, bj) + reach * (Version >= 11 ? Math.Sqrt(2) : 1) * (double)L3999Block / MacroSize / L3999Radius < 0.65) return false;
         for (int dj = -reach; dj <= reach; dj++)
             for (int di = -reach; di <= reach; di++)
                 if (L3999BlackoutBlock(bi + di, bj + dj)) return true;

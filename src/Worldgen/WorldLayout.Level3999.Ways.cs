@@ -193,10 +193,15 @@ public sealed partial class WorldLayout
             int wz = north ? AlleyZ - 1 : AlleyZ + 3, fz = north ? AlleyZ : AlleyZ + 2;
             ref Tile wall = ref At(tiles, x, wz);
             if (wall.Kind != TileKind.Wall || (wall.Detail & CityDetail.Corner) != 0 || wall.Under != 0) continue;
+            // (Layouts <= 10 clear the tile in front of whatever stands there, unchecked; from 11 a wall is taken only
+            // where that tile is plain floor, and the next candidate is tried otherwise)
+            if (Version >= 11)
+            {
+                Tile front = At(tiles, x, fz);
+                if (front.Kind != TileKind.Floor || front.Variant != 0) continue;
+            }
             wall.Under = Unders.L3999GlitchWall;
             wall.Pier = north ? ArchPier.South : ArchPier.North;
-            // (the tile in front is cleared of whatever stands there, unchecked: intended, and kept so; checking it would change which
-            // wall a block picks, so it is a candidate for layout version 11)
             At(tiles, x, fz).Variant = 0;
             return;
         }

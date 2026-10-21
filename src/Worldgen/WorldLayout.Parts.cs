@@ -155,8 +155,9 @@ public sealed partial class WorldLayout
     /// prop) and what cannot be walked over cuts no floor off. Where there is no room, a tent or a bedroll is left out (a
     /// toy-sized one is what this is for); a sofa stays as it was. <paramref name="forwardOnly"/>: only the first way (a
     /// tent against a wall, its back to it; a bedroll's foot out into the room).
+    /// <paramref name="windowFix"/> (layout version 11): the open-air search starts at a well-formed place in its 4 by 4 window.
     /// </summary>
-    private static void Enlarge(TileRef at, int size, Func<ushort, int, int, bool> free, int x, int z, ulong h, bool forwardOnly)
+    private static void Enlarge(TileRef at, int size, Func<ushort, int, int, bool> free, int x, int z, ulong h, bool forwardOnly, bool windowFix = false)
     {
         ref Tile old = ref at(x, z);
         ushort prop = old.Variant switch { Props.Tent => Props.CampTent, Props.Bedroll => Props.SleepingBag, Props.Sofa => Props.LongSofa, _ => (ushort)0 };
@@ -207,9 +208,9 @@ public sealed partial class WorldLayout
         for (int k = 0; k < 16; k++)
         {
             // (Layout <= 10: the (int) cast comes before the modulo, so the start is negative for about half the hashes
-            // and the walk then covers an off-pattern window; kept as it is for the saved worlds. The intended form is
-            // (int)((h >> 12) % 16): a candidate for layout version 11)
-            int n = (k + (int)(h >> 12) % 16) % 16;
+            // and the walk then covers an off-pattern window; kept as it is for the saved worlds. From 11 the modulo comes first)
+            int start = windowFix ? (int)((h >> 12) % 16) : (int)(h >> 12) % 16;
+            int n = (k + start) % 16;
             if (PutParts(at, size, Free, prop, x - 2 + n % 4, z - 2 + n / 4, pier, ref pieces)) return;
         }
     }
@@ -247,7 +248,7 @@ public sealed partial class WorldLayout
             {
                 if (b.At(x, z).Variant is not (Props.Tent or Props.Bedroll or Props.Sofa) || b.At(x, z).Kind != TileKind.Floor) continue;
                 origin = b.At(x, z);
-                Enlarge(b.At, MacroSize, Free, x, z, Hashing.Hash(seed, mx * MacroSize + x, mz * MacroSize + z, SaltParts), forwardOnly: false);
+                Enlarge(b.At, MacroSize, Free, x, z, Hashing.Hash(seed, mx * MacroSize + x, mz * MacroSize + z, SaltParts), forwardOnly: false, windowFix: Version >= 11);
             }
         KeepPartsWhole(b.At, MacroSize);
         // Floor freed of a tent that had no room, or of one in part, is open again where it joins open floor (only that:

@@ -1623,7 +1623,8 @@ public sealed partial class WorldLayout
     /// Level 0: a cell dressed for a party nobody came to (about one Lobby cell in six hundred, never near spawn):
     /// balloons on the carpet, confetti, a red "=)", and on a wall the TIME 4 FUN =) poster. Touch the poster and you are
     /// in Level Fun. (It was meant to keep to the outer three fifths of the Lobby, but Level 0 has no ring fraction, so
-    /// the test of one that stood here was always true and is gone; candidate for layout version 11: LevelDepth(cx, cz, 0) > 0.4.)
+    /// the test of one that stood here was always true and is gone. From layout version 11 the cell must lie beyond the inner two
+    /// fifths, by <see cref="LevelDepth"/>.)
     /// </summary>
     public bool IsFunPartyCell(int mx, int mz)
     {
@@ -1631,6 +1632,7 @@ public sealed partial class WorldLayout
         if (Math.Abs(mx - spawnMacroX) < 8 && Math.Abs(mz - spawnMacroZ) < 8) return false;
         if (Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltFunL0)) >= 1 / 600.0) return false;
         if (LevelAt(mx, mz) != 0 || RegionAt(mx, mz).Zone != ZoneKind.Lobby || IsRedRoom(mx, mz) || IsManilaMacro(mx, mz)) return false;
+        if (Version >= 11 && LevelDepth(mx * MacroSize, mz * MacroSize, 0) <= 0.4) return false;
         return true;
     }
 

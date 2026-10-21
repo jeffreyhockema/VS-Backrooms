@@ -473,14 +473,16 @@ public sealed partial class WorldLayout
     /// </summary>
     private bool IsFrontHall(int mx, int mz)
     {
-        // (A cell of the region that is not Level 5 can still win here: HotelZoneAt is noise and does not look at the level, so
-        // at the hotel's rim a lobby may get no front hall. Counting only Level 5 cells is a candidate for layout version 11)
+        // (In layouts <= 10 a cell of the region that is not Level 5 can still win here: HotelZoneAt is noise and does not look at
+        // the level, so at the hotel's rim a lobby may get no front hall. From 11 only Level 5 cells compete)
+        bool onlyHotel = Version >= 11;
         if (HotelZoneAt(mx, mz) != HotelZone.Lobby) return false;
         int rx = Hashing.FloorDiv(mx, FrontHallRegion) * FrontHallRegion, rz = Hashing.FloorDiv(mz, FrontHallRegion) * FrontHallRegion;
         ulong own = Hashing.Hash(seed, mx, mz, SaltL5FrontHall);
         for (int z = rz; z < rz + FrontHallRegion; z++)
             for (int x = rx; x < rx + FrontHallRegion; x++)
-                if ((x != mx || z != mz) && Hashing.Hash(seed, x, z, SaltL5FrontHall) < own && HotelZoneAt(x, z) == HotelZone.Lobby) return false;
+                if ((x != mx || z != mz) && Hashing.Hash(seed, x, z, SaltL5FrontHall) < own && HotelZoneAt(x, z) == HotelZone.Lobby
+                    && (!onlyHotel || LevelAt(x, z) == 5)) return false;
         return true;
     }
 

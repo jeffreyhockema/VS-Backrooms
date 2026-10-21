@@ -423,9 +423,16 @@ public sealed partial class WorldLayout
     /// own blocks), with some walls between two spaces made walls of archways over half walls (WorldLayout.Level0.Arches.cs, ArchWalls;
     /// one room in a few gets a second, and now and then a bay is a full-height arch door); two gaps side by side in a district's
     /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch).</item>
+    /// <item><b>11</b>: five small corrections that would have moved saved worlds. A tent, bedroll or sofa searching the open air
+    /// for room takes a 4 by 4 window of starting places at random (the hash was cast to int before its modulo, so half the
+    /// time the window was wrong: <see cref="Enlarge"/>). Level 0's party cells keep out of the inner two fifths of the Lobby, by
+    /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
+    /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
+    /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
+    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 10;
+    public const int CurrentVersion = 11;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -650,8 +657,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// How far through its ring a block lies, from 0 at the inner edge to 1 at the outer. Always 0.5 for Level 0 (its ring
-    /// has no inner edge: <see cref="LevelDepth"/> measures that one out from spawn; using it where a test of this has always
-    /// been true is a candidate for layout version 11) and for the levels past the rings.
+    /// has no inner edge: <see cref="LevelDepth"/> measures that one out from spawn) and for the levels past the rings.
     /// </summary>
     private double RingFraction(int gx, int gz, int level)
     {
