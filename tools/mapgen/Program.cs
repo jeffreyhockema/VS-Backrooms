@@ -86,6 +86,7 @@ if (args.Length > 2 && args[2] == "l9fences") { L9Stairs.Fences(layout, n); retu
 if (args.Length > 2 && args[2] == "l9elev") { L9Elevations.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "archspots") { ArchSpots.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "archlist") { ArchCheck.List(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 8); return; }
+if (args.Length > 2 && args[2] == "archloot") { ArchCheck.Loot(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "archcheck") { ArchCheck.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }

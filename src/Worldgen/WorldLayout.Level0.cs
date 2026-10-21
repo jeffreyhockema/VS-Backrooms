@@ -248,13 +248,13 @@ public sealed partial class WorldLayout
         public bool Pillars, Spawn, PitsAllowed;
         /// <summary>Layout version 4 on: one wallpaper, and the pale walls trimmed like it (see <see cref="CurrentVersion"/>).</summary>
         public bool OnePaper;
+        /// <summary>Layout versions 1-9 only: an arched area is a labyrinth whose every wall is a row of arches (from 10 it is the Lobby's plan with some walls turned to arches: see ArchWalls).</summary>
+        public bool LegacyArches;
         public WallPattern Primary;
         public Tile[] Tiles;
         public LightMood[] Mood;
         /// <summary>Which tiles are hallway (see <see cref="HallNone"/>), for the lights down the middle.</summary>
         public byte[] Hall;
-        /// <summary>Layout version 10, arched areas only: the ceiling fixtures (1 lit, 2 emitting light), laid on the bays' own lattice; null elsewhere.</summary>
-        public byte[] Lamp;
         public Rng Rng;
 
         public ref Tile At(int u, int v) => ref Tiles[v * W + u];
@@ -286,6 +286,7 @@ public sealed partial class WorldLayout
             Primary = info.Zone == ZoneKind.Arches ? (Version >= 10 ? WallPattern.Stucco : WallPattern.Cream) : info.Region.PrimaryPattern,
             Rng = new Rng(Hashing.Hash(seed, i, j, SaltL0Block)),
             OnePaper = Version >= 4,
+            LegacyArches = info.Zone == ZoneKind.Arches && Version < 10,
         };
         int cmx = MacroOf(x0 + p.W / 2), cmz = MacroOf(z0 + p.H / 2);
         p.PitsAllowed = p.Zone == ZoneKind.Lobby && (Math.Abs(cmx - spawnMacroX) >= 3 || Math.Abs(cmz - spawnMacroZ) >= 3);
@@ -338,7 +339,6 @@ public sealed partial class WorldLayout
             MoodPatch(p, 1, 1, p.W - 1, p.H - 1);
             for (int n = 0; n < 3; n++) Stain(p, p.Rng.Range(1, p.W - 1), p.Rng.Range(1, p.H - 1), p.Rng.Range(1, 3));
         }
-        else if (p.Zone == ZoneKind.Arches && Version >= 10) PlanArches(p, openings);
         else PlanLabyrinth(p, openings);
         if (p.OnePaper) PaperJoins(p, i, j, westMerged);
         return p;
@@ -461,7 +461,7 @@ public sealed partial class WorldLayout
         var deadEnds = new List<(int U, int V, int DU, int DV)>();
         var worm = new short[W * H];
         var step = new int[W * H];
-        double wormChance = p.Zone switch { ZoneKind.OpenOffice => 0.4, ZoneKind.Arches => 0.5, _ => 0.75 };
+        double wormChance = p.Zone switch { ZoneKind.OpenOffice => 0.4, ZoneKind.Arches when p.LegacyArches => 0.5, _ => 0.75 };
         short id = 0;
         foreach (var o in openings)
             if (p.Rng.Chance(wormChance)) Worm(p, o, ++id, worm, step, piece, force, deadEnds);
@@ -495,7 +495,7 @@ public sealed partial class WorldLayout
 
         foreach (var o in openings) ClearGap(p, o);
         foreach ((int u, int v) in force) p.At(u, v).Kind = TileKind.Floor;
-        if (p.Zone == ZoneKind.Arches) MendArches(p);
+        if (p.LegacyArches) MendArches(p);
 
         // Scraps too small or too thin to be rooms are filled in
         int[] comp = LabComponents(p, out int count, out int[] size);
@@ -529,6 +529,8 @@ public sealed partial class WorldLayout
             if (piece[n] == 1) inPiece[comp[n]] = true;
         }
         LabConnect(p, comp, count, hasHall, inPiece, noDoor);
+        // (Layout version 10) The arched areas are these same rooms and halls, with some of their walls made walls of archways
+        if (p.Zone == ZoneKind.Arches && !p.LegacyArches) ArchWalls(p, comp, count, openings);
 
         // Rooms each get their own light, the odd one dark; blackout rooms flood
         var roomRng = new Rng(Hashing.Hash(seed, p.X0, p.Z0, SaltL0Block + 1));
@@ -623,7 +625,7 @@ public sealed partial class WorldLayout
     private static void LabWall(L0Plan p, int x, int z, bool alongZ, int len)
     {
         ref Rng rng = ref p.Rng;
-        if (p.Zone == ZoneKind.Arches)
+        if (p.LegacyArches)
         {
             var open = new bool[len];
             int gaps = len >= 16 && rng.Chance(0.5) ? 2 : 1;
@@ -874,7 +876,7 @@ public sealed partial class WorldLayout
                 parent[Find(a)] = Find(b);
                 Door(k);
             }
-            else if (rng.Chance(hall ? 0.5 : big ? 0.6 : p.Zone == ZoneKind.Arches ? 0.4 : 0.25)) Door(k);
+            else if (rng.Chance(hall ? 0.5 : big ? 0.6 : p.LegacyArches ? 0.4 : 0.25)) Door(k);
             // A long wall onto a hallway or a big room gets a second way through, well along from the first
             if (spots[k].Count >= 16 && (hall || big) && rng.Chance(0.4)) Door(k);
         }
@@ -1341,14 +1343,7 @@ public sealed partial class WorldLayout
                 Region region = u?.Region ?? cellRegion;
                 byte hall = u == null ? HallNone : u.Hall[(gz - u.Z0) * u.W + gx - u.X0];
                 bool fixture, emitter;
-                if (Version >= 10 && u?.Lamp != null)
-                {
-                    // An arched area (layout version 10): fixtures on the bays' own lattice, laid in its plan
-                    byte lamp = u.Lamp[(gz - u.Z0) * u.W + gx - u.X0];
-                    fixture = lamp != 0;
-                    emitter = lamp == 2;
-                }
-                else if (hall == HallSide) continue;
+                if (hall == HallSide) continue;
                 else if (hall != HallNone)
                 {
                     int along = hall == HallAlongX ? gx : gz;
