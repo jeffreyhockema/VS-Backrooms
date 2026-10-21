@@ -1,6 +1,6 @@
 # Level 0 arch areas: redesign plan
 
-Status: built in layout version 10 (`WorldLayout.Level0.Arches.cs`; `archcheck` in the harness). Changes from the plan: rows of rooms stack behind the street's rooms (each opens through two or more bays onto the row before it) where a side is deeper than nine blocks; an end gap opens onto whatever lies behind it, so no vestibule is carved; of two gaps side by side the second is closed. Goal: arch areas that read as a distinct place (plain cream stucco, not pale wallpaper) and whose rooms and arches meet in a way a player can move through. All layout changes sit behind layout version 10 (`Version >= 10`, unreleased); versions 1-9 stay byte for byte.
+Status: sections 2-4 describe the first attempt, replaced by section 5 ("Second redesign", what layout version 10 does now; the stucco look, the joins and the header stay). First attempt: built in layout version 10 (`WorldLayout.Level0.Arches.cs`; `archcheck` in the harness). Changes from the plan: rows of rooms stack behind the street's rooms (each opens through two or more bays onto the row before it) where a side is deeper than nine blocks; an end gap opens onto whatever lies behind it, so no vestibule is carved; of two gaps side by side the second is closed. Goal: arch areas that read as a distinct place (plain cream stucco, not pale wallpaper) and whose rooms and arches meet in a way a player can move through. All layout changes sit behind layout version 10 (`Version >= 10`, unreleased); versions 1-9 stay byte for byte.
 
 ## 1. What the lore and depictions show
 
@@ -182,3 +182,80 @@ Risks:
 - **Block id arithmetic.** A new pattern changes `wallIds` and `paperJoinIds` sizes; a wrong order changes old worlds' wall textures (a visual regression, not a save break).
 - **Legibility.** Stucco at 16 px can read as noise at a distance; compare before committing.
 - **Lights.** Forcing spacing 3 may make arch regions brighter or dimmer than their surroundings; check with `dark 0`.
+
+
+## 5. Second redesign
+
+User feedback on the arcade street: "I still don't like the Level 0 arch area. Let's align it closer to the Wikidot example ... I like our walls and arch shape, but maybe closer to the half-height walls with arch, just as walls. And ... way more loot in the arch area this time." The stucco, the arch header and the joins stay; the layout goes.
+
+### 5.1 What the photo shows
+
+The wiki's "A yellowish beige room with a wall of archways" (http://backrooms-wiki.wikidot.com/local--files/level-0/2, 640x480): one big, empty, carpeted room (tan, stained carpet, a bucket and a bin at the left, a plain beige end wall with a rail, a drop-tile ceiling with troffers), perhaps 15 blocks wide and long. Down its right-hand side runs one long wall, and that wall is the arches: a half-height wall (about 55% of the room's height) with a row of round-headed openings above it, nine or more in the view, each opening a little narrower than the square pier between it and the next (openings about a block, so a bay is about three blocks of ours), and one continuous plaster band (the header) running over the whole row. Behind the openings is another room, lit yellow-green, with a patterned panel at the far end: the openings are windows onto a neighbouring room, not doors. Nothing in the picture is walked through; the room has its own plain walls and entrances elsewhere. The wall and arches are the same cream as the room.
+
+So an arch area is an ordinary room with one wall of arched windows onto the next room. It is not an arcade you walk along.
+
+### 5.2 Rules (layout version 10)
+
+- An arch district is planned exactly as a Lobby district (`PlanLabyrinth`: rooms from `LabSplit`, the hall worms at the Lobby's chance, the Lobby's doorway passes), in `WallPattern.Stucco`, so room shapes, doorways and connectivity are the Lobby's. (Versions 1-9 keep the old arch labyrinth: `L0Plan.LegacyArches`.) No big rooms or cell rows, and no pits.
+- Then `ArchWalls` (`WorldLayout.Level0.Arches.cs`) turns some walls into walls of archways. A candidate is a maximal run of wall tiles with floor on both faces (a window therefore always looks onto a room or a hall, never a wall, a pier or a sealed space), at least seven long (two bays); a wall crossing the run's end is the last pier, else the end tile stays a pier. A run is laid out as pier, `ArchWindow`, `ArchWindow`, pier, ... (the existing tile and header), the leftover 0-2 tiles plain wall at a random end, so most of the wall is arches. The floor is untouched, so connectivity and doorways are exactly the Lobby plan's.
+- Which walls: each room (a floor piece before the doorways are cut) in random order gets one candidate wall, the longest first, and a room an opening of the district leads into (a transition room) or one with a single way out (a dead end) wants a second one half the time. No room has more than two arch walls (a hall three), so every room keeps plain stucco walls (corners, the district's boundary walls and walls with a wall behind are never candidates). A wall with three or more bays has a one in four chance of one `ArchDoor` bay, a full-height arch to walk under.
+- Doorways are the Lobby's: the ordinary 1-2 wide gaps. Every room therefore has a real walkable opening, and the district is one piece of floor.
+- Thresholds: unchanged (`PaperJoins`/`ArchGap`: a 2-wide arch in the shared wall, each face in its own finish, never onto a wall; the second of two gaps side by side is closed).
+- Lights: the Lobby's region light grid, room moods and hall light rows (the first redesign's lamp lattice is gone). `dark 0` mean floor light, seed 1: arches 12.9, Lobby 12.4 (12.8 and 12.4 for seed 12345); no dark stretch of Level 0 lies in an arch district.
+- Loot: the plan places no supply boxes of its own any more; arch districts get the same per-cell stash roll as the Lobby (`PlaceStash`, which keeps boxes off arches), so they are no richer.
+
+### 5.3 Numbers
+
+`mapgen <seed> 6 archcheck 30` (30 cells round spawn; targets zero):
+
+| | seed 1 | seed 12345 |
+|---|---|---|
+| rooms (floor pieces with the doorways taken out) | 291 | 408 |
+| rooms with no walkable opening (doorway or arch door) | 0 | 0 |
+| arch windows with a wall or sealed space on either face | 0 | 0 |
+| arch doors with a wall on a face | 0 | 0 |
+| arches with no pier or no partner (`MendArches` would change) | 0 | 0 |
+| unreachable floor of the arch districts | 0 | 0 |
+| orphan piers (single free-standing pillars) | 21 | 25 |
+| window tiles per room | 15.1 | 14.1 |
+
+The orphans are single wall tiles the Lobby plan leaves where a wall stops short or a doorway is cut beside a crossing, not arch faults; the Lobby has 3.4 per 1000 wall tiles, the arch districts 0.5.
+
+Loot, `mapgen <seed> 6 archloot 30`, supply boxes per 1000 floor tiles (Level 0's plan has no other loot containers):
+
+| | first redesign, arch districts | second redesign, arch districts | Lobby |
+|---|---|---|---|
+| seed 1 | 4.17 (579 boxes / 138,962 tiles) | 0.57 (73 / 127,997) | 0.56 |
+| seed 12345 | 3.43 (610 / 177,974) | 0.45 (72 / 160,460) | 0.56 |
+
+(The first plan put a box in half its rooms and at every dead end on top of the stash roll: seven times the Lobby's density.)
+
+`layouthash` 1-9 unchanged against the parent commit; `validate` and `validatelevel 0` clean (0 unreachable); headless world (seed 12345, `/backrooms dump 511764 511780 24`): an arch window is `wallpaper-stucco-baseboard` at floor level, air, `archheaderstucco` above (half wall, opening, header), and the doorways between are plain columns of air.
+
+### 5.4 Plans
+
+Legend as in 3.5 (`%` wall or pier, `n` half wall with arch, `a` full-height arch, `B` supply box). Seed 1, district at 511790,511714 (crop):
+
+```
+......................%%%%%..%%%%%%%%%%%%%%%%%.......................%..%..%%%%%%....
+......................%...%..................%%%%%%%%%%%..%%%%..%%%%%%..%..%%%.......
+......................%...%%%%%%%%%..%%%%%%..%.....%......n..........%..%..%%%.......
+......................%...................n..%.....n......%..........%..%..%%%.......
+......................%...................n..%.....n......n..........%..%..%%%..n...%
+......................%...........%.......n..%B....%..........n......%%%%..%.%......%
+......................%...........%.......n..%BB...n..........n......a.....%.%.......
+......................%..%%%%%%%%%%nn%nn%%%..%%%%..n..........%......a.....%.%.......
+```
+
+Seed 12345, district at 511741,511758 (crop): rooms with a wall of arches on one side onto the next room, doorways in the plain walls.
+
+```
+..%.......%.......n..%%..%..........%........n......%......%........%...#
+..n.......%%%%%%%%%..%%..%..........%........n......%......%..%%%%%%%...#
+..%......%%%%%%%%%%..%%..%..........%........%......%.........n...%.....#
+..n..................%%..%...................%%%%%..%.........n.........#
+..%......%%%%%....%%%%%..%nn%nn%..%%%nn%nn%nn%.............%..n.........#
+..n.......%...........%..%..........%........%......%%%%%%%%..n.........#
+..%.......%...........%..%..........%........%......%......n..%%%%%%%%%%#
+..n.......%..%nn%nn%nn%..%%%%%%%%%..%........%......%......%..%%%%%%%%%%#
+```

@@ -41,11 +41,11 @@ static class ArchCheck {
     bool Archy(Tile t) => t.Kind is TileKind.ArchDoor or TileKind.ArchWindow;
 
     int districtTiles = 0, doors = 0, windows = 0, piers = 0, stucco = 0;
-    int doorOnWall = 0, windowBad = 0, windowAlone = 0, orphans = 0, mends = 0;
+    int doorOnWall = 0, windowBad = 0, orphans = 0, mends = 0;
     var examples = new List<string>();
     // Where the plan runs out against another level, the hallway the game carves along that wall (EdgeHall) can take an arch or a pier
     // of the plan with it, in every layout version; what lies within four blocks of another level is counted apart
-    int border = 0;
+    int border = 0, lobbyTiles = 0, lobbyOrphans = 0;
     bool NearBorder(int x, int z) {
       for (int dz = -4; dz <= 4; dz++)
         for (int dx = -4; dx <= 4; dx++)
@@ -82,13 +82,13 @@ static class ArchCheck {
           if (t.Kind == TileKind.ArchDoor && wallFace && Note("arch onto wall", x, z)) doorOnWall++;
           if (t.Kind == TileKind.ArchWindow) {
             if ((wallFace || notFloor) && Note("window onto wall", x, z)) windowBad++;
-            bool door = false;
-            for (int k = -5; k <= 5 && !door; k++) {
-              int wx = x + (along ? k : 0), wz = z + (along ? 0 : k);
-              if (In(wx, wz) && tiles[wz * N + wx].Kind == TileKind.ArchDoor) door = true;
-            }
-            if (!door && Note("window with no door in its wall", x, z)) windowAlone++;
           }
+        }
+        if (t.Kind == TileKind.Wall && t.Pattern != WallPattern.Stucco && t.Level == 0 && !arch[z * N + x]) {
+          lobbyTiles++;
+          bool j = false;
+          foreach (var (dx, dz) in D4) if (In(x + dx, z + dz) && tiles[(z + dz) * N + x + dx].Kind is TileKind.Wall or TileKind.ArchDoor or TileKind.ArchWindow) j = true;
+          if (!j && !NearBorder(x, z)) lobbyOrphans++;
         }
         if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.Stucco && arch[z * N + x]) {
           piers++;
@@ -98,14 +98,20 @@ static class ArchCheck {
         }
       }
 
-    // Rooms: pieces of floor of the arched areas, walls and arches between them
+    // Rooms: pieces of floor of the arched areas once the doorway tiles (floor between two walls, or an arch door) are taken out;
+    // a room needs at least one doorway tile beside it
+    bool Block(int x, int z) => !In(x, z) || tiles[z * N + x].Kind is TileKind.Wall or TileKind.ArchWindow;
+    bool Gap(int x, int z) {
+      Tile t = tiles[z * N + x];
+      if (t.Kind == TileKind.ArchDoor) return true;
+      return t.Kind == TileKind.Floor && (Block(x - 1, z) && Block(x + 1, z) || Block(x, z - 1) && Block(x, z + 1));
+    }
     var seen = new bool[N * N];
     int rooms = 0, thin = 0, edgeRooms = 0;
     var queue = new Queue<int>();
     for (int s = 0; s < N * N; s++) {
-      if (seen[s] || !arch[s] || tiles[s].Kind != TileKind.Floor) continue;
-      var doorSet = new HashSet<int>();
-      bool touchesEdge = false;
+      if (seen[s] || !arch[s] || tiles[s].Kind != TileKind.Floor || Gap(s % N, s / N)) continue;
+      bool touchesEdge = false, anyGap = false;
       int size = 0, sx = s % N, sz = s / N;
       seen[s] = true; queue.Enqueue(s);
       while (queue.Count > 0) {
@@ -116,14 +122,14 @@ static class ArchCheck {
           int nx = x + dx, nz = z + dz;
           if (!In(nx, nz)) { touchesEdge = true; continue; }
           int n = nz * N + nx;
-          if (tiles[n].Kind == TileKind.ArchDoor) doorSet.Add(n);
-          if (seen[n] || !arch[n] || tiles[n].Kind != TileKind.Floor) continue;
+          if (tiles[n].Level == 0 && Gap(nx, nz)) anyGap = true;
+          if (seen[n] || !arch[n] || tiles[n].Kind != TileKind.Floor || Gap(nx, nz)) continue;
           seen[n] = true; queue.Enqueue(n);
         }
       }
       if (touchesEdge) { edgeRooms++; continue; }
       rooms++;
-      if (doorSet.Count < 4 && Note($"room of {size} tiles with {doorSet.Count} arch tiles", sx, sz)) thin++;
+      if (!anyGap && Note($"room of {size} tiles with no walkable opening", sx, sz)) thin++;
     }
 
     // Floor of the arched areas cut off from the rest: walkable pieces of Level 0, all but the biggest, that lie in an arched area
@@ -157,14 +163,33 @@ static class ArchCheck {
       if (c != biggest && !touches[c] && inArchComp[c] > 0) { if (Note($"cut-off piece of {sizes[c]} tiles", firstTile[c] % N, firstTile[c] / N)) unreachable += inArchComp[c]; }
 
     Console.WriteLine($"archcheck, layout version {layout.Version}, within {radiusCells} cells of spawn: arched-area tiles {districtTiles}, stucco walls {stucco}, arch doors {doors}, windows {windows}, piers {piers}");
+    Console.WriteLine($"arch window tiles per room: {(rooms > 0 ? (double)windows / rooms : 0):F1}");
     Console.WriteLine($"rooms {rooms} (and {edgeRooms} touching the edge of the scan, not counted)");
-    Console.WriteLine($"rooms with fewer than two walkable arch bays: {thin}");
+    Console.WriteLine($"rooms with no walkable opening (doorway or arch door): {thin}");
     Console.WriteLine($"arch doors with a wall on a face: {doorOnWall}");
-    Console.WriteLine($"arch windows outside a room's arcade wall (onto a wall, or no door in the wall): {windowBad + windowAlone}");
-    Console.WriteLine($"orphan piers: {orphans}");
+    Console.WriteLine($"arch windows with a wall or sealed space behind (either face): {windowBad}");
+    Console.WriteLine($"orphan piers: {orphans} (single free-standing pillars; the same in the Lobby for comparison: {lobbyOrphans} in {lobbyTiles} wall tiles = {1000.0 * lobbyOrphans / Math.Max(1, lobbyTiles):F1} per 1000, arches {1000.0 * orphans / Math.Max(1, stucco):F1} per 1000)");
     Console.WriteLine($"MendArches conversions (an arch with no pier or no partner): {mends}");
     Console.WriteLine($"unreachable floor of the arched areas: {unreachable}");
     Console.WriteLine($"(left out: {border} problems within four blocks of another level, where the game carves its own hallway through the plan)");
     foreach (string e in examples) Console.WriteLine("  " + e);
+  }
+
+  /// <summary>archloot [radius]: supply boxes and other stacked loot per 1000 floor tiles, in arched districts against Lobby districts, within radius cells of spawn.</summary>
+  public static void Loot(WorldLayout layout, int smx, int smz, int radiusCells) {
+    var floor = new Dictionary<ZoneKind, long>(); var boxes = new Dictionary<ZoneKind, long>(); var stacks = new Dictionary<ZoneKind, long>();
+    for (int z = (smz - radiusCells) * 32; z < (smz + radiusCells) * 32; z++)
+      for (int x = (smx - radiusCells) * 32; x < (smx + radiusCells) * 32; x++) {
+        if (layout.LevelAt(x >> 5, z >> 5) != 0) continue;
+        Tile t = layout.TileAt(x, z);
+        if (t.Level != 0 || t.Kind != TileKind.Floor && !t.SupplyBox) continue;
+        ZoneKind k = layout.Level0ZoneAt(x, z);
+        floor[k] = floor.GetValueOrDefault(k) + 1;
+        if (t.SupplyBox) boxes[k] = boxes.GetValueOrDefault(k) + 1;
+        if (t.Stack > 0) stacks[k] = stacks.GetValueOrDefault(k) + 1;
+      }
+    Console.WriteLine($"archloot, layout version {layout.Version}, within {radiusCells} cells of spawn: per 1000 floor tiles");
+    foreach (ZoneKind k in new[] { ZoneKind.Arches, ZoneKind.Lobby })
+      Console.WriteLine($"  {k}: {floor.GetValueOrDefault(k)} floor tiles, {boxes.GetValueOrDefault(k)} supply boxes ({1000.0 * boxes.GetValueOrDefault(k) / Math.Max(1, floor.GetValueOrDefault(k)):F2}), {stacks.GetValueOrDefault(k)} other stacks ({1000.0 * stacks.GetValueOrDefault(k) / Math.Max(1, floor.GetValueOrDefault(k)):F2})");
   }
 }
