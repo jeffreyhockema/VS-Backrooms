@@ -144,6 +144,58 @@ stare-down (a player facing it, as one does with a stick, held it back) and its 
 (no hunting outside the Red Rooms) once it lost track, while the Bacteria's hunt was called off at the first wound
 unless it already counted as provoked. All fixed in `AiTaskMenace.cs`.
 
+## 3c. Isolation pass (2026-10-20, P7 round 2)
+
+The second play-test found too many creatures, in pairs and packs, and a Level 4 that was full of them. The fix is in
+the director's rates and the Hound's behaviour, not in the danger numbers above. Full design: `isolation.md` in
+`docs/design/entity-ai-overhaul/`, sections 4.1 to 4.5. Where this section and 3b disagree, this one wins.
+
+**Hound run speed.** The base goes from .050 to .062: faster than a sprint everywhere, and a carried light no longer
+slows it (it was 70 % in a lit place). Its walk, bite and health are unchanged.
+
+| Hound run speed | Run | Share of a sprint |
+| --- | --- | --- |
+| Danger 0 (base) | .062 | 124 % |
+| Level 1 (danger .12) | .064 | 128 % |
+| Level 9 (danger .82) | .077 | 155 % |
+
+**Rates (`EncounterRoll`).** Each roll is a mean interval in real minutes (each 2 s tick rolls with a chance of 2 s
+divided by the mean), with a hard gap after the last of its kind of 40 % of the mean. Bodies are glimpse, stalk or
+hunt; sounds are their own roll, and a capped or failed spawn is silence, with no sound in its place.
+
+| Band | Bodies, mean min | Sounds, mean min |
+| --- | --- | --- |
+| Heartland | 25 | 7.5 |
+| Approach | 12 | 5 |
+| Threshold | 6 | 3.5 |
+| In a den | 3 | 2 |
+
+Both intervals are multiplied by the level's **solitude** (bigger is lonelier), by the menace factor (1.5 - menace,
+clamped to 0.5 to 1.5: a calm player in the heartland waits longer, a noisy one at the edge less), and divided by the
+setting's spawn multiplier (off and low 0.6: longer; high 1.5: shorter).
+
+| Level | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 37 | 94 | Fun | End | 3999 | 188 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Solitude | 1.5 | 1.0 | 0.7 | 0.6 | 1.5 | 1.2 | 3.0 | 1.0 | 0.8 | 0.6 | 2.0 | 1.2 | 4.0 | 1.0 | 0.7 | 4.0 | 0.8 | 1.0 |
+
+Worked examples (menace typical of the band; factor = 1.5 - menace):
+
+| Place | Calculation | Body | Sound |
+| --- | --- | --- | --- |
+| Level 1 heartland (menace .3, factor 1.2) | 25 x 1.0 x 1.2 | 30 min | 9 min |
+| Level 1 approach (menace .6, factor .9) | 12 x 1.0 x .9 | 11 min | 4.5 min |
+| Level 1 edge, threshold (menace .9, factor .6) | 6 x 1.0 x .6 | 3.6 min | 2.1 min |
+| Level 4 approach (menace .6, factor .9) | 12 x 1.5 x .9 | 16 min | 7 min |
+| Level 0 heartland, Bacteria only (menace .3, factor 1.2) | 25 x 1.5 x 1.2 | 45 min | 13.5 min |
+| Level 6 heartland (menace .3, factor 1.2) | 25 x 3.0 x 1.2 | 90 min | 27 min |
+| Level 9 threshold (menace .9, factor .6) | 6 x 0.6 x .6 | 2.2 min | 1.3 min |
+
+**Caps.** Heartland 1, approach 2, threshold 3 menacing things within 64 blocks; +1 from danger 0.5 (Level 5) and +1
+from 0.8 (Level 9), as before. Packs are clipped to the cap.
+
+**One kind at a time.** No body is rolled while anything menacing is already about the player, whatever its kind; the
+Flickering, the Screaming, hive alarms, dens' dwellers and the other set-pieces are the exceptions.
+
 ## 4. Skill: what keeps you alive now
 
 - **Running only works early.** From Level 3 a Hound outruns you, and running is what turns a stalker into a hunter.
