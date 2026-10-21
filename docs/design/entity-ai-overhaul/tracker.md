@@ -125,6 +125,7 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
 - **Could not check:** these are rates of rolls, not of spawns: Level 0's heartland has no roster entry (by the decision above), so its 1.5 glimpses/h are silence in play,
   and a roll with no fitting spot (not-seen rule) is also silence, so the felt rate is lower than the table. `iso-one-kind` only proves anything if the director rolls a body in its two minutes
   (about 20% chance at that mean), so a pass is weak evidence; the code path is `CountMenacing > 0 -> return`. The rest of the harness (the old cases) was not re-run in full. No client play-test.
+- **Review fixes (blind sonnet reviewer + overseer):** the gate is one pure function, `EncounterRoll.BodyMayCome(menacing, sinceBody, gap)`, used by `Roll` and the set-pieces; Level 0's hunt-to-stalk rule moved into `Roll` (`isWorst`); `ratecheck` takes a trailing `menacing=<n>`; the den row uses the Threshold band's kind split with the den intervals; ratecheck text is culture-invariant; a den dweller no longer bypasses `LightsOutOnly`. `iso-one-kind` is now deterministic (`menacing=1` gives 0 bodies, the control 5.3/h) plus the live Hound run compared by entity id. Not changed: two players' set-pieces starting in one tick (as before), `TickSeconds` duplicating `IntervalMs`.
 - **Lessons:** the Bash heredoc fails on some content with quotes: write C# files with the Write tool; working tree is CRLF, index LF (autocrlf), so edit scripts must convert.
 
 ## Lessons

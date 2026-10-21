@@ -203,8 +203,8 @@ public partial class MenaceSystem : ModSystem
                 .HandleWith(OnMenaceCommand)
             .EndSubCommand()
             .BeginSubCommand("ratecheck")
-                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour; \"ratecheck here\" uses your own level and band")
-                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"))
+                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for nothing menacing about and for a spot to put it) ; \"ratecheck here\" uses your own level and band")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"))
                 .HandleWith(OnRateCheckCommand)
             .EndSubCommand()
             .BeginSubCommand("encounter")
@@ -681,7 +681,7 @@ public partial class MenaceSystem : ModSystem
         if (!rolls) return;
         // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
         long nowMs = sapi.World.ElapsedMilliseconds;
-        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, rand);
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacing(target), a.Worst, rand);
         if (roll == RollKind.Nothing) return;
         if (roll == RollKind.Sound)
         {
@@ -690,29 +690,29 @@ public partial class MenaceSystem : ModSystem
             return;
         }
         Encounter kind = EncounterRoll.ToEncounter(roll);
-        // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
-        if (kind == Encounter.Hunt && a.Level == 0 && !a.Worst) kind = Encounter.Stalk;
         // Creative players only ever glimpse things; with the entities off there are no bodies
         if (!Setting.Entities || creative && kind != Encounter.Glimpse) return;
-        // One kind at a time: nothing else is put down while anything menacing is about
-        if (CountMenacing(target) > 0) return;
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
         RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
             && (!e.LightsOutOnly || a.Worst || a.Shift) && types.ContainsKey(e.Code)).ToArray();
         // Someone starving draws the Wretches, three times over: they know what is coming for them
         if (Starving(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
-        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance) options = new[] { dweller };
+        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(roster, dweller, a)) options = new[] { dweller };
         RosterEntry entry = Pick(options);
         if (entry != null && TrySpawn(target, a, entry, kind)) watch.LastBodyMs = nowMs;
     }
+
+    /// <summary>Whether a den's dweller may come here: a Smiler the level's roster keeps to the lights-out places (Level 0) still is.</summary>
+    private static bool DwellerFits(RosterEntry[] roster, RosterEntry dweller, Assessment a) =>
+        a.Worst || a.Shift || !roster.Any(e => e.Code == dweller.Code && e.LightsOutOnly);
 
     /// <summary>How likely a body put down in a den is what lives there.</summary>
     private const double DwellerChance = 0.75;
 
     /// <summary>Whether a set-piece body (the Flickering, the Screaming) may come: the hard gap since the last body has passed and nothing menacing is about.</summary>
     private bool BodyAllowed(Entity target, Watch watch, Assessment a) =>
-        sapi.World.ElapsedMilliseconds - watch.LastBodyMs >= EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns, a.Den != DenKind.None) && CountMenacing(target) == 0;
+        EncounterRoll.BodyMayCome(CountMenacing(target), sapi.World.ElapsedMilliseconds - watch.LastBodyMs, EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns, a.Den != DenKind.None));
 
     /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
     private static bool Starving(Entity target)

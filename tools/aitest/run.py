@@ -787,13 +787,13 @@ P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_
 
 
 # ---------------------------------------------------------------- P7 round 2: isolation, piece A (isolation.md 4.6)
-RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace ([\d.]+), setting (\w+), [\d.]+ h\): bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), "
+RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace ([\d.]+), setting (\w+), [\d.]+ h, \d+ menacing about\): bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), "
                      r"sounds ([\d.]+)/h; body gap mean (\S+) min, min (\S+) min; sound gap mean (\S+) min, min (\S+) min")
 
 
-def _rate(c, level, band, hours=50):
+def _rate(c, level, band, hours=50, extra=""):
     m = c.srv.mark()
-    c.srv.cmd("/backrooms ratecheck %s %s %s" % (level, band, hours))
+    c.srv.cmd(("/backrooms ratecheck %s %s %s %s" % (level, band, hours, extra)).strip())
     r = c.srv.wait(lambda l: RATE_RE.search(l) or ("ratecheck" in l.lower() and "band" in l.lower() and "Give" in l and l), m, 30)
     if not hasattr(r, "group"):
         raise RuntimeError("no ratecheck reply for Level %s %s (%s)" % (level, band, r))
@@ -827,7 +827,11 @@ def t_iso_rates(c):
 
 
 def t_iso_one_kind(c):
-    """A stalking Hound about a dummy in Level 1's approach band: the director, running two minutes, puts nothing else down for it."""
+    """The one-kind rule. Deterministic part: the rolls with one menacing entity about put down no body at all, the control does.
+    Live part: a stalking Hound about a Level 1 approach dummy for two minutes: no other body is put down for it (compared by entity id)."""
+    with_one = _rate(c, "1", "approach", 50, "menacing=1")
+    control = _rate(c, "1", "approach", 50)
+    det = with_one["bodies"] == 0 and control["bodies"] > 0
     e = started(c, "hound", "stalk", 25, level="1", min_band=("Approach", "Threshold"))
     m = c.srv.mark()
     c.srv.cmd("/backrooms dummies on")
@@ -835,12 +839,16 @@ def t_iso_one_kind(c):
     others = set()
     for l in c.srv.since(m):
         mm = ENT_LINE_RE.search(l)
-        if mm and "starts:" in mm.group(3) and mm.group(1) != "hound":
-            others.add(mm.group(1))
-    alive = e.count_lines("") > 0
+        # (only bodies count: ambient wanderers are exempt from the one-kind rule)
+        if mm and "starts:" in mm.group(3) and mm.group(2) != e.id and not mm.group(3).strip().endswith("Ambient"):
+            others.add("%s#%s" % (mm.group(1), mm.group(2)))
+    left = any(k[1] == "Leave" for k in e.kinds())
     c.srv.cmd("/backrooms dummies off")
     e.finish()
-    return not others and alive, "Hound about for 125 s (%s), other kinds put down: %s" % ("logging" if alive else "silent", sorted(others) or "none")
+    # (a Hound that left lets the director legally put something down: that run proves nothing, so it is not held against the rule)
+    live = not others or left
+    return det and live, "menacing=1: %.1f bodies/h, control %.1f; live: other bodies %s%s" % (
+        with_one["bodies"], control["bodies"], sorted(others) or "none", " (the Hound left)" if left else "")
 
 
 ISO_CASES = [("iso-rates", t_iso_rates), ("iso-one-kind", t_iso_one_kind)]
