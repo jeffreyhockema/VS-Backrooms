@@ -3,7 +3,7 @@ using Backrooms.Worldgen;
 // a paddock (IsPasture) or a farmstead's yard (IsFarmyard). Radials out from spawn through Level 10, a sample every 8 blocks.
 static class L10Stock {
   public static void Run(WorldLayout l, int smx, int smz) {
-    long pts = 0, nearPasture = 0, nearYard = 0, nearMeadow = 0, nearAny = 0, nearNone40 = 0; double longestGap = 0; int radials = 0;
+    long pts = 0, nearPasture = 0, nearYard = 0, nearMeadow = 0, nearAny = 0; double longestGap = 0; int radials = 0;
     var gaps = new List<double>();
     for (double ang = 0; ang < 360; ang += 5) {
       double a = ang * Math.PI / 180, rIn = -1, rOut = -1;

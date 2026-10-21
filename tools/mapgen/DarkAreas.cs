@@ -13,7 +13,6 @@ static class DarkAreas {
     int x0 = cx - half, z0 = cz - half, w = 2 * half;
     int drop = level == 1 ? 4 : 3;
     var tiles = new Tile[w * w];
-    int floor = 0;
     for (int z = 0; z < w; z++)
       for (int x = 0; x < w; x++) {
         Tile t = layout.TileAt(x0 + x, z0 + z);
