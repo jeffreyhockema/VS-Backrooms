@@ -370,6 +370,8 @@ public class GuiDialogCheats : GuiDialog
             B("Dummy: no light", "/backrooms dummy light 0", "The nearest straw dummy carries no light"),
             B("Dummy: sneak", "/backrooms dummy sneak", "Toggles whether the nearest straw dummy sneaks"),
             B("Dummy: run", "/backrooms dummy run", "Toggles whether the nearest straw dummy counts as running"),
+            B("Dummy: face toward", "/backrooms dummy face toward", "The nearest straw dummy looks at the nearest creature (a stare, for the Hound's nerve)"),
+            B("Dummy: face away", "/backrooms dummy face away", "The nearest straw dummy turns its back on the nearest creature (what sets a Hound off)"),
             B("Dummy: unsteady", "/backrooms dummy stability 0.3", "Sets the nearest straw dummy's Reality Stability to 0.3"),
             B("Dummy: noise", "/backrooms dummy noise 0.5", "The nearest straw dummy makes a noise, at loudness 0.5, which the creatures can hear"),
             B("Remove dummies", "/backrooms dummy remove", "Removes every straw dummy put down for tests"),
