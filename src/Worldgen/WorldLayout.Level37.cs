@@ -61,13 +61,6 @@ public sealed partial class WorldLayout
         return r * (1 + 0.08 * Fbm(mx / 40.0, mz / 40.0, SaltPoolShape)) < PoolRadius;
     }
 
-    /// <summary>Whether a square of the world (block coordinates) might reach into the Poolrooms.</summary>
-    public bool MayReachPoolrooms(int x0, int z0, int size)
-    {
-        double cx = (x0 + size / 2.0) / MacroSize - PoolCentreX, cz = (z0 + size / 2.0) / MacroSize - PoolCentreZ;
-        return Math.Sqrt(cx * cx + cz * cz) < PoolRadius * 1.2 + size / (double)MacroSize;
-    }
-
     /// <summary>A place near the middle of the Poolrooms to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) PoolArrivalCell(ulong h)
     {
