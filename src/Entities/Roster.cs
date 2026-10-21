@@ -53,6 +53,9 @@ public sealed record RosterEntry(string Code, MenaceBand MinBand, Encounters Kin
     /// <summary>Only ever put down in the dark (Smilers).</summary>
     public bool NeedsDark { get; init; }
 
+    /// <summary>Only while a Red Room (the worst place) or a Reality Shift's dark is about (Level 0's Smilers).</summary>
+    public bool LightsOutOnly { get; init; }
+
     /// <summary>Only on Level 11 below the streets.</summary>
     public bool SubwayOnly { get; init; }
 
@@ -184,11 +187,10 @@ public static class Roster
 
     private static readonly Dictionary<int, RosterEntry[]> ByLevel = new()
     {
-        // The Lobby: empty, as the lore has it, but for eyes in the blackouts and something waiting at the edge
+        // The Lobby: empty, as the lore has it ("unknown whether or not entities exist"): only the dark figures, and eyes in the Red Rooms and the Reality Shifts' dark (decisions.md item 10)
         [0] = new[]
         {
-            E(Smiler, Approach, Menacing, 1.0) with { NeedsDark = true },
-            E(Hound, Edge, Encounters.Glimpse | Encounters.Stalk, 0.5, 1, 2),
+            E(Smiler, Approach, Menacing, 1.0) with { NeedsDark = true, LightsOutOnly = true },
             // "Wanderers have claimed to have seen dark figures stalking them between the corridors": seen far off, now and
             // then following; it only turns on someone who runs near the way out
             E(Bacteria, Approach, Encounters.Glimpse | Encounters.Stalk, 0.6),
@@ -197,29 +199,29 @@ public static class Roster
         [1] = new[]
         {
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
-            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
-            E(Hound, Approach, Menacing, Level1HoundWeight, 2, 3),
-            E(Wretch, Approach, Menacing, 0.3),
-            E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing | Amb, 0.4) with { Rarity = SkinStealerWanders },
-            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 3, 5),
+            E(DeathRat, Heart, Menacing, 0.4, 2, 3),
+            E(Hound, Approach, Menacing, Level1HoundWeight, 1, 2),
+            E(Wretch, Approach, Menacing, 0.2),
+            E(Smiler, Approach, Menacing, 0.4) with { NeedsDark = true },
+            E(SkinStealer, Approach, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.3, 2, 4),
             // Level 1's table: Dullers in the walls behind the rooms (the Duller's home, with 3 and 4 and the subway)
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.4),
             // Level 1's table: Clumps "rushing… no eyes"
             E(Clump, Approach, Encounters.Stalk, 0.2) with { Ambush = true },
         },
         // Pipe Dreams: rats in the pipes and the eyes of the Smilers in every dark stretch
         [2] = new[]
         {
-            E(DeathRat, Heart, Menacing, 1.0, 3, 5),
+            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
             E(Smiler, Heart, Menacing, 1.2) with { NeedsDark = true },
-            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.6, 2, 3),
+            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 1, 2),
             // Bundles of limbs, wedged into the tight spots, that grab whoever squeezes past
-            E(Clump, Approach, Encounters.Stalk, 0.5) with { Ambush = true },
+            E(Clump, Approach, Encounters.Stalk, 0.4) with { Ambush = true },
             // The blackout's aftermath: a Wretch now and then among the wanderers
             E(Wretch, Approach, Menacing, 0.2),
             // Deathmoth females, rare (the edge, as on Level 1)
-            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.2, 3, 5),
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.2, 2, 4),
         },
         [3] = new[]
         {
@@ -238,20 +240,20 @@ public static class Roster
         [4] = new[]
         {
             E(Faceling, Safe, Amb, 1.5) with { Rarity = 0.3 },
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 1.0),
-            E(Hound, Approach, Menacing, 0.3, 1, 2),
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.6),
+            E(Hound, Approach, Menacing, 0.2, 1, 1),
         },
         [5] = new[]
         {
             E(Faceling, Heart, Amb, 0.6) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.15) with { Rarity = 0.35 },
-            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 2, 3),
-            // "Normal entities are fairly scarce" (Hound 1.0 to 0.8); the Death Rats listed on the page, in the boiler halls
-            E(Hound, Approach, Menacing, 0.8, 2, 3),
-            E(SkinStealer, Approach, Menacing | Amb, 0.6) with { Rarity = SkinStealerWanders },
-            E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
-            E(Wretch, Approach, Menacing, 0.3),
-            E(DeathRat, Heart, Menacing, 0.3, 2, 4),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 1, 2),
+            // "Normal entities are fairly scarce" (Hound 1.0 to 0.8 to 0.5); the Death Rats listed on the page, in the boiler halls
+            E(Hound, Approach, Menacing, 0.5, 1, 2),
+            E(SkinStealer, Approach, Menacing | Amb, 0.4) with { Rarity = SkinStealerWanders },
+            E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.5, 2, 4),
+            E(Wretch, Approach, Menacing, 0.2),
+            E(DeathRat, Heart, Menacing, 0.3, 2, 3),
             // (The Beast of Level 5 is not put down by the director: he chooses his victims himself, see BeastSystem)
         },
         // Lights Out: the darkness is the entity. Things are heard; almost nothing is ever seen
@@ -267,39 +269,39 @@ public static class Roster
         },
         [8] = new[]
         {
-            E(DeathRat, Heart, Menacing, 0.8, 2, 4),
+            E(DeathRat, Heart, Menacing, 0.5, 2, 3),
             // (Level 8's feral dark: the Wretches, once the drifters of the vanilla spawner)
-            E(Wretch, Heart, Menacing, 1.2, 1, 3),
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
-            E(Smiler, Approach, Menacing, 0.6) with { NeedsDark = true },
-            E(Hound, Edge, Menacing, 0.8, 2, 3),
+            E(Wretch, Heart, Menacing, 0.8, 1, 2),
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.3),
+            E(Smiler, Approach, Menacing, 0.4) with { NeedsDark = true },
+            E(Hound, Edge, Menacing, 0.5, 2, 3),
             // Level 8's "spider problem": a giant one lying in wait in the dark off the road, out of sight, or coming
             // out of it (and the dweller of the level's nests, below). (Not put down as an ambush, ahead of the player
             // the way they look: in the caves that is mostly rock)
-            E(GiantSpider, Approach, Encounters.Stalk | Encounters.Hunt, 0.7) with { NeedsDark = true },
+            E(GiantSpider, Approach, Encounters.Stalk | Encounters.Hunt, 0.5) with { NeedsDark = true },
         },
         [9] = new[]
         {
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.3) with { Rarity = 0.35 },
-            E(DeathRat, Heart, Menacing, 0.8, 2, 4),
+            E(DeathRat, Heart, Menacing, 0.8, 2, 3),
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
             // "Many Wretches" (Level 9's page)
             E(Wretch, Approach, Menacing, 0.6, 1, 2),
-            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 2, 4),
             // The Neighborhood Watch: a giant eyeball on legs walking the streets, finding people by sight (AiTaskWatch)
-            E(NeighborhoodWatch, Approach, Menacing, 0.7) with { Outdoors = true },
+            E(NeighborhoodWatch, Approach, Menacing, 0.5) with { Outdoors = true },
             // The Watcher: its floating form, an eye that levitates over the streets and turns the seen to dust (AiTaskWatcher)
-            E(Watcher, Approach, Menacing, 0.4) with { Outdoors = true },
+            E(Watcher, Approach, Menacing, 0.3) with { Outdoors = true },
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
         // The fields are safe; only near the barns where the city lies through the wall do Hounds come
         [10] = new[]
         {
-            E(Hound, Edge, Menacing, 1.0, 2, 3),
-            E(Clump, Edge, Encounters.Stalk, 0.6) with { Ambush = true },
+            E(Hound, Edge, Menacing, 1.0, 1, 2),
+            E(Clump, Edge, Encounters.Stalk, 0.4) with { Ambush = true },
         },
         // The Poolrooms: devoid of life, as far as anyone knows; only in the dark of the Sanguine Reservoir is anything ever seen
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[]
@@ -317,8 +319,8 @@ public static class Roster
             // Wikidot's Level 94 lists "Smilers, Skin-Stealers, Hounds and male Deathmoths" at night, besides the Animations
             E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
-            E(Hound, Approach, Menacing, 0.4, 2, 3),
-            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.4, 2, 3),
+            E(Hound, Approach, Menacing, 0.4, 1, 2),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.4, 1, 2),
         },
         // The far places (ids 14-20). Level !: nothing from the director (the chase is its own)
         [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<RosterEntry>(),
@@ -353,8 +355,8 @@ public static class Roster
         {
             E(Faceling, Heart, Amb, 1.4) with { Rarity = 0.6 },
             E(FacelingChild, Heart, Amb, 0.4) with { Rarity = 0.6 },
-            E(Hound, Heart, Amb, 0.4, 1, 2),
-            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
+            E(Hound, Heart, Amb, 0.4, 1, 1),
+            E(DeathRat, Heart, Menacing, 0.4, 2, 3),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5) with { SubwayOnly = true },
             E(Wretch, Approach, Menacing, 0.5, 1, 2) with { SubwayOnly = true },
         },
@@ -374,15 +376,18 @@ public static class Roster
     public static RosterEntry DenEntry(Backrooms.Worldgen.DenKind den) => den switch
     {
         Backrooms.Worldgen.DenKind.Pack => E(Hound, Heart, Menacing, 1, 2, 3),
-        Backrooms.Worldgen.DenKind.Hive => E(DeathmothFemale, Heart, Encounters.Stalk | Encounters.Hunt, 1, 3, 5),
+        Backrooms.Worldgen.DenKind.Hive => E(DeathmothFemale, Heart, Encounters.Stalk | Encounters.Hunt, 1, 2, 4),
         Backrooms.Worldgen.DenKind.Dark => E(Smiler, Heart, Menacing, 1) with { NeedsDark = true },
-        Backrooms.Worldgen.DenKind.Warren => E(DeathRat, Heart, Menacing, 1, 3, 5),
+        Backrooms.Worldgen.DenKind.Warren => E(DeathRat, Heart, Menacing, 1, 2, 4),
         Backrooms.Worldgen.DenKind.Lair => E(SkinStealer, Heart, Menacing, 1),
         Backrooms.Worldgen.DenKind.Nest => E(GiantSpider, Heart, Encounters.Stalk | Encounters.Hunt, 1) with { NeedsDark = true },
         _ => null,
     };
 
-    /// <summary>How likely each kind of encounter is in a band: sounds, glimpses, stalkers, hunters.</summary>
+    /// <summary>
+    /// How likely each kind of encounter is in a band: sounds, glimpses, stalkers, hunters. (The director rolls bodies and
+    /// sounds apart now, EncounterRoll: the body roll splits by the last three only, renormalised.)
+    /// </summary>
     public static (double Sound, double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band) => band switch
     {
         MenaceBand.Heartland => (0.65, 0.35, 0, 0),
@@ -391,12 +396,15 @@ public static class Roster
         _ => (1, 0, 0, 0),
     };
 
-    /// <summary>How many menacing entities may be about a player at once in a band, whoever they were put down for (Ambient ones are counted apart).</summary>
+    /// <summary>
+    /// How many menacing entities may be about a player at once in a band, whoever they were put down for (Ambient ones are
+    /// counted apart). Few: the director also puts down only one kind at a time (isolation.md 4.2), so this mostly clips packs.
+    /// </summary>
     public static int Cap(MenaceBand band) => band switch
     {
-        MenaceBand.Heartland => 2,
-        MenaceBand.Approach => 4,
-        MenaceBand.Threshold => 6,
+        MenaceBand.Heartland => 1,
+        MenaceBand.Approach => 2,
+        MenaceBand.Threshold => 3,
         _ => 0,
     };
 
@@ -425,18 +433,60 @@ public static class Roster
 
     /// <summary>
     /// Level 1's Hounds (play-test: too frequent, and now they hit like wolves-to-bears): was 1.0 of a table whose other
-    /// Stalk/Hunt weights sum to about 2.0 (a third of the Approach band's menacing rolls), now 0.35 (about 15%).
+    /// Stalk/Hunt weights sum to about 2.0, then 0.35, now 0.2 (round 2: isolation; about a tenth of the Approach band's bodies).
     /// </summary>
-    public const double Level1HoundWeight = 0.35;
+    public const double Level1HoundWeight = 0.2;
 
     /// <summary>
-    /// The least time (seconds) between one person's distant sounds, by level: Level 0's background sounds were too frequent
-    /// (play-test), so there they come at a third of the rate. Elsewhere there is no gap beyond the director's own rolls.
+    /// The least time (seconds) between one person's distant sounds, by level: a floor under the sound rolls (EncounterRoll),
+    /// kept for Level 0, where the background sounds were too frequent (play-test). Elsewhere the rolls' own gap is enough.
     /// </summary>
     public static double SoundGapSeconds(int level) => level == 0 ? 75 : 0;
 
-    /// <summary>Whether a level plays no distant sound just because a spawn failed or the cap was hit (Level 0: the Lobby stays quiet).</summary>
-    public static bool NoFallbackSound(int level) => level == 0;
+    /// <summary>
+    /// How lonely a level is (isolation.md 4.1): the factor on both mean intervals, so bigger is emptier. From the lore's
+    /// Survival Difficulty and what each page says about how many entities there are.
+    /// </summary>
+    public static double Solitude(int level) => level switch
+    {
+        0 => 1.5,
+        1 => 1.0,
+        2 => 0.7,
+        3 => 0.6,
+        4 => 1.5,
+        5 => 1.2,
+        6 => 3.0,
+        7 => 1.0,
+        8 => 0.8,
+        9 => 0.6,
+        10 => 2.0,
+        11 => 1.2,
+        Backrooms.Worldgen.WorldLayout.Poolrooms => 4.0, // Level 37: entirely devoid of life
+        Backrooms.Worldgen.WorldLayout.Motion => 1.0,
+        Backrooms.Worldgen.WorldLayout.FunLevel => 0.7,
+        Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
+        Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
+        Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
+        _ => 1.0,
+    };
+
+    /// <summary>The mean real minutes between bodies (a glimpse, a stalker, a hunter) at solitude 1, by band; <paramref name="inDen"/> for a player in a den.</summary>
+    public static double BodyMinutes(MenaceBand band, bool inDen) => inDen ? 3 : band switch
+    {
+        MenaceBand.Heartland => 25,
+        MenaceBand.Approach => 12,
+        MenaceBand.Threshold => 6,
+        _ => double.PositiveInfinity,
+    };
+
+    /// <summary>The mean real minutes between distant sounds at solitude 1, by band; <paramref name="inDen"/> for a player in a den.</summary>
+    public static double SoundMinutes(MenaceBand band, bool inDen) => inDen ? 2 : band switch
+    {
+        MenaceBand.Heartland => 7.5,
+        MenaceBand.Approach => 5,
+        MenaceBand.Threshold => 3.5,
+        _ => double.PositiveInfinity,
+    };
 
     private static DistantSound S(string location, float pitchMin = 0.9f, float pitchMax = 1.1f, float volume = 0.7f) =>
         new(location, pitchMin, pitchMax, volume);

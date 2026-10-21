@@ -77,10 +77,15 @@ public partial class MenaceSystem : ModSystem
         public double NextScreamHours;
         /// <summary>World milliseconds before which this one hears no more distant sounds (see <see cref="Roster.SoundGapSeconds"/>).</summary>
         public long NextSoundMs;
+        /// <summary>World milliseconds when the last body (a glimpse, stalker or hunter, the Flickering, the Screaming) and the last distant sound were put down for this place (EncounterRoll's hard gaps).</summary>
+        public long LastBodyMs = NeverMs, LastSoundMs = NeverMs;
     }
 
+    /// <summary>"Never": far enough back that every hard gap has passed.</summary>
+    private const long NeverMs = long.MinValue / 4;
+
     /// <summary>How long the rats' Screaming keeps the lights failing, and how long before another can come (in-game hours).</summary>
-    private const double ScreamHours = 0.25, ScreamCooldownHours = 14;
+    private const double ScreamHours = 0.25, ScreamCooldownHours = 24;
 
     /// <summary>Player attribute (kept with the player) holding the in-game hour they last rested.</summary>
     public const string RestedKey = "backrooms:restedAt";
@@ -108,7 +113,7 @@ public partial class MenaceSystem : ModSystem
     public const string FlickerKey = "backrooms:flickerUntil";
 
     /// <summary>How long a Flickering lasts and how long until another can come, in in-game hours (an hour is two real minutes).</summary>
-    private const double FlickerHours = 0.75, FlickerCooldownHours = 14;
+    private const double FlickerHours = 0.75, FlickerCooldownHours = 20;
 
     /// <summary>How the world's "backroomsMenace" setting scales things.</summary>
     public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities);
@@ -196,6 +201,11 @@ public partial class MenaceSystem : ModSystem
                 .WithDescription("Shows how much danger you are in, and the entities around you")
                 .RequiresPlayer()
                 .HandleWith(OnMenaceCommand)
+            .EndSubCommand()
+            .BeginSubCommand("ratecheck")
+                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour; \"ratecheck here\" uses your own level and band")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"))
+                .HandleWith(OnRateCheckCommand)
             .EndSubCommand()
             .BeginSubCommand("encounter")
                 .WithDescription("Puts down an entity (any Backrooms entity code: smiler, hound, faceling, deathmoth-male, deathrat, wretch, ...) for an encounter (ambient, glimpse, stalk, hunt; default hunt), optionally at a distance. From the console, give x and z: it targets a straw dummy put down there.")
@@ -573,7 +583,20 @@ public partial class MenaceSystem : ModSystem
                 if (creative || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
                 if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
             }
+            // The place shares its body and sound clocks: the roller sees the latest of the group's, and all are stamped with the result
+            if (rolls >= 0)
+                foreach (int i in group)
+                {
+                    directed[rolls].Watch.LastBodyMs = Math.Max(directed[rolls].Watch.LastBodyMs, directed[i].Watch.LastBodyMs);
+                    directed[rolls].Watch.LastSoundMs = Math.Max(directed[rolls].Watch.LastSoundMs, directed[i].Watch.LastSoundMs);
+                }
             foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls);
+            if (rolls >= 0)
+                foreach (int i in group)
+                {
+                    directed[i].Watch.LastBodyMs = Math.Max(directed[i].Watch.LastBodyMs, directed[rolls].Watch.LastBodyMs);
+                    directed[i].Watch.LastSoundMs = Math.Max(directed[i].Watch.LastSoundMs, directed[rolls].Watch.LastSoundMs);
+                }
         }
     }
 
@@ -641,7 +664,7 @@ public partial class MenaceSystem : ModSystem
         // Level 1's Flickering: out towards the edge, now and then the lights of a section fail, and the Hounds come
         double hours = sapi.World.Calendar.TotalHours;
         if (a.Level == 1 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextFlickerHours
-            && rand.NextDouble() < 0.004 + 0.01 * a.Value)
+            && rand.NextDouble() < 0.004 + 0.01 * a.Value && BodyAllowed(target, watch, a))
         {
             StartFlicker(target, watch, roster);
             return;
@@ -649,44 +672,47 @@ public partial class MenaceSystem : ModSystem
 
         // The Screaming: somewhere near, the rats are after something, and the lights fail while they are
         if (a.Level is 1 or 2 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextScreamHours
-            && rand.NextDouble() < 0.0015 + 0.004 * a.Value)
+            && rand.NextDouble() < 0.0015 + 0.004 * a.Value && BodyAllowed(target, watch, a))
         {
             StartScreaming(target, watch);
             return;
         }
 
         if (!rolls) return;
-        double danger = Danger.OfLevel(a.Level);
-        double chance = (0.02 + 0.12 * a.Value) * (1 + 0.8 * danger) * Setting.Spawns;
-        if (rand.NextDouble() >= chance) return;
-
-        var w = Roster.Weights(a.Band, a.Level);
-        double r = rand.NextDouble() * (w.Sound + w.Glimpse + w.Stalk + w.Hunt);
-        Encounter kind = r < w.Sound ? Encounter.Ambient : r < w.Sound + w.Glimpse ? Encounter.Glimpse : r < w.Sound + w.Glimpse + w.Stalk ? Encounter.Stalk : Encounter.Hunt;
-        // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
-        if (kind == Encounter.Hunt && a.Level == 0 && !a.Worst) kind = Encounter.Stalk;
-        // (Ambient stands for "only a sound" here.) Creative players only ever hear and glimpse things.
-        if (kind == Encounter.Ambient || !Setting.Entities || creative && kind != Encounter.Glimpse)
+        // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
+        long nowMs = sapi.World.ElapsedMilliseconds;
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, rand);
+        if (roll == RollKind.Nothing) return;
+        if (roll == RollKind.Sound)
         {
+            watch.LastSoundMs = nowMs;
             PlayDistantSound(target, a.Level);
             return;
         }
-
-        if (CountMenacing(target) >= Roster.Cap(a.Band, a.Level))
-        {
-            PlayDistantSound(target, a.Level, fallback: true);
-            return;
-        }
+        Encounter kind = EncounterRoll.ToEncounter(roll);
+        // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
+        if (kind == Encounter.Hunt && a.Level == 0 && !a.Worst) kind = Encounter.Stalk;
+        // Creative players only ever glimpse things; with the entities off there are no bodies
+        if (!Setting.Entities || creative && kind != Encounter.Glimpse) return;
+        // One kind at a time: nothing else is put down while anything menacing is about
+        if (CountMenacing(target) > 0) return;
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
         RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
-            && types.ContainsKey(e.Code)).ToArray();
+            && (!e.LightsOutOnly || a.Worst || a.Shift) && types.ContainsKey(e.Code)).ToArray();
         // Someone starving draws the Wretches, three times over: they know what is coming for them
         if (Starving(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
-        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < 0.75) options = new[] { dweller };
+        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance) options = new[] { dweller };
         RosterEntry entry = Pick(options);
-        if (entry == null || !TrySpawn(target, a, entry, kind)) PlayDistantSound(target, a.Level, fallback: true);
+        if (entry != null && TrySpawn(target, a, entry, kind)) watch.LastBodyMs = nowMs;
     }
+
+    /// <summary>How likely a body put down in a den is what lives there.</summary>
+    private const double DwellerChance = 0.75;
+
+    /// <summary>Whether a set-piece body (the Flickering, the Screaming) may come: the hard gap since the last body has passed and nothing menacing is about.</summary>
+    private bool BodyAllowed(Entity target, Watch watch, Assessment a) =>
+        sapi.World.ElapsedMilliseconds - watch.LastBodyMs >= EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns, a.Den != DenKind.None) && CountMenacing(target) == 0;
 
     /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
     private static bool Starving(Entity target)
@@ -703,6 +729,7 @@ public partial class MenaceSystem : ModSystem
         double hours = sapi.World.Calendar.TotalHours;
         watch.FlickerUntilHours = hours + FlickerHours;
         watch.NextFlickerHours = hours + FlickerCooldownHours;
+        watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
@@ -729,6 +756,7 @@ public partial class MenaceSystem : ModSystem
     {
         double hours = sapi.World.Calendar.TotalHours;
         watch.NextScreamHours = hours + ScreamCooldownHours;
+        watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
         watch.FlickerUntilHours = Math.Max(watch.FlickerUntilHours, hours + ScreamHours);
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
@@ -790,12 +818,10 @@ public partial class MenaceSystem : ModSystem
         sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search).Length;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
-    /// <param name="fallback">Played only because a spawn failed or the cap was hit: some levels (Level 0) stay silent then.</param>
-    public void PlayDistantSound(Entity target, int level, bool fallback = false)
+    public void PlayDistantSound(Entity target, int level)
     {
         DistantSound[] sounds = Roster.SoundsFor(level);
         if (sounds.Length == 0) return;
-        if (fallback && Roster.NoFallbackSound(level)) return;
         // (A minimum gap between one person's distant sounds, longer in Level 0, where they were too frequent)
         long now = sapi.World.ElapsedMilliseconds;
         double gap = Roster.SoundGapSeconds(level);
