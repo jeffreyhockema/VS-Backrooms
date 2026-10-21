@@ -19,7 +19,7 @@ per batch, following [prompts.md](prompts.md). Progress: [tracker.md](tracker.md
 | 4 | P4 The Watch (Strider refined, Watcher built), the Spider, the Beast, the Thing | not started |
 | 5 | P5 Levels: rosters, sounds, danger | not started |
 | 6 | P6 Harvest and materials | not started |
-| 7 | P7 Play-test tuning | not started |
+| 7 | P7 Play-test tuning | round 1 merged 2026-10-20; round 2 (isolation) in progress, see isolation.md |
 | 8 | P8 Finish: handbook, guide, changelog, release | not started |
 
 ## 1. Why, and what this is not

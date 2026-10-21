@@ -82,3 +82,33 @@ tab's **Perceive** button (it reports every second what a creature sees, hears a
   you without having seen, heard or sensed you.)
 - Are hunts too easy to shake off, or too hard? Too few encounters, or too many?
 - Performance: `/backrooms menace` ends with a cost line (director milliseconds a tick, perception checks a second).
+
+## 9. Round 2: isolation
+
+What round 2 (`isolation.md`, decisions 10 to 18) should feel like: a creature is an event, and two kinds are never about
+you at once. Play a fresh world on the build from the merged round. The rates are in minutes; `/backrooms ratecheck` (below)
+gives the numbers to set against what you feel.
+
+1. Level 0's heart: walk it for half an hour. Expect at most one creature, a dark figure, and never a Hound. A Smiler
+   appears only in a Red Room or while a Reality Shift has the lights out.
+2. Level 1's heart: about one body every 20 to 30 minutes and a sound about every 9 minutes. Two bodies in a quarter of
+   an hour is too many.
+3. Level 1's edge: a body every few minutes, more than one in a minute is too many. Note what came and where.
+4. Level 4: mostly nothing. A Duller now and then in the walls, the odd Hound, both seldom. Note how long you walked before
+   the first.
+5. Never two kinds at once outside the Flickering, the Screaming and dens: while a Hound is about, no Smiler, Wretch, rat
+   or moth joins it. Check with `/backrooms encounter hound stalk` on a dummy (`/backrooms dummies on`, `entitylog on`).
+6. Each Hound counter, one at a time, with `/backrooms encounter hound stalk` in Level 1:
+   a. Out of sight: break the line of sight, stop, go dark and quiet. It searches where it lost you, then gives up and
+      goes away. It does not drift back.
+   b. The stare: hold its eye for a few seconds, then walk backwards at a walk, facing it. It backs off and holds until
+      its nerve breaks; then it comes.
+   c. Turn your back, or run: it comes at once.
+   d. A shut door between you: it stops at the door and does not come through.
+   A torch does not slow it: check that it closes as fast in a lit corridor as in the dark.
+7. A straight run from a Hound fails. Start it hunting, a head start of 20 blocks, run straight down a lit corridor:
+   it catches you well before any gate.
+8. Facelings: in Level 1, one at a time and minutes apart; never two in one room. In Level 11, small groups.
+9. Sounds: minutes apart at the least. Long stretches of nothing but the hum are the norm.
+10. Paste the output of `/backrooms ratecheck` for Levels 0, 1, 4 and 9, in the heartland band (say 20 hours each), and
+    say how it compares with what you saw. The Creatures tab's "Rate check here" button runs the same for where you stand.
