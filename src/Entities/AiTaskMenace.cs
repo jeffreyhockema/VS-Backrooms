@@ -1889,7 +1889,12 @@ public class AiTaskMenace : AiTaskBase
         menace.Target = cause;
         if (Perceives) belief.Take(cause.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
         menace.Passive = false;
-        if (Kind != Encounter.Leave) Kind = Encounter.Hunt;
+        // (Whoever struck it, its owner too: the grudge holds for as long as this hunt lasts, see turnedOnTarget)
+        if (Kind != Encounter.Leave)
+        {
+            turnedOnTarget = true;
+            Kind = Encounter.Hunt;
+        }
     }
 
     /// <summary>
