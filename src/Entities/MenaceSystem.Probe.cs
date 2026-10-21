@@ -152,7 +152,7 @@ public partial class MenaceSystem
                 .HandleWith(OnPerceiveCommand)
             .EndSubCommand()
             .BeginSubCommand("dummy")
-                .WithDescription("Straw dummies for perception tests, standing in for a player: place, move, light, sneak, run, stability, noise, remove")
+                .WithDescription("Straw dummies for perception tests, standing in for a player: place, move, light, sneak, run, face, stability, noise, remove")
                 .BeginSubCommand("place")
                     .WithDescription("Puts a straw dummy down: in a level (a number or name, as for goto) at one of its arrival spots, or 'here', in front of you, or 'nest', 8 blocks from the heart of a Level 8 spider nest (worlds from layout version 9). The first try may only load the chunks: try again")
                     .WithArgs(parsers.Word("where"), parsers.OptionalInt("key"))
@@ -177,6 +177,18 @@ public partial class MenaceSystem
                     .WithDescription("Whether the latest straw dummy counts as running (on/off; toggles without)")
                     .WithArgs(parsers.OptionalWord("on"))
                     .HandleWith(args => OnDummySet(args, d => Toggle(d, Senses.TestRunKey, args, "runs", "stops running")))
+                .EndSubCommand()
+                .BeginSubCommand("face")
+                    .WithDescription("Where the latest straw dummy looks: toward (at whatever asks, a stare), away (its back turned), or none (as put down)")
+                    .WithArgs(parsers.OptionalWord("direction"))
+                    .HandleWith(args => OnDummySet(args, d =>
+                    {
+                        string way = args.Parsers[0].IsMissing ? "toward" : ((string)args[0]).Trim().ToLowerInvariant();
+                        if (way is "none" or "off") { d.WatchedAttributes.RemoveAttribute(Senses.TestFaceKey); return "looks as put down"; }
+                        if (way is not ("toward" or "away")) return "Facing is toward, away or none";
+                        d.WatchedAttributes.SetString(Senses.TestFaceKey, way);
+                        return way == "away" ? "has its back turned" : "looks straight at whatever asks";
+                    }))
                 .EndSubCommand()
                 .BeginSubCommand("stability")
                     .WithDescription("The latest straw dummy's Reality Stability (0 to 1)")

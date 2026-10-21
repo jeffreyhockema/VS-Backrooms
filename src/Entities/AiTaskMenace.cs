@@ -32,6 +32,9 @@ namespace Backrooms.Entities;
 /// and freeze while stared at), <c>fearsFire</c> (keeps clear of lit firepits, Firesalt and angel statues),
 /// <c>grabsThroughWalls</c> and <c>respectsAlmond</c> (Dullers), <c>avoidsLight</c> (rats keep out of a carried
 /// light), <c>slowedByLight</c>, <c>coward</c> (flees when hurt or faced), <c>retaliates</c>.
+/// Two flags shape how a hunt starts and ends: <c>chargesWhenBacked</c> (the Hound: seeing them is not enough; it charges
+/// when they run, turn their back, are too close, or its nerve breaks under a stare) and <c>leavesAfterSearch</c> (a search
+/// that finds nothing, or a hunt with no way through, ends in leaving rather than going back to following).
 /// </summary>
 public class AiTaskMenace : AiTaskBase
 {
@@ -52,6 +55,11 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>What it perceives (null: it knows where its target is), and the perception-driven extras.</summary>
     private readonly SenseProfile senses;
     private readonly bool glimpseTurnsToStalk, growlBeforeCharge, barks, drawnToLight, huntsOnSight;
+    /// <summary>The Hound's rule in place of <c>huntsOnSight</c> (see <see cref="ChargeTrigger"/>), and the Search that ends in leaving (see <see cref="EndSearch"/>).</summary>
+    private readonly bool chargesWhenBacked, leavesAfterSearch;
+    /// <summary>The charge triggers: how far off (blocks) a turned back counts, for how long (s), the cone (degrees either side of a stare) that is not a turned back, and how close is too close.</summary>
+    private readonly float backTurnedRange, backTurnedSeconds, backTurnedCone, chargeCloseRange;
+    private float backTurnedFor;
     private readonly int growlMs;
     private readonly float investigateSeconds, searchSeconds, retaliateSeconds, huntBarkSeconds;
     private readonly int[] huntBarkLevels;
@@ -106,6 +114,12 @@ public class AiTaskMenace : AiTaskBase
 
     /// <summary>How long (seconds, in all) a glimpse must have seen its target before it turns to a stalk (see <c>glimpseTurnsToStalk</c>).</summary>
     private const float GlimpseSeenSeconds = 2;
+
+    /// <summary>Defaults of the charge triggers (the Hound's config gives them): see <c>chargesWhenBacked</c>.</summary>
+    private const float BackTurnedRange = 16, BackTurnedSeconds = 2, BackTurnedCone = 70, ChargeCloseRange = 5;
+
+    /// <summary>A target that runs (for this many seconds in a row) within this many blocks is given chase.</summary>
+    private const float RunsFor = 1.5f, RunsWithin = 28;
 
     /// <summary>The loudness of a noise not made by its target that is worth going to see.</summary>
     private const double InvestigateLoudness = 0.3;
@@ -252,6 +266,12 @@ public class AiTaskMenace : AiTaskBase
         huntBarkLevels = taskConfig["huntBarkLevels"].AsArray(Array.Empty<int>());
         drawnToLight = taskConfig["drawnToLight"].AsBool(false);
         huntsOnSight = taskConfig["huntsOnSight"].AsBool(false);
+        chargesWhenBacked = taskConfig["chargesWhenBacked"].AsBool(false);
+        leavesAfterSearch = taskConfig["leavesAfterSearch"].AsBool(false);
+        backTurnedRange = taskConfig["backTurnedRange"].AsFloat(BackTurnedRange);
+        backTurnedSeconds = taskConfig["backTurnedSeconds"].AsFloat(BackTurnedSeconds);
+        backTurnedCone = taskConfig["backTurnedCone"].AsFloat(BackTurnedCone);
+        chargeCloseRange = taskConfig["chargeCloseRange"].AsFloat(ChargeCloseRange);
         investigateSeconds = taskConfig["investigateSeconds"].AsFloat(8);
         searchSeconds = taskConfig["searchSeconds"].AsFloat(10);
         retaliateSeconds = taskConfig["retaliateSeconds"].AsFloat(60);
@@ -439,6 +459,14 @@ public class AiTaskMenace : AiTaskBase
             walkingFor += 0.3f;
         }
 
+        if (chargesWhenBacked)
+        {
+            // Their back turned, in sight and not far off (the stare test's own look: where they face, and the Hound's place)
+            bool backTurned = seen.Contact == Contact.Seen && entity.Pos.DistanceTo(Believed) < backTurnedRange
+                && target is EntityAgent && !Senses.LooksAt(target, Senses.Centre(entity), backTurnedCone);
+            backTurnedFor = backTurned ? backTurnedFor + 0.3f : 0;
+        }
+
         if (kind is Encounter.Glimpse or Encounter.Stalk && (turnsWhenCornered || turnsWhenChased) && TryTurnOnTarget(kind, distance, a, now)) return true;
 
         switch (kind)
@@ -467,6 +495,7 @@ public class AiTaskMenace : AiTaskBase
     {
         Encounter before = lastKind;
         plannedAt = chasing = null;
+        backTurnedFor = 0;
         doorAt = null;
         lastPathMs = 0;
         StopLook();
@@ -633,7 +662,7 @@ public class AiTaskMenace : AiTaskBase
         watchedFor = Math.Max(0, watchedFor - 0.1f);
 
         if (grabsThroughWalls && TryGrab(distance)) return;
-        if (hasNerve && StaredDown(distance)) return;
+        if (hasNerve && retaliationStartMs < 0 && StaredDown(distance)) return;
 
         if (ShouldTurnToHunt(distance, a))
         {
@@ -653,7 +682,8 @@ public class AiTaskMenace : AiTaskBase
                 if (point != null)
                 {
                     plannedAt = Believed.Clone();
-                    Go(point, believedDistance > stalkMax + 10 ? runSpeed * 0.8f : walkSpeed, 1);
+                    // (A Hound that has its eyes on them closes at a walk, growling; out of sight it makes up ground)
+                    Go(point, believedDistance > stalkMax + 10 && !(chargesWhenBacked && seen.Contact == Contact.Seen) ? runSpeed * 0.8f : walkSpeed, 1);
                 }
             }
         }
@@ -690,10 +720,31 @@ public class AiTaskMenace : AiTaskBase
         if (avoidsLight && Senses.HeldLight(target) >= 10) return false;
         // Hostile on sight: a Hound that sees them close by comes
         if (huntsOnSight && seen.Contact == Contact.Seen && believedDistance < stalkMax + 6) return true;
+        // The Hound is not set off by the sight of them: only by what the lore says sets it off
+        if (chargesWhenBacked && ChargeTrigger(believedDistance) is { } why) return Charge(why);
         // Running is what gives you away: anything following within earshot gives chase
-        if (runningFor > 1.5 && believedDistance < 28) return true;
-        if (Senses.Stability(target) < 0.4) return (!Perceives || seen.Contact != Contact.None) && rand.NextDouble() < 0.2 * 0.3 * turnMul;
-        return (!Perceives || seen.Contact != Contact.None) && a.Value >= 0.8 && rand.NextDouble() < 0.04 * 0.3 * turnMul;
+        if (runningFor > RunsFor && believedDistance < RunsWithin) return Charge("ran");
+        if (Senses.Stability(target) < 0.4) return (!Perceives || seen.Contact != Contact.None) && rand.NextDouble() < 0.2 * 0.3 * turnMul && Charge("unsteady");
+        return (!Perceives || seen.Contact != Contact.None) && a.Value >= 0.8 && rand.NextDouble() < 0.04 * 0.3 * turnMul && Charge("menace");
+    }
+
+    /// <summary>Says (to the entity log) what set a Hound off, and that it turns to the hunt.</summary>
+    private bool Charge(string trigger)
+    {
+        if (chargesWhenBacked) Log("hunts: {0}", trigger);
+        return true;
+    }
+
+    /// <summary>
+    /// What sets a Hound off beyond running and the rolls: their back turned (not looking its way within the cone) for
+    /// <c>backTurnedSeconds</c> while in sight and within <c>backTurnedRange</c>, or being within <c>chargeCloseRange</c>
+    /// of where it believes them to be, in sight or by ear. (Its nerve breaking under a stare is in <see cref="StaredDown"/>.)
+    /// </summary>
+    private string ChargeTrigger(double believedDistance)
+    {
+        if (backTurnedFor > backTurnedSeconds) return "back turned";
+        if (believedDistance < chargeCloseRange && seen.Contact != Contact.None) return "too close";
+        return null;
     }
 
     /// <summary>
@@ -876,9 +927,16 @@ public class AiTaskMenace : AiTaskBase
     private bool StaredDown(double distance)
     {
         if (nerve < 0) nerve = gazeNerveMin + (float)entity.World.Rand.NextDouble() * (gazeNerveMax - gazeNerveMin);
+        // (Running gives it away whoever stares: a Hound that charges at runners is not held by their eyes)
+        if (chargesWhenBacked && runningFor > RunsFor)
+        {
+            if (growling) entity.AnimManager.StopAnimation("growl");
+            growling = false;
+            return false;
+        }
         // (Whoever stares, its target or someone with them: it backs off from them)
         Entity viewer = nerve > 0 ? Starer(16, 10) : null;
-        bool stared = viewer is EntityPlayer && !IsCreative(viewer) && entity.Pos.DistanceTo(viewer.Pos) < 12;
+        bool stared = (viewer is EntityPlayer || Senses.IsTestTarget(viewer)) && !IsCreative(viewer) && entity.Pos.DistanceTo(viewer.Pos) < 12;
         if (!stared)
         {
             if (growling) entity.AnimManager.StopAnimation("growl");
@@ -892,6 +950,7 @@ public class AiTaskMenace : AiTaskBase
             if (growling) entity.AnimManager.StopAnimation("growl");
             growling = false;
             Log("its nerve breaks: it comes on");
+            if (chargesWhenBacked) Log("hunts: nerve");
             if (huntSound != null) PlaySound(huntSound);
             if (!menace.Passive) Kind = Perceives && Confidence(entity.World.ElapsedMilliseconds) <= HuntConfidence ? Encounter.Stalk : Encounter.Hunt;
             return false;
@@ -1133,7 +1192,8 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>It has found its target (or its trail) again: the hunt, if the hunt is open to it, else following.</summary>
     private void Spotted(double distance, MenaceSystem.Assessment a)
     {
-        Kind = CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
+        // (A Hound that sights them again follows, and the charge triggers decide: sight alone is not enough)
+        Kind = (!chargesWhenBacked || retaliationStartMs >= 0) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
     }
 
     /// <summary>A length of time in the config's seconds, a little over or under (up to two seconds either way), in ms.</summary>
@@ -1284,7 +1344,7 @@ public class AiTaskMenace : AiTaskBase
     {
         StopLook();
         Log("gives up the search");
-        Kind = menace.EncounterLeftMs > MinBudgetMs ? Encounter.Stalk : Encounter.Leave;
+        Kind = !leavesAfterSearch && menace.EncounterLeftMs > MinBudgetMs ? Encounter.Stalk : Encounter.Leave;
     }
 
     // ================= The edge of the light =================
@@ -1675,7 +1735,16 @@ public class AiTaskMenace : AiTaskBase
         }
         // Can't get there (a closed door, a wall): a hunter goes back to watching for a while, a stalker tries elsewhere
         noPathUntilMs = entity.World.ElapsedMilliseconds + 4000;
-        if (Kind == Encounter.Hunt) Kind = Encounter.Stalk;
+        // (One that leaves when it loses them looks about where the way ended, and goes: a shut door stops a Hound)
+        if (Kind == Encounter.Hunt)
+        {
+            if (leavesAfterSearch)
+            {
+                Log("no way through: it looks about where the way ended");
+                belief.Strength = 0; // (so the search does not take the old belief, or a noise behind the door, for a fresh find)
+            }
+            Kind = leavesAfterSearch ? Encounter.Search : Encounter.Stalk;
+        }
         plannedAt = null;
     }
 

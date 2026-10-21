@@ -361,7 +361,7 @@ ERR_RE = re.compile(r"\[backrooms\].*(error|exception)|^\s+at \S+\(|Exception:",
 class Enc:
     """One entity put down for a dummy; reads its log lines out of the console."""
 
-    def __init__(self, c, code, kind, dist, light=0, level=LEVEL, min_band=None, ident=True):
+    def __init__(self, c, code, kind, dist, light=0, level=LEVEL, min_band=None, ident=True, face=None):
         # (ident=False: the entity logs no "starts:" line (Watcher, Neighborhood Watch); lines() then reads every line of that code)
         self.c, self.srv, self.code = c, c.srv, code
         c.reset()
@@ -389,6 +389,9 @@ class Enc:
                 self.dummy = (int(m.group(2)), int(m.group(4)))
         if light:
             c.srv.cmd("/backrooms dummy light %d" % light)
+        if face:
+            # (toward: it stares at whatever asks; away: its back is turned)
+            c.srv.cmd("/backrooms dummy face %s" % face)
         time.sleep(1)
         self.mark = c.srv.mark()
         self.reply = None
@@ -499,10 +502,12 @@ def t_p1_stalk_to_investigate(c):
 
 
 def t_p1_sight_hunt(c):
+    # Seen with its back turned (isolation round 2: sight alone no longer sets a Hound off; see the iso-hound cases), a
+    # lit dummy within 16 blocks is hunted, with the growl first.
     # (The hound is put down at a random angle: the maze may not give a clear line, so try several spots)
     for dist in (14, 14, 14, 10, 10, 8):
-        e = Enc(c, "hound", "stalk", dist, light=14, min_band=("Approach", "Threshold"))
-        ok = e.wait_for(lambda: e.has("Stalk", "Hunt"), 8)
+        e = Enc(c, "hound", "stalk", dist, light=14, min_band=("Approach", "Threshold"), face="away")
+        ok = e.wait_for(lambda: e.has("Stalk", "Hunt"), 10)
         t = time.time() - e.t0
         growl = [l for l in e.lines() if "growl" in l]
         ev = "%d blocks: changes %s after %.1f s; growl lines %s; sees-lines %d" % (dist, e.changes() or "none", t, growl, e.count_lines("sees its target"))
@@ -852,6 +857,116 @@ def t_iso_one_kind(c):
 
 
 ISO_CASES = [("iso-rates", t_iso_rates), ("iso-one-kind", t_iso_one_kind)]
+# ---- P7 round 2, piece B: the Hound's counters (isolation.md 4.5). The Hound no longer hunts on sight. It closes at a walk and
+# charges when the target runs, turns their back, is within 5 blocks, or its nerve breaks under a stare (the entity log names the
+# trigger: "hunts: ran" / "back turned" / "nerve" / "too close"). Headless entities never walk, so these are decisions by timeouts.
+
+def _hound_lit(c, dist, face, tries=6):
+    """A Hound stalking a lit dummy (in an Approach-or-worse band, so it may hunt) that it sees: retried over spots."""
+    for _ in range(tries):
+        e = Enc(c, "hound", "stalk", dist, light=14, min_band=("Approach", "Threshold"), face=face)
+        if e.wait_for(lambda: e.count_lines("sees its target") > 0, 8):
+            return e
+        e.finish()
+    return None
+
+
+def _first_line_at(e, text, timeout):
+    """The time at which a line containing text first shows, or None."""
+    end = time.time() + timeout
+    while time.time() < end:
+        if e.count_lines(text):
+            return time.time()
+        time.sleep(0.1)
+    return None
+
+
+def t_iso_hound_nerve(c):
+    # A dummy looking straight at it, standing 10 blocks off and steady: it is stared down (no hunt) for its nerve (4 to 8 s),
+    # then "hunts: nerve" (the lore: it will not work for long). The nerve is measured from the "stared down" line.
+    ev = "no spot"
+    for attempt in range(4):
+        e = _hound_lit(c, 10, "toward")
+        if e is None:
+            return False, "no spot with a clear line at 10 blocks"
+        t_stare = _first_line_at(e, "stared down", 10)
+        if t_stare is None:
+            ev = "attempt %d: never stared down; changes %s" % (attempt + 1, e.changes() or "none")
+            e.finish()
+            continue
+        early = e.wait_for(lambda: e.has("Stalk", "Hunt"), 3.2)
+        e.wait_for(lambda: e.has("Stalk", "Hunt"), 9)
+        t_hunt = time.time() - t_stare
+        trig = [l for l in e.lines() if l.startswith("hunts:")]
+        ev = "attempt %d: stared down, hunt after %.1f s of it (early %s); triggers %s; changes %s" % (attempt + 1, t_hunt, early, trig, e.changes())
+        e.finish()
+        if trig and "hunts: nerve" not in trig:
+            continue    # (a menace roll got there first: try again)
+        return (not early) and bool(trig) and t_hunt <= 10, ev
+    return False, ev
+
+
+def t_iso_hound_back_turned(c):
+    # Its target's back is turned, in sight and within 16 blocks: hunted after 2 s of it (and the growl first).
+    ev = "no spot"
+    for attempt in range(3):
+        e = _hound_lit(c, 10, "away")
+        if e is None:
+            return False, "no spot with a clear line at 10 blocks"
+        t_seen = _first_line_at(e, "sees its target", 1) or time.time()
+        ok = e.wait_for(lambda: e.has("Stalk", "Hunt"), 10)
+        took = time.time() - t_seen
+        trig = [l for l in e.lines() if l.startswith("hunts:")]
+        ev = "attempt %d: hunt %.1f s after the first sight; triggers %s; growl lines %d; changes %s" % (attempt + 1, took, trig, e.count_lines("growls"), e.changes())
+        e.finish()
+        if ok and trig == ["hunts: back turned"] and took <= 5:
+            return True, ev
+    return False, ev
+
+
+def t_iso_hound_runner(c):
+    # A dummy that runs, looking straight at the Hound (running beats the stare): hunted, "hunts: ran".
+    ev = "no spot"
+    for attempt in range(3):
+        e = _hound_lit(c, 10, "toward")
+        if e is None:
+            return False, "no spot with a clear line at 10 blocks"
+        c.srv.cmd("/backrooms dummy run on")
+        t_run = time.time()
+        ok = e.wait_for(lambda: e.has("Stalk", "Hunt"), 10)
+        took = time.time() - t_run
+        trig = [l for l in e.lines() if l.startswith("hunts:")]
+        ev = "attempt %d: hunt %.1f s after it ran; triggers %s; changes %s" % (attempt + 1, took, trig, e.changes())
+        e.finish()
+        if ok and trig == ["hunts: ran"]:
+            return True, ev
+    return False, ev
+
+
+def t_iso_hound_gives_up(c):
+    # A Hound sent after a dummy that is dark and out of its line (20 blocks): its belief fades, it searches, and then it leaves.
+    # It must not go back to following (Search > Stalk) once it has lost them, nor hunt again.
+    ev = "no run"
+    for attempt in range(4):
+        e = Enc(c, "hound", "hunt", 20)
+        e.wait_for(lambda: e.dist() is not None, 8)
+        ok1 = e.wait_for(lambda: e.has("Hunt", "Search"), 50)
+        t_search = time.time() - e.t0
+        ok2 = e.wait_for(lambda: e.has("Search", "Leave"), 40)
+        ks = e.kinds()
+        first = next((i for i, k in enumerate(ks) if k == ("Hunt", "Search")), len(ks))
+        back = [k for k in ks[first:] if k in (("Search", "Stalk"), ("Search", "Hunt"), ("Leave", "Stalk"), ("Leave", "Hunt"))]
+        ev = "attempt %d: Hunt>Search after %.0f s, Search>Leave %s; changes %s; lost-lines %d, no-way lines %d, search lines %d, gives up lines %d" % (
+            attempt + 1, t_search, ok2, e.changes(), e.count_lines("has lost them"), e.count_lines("no way through"), e.count_lines("searches"), e.count_lines("gives up the search"))
+        e.finish()
+        if ok1 and ok2 and not back:
+            return True, ev
+    return False, ev
+
+
+ISO_HOUND_CASES = [("iso-hound-nerve", t_iso_hound_nerve), ("iso-hound-back-turned", t_iso_hound_back_turned),
+                   ("iso-hound-runner", t_iso_hound_runner), ("iso-hound-gives-up", t_iso_hound_gives_up)]
+
 
 
 def smoke(c):
@@ -892,6 +1007,8 @@ def main():
         only = (only - {"p7"}) | {n for n, _ in P7_CASES}
     if only and "iso" in only:
         only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
+    if only and "iso-hound" in only:
+        only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
@@ -903,7 +1020,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

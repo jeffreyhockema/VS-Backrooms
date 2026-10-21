@@ -835,19 +835,25 @@ def hound():
     animations = model_anims(anim("sniff", "sniff"), anim("howl", "howl"), anim("growl", "growl"), anim("scratch", "scratch"))
     tasks = [
         # (Speeds compare with a player's 0.025 walking and 0.05 sprinting; the level's danger adds up to 30 %. Like a vanilla
-        # wolf in Level 1 (8 damage at tier 2, 15 health, a run a sprint cannot shake) and a bear (10 to 12) from Level 3;
-        # see docs/design/entity-difficulty.md)
-        menace_task(walkSpeed=0.022, runSpeed=0.05, stalkMin=9, stalkMax=15, glimpseFleeDistance=16,
+        # wolf in Level 1 (8 damage at tier 2, 15 health) and a bear (10 to 12) from Level 3; see docs/design/entity-difficulty.md.
+        # Round 2 (isolation.md 4.5): it outruns a sprint everywhere (0.062 is 1.24 x, 1.5 x at the deepest danger) and light no
+        # longer slows it, so a straight run does not work; what works is staying out of sight, the stare, a calm walk away
+        # facing it, and a shut door)
+        menace_task(walkSpeed=0.022, runSpeed=0.062, stalkMin=9, stalkMax=15, glimpseFleeDistance=16,
                     damage=7.2, damageTier=2, damageType="SlashingAttack", knockback=0.35, attackRange=1.0,
                     attackDurationMs=1000, damageAtMs=600, attackCooldownMs=1100, walkAnimation="walk", runAnimation="run",
-                    attackAnimation="attack", fearsFire=True, slowedByLight=True, retreatBelow=0.35, staredDown=True,
+                    attackAnimation="attack", fearsFire=True, retreatBelow=0.35, staredDown=True,
                     stalkSound="game:creature/wolf/growl*", huntSound="game:creature/wolf/howl*", attackSound="game:creature/wolf/attack*", soundRange=40,
                     # What it perceives (docs/design/entity-ai-overhaul/README.md section 6.1): hostile on sight, hears running
-                    senses=dict(sightLit=40, sightDim=18, sightDark=8, sightCone=70, carriedLight=1.5, hearing=32, fearSense=12, memorySeconds=8, trackSeconds=12, trackError=10),
+                    senses=dict(sightLit=40, sightDim=18, sightDark=8, sightCone=70, carriedLight=1.5, hearing=32, fearSense=12, memorySeconds=10, trackSeconds=12, trackError=10),
                     # Encounter v2 (README sections 5 and 6.1): a glimpse that sees turns to a stalk, a growl before the charge, barks
                     # while hunting in Level 3, investigates noise, searches a lost target, retaliation bounded
-                    huntsOnSight=True, glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
-                    investigateSeconds=8, searchSeconds=10, retaliateSeconds=60, lookAnimation="sniff"),
+                    # It does not hunt on sight (AiTaskMenace.ShouldTurnToHunt, chargesWhenBacked): it closes at a walk, growling, and
+                    # charges when the target runs, turns their back for 2 s within 16 blocks, comes within 5, or its nerve breaks under a
+                    # stare (4 to 8 s: "won't work for long"); losing them it searches and then leaves (leavesAfterSearch)
+                    chargesWhenBacked=True, backTurnedRange=16, backTurnedSeconds=2, backTurnedCone=70, chargeCloseRange=5, leavesAfterSearch=True,
+                    glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
+                    investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff"),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),
         idle("scratch", 1.15, 2500, 2500, 30000, 90000),
         WANDER,
@@ -1230,7 +1236,9 @@ def bacteria():
                        huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48,
                        # What it perceives (README section 6.2)
                        senses=dict(sightLit=32, sightDim=16, sightDark=10, sightCone=70, hearing=28, memorySeconds=6, trackSeconds=15, trackError=10),
-                       investigateSeconds=6, searchSeconds=8, retaliateSeconds=60)
+                       investigateSeconds=6, searchSeconds=8, retaliateSeconds=60,
+                       # Hide from it and the fright ends: a search that finds nothing sends it away, not back to following
+                       leavesAfterSearch=True)
     # The model stoops to 44 px (2.76 blocks), just under Level 0's ceiling; the hitbox is kept to a doorway's two
     # blocks, the head above it. Its long arms reach 1.6 blocks ahead.
     return tall_body("bacteria", (0.7, 1.95), 2.5, 30, task, {"stalkSeconds": 120, "maxEncounterSeconds": 300}, None,
