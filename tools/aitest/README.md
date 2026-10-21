@@ -5,12 +5,12 @@ the Hound sees, hears and senses (`/backrooms dummy ...`, `/backrooms perceive .
 `docs/design/entity-ai-overhaul/README.md`, sections 4 and 4.5).
 
     BACKROOMS_SCRATCH="$TEMP/backrooms-build" bash tools/locked.sh mod ai
-    python tools/aitest/run.py --mods "$TEMP/backrooms-build/build-ai/Mods" [--data DIR] [--keep] [--only lost,fear]
+    python tools/aitest/run.py --mods "$TEMP/backrooms-build/build-ai/Mods" [--data DIR] [--keep] [--only lost,fear] [--no-smoke] [--port N]
 
 One PASS/FAIL line per case with its evidence (timeline: S seen, s sensed, h heard, . none, one character per second).
 The full console log is written to `<data>/aitest.log`. The exit status is non-zero on any failed case or any
-`[backrooms]` error line. The first world generation can take minutes; the server uses port 42733. `--only` skips the
-`dummies on` smoke run.
+`[backrooms]` error line. The first world generation can take minutes; the server uses port 42733 (`--port N` changes it, so two harnesses can run at once). `--only` skips the
+`dummies on` smoke run, and `--no-smoke` does the same without `--only`. An unknown name in `--only` stops before the server starts and exits non-zero.
 
 ## P1 cases (`--only p1`, belief-based Menace task)
 
@@ -21,7 +21,6 @@ noises, sight), not movement. Spots are random, so a case retries until the layo
 nearer than it needs to be (a short tunnel), a hunt whose first path fails (Hunt -> Stalk at once), a dummy not in an
 Approach-or-worse band (read from `/backrooms dummies off`, which lists each dummy's band; Level 6 has such spots),
 and a glimpse that is a crossing (40%, which go straight to Leave). A case that never finds its spot reports SKIPPED.
-`--port N` (default 42733) lets two harnesses run at once.
 
 `p1-hunt-to-search`: a hunt the director put down ("sent hunt") refreshes its belief every 2 s for its first
 `sentHuntSeconds` (10) and only then does memory (8 s for the Hound) fade, so Hunt -> Search comes at about 18 to 40 s
@@ -36,3 +35,17 @@ the Death Rat (senses profiles since P2) to stay out of Investigate and Search.
 Strider logs "frightens hound" and the Hound's progress lines stop; the Watch sets the Hound's kind from outside, so no
 "Hunt -> Leave" line appears), `p4-watcher-fires` (a Watcher hunting a lit Level 9 dummy logs "charges at" and "fires
 at"). Entities that log no "starts:" line (Ambient stealer, Watcher, Strider) are read by entity code (`Enc(ident=False)`).
+
+## P7 cases (`--only p7`, struck creatures fight back)
+
+In Level 0 (the Lobby, where nothing hunts), the dummy carrying a candle: a creature that is struck must go to Hunt and stay there, with no stare-down, no Lobby call-off and no Leave, whatever it was doing.
+
+`p7-hound-struck` and `p7-bacteria-struck` (struck, they hunt at once), `p7-bacteria-cornered` (the target 3 blocks off, inside its cornered range: within seconds it lunges, a provoked hunt) and `p7-bacteria-chased` (the target at about 9 blocks, carrying a torch: the Bacteria keeps falling back from it, and after its chase time howls and turns).
+
+## Isolation cases (`--only iso`, the rate rolls and one kind at a time)
+
+`iso-rates` runs `/backrooms ratecheck` for a set of levels and bands and asserts the bodies and sounds per hour against the isolation plan's bounds. `iso-one-kind` checks that the rolls with one menacing entity about put down no body at all (the control does), then that a stalking Hound about a Level 1 dummy for two minutes is the only body put down for it.
+
+## Hound cases (`--only iso-hound`)
+
+`iso-hound-nerve` (a dummy staring a Hound down from 10 blocks: no hunt for its nerve, then "hunts: nerve"), `iso-hound-back-turned` (the target's back turned, in sight within 16 blocks: hunted after 2 seconds), `iso-hound-runner` (a running dummy beats the stare: "hunts: ran") and `iso-hound-gives-up` (a dark dummy out of its line: its belief fades, it searches and leaves, and does not hunt again).
