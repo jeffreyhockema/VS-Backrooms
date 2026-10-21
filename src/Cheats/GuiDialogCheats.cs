@@ -217,6 +217,7 @@ public class GuiDialogCheats : GuiDialog
             B("Resume director", "/backrooms director on"),
             B("Make noise", "/backrooms noise", "As loud as you can be: what hunts by sound comes to see"),
             B("Stop probes", "/backrooms perceive stop", "Ends every perception probe (Perceive), and its reports"),
+            B("Rate check here", "/backrooms ratecheck here", "Simulates 50 hours of the director's rolls for your level and band, and says how many bodies and sounds an hour that comes to"),
         }, 4);
 
         y = Heading(c, "Hives and Clumps", y + RowGap);

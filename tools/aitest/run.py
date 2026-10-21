@@ -786,6 +786,73 @@ P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_
             ("p7-bacteria-cornered", t_p7_bacteria_cornered), ("p7-bacteria-chased", t_p7_bacteria_chased)]
 
 
+# ---------------------------------------------------------------- P7 round 2: isolation, piece A (isolation.md 4.6)
+RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace ([\d.]+), setting (\w+), [\d.]+ h, \d+ menacing about\): bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), "
+                     r"sounds ([\d.]+)/h; body gap mean (\S+) min, min (\S+) min; sound gap mean (\S+) min, min (\S+) min")
+
+
+def _rate(c, level, band, hours=50, extra=""):
+    m = c.srv.mark()
+    c.srv.cmd(("/backrooms ratecheck %s %s %s %s" % (level, band, hours, extra)).strip())
+    r = c.srv.wait(lambda l: RATE_RE.search(l) or ("ratecheck" in l.lower() and "band" in l.lower() and "Give" in l and l), m, 30)
+    if not hasattr(r, "group"):
+        raise RuntimeError("no ratecheck reply for Level %s %s (%s)" % (level, band, r))
+    g = r.groups()
+    return {"bodies": float(g[4]), "glimpse": float(g[5]), "stalk": float(g[6]), "hunt": float(g[7]), "sounds": float(g[8]),
+            "gap": g[9], "mingap": g[10], "text": r.group(0)}
+
+
+def t_iso_rates(c):
+    # (level, band, key, lo, hi): the plan's bounds (isolation.md 4.6); Level 6 is 'under 1.2' in the heartland
+    checks = [("1", "heartland", "bodies", 1.4, 3.4), ("1", "threshold", "bodies", 10, 22), ("4", "approach", "bodies", 2.5, 5.5),
+              ("0", "heartland", "bodies", 1, 2.5), ("9", "threshold", "bodies", 18, 40), ("6", "heartland", "bodies", 0, 1.2),
+              ("1", "heartland", "sounds", 4, 10)]
+    ev, ok, cache = [], True, {}
+    for level, band, key, lo, hi in checks:
+        r = cache.get((level, band)) or cache.setdefault((level, band), _rate(c, level, band))
+        good = lo <= r[key] <= hi
+        if level == "0" and band == "heartland":
+            good = good and r["stalk"] == 0 and r["hunt"] == 0   # glimpses only
+        ok &= good
+        ev.append("L%s %s %s %.1f (%s..%s)%s" % (level, band, key, r[key], lo, hi, "" if good else " BAD"))
+    # the hard gap: Level 1 heartland bodies are never closer than 40%% of the 30 minute mean
+    r = cache[("1", "heartland")]
+    try:
+        gap_ok = float(r["mingap"]) >= 11.5
+    except ValueError:
+        gap_ok = False
+    ok &= gap_ok
+    ev.append("L1 heartland min body gap %s min (>= 11.5)%s" % (r["mingap"], "" if gap_ok else " BAD"))
+    return ok, "; ".join(ev)
+
+
+def t_iso_one_kind(c):
+    """The one-kind rule. Deterministic part: the rolls with one menacing entity about put down no body at all, the control does.
+    Live part: a stalking Hound about a Level 1 approach dummy for two minutes: no other body is put down for it (compared by entity id)."""
+    with_one = _rate(c, "1", "approach", 50, "menacing=1")
+    control = _rate(c, "1", "approach", 50)
+    det = with_one["bodies"] == 0 and control["bodies"] > 0
+    e = started(c, "hound", "stalk", 25, level="1", min_band=("Approach", "Threshold"))
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms dummies on")
+    time.sleep(125)
+    others = set()
+    for l in c.srv.since(m):
+        mm = ENT_LINE_RE.search(l)
+        # (only bodies count: ambient wanderers are exempt from the one-kind rule)
+        if mm and "starts:" in mm.group(3) and mm.group(2) != e.id and not mm.group(3).strip().endswith("Ambient"):
+            others.add("%s#%s" % (mm.group(1), mm.group(2)))
+    left = any(k[1] == "Leave" for k in e.kinds())
+    c.srv.cmd("/backrooms dummies off")
+    e.finish()
+    # (a Hound that left lets the director legally put something down: that run proves nothing, so it is not held against the rule)
+    live = not others or left
+    return det and live, "menacing=1: %.1f bodies/h, control %.1f; live: other bodies %s%s" % (
+        with_one["bodies"], control["bodies"], sorted(others) or "none", " (the Hound left)" if left else "")
+
+
+ISO_CASES = [("iso-rates", t_iso_rates), ("iso-one-kind", t_iso_one_kind)]
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -823,6 +890,8 @@ def main():
         only = (only - {"p26"}) | {n for n, _ in P26_CASES}
     if only and "p7" in only:
         only = (only - {"p7"}) | {n for n, _ in P7_CASES}
+    if only and "iso" in only:
+        only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
@@ -834,7 +903,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
