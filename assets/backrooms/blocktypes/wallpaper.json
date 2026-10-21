@@ -2,15 +2,16 @@
 	code: "wallpaper",
 	variantgroups: [
 		// "stripped" is bare drywall, left behind when the paper has been cut away
-		// "red" is the paper of the Red Rooms, "cream" the pale paper of the arched areas
-		{ code: "pattern", states: ["chevron", "dotted", "cream", "manila", "red", "stripped"] },
+		// "red" is the paper of the Red Rooms, "cream" the pale paper of the arched areas (layout versions 1-9),
+		// "stucco" their plain cream plaster (layout version 10 on; states are only ever added at the end)
+		{ code: "pattern", states: ["chevron", "dotted", "cream", "manila", "red", "stripped", "stucco"] },
 		// "upper" is a plain wall block; the others are the bottom block with its trim
 		{ code: "part", states: ["upper", "plain", "baseboard", "rail", "outlet"] }
 	],
 	// A blade strips the paper off (for tinder and bindings), leaving the wall bare
 	behaviors: [{ name: "BackroomsStrippable", properties: {
 		result: "wallpaper-stripped-{part}", item: "wallpaperstrip",
-		variant: "pattern", allowed: ["chevron", "dotted", "cream", "manila", "red"]
+		variant: "pattern", allowed: ["chevron", "dotted", "cream", "manila", "red", "stucco"]
 	} }],
 	creativeinventory: { "general": ["*"], "construction": ["*"] },
 	blockmaterial: "Stone",
@@ -22,6 +23,15 @@
 	// time), two in five carry a faint strip seam on their edge
 	texturesByType: {
 		"*-chevron-*": {
+			all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
+				{ base: "block/wallpaper/{pattern}-{part}-2" },
+				{ base: "block/wallpaper/{pattern}-{part}" },
+				{ base: "block/wallpaper/{pattern}-{part}-2" },
+				{ base: "block/wallpaper/{pattern}-{part}-damp" }
+			] }
+		},
+		// The plaster is plain, so its damp stain is as rare as the yellow's
+		"*-stucco-*": {
 			all: { base: "block/wallpaper/{pattern}-{part}", alternates: [
 				{ base: "block/wallpaper/{pattern}-{part}-2" },
 				{ base: "block/wallpaper/{pattern}-{part}" },

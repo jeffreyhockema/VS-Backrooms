@@ -228,6 +228,69 @@ def pattern_cream(seed, alt=0):
     return paper_wall(seed, cream(0xE9E1BA), motif_chevron(seed + 1, cream(0xCFC497), cream(0xF1EBCF), wear=0.12),
                       strip=1.2, mottle=6)
 
+# ---------------- Stucco (layout version 10: the arched areas) ----------------
+#
+# The user asked for "just a plain cream colour and like a stucco material". So the arched areas' walls, piers and
+# soffits are plain plaster: no print, no seam. The mean is the pale paper's brightness (luminance within 2% of the old
+# cream, block light is unchanged: the CREAM_DIM lesson, judge by the measured mean) with less yellow in it than the
+# paper has. What makes it stucco is the finish, kept low in contrast (a few levels, so it reads as plain cream at
+# playing distance and as a hand-floated plaster close to): a soft mottle, a fine float stipple, a few faint trowel
+# arcs, sand grains on about 2% of the pixels. No cracks, no motif. Every version shares one ground (matlib.turn_safe)
+# so blocks turned and mixed at random meet without a step.
+
+STUCCO_MEAN = (220, 211, 176)
+STUCCO_GROUND = 6100
+
+
+def _stucco_ground():
+    return M.noise_hv(STUCCO_MEAN, 0, STUCCO_GROUND, S, 2.0, (16,), hue=0)
+
+
+def pattern_stucco(seed, alt=0, smooth=False):
+    """Hand-floated cream plaster. `smooth` is the soffit's: the same ground, finished with the float only."""
+    img = M.plaster(seed, base=STUCCO_MEAN, grain=1.6, mottle=2.5, roller=0.12, bumps=0)
+    rng = random.Random(M.sub(seed, "float"))
+    if not smooth:
+        for _ in range(5):  # trowel arcs: a faint light edge with a fainter shade beside it, wrapped round the block
+            cx, cy = rng.uniform(0, S), rng.uniform(0, S)
+            r, a0, span = rng.uniform(5, 11), rng.uniform(0, 2 * math.pi), rng.uniform(0.9, 1.7)
+            f = rng.choice((0.010, -0.010))
+            n = int(r * span * 2)
+            for k in range(n):
+                a = a0 + span * k / n
+                x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+                M.touch(img, round(x), round(y), f)
+                M.touch(img, round(x + math.cos(a)), round(y + math.sin(a)), -f * 0.5)
+        for _ in range(int(0.02 * S * S)):  # sand grains, pale and dark
+            M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((0.03, 0.03, -0.035)))
+    M.turn_safe(img, _stucco_ground(), band=8, keep=0.7)
+    return match_rgb(img, STUCCO_MEAN, "stucco")
+
+
+def stucco_plinth(img, seed=0):
+    """The skirting: a rendered plinth in place of the paper's thin vinyl board. The bottom 3 px a step darker (about
+    10%) with a heavier float, under a lit, rounded top edge; the same height as the yellow's board, so trim lines
+    still run across a join."""
+    rng = random.Random(seed + 177)
+    scuff_band(img, seed + 178, 18, 27, n=1)
+    px = img.load()
+    for x in range(S):
+        px[x, 27] = M.rgba(M.lift(px[x, 27], -4))                       # the shade where the plinth meets the wall
+        px[x, 28] = M.rgba(M.lift(px[x, 28], 7 + rng.uniform(-1, 1)))   # the lit, rounded top edge
+        for y in (29, 30, 31):
+            c = px[x, y]
+            px[x, y] = M.rgba(M.lift((c[0] * 0.9, c[1] * 0.9, c[2] * 0.9), rng.uniform(-3, 3) + (-3 if y == 31 else 0)))
+    return img
+
+
+def stucco_parts(i, a):
+    """Every part of the stucco wall in one version: the engine looks them all up (the chair rail is plain here)."""
+    s = 600 + i + (400 if a else 0)
+    plain = scuff_band(pattern_stucco(s + 10, a), s + 11, 22, 32, n=0, dirt=(150, 140, 110))
+    return {"upper": pattern_stucco(s, a), "plain": plain,
+            "baseboard": stucco_plinth(pattern_stucco(s + 20, a), s + 21), "rail": pattern_stucco(s + 30, a),
+            "outlet": add_outlet(pattern_stucco(s + 40, a), "stucco", s + 41, trim=stucco_plinth)}
+
 
 def pattern_manila(seed, alt=0):
     """The Manila Room: plain manila paper with a fine staggered dot (every 4 px, so it tiles); the seams kept fainter
@@ -292,7 +355,7 @@ def pattern_red(seed, alt=0):
 
 
 PATTERNS = {"stripped": pattern_stripped, "chevron": chevron_wall, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
-            "red": pattern_red}
+            "red": pattern_red, "stucco": pattern_stucco}
 
 VINYL = (80, 68, 52)     # the baseboard: dark brown vinyl cove base
 RAIL_WOOD = (126, 92, 56)
@@ -352,7 +415,7 @@ def add_rail(img, seed=0):
     return img
 
 
-def add_outlet(img, name, seed=0):
+def add_outlet(img, name, seed=0, trim=None):
     """A duplex outlet: an ivory plate standing proud of the wall, its top and left edges lit and its bottom and right
     in shade, a soft shadow on the paper to its lower right, two receptacles (slots dark, each with a lit lip under it)
     and the screw between them. Same trim as the wall it sits on: under the rail on dotted paper, above the baseboard
@@ -361,7 +424,7 @@ def add_outlet(img, name, seed=0):
         add_rail(img, seed)
         top = 24
     else:
-        add_baseboard(img, seed)
+        (trim or add_baseboard)(img, seed)
         top = 19
     x0, x1, y0, y1 = 14, 19, top, top + 7  # 5 x 7 px (about 15 x 21 cm), end exclusive
     plate = (232, 228, 212)
@@ -390,7 +453,7 @@ def _window(x, edge=6):
     return max(0.0, min(1.0, (d - 1) / edge)) ** 1.5
 
 
-def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16):
+def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16, seam=True):
     """The same wall, older: a water run down from above and a soft tide-ringed stain (upper blocks), or a rising-damp
     tide mark from the floor (bottom blocks), with one seam lifting. Kept inside the block (they fade before its edges)
     so a damp block beside a plain one reads as the same paper aged, not as a patch; more yellowing than darkening."""
@@ -422,7 +485,7 @@ def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16):
                     px[x, y] = M.rgba(M.mix(px[x, y], tp[x, y], t))
     # one seam lifting: a dark gap opening from the top of a run, the lifted edge catching the light
     y0, L = rng.randint(3, 10), rng.randint(6, 12)
-    for k in range(L):
+    for k in range(L if seam else 0):
         y = y0 + k
         if part != "upper" and y > 24:
             break
@@ -442,15 +505,19 @@ def wallpapers(only=None):
             parts = {"upper": fn(s, a), "plain": scuff_band(fn(s + 10, a), s + 11, 22, 32),
                      "baseboard": add_baseboard(fn(s + 20, a), s + 21), "rail": add_rail(fn(s + 30, a), s + 31),
                      "outlet": add_outlet(fn(s + 40, a), name, s + 41)}
+            if name == "stucco":
+                parts = stucco_parts(i, a)
             for part, img in parts.items():
                 save(img, f"block/wallpaper/{name}-{part}{v}.png")
                 if not v:
                     stain_c = {"red": (66, 18, 14), "stripped": (170, 154, 116), "cream": (204, 186, 126),
-                               "manila": (166, 136, 84)}.get(name, (176, 150, 86))
-                    save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16),
+                               "manila": (166, 136, 84), "stucco": (204, 192, 152)}.get(name, (176, 150, 86))
+                    save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16, seam=name != "stucco"),
                          f"block/wallpaper/{name}-{part}-damp.png")
     # The arch soffits and risers: painted plaster in the pale paper's colour, without the print
     save(M.plaster(61, base=cream(0xE8E0BE), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
+    if not only or "stucco" in only:  # the stucco arches' soffit: the same plaster, smooth
+        save(pattern_stucco(61, 0, smooth=True), "block/wallpaper/stucco-soffit.png")
 
 
 # ---------------- Floor, ceiling, lights ----------------

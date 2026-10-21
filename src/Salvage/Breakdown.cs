@@ -141,7 +141,7 @@ public static class Breakdown
         Add(Masonry, "l3wall", "l3decobrick", "l3decocinder", "l3decoglazed", "l3decostone", "l3plaquebrick", "l3plaquecinder",
             "l3plaqueglazed", "poolwall", "pooltile", "pool", "marblecolumn", "hotelstairs", "sanctumstone", "sanctumceiling", "castleblock", "angelstatue",
             "stonehand", "stonestapler", "ribcage", "bathtub", "snackwall", "snackdeco");
-        Add(Papered, "wallpaper", "paperjoin", "archheader");
+        Add(Papered, "wallpaper", "paperjoin", "archheader", "stuccojoin", "archheaderstucco");
         Add(Drywall, "drywallbase", "officewall", "officedeco", "plasterwall", "plasterdeco", "plasterceiling", "cityplaster",
             "houseinterior", "housedeco", "nooutletsign");
         Add(Timber, "hotelwall", "hotelwood", "hotelfixture", "hotelceiling", "hoteldeco", "housewall", "housecorner", "housefloor",

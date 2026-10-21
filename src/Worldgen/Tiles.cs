@@ -235,6 +235,12 @@ public enum WallPattern : byte
     /// </summary>
     L188Facade = 177, L188Nothing = 178, L188Partition = 179, L188CorridorWall = 180, L188OuterWall = 181, L188StairWall = 182,
     L188FrontDoor = 183, L188SealedDoor = 184, L188LockedDoor = 185,
+
+    /// <summary>
+    /// Level 0 (layout version 10 on): the arched areas' plain cream plaster, on every wall, pier and header of them
+    /// (the pale paper, <see cref="Cream"/>, in layout versions 1-9). Appended last: no value before it moves.
+    /// </summary>
+    Stucco = 192,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>

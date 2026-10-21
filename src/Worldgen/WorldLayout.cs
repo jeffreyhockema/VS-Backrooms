@@ -415,7 +415,10 @@ public sealed partial class WorldLayout
     /// Level 8's 9th Road is lonelier: about a third as many settlements, fewer braids and
     /// ways off the road, and the road is broken now and then by a rockfall (a wall of rubble at either end of a gap of 90-180
     /// blocks of rock) with a cave passage to find in the dark: a mouth in the road's wall before the rubble, a winding unlit way
-    /// off from the road and down to 20-35 blocks under it, and back up past the break (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).</item>
+    /// off from the road and down to 20-35 blocks under it, and back up past the break (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).
+    /// Level 0's arched areas are plain cream stucco (<see cref="WallPattern.Stucco"/>, its own blocks) and an arcade, not a labyrinth with the
+    /// paper bleached: an arcade street with rooms off it, or a cloister (WorldLayout.Level0.Arches.cs); the ways into an area stand on
+    /// open floor, two gaps side by side leave one arch, the fixtures sit on the bays' lattice and supply boxes never stand beside an arch.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 10;

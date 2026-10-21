@@ -340,7 +340,7 @@ The rules come from the original 2002 photos behind the 2019 creepypasta, the Ba
   - Lobby;
   - open office, like the famous photo;
   - pillar halls;
-  - arches (the Wikidot wiki's "pale walls with archway holes"): the same paper bleached pale, with the same baseboard, walls of arched openings over half-height walls, and an arch over every opening into the area; a wall between a pale area and a papered one is pale on one side and yellow on the other;
+  - arches (the Wikidot wiki's "pale walls with archway holes"): plain cream stucco with a plinth for a baseboard, in an arcade (a pier, then two arched openings, every third block). In worlds made from layout version 10 an area is an arcade street five wide with a full arcade down both sides and rows of rooms off it (each room opens through at least two arches, now and then with a half-height window bay beside them, and a third of the walls between rooms have a two-wide arch), or a cloister, a hall crossed by rows of arches from wall to wall; supply boxes stand in the rooms and at a street's dead end. In older worlds the area is the labyrinth with the paper bleached pale, walls of arched openings over half-height walls, one or two ways through each. In both, an arch stands over every opening into the area; a wall between a pale area and a papered one is pale on one side and yellow on the other;
   - blackout areas: dark, silent, soaked carpet, flooded rooms and the odd sputtering light.
 - **Rare rooms:**
   - pit rooms, a grid of 2×2 shafts 30 blocks deep (falling in lands you in Level 2);

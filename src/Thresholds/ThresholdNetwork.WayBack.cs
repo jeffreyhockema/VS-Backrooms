@@ -134,7 +134,7 @@ public sealed partial class ThresholdNetwork
         if (t.Kind != TileKind.Wall || t.Level != level || t.Tall || t.Under != 0) return false;
         return level switch
         {
-            0 => t.Pattern <= WallPattern.Manila && t.Variant == 0 && WorldLayout.L0FlipBits(t) == 0,
+            0 => (t.Pattern <= WallPattern.Manila || t.Pattern == WallPattern.Stucco) && t.Variant == 0 && WorldLayout.L0FlipBits(t) == 0,
             // (Variant 1 is the damaged concrete, rebar showing)
             1 => t.Pattern is WallPattern.Concrete or WallPattern.WhiteBlock && t.Variant <= 1,
             // (Plain, brick, or where the pipes run along it, as the level's own doors are: never machinery, fittings or signs)

@@ -22,10 +22,10 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila", "red" };
+    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila", "red", "stucco" };
 
-    /// <summary>Level 0's papered walls: the index of a pattern's blocks, or -1 for any other wall.</summary>
-    private static int Paper(WallPattern pattern) => pattern <= WallPattern.Manila ? (int)pattern : pattern == WallPattern.RedRoom ? 4 : -1;
+    /// <summary>Level 0's papered walls (and, from layout version 10, the arched areas' stucco): the index of a pattern's blocks, or -1 for any other wall.</summary>
+    private static int Paper(WallPattern pattern) => pattern <= WallPattern.Manila ? (int)pattern : pattern == WallPattern.RedRoom ? 4 : pattern == WallPattern.Stucco ? 5 : -1;
     private static readonly string[] PierCodes = { "west", "east", "north", "south" };
     private static readonly string[] Sides = { "north", "east", "south", "west" };
     private static readonly string[] Letters = { "a", "b", "c", "d", "e", "f" };
@@ -357,8 +357,11 @@ public sealed partial class WorldGenerator
 
     // Level 0
     private readonly int ceilingTileId, lightOnId, lightLitId, lightOffId, lampDimId, lightFlickerId;
-    private readonly int[,] wallIds = new int[5, 5];
+    private readonly int[,] wallIds = new int[6, 5];
     private readonly int[] archIds = new int[4];
+    /// <summary>The stucco arches' headers and the stucco's joins with the yellow paper (layout version 10 on).</summary>
+    private readonly int[] archStuccoIds = new int[4];
+    private readonly int[,] stuccoJoinIds = new int[16, 2];
     /// <summary>Level 0 walls where an arched area meets a papered one: by which faces are pale (bit 0 north .. 3 west), upper or baseboard.</summary>
     private readonly int[,] paperJoinIds = new int[16, 2];
 
@@ -607,6 +610,13 @@ public sealed partial class WorldGenerator
             for (int part = 0; part < PartCodes.Length; part++)
                 wallIds[p, part] = BlockId($"backrooms:wallpaper-{PatternCodes[p]}-{PartCodes[part]}");
         for (int i = 0; i < PierCodes.Length; i++) archIds[i] = BlockId($"backrooms:archheader-{PierCodes[i]}");
+        for (int i = 0; i < PierCodes.Length; i++) archStuccoIds[i] = BlockId($"backrooms:archheaderstucco-{PierCodes[i]}");
+        for (int mask = 0; mask < 16; mask++)
+            for (int part = 0; part < 2; part++)
+            {
+                string faces = string.Join("-", Array.ConvertAll(new[] { 0, 1, 2, 3 }, f => (mask >> f & 1) != 0 ? "stucco" : "chevron"));
+                stuccoJoinIds[mask, part] = BlockId($"backrooms:stuccojoin-{faces}-{(part == 0 ? "upper" : "baseboard")}");
+            }
         for (int mask = 0; mask < 16; mask++)
             for (int part = 0; part < 2; part++)
             {
@@ -1207,15 +1217,18 @@ public sealed partial class WorldGenerator
             case TileKind.Wall:
                 if (pattern < 0) return concreteId;
                 // Where the pale walls meet the paper, each face takes the finish of the side it faces
-                if (WorldLayout.L0FlipBits(t) is int flip and not 0 && t.Pattern is WallPattern.Chevron or WallPattern.Cream)
-                    return paperJoinIds[t.Pattern == WallPattern.Cream ? ~flip & 15 : flip, bottom ? 1 : 0];
+                if (WorldLayout.L0FlipBits(t) is int flip and not 0 && t.Pattern is WallPattern.Chevron or WallPattern.Cream or WallPattern.Stucco)
+                    // (Layout version 10: the pale side of a join is stucco, on the yellow wall's pale faces as on the stucco's own)
+                    return t.Pattern == WallPattern.Stucco ? stuccoJoinIds[~flip & 15, bottom ? 1 : 0]
+                        : t.Pattern == WallPattern.Chevron && layout.Version >= 10 ? stuccoJoinIds[flip, bottom ? 1 : 0]
+                        : paperJoinIds[t.Pattern == WallPattern.Cream ? ~flip & 15 : flip, bottom ? 1 : 0];
                 return wallIds[pattern, bottom ? (t.Outlet ? PartOutlet : BasePart(t.Base)) : PartUpper];
             case TileKind.Doorway:
                 return top ? (pattern < 0 ? concreteId : wallIds[pattern, PartUpper]) : 0;
             case TileKind.ArchWindow:
-                return bottom ? wallIds[Math.Max(pattern, 0), BasePart(t.Base)] : top ? archIds[(int)t.Pier] : 0;
+                return bottom ? wallIds[Math.Max(pattern, 0), BasePart(t.Base)] : top ? (t.Pattern == WallPattern.Stucco ? archStuccoIds : archIds)[(int)t.Pier] : 0;
             case TileKind.ArchDoor:
-                return top ? archIds[(int)t.Pier] : 0;
+                return top ? (t.Pattern == WallPattern.Stucco ? archStuccoIds : archIds)[(int)t.Pier] : 0;
             default:
                 // (Level Fun's poster and its red smiley hang at eye height, over the carpet)
                 if (t.Variant is Props.FunPosterTrap or Props.FunSmiley) return rel == 2 ? PropBlock(t) : 0;

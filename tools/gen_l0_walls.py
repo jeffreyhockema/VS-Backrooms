@@ -3,7 +3,7 @@ troffer's shape.
 
 - shapes/block/archheader.json: half of a two-block arched opening, its soffit a quarter ellipse stepped one pixel at
   a time from the pier (west, low) to the crown (east, high).
-- blocktypes/paperjoin.json: a wall whose four sides each show the yellow chevron paper or the pale paper, so a wall
+- blocktypes/paperjoin.json (and stuccojoin.json, layout version 10): a wall whose four sides each show the yellow chevron paper or the pale paper, so a wall
   between an arched area and a papered one is papered on one side and pale on the other (WorldGenerator picks it from
   Tile.Detail, see WorldLayout.L0FlipBits).
 - troffer() (graphics pass B3, not written): the troffer as a housing whose frame stands one pixel proud of the lens.
@@ -90,12 +90,13 @@ def troffer(glow=0):
             "elements": els}
 
 
-def paper_join():
+def paper_join(code="paperjoin", pale="cream"):
+    """The join block: `pale` is the finish of the arched side, "cream" for the layout 1-9 paper, "stucco" from 10."""
     sides = ["north", "east", "south", "west"]
     return {
-        "code": "paperjoin",
+        "code": code,
         "variantgroups": [
-            {"code": s, "states": ["chevron", "cream"]} for s in sides
+            {"code": s, "states": ["chevron", pale]} for s in sides
         ] + [{"code": "part", "states": ["upper", "baseboard"]}],
         # A blade strips the paper off every side alike, leaving the wall bare
         "behaviors": [{"name": "BackroomsStrippable", "properties": {"result": "wallpaper-stripped-{part}", "item": "wallpaperstrip"}}],
@@ -127,3 +128,5 @@ if __name__ == "__main__":
     # troffer() is not written (B3): as a shape, the lit panels lost the cube's glow and, in the review world, the
     # rooms round them went dark; the troffer stays a cube with its frame and recess painted (gen_textures.troffer).
     write("blocktypes/paperjoin.json", paper_join())
+    # (layout version 10) the same join for the stucco arched areas: its own code, so every older world's blocks stay
+    write("blocktypes/stuccojoin.json", paper_join("stuccojoin", "stucco"))
