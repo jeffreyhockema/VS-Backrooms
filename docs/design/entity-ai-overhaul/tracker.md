@@ -108,3 +108,13 @@ section 9 and in `docs/design/entity-models-todo.md` section 5.)
 - **Never stop Vintage Story servers by image name** (`taskkill //IM VintagestoryServer.exe`, `Get-CimInstance ... | Stop-Process` on the name): several agents run headless servers at once, and two batches killed everyone's, which looked like a crash in the gate run. Stop only your own server, by PID, or by a command-line filter on your own data folder.
 - Headless entities think but never walk, so paths "fail" and a hunt goes Hunt -> Stalk by the old no-path rule; test decisions by timeouts, and retry spots.
 - With several agents' servers and builds running, everything is slow: a build may wait minutes for the lock; a harness run takes 15 to 20 minutes.
+
+### P7, round 2 (2026-10-20): piece C, ambient
+
+Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmbient`, `RatPacksNear`, `AmbientCap`, `MaxRatPacks` and a per-player `ambientNextMs` (cleared by one line in `PlayerDisconnect`); `MenaceSystem.cs` only lost the moved members.
+- Numbers (all named constants): cooldown 15 real min (3 in Level 11 and the Snackrooms, 5 in Level 94 by day outside the castle), jitter 0.7..1.3, set only when `TrySpawn` succeeded; cap 1 within 48 (3 in Level 11 and the Snackrooms), counting every Ambient-kind creature (rats and fed Skin-Stealers included); Facelings 1 within 100 (Level 11: 3 within 48, Snackrooms 2 within 48); `MaxRatPacks` 1. A log line "ambient X put down by the wanderers' roll; the next in N s" with the entity log on.
+- Headless (port 42743, seed 12345): Level 11 dummy, 3 cooldowns observed: hound at 21:50:02, faceling 21:53:39 (3m37), faceling-child 21:56:29 (2m50), so 2.1-3.9 min spacing and never above cap 3. Level 1 heartland dummy with a commanded Faceling, 200 s: no ambient from the wanderers' roll (log shows no "wanderers' roll" line). Smoke (`run.smoke`): 0 errors. Build 0 warnings.
+- Not met: in Level 1 heartland a scavenger rat pack (x2, x4) still arrived at 150 s and 74 s. It comes from the menacing roll in `SpawnPack`, which only obeys `MaxRatPacks` (as the plan says), not the cap or cooldown.
+- Could not check: a real client, the 15-minute cooldown end to end, Level 94 by day, the Snackrooms.
+- Reviewer (sonnet, one round): no defects. Notes for the merge: the call site `rand.NextDouble() < 0.25` in `Direct` still exists (piece A's file; the cooldown gives the spacing, but the "roll once" wording needs that line removed); menacing-roll fed Skin-Stealers and scavenger packs do not start the cooldown; `--only smoke` in `run.py` runs nothing (smoke runs only without `--only`), I called `run.smoke` directly.
+- Lessons: `Ctx.place` needs retries for a Heartland dummy (try several keys and read the band from `dummies off`).
