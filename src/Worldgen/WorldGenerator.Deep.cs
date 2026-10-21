@@ -807,15 +807,10 @@ public sealed partial class WorldGenerator
     /// <summary>Caves: big chambers where two noises agree, and long winding tubes along a third's zero.</summary>
     private bool IsCave(int gx, int y, int gz) => caveColumns.Get(gx, gz).IsCave(y);
 
-    private string StrataName(int gx, int y, int gz)
-    {
-        int layer = Hashing.FloorDiv(y + caveColumns.Get(gx, gz).StrataShift, 7);
-        int region = Hashing.FloorDiv(gx, 160) * 7 + Hashing.FloorDiv(gz, 160) * 3; // the order shifts from place to place
-        return strata[Hashing.Mod(layer + region, strata.Length)];
-    }
+    /// <summary>The name of the stratum at a point: the same one <see cref="StratumAt"/> picks, so loose stones match their rock.</summary>
+    private string StrataName(int gx, int y, int gz) => strata[StratumAt(caveColumns.Get(gx, gz), gx, y, gz, out _, out _)];
 
-    /// <summary>The rock (or ore, or something that should never be found in rock) at a point of Level 8.</summary>
-    /// <summary>Which of the strata a block of Level 8's rock is in.</summary>
+    /// <summary>Which of the strata a block of Level 8's rock is in (the order shifts from place to place).</summary>
     private int StratumAt(CaveColumn column, int gx, int y, int gz, out int layer, out int region)
     {
         layer = Hashing.FloorDiv(y + column.StrataShift, 7);
@@ -829,6 +824,7 @@ public sealed partial class WorldGenerator
         return id != 0 ? id : almondSeepId;
     }
 
+    /// <summary>The rock (or ore, or something that should never be found in rock) at a point of Level 8.</summary>
     private int RockAt(int gx, int y, int gz)
     {
         CaveColumn column = caveColumns.Get(gx, gz);

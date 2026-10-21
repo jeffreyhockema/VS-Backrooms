@@ -319,7 +319,13 @@ public sealed partial class WorldGenerator
         return l188Window[(int)state, part, f];
     }
 
-    /// <summary>The in-game hour and day the windows are drawn for (the system keeps them in step afterwards).</summary>
+    /// <summary>
+    /// The in-game hour and day the windows are drawn for (the system keeps them in step afterwards). This makes Level
+    /// 188 the one generator input that is not a pure function of the seed, layout version and position, and it matters
+    /// to the lighting (a glowing window gives light, a closed one blocks it): the lighting's cell cache keeps the first
+    /// answer for a cell, and <see cref="Generate"/> reads that same answer, so the blocks and the light of a cell agree
+    /// whichever of the two asked first.
+    /// </summary>
     private double L188Hours => api.World.Calendar?.TotalHours ?? 0;
     private long L188Day => (long)Math.Floor(api.World.Calendar?.TotalDays ?? 0);
 

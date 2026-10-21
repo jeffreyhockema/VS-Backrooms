@@ -25,7 +25,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] endEndcapIds = new int[2, 2], endDeskIds = new int[5, 4], endTerminalIds = new int[5, 4], endFurnitureIds = new int[8, 4],
         endFrameIds = new int[2, 4], endCatalogueIds = new int[2, 4], endStockIds = new int[4, 4], endEscalatorIds = new int[3, 4], endPosterIds = new int[4, 4];
 
-    /// <summary>The End's blocks that the asset script has not made yet (looked up once; logged once).</summary>
+    /// <summary>The End's blocks that are missing from the loaded assets (looked up once; logged once).</summary>
     private readonly List<string> endMissing = new();
 
     /// <summary>One of The End's blocks by its path, or a stand-in until the asset exists.</summary>
@@ -121,7 +121,7 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.EndConcreteLine] = endConcreteIds[1];
 
         if (endMissing.Count > 0)
-            api.Logger.Warning("[backrooms] The End: {0} blocks are not made yet (stand-ins used), e.g. {1}", endMissing.Count, endMissing[0]);
+            api.Logger.Warning("[backrooms] The End: {0} blocks are missing (stand-ins used), e.g. {1}", endMissing.Count, endMissing[0]);
     }
 
     /// <summary>The block (and fluid) at <paramref name="rel"/> above the level's floor in the column of tile <paramref name="t"/>.</summary>

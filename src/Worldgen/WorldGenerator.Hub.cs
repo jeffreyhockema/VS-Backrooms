@@ -368,6 +368,7 @@ public sealed partial class WorldGenerator
                     return hubForbiddenIds[right ? 1 : 0, rel - g - 1, Facing(facing)];
                 }
         }
+        // (The literal seed is meant: the Tower's worn stones are the same in every world, like the Tower itself)
         return Hashing.Unit(Hashing.Hash(17, gx, gz, (ulong)rel)) < 0.12 ? hubAshlarWornId : hubAshlarId;
     }
 

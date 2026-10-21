@@ -68,7 +68,7 @@ public sealed partial class WorldGenerator
         tramRailIds[0] = Id("tramrails-we");
         tramRailIds[1] = Id("tramrails-ns");
         tramRailIds[2] = Id("tramrails-cross");
-        string[] paints = { "white", "grey", "cream" };
+        string[] paints = TunnelPaint.Names;
         for (int i = 0; i < paints.Length; i++)
         {
             tunnelDoorPaintIds[i, 0] = Id($"tunneldoorpaint-{paints[i]}-lower");

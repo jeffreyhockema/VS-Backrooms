@@ -11,7 +11,7 @@ namespace Backrooms.Worldgen;
 /// Writes the Backrooms into freshly generated chunk columns (the Terrain pass), one cell of the layout to a chunk
 /// column. Most levels share one floor height (<see cref="WorldGeometry.FloorFor"/> has the exceptions). Vertically,
 /// for the indoor levels: the ground (vanilla's, see <see cref="UndergroundSystem"/>, or plain concrete), the
-/// foundations, the floor, the walkable space of the level (3 blocks on Levels 0 and 2, 4 on Level 1), its ceiling,
+/// foundations, the floor, the walkable space of the level (3 blocks, 4 on Level 1), its ceiling,
 /// then concrete (with a dusty crawlspace above the Level 0 tiles) up to a mantle cap.
 ///
 /// Threads: the game runs each world generation pass on one thread at a time (a pass per worldgen thread), so
@@ -354,6 +354,8 @@ public sealed partial class WorldGenerator
     private readonly int[,] exitLintelIds = new int[3, 2]; // concrete, white block, drywall x axis (we, ns)
     /// <summary>The block entity class of every block by id (null for none), so placing a block never looks it up.</summary>
     private readonly string[] entityClassById;
+    /// <summary>Whether each block id is of stone (what <see cref="GroundFill"/> looks for), read once from the blocks.</summary>
+    private readonly bool[] isStoneById;
 
     // Level 0
     private readonly int ceilingTileId, lightOnId, lightLitId, lightOffId, lampDimId, lightFlickerId;
@@ -498,11 +500,13 @@ public sealed partial class WorldGenerator
 
         IList<Block> blocks = api.World.Blocks;
         entityClassById = new string[blocks.Count];
+        isStoneById = new bool[blocks.Count];
         for (int i = 0; i < blocks.Count; i++)
         {
             Block block = blocks[i];
             if (block?.Code != null && block.Code.Domain == "backrooms") modBlocks[block.Code.Path] = block.BlockId;
             entityClassById[i] = block?.EntityClass;
+            isStoneById[i] = block != null && block.BlockMaterial == EnumBlockMaterial.Stone;
         }
 
         mantleId = BlockId("game:mantle");
@@ -908,11 +912,14 @@ public sealed partial class WorldGenerator
         if (!openSky && !highSea) FillLayer(chunks, cap, mantleId);
 
         IMapChunk mapChunk = chunks[0].MapChunk;
-        var entities = new List<(BlockPos, string)>();
+        List<(BlockPos, string)> entities = null; // (made when the first block needing an entity turns up)
         int yMax = 0;
         // What the lighting pass needs of this cell, gathered as the blocks go down rather than computed twice
         int lightBottom = lighting.BandBottomFor(request.ChunkX, request.ChunkZ);
-        var cellLight = new WorldLighting.CellLight(chunkSize, lighting.Height);
+        // (A cell a neighbour's lighting has already worked out comes with its blocks: place those, they are the same ones)
+        WorldLighting.CellLight known = lighting.Computed(request.ChunkX, request.ChunkZ, lightBottom);
+        WorldLighting.CellLight cellLight = known ?? new WorldLighting.CellLight(chunkSize, lighting.Height);
+        int lightHeight = lighting.Height;
 
         for (int lz = 0; lz < chunkSize; lz++)
         {
@@ -932,24 +939,31 @@ public sealed partial class WorldGenerator
                 }
                 for (int y = bottom; y <= bandTop; y++)
                 {
-                    int block = ColumnBlock(t, gx, gz, y, out int fluid);
+                    int block, fluid;
+                    int yy = y - lightBottom;
+                    if (known != null && (uint)yy < (uint)lightHeight)
+                    {
+                        int at = lighting.CellIndex(lx, yy, lz);
+                        block = known.Blocks[at];
+                        fluid = known.Fluids != null ? known.Fluids[at] : 0;
+                    }
+                    else block = ColumnBlock(t, gx, gz, y, out fluid);
                     if (ground && block == concreteId && fluid == 0 && y < groundBelow)
                     {
                         // Under the foundations: the ground as vanilla laid it, filled up with its own rock
                         if (y > land) Petrify(chunks, lx, y, lz, fill);
                         block = GetBlock(chunks, lx, y, lz);
-                        lighting.Note(cellLight, lx, y, lz, lightBottom, block, 0);
+                        if (known == null) lighting.Note(cellLight, lx, y, lz, lightBottom, block, 0);
                         if (block != 0) top = y;
                         continue;
                     }
-                    lighting.Note(cellLight, lx, y, lz, lightBottom, block, fluid);
+                    if (known == null) lighting.Note(cellLight, lx, y, lz, lightBottom, block, fluid);
                     if (block != 0 || y < g.BandBottom || ground) SetBlock(chunks, lx, y, lz, block);
                     if (fluid != 0 || ground) SetFluid(chunks, lx, y, lz, fluid);
                     if (block != 0 || fluid != 0) top = y;
                     string entityClass = EntityClassOf(block);
-                    if (entityClass != null) entities.Add((new BlockPos(gx, y, gz), entityClass));
+                    if (entityClass != null) (entities ??= new List<(BlockPos, string)>()).Add((new BlockPos(gx, y, gz), entityClass));
                 }
-                if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
                 int rainHeight = openSky ? top : highSea ? bandTop : cap;
                 mapChunk.RainHeightMap[column] = (ushort)rainHeight;
@@ -958,12 +972,23 @@ public sealed partial class WorldGenerator
             }
         }
 
+        // The shafts are lined once every column is down: lining a pit's neighbours as the loop went would be overwritten
+        // when the loop reached the east and south ones
+        for (int lz = 0; lz < chunkSize; lz++)
+        {
+            for (int lx = 0; lx < chunkSize; lx++)
+            {
+                Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
+                if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
+            }
+        }
+
         mapChunk.YMax = (ushort)yMax;
         lighting.Offer(request.ChunkX, request.ChunkZ, lightBottom, cellLight);
         lighting.Light(chunks, request.ChunkX, request.ChunkZ);
         // (Dropping the notes loses nothing: SpawnBlockEntities finds them again from the blocks)
         if (pendingEntities.Count >= PendingLimit) pendingEntities.Clear();
-        pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities.Count > 0 ? entities : NoEntities;
+        pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities ?? NoEntities;
     }
 
     /// <summary>
@@ -1377,8 +1402,8 @@ public sealed partial class WorldGenerator
             case TileKind.Door:
                 if (rel > 2) return tunnelWallIds[TunnelPlain];
                 // The steel doors come "in various shades of white, grey and cream": the paint goes by the door's place
-                int paint = (int)(Hashing.Hash(seed, gx, gz, 0x2B0D) % 4);
-                int painted = paint < 3 ? tunnelDoorPaintIds[paint, rel - 1] : 0;
+                int paint = TunnelPaint.PaintOf(seed, gx, gz);
+                int painted = paint >= 0 ? tunnelDoorPaintIds[paint, rel - 1] : 0;
                 return painted != 0 ? painted : rel == 1 ? tunnelDoorLowerId : tunnelDoorUpperId;
         }
 
@@ -2037,7 +2062,11 @@ public sealed partial class WorldGenerator
     /// <summary>Hotel walls: mahogany wainscot, then a red panel in a gilt frame, then a cream frieze.</summary>
     private int HotelWall(int rel) => rel == 1 ? wainscotId : rel == 2 ? panelId : friezeId;
 
-    /// <summary>Shafts are lined with the same carpet as the room, all the way down.</summary>
+    /// <summary>
+    /// Shafts are lined with the same carpet as the room, all the way down. Only the walls inside this chunk are lined:
+    /// a shaft at a chunk's border is bare concrete on its far side, because the next chunk's column builder cannot see
+    /// the pit.
+    /// </summary>
     private void LineShaft(IServerChunk[] chunks, Tile[] tiles, int lx, int lz)
     {
         int bottom = Geometry.FloorY - WorldGeometry.ShaftDepth;
@@ -2089,7 +2118,7 @@ public sealed partial class WorldGenerator
         for (int y = land; y > Math.Max(0, land - 48); y--)
         {
             int id = GetBlock(chunks, lx, y, lz);
-            if (id != 0 && api.World.Blocks[id].BlockMaterial == EnumBlockMaterial.Stone) return id;
+            if (id != 0 && (uint)id < (uint)isStoneById.Length && isStoneById[id]) return id;
         }
         return groundFallbackId;
     }

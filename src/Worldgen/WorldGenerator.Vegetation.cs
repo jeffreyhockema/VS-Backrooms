@@ -105,13 +105,6 @@ public sealed partial class WorldGenerator
         return ref c;
     }
 
-    /// <summary>The layout tile at a position, from the cell cache.</summary>
-    private Tile VegTile(int gx, int gz)
-    {
-        const int size = WorldLayout.MacroSize;
-        return Macro(Hashing.FloorDiv(gx, size), Hashing.FloorDiv(gz, size))[WorldLayout.TileIndex(Hashing.Mod(gx, size), Hashing.Mod(gz, size))];
-    }
-
     /// <summary>A tree whose crown spreads two blocks: over grass. Over pavement and plazas, one.</summary>
     private static bool BigCrown(in Tile trunk) => trunk.Floor is FloorKind.Lawn or FloorKind.Grass or FloorKind.TurfLight or FloorKind.TurfDark;
 
@@ -133,11 +126,23 @@ public sealed partial class WorldGenerator
         bool fence = false, door = false, road = false, field = false, backdrop = false, tower = false, hedge = false, tracks = false, shore = false;
         // Tire tracks on both sides along a row or a column: the strip down the middle of a farm road
         bool trackW = false, trackE = false, trackN = false, trackS = false;
+        // The window nearly always lies in one cell (or two): ask the cell cache, which takes a lock, only when it changes
+        const int size = WorldLayout.MacroSize;
+        Tile[] cell = null;
+        int cellX = 0, cellZ = 0;
         for (int dz = -2; dz <= 2; dz++)
         {
             for (int dx = -2; dx <= 2; dx++)
             {
-                Tile n = dx == 0 && dz == 0 ? t : VegTile(gx + dx, gz + dz);
+                Tile n;
+                if (dx == 0 && dz == 0) n = t;
+                else
+                {
+                    int px = gx + dx, pz = gz + dz;
+                    int mx = Hashing.FloorDiv(px, size), mz = Hashing.FloorDiv(pz, size);
+                    if (cell == null || mx != cellX || mz != cellZ) { cell = Macro(mx, mz); cellX = mx; cellZ = mz; }
+                    n = cell[WorldLayout.TileIndex(px - mx * size, pz - mz * size)];
+                }
                 int d = Math.Max(Math.Abs(dx), Math.Abs(dz));
                 if (n.Variant == Props.Tree && n.Kind == TileKind.Floor && n.Level == t.Level && (d <= 1 || BigCrown(n)))
                 {

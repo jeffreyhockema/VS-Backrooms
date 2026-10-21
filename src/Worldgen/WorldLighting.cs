@@ -20,7 +20,9 @@ namespace Backrooms.Worldgen;
 /// What lighting needs of a cell (how much each block absorbs, and where its lights are) is worked out once and
 /// kept: every cell is wanted by the chunk it is in and by its eight neighbours, and the generator hands over what
 /// it has just built rather than having it computed again. Whichever of the two comes first is kept, so every chunk
-/// lit with a cell sees the same cell.
+/// lit with a cell sees the same cell. A cell worked out here for a neighbour before its own chunk was generated also
+/// keeps the blocks it computed, and <see cref="WorldGenerator.Generate"/> places those rather than working them out
+/// a second time (see <see cref="Computed"/>).
 ///
 /// <see cref="Light"/> works in one set of scratch arrays, so it lights one column at a time (the terrain pass runs on
 /// one thread anyway); the cell cache has its own lock.
@@ -35,11 +37,21 @@ public sealed class WorldLighting
         public readonly byte[] Absorption;
         public readonly List<(int Lx, int Y, int Lz, int BlockId)> Sources = new();
 
+        /// <summary>
+        /// The block and fluid ids the cell was worked out from, in the same order as <see cref="Absorption"/>; null
+        /// for a cell the generator handed over (it has placed the blocks itself). <see cref="Fluids"/> stays null
+        /// while the cell has no fluid at all.
+        /// </summary>
+        public int[] Blocks, Fluids;
+
         public CellLight(int chunkSize, int height) => Absorption = new byte[chunkSize * chunkSize * height];
     }
 
-    /// <summary>Cells wanted lately, by position and band (a city cell is lit over a lower band than its neighbours, and so on).</summary>
-    private const int CellCacheSize = 256;
+    /// <summary>
+    /// Cells wanted lately, by position and band (a city cell is lit over a lower band than its neighbours, and so on).
+    /// A cell worked out here holds its block ids too, some 300 KB at 40 blocks high, hence the modest number.
+    /// </summary>
+    private const int CellCacheSize = 64;
     private readonly Dictionary<(int, int, int), CellLight> cellCache = new();
     private readonly Queue<(int, int, int)> cellOrder = new();
 
@@ -54,6 +66,7 @@ public sealed class WorldLighting
     private readonly byte[] level;
     /// <summary>Block id of the light source that lit each cell, for its hue and saturation.</summary>
     private readonly int[] source;
+    // One bucket per brightness, 0 to 31; Seed caps a light at 31 to keep the index in range
     private readonly List<int>[] buckets = new List<int>[32];
     /// <summary>Guards the scratch arrays above, and <see cref="bandBottom"/>.</summary>
     private readonly object scratchLock = new();
@@ -123,6 +136,23 @@ public sealed class WorldLighting
         }
     }
 
+    /// <summary>
+    /// A cell that was worked out here, with the blocks it was worked out from, if it is still cached; otherwise null.
+    /// The generator places those blocks instead of computing the same ones again, so that a cell lit as somebody's
+    /// neighbour first is not paid for twice, and so that its blocks and its light cannot disagree (Level 188's windows
+    /// follow the calendar). The cell is never changed once cached.
+    /// </summary>
+    public CellLight Computed(int chunkX, int chunkZ, int bandBottomUsed)
+    {
+        lock (cellCache)
+        {
+            return cellCache.TryGetValue((chunkX, chunkZ, bandBottomUsed), out CellLight cell) && cell.Blocks != null ? cell : null;
+        }
+    }
+
+    /// <summary>The place of a block in a cell's arrays (<paramref name="yy"/> is the height above the band's bottom).</summary>
+    public int CellIndex(int lx, int yy, int lz) => (yy * chunkSize + lz) * chunkSize + lx;
+
     /// <summary>A cell's lighting data over a band, from the cache or computed now.</summary>
     private CellLight Cell(int chunkX, int chunkZ, int bandBottomUsed)
     {
@@ -131,7 +161,7 @@ public sealed class WorldLighting
         {
             if (cellCache.TryGetValue(key, out CellLight cached)) return cached;
         }
-        var cell = new CellLight(chunkSize, height);
+        var cell = new CellLight(chunkSize, height) { Blocks = new int[chunkSize * chunkSize * height] };
         Tile[] tiles = generator.Macro(chunkX, chunkZ);
         for (int lz = 0; lz < chunkSize; lz++)
         {
@@ -143,6 +173,9 @@ public sealed class WorldLighting
                 {
                     int block = generator.ColumnBlock(t, gx, gz, bandBottomUsed + y, out int fluid);
                     Note(cell, lx, bandBottomUsed + y, lz, bandBottomUsed, block, fluid);
+                    int at = CellIndex(lx, y, lz);
+                    cell.Blocks[at] = block;
+                    if (fluid != 0) (cell.Fluids ??= new int[cell.Blocks.Length])[at] = fluid;
                 }
             }
         }
