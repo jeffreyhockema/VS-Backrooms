@@ -898,6 +898,9 @@ def level1():
         "lightAbsorption": 0, "resistance": 3, "sounds": METAL, "particlePropertiesByType": drips,
     }, "Overhead pipes with a leaking joint, dripping Almond Water onto the floor")
     name("drippipe-*", "Leaking Pipes")
+    # Level 3's wall fixtures with the flanged joint or the bracket (gen_blocktypes.py l3wallfixture) have no hand-written name
+    name("l3wallfixture-*-pipesjoint", "Wall Pipes")
+    name("l3wallfixture-*-pipesbracket", "Wall Pipes")
 
 
 # ======================= Level 3 =======================

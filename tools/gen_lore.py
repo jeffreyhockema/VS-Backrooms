@@ -9,7 +9,7 @@ import random
 
 from PIL import Image, ImageDraw
 
-from detail_kit import GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
+from detail_kit import EXT, GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
 from detail_textures import S, enamel_plaque, noise, rgb, save, text
 import matlib as M
 import modelkit as K
@@ -664,7 +664,13 @@ def level8():
     els = [bx("Rock", (0, 0, 0), (16, 16, 16), "rock")]
     for k in range(4):
         els += [turn(e, k) for e in side]
-    path = shape("almondseep", els)
+    # The shape's own default for "rock" is the seep's real texture (almondseeprock swaps it per variant), not a
+    # nonexistent block/detail/rock that only the block's override hides.
+    EXT["rock"] = "backrooms:block/detail/almondseep"
+    try:
+        path = shape("almondseep", els)
+    finally:
+        del EXT["rock"]
     common = {
         "class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
         "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True},

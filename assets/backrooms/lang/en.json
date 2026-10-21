@@ -473,8 +473,6 @@
 	"block-houseinterior-beige": "Wallpaper",
 	"block-houseinterior-green": "Wallpaper",
 	"block-houseinterior-tile": "Tiled Wall",
-	"block-housewindow-dark": "Window",
-	"block-housewindow-lit": "Lit Window",
 	"block-houseroof-grey": "Roof Shingles",
 	"block-houseroof-brown": "Roof Shingles",
 	"block-houseroof-red": "Roof Shingles",
@@ -2650,5 +2648,10 @@
 	"venom-name": "{0} (envenomed, {1})",
 	"venom-name-arrow": "{0} (envenomed)",
 	"venom-info": "The next {0} hits poison what they wound: 1 damage every 2 seconds for 6 seconds.",
-	"venom-info-arrow": "Poisons what it wounds: 1 damage every 2 seconds for 6 seconds."
+	"venom-info-arrow": "Poisons what it wounds: 1 damage every 2 seconds for 6 seconds.",
+
+	"block-run-wall-railshort-*": "Hospital Wall with Crash Rail",
+
+	"block-l3wallfixture-*-pipesjoint": "Wall Pipes",
+	"block-l3wallfixture-*-pipesbracket": "Wall Pipes"
 }

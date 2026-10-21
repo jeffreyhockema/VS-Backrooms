@@ -2,7 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"rock": "backrooms:block/detail/rock",
+		"rock": "backrooms:block/detail/almondseep",
 		"seepcrust": "backrooms:block/detail/seepcrust",
 		"seeppool": "backrooms:block/detail/seeppool",
 		"seepstain": "backrooms:block/detail/seepstain",

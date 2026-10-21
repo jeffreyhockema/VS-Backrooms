@@ -786,6 +786,7 @@ def walls():
     name("run-wall-base", "Hospital Wall")
     name("run-wall-rail-*", "Hospital Wall with Crash Rail")
     name("run-wall-railcorner-*", "Hospital Wall with Crash Rail")
+    name("run-wall-railshort-*", "Hospital Wall with Crash Rail")
     name("run-wall-void", "Dark Wall")
 
     # Emergency beacons: a red dome on a bracket high on the wall, with a wire guard. They flash (glow only) while
