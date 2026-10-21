@@ -94,30 +94,6 @@ def glass_pane(sky_top, sky_bottom, frame, key, mullion=True):
     return img
 
 
-def sash(frame, glass, key, lit=False, blinds=False):
-    """A sash window filling the face: a painted frame, two panes, the meeting rail across the middle."""
-    img = Image.new("RGBA", (S, S), rgb(frame))
-    d = ImageDraw.Draw(img)
-    if lit:
-        inner = texlib.vertical_gradient((255, 226, 150), (230, 170, 90))
-    elif blinds:
-        inner = Image.new("RGBA", (S, S), (222, 214, 196, 255))
-        dd = ImageDraw.Draw(inner)
-        for y in range(0, S, 3):
-            dd.line([0, y, S - 1, y], fill=(176, 168, 150, 255))
-    else:
-        inner = texlib.vertical_gradient(glass[0], glass[1])
-        ImageDraw.Draw(inner).line([4, 26, 26, 4], fill=blend(glass[0], (255, 255, 255), 0.15), width=2)
-    img.paste(inner.crop((4, 4, S - 4, S - 4)), (4, 4))
-    d.rectangle([3, 3, S - 4, S - 4], outline=shade(T.hexrgb(frame), 0.75))
-    d.rectangle([3, 15, S - 4, 17], fill=rgb(frame))
-    if lit:
-        # Curtains drawn back at the sides
-        d.rectangle([4, 4, 7, S - 5], fill=(190, 80, 60, 255))
-        d.rectangle([S - 8, 4, S - 5, S - 5], fill=(190, 80, 60, 255))
-    return img
-
-
 def facade_textures():
     sky_top, sky_bottom = (150, 178, 205), (88, 112, 140)
     # Curtain glass: the sky in tinted glass, aluminium mullions; spandrels of dark glass at each floor
@@ -179,8 +155,8 @@ def facade_textures():
     save(band, "facade-mirror-band")
     save(speckle(Image.new("RGBA", (S, S), (10, 10, 13, 255)), 2, "mirrorpier"), "pier-mirror")
 
-    # Brick, red and dark: sash windows with white or dark frames, a band of stone at each floor
-    for style, base, mortar, frame in (("brick", 0xA2482E, 0xB8AC98, 0xEDEAE2), ("brickdark", 0x5E3A30, 0x8E8678, 0x2E3A34)):
+    # Brick, red and dark: a band of stone at each floor
+    for style, base, mortar in (("brick", 0xA2482E, 0xB8AC98), ("brickdark", 0x5E3A30, 0x8E8678)):
         wall = bricks(base, mortar, style)
         save(wall, f"facade-{style}-wall")
         save(wall, f"pier-{style}")
@@ -189,12 +165,8 @@ def facade_textures():
         d.rectangle([0, 0, S - 1, 5], fill=(196, 188, 170, 255))
         d.line([0, 5, S - 1, 5], fill=(120, 112, 100, 255))
         save(b, f"facade-{style}-band")
-        glass = ((60, 70, 84), (24, 28, 36))
-        save(sash(frame, glass, style + "w"), f"facade-{style}-window")
-        save(sash(frame, glass, style + "l", lit=True), f"facade-{style}-lit")
-        save(sash(frame, glass, style + "b", blinds=True), f"facade-{style}-blinds")
 
-    # Limestone: big ashlar blocks, deep windows between, a moulded cornice at each floor
+    # Limestone: big ashlar blocks, a moulded cornice at each floor
     stone = noise(0xCFC2A2, 5, "limestone")
     d = ImageDraw.Draw(stone)
     for y in (0, 16):
@@ -215,14 +187,8 @@ def facade_textures():
         d.rectangle([x, 8, x + 1, 11], fill=(186, 176, 150, 255))  # dentils
     d.line([0, 12, S - 1, 12], fill=(160, 150, 126, 255))
     save(cornice, "facade-stone-band")
-    glass = ((54, 62, 72), (22, 26, 32))
-    for part, kw in (("window", {}), ("lit", {"lit": True}), ("blinds", {"blinds": True})):
-        win = sash(0x3A3630, glass, "stone" + part, **kw)
-        d = ImageDraw.Draw(win)
-        d.rectangle([0, 0, S - 1, S - 1], outline=(200, 190, 166, 255), width=2)  # the stone reveal
-        save(win, f"facade-stone-{part}")
 
-    # Concrete: board-marked, with tie holes; ribbon windows in thin aluminium frames
+    # Concrete: board-marked, with tie holes
     conc = noise(0x9A9892, 4, "cityconcrete")
     d = ImageDraw.Draw(conc)
     for y in range(0, S, 8):
@@ -234,17 +200,6 @@ def facade_textures():
     band = noise(0xA6A49E, 3, "concband")
     ImageDraw.Draw(band).line([0, S - 3, S - 1, S - 3], fill=(96, 94, 90, 255), width=2)
     save(band, "facade-concrete-band")
-    for part, top, bottom in (("window", (90, 108, 126), (40, 50, 62)), ("lit", (246, 230, 186), (216, 190, 140)), ("blinds", (200, 196, 186), (180, 176, 166))):
-        win = texlib.vertical_gradient(top, bottom)
-        d = ImageDraw.Draw(win)
-        if part == "blinds":
-            for y in range(0, S, 3):
-                d.line([0, y, S - 1, y], fill=(160, 156, 148, 255))
-        d.line([0, 0, 0, S - 1], fill=(150, 152, 156, 255), width=2)
-        d.line([16, 0, 16, S - 1], fill=(150, 152, 156, 255))
-        d.rectangle([0, 0, S - 1, 1], fill=(150, 152, 156, 255))
-        d.rectangle([0, S - 2, S - 1, S - 1], fill=(150, 152, 156, 255))
-        save(win, f"facade-concrete-{part}")
 
     # The storefront fascia: a painted board over the glass, where the sign hangs
     fascia = noise(0x23392E, 3, "fascia")
@@ -312,14 +267,6 @@ def street_textures():
     ballast = noise(0x5A5652, 10, "ballast")
     speckle(ballast, 18, "ballast2")
     save(ballast, "subwayfloor-bed")
-    for side, x in (("raill", 9), ("railr", 20)):
-        img = ballast.copy()
-        d = ImageDraw.Draw(img)
-        for y in range(2, S, 8):
-            d.rectangle([0, y, S - 1, y + 3], fill=(70, 50, 36, 255))  # sleepers
-        d.rectangle([x, 0, x + 2, S - 1], fill=(120, 116, 112, 255))
-        d.line([x + 1, 0, x + 1, S - 1], fill=(176, 172, 166, 255))  # the worn top of the rail
-        save(img, f"subwayfloor-{side}")
     platform = noise(0x8E8A84, 4, "platform")
     speckle(platform, 8, "platform2")
     save(platform, "subwayfloor-platform")
@@ -371,8 +318,8 @@ def door_textures():
             d.rectangle([3, 0, S - 4, 6], fill=(60, 72, 84, 255))  # the transom
             d.ellipse([14, 14, 18, 18], fill=(200, 160, 60, 255))
         save(img, f"rowhousedoor-{part}")
-    # Steel doors: grey, with a stencilled word
-    for code, color, label, sign in (("basementdoor", 0x707470, "BASEMENT", None), ("substationdoor", 0x6A6E68, None, "danger"),
+    # Steel doors: grey, with a stencilled word (the basement door is a model now, l11art: it brings its own)
+    for code, color, label, sign in (("substationdoor", 0x6A6E68, None, "danger"),
                                      ("maintenancedoor", 0x5E6A62, "AUTHORIZED\nPERSONNEL", None)):
         for part in ("lower", "upper"):
             img = noise(color, 3, code + part)
@@ -472,12 +419,6 @@ def sign_textures():
             d.rectangle([x + 1, y + 1, x + 5, y + 2], fill=rgb(0x3A2E1C))
             d.point((x + 5, y + 5), fill=rgb(0x2A2014))
     save(img, "mailboxes")
-    img = Image.new("RGBA", (S, S), rgb(0x141414))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8070))
-    for k, line in enumerate(("DIRECTORY", "1  LOBBY", "2-11 ----", "12 ?????")):
-        text(img, line, (2, 2 + k * 7, S - 2, 9 + k * 7), 0xE8E8E0, 4)
-    save(img, "directory")
     img = Image.new("RGBA", (S, S), rgb(0xF0ECDC))
     d = ImageDraw.Draw(img)
     text(img, "MISSING", (2, 1, S - 2, 9), 0xC01818, 7)
@@ -635,14 +576,6 @@ def prop_textures():
         d.line([5, y, S - 6, y], fill=rgb(0x606060))
     d.rectangle([10, 22, 21, 24], fill=rgb(0x606060))
     save(img, "newsfront")
-    img = Image.new("RGBA", (S, S), rgb(0x1E3A7A))
-    d = ImageDraw.Draw(img)
-    d.rectangle([6, 6, 25, 9], fill=rgb(0x101010))
-    text(img, "MAIL", (2, 14, S - 2, 24), 0xFFFFFF, 7)
-    save(img, "postfront")
-    img = Image.new("RGBA", (S, S), rgb(0x2A2C30))
-    text(img, "TELEPHONE", (0, 8, S, 22), 0xF2F2EA, 5)
-    save(img, "phonesign")
     img = Image.new("RGBA", (S, S), rgb(0xC8CCCE))
     d = ImageDraw.Draw(img)
     d.rectangle([2, 4, S - 3, 26], fill=rgb(0xF4ECD8))
@@ -1377,8 +1310,6 @@ def b12_subway():
         M.touch(bed, x, y + 2, -0.1)
     bed = matched(bed, "subwayfloor-bed")
     save(bed, "subwayfloor-bed")
-    save(bed, "subwayfloor-raill")
-    save(bed, "subwayfloor-railr")
     sleeper = M.wood_planks(seed_of("b12sleeper"), base=(70, 52, 38), planks=1, direction="h", grain=3)
     M.grime(sleeper, 0.2, seed_of("b12sleeperg"), color=(34, 28, 24), cells=(8, 4), cover=0.6)
     save(sleeper, "subwaysleeper")
@@ -1483,14 +1414,6 @@ def b12_props():
         for x in range(10, 22):
             p[x, y] = M.rgba(M.lift((150, 150, 146), 6 if y == 22 else -8 if y == 24 else 0))  # the coin slot plate
     save(img, "newsfront")
-    img = M.painted_metal(seed_of("b12postfront"), base=(30, 58, 122), panel=True, chips=3, grain=2)
-    p = img.load()
-    for y in range(6, 10):
-        for x in range(6, 26):
-            p[x, y] = M.rgba((16, 16, 18) if y < 9 else (60, 80, 140))  # the slot, its lip lit
-    ptext_c(img, "MAIL", 14, (236, 236, 230))
-    ptext_c(img, "US", 23, (236, 236, 230), CITY_F3)
-    save(img, "postfront")
     img = M.painted_metal(seed_of("b12meter"), base=(196, 196, 188), panel=True, chips=2, grain=2)
     p = img.load()
     for y in range(4, 20):
@@ -1501,7 +1424,6 @@ def b12_props():
         p[16 + i, 14 - i] = M.rgba((210, 40, 34))  # the needle at zero
     ptext_c(img, "EXPIRED", 23, (206, 36, 30), CITY_F3)
     save(img, "meterface")
-    save(sign_face("phonesign", (40, 42, 46), (238, 238, 230), ["PHONE"], ys=[12]), "phonesign")
     img = M.painted_metal(seed_of("b12cartfront"), base=(200, 204, 206), panel=True, chips=2, grain=2)
     p = img.load()
     for y in range(4, 27):
@@ -1633,8 +1555,7 @@ def b12_doors():
                                 (0, 1, (200, 160, 70)), (1, 1, (170, 130, 56)), (2, 1, (132, 98, 40))):
                 p[15 + dx, 15 + dy] = M.rgba(c)  # the knocker
         save(img, f"rowhousedoor-{part}")
-    for code, colour, label, danger in (("basementdoor", (112, 116, 112), ["BASEMENT"], False),
-                                        ("substationdoor", (106, 110, 104), None, True),
+    for code, colour, label, danger in (("substationdoor", (106, 110, 104), None, True),
                                         ("maintenancedoor", (94, 106, 98), ["STAFF", "ONLY"], False)):
         for part in ("lower", "upper"):
             img = M.painted_metal(seed_of("b12" + code + part), base=colour, panel=True, chips=5, grain=3)
@@ -1859,7 +1780,7 @@ def facades():
                {"marble": "cityfloor-marble", "plaza": "cityfloor-plaza", "garage": "cityfloor-garage"})
     cube_block("subwayfloor", {"bed": "Ballast", "raill": "Track", "railr": "Track", "platform": "Platform", "edge": "Platform Edge"},
                ["bed", "raill", "railr", "platform", "edge"],
-               {"bed": "subwayfloor-bed", "raill": ("subwayfloor-raill", 0), "railr": ("subwayfloor-railr", 0),
+               {"bed": "subwayfloor-bed", "raill": "subwayfloor-bed", "railr": "subwayfloor-bed",
                 "platform": "subwayfloor-platform", "edge": "subwayfloor-edge"})
     # (B12) The track blocks are models: the ballast cube with two sleepers across it and a rail (foot, web and head)
     # along it, standing on top as the old texture painted them (left rail 4.5-5.5, right 10-11, as before)

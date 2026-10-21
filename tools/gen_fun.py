@@ -1267,14 +1267,6 @@ def prop_textures():
     d.line([0, 0, 0, S - 1], fill=rgb(0x5A4418))
     d.line([S - 1, 0, S - 1, S - 1], fill=rgb(0x5A4418))
     save(img, "elevatorpost")
-    img = flat(0x2A2420)
-    d = ImageDraw.Draw(img)
-    d.pieslice([2, 6, 30, 34], 180, 360, fill=rgb(0xF4ECD8))
-    d.line([16, 20, 8, 10], fill=rgb(0xC81E1E), width=2)
-    for i in range(5):
-        a = math.pi + i * math.pi / 4
-        d.point((16 + 12 * math.cos(a), 20 + 12 * math.sin(a)), fill=(40, 30, 30, 255))
-    save(img, "liftdial")
     img = flat(0xF6F2E4, 64)
     d = ImageDraw.Draw(img)
     d.text((32, 18), "OUT OF", fill=(30, 30, 30, 255), font=_font(13), anchor="mm")

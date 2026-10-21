@@ -141,8 +141,6 @@ def materials():
             M.touch(hose, x, y0 + 1, 0.1)
     M.grime(hose, 0.3, seed_of("l1hosegrime"), color=(90, 76, 54), cover=0.6)
     save(hose, "l1hose")
-    # A canvas web strap and the hose's rubber
-    save(M.rubber(seed_of("l1hoserubber"), base=(40, 38, 36), grain=2), "l1hoserubber")
 
 
 # ---------------- Printed plates ----------------

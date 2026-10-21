@@ -191,13 +191,6 @@ def windows():
         for k in range(ln):
             px[(x0 + k) % S, y] = M.rgba(M.lift(px[(x0 + k) % S, y], rng.choice((3, 4, 5))))
     save(img, "l4blackpane")
-    img = M.noise_hv((22, 21, 20), 2, seed_of("l4blackpaper"), S, 2, (16, 8), hue=0.5)  # black paper: lighter, dulled
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            if x % 8 == 0:
-                px[x, y] = M.rgba(M.lift(px[x, y], 5))  # a fold
-    save(img, "l4blackpaper")
     img = M.noise_hv((200, 186, 150), 3, seed_of("l4tape"), S, 3, (16, 8))  # masking tape
     save(img, "l4tape")
 

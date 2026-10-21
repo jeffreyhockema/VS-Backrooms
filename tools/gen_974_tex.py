@@ -787,12 +787,6 @@ def hard_things():
     for y in range(0, S, 2):
         d.line([0, y, S, y], fill=(0, 0, 0, 30))
     save(img, "screen")
-    img = noisy((232, 226, 210), 2, "keys")
-    d = ImageDraw.Draw(img)
-    for y in range(2, S, 6):
-        for x in range(1 + (y // 6) % 2 * 2, S - 2, 5):
-            d.rectangle([x, y, x + 3, y + 3], fill=(246, 242, 232, 255), outline=(200, 194, 180, 255))
-    save(img, "keyboard")
     # Little things: a water bottle, vitamins, a lamp shade (glows), lamp ceramic, the clock face, the duck
     img = Image.new("RGBA", (S, S), (176, 216, 240, 255))
     ImageDraw.Draw(img).rectangle([0, 10, S, 22], fill=(255, 255, 255, 255))

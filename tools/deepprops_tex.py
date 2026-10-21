@@ -333,7 +333,6 @@ def shelf_textures():
     save(toolbox_red(), "dp-toolred")
     save(painted("dp-toolyellow", (206, 168, 40)), "dp-toolyellow")
     save(painted("dp-toolblack", (36, 36, 40), 2), "dp-toolblack")
-    save(cardboard(), "dp-cardboard")
     save(label_cardboard(), "dp-cardlabel")
     save(tin_can((176, 178, 176), (186, 56, 40)), "dp-tinred")
     save(tin_can((176, 178, 176), (48, 98, 150)), "dp-tinblue")

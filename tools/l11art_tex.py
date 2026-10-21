@@ -88,14 +88,12 @@ def sheen(img, strength=14, seed=0, vertical=True):
 
 def metals():
     save(M.brushed_metal(seed_of("l11a-steel"), base=(176, 180, 184), grain=3, direction="h", streak=8, sheen=10), "l11a-steel")
-    save(M.brushed_metal(seed_of("l11a-steelv"), base=(170, 174, 178), grain=3, direction="v", streak=8, sheen=10), "l11a-steelv")
     img = M.brushed_metal(seed_of("l11a-brass"), base=(190, 152, 70), grain=3, direction="h", streak=7, sheen=12)
     M.scratches(img, 3, 11, length=(2, 5), light=0.2)
     save(img, "l11a-brass")
     img = M.noise_hv((40, 42, 46), 3, seed_of("l11a-darksteel"), mottle=4)
     M.scratches(img, 3, 12, length=(2, 5), light=0.2)
     save(img, "l11a-darksteel")
-    save(M.rubber(seed_of("l11a-rubber"), base=(34, 34, 36)), "l11a-rubber")
 
 
 # ---------------- Fire hydrant ----------------
@@ -507,8 +505,6 @@ def door():
     M.grime(big, 0.1, 38, color=(24, 36, 28))
     save(big, "l11a-doorsign")
     save(M.brushed_metal(seed_of("l11a-lever"), base=(190, 192, 194), grain=2, direction="h", streak=5, sheen=10), "l11a-lever")
-    img = M.brushed_metal(seed_of("l11a-louvre"), base=(88, 94, 90), grain=2, direction="h", streak=5, sheen=6)
-    save(img, "l11a-louvre")
 
 
 # ---------------- Directory board ----------------

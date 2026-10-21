@@ -95,7 +95,6 @@ def level61():
         d.line([4, y, S - 5, y], fill=rgb(0x6A6E72), width=2)
     save(img, "ventgrate")
 
-    flat("navy", 0x1E2E5A, 4)
     flat("chrome", 0xC8CCD0, 3)
     flat("formica", 0xE8DCC8, 3)
     # The snack machine's dark inside behind the glass; its paint, header, glass, packets, spirals and panel are B9's
@@ -1312,20 +1311,10 @@ def level9():
     img = noise(0xFFF0C0, 3, "streetlamp")
     save(img, "streetlamp")
     save(noise(0x8A9094, 3, "streetlampoff"), "streetlampoff")
-    save(M.painted_metal(seed=seed_of("mailbox"), base=(44, 60, 92), panel=False, chips=0), "mailbox")
     img = noise(0xA88A5A, 10, "burlap")
     for k in range(0, S, 3):
         ImageDraw.Draw(img).line([0, k, S - 1, k], fill=rgb(0x8A6E44))
     save(img, "burlap")
-    img = Image.new("RGBA", (S, S), rgb(0x6A4A2A))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(121)
-    for row in range(3):
-        for x in range(2, S - 4, 6):
-            c = rng.choice([0xC8B070, 0xA03020, 0x3A6AB0, 0xE8E0C8, 0x6A8A3A])
-            d.rectangle([x, row * 11 + 3, x + 4, row * 11 + 9], fill=rgb(c))
-        d.line([0, row * 11 + 10, S - 1, row * 11 + 10], fill=rgb(0x4A3018))
-    save(img, "pantry")
     # (the tool shelf and the tool rack are modelled now: deepprops)
     img = noise(0xC89A6A, 4, "cabinetfront")
     d = ImageDraw.Draw(img)
@@ -1531,11 +1520,6 @@ def refinements():
     d.line([18, 9, 27, 8], fill=rgb(0x789296))
     d.ellipse([22, 22, 26, 25], fill=rgb(0x606E46))
     save(img, "troughwater")
-    img = noise(0xB8BCC0, 3, "icemachine")
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 14, 27, 28], fill=rgb(0x6A7076))
-    text(img, "ICE", (6, 2, 26, 12), 0x2A5A9A, 9)
-    save(img, "icemachine")
     img = Image.new("RGBA", (S, S), rgb(0x5A3A20))
     d = ImageDraw.Draw(img)
     d.rectangle([3, 3, 28, 28], fill=rgb(0xC8C0A8))

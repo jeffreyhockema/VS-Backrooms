@@ -256,13 +256,6 @@ def level1():
     save(img, "speedbump")
 
     flat("conewhite", 0xF0F0EA, 2)
-    img = Image.new("RGBA", (S, S), rgb(0xF2C81C))
-    d = ImageDraw.Draw(img)
-    text(img, "CAUTION", (1, 2, 31, 10), 0x111111, 6)
-    d.polygon([(16, 12), (26, 28), (6, 28)], outline=rgb(0x111111))
-    d.ellipse([14, 16, 17, 19], fill=rgb(0x111111))  # slipping figure
-    d.line([15, 19, 13, 24, 18, 26], fill=rgb(0x111111))
-    save(img, "wetfloor")
     flat("paybody", 0x8E9296, 4)
     img = noise(0xC8A020, 4, "payface")
     d = ImageDraw.Draw(img)
@@ -284,22 +277,6 @@ def level1():
     for y in range(0, S, 8):
         d.line([0, y, S - 1, y], fill=rgb(0x8A7048))
     save(img, "palletwood")
-    img = noise(0xA87A48, 5, "benchtop")
-    for y in range(0, S, 4):
-        ImageDraw.Draw(img).line([0, y, S - 1, y], fill=rgb(0x8E643A))
-    save(img, "benchtop")
-    img = noise(0x9A7A54, 4, "pegboard")
-    d = ImageDraw.Draw(img)
-    for y in range(2, S, 4):
-        for x in range(2, S, 4):
-            d.point((x, y), fill=rgb(0x4A3A28))
-    d.rectangle([4, 6, 6, 18], fill=rgb(0x6A3A20))  # hammer handle
-    d.rectangle([2, 4, 9, 7], fill=rgb(0x55585C))
-    d.rectangle([14, 5, 15, 20], fill=rgb(0xC03020))  # screwdriver
-    d.rectangle([20, 4, 27, 6], fill=rgb(0x8A8E92))  # wrench
-    d.rectangle([22, 6, 24, 22], fill=rgb(0x8A8E92))
-    d.ellipse([17, 22, 29, 30], outline=rgb(0x2A5A2A), width=2)  # coiled cord
-    save(img, "pegboard")
     img = noise(0xB0261C, 5, "toolboxred")
     d = ImageDraw.Draw(img)
     d.line([0, 11, S - 1, 11], fill=rgb(0x701812))
@@ -431,8 +408,6 @@ def level1():
     for _ in range(30):
         img.putpixel((rng.randrange(S), rng.randrange(S)), rgb(0xFFD060))
     save(img, "embers")
-    flat("hospitalsheet", 0xDCE6EC, 3)
-    flat("hospitalframe", 0xE8E8E2, 3)
     # A quilt folded in four at the foot of a hospital bed: its edges show the layers
     flat("hospitalquilt", 0xB8C8D8, 3)
     img = noise(0xB8C8D8, 3, "hospitalquiltfold")
@@ -443,30 +418,7 @@ def level1():
     save(img, "hospitalquiltfold")
     flat("tabletop", 0xD2C6A8, 3)
     flat("foldsteel", 0x6E7276, 4)
-    flat("medcab", 0xECECE6, 2)
-    img = noise(0xECECE6, 2, "medcabfront")
-    d = ImageDraw.Draw(img)
-    d.line([16, 0, 16, S - 1], fill=rgb(0xB0B0AA))
-    d.rectangle([9, 8, 13, 20], fill=rgb(0xC8201C))
-    d.rectangle([5, 12, 17, 16], fill=rgb(0xC8201C))
-    d.rectangle([19, 12, 20, 18], fill=rgb(0x8A8A86))
-    save(img, "medcabfront")
 
-    img = noise(0x8C9094, 3, "powerbox")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x5A5E62), width=2)
-    d.polygon([(16, 6), (24, 20), (8, 20)], fill=rgb(0xE8C020), outline=rgb(0x111111))
-    d.line([16, 10, 14, 15, 18, 14, 16, 19], fill=rgb(0x111111))
-    d.rectangle([22, 24, 26, 27], fill=rgb(0x3A3E42))
-    save(img, "powerbox")
-    img = noise(0x7E8286, 3, "breaker")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x4E5256), width=2)
-    for r in range(6):
-        for c in (6, 18):
-            d.rectangle([c, 4 + r * 4, c + 7, 6 + r * 4], fill=rgb(0x222426))
-            d.rectangle([c + (2 if (r + c) % 3 else 4), 4 + r * 4, c + (3 if (r + c) % 3 else 5), 6 + r * 4], fill=rgb(0xD8D8D0))
-    save(img, "breaker")
     img = noise(0xE4DCC4, 2, "outlet")
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0xB8B09A))
@@ -508,12 +460,6 @@ def level1():
     d.rectangle([13, 8, 19, 20], fill=rgb(0x5A3A1E), outline=rgb(0x2A1A0E))  # a door standing in a field
     d.ellipse([3, 3, 9, 9], fill=rgb(0xE8C030))
     save(img, "painting3")
-    img = noise(0xC22A20, 5, "extsign")
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 8, 19, 28], fill=rgb(0xF0F0F0))
-    d.rectangle([13, 4, 18, 8], fill=rgb(0xF0F0F0))
-    save(img, "extsign")
-    flat("extinguisher", 0xC21C18, 6)
     img = noise(0xC21C18, 4, "firealarm")
     d = ImageDraw.Draw(img)
     text(img, "FIRE", (2, 2, 30, 11), 0xF4F4F0, 7)
@@ -538,13 +484,6 @@ def level1():
             d.polygon(pts, fill=ink)
         d.line([0, 29, S - 1, 29], fill=T.shade(T.hexrgb(c), 0.7), width=2)
         save(img, f"banner{i}")
-    img = noise(0xB82018, 4, "hosecab")
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 28, 28], fill=rgb(0x401410), outline=rgb(0x8A1810))
-    d.ellipse([7, 7, 24, 24], outline=rgb(0xD84030), width=3)
-    d.ellipse([13, 13, 18, 18], fill=rgb(0x9A9A9A))
-    d.line([4, 4, 12, 12], fill=rgb(0xC8D8E0))  # glass glint
-    save(img, "hosecab")
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     d.ellipse([2, 2, 29, 29], fill=rgb(0xE8C020))
@@ -867,7 +806,6 @@ def level3():
     d.arc([5, 5, 26, 26], 40, 120, fill=rgb(0xC81818), width=2)
     d.line([16, 16, 24, 9], fill=rgb(0xC81818), width=2)
     save(img, "gauge")
-    flat("slate", 0x2E3236, 3)
     img = noise(0x4A3020, 4, "outletburnt")
     d = ImageDraw.Draw(img)
     d.rectangle([6, 4, 25, 27], fill=rgb(0xC8BEA0))
@@ -1142,16 +1080,6 @@ def level4():
     save(img, "diffuser-face")
     save(M.brushed_metal(seed_of("sprinkler"), base=(196, 196, 192), grain=3, streak=6, sheen=8), "sprinklerchrome")
     save(M.noise_hv((150, 70, 58), 3, seed_of("sprinklerbulb"), S, 3, (8,)), "sprinklerbulb")  # (round 2) muted
-
-    img = Image.new("RGBA", (S, S), rgb(0x141414))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x28292C), width=2)
-    d.line([2, 2, S - 3, 2], fill=rgb(0x6A7078))  # light leaking round the paper
-    d.line([2, S - 3, 12, S - 3], fill=rgb(0x5A6068))
-    for x, y in ((3, 3), (25, 3), (3, 25), (25, 25)):
-        d.rectangle([x, y, x + 4, y + 2], fill=rgb(0xC8C0A0))  # tape
-    d.line([16, 0, 16, S - 1], fill=rgb(0x28292C))
-    save(img, "officewindow-blackout")
     # (B7) Venetian blinds: each slat lit along its rounded top, shaded under it, the gap between dark, the two
     # ladder cords as pale lines, the frame as the plain window's
     img = Image.new("RGBA", (S, S), rgb(0xC8C6C0))
@@ -1243,7 +1171,6 @@ def level4():
     d.ellipse([11, 18, 20, 27], fill=rgb(0xF0A020), outline=rgb(0x4A4E52))
     save(img, "callpanel")
 
-    flat("fountainsteel", 0xBCC0C4, 4)
     img = Image.new("RGBA", (S, S), rgb(0xF4F2EC))
     d = ImageDraw.Draw(img)
     d.ellipse([0, 0, S - 1, S - 1], outline=rgb(0x2A2A2A), width=2)
@@ -1326,23 +1253,6 @@ def level4():
     text(img, "STAIR", (2, 4, 30, 14), 0xF4F4F0, 7)
     text(img, "3", (2, 15, 30, 29), 0xF4F4F0, 11)
     save(img, "stairsign-office")
-    flat("planter", 0xE4E0D6, 3)
-    # (B7) The dead ficus's foliage as cut-out leaves (the prop is drawn OpaqueNoCull, as vanilla's leaves are): small
-    # pointed leaves, olive going brown and some dead, each lit on its upper side, the gaps between them open, so the
-    # clumps read as sparse foliage instead of three noisy boxes
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    px = img.load()
-    rng = random.Random(seed_of("ficusleaves"))
-    shapes = (((0, 0), (1, 0), (2, 0), (1, 1)), ((0, 0), (0, 1), (0, 2), (1, 1)), ((0, 0), (1, 0), (1, 1), (2, 1)),
-              ((1, 0), (0, 1), (1, 1), (1, 2)), ((0, 0), (1, 0), (0, 1), (1, 1)))
-    for _ in range(95):  # (round 2) denser: about half the face is leaf, so a clump reads as foliage, not debris
-        x, y = rng.randrange(S), rng.randrange(S)
-        col = rng.choice([(92, 96, 50), (100, 98, 52), (112, 100, 54), (128, 104, 58), (84, 88, 46), (140, 110, 62)])
-        for i, (dx, dy) in enumerate(rng.choice(shapes)):
-            px[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(col, (8 if dy == 0 else -6 if dy == 2 else 0) + rng.uniform(-4, 4)))
-    save(img, "ficusleaves")
-    flat("dryleaf", 0x8A6A3A, 8)
-    flat("plasticchair", 0x5A6E86, 4)
     # (B7) The copier: beige plastic (as the terminals), its control panel dark with a small green display; the
     # buttons, drawers and handles are geometry
     save(T.beige_plastic(seed_of("copier"), base=(216, 210, 194), yellow=0.1), "copier")
@@ -1384,12 +1294,6 @@ def level4():
     d.rectangle([24, 23, 29, 26], fill=rgb(0x1A2A1A))
     save(img, "microwave")
     flat("fridgewhite", 0xF0F0EC, 2)
-    img = noise(0x9A7A52, 4, "receptionfront")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, 3], fill=rgb(0x6E6A64))
-    d.rectangle([8, 10, 23, 20], fill=rgb(0xC8C4BA))
-    text(img, "WELCOME", (8, 10, 24, 21), 0x2A2A2A, 4)
-    save(img, "receptionfront")
     img = Image.new("RGBA", (S, S), rgb(0x2A2A2C))
     d = ImageDraw.Draw(img)
     for k in range(0, S, 3):
@@ -1655,24 +1559,6 @@ def level5():
         d.line([0, y, S - 1, y], fill=rgb(0x2A4A9A), width=2)
     save(img, "vase")
     flat("driedflowers", 0x7A4A3A, 12)
-    img = Image.new("RGBA", (S, S), rgb(0x2A1810))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(seed_of("books"))
-    for row in range(2):
-        x = 0
-        while x < S:
-            w = rng.randint(2, 4)
-            c = rng.choice([0x5A1A14, 0x1E3A2A, 0x2A2A4A, 0x6A4A2A, 0x3A1A2A])
-            top = row * 16 + rng.randint(1, 4)
-            d.rectangle([x, top, x + w - 1, row * 16 + 15], fill=rgb(c))
-            d.line([x, top + 3, x + w - 1, top + 3], fill=rgb(0xC9A040))
-            x += w
-    save(img, "books")
-    img = Image.new("RGBA", (S, S), rgb(0x1A2224))
-    d = ImageDraw.Draw(img)
-    d.line([4, 2, 12, 30], fill=rgb(0x5A6E74))
-    d.line([18, 2, 26, 30], fill=rgb(0x3A4A50))
-    save(img, "curioglass")
     flat("china", 0xF4F2EC, 2)
     flat("cartcarpet", 0x8A1C14, 4)
     img = noise(0x6A3A1E, 5, "suitcaseleather")
@@ -1689,20 +1575,6 @@ def level5():
         ImageDraw.Draw(img).line([x, 0, x, S - 1], fill=rgb(0xA89A78))
     save(img, "radiator")
     flat("bankergreen", 0x1E7A44, 4)
-    img = Image.new("RGBA", (S, S), rgb(0x1A120C))
-    d = ImageDraw.Draw(img)
-    d.line([16, 0, 16, 22], fill=rgb(0xC9A040), width=1)
-    d.ellipse([12, 21, 20, 29], fill=rgb(0xC9A040))
-    save(img, "clockpendulum")
-    img = Image.new("RGBA", (S, S), rgb(0x5A2E1A))
-    d = ImageDraw.Draw(img)
-    d.ellipse([2, 2, 29, 29], fill=rgb(0xE8DCBC), outline=rgb(0xC9A040), width=2)
-    for h in range(12):
-        a = math.radians(h * 30)
-        d.text((14 + 10 * math.sin(a), 13 - 10 * math.cos(a)), ".", fill=rgb(0x1A1A1A))
-    d.line([16, 16, 16, 7], fill=rgb(0x111111))
-    d.line([16, 16, 22, 19], fill=rgb(0x111111), width=2)
-    save(img, "clockface-old")
     # (B8) The front desk's panels are geometry now (gen_detail level5); its painted front is gone
     img = noise(0x5A1A14, 3, "guestbook")
     d = ImageDraw.Draw(img)
@@ -1712,14 +1584,6 @@ def level5():
         d.line([4, y, 13, y], fill=rgb(0x5A5A7A))
         d.line([19, y, 27, y], fill=rgb(0x5A5A7A))
     save(img, "guestbook")
-    flat("pianoblack", 0x101012, 2)
-    img = Image.new("RGBA", (S, S), rgb(0xF4F2EA))
-    d = ImageDraw.Draw(img)
-    for x in range(0, S, 2):
-        d.line([x, 0, x, S - 1], fill=rgb(0xB8B6AE))
-    for x in range(1, S, 4):
-        d.rectangle([x, 0, x + 1, 18], fill=rgb(0x111111))
-    save(img, "pianokeys")
     # (B6) Coal: broken faces, each a flat facet at its own shade, some catching the light with a glint
     pts = M.points((S, S), 40, seed_of("coalfacets"), 1.0)
     f1, f2, idx = M.worley((S, S), pts)

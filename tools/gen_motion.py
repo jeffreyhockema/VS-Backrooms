@@ -187,22 +187,6 @@ def textures():
     text(img, "MILK", (4, 16, S - 4, 25), 0x2A6AB0, 7)
     save(img, "milkvan-side")
 
-    # The 1950s: an icebox, a radio cabinet, a telephone
-    img = grain(flat((238, 232, 214)), 3, "icebox")
-    d = ImageDraw.Draw(img)
-    d.line([0, 15, S, 15], fill=(196, 188, 170, 255))
-    d.rectangle([24, 5, 26, 11], fill=(200, 206, 210, 255))
-    d.rectangle([24, 19, 26, 25], fill=(200, 206, 210, 255))
-    save(img, "icebox-front")
-    img = grain(flat((110, 70, 40)), 4, "radiocab")
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 4, S - 5, 14], fill=(200, 176, 120, 255))
-    for x in range(6, S - 6, 3):
-        d.line([x, 5, x, 13], fill=(150, 120, 80, 255))
-    d.ellipse([7, 18, 12, 23], fill=(220, 200, 150, 255))
-    d.ellipse([19, 18, 24, 23], fill=(220, 200, 150, 255))
-    save(img, "radio-front")
-
     # The castle's things: coloured balls, an arcade screen, the model town, sketches, the King's stone
     img = Image.new("RGBA", (S, S))
     d = ImageDraw.Draw(img)

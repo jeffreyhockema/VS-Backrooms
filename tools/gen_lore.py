@@ -190,11 +190,6 @@ def tram_textures():
             d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5 / 7.5
             M.touch(lens, x, y, 0.12 - 0.4 * d * d + (0.3 if (x - 5) ** 2 + (y - 5) ** 2 < 4 else 0))
     save(lens, "tramlens")
-    grille = noise(0x3E5A44, 4, "tramgrille")
-    d = ImageDraw.Draw(grille)
-    for y in range(3, S - 2, 4):
-        d.rectangle([3, y, S - 4, y + 1], fill=rgb(0x14181A))
-    save(grille, "tramgrille")
     # (B5) tallow, yellowed: a soft mottle with faint runs down it and a darker skin where it has been handled
     wax = M.noise_hv((228, 216, 186), 2, seed_of("candlewax"), mottle=5)
     M.drips(wax, 5, seed_of("candleruns"), color=(206, 190, 150), length=(8, 20), strength=0.3)
@@ -210,16 +205,6 @@ def textures():
     M.scratches(steel, 6, seed_of("doorsteelscratch"))
     M.grime(steel, 0.2, seed_of("doorsteelgrime"), cover=0.5)
     save(steel, "doorsteel")
-
-    # A dead security camera's housing, and its lens
-    img = noise(0xD8D6CC, 3, "camerabody")
-    T.blotch(img, (20, 24), 8, (120, 116, 100), 0.35, seed_of("camgrime"))
-    save(img, "camerabody")
-    img = Image.new("RGBA", (S, S), rgb(0x16181A))
-    d = ImageDraw.Draw(img)
-    d.ellipse([5, 5, 26, 26], fill=rgb(0x08090A), outline=rgb(0x3A3E42), width=2)
-    d.ellipse([10, 9, 15, 14], fill=rgb(0x4A5560))
-    save(img, "cameralens")
 
     # Traffic signs
     img = Image.new("RGBA", (S, S), rgb(0x141414))
@@ -255,18 +240,6 @@ def textures():
     save(noise(0x55504A, 9, "seeprock"), "almondseep")
     seep_textures()
 
-    # Pieces of a machine: a gear seen from above
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    for k in range(8):
-        import math
-        a = k * math.pi / 4
-        cx, cy = 15.5 + 12 * math.cos(a), 15.5 + 12 * math.sin(a)
-        d.rectangle([cx - 3, cy - 3, cx + 3, cy + 3], fill=rgb(0x6E5038))
-    d.ellipse([4, 4, 27, 27], fill=rgb(0x7A5A3E))
-    d.ellipse([11, 11, 20, 20], fill=(0, 0, 0, 0))
-    T.blotch(img, (10, 20), 6, (90, 56, 30), 0.5, seed_of("gear"))
-    save(img, "gearflat")
 
 
 # ======================= Blocks and props =======================

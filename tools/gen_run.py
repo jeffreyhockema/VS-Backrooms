@@ -568,14 +568,6 @@ def textures():
     T.blotch(img, (12, 10), 12, (120, 168, 164), 0.3, seed_of("chairhi"))
     save(img, "chairplastic")
     save(noise(0x3A3E42, 3, "beamsteel"), "beamsteel")
-    # Crash cart: red drawers with yellow labels; its side; the defibrillator
-    img = noise(0xB82820, 3, "cartfront")
-    d = ImageDraw.Draw(img)
-    for y in (6, 11, 16, 21, 26):
-        d.line([1, y, S - 2, y], fill=rgb(0x7A1612))
-        d.rectangle([3, y + 1, 8, y + 2], fill=rgb(0xF0C838))
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8C1C16))
-    save(img, "cartfront")
     save(noise(0xB82820, 3, "cartside"), "cartside")
     img = noise(0x3A3A3A, 3, "defib")
     d = ImageDraw.Draw(img)

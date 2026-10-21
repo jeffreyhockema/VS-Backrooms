@@ -1173,14 +1173,6 @@ def pillar(letter):
     return img
 
 
-def pillar_light():
-    img = pillar(None)
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 0, 19, S - 1], fill=(70, 72, 72, 255))  # housing
-    d.rectangle([14, 0, 17, S - 1], fill=(240, 248, 252, 255))  # tube
-    return img
-
-
 def concrete_ceiling(alt=0):
     """The car park's slab soffit: formed concrete with the two white conduits that run along every bay, as before
     (graphics pass B4: now shaded as round runs, a lit line along each and a shadow on the slab beside it, clipped
@@ -1377,37 +1369,6 @@ def tunnel_brick(seed=360):
                   jitter=9, hue=4, recess=1.0, pits=0.03, grain=4, mottle=6)
     M.grime(img, 0.12, M.sub(seed, "soot"), color=(30, 28, 28), cover=0.45)
     return match_mean(img, 50)
-
-
-def tunnel_wall(variant):
-    img = tunnel_concrete(350 + len(variant))
-    d = ImageDraw.Draw(img)
-    if variant == "pipes":
-        for y, h, col in ((3, 5, (107, 62, 42)), (11, 7, (226, 225, 215)), (22, 4, (90, 70, 56))):
-            d.rectangle([0, y, S - 1, y + h], fill=col + (255,))
-            d.line([0, y, S - 1, y], fill=shade(col, 1.15))
-            d.line([0, y + h, S - 1, y + h], fill=shade(col, 0.6))
-        for x in (8, 24):  # brackets
-            d.rectangle([x, 2, x + 1, 27], fill=(60, 62, 64, 255))
-    elif variant == "machinery":
-        d.rectangle([2, 3, 29, 28], fill=(84, 92, 86, 255), outline=(40, 44, 42, 255))
-        for cx in (9, 21):  # gauges
-            d.ellipse([cx - 4, 7, cx + 4, 15], fill=(220, 214, 196, 255), outline=(30, 30, 30, 255))
-            d.line([cx, 11, cx + 2, 8], fill=(160, 30, 20, 255))
-        d.rectangle([6, 19, 25, 24], fill=(52, 56, 54, 255))  # vent slots
-        for x in range(8, 25, 3):
-            d.line([x, 20, x, 23], fill=(28, 30, 30, 255))
-    elif variant == "brick":
-        img = Image.new("RGBA", (S, S), (42, 36, 34, 255))
-        d = ImageDraw.Draw(img)
-        rng = random.Random(360)
-        for row in range(4):
-            off = 4 if row % 2 else 0
-            for col in range(-1, 3):
-                x0 = col * 16 + off
-                c = rng.choice([(74, 58, 46), (62, 48, 40), (52, 44, 40)])
-                d.rectangle([x0 + 1, row * 8 + 1, x0 + 14, row * 8 + 6], fill=c + (255,))
-    return img
 
 
 def tunnel_ceiling(alt=0):
@@ -3268,7 +3229,6 @@ def level_textures():
     save(pillar(None), "block/level1/concretepillar-plain.png")
     for letter in "abcdef":
         save(pillar(letter), f"block/level1/concretepillar-{letter}.png")
-    save(pillar_light(), "block/level1/pillarlight.png")
     save(exit_sign(), "block/level1/exitsign.png")
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")
@@ -3276,7 +3236,6 @@ def level_textures():
     for alt, v in ((0, ""), (1, "-2"), (2, "-3")):  # three versions, one shared ground, turned at random
         save(tunnel_plain(alt), f"block/level2/tunnelwall-plain{v}.png")
     save(tunnel_brick(), "block/level2/tunnelwall-brick.png")
-    save(tunnel_wall("machinery"), "block/level2/tunnelwall-machinery.png")
     cabinet_textures()
     for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
         save(tunnel_ceiling(alt), f"block/level2/tunnelceiling{v}.png")
