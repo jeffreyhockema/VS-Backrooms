@@ -22,3 +22,17 @@ end; a worker that reaches one stops and asks.
 | # | Question | Recommendation | Who decides |
 |---|---|---|---|
 | 9 | Version number | **0.515.0** | the user, at P8 |
+
+## Taken (2026-10-20, P7 round 2: isolation; see isolation.md)
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 10 | Level 0's roster | **The Bacteria only.** Hounds removed from the Lobby; Smilers only in Red Rooms and during a Reality Shift's dark | Wikidot: "unknown whether or not entities exist"; only "dark figures" claimed |
+| 11 | How rare is rare | **About one body per 20 to 30 real minutes in the heart of a Class 1 level**; more at the edge; deeper levels scale up | the user's "seeing any living creature is an event" |
+| 12 | Hound counters | **Stay out of sight; the stare-down buys a head start; walk away calmly (running or a turned back sets it off); a shut door stops it.** No climbing counter. **Light no longer slows Hounds** | Entity 8: sight and hearing only, no smell; "stay out of sight"; the stare "won't work for long"; "Don't run away… the second you see one"; Level 3's Hounds pounce |
+| 13 | The Level 4 sighting (2 Dullers and a Hound pack) | The same over-spawning, not a bug in The End | the user confirmed it was Level 4 at the end of the session |
+| 14 | Facelings | **One at a time within about 100 blocks, about 15 real minutes apart**; Level 11 keeps small groups; the Snackrooms their staff | Level 11: "Facelings and Hounds, the most numerous"; elsewhere the emptiness |
+| 15 | Wanderers (traders) | **Untouched** | already sparse; the only trade |
+| 16 | The backroomsMenace setting | **Every setting thinned alike** (the Spawns multipliers stay) | the user's call |
+| 17 | More than one kind of menace at once | **One kind at a time** (a pack is one); set-pieces, dens and events are the exceptions | the user's call |
+| 18 | Distant sounds | **Cut hard**: about one per 5 to 10 real minutes in a Class 1 heart | the user: "cut sounds hard too" |
