@@ -175,5 +175,10 @@ Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmb
   band); the 0.4 x mean hard gap plus a 0.6 x mean exponential keeps the stated mean; the Bacteria's Lobby fright with
   no way through ends in Search then Leave (it shares `leavesAfterSearch`); "too close" does not fire while a stare
   holds the Hound.
+- Full harness on the Release build: 29/31, the two failures being `p7-bacteria-chased` (spot-dependent, passed on
+  rerun) and `p7-hound-struck`: piece B's shut-door give-up sent a struck Hound to Search because an owner's blow clears
+  the retaliation timer at once (`EndRetaliation`) and the grudge lives in `huntProvoked`. Fixed in 49e6dcb and 61cedfa
+  (the give-up and the re-sighting rule key on `huntProvoked` too); rerun of `p7-hound-struck`, `iso-hound` and
+  `p1-hunt-to-search` 6/6, zero error lines.
 - Still to check in a client: everything in playtest.md section 9 (above all the four Hound counters, doors headless-
   untested, and the felt rate of bodies and sounds).
