@@ -56,14 +56,7 @@ public sealed partial class WorldLayout
             5 => HotelZoneAt(mx, mz) == HotelZone.Beverly ? null : DensL5,
             8 => DensWarrenDark,
             9 => DensL9,
-            // The five kept as 14-18 (each level's own line): none yet
-            RunLevel => null,
-            FunLevel => null,
-            TheEnd => null,
-            Hub => null,
-            Level974 => null,
-            Level3999 => null,
-            Level188 => null,
+            // (The far places kept as 14-20 have no dens yet)
             _ => null,
         };
         if (kinds == null) return DenKind.None;
@@ -116,6 +109,8 @@ public sealed partial class WorldLayout
                 for (int dx = -r; dx <= r && boxes > 0; dx++)
                 {
                     if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !Free(c + dx, c + dz) || !SafeToBlock(Open, c + dx, c + dz)) continue;
+                    // (Layout version 10: never beside an arch of Level 0's arched areas, as the stash's boxes are not)
+                    if (Version >= 10 && b.Level == 0 && NextToArch(b, c + dx, c + dz)) continue;
                     ref Tile t = ref b.At(c + dx, c + dz);
                     t.SupplyBox = true;
                     t.Looted = false;

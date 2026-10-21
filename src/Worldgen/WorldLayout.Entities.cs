@@ -55,7 +55,7 @@ public sealed partial class WorldLayout
             8 => NinthRoadDistance(gx, gz) <= 6 || IsCampClearing(gx, gz),
             // The Poolrooms: nothing has ever been met there, but in the dark of the Reservoir
             Poolrooms => !IsReservoirAt(gx, gz),
-            // The five kept as 14-18 (each level's own line)
+            // The far places kept as 14-20 (each level's own line)
             RunLevel => false,
             FunLevel => false,
             TheEnd => TileAt(gx, gz) is { Zone: 1 } or { Zone: 5, Detail: (byte)EndFake.Home }, // the central hall; the Junkies' Home

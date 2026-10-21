@@ -69,6 +69,16 @@ public sealed partial class WorldLayout
     /// </summary>
     private static bool PutParts(TileRef at, int size, Func<int, int, bool> free, ushort prop, int x, int z, ArchPier pier)
     {
+        int[] before = null;
+        return PutParts(at, size, free, prop, x, z, pier, ref before);
+    }
+
+    /// <summary>
+    /// <see cref="PutParts(TileRef, int, Func{int, int, bool}, ushort, int, int, ArchPier)"/> for a caller that tries several places on a grid that does not change between failed
+    /// attempts: <paramref name="before"/> holds the floor's pieces, worked out on the first attempt that needs them and reused.
+    /// </summary>
+    private static bool PutParts(TileRef at, int size, Func<int, int, bool> free, ushort prop, int x, int z, ArchPier pier, ref int[] before)
+    {
         var (w, d) = PartsOf(prop);
         ArchPier facing = PartsFacing(prop, pier);
         var tiles = new List<(int X, int Z)>();
@@ -78,7 +88,7 @@ public sealed partial class WorldLayout
             if (px < 0 || pz < 0 || px >= size || pz >= size || !free(px, pz)) return false;
             tiles.Add((px, pz));
         }
-        if (!IsWalkThroughProp(prop) && CutsFloor(at, size, tiles)) return false;
+        if (!IsWalkThroughProp(prop) && CutsFloor(at, size, tiles, ref before)) return false;
         for (int n = 0; n < tiles.Count; n++)
         {
             ref Tile t = ref at(tiles[n].X, tiles[n].Z);
@@ -92,11 +102,12 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Whether making these tiles unwalkable would leave any two pieces of walkable floor that are joined now (in this grid) apart.</summary>
-    private static bool CutsFloor(TileRef at, int size, List<(int X, int Z)> blocked)
+    private static bool CutsFloor(TileRef at, int size, List<(int X, int Z)> blocked, ref int[] before)
     {
         var shut = new HashSet<int>();
         foreach (var (x, z) in blocked) shut.Add(z * size + x);
-        int[] before = FloorPieces(at, size, null), after = FloorPieces(at, size, shut);
+        before ??= FloorPieces(at, size, null);
+        int[] after = FloorPieces(at, size, shut);
         // Every piece before must still be one piece (less the tiles taken)
         var seen = new Dictionary<int, int>();
         for (int i = 0; i < before.Length; i++)
@@ -122,7 +133,7 @@ public sealed partial class WorldLayout
             while (queue.Count > 0)
             {
                 int i = queue.Dequeue();
-                foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                foreach (var (dx, dz) in Steps)
                 {
                     int x = i % size + dx, z = i / size + dz, j = z * size + x;
                     if (x < 0 || z < 0 || x >= size || z >= size || piece[j] >= 0 || shut != null && shut.Contains(j) || !IsWalkable(at(x, z))) continue;
@@ -157,16 +168,18 @@ public sealed partial class WorldLayout
         old.Stack = 0;
         // (A tent's tile was sealed off with the cell's pockets, as all floor taken up is: open again if it is beside open floor)
         if (old.Sealed && !IsWalkThroughProp(prop))
-            foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+            foreach (var (dx, dz) in Steps)
                 if (x + dx >= 0 && z + dz >= 0 && x + dx < size && z + dz < size && at(x + dx, z + dz) is { Sealed: false } n && IsWalkable(n))
                     old.Sealed = false;
         bool Free(int fx, int fz) => free(prop, fx, fz);
+        // (The grid is the same for every attempt below, up to the one that succeeds: its pieces are worked out once)
+        int[] pieces = null;
         if (prop == Props.SleepingBag)
         {
             // The head where the bedroll lay, the foot toward its Pier, else (in the open) any other way
             var ways = new[] { pier, Turn(pier), Opposite(pier), Turn(Opposite(pier)) };
             for (int k = 0; k < (forwardOnly ? 1 : 4); k++)
-                if (PutParts(at, size, Free, prop, x, z, ways[k == 0 ? 0 : 1 + (k - 1 + (int)(h % 3)) % 3])) return;
+                if (PutParts(at, size, Free, prop, x, z, ways[k == 0 ? 0 : 1 + (k - 1 + (int)(h % 3)) % 3], ref pieces)) return;
             return;
         }
         if (prop == Props.LongSofa)
@@ -175,7 +188,7 @@ public sealed partial class WorldLayout
             for (int k = 0; k < 2; k++)
             {
                 var (ox, oz) = PartTile(0, 0, pier, (k + (int)(h % 2)) % 2, 0);
-                if (PutParts(at, size, Free, prop, x - ox, z - oz, pier)) return;
+                if (PutParts(at, size, Free, prop, x - ox, z - oz, pier, ref pieces)) return;
             }
             // (No room: the old one-tile sofa stays, rather than the room losing its sofa)
             old.Variant = was;
@@ -188,13 +201,16 @@ public sealed partial class WorldLayout
         for (int k = 0; k < (forwardOnly ? 2 : 4); k++)
         {
             var (ox, oz) = PartTile(0, 0, pier, order[k] % 2, order[k] / 2);
-            if (PutParts(at, size, Free, prop, x - ox, z - oz, pier)) return;
+            if (PutParts(at, size, Free, prop, x - ox, z - oz, pier, ref pieces)) return;
         }
         if (forwardOnly) return;
         for (int k = 0; k < 16; k++)
         {
+            // (Layout <= 10: the (int) cast comes before the modulo, so the start is negative for about half the hashes
+            // and the walk then covers an off-pattern window; kept as it is for the saved worlds. The intended form is
+            // (int)((h >> 12) % 16): a candidate for layout version 11)
             int n = (k + (int)(h >> 12) % 16) % 16;
-            if (PutParts(at, size, Free, prop, x - 2 + n % 4, z - 2 + n / 4, pier)) return;
+            if (PutParts(at, size, Free, prop, x - 2 + n % 4, z - 2 + n / 4, pier, ref pieces)) return;
         }
     }
 
@@ -244,7 +260,7 @@ public sealed partial class WorldLayout
                 ref Tile t = ref b.Tiles[i];
                 if (!blocked[i] || !t.Sealed || t.Kind != TileKind.Floor || !IsWalkable(t)) continue;
                 int x = i % MacroSize, z = i / MacroSize;
-                foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                foreach (var (dx, dz) in Steps)
                     if (x + dx >= 0 && z + dz >= 0 && x + dx < MacroSize && z + dz < MacroSize && b.At(x + dx, z + dz) is { Sealed: false } n && IsWalkable(n))
                     {
                         t.Sealed = false;

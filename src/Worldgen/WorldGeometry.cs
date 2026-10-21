@@ -88,8 +88,8 @@ public readonly struct WorldGeometry
     public int FloorFor(int level) => level switch
     {
         11 => CityFloorY,
-        12 => FloorY - PoolDrop,
-        13 => FloorY - MotionDrop,
+        WorldLayout.Poolrooms => FloorY - PoolDrop,
+        WorldLayout.Motion => FloorY - MotionDrop,
         WorldLayout.RunLevel => FloorY - RunDrop,
         WorldLayout.FunLevel => FloorY - FunDrop,
         WorldLayout.TheEnd => FloorY - EndDrop,
@@ -111,8 +111,8 @@ public readonly struct WorldGeometry
     public int BandBottomFor(int level) => level switch
     {
         11 => CityBandBottom,
-        12 => FloorFor(12) - PoolPitDepth - 2,
-        13 => FloorFor(13) + 14,
+        WorldLayout.Poolrooms => FloorFor(WorldLayout.Poolrooms) - PoolPitDepth - 2,
+        WorldLayout.Motion => FloorFor(WorldLayout.Motion) + 14,
         // The five kept as 14-18: from their own depth below their own floor
         WorldLayout.RunLevel => FloorFor(WorldLayout.RunLevel) - RunBandDepth,
         WorldLayout.FunLevel => FloorFor(WorldLayout.FunLevel) - FunBandDepth,

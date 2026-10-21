@@ -263,9 +263,9 @@ public sealed partial class WorldLayout
         public bool Inner(int u, int v) => u >= 1 && v >= 1 && u < W && v < H;
     }
 
-    private PlanCache<L0Plan> l0Plans;
+    private readonly PlanCache<L0Plan> l0Plans;
 
-    private L0Plan L0PlanAt(int i, int j) => (l0Plans ??= new PlanCache<L0Plan>(256, PlanL0)).Get(i, j);
+    private L0Plan L0PlanAt(int i, int j) => l0Plans.Get(i, j);
 
     /// <summary>The planned tile at a block position (before any cell lays the Manila Room or a Red Room over it).</summary>
     private Tile L0TileAt(int gx, int gz)
@@ -1199,7 +1199,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile t = ref b.Tiles[i];
                 b.Mood[i] = LightMood.Red;
-                if (t.IsWallLike && t.Pattern <= WallPattern.Manila) { t.Pattern = WallPattern.RedRoom; t.Base = BaseStyle.Baseboard; }
+                if (t.IsWallLike && (t.Pattern <= WallPattern.Manila || t.Pattern == WallPattern.Stucco)) { t.Pattern = WallPattern.RedRoom; t.Base = BaseStyle.Baseboard; }
                 if (t.Kind == TileKind.Pit) t.Kind = TileKind.Floor;
                 if (t.Kind == TileKind.Floor) { t.Floor = FloorKind.Stained; t.Chalk = 0; }
             }
@@ -1251,6 +1251,7 @@ public sealed partial class WorldLayout
             ref Tile t = ref b.At(x, z);
             if (IsWalkable(t)) return;
             if (t.Tall) return; // never through the wall of another level
+            BreakArchPair(b.At, MacroSize, x, z);
             t.Kind = TileKind.Floor;
             t.Variant = 0;
             t.Outlet = false;
@@ -1287,6 +1288,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile around = ref b.At(x, z);
                 if (IsWalkable(around)) continue;
+                BreakArchPair(b.At, MacroSize, x, z);
                 around.Kind = TileKind.Floor;
                 around.Variant = 0;
                 around.Outlet = false;
@@ -1414,13 +1416,15 @@ public sealed partial class WorldLayout
         }
     }
 
-    private static void PlaceBoxNearWall(Builder b)
+    private void PlaceBoxNearWall(Builder b)
     {
         for (int attempt = 0; attempt < 40; attempt++)
         {
             int x = b.Rng.Range(1, MacroSize - 2), z = b.Rng.Range(1, MacroSize - 2);
             ref Tile tile = ref b.At(x, z);
             if (tile.Kind != TileKind.Floor) continue;
+            // (Layout version 10: never beside an arch, where a box would stand in the way through)
+            if (Version >= 10 && NextToArch(b, x, z)) continue;
             if (b.At(x + 1, z).Kind == TileKind.Wall || b.At(x - 1, z).Kind == TileKind.Wall
                 || b.At(x, z + 1).Kind == TileKind.Wall || b.At(x, z - 1).Kind == TileKind.Wall)
             {

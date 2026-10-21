@@ -104,8 +104,8 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// Position along the row of rooms between two cross corridors, 0 to 28. Rooms are measured from the cross
-    /// corridor, so it never cuts one in two.
+    /// Position along the row of rooms between two cross corridors, 0 to 32 (the rooms use 0-28; 29-32 are the
+    /// corridor and its walls). Rooms are measured from the cross corridor, so it never cuts one in two.
     /// </summary>
     private static int RoomU(int gx) => Hashing.Mod(gx - 19, CrossPeriod);
 
@@ -473,6 +473,8 @@ public sealed partial class WorldLayout
     /// </summary>
     private bool IsFrontHall(int mx, int mz)
     {
+        // (A cell of the region that is not Level 5 can still win here: HotelZoneAt is noise and does not look at the level, so
+        // at the hotel's rim a lobby may get no front hall. Counting only Level 5 cells is a candidate for layout version 11)
         if (HotelZoneAt(mx, mz) != HotelZone.Lobby) return false;
         int rx = Hashing.FloorDiv(mx, FrontHallRegion) * FrontHallRegion, rz = Hashing.FloorDiv(mz, FrontHallRegion) * FrontHallRegion;
         ulong own = Hashing.Hash(seed, mx, mz, SaltL5FrontHall);

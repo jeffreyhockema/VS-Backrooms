@@ -418,6 +418,7 @@ public enum FloorKind : byte
     /// The End (block 132-147): grey-green library carpet (dusty, worn, stained, under snow), the navy patterned
     /// runway, the stockrooms' concrete and its safety line.
     /// </summary>
+    /// <summary>The first of the End's range (the same value as <see cref="EndCarpet"/>, which is the one used).</summary>
     EndFloor = 132,
     EndCarpet = 132,
     EndCarpetDusty = 133,
@@ -948,6 +949,10 @@ public static class CityDetail
 }
 
 /// <summary>Values of <see cref="Tile.Variant"/> on floor tiles and Level 2 walls.</summary>
+/// <remarks>
+/// The floor-prop values (1-6 and on) overlap the values the same field takes on walls (<see cref="WallPipes"/> and
+/// the like): that works only because every reader checks <see cref="Tile.Kind"/> first.
+/// </remarks>
 public static class Props
 {
     public const byte Drum = 1;

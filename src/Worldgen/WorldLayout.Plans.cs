@@ -121,6 +121,7 @@ public sealed partial class WorldLayout
                 // standing in it by the tile the lining takes goes too, so the lining runs on unbroken)
                 bool orphan = t.Kind is TileKind.ArchDoor or TileKind.Doorway && (wide.East && lx >= MacroSize - 2 || wide.South && lz >= MacroSize - 2);
                 if (t.Tall || IsWalkable(t) && !orphan || !EdgeHall(other, lx, lz, wide)) continue;
+                BreakArchPair(b.At, MacroSize, lx, lz);
                 t.Kind = TileKind.Floor;
                 t.Variant = 0;
                 t.Outlet = false;

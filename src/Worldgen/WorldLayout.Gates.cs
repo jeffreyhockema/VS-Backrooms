@@ -55,6 +55,7 @@ public sealed partial class WorldLayout
                     bool west = side == 0;
                     int other = west ? LevelAt(mx - 1, mz) : LevelAt(mx, mz - 1);
                     if (!IsGated(level, other)) continue;
+                    // (Only the rings, levels 0-10, are gated, so a level is below 16 and the pair is one number)
                     int pair = Math.Min(level, other) * 16 + Math.Max(level, other);
                     edges.Add((mx, mz, west, pair, Hashing.Hash(seed, mx, mz, SaltGate + (ulong)side)));
                 }
@@ -69,15 +70,17 @@ public sealed partial class WorldLayout
             return i;
         }
         var byCorner = new Dictionary<(int Pair, int X, int Z), int>();
+        void Corner(int i, int pair, int x, int z)
+        {
+            if (byCorner.TryGetValue((pair, x, z), out int j)) parent[Find(i)] = Find(j);
+            else byCorner[(pair, x, z)] = i;
+        }
         for (int i = 0; i < edges.Count; i++)
         {
             var e = edges[i];
             // A west edge runs from the cell's corner to the corner below it; a north edge to the corner beside it
-            foreach ((int x, int z) in new[] { (e.Mx, e.Mz), e.West ? (e.Mx, e.Mz + 1) : (e.Mx + 1, e.Mz) })
-            {
-                if (byCorner.TryGetValue((e.Pair, x, z), out int j)) parent[Find(i)] = Find(j);
-                else byCorner[(e.Pair, x, z)] = i;
-            }
+            Corner(i, e.Pair, e.Mx, e.Mz);
+            Corner(i, e.Pair, e.West ? e.Mx : e.Mx + 1, e.West ? e.Mz + 1 : e.Mz);
         }
 
         // In each stretch, the edge with the lowest hash is the gate
@@ -167,6 +170,7 @@ public sealed partial class WorldLayout
             if (t.Tall || t.Stair != 0 || t.Kind is TileKind.Bars or TileKind.Pit || t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator) return;
             if (t.Kind is TileKind.Wall or TileKind.Door or TileKind.ArchWindow)
             {
+                BreakArchPair(b.At, MacroSize, x, z);
                 t.Kind = TileKind.Floor;
                 t.Variant = 0;
                 t.Outlet = false;

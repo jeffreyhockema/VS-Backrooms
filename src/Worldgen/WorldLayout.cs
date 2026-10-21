@@ -25,6 +25,9 @@ public sealed partial class WorldLayout
     private const ulong SaltEdgeWest = 0xED6E;
     private const ulong SaltEdgeNorth = 0xED6F;
     private const ulong SaltMacro = 0x3AC0;
+    // The four salts below are deliberately adjacent (Fbm takes the next two as well, so the warp's later octaves share
+    // lattice values with the detail's earlier ones): never touch them, that would change every layout version. Leave
+    // gaps of at least 4 wherever Fbm is used for a new salt.
     private const ulong SaltLevelWarp = 0x1E71;
     private const ulong SaltLevelDetail = 0x1E72;
     private const ulong SaltRingShape = 0x1E73;
@@ -416,9 +419,10 @@ public sealed partial class WorldLayout
     /// ways off the road, and the road is broken now and then by a rockfall (a wall of rubble at either end of a gap of 90-180
     /// blocks of rock) with a cave passage to find in the dark: a mouth in the road's wall before the rubble, a winding unlit way
     /// off from the road and down to 20-35 blocks under it, and back up past the break (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).
-    /// Level 0's arched areas are plain cream stucco (<see cref="WallPattern.Stucco"/>, its own blocks) and an arcade, not a labyrinth with the
-    /// paper bleached: an arcade street with rooms off it, or a cloister (WorldLayout.Level0.Arches.cs); the ways into an area stand on
-    /// open floor, two gaps side by side leave one arch, the fixtures sit on the bays' lattice and supply boxes never stand beside an arch.</item>
+    /// Level 0's arched areas keep the Lobby's plan (rooms, halls, doorways) in plain cream stucco (<see cref="WallPattern.Stucco"/>, its
+    /// own blocks), with some walls between two spaces made walls of archways over half walls (WorldLayout.Level0.Arches.cs, ArchWalls;
+    /// one room in a few gets a second, and now and then a bay is a full-height arch door); two gaps side by side in a district's
+    /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 10;
@@ -461,6 +465,9 @@ public sealed partial class WorldLayout
     // wide does not keep one entry for every cell it ever looked at
     private readonly LatticeMemo<byte> levelCache;
 
+    /// <summary>Hook for the partials of the far places to create their plan caches in the constructor.</summary>
+    partial void CreateFarPlanCaches();
+
     public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1, double ringScale = 1)
     {
         Version = Math.Clamp(version, 1, CurrentVersion);
@@ -473,7 +480,15 @@ public sealed partial class WorldLayout
         levelCache = new LatticeMemo<byte>(1 << 16, (mx, mz) => (byte)ComputeLevel(mx, mz));
         snackCache = new LatticeMemo<bool>(1 << 12, ComputeSnackrooms);
         gateCache = new LatticeMemo<HashSet<long>>(1 << 10, PlanGates);
-        featureCells = new PlanCache<Tile[]>(48, BuildMacro);
+        featureCells = new PlanCache<Tile[]>(64, BuildMacro);
+        l0Plans = new PlanCache<L0Plan>(256, PlanL0);
+        l1HallBlocks = new PlanCache<Tile[]>(256, PlanHallBlock);
+        l2Trees = new PlanCache<HashSet<(int, int, int)>>(256, (x, z) => PlanLatticeTree(x, z, L2MainEvery, SaltL2Tree, 0.5, 0.25, 0.2));
+        l6Trees = new PlanCache<HashSet<(int, int, int)>>(64, PlanL6Tree);
+        l6Units = new PlanCache<L6Unit>(64, PlanL6Unit);
+        // The far places' caches are made by their own partials (created here, never lazily: two threads arriving
+        // together at a level's first plan would each make one and throw away the other's work)
+        CreateFarPlanCaches();
 
         for (int ring = 0; ring < RingWidths.Length; ring++)
         {
@@ -633,7 +648,11 @@ public sealed partial class WorldLayout
             + 0.9 * Fbm(mx / 2.5, mz / 2.5, SaltLevelDetail);
     }
 
-    /// <summary>How far through its ring a block lies, from 0 at the inner edge to 1 at the outer.</summary>
+    /// <summary>
+    /// How far through its ring a block lies, from 0 at the inner edge to 1 at the outer. Always 0.5 for Level 0 (its ring
+    /// has no inner edge: <see cref="LevelDepth"/> measures that one out from spawn; using it where a test of this has always
+    /// been true is a candidate for layout version 11) and for the levels past the rings.
+    /// </summary>
     private double RingFraction(int gx, int gz, int level)
     {
         if (level <= 0 || level >= RingWidths.Length) return 0.5;
@@ -647,14 +666,7 @@ public sealed partial class WorldLayout
     public static bool IsOpenSky(int level) => level switch
     {
         9 or 10 or 11 or Motion => true,
-        // The five kept as 14-18 (each level's own line)
-        RunLevel => false,
-        FunLevel => false,
-        TheEnd => false,
-        Hub => false,
-        Level974 => false,
-        Level3999 => false,
-        Level188 => false,
+        // (The far places kept as 14-20, like every other level, have a ceiling or a sealed sky)
         _ => false,
     };
 
@@ -857,7 +869,7 @@ public sealed partial class WorldLayout
         if (level == Poolrooms) return y <= floorY - WorldGeometry.PoolDrop ? 31f : IsReservoir(mx, mz) ? 24f : 29f; // lukewarm, everywhere
         switch (level)
         {
-            // The five kept as 14-18 work theirs out in their own files
+            // The far places kept as 14-20 work theirs out in their own files
             case RunLevel: return RunTemperature(x, y, z, floorY);
             case FunLevel: return FunTemperature(x, y, z, floorY);
             case TheEnd: return EndTemperature(x, y, z, floorY);
@@ -1034,7 +1046,7 @@ public sealed partial class WorldLayout
             t.Variant = 0;
             t.Stack = 0;
         }
-        // A car parked across a doorway is taken away whole, unless part of it stands in the next cell
+        // A car parked across a doorway is taken away whole, unless it touches the cell's edge (it may go on into the next cell)
         void TowCar(int x, int z)
         {
             var car = new List<(int X, int Z)> { (x, z) };
@@ -1073,7 +1085,7 @@ public sealed partial class WorldLayout
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
         or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
-        // The five kept as 14-18 say which of their own props are walked through
+        // The far places kept as 14-20 say which of their own props are walked through
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));
 

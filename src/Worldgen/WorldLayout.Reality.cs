@@ -68,7 +68,7 @@ public sealed partial class WorldLayout
             case Motion:
                 // The hills are kind enough by day; the castle is not ("bring some Almond Water")
                 return InCastle((int)Math.Floor(x), (int)Math.Floor(z)) ? 0.7f + 0.1f * drift : 1.05f + 0.05f * drift;
-            // The five kept as 14-18 work theirs out in their own files
+            // The far places kept as 14-20 work theirs out in their own files
             case RunLevel: return RunStability(x, y, z, floorY, drift);
             case FunLevel: return FunStability(x, y, z, floorY, drift);
             case TheEnd: return EndStability(x, y, z, floorY, drift);
@@ -218,7 +218,7 @@ public sealed partial class WorldLayout
             (cx, cz) = MotionArrivalCell(h);
             spot ??= IsMotionArrivalSpot;
         }
-        // Nor are the five kept as 14-18: each picks its own cell and its own kind of spot
+        // Nor are the far places kept as 14-20: each picks its own cell and its own kind of spot
         else if (level == RunLevel)
         {
             (cx, cz) = RunArrivalCell(h);

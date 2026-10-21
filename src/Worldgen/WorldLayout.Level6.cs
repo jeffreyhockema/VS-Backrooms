@@ -45,8 +45,9 @@ public sealed partial class WorldLayout
     private readonly LatticeMemo<bool> snackCache;
 
     /// <summary>
-    /// The Snackrooms: rare cells of Level 6 wholly surrounded by Level 6, at least four cells from another, and clear of
-    /// the trunks (a food court set down across a trunk would cut it).
+    /// The Snackrooms: rare cells of Level 6 with the 3 by 3 cells round them all Level 6, kept clear of any likelier site
+    /// within three cells (so two food courts are never close together), and clear of the trunks (a food court set down
+    /// across a trunk would cut it).
     /// </summary>
     public bool IsSnackrooms(int mx, int mz) => snackCache.Get(mx, mz);
 
@@ -136,9 +137,9 @@ public sealed partial class WorldLayout
         return L6Tree(mcx, mcz).Contains((axis, line, index));
     }
 
-    private PlanCache<HashSet<(int, int, int)>> l6Trees;
+    private readonly PlanCache<HashSet<(int, int, int)>> l6Trees;
 
-    private HashSet<(int, int, int)> L6Tree(int mcx, int mcz) => (l6Trees ??= new PlanCache<HashSet<(int, int, int)>>(64, PlanL6Tree)).Get(mcx, mcz);
+    private HashSet<(int, int, int)> L6Tree(int mcx, int mcz) => l6Trees.Get(mcx, mcz);
 
     /// <summary>The minor trunks between four main ones: a maze with one way in (see <see cref="PlanLatticeTree"/>).</summary>
     private HashSet<(int, int, int)> PlanL6Tree(int mcx, int mcz) => PlanLatticeTree(mcx, mcz, L6MainEvery, SaltL6Tree, 0.6, 0.08, 0.1);
@@ -348,9 +349,9 @@ public sealed partial class WorldLayout
         public ref Tile At(int u, int v) => ref Tiles[v * W + u];
     }
 
-    private PlanCache<L6Unit> l6Units;
+    private readonly PlanCache<L6Unit> l6Units;
 
-    private L6Unit L6UnitAt(int bx, int bz) => (l6Units ??= new PlanCache<L6Unit>(64, PlanL6Unit)).Get(bx, bz);
+    private L6Unit L6UnitAt(int bx, int bz) => l6Units.Get(bx, bz);
 
     private Tile L6TileAt(int gx, int gz)
     {
@@ -374,15 +375,13 @@ public sealed partial class WorldLayout
 
         // No passage is cut into a food court, nor into the wall round one
         var snack = new Dictionary<(int, int), bool>();
-        bool Snack(int gx, int gz)
+        bool SnackCell(int cx, int cz)
         {
-            foreach ((int cx, int cz) in new[] { (MacroOf(gx), MacroOf(gz)), (MacroOf(gx - 1), MacroOf(gz)), (MacroOf(gx), MacroOf(gz - 1)) })
-            {
-                if (!snack.TryGetValue((cx, cz), out bool s)) snack[(cx, cz)] = s = IsSnackrooms(cx, cz);
-                if (s) return true;
-            }
-            return false;
+            if (!snack.TryGetValue((cx, cz), out bool s)) snack[(cx, cz)] = s = IsSnackrooms(cx, cz);
+            return s;
         }
+        // (The tile's own cell, and the cells west and north of it for the wall round a food court)
+        bool Snack(int gx, int gz) => SnackCell(MacroOf(gx), MacroOf(gz)) || SnackCell(MacroOf(gx - 1), MacroOf(gz)) || SnackCell(MacroOf(gx), MacroOf(gz - 1));
         bool Carve(int x, int v, bool wet)
         {
             if (x < 0 || v < 0 || x >= u.W || v >= u.H || Snack(x0 + x, z0 + v)) return false;

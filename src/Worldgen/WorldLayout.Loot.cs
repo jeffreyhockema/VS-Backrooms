@@ -22,7 +22,7 @@ public sealed partial class WorldLayout
         0 => ZoneAt(mx, mz) == ZoneKind.Blackout ? (Version >= 3 ? 0.35 : 0.4) : (Version >= 3 ? 0.55 : 0.65),
         1 => 0.8, // the Habitable Zone has the most crates, and the most people going through them
         <= 5 => 0.6,
-        // The five kept as 14-18 (each level's own line)
+        // The far places kept as 14-20 (each level's own line)
         RunLevel => 0.4,
         FunLevel => 0.4,
         TheEnd => 0, // "these objects appear untouched"
@@ -74,11 +74,7 @@ public sealed partial class WorldLayout
         return anyFloor;
     }
 
-    /// <summary>
-    /// Level 0: what wanderers left, they left together. About one cell in six has a stash of two or three boxes in
-    /// the corner of a room (one in nine before layout version 3); the blackout zones, where few go, have more. (Dens
-    /// add their own caches on top.)
-    /// </summary>
+    /// <summary>Whether a tile is beside an arch or an arched window; from layout version 10 boxes never stand there.</summary>
     private static bool NextToArch(Builder b, int x, int z)
     {
         foreach ((int dx, int dz) in Steps)
@@ -89,6 +85,11 @@ public sealed partial class WorldLayout
         return false;
     }
 
+    /// <summary>
+    /// Level 0: what wanderers left, they left together. About one cell in six has a stash of two or three boxes in
+    /// the corner of a room (one in nine before layout version 3); the blackout zones, where few go, have more. (Dens
+    /// add their own caches on top.)
+    /// </summary>
     private void PlaceStash(Builder b, int mx, int mz)
     {
         if (b.IsSpawn) return;

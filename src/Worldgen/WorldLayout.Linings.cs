@@ -92,7 +92,7 @@ public sealed partial class WorldLayout
                 Variant = LiningVariant(level, pattern, mx * MacroSize + x, mz * MacroSize + z),
             };
             // What hung on the walls either side of it, along the lining, facing this tile, would face the lining now
-            foreach (int k in new[] { -1, 1 })
+            foreach (int k in LiningSides)
             {
                 int ax = alongX ? x + k : x, az = alongX ? z : z + k;
                 if (ax < 0 || az < 0 || ax >= MacroSize || az >= MacroSize) continue;
@@ -187,17 +187,12 @@ public sealed partial class WorldLayout
         return true;
     }
 
+    /// <summary>The two sides of a lining tile along the lining.</summary>
+    private static readonly int[] LiningSides = { -1, 1 };
+
     /// <summary>Wall fittings that tell or do something (signs, lift buttons, the hotel's key rack), never taken down.</summary>
     private static bool IsNeededFitting(ushort decor) => decor is Decor.LevelSign or Decor.StairSign or Decor.RoomSign or Decor.CallButton
         or Decor.OfficeStairSign or Decor.CallPlate or Decor.KeyRack or Decor.MegExit or Decor.MegCross or Decor.EvacMap || decor >= Decor.SignBurger;
-
-    private static (int Dx, int Dz) FacingStep(ArchPier pier) => pier switch
-    {
-        ArchPier.North => (0, -1),
-        ArchPier.South => (0, 1),
-        ArchPier.East => (1, 0),
-        _ => (-1, 0),
-    };
 
     /// <summary>What a lining wall carries: Level 4's windows are papered over, behind blinds or clear, as its own are.</summary>
     private ushort LiningVariant(int level, WallPattern pattern, int gx, int gz)

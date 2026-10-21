@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backrooms.Worldgen;
 
@@ -18,6 +19,8 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldLayout
 {
+    private static readonly (int, int)[] LinkSteps = { (1, 0), (0, 1) };
+
     private void ArchWalls(L0Plan p, int[] comp, int count, List<(int U, int V, int DU, int DV)> openings)
     {
         if (count == 0) return;
@@ -29,7 +32,7 @@ public sealed partial class WorldLayout
             for (int u = 1; u < W; u++)
             {
                 if (comp[v * W + u] >= 0 || p.At(u, v).Kind != TileKind.Floor) continue;
-                foreach ((int du, int dv) in new[] { (1, 0), (0, 1) })
+                foreach ((int du, int dv) in LinkSteps)
                 {
                     if (!p.Inner(u - du, v - dv) || !p.Inner(u + du, v + dv)) continue;
                     int a = comp[(v - dv) * W + u - du], b = comp[(v + dv) * W + u + du];
@@ -61,7 +64,8 @@ public sealed partial class WorldLayout
         }
         void AddRun(int axis, int line, int s, int e)
         {
-            // A wall on the far side of an end (a wall crossing, say) is where the last bay's pier is
+            // A wall on the far side of an end (a wall crossing, say) is where the last bay's pier stands: the run ends in it, as a
+            // bay's pier does, so it is part of the run
             bool Solid(int k) { int u = axis == 0 ? k : line, v = axis == 0 ? line : k; return p.In(u, v) && p.At(u, v).Kind == TileKind.Wall; }
             if (Solid(s - 1)) s--;
             if (Solid(e + 1)) e++;
@@ -78,12 +82,20 @@ public sealed partial class WorldLayout
         for (int n = 0; n < comp.Length; n++) if (comp[n] >= 0 && p.Hall[n] != HallNone) hallOf[comp[n]] = true;
         bool Cap(int c) => c < 0 || done[c] < (hallOf[c] ? 3 : 2);
 
-        // Longest candidates first within a random shuffle bias; each room in turn is given one
+        // Longest candidates first (length in four steps); ties keep the shuffled order, which is why the sort is a stable
+        // one (List.Sort is not: its order of ties is an implementation detail); each room in turn is given one
         var order = new List<int>();
         for (int i = 0; i < runs.Count; i++) order.Add(i);
         for (int i = order.Count - 1; i > 0; i--) { int j = p.Rng.Range(0, i); (order[i], order[j]) = (order[j], order[i]); }
-        order.Sort((x, y) => Math.Min(3, (runs[y].E - runs[y].S) / 6).CompareTo(Math.Min(3, (runs[x].E - runs[x].S) / 6)));
-        void Take(int i) { wanted[i] = true; if (runs[i].A >= 0) done[runs[i].A]++; if (runs[i].B >= 0) done[runs[i].B]++; }
+        order = order.OrderByDescending(i => Math.Min(3, (runs[i].E - runs[i].S) / 6)).ToList();
+        // (A wall with floor round both ends has the same room on both sides: one arch wall of that room, charged once; a
+        // side of -1 is floor LabConnect opened after the rooms were numbered, whose room is not counted)
+        void Take(int i)
+        {
+            wanted[i] = true;
+            if (runs[i].A >= 0) done[runs[i].A]++;
+            if (runs[i].B >= 0 && runs[i].B != runs[i].A) done[runs[i].B]++;
+        }
         var rooms = new List<int>();
         for (int c = 0; c < count; c++) rooms.Add(c);
         for (int i = rooms.Count - 1; i > 0; i--) { int j = p.Rng.Range(0, i); (rooms[i], rooms[j]) = (rooms[j], rooms[i]); }
@@ -100,6 +112,31 @@ public sealed partial class WorldLayout
 
         for (int i = 0; i < runs.Count; i++)
             if (wanted[i]) Archify(p, runs[i].Axis, runs[i].Line, runs[i].S, runs[i].E);
+    }
+
+    /// <summary>
+    /// Called before a helper that cuts through walls (the edge hall, a gate, a Red Room's way through, the Manila Room's
+    /// walkway) turns the tile at (<paramref name="x"/>, <paramref name="z"/>) into floor: if it is one half of an arch
+    /// (the two neighbouring tiles <see cref="Archify"/> writes, told apart by their <see cref="Tile.Pier"/>), the other
+    /// half becomes plain wall, so no half an arch with a bare pier side is left. Only stucco arches exist (layout version
+    /// 10), so for every earlier version this does nothing.
+    /// </summary>
+    private static void BreakArchPair(TileRef at, int size, int x, int z)
+    {
+        Tile t = at(x, z);
+        if (t.Kind is not (TileKind.ArchWindow or TileKind.ArchDoor) || t.Pattern != WallPattern.Stucco) return;
+        (int px, int pz) = t.Pier switch
+        {
+            ArchPier.West => (x + 1, z),
+            ArchPier.East => (x - 1, z),
+            ArchPier.North => (x, z + 1),
+            _ => (x, z - 1),
+        };
+        if (px < 0 || pz < 0 || px >= size || pz >= size) return;
+        ref Tile partner = ref at(px, pz);
+        if (partner.Kind is not (TileKind.ArchWindow or TileKind.ArchDoor) || partner.Pattern != WallPattern.Stucco || partner.Pier != Opposite(t.Pier)) return;
+        SetWall(ref partner, partner.Pattern, partner.Base);
+        partner.Pier = default;
     }
 
     /// <summary>A wall run from s to e (inclusive) along a line: a pier at each bay's ends, two half-wall tiles between, the leftover plain wall.</summary>

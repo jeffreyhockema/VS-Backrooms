@@ -317,7 +317,6 @@ public sealed partial class WorldLayout
     /// </summary>
     private void BuildL3Hall(Builder b, int mx, int mz, L3Kind kind, Action<int, int, int, int> carve)
     {
-        ref Rng rng = ref b.Rng;
         carve(1, 1, MacroSize - 1, MacroSize - 1);
         // Within the hall the cell lines are open; keep a walkway clear along the hall's own outer walls
         var (_, hx0, hz0) = L3HallAt(mx, mz).Value;

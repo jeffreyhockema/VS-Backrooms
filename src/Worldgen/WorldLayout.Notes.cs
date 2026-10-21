@@ -62,7 +62,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The nearest refuge: the Manila Room, a Sanctum, the Beverly Room, the Snackrooms, a wanderer who trades, the
-    /// 9th Road. Decided cell by cell, so it is cheap to search far.
+    /// 9th Road. Decided cell by cell, so it is cheap to search far (Level 1, 4, 8 and 11 also ask <see cref="WandererSite"/>, which for Level 4 from layout version 5 builds the candidate cell's tiles).
     /// </summary>
     public (int X, int Z)? NearestRefuge(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)
     {
@@ -250,7 +250,7 @@ public sealed partial class WorldLayout
                     if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1) continue;
                     if (!FreeFloor(tiles[TileIndex(x, z)])) continue;
                     bool doorway = false;
-                    foreach ((int ox, int oz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                    foreach ((int ox, int oz) in Steps)
                         if (tiles[TileIndex(x + ox, z + oz)].Kind is TileKind.Door or TileKind.Doorway or TileKind.ArchDoor) doorway = true;
                     if (!doorway) return (x, z);
                 }

@@ -1362,11 +1362,20 @@ public sealed partial class WorldLayout
 
     private enum HallRoom { Empty, Storage, Electrical, Workshop, Camp, Medical, Pump, Office, Break, Stairwell }
 
+    private readonly PlanCache<Tile[]> l1HallBlocks;
+
+    /// <summary>
+    /// The plan of one block between corridors, shared: a block is laid out once however many of its neighbouring
+    /// cells touch it (a cell overlaps two or three blocks a side, and a block lies in up to four cells). Callers
+    /// only read it.
+    /// </summary>
+    private Tile[] HallBlockPlan(int bx, int bz) => l1HallBlocks.Get(bx, bz);
+
     /// <summary>
     /// Lays out one block between corridors, in block coordinates: (0,0) is its north-west perimeter corner, the
     /// inside runs 1-12. Plans depend only on the block's position, so neighbouring cells always agree.
     /// </summary>
-    private Tile[] HallBlockPlan(int bx, int bz)
+    private Tile[] PlanHallBlock(int bx, int bz)
     {
         var tiles = new Tile[HallBlock * HallBlock];
         ulong h = Hashing.Hash(seed, bx, bz, SaltL1Block);
@@ -2243,37 +2252,21 @@ public sealed partial class WorldLayout
         }
     }
 
-    private static (int, int) Step(int x, int z, ArchPier dir) => dir switch
-    {
-        ArchPier.North => (x, z - 1),
-        ArchPier.South => (x, z + 1),
-        ArchPier.East => (x + 1, z),
-        _ => (x - 1, z),
-    };
-
-    /// <summary>Turns a direction a quarter clockwise, seen from above.</summary>
-    private static ArchPier Turn(ArchPier dir) => dir switch
-    {
-        ArchPier.North => ArchPier.East,
-        ArchPier.East => ArchPier.South,
-        ArchPier.South => ArchPier.West,
-        _ => ArchPier.North,
-    };
-
-    private static ArchPier Opposite(ArchPier dir) => Turn(Turn(dir));
-
     // ================= Shared =================
+
+    /// <summary>The share of sections that are dead (one number for the tubes and the pillar lights, so they agree).</summary>
+    private const double L1DeadSection = 0.14;
 
     /// <summary>Dead sections share a circuit: every tube in them is out.</summary>
     private bool SectionDead(int gx, int gz) =>
-        Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 16), Hashing.FloorDiv(gz, 16), SaltL1Section)) < 0.14;
+        Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 16), Hashing.FloorDiv(gz, 16), SaltL1Section)) < L1DeadSection;
 
     private CeilingKind Level1LightState(int gx, int gz)
     {
         ulong section = Hashing.Hash(seed, Hashing.FloorDiv(gx, 16), Hashing.FloorDiv(gz, 16), SaltL1Section);
         double s = Hashing.Unit(section);
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL1Light));
-        if (s < 0.14) return CeilingKind.LightOff;
+        if (s < L1DeadSection) return CeilingKind.LightOff;
         if (s < 0.24) return r < 0.3 ? CeilingKind.LightOff : CeilingKind.LightFlicker;
         return r < 0.08 ? CeilingKind.LightOff : r < 0.11 ? CeilingKind.LightFlicker : CeilingKind.LightOn;
     }

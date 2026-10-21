@@ -9,6 +9,10 @@ int layoutVersion = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERS
 double foodScale = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double fs) ? fs : 1;
 // RING_SCALE=<x> lays out a world made with that Level size (0.5 for 50% ... 2 for 200%; default 1, the usual size)
 double ringScale = double.TryParse(Environment.GetEnvironmentVariable("RING_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double rs) ? rs : 1;
+// BACKROOMS_NO_FUN_ENTRANCES=1 / BACKROOMS_NO_188_ENTRANCES=1 leave out the entrances into Level Fun / Level 188, to check that nothing
+// but the entrances changed the other levels (the library never reads the environment: these are harness-only statics)
+WorldLayout.NoFunEntrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_FUN_ENTRANCES") == "1";
+WorldLayout.L188Entrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_188_ENTRANCES") != "1";
 var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale, ringScale);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }
