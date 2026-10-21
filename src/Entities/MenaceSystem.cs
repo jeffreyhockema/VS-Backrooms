@@ -658,7 +658,7 @@ public partial class MenaceSystem : ModSystem
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
 
         // Wanderers that mean no harm come and go on their own
-        if (Setting.Entities && rand.NextDouble() < 0.25) SpawnAmbient(target, a, roster);
+        if (Setting.Entities) SpawnAmbient(target, a, roster);
         if (a.Band == MenaceBand.Safe) return;
 
         // Level 1's Flickering: out towards the edge, now and then the lights of a section fail, and the Hounds come
