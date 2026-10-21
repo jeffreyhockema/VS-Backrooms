@@ -79,6 +79,16 @@ public sealed partial class WorldLayout
     /// the corner of a room (one in nine before layout version 3); the blackout zones, where few go, have more. (Dens
     /// add their own caches on top.)
     /// </summary>
+    private static bool NextToArch(Builder b, int x, int z)
+    {
+        foreach ((int dx, int dz) in Steps)
+        {
+            int nx = x + dx, nz = z + dz;
+            if (nx >= 0 && nz >= 0 && nx < MacroSize && nz < MacroSize && b.At(nx, nz).Kind is TileKind.ArchDoor or TileKind.ArchWindow) return true;
+        }
+        return false;
+    }
+
     private void PlaceStash(Builder b, int mx, int mz)
     {
         if (b.IsSpawn) return;
@@ -97,6 +107,8 @@ public sealed partial class WorldLayout
             // An inside corner: wall on two sides at right angles
             int wx = Solid(x - 1, z) ? -1 : Solid(x + 1, z) ? 1 : 0, wz = Solid(x, z - 1) ? -1 : Solid(x, z + 1) ? 1 : 0;
             if (wx == 0 || wz == 0 || !SafeToBlock(Open, x, z)) continue;
+            // (Layout version 10: never against an arch, where a box would stand in the way through)
+            if (Version >= 10 && b.Level == 0 && NextToArch(b, x, z)) continue;
             corner.SupplyBox = true;
             // One or two more along whichever wall runs on
             int more = rng.Range(1, 2);
@@ -107,7 +119,7 @@ public sealed partial class WorldLayout
                 if (!Open(bx, bz) || b.At(bx, bz).Kind != TileKind.Floor || b.At(bx, bz).Variant != 0) continue;
                 // Against the wall, and not cutting anything off
                 bool againstWall = dx != 0 ? Solid(bx, z + wz) : Solid(x + wx, bz);
-                if (!againstWall || !SafeToBlock(Open, bx, bz)) continue;
+                if (!againstWall || !SafeToBlock(Open, bx, bz) || Version >= 10 && b.Level == 0 && NextToArch(b, bx, bz)) continue;
                 b.At(bx, bz).SupplyBox = true;
                 more--;
             }

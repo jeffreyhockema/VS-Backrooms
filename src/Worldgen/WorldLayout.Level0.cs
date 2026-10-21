@@ -253,6 +253,8 @@ public sealed partial class WorldLayout
         public LightMood[] Mood;
         /// <summary>Which tiles are hallway (see <see cref="HallNone"/>), for the lights down the middle.</summary>
         public byte[] Hall;
+        /// <summary>Layout version 10, arched areas only: the ceiling fixtures (1 lit, 2 emitting light), laid on the bays' own lattice; null elsewhere.</summary>
+        public byte[] Lamp;
         public Rng Rng;
 
         public ref Tile At(int u, int v) => ref Tiles[v * W + u];
@@ -281,7 +283,7 @@ public sealed partial class WorldLayout
         {
             X0 = x0, Z0 = z0, W = L0Col(i + 1, j) - x0, H = L0Row(j + 1) - z0,
             Zone = info.Zone, Region = info.Region, Pillars = info.Pillars, Spawn = info.Spawn,
-            Primary = info.Zone == ZoneKind.Arches ? WallPattern.Cream : info.Region.PrimaryPattern,
+            Primary = info.Zone == ZoneKind.Arches ? (Version >= 10 ? WallPattern.Stucco : WallPattern.Cream) : info.Region.PrimaryPattern,
             Rng = new Rng(Hashing.Hash(seed, i, j, SaltL0Block)),
             OnePaper = Version >= 4,
         };
@@ -336,6 +338,7 @@ public sealed partial class WorldLayout
             MoodPatch(p, 1, 1, p.W - 1, p.H - 1);
             for (int n = 0; n < 3; n++) Stain(p, p.Rng.Range(1, p.W - 1), p.Rng.Range(1, p.H - 1), p.Rng.Range(1, 3));
         }
+        else if (p.Zone == ZoneKind.Arches && Version >= 10) PlanArches(p, openings);
         else PlanLabyrinth(p, openings);
         if (p.OnePaper) PaperJoins(p, i, j, westMerged);
         return p;
@@ -349,24 +352,26 @@ public sealed partial class WorldLayout
     /// </summary>
     private void PaperJoins(L0Plan p, int i, int j, bool westMerged)
     {
-        WallPattern Paper(ZoneKind zone) => zone == ZoneKind.Arches ? WallPattern.Cream : WallPattern.Chevron;
+        // (The pale finish: the paper in layout versions 1-9, stucco from 10)
+        WallPattern pale = Version >= 10 ? WallPattern.Stucco : WallPattern.Cream;
+        WallPattern Paper(ZoneKind zone) => zone == ZoneKind.Arches ? pale : WallPattern.Chevron;
         WallPattern own = Paper(p.Zone);
         // The papers beyond the west wall and beyond each stretch of the north wall
         WallPattern west = Paper(L0Info(i - 1, j).Zone);
         WallPattern North(int u) => Paper(L0Info(L0ColOf(p.X0 + u, j - 1), j - 1).Zone);
 
         // The gaps first: any opening with an arched area on either side of it is an arch
-        if (!westMerged && (own == WallPattern.Cream || west == WallPattern.Cream))
-            foreach (int s in L0Gaps(i, j, 0)) ArchGap(p, 0, s - p.Z0, false);
+        if (!westMerged && (own == pale || west == pale))
+            foreach (int s in L0Gaps(i, j, 0)) ArchGap(p, 0, s - p.Z0, false, pale);
         foreach (int s in L0Gaps(i, j, 1))
-            if (own == WallPattern.Cream || North(s - p.X0) == WallPattern.Cream) ArchGap(p, s - p.X0, 0, true);
+            if (own == pale || North(s - p.X0) == pale) ArchGap(p, s - p.X0, 0, true, pale);
 
         for (int v = 0; v < p.H; v++)
             for (int u = 0; u < p.W; u++)
             {
                 if (u > 0 && v > 0) break;
                 ref Tile t = ref p.At(u, v);
-                if (t.Kind != TileKind.Wall || t.Pattern is not (WallPattern.Chevron or WallPattern.Cream)) continue;
+                if (t.Kind != TileKind.Wall || t.Pattern is not (WallPattern.Chevron or WallPattern.Cream or WallPattern.Stucco)) continue;
                 // North, east, south, west: what each face looks out on
                 WallPattern n = v == 0 ? North(u) : Facing(u, v - 1), s = Facing(u, v + 1);
                 WallPattern w = u == 0 ? west : Facing(u - 1, v), e = Facing(u + 1, v);
@@ -375,19 +380,25 @@ public sealed partial class WorldLayout
             }
 
         // A face looking into an arch is pale; one looking along the wall, or into this district, has its paper
-        WallPattern Facing(int u, int v) => p.In(u, v) && p.At(u, v).Kind == TileKind.ArchDoor ? WallPattern.Cream : own;
+        WallPattern Facing(int u, int v) => p.In(u, v) && p.At(u, v).Kind == TileKind.ArchDoor ? pale : own;
     }
 
     /// <summary>Turns the two tiles of a gap in a district's west wall (along z) or north wall (along x) into an arch.</summary>
-    private static void ArchGap(L0Plan p, int u, int v, bool alongX)
+    private void ArchGap(L0Plan p, int u, int v, bool alongX, WallPattern pale)
     {
         if (p.At(u, v).Kind != TileKind.Floor || p.At(alongX ? u + 1 : u, alongX ? v : v + 1).Kind != TileKind.Floor) return;
+        // (Layout version 10) Two gaps side by side would make four arch tiles with no pier between the pairs: the second is closed
+        if (Version >= 10 && p.In(alongX ? u - 1 : u, alongX ? v : v - 1) && p.At(alongX ? u - 1 : u, alongX ? v : v - 1).Kind is TileKind.ArchDoor or TileKind.Floor)
+        {
+            for (int k = 0; k < 2; k++) SetWall(ref p.At(alongX ? u + k : u, alongX ? v : v + k), p.Primary, L0Base(p, p.Primary));
+            return;
+        }
         for (int k = 0; k < 2; k++)
         {
             ref Tile t = ref p.At(alongX ? u + k : u, alongX ? v : v + k);
             t.Kind = TileKind.ArchDoor;
-            t.Pattern = WallPattern.Cream;
-            t.Base = L0Base(p, WallPattern.Cream);
+            t.Pattern = pale;
+            t.Base = L0Base(p, pale);
             t.Pier = alongX ? (k == 0 ? ArchPier.West : ArchPier.East) : (k == 0 ? ArchPier.North : ArchPier.South);
         }
     }
@@ -406,7 +417,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>The trim under a Level 0 wall: from layout version 4 the pale walls have the same baseboard as the paper.</summary>
-    private static BaseStyle L0Base(L0Plan p, WallPattern pattern) => p.OnePaper && pattern == WallPattern.Cream ? BaseStyle.Baseboard : BaseFor(pattern);
+    private static BaseStyle L0Base(L0Plan p, WallPattern pattern) => p.OnePaper && pattern is WallPattern.Cream or WallPattern.Stucco ? BaseStyle.Baseboard : BaseFor(pattern);
 
     /// <summary>Clears the two tiles just inside a gap.</summary>
     private static void ClearGap(L0Plan p, (int U, int V, int DU, int DV) o)
@@ -1330,8 +1341,15 @@ public sealed partial class WorldLayout
                 Region region = u?.Region ?? cellRegion;
                 byte hall = u == null ? HallNone : u.Hall[(gz - u.Z0) * u.W + gx - u.X0];
                 bool fixture, emitter;
-                if (hall == HallSide) continue;
-                if (hall != HallNone)
+                if (Version >= 10 && u?.Lamp != null)
+                {
+                    // An arched area (layout version 10): fixtures on the bays' own lattice, laid in its plan
+                    byte lamp = u.Lamp[(gz - u.Z0) * u.W + gx - u.X0];
+                    fixture = lamp != 0;
+                    emitter = lamp == 2;
+                }
+                else if (hall == HallSide) continue;
+                else if (hall != HallNone)
                 {
                     int along = hall == HallAlongX ? gx : gz;
                     fixture = Hashing.Mod(along, 4) == 0;

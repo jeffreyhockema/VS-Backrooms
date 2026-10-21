@@ -1,6 +1,6 @@
 # Level 0 arch areas: redesign plan
 
-Status: design only (nothing built). Goal: arch areas that read as a distinct place (plain cream stucco, not pale wallpaper) and whose rooms and arches meet in a way a player can move through. All layout changes sit behind layout version 10 (`Version >= 10`, unreleased); versions 1-9 stay byte for byte.
+Status: built in layout version 10 (`WorldLayout.Level0.Arches.cs`; `archcheck` in the harness). Changes from the plan: rows of rooms stack behind the street's rooms (each opens through two or more bays onto the row before it) where a side is deeper than nine blocks; an end gap opens onto whatever lies behind it, so no vestibule is carved; of two gaps side by side the second is closed. Goal: arch areas that read as a distinct place (plain cream stucco, not pale wallpaper) and whose rooms and arches meet in a way a player can move through. All layout changes sit behind layout version 10 (`Version >= 10`, unreleased); versions 1-9 stay byte for byte.
 
 ## 1. What the lore and depictions show
 
