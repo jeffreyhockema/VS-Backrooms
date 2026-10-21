@@ -100,6 +100,33 @@ Six fixes, six Sonnet agents in parallel, each merged to main after its gate:
 Still to check in a client: the cars' dithered glass up close, the sign at 4 to 6 blocks, and the feel of the new
 Hound, Skin-Stealer and Wretch. `p1-hunt-to-search` is flaky headless (fails on the unmodified build too).
 
+### P7, round 2 (2026-10-20): piece A, director
+
+Branch `iso/director`. The director rolls bodies and sounds as rates now (isolation.md 4.1 to 4.3, 4.6).
+
+- **Code:** new `MenaceSystem.Roll.cs` (`EncounterRoll`: pure `Roll`, `BodyKind`, `BodyMeanMs`, `SoundMeanMs`, `BodyGapMs`; `/backrooms ratecheck`).
+  `Direct` rolls once per tick for the place: body (glimpse/stalk/hunt, the `Sound` share of `Roster.Weights` dropped and the rest
+  renormalised) or sound. A body is skipped while `CountMenacing(target) > 0` and within the hard gap; a successful `TrySpawn` sets
+  `Watch.LastBodyMs`, a sound sets `LastSoundMs`. No fallback sounds anywhere (`NoFallbackSound` removed; `SoundGapSeconds(0) = 75` stays as a floor in
+  `PlayDistantSound`). The Flickering and the Screaming wait for the one-kind rule and the hard gap, stamp `LastBodyMs`; cooldowns 20 and 24 in-game hours.
+  `DirectByPlace` gives the roller the latest clocks of the group and stamps the result on every member. The `(1 + 0.8 * danger)` factor is gone.
+- **Numbers (Roster.cs):** `BodyMinutes` 25 / 12 / 6 / den 3, `SoundMinutes` 7.5 / 5 / 3.5 / den 2, `Solitude(level)` per plan, `Cap` 1 / 2 / 3 (+1 at danger 0.5, +1 at 0.8),
+  menace factor `1.5 - menace` clamped 0.5..1.5 and `/ Setting.Spawns` (in `EncounterRoll`). Hard gap 40% of the mean. One deliberate reading: the roll after the gap uses
+  `p = tick / (0.6 x mean)`, so the overall mean interval stays the stated mean (gap 0.4 plus wait 0.6) instead of 1.4 x. (Confirmed by the overseer.) Rosters edited as 4.3 says; new `RosterEntry.LightsOutOnly`
+  (Level 0 Smiler: Red Rooms and Reality Shift dark only); Level 0 Hound removed; `Level1HoundWeight` 0.2.
+- **Ratecheck** (`/backrooms ratecheck <level> <heartland|approach|threshold|den> [hours]`, or `here`; button "Rate check here" in the Creatures tab; levels by internal id, Level 94 is 13). 50 h, setting normal, bodies/h (glimpse/stalk/hunt), sounds/h, mean and min body gap in min:
+  - Level 0: heartland 1.5 (1.5/0/0), 4.7 snd, gap 40.3/18.2; approach 3.9 (1.8/2.1/0), 9.2 snd; threshold 11.4, 19.0 snd; den 22.0.
+  - Level 1: heartland 2.2 (2.1/0.1/0), 6.8 snd, gap 27.5/12.1; approach 5.7 (2.2/3.0/0.4), 13.2 snd; threshold 16.7 (4.6/5.8/6.3), 29.8 snd, gap 3.6/1.5; den 33.8.
+  - Level 4: heartland 1.2, approach 3.6 (1.5/1.6/0.5), 9.0 snd; threshold 11.5; den 22.3.
+  - Level 9: heartland 3.2; approach 9.3; threshold 28.3 (5.8/9.0/13.5), 48.0 snd, gap 2.1/0.9; den 56.7.
+  - Level 6: heartland 0.7 (gap 81/38), 2.3 snd; approach 1.9; threshold 5.7; den 11.5.
+- **Harness:** `iso-rates` and `iso-one-kind` (inserted before `smoke`; `--only iso` runs both; port 42741 via the existing `--port`): both pass (iso-one-kind: a stalking Hound about a Level 1 approach dummy for 125 s, no other kind put down).
+- **Decision taken (overseer):** Level 0's heartland keeps no body entry ("unknown whether entities exist"): the heart of the Lobby is sounds only, the Bacteria begins in the approach band.
+- **Could not check:** these are rates of rolls, not of spawns: Level 0's heartland has no roster entry (by the decision above), so its 1.5 glimpses/h are silence in play,
+  and a roll with no fitting spot (not-seen rule) is also silence, so the felt rate is lower than the table. `iso-one-kind` only proves anything if the director rolls a body in its two minutes
+  (about 20% chance at that mean), so a pass is weak evidence; the code path is `CountMenacing > 0 -> return`. The rest of the harness (the old cases) was not re-run in full. No client play-test.
+- **Lessons:** the Bash heredoc fails on some content with quotes: write C# files with the Write tool; working tree is CRLF, index LF (autocrlf), so edit scripts must convert.
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
