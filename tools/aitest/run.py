@@ -693,7 +693,97 @@ def t_p7_bacteria_struck(c):
     return (False, ev) if ok is None else (ok, ev)
 
 
-P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_bacteria_struck)]
+POS_RE = re.compile(r"\[backrooms\] bacteria #(\d+) at (-?\d+),(-?\d+),(-?\d+):")
+
+
+def _bacteria_pos(c, e):
+    """Where the Bacteria last logged itself (x, z), or None."""
+    pos = None
+    for l in c.srv.since(e.mark):
+        m = POS_RE.search(l)
+        if m and m.group(1) == e.id:
+            pos = (int(m.group(2)), int(m.group(4)))
+    return pos
+
+
+def _bacteria_enc(c, dist, min_dist=0, light=0):
+    for _ in range(4):
+        try:
+            e = Enc(c, "bacteria", "stalk", dist, level="0", light=light)
+            e.wait_for(lambda: e.dist() is not None, 8)
+            if (e.dist() or 0) >= min_dist:
+                return e
+            e.finish()
+        except RuntimeError:
+            c.reset()
+    return None
+
+
+def t_p7_bacteria_cornered(c):
+    # The target is 3 blocks off (inside corneredRange 4) and stays there: within a few seconds it lunges, a provoked hunt
+    # (no Lobby call-off, no stare-down, no Leave).
+    for _ in range(3):
+        e = _bacteria_enc(c, 3)
+        if e is None:
+            return False, "no Level 0 spot"
+        if e.dist() is not None and e.dist() > 4.5:
+            e.finish()
+            continue
+        ok = e.wait_for(lambda: e.count_lines("cornered: it lunges") > 0, 8)
+        t = time.time() - e.t0
+        time.sleep(4)
+        last = e.kinds()[-1][1] if e.kinds() else "?"
+        bad = [l for l in e.lines() if "gives up" in l or "stared down" in l or "nerve" in l]
+        ev = "after %.1f s; kinds %s; last %s; call-off lines %d" % (t, e.changes() or "none", last, len(bad))
+        e.finish()
+        if ok and e.has("Stalk", "Hunt") and last == "Hunt" and not bad:
+            return True, ev
+    return False, ev
+
+
+def t_p7_bacteria_chased(c):
+    # Stalking from 10 blocks (a clear line is likelier near); the dummy walks up to about 9 blocks (inside chaseRange 16 and stalkMin-1, outside
+    # corneredRange 4) and stays, carrying a torch so that it keeps them in sight: it keeps falling back from them, and after chaseSeconds (10) it howls and turns.
+    ev = "no spot"
+    for _ in range(14):
+        e = _bacteria_enc(c, 10, 8, light=14)
+        if e is None:
+            return False, "no Level 0 spot"
+        d = list(e.dummy)
+        for _ in range(12):
+            p = _bacteria_pos(c, e)
+            if p is None:
+                time.sleep(0.5)
+                continue
+            dx, dz = p[0] - d[0], p[1] - d[1]
+            dist = (dx * dx + dz * dz) ** 0.5
+            if dist <= 9.5:
+                break
+            step = max(1, min(3, int(dist - 9)))
+            mx, mz = round(dx / dist * step), round(dz / dist * step)
+            c.srv.cmd("/backrooms dummy move %d %d" % (mx, mz))
+            d[0] += mx
+            d[1] += mz
+            time.sleep(1)
+        # (It sits as put down, facing any way and not turning headless: a spot where it never sees the dummy is no use)
+        if not e.wait_for(lambda: e.count_lines("sees its target") > 0, 4):
+            ev = "never saw the dummy at %.1f blocks" % dist
+            e.finish()
+            continue
+        ok = e.wait_for(lambda: e.count_lines("chased too long: it turns") > 0 or e.count_lines("cornered") > 0, 22)
+        t = time.time() - e.t0
+        corner = e.count_lines("cornered") > 0
+        time.sleep(2)
+        last = e.kinds()[-1][1] if e.kinds() else "?"
+        ev = "after %.1f s; dist %.1f; kinds %s; last %s; cornered %s" % (t, dist if p else -1, e.changes() or "none", last, corner)
+        e.finish()
+        if ok and not corner and e.has("Stalk", "Hunt"):
+            return True, ev
+    return False, ev
+
+
+P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_bacteria_struck),
+            ("p7-bacteria-cornered", t_p7_bacteria_cornered), ("p7-bacteria-chased", t_p7_bacteria_chased)]
 
 
 

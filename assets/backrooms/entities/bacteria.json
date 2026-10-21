@@ -172,6 +172,8 @@
 						"attackAnimation": "attack",
 						"prefersHidden": true,
 						"huntsInLobby": true,
+						"turnsWhenCornered": true,
+						"turnsWhenChased": true,
 						"emergeAnimation": "emerge",
 						"emergeMs": 2500,
 						"huntAnimation": "howl",

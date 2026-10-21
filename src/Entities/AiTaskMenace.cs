@@ -79,6 +79,15 @@ public class AiTaskMenace : AiTaskBase
     private long huntSinceMs = -1, lastBloodMs, calmUntilMs;
     // Whether this hunt was started by being struck (a fight someone picked) rather than by a runner
     private bool huntProvoked;
+    /// <summary>
+    /// Turning on the target (see <c>turnsWhenCornered</c>, <c>turnsWhenChased</c>): the hunt is provoked and the target
+    /// kept in mind (a grudge) while it lasts. The seconds the target has been close in a row, and the seconds spent chased.
+    /// </summary>
+    private readonly bool turnsWhenCornered, turnsWhenChased;
+    private readonly float corneredRange, corneredSeconds, chaseRange, chaseSeconds;
+    private bool turnedOnTarget;
+    private float corneredFor, chasedFor;
+    private double lastChaseDistance = -1;
     private double patienceMs = HuntPatienceSeconds * 1000;
 
     /// <summary>
@@ -224,6 +233,12 @@ public class AiTaskMenace : AiTaskBase
         huntAnim = Anim(taskConfig["huntAnimation"].AsString(null));
         huntAnimMs = taskConfig["huntAnimationMs"].AsInt(0);
         huntsInLobby = taskConfig["huntsInLobby"].AsBool(false);
+        turnsWhenCornered = taskConfig["turnsWhenCornered"].AsBool(false);
+        corneredRange = taskConfig["corneredRange"].AsFloat(4);
+        corneredSeconds = taskConfig["corneredSeconds"].AsFloat(1.5f);
+        turnsWhenChased = taskConfig["turnsWhenChased"].AsBool(false);
+        chaseRange = taskConfig["chaseRange"].AsFloat(16);
+        chaseSeconds = taskConfig["chaseSeconds"].AsFloat(10);
         opensDoors = taskConfig["opensDoors"].AsBool(false);
         senses = SenseProfile.Parse(taskConfig["senses"]);
         glimpseTurnsToStalk = taskConfig["glimpseTurnsToStalk"].AsBool(false);
@@ -422,6 +437,8 @@ public class AiTaskMenace : AiTaskBase
             walkingFor += 0.3f;
         }
 
+        if (kind is Encounter.Glimpse or Encounter.Stalk && (turnsWhenCornered || turnsWhenChased) && TryTurnOnTarget(kind, distance, a, now)) return true;
+
         switch (kind)
         {
             case Encounter.Glimpse:
@@ -454,12 +471,16 @@ public class AiTaskMenace : AiTaskBase
         if (kind != Encounter.Investigate) investigateArrived = false;
         if (kind == Encounter.Search) searchBegun = false;
         if (kind == Encounter.Hunt) nextBark = huntBarkSeconds;
+        // (Counters start afresh whenever the hunt ends, and a turn on the target ends with it)
+        corneredFor = chasedFor = 0;
+        lastChaseDistance = -1;
+        if (kind != Encounter.Hunt) turnedOnTarget = false;
         sentHunt = false;
         if (kind == Encounter.Stalk && before != Encounter.Hunt && stalkSound != null && entity.World.Rand.NextDouble() < 0.6) PlaySound(stalkSound);
         if (kind == Encounter.Hunt)
         {
             huntSinceMs = lastBloodMs = entity.World.ElapsedMilliseconds;
-            huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000 || retaliationStartMs >= 0;
+            huntProvoked = lastHurtByTargetMs > 0 && huntSinceMs - lastHurtByTargetMs < 2000 || retaliationStartMs >= 0 || turnedOnTarget;
             // (A hunt the director put down, rather than one that came of following, investigating, searching or a blow)
             sentHunt = before == (Encounter)(-1) && !huntProvoked && retaliationStartMs < 0;
             nextSentReseedMs = huntSinceMs + SentReseedMs;
@@ -532,6 +553,59 @@ public class AiTaskMenace : AiTaskBase
             if (watchedFor > 3) Kind = Encounter.Leave;
         }
         else watchedFor = Math.Max(0, watchedFor - 0.15f);
+    }
+
+    /// <summary>
+    /// The Bacteria's patience: a target that stays within <c>corneredRange</c> for <c>corneredSeconds</c> (it could not
+    /// get away) gets a lunge at once; one that keeps closing on it within <c>chaseRange</c> for <c>chaseSeconds</c>
+    /// (decaying at half the rate otherwise, a stalker only) gets a howl and the hunt. Either way the hunt is provoked,
+    /// as a blow makes it (no Lobby call-off, no stare-down) and it keeps track of them. Never creative, passive,
+    /// in a sanctuary, or lately given up on.
+    /// </summary>
+    private bool TryTurnOnTarget(Encounter kind, double distance, MenaceSystem.Assessment a, long now)
+    {
+        if (menace.Passive || menace.Harmless || IsCreative(target) || a.Band == MenaceBand.Safe || NoPathLately || now < calmUntilMs)
+        {
+            corneredFor = chasedFor = 0;
+            lastChaseDistance = -1;
+            return false;
+        }
+        bool cornered = false, chased = false;
+        if (turnsWhenCornered)
+        {
+            corneredFor = distance <= corneredRange ? corneredFor + 0.3f : 0;
+            cornered = corneredFor >= corneredSeconds;
+        }
+        if (turnsWhenChased && kind == Encounter.Stalk)
+        {
+            bool closing = lastChaseDistance >= 0 && distance < lastChaseDistance - 0.05
+                || distance < stalkMin - 1 && (motion != Motion.Still || pathTraverser.Active);
+            lastChaseDistance = distance;
+            chasedFor = distance <= chaseRange && closing ? chasedFor + 0.3f : Math.Max(0, chasedFor - 0.15f);
+            chased = chasedFor >= chaseSeconds;
+        }
+        if (!cornered && !chased) return false;
+        if (Perceives && Confidence(now) <= HuntConfidence) return false;
+
+        Log(cornered ? "cornered: it lunges" : "chased too long: it turns");
+        bool announced = announcedHunt;
+        turnedOnTarget = true;
+        lastBloodMs = now;
+        Kind = Encounter.Hunt;
+        if (cornered)
+        {
+            // No time for a howl: it is on them
+            if (huntAnim != null) entity.AnimManager.StopAnimation(huntAnim);
+            holdUntilMs = 0;
+            Stop();
+        }
+        else if (announced)
+        {
+            // (Turned on before, the first-time howl has gone: it howls again now)
+            if (huntSound != null) PlaySound(huntSound);
+            if (huntAnim != null) Hold(huntAnim, huntAnimMs);
+        }
+        return true;
     }
 
     private void Stalk(double distance, MenaceSystem.Assessment a, long now)
@@ -873,7 +947,7 @@ public class AiTaskMenace : AiTaskBase
         if (belief.AtMs < 0) belief.Take(target.Pos.XYZ, SeedConfidence, Contact.Sensed, now, senses.MemorySeconds);
         seen = Perception.Perceive(entity, target, senses, belief, director.Noises, now);
         // Struck, it knows where whoever hurt it is while they stay near (a grudge, bounded by retaliateSeconds): it does not lose them in a corner of the eye
-        if (kind == Encounter.Hunt && huntProvoked && retaliationStartMs >= 0 && entity.Pos.DistanceTo(target.Pos) < GrudgeRange)
+        if (kind == Encounter.Hunt && huntProvoked && (retaliationStartMs >= 0 || turnedOnTarget) && entity.Pos.DistanceTo(target.Pos) < GrudgeRange)
             belief.Take(target.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
         ShareBelief(now);
         if (kind == Encounter.Stalk) Track(now);

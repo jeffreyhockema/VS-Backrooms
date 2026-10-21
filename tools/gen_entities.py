@@ -1218,12 +1218,14 @@ def mangled():
 def bacteria():
     # Level 0's dark figures: seen far off down the halls, now and then following. It never hunts in the Lobby but
     # for someone who runs near the way out, and then it howls first. It rises out of the black mould where it appears.
+    # Its patience has an end: corner it (4 blocks for 1.5 s) and it lunges, chase it for 10 s and it howls and turns,
+    # both a provoked hunt as a blow makes (turnsWhenCornered, turnsWhenChased; AiTaskMenace.TryTurnOnTarget).
     # Its run in the Lobby's fright is a little short of a sprint (AiTaskMenace: x0.92 unless struck; it once outran one,
     # and with nothing to make it give up, one hunt was death); struck, it comes at a sprint and hits hard: a runner who keeps going pulls away, and the hunt itself is short (AiTaskMenace.Hunt, huntsInLobby).
     task = menace_task(walkSpeed=0.022, runSpeed=0.05, stalkMin=12, stalkMax=20, glimpseFleeDistance=18,
                        damage=8, damageTier=2, damageType="SlashingAttack", knockback=0.6, attackRange=1.8,
                        attackDurationMs=1000, damageAtMs=440, attackCooldownMs=1800, attackAnimation="attack",
-                       prefersHidden=True, huntsInLobby=True, emergeAnimation="emerge", emergeMs=2500,
+                       prefersHidden=True, huntsInLobby=True, turnsWhenCornered=True, turnsWhenChased=True, emergeAnimation="emerge", emergeMs=2500,
                        huntAnimation="howl", huntAnimationMs=1500, huntSound="backrooms:entity/howl", soundRange=48,
                        # What it perceives (README section 6.2)
                        senses=dict(sightLit=32, sightDim=16, sightDark=10, sightCone=70, hearing=28, memorySeconds=6, trackSeconds=15, trackError=10),
