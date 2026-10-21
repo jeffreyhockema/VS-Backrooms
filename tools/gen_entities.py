@@ -1023,7 +1023,8 @@ def skinstealer():
                        attackDurationMs=1100, damageAtMs=650, attackCooldownMs=2000, attackAnimation="attack",
                        fearsFire=True, prefersHidden=True, retreatBelow=0.25, opensDoors=True,
                        voices=["backrooms:entity/cough", "game:player/hurt*", "backrooms:effect/whisper", "backrooms:entity/hello"],
-                       soundRange=28,
+                       voicesWhenSeen=0.35, stalkSound="backrooms:entity/stealer-breath*", huntSound="backrooms:entity/stealer-cry*",
+                       attackSound="backrooms:entity/stealer-attack*", soundRange=32,
                        # What it perceives (README 6.1): patient, sees well in the light, hears a good way
                        senses=dict(sightLit=30, sightDim=14, sightDark=8, sightCone=80, hearing=24, memorySeconds=12, trackSeconds=15, trackError=10),
                        investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,

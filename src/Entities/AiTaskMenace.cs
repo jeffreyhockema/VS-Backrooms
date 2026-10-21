@@ -44,6 +44,7 @@ public class AiTaskMenace : AiTaskBase
     private readonly string walkAnim, runAnim, attackAnim;
     private readonly AssetLocation stalkSound, huntSound, attackSound, grabSound;
     private readonly AssetLocation[] voices;
+    private readonly float voicesWhenSeen;
     private readonly bool lightBound, fearsFire, grabsThroughWalls, respectsAlmond, avoidsLight, slowedByLight, coward, retaliates, prefersHidden;
     /// <summary>The gaze block: frozen while stared at and not running (then gone after six seconds), and a nerve spent under a stare (see <see cref="StaredDown"/>).</summary>
     private readonly bool gazeHolds, hasNerve;
@@ -210,6 +211,7 @@ public class AiTaskMenace : AiTaskBase
         attackSound = Sound(taskConfig["attackSound"].AsString(null));
         grabSound = Sound(taskConfig["grabSound"].AsString(null));
         voices = Array.ConvertAll(taskConfig["voices"].AsArray(Array.Empty<string>()), Sound);
+        voicesWhenSeen = taskConfig["voicesWhenSeen"].AsFloat(0);
         cryRange = taskConfig["soundRange"].AsFloat(24);
         lightBound = taskConfig["lightBound"].AsBool(false);
         fearsFire = taskConfig["fearsFire"].AsBool(false);
@@ -1971,14 +1973,15 @@ public class AiTaskMenace : AiTaskBase
 
     // ================= Sounds and packs =================
 
-    /// <summary>Mimics: from out of sight, now and then, a voice (a cough, a cry of pain, a whisper).</summary>
+    /// <summary>Mimics: from out of sight, now and then, a voice (a cough, a cry of pain, a whisper); voicesWhenSeen is the
+/// chance a voice is let out even while the target can see it.</summary>
     private void PlayVoice(float dt, double distance)
     {
         if (voices.Length == 0 || distance > 32) return;
         nextVoice -= dt;
         if (nextVoice > 0) return;
         nextVoice = 15 + (float)entity.World.Rand.NextDouble() * 25;
-        if (target is EntityAgent viewer && Senses.Sees(viewer, entity, 48)) return;
+        if (target is EntityAgent viewer && Senses.Sees(viewer, entity, 48) && entity.World.Rand.NextDouble() >= voicesWhenSeen) return;
         PlaySound(voices[entity.World.Rand.Next(voices.Length)]);
     }
 

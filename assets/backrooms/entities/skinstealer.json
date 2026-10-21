@@ -195,7 +195,11 @@
 							"backrooms:effect/whisper",
 							"backrooms:entity/hello"
 						],
-						"soundRange": 28,
+						"voicesWhenSeen": 0.35,
+						"stalkSound": "backrooms:entity/stealer-breath*",
+						"huntSound": "backrooms:entity/stealer-cry*",
+						"attackSound": "backrooms:entity/stealer-attack*",
+						"soundRange": 32,
 						"senses": {
 							"sightLit": 30,
 							"sightDim": 14,
