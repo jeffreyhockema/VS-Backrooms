@@ -200,28 +200,37 @@ public class BackroomsModSystem : ModSystem
         // moist, so the Suburbs' lawns are green rather than parched (Motion's and Level 10's own regions get a map of
         // their own: LevelTintMap)
         int climate = (Climate.DescaleTemperature(TintTemperature) << 16) | (TintRainfall << 8) | 0;
-        // The Poolrooms' water is the blue-green of a pool: the corner of the water tint map that is that colour
         int size = sapi.WorldManager.RegionSize;
-        if (layout != null && layout.MayReachPoolrooms(regionX * size, regionZ * size, size))
-            climate = (Climate.DescaleTemperature(-20f) << 16) | (255 << 8);
         mapRegion.ClimateMap = LevelTintMap(regionX, regionZ, size, climate) ?? ConstantMap(climate);
         mapRegion.ForestMap = ConstantMap(0);
         mapRegion.ShrubMap = ConstantMap(0);
     }
 
     /// <summary>
-    /// A region with some of Motion or Level 10 in it: a climate map one cell per macro cell, that level's tint in its
-    /// cells and the region's own everywhere else, or null for a region with neither. The game lerps each cell towards
+    /// A region with some of Motion, Level 10 or the Poolrooms in it: a climate map one cell per macro cell, that level's
+    /// tint in its cells and the region's own everywhere else, or null for a region with none of them. The game lerps each cell towards
     /// the cells east and south of it, so a cell only takes a level's tint when the cells west, north and north-west of
     /// it are that level as well: the blend then happens inside the level, and no other level's grass is ever tinted by it.
+    /// The Poolrooms' tint is the cold, wet corner of the water tint map (-20 degrees, rainfall 255), which is the
+    /// blue-green of a pool; it used to be set for the whole region whenever the pool might reach into it, which also
+    /// chilled the grass and leaves of the Suburbs cells beside the pool. A region that is entirely pool (every cell,
+    /// whatever lies in the padding) still gets the one constant value, so the pool's water colour is the same everywhere
+    /// in it. Map regions are saved: regions generated before this change keep their old whole-region tint.
     /// </summary>
     private IntDataMap2D LevelTintMap(int regionX, int regionZ, int size, int climate)
     {
         if (layout == null || size % WorldLayout.MacroSize != 0) return null;
         int cells = size / WorldLayout.MacroSize, mx0 = regionX * cells, mz0 = regionZ * cells, span = cells + 2;
         int motion = (Climate.DescaleTemperature(MotionTintTemperature) << 16) | (MotionTintRainfall << 8);
+        int pool = (Climate.DescaleTemperature(-20f) << 16) | (255 << 8);
+        bool allPool = true;
+        for (int z = 0; z < cells && allPool; z++)
+            for (int x = 0; x < cells && allPool; x++)
+                allPool = layout.LevelAt(mx0 + x, mz0 + z) == WorldLayout.Poolrooms;
+        if (allPool) return ConstantMap(pool);
         int Tint(int level, int mx, int mz) => level switch
         {
+            WorldLayout.Poolrooms => pool,
             WorldLayout.Motion => motion,
             10 => (Climate.DescaleTemperature(FarmTintTemperature) << 16)
                   | ((FarmTintRainfall + (int)(Hashing.Hash(0x10F1, mx, mz, 0x7147) % (FarmTintRainfallSpread + 1))) << 8),
@@ -235,7 +244,7 @@ public class BackroomsModSystem : ModSystem
             for (int x = -1; x <= cells; x++)
             {
                 int mx = mx0 + x, mz = mz0 + z, level = layout.LevelAt(mx, mz);
-                bool deep = level is WorldLayout.Motion or 10 && layout.LevelAt(mx - 1, mz) == level && layout.LevelAt(mx, mz - 1) == level
+                bool deep = level is WorldLayout.Motion or 10 or WorldLayout.Poolrooms && layout.LevelAt(mx - 1, mz) == level && layout.LevelAt(mx, mz - 1) == level
                     && layout.LevelAt(mx - 1, mz - 1) == level;
                 data[(z + 1) * span + x + 1] = deep ? Tint(level, mx, mz) : climate;
                 any |= deep;
