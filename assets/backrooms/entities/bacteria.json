@@ -192,7 +192,8 @@
 						},
 						"investigateSeconds": 6,
 						"searchSeconds": 8,
-						"retaliateSeconds": 60
+						"retaliateSeconds": 60,
+						"leavesAfterSearch": true
 					},
 					{
 						"code": "idle",

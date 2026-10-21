@@ -21,6 +21,9 @@ public static class Senses
     /// <summary>What a test dummy pretends: the light it carries (0 to 20), and whether it sneaks or runs (/backrooms dummy).</summary>
     public const string TestLightKey = "backrooms:testLight", TestSneakKey = "backrooms:testSneak", TestRunKey = "backrooms:testRun";
 
+    /// <summary>Where a test dummy pretends to look: "toward" whatever asks (a stare), "away" (its back turned), or unset (the way it was put down).</summary>
+    public const string TestFaceKey = "backrooms:testFace";
+
     /// <summary>Whether an entity is a console test's straw dummy standing in for a player.</summary>
     public static bool IsTestTarget(Entity entity) => entity?.WatchedAttributes.GetBool(TestTargetKey) == true;
 
@@ -188,6 +191,7 @@ public static class Senses
     /// <summary>The angle, in degrees, between where a player looks and the direction to a point.</summary>
     public static double AngleTo(Entity player, Vec3d point)
     {
+        if (IsTestTarget(player) && player.WatchedAttributes.GetString(TestFaceKey) is { Length: > 0 } face) return face == "away" ? 180 : 0;
         Vec3f view = player.Pos.GetViewVector();
         Vec3d eyes = Eyes(player);
         double dx = point.X - eyes.X, dy = point.Y - eyes.Y, dz = point.Z - eyes.Z;
