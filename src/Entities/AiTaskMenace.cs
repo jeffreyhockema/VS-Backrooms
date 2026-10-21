@@ -1193,7 +1193,7 @@ public class AiTaskMenace : AiTaskBase
     private void Spotted(double distance, MenaceSystem.Assessment a)
     {
         // (A Hound that sights them again follows, and the charge triggers decide: sight alone is not enough)
-        Kind = (!chargesWhenBacked || retaliationStartMs >= 0) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
+        Kind = (!chargesWhenBacked || retaliationStartMs >= 0 || huntProvoked) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
     }
 
     /// <summary>A length of time in the config's seconds, a little over or under (up to two seconds either way), in ms.</summary>
@@ -1739,7 +1739,7 @@ public class AiTaskMenace : AiTaskBase
         // struck one: it keeps its grudge, and falls back to following until a way opens)
         if (Kind == Encounter.Hunt)
         {
-            bool givesUp = leavesAfterSearch && retaliationStartMs < 0;
+            bool givesUp = leavesAfterSearch && retaliationStartMs < 0 && !huntProvoked;
             if (givesUp)
             {
                 Log("no way through: it looks about where the way ended");
