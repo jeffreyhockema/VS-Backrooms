@@ -214,9 +214,18 @@ def pattern_dotted(seed, alt=0):
     return paper_wall(seed, hexrgb(0xDCD89C), motif_dots(seed + 1, hexrgb(0xB5AE78), 4, 2))
 
 
+# The pale paper is held 6% under its first tone: the arched areas are lit just as the rooms around them (the same
+# block light, measured), but the paper was a fifth brighter than the yellow, and read as lit too bright
+CREAM_DIM = 0.94
+
+
+def cream(h):
+    return tuple(round(c * CREAM_DIM) for c in hexrgb(h))
+
+
 def pattern_cream(seed, alt=0):
     """The pale walls of the arched areas: the same paper, bleached until the pattern is only just there."""
-    return paper_wall(seed, hexrgb(0xE9E1BA), motif_chevron(seed + 1, hexrgb(0xCFC497), hexrgb(0xF1EBCF), wear=0.12),
+    return paper_wall(seed, cream(0xE9E1BA), motif_chevron(seed + 1, cream(0xCFC497), cream(0xF1EBCF), wear=0.12),
                       strip=1.2, mottle=6)
 
 
@@ -441,7 +450,7 @@ def wallpapers(only=None):
                     save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16),
                          f"block/wallpaper/{name}-{part}-damp.png")
     # The arch soffits and risers: painted plaster in the pale paper's colour, without the print
-    save(M.plaster(61, base=(232, 224, 190), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
+    save(M.plaster(61, base=cream(0xE8E0BE), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
 
 
 # ---------------- Floor, ceiling, lights ----------------
