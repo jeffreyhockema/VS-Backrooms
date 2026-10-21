@@ -1735,15 +1735,17 @@ public class AiTaskMenace : AiTaskBase
         }
         // Can't get there (a closed door, a wall): a hunter goes back to watching for a while, a stalker tries elsewhere
         noPathUntilMs = entity.World.ElapsedMilliseconds + 4000;
-        // (One that leaves when it loses them looks about where the way ended, and goes: a shut door stops a Hound)
+        // (One that leaves when it loses them looks about where the way ended, and goes: a shut door stops a Hound. Not a
+        // struck one: it keeps its grudge, and falls back to following until a way opens)
         if (Kind == Encounter.Hunt)
         {
-            if (leavesAfterSearch)
+            bool givesUp = leavesAfterSearch && retaliationStartMs < 0;
+            if (givesUp)
             {
                 Log("no way through: it looks about where the way ended");
                 belief.Strength = 0; // (so the search does not take the old belief, or a noise behind the door, for a fresh find)
             }
-            Kind = leavesAfterSearch ? Encounter.Search : Encounter.Stalk;
+            Kind = givesUp ? Encounter.Search : Encounter.Stalk;
         }
         plannedAt = null;
     }
