@@ -96,7 +96,7 @@ public partial class AtmosphereSystem : ModSystem
         // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop: a film set has no haze,
         // and the castle on its mountain shows on the horizon (MotionLandmark.cs draws it past the view distance)
         new(0.0016f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, dayNight: true),
-        // The five kept as 14-18, each level's own line (placeholders: a faint neutral haze). Parts of a level with air of
+        // The seven far places kept as 14-20, each level's own line. Parts of a level with air of
         // their own are swapped in by its AtmosphereSystem.<level>.cs
         // Level !: a close red murk, the EXIT signs repeating into it (it pulses with the alarm: AtmosphereSystem.Run.cs)
         new(0.022f, 0.30f, 0.04f, 0.04f, 0f),
@@ -341,7 +341,7 @@ public partial class AtmosphereSystem : ModSystem
         Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle
             : level == 7 && layout.Version >= 9 ? HighSea : Levels[level];
         int titleKey = snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level;
-        // The five kept as 14-18 tune their own air, and name their own parts, in their own files
+        // The seven far places kept as 14-20 tune their own air, and name their own parts, in their own files
         switch (level)
         {
             case WorldLayout.RunLevel: RunAir(dt, pos, ref target, ref titleKey); break;
@@ -512,7 +512,7 @@ public partial class AtmosphereSystem : ModSystem
     private void LevelSounds(float dt, EntityPos pos, int level, bool reservoir, bool castle)
     {
         musicLevel = level;
-        // The five kept as 14-18 start and stop their own (every tick, so they can stop when the player leaves)
+        // The seven far places kept as 14-20 start and stop their own (every tick, so they can stop when the player leaves)
         RunSounds(dt, pos, level == WorldLayout.RunLevel);
         FunSounds(dt, pos, level == WorldLayout.FunLevel);
         FunMusic(pos, level == WorldLayout.FunLevel);

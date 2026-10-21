@@ -145,7 +145,7 @@ public class L974System : ModSystem
     private readonly Dictionary<(int, int), List<IServerPlayer>> occupied = new();
     private readonly List<(int, int)> emptied = new();
     private long[] tickListeners = Array.Empty<long>();
-    private bool isServer;
+    private ICoreServerAPI serverApi;
 
     public override bool ShouldLoad(EnumAppSide side) => true;
 
@@ -160,8 +160,7 @@ public class L974System : ModSystem
 
     public override void StartServerSide(ICoreServerAPI api)
     {
-        sapi = api;
-        isServer = true;
+        sapi = serverApi = api;
         // (Static, so it would outlive the last world loaded in this process, whose clock ran on further)
         watchedUntilMs.Clear();
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
@@ -185,14 +184,15 @@ public class L974System : ModSystem
     public override void Dispose()
     {
         // (sapi is static, so in single player this system's client-side instance sees it too: only the server's own
-        // instance lets go of it)
-        if (!isServer || sapi == null) return;
-        foreach (long id in tickListeners) sapi.Event.UnregisterGameTickListener(id);
-        sapi.Event.GameWorldSave -= OnGameWorldSave;
-        sapi.Event.DidBreakBlock -= OnBrokeBlock;
-        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+        // instance lets go of it, and only while it is still the one that holds it)
+        if (serverApi == null) return;
+        foreach (long id in tickListeners) serverApi.Event.UnregisterGameTickListener(id);
+        serverApi.Event.GameWorldSave -= OnGameWorldSave;
+        serverApi.Event.DidBreakBlock -= OnBrokeBlock;
+        serverApi.Event.PlayerDisconnect -= OnPlayerDisconnect;
         // (Static, for Watched: it must not outlive this world in a process that goes on to load another)
-        sapi = null;
+        if (sapi == serverApi) sapi = null;
+        serverApi = null;
     }
 
     private void OnGameWorldSave()
@@ -206,6 +206,10 @@ public class L974System : ModSystem
     {
         sleeping.Remove(player.PlayerUID);
         detoured.Remove(player.PlayerUID);
+        nextSmell.Remove(player.PlayerUID);
+        nextMemory.Remove(player.PlayerUID);
+        lastCallMs.Remove(player.PlayerUID);
+        watchedUntilMs.Remove(player.PlayerUID);
     }
 
     /// <summary>Whether a player is still watched over after waking from Kitty's House (nothing hostile comes).</summary>
@@ -311,8 +315,8 @@ public class L974System : ModSystem
         bool sameHouse = visit != 0 && entity.WatchedAttributes.GetInt(HouseXKey) == house.Item1 && entity.WatchedAttributes.GetInt(HouseZKey) == house.Item2;
         if (!sameHouse) BeginVisit(player, house);
         if (detoured.Remove(player.PlayerUID))
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l974-detour"), EnumChatType.Notification);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l974-arrive"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, "backrooms:l974-detour"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, "backrooms:l974-arrive"), EnumChatType.Notification);
     }
 
     private void BeginVisit(IServerPlayer player, (int, int) house)
@@ -392,7 +396,7 @@ public class L974System : ModSystem
                 nextMemory[player.PlayerUID] = Now + 3 + sapi.World.Rand.NextDouble() * 4;
                 Say(player, "backrooms:l974-memory-" + (1 + sapi.World.Rand.Next(4)));
             }
-            var spots = layout.L974Spots(house.Item1, house.Item2);
+            var spots = SpotsOf(house);
             var kitchen = spots.First(p => p.Kind == WorldLayout.L974SpotKind.Kitchen);
             double toKitchen = Math.Sqrt(Sq(entity.Pos.X - kitchen.X - 0.5) + Sq(entity.Pos.Z - kitchen.Z - 0.5));
             if (toKitchen <= 8 && Now >= nextSmell[player.PlayerUID])
@@ -435,8 +439,17 @@ public class L974System : ModSystem
 
     private static double Sq(double v) => v * v;
 
+    private readonly Dictionary<(int, int), List<(int X, int Z, WorldLayout.L974SpotKind Kind)>> spotsOfHouse = new();
+
+    /// <summary>A house's spots (the layout's, which are a pure function of the house and asked for by every player each second and by Kitty ten times a second, so kept).</summary>
+    private List<(int X, int Z, WorldLayout.L974SpotKind Kind)> SpotsOf((int, int) house)
+    {
+        if (!spotsOfHouse.TryGetValue(house, out var spots)) spotsOfHouse[house] = spots = layout.L974Spots(house.Item1, house.Item2);
+        return spots;
+    }
+
     private static void Say(IServerPlayer player, string key, params object[] args) =>
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(key, args), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, key, args), EnumChatType.Notification);
 
     private IEnumerable<IServerPlayer> GuestsOf((int, int) house)
     {
@@ -540,7 +553,7 @@ public class L974System : ModSystem
             else if (kitty == null && nowMs >= k.NextMs)
             {
                 IServerPlayer target = guests[sapi.World.Rand.Next(guests.Count)];
-                var far = layout.L974Spots(house.Item1, house.Item2).Where(p => p.Kind == WorldLayout.L974SpotKind.Watch)
+                var far = SpotsOf(house).Where(p => p.Kind == WorldLayout.L974SpotKind.Watch)
                     .OrderByDescending(p => Sq(p.X - target.Entity.Pos.X) + Sq(p.Z - target.Entity.Pos.Z)).First();
                 if (Appear(k, new Vec3d(far.X + 0.5, FloorY, far.Z + 0.5), target.Entity, "idle")) { k.Mode = KittyMode.Watching; k.ModeUntilMs = nowMs + 2500; }
                 else k.NextMs = nowMs + 10_000;
@@ -557,7 +570,7 @@ public class L974System : ModSystem
                 if (asleep != null && nowMs >= k.NextMs)
                 {
                     // Watching you sleep
-                    var bed = layout.L974Spots(house.Item1, house.Item2).First(p => p.Kind == WorldLayout.L974SpotKind.SleepWatch);
+                    var bed = SpotsOf(house).First(p => p.Kind == WorldLayout.L974SpotKind.SleepWatch);
                     if (Appear(k, new Vec3d(bed.X + 0.5, FloorY, bed.Z + 0.5), asleep.Entity, "sleepwatch")) { k.Mode = KittyMode.Watching; k.SeenMs = 0; k.LeaveAfterMs = 4000; }
                     return;
                 }
@@ -638,7 +651,7 @@ public class L974System : ModSystem
     /// <summary>Puts Kitty down at a watch spot out of the target's sight, 4 to 10 blocks off (or anywhere out of sight).</summary>
     private bool TryWatch((int, int) house, KittyState k, List<IServerPlayer> guests, IServerPlayer target)
     {
-        var spots = layout.L974Spots(house.Item1, house.Item2);
+        var spots = SpotsOf(house);
         var options = new List<Vec3d>();
         var fallback = new List<Vec3d>();
         foreach (var (x, z, kind) in spots)
@@ -753,7 +766,7 @@ public class L974System : ModSystem
     private void Call(IServerPlayer player, (int, int) house)
     {
         foreach (IServerPlayer guest in GuestsOf(house))
-            guest.SendMessage(GlobalConstants.GeneralChatGroup, player.PlayerName + ": " + Lang.Get("backrooms:l974-call"), EnumChatType.OthersMessage);
+            guest.SendMessage(GlobalConstants.GeneralChatGroup, player.PlayerName + ": " + Backrooms.Say.T(guest, "backrooms:l974-call"), EnumChatType.OthersMessage);
         if (StateOf(house).OffendedUntil > Now) { Say(player, "backrooms:l974-gift-refused"); return; }
         if (!kitties.TryGetValue(house, out KittyState k)) return;
         if (k.Mode is KittyMode.Coming or KittyMode.Asking && k.For == player.PlayerUID) return;
@@ -763,7 +776,7 @@ public class L974System : ModSystem
         {
             if (player.Entity == null || !kitties.TryGetValue(house, out KittyState kk)) return;
             var guests = GuestsOf(house).ToList();
-            var spot = layout.L974Spots(house.Item1, house.Item2).Where(p => p.Kind == WorldLayout.L974SpotKind.Watch)
+            var spot = SpotsOf(house).Where(p => p.Kind == WorldLayout.L974SpotKind.Watch)
                 .Select(p => new Vec3d(p.X + 0.5, FloorY, p.Z + 0.5))
                 .OrderBy(p => (SeenByAny(guests, p.AddCopy(0, 1.6, 0)) ? 1000 : 0) + p.DistanceTo(player.Entity.Pos.XYZ)).FirstOrDefault();
             if (spot == null) return;
@@ -940,7 +953,7 @@ public class L974System : ModSystem
         double stock = fridge ? s.Fridge : s.Pantry;
         if (stock < 1)
         {
-            player.SendIngameError("dispenserempty", Lang.Get("backrooms:dispenser-empty"));
+            player.SendIngameError("dispenserempty", Backrooms.Say.T(player, "backrooms:dispenser-empty"));
             return;
         }
         double hours = Now - player.Entity.WatchedAttributes.GetDouble(ArrivedKey, Now);
@@ -963,7 +976,7 @@ public class L974System : ModSystem
         int visit = entity.WatchedAttributes.GetInt(VisitKey);
         if (visit == 0 || entity.WatchedAttributes.GetInt(DresserKey) == visit)
         {
-            player.SendIngameError("dispenserempty", Lang.Get("backrooms:dispenser-empty"));
+            player.SendIngameError("dispenserempty", Backrooms.Say.T(player, "backrooms:dispenser-empty"));
             return;
         }
         Item item = null;
@@ -996,7 +1009,7 @@ public class L974System : ModSystem
         {
             // (The search result first: where the map setting makes no waypoints, the mark is told after it)
             Say(player, "backrooms:l974-internet-1");
-            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Lang.Get("backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
+            MapMarks.Add(sapi, player, new Vec3d(w.X, w.Y, w.Z), Backrooms.Say.T(player, "backrooms:l974-waypoint"), "star1", MapMarks.WayColor, 8);
         }
         else Say(player, "backrooms:l974-internet-" + (2 + sapi.World.Rand.Next(3)));
     }

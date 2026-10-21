@@ -79,7 +79,7 @@ public class L188System : ModSystem
     private readonly List<string> stale = new();
     private readonly List<int> expired = new();
     private long[] tickListeners = Array.Empty<long>();
-    private bool isServer;
+    private ICoreServerAPI serverApi;
     private ICoreClientAPI capi;
     private PeripheralRenderer peripheral;
 
@@ -87,6 +87,8 @@ public class L188System : ModSystem
     {
         public int Window, Storey;
         public long StartMs;
+        /// <summary>When the next point of damage and the next drag step are due (the first of each at the grab itself).</summary>
+        public long NextHitMs, NextDragMs;
         public int Hits;
         public Entity Arm;
         public bool Pulling;
@@ -110,8 +112,7 @@ public class L188System : ModSystem
 
     public override void StartServerSide(ICoreServerAPI api)
     {
-        sapi = api;
-        isServer = true;
+        sapi = serverApi = api;
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
@@ -143,12 +144,13 @@ public class L188System : ModSystem
         peripheral = null;
         // (sapi is static, so in single player this system's client-side instance sees it too: only the server's own
         // instance lets go of it)
-        if (!isServer || sapi == null) return;
-        foreach (long id in tickListeners) sapi.Event.UnregisterGameTickListener(id);
-        sapi.Event.GameWorldSave -= OnGameWorldSave;
-        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+        if (serverApi == null) return;
+        foreach (long id in tickListeners) serverApi.Event.UnregisterGameTickListener(id);
+        serverApi.Event.GameWorldSave -= OnGameWorldSave;
+        serverApi.Event.PlayerDisconnect -= OnPlayerDisconnect;
         // (Static, for BandAt: it must not outlive this world in a process that goes on to load another)
-        sapi = null;
+        if (sapi == serverApi) sapi = null;
+        serverApi = null;
     }
 
     private void OnGameWorldSave()
@@ -211,6 +213,21 @@ public class L188System : ModSystem
     /// while someone is in its room, <see cref="Apply"/>, and the arm never comes out of a window that gave no warning).
     /// </summary>
     private bool Predatory(int wi, int storey)
+    {
+        // (Asked for every window by every player in the level, several times a second: an answer is kept for a moment, so a
+        // tick's players share one pass over the glass)
+        int slot = wi * WorldLayout.L188Storeys + storey;
+        long now = sapi.World.ElapsedMilliseconds;
+        if (now - predatoryAt[slot] < PredatoryKeepMs) return predatory[slot];
+        predatoryAt[slot] = now;
+        return predatory[slot] = ComputePredatory(wi, storey);
+    }
+
+    private const long PredatoryKeepMs = 200;
+    private readonly long[] predatoryAt = new long[WorldLayout.L188Windows * WorldLayout.L188Storeys];
+    private readonly bool[] predatory = new bool[WorldLayout.L188Windows * WorldLayout.L188Storeys];
+
+    private bool ComputePredatory(int wi, int storey)
     {
         if (StateNow(wi, storey, out _) != WState.Figure) return false;
         var (l, _, _) = WorldLayout.L188WindowTiles(wi);
@@ -400,7 +417,7 @@ public class L188System : ModSystem
         WState state = StateNow(wi, storey, out _);
         if (side > 0)
         {
-            if (state != WState.Scene) player.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-blind-outside"));
+            if (state != WState.Scene) player.SendIngameError("backrooms-l188", Say.T(player, "backrooms:l188-blind-outside"));
             return;
         }
         switch (state)
@@ -410,13 +427,13 @@ public class L188System : ModSystem
                 Play("backrooms:sounds/effect/188/blindup", pos);
                 Vec3d from = player.Entity.Pos.XYZ;
                 int target = layout.L188BlindTarget(wi, storey);
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-taken"), EnumChatType.Notification);
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-taken"), EnumChatType.Notification);
                 thresholds?.Use(player, pos, "l188-blind-" + storey);
                 SealWhenGone(player, from, wi, storey, target, pos, 10);
                 return;
             }
             case WState.Open or WState.Lit:
-                player.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-blind-up"));
+                player.SendIngameError("backrooms-l188", Say.T(player, "backrooms:l188-blind-up"));
                 return;
             case WState.Figure or WState.Beckon:
                 Play("backrooms:sounds/effect/188/whisper", pos);
@@ -543,11 +560,11 @@ public class L188System : ModSystem
 
     private void StartGrab(IServerPlayer player, int wi, int storey, long now)
     {
-        var grab = new Grab { Window = wi, Storey = storey, StartMs = now };
+        var grab = new Grab { Window = wi, Storey = storey, StartMs = now, NextHitMs = now, NextDragMs = now };
         grabs[player.PlayerUID] = grab;
         Vec3d c = WindowCentre(wi, storey);
         sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/grab"), c.X, c.Y, c.Z, null, true, 16);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-grabbed"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-grabbed"), EnumChatType.Notification);
         player.Entity.Stats.Set("walkspeed", HeldStat, -0.5f, false);
         // The arm that was reaching for them (else one out of the glass now, if its model is there) takes hold
         Entity arm = null;
@@ -615,12 +632,20 @@ public class L188System : ModSystem
         double dx = c.X - entity.Pos.X, dz = c.Z - entity.Pos.Z, d = Math.Sqrt(dx * dx + dz * dz);
         if (d > BreakFreeReach) { ReleaseGrab(player, true); return; }
         // It hurts, and drags toward the glass
-        if ((now - grab.StartMs) % 1000 < 250)
-            entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury }, 1f);
-        if (d > 0.9 && (now - grab.StartMs) % 500 < 250)
+        // (Due times rather than a slice of the clock: a tick listener fires after at least its interval, so a slice would miss ticks)
+        if (now >= grab.NextHitMs)
         {
-            double step = Math.Min(0.35, d - 0.85);
-            entity.TeleportToDouble(entity.Pos.X + dx / d * step, entity.Pos.Y, entity.Pos.Z + dz / d * step);
+            grab.NextHitMs += 1000;
+            entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury }, 1f);
+        }
+        if (now >= grab.NextDragMs)
+        {
+            grab.NextDragMs += 500;
+            if (d > 0.9)
+            {
+                double step = Math.Min(0.35, d - 0.85);
+                entity.TeleportToDouble(entity.Pos.X + dx / d * step, entity.Pos.Y, entity.Pos.Z + dz / d * step);
+            }
         }
         if (grab.Arm is { Alive: true } arm)
         {
@@ -637,7 +662,7 @@ public class L188System : ModSystem
         {
             ReleaseGrab(player, false);
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/grab"), c.X, c.Y, c.Z, null, false, 16);
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-consumed", player.PlayerName), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-consumed", player.PlayerName), EnumChatType.Notification);
             entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury }, 9999f);
         }
     }
@@ -654,7 +679,7 @@ public class L188System : ModSystem
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/recoil"), at.X, at.Y, at.Z, null, true, 16);
             sapi.Event.RegisterCallback(_ => { if (arm.Alive) arm.Die(EnumDespawnReason.Removed); }, 300);
         }
-        if (brokeFree) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-brokefree"), EnumChatType.Notification);
+        if (brokeFree) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-brokefree"), EnumChatType.Notification);
     }
 
     /// <summary>The arm was struck (two blows and it lets go).</summary>
@@ -889,7 +914,7 @@ public class BlockBehaviorL188Door : BlockBehavior
                 return true;
             }
             // (The keycard does nothing to a door held shut)
-            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get(HoldsKeycard(byPlayer) ? "backrooms:l188-keycard-sealed" : "backrooms:l188-sealed"));
+            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Say.T((IServerPlayer)byPlayer, HoldsKeycard(byPlayer) ? "backrooms:l188-keycard-sealed" : "backrooms:l188-sealed"));
             world.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 8);
             return true;
         }
@@ -897,11 +922,11 @@ public class BlockBehaviorL188Door : BlockBehavior
         {
             if (!HoldsKeycard(byPlayer))
             {
-                (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-locked"));
+                (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Say.T((IServerPlayer)byPlayer, "backrooms:l188-locked"));
                 world.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 8);
                 return true;
             }
-            (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-keycard-open"), EnumChatType.Notification);
+            (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Say.T((IServerPlayer)byPlayer, "backrooms:l188-keycard-open"), EnumChatType.Notification);
             next = path.Replace("-locked-", "-open-");
         }
         else if (path.Contains("-closed-")) next = path.Replace("-closed-", "-open-");
@@ -962,7 +987,7 @@ public class BlockBehaviorL188Hatch : BlockBehavior
                 BlockBehaviorL188Door.Swap(world, at, open ? path.Replace("-closed-", "-open-") : path.Replace("-open-", "-closed-"));
             }
         world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/hatch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16);
-        if (open) (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-hatch-open"), EnumChatType.Notification);
+        if (open) (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Say.T((IServerPlayer)byPlayer, "backrooms:l188-hatch-open"), EnumChatType.Notification);
         return true;
     }
 }
@@ -989,7 +1014,7 @@ public class BlockBehaviorL188GuestBook : BlockBehavior
         if (!HasBook) return false;
         handling = EnumHandling.PreventDefault;
         if (world.Side == EnumAppSide.Server)
-            (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:l188-guestbook"), EnumChatType.Notification);
+            (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Say.T((IServerPlayer)byPlayer, "backrooms:l188-guestbook"), EnumChatType.Notification);
         return true;
     }
 }
@@ -1005,7 +1030,7 @@ public class BlockL188Dispenser : Block
         if (parts.Length < 4 || !int.TryParse(parts[2], out int stage)) return true;
         if (stage <= 0)
         {
-            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Lang.Get("backrooms:l188-dispenser-empty"));
+            (byPlayer as IServerPlayer)?.SendIngameError("backrooms-l188", Say.T((IServerPlayer)byPlayer, "backrooms:l188-dispenser-empty"));
             return true;
         }
         string item = parts[1] == "cerealdispenser" ? "l188-cereal" : "l188-juicebox";

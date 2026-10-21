@@ -153,7 +153,12 @@ public class RunSystem : ModSystem
     }
 
     // (Fired before the player's data is saved, so the run's stats and phase are cleared in the save too)
-    private void OnPlayerDisconnect(IServerPlayer player) => EndRun(player.PlayerUID, "left");
+    // (An escape still waiting for its door is dropped too: it would otherwise place the door at the old wall on the next login)
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        escapes.Remove(player.PlayerUID);
+        EndRun(player.PlayerUID, "left");
+    }
 
     private int BlockId(string code)
     {
@@ -235,10 +240,15 @@ public class RunSystem : ModSystem
             }
 
             // Out through a true exit: leave the door they came out of where they came out
-            if (escapes.TryGetValue(player.PlayerUID, out var esc) && level != WorldLayout.RunLevel && now - esc.At > 1200)
+            if (escapes.TryGetValue(player.PlayerUID, out var esc))
             {
-                escapes.Remove(player.PlayerUID);
-                LeaveExitDoor(esc.To);
+                // (An entry from before a restart has a clock ahead of ours: it is stale, not pending)
+                if (now < esc.At || now - esc.At > 60_000) escapes.Remove(player.PlayerUID);
+                else if (level != WorldLayout.RunLevel && now - esc.At > 1200)
+                {
+                    escapes.Remove(player.PlayerUID);
+                    LeaveExitDoor(esc.To);
+                }
             }
 
             runs.TryGetValue(player.PlayerUID, out Run run);
@@ -421,7 +431,8 @@ public class RunSystem : ModSystem
         run.Caught = caught;
         if (caught && entity.Alive)
         {
-            entity.Stats.Set("walkspeed", CaughtStat, Pinned, false);
+            // (Stats.Set and Remove rebuild and resync the whole stats tree even when nothing changes, so only on a change)
+            if (!entity.Stats["walkspeed"].ValuesByKey.ContainsKey(CaughtStat)) entity.Stats.Set("walkspeed", CaughtStat, Pinned, false);
             run.NextPin -= dt;
             if (run.NextPin <= 0)
             {
@@ -435,7 +446,7 @@ public class RunSystem : ModSystem
                 }, damage);
             }
         }
-        else entity.Stats.Remove("walkspeed", CaughtStat);
+        else if (entity.Stats["walkspeed"].ValuesByKey.ContainsKey(CaughtStat)) entity.Stats.Remove("walkspeed", CaughtStat);
     }
 
     private void SetPhase(EntityPlayer entity, Phase phase, double gap, Vec3d front)
@@ -474,7 +485,7 @@ public class RunSystem : ModSystem
         if (show && run.Horde.Count < want && run.NextHordeSpawn <= 0 && menace != null)
         {
             run.NextHordeSpawn = run.Horde.Count == 0 ? 0 : 0.6;
-            // Hounds always lead; the rest by the lane's hash
+            // Hounds always lead; the rest by the lane and a die roll
             string code = run.Horde.Count == 0 ? Roster.Hound : HordeKinds[(run.Lane * 7 + run.Horde.Count * 3 + rand.Next(3)) % HordeKinds.Length];
             double offset = run.Horde.Count == 0 ? 0.5 : 1 + rand.NextDouble() * 5;
             double lateral = (rand.NextDouble() * 2 - 1) * 1.6;
@@ -534,8 +545,9 @@ public class RunSystem : ModSystem
         Tile here = run.Plan.At(lx, lz);
         int hurdle = WorldLayout.RunHurdle(here);
         for (int d = 1; d <= 4 && hurdle == 2 && here.Kind == TileKind.Floor; d++)
-            foreach (int dx in new[] { -d, d })
+            for (int s = 0; s < 2; s++)
             {
+                int dx = s == 0 ? -d : d;
                 if (!run.Plan.In(lx + dx, lz)) continue;
                 Tile side = run.Plan.At(lx + dx, lz);
                 if (side.Zone != here.Zone || WorldLayout.RunHurdle(side) == 2) continue;
@@ -956,24 +968,42 @@ public class ItemEnergyBar : Item
 /// <summary>
 /// An emergency beacon on a wall of Level !: dark, until the alarm goes; then it flashes red once a second (a quarter of
 /// a second on). Glow only: real light changing several times a second would be far too costly, as with failing lights.
+/// A slow listener watches for the alarm; the 50 ms one that times the flashes runs only while it sounds.
 /// </summary>
 public class BlockEntityRunBeacon : BlockEntity
 {
     private bool lit;
     private MeshData offMesh;
+    private long flashListener;
 
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        if (api is ICoreClientAPI capi) RegisterGameTickListener(_ => Pulse(capi), 50);
+        if (api is ICoreClientAPI capi) RegisterGameTickListener(_ => Watch(capi), 250);
+    }
+
+    private bool Alarmed(ICoreClientAPI capi)
+    {
+        var player = capi.World.Player?.Entity;
+        return player != null && player.WatchedAttributes.GetInt(RunSystem.PhaseKey) == (int)RunSystem.Phase.Alarm
+            && player.Pos.SquareDistanceTo(Pos.X + 0.5, Pos.Y, Pos.Z + 0.5) < 32 * 32;
+    }
+
+    private void Watch(ICoreClientAPI capi)
+    {
+        bool alarm = Alarmed(capi);
+        if (alarm && flashListener == 0) flashListener = RegisterGameTickListener(_ => Pulse(capi), 50);
+        else if (!alarm && flashListener != 0)
+        {
+            UnregisterGameTickListener(flashListener);
+            flashListener = 0;
+            Pulse(capi);
+        }
     }
 
     private void Pulse(ICoreClientAPI capi)
     {
-        var player = capi.World.Player?.Entity;
-        bool alarm = player != null && player.WatchedAttributes.GetInt(RunSystem.PhaseKey) == (int)RunSystem.Phase.Alarm
-            && player.Pos.SquareDistanceTo(Pos.X + 0.5, Pos.Y, Pos.Z + 0.5) < 32 * 32;
-        bool on = alarm && capi.World.ElapsedMilliseconds % 1000 < 250;
+        bool on = Alarmed(capi) && capi.World.ElapsedMilliseconds % 1000 < 250;
         if (on == lit) return;
         lit = on;
         MarkDirty(redrawOnClient: true);

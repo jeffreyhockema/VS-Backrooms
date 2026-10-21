@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Backrooms.Entities;
 using Backrooms.Map;
+using Backrooms.Notes;
 using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
@@ -66,6 +67,8 @@ public class EndSystem : ModSystem
 
     private readonly Dictionary<string, Wanderer> wanderers = new();
 
+    private void OnPlayerDisconnect(IServerPlayer player) => wanderers.Remove(player.PlayerUID);
+
     /// <summary>
     /// The blocks of the Turnaround's bookcases standing now. Saved, so that ones still standing when the server stopped
     /// are taken down after a restart too (once nobody is near them, like any other).
@@ -99,6 +102,7 @@ public class EndSystem : ModSystem
         {
             if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
             sapi.Event.DidBreakBlock -= OnBrokenBlock;
+            sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
             sapi.Event.GameWorldSave -= OnSave;
         }
     }
@@ -110,7 +114,7 @@ public class EndSystem : ModSystem
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
-            geometry = new WorldGeometry(api.WorldManager.MapSizeY);
+            geometry = BackroomsWorld.CreateGeometry(api.World);
             LoopEnabled = api.WorldManager.SaveGame.GetData(LoopFlagKey) is { Length: > 0 } flag && flag[0] == 1;
             byte[] data = api.WorldManager.SaveGame.GetData(SaveKey);
             if (data != null && data.Length > 0)
@@ -120,6 +124,7 @@ public class EndSystem : ModSystem
             }
             tickId = api.Event.RegisterGameTickListener(OnTick, 250);
             api.Event.DidBreakBlock += OnBrokenBlock;
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
         api.Event.GameWorldSave += OnSave;
         api.ChatCommands.Create("endloop")
@@ -237,7 +242,7 @@ public class EndSystem : ModSystem
             attrs.SetInt(SceneKey, layout.EndDistortionScene(di, dj));
             attrs.SetDouble(DistortUntilKey, now + HoursFor(12));
             w.NextDistortHours = now + HoursFor(sapi.World.Rand.Next(8 * 60, 15 * 60));
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:enddistortion"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:enddistortion"), EnumChatType.Notification);
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/end/distortion"), player.Entity, null, randomizePitch: false, range: 16);
             return;
         }
@@ -373,7 +378,7 @@ public class EndSystem : ModSystem
         // itself, so one cannot be put back where it stood and broken again outside creative mode)
         ulong h = Hashing.Hash((ulong)sapi.World.Seed, pos.X * 31 + pos.Y, pos.Z, 0x16F0);
         var at = new Vec3d(pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5);
-        if (Hashing.Unit(h) < (shelfBooks ? 0.3 : 0.1)) sapi.World.SpawnItemEntity(FoundBook(Hashing.Mix(h)), at);
+        if (Hashing.Unit(h) < (shelfBooks ? 0.3 : 0.1)) if (FoundBook(Hashing.Mix(h)) is { } book) sapi.World.SpawnItemEntity(book, at);
         // A service desk's own loot (end-plan.md): paper, ink and quill, Memory Juice (the Junkies' currency), a catalogue card
         if (desk)
         {
@@ -448,7 +453,7 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         BlockPos pos = blockSel.Position.Copy();
         if (block.Variant["state"] != "off")
         {
-            if (block.Variant["state"] == "dead") player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:endterminal-dead"), EnumChatType.Notification);
+            if (block.Variant["state"] == "dead") player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:endterminal-dead"), EnumChatType.Notification);
             return true;
         }
         var layout = EndSystem.SharedLayout(sapi);
@@ -462,7 +467,7 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         else Swap(sapi, pos, party != null ? "party" : "on");
         world.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/end/crton"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, false, 16);
         string said = party == null ? "backrooms:endterminal-on" : trueEnd ? "backrooms:l3999-trueend" : "backrooms:endterminal-party";
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(said), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, said), EnumChatType.Notification);
         sapi.ModLoader.GetModSystem<MenaceSystem>()?.MakeNoise(player.Entity, 0.2);
         if (party != null)
         {
@@ -478,9 +483,9 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         // waypoints, the plan line comes first and each way is told after it, as which way and how far)
         var exits = layout.EndExitsNear(pos.X, pos.Z, 400, (x, z) => threshold?.EndExitOpens(x, z) ?? true, 3);
         if (exits.Count > 0)
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(MapSetting.Waypoints(sapi.World.Config) ? "backrooms:endterminal-marked" : "backrooms:endterminal-marked-nomap"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, MapSetting.Waypoints(sapi.World.Config) ? "backrooms:endterminal-marked" : "backrooms:endterminal-marked-nomap"), EnumChatType.Notification);
         foreach (var (x, z) in exits)
-            MapMarks.Add(sapi, player, new Vec3d(x + 0.5, pos.Y, z + 0.5), Lang.Get("backrooms:waypoint-endterminal"), "star1", MapMarks.NoteColor, 4);
+            MapMarks.Add(sapi, player, new Vec3d(x + 0.5, pos.Y, z + 0.5), Say.T(player, "backrooms:waypoint-endterminal"), "star1", MapMarks.NoteColor, 4);
         sapi.Event.RegisterCallback(_ =>
         {
             Swap(sapi, pos, "static");
@@ -563,17 +568,16 @@ public class ItemCatalogueCard : Item
             ? layout.EndExitsNear(x, z, 600, (ex, ez) => threshold?.EndExitOpens(ex, ez) ?? true, 1) : new List<(int X, int Z)>();
         if (exits.Count == 0)
         {
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-nothing"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:note-nothing"), EnumChatType.Notification);
             return;
         }
         var (ax, az) = exits[0];
         double dx = ax + 0.5 - pos.X, dz = az + 0.5 - pos.Z;
-        string direction = L3999System.Direction(dx, dz);
-        double d = Math.Sqrt(dx * dx + dz * dz);
-        int step = d < 60 ? 10 : d < 300 ? 25 : 50, paces = Math.Max(step, (int)Math.Round(d / step) * step);
+        string direction = Say.T(player, "backrooms:dir-" + MarkResolver.Direction(dx, dz));
+        int paces = MarkResolver.Paces(dx, dz);
         int variant = (int)(Hashing.Hash((ulong)api.World.Seed, ax, az, 0x16F1) % 3) + 1;
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get($"backrooms:note-endexit-{variant}", direction, paces), EnumChatType.Notification);
-        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Lang.Get("backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4, tell: false);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, $"backrooms:note-endexit-{variant}", direction, paces), EnumChatType.Notification);
+        MapMarks.Add(sapi, player, new Vec3d(ax + 0.5, pos.Y, az + 0.5), Say.T(player, "backrooms:waypoint-note-endexit"), "star1", MapMarks.NoteColor, 4, tell: false);
         byEntity.World.PlaySoundAt(new AssetLocation("game:sounds/effect/writing"), byEntity, null, randomizePitch: true, range: 8);
         slot.TakeOut(1);
         slot.MarkDirty();
@@ -642,7 +646,7 @@ public class EntityBehaviorJunkie : EntityBehavior
         if (mode != EnumInteractMode.Interact || byEntity is not EntityPlayer ep) return;
         bool juice = Junkies.CarriesJuice(ep.Player);
         if (entity.World.Side == EnumAppSide.Server && ep.Player is IServerPlayer sp)
-            sp.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(juice ? "backrooms:endjunkie-greet" : "backrooms:endjunkie-nojuice"), EnumChatType.Notification);
+            sp.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(sp, juice ? "backrooms:endjunkie-greet" : "backrooms:endjunkie-nojuice"), EnumChatType.Notification);
         if (!juice) handled = EnumHandling.PreventSubsequent;
     }
 }

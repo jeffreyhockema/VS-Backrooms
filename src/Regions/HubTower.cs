@@ -195,7 +195,7 @@ public partial class HubSystem
 
     private void Say(IServerPlayer player, string key, params object[] args)
     {
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(key, args), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, key, args), EnumChatType.Notification);
         if (keymasters.TryGetValue(player.PlayerUID, out Entity keymaster))
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/hub/keymaster"), keymaster, null, true, 16, 0.8f);
     }
@@ -226,7 +226,7 @@ public partial class HubSystem
             choice = (choice + 1) % choices.Length;
             player.Entity.WatchedAttributes.SetInt(ChoiceKey, choice);
             keymaster.StartAnimation("jingle");
-            Say(player, "backrooms:hub-keymaster-offer", LevelName(choices[choice]));
+            Say(player, "backrooms:hub-keymaster-offer", LevelName(player, choices[choice]));
             return;
         }
 
@@ -362,8 +362,17 @@ public partial class HubSystem
     {
         if (trader.Inventory == null) return;
         ITreeAttribute tree = trader.WatchedAttributes.GetOrAddTreeAttribute(MegKey);
+        bool cleared = false;
         if (tree.GetInt("week", -1) != week)
         {
+            // Last week's unsold keys leave with the week (the new picks are put among the wares below)
+            foreach (ItemSlotTrade old in trader.Inventory.SellingSlots)
+            {
+                if (old?.Itemstack == null || HubSystem.KeyLevel(old.Itemstack) < 0) continue;
+                old.TradeItem = null;
+                old.Itemstack = null;
+                cleared = true;
+            }
             int[] candidates = KeyedLevels.Where(l => (entered & (1 << l)) != 0 && sapi.World.GetItem(new AssetLocation("backrooms:" + KeyPrefix + KeyTag(l))) != null).ToArray();
             var picks = new List<int>();
             for (int n = 0; n < 8 && picks.Count < Math.Min(2, candidates.Length); n++)
@@ -380,7 +389,7 @@ public partial class HubSystem
         int[] stock = tree.GetString("stock", "").Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
         int[] price = tree.GetString("price", "").Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
         ItemSlotTrade[] slots = trader.Inventory.SellingSlots;
-        bool changed = false;
+        bool changed = cleared;
         for (int i = 0; i < tags.Length && i < stock.Length && i < price.Length; i++)
         {
             Item key = sapi.World.GetItem(new AssetLocation("backrooms:" + KeyPrefix + tags[i]));
@@ -392,8 +401,9 @@ public partial class HubSystem
                 continue;
             }
             if (stock[i] <= 0) continue;
-            // Back among the wares: the last free slot, or the last slot
-            ItemSlotTrade slot = slots.LastOrDefault(s => s != null && s.Itemstack == null) ?? slots[slots.Length - 1 - i];
+            // Back among the wares: the last free slot (never over an ordinary ware: with none free, the key waits)
+            ItemSlotTrade slot = slots.LastOrDefault(s => s != null && s.Itemstack == null);
+            if (slot == null) continue;
             slot.SetTradeItem(new ResolvedTradeItem
             {
                 Stack = new ItemStack(key), Price = price[i], Stock = stock[i],
@@ -417,10 +427,10 @@ public partial class HubSystem
         double y = geometry.FloorFor(WorldLayout.Hub) + 1.5;
         // (Where the map setting makes no waypoints, each place is told instead: the Tower once, by its nearest door)
         bool waypoints = MapSetting.Waypoints(sapi.World.Config);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(waypoints ? "backrooms:hub-register-read" : "backrooms:hub-register-read-nomap"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, waypoints ? "backrooms:hub-register-read" : "backrooms:hub-register-read-nomap"), EnumChatType.Notification);
         foreach (int level in new[] { 1, 11, WorldLayout.HubSnackroomsDoor })
             if (layout.HubDoorOf(level) is { } door)
-                MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, y, door.Z + 0.5), Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6);
+                MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, y, door.Z + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColor, 6);
         int nearest = 0;
         double nearestD = double.MaxValue;
         for (int k = 0; k < 10; k++)
@@ -433,10 +443,10 @@ public partial class HubSystem
         {
             var (dx, dz) = layout.HubSpokeDirection(k);
             MapMarks.Add(sapi, player, new Vec3d(layout.HubOriginX + 0.5 + dx * 26, y, layout.HubOriginZ + 0.5 + dz * 26),
-                Lang.Get("backrooms:waypoint-hubtower"), "star1", MapMarks.WayColor, 4, tell: k == nearest);
+                Backrooms.Say.T(player, "backrooms:waypoint-hubtower"), "star1", MapMarks.WayColor, 4, tell: k == nearest);
         }
         if (layout.HubMegSite() is { } site)
-            MapMarks.Add(sapi, player, new Vec3d(site.X + 0.5, y, site.Z + 0.5), Lang.Get("backrooms:waypoint-hubmeg"), "home", MapMarks.NoteColor, 6);
+            MapMarks.Add(sapi, player, new Vec3d(site.X + 0.5, y, site.Z + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-hubmeg"), "home", MapMarks.NoteColor, 6);
     }
 }
 

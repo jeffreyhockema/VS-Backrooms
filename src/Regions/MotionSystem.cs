@@ -78,6 +78,7 @@ public class MotionSystem : ModSystem
             geometry = BackroomsWorld.CreateGeometry(api.World);
             tickId = api.Event.RegisterGameTickListener(OnTick, 500);
             api.Event.PlayerNowPlaying += OnPlayerNowPlaying;
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
             api.Event.PlayerDeath += OnPlayerDeath;
             api.Event.OnEntityDeath += OnEntityDeath;
             api.Event.DidBreakBlock += OnBroke;
@@ -91,6 +92,7 @@ public class MotionSystem : ModSystem
         if (sapi == null || layout == null) return;
         if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
         sapi.Event.PlayerNowPlaying -= OnPlayerNowPlaying;
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
         sapi.Event.PlayerDeath -= OnPlayerDeath;
         sapi.Event.OnEntityDeath -= OnEntityDeath;
         sapi.Event.DidBreakBlock -= OnBroke;
@@ -161,7 +163,7 @@ public class MotionSystem : ModSystem
         if (!already)
         {
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/entity/robowind"), player.Entity, null, true, 32, 0.8f);
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:castle-alarm"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:castle-alarm"), EnumChatType.Notification);
         }
     }
 
@@ -177,7 +179,9 @@ public class MotionSystem : ModSystem
             if (!stillness.TryGetValue(player.PlayerUID, out var still)
                 || (still.X - pos.X) * (still.X - pos.X) + (still.Y - pos.Y) * (still.Y - pos.Y) + (still.Z - pos.Z) * (still.Z - pos.Z) > 0.15 * 0.15)
                 stillness[player.PlayerUID] = (pos.X, pos.Y, pos.Z, nowMs);
-            if (player.InventoryManager is { } inventories && CarriesCrownShard(inventories)) crownCarriers.Add(player.PlayerUID);
+            // (Only the menace of Level 94 asks, so only those standing in it are looked through)
+            bool inMotion = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(pos.X)), WorldLayout.MacroOf((int)Math.Floor(pos.Z))) == WorldLayout.Motion;
+            if (inMotion && player.InventoryManager is { } inventories && CarriesCrownShard(inventories)) crownCarriers.Add(player.PlayerUID);
             else crownCarriers.Remove(player.PlayerUID);
         }
         // A trial ends if the one facing it has gone (dead, left, or carried off)
@@ -199,9 +203,21 @@ public class MotionSystem : ModSystem
     public static void LandSoftly(Entity entity, IWorldAccessor world) =>
         entity.Attributes.SetLong(SoftKey, world.ElapsedMilliseconds + 15000);
 
+    // The players whose health this has hooked, by entity id (a second NowPlaying must not hook the same entity twice)
+    private readonly HashSet<long> hooked = new();
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        string uid = player.PlayerUID;
+        stillness.Remove(uid);
+        alarmedUntil.Remove(uid);
+        crownCarriers.Remove(uid);
+        if (player.Entity != null) hooked.Remove(player.Entity.EntityId);
+    }
+
     private void OnPlayerNowPlaying(IServerPlayer player)
     {
-        if (player.Entity?.GetBehavior<EntityBehaviorHealth>() is not { } health) return;
+        if (player.Entity?.GetBehavior<EntityBehaviorHealth>() is not { } health || !hooked.Add(player.Entity.EntityId)) return;
         health.onDamaged += (damage, source) =>
         {
             Entity entity = player.Entity;
@@ -245,13 +261,13 @@ public class MotionSystem : ModSystem
         if (!inside && door != TodaysDoor())
         {
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16);
-            player.SendIngameError("backrooms-throne", Lang.Get("backrooms:thronedoor-shut"));
+            player.SendIngameError("backrooms-throne", Say.T(player, "backrooms:thronedoor-shut"));
             return;
         }
         Vec3d to = inside ? CastleSpot(u + step.Du * 1, v + step.Dv * 1) : CastleSpot(u - step.Du, v - step.Dv);
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/door"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16);
         player.Entity.TeleportToDouble(to.X, to.Y, to.Z);
-        if (!inside) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:throneroom"), EnumChatType.Notification);
+        if (!inside) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:throneroom"), EnumChatType.Notification);
     }
 
     // ================= The trial =================
@@ -262,7 +278,7 @@ public class MotionSystem : ModSystem
         if (layout == null || player.Entity == null || InTrial(player.Entity)) return;
         if (trialEntity.Count > 0)
         {
-            player.SendIngameError("backrooms-trial", Lang.Get("backrooms:trial-busy"));
+            player.SendIngameError("backrooms-trial", Say.T(player, "backrooms:trial-busy"));
             return;
         }
         string code = NightmareOf(player);
@@ -279,7 +295,7 @@ public class MotionSystem : ModSystem
         }
         trialEntity[player.PlayerUID] = nightmare.EntityId;
         sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/entity/allglory"), chair.X + 0.5, chair.Y + 1, chair.Z + 0.5, null, false, 32, 1f);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:trial-start"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:trial-start"), EnumChatType.Notification);
     }
 
     /// <summary>The kind of thing that has killed a player most often (a Hound if nothing ever has).</summary>
@@ -319,7 +335,7 @@ public class MotionSystem : ModSystem
         sapi.World.SpawnParticles(60, ColorUtil.ToRgba(255, 255, 240, 180), king.AddCopy(-1, 0, -1), king.AddCopy(1, 4, 1),
             new Vec3f(-3, 0, -3), new Vec3f(3, 5, 3), 1.5f, -0.05f, 0.6f, EnumParticleModel.Quad);
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/translocate-breakdimension"), king.X, king.Y, king.Z, null, false, 48, 1f);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:trial-won"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:trial-won"), EnumChatType.Notification);
         if (!player.Entity.WatchedAttributes.GetBool(CrownKey))
         {
             player.Entity.WatchedAttributes.SetBool(CrownKey, true);

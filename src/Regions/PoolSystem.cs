@@ -123,6 +123,6 @@ public class ItemRedWater : Item
         double cap = Math.Max(CapFloor, byEntity.WatchedAttributes.GetDouble(PoolSystem.CapKey, 1) - CapLoss);
         byEntity.WatchedAttributes.SetDouble(PoolSystem.CapKey, cap);
         if (byEntity is EntityPlayer { Player: IServerPlayer player })
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:redwater-drunk", (int)Math.Round(cap * 100)), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:redwater-drunk", (int)Math.Round(cap * 100)), EnumChatType.Notification);
     }
 }

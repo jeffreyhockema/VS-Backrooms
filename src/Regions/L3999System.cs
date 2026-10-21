@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Backrooms.Map;
+using Backrooms.Notes;
 using Backrooms.Thresholds;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
@@ -99,29 +100,19 @@ public class L3999System : ModSystem
                 block.Resistance = 1_000_000f;
             }
             if (attributes?["l3999themed"].Exists == true) Swap(block, new BlockBehaviorL3999Cabinet(block) { Themed = true });
-            else if (attributes?["l3999cabinet"].Exists == true) Add(block, new BlockBehaviorL3999Cabinet(block));
-            if (attributes?["l3999prizes"].Exists == true) Add(block, new BlockBehaviorL3999Prizes(block));
-            if (attributes?["l3999stall"].Exists == true) Add(block, new BlockBehaviorL3999Stall(block));
-            if (path.StartsWith("l3999-directory-")) Add(block, new BlockBehaviorL3999Directory(block));
+            else if (attributes?["l3999cabinet"].Exists == true) BehaviorInjection.Add(block, new BlockBehaviorL3999Cabinet(block));
+            if (attributes?["l3999prizes"].Exists == true) BehaviorInjection.Add(block, new BlockBehaviorL3999Prizes(block));
+            if (attributes?["l3999stall"].Exists == true) BehaviorInjection.Add(block, new BlockBehaviorL3999Stall(block));
+            if (path.StartsWith("l3999-directory-")) BehaviorInjection.Add(block, new BlockBehaviorL3999Directory(block));
             // (The vending machines work through their own block class, BackroomsDispenser: this only says what they take)
-            if (attributes?["takes"].Exists == true) Add(block, new BlockBehaviorL3999Vending(block));
-            if (path.StartsWith("l3999-generator-")) Add(block, new BlockBehaviorL3999Generator(block));
+            if (attributes?["takes"].Exists == true) BehaviorInjection.Add(block, new BlockBehaviorL3999Vending(block));
+            if (path.StartsWith("l3999-generator-")) BehaviorInjection.Add(block, new BlockBehaviorL3999Generator(block));
         }
     }
 
-    private static void Add(Block block, BlockBehavior behavior)
-    {
-        if (block.BlockBehaviors?.Any(b => b.GetType() == behavior.GetType()) == true) return;
-        block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Append(behavior).ToArray();
-    }
-
     /// <summary>A themed cabinet is played before it takes anyone: its plain threshold behaviour gives way to the cabinet's.</summary>
-    private static void Swap(Block block, BlockBehavior behavior)
-    {
-        block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Where(b => b is not BlockBehaviorThreshold && b is not BlockBehaviorL3999Cabinet)
-            .Append(behavior).ToArray();
-        if (block.CollectibleBehaviors != null) block.CollectibleBehaviors = block.CollectibleBehaviors.Where(b => b is not BlockBehaviorThreshold).ToArray();
-    }
+    private static void Swap(Block block, BlockBehavior behavior) =>
+        BehaviorInjection.Replace(block, behavior, b => b is BlockBehaviorThreshold or BlockBehaviorL3999Cabinet, inPlace: false);
 
     public override void StartServerSide(ICoreServerAPI api)
     {
@@ -253,6 +244,18 @@ public class L3999System : ModSystem
         slot.MarkDirty();
     }
 
+    private static readonly Dictionary<int, int[]> tierCosts = new();
+
+    /// <summary>The prices a prize block has tiers for, found once (the tiers are keyed by their price, which a JSON object can only be asked for by number).</summary>
+    private static int[] TierCosts(Block block, JsonObject tiers)
+    {
+        if (tierCosts.TryGetValue(block.BlockId, out int[] costs)) return costs;
+        var found = new List<int>();
+        for (int cost = 1; cost <= 10_000; cost++)
+            if (tiers[cost.ToString()].Exists) found.Add(cost);
+        return tierCosts[block.BlockId] = found.ToArray();
+    }
+
     /// <summary>Trading tickets at a prize counter: the most the tier you can afford allows.</summary>
     public static void Prize(IServerPlayer player, BlockPos pos, Block block)
     {
@@ -261,8 +264,8 @@ public class L3999System : ModSystem
         int held = HeldTickets(player, out ItemSlot slot);
         int tier = 0;
         // (The tiers are keyed by their price: the dearest that the tickets in hand afford)
-        for (int cost = Math.Min(held, 10_000); cost > 0 && tier == 0; cost--)
-            if (tiers[cost.ToString()].Exists) tier = cost;
+        foreach (int cost in TierCosts(block, tiers))
+            if (cost <= held) tier = Math.Max(tier, cost);
         if (tier == 0)
         {
             Say(player, "backrooms:l3999-prize-need");
@@ -353,21 +356,12 @@ public class L3999System : ModSystem
     }
 
     private static void Say(IServerPlayer player, string key, params object[] args) =>
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(key, args), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, key, args), EnumChatType.Notification);
 
     private static void Play(BlockPos pos, string sound) =>
         sapi?.World.PlaySoundAt(new AssetLocation(sound), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 16);
 
     // ================= Finding the way =================
-
-    private static readonly string[] DirectionNames = { "n", "ne", "e", "se", "s", "sw", "w", "nw" };
-
-    /// <summary>The name of the direction of an offset (dx east, dz south): "north-east". Shared with The End's catalogue cards.</summary>
-    internal static string Direction(double dx, double dz)
-    {
-        int octant = (int)Math.Round(Math.Atan2(dx, -dz) / (Math.PI / 4));
-        return Lang.Get("backrooms:dir-" + DirectionNames[((octant % 8) + 8) % 8]);
-    }
 
     /// <summary>A mall directory: marks the nearest food court and lobby on the player's map, and says which way they lie.</summary>
     public void ReadDirectory(IServerPlayer player, BlockPos pos)
@@ -378,10 +372,11 @@ public class L3999System : ModSystem
         if (food.Count == 0 || lobby.Count == 0) return;
         var (fx, fz) = food[0];
         var (lx, lz) = lobby[0];
-        MapMarks.Add(sapi, player, new Vec3d(fx + 0.5, pos.Y, fz + 0.5), Lang.Get("backrooms:waypoint-l3999-foodcourt"), "star1", MapMarks.NoteColor, 24, tell: false);
-        MapMarks.Add(sapi, player, new Vec3d(lx + 0.5, pos.Y, lz + 0.5), Lang.Get("backrooms:waypoint-l3999-lobby"), "star1", MapMarks.NoteColor, 24, tell: false);
-        int Paces(int x, int z) => (int)Math.Round(Math.Sqrt((double)(x - pos.X) * (x - pos.X) + (double)(z - pos.Z) * (z - pos.Z)) / 10) * 10;
-        Say(player, "backrooms:l3999-directory", Direction(fx - pos.X, fz - pos.Z), Paces(fx, fz), Direction(lx - pos.X, lz - pos.Z), Paces(lx, lz));
+        MapMarks.Add(sapi, player, new Vec3d(fx + 0.5, pos.Y, fz + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-l3999-foodcourt"), "star1", MapMarks.NoteColor, 24, tell: false);
+        MapMarks.Add(sapi, player, new Vec3d(lx + 0.5, pos.Y, lz + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-l3999-lobby"), "star1", MapMarks.NoteColor, 24, tell: false);
+        // (The same direction names and pace steps as the catalogue cards and the told marks give)
+        string Way(int x, int z) => Backrooms.Say.T(player, "backrooms:dir-" + MarkResolver.Direction(x - pos.X, z - pos.Z));
+        Say(player, "backrooms:l3999-directory", Way(fx, fz), MarkResolver.Paces(fx - pos.X, fz - pos.Z), Way(lx, lz), MarkResolver.Paces(lx - pos.X, lz - pos.Z));
     }
 
     // ================= Attendants =================
@@ -392,15 +387,33 @@ public class L3999System : ModSystem
     /// </summary>
     private IEnumerable<(int X, int Z, ArchPier Facing)> AttendantSpots(int px, int pz)
     {
-        for (int z = pz - AttendantNear; z <= pz + AttendantNear; z++)
-            for (int x = px - AttendantNear; x <= px + AttendantNear; x++)
+        // (The layout is a pure function of the world, so each block of tiles is scanned once and its spots kept: asked
+        // afresh, every player would cost thousands of tile lookups every few seconds)
+        int x0 = (int)Math.Floor((px - AttendantNear) / (double)SpotCell), z0 = (int)Math.Floor((pz - AttendantNear) / (double)SpotCell);
+        for (int cz = z0; cz * SpotCell <= pz + AttendantNear; cz++)
+            for (int cx = x0; cx * SpotCell <= px + AttendantNear; cx++)
+                foreach (var spot in SpotsOfCell(cx, cz))
+                    if (Math.Abs(spot.X - px) <= AttendantNear && Math.Abs(spot.Z - pz) <= AttendantNear) yield return spot;
+    }
+
+    private const int SpotCell = 32;
+    private readonly Dictionary<(int, int), List<(int X, int Z, ArchPier Facing)>> spotCells = new();
+
+    private List<(int X, int Z, ArchPier Facing)> SpotsOfCell(int cx, int cz)
+    {
+        if (spotCells.TryGetValue((cx, cz), out var spots)) return spots;
+        spots = new List<(int X, int Z, ArchPier Facing)>();
+        for (int z = cz * SpotCell; z < (cz + 1) * SpotCell; z++)
+            for (int x = cx * SpotCell; x < (cx + 1) * SpotCell; x++)
             {
                 Tile t = layout.TileAt(x, z);
                 if (t.Level != WorldLayout.Level3999 || t.Kind != TileKind.Floor || WorldLayout.L3999IsDark(t)) continue;
                 bool spot = t.Overhead == Overheads.L3999Sign && t.Depth is PrizesSign or ReceptionSign && t.Zone is not ((byte)WorldLayout.L3999Zone.Concourse or (byte)WorldLayout.L3999Zone.Junction)
                     || t.Variant == Worldgen.Props.L3999MenuBoard;
-                if (spot) yield return (x, z, t.Pier);
+                if (spot) spots.Add((x, z, t.Pier));
             }
+        spotCells[(cx, cz)] = spots;
+        return spots;
     }
 
     private void OnAttendants(float dt)
@@ -462,8 +475,8 @@ public class L3999System : ModSystem
         attendant.AnimManager?.StartAnimation("point");
         string waypoint = reception ? "backrooms:waypoint-l3999-foodcourt" : "backrooms:waypoint-l3999-lobby";
         // (The pointing first: where the map setting makes no waypoints, the mark is told after it)
-        Say(player, "backrooms:l3999-attendant-point", Lang.Get(reception ? "backrooms:l3999-place-foodcourt" : "backrooms:l3999-place-lobby"));
-        MapMarks.Add(sapi, player, new Vec3d(tx + 0.5, attendant.Pos.Y, tz + 0.5), Lang.Get(waypoint), "star1", MapMarks.NoteColor, 24);
+        Say(player, "backrooms:l3999-attendant-point", Backrooms.Say.T(player, reception ? "backrooms:l3999-place-foodcourt" : "backrooms:l3999-place-lobby"));
+        MapMarks.Add(sapi, player, new Vec3d(tx + 0.5, attendant.Pos.Y, tz + 0.5), Backrooms.Say.T(player, waypoint), "star1", MapMarks.NoteColor, 24);
     }
 
     /// <summary>Struck: a chime, and "Please refrain."</summary>

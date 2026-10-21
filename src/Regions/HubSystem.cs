@@ -83,30 +83,20 @@ public partial class HubSystem : ModSystem
             // The door register: reading it marks the Hub's known doors on your map
             if (path.StartsWith("hub-whiteboard-") && !block.HasBehavior<BlockBehaviorHubRegister>())
             {
-                block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Append(new BlockBehaviorHubRegister(block)).ToArray();
+                BehaviorInjection.Add(block, new BlockBehaviorHubRegister(block));
                 continue;
             }
             // Camp Amber's painted board: reading it
             if (path.StartsWith("hub-ambersign-") && !block.HasBehavior<BlockBehaviorHubSign>())
             {
-                block.BlockBehaviors = (block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).Append(new BlockBehaviorHubSign(block)).ToArray();
+                BehaviorInjection.Add(block, new BlockBehaviorHubSign(block));
                 continue;
             }
             // (The Tower's forbidden doors too, so that they can say they are forbidden: UseHubDoor refuses them by their code)
             if (!(path.StartsWith("hub-door-") || path.StartsWith("hub-pinkdoor-") || path.StartsWith("hub-ornatedoor-entrance-")
                   || path.StartsWith(ForbiddenDoorPrefix))) continue;
             if (block.HasBehavior<BlockBehaviorHubDoor>()) continue;
-            var door = new BlockBehaviorHubDoor(block);
-            bool swapped = false;
-            BlockBehavior[] behaviors = block.BlockBehaviors ?? Array.Empty<BlockBehavior>();
-            for (int i = 0; i < behaviors.Length; i++)
-                if (behaviors[i] is BlockBehaviorThreshold) { behaviors[i] = door; swapped = true; }
-            block.BlockBehaviors = swapped ? behaviors : behaviors.Append(door).ToArray();
-            CollectibleBehavior[] collectible = block.CollectibleBehaviors ?? Array.Empty<CollectibleBehavior>();
-            bool inCollectible = false;
-            for (int i = 0; i < collectible.Length; i++)
-                if (collectible[i] is BlockBehaviorThreshold) { collectible[i] = door; inCollectible = true; }
-            if (inCollectible) block.CollectibleBehaviors = collectible;
+            BehaviorInjection.Replace(block, new BlockBehaviorHubDoor(block), b => b is BlockBehaviorThreshold, inPlace: true);
         }
     }
 
@@ -211,6 +201,7 @@ public partial class HubSystem : ModSystem
     /// </summary>
     private void OnBrokeBlock(IServerPlayer byPlayer, int oldblockId, BlockSelection blockSel)
     {
+        if (blockSel?.Position == null) return;
         OnTowerBreak(byPlayer, oldblockId, blockSel.Position);
         if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || layout == null) return;
         BlockPos pos = blockSel.Position;
@@ -235,7 +226,7 @@ public partial class HubSystem : ModSystem
     public static void KeyTurnedUp(IWorldAccessor world, IPlayer byPlayer, ItemStack key, BlockPos pos)
     {
         world.SpawnItemEntity(key, pos.ToVec3d().Add(0.5, 0.5, 0.5));
-        (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-key-found"), EnumChatType.Notification);
+        (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T((IServerPlayer)byPlayer, "backrooms:hub-key-found"), EnumChatType.Notification);
     }
 
     /// <summary>Where a level hides its key best: its most dangerous places.</summary>
@@ -274,11 +265,15 @@ public partial class HubSystem : ModSystem
             var chime = new AssetLocation("backrooms:sounds/effect/hub/keychime");
             if (close)
             {
-                if (keyNear.Add(player.PlayerUID))
-                    player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-key-near"), EnumChatType.Notification);
+                // (The door goes on the map once per approach, with the line: not every two seconds, which would bring back
+                // a waypoint the player had deleted)
+                bool arrived = keyNear.Add(player.PlayerUID);
+                if (arrived)
+                    player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, "backrooms:hub-key-near"), EnumChatType.Notification);
                 sapi.World.PlaySoundAt(chime, door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 2.5, door.Z + 0.5, null, false, 24, 1f);
-                MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 1.5, door.Z + 0.5),
-                    Lang.Get("backrooms:waypoint-hubdoor", LevelName(level)), "spiral", MapMarks.WayColor, 6, tell: false);
+                if (arrived)
+                    MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 1.5, door.Z + 0.5),
+                        Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColor, 6, tell: false);
                 continue;
             }
             // From its door's direction, louder the nearer
@@ -287,12 +282,12 @@ public partial class HubSystem : ModSystem
         }
     }
 
-    /// <summary>A level's name as the waypoints and messages give it.</summary>
-    public static string LevelName(int level) => level switch
+    /// <summary>A level's name as the waypoints and messages give it, in <paramref name="player"/>'s language.</summary>
+    public static string LevelName(IServerPlayer player, int level) => level switch
     {
-        WorldLayout.HubSnackroomsDoor => Lang.Get("backrooms:levelname-6.1"),
-        >= WorldLayout.RunLevel and <= WorldLayout.Level188 => Lang.Get("backrooms:levelname-" + level),
-        _ => Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level)),
+        WorldLayout.HubSnackroomsDoor => Backrooms.Say.T(player, "backrooms:levelname-6.1"),
+        >= WorldLayout.RunLevel and <= WorldLayout.Level188 => Backrooms.Say.T(player, "backrooms:levelname-" + level),
+        _ => Backrooms.Say.T(player, "backrooms:levelname", WorldLayout.DisplayNumber(level)),
     };
 
     // ================= A door that wasn't there =================
@@ -396,7 +391,7 @@ public partial class HubSystem : ModSystem
         ThresholdNetwork.ManifestDoors.TryRemove((door.X, door.Z), out _);
     }
 
-    /// <summary>Doors left standing when the server last stopped go at once (what they stood in for comes back).</summary>
+    /// <summary>Doors left standing when the server last stopped go as soon as their chunks load (what they stood in for comes back).</summary>
     private void RestoreLeftovers()
     {
         byte[] data = sapi.WorldManager.SaveGame.GetData(ManifestSaveKey);
@@ -411,7 +406,8 @@ public partial class HubSystem : ModSystem
             }
         }
         catch (Exception e) { sapi.Logger.Warning("[backrooms] could not read the Hub's leftover doors: {0}", e.Message); }
-        sapi.WorldManager.SaveGame.StoreData(ManifestSaveKey, Array.Empty<byte>());
+        // (The saved record stays until the next save writes the current list over it: cleared now, a crash before the
+        // doors were put back would lose them and the walls they stood in for)
     }
 
     private void SaveManifested()
@@ -468,7 +464,7 @@ public class BlockBehaviorHubSign : BlockBehavior
     {
         handling = EnumHandling.PreventDefault;
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-camp-sign"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, "backrooms:hub-camp-sign"), EnumChatType.Notification);
         return true;
     }
 }
