@@ -543,21 +543,29 @@ def textures():
     save(noisy(0xFFF6E6, 2, "diffuser"), "diffuser")
     # Shrink wrap: milky, crinkled, catching the light; brown packing tape
     # Drawn as a cut-out (texels fully opaque or fully empty) because the stock block renders in an opaque pass:
-    # a sparse milky film, bright glints and grey creases, with the goods showing through the gaps
+    # coherent film: long vertical sheen streaks, a few diagonal creases, a denser band along the top where it bunches
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     rng = random.Random(seed_of("wrap"))
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            if (x % 3 == 0 and y % 3 == 0) or rng.random() < 0.05:
-                px[x, y] = (226, 232, 235, 255)
     d = ImageDraw.Draw(img)
-    for _ in range(9):
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-6, 6), y + rng.randint(4, 12)], fill=(255, 255, 255, 255))
-    for _ in range(5):
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-5, 5), y + rng.randint(3, 8)], fill=(176, 186, 194, 255))
+    grey, pale, bright = (196, 204, 210, 255), (222, 229, 233, 255), (246, 249, 250, 255)
+    for x in sorted(rng.sample(range(0, S - 1), 4)):
+        w = rng.choice((1, 1, 2))
+        y0 = rng.randint(0, 3)
+        y1 = S - 1 - rng.randint(0, 3)
+        gap = rng.randint(5, S - 6) if rng.random() < 0.5 else None
+        for y in range(y0, y1 + 1):
+            if gap is not None and gap <= y < gap + 2:
+                continue
+            d.line([x, y, x + w - 1, y], fill=pale)
+    for x in (rng.randint(2, S // 2 - 2), rng.randint(S // 2 + 2, S - 3)):
+        d.line([x + 1, 0, x + 1, S - 1], fill=bright)
+    for _ in range(3):
+        x, y = rng.randint(0, S // 2), rng.randint(0, S // 3)
+        d.line([x, y, x + rng.randint(7, 10), y + rng.randint(9, 14)], fill=grey)
+    for y in (0, 1):
+        for x in range(S):
+            if (x + y) % 2 == 0:
+                img.putpixel((x, y), pale)
     save(img, "wrap")
     img = noisy(0xC9A46A, 4, "tape", alpha=255)
     save(img, "tape")
