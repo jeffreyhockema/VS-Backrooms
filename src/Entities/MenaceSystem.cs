@@ -31,7 +31,6 @@ public partial class MenaceSystem : ModSystem
     private const int NoSpawnRadius = 12;
     /// <summary>After a close call, the Backrooms let the player breathe for a while.</summary>
     private const int CalmMs = 90_000;
-    private const int AmbientCap = 3;
 
     public sealed class Assessment
     {
@@ -186,6 +185,7 @@ public partial class MenaceSystem : ModSystem
             watches.Remove(id);
             shames.Remove(id);
             jumping.Remove(id);
+            ambientNextMs.Remove(id);
         };
         StartHives(api);
 
@@ -760,27 +760,6 @@ public partial class MenaceSystem : ModSystem
         return options[^1];
     }
 
-    private void SpawnAmbient(Entity target, Assessment a, RosterEntry[] roster)
-    {
-        RosterEntry[] options = roster.Where(e => (e.Kinds & Encounters.Ambient) != 0 && types.ContainsKey(e.Code)
-            && (a.Band != MenaceBand.Safe || a.NearWanderer || e.MinBand == MenaceBand.Safe) && (!e.SubwayOnly || a.Subway)).ToArray();
-        if (options.Length == 0) return;
-        // (Scavenger rats and fed Skin-Stealers have counts of their own, not this one)
-        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient
-            && e.Code.Path != "deathrat" && !e.Attributes.HasAttribute(EntityBehaviorMenace.FedKey)).Length;
-        if (count >= AmbientCap) return;
-        RosterEntry entry = Pick(options);
-        if (entry == null || rand.NextDouble() > entry.Rarity) return;
-        if (entry.Code == Roster.DeathRat && RatPacksNear(target) >= MaxRatPacks) return;
-        // Facelings come by ones and twos (a few more in the city's crowds)
-        if (entry.Code is Roster.Faceling or Roster.FacelingChild)
-        {
-            int facelings = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path.StartsWith("faceling")).Length;
-            if (facelings >= (a.Level == 11 ? 3 : 2)) return;
-        }
-        TrySpawn(target, a, entry, Encounter.Ambient);
-    }
-
     /// <summary>
     /// How many menacing (not Ambient) entities are about a player already, whoever they were put down for: the cap
     /// is on the place (and a pack is clipped to the current band's cap), so two people together are not hunted by twice as much, and what turns on a second player
@@ -931,19 +910,6 @@ public partial class MenaceSystem : ModSystem
         if (length < 8) return null; // already there
         bool facing = (dx * view.X + dz * view.Z) / length > 0.3;
         return length < 48 || facing ? Math.Atan2(dz, dx) : null;
-    }
-
-    /// <summary>At most this many scavenger rat packs about one person.</summary>
-    private const int MaxRatPacks = 2;
-
-    /// <summary>How many packs of scavenger (Ambient) rats are within 48 blocks: rats within ten blocks of each other are one pack.</summary>
-    private int RatPacksNear(Entity target)
-    {
-        Entity[] rats = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path == "deathrat" && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient);
-        var leaders = new List<Entity>();
-        foreach (Entity rat in rats)
-            if (!leaders.Any(l => l.Pos.DistanceTo(rat.Pos) <= 10)) leaders.Add(rat);
-        return leaders.Count;
     }
 
     private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
