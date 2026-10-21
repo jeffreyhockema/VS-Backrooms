@@ -127,7 +127,13 @@ static class L8Roads
         Console.WriteLine($"rock to nearest road: mean {sumDist / Math.Max(1, rock):0.0} blocks, max {maxDist}; over 100 blocks {100.0 * far100 / Math.Max(1, rock):0.0}%, over 200 {100.0 * far200 / Math.Max(1, rock):0.0}%");
         Console.WriteLine("network: " + layout.L8Census());
         // (L8PASS=1: walk every passage round a break, tile by tile)
-        if (Environment.GetEnvironmentVariable("L8PASS") != null) Console.WriteLine("check: " + layout.L8PassageCheck());
+        // (a verdict line and a non-zero exit when a passage cannot be walked or a mouth is sealed, so a regression shows in a run)
+        if (Environment.GetEnvironmentVariable("L8PASS") != null)
+        {
+            Console.WriteLine("check: " + layout.L8PassageCheck(out int failures));
+            Console.WriteLine(failures == 0 ? "l8roads verdict: PASS" : $"l8roads verdict: FAIL ({failures} passages unreachable or mouths sealed)");
+            if (failures > 0) Environment.ExitCode = 1;
+        }
         {
             // Settlements in the map: the clearings, counted as pieces of connected tiles
             var seenCamp = new bool[map.Length]; int camps = 0;

@@ -149,7 +149,7 @@ public sealed partial class WorldLayout
                         ulong h = Hashing.Hash(seed, cx, cz, SaltL9Car);
                         if (Hashing.Unit(h) > 0.22) continue;
                         if (cx + 1 < x0 || cx > x0 + MacroSize || cz + 3 < z0 || cz > z0 + MacroSize) continue;
-                        PlaceCar(b, x0, z0, cx, cz, noseNorth: east, (int)(h >> 20) % 4);
+                        PlaceCar(b, x0, z0, cx, cz, noseNorth: east, (int)(h >> 20) % 4); // (cast first, so the colour is -3..3 and the Stack is 253-255 for some cars: the generator reads Stack % 4, which comes out uniform; kept as it is, since the hash of the layout sees the Stack)
                     }
 
         // Copy in every lot that overlaps this cell
@@ -163,7 +163,7 @@ public sealed partial class WorldLayout
                     if (lotX > x0 + MacroSize || lotZ > z0 + MacroSize || lotX + LotWidth < x0 || lotZ + LotDepth < z0) continue;
                     bool facesSouth = li / 3 == 1; // the lots in the south half face the street to their south
                     if (!LotBuilt(lotX, lotZ)) continue;
-                    Tile[] plan = LotPlan(lotX, lotZ);
+                    Tile[] plan = lotPlans.Get(lotX, lotZ);
                     for (int v = 0; v < LotDepth; v++)
                     {
                         for (int u = 0; u < LotWidth; u++)
@@ -373,6 +373,9 @@ public sealed partial class WorldLayout
                 t.Stack = (byte)((FenceAt(u, v - 1) ? 1 : 0) | (FenceAt(u + 1, v) ? 2 : 0) | (FenceAt(u, v + 1) ? 4 : 0) | (FenceAt(u - 1, v) ? 8 : 0));
             }
     }
+
+    /// <summary>The lots' plans, kept (a pure function of the lot's corner): a lot is overlapped by two to four cells.</summary>
+    private PlanCache<Tile[]> lotPlans;
 
     /// <summary>
     /// Plans one lot in its own coordinates: u runs along the street, v away from it (v = 0 is the front, at the

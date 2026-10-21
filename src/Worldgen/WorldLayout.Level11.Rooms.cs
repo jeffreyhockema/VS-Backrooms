@@ -124,7 +124,7 @@ public sealed partial class WorldLayout
         /// <summary>A bed (head against the wall, foot toward <paramref name="facing"/>), or nothing if either tile is taken.</summary>
         public bool Bed(int u, int v, ArchPier facing, ushort prop = Props.Bed)
         {
-            var (du, dv) = Step(facing);
+            var (du, dv) = FacingStep(facing);
             if (!Free(u, v) || !Free(u + du, v + dv)) return false;
             Put(u, v, prop, facing, 0);
             Put(u + du, v + dv, prop, facing, 1);
@@ -206,7 +206,7 @@ public sealed partial class WorldLayout
             if (!Inside(u, v)) return false;
             ref Tile t = ref At(u, v);
             if (t.Kind != TileKind.Wall || t.Variant != 0) return false;
-            var (du, dv) = Step(facing);
+            var (du, dv) = FacingStep(facing);
             if (!Inside(u + du, v + dv) || At(u + du, v + dv).Kind != TileKind.Floor) return false;
             t.Variant = decor;
             t.Pier = F.P(facing);
@@ -244,14 +244,6 @@ public sealed partial class WorldLayout
                     if (Hang(at, v, decor, facing)) return true;
             return false;
         }
-
-        public static (int, int) Step(ArchPier p) => p switch
-        {
-            ArchPier.North => (0, -1),
-            ArchPier.South => (0, 1),
-            ArchPier.West => (-1, 0),
-            _ => (1, 0),
-        };
     }
 
     /// <summary>

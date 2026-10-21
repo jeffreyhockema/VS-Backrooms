@@ -40,7 +40,7 @@ public sealed partial class WorldLayout
     private PlanCache<L3999ArcadeSite> l3999Arcades;
 
     /// <summary>The arcade of a square of the fields (Valid false if it has none).</summary>
-    public L3999ArcadeSite L3999ArcadeAt(int i, int j) => (l3999Arcades ??= new PlanCache<L3999ArcadeSite>(64, PlanL3999Arcade)).Get(i, j);
+    public L3999ArcadeSite L3999ArcadeAt(int i, int j) => l3999Arcades.Get(i, j);
 
     private L3999ArcadeSite PlanL3999Arcade(int i, int j)
     {
@@ -52,7 +52,7 @@ public sealed partial class WorldLayout
         site.Z = j * S + 600 + (int)(Hashing.Unit(Hashing.Mix(h + 1)) * (S - 1200));
         site.Facing = L3999FromIndex((int)(Hashing.Mix(h + 2) % 4));
         // The windmills stand out in front of the façade, within 60 degrees either side, so their lights lead to the door
-        var (fx, fz) = Step(site.Facing);
+        var (fx, fz) = FacingStep(site.Facing);
         double angle = Math.Atan2(fz, fx) + (Hashing.Unit(Hashing.Mix(h + 3)) - 0.5) * Math.PI * 2 / 3;
         site.MinX = site.X - 14; site.MaxX = site.X + 14; site.MinZ = site.Z - 14; site.MaxZ = site.Z + 14;
         for (int k = 0; k < L3999Mills; k++)
@@ -133,8 +133,8 @@ public sealed partial class WorldLayout
     private static void L3999ArcadeTile(ref Tile t, L3999ArcadeSite site, int gx, int gz)
     {
         // The building's frame: p across the façade (to its right, seen from the car park looking at it: the façade's left), q back from it
-        var (fx, fz) = Step(site.Facing);
-        var (rx, rz) = Step(L3999Right(site.Facing));
+        var (fx, fz) = FacingStep(site.Facing);
+        var (rx, rz) = FacingStep(L3999Right(site.Facing));
         int dx = gx - site.X, dz = gz - site.Z;
         int p = dx * rx + dz * rz, q = -(dx * fx + dz * fz);
         if (Math.Abs(p) <= 10 && q is >= 0 and <= 12)
@@ -171,7 +171,7 @@ public sealed partial class WorldLayout
                     Variant = (ushort)(mdx == 0 && mdz == 0 ? 1 : 0), Pier = site.MillFacing[k] };
                 return;
             }
-            var (sx, sz) = Step(site.MillFacing[k]);
+            var (sx, sz) = FacingStep(site.MillFacing[k]);
             if (mdx == sx * 4 && mdz == sz * 4)
             {
                 t = new Tile { Kind = TileKind.Floor, Floor = FloorKind.Grass, Under = Unders.L3999Windmill, Variant = Props.L3999Generator, Pier = site.MillFacing[k] };
@@ -195,6 +195,8 @@ public sealed partial class WorldLayout
             if (wall.Kind != TileKind.Wall || (wall.Detail & CityDetail.Corner) != 0 || wall.Under != 0) continue;
             wall.Under = Unders.L3999GlitchWall;
             wall.Pier = north ? ArchPier.South : ArchPier.North;
+            // (the tile in front is cleared of whatever stands there, unchecked: intended, and kept so; checking it would change which
+            // wall a block picks, so it is a candidate for layout version 11)
             At(tiles, x, fz).Variant = 0;
             return;
         }

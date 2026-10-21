@@ -45,10 +45,24 @@ public sealed partial class WorldLayout
     public double L8NestNear(int gx, int gz)
     {
         if (Version < 9 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return 0;
-        if (DenNear(gx, gz) is not { Kind: DenKind.Nest } nest) return 0;
-        double d = Math.Sqrt((nest.X - gx) * (nest.X - gx) + (nest.Z - gz) * (nest.Z - gz));
-        return Math.Clamp(1 - d / DenRadius, 0, 1);
+        // (DenNear's scan, over cells' dens remembered: a den is a pure function of its cell, and DenAt works out the level's
+        // depth before it rolls, so asking it nine times for every column of a chunk was most of what Level 8 cost to build)
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
+            for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
+            {
+                DenKind kind = l8Dens.Get(mx, mz);
+                if (kind == DenKind.None) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                if ((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz) > DenRadius * DenRadius) continue;
+                if (kind != DenKind.Nest) return 0;
+                double d = Math.Sqrt((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz));
+                return Math.Clamp(1 - d / DenRadius, 0, 1);
+            }
+        return 0;
     }
+
+    private LatticeMemo<DenKind> l8Dens;
 
     /// <summary>
     /// The heart of the nearest spider nest within <paramref name="range"/> blocks of a position (at most 24, which
@@ -57,6 +71,7 @@ public sealed partial class WorldLayout
     public (int X, int Z)? NestHeartNear(int gx, int gz, double range)
     {
         if (Version < 9 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return null;
+        range = Math.Min(range, 24); // (the nine cells round the position are all that is looked at)
         int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
         (int X, int Z)? best = null;
         double bestSq = range * range;

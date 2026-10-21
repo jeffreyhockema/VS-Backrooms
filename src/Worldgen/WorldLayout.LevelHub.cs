@@ -36,7 +36,11 @@ public sealed partial class WorldLayout
     private int HubCentreX => spawnMacroX + DiagonalReach;
     private int HubCentreZ => spawnMacroZ + DiagonalReach;
 
-    /// <summary>The region's radius in macro cells (1,920 blocks), whatever the size of the world.</summary>
+    /// <summary>
+    /// The region's radius in macro cells (1,920 blocks), whatever the size of the world. The other round regions scale with
+    /// the world (<c>max(60, spawnMacroX / 40)</c> cells); the Hub's is fixed because its plan is a fixed set of rings
+    /// (<see cref="HubRingRadii"/>, in blocks: the outermost, 1,820 blocks, is 56.9 cells out) that must always lie inside the circle.
+    /// </summary>
     private const int HubRadius = 60;
 
     /// <summary>The middle of the Tower, in blocks: everything in the Hub is planned from here.</summary>
@@ -143,7 +147,7 @@ public sealed partial class WorldLayout
     }
 
     private const int HubBin = 128;
-    private HubPlan hubPlan;
+    private volatile HubPlan hubPlan;
     private readonly object hubPlanLock = new();
 
     /// <summary>The Hub's tunnels, worked out once for the world.</summary>
@@ -459,20 +463,11 @@ public sealed partial class WorldLayout
         _ => (0, 1),
     };
 
-    /// <summary>A direction as a step (x east, z south). The one the regions' partials share.</summary>
-    private static (int X, int Z) Step(ArchPier p) => p switch
-    {
-        ArchPier.North => (0, -1),
-        ArchPier.South => (0, 1),
-        ArchPier.East => (1, 0),
-        _ => (-1, 0),
-    };
-
     /// <summary>Whether a door fits a slot: three wall tiles in a straight wall, open floor in front of all three, wall either side.</summary>
     private bool SlotFits(HubPlan plan, HubSeg s, HubSlot slot)
     {
         var (l, c, r, facing) = SlotTiles(s, slot);
-        var (fx, fz) = Step(facing);
+        var (fx, fz) = FacingStep(facing);
         var (rx, rz) = RightOf(facing);
         // Each of the three: wall, open floor in front, and behind it solid (a door is never a hole into the next tunnel)
         bool Fits((int X, int Z) t) => !HubInside(plan, t.X, t.Z) && HubInside(plan, t.X + fx, t.Z + fz) && !HubInside(plan, t.X - fx, t.Z - fz);
@@ -800,7 +795,7 @@ public sealed partial class WorldLayout
         // on the floor tile there (Detail what, Depth how high, Pier the way it faces, Pipe a number)
         bool Hang((int X, int Z) wall, ArchPier facing, byte kind, byte rel, byte value)
         {
-            var (fx, fz) = Step(facing);
+            var (fx, fz) = FacingStep(facing);
             int ax = wall.X + fx, az = wall.Z + fz;
             if (!InCell(ax, az) || HubInside(plan, wall.X, wall.Z) || !s.Inside(ax, az)) return false;
             ref Tile front = ref Here(ax, az);
@@ -1044,7 +1039,7 @@ public sealed partial class WorldLayout
         foreach (int level in new[] { 11, 1 })
         {
             if (HubDoorOf(level) is not { } door) continue;
-            var (fx, fz) = Step(door.Facing);
+            var (fx, fz) = FacingStep(door.Facing);
             var (rx, rz) = RightOf(door.Facing);
             // Out from the door's wall (1: the sidewalk, 2: the road's edge) and along it to the right
             (int X, int Z) At(int outward, int right) => (door.X + fx * outward + rx * right, door.Z + fz * outward + rz * right);
@@ -1088,7 +1083,7 @@ public sealed partial class WorldLayout
         foreach (int level in new[] { 11, 1 })
         {
             if (HubDoorOf(level) is not { } door) continue;
-            var (fx, fz) = Step(door.Facing);
+            var (fx, fz) = FacingStep(door.Facing);
             var (rx, rz) = RightOf(door.Facing);
             int x = door.X + fx + rx * 8, z = door.Z + fz + rz * 8;
             if (StandingSpotNear(x, z, 6) is not { } spot || MacroOf(spot.X) != mx || MacroOf(spot.Z) != mz) continue;
@@ -1101,7 +1096,7 @@ public sealed partial class WorldLayout
     public (int X, int Z)? HubMegSite()
     {
         if (HubDoorOf(11) is not { } door) return null;
-        var (fx, fz) = Step(door.Facing);
+        var (fx, fz) = FacingStep(door.Facing);
         var (rx, rz) = RightOf(door.Facing);
         return StandingSpotNear(door.X + fx + rx * 8, door.Z + fz + rz * 8, 6);
     }
@@ -1189,7 +1184,7 @@ public sealed partial class WorldLayout
                 if (Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltHubLevel2)) >= 1 / 40.0) continue;
                 door.Under = Unders.HubEntrance;
                 // The floor in front of it, and the tile beside that, whose wall gets the circle
-                var (fx, fz) = Step(door.Pier);
+                var (fx, fz) = FacingStep(door.Pier);
                 var (rx, rz) = RightOf(door.Pier);
                 int cx = lx + fx + rx, cz = lz + fz + rz;
                 if (cx < 0 || cz < 0 || cx >= MacroSize || cz >= MacroSize) continue;

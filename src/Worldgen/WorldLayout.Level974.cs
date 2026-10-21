@@ -152,7 +152,7 @@ public sealed partial class WorldLayout
 
     private void BuildLevel974(Builder b, int mx, int mz)
     {
-        Tile[] house = (l974Plans ??= new PlanCache<Tile[]>(64, PlanKittyHouse)).Get(mx, mz);
+        Tile[] house = l974Plans.Get(mx, mz);
         int depth = L974Depth;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)

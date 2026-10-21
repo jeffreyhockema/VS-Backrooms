@@ -25,6 +25,13 @@ namespace Backrooms.Worldgen;
 /// half from zero (the road three wide whatever its heading). What has to be in one place only (a lamp, a marker, a
 /// settlement, a deposit) is worked out from the ring coordinates alone and found in the world along a line out from
 /// spawn (<see cref="L8Ray"/>), so neighbouring cells always agree. A cell's road is planned once (<see cref="L8Plan"/>).</para>
+///
+/// <para>From layout version 10 the roads are broken now and then by a rockfall (<see cref="PlanL8Break"/>: a gap of 90-180
+/// blocks of rock with a wall of rubble at either end, <see cref="L8Plug"/>) and a cave passage runs round each break
+/// (<see cref="MakeL8Spine"/>, <see cref="L8CrawlAt"/>): a mouth in the road's wall before the rubble, a winding unlit way down to
+/// 20-35 blocks under the road and up again past the break. A passage whose line cannot stay clear of the road's tiles at its
+/// ends, of itself and of the passages already made is eased, then shortened, and if that fails the break is given back to the
+/// road; <see cref="L8PassageCheck"/> walks them all for the harness.</para>
 /// </summary>
 public sealed partial class WorldLayout
 {
@@ -167,12 +174,11 @@ public sealed partial class WorldLayout
         double cx = Math.Cos(theta), cz = Math.Sin(theta);
         double F(double r) => L8Warped(spawnMacroX + cx * r, spawnMacroZ + cz * r) - edge;
         double best = double.NaN, lo = 0, hi = 0;
-        double prevR = Math.Max(1, edge - 12), prev = F(prevR);
-        for (double r = prevR + 1; r <= edge + 12; r += 1)
+        double start = Math.Max(1, edge - 12), prev = F(start);
+        for (double r = start + 1; r <= edge + 12; r += 1)
         {
             double f = F(r);
             if (prev < 0 != f < 0 && (double.IsNaN(best) || Math.Abs(r - edge) < Math.Abs(best - edge))) { best = r; lo = r - 1; hi = r; }
-            prevR = r;
             prev = f;
         }
         if (double.IsNaN(best)) return edge;
@@ -363,6 +369,7 @@ public sealed partial class WorldLayout
         ulong b = Hashing.Hash(seed, k, road + 1, SaltL8Net + 0x40);
         if (Hashing.Unit(b) >= L8BreakChance) return;
         double half = 45 + 45 * Hashing.Unit(Hashing.Mix(b + 1));
+        // (a segment is at least about 260 blocks long, whatever the ring's size, which is what leaves room for a break and its mouths: 1 - 2 * lo > 0 below)
         double lo = (half + 40) / len;
         seg.BreakAt[road] = (k + lo + (1 - 2 * lo) * Hashing.Unit(Hashing.Mix(b + 2))) * len;
         seg.BreakHalf[road] = half;
@@ -448,8 +455,10 @@ public sealed partial class WorldLayout
     /// from a mouth on one side of the break to a mouth on the other, bulging away from the road to 40-90 blocks and
     /// wandering to and fro on the way until its length is the wanted multiple of the gap; the ground it covers is
     /// measured then in blocks. It runs down at a slope of 0.3 (a block lower every three or so) from either mouth to a
-    /// depth of 20-35 under the road and along there, so it is a walk of single steps. The same hashes always give the
-    /// same passage.
+    /// depth of 20-35 under the road and along there, so it is a walk of single steps. The mouths are four blocks wide so
+    /// that they open onto the road's wall; the line is kept off the road's tiles and the other road for its shallow first
+    /// and last 17 blocks, and 14 blocks clear of a passage made earlier (a line that cannot be is eased, then shortened,
+    /// as for a fold). The same hashes always give the same passage.
     /// </summary>
     private L8Spine MakeL8Spine(L8Network net, L8Segment seg, int k, int road)
     {
@@ -487,6 +496,9 @@ public sealed partial class WorldLayout
             var wx = new double[dense + 1];
             var wz = new double[dense + 1];
             var arc = new double[dense + 1];
+            // (each sample's sideways distance from the road's middle, and how far the other road's middle is from it, for the ends' test below)
+            var sideways = new double[dense + 1];
+            var other = new double[dense + 1];
             bool inside = true, folded = true;
             // (less wandering where the line would double back on itself, so that two stretches of passage never run side by
             // side at different depths)
@@ -501,6 +513,8 @@ public sealed partial class WorldLayout
                     double q = (road == 0 ? q0 : q1) + lv;
                     if (road == 1 && !drawn || q < ri + L8SpineMargin || q > ri + rw - L8SpineMargin) { inside = false; break; }
                     (wx[i], wz[i]) = L8Ray(net.ThetaOf(ls), q);
+                    sideways[i] = side * lv;
+                    other[i] = drawn || road == 1 ? Math.Abs(q - (road == 0 ? q1 : q0)) : double.MaxValue;
                     // (the ring's edges are drawn smooth here but the level's are cells: every sample, with its width, in Level 8)
                     if (!InLevel8(wx[i], wz[i], 7)) inside = false;
                 }
@@ -515,6 +529,30 @@ public sealed partial class WorldLayout
                         double along = arc[j2] - arc[i], need = along > 22 ? 11 : along > 12 ? Math.Max(6.5, 0.5 * along) : 0;
                         if (need > 0 && (wx[i] - wx[j2]) * (wx[i] - wx[j2]) + (wz[i] - wz[j2]) * (wz[i] - wz[j2]) < need * need) folded = true;
                     }
+                // The passage's ends are shallow (a depth of 0.3 per block along, under 5 for the first and last 16 blocks), and
+                // a shallow tile on a road is not carved (the floor would give way): so for the first and last 17 blocks the
+                // line stays out of the road's own tiles (and the passage's half width beside them), and off the other road
+                for (int i = 0; i <= dense && !folded; i++)
+                {
+                    double end = Math.Min(arc[i], arc[dense] - arc[i]);
+                    if (end >= 3 && end <= 17 && (sideways[i] < 4.5 || other[i] < 5)) folded = true;
+                }
+                // Nor does it come within 14 blocks of a passage already made (the nearest middle line sets a tile's depth, so
+                // two passages side by side would meet at a cliff): the earlier one keeps the ground, in k order, road 0 first
+                for (int o = 0; o < net.Spines.Count && !folded; o++)
+                {
+                    L8Spine near = net.Spines[o];
+                    for (int i = 0; i <= dense && !folded; i += 2)
+                    {
+                        if (wx[i] < near.MinX - 14 || wx[i] > near.MaxX + 14 || wz[i] < near.MinZ - 14 || wz[i] > near.MaxZ + 14) continue;
+                        foreach (L8Poly poly in near.Polys())
+                        {
+                            for (int j = 0; j < poly.X.Length; j++)
+                                if ((wx[i] - poly.X[j]) * (wx[i] - poly.X[j]) + (wz[i] - poly.Z[j]) * (wz[i] - poly.Z[j]) < 14 * 14) { folded = true; break; }
+                            if (folded) break;
+                        }
+                    }
+                }
             }
             if (!inside || folded) continue;
 
@@ -538,6 +576,9 @@ public sealed partial class WorldLayout
                 main.Depth[i] = Math.Max(0, Math.Min(bottom + 2 * Math.Sin(a / 23 + ph[6]), L8SpineSlope * m));
                 double w = 3 + 0.8 * Math.Sin(a / 8 + ph[7]) + 0.5 * Math.Sin(a / 3.3 + ph[0]);
                 w = Math.Clamp(w, 2.2, 4);
+                // (the line starts 3 off the road's middle and the road's tiles are those within 1.5 of it: a half width of 2 at the
+                // mouths carves every wall tile beside the road, so the mouth always opens onto it)
+                if (m < 6) w = 4;
                 foreach (double c in chamberAt) w += 5 * Math.Exp(-((a - c) / 6) * ((a - c) / 6));
                 main.Width[i] = w;
             }
@@ -861,12 +902,15 @@ public sealed partial class WorldLayout
     /// For the layout harness (<c>l8roads</c>): walks every passage round a break the way a player does, over the tiles
     /// the layout gives it. Per passage, from the tile at one mouth: does a walk of steps of at most one block up or down
     /// reach the tile at the other mouth, how long is the shortest such walk (tiles), and how many neighbouring tiles of
-    /// passage differ in depth by more than one (a step too high).
+    /// passage differ in depth by more than one (a step too high). Also, per mouth, whether a passage tile at most a block
+    /// down has a tile of the road as a 4-neighbour (a mouth the road's wall of rock seals off cannot be seen from the walk,
+    /// which starts at the passage tile nearest the mouth). <paramref name="failures"/> is the count of passages the walk
+    /// cannot finish plus the count of sealed mouths: zero is the pass.
     /// </summary>
-    public string L8PassageCheck()
+    public string L8PassageCheck(out int failures)
     {
         L8Network net = L8Net;
-        int checkedCount = 0, unreachable = 0, tooHigh = 0, worstStep = 0;
+        int checkedCount = 0, unreachable = 0, tooHigh = 0, worstStep = 0, sealedMouths = 0;
         double longestWalk = 0, longestGap = 0;
         foreach (L8Spine spine in net.Spines)
         {
@@ -891,6 +935,20 @@ public sealed partial class WorldLayout
             }
             int start = Index(spine.Main.X[0], spine.Main.Z[0]), goal = Index(spine.Main.X[^1], spine.Main.Z[^1]);
             checkedCount++;
+            foreach (int end in new[] { 0, spine.Main.X.Length - 1 })
+            {
+                bool onRoad = false;
+                int mx = (int)Math.Floor(spine.Main.X[end]), mz = (int)Math.Floor(spine.Main.Z[end]);
+                for (int dz = -8; dz <= 8 && !onRoad; dz++)
+                    for (int dx = -8; dx <= 8 && !onRoad; dx++)
+                    {
+                        int depthHere = L8CrawlAt(mx + dx, mz + dz);
+                        if (depthHere == 0 || depthHere - 1 > 1) continue;
+                        foreach (var (ax, az) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                            if ((L8PlanAt(mx + dx + ax, mz + dz + az).Flags[L8Index(mx + dx + ax, mz + dz + az)] & L8Plan.Road) != 0) onRoad = true;
+                    }
+                if (!onRoad) sealedMouths++;
+            }
             var dist = new int[w * h];
             Array.Fill(dist, -1);
             var queue = new Queue<int>();
@@ -914,7 +972,8 @@ public sealed partial class WorldLayout
             if (start < 0 || goal < 0 || dist[goal] < 0) unreachable++;
             else if (dist[goal] > longestWalk) (longestWalk, longestGap) = (dist[goal], spine.Gap);
         }
-        return $"passages checked {checkedCount}: mouth to mouth unreachable by steps of one block {unreachable}; neighbouring tiles more than a block apart {tooHigh} (worst {worstStep}); longest shortest walk {longestWalk:0} tiles for a gap of {longestGap:0}";
+        failures = unreachable + sealedMouths;
+        return $"passages checked {checkedCount}: mouths sealed off from the road {sealedMouths}; mouth to mouth unreachable by steps of one block {unreachable}; neighbouring tiles more than a block apart {tooHigh} (worst {worstStep}); longest shortest walk {longestWalk:0} tiles for a gap of {longestGap:0}";
     }
 
     // ---------------- A cell's road ----------------
@@ -942,7 +1001,7 @@ public sealed partial class WorldLayout
     private PlanCache<L8Plan> l8Plans;
 
     private L8Plan L8PlanAt(int gx, int gz) =>
-        (l8Plans ??= new PlanCache<L8Plan>(256, PlanL8Cell)).Get(MacroOf(gx), MacroOf(gz));
+        l8Plans.Get(MacroOf(gx), MacroOf(gz));
 
     private static ArchPier L8Toward(double vx, double vz) =>
         Math.Abs(vx) >= Math.Abs(vz) ? (vx > 0 ? ArchPier.East : ArchPier.West) : (vz > 0 ? ArchPier.South : ArchPier.North);

@@ -55,7 +55,7 @@ public sealed partial class WorldLayout
         if (Hashing.Mod(line, L8MainEvery) == 0) return true;
         int mcx = Hashing.FloorDiv(axis == 0 ? line : index, L8MainEvery), mcz = Hashing.FloorDiv(axis == 0 ? index : line, L8MainEvery);
         // (Near the edge of the level, where the way into the side roads might lie beyond it, every road is there)
-        var tree = (l8Trees ??= new PlanCache<System.Collections.Generic.HashSet<(int, int, int)>>(128, PlanL8Tree)).Get(mcx, mcz);
+        var tree = l8Trees.Get(mcx, mcz);
         return tree.Count == 0 || tree.Contains((axis, line, index));
     }
 

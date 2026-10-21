@@ -153,7 +153,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<Tile[]> blockPlans;
 
-    private Tile[] BlockPlan(int bi, int bj) => (blockPlans ??= new PlanCache<Tile[]>(64, PlanBlock)).Get(bi, bj);
+    private Tile[] BlockPlan(int bi, int bj) => blockPlans.Get(bi, bj);
 
     private Tile[] PlanBlock(int bi, int bj)
     {

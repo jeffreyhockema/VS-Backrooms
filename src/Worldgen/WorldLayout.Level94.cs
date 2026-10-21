@@ -169,7 +169,7 @@ public sealed partial class WorldLayout
     /// each of those looks at nine towns and eight more hills, so working them out afresh made Motion the slowest level
     /// to build by far.
     /// </summary>
-    private Hill HillAt(int hi, int hj) => (hills ??= new LatticeMemo<Hill>(4096, PlanHillAt)).Get(hi, hj);
+    private Hill HillAt(int hi, int hj) => hills.Get(hi, hj);
 
     private LatticeMemo<Hill> hills;
 
@@ -394,7 +394,7 @@ public sealed partial class WorldLayout
 
     /// <summary>The picket fence round a hill's ground (positions, the neighbours each joins, N1 E2 S4 W8, and from layout
     /// version 10 the height of the ground it stands on), or null.</summary>
-    private Dictionary<(int, int), (byte Joins, byte Height)> HillFenceOf(int hi, int hj) => (hillFences ??= new PlanCache<Dictionary<(int, int), (byte Joins, byte Height)>>(256, PlanHillFence)).Get(hi, hj);
+    private Dictionary<(int, int), (byte Joins, byte Height)> HillFenceOf(int hi, int hj) => hillFences.Get(hi, hj);
 
     /// <summary>The lattice point whose hill a position belongs to, as <see cref="HillGround"/> picks its owner.</summary>
     private (int I, int J) HillOwnerAt(int ux, int uz)
@@ -668,7 +668,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<HillPlan> hillPlans;
 
-    private HillPlan HillPlanOf(int hi, int hj) => (hillPlans ??= new PlanCache<HillPlan>(256, PlanHill)).Get(hi, hj);
+    private HillPlan HillPlanOf(int hi, int hj) => hillPlans.Get(hi, hj);
 
     private HillPlan PlanHill(int hi, int hj)
     {
@@ -926,7 +926,7 @@ public sealed partial class WorldLayout
     // ================= Towns =================
 
     /// <summary>Where the town of a district stands (the corner of its square), if it has one (remembered, as the hills are).</summary>
-    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj) => (towns ??= new LatticeMemo<(int, int, int, int)?>(1024, PlanTownOf)).Get(ti, tj);
+    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj) => towns.Get(ti, tj);
 
     private LatticeMemo<(int, int, int, int)?> towns;
 
@@ -970,7 +970,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<Tile[]> townPlans;
 
-    private Tile[] TownPlan(int ti, int tj) => (townPlans ??= new PlanCache<Tile[]>(16, PlanTown)).Get(ti, tj);
+    private Tile[] TownPlan(int ti, int tj) => townPlans.Get(ti, tj);
 
     /// <summary>
     /// A town: roads in a square of three by three, eight small houses round a paved plaza with the fountain of Almond
@@ -1117,9 +1117,9 @@ public sealed partial class WorldLayout
         return new Tile { Kind = TileKind.Floor, Floor = FloorKind.TurfLight, Zone = 2, Height = (byte)Math.Max(0, height) };
     }
 
-    private Tile[] castlePlan;
+    private Lazy<Tile[]> castlePlan;
 
-    private Tile[] CastlePlan() => castlePlan ??= PlanCastle();
+    private Tile[] CastlePlan() => castlePlan.Value;
 
     /// <summary>The castle's square, in its own coordinates (0 to <see cref="CastleSize"/>; the gate is in the south wall).</summary>
     private static bool CastleTower(int u, int v) => (u < 7 || u >= CastleSize - 7) && (v < 7 || v >= CastleSize - 7);
@@ -1137,6 +1137,7 @@ public sealed partial class WorldLayout
         ref Tile At(int u, int v) => ref tiles[v * n + u];
         void Wall(int u, int v, WallPattern pattern) => At(u, v) = new Tile { Kind = TileKind.Wall, Pattern = pattern, Zone = 3 };
         void Floor(int u, int v, FloorKind floor, byte zone = 3) => At(u, v) = new Tile { Kind = TileKind.Floor, Floor = floor, Zone = zone, Ceiling = CeilingKind.Tile };
+        // (seeded by the salt alone, not the world's seed: the castle is a fixed set, the same in every world, slides facing the same ways)
         var rng = new Rng(SaltCastle);
 
         // Fill: the funhouse's own walls

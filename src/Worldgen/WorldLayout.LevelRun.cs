@@ -89,9 +89,44 @@ public sealed partial class WorldLayout
     /// A lane's plan (worked out once and kept). Room for every lane: the cells round a runner take in all seventeen,
     /// and building them row by row through a smaller cache planned a lane over again for nearly every cell.
     /// </summary>
-    public RunLane RunPlan(int lane) => (runPlans ??= new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i))).Get(lane, 0);
+    public RunLane RunPlan(int lane) => runPlans.Get(lane, 0);
 
     private PlanCache<RunLane> runPlans;
+
+    /// <summary>
+    /// Makes the plan caches of the levels from 7 up (the outer ring and the far places) when the layout is made, so that
+    /// two worldgen threads arriving together at a level's first plan never each make one and throw the other's work away.
+    /// (The capacities are what each level's plans need; see the field of each.)
+    /// </summary>
+    partial void CreateFarPlanCaches()
+    {
+        // (a lot is overlapped by two to four cells, each of which would plan it again: 32 covers the 3x3 blocks of six lots one cell touches)
+        lotPlans = new PlanCache<Tile[]>(32, LotPlan);
+        l8Dens = new LatticeMemo<DenKind>(1024, DenAt);
+        l8Plans = new PlanCache<L8Plan>(256, PlanL8Cell);
+        l8Trees = new PlanCache<HashSet<(int, int, int)>>(128, PlanL8Tree);
+        blockPlans = new PlanCache<Tile[]>(64, PlanBlock);
+        poolPlans = new PlanCache<Tile[]>(32, PlanPoolBlock);
+        poolRoomPlans = new PlanCache<PoolRoom[]>(16, PlanPoolRooms);
+        hills = new LatticeMemo<Hill>(4096, PlanHillAt);
+        hillFences = new PlanCache<Dictionary<(int, int), (byte Joins, byte Height)>>(256, PlanHillFence);
+        hillPlans = new PlanCache<HillPlan>(256, PlanHill);
+        towns = new LatticeMemo<(int, int, int, int)?>(1024, PlanTownOf);
+        townPlans = new PlanCache<Tile[]>(16, PlanTown);
+        castlePlan = new Lazy<Tile[]>(PlanCastle);
+        runPlans = new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i));
+        funPlans = new PlanCache<FunBlockPlan>(32, PlanFunBlock);
+        endPlans = new PlanCache<Tile[]>(24, PlanEndDepartment);
+        l974Plans = new PlanCache<Tile[]>(64, PlanKittyHouse);
+        l3999Arcades = new PlanCache<L3999ArcadeSite>(64, PlanL3999Arcade);
+        l3999Units = new PlanCache<IReadOnlyList<L3999Unit>>(1024, (i, j) => L3999PlanOf(i, j).Units);
+        funRooms = new PlanCache<FunRoom[]>(512, (i, j) => FunPlan(i, j).Rooms);
+        funPhases = new LatticeMemo<int>(1024, FunPhaseOf);
+        endRunways = new LatticeMemo<(int Amplitude, double Period, double Phase)>(256, EndRunwayShape);
+        endLongAisles = new LatticeMemo<bool>(1024, (left, seg) => EndKindAt(left, seg) == EndKind.LongLeft);
+        l3999Plans = new PlanCache<L3999Plan>(16, PlanL3999Block);
+        l188Plan = new Lazy<Tile[]>(PlanL188);
+    }
 
     // ================= Cells =================
 
@@ -149,7 +184,7 @@ public sealed partial class WorldLayout
     private const ulong SaltRunEntranceL1 = 0x1410, SaltRunFalseWallL2 = 0x1411;
 
     /// <summary>Whether Level !'s ways in are laid into Levels 1, 2 and 37 (the harness turns them off to show they move nothing else).</summary>
-    public static bool RunEntrances = true;
+    internal static bool RunEntrances = true;
 
     /// <summary>
     /// Level 1's car park, about one cell in 300: a red EXIT door where no door should be, in a solid wall between two
@@ -180,13 +215,15 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>The four steps and the way each faces.</summary>
+    private static readonly (int Dx, int Dz, ArchPier Toward)[] RunFalseWallDirs =
+        { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
+
     /// <summary>
     /// Level 2, about one cell in 250: where a tunnel ends blind, the rock just past its end is not there after all. It
     /// looks like smooth new concrete across the tunnel (on that tile: <see cref="Unders.RunFalseWall"/>); walk into it
     /// and you noclip into Level !.
     /// </summary>
-    private static readonly (int Dx, int Dz, ArchPier Toward)[] RunFalseWallDirs =
-        { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
 
     private void MarkRunFalseWall(Builder b, int mx, int mz)
     {
@@ -323,7 +360,7 @@ public sealed partial class WorldLayout
 
     // The lane's fixed geometry (lane-local)
     private const int RunRoomX0 = 13, RunRoomX1 = 19, RunRoomZ0 = 17, RunRoomZ1 = 23, RunHallX = 16, RunHallDoorZ = 24, RunChainZ = 16,
-        RunExitZ = (RunRows + 1) * MacroSize - 20, RunExitStretch = 24;
+        RunExitStretch = 24;
 
     /// <summary>
     /// Layout version 9: the hall runs <see cref="RunRows9"/> rows of cells, not <see cref="RunRows"/>, so the run is about
@@ -945,7 +982,7 @@ public sealed partial class WorldLayout
         foreach (RunEvent e in L.Events)
             if (e.Kind == RunEventKind.Swing)
             {
-                var (dx, dz) = Step(e.Face);
+                var (dx, dz) = FacingStep(e.Face);
                 leaves.Add((e.X + dx, e.Z + dz));
             }
         int Hurdle(int k, int z) => leaves.Contains((c + k - 2, z)) ? 2 : RunHurdle(L.At(c + k - 2, z));
@@ -1220,7 +1257,7 @@ public sealed partial class WorldLayout
             else if (rng.Chance(0.06))
             {
                 t.Ceiling = CeilingKind.RunVent;
-                if (L.Third(s) >= 0 && s > 30) L.Events.Add(new RunEvent(RunEventKind.Vent, x, z, s, ArchPier.North, ArchPier.North));
+                if (s > 30) L.Events.Add(new RunEvent(RunEventKind.Vent, x, z, s, ArchPier.North, ArchPier.North));
             }
         }
         foreach (int s in L.Signs)
@@ -1268,7 +1305,7 @@ public sealed partial class WorldLayout
 
     private static Tile RunStep(RunLane L, int x, int z, ArchPier dir)
     {
-        var (dx, dz) = Step(dir);
+        var (dx, dz) = FacingStep(dir);
         return L.In(x + dx, z + dz) ? L.At(x + dx, z + dz) : default;
     }
 }
@@ -1321,9 +1358,6 @@ public sealed class RunChase
     public double LooseAt = -1;
     /// <summary>When the runner first crossed the hallway door (seconds since arrival), or -1.</summary>
     public double LeftRoomAt = -1;
-    /// <summary>How long the runner has been in the Safe Zone this time.</summary>
-    public double SafeFor;
-
     /// <param name="sprint">The runner's sprint, in blocks a second.</param>
     /// <param name="difficulty">0 Low, 1 Normal, 2 High.</param>
     /// <param name="chainedDoor">The chained door's course position (negative).</param>
@@ -1358,12 +1392,10 @@ public sealed class RunChase
         }
         if (InSafe(runner))
         {
-            // It waits at the Safe Zone's door; after three hours in there it comes in anyway (the caller counts those)
-            SafeFor += dt;
+            // It waits at the Safe Zone's door; after three hours in there it comes in anyway (RunSystem counts those, in game hours, and sets SafeBreached)
             Front = Math.Min(Front + Sprint * dt, SafeFrom - 2);
             return false;
         }
-        SafeFor = 0;
         double share = Front >= LastThird ? LastShare[Difficulty] : Share[Difficulty];
         double since = Elapsed - LooseAt;
         if (since < WarmUp) share -= WarmUpShare * (1 - since / WarmUp);

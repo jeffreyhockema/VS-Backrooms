@@ -32,6 +32,7 @@ public sealed partial class WorldLayout
     private const ulong SaltL7Detail = 0x7B03;
     private const ulong SaltL7Feature = 0x7B04;
 
+    /// <summary>The sea's zones by depth below the water: twilight from 12 blocks, midnight from 30, the abyss from 60 (see the file summary).</summary>
     public const int TwilightDepth = 12, MidnightDepth = 30, AbyssDepth = 60;
 
     /// <summary>
@@ -90,9 +91,19 @@ public sealed partial class WorldLayout
         return (int)Math.Clamp(depth, 3, 120);
     }
 
+    /// <summary>
+    /// How far round a cell <see cref="ShapeLevel7"/> looks (tiles) and the width of the square that makes: the sea's depth over
+    /// that square is worked out once per cell and shared by the cell's own tiles and the shaping.
+    /// </summary>
+    private const int L7Margin = 8, L7Span = MacroSize + 2 * L7Margin;
+
     private void BuildLevel7(Builder b, int mx, int mz)
     {
         ref Rng rng = ref b.Rng;
+        var ocean = new int[L7Span * L7Span];
+        for (int z = 0; z < L7Span; z++)
+            for (int x = 0; x < L7Span; x++)
+                ocean[z * L7Span + x] = OceanDepth(mx * MacroSize - L7Margin + x, mz * MacroSize - L7Margin + z);
         for (int lz = 0; lz < MacroSize; lz++)
         {
             for (int lx = 0; lx < MacroSize; lx++)
@@ -100,7 +111,7 @@ public sealed partial class WorldLayout
                 ref Tile t = ref b.At(lx, lz);
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz;
                 if (t.Kind != TileKind.Floor) continue;
-                int depth = OceanDepth(gx, gz);
+                int depth = ocean[(lz + L7Margin) * L7Span + lx + L7Margin];
                 t.Floor = depth >= AbyssDepth ? FloorKind.Tar : FloorKind.Seabed;
                 if (depth == 0)
                 {
@@ -188,7 +199,7 @@ public sealed partial class WorldLayout
             }
         }
 
-        if (Version >= 5) ShapeLevel7(b, mx, mz);
+        if (Version >= 5) ShapeLevel7(b, mx, mz, ocean);
         AddJetty(b, mx, mz);
 
         double feature = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL7Feature));
@@ -216,14 +227,12 @@ public sealed partial class WorldLayout
     /// ring of cabinets, bookcases and chairs, some stuck down on lumps of tar, round a bedroll, with a gap to get in.
     /// Everything is worked out from where it is, so cells agree along their edges.
     /// </summary>
-    private void ShapeLevel7(Builder b, int mx, int mz)
+    private void ShapeLevel7(Builder b, int mx, int mz, int[] ocean)
     {
-        const int margin = 8, span = MacroSize + 2 * margin;
-        int x0 = mx * MacroSize - margin, z0 = mz * MacroSize - margin;
+        const int span = L7Span;
+        int x0 = mx * MacroSize - L7Margin, z0 = mz * MacroSize - L7Margin;
         var isle = new bool[span * span];
-        for (int z = 0; z < span; z++)
-            for (int x = 0; x < span; x++)
-                isle[z * span + x] = OceanDepth(x0 + x, z0 + z) == 0;
+        for (int i = 0; i < isle.Length; i++) isle[i] = ocean[i] == 0;
         bool Isle(int gx, int gz) => gx >= x0 && gz >= z0 && gx < x0 + span && gz < z0 + span ? isle[(gz - z0) * span + gx - x0] : OceanDepth(gx, gz) == 0;
         // How far (in rings) to the nearest water, up to max + 1
         int Inland(int gx, int gz, int max)
