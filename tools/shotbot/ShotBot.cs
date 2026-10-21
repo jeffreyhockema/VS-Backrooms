@@ -29,6 +29,7 @@ namespace ShotBot;
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
 ///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
+///   movewait                waits until something (a goto, a threshold) has moved the player more than 50 blocks, at most 60 s
 ///   mark name               append "name x y z heading pitch" (where the player stands now) to marks.txt and chat.txt
 ///   shot name               screenshot, moved to SHOTBOT_DIR/name.png
 ///   mega name               2x screenshot

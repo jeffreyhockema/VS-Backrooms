@@ -227,6 +227,11 @@ def write_table(path, names, pieces, tables):
 
 
 if __name__ == "__main__":
+    # The hub blocks' texture alternates come from the B15 painters (gen_hub_kit.VERSIONS), which only gen_hub.py runs
+    # first: on its own this would write the vault and the asphalt edge without them. Run through gen_hub.py instead.
+    if not K.VERSIONS:
+        K.b15_textures()
+        print("note: gen_hub.py is the full Hub generator; the B15 textures were repainted so the alternates are kept")
     names, pieces, tables = generate()
     for tag in tables:
         for c, row in enumerate(tables[tag]):

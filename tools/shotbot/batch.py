@@ -45,7 +45,7 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
-GAME = os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory")
+GAME = os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory"))
 CLIENT = os.path.join(GAME, "Vintagestory.exe")
 SERVER = os.path.join(GAME, "VintagestoryServer.exe")
 DEFAULT_DATA = os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")), "backrooms-gfxreview")
@@ -91,7 +91,9 @@ def ensure_data_dir(data):
     os.makedirs(os.path.join(data, "Saves"), exist_ok=True)
     dst = os.path.join(data, "clientsettings.json")
     if not os.path.exists(dst):
-        src = os.path.join(os.environ["APPDATA"], "VintagestoryData", "clientsettings.json")
+        src = os.path.join(os.environ.get("APPDATA", ""), "VintagestoryData", "clientsettings.json")
+        if not os.path.exists(src):
+            sys.exit(f"no clientsettings.json at {src}; run the game once")
         shutil.copyfile(src, dst)
         log(f"copied {src}")
     with open(dst, encoding="utf-8-sig") as f:
@@ -142,7 +144,11 @@ def ensure_world(data, world, mods, seed):
                 break
         except OSError:
             pass
-    p.wait(timeout=300)
+    try:
+        p.wait(timeout=300)
+    except subprocess.TimeoutExpired:
+        p.kill()  # this server only: a hung one would keep the save open
+        p.wait()
     out.close()
     if not os.path.exists(save):
         sys.exit(f"world creation failed: see {srv}")
@@ -311,9 +317,13 @@ def save_shot(src, dst_stem, fmt_):
     from PIL import Image
     if fmt_ == "png":
         shutil.copyfile(src, dst_stem + ".png")
-        return dst_stem + ".png"
-    Image.open(src).convert("RGB").save(dst_stem + ".jpg", quality=90)
-    return dst_stem + ".jpg"
+        stale, kept = dst_stem + ".jpg", dst_stem + ".png"
+    else:
+        Image.open(src).convert("RGB").save(dst_stem + ".jpg", quality=90)
+        stale, kept = dst_stem + ".png", dst_stem + ".jpg"
+    if os.path.exists(stale):
+        os.remove(stale)  # an earlier run in the other format: the contact sheet would prefer it
+    return kept
 
 
 def make_sheet(folder, names, out, cols=3, w=640, h=360):

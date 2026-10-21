@@ -1,4 +1,4 @@
-// The crop-circle symbol carved over a Hub door (above c-4), face to the north. n is the sigil id (docs/new-levels/hub-plan.md 4.3, tools/gen_hub_sigils.py): 0 the Hub's own, 1-18 the levels, 20 the open door '178' (to 6.1), 21-44 dead doors; 19 is not built
+// The crop-circle symbol carved over a Hub door (above c-4), face to the north. n is the sigil id (docs/design/new-levels/hub-plan.md 4.3, tools/gen_hub_sigils.py): 0 the Hub's own, 1-18 the levels, 20 the open door '178' (to 6.1), 21-44 dead doors; 19 is not built
 {
 	"code": "hub-sigil",
 	"variantgroups": [

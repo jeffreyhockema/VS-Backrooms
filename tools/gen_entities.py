@@ -742,11 +742,17 @@ HARVEST_SECONDS = 2
 
 def sync_harvestable(entity):
     """Drops the client's "harvestable" from a creature whose server side has none: the knife would offer to harvest
-    the body and then open it empty."""
+    the body and then open it empty. The other two mismatches (the server has it and the client does not, or the two
+    durations differ) are errors rather than something to patch: they would leave the same empty body."""
     server = entity.get("server", {}).get("behaviors", [])
-    if not any(b["code"] == "harvestable" for b in server):
-        client = entity.get("client", {})
+    client = entity.get("client", {})
+    s = next((b for b in server if b["code"] == "harvestable"), None)
+    if s is None:
         client["behaviors"] = [b for b in client.get("behaviors", []) if b["code"] != "harvestable"]
+        return entity
+    c = next((b for b in client.get("behaviors", []) if b["code"] == "harvestable"), None)
+    if c is None or c.get("duration") != s.get("duration"):
+        raise ValueError(f"{entity.get('code')}: client and server 'harvestable' disagree ({c} against {s})")
     return entity
 
 

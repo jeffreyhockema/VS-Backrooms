@@ -6,7 +6,7 @@
   folder or glob   a folder (its PNGs; with -r also its subfolders') or a glob such as assets/backrooms/textures/block/level1/wall*.png
   --ref            vanilla references for the first row, as paths or relative to the game's survival textures,
                    e.g. --ref block/stone/cobblestone/granite1 block/wood/planks/oak1
-                   (VINTAGE_STORY, else G:/Games/Vintagestory; the .png may be left off)
+                   (VINTAGE_STORY, else %APPDATA%/Vintagestory; the .png may be left off)
   --tile           each texture as a 3x3 repeat, so seams and repetition show
   --scale          magnification (default 4); a texture bigger than --max px on the sheet (3x --max with --tile) is
                    shown at a smaller whole-number scale (at least 1x), and the label says so
@@ -25,7 +25,7 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
-GAME = os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory")
+GAME = os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory"))
 VANILLA = os.path.join(GAME, "assets", "survival", "textures")
 LABEL_H = 44
 PAD = 8

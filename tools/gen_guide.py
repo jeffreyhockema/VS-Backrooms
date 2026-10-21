@@ -17,12 +17,14 @@ title, an italic line under it, short sections with a bold heading, plain friend
 blocks named. The vanilla pages are right about how things are made; these pages say where things are, and what is
 different here.
 
-Run on its own (python tools/gen_guide.py) or as part of gen_detail.py. Every number here comes from the block types,
+Run on its own (python tools/gen_guide.py) or as part of gen_detail.py; python tools/gen_guide.py --check only looks
+for broken links and writes nothing. Every number here comes from the block types,
 recipes and code; check them when those change (tools/gen_notes.py --check also looks for the recipes the notes quote).
 """
 import json
 import os
 import re
+import sys
 
 from detail_kit import ASSETS, LANG
 
@@ -1004,9 +1006,13 @@ def check():
 
 
 if __name__ == "__main__":
-    from gen_detail import merge_lang
     LANG.clear()
     fill()
+    if "--check" in sys.argv:
+        problems = check()
+        print("links ok" if not problems else f"BROKEN LINKS: {problems}")
+        sys.exit(1 if problems else 0)
+    from gen_detail import merge_lang
     merge_lang()
     for code, (title, text) in PAGES.items():
         print(f"{code:12} {len(to_vtml(text)):5} characters  {title}")

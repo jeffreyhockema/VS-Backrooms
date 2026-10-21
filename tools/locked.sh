@@ -6,7 +6,7 @@
 #   tools/locked.sh run <command...>     run any command (e.g. python tools/gen_fun.py) under the asset lock
 #
 # Builds share obj/, so they take one lock; asset generators (which rewrite lang/en.json and other shared
-# files) take another. A lock older than 15 minutes is treated as stale and broken.
+# files) take another. A lock is touched every minute while its command runs, so one untouched for 15 minutes is a dead job's and is broken.
 set -u
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 SCRATCH="${BACKROOMS_SCRATCH:-${TEMP:-/tmp}/backrooms-build}"
@@ -20,7 +20,10 @@ take() {
         sleep 2; waited=$((waited + 2))
         [ $((waited % 60)) -eq 0 ] && echo "[locked.sh] still waiting for $1 lock (${waited}s)..." >&2
     done
-    trap "rmdir '$lock' 2>/dev/null" EXIT
+    # Heartbeat: a slow job (a chain of generators, a long build) keeps its lock fresh, so "old" means "dead"
+    ( while :; do sleep 60; touch "$lock" 2>/dev/null || exit; done ) &
+    local beat=$!
+    trap "kill $beat 2>/dev/null; rmdir '$lock' 2>/dev/null" EXIT
 }
 
 mode="${1:-}"; shift || true

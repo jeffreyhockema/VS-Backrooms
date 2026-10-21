@@ -39,7 +39,7 @@ if (args.Length > 3 && args[2] == "region") {
 if (Environment.GetEnvironmentVariable("L0HALL") == "1") { var hb = new byte[size * size]; for (int z = 0; z < size; z++) for (int x = 0; x < size; x++) hb[z * size + x] = layout.LevelAt(WorldLayout.MacroOf(m0x * 32 + x), WorldLayout.MacroOf(m0z * 32 + z)) == 0 ? layout.Level0HallAt(m0x * 32 + x, m0z * 32 + z) : (byte)0; File.WriteAllBytes("hall.bin", hb); }
 if (args.Length > 2 && args[2] == "notes") { NotesSim.Run(args, layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "timing") { Timing.Run(layout, m0x, m0z, n); return; }
-if (args.Length > 3 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
+if (args.Length > 4 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
 if (args.Length > 2 && args[2] == "probe") { Probe.Run(layout, m0x, m0z, args); return; }
 if (args.Length > 2 && args[2] == "doors") { DoorCheck.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "stats") { Stats.Run(layout, m0x, m0z, n); return; }
@@ -121,7 +121,9 @@ if (args.Length > 2 && args[2] == "spots") { Spots.Run(layout); return; }
 if (args.Length > 2 && args[2] == "probe2") { Probe2.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "l10stock") { L10Stock.Run(layout, smx, smz); return; }
 if (args.Length > 4 && args[2] == "farm") { FindFarm.Run(layout, int.Parse(args[3]), int.Parse(args[4]), 20); return; }
-if (args.Length > 2 && args[2] != "region" && args[2] != "at") { Finder.Run(layout); return; }
+// find: the spawn-site search (Find.cs). Any other name that reached here is a typo or a mode whose argument count was short: say so instead of starting a long search
+if (args.Length > 2 && args[2] == "find") { Finder.Run(layout); return; }
+if (args.Length > 2 && args[2] != "region" && args[2] != "at") { Console.Error.WriteLine("unknown mode, or too few arguments for it: " + args[2]); return; }
 var sw = System.Diagnostics.Stopwatch.StartNew();
 using var w = new BinaryWriter(File.Create("tiles.bin"));
 w.Write(size);

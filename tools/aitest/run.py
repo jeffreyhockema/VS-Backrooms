@@ -1009,6 +1009,11 @@ def main():
         only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
+    if only:
+        # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES} | {"p1-no-errors", "dummies-smoke"}
+        if only - known:
+            sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
     srv = Server(a.mods, os.path.join(data, "vs"), a.port)
     results = []
@@ -1072,7 +1077,7 @@ def main():
         shutil.rmtree(data, ignore_errors=True)
     for n, ok in results:
         print("  %-8s %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", n))
-    return 1 if failed or errors or died else 0
+    return 1 if failed or errors or died or not results else 0
 
 
 if __name__ == "__main__":

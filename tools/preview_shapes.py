@@ -28,7 +28,7 @@ from PIL import Image, ImageDraw
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets")
-GAME = os.environ.get("VINTAGE_STORY", r"G:\Games\Vintagestory")
+GAME = os.environ.get("VINTAGE_STORY", os.path.join(os.environ.get("APPDATA", ""), "Vintagestory"))
 _colours = {}
 _images = {}
 

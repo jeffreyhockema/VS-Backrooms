@@ -7,7 +7,7 @@ set -e
 cd "$(dirname "$0")"
 seed=${1:-56693014}; cells=${2:-12}; angle=${3:-40}
 shift 3 2>/dev/null || shift $#
-levels=${*:-0 1 2 3 4 5 6}
+levels=${*:-0 1 2 3 4 5 6 7 8 9 10}
 for lv in $levels; do
   ./out/mapgen "$seed" "$cells" region "$lv" "$angle" > /dev/null
   python render.py 1 > /dev/null
