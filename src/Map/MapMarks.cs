@@ -44,8 +44,13 @@ public static class MapMarks
         }
         WaypointMapLayer layer = sapi.ModLoader.GetModSystem<WorldMapManager>()?.MapLayers.OfType<WaypointMapLayer>().FirstOrDefault();
         if (layer == null) return false;
+        // (Horizontally only: a note marks at the reader's height, so on a level of several storeys the same place read
+        // from another floor would otherwise be marked twice)
         foreach (Waypoint w in layer.Waypoints)
-            if (w.OwningPlayerUid == player.PlayerUID && w.Position.SquareDistanceTo(at) < near * near) return false;
+        {
+            double dx = w.Position.X - at.X, dz = w.Position.Z - at.Z;
+            if (w.OwningPlayerUid == player.PlayerUID && dx * dx + dz * dz < near * near) return false;
+        }
         layer.AddWaypoint(new Waypoint
         {
             Position = at.Clone(),
@@ -64,7 +69,7 @@ public static class MapMarks
         int level = layout.LevelAt(mx, mz);
         if (level == 6 && layout.IsSnackrooms(mx, mz)) return Lang.Get("backrooms:levelname-6.1");
         if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return Lang.Get("backrooms:levelname-37.1");
-        // The five kept as 14-18 have names of their own ("The End", "The Hub"): levelname-14 to levelname-18
+        // Levels 14 to 20 (Level !, Fun, The End, The Hub, 974, 3999, 188) have names of their own: levelname-14 to levelname-20
         if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level188) return Lang.Get("backrooms:levelname-" + level);
         return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level));
     }

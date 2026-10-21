@@ -120,6 +120,7 @@ public partial class NoteSystem : ModSystem
         layout = null;
         marks = null;
         DisposeClient();
+        base.Dispose();
     }
 
     private void Load()
@@ -130,6 +131,8 @@ public partial class NoteSystem : ModSystem
             logs = data == null ? new() : NoteLog.LoadAll(Encoding.UTF8.GetString(data));
             // (A hand-edited or damaged save may hold an empty entry: it would be handed out as a null log)
             foreach (string uid in logs.Where(p => p.Value == null).Select(p => p.Key).ToList()) logs.Remove(uid);
+            // (And the test readers of "note probe" that an earlier build saved: they are dev-only, never kept)
+            foreach (string uid in logs.Keys.Where(IsProbe).ToList()) logs.Remove(uid);
         }
         catch (Exception ex)
         {
@@ -139,11 +142,14 @@ public partial class NoteSystem : ModSystem
         LoadSpots();
     }
 
+    /// <summary>Whether a log belongs to a test reader of <c>note probe</c> (named "probe:..."), which is kept in memory only.</summary>
+    private static bool IsProbe(string uid) => uid.StartsWith("probe:", StringComparison.Ordinal);
+
     private void Save()
     {
         if (dirty)
         {
-            sapi.WorldManager.SaveGame.StoreData(SaveKey, Encoding.UTF8.GetBytes(NoteLog.SaveAll(logs)));
+            sapi.WorldManager.SaveGame.StoreData(SaveKey, Encoding.UTF8.GetBytes(NoteLog.SaveAll(logs.Where(p => !IsProbe(p.Key)).ToDictionary(p => p.Key, p => p.Value))));
             dirty = false;
         }
         SaveSpots();
@@ -567,7 +573,7 @@ public partial class NoteSystem : ModSystem
                 {
                     string kind = args[0] as string ?? "door";
                     bool told = Read(args.Caller.Player as IServerPlayer, kind);
-                    return TextCommandResult.Success(told ? "Read a " + kind + " note." : "The note told you nothing here.");
+                    return TextCommandResult.Success(told ? "Read a " + kind + " note." : "Notes are not running.");
                 })
             .EndSubCommand()
             .BeginSubCommand("give")
@@ -579,8 +585,9 @@ public partial class NoteSystem : ModSystem
                     string kind = args[0] as string ?? "door";
                     Item item = api.World.GetItem(new AssetLocation("backrooms", NoteItemCode(kind)));
                     if (item == null) return TextCommandResult.Error("No such note.");
-                    args.Caller.Player.InventoryManager.TryGiveItemstack(new ItemStack(item, (int)args[1]), true);
-                    return TextCommandResult.Success($"Gave {(int)args[1]} {kind} notes.");
+                    int count = Math.Clamp((int)args[1], 1, 64);
+                    args.Caller.Player.InventoryManager.TryGiveItemstack(new ItemStack(item, count), true);
+                    return TextCommandResult.Success($"Gave {count} {kind} notes.");
                 })
             .EndSubCommand()
             .BeginSubCommand("probe")
@@ -610,13 +617,11 @@ public partial class NoteSystem : ModSystem
             .EndSubCommand()
             .BeginSubCommand("status")
                 .WithDescription("Shows where a player is in each sequence of notes")
-                .RequiresPlayer()
                 .WithArgs(parsers.OptionalWord("player"))
                 .HandleWith(args => TextCommandResult.Success(Status(args.Caller.Player as IServerPlayer, args[0] as string)))
             .EndSubCommand()
             .BeginSubCommand("reset")
                 .WithDescription("Forgets every note a player has read (their journal), so the sequence starts again")
-                .RequiresPlayer()
                 .WithArgs(parsers.OptionalWord("player"))
                 .HandleWith(args =>
                 {

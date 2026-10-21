@@ -77,7 +77,6 @@ public class L3999System : ModSystem
         api.RegisterBlockBehaviorClass("BackroomsArcadeDirectory", typeof(BlockBehaviorL3999Directory));
         api.RegisterBlockBehaviorClass("BackroomsL3999Vending", typeof(BlockBehaviorL3999Vending));
         api.RegisterBlockBehaviorClass("BackroomsWindmillGenerator", typeof(BlockBehaviorL3999Generator));
-        api.RegisterBlockBehaviorClass("BackroomsHorizontalOrientable", typeof(BlockBehaviorOrientable));
         api.RegisterEntity("BackroomsAttendant", typeof(EntityL3999Attendant));
     }
 

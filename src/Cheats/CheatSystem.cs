@@ -15,7 +15,8 @@ namespace Backrooms.Cheats;
 
 /// <summary>
 /// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, allitems, clear, home, back,
-/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest, blocksweep); the client side (CheatSystem.Client.cs) is a
+/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest, blocksweep, transitiontest,
+/// transitionbench; the registrations in <c>StartServerSide</c> are the full list); the client side (CheatSystem.Client.cs) is a
 /// menu (F7, or <c>.cheats</c>) whose buttons send those and the other debug commands, so every action still goes
 /// through the server's privilege check, plus a few view cheats that only touch the client.
 /// </summary>
@@ -464,7 +465,7 @@ public partial class CheatSystem : ModSystem
         {
             string number = (string)args[1];
             level = WorldLayout.FromDisplayName(number);
-            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
+            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here ({BackroomsModSystem.LevelList})");
         }
 
         // The arrival search starts from a point picked by key, so a few keys find a few different places
@@ -518,6 +519,7 @@ public partial class CheatSystem : ModSystem
         if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
         var target = Targets.First(t => t.Code == (string)args[0]);
         int radius = (int)args[1] < 0 ? target.Radius : Math.Clamp((int)args[1], 16, target.MaxRadius);
+        tileScanStopped = false;
         Entity entity = args.Caller.Entity;
         int gx = (int)Math.Floor(entity.Pos.X), gz = (int)Math.Floor(entity.Pos.Z);
         int level = layout.LevelAt(WorldLayout.MacroOf(gx), WorldLayout.MacroOf(gz));
@@ -775,7 +777,10 @@ public partial class CheatSystem : ModSystem
                 found = NearestCell(gx, gz, radius, layout.IsRedRoom);
                 break;
         }
-        if (found is not { } f) return TextCommandResult.Error($"No {target.Name.ToLowerInvariant()} within {radius} blocks in Level {WorldLayout.DisplayNumber(level)}");
+        if (found is not { } f)
+            return TextCommandResult.Error(tileScanStopped
+                ? $"No {target.Name.ToLowerInvariant()} found in the first {Math.Min(radius, TileScanMaxRadius)} blocks searched in Level {WorldLayout.DisplayNumber(level)} (the search stopped after {TileScanSeconds} s)"
+                : $"No {target.Name.ToLowerInvariant()} within {radius} blocks in Level {WorldLayout.DisplayNumber(level)}");
         if (StandNear(f.X, f.Z, level) is not { } stand) return TextCommandResult.Error($"Found a {target.Name.ToLowerInvariant()} at {FromSpawn(f.X, f.Z)}, but nowhere to stand near it");
 
         int distance = (int)Math.Sqrt((double)(f.X - gx) * (f.X - gx) + (double)(f.Z - gz) * (f.Z - gz));
@@ -840,10 +845,21 @@ public partial class CheatSystem : ModSystem
     private (int X, int Z)? NearestTile(int gx, int gz, int radius, int level, System.Func<Tile, bool> match, out Tile tile) =>
         NearestTileAt(gx, gz, radius, level, (t, x, z) => match(t), out tile);
 
-    /// <summary>As <see cref="NearestTile"/>, the match also given the tile's position.</summary>
+    /// <summary>The furthest a tile scan reaches, whatever radius was asked for, and the longest it runs: it builds every tile of every cell on the main thread.</summary>
+    private const int TileScanMaxRadius = 1024, TileScanSeconds = 2;
+
+    /// <summary>Set when the last tile scan gave up on the time limit (so a miss is reported as "stopped", not "none there").</summary>
+    private bool tileScanStopped;
+
+    /// <summary>
+    /// As <see cref="NearestTile"/>, the match also given the tile's position. Reaches at most <see cref="TileScanMaxRadius"/>
+    /// blocks and stops after <see cref="TileScanSeconds"/> seconds, so a miss cannot stall the server for minutes.
+    /// </summary>
     private (int X, int Z)? NearestTileAt(int gx, int gz, int radius, int level, System.Func<Tile, int, int, bool> match, out Tile tile)
     {
         tile = default;
+        radius = Math.Min(radius, TileScanMaxRadius);
+        long deadline = Environment.TickCount64 + TileScanSeconds * 1000;
         int mx0 = WorldLayout.MacroOf(gx), mz0 = WorldLayout.MacroOf(gz), rings = radius / WorldLayout.MacroSize + 1;
         (int X, int Z)? best = null;
         long bestDistance = long.MaxValue;
@@ -852,6 +868,7 @@ public partial class CheatSystem : ModSystem
                 for (int dx = -r; dx <= r; dx++)
                 {
                     if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || layout.LevelAt(mx0 + dx, mz0 + dz) != level) continue;
+                    if (Environment.TickCount64 > deadline) { tileScanStopped = true; return best; }
                     for (int i = 0; i < WorldLayout.MacroSize * WorldLayout.MacroSize; i++)
                     {
                         int x = (mx0 + dx) * WorldLayout.MacroSize + i % WorldLayout.MacroSize, z = (mz0 + dz) * WorldLayout.MacroSize + i / WorldLayout.MacroSize;
@@ -1032,11 +1049,6 @@ public partial class CheatSystem : ModSystem
     }
 
     /// <summary>
-    /// Dev test for the empty-harvest report: spawns the creature three blocks ahead, kills it a second later in the
-    /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
-    /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
-    /// </summary>
-    /// <summary>
     /// Dev test: puts one of every Backrooms block down in turn and asks it what the block-info HUD asks a looked-at
     /// block (its placed name, its pick stack and its drops). A block that throws is reported: the Level Fun supply shelf
     /// crashed clients that way, by a code rebuilt from the wrong part.
@@ -1076,6 +1088,11 @@ public partial class CheatSystem : ModSystem
         return failed.Count == 0 ? TextCommandResult.Success(summary) : TextCommandResult.Error(summary);
     }
 
+    /// <summary>
+    /// Dev test for the empty-harvest report: spawns the creature three blocks ahead, kills it a second later in the
+    /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
+    /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
+    /// </summary>
     private TextCommandResult OnHarvestTestCommand(TextCommandCallingArgs args)
     {
         IServerPlayer player = (IServerPlayer)args.Caller.Player;

@@ -58,13 +58,13 @@ public partial class NoteSystem
             if (block?.Code == null || block.Code.Domain != "backrooms") continue;
             string path = block.Code.Path;
             for (int i = 0; i < Sources.Length; i++)
-                if (path == Sources[i].Path || path.StartsWith(Sources[i].Path + "-"))
+                if (path == Sources[i].Path || path.StartsWith(Sources[i].Path + "-", StringComparison.Ordinal))
                 {
                     // (torn and emptied ones are listed first, so they never count as sealed)
                     sourceOf[block.BlockId] = i;
                     break;
                 }
-            if (path.StartsWith("loosenote-")) looseNoteIds[path.Substring("loosenote-".Length)] = block.BlockId;
+            if (path.StartsWith("loosenote-", StringComparison.Ordinal)) looseNoteIds[path.Substring("loosenote-".Length)] = block.BlockId;
         }
         api.Event.DidBreakBlock += OnBrokeBlock;
         api.Event.RegisterGameTickListener(OnSpotTick, 3000, 1200);

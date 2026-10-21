@@ -14,9 +14,11 @@ using Backrooms.Worldgen;
 namespace Backrooms;
 
 /// <summary>
-/// Registers the "backrooms" world type. Vanilla terrain, climate, vegetation and creature generators only
-/// run for the "standard" and "superflat" world types, so a world created with the Backrooms playstyle
-/// gets nothing but what this system generates.
+/// Hooks the generator passes into worlds of the Backrooms world type (declared in worldconfig.json, not here).
+/// Vanilla terrain, climate, vegetation and creature generators only run for the "standard" and "superflat" world
+/// types, so a world created with the Backrooms playstyle gets nothing but what this system generates. It also sets
+/// the indoor climate, sea level and spawn, registers the shared oriented-block behaviour (see <see cref="Start"/>)
+/// and owns the <c>/backrooms</c> command that the other systems add their subcommands to.
 /// </summary>
 public class BackroomsModSystem : ModSystem
 {
@@ -38,17 +40,29 @@ public class BackroomsModSystem : ModSystem
     private const float FarmTintTemperature = 37f;
     private const int FarmTintRainfall = 198, FarmTintRainfallSpread = 18;
 
+    /// <summary>The levels <c>/backrooms goto</c> (and the other commands that take a level) accept, for their descriptions and errors.</summary>
+    public const string LevelList = "0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188";
+
     private ICoreServerAPI sapi;
+    /// <summary>
+    /// The one block accessor the game hands out for worldgen. The game calls the provider callback once, and
+    /// <c>GetBlockAccessor(false)</c> returns the same cached instance to every caller (vanilla's own passes share it
+    /// as well); it is safe to use from the TerrainFeatures and Vegetation passes on different worldgen threads
+    /// because the column state <c>BeginColumn</c> resets lives in [ThreadStatic] fields, not on the instance.
+    /// </summary>
     private IWorldGenBlockAccessor worldgenBlockAccessor;
-    private WorldLayout layout;
-    private WorldGenerator generator;
-    private bool isBackroomsWorld;
+    // layout and generator are assigned before the flag, and all three are volatile because the climate callbacks
+    // read them from any thread
+    private volatile WorldLayout layout;
+    private volatile WorldGenerator generator;
+    private volatile bool isBackroomsWorld;
 
     /// <summary>The world's generator (server side, in a Backrooms world): Level ! puts its lanes back as they were with it.</summary>
     public WorldGenerator Generator => generator;
 
     private ICoreClientAPI capi;
-    private bool? clientIsBackroomsWorld;
+    /// <summary>0 = not known yet, 1 = a Backrooms world, 2 = another world. Resolved on the main thread when the level finalizes, read by the climate callback on any thread.</summary>
+    private volatile int clientWorldKind;
 
     /// <summary>
     /// The Mangled's fog round this client's player, copied from its watched attributes on the main thread.
@@ -59,6 +73,15 @@ public class BackroomsModSystem : ModSystem
 
     // Run after the weather systems so our climate override has the final say
     public override double ExecuteOrder() => 1.0;
+
+    /// <summary>
+    /// Registers <c>BlockBehaviorOrientable</c> as "BackroomsHorizontalOrientable" (the name block JSON refers to; do
+    /// not rename it): any block with a hyphen in its base code and a <c>facing</c> variant uses it, not only Level 3999's.
+    /// </summary>
+    public override void Start(ICoreAPI api)
+    {
+        api.RegisterBlockBehaviorClass("BackroomsHorizontalOrientable", typeof(BlockBehaviorOrientable));
+    }
 
     public override void StartServerSide(ICoreServerAPI api)
     {
@@ -82,7 +105,7 @@ public class BackroomsModSystem : ModSystem
                 .HandleWith(OnColumnCommand)
             .EndSubCommand()
             .BeginSubCommand("goto")
-                .WithDescription("Teleports you into a level (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)")
+                .WithDescription("Teleports you into a level (" + LevelList + ")")
                 .RequiresPlayer()
                 .WithArgs(api.ChatCommands.Parsers.Word("level"))
                 .HandleWith(OnGotoCommand)
@@ -108,9 +131,12 @@ public class BackroomsModSystem : ModSystem
     {
         capi = api;
         api.Event.OnGetClimate += OnGetClimateClient;
+        // The world config arrives from the server after StartClientSide; resolve the world kind here, on the main
+        // thread, so the climate callback (any thread) never reads the config's attribute tree
+        api.Event.LevelFinalize += () => clientWorldKind = BackroomsWorld.IsBackroomsClimate(capi.World.Config) ? 1 : 2;
         clientFogListener = api.Event.RegisterGameTickListener(_ =>
         {
-            if (clientIsBackroomsWorld != true) return;
+            if (clientWorldKind != 1) return;
             clientMangledFog = capi.World.Player?.Entity?.WatchedAttributes.GetFloat(Entities.MangledEvent.FogKey) ?? 0f;
         }, 250);
     }
@@ -129,8 +155,7 @@ public class BackroomsModSystem : ModSystem
     private void OnModsAndConfigReady()
     {
         ISaveGame save = sapi.WorldManager.SaveGame;
-        isBackroomsWorld = save.WorldType == BackroomsWorld.WorldTypeCode;
-        if (!isBackroomsWorld) return;
+        if (save.WorldType != BackroomsWorld.WorldTypeCode) return;
 
         // The only creatures in the Backrooms will be ones this mod spawns
         save.EntitySpawning = false;
@@ -155,6 +180,8 @@ public class BackroomsModSystem : ModSystem
             sapi.Logger.Notification("[backrooms] Level size {0}% (fixed for this world; the setting now reads {1}%)",
                 (int)Math.Round(layout.RingScale * 100), BackroomsWorld.LevelSizeSetting(sapi.World.Config));
         generator = new WorldGenerator(sapi, layout);
+        // (Last: the climate callbacks take the flag to mean that layout and generator exist)
+        isBackroomsWorld = true;
 
         // Y coordinates on the HUD are shown relative to sea level, so this makes the Level 0 floor read as y=0
         sapi.WorldManager.SetSeaLevel(generator.Geometry.FloorY);
@@ -225,17 +252,27 @@ public class BackroomsModSystem : ModSystem
         return new IntDataMap2D { Data = data, Size = 3, TopLeftPadding = 1, BottomRightPadding = 1 };
     }
 
+    /// <summary>The Terrain pass: writes the column's blocks, fluids, height maps and block light (<c>WorldGenerator.Generate</c>).</summary>
     private void OnTerrainPass(IChunkColumnGenerateRequest request)
     {
         generator.Generate(request);
     }
 
+    /// <summary>
+    /// The TerrainFeatures pass: the only place block entities are created. <c>SpawnBlockEntities</c> takes them from
+    /// the note the Terrain pass left, or works them out from the blocks when the note is gone (the server stopped
+    /// between the two passes).
+    /// </summary>
     private void OnFeaturesPass(IChunkColumnGenerateRequest request)
     {
         worldgenBlockAccessor.BeginColumn();
         generator.SpawnBlockEntities(request, worldgenBlockAccessor);
     }
 
+    /// <summary>
+    /// Registered under the Vegetation pass, which only gives it a slot after TerrainFeatures: nothing is grown here.
+    /// It floods the column with sunlight and applies the block light updates the accessor scheduled.
+    /// </summary>
     private void OnLightPass(IChunkColumnGenerateRequest request)
     {
         worldgenBlockAccessor.BeginColumn();
@@ -243,6 +280,7 @@ public class BackroomsModSystem : ModSystem
         worldgenBlockAccessor.RunScheduledBlockLightUpdates(request.ChunkX, request.ChunkZ);
     }
 
+    /// <summary>The engine's cross-column step: carries the sunlight over the borders to the neighbouring columns.</summary>
     private void OnNeighbourLightPass(IChunkColumnGenerateRequest request)
     {
         sapi.WorldManager.SunFloodChunkColumnNeighboursForWorldGen(request.Chunks, request.ChunkX, request.ChunkZ);
@@ -303,7 +341,7 @@ public class BackroomsModSystem : ModSystem
         if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
         string number = (string)args[0];
         int level = WorldLayout.FromDisplayName(number);
-        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999 or 188)");
+        if (level < 0) return TextCommandResult.Error($"There is no Level {number} here ({LevelList})");
         var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         ulong key = (ulong)sapi.World.Rand.NextInt64();
         var player = (IServerPlayer)args.Caller.Player;
@@ -426,22 +464,18 @@ public class BackroomsModSystem : ModSystem
 
     private void OnGetClimateServer(ref ClimateCondition climate, BlockPos pos, EnumGetClimateMode mode, double totalDays)
     {
-        if (!isBackroomsWorld) return;
+        // (Called from any thread: guard on the objects themselves, not only the flag)
+        WorldLayout layout = this.layout;
+        WorldGenerator generator = this.generator;
+        if (!isBackroomsWorld || layout == null || generator == null) return;
         // (The Mangled's weather: the air goes cold round it)
         ApplyIndoorClimate(climate, layout.TemperatureAt(pos.X, pos.Y, pos.Z, generator.Geometry.FloorY) - Entities.MangledEvent.ColdDegrees * Entities.MangledEvent.ColdAt(pos));
     }
 
     private void OnGetClimateClient(ref ClimateCondition climate, BlockPos pos, EnumGetClimateMode mode, double totalDays)
     {
-        if (clientIsBackroomsWorld == null)
-        {
-            // World config arrives from the server after StartClientSide, so resolve this lazily
-            string worldClimate = capi.World?.Config?.GetString("worldClimate");
-            if (worldClimate == null) return;
-            clientIsBackroomsWorld = worldClimate == BackroomsWorld.ClimateCode;
-        }
         // The client only uses climate for visuals; body temperature is worked out on the server
-        if (clientIsBackroomsWorld == true) ApplyIndoorClimate(climate, LobbyTemperature - Entities.MangledEvent.ColdDegrees * clientMangledFog);
+        if (clientWorldKind == 1) ApplyIndoorClimate(climate, LobbyTemperature - Entities.MangledEvent.ColdDegrees * clientMangledFog);
     }
 
     private static void ApplyIndoorClimate(ClimateCondition climate, float temperature)

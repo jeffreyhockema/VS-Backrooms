@@ -298,7 +298,7 @@ public sealed class MarkResolver
 
     /// <summary>
     /// The nearest block that leads somewhere (any block with a threshold behaviour) within the radius, in the band of the
-    /// level's floor, among the chunks that are loaded. A few hundred thousand block lookups at most, once per note.
+    /// level's floor, among the chunks that are loaded. Up to about 2.4 million block lookups at a radius of 256 (a folded note's doubled search), once per note.
     /// </summary>
     public (int X, int Z)? NearestThresholdBlock(int x, int z, int level, int radius, System.Func<int, int, bool> skip = null)
     {

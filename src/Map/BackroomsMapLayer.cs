@@ -49,6 +49,26 @@ public class BackroomsMapLayer : MapLayer
     private readonly sbyte[] sightGrid = new sbyte[GridSize * GridSize];
     private readonly int[] visitedPass = new int[GridSize * GridSize];
     private int pass;
+
+    /// <summary>The (cos, sin) of each of the <see cref="RayCount"/> rays, worked out once.</summary>
+    private static readonly (double Cos, double Sin)[] RayDirections = MakeRayDirections();
+
+    private static (double Cos, double Sin)[] MakeRayDirections()
+    {
+        var directions = new (double Cos, double Sin)[RayCount];
+        for (int ray = 0; ray < RayCount; ray++)
+        {
+            double angle = ray * (2 * Math.PI / RayCount);
+            directions[ray] = (Math.Cos(angle), Math.Sin(angle));
+        }
+        return directions;
+    }
+
+    // A pass over a player who has not moved a block finds what the last one did, apart from lighting that changed:
+    // such a pass is skipped, except once a second
+    private int lastRevealX = int.MinValue, lastRevealY, lastRevealZ;
+    private float sinceFullReveal;
+    private const float StillRevealInterval = 1f;
     private readonly BlockPos tmpPos = new BlockPos(0, 0, 0);
 
     private float revealAccum;
@@ -135,6 +155,10 @@ public class BackroomsMapLayer : MapLayer
         double originZ = player.Pos.Z;
         int centerX = (int)Math.Floor(originX);
         int centerZ = (int)Math.Floor(originZ);
+        int centerY = (int)Math.Floor(player.Pos.Y);
+        sinceFullReveal += RevealInterval;
+        if (centerX == lastRevealX && centerY == lastRevealY && centerZ == lastRevealZ && sinceFullReveal < StillRevealInterval) return;
+        (lastRevealX, lastRevealY, lastRevealZ, sinceFullReveal) = (centerX, centerY, centerZ, 0f);
         int mx = WorldLayout.MacroOf(centerX), mz = WorldLayout.MacroOf(centerZ);
         int level = layout.LevelAt(mx, mz);
         if (!SampleHeights(level, player.Pos.Y)) return;
@@ -145,9 +169,7 @@ public class BackroomsMapLayer : MapLayer
 
         for (int ray = 0; ray < RayCount; ray++)
         {
-            double angle = ray * (2 * Math.PI / RayCount);
-            double dx = Math.Cos(angle);
-            double dz = Math.Sin(angle);
+            (double dx, double dz) = RayDirections[ray];
 
             for (double t = 0; t <= revealLimit; t += 0.4)
             {
@@ -183,13 +205,19 @@ public class BackroomsMapLayer : MapLayer
         int mapped = 0;
         for (int z = centerZ - radius; z <= centerZ + radius; z++)
         {
+            // (A row's pixels fall in a new chunk only every ChunkSize columns: one dirty-chunk entry per run)
+            int lastChunkX = int.MinValue;
             for (int x = centerX - radius; x <= centerX + radius; x++)
             {
                 int floor = FloorAt(x, z);
                 if (blockAccessor.GetChunkAtBlockPos(x, floor + 2, z) == null) continue;
                 int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floor + 1, z), EnumLightLevelType.MaxLight);
                 int color = MapColors.Classify(blockAccessor, floor, floor + geometry.CeilingY - 1 - geometry.FloorY, tmpPos, x, z, light);
-                if (store.SetPixel(x, z, color)) dirtyChunks.Add(new FastVec2i(x / ExploredMapStore.ChunkSize, z / ExploredMapStore.ChunkSize));
+                if (store.SetPixel(x, z, color) && x / ExploredMapStore.ChunkSize != lastChunkX)
+                {
+                    lastChunkX = x / ExploredMapStore.ChunkSize;
+                    dirtyChunks.Add(new FastVec2i(lastChunkX, z / ExploredMapStore.ChunkSize));
+                }
                 mapped++;
             }
         }

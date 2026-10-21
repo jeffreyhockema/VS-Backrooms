@@ -153,9 +153,10 @@ public class GuideSystem : ModSystem
         capi.Event.RegisterCallback(_ =>
         {
             if (capi.World?.Player == null) return;
-            capi.StoreModConfig(new TutorialFlag { Started = true }, TutorialFlagFile);
+            // (The once-only flag is spent only when the tutorial really starts: not in creative, not over another tutorial)
             if (tutorials.CurrentTutorial != null) return;
             if (capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
+            capi.StoreModConfig(new TutorialFlag { Started = true }, TutorialFlagFile);
             tutorials.StartTutorial(BackroomsTutorial.Code);
             capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
         }, 2500);

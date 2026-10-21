@@ -36,7 +36,7 @@ public class ItemWandererNote : Item
     public const string ReadersKey = "readers";
 
     /// <summary>The paper: door, way, cache, refuge, altered, or folded.</summary>
-    public string Kind => Variant["kind"] ?? (Code.Path.EndsWith("folded") ? "folded" : "door");
+    public string Kind => Variant["kind"] ?? (Code.Path.EndsWith("folded", System.StringComparison.Ordinal) ? "folded" : "door");
 
     /// <summary>Who has read a note (empty for a fresh one).</summary>
     public static string[] ReadersOf(ItemStack stack) => (stack?.Attributes?[ReadersKey] as StringArrayAttribute)?.value ?? System.Array.Empty<string>();

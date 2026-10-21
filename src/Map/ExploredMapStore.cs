@@ -19,7 +19,9 @@ public sealed class ExploredMapStore
     private readonly string filePath;
     private readonly ILogger logger;
 
-    public bool IsDirty { get; private set; }
+    public bool IsDirty { get => isDirty; private set => isDirty = value; }
+    // (Volatile: the background write sets it again when it fails, so the next save retries)
+    private volatile bool isDirty;
 
     public ExploredMapStore(string filePath, ILogger logger)
     {
@@ -127,6 +129,8 @@ public sealed class ExploredMapStore
             catch (Exception e)
             {
                 logger.Error("[backrooms] Could not save explored map to {0}: {1}", filePath, e.Message);
+                // Not saved after all: the next tick, or the shutdown save, tries again
+                IsDirty = true;
             }
         }
     }

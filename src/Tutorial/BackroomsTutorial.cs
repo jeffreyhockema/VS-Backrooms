@@ -53,7 +53,7 @@ public class BackroomsTutorial : TutorialBase
         if (stack.Collectible.Code.Domain == "backrooms")
         {
             return path is "almondwater" or "crackers" or "cannedbeans" or "carpetfibre" or "wallpaperstrip"
-                or "glassshard" or "metalbracket" or "glassshiv" || (path.StartsWith("wanderernote") && !Map.ItemWandererNote.IsRead(stack)) || path.StartsWith("seedpacket");
+                or "glassshard" or "metalbracket" or "glassshiv" || (path.StartsWith("wanderernote", System.StringComparison.Ordinal) && !Map.ItemWandererNote.IsRead(stack)) || path.StartsWith("seedpacket", System.StringComparison.Ordinal);
         }
         return path is "flint" or "stick" or "drygrass" or "candle";
     }
@@ -84,7 +84,7 @@ public class BackroomsTutorial : TutorialBase
         TutorialStepReceive craftTwine = TutorialStepBase.Craft(capi, "crafttwine", Text(9), s => Is(s, "game", "flaxtwine"), 1);
         TutorialStepReceive craftBag = TutorialStepBase.Craft(capi, "craftbag", Text(10), s => Ours(s, "carpetbag"), 1);
         // 13. A torch (named: the map step after it waits on it)
-        TutorialStepReceive craftTorch = new TutorialStepCarried(capi, "crafttorch", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.Code.Path.StartsWith("torch-"),
+        TutorialStepReceive craftTorch = new TutorialStepCarried(capi, "crafttorch", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.Code.Path.StartsWith("torch-", System.StringComparison.Ordinal),
             EnumReceiveType.Craft, 1, LegacyFlintSteps);
         addSteps(
             // 1. Moving, and why not to run
