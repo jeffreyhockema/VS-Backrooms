@@ -1,0 +1,92 @@
+{
+	"code": "built-carpet",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"normal",
+				"threadbare"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsStrippable",
+			"properties": {
+				"result": "built-carpet-threadbare",
+				"item": "carpetfibre",
+				"variant": "type",
+				"allowed": [
+					"normal",
+					"stained"
+				]
+			}
+		}
+	],
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/carpet-{type}",
+			"alternates": [
+				{
+					"base": "block/carpet-{type}",
+					"rotation": 90
+				},
+				{
+					"base": "block/carpet-{type}",
+					"rotation": 180
+				},
+				{
+					"base": "block/carpet-{type}",
+					"rotation": 270
+				},
+				{
+					"base": "block/carpet-{type}-2"
+				},
+				{
+					"base": "block/carpet-{type}-2",
+					"rotation": 90
+				},
+				{
+					"base": "block/carpet-{type}-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/carpet-{type}-2",
+					"rotation": 270
+				}
+			]
+		}
+	},
+	"resistance": 1.5,
+	"fertilityByType": {
+		"*-soaked": 10,
+		"*": 0
+	},
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-carpet-{type}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

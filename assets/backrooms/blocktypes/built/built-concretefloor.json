@@ -1,0 +1,194 @@
+{
+	"code": "built-concretefloor",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/level1/concretefloor-plain",
+				"alternates": [
+					{
+						"base": "block/level1/concretefloor-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-plain",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-plain-2"
+					},
+					{
+						"base": "block/level1/concretefloor-plain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-plain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-plain-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-plain-3"
+					},
+					{
+						"base": "block/level1/concretefloor-plain-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-plain-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-plain-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-wet": {
+			"all": {
+				"base": "block/level1/concretefloor-wet",
+				"alternates": [
+					{
+						"base": "block/level1/concretefloor-wet",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-wet",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-wet",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-wet-2"
+					},
+					{
+						"base": "block/level1/concretefloor-wet-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-wet-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-wet-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-wet-3"
+					},
+					{
+						"base": "block/level1/concretefloor-wet-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-wet-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-wet-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-dark": {
+			"all": {
+				"base": "block/level1/concretefloor-dark",
+				"alternates": [
+					{
+						"base": "block/level1/concretefloor-dark",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-dark",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-dark",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-dark-2"
+					},
+					{
+						"base": "block/level1/concretefloor-dark-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-dark-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-dark-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level1/concretefloor-dark-3"
+					},
+					{
+						"base": "block/level1/concretefloor-dark-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level1/concretefloor-dark-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level1/concretefloor-dark-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*": {
+			"all": {
+				"base": "block/level1/concretefloor-{type}"
+			}
+		}
+	},
+	"resistance": 8,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"requiredMiningTier": 2,
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-concretefloor-{type}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

@@ -1,0 +1,124 @@
+{
+	"code": "built-officecarpet",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/level4/officecarpet-plain",
+				"alternates": [
+					{
+						"base": "block/level4/officecarpet-plain",
+						"rotation": 90
+					},
+					{
+						"base": "block/level4/officecarpet-plain",
+						"rotation": 180
+					},
+					{
+						"base": "block/level4/officecarpet-plain",
+						"rotation": 270
+					},
+					{
+						"base": "block/level4/officecarpet-plain-2"
+					},
+					{
+						"base": "block/level4/officecarpet-plain-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level4/officecarpet-plain-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level4/officecarpet-plain-2",
+						"rotation": 270
+					},
+					{
+						"base": "block/level4/officecarpet-plain-3"
+					},
+					{
+						"base": "block/level4/officecarpet-plain-3",
+						"rotation": 90
+					},
+					{
+						"base": "block/level4/officecarpet-plain-3",
+						"rotation": 180
+					},
+					{
+						"base": "block/level4/officecarpet-plain-3",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-ghost": {
+			"all": {
+				"base": "block/level4/officecarpet-ghost",
+				"alternates": [
+					{
+						"base": "block/level4/officecarpet-ghost",
+						"rotation": 90
+					},
+					{
+						"base": "block/level4/officecarpet-ghost",
+						"rotation": 180
+					},
+					{
+						"base": "block/level4/officecarpet-ghost",
+						"rotation": 270
+					},
+					{
+						"base": "block/level4/officecarpet-ghost-2"
+					},
+					{
+						"base": "block/level4/officecarpet-ghost-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/level4/officecarpet-ghost-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/level4/officecarpet-ghost-2",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-officecarpet-{type}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

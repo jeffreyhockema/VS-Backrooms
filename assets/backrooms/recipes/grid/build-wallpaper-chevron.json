@@ -4,7 +4,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-stripped-upper"
+				"code": "built-wallpaper-stripped-upper"
 			},
 			"B": {
 				"type": "item",
@@ -17,7 +17,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-chevron-upper",
+			"code": "built-wallpaper-chevron-upper",
 			"quantity": 1
 		}
 	},
@@ -26,7 +26,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-chevron-upper"
+				"code": "built-wallpaper-chevron-upper"
 			},
 			"B": {
 				"type": "item",
@@ -38,7 +38,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-chevron-baseboard",
+			"code": "built-wallpaper-chevron-baseboard",
 			"quantity": 1
 		}
 	}

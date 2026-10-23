@@ -19,7 +19,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "l3wall-brick",
+			"code": "built-l3wall-brick",
 			"quantity": 2
 		}
 	},
@@ -39,7 +39,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "l3wall-glazed",
+			"code": "built-l3wall-glazed",
 			"quantity": 2
 		}
 	},
@@ -59,7 +59,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "l3wall-cinder",
+			"code": "built-l3wall-cinder",
 			"quantity": 2
 		}
 	},
@@ -79,7 +79,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "housefloor-tile",
+			"code": "built-housefloor-tile",
 			"quantity": 4
 		}
 	},
@@ -99,7 +99,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "housefloor-wood",
+			"code": "built-housefloor-wood",
 			"quantity": 4
 		}
 	}

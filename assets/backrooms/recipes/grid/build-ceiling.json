@@ -15,7 +15,7 @@
 		"height": 1,
 		"output": {
 			"type": "block",
-			"code": "ceilingtile",
+			"code": "built-ceilingtile",
 			"quantity": 4
 		}
 	},
@@ -35,7 +35,7 @@
 		"height": 3,
 		"output": {
 			"type": "block",
-			"code": "officeceiling",
+			"code": "built-officeceiling",
 			"quantity": 4
 		}
 	}

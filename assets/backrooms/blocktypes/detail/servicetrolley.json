@@ -153,5 +153,13 @@
 				"var": 0.15
 			}
 		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsDismantle",
+			"properties": {
+				"tool": "hammer"
+			}
+		}
 	]
 }

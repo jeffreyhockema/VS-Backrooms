@@ -1,0 +1,45 @@
+{
+	"code": "built-concrete",
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/concrete",
+			"alternates": [
+				{
+					"base": "block/concrete2"
+				},
+				{
+					"base": "block/concrete3"
+				}
+			]
+		}
+	},
+	"resistance": 8,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"requiredMiningTier": 2,
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-concrete",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}
