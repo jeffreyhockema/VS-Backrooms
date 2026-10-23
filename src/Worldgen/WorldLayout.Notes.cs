@@ -56,9 +56,20 @@ public sealed partial class WorldLayout
         NearestTile(gx, gz, level, radius, t => t.Kind == TileKind.Pit || t.Under == Unders.Noclip || t.Under is >= Unders.Descent1 and <= Unders.Descent3
             || t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator || t.Stair > 0 && t.Under == 0 && t.Level is 1 or 4 or 5, skip: skip);
 
-    /// <summary>The nearest supply box or crate that nobody has opened yet (not counting any right beside you).</summary>
-    public (int X, int Z)? NearestCache(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null) =>
-        NearestTile(gx, gz, level, radius, t => !t.Looted && (t.SupplyBox || IsCrate(t, t.Level)), min: 12, skip: skip);
+    /// <summary>
+    /// The nearest supply box or crate that nobody has opened yet (not counting any right beside you). Never the two boxes
+    /// by the spawn point: the layout cannot know a player opened them, and a note should not send them back to where they woke.
+    /// </summary>
+    public (int X, int Z)? NearestCache(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)
+    {
+        (int X, int Z)? spawn = level == 0 ? spawnPoint ??= FindSpawn() : null;
+        Func<int, int, bool> skipped = spawn is not { } s ? skip : (x, z) => Math.Abs(x - s.X) <= SpawnBoxReach && Math.Abs(z - s.Z) <= SpawnBoxReach || skip != null && skip(x, z);
+        return NearestTile(gx, gz, level, radius, t => !t.Looted && (t.SupplyBox || IsCrate(t, t.Level)), min: 12, skip: skipped);
+    }
+
+    /// <summary>How far from the spawn point its supply boxes lie (<c>PlaceSpawnBox</c>: two to three blocks), with some to spare.</summary>
+    private const int SpawnBoxReach = 4;
+    private (int X, int Z)? spawnPoint;
 
     /// <summary>
     /// The nearest refuge: the Manila Room, a Sanctum, the Beverly Room, the Snackrooms, a wanderer who trades, the
