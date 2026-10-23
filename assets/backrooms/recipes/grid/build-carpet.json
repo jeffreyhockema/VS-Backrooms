@@ -15,7 +15,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "carpet-normal",
+			"code": "built-carpet-normal",
 			"quantity": 2
 		}
 	},
@@ -35,7 +35,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "officecarpet-plain",
+			"code": "built-officecarpet-plain",
 			"quantity": 2
 		}
 	},
@@ -55,7 +55,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "hotelcarpet-maroon",
+			"code": "built-hotelcarpet-maroon",
 			"quantity": 2
 		}
 	},
@@ -75,7 +75,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "hotelcarpet-damask",
+			"code": "built-hotelcarpet-damask",
 			"quantity": 2
 		}
 	}

@@ -4,7 +4,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-stripped-upper"
+				"code": "built-wallpaper-stripped-upper"
 			},
 			"B": {
 				"type": "item",
@@ -16,7 +16,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-manila-upper",
+			"code": "built-wallpaper-manila-upper",
 			"quantity": 1
 		}
 	},
@@ -25,7 +25,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-manila-upper"
+				"code": "built-wallpaper-manila-upper"
 			},
 			"B": {
 				"type": "item",
@@ -37,7 +37,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-manila-baseboard",
+			"code": "built-wallpaper-manila-baseboard",
 			"quantity": 1
 		}
 	}

@@ -294,11 +294,11 @@ Walls break down, but a room can be built again from what they leave. All of it 
 - **Carpet:** 4 [carpet fibres](item-backrooms:carpetfibre) + 2 flax twine = 2 Level 0 carpet. Fibres and cloth make Level 4's office carpet and the hotel's maroon and damask.
 - **Ceilings:** a strip, plaster and a strip in a row = 4 ceiling tiles; the same standing = 4 Level 4 tiles.
 - **Hotel:** 4 planks + 2 sticks = 4 panels; a panel + a stick = wainscot, + a plank = frieze. 5 planks + nails (the nails in the bottom row) = 4 walnut floor; with the nails in the top row, 4 floorboards.
-- **Concrete:** 3 [rubble](item-backrooms:rubble) + 1 mortar = 2 [concrete](block-backrooms:concrete). 2 concrete side by side = 2 floor slabs, one above the other = 2 ceiling slabs, 1 on its own = a concrete wall; concrete + rubble = 2 pavement.
+- **Concrete:** 3 [rubble](item-backrooms:rubble) + 1 mortar = 2 [concrete](block-backrooms:built-concrete). 2 concrete side by side = 2 floor slabs, one above the other = 2 ceiling slabs, 1 on its own = a concrete wall; concrete + rubble = 2 pavement.
 - **Brick, tile, cinder block:** Level 3's walls are 2 of the game's bricks, tiles or rubble and 2 mortar, set crosswise, for 2 blocks; bathroom tiles are 3 clay tiles + mortar for 4.
 - **Whole furniture:** break an office or hotel desk, table, chair, sofa, wardrobe, bookshelf, dresser or cubicle partition with a saw in hand and it comes away whole, to set down again facing you. Any other tool breaks it for lumber and cloth as before.
 - **Only salvaged, never made:** light fixtures, machines, pipes, wiring, doors, vending machines, anything that holds a level up or leads elsewhere. They give up their glass, brackets and wire, never themselves.
-What you build breaks down like the rest if you tear it out again, so choose your walls with care.
+What you make comes back whole: break a block you crafted (an axe or bare hands for drywall, wallpaper, carpet and tiles; a pickaxe for concrete and masonry) and you get that block, to use again. Only the Backrooms' own walls break down, and a block taken from the world is still salvage. Furniture is different: even set down again, it comes away whole only under a saw.
 
 **Backrooms recipes**
 - [Glass shiv](item-backrooms:glassshiv) (knife, 60 uses, cuts two a block) = glass shard + wallpaper strip + carpet fibre

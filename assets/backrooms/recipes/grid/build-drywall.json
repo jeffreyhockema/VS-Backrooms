@@ -15,7 +15,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-stripped-upper",
+			"code": "built-wallpaper-stripped-upper",
 			"quantity": 4
 		}
 	},
@@ -35,7 +35,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "officewall",
+			"code": "built-officewall",
 			"quantity": 4
 		}
 	}

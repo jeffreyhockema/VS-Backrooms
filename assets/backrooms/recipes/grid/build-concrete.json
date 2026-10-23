@@ -15,7 +15,7 @@
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "concrete",
+			"code": "built-concrete",
 			"quantity": 2
 		}
 	},
@@ -24,14 +24,14 @@
 		"ingredients": {
 			"C": {
 				"type": "block",
-				"code": "concrete"
+				"code": "built-concrete"
 			}
 		},
 		"width": 2,
 		"height": 1,
 		"output": {
 			"type": "block",
-			"code": "concretefloor-plain",
+			"code": "built-concretefloor-plain",
 			"quantity": 2
 		}
 	},
@@ -40,14 +40,14 @@
 		"ingredients": {
 			"C": {
 				"type": "block",
-				"code": "concrete"
+				"code": "built-concrete"
 			}
 		},
 		"width": 1,
 		"height": 2,
 		"output": {
 			"type": "block",
-			"code": "concreteceiling",
+			"code": "built-concreteceiling",
 			"quantity": 2
 		}
 	},
@@ -56,14 +56,14 @@
 		"ingredients": {
 			"C": {
 				"type": "block",
-				"code": "concrete"
+				"code": "built-concrete"
 			}
 		},
 		"width": 1,
 		"height": 1,
 		"output": {
 			"type": "block",
-			"code": "concretewall-plain",
+			"code": "built-concretewall-plain",
 			"quantity": 1
 		}
 	},
@@ -72,7 +72,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "concrete"
+				"code": "built-concrete"
 			},
 			"B": {
 				"type": "item",
@@ -84,7 +84,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "sidewalk-plain",
+			"code": "built-sidewalk-plain",
 			"quantity": 2
 		}
 	}

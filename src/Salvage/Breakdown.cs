@@ -225,6 +225,13 @@ public static class Breakdown
         return path.Length > suffix.Length && path.EndsWith(suffix, System.StringComparison.Ordinal) ? path[..^suffix.Length] : path;
     }
 
+    /// <summary>
+    /// Whether a block is one a player makes in the crafting grid: a <c>built-*</c> twin of a block the world generator
+    /// uses (<c>backroomsBuilt</c> in its attributes). It gives itself back, breaks by its own block type, and no rule of
+    /// ours (<see cref="Apply"/>, <see cref="FindOwnDrops"/>, <see cref="Protection"/>) touches it.
+    /// </summary>
+    public static bool IsBuilt(Block block) => block?.Attributes?["backroomsBuilt"].AsBool() == true;
+
     private static bool IsOurs(Block block) => block?.Code != null && block.Code.Domain == "backrooms" && block.BlockId != 0;
 
     /// <summary>Whether a block's own drops (as its block type gives them) are anything but the block itself.</summary>
@@ -302,6 +309,8 @@ public static class Breakdown
     public static BreakKind KindOf(Block block)
     {
         if (block?.Code == null || block.Code.Domain != "backrooms" || block.BlockId == 0) return BreakKind.None;
+        // What the player made (the built-* twins of tools/gen_building.py): theirs, and it comes back whole
+        if (IsBuilt(block)) return BreakKind.None;
         string first = block.FirstCodePart();
         // Level !: every code starts "run"; its props keep their own drops (loot), the hallway itself never breaks
         if (first == "run") return IsRunProp(block.Code.Path) ? BreakKind.None : BreakKind.Fixed;

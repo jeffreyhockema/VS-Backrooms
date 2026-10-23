@@ -4,7 +4,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-stripped-upper"
+				"code": "built-wallpaper-stripped-upper"
 			},
 			"B": {
 				"type": "block",
@@ -16,7 +16,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-stucco-upper",
+			"code": "built-wallpaper-stucco-upper",
 			"quantity": 2
 		}
 	},
@@ -25,7 +25,7 @@
 		"ingredients": {
 			"A": {
 				"type": "block",
-				"code": "wallpaper-stucco-upper"
+				"code": "built-wallpaper-stucco-upper"
 			},
 			"B": {
 				"type": "item",
@@ -37,7 +37,7 @@
 		"shapeless": true,
 		"output": {
 			"type": "block",
-			"code": "wallpaper-stucco-baseboard",
+			"code": "built-wallpaper-stucco-baseboard",
 			"quantity": 1
 		}
 	}

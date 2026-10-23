@@ -1,0 +1,56 @@
+{
+	"code": "built-officeceiling",
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level4/officeceiling",
+			"alternates": [
+				{
+					"base": "block/level4/officeceiling",
+					"rotation": 180
+				},
+				{
+					"base": "block/level4/officeceiling-2"
+				},
+				{
+					"base": "block/level4/officeceiling-2",
+					"rotation": 180
+				},
+				{
+					"base": "block/level4/officeceiling-3"
+				},
+				{
+					"base": "block/level4/officeceiling-3",
+					"rotation": 180
+				}
+			]
+		}
+	},
+	"resistance": 1,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-officeceiling",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}
