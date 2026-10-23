@@ -1,0 +1,42 @@
+[
+	{
+		"ingredientPattern": "SPS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "wallpaperstrip"
+			},
+			"P": {
+				"type": "block",
+				"code": "game:plaster-plain"
+			}
+		},
+		"width": 3,
+		"height": 1,
+		"output": {
+			"type": "block",
+			"code": "ceilingtile",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "S,P,S",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "wallpaperstrip"
+			},
+			"P": {
+				"type": "block",
+				"code": "game:plaster-plain"
+			}
+		},
+		"width": 1,
+		"height": 3,
+		"output": {
+			"type": "block",
+			"code": "officeceiling",
+			"quantity": 4
+		}
+	}
+]

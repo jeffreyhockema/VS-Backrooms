@@ -1,0 +1,42 @@
+[
+	{
+		"ingredientPattern": "PP,SS",
+		"ingredients": {
+			"P": {
+				"type": "block",
+				"code": "game:plaster-plain"
+			},
+			"S": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-stripped-upper",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "PS,PS",
+		"ingredients": {
+			"P": {
+				"type": "block",
+				"code": "game:plaster-plain"
+			},
+			"S": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "officewall",
+			"quantity": 4
+		}
+	}
+]

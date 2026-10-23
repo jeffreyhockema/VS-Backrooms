@@ -87,5 +87,10 @@
 				"var": 0.3
 			}
 		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsDismantle"
+		}
 	]
 }

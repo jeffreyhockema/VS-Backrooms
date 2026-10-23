@@ -1,0 +1,91 @@
+[
+	{
+		"ingredientPattern": "RR,RM",
+		"ingredients": {
+			"R": {
+				"type": "item",
+				"code": "rubble"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "concrete",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "CC",
+		"ingredients": {
+			"C": {
+				"type": "block",
+				"code": "concrete"
+			}
+		},
+		"width": 2,
+		"height": 1,
+		"output": {
+			"type": "block",
+			"code": "concretefloor-plain",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "C,C",
+		"ingredients": {
+			"C": {
+				"type": "block",
+				"code": "concrete"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "concreteceiling",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "C",
+		"ingredients": {
+			"C": {
+				"type": "block",
+				"code": "concrete"
+			}
+		},
+		"width": 1,
+		"height": 1,
+		"output": {
+			"type": "block",
+			"code": "concretewall-plain",
+			"quantity": 1
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "concrete"
+			},
+			"B": {
+				"type": "item",
+				"code": "rubble"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "sidewalk-plain",
+			"quantity": 2
+		}
+	}
+]

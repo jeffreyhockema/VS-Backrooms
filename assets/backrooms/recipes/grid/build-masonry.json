@@ -1,0 +1,106 @@
+[
+	{
+		"ingredientPattern": "BM,MB",
+		"ingredients": {
+			"B": {
+				"type": "item",
+				"code": "game:burnedbrick-*",
+				"skipVariants": [
+					"fire",
+					"clinker"
+				]
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "l3wall-brick",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TM,MT",
+		"ingredients": {
+			"T": {
+				"type": "item",
+				"code": "game:claytile-fired-plain-*"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "l3wall-glazed",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "RM,MR",
+		"ingredients": {
+			"R": {
+				"type": "item",
+				"code": "rubble"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "l3wall-cinder",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TT,TM",
+		"ingredients": {
+			"T": {
+				"type": "item",
+				"code": "game:claytile-fired-plain-*"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "housefloor-tile",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "PNP,PPP",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"N": {
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "housefloor-wood",
+			"quantity": 4
+		}
+	}
+]

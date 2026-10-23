@@ -61,6 +61,7 @@ public class SalvageSystem : ModSystem
     {
         api.RegisterBlockBehaviorClass("BackroomsStrippable", typeof(BlockBehaviorStrippable));
         api.RegisterBlockBehaviorClass("BackroomsPartnered", typeof(BlockBehaviorPartnered));
+        api.RegisterBlockBehaviorClass("BackroomsDismantle", typeof(BlockBehaviorDismantle));
     }
 
     /// <summary>Whether a block of ours is salvage: taken whole, wherever it is, with what it holds.</summary>
