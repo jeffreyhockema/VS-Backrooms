@@ -152,6 +152,11 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
   Skin-Stealers bear-strength; revisit once players have tried 0.515 (armour tiers by depth, creatures that cannot be
   outrun from Level 3).
 
+### Spanish gaps for P8 (2026-10-23, noted by vs-backrooms-ec)
+
+- es lang lacks `block-l3wallfixture-*-pipesbracket`, `-pipesjoint` and `block-run-wall-railshort-*`.
+- `guide-levels-text`, `guide-entities-text`, `guide-farlevels-text`: the Spanish markup differs from the English.
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
