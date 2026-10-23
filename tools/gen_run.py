@@ -1083,13 +1083,21 @@ def exit_doors():
                 bx("Arm", (3.5, 12.1, 3), (9.5, 12.9, 3.7), "panicbar", faces=("south", "up", "down", "west")),
                 bx("Plate", (2, 5, 3), (6, 7, 3.3), "panicbar", faces=("south", "up", "down", "east", "west"))]
 
+    def placard(z, face, y=6):
+        # (0.516.0) A stairwell placard (NO RE-ENTRY) at eye height; `z` is the plane it is stuck to, `face` the side it reads from
+        z0, z1 = (z, z + 0.6) if face == "north" else (z, z + 0.5)
+        return [bx("Placard", (1, y, z0), (15, y + 7.5, z1), "returnplacard", faces=(face,)),
+                bx("PlacardEdge", (1, y, z0), (15, y + 7.5, z1), "steelframe", faces=tuple(f for f in ("north", "south", "east", "west", "up", "down") if f != face))]
+
     def build(st, part):
         if st == "arrival":
             # Flush on the surface of a wall, in the air block in front of it, its back against the wall
             els = frame("steelframe", upper=part == "upper", z0=12, z1=16)
-            els += leaf("markeddoor-" + part, "exitdoor-back", 13, 15)
+            els += leaf("returndoor-" + part, "exitdoor-back", 13, 15)
             if part == "lower":
                 els += panic(13)
+            else:
+                els += placard(12.4, "north")
             return els
         els = frame("steelframe", upper=part == "upper")
         if st == "fake-open":
@@ -1097,7 +1105,7 @@ def exit_doors():
             els += [bx("Leaf", (0.2, 0, 3), (2.2, 16, 19), "exitdoor-back"),
                     bx("Hinge", (-0.3, 4, 1), (0.6, 7, 3), "steelframe")]
             return els
-        front = "markeddoor-" + part if st == "marked" else "exitdoor-" + part
+        front = "markeddoor-" + part if st == "marked" else ("returndoor-" if st == "returned" else "exitdoor-") + part
         if st in ("true", "fake") and part == "lower":
             # (0.514.0) Both exits' leaves stop short of the floor, so the doors match. Under the real exit a faint
             # daylight shows in the gap (the lore's way out leads somewhere lit and safe) and the block gives off a soft
@@ -1115,22 +1123,52 @@ def exit_doors():
         els += leaf(front, "exitdoor-back")
         if part == "lower":
             els += panic() + [bx("Kick", (1, 0.5, 0.5), (15, 3.5, 1), "panicbar", faces=("north", "up", "east", "west"))]
-            if st == "entry":
+            if st in ("entry", "returned"):
                 els += pull()
+            if st == "returned":
+                # the fire door plate low on the push side's frame side of the leaf
+                els += [bx("Plate", (2, 9, 3), (6, 11, 3.3), "panicbar", faces=("south", "up", "down", "east", "west"))]
         elif st in ("entry", "true", "fake"):
             els += closer()
+        elif st == "returned":
+            els += closer()[:2] + placard(1 - 0.6, "north") + placard(3, "south", 3.5)
         return els
-    states = ["true", "fake", "fake-open", "marked", "entry", "arrival"]
-    kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry"}
+    states = ["true", "fake", "fake-open", "marked", "entry", "arrival", "returned"]
+    kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry", "returned": "runentry"}
     sel = {f"*-arrival-*-{sd}": K.cuboid((0, 0, 0.75, 1, 1, 1), sd) for sd in SIDES}
     door_type("run-exitdoor", "Exit Door", states, build, kinds,
               "Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); "
               "fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside "
               "(runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an "
-              "escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry). The "
+              "escaped runner comes out, flush on a wall in the air block in front of it, a NO RE-ENTRY placard on its face (runentry). returned: that door set into a wall like entry, replacing an ordinary door in Levels 1, 4 and The End once a runner has escaped; red, no EXIT, a NO RE-ENTRY placard on both faces (runentry). The "
               "true and fake doors' lower halves stop short of the floor; the true one shows a faint daylight in the gap and gives off a soft light, the fake one only dark",
               passable=("fake-open",), selection=sel,
               light={"lightHsvByType": {"*-true-lower-*": [8, 2, 8]}, "lightAbsorptionByType": {"*-true-lower-*": 0, "*": 99}})
+
+
+def prize():
+    """(0.516.0) The present left by the door where an escaped runner comes back: a box in plain brown paper, tied with
+    twine, a hand-written tag on the string. Break it to open it: 25 rusty gears and 2 temporal gears."""
+    a, b, h = 3, 13, 7
+    els = [bx("Box", (a, 0, a), (b, h, b), "prizekraft"),
+           bx("Fold", (a - 0.2, h - 0.01, 6.5), (b + 0.2, h + 0.3, 9.5), "prizekraft", faces=("up", "north", "south")),
+           bx("TwineX", (7.2, -0.01, a - 0.2), (8.4, h + 0.35, b + 0.2), "prizetwine", faces=("north", "south", "up")),
+           bx("TwineZ", (a - 0.2, -0.01, 7.2), (b + 0.2, h + 0.35, 8.4), "prizetwine", faces=("east", "west", "up")),
+           bx("Knot", (7, h + 0.3, 7), (8.6, h + 1.3, 8.6), "prizetwine"),
+           bx("LoopA", (4.8, h + 0.3, 7.4), (7.4, h + 2, 8.2), "prizetwine", rot=(0, 25, 0), origin=(7.8, h, 7.8)),
+           bx("LoopB", (8.2, h + 0.3, 7.4), (10.8, h + 2, 8.2), "prizetwine", rot=(0, -25, 0), origin=(7.8, h, 7.8)),
+           bx("TagString", (8.2, 4.6, b + 0.2), (8.8, 5.6, b + 0.5), "prizetwine"),
+           bx("Tag", (8.3, 0.9, b + 0.25), (12.3, 5.1, b + 0.5), "prizetag", faces=("north", "south"), uv=[0, 0, 4, 6], rot=(0, 0, -7), origin=(8.5, 5, b + 0.3))]
+    # Both big faces show the same 4 x 6 patch of the picture: the tag is a card with writing on one side
+    for e in els:
+        if e["name"] == "Tag":
+            for f in e["faces"].values():
+                f["uv"] = [0, 0, 4, 6]
+    prop("run-prize", "Present", els, box=(a / 16 - 0.02, 0, a / 16 - 0.02, b / 16 + 0.02, (h + 1) / 16, b / 16 + 0.02), oriented=False,
+         material="Wood", sounds=CLOTH, collide=False,
+         comment="Level !: the present left by the door of an escaped runner. Break it to open it: 25 rusty gears, 2 temporal gears",
+         extra={"resistance": 0.8, "drops": drops(("game:gear-rusty", 25, 0), ("game:gear-temporal", 2, 0)),
+                "selectionbox": K.cuboid((a / 16 - 0.02, 0, a / 16 - 0.02, b / 16 + 0.02, (h + 2) / 16, b / 16 + 0.02))})
 
 
 def chained_door():
@@ -2288,6 +2326,8 @@ def lang():
         "run-chained": "Something on the other side wants in. Not this way: the door under the lit EXIT sign!",
         "run-fake": "An empty room, dark behind the door. This isn't the way out.",
         "run-trip": "You trip! Jump the junk on the floor at a sprint, or walk over it.",
+        "blockdesc-run-prize": "Brown paper and twine, and a tag in a careful hand: For getting out.",
+        "run-prize-left": "By the door, a present wrapped in brown paper, and a tag in a careful hand: For getting out.",
         "run-escaped": "No turn either side. This was the real exit. The Backrooms will never send you there again.",
         "run-ranout": "You have run this hall before. The door lets you out somewhere else.",
         "run-rumble": "The walls shudder. You can't stay here much longer.",
@@ -3014,6 +3054,60 @@ def b14_startroom():
     save(img, "dispensergel")
 
 
+def b14_return():
+    """(0.516.0) The door of an escaped runner, and the present left beside it. The door is the red fire door without its
+    EXIT stencil, and a stairwell placard (NO RE-ENTRY) is a box of its own; the present is brown kraft and twine."""
+    for part in ("lower", "upper"):
+        img = door_paint((160, 40, 36), "returndoor", part, chips=7, under=(138, 132, 124))
+        save(T.match_rgb(img, OLD_MEAN["exitdoor"], key="b14runreturndoor") if part == "lower" else img, f"returndoor-{part}")
+    # The placard: a 14 x 7.5 block-pixel plate (28 x 15 texels in the top-left of the picture), red capitals on white
+    img = M.noise_hv((232, 229, 220), 2, seed_of("returnplacard"), mottle=2)
+    M.grime(img, 0.05, seed_of("returnplacardg"), cells=(8, 4), cover=0.35)
+    d = ImageDraw.Draw(img)
+    ink = (176, 32, 30)
+    d.rectangle([0, 0, 27, 14], outline=ink + (255,))
+    ptext(img, "NO RE-", 2, 2, ink, RUN_F3, 1)
+    ptext(img, "ENTRY", 2, 8, ink, RUN_F3, 1)
+    for x, y in ((1, 1), (26, 1), (1, 13), (26, 13)):
+        img.putpixel((x, y), (150, 150, 146, 255))
+    save(img, "returnplacard")
+    # Kraft paper: fibres, a crease or two
+    img = M.noise_hv((176, 134, 90), 3, seed_of("prizekraft"), mottle=4)
+    rng = random.Random(seed_of("prizefibre"))
+    px = img.load()
+    for _ in range(70):
+        x, y = rng.randrange(S), rng.randrange(S)
+        f = rng.uniform(0.9, 1.1)
+        for k in range(rng.randint(2, 5)):
+            px[(x + k) % S, y] = M.rgba(tuple(clamp(v * f) for v in px[(x + k) % S, y][:3]))
+    for y in (11, 22):
+        for x in range(S):
+            M.touch(img, x, y, -0.07)
+            M.touch(img, x, y + 1, 0.05)
+    save(img, "prizekraft")
+    img = M.noise_hv((196, 170, 118), 3, seed_of("prizetwine"), mottle=2)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 4 < 2:
+                M.touch(img, x, y, -0.12)
+    save(img, "prizetwine")
+    # The tag: manila card, a line of small hand, a stain
+    img = M.noise_hv((222, 208, 170), 2, seed_of("prizetag"), mottle=3)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, 7, 11], outline=(150, 130, 92, 255))
+    d.ellipse([3, 1, 4, 2], fill=(70, 56, 40, 255))
+    rng = random.Random(seed_of("prizehand"))
+    for y in (5, 7, 9):
+        x = 1
+        while x < 6:
+            n = rng.randint(1, 2)
+            for k in range(n):
+                d.point([x + k, y - (1 if rng.random() < 0.3 else 0)], fill=(74, 66, 84, 255))
+            x += n + 1
+    save(img, "prizetag")
+
+
 def b14_textures():
     b14_walls()
     b14_floor()
@@ -3033,8 +3127,10 @@ def generate():
     textures()
     walls()
     signs()
+    b14_return()  # before the doors: a shape finds its textures among those already saved
     side_doors()
     exit_doors()
+    prize()
     chained_door()
     hall_door()
     props()
