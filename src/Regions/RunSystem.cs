@@ -66,7 +66,7 @@ public class RunSystem : ModSystem
     private readonly Random rand = new();
     private readonly Dictionary<string, Run> runs = new();
     private readonly Dictionary<int, (string Uid, long Until)> claims = new();
-    private readonly Dictionary<string, (Link To, long At)> escapes = new();
+    private readonly Dictionary<string, (Link To, long At, RunReturnSpot? Spot)> escapes = new();
     private readonly Dictionary<string, int> blockIds = new();
     private int falseWallId, falseWallUpperId;
     private long tickListener;
@@ -207,12 +207,70 @@ public class RunSystem : ModSystem
         return lane;
     }
 
-    /// <summary>Someone has gone out through a true exit, and is about to arrive at <paramref name="to"/>.</summary>
-    public void NoteEscape(IServerPlayer player, Link to)
+    /// <summary>The prize for getting out, given once to each player ever (a wrapped present by the door they come out of).</summary>
+    public const string PrizeKey = "backrooms:runPrize";
+
+    /// <summary>
+    /// Someone has gone out through a true exit, and is about to arrive at <paramref name="to"/>. Returns where to put them
+    /// instead: in front of an ordinary door nearby, which becomes the red one (or in front of a plain wall, which gets it).
+    /// </summary>
+    public Link NoteEscape(IServerPlayer player, Link to)
     {
-        escapes[player.PlayerUID] = (to, sapi.World.ElapsedMilliseconds);
+        RunReturnSpot? spot = null;
+        if (layout != null)
+        {
+            int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
+            int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
+            spot = layout.FindRunReturn(level, x, z);
+            if (spot is { } s)
+                to = new Link(s.StandX + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(s.StandX, s.StandZ), s.StandZ + 0.5, false);
+        }
+        escapes[player.PlayerUID] = (to, sapi.World.ElapsedMilliseconds, spot);
         player.Entity.WatchedAttributes.SetBool(RanOutKey, true);
         EndRun(player.PlayerUID, "escaped");
+        return to;
+    }
+
+    private readonly TreeAttribute testAttrs = new();
+
+    /// <summary>
+    /// Test cheat: leave Level ! as through the true exit, into a level (1, 4 or 21 for the End); optionally forget the
+    /// prize. From the console (no player) it does the same to the world alone, with a stand-in for the player's flags.
+    /// </summary>
+    public string DebugEscape(IServerPlayer player, int level, bool resetPrize)
+    {
+        if (layout == null) return "not a Backrooms world";
+        if (resetPrize) (player?.Entity.WatchedAttributes ?? testAttrs).RemoveAttribute(PrizeKey);
+        ulong key = (ulong)sapi.World.Rand.NextInt64();
+        var arrival = level == WorldLayout.TheEnd ? layout.FindArrival(level, key, WorldLayout.IsEndExitDoor) : layout.FindArrival(level, key, t => t.Kind == TileKind.Wall);
+        if (arrival is not { } a) return "no arrival found";
+        var first = new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false);
+        if (player != null)
+        {
+            var to = NoteEscape(player, first);
+            player.Entity.TeleportToDouble(to.X, to.Y, to.Z);
+            return $"out at {Math.Floor(to.X)}, {Math.Floor(to.Z)}";
+        }
+        // (No one to move: find the spot, load round it, and do what the arrival does)
+        RunReturnSpot? spot = layout.FindRunReturn(level, a.X, a.Z);
+        if (spot is not { } s) return $"arrival {a.X}, {a.Z}: no door or wall to set it in";
+        int cx = s.DoorX >> 5, cz = s.DoorZ >> 5, left = 9;
+        for (int ix = cx - 1; ix <= cx + 1; ix++)
+            for (int iz = cz - 1; iz <= cz + 1; iz++)
+                sapi.WorldManager.LoadChunkColumnFast(ix, iz, new ChunkLoadOptions
+                {
+                    OnLoaded = () =>
+                    {
+                        if (--left > 0) return;
+                        var at = new BlockPos(s.DoorX, geometry.FloorFor(level) + 1, s.DoorZ);
+                        string before = sapi.World.BlockAccessor.GetBlock(at).Code?.ToString();
+                        LeaveExitDoor(null, new Link(s.StandX + 0.5, 0, s.StandZ + 0.5, false), s);
+                        sapi.Logger.Notification("[backrooms] runescape level {0}: arrival {1},{2}, stand {3},{4}, door tile {5},{6} face {7} replaces door {8}; block there {9} -> {10}; above {11}",
+                            level, a.X, a.Z, s.StandX, s.StandZ, s.DoorX, s.DoorZ, s.Face, s.ReplacesDoor, before,
+                            sapi.World.BlockAccessor.GetBlock(at).Code, sapi.World.BlockAccessor.GetBlock(at.UpCopy()).Code);
+                    },
+                });
+        return $"door tile {s.DoorX}, {s.DoorZ} ({(s.ReplacesDoor ? "replaces a door" : "set in a wall")}); loading";
     }
 
     // ================= The tick =================
@@ -247,7 +305,7 @@ public class RunSystem : ModSystem
                 else if (level != WorldLayout.RunLevel && now - esc.At > 1200)
                 {
                     escapes.Remove(player.PlayerUID);
-                    LeaveExitDoor(esc.To);
+                    LeaveExitDoor(player, esc.To, esc.Spot);
                 }
             }
 
@@ -906,30 +964,71 @@ public class RunSystem : ModSystem
     }
 
     /// <summary>
-    /// Out of the true exit: the door they came out of stands in the wall beside them, a red door now, a way into
-    /// Level ! for anyone who has not been there ("the exit door has been converted into an entrance door").
+    /// Out of the true exit: the ordinary door they stand in front of is now a red one, a way into Level ! for anyone who
+    /// has not been there ("the exit door has been converted into an entrance door"), set in the doorway facing them.
+    /// With no door near, it is set into the wall in front of them. And, the first time ever, a present by it.
     /// </summary>
-    private void LeaveExitDoor(Link to)
+    private void LeaveExitDoor(IServerPlayer player,  Link to, RunReturnSpot? spot)
     {
+        var blocks = sapi.World.BlockAccessor;
         int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         int floor = geometry.FloorFor(level);
-        // (Standing in the air in front of the wall, flush against it, as the arrival door is made)
-        foreach (ArchPier dir in new[] { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West })
+        // (Nothing found by the layout: no door, rather than one beside another)
+        if (spot is not { } s) return;
+        var lower = new BlockPos(s.DoorX, floor + 1, s.DoorZ);
+        if (blocks.GetChunkAtBlockPos(lower) == null) return;
+        // (In the wall plane, where the old door was or the wall is; if the layout's door is not there, leave things be)
+        if (blocks.GetBlock(lower).BlockId == 0 || blocks.GetBlock(lower.UpCopy()).BlockId == 0) return;
+        string side = Side(s.Face);
+        int lo = BlockId($"run-exitdoor-returned-lower-{side}"), up = BlockId($"run-exitdoor-returned-upper-{side}");
+        if (lo == 0 || up == 0) { lo = BlockId($"run-exitdoor-entry-lower-{side}"); up = BlockId($"run-exitdoor-entry-upper-{side}"); }
+        if (lo == 0 || up == 0) return;
+        blocks.SetBlock(lo, lower);
+        blocks.SetBlock(up, lower.UpCopy());
+
+        GivePrize(player, floor, s);
+    }
+
+    /// <summary>A wrapped present on the floor outside the door, beside where they stand: once per player, ever.</summary>
+    private void GivePrize(IServerPlayer player, int floor, RunReturnSpot s)
+    {
+        var attrs = player?.Entity.WatchedAttributes ?? testAttrs;
+        if (attrs.GetBool(PrizeKey)) return;
+        var blocks = sapi.World.BlockAccessor;
+        var (fx, fz) = Step(s.Face);
+        var (sx, sz) = Step(s.Face switch { ArchPier.North => ArchPier.East, ArchPier.East => ArchPier.South, ArchPier.South => ArchPier.West, _ => ArchPier.North });
+        BlockPos pick = null;
+        // (Beside where they stand, either hand; then a step further out)
+        foreach (var (ox, oz) in new[] { (sx, sz), (-sx, -sz), (sx + fx, sz + fz), (-sx + fx, -sz + fz) })
         {
-            var (dx, dz) = Step(dir);
-            if (layout.TileAt(x + dx, z + dz).Kind != TileKind.Wall) continue;
-            // It faces away from the wall, toward where they stand
-            ArchPier face = dir switch { ArchPier.North => ArchPier.South, ArchPier.South => ArchPier.North, ArchPier.East => ArchPier.West, _ => ArchPier.East };
-            var lower = new BlockPos(x, (int)Math.Floor(to.Y + 0.01), z);
-            if (sapi.World.BlockAccessor.GetChunkAtBlockPos(lower) == null) return;
-            if (sapi.World.BlockAccessor.GetBlock(lower).BlockId != 0 || sapi.World.BlockAccessor.GetBlock(lower.UpCopy()).BlockId != 0) return;
-            int lo = BlockId($"run-exitdoor-arrival-lower-{Side(face)}"), up = BlockId($"run-exitdoor-arrival-upper-{Side(face)}");
-            if (lo == 0 || up == 0) return;
-            sapi.World.BlockAccessor.SetBlock(lo, lower);
-            sapi.World.BlockAccessor.SetBlock(up, lower.UpCopy());
-            return;
+            var at = new BlockPos(s.StandX + ox, floor + 1, s.StandZ + oz);
+            if (blocks.GetChunkAtBlockPos(at) == null) continue;
+            if (blocks.GetBlock(at).BlockId != 0 || blocks.GetBlock(at.UpCopy()).BlockId != 0 || blocks.GetBlock(at.DownCopy()).BlockId == 0) continue;
+            pick = at;
+            break;
         }
+        attrs.SetBool(PrizeKey, true);
+        int present = BlockId("run-prize");
+        if (pick != null && present != 0) blocks.SetBlock(present, pick);
+        else
+        {
+            // (No present block yet, or no room: what is inside, on the floor)
+            Vec3d at = pick != null ? pick.ToVec3d().Add(0.5, 0.1, 0.5) : player?.Entity.Pos.XYZ ?? new Vec3d(s.StandX + 0.5, floor + 1.1, s.StandZ + 0.5);
+            Drop("game:gear-rusty", 25, at);
+            Drop("game:gear-temporal", 2, at);
+        }
+        if (player != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-prize-left"), EnumChatType.Notification);
+        sapi.Logger.Notification("[backrooms] prize given at {0} ({1})", pick, present != 0 ? "present block" : "loose items");
+    }
+
+    private void Drop(string code, int count, Vec3d at)
+    {
+        var loc = new AssetLocation(code);
+        CollectibleObject what = sapi.World.GetItem(loc);
+        what ??= sapi.World.GetBlock(loc);
+        if (what == null) return;
+        sapi.World.SpawnItemEntity(new ItemStack(what, count), at);
     }
 
     private void Play(string sound, Vec3d at, int range, float volume) =>

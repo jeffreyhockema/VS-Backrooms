@@ -31,8 +31,10 @@ public partial class ThresholdSystem
         if (fromLevel == WorldLayout.RunLevel && toLevel != WorldLayout.RunLevel)
         {
             // Only the true exit is an escape (and leaves its red door); falling down a hole is not
-            if (layout.TileAt(passage.Source.X, passage.Source.Z).Pattern == WallPattern.RunTrueExit) run.NoteEscape(player, destination);
-            return null;
+            if (layout.TileAt(passage.Source.X, passage.Source.Z).Pattern != WallPattern.RunTrueExit) return null;
+            // They come out in front of an ordinary door, which becomes the red one
+            Link out_ = run.NoteEscape(player, destination);
+            return out_ == destination ? null : out_;
         }
         if (toLevel != WorldLayout.RunLevel || fromLevel == WorldLayout.RunLevel) return null;
 
