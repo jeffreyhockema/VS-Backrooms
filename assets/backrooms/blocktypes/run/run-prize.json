@@ -1,0 +1,58 @@
+// Level !: the present left by the door of an escaped runner. Break it to open it: 25 rusty gears, 2 temporal gears
+{
+	"code": "run-prize",
+	"shape": {
+		"base": "block/run/run-prize"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.1675,
+		"y1": 0,
+		"z1": 0.1675,
+		"x2": 0.8325,
+		"y2": 0.5625,
+		"z2": 0.8325
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:gear-rusty",
+			"quantity": {
+				"avg": 25,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:gear-temporal",
+			"quantity": {
+				"avg": 2,
+				"var": 0
+			}
+		}
+	]
+}

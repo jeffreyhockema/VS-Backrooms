@@ -9,6 +9,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using Backrooms.Entities;
+using Backrooms.Regions;
 using Backrooms.Worldgen;
 
 namespace Backrooms.Cheats;
@@ -202,6 +203,11 @@ public partial class CheatSystem : ModSystem
                 .RequiresPlayer()
                 .WithArgs(parsers.OptionalInt("radius", 64))
                 .HandleWith(OnClearCommand)
+            .EndSubCommand()
+            .BeginSubCommand("runescape")
+                .WithDescription("Dev test: comes out of Level !'s true exit into Level 1 (default), 4 or end, as the escape does (the red door replaces a door, the present by it): add reset to forget that you ever had the present. From the console it only does the world's part, and logs")
+                .WithArgs(parsers.OptionalWord("level"), parsers.OptionalWord("reset"))
+                .HandleWith(OnRunEscapeCommand)
             .EndSubCommand()
             .BeginSubCommand("home")
                 .WithDescription("Teleports you to where you wake up")
@@ -444,6 +450,16 @@ public partial class CheatSystem : ModSystem
             e => e is not EntityPlayer && e.Alive && e.Code?.Domain == "backrooms");
         foreach (Entity creature in creatures) creature.Die(EnumDespawnReason.Removed);
         return TextCommandResult.Success($"Removed {creatures.Length} creatures within {radius} blocks");
+    }
+
+    private TextCommandResult OnRunEscapeCommand(TextCommandCallingArgs args)
+    {
+        var run = sapi.ModLoader.GetModSystem<RunSystem>();
+        if (layout == null || run == null) return TextCommandResult.Error("This is not a Backrooms world");
+        string word = args.Parsers[0].IsMissing ? "1" : (string)args[0];
+        int level = word == "end" ? WorldLayout.TheEnd : word == "4" ? 4 : 1;
+        bool reset = !args.Parsers[1].IsMissing && (string)args[1] == "reset" || word == "reset";
+        return TextCommandResult.Success(run.DebugEscape(args.Caller.Player as IServerPlayer, level, reset));
     }
 
     private TextCommandResult OnHomeCommand(TextCommandCallingArgs args)
