@@ -2653,5 +2653,9 @@
 	"block-run-wall-railshort-*": "Hospital Wall with Crash Rail",
 
 	"block-l3wallfixture-*-pipesjoint": "Wall Pipes",
-	"block-l3wallfixture-*-pipesbracket": "Wall Pipes"
+	"block-l3wallfixture-*-pipesbracket": "Wall Pipes",
+
+	"block-run-prize": "Present",
+	"blockdesc-run-prize": "Brown paper and twine, and a tag in a careful hand: For getting out.",
+	"run-prize-left": "By the door, a present wrapped in brown paper, and a tag in a careful hand: For getting out."
 }
