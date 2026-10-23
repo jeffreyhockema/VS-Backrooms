@@ -858,6 +858,8 @@ def hound():
                     # charges when the target runs, turns their back for 2 s within 16 blocks, comes within 5, or its nerve breaks under a
                     # stare (4 to 8 s: "won't work for long"); losing them it searches and then leaves (leavesAfterSearch)
                     chargesWhenBacked=True, backTurnedRange=16, backTurnedSeconds=2, backTurnedCone=70, chargeCloseRange=5, leavesAfterSearch=True,
+                    # A Hound sent by a Flickering hunts until the lights return (AiTaskMenace.Relentless)
+                    huntsUntilSet=True,
                     glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
                     investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff"),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),

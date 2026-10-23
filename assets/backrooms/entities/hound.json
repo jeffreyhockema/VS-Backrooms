@@ -241,6 +241,7 @@
 						"backTurnedCone": 70,
 						"chargeCloseRange": 5,
 						"leavesAfterSearch": true,
+						"huntsUntilSet": true,
 						"glimpseTurnsToStalk": true,
 						"growlBeforeCharge": true,
 						"growlMs": 900,

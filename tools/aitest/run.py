@@ -968,6 +968,79 @@ ISO_HOUND_CASES = [("iso-hound-nerve", t_iso_hound_nerve), ("iso-hound-back-turn
                    ("iso-hound-runner", t_iso_hound_runner), ("iso-hound-gives-up", t_iso_hound_gives_up)]
 
 
+# ---- P7 play-test: the Level 1 Flickering. Nothing is put down for the first 8 to 15 s of the dark; the pack is put down at least
+# 20 blocks off; and the hunt lasts the Flickering (no call-off for lack of blood, no drop to Stalk, no Leave) until the lights return.
+
+HOUND_AT_RE = re.compile(r"\[backrooms\] hound #(\d+) at (-?\d+),(-?\d+),(-?\d+): starts:")
+FLICKER_DELAY_RE = re.compile(r"flicker: the Hounds come in ([\d.]+) s")
+
+
+def t_p7_flicker(c):
+    ev = "no spot"
+    for attempt in range(3):
+        c.reset()
+        c.srv.cmd("/backrooms entitylog on")
+        m0 = c.srv.mark()
+        try:
+            c.place(level="1")
+        except RuntimeError as e:
+            return False, str(e)
+        dummy = None
+        for l in c.srv.since(m0):
+            mm = DUMMY_RE.search(l)
+            if mm:
+                dummy = (int(mm.group(2)), int(mm.group(4)))
+        time.sleep(1)
+        m = c.srv.mark()
+        t0 = time.time()
+        c.srv.cmd("/backrooms flicker")
+        r = c.srv.wait(lambda l: ("lights fail" in l and l) or ("Needs a player" in l and l) or ("Hounds are coming" in l and l), m, 10)
+        if not r or "lights fail" not in r:
+            ev = "attempt %d: flicker reply: %s" % (attempt + 1, r)
+            continue
+        first = None
+        end = time.time() + 45
+        while time.time() < end and first is None:
+            for l in c.srv.since(m):
+                mm = HOUND_AT_RE.search(l)
+                if mm:
+                    first = (time.time() - t0, int(mm.group(2)), int(mm.group(4)), mm.group(1))
+                    break
+            time.sleep(0.2)
+        delay = next((float(mm.group(1)) for mm in (FLICKER_DELAY_RE.search(l) for l in c.srv.since(m)) if mm), None)
+        if first is None:
+            ev = "attempt %d: no Hound put down in 45 s (delay %s)" % (attempt + 1, delay)
+            continue
+        off = ((first[1] - dummy[0]) ** 2 + (first[2] - dummy[1]) ** 2) ** 0.5
+        ev = "attempt %d: delay %.1f s, first Hound at %.1f s, %.0f blocks off" % (attempt + 1, delay or -1, first[0], off)
+        late_enough = first[0] >= 7.5 and delay is not None and 8 <= delay <= 15.1
+        # Run the dummy away: while the lights are out it must not be called off for lack of blood nor leave, and ends up hunting or searching
+        c.srv.cmd("/backrooms dummy run on")
+        c.srv.cmd("/backrooms dummy move 30 0")
+        time.sleep(50)
+        kinds = [(mm.group(3), mm.group(4)) for mm in (KIND_RE.search(l) for l in c.srv.since(m)) if mm and mm.group(2) == first[3]]
+        lines = [mm.group(3) for mm in (ENT_LINE_RE.search(l) for l in c.srv.since(m)) if mm and mm.group(2) == first[3]]
+        called_off = sum(1 for l in lines if "gives up the hunt" in l)
+        # (A hunt whose first path fails falls back to Stalk for a few seconds, as any hunt does; what matters is that it is hunting or searching at the end; no change at all means it stayed in its first Hunt)
+        bad = [k for k in kinds if k[1] == "Leave"] + ([] if not kinds or kinds[-1][1] in ("Hunt", "Search") else [("last", kinds[-1][1])])
+        ev += "; in the dark: %s, call-offs %d, notion lines %d" % (kinds, called_off, sum(1 for l in lines if "notion" in l))
+        if not late_enough or off < 20 or called_off or bad:
+            return False, ev
+        # (The lights return: the calendar is moved on past the Flickering. The behaviour sends the Hound away without a log line of its
+        # own, so it has left when it logs nothing more)
+        c.srv.cmd("/time add 2")
+        time.sleep(12)
+        m2 = c.srv.mark()
+        time.sleep(8)
+        gone = not [l for l in c.srv.since(m2) if "hound #%s " % first[3] in l]
+        ev += "; left when the lights returned: %s (silent for 8 s after the calendar moved on)" % gone
+        return gone, ev
+    return False, ev
+
+
+FLICKER_CASES = [("p7-flicker", t_p7_flicker)]
+
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -1011,7 +1084,7 @@ def main():
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1025,7 +1098,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

@@ -57,6 +57,15 @@ public class AiTaskMenace : AiTaskBase
     private readonly bool glimpseTurnsToStalk, growlBeforeCharge, barks, drawnToLight;
     /// <summary>The Hound's rule for starting a hunt (see <see cref="ChargeTrigger"/>), and the Search that ends in leaving (see <see cref="EndSearch"/>).</summary>
     private readonly bool chargesWhenBacked, leavesAfterSearch;
+    /// <summary>
+    /// <c>huntsUntilSet</c>: put down for a set piece (it carries <c>untilHours</c>: the Level 1 Flickering) it hunts for as
+    /// long as the set piece lasts (see <see cref="Relentless"/>).
+    /// </summary>
+    private readonly bool huntsUntilSet;
+    private long nextSetTrackMs;
+    /// <summary>A set-piece hunter keeps a vague track of its target: every few seconds (a quarter either way), off by up to this many blocks; and how far off it still goes on.</summary>
+    private const long SetTrackMs = 4000;
+    private const double SetTrackError = 6, SetGiveUpAt = 120;
     /// <summary>The charge triggers: how far off (blocks) a turned back counts, for how long (s), the cone (degrees either side of a stare) that is not a turned back, and how close is too close.</summary>
     private readonly float backTurnedRange, backTurnedSeconds, backTurnedCone, chargeCloseRange;
     private float backTurnedFor;
@@ -93,6 +102,11 @@ public class AiTaskMenace : AiTaskBase
     /// (<see cref="huntProvoked"/>, which outlives the timer when an owner's blow clears it at once). A creature with a
     /// grudge is not held by a stare-down and hunts without the band, Lobby or calm rules.
     /// </summary>
+    /// <summary>Whether it is hunting for the length of a set piece: it gives up neither for lack of blood nor by losing them (it searches and hunts again) until the set piece ends.</summary>
+    private bool Relentless => huntsUntilSet && !menace.Passive && EntityBehaviorMenace.UntilOf(entity) is > 0 and var until && entity.World.Calendar.TotalHours < until;
+
+    private double GiveUpAt => Relentless ? Math.Max(giveUpAt, SetGiveUpAt) : giveUpAt;
+
     private bool Grudge => retaliationStartMs >= 0 || huntProvoked;
     /// <summary>
     /// Turning on the target (see <c>turnsWhenCornered</c>, <c>turnsWhenChased</c>): the hunt is provoked and the target
@@ -272,6 +286,7 @@ public class AiTaskMenace : AiTaskBase
         drawnToLight = taskConfig["drawnToLight"].AsBool(false);
         chargesWhenBacked = taskConfig["chargesWhenBacked"].AsBool(false);
         leavesAfterSearch = taskConfig["leavesAfterSearch"].AsBool(false);
+        huntsUntilSet = taskConfig["huntsUntilSet"].AsBool(false);
         backTurnedRange = taskConfig["backTurnedRange"].AsFloat(BackTurnedRange);
         backTurnedSeconds = taskConfig["backTurnedSeconds"].AsFloat(BackTurnedSeconds);
         backTurnedCone = taskConfig["backTurnedCone"].AsFloat(BackTurnedCone);
@@ -443,7 +458,7 @@ public class AiTaskMenace : AiTaskBase
             Kind = Encounter.Leave;
             return true;
         }
-        if (distance > giveUpAt + 16)
+        if (distance > GiveUpAt + 16)
         {
             Kind = Encounter.Leave;
             return true;
@@ -477,6 +492,14 @@ public class AiTaskMenace : AiTaskBase
         }
 
         if (kind is Encounter.Glimpse or Encounter.Stalk && (turnsWhenCornered || turnsWhenChased) && TryTurnOnTarget(kind, distance, a, now)) return true;
+
+        // A hunter put down for a set piece does not fall back to following when it is not running them down
+        if (kind is Encounter.Stalk or Encounter.Investigate && Relentless && CanHunt(distance, a))
+        {
+            Log("set piece: it hunts");
+            Kind = Encounter.Hunt;
+            return true;
+        }
 
         switch (kind)
         {
@@ -780,7 +803,7 @@ public class AiTaskMenace : AiTaskBase
             Kind = Encounter.Stalk;
             return;
         }
-        if (distance > giveUpAt)
+        if (distance > GiveUpAt)
         {
             Kind = Encounter.Leave;
             return;
@@ -797,7 +820,7 @@ public class AiTaskMenace : AiTaskBase
             return;
         }
         // Anywhere, a hunt that has drawn no blood for a while is given up: back to following, and not hunting again soon
-        if (now - lastBloodMs > patienceMs)
+        if (now - lastBloodMs > patienceMs && !Relentless)
         {
             CallOffHunt(leave: false);
             return;
@@ -1017,6 +1040,7 @@ public class AiTaskMenace : AiTaskBase
             belief.Take(target.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
         ShareBelief(now);
         if (kind == Encounter.Stalk) Track(now);
+        if (kind is Encounter.Stalk or Encounter.Hunt or Encounter.Investigate) TrackForSet(now);
         if (kind == Encounter.Hunt && sentHunt) HeadStart(now);
         if (seen.Contact == Contact.Seen && !sawTarget)
         {
@@ -1041,6 +1065,32 @@ public class AiTaskMenace : AiTaskBase
         nextTrackMs = now + (long)(senses.TrackSeconds * 1000 * (0.75 + entity.World.Rand.NextDouble() * 0.5));
         SetVague(target, now);
         Log("has a vague idea where they are");
+    }
+
+    /// <summary>
+    /// A hunter put down for a set piece (see <see cref="Relentless"/>) is never quite shaken off: every few seconds, when it
+    /// is hardly sure of them, it gets a notion of where they are (off by up to <see cref="SetTrackError"/> blocks). A
+    /// notion only: it still has to find a way there, so a shut door or a fire ward keeps it out.
+    /// </summary>
+    private void TrackForSet(long now)
+    {
+        if (now < nextSetTrackMs || !Relentless) return;
+        nextSetTrackMs = now + (long)(SetTrackMs * (0.75 + entity.World.Rand.NextDouble() * 0.5));
+        if (Confidence(now) >= SentHuntBelief) return;
+        SeedSetBelief(now);
+        Log("set piece: has a notion where they are");
+    }
+
+    private void SeedSetBelief(long now)
+    {
+        Random rand = entity.World.Rand;
+        double angle = rand.NextDouble() * Math.PI * 2, off = rand.NextDouble() * SetTrackError;
+        belief.Pos = target.Pos.XYZ.Add(Math.Cos(angle) * off, 0, Math.Sin(angle) * off);
+        belief.AtMs = now;
+        belief.Strength = SentHuntBelief;
+        belief.Source = Contact.Sensed;
+        belief.HeardInARow = 0;
+        belief.Vague = false;
     }
 
     /// <summary>A vague belief (see <see cref="Belief.Vague"/>) of where someone is, off by up to <c>trackError</c> blocks.</summary>
@@ -1198,7 +1248,7 @@ public class AiTaskMenace : AiTaskBase
     private void Spotted(double distance, MenaceSystem.Assessment a)
     {
         // (A Hound that sights them again follows, and the charge triggers decide: sight alone is not enough)
-        Kind = (!chargesWhenBacked || Grudge) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
+        Kind = (!chargesWhenBacked || Grudge || Relentless) && CanHunt(distance, a) && (!lightBound || ShouldTurnToHunt(distance, a)) ? Encounter.Hunt : Encounter.Stalk;
     }
 
     /// <summary>A length of time in the config's seconds, a little over or under (up to two seconds either way), in ms.</summary>
@@ -1348,6 +1398,13 @@ public class AiTaskMenace : AiTaskBase
     private void EndSearch()
     {
         StopLook();
+        if (Relentless)
+        {
+            Log("set piece: the search is over, it hunts again");
+            SeedSetBelief(entity.World.ElapsedMilliseconds);
+            Kind = Encounter.Hunt;
+            return;
+        }
         Log("gives up the search");
         Kind = !leavesAfterSearch && menace.EncounterLeftMs > MinBudgetMs ? Encounter.Stalk : Encounter.Leave;
     }
@@ -1744,7 +1801,7 @@ public class AiTaskMenace : AiTaskBase
         // struck one: it keeps its grudge, and falls back to following until a way opens)
         if (Kind == Encounter.Hunt)
         {
-            bool givesUp = leavesAfterSearch && retaliationStartMs < 0 && !huntProvoked;
+            bool givesUp = (leavesAfterSearch || Relentless) && retaliationStartMs < 0 && !huntProvoked;
             if (givesUp)
             {
                 Log("no way through: it looks about where the way ended");
