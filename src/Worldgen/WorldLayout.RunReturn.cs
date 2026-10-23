@@ -9,10 +9,14 @@ public sealed partial class WorldLayout
 {
     private static readonly ArchPier[] ReturnDirs = { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West };
 
-    /// <summary>An ordinary single door of a level, one a person has been through: not an elevator, a fake, or something a feature owns.</summary>
+    /// <summary>
+    /// An ordinary single door of a level, one a person has been through: not an elevator, a fake, or something a feature
+    /// owns. In The End only a staff door: its EXIT doors are working ways out, and must stay so. (The runtime also checks
+    /// that the block there is a locked door, <c>RunSystem.LeaveExitDoor</c>.)
+    /// </summary>
     private static bool IsOrdinaryDoor(in Tile t, int level) =>
         t.Kind == TileKind.Door && t.Level == level && t.Under == 0 && t.Pattern != WallPattern.Elevator
-        && (level != TheEnd || (t.Pattern is WallPattern.EndExit or WallPattern.EndStaff && t.Zone < 4));
+        && (level != TheEnd || t.Pattern == WallPattern.EndStaff && t.Zone < 4);
 
     private bool IsReturnFront(int x, int z, int level)
     {

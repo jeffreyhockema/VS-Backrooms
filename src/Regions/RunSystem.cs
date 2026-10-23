@@ -974,20 +974,39 @@ public class RunSystem : ModSystem
         int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         int floor = geometry.FloorFor(level);
-        // (Nothing found by the layout: no door, rather than one beside another)
-        if (spot is not { } s) return;
+        // (Nothing found by the layout: no door, rather than one beside another; the present all the same)
+        if (spot is not { } s)
+        {
+            GivePrize(player, floor, new RunReturnSpot(x, z, x, z, ArchPier.North, false));
+            return;
+        }
         var lower = new BlockPos(s.DoorX, floor + 1, s.DoorZ);
-        if (blocks.GetChunkAtBlockPos(lower) == null) return;
-        // (In the wall plane, where the old door was or the wall is; if the layout's door is not there, leave things be)
-        if (blocks.GetBlock(lower).BlockId == 0 || blocks.GetBlock(lower.UpCopy()).BlockId == 0) return;
-        string side = Side(s.Face);
-        int lo = BlockId($"run-exitdoor-returned-lower-{side}"), up = BlockId($"run-exitdoor-returned-upper-{side}");
-        if (lo == 0 || up == 0) { lo = BlockId($"run-exitdoor-entry-lower-{side}"); up = BlockId($"run-exitdoor-entry-upper-{side}"); }
-        if (lo == 0 || up == 0) return;
-        blocks.SetBlock(lo, lower);
-        blocks.SetBlock(up, lower.UpCopy());
+        // (In the wall plane, where the old door was or the wall is; if the layout's door is not there, or the block there
+        // is a way somewhere, leave things be)
+        if (blocks.GetChunkAtBlockPos(lower) != null && Replaceable(blocks.GetBlock(lower), blocks.GetBlock(lower.UpCopy()), s.ReplacesDoor))
+        {
+            string side = Side(s.Face);
+            int lo = BlockId($"run-exitdoor-returned-lower-{side}"), up = BlockId($"run-exitdoor-returned-upper-{side}");
+            if (lo == 0 || up == 0) { lo = BlockId($"run-exitdoor-entry-lower-{side}"); up = BlockId($"run-exitdoor-entry-upper-{side}"); }
+            if (lo != 0 && up != 0)
+            {
+                blocks.SetBlock(lo, lower);
+                blocks.SetBlock(up, lower.UpCopy());
+            }
+        }
 
         GivePrize(player, floor, s);
+    }
+
+    /// <summary>
+    /// Whether the red door may take this block's place: a locked door (one that leads nowhere) where the layout has a
+    /// door, plain wall where it has none. Never a door that leads somewhere, nor a way back built into a wall.
+    /// </summary>
+    private static bool Replaceable(Block lower, Block upper, bool door)
+    {
+        if (lower == null || lower.BlockId == 0 || upper == null || upper.BlockId == 0) return false;
+        string below = lower.GetBehavior<BlockBehaviorThreshold>()?.Kind, above = upper.GetBehavior<BlockBehaviorThreshold>()?.Kind;
+        return door ? below == "locked" && above is null or "locked" : below == null && above == null;
     }
 
     /// <summary>A wrapped present on the floor outside the door, beside where they stand: once per player, ever.</summary>
