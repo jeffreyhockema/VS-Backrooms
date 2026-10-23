@@ -73,7 +73,8 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - Ceiling tiles mostly give nothing, but the void above sometimes hides scrap wire, a metal bracket or rotten wood.
 - **Walls and carpet can be cut:** right-click papered walls or carpet with a blade to cut away wallpaper strips or carpet fibres. The wall or floor stays, visibly bare.
   - A glass shard works as a blade, but may snap each time.
-  - The glass shiv and the improvised scraper are made for it: they peel the paper and lift the pile cleanly, two strips or fibres a cut, where any other knife (a flint one too) gives one. Keep one after you have flint.
+  - The glass shiv and the improvised scraper are made for it: they peel the paper and lift the pile cleanly, two strips or fibres a cut, as does any vanilla knife of copper or better (a blade that holds an edge); a flint or bone knife gives one. Keep a shiv or scraper until you have copper.
+  - Where a real tool would do better, it does a little: a bronze pickaxe gets a quarter more out of pipes, cable and machinery than a copper one, and an iron pickaxe half more; and a dead light fixture worked loose with a knife, scraper or chisel gives half as many glass shards again as one that is smashed. Nothing needs a better tool.
 
 | Make | From |
 |---|---|

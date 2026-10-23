@@ -268,7 +268,7 @@ The Backrooms are a scavenger's world: nothing is mined or grown in the first si
 Supply boxes, crates, furniture, machines, ceiling tiles and light fixtures break like any block (hold {leftmouse}) and drop what is in them. Boxes and crates hold food; furniture holds planks, cloth, paper and metal; machines hold wire and copper. A sealed box or crate (lid on) is untouched; a torn or opened one was picked over long ago and never holds food. The list of what gives what is below.
 
 **Cutting (hold a blade, {rightmouse})**
-With any knife in hand (a [glass shiv](item-backrooms:glassshiv), an [improvised scraper](item-backrooms:scraper) or a flint knife), {rightmouse} a block to cut it, and it is left bare. The shiv and the scraper cut cleanly and give two of the item; any other knife gives one. A bare [glass shard](item-backrooms:glassshard) works too (one item), but snaps one time in four.
+With any knife in hand (a [glass shiv](item-backrooms:glassshiv), an [improvised scraper](item-backrooms:scraper) or a flint knife), {rightmouse} a block to cut it, and it is left bare. The shiv, the scraper and any knife of copper or better (a blade that holds an edge) cut cleanly and give two of the item; a flint or bone knife tears off one. A bare [glass shard](item-backrooms:glassshard) works too (one item), but snaps one time in four.
 - Level 0's wallpaper (yellow, pale, dotted, manila or red): a [wallpaper strip](item-backrooms:wallpaperstrip).
 - Level 0's dry carpet (normal or stained; not the soaked carpet of the blackouts, nor threadbare carpet): [carpet fibres](item-backrooms:carpetfibre).
 - The End's carpet: carpet fibres.
@@ -279,8 +279,9 @@ Walls, floors and fixtures break with the tool their material calls for, but the
 - **Drywall, plaster, wallpaper** (Levels 0, 4 and 5, the houses): any tool, an axe best; bare hands at a seventh of the pace. Mostly dust; now and then a stick or a wallpaper strip.
 - **Boards, panelling, floorboards, roofs:** the same. Sticks, a little firewood, rarely a plank.
 - **Concrete, brick, tile, marble, every floor slab:** a copper pickaxe, as for rock. [Rubble](item-backrooms:rubble), about one from two blocks; carpeted floors a few carpet fibres as well. Under every floor lie 8 blocks of concrete, then the ground of any world: rock, caves and ore.
-- **Pipes, railings, poles, machinery:** a copper pickaxe. Metal brackets; wired things a little scrap wire; pipes now and then a copper or lead bit.
+- **Pipes, railings, poles, machinery:** a copper pickaxe. Metal brackets; wired things a little scrap wire; pipes now and then a copper or lead bit. A bronze pickaxe cuts pipes, cable and machinery into cleaner, longer pieces and gets a quarter more out of them than a copper one; an iron pickaxe, half more.
 - **Glass:** anything. Glass shards.
+- **Light fixtures:** a dead one worked loose with a knife, scraper or chisel in hand, instead of smashed, gives half as many shards again (and brackets and wire).
 - **Rock and ore** (Level 8, under the floors): a pickaxe, as anywhere, and it gives stones and ore as anywhere.
 - **Wrecks:** an abandoned car comes apart with a copper pickaxe, all of it at once: brackets, wire, glass, a little copper.
 - **Lights,** lit or dead: anything. One or two glass shards, sometimes a bracket or wire; a lit one's light goes with it.
