@@ -157,6 +157,13 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
 - es lang lacks `block-l3wallfixture-*-pipesbracket`, `-pipesjoint` and `block-run-wall-railshort-*`.
 - `guide-levels-text`, `guide-entities-text`, `guide-farlevels-text`: the Spanish markup differs from the English.
 
+### For P8, from vs-backrooms-ec's mod-page fact check (2026-10-23)
+
+- The in-game handbook `guide-entities-text` (en.json) and the GUIDE's "What lives here" are stale for Dullers, rats,
+  Facelings, Skin-Stealers and the Clump's levels.
+- The mod page's lineup image `docs/moddb/img/42-what-lives-here.jpg` has no Watcher; re-render it if a new lineup is made.
+- Fixed now: a fed Skin-Stealer turning hungry kept its clothed look (EntityBehaviorMenace).
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README

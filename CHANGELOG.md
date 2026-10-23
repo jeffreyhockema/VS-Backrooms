@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- A fed Skin-Stealer that turns hungry sheds the clothes it wore while fed, as the hungry ones look.
 - Out of Level ! for the first time, a present waits by the door you came out of: brown paper and twine, a tag that says "For getting out", and inside 25 rusty gears and 2 temporal gears. Once per player, ever.
 - The door you come out of Level ! by is now a real door of the level you arrive in (a locked one, never a way somewhere, and never one of The End's EXIT doors), turned into a red fire door; with none near, it is set into the wall. It no longer stands against the wall beside another door, and it carries a NO RE-ENTRY sign instead of a huge red "!" (doors already standing in your world get the new face too). `/backrooms runescape [1|4|end] [reset]` tries it.
 - Salvage and arcade materials stack further: scrap wire, metal brackets and rotten wood to 64 (were 16), glass shards, carpet fibres, wallpaper strips, ceramic grit and pot shards to 64 (were 32), and Level 3999's circuit boards, neon tubing and coin mechanisms to 64 (were 32, 32 and 16). Stack sizes are not saved, so worlds already made get them at once.

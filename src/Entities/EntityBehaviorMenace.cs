@@ -232,6 +232,12 @@ public class EntityBehaviorMenace : EntityBehavior
             {
                 entity.Attributes.RemoveAttribute(FedKey);
                 if (Kind == Encounter.Ambient && target is { Alive: true }) Kind = Encounter.Stalk;
+                // Hungry, it sheds the clothes and the fresher skin it wore while fed (MenaceSystem's look 1) for the waxy one
+                if (entity.WatchedAttributes.GetInt("textureIndex", 0) != 0)
+                {
+                    entity.WatchedAttributes.SetInt("textureIndex", 0);
+                    entity.WatchedAttributes.MarkPathDirty("textureIndex");
+                }
             }
             else if (Kind == Encounter.Ambient && fedVoices.Length > 0 && (nextFedVoice -= 1) <= 0)
             {
