@@ -1125,13 +1125,11 @@ def exit_doors():
             els += panic() + [bx("Kick", (1, 0.5, 0.5), (15, 3.5, 1), "panicbar", faces=("north", "up", "east", "west"))]
             if st in ("entry", "returned"):
                 els += pull()
-            if st == "returned":
-                # the fire door plate low on the push side's frame side of the leaf
-                els += [bx("Plate", (2, 9, 3), (6, 11, 3.3), "panicbar", faces=("south", "up", "down", "east", "west"))]
         elif st in ("entry", "true", "fake"):
             els += closer()
         elif st == "returned":
-            els += closer()[:2] + placard(1 - 0.6, "north") + placard(3, "south", 3.5)
+            # The placard on the face only: on the push side it would run into the closer, and entry's back has none
+            els += closer() + placard(1 - 0.6, "north")
         return els
     states = ["true", "fake", "fake-open", "marked", "entry", "arrival", "returned"]
     kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry", "returned": "runentry"}
@@ -1140,7 +1138,7 @@ def exit_doors():
               "Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); "
               "fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside "
               "(runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an "
-              "escaped runner comes out, flush on a wall in the air block in front of it, a NO RE-ENTRY placard on its face (runentry). returned: that door set into a wall like entry, replacing an ordinary door in Levels 1, 4 and The End once a runner has escaped; red, no EXIT, a NO RE-ENTRY placard on both faces (runentry). The "
+              "escaped runner comes out, flush on a wall in the air block in front of it, a NO RE-ENTRY placard on its face (runentry). returned: that door set into a wall like entry, replacing an ordinary door in Levels 1, 4 and The End once a runner has escaped; red, no EXIT, a NO RE-ENTRY placard on its face (runentry). The "
               "true and fake doors' lower halves stop short of the floor; the true one shows a faint daylight in the gap and gives off a soft light, the fake one only dark",
               passable=("fake-open",), selection=sel,
               light={"lightHsvByType": {"*-true-lower-*": [8, 2, 8]}, "lightAbsorptionByType": {"*-true-lower-*": 0, "*": 99}})
