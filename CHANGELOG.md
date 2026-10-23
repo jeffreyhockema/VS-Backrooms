@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Salvage and arcade materials stack further: scrap wire, metal brackets and rotten wood to 64 (were 16), glass shards, carpet fibres, wallpaper strips, ceramic grit and pot shards to 64 (were 32), and Level 3999's circuit boards, neon tubing and coin mechanisms to 64 (were 32, 32 and 16). Stack sizes are not saved, so worlds already made get them at once.
+
 - A Flickering in Level 1 gives you a moment: when the lights fail, the Hounds are heard far off for eight to fifteen seconds before they come, from twenty-odd blocks away and never from where you were just looking; and a Hound the Flickering sent hunts you until the lights come back, searching where it lost you and coming on again, so running only buys time. A shut door, a fire and a steady stare still hold it.
 - Your first wanderer's note no longer points back at the boxes beside where you woke (and so marked nothing, since the mark landed on the "where you woke" waypoint): it names a box you have not been to.
 - The red EXIT door into Level ! looks like a door from behind too: the push side of a fire door, with a pull handle, a kick plate and a door closer, instead of a blank red slab.

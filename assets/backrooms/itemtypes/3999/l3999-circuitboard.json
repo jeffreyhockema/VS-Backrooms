@@ -1,7 +1,7 @@
 // Circuit Board
 {
 	"code": "l3999-circuitboard",
-	"maxstacksize": 32,
+	"maxstacksize": 64,
 	"creativeinventory": {
 		"general": [
 			"*"

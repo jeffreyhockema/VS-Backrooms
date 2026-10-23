@@ -1,7 +1,7 @@
 {
 	code: "wallpaperstrip",
 	// Cut from a wall with a blade. Dry enough to use as tinder, tough enough to bind a handle.
-	maxstacksize: 32,
+	maxstacksize: 64,
 	texture: { base: "item/salvage/wallpaperstrip" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Quadrants", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
