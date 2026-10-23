@@ -4,6 +4,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 
 namespace Backrooms.Deep;
 
@@ -147,9 +148,38 @@ public class BlockWorms : Block
     }
 }
 
-/// <summary>Scalding tar: anything that touches it is burnt.</summary>
+/// <summary>
+/// Scalding tar: anything that touches it is burnt. A bucket (or any open vanilla liquid container) right-clicked on it
+/// is filled with the game's own tar (<c>game:tarportion</c>, 100 portions a litre), as it would be from a liquid block;
+/// the pool is not used up. The tar goes into a barrel recipe for asphalt (<c>recipes/barrel/build-asphalt.json</c>).
+/// </summary>
 public class BlockTar : Block
 {
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
+    {
+        ItemSlot hand = byPlayer?.InventoryManager?.ActiveHotbarSlot;
+        if (hand?.Itemstack?.Collectible is BlockLiquidContainerBase container && container.AllowHeldLiquidTransfer)
+        {
+            Item tar = world.GetItem(new AssetLocation("game:tarportion"));
+            if (tar != null && container.GetCurrentLitres(hand.Itemstack) < container.CapacityLitres)
+            {
+                if (world.Side == EnumAppSide.Server)
+                {
+                    ItemStack portion = new ItemStack(tar, 1);
+                    float litres = container.CapacityLitres;
+                    int moved = container.SplitStackAndPerformAction(byPlayer.Entity, hand, stack => container.TryPutLiquid(stack, portion, litres));
+                    if (moved > 0)
+                    {
+                        container.DoLiquidMovedEffects(byPlayer, portion, moved, BlockLiquidContainerBase.EnumLiquidDirection.Fill);
+                        hand.MarkDirty();
+                    }
+                }
+                return true;
+            }
+        }
+        return base.OnBlockInteractStart(world, byPlayer, blockSel);
+    }
+
     public override void OnEntityCollide(IWorldAccessor world, Entity entity, BlockPos pos, BlockFacing facing, Vec3d collideSpeed, bool isImpact)
     {
         base.OnEntityCollide(world, entity, pos, facing, collideSpeed, isImpact);

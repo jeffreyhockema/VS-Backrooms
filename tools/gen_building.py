@@ -129,13 +129,111 @@ FILES = {
 }
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Wave two: the finishes and shells (wallpapers, siding, roofs, tile, the city's walls), the barrel's asphalt, and the
+# tar. Every output of this section goes through out(): it names the block a recipe makes, and it is the one place to
+# redirect them all (to the "built" twins of the blocks, so that what you build is not salvage again).
+# ---------------------------------------------------------------------------------------------------------------------
+def out(code):
+    return code
+
+
+QUICKLIME = {"type": "item", "code": "game:quicklime"}  # whitewash, grout
+CHARCOAL = {"type": "item", "code": "game:charcoal"}  # a printed pattern
+GLASS = {"type": "item", "code": "glassshard"}
+CLAY_RED = {"type": "item", "code": "game:clay-red"}  # ochre
+CLAY_BLUE = {"type": "item", "code": "game:clay-blue"}
+SHINGLE = {color: {"type": "item", "code": "game:shingle-burned-" + color} for color in ("gray", "brown", "red")}
+TAR = {"type": "item", "code": "game:tarportion", "litres": 1, "consumeLitres": 1}
+
+# Roof covers: the block's name for the colour, and the shingle colour
+COVERS = [("grey", "gray"), ("brown", "brown"), ("red", "red")]
+
+
+def _housing():
+    return [
+        shaped("PP,PQ", {"P": PLANK, "Q": QUICKLIME}, out("housewall-white-north"), 4),
+        shapeless([(block("housewall-white-north"), 4), (CLAY_BLUE, 1)], out("housewall-blue-north"), 4),
+        shaped("BB,MM", {"B": BRICK, "M": MORTAR}, out("housewall-brick-north"), 2),
+    ]
+
+
+def _roofs():
+    recipes = []
+    for cover, color in COVERS:
+        recipes.append(shaped("SS,SM", {"S": SHINGLE[color], "M": MORTAR}, out("houseroof-" + cover), 4))
+    for cover, color in COVERS:
+        recipes.append(shaped("SS,TT", {"S": SHINGLE[color], "T": STICK}, out("pitchroof-%s-none-lower-north" % cover), 2))
+        recipes.append(shaped("TT,SS", {"S": SHINGLE[color], "T": STICK}, out("pitchroof-%s-none-upper-north" % cover), 2))
+    return recipes
+
+
+FILES_TWO = {
+    # The dotted paper is printed (charcoal rubbed in), the cream paper whitewashed (quicklime); the baseboards as before
+    "build-wallpaper-dotted": [
+        shapeless([(DRYWALL, 1), (STRIP, 2), (CHARCOAL, 1)], out("wallpaper-dotted-upper")),
+        shapeless([(block("wallpaper-dotted-upper"), 1), (STICK, 1)], out("wallpaper-dotted-baseboard")),
+    ],
+    "build-wallpaper-cream": [
+        shapeless([(DRYWALL, 1), (STRIP, 2), (QUICKLIME, 1)], out("wallpaper-cream-upper")),
+        shapeless([(block("wallpaper-cream-upper"), 1), (STICK, 1)], out("wallpaper-cream-baseboard")),
+    ],
+    # The lobby's carpet is the maroon with fibre worked into it (no dye is made here)
+    "build-carpet-lobby": [
+        shapeless([(block("hotelcarpet-maroon"), 1), (FIBRE, 2)], out("hotelcarpet-lobby")),
+    ],
+    # The houses: boards limewashed white (a blue wash from blue clay), or brick in mortar; the roof is the game's
+    # fired shingles (a flat cap, or the two courses of a slope); blocks with a side are made facing north
+    "build-house": _housing() + _roofs(),
+    # The farm: weathered boards, red from red clay (4 boards and a lump); the porch's boards and step
+    "build-farm": [
+        shaped("PP,PS", {"P": PLANK, "S": STICK}, out("barnwall-grey"), 4),
+        shapeless([(block("barnwall-grey"), 4), (CLAY_RED, 1)], out("barnwall-red"), 4),
+        shaped("PPP,SSS", {"P": PLANK, "S": STICK}, out("porchdeck-deck"), 4),
+        shapeless([(block("porchdeck-deck"), 1), (PLANK, 1)], out("porchdeck-step"), 2),
+    ],
+    # Pool and subway tile: fired clay tile with quicklime for grout (mortar for the subway's)
+    "build-tile": [
+        shaped("TT,TQ", {"T": TILE, "Q": QUICKLIME}, out("pooltile-plain"), 4),
+        shaped("PP", {"P": block("pooltile-plain")}, out("pooltile-coping"), 2),
+        shaped("TT,MM", {"T": TILE, "M": MORTAR}, out("subwaywall-tile"), 2),
+    ],
+    # The Endless City: concrete faced with plaster, glass, brick or limestone (lime); not the lit or powered ones
+    "build-city": [
+        shapeless([(block("concrete"), 1), (PLASTER, 1)], out("cityfacade-concrete-wall-north"), 2),
+        shapeless([(block("concrete"), 1), (GLASS, 3)], out("cityfacade-glass-wall-north"), 2),
+        shapeless([(block("l3wall-brick"), 1), (PLASTER, 1)], out("cityfacade-brick-wall-north"), 2),
+        shapeless([(block("concrete"), 1), (QUICKLIME, 1)], out("cityfacade-stone-wall-north"), 2),
+        shapeless([(PLASTER, 2), (RUBBLE, 1)], out("cityplaster-plain"), 2),
+    ],
+}
+
+# Barrel recipes (recipes/barrel/): a litre of the tar from Levels 7 and 8 (taken in a bucket) and rubble make asphalt
+BARREL_FILES = {
+    "build-asphalt": [
+        {
+            "code": "asphalt",
+            "sealHours": 2,
+            "ingredients": [dict(TAR), {"type": "item", "code": "rubble", "quantity": 4}],
+            "output": {"type": "block", "code": out("asphalt-plain"), "stackSize": 4},
+        },
+    ],
+}
+
+
 def main():
     count = 0
-    for name, recipes in FILES.items():
+    for name, recipes in {**FILES, **FILES_TWO}.items():
         with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(recipes, indent="\t", ensure_ascii=False) + "\n")
         count += len(recipes)
-    print(f"gen_building: {count} recipes in {len(FILES)} files")
+    barrel_dir = os.path.join(ROOT, "assets", "backrooms", "recipes", "barrel")
+    os.makedirs(barrel_dir, exist_ok=True)
+    for name, recipes in BARREL_FILES.items():
+        with open(os.path.join(barrel_dir, name + ".json"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(recipes, indent="\t", ensure_ascii=False) + "\n")
+    print(f"gen_building: {count} grid recipes in {len(FILES) + len(FILES_TWO)} files, "
+          f"{sum(len(r) for r in BARREL_FILES.values())} barrel")
 
 
 if __name__ == "__main__":

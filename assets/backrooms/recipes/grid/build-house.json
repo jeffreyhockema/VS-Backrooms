@@ -1,0 +1,248 @@
+[
+	{
+		"ingredientPattern": "PP,PQ",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"Q": {
+				"type": "item",
+				"code": "game:quicklime"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "housewall-white-north",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "housewall-white-north",
+				"quantity": 4
+			},
+			"B": {
+				"type": "item",
+				"code": "game:clay-blue"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "housewall-blue-north",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "BB,MM",
+		"ingredients": {
+			"B": {
+				"type": "item",
+				"code": "game:burnedbrick-*",
+				"skipVariants": [
+					"fire",
+					"clinker"
+				]
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "housewall-brick-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "SS,SM",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-gray"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "houseroof-grey",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "SS,SM",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-brown"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "houseroof-brown",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "SS,SM",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-red"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "houseroof-red",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "SS,TT",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-gray"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-grey-none-lower-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TT,SS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-gray"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-grey-none-upper-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "SS,TT",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-brown"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-brown-none-lower-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TT,SS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-brown"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-brown-none-upper-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "SS,TT",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-red"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-red-none-lower-north",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TT,SS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "game:shingle-burned-red"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pitchroof-red-none-upper-north",
+			"quantity": 2
+		}
+	}
+]

@@ -1,0 +1,58 @@
+[
+	{
+		"ingredientPattern": "TT,TQ",
+		"ingredients": {
+			"T": {
+				"type": "item",
+				"code": "game:claytile-fired-plain-*"
+			},
+			"Q": {
+				"type": "item",
+				"code": "game:quicklime"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "pooltile-plain",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "PP",
+		"ingredients": {
+			"P": {
+				"type": "block",
+				"code": "pooltile-plain"
+			}
+		},
+		"width": 2,
+		"height": 1,
+		"output": {
+			"type": "block",
+			"code": "pooltile-coping",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "TT,MM",
+		"ingredients": {
+			"T": {
+				"type": "item",
+				"code": "game:claytile-fired-plain-*"
+			},
+			"M": {
+				"type": "item",
+				"code": "game:mortar"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "subwaywall-tile",
+			"quantity": 2
+		}
+	}
+]

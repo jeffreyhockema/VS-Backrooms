@@ -1,0 +1,24 @@
+[
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "hotelcarpet-maroon"
+			},
+			"B": {
+				"type": "item",
+				"code": "carpetfibre",
+				"quantity": 2
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "hotelcarpet-lobby",
+			"quantity": 1
+		}
+	}
+]

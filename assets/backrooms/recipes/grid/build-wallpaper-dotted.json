@@ -1,0 +1,49 @@
+[
+	{
+		"ingredientPattern": "A,B,C",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-stripped-upper"
+			},
+			"B": {
+				"type": "item",
+				"code": "wallpaperstrip",
+				"quantity": 2
+			},
+			"C": {
+				"type": "item",
+				"code": "game:charcoal"
+			}
+		},
+		"width": 1,
+		"height": 3,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-dotted-upper",
+			"quantity": 1
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-dotted-upper"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-dotted-baseboard",
+			"quantity": 1
+		}
+	}
+]
