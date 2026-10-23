@@ -1069,6 +1069,20 @@ def exit_doors():
                 bx("CaseR", (12.5, 12.5, -2 + dz), (14.5, 15.5, 1 + dz), "steelframe"),
                 bx("Bar", (3.5, 13, -1.8 + dz), (12.5, 15, -0.3 + dz), "panicbar")]
 
+    def pull(dz=0):
+        # (0.515.0) The push side of a fire door, seen from behind where the door stands in a wall with open floor on the
+        # far side: a vertical pull handle on two stand-offs and a kick plate, in the door's own steel; no EXIT on it
+        return [bx("StandoffA", (11.6, 3.5, 3 + dz), (12.6, 4.5, 4.4 + dz), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("StandoffB", (11.6, 10.5, 3 + dz), (12.6, 11.5, 4.4 + dz), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("Handle", (11.7, 3, 4.4 + dz), (12.5, 12, 5.4 + dz), "panicbar"),
+                bx("BackKick", (1, 0.5, 3), (15, 3.5, 3.5), "panicbar", faces=("south", "up", "east", "west"))]
+
+    def closer():
+        # The door closer on the push side, high on the leaf: a box and a jointed arm along the head, and a fire door plate
+        return [bx("Closer", (9.5, 11.5, 3), (14.5, 13.5, 4.6), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("Arm", (3.5, 12.1, 3), (9.5, 12.9, 3.7), "panicbar", faces=("south", "up", "down", "west")),
+                bx("Plate", (2, 5, 3), (6, 7, 3.3), "panicbar", faces=("south", "up", "down", "east", "west"))]
+
     def build(st, part):
         if st == "arrival":
             # Flush on the surface of a wall, in the air block in front of it, its back against the wall
@@ -1095,10 +1109,16 @@ def exit_doors():
                     bx("Gap", (0.4, 0, 2.2), (15.6, 1.25, 2.4), gap, glow=110 if lit else 0, faces=("north",), uv=[0, 0, 16, 2]),
                     bx("Sill", (0, 0, 0.6), (16, 0.15, 2.2), gap, glow=60 if lit else 0, faces=("up",), uv=[0, 0, 16, 2])]
             els += panic() + [bx("Kick", (1, 1.75, 0.5), (15, 4.5, 1), "panicbar", faces=("north", "up", "down", "east", "west"))]
+            if st in ("true", "fake"):
+                els += pull()[:3]
             return els
         els += leaf(front, "exitdoor-back")
         if part == "lower":
             els += panic() + [bx("Kick", (1, 0.5, 0.5), (15, 3.5, 1), "panicbar", faces=("north", "up", "east", "west"))]
+            if st == "entry":
+                els += pull()
+        elif st in ("entry", "true", "fake"):
+            els += closer()
         return els
     states = ["true", "fake", "fake-open", "marked", "entry", "arrival"]
     kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry"}
