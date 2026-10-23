@@ -5,7 +5,8 @@
 			"code": "type",
 			"states": [
 				"damask",
-				"maroon"
+				"maroon",
+				"lobby"
 			]
 		}
 	],

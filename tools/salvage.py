@@ -69,6 +69,8 @@ SALVAGE = {
                   ("l974-plush-cat", 0.02, 0)),  # (Level 974: kept for luck, or for Kitty)
     "hospitalbed": d(("metalbracket", 2, 1), (CLOTH, 1, 0.5), ("game:bandage-clean", 0.3, 0.3)),
     "foldingtable": d(("metalbracket", 1, 0.5)),
+    # (The cafeteria chair's drops come from gen_deep.py; the same here so it can be taken apart whole)
+    "cafechair": d(("metalbracket", 0.6, 0.4)),
     "foldingchair": d(("metalbracket", 0.6, 0.4)),
     "medcabinet": d(("game:bandage-clean", 1, 1), ("glassshard", 0.3, 0.3)),
     "fridge": d(("crackers", 0.25, 0.25), ("cannedbeans", 0.2, 0.2), ("game:fruit-redapple", 0.35, 0.35), ("game:cheese-cheddar-1slice", 0.2, 0.2),
@@ -134,6 +136,9 @@ DISMANTLE = ["desk", "conferencetable", "officechair", "officebookshelf", "round
              "sofa", "nightstand", "wardrobe", "hotelbookshelf", "consoletable", "coffeetable", "diningtable", "dresser",
              "mahjongtable", "writingdesk"]
 
+# Metal furniture comes away whole under a hammer (the bolts knocked out), by the same behaviour with tool = hammer
+DISMANTLE_HAMMER = ["filingcabinet", "cafechair", "foldingtable", "foldingchair", "chairstack", "luggagecart", "servicetrolley"]
+
 # The leading part of a block's code that the salvage system checks (bed-head and bed-foot are both "bed")
 FILES = {"bed-head": "level5/bed-head.json", "bed-foot": "level5/bed-foot.json"}
 
@@ -150,7 +155,7 @@ def _find(code):
 
 def apply():
     done, skipped = 0, []
-    for code in DISMANTLE:
+    for code in DISMANTLE + DISMANTLE_HAMMER:
         if code not in SALVAGE:
             raise SystemExit("DISMANTLE names " + code + " with no salvage entry")
     for code, drops in SALVAGE.items():
@@ -176,8 +181,11 @@ def apply():
             data["dropsByType"] = {f"*-{partnered[0]['properties']['parts'][0]}-*": drops, "*": []}
         else:
             data["drops"] = drops
-        if code in DISMANTLE and not any(b.get("name") == "BackroomsDismantle" for b in data.get("behaviors", [])):
-            data.setdefault("behaviors", []).append({"name": "BackroomsDismantle"})
+        if (code in DISMANTLE or code in DISMANTLE_HAMMER) and not any(b.get("name") == "BackroomsDismantle" for b in data.get("behaviors", [])):
+            behavior = {"name": "BackroomsDismantle"}
+            if code in DISMANTLE_HAMMER:
+                behavior["properties"] = {"tool": "hammer"}
+            data.setdefault("behaviors", []).append(behavior)
         with open(path, "w", encoding="utf-8", newline="\n") as f:
             f.write(head + json.dumps(data, indent="\t", ensure_ascii=False) + "\n")
         done += 1

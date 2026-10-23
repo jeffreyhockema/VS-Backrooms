@@ -164,6 +164,9 @@ FAMILIES = {
     "hotelwall": "level5/hotelwall", "hotelwood": "level5/hotelwood", "concrete": "concrete",
     "concretefloor": "level1/concretefloor", "concreteceiling": "level1/concreteceiling", "concretewall": "level1/concretewall",
     "sidewalk": "detail/sidewalk", "l3wall": "level3/l3wall", "housefloor": "detail/housefloor",
+    "housewall": "detail/housewall", "houseroof": "detail/houseroof", "pitchroof": "detail/pitchroof", "barnwall": "detail/barnwall",
+    "porchdeck": "detail/porchdeck", "pooltile": "detail/pooltile", "subwaywall": "detail/subwaywall", "cityfacade": "detail/cityfacade",
+    "cityplaster": "detail/cityplaster", "asphalt": "detail/asphalt",
 }
 # what a blade leaves behind (BackroomsStrippable), which the player can cut too
 CUT_RESULTS = ["wallpaper-stripped-baseboard", "carpet-threadbare"]
@@ -219,6 +222,8 @@ def twin(fam, groups):
         out["blockmaterial"] = material
     if resistance is not None:
         out["resistance"] = resistance
+    if "allowedVariants" in out:  # the patterns name the family's own code
+        out["allowedVariants"] = [BUILT + v for v in out["allowedVariants"]]
     out.pop("requiredMiningTier", None)
     if tier:
         out["requiredMiningTier"] = tier
@@ -257,16 +262,17 @@ def merge_lang(names):
         new_lines = []
         for key, value in entries.items():
             line = "\t" + json.dumps(key) + ": " + json.dumps(value, ensure_ascii=False)
-            pattern = re.compile("^\t" + re.escape(json.dumps(key)) + ":.*?(,?)$", re.M)
+            pattern = re.compile("^\t" + re.escape(json.dumps(key)) + ":.*?(,?)(\r?)$", re.M)
             if pattern.search(text):
-                text = pattern.sub(lambda m: line + m.group(1), text, count=1)
+                text = pattern.sub(lambda m: line + m.group(1) + m.group(2), text, count=1)
             else:
                 new_lines.append(line)
         if new_lines:
             body = text.rstrip().rpartition("}")[0].rstrip()
             if not body.endswith(",") and not body.endswith("{"):
                 body += ","
-            text = body + "\n\n" + ",\n".join(new_lines) + "\n}\n"
+            nl = "\r\n" if "\r\n" in text else "\n"
+            text = body + nl + nl + ("," + nl).join(new_lines) + nl + "}" + nl
         json5.loads(text)
         with open(path, "w", encoding="utf-8", newline="") as f:
             f.write((BOM if bom else "") + text)
@@ -296,13 +302,107 @@ def twins():
     return count
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Wave two: the finishes and shells (wallpapers, siding, roofs, tile, the city's walls), the barrel's asphalt, and the
+# tar. Outputs go through out() like the first section's: shaped() and shapeless() do it, the barrel's recipe by hand.
+# ---------------------------------------------------------------------------------------------------------------------
+QUICKLIME = {"type": "item", "code": "game:quicklime"}  # whitewash, grout
+CHARCOAL = {"type": "item", "code": "game:charcoal"}  # a printed pattern
+GLASS = {"type": "item", "code": "glassshard"}
+CLAY_RED = {"type": "item", "code": "game:clay-red"}  # ochre
+CLAY_BLUE = {"type": "item", "code": "game:clay-blue"}
+SHINGLE = {color: {"type": "item", "code": "game:shingle-burned-" + color} for color in ("gray", "brown", "red")}
+TAR = {"type": "item", "code": "game:tarportion", "litres": 1, "consumeLitres": 1}
+
+# Roof covers: the block's name for the colour, and the shingle colour
+COVERS = [("grey", "gray"), ("brown", "brown"), ("red", "red")]
+
+
+def _housing():
+    return [
+        shaped("PP,PQ", {"P": PLANK, "Q": QUICKLIME}, "housewall-white-north", 4),
+        shapeless([(block("housewall-white-north"), 4), (CLAY_BLUE, 1)], "housewall-blue-north", 4),
+        shaped("BB,MM", {"B": BRICK, "M": MORTAR}, "housewall-brick-north", 2),
+    ]
+
+
+def _roofs():
+    recipes = []
+    for cover, color in COVERS:
+        recipes.append(shaped("SS,SM", {"S": SHINGLE[color], "M": MORTAR}, "houseroof-" + cover, 4))
+    for cover, color in COVERS:
+        recipes.append(shaped("SS,TT", {"S": SHINGLE[color], "T": STICK}, "pitchroof-%s-none-lower-north" % cover, 2))
+        recipes.append(shaped("TT,SS", {"S": SHINGLE[color], "T": STICK}, "pitchroof-%s-none-upper-north" % cover, 2))
+    return recipes
+
+
+FILES_TWO = {
+    # The dotted paper is printed (charcoal rubbed in), the cream paper whitewashed (quicklime); the baseboards as before
+    "build-wallpaper-dotted": [
+        shapeless([(DRYWALL, 1), (STRIP, 2), (CHARCOAL, 1)], "wallpaper-dotted-upper"),
+        shapeless([(block("wallpaper-dotted-upper"), 1), (STICK, 1)], "wallpaper-dotted-baseboard"),
+    ],
+    "build-wallpaper-cream": [
+        shapeless([(DRYWALL, 1), (STRIP, 2), (QUICKLIME, 1)], "wallpaper-cream-upper"),
+        shapeless([(block("wallpaper-cream-upper"), 1), (STICK, 1)], "wallpaper-cream-baseboard"),
+    ],
+    # The lobby's carpet is the maroon with fibre worked into it (no dye is made here)
+    "build-carpet-lobby": [
+        shapeless([(block("hotelcarpet-maroon"), 1), (FIBRE, 2)], "hotelcarpet-lobby"),
+    ],
+    # The houses: boards limewashed white (a blue wash from blue clay), or brick in mortar; the roof is the game's
+    # fired shingles (a flat cap, or the two courses of a slope); blocks with a side are made facing north
+    "build-house": _housing() + _roofs(),
+    # The farm: weathered boards, red from red clay (4 boards and a lump); the porch's boards and step
+    "build-farm": [
+        shaped("PP,PS", {"P": PLANK, "S": STICK}, "barnwall-grey", 4),
+        shapeless([(block("barnwall-grey"), 4), (CLAY_RED, 1)], "barnwall-red", 4),
+        shaped("PPP,SSS", {"P": PLANK, "S": STICK}, "porchdeck-deck", 4),
+        shapeless([(block("porchdeck-deck"), 1), (PLANK, 1)], "porchdeck-step", 2),
+    ],
+    # Pool and subway tile: fired clay tile with quicklime for grout (mortar for the subway's)
+    "build-tile": [
+        shaped("TT,TQ", {"T": TILE, "Q": QUICKLIME}, "pooltile-plain", 4),
+        shaped("PP", {"P": block("pooltile-plain")}, "pooltile-coping", 2),
+        shaped("TT,MM", {"T": TILE, "M": MORTAR}, "subwaywall-tile", 2),
+    ],
+    # The Endless City: concrete faced with plaster, glass, brick or limestone (lime); not the lit or powered ones
+    "build-city": [
+        shapeless([(block("concrete"), 1), (PLASTER, 1)], "cityfacade-concrete-wall-north", 2),
+        shapeless([(block("concrete"), 1), (GLASS, 3)], "cityfacade-glass-wall-north", 2),
+        shapeless([(block("l3wall-brick"), 1), (PLASTER, 1)], "cityfacade-brick-wall-north", 2),
+        shapeless([(block("concrete"), 1), (QUICKLIME, 1)], "cityfacade-stone-wall-north", 2),
+        shapeless([(PLASTER, 2), (RUBBLE, 1)], "cityplaster-plain", 2),
+    ],
+}
+
+# Barrel recipes (recipes/barrel/): a litre of the tar from Levels 7 and 8 (taken in a bucket) and rubble make asphalt
+BARREL_FILES = {
+    "build-asphalt": [
+        {
+            "code": "asphalt",
+            "sealHours": 2,
+            "ingredients": [dict(TAR), {"type": "item", "code": "rubble", "quantity": 4}],
+            "output": {"type": "block", "code": out("asphalt-plain"), "stackSize": 4},
+        },
+    ],
+}
+
+
 def main():
     count = 0
-    for name, recipes in FILES.items():
+    for name, recipes in {**FILES, **FILES_TWO}.items():
         with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(recipes, indent="\t", ensure_ascii=False) + "\n")
         count += len(recipes)
-    print(f"gen_building: {count} recipes in {len(FILES)} files, {twins()} built twins")
+    barrel_dir = os.path.join(ROOT, "assets", "backrooms", "recipes", "barrel")
+    os.makedirs(barrel_dir, exist_ok=True)
+    for name, recipes in BARREL_FILES.items():
+        with open(os.path.join(barrel_dir, name + ".json"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(recipes, indent="\t", ensure_ascii=False) + "\n")
+    print(f"gen_building: {count} grid recipes in {len(FILES) + len(FILES_TWO)} files, "
+          f"{sum(len(r) for r in BARREL_FILES.values())} barrel, {twins()} built twins")
+
 
 
 if __name__ == "__main__":

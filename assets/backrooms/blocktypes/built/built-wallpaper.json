@@ -5,6 +5,8 @@
 			"code": "pattern",
 			"states": [
 				"chevron",
+				"dotted",
+				"cream",
 				"manila",
 				"stripped",
 				"stucco"
