@@ -287,6 +287,19 @@ Walls, floors and fixtures break with the tool their material calls for, but the
 - **Lights,** lit or dead: anything. One or two glass shards, sometimes a bracket or wire; a lit one's light goes with it.
 - **Never:** each level's roof (the solid top of it with nothing open above; in Level 0, the slab over the crawlspace, while the ceiling tiles and the crawlspace come down); the wall between two levels from that height up (below it, the wall breaks like any other); doors, elevators, vents, vending machines, fountains and anything else that leads elsewhere or gives something; Level 188's building; Level 3999's working machines, counters, doors and windows. The block info says so when you look at one.
 
+**Building with the Backrooms**
+Walls break down, but a room can be built again from what they leave. All of it is made in the crafting grid, with plaster ([quicklime](item-quicklime) over sand), [mortar](item-mortar) (slaked lime and sand, from the barrel), sticks, planks, cloth and parchment from the usual recipes.
+- **Drywall:** 2 plaster in the top row and 2 sticks in the bottom (2 by 2) = 4 bare drywall; plaster in the left column and sticks in the right = 4 Level 4 drywall.
+- **Wallpaper:** bare drywall + 2 [wallpaper strips](item-backrooms:wallpaperstrip) = yellow wallpaper; + 1 parchment = manila; + 1 plaster = 2 cream stucco. Any of those + a stick = the same with its baseboard.
+- **Carpet:** 4 [carpet fibres](item-backrooms:carpetfibre) + 2 flax twine = 2 Level 0 carpet. Fibres and cloth make Level 4's office carpet and the hotel's maroon and damask.
+- **Ceilings:** a strip, plaster and a strip in a row = 4 ceiling tiles; the same standing = 4 Level 4 tiles.
+- **Hotel:** 4 planks + 2 sticks = 4 panels; a panel + a stick = wainscot, + a plank = frieze. 5 planks + nails (the nails in the bottom row) = 4 walnut floor; with the nails in the top row, 4 floorboards.
+- **Concrete:** 3 [rubble](item-backrooms:rubble) + 1 mortar = 2 [concrete](block-backrooms:concrete). 2 concrete side by side = 2 floor slabs, one above the other = 2 ceiling slabs, 1 on its own = a concrete wall; concrete + rubble = 2 pavement.
+- **Brick, tile, cinder block:** Level 3's walls are 2 of the game's bricks, tiles or rubble and 2 mortar, set crosswise, for 2 blocks; bathroom tiles are 3 clay tiles + mortar for 4.
+- **Whole furniture:** break an office or hotel desk, table, chair, sofa, wardrobe, bookshelf, dresser or cubicle partition with a saw in hand and it comes away whole, to set down again facing you. Any other tool breaks it for lumber and cloth as before.
+- **Only salvaged, never made:** light fixtures, machines, pipes, wiring, doors, vending machines, anything that holds a level up or leads elsewhere. They give up their glass, brackets and wire, never themselves.
+What you build breaks down like the rest if you tear it out again, so choose your walls with care.
+
 **Backrooms recipes**
 - [Glass shiv](item-backrooms:glassshiv) (knife, 60 uses, cuts two a block) = glass shard + wallpaper strip + carpet fibre
 - [Improvised scraper](item-backrooms:scraper) (knife, 180 uses, cuts two a block) = metal bracket + wallpaper strip + 2 carpet fibres

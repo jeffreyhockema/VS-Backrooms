@@ -1,0 +1,84 @@
+[
+	{
+		"ingredientPattern": "PSP,PSP",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"S": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "hotelwall-panel",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "hotelwall-panel"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "hotelwall-wainscot",
+			"quantity": 1
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "hotelwall-panel"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:plank-*"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "hotelwall-frieze",
+			"quantity": 1
+		}
+	},
+	{
+		"ingredientPattern": "PPP,PNP",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"N": {
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "hotelwood",
+			"quantity": 4
+		}
+	}
+]
