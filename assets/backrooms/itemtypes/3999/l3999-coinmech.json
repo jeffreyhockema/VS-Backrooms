@@ -1,7 +1,7 @@
 // Coin Mechanism
 {
 	"code": "l3999-coinmech",
-	"maxstacksize": 16,
+	"maxstacksize": 64,
 	"creativeinventory": {
 		"general": [
 			"*"

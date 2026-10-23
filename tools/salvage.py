@@ -128,6 +128,12 @@ SALVAGE = {
                         ("game:fat", 0.3, 0.3), ("crackers", 0.4, 0.4), (CANDLE, 0.2, 0.2), ("seedpacket-onion", 0.05, 0)),
 }
 
+# Furniture that comes away whole under a saw (src/Salvage/Dismantle.cs): the lumber, cloth and bits above are what any
+# other tool gets. Wood and cloth pieces only; metal ones, the beds and anything over several blocks are left out.
+DISMANTLE = ["desk", "conferencetable", "officechair", "officebookshelf", "roundtable", "partition", "hotelchair", "wingchair",
+             "sofa", "nightstand", "wardrobe", "hotelbookshelf", "consoletable", "coffeetable", "diningtable", "dresser",
+             "mahjongtable", "writingdesk"]
+
 # The leading part of a block's code that the salvage system checks (bed-head and bed-foot are both "bed")
 FILES = {"bed-head": "level5/bed-head.json", "bed-foot": "level5/bed-foot.json"}
 
@@ -144,6 +150,9 @@ def _find(code):
 
 def apply():
     done, skipped = 0, []
+    for code in DISMANTLE:
+        if code not in SALVAGE:
+            raise SystemExit("DISMANTLE names " + code + " with no salvage entry")
     for code, drops in SALVAGE.items():
         path = _find(code)
         if path is None:
@@ -167,6 +176,8 @@ def apply():
             data["dropsByType"] = {f"*-{partnered[0]['properties']['parts'][0]}-*": drops, "*": []}
         else:
             data["drops"] = drops
+        if code in DISMANTLE and not any(b.get("name") == "BackroomsDismantle" for b in data.get("behaviors", [])):
+            data.setdefault("behaviors", []).append({"name": "BackroomsDismantle"})
         with open(path, "w", encoding="utf-8", newline="\n") as f:
             f.write(head + json.dumps(data, indent="\t", ensure_ascii=False) + "\n")
         done += 1

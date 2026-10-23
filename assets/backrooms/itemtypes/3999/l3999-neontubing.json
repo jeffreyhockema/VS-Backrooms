@@ -1,7 +1,7 @@
 // Neon Tubing
 {
 	"code": "l3999-neontubing",
-	"maxstacksize": 32,
+	"maxstacksize": 64,
 	"creativeinventory": {
 		"general": [
 			"*"

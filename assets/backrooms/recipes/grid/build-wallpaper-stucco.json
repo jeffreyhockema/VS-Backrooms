@@ -1,0 +1,44 @@
+[
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-stripped-upper"
+			},
+			"B": {
+				"type": "block",
+				"code": "game:plaster-plain"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-stucco-upper",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-stucco-upper"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-stucco-baseboard",
+			"quantity": 1
+		}
+	}
+]

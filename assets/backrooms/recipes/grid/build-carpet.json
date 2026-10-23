@@ -1,0 +1,82 @@
+[
+	{
+		"ingredientPattern": "FTF,FTF",
+		"ingredients": {
+			"F": {
+				"type": "item",
+				"code": "carpetfibre"
+			},
+			"T": {
+				"type": "item",
+				"code": "game:flaxtwine"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "carpet-normal",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "FCF,FCF",
+		"ingredients": {
+			"F": {
+				"type": "item",
+				"code": "carpetfibre"
+			},
+			"C": {
+				"type": "item",
+				"code": "game:cloth-plain"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "officecarpet-plain",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "FFF,CCC",
+		"ingredients": {
+			"F": {
+				"type": "item",
+				"code": "carpetfibre"
+			},
+			"C": {
+				"type": "item",
+				"code": "game:cloth-plain"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "hotelcarpet-maroon",
+			"quantity": 2
+		}
+	},
+	{
+		"ingredientPattern": "FCF,CFC",
+		"ingredients": {
+			"F": {
+				"type": "item",
+				"code": "carpetfibre"
+			},
+			"C": {
+				"type": "item",
+				"code": "game:cloth-plain"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "hotelcarpet-damask",
+			"quantity": 2
+		}
+	}
+]

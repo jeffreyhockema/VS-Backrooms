@@ -1,0 +1,45 @@
+[
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-stripped-upper"
+			},
+			"B": {
+				"type": "item",
+				"code": "wallpaperstrip",
+				"quantity": 2
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-chevron-upper",
+			"quantity": 1
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "wallpaper-chevron-upper"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "wallpaper-chevron-baseboard",
+			"quantity": 1
+		}
+	}
+]

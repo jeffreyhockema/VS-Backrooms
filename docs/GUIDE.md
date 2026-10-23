@@ -58,6 +58,7 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - Pipes, railings, poles and machinery: a copper pickaxe. Metal brackets, a little scrap wire from anything wired, now and then a copper or lead bit from pipes.
   - Glass: anything. Glass shards.
   - Vanilla rock and ore (Level 8, the cliffs) and soil break as in any world.
+- **You can build with it again, from scratch.** The building never comes back as blocks, but a base can be made of the Backrooms' own look: bare drywall, yellow, manila and cream wallpaper (with baseboards), Level 0, office and hotel carpet, ceiling tiles, the hotel's panelling and floors, concrete (with its floor, ceiling, wall and pavement forms), Level 3's brick, tile and cinder block walls, house floorboards and bathroom tiles are grid recipes from plaster, mortar, rubble, wallpaper strips, carpet fibres, planks, bricks and clay tiles (28 recipes, `tools/gen_building.py`; a block costs real salvage, and a wall you tear out breaks down like any other). Desks, tables, chairs, sofas, wardrobes, bookshelves, dressers and partitions broken with a **saw** in hand come away whole and can be set down again facing the player; any other tool gives the lumber and cloth as before. Lights, machines, pipes, doors and anything that holds a level together are never craftable.
 - Furniture and clutter are not the building: a minibar, a cake tin or a bin breaks like any block and gives what is in it, and what you made or won (rubble masonry, a plush or neon lamp from a prize counter) comes back whole.
 - The walls between levels break like any other wall of their material: the gates are the easy way through, not the only one.
 - **Never broken** (the block info says so):
@@ -73,7 +74,8 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - Ceiling tiles mostly give nothing, but the void above sometimes hides scrap wire, a metal bracket or rotten wood.
 - **Walls and carpet can be cut:** right-click papered walls or carpet with a blade to cut away wallpaper strips or carpet fibres. The wall or floor stays, visibly bare.
   - A glass shard works as a blade, but may snap each time.
-  - The glass shiv and the improvised scraper are made for it: they peel the paper and lift the pile cleanly, two strips or fibres a cut, where any other knife (a flint one too) gives one. Keep one after you have flint.
+  - The glass shiv and the improvised scraper are made for it: they peel the paper and lift the pile cleanly, two strips or fibres a cut, as does any vanilla knife of copper or better (a blade that holds an edge); a flint or bone knife gives one. Keep a shiv or scraper until you have copper.
+  - Where a real tool would do better, it does a little: a bronze pickaxe gets a quarter more out of pipes, cable and machinery than a copper one, and an iron pickaxe half more; and a dead light fixture worked loose with a knife, scraper or chisel gives half as many glass shards again as one that is smashed. Nothing needs a better tool.
 
 | Make | From |
 |---|---|

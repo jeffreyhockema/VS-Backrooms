@@ -61,6 +61,7 @@ public class SalvageSystem : ModSystem
     {
         api.RegisterBlockBehaviorClass("BackroomsStrippable", typeof(BlockBehaviorStrippable));
         api.RegisterBlockBehaviorClass("BackroomsPartnered", typeof(BlockBehaviorPartnered));
+        api.RegisterBlockBehaviorClass("BackroomsDismantle", typeof(BlockBehaviorDismantle));
     }
 
     /// <summary>Whether a block of ours is salvage: taken whole, wherever it is, with what it holds.</summary>
@@ -70,6 +71,10 @@ public class SalvageSystem : ModSystem
         string first = block.FirstCodePart();
         return Salvageable.Contains(first) || Lights.Contains(first);
     }
+
+    /// <summary>Whether a block of ours is a light fixture, lit or dead.</summary>
+    public static bool IsLight(Block block) =>
+        block?.Code?.Domain == "backrooms" && Lights.Contains(block.FirstCodePart());
 
     /// <summary>A light fixture of ours that is still lit (or flickering).</summary>
     public static bool IsLiveLight(Block block) =>
@@ -87,7 +92,7 @@ public class SalvageSystem : ModSystem
 /// </code>
 /// Knives work, as does any item with the attribute <c>crudeCutter</c> (a glass shard), which may snap in use.
 /// The glass shiv and the improvised scraper were made for this: they peel the paper and lift the pile cleanly, and
-/// give two of the stripped item a cut where any other knife (a flint one too) tears off one.
+/// give two of the stripped item a cut, as does a vanilla knife of copper or better; a flint or bone knife tears off one.
 /// </summary>
 public class BlockBehaviorStrippable : BlockBehavior
 {
@@ -153,7 +158,9 @@ public class BlockBehaviorStrippable : BlockBehavior
         world.BlockAccessor.ExchangeBlock(bare.BlockId, pos);
         world.PlaySoundAt(new AssetLocation("game:sounds/effect/clothrip"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 12);
 
-        var stack = new ItemStack(stripped, CleanCutters.Contains(slot.Itemstack.Collectible.Code.ToString()) ? CleanCutYield : 1);
+        // (A knife of copper or better holds an edge as well as a shiv of glass; flint and bone tear)
+        CollectibleObject blade = slot.Itemstack.Collectible;
+        var stack = new ItemStack(stripped, CleanCutters.Contains(blade.Code.ToString()) || BlockBehaviorToolDrops.IsMetalKnife(blade) ? CleanCutYield : 1);
         // (What does not fit, all of it or the rest, falls at the player's feet)
         byPlayer.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true);
         if (stack.StackSize > 0)

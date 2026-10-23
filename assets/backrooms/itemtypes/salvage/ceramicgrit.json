@@ -1,7 +1,7 @@
 {
 	code: "ceramicgrit",
 	// Pottery shards pounded with a stone. Two, worked into a block of soil, make one blue clay.
-	maxstacksize: 32,
+	maxstacksize: 64,
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: 'Quadrants', collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
 	],
