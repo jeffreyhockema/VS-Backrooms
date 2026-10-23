@@ -151,6 +151,9 @@ public class EntityBehaviorMenace : EntityBehavior
         entity.Attributes.SetString(SessionKey, Session);
     }
 
+    /// <summary>The in-game hour an entity put down for a set piece (the Flickering) leaves at, or -1 for none.</summary>
+    public static double UntilOf(Entity entity) => entity.Attributes.GetDouble(UntilKey, -1);
+
     public static Encounter KindOf(Entity entity) => (Encounter)entity.Attributes.GetInt(KindKey, -1);
 
     public static long OwnerOf(Entity entity) => entity.Attributes.GetLong(OwnerKey, -1);

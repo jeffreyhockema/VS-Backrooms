@@ -79,6 +79,8 @@ public partial class MenaceSystem : ModSystem
         public long NextSoundMs;
         /// <summary>World milliseconds when the last body (a glimpse, stalker or hunter, the Flickering, the Screaming) and the last distant sound were put down for this place (EncounterRoll's hard gaps).</summary>
         public long LastBodyMs = NeverMs, LastSoundMs = NeverMs;
+        /// <summary>Where this one has been looking lately: (world ms, flat view direction), the last <see cref="RecentViewMs"/> or so.</summary>
+        public readonly List<(long Ms, double X, double Z)> Views = new();
     }
 
     /// <summary>"Never": far enough back that every hard gap has passed.</summary>
@@ -180,6 +182,7 @@ public partial class MenaceSystem : ModSystem
                 if (type == null) api.Logger.Warning("[backrooms] entity type {0} is missing", entity);
                 else types[entity] = type;
             }
+            api.Event.RegisterGameTickListener(_ => SampleViews(), e => api.Logger.Error("[backrooms] view sampling: {0}", e), ViewSampleMs, 1000);
             tickListener = api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] entity director: {0}", e), IntervalMs, 1000);
             // Breaking things open is loud
             api.Event.DidBreakBlock += OnBrokeBlock;
@@ -208,11 +211,12 @@ public partial class MenaceSystem : ModSystem
             .EndSubCommand()
             .BeginSubCommand("flicker")
                 .WithDescription("Starts a Level 1 Flickering round you: the lights go out and Hounds hunt until they return")
-                .RequiresPlayer()
                 .HandleWith(args =>
                 {
                     if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
-                    Entity entity = args.Caller.Entity;
+                    // (From the console: the latest straw dummy)
+                    Entity entity = args.Caller.Entity ?? LatestDummy(args);
+                    if (entity == null) return TextCommandResult.Error("Needs a player, or a straw dummy put down first");
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
                     StartFlicker(entity, watch, Roster.For(1));
@@ -761,7 +765,7 @@ public partial class MenaceSystem : ModSystem
         return max > 0 && hunger.GetFloat("currentsaturation", max) < 0.25f * max;
     }
 
-    /// <summary>Puts a player's section of Level 1 into a Flickering, and sends a pack of Hounds to hunt them until it ends.</summary>
+    /// <summary>Puts a player's section of Level 1 into a Flickering; after a dark, dreadful wait a pack of Hounds comes to hunt them until it ends.</summary>
     private void StartFlicker(Entity target, Watch watch, RosterEntry[] roster)
     {
         double hours = sapi.World.Calendar.TotalHours;
@@ -772,17 +776,81 @@ public partial class MenaceSystem : ModSystem
         watch.Now.Flickering = watch.Now.Dark = true;
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         RosterEntry hounds = roster.FirstOrDefault(e => e.Code == Roster.Hound);
-        if (hounds != null) SendFlickerHounds(target, watch, hounds, FlickerTries);
+        if (hounds == null) return;
+        // Nothing is put down for the first few seconds of the dark: only sounds, far off, to build the dread
+        int delay = FlickerDelayMinMs + rand.Next(FlickerDelayMaxMs - FlickerDelayMinMs + 1);
+        if (Logging) sapi.Logger.Notification("[backrooms] flicker: the Hounds come in {0:0.0} s", delay / 1000.0);
+        foreach (double at in FlickerCues)
+            sapi.World.RegisterCallback(_ => { if (target.Alive && sapi.World.Calendar.TotalHours < watch.FlickerUntilHours) PlayDistantSound(target, 1, force: true, minDistance: 26, maxDistance: 44); }, (int)(delay * at));
+        sapi.World.RegisterCallback(_ => SendFlickerHounds(target, watch, hounds, FlickerTries), delay);
     }
+
+    /// <summary>How long (ms) the lights are out before the Hounds are put down, at least and at most; and when in that wait (as fractions of it) a far-off sound is heard.</summary>
+    private const int FlickerDelayMinMs = 8000, FlickerDelayMaxMs = 15000;
+    private static readonly double[] FlickerCues = { 0.15, 0.55, 0.85 };
 
     /// <summary>How many times the Flickering looks for an unseen place for its Hounds (every few seconds), and how long between.</summary>
     private const int FlickerTries = 6, FlickerRetryMs = 4000;
 
+    /// <summary>The Flickering's Hounds are put down at least this far off (and up to this much further), so they have to come.</summary>
+    private const double FlickerMinDistance = 22, FlickerSpread = 16;
+
     private void SendFlickerHounds(Entity target, Watch watch, RosterEntry hounds, int tries)
     {
         if (!target.Alive || sapi.World.Calendar.TotalHours >= watch.FlickerUntilHours) return;
-        if (CountMenacing(target) < Roster.Cap(MenaceBand.Threshold) && TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true)) return;
+        if (CountMenacing(target) < Roster.Cap(MenaceBand.Threshold) && TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true, minDistance: FlickerMinDistance))
+        {
+            watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
+            return;
+        }
         if (tries > 1) sapi.World.RegisterCallback(_ => SendFlickerHounds(target, watch, hounds, tries - 1), FlickerRetryMs);
+    }
+
+    // ================= Where people have been looking =================
+
+    /// <summary>How often (ms) everyone's view direction is noted, how long (ms) it is kept, and the half-angle (degrees) and range (blocks) round a recent view that nothing is put down in (<c>minDistance</c> placements).</summary>
+    private const int ViewSampleMs = 400;
+    private const long RecentViewMs = 10_000;
+    private const double RecentViewHalfAngle = 60, RecentViewRange = 40;
+
+    private void SampleViews()
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.Entity is { Alive: true } e) NoteView(e, now);
+        foreach (Entity dummy in dummies) if (dummy.Alive) NoteView(dummy, now);
+    }
+
+    private void NoteView(Entity who, long now)
+    {
+        if (!watches.TryGetValue(who.EntityId, out Watch watch)) watches[who.EntityId] = watch = new Watch();
+        Vec3f view = who.Pos.GetViewVector();
+        watch.Views.Add((now, view.X, view.Z));
+        watch.Views.RemoveAll(v => now - v.Ms > RecentViewMs);
+    }
+
+    /// <summary>Whether someone looked towards a spot (within <see cref="RecentViewHalfAngle"/> degrees, <see cref="RecentViewRange"/> blocks) in the last few seconds: in the dark, it would be the same pop-in.</summary>
+    private bool InRecentView(Entity target, Vec3d spot)
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        double cosLimit = Math.Cos(RecentViewHalfAngle * Math.PI / 180);
+        bool Looked(Entity who)
+        {
+            if (!watches.TryGetValue(who.EntityId, out Watch watch)) return false;
+            double dx = spot.X - who.Pos.X, dz = spot.Z - who.Pos.Z, flat = Math.Sqrt(dx * dx + dz * dz);
+            if (flat > RecentViewRange) return false;
+            if (flat < 0.5) return true;
+            foreach ((long ms, double vx, double vz) in watch.Views)
+            {
+                double len = Math.Sqrt(vx * vx + vz * vz);
+                if (now - ms <= RecentViewMs && len > 0.01 && (dx * vx + dz * vz) / (flat * len) >= cosLimit) return true;
+            }
+            return false;
+        }
+        if (Looked(target)) return true;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.Entity is { Alive: true } other && other != target && other.Pos.Dimension == target.Pos.Dimension && Looked(other)) return true;
+        return false;
     }
 
     /// <summary>
@@ -838,20 +906,20 @@ public partial class MenaceSystem : ModSystem
     private const double SoundGapJitter = 0.5;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
-    public void PlayDistantSound(Entity target, int level)
+    public void PlayDistantSound(Entity target, int level, bool force = false, double minDistance = 14, double maxDistance = 36)
     {
         DistantSound[] sounds = Roster.SoundsFor(level);
         if (sounds.Length == 0) return;
         // (A minimum gap between one person's distant sounds, longer in Level 0, where they were too frequent)
         long now = sapi.World.ElapsedMilliseconds;
         double gap = Roster.SoundGapSeconds(level);
-        if (gap > 0 && watches.TryGetValue(target.EntityId, out Watch heard))
+        if (!force && gap > 0 && watches.TryGetValue(target.EntityId, out Watch heard))
         {
             if (now < heard.NextSoundMs) return;
             heard.NextSoundMs = now + (long)(gap * 1000 * (1 + SoundGapJitter * rand.NextDouble()));
         }
         DistantSound sound = sounds[rand.Next(sounds.Length)];
-        double angle = rand.NextDouble() * Math.PI * 2, distance = 14 + rand.NextDouble() * 22;
+        double angle = rand.NextDouble() * Math.PI * 2, distance = minDistance + rand.NextDouble() * (maxDistance - minDistance);
         double x = target.Pos.X + Math.Cos(angle) * distance, z = target.Pos.Z + Math.Sin(angle) * distance;
         float pitch = sound.PitchMin + (float)rand.NextDouble() * (sound.PitchMax - sound.PitchMin);
         IPlayer player = (target as EntityPlayer)?.Player;
@@ -863,7 +931,7 @@ public partial class MenaceSystem : ModSystem
 
     /// <summary>Puts down an entity (and the rest of its pack) for an encounter with a target. Returns whether it did.</summary>
     /// <param name="setPiece">The Flickering's hounds, the Screaming's rats, a test: the pack is clipped to the Threshold cap rather than the current band's.</param>
-    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false)
+    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0)
     {
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
         // A capped scavenger pack is silence, like any failed spawn: say so before the search for a spot, not after it
@@ -888,6 +956,8 @@ public partial class MenaceSystem : ModSystem
         }
         // Things that lie in wait are put ahead of the player, the way they are looking
         if (entry.Ambush) (min, max) = (8.0, 16.0);
+        // A set piece's pack is put well away, and not where anyone has just been looking
+        if (minDistance > 0) (min, max) = (minDistance, minDistance + FlickerSpread);
 
         for (int attempt = 0; attempt < 18; attempt++)
         {
@@ -909,6 +979,11 @@ public partial class MenaceSystem : ModSystem
                 wanted = kind == Encounter.Glimpse && !entry.Ambush ? seen : !seen;
             }
             if (!wanted) continue;
+            if (minDistance > 0 && InRecentView(target, spot))
+            {
+                if (Logging) sapi.Logger.Notification("[backrooms] spot refused: where they were just looking");
+                continue;
+            }
             SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
             return true;
         }
