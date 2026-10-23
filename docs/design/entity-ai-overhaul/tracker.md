@@ -142,6 +142,16 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
   4. Out of sight: spawn a hunting Hound (`encounter hound hunt`), break the line (a corner, lights out, sneak, quiet). Expect: it goes to where it lost you, looks about for about 14 s, then leaves and does not come back; and with a shut door between you and it, it does not open it, searches at the door and goes.
 - **Lessons:** the bash tool chokes on apostrophes in heredocs: write edit scripts with the Write tool. Generators need `VINTAGE_STORY=G:\Games\Vintagestory` in a worktree; a run rewrites all shape/entity files with LF (restore unrelated ones with `git checkout HEAD --`). Rebuild under a new tag while a harness runs on another build (the harness uses the build dir).
 
+### Player feedback from the mod page (2026-10-23, relayed by vs-backrooms-ec)
+
+- Kyle_Rick: entities spawn right in front of the player ("can see them spawn", has to keep looking behind). Covered by P7
+  round 1's seven-ray rule and, for the Flickering, round 3's delay and recent-view rule; watch for more reports.
+- Syfe: "constantly hunted even on the lower entity density". The isolation round (P7 round 2) thinned every setting.
+- Pool_Party_Doge: flint tools from Level 1 lasted to the end because every entity can be outrun or outmanoeuvred, so there
+  is no reason to progress tools or armour. Progression pressure, not spawn rate: P7 round 1 made Hounds wolf-to-bear and
+  Skin-Stealers bear-strength; revisit once players have tried 0.515 (armour tiers by depth, creatures that cannot be
+  outrun from Level 3).
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
