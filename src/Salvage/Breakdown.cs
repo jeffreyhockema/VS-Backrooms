@@ -242,6 +242,15 @@ public static class Breakdown
         return false;
     }
 
+    /// <summary>Whether a block gives a block when broken (a flickering panel gives a dead one), where scaling the drops would hand out more of them.</summary>
+    private static bool GivesBlock(Block block)
+    {
+        if (block.Drops == null) return false;
+        foreach (BlockDropItemStack drop in block.Drops)
+            if (drop?.Type == EnumItemClass.Block) return true;
+        return false;
+    }
+
     /// <summary>
     /// Which of our blocks keep their own drops, worked out from the block types alone (so both sides agree), before
     /// <see cref="Apply"/> changes any. The generators give furniture and clutter what is in it (the Level 188 minibar's
@@ -333,6 +342,10 @@ public static class Breakdown
             BreakKind kind = KindOf(block);
             if (kind == BreakKind.None && IsOurs(block) && keep.Contains(block.Code.Path)) kept.Add(TypeOf(block));
             if (kind == BreakKind.Structure && HasOwnLoot(api, block)) replaced.Add(TypeOf(block));
+            // A light fixture that shatters gives more of its glass to a careful hand (one that gives itself back is left alone)
+            if (SalvageSystem.IsLight(block) && !GivesBlock(block))
+                block.BlockBehaviors = new List<BlockBehavior>(block.BlockBehaviors ?? System.Array.Empty<BlockBehavior>())
+                    { new BlockBehaviorToolDrops(block, BlockBehaviorToolDrops.Mode.Careful) }.ToArray();
             switch (kind)
             {
                 case BreakKind.Fixed:
@@ -349,6 +362,8 @@ public static class Breakdown
                     var behaviors = new List<BlockBehavior>(block.BlockBehaviors ?? System.Array.Empty<BlockBehavior>());
                     if (cls.HandFactor < 1f) behaviors.Add(new BlockBehaviorBareHands(block, cls.HandFactor));
                     if (cls == Wreck || cls == WreckHull) behaviors.Add(new BlockBehaviorWreck(block));
+                    // Pipes and wired machinery give more to a better pick (see BlockBehaviorToolDrops)
+                    if (cls == Electrical || block.FirstCodePart() == "pipes") behaviors.Add(new BlockBehaviorToolDrops(block, BlockBehaviorToolDrops.Mode.Pick));
                     block.BlockBehaviors = behaviors.ToArray();
                     structure++;
                     break;
