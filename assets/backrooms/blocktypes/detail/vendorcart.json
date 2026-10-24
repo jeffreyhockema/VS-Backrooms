@@ -134,7 +134,9 @@
 		"dispenses": [
 			"backrooms:almondwater",
 			"backrooms:almondwater",
-			"backrooms:waterbottle"
+			"backrooms:waterbottle",
+			"backrooms:almondwaterblue",
+			"backrooms:almondwatergreen"
 		],
 		"restock": true
 	}

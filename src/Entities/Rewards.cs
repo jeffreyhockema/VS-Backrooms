@@ -101,7 +101,8 @@ public class Rewards : ModSystem
         if (code == null) return false;
         string p = code.Path;
         if (code.Domain == "backrooms")
-            return p is "almondwater" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle" or "cashewwater" or "firesalt" or "seedpacket";
+            return p is "almondwater" or "almondwaterblue" or "almondwatergreen" or "emptybottle" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle" or "cashewwater" or "firesalt" or "seedpacket"
+                || p.StartsWith("bottledwater", StringComparison.Ordinal);
         return p.StartsWith("gear-", StringComparison.Ordinal) || p.StartsWith("metalbit-", StringComparison.Ordinal) || p.StartsWith("bandage", StringComparison.Ordinal) || p.StartsWith("poultice", StringComparison.Ordinal) || p.StartsWith("fruit-", StringComparison.Ordinal)
             || p.StartsWith("cheese-", StringComparison.Ordinal) || p.StartsWith("candle", StringComparison.Ordinal) || p.StartsWith("seeds-", StringComparison.Ordinal);
     }

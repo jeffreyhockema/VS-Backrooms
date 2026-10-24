@@ -140,7 +140,9 @@
 			"backrooms:soda",
 			"backrooms:waterbottle",
 			"backrooms:almondwater",
-			"backrooms:cashewwater"
+			"backrooms:cashewwater",
+			"backrooms:almondwaterblue",
+			"backrooms:almondwatergreen"
 		],
 		"restock": true
 	}

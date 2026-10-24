@@ -2561,7 +2561,7 @@ def items():
     data = {"code": "fun-lucatears", "maxstacksize": 4, "texture": {"base": "item/fun/lucatears"},
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
-            "attributes": {"maxhealthExtraPoints": 4, "meleeWeaponsDamage": 0.25, "durationHours": 24, "stabilityRestored": 0.3}}
+            "attributes": {"maxhealthExtraPoints": 4, "meleeWeaponsDamage": 0.25, "durationHours": 24, "stabilityRestored": 0.3, "hydration": 100}}
     if registered("BackroomsLucaTears"):
         data["class"] = "BackroomsLucaTears"
     data.update(TRANSFORMS)

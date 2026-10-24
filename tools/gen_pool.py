@@ -274,7 +274,7 @@ def items():
     LANG["itemdesc-epsomsalt"] = "Dried out of the Poolrooms' water on the rims of its dark corners. Eases aches and draws out what festers: mixed with linen it makes a salt poultice."
     data = {"code": "redwater", "class": "BackroomsRedWater", "maxstacksize": 4, "texture": {"base": "item/redwater"},
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 1000,
-            "nutritionProps": {"satiety": 40, "foodcategory": "NoNutrition"}}
+            "nutritionProps": {"satiety": 40, "foodcategory": "NoNutrition"}, "attributes": {"hydration": 200}}
     data.update(TRANSFORMS)
     ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "pool", "redwater.json"), data, "Red water from the Sanguine Reservoir")

@@ -19,6 +19,9 @@
 		"foodcategory": "NoNutrition"
 	},
 	"materialDensity": 1000,
+	"attributes": {
+		"hydration": 100
+	},
 	"guiTransform": {
 		"rotation": {
 			"x": 157.4,

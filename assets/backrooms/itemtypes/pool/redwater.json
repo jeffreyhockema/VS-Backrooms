@@ -19,6 +19,17 @@
 		"satiety": 40,
 		"foodcategory": "NoNutrition"
 	},
+	"attributes": {
+		"hydration": 200,
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0.5,
+				"z": 0.5
+			},
+			"scale": 1.3
+		}
+	},
 	"guiTransform": {
 		"rotation": {
 			"x": 0,
@@ -73,15 +84,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
-	}
+	]
 }

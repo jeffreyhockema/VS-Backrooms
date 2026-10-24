@@ -21,6 +21,7 @@
 	"materialDensity": 1000,
 	"attributes": {
 		"stabilityRestored": 0.1,
+		"hydration": 500,
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,

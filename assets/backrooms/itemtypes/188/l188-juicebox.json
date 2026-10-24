@@ -60,6 +60,20 @@
 		"satiety": 120,
 		"foodcategory": "Fruit"
 	},
+	"class": "BackroomsAlmondWater",
+	"attributes": {
+		"stabilityRestored": 0,
+		"wardsDullers": false,
+		"hydration": 350,
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0.5,
+				"z": 0.5
+			},
+			"scale": 1.3
+		}
+	},
 	"behaviors": [
 		{
 			"name": "GroundStorable",
@@ -75,15 +89,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
-	}
+	]
 }

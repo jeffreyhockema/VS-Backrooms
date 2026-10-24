@@ -1134,7 +1134,8 @@ def items():
 
     food("l974-marshmallow", "Greasy Marshmallows", 80, "NoNutrition", "Sweet, slick and filling for about a minute.")
     food("l974-candy", "Pastel Candy", 50, "NoNutrition", "Mint, lilac and butter yellow. They all taste of sugar.")
-    food("l974-strawberrymilk", "Strawberry Milk", 160, "Dairy", "A little carton, cold from the pink fridge. Pinker than milk ought to be.")
+    food("l974-strawberrymilk", "Strawberry Milk", 160, "Dairy", "A little carton, cold from the pink fridge. Pinker than milk ought to be.",
+         extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 400}})
     # Remembered meals: three variants, each its own food category and satiety
     d = {"code": "l974-meal", "variantgroups": [{"code": "meal", "states": ["pancakes", "soup", "macaroni"]}], "maxstacksize": 4,
          "textureByType": {f"l974-meal-{m}": {"base": f"item/974/meal-{m}"} for m in ("pancakes", "soup", "macaroni")},

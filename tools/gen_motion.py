@@ -549,7 +549,7 @@ def items():
     data = {"code": "almondmilk", "class": "BackroomsAlmondWater", "maxstacksize": 8, "texture": {"base": "item/almondmilk"},
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": {"satiety": 300, "foodcategory": "Dairy"}, "materialDensity": 1000,
-            "attributes": {"stabilityRestored": 0.1}}
+            "attributes": {"stabilityRestored": 0.1, "hydration": 500}}
     data.update(TRANSFORMS)
     ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "almondmilk.json"), data, "Almond Milk, from the milk vans of Level 94")

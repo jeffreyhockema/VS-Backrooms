@@ -510,7 +510,8 @@ def items():
     item("l188-cereal", "Breakfast Cereal", "Stale, but it is cereal.",
          {"maxstacksize": 16, "nutritionProps": {"satiety": 180, "foodcategory": "Grain"}})
     item("l188-juicebox", "Juice Box", "A little carton of orange something, still cold.",
-         {"maxstacksize": 16, "nutritionProps": {"satiety": 120, "foodcategory": "Fruit"}})
+         {"maxstacksize": 16, "nutritionProps": {"satiety": 120, "foodcategory": "Fruit"},
+          "class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 350}})
 
 
 def generate():
