@@ -2,7 +2,8 @@
 
 Solid black, wall faces grey, road dark, studs yellow, sidewalks pale, level doors amber (open ones bright),
 service doors blue, dead doors brown, the Tower's ornate doors white, holes red, false walls magenta, tiled ends cyan,
-lamps orange (dead ones dark red), stencils white, overheads green.
+lamps orange (dead ones dark red), stencils white, overheads green, give-way lines white (layout version 11; its
+middle lines yellow, like the studs).
 
     python render_hub.py [zoom_cx zoom_cz zoom_size]   (zoom centre in map pixels; default the middle)
 """
@@ -15,7 +16,7 @@ COLOURS = {
     0: (8, 8, 10), 1: (110, 106, 100), 2: (52, 50, 48), 3: (232, 185, 42), 4: (170, 164, 152), 5: (225, 220, 210),
     6: (120, 80, 50), 7: (255, 160, 30), 8: (60, 120, 230), 9: (255, 255, 255), 10: (220, 20, 20), 11: (230, 40, 230),
     12: (40, 230, 230), 13: (240, 240, 236), 14: (255, 140, 0), 15: (110, 20, 20), 16: (255, 255, 255), 17: (255, 255, 0),
-    18: (40, 200, 60),
+    18: (40, 200, 60), 19: (250, 250, 250),
 }
 
 

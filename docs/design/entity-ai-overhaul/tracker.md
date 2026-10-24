@@ -164,6 +164,18 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
 - The mod page's lineup image `docs/moddb/img/42-what-lives-here.jpg` has no Watcher; re-render it if a new lineup is made.
 - Fixed now: a fed Skin-Stealer turning hungry kept its clothed look (EntityBehaviorMenace).
 
+### P7, round 5 (2026-10-23): piece A, director and settings
+
+Branch `dialin/director` (off `p7/dialin`), not merged.
+- **Settings:** six codes (off, verylow, low, normal, high, veryhigh) in `worldconfig.json`, the three worldconfig lang files and the cheat menu. `Difficulties`: spawns 1 / 1 / 2 / 3.5 / 5.5 / 8.5, damage 0 / 0.5 / 0.75 / 1 / 1.3 / 1.6; high adds 0.3 danger to the body mix and +1 cap in the approach and threshold bands, very high 0.6 and +1 in every band. Held in `Roster` statics set once by `Roster.ApplySetting` at world load (the rolls stay pure; `ratecheck` therefore always shows mix and caps of the world's setting). Unknown codes fall back to normal and log a line.
+- **Director:** `HardGapShare` 0.25; bands from depth 0.5 / 0.8; the Flickering start takes `BodyAllowed` again; the Screaming starts only in Level 2 (the `scream` cheat still reaches the Level 1 Hound branch); Level 1 Pack dens are no den in `Rate` via `Roster.DenActive` (the only place `DenNear` feeds the director; Hives only look for Hive dens).
+- **One kind by class:** `Roster.LoreClass` / `MaxKinds` (2 kinds in Classes 3 to 5: Levels 2, 3, 7, 8, 9, Fun, 94, 188), `CountMenacingKinds`, `EncounterRoll.BodyMayCome(kinds, maxKinds, sinceBodyMs, gapMs)`. Ratecheck's `menacing=<n>` is a kinds count; its output line says "n kinds of menacing thing about (of m allowed)".
+- **Rosters:** Level 10 empty; Danger Motion 0.4; Solitude 1 1.3, 3 0.45, 8 0.5, 9 0.3, Fun 0.4, Motion 0.6.
+- **Measured ratecheck (normal, 50 h; bodies/h):** L1 heartland 5.4 (11 min mean; sounds 18/h), L1 approach 14.2, L1 threshold 45, L3 heartland 16, L94 approach 33 / threshold 100, L9 heartland 23, L9 threshold 202, L5 approach 17, L2 approach 28, L4 approach 13, L0 heartland 4.5 (glimpses only), L6 heartland 2.2. Very high, L1 heartland: 13.5/h (2.4x normal), high 8.9, low 2.9, verylow 1.5, off 1.7 (rolls only; no bodies are put down).
+- **Harness:** `iso` 2/2 (iso-rates recentred at +-35 % of the measured values, hard-gap floor 2.6 min; iso-one-kind), `iso-hound` 4/4, `p7` 4/4. All six setting codes load through `/worldconfig` plus restart with no warning; `bogus` logs the fallback and reads normal. Blind reviewer: no plan mismatches; fixed the stale ratecheck description and scream strings.
+- **Could not check:** a client play (felt rate, Flickering gating live); the Flickering's new gate headless (the start needs a roll in the outer ring); the 0.514.0 world load (overseer).
+- **Lessons:** `--withconfig` WorldConfig does not override the playstyle's `backroomsMenace`; to start a headless server on another setting run `/worldconfig backroomsMenace <code>`, stop and restart on the same data dir. An existing "low" world gets spawns 2 (was 0.6) and damage 0.75 (was 0.5): piece C's changelog should say so.
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
@@ -204,3 +216,72 @@ Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmb
   `p1-hunt-to-search` 6/6, zero error lines.
 - Still to check in a client: everything in playtest.md section 9 (above all the four Hound counters, doors headless-
   untested, and the felt rate of bodies and sounds).
+
+### P7, round 5 (2026-10-23): piece C, docs
+
+Branch `dialin/docs` (worktree `VS Backrooms-dialin-docs`, from `p7/dialin`). Docs only; no .cs, worldconfig.json or run.py touched.
+- `tools/gen_guide.py`: a new "The setting" bullet in the entities page's "How danger works" names the six Backrooms
+  entities settings with what each changes (the rarest is Very low, about one creature in forty minutes in Level 1's
+  heart; Normal every ten to twelve; High and Very high add hunters, more at once, harder hits). Level 10 is empty: its
+  levels line says nothing hostile lives there, and the entities page's calm line, the Hounds' header (no longer "the
+  edge of 10") and the Clumps' header (no longer "by Level 10's barns") agree. The Screaming is Level 2's: the entities
+  line says "the edges of Level 2" and "a pack of Death Rats". Levels 3, 8 and 9 each say they are busy compared with
+  Levels 0, 1 and 4. The Flickering bullet says it never starts while something else is about you.
+  Note: the entities page had no world-setting paragraph before, so the setting text is new, not an edit.
+- `docs/design/entity-difficulty.md`: section 3d (the six settings and damage/spawn table, bands and hard gap, the
+  solitude changes, the Level 1 Normal rates and worked examples, one kind at a time by class).
+- `playtest.md`: section 10 "Round 5: dial-in", 15 steps (Level 1 heart and edge, the Flickering, Level 1 dens, the
+  Screaming, Levels 3, 4, 8, 9, 10, 94 by night, two kinds at once, settings, creative toggle, Facelings, paste outputs).
+- `CHANGELOG.md` Unreleased: one entry for the round (the player's view, no mechanism names beyond the setting and
+  command). Also corrected the round 1 entry's Screaming sentence to "Death Rats in Level 2" only, since the Screaming is
+  Level 2's alone now.
+- README Status row for P7: "round 5 (dial-in) in progress, see dialin.md".
+- Spanish: `worldconfig-es-419.json` and `worldconfig-es-es.json` contain no "Verylow" yet (they still have Low/High only),
+  so no Spanish wording was checked. For the overseer: when piece A adds the keys, the Spanish check is theirs.
+- gen_guide: `python tools/gen_guide.py` ran with "links ok"; it rewrote `assets/backrooms/lang/en.json` (4 lines).
+  `python tools/gen_notes.py --check`: exit 0, no complaints, so no verbatim phrase had to be restored.
+- Could not check: the in-game handbook rendering (the lang text only); the Level 94 rate claims (depend on the
+  headless night test, dialin.md section 7); the six settings' rates against the code (piece A not merged here, so
+  `worldconfig.json` still has four values); the `/backrooms feltrate` and `creativehunts` commands named in the
+  playtest steps (pieces B, not merged here); VINTAGE_STORY was set but no script needed it.
+- Points for the overseer: the rates in the new text (Level 1 heartland 12 min Normal, Very low about 40 min, Low about 20, High about 8, Very high about 5) are the dialin.md 3.1 numbers worked out by hand; check them against `/backrooms ratecheck` after the merge and adjust the handbook sentence if they differ.
+### P7, round 5 (2026-10-23): piece B, ambient, creative toggle, felt rate
+
+Branch `dialin/felt` (off `p7/dialin`), not merged.
+
+**Changed**
+- Ambient Facelings (3.7): `AmbientMinutesLived` 8 in Levels 1, 4, 5; 15 elsewhere; Level 11/Snackrooms 3 and Level 94 day 5 as before.
+- Creative gets hunted (3.8): static `MenaceSystem.CreativeHunted` (reset in `Dispose`), `/backrooms creativehunts [on|off]`, cheat-menu button "Creative hunted" (Director section; it toggles, the reply says which). `Direct` starts with `creative &= !CreativeHunted` (covers the Flickering, the Screaming and the body kind check without touching piece A's lines) and `DirectByPlace` lets such a player roll. `Strike.IsCreative` (AiTaskLurkers.cs) also honours it (spectators stay excluded), else bodies would spawn and ignore the player. Not changed, left creative-immune on purpose: `BeastSystem`, `MangledEvent`, the hive/den target filters (`Hives.cs`, `MenaceSystem.Hives.cs`), Facelings' own creative checks. Say if those should follow.
+- Felt rate (3.9): `TrySpawn(..., bool dryRun = false)` (no spawn, no state; the refusal counts are in `MenaceSystem.LastTry`, a `SpawnTry` struct); new `MenaceSystem.FeltRate.cs`: `/backrooms feltrate <level id|here> [band] [tries=60]` (console: latest dummy; player: the player), prints per kind the roster size, placement %, rolls/h (from `RateCheck`, 400 simulated hours, the world's setting) and felt/h, the stalk-or-hunt % (the lower of stalk and hunt), refused looks by reason. Cheat-menu button "Felt rate here". Silent-failure counters per level (ordinary glimpse/stalk/hunt bodies that found no spot, including a rat pack at its cap): printed by `/backrooms menace`; with the entity log on each failure logs "no spot after N looks (...)".
+- Section 4 (Level 94 night test confirmed all 38 sight tests refused): `TrySpawn` second pass. After the usual 18 looks fail, for a stalker/hunter (not ambush, aquatic, set piece or minDistance) with the target under open sky (`GetRainMapHeightAt <= feet + 1`) it makes 18 more looks at 30 to 48 blocks, spots also under open sky; the sight test is unchanged and glimpses/ambient/set pieces are unchanged.
+- `/backrooms dummy move` now re-assesses the dummy (its band was stale; the harness needs it).
+
+**Harness**: `felt-rates` (`--only felt`): a dummy per level (1, 2, 3, 4, 5, 8 via `dummy place nest`, 9, 94 after `/time set 23`, `/time set 12` after), approach band preferred (threshold accepted after 5 tries, walked outward with `dummy move`), `feltrate here <band> 40`, asserts stalk-or-hunt >= 25 %. Final run on the fixed build: felt-rates, iso-rates, iso-one-kind all PASS, 0 error lines.
+
+| Level (band) | glimpse % | stalk % | hunt % | refused looks (no floor / in sight, 40 tries x3 kinds) | felt bodies/h |
+|---|---|---|---|---|---|
+| 1 (Threshold) | 18 | 85 | 93 | 972 / 139 | 11.8 |
+| 2 (Approach) | 10 | 83 | 95 | 1098 / 85 | 4.4 |
+| 3 (Approach) | 0 | 100 | 100 | 636 / 232 | 5.7 |
+| 4 (Approach) | 93 | 100 | 100 | 116 / 197 | 3.6 |
+| 5 (Approach) | 35 | 100 | 100 | 672 / 128 | 3.5 |
+| 8 (Threshold, nest) | 15 | 95 | 88 | 1163 / 94 | 15.9 |
+| 9 (Approach) | 80 | 88 | 85 | 600 / 184 | 7.9 |
+| 94 night (Approach) | 100 | 100 | 100 | 13 / 149 | 5.7 |
+
+Level 94 before the second pass (first run, other dummy spot, Approach): stalk 80 %, hunt 58 %, 783 looks refused in sight; after: 100 %/100 %, 149 refused in sight (the second pass absorbs them). Not measured at the overseer's Threshold arrival spot 512197 187 384248 itself (the dummy spot is random); glimpse % is low in places because a glimpse wants to be seen. Level 8's arrival spots are Safe (sanctuaries), hence the nest placement. Note the overseer's real-time test still needs a re-run on the merged build.
+
+**Not checked**: a client; real (walking) behaviour in the second-pass band (30 to 48 blocks: stalkers arrive later, hunters have far to run); a creative player actually hunted (needs a client).
+
+**Review** (sonnet, blind): fixed the rat-pack cap not being counted, the stalk-or-hunt gate hiding a zero kind (now the lower of the two), the "18 looks" wording, a message when no rolls exist. Left: other creative gates (above).
+
+**Lessons**: the `dummies off` reply is cached per dummy; always re-assess after a move. A heredoc-driven edit script mangles `\n` inside strings: use sed on single lines or the Edit tool.
+
+### P7, round 5 (2026-10-23/24): integration (overseer)
+
+- Merged into `p7/dialin`: A (dialin/director), C (dialin/docs), main (921d558, handbook regenerated from the merged gen_guide.py; CHANGELOG conflict kept both sides), B (dialin/felt; tracker conflict kept both reports). Then `p7/dialin` fast-forwarded to `main`.
+- Gates on the final build: harness `--only iso,iso-hound,p7,felt` 10/11 with `p7-bacteria-struck` failing once (the strike landed in the same second the Bacteria had begun a vague-track hunt, so the hunt ended by the ordinary rule: a pre-existing timing race; passed 2/2 on its own); 0 error lines. A copy of the user's play-test world `sunny cave tales` loaded headless with 0 error lines, setting read as normal (ratecheck Level 1 heartland 4.9/h, gap 12.3 min). Release zip `bin/backroomsss_0.515.0.zip` rebuilt from the merged branch and copied to the main checkout.
+- Level 94 night test (dialin.md section 7): before piece B, 38 sight tests refused / 1 hidden and one glimpse in ten minutes; after, 10 / 8 and seven bodies in ten minutes at a Threshold arrival spot.
+- Felt rates on the final build (`felt-rates`, 40 tries, normal): stalk-or-hunt placement L1 approach 95 %, L2 38 % (Pipe Dreams: 1522 looks with no floor), L3 100 %, L4 68 %, L5 100 %, L8 threshold 88 %, L9 85 %, L94 100 %; felt bodies/h L1 approach 8.8, L2 11.8, L3 34.8, L4 11.2, L5 13.9, L8 threshold 92.5, L9 59.3, L94 32.9 (rolls x placement; the one-kind rule and the caps thin these further).
+- For the user's play-test: Level 3's approach band (a body about every 2 minutes), Level 9's (about every minute) and Level 94's nights are busy by design (decisions 25 and 27); if that is too much, the solitude of Levels 3, 8 and 9 is the one number to raise.
+- Not checked: a client; the Flickering's restored gate live; a creative player actually hunted; walking behaviour of stalkers put down 30 to 48 blocks out under the open sky.

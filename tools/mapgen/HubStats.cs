@@ -80,7 +80,8 @@ static partial class LevelModes
     }
 
     /// <summary>A tile as a byte: 0 solid, 1 wall face, 2 road, 3 stud, 4 sidewalk, 5 marble, 6 carved door (dead), 7 live door, 8 service door,
-    /// 9 ornate door, 10 hole, 11 false wall, 12 tiled end, 13 tile, 14 lamp, 15 dead lamp, 16 stencil, 17 plaque, 18 fan/signal.</summary>
+    /// 9 ornate door, 10 hole, 11 false wall, 12 tiled end, 13 tile, 14 lamp, 15 dead lamp, 16 stencil, 17 plaque, 18 fan/signal,
+    /// 19 give-way line (layout version 11; the middle line is 3, with the studs).</summary>
     static byte Code(in Tile t, bool face)
     {
         switch (t.Kind)
@@ -109,7 +110,8 @@ static partial class LevelModes
                 if (t.Overhead != 0) return 18;
                 return t.Floor switch
                 {
-                    FloorKind.HubStud => 3,
+                    FloorKind.HubStud or FloorKind.HubLine => 3,
+                    FloorKind.HubGiveWay => 19,
                     FloorKind.HubSidewalk => 4,
                     FloorKind.HubMarble => 5,
                     FloorKind.PoolTile => 13,
@@ -139,7 +141,7 @@ static partial class LevelModes
             }
         Console.WriteLine($"The Hub: {built} cells laid out in {sw.ElapsedMilliseconds} ms ({sw.ElapsedMilliseconds / (double)Math.Max(1, built):0.00} ms a cell, the plan included)");
         // Wall faces: solid next to anything open
-        bool Open(byte c) => c is >= 2 and <= 5 or >= 10 and <= 12 or 18;
+        bool Open(byte c) => c is >= 2 and <= 5 or >= 10 and <= 12 or >= 18;
         for (int z = 1; z < size - 1; z++)
             for (int x = 1; x < size - 1; x++)
             {
@@ -152,15 +154,16 @@ static partial class LevelModes
     static void HubStats(WorldLayout layout)
     {
         var (x0, z0, map) = HubRegion(layout);
+        Console.WriteLine("plan: " + layout.HubPlanSummary());
         int size = (int)Math.Sqrt(map.Length);
         var counts = new int[20];
         foreach (byte b in map) counts[b]++;
         string[] names = { "solid", "wall face", "road", "stud", "sidewalk", "marble", "dead door tile", "level door tile", "service door", "ornate door tile",
-            "hole tile", "false wall tile", "tiled end", "tile", "lamp", "dead lamp", "stencil", "plaque", "overhead" };
+            "hole tile", "false wall tile", "tiled end", "tile", "lamp", "dead lamp", "stencil", "plaque", "overhead", "give-way line" };
         for (int i = 0; i < names.Length; i++) Console.WriteLine($"  {names[i],-16} {counts[i],9}");
 
         // Walk from the roundabout over everything that can be walked
-        bool Walk(byte c) => c is 2 or 3 or 4 or 5 or 11 or 12 or 18;
+        bool Walk(byte c) => c is 2 or 3 or 4 or 5 or 11 or 12 or 18 or 19;
         var seen = new bool[map.Length];
         var queue = new Queue<int>();
         int ox = layout.HubOriginX - x0, oz = layout.HubOriginZ - z0;

@@ -196,6 +196,56 @@ from 0.8 (Level 9), as before. Packs are clipped to the cap.
 **One kind at a time.** No body is rolled while anything menacing is already about the player, whatever its kind; the
 Flickering, the Screaming, hive alarms, dens' dwellers and the other set-pieces are the exceptions.
 
+## 3d. Dial-in (2026-10-23, P7 round 5)
+
+The play-test after round 4 found 0.515 at the other extreme from 0.514: too rare to see anything on the normal setting. The
+rates are dialled back toward the middle, the setting gets six values, and the bands, solitude and one-kind rule move
+with them. Full design: `dialin.md` in `docs/design/entity-ai-overhaul/`, sections 3.1 to 3.6. Where this section and
+3c disagree, this one wins.
+
+**Six settings.** `backroomsMenace` in `worldconfig.json` is `off`, `verylow`, `low`, `normal`, `high` or `veryhigh`
+(Off, Very low, Low, Normal, High, Very high). Spawns divides both mean intervals; damage multiplies every hit; the mix
+adds danger to the body mix (more hunters); the cap bonus adds to the caps. Old worlds keep their codes: "normal" is the
+new normal.
+
+| Setting | Spawns | Damage | Entities | Mix | Cap bonus |
+| --- | --- | --- | --- | --- | --- |
+| Off | 1 | 0 | sounds only | | |
+| Very low | 1 | 0.5 | yes | | |
+| Low | 2 | 0.75 | yes | | |
+| Normal | 3.5 | 1 | yes | | |
+| High | 5.5 | 1.3 | yes | +0.3 danger on the body mix | +1 approach and threshold |
+| Very high | 8.5 | 1.6 | yes | +0.6 danger on the body mix | +1 every band |
+
+**Bands.** Approach now starts at a depth of 0.5 (was 0.6) and threshold at 0.8 (was 0.85). **Hard gap:** 25 % of the
+mean (was 40 %); the mean stays as stated.
+
+**Solitude, changed:** Level 1 1.3 (was 1.0), Level 3 0.45 (was 0.6), Level 8 0.5 (was 0.8), Level 9 0.3 (was 0.6),
+Level Fun 0.4 (was 0.7), Level 94 at night 0.6 (was 1.0), Level 10 with no hostile roster, and Level 94's danger 0.4
+(was 0). Everything else in the table in section 3c is unchanged.
+
+**Rates on Normal, Level 1.** Mean wait in real minutes, with menace typical of the band:
+
+| Level 1 | Body | Sound |
+| --- | --- | --- |
+| Heartland | 25 x 1.3 x 1.3 / 3.5 = **12 min** | 7.5 x 1.3 x 1.3 / 3.5 = 3.6 min |
+| Approach | 12 x 1.3 x 1.0 / 3.5 = **4.5 min** | 1.9 min |
+| Threshold | 6 x 1.3 x 0.65 / 3.5 = **1.4 min** | 0.8 min |
+
+The target was a creature every 10 to 12 minutes in Level 1's heart, and the edge every 4 to 5 minutes: the approach
+band is that edge; the threshold is the last fifth and the gates.
+
+Other places, Normal, bodies: Level 3 heartland 25 x 0.45 x 1.3 / 3.5 = 4.2 min; Level 4 approach (its heartland is
+Safe) 12 x 1.5 x 1.0 / 3.5 = 5.1 min; Level 6 anywhere 25 x 3.0 x 1.3 / 3.5 = 28 min; Level 9 edge about 0.3 min;
+Level 94 night hills 12 x 0.6 / 3.5 = 2.1 min, and its towns (threshold) about 1 min. `BodyMinutes` and `SoundMinutes`
+are unchanged. Very low spawns once where Normal spawns 3.5 times, so it is about 3.5 times rarer on every band; Low
+about 1.75 times rarer; High about 1.6 times busier; Very high about 2.4 times busier.
+
+**One kind at a time, by class.** Strict in Class 0 to 2 levels (0, 1, 4, 5, 6, 10, 11, 37, The End, the Hub, 974); two
+kinds may be about together in Classes 3 to 5 (2, 3, 7, 8, 9, 94, Fun). Levels 3999 and 188 follow their own rows in
+the class table (section 2 of `dialin.md`). The Flickering starts only with nothing menacing about
+and outside the hard gap; its Hounds still always come.
+
 ## 4. Skill: what keeps you alive now
 
 - **Running only works early.** From Level 3 a Hound outruns you, and running is what turns a stalker into a hunter.

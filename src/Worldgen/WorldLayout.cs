@@ -433,11 +433,21 @@ public sealed partial class WorldLayout
     /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
     /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
     /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
-    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>). Level 974's doorways have nothing in them: the casing is on the walls either side (<see cref="WallPattern.L974Jamb"/>), and the bed's alcove is a niche let into the bedroom's east wall (the house is <see cref="L974HouseWide"/> wide, <see cref="L974Plan11"/>; the stub walls pushed back two blocks).</item> Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.</item>
+    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>). Level 974's doorways have nothing in them: the casing is on the walls either side (<see cref="WallPattern.L974Jamb"/>), and the bed's alcove is a niche let into the bedroom's east wall (the house is <see cref="L974HouseWide"/> wide, <see cref="L974Plan11"/>; the stub walls pushed back two blocks). Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.
     /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
     /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
     /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
-    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall). The End's atrium escalator climbs west along a row of the void and steps straight onto the one railing-free tile of the deck (in 1-10 it climbed south beside the deck past a three-tile gap and ended against a shelf).</item>
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall). The End's atrium escalator climbs west along a row of the void and steps straight onto the one railing-free tile of the deck (in 1-10 it climbed south beside the deck past a three-tile gap and ended against a shelf).
+    /// The Hub is laid out as a road tunnel network (WorldLayout.LevelHub.cs, its "Layout version 11" part): the tunnels'
+    /// wandering lines have no jog across shorter than four widths (HubStraighten), so they run in long straights; where
+    /// two stretches of a tunnel meet at a right angle it curves round a bend of even width (HubBend; in 1-10 two flat
+    /// end walls met square); the roundabout is a circle; a ring road's stretch alongside a numbered tunnel is moved onto
+    /// its line (HubAlignAlongside), side tunnels are never planned alongside another (HubParallelClash), their lattice
+    /// nodes are 20 blocks off or not at all, and their stubs past a crossing are cut back (HubTrimStubs). The sidewalk goes
+    /// round a wall's corner (the tile at the corner's tip is sidewalk too) and the generator gives it kerb corners
+    /// (hub-curbcorner, hub-curbinner). The big tunnels' three dotted lines of studs are one yellow middle line (FloorKind
+    /// HubLine) that follows the bends and stops at junctions; the narrow tunnels have none, and a give-way line
+    /// (HubGiveWay) where they meet another tunnel. Lamps also hang round a bend's curved walls.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;
