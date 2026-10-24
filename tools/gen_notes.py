@@ -987,7 +987,7 @@ TRACKS.append(Track("scraps", "scrap", "Scraps", entries=[
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes
 # this check fail until the notes are looked at again.
 FACTS = [
-    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "3 carpet fibres", "glass shard + wallpaper strip + carpet fibre",
+    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "3 carpet fibres", "glass shard + wallpaper strip + carpet fibre", "glass shard + carpet fibre + stick",
     "metal bracket + wallpaper strip + 2 carpet fibres", "1 dry grass + 2 sticks", "2 dry grass + 1 stick",
     "8 planks + 1 nails and strips", "2 metal brackets", "each bottle restores 15%", "salt + powdered sulfur = 2",
     "20 metal bits = 1 ingot", "10 scrap wire = 1 copper ingot", "within 3 blocks of water", "flax twine + linen",

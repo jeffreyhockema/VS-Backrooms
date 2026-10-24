@@ -1,0 +1,11 @@
+{
+ "ingredientPattern": "G,F,S",
+ "ingredients": {
+  "G": { "type": "item", "code": "glassshard", "quantity": 1 },
+  "F": { "type": "item", "code": "carpetfibre", "quantity": 1 },
+  "S": { "type": "item", "code": "game:stick", "quantity": 1 }
+ },
+ "width": 1,
+ "height": 3,
+ "output": { "type": "item", "code": "glassspear", "quantity": 1 }
+}
