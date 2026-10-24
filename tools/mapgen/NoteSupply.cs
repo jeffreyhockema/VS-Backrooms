@@ -16,6 +16,8 @@ static class NoteSupply
         ("tent", Props.Tent, 0.5, 0, 0.25, 0.25),
         ("camptent", Props.CampTent, 0.55, 0, 0.275, 0.275),
         ("sleepingbag", Props.SleepingBag, 0.12, 0.03, 0.06, 0.06),
+        ("improvbed", Props.ImprovBed, 0.12, 0.03, 0.06, 0.06),
+        ("leanto", Props.LeanTo, 0.5, 0, 0.25, 0.25),
         ("filingcabinet", Props.FilingCabinet, 0.05, 0.01, 0.025, 0.025),
         ("writingdesk", Props.WritingDesk, 0.05, 0.01, 0.025, 0.025),
     };
@@ -48,7 +50,7 @@ static class NoteSupply
                                 else { oldN[l] += 0.15 + (nearOld ? 0.10 : 0); newN[l] += 0.075 + (near0 ? 0.175 : 0); }
                                 continue;
                             }
-                            if (t.Kind != TileKind.Floor || t.Stack != 0) continue;
+                            if (t.Kind != TileKind.Floor || t.Stack != 0 && t.Variant is not (Props.ImprovBed or Props.LeanTo)) continue;
                             foreach (var p in Furniture)
                                 if (t.Variant == p.Variant)
                                 {

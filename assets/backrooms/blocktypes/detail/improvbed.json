@@ -1,0 +1,205 @@
+// An improvised bed (layout version 11): flattened boxes and a coat, a heap of old blankets and curtains, a mattress
+{
+	"code": "improvbed",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"cardboard",
+				"blankets",
+				"mattress"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-cardboard-north": {
+			"base": "block/detail/improvbed-cardboard",
+			"rotateY": 0
+		},
+		"*-cardboard-east": {
+			"base": "block/detail/improvbed-cardboard",
+			"rotateY": 270
+		},
+		"*-cardboard-south": {
+			"base": "block/detail/improvbed-cardboard",
+			"rotateY": 180
+		},
+		"*-cardboard-west": {
+			"base": "block/detail/improvbed-cardboard",
+			"rotateY": 90
+		},
+		"*-blankets-north": {
+			"base": "block/detail/improvbed-blankets",
+			"rotateY": 0
+		},
+		"*-blankets-east": {
+			"base": "block/detail/improvbed-blankets",
+			"rotateY": 270
+		},
+		"*-blankets-south": {
+			"base": "block/detail/improvbed-blankets",
+			"rotateY": 180
+		},
+		"*-blankets-west": {
+			"base": "block/detail/improvbed-blankets",
+			"rotateY": 90
+		},
+		"*-mattress-north": {
+			"base": "block/detail/improvbed-mattress",
+			"rotateY": 0
+		},
+		"*-mattress-east": {
+			"base": "block/detail/improvbed-mattress",
+			"rotateY": 270
+		},
+		"*-mattress-south": {
+			"base": "block/detail/improvbed-mattress",
+			"rotateY": 180
+		},
+		"*-mattress-west": {
+			"base": "block/detail/improvbed-mattress",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-cardboard-north"
+		],
+		"decorative": [
+			"*-cardboard-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.17,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:drygrass",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-door",
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			}
+		}
+	]
+}

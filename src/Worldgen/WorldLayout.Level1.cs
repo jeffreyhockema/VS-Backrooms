@@ -1511,8 +1511,8 @@ public sealed partial class WorldLayout
         ulong plan = Hashing.Mix(h + 1);
         bool v4 = Version >= 4;
         DoorCheck flightOk = v4 ? FlightOk : null;
-        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside, v4, flightOk, PublicStairWidth);
-        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth);
+        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside, v4, flightOk, PublicStairWidth, improv: Version >= 11);
+        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11);
         // (From version 4 half the littered halls are stockrooms instead)
         else if (kind < 0.64)
         {
@@ -1520,14 +1520,19 @@ public sealed partial class WorldLayout
             else PlanOpenHall(tiles, plan, DoorOk, camp: false);
         }
         else if (kind < 0.79) PlanThroughCorridor(tiles, plan, DoorOk, gx0, gz0);
-        else if (kind < 0.89) PlanOpenHall(tiles, plan, DoorOk, camp: true);
+        else if (kind < 0.89)
+        {
+            // (From version 11 only three encampments in ten are left: the rest are littered halls, and what camps there are, are improvised)
+            bool improv = Version >= 11;
+            PlanOpenHall(tiles, plan, DoorOk, camp: !improv || Hashing.Unit(Hashing.Mix(plan + 0xCA3B)) < 0.3, improv: improv);
+        }
         else if (kind < 0.95)
         {
             for (int v = 1; v < HallBlock - 1; v++)
                 for (int u = 1; u < HallBlock - 1; u++)
                     SetWall(ref At(u, v), WallPattern.WhiteBlock, BaseStyle.Plain);
         }
-        else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth);
+        else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11);
         if (Version >= 6) EnlargeHallCamp(At, h);
         if (v4) Unfence(tiles);
         return tiles;
@@ -1641,7 +1646,7 @@ public sealed partial class WorldLayout
     private delegate bool DoorCheck(int u, int v);
 
     /// <summary>Splits the inside of a block into two to four rooms, each against the perimeter, each with a door.</summary>
-    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside, bool v4, DoorCheck flightOk = null, int stairWidth = 1)
+    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside, bool v4, DoorCheck flightOk = null, int stairWidth = 1, bool improv = false)
     {
         var rng = new Rng(h);
         var leaves = new List<(int U0, int V0, int U1, int V1)>();
@@ -1734,7 +1739,9 @@ public sealed partial class WorldLayout
                 : r < 0.62 ? HallRoom.Workshop : r < 0.69 ? HallRoom.Camp : r < 0.75 ? HallRoom.Medical
                 : r < 0.82 ? HallRoom.Pump : r < 0.89 ? HallRoom.Office : HallRoom.Break;
             if (!v4 && !stairwellDone && w >= 5 && d >= 5 && rng.Chance(0.12)) { kind = HallRoom.Stairwell; stairwellDone = true; }
-            FurnishHallRoom(tiles, rng.NextULong(), leaf, door.U, door.V, kind, v4);
+            // (From version 11 only three camp rooms in ten are left)
+            if (improv && kind == HallRoom.Camp && !rng.Chance(0.3)) kind = HallRoom.Empty;
+            FurnishHallRoom(tiles, rng.NextULong(), leaf, door.U, door.V, kind, v4, improv);
         }
     }
 
@@ -1853,7 +1860,7 @@ public sealed partial class WorldLayout
     /// Furnishes a small room. Props stand against its walls, never in the doorway or the tiles beside it, so the
     /// middle of the room stays clear.
     /// </summary>
-    private static void FurnishHallRoom(Tile[] tiles, ulong h, (int U0, int V0, int U1, int V1) room, int doorU, int doorV, HallRoom kind, bool v4)
+    private static void FurnishHallRoom(Tile[] tiles, ulong h, (int U0, int V0, int U1, int V1) room, int doorU, int doorV, HallRoom kind, bool v4, bool improv = false)
     {
         var rng = new Rng(h);
         ref Tile At(int u, int v) => ref tiles[v * HallBlock + u];
@@ -1880,7 +1887,7 @@ public sealed partial class WorldLayout
             (wallSpots[i], wallSpots[j]) = (wallSpots[j], wallSpots[i]);
         }
         int next = 0;
-        bool Place(byte prop, byte stack = 0)
+        bool Place(ushort prop, byte stack = 0)
         {
             while (next < wallSpots.Count)
             {
@@ -1968,8 +1975,17 @@ public sealed partial class WorldLayout
                 WallDecor(Decor.Outlet);
                 break;
             case HallRoom.Camp:
-                Place(Props.Bedroll);
-                if (rng.Chance(0.6)) Place(Props.Bedroll);
+                // (From version 11 the sleeping is improvised: flattened boxes, a heap of old blankets, a dragged-off mattress)
+                if (improv)
+                {
+                    Place(Props.ImprovBed, (byte)rng.Range(0, 2));
+                    if (rng.Chance(0.5)) Place(Props.ImprovBed, (byte)rng.Range(0, 2));
+                }
+                else
+                {
+                    Place(Props.Bedroll);
+                    if (rng.Chance(0.6)) Place(Props.Bedroll);
+                }
                 Place(Props.Lantern);
                 Crates(1);
                 Box();
@@ -2197,7 +2213,7 @@ public sealed partial class WorldLayout
     /// A single big room: a maintenance hall littered with plywood, tables and toolboxes, or a wanderers'
     /// encampment of tents and bedrolls round a burning barrel. Wide openings face every corridor.
     /// </summary>
-    private static void PlanOpenHall(Tile[] tiles, ulong h, DoorCheck doorOk, bool camp)
+    private static void PlanOpenHall(Tile[] tiles, ulong h, DoorCheck doorOk, bool camp, bool improv = false)
     {
         var rng = new Rng(h);
         ref Tile At(int u, int v) => ref tiles[v * HallBlock + u];
@@ -2216,7 +2232,7 @@ public sealed partial class WorldLayout
 
         bool Free(int u, int v) => At(u, v).Kind == TileKind.Floor && At(u, v).Variant == 0 && At(u, v).Stack == 0 && !At(u, v).SupplyBox
                                    && At(u, v).Stair == 0 && !(u >= 5 && u <= 8) && !(v >= 5 && v <= 8);
-        void Against(byte prop, int n)
+        void Against(ushort prop, int n, int kinds = 0)
         {
             for (int i = 0, tries = 0; i < n && tries < 40; tries++)
             {
@@ -2231,6 +2247,7 @@ public sealed partial class WorldLayout
                 if (!Free(u, v)) continue;
                 At(u, v).Variant = prop;
                 At(u, v).Pier = prop == Props.Shelf ? Opposite(face) : face;
+                if (kinds > 0) At(u, v).Stack = (byte)rng.Range(0, kinds - 1);
                 i++;
             }
         }
@@ -2245,8 +2262,17 @@ public sealed partial class WorldLayout
 
         if (camp)
         {
-            Against(Props.Tent, rng.Range(2, 4));
-            Against(Props.Bedroll, rng.Range(1, 3));
+            if (improv)
+            {
+                // A lean-to of a tarp over two chairs or a door over two filing cabinets, and beds of flattened boxes, old blankets or a mattress
+                Against(Props.LeanTo, rng.Range(0, 1), 2);
+                Against(Props.ImprovBed, rng.Range(1, 2), 3);
+            }
+            else
+            {
+                Against(Props.Tent, rng.Range(2, 4));
+                Against(Props.Bedroll, rng.Range(1, 3));
+            }
             Against(Props.Pallet, 1);
             Against(Props.FoldingChair, 2);
             int boxes = 0;
@@ -2346,7 +2372,9 @@ public sealed partial class WorldLayout
                 HallRoom kind = r < 0.35 ? HallRoom.Empty : r < 0.5 ? HallRoom.Storage : r < 0.6 ? HallRoom.Workshop
                     : r < 0.7 ? HallRoom.Electrical : r < 0.8 ? HallRoom.Pump : r < 0.9 ? HallRoom.Office : HallRoom.Camp;
                 (int du, int dv) = alongU ? (doorAlong, wall) : (wall, doorAlong);
-                FurnishHallRoom(tiles, rng.NextULong(), room, du, dv, kind, Version >= 4);
+                bool improv = Version >= 11;
+                if (improv && kind == HallRoom.Camp && !rng.Chance(0.3)) kind = HallRoom.Empty;
+                FurnishHallRoom(tiles, rng.NextULong(), room, du, dv, kind, Version >= 4, improv);
             }
         }
     }

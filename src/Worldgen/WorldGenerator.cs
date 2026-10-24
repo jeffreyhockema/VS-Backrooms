@@ -48,6 +48,8 @@ public sealed partial class WorldGenerator
         (Props.Bedroll, "bedroll", true, null, false),
         (Props.CampTent, "camptent", true, new[] { "nw", "ne", "sw", "se" }, false),
         (Props.SleepingBag, "sleepingbag", true, new[] { "head", "foot" }, true),
+        (Props.ImprovBed, "improvbed", true, new[] { "cardboard", "blankets", "mattress" }, false),
+        (Props.LeanTo, "leanto", true, new[] { "tarp", "door" }, false),
         (Props.LongSofa, "longsofa", true, new[] { "l", "r" }, false),
         (Props.Lantern, "camplantern", false, null, false),
         (Props.HospitalBed, "hospitalbed", true, new[] { "head", "foot" }, true),

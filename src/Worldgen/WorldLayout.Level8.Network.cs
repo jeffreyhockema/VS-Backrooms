@@ -1274,7 +1274,7 @@ public sealed partial class WorldLayout
             if (lo > hi) continue;
             for (int lamp = 0; lamp < 2; lamp++)
             {
-                double spacing = lamp == 0 ? 12 : 24, offset = lamp == 0 ? 6 : 0, side = lamp == 0 ? 1 : -1;
+                double spacing = lamp == 0 ? 12 : Version >= 11 ? 72 : 24, offset = lamp == 0 ? 6 : 0, side = lamp == 0 ? 1 : -1;
                 for (double at = Math.Ceiling((lo - 4 - offset) / spacing) * spacing + offset; at <= hi + 4; at += spacing)
                 {
                     (double X, double Z)? point = piece.IsExit ? L8ExitPoint(net, piece.K, at) : L8RoadPoint(net, piece, at);

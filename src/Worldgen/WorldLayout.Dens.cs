@@ -132,6 +132,8 @@ public sealed partial class WorldLayout
                 _ => Props.BonePile,
             };
             t.Pier = (ArchPier)rng.Range(0, 3);
+            // (From layout version 11 the bedding in a lair is an old heap of blankets, not a bedroll)
+            if (Version >= 11 && t.Variant == Props.Bedroll) { t.Variant = Props.ImprovBed; t.Stack = 1; }
             litter--;
         }
 

@@ -1,0 +1,311 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bedrollpillow": "backrooms:block/detail/bedrollpillow",
+		"blanketplaid": "backrooms:block/detail/blanketplaid",
+		"mattressticking": "backrooms:block/detail/mattressticking"
+	},
+	"elements": [
+		{
+			"name": "Mattress",
+			"from": [
+				1.5,
+				0,
+				0.5
+			],
+			"to": [
+				14.5,
+				3.4,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.4
+					]
+				},
+				"east": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3.4
+					]
+				},
+				"south": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 7
+		},
+		{
+			"name": "Piping",
+			"from": [
+				1.2,
+				3.4,
+				0.2
+			],
+			"to": [
+				14.8,
+				3.8,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						15.600000000000001,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						15.600000000000001
+					]
+				},
+				"down": {
+					"texture": "#mattressticking",
+					"uv": [
+						0,
+						0,
+						13.600000000000001,
+						15.600000000000001
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 7
+		},
+		{
+			"name": "Throw",
+			"from": [
+				2.5,
+				3.8,
+				7
+			],
+			"to": [
+				13.5,
+				4.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.7000000000000002
+					]
+				},
+				"east": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7000000000000002
+					]
+				},
+				"south": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.7000000000000002
+					]
+				},
+				"west": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7000000000000002
+					]
+				},
+				"up": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						11.0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						11.0,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 3
+		},
+		{
+			"name": "Pillow",
+			"from": [
+				3.5,
+				3.8,
+				1.5
+			],
+			"to": [
+				12,
+				5.4,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.6000000000000005
+					]
+				},
+				"east": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.6000000000000005
+					]
+				},
+				"south": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.6000000000000005
+					]
+				},
+				"west": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.6000000000000005
+					]
+				},
+				"up": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						8.5,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						8.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 4
+		}
+	]
+}

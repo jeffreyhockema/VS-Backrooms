@@ -62,6 +62,11 @@ SALVAGE = {
     "camptent": d((LINEN, 2, 0.5), (STICK, 4, 1), ("game:rope", 1, 0.5), (CLOTH, 1, 0.5), ("wanderernote-cache", 0.35, 0),
                   ("wanderernote-door", 0.2, 0)),
     "sleepingbag": d((CLOTH, 2, 0.5), ("game:drygrass", 1, 0.5), ("wanderernote-door", 0.12, 0)),
+    # Improvised camps (layout version 11): beds of cardboard, blankets and mattresses; lean-tos of a tarp and chairs or a door and cabinets
+    # (Their wanderer notes are half the old gear's, as the note tuning has it: NoteSystem.Spots makes the rest back in Level 0)
+    "improvbed": d((PAPER, 1.5, 1), (CLOTH, 1.5, 1), ("game:drygrass", 1, 0.5), ("wanderernote-door", 0.06, 0)),
+    "leanto": d((CLOTH, 1, 0.5), (STICK, 1, 1), ("metalbracket", 1, 0.5), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.125, 0),
+                ("wanderernote-door", 0.06, 0)),
     # What the lost left at Level 6's dead ends and on Level 7's seabed: their kit, and where they were trying to go
     "backpack": d(("almondwater", 0.8, 0.6), ("crackers", 0.4, 0.4), (CANDLE, 0.4, 0.4), ("game:rope", 0.3, 0.3),
                   ("game:knife-generic-copper", 0.1, 0), ("game:bandage-clean", 0.4, 0.4), ("chalk", 0.2, 0),

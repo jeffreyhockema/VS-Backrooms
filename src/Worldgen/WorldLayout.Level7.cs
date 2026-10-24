@@ -119,11 +119,16 @@ public sealed partial class WorldLayout
                     if (Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL7Island + 3)) < 0.09) t.Stack = 1; // a boulder of it
                     // Some islands were camped on, in the manner of Fort Surrender: tents, bedrolls, a lantern, what
                     // the researchers could not carry when they left
-                    else if (Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 24), Hashing.FloorDiv(gz, 24), SaltL7Island + 1)) < 0.3)
+                    else if (Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 24), Hashing.FloorDiv(gz, 24), SaltL7Island + 1)) < (Version >= 11 ? 0.07 : 0.3))
                     {
                         double c = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL7Island + 2));
                         t.Pier = (ArchPier)((int)(c * 4000) & 3);
-                        if (c < 0.03) t.Variant = Props.Tent;
+                        // (From layout version 11 a lean-to of a tarp and a heap of blankets, not a tent and a bedroll)
+                        // (and, as the old tents and bedrolls often had no room to stand as big as the real things, about a fifth of them)
+                        if (Version >= 11 && c < 0.012) t.Variant = Props.LeanTo;
+                        else if (Version >= 11 && c is >= 0.04 and < 0.05) { t.Variant = Props.ImprovBed; t.Stack = 1; }
+                        else if (Version >= 11 && c < 0.05) { }
+                        else if (c < 0.03) t.Variant = Props.Tent;
                         else if (c < 0.05) t.Variant = Props.Bedroll;
                         else if (c < 0.062) t.Variant = Props.Lantern;
                         else if (c < 0.076) t.SupplyBox = true;
@@ -327,7 +332,7 @@ public sealed partial class WorldLayout
     /// cell's coordinates (the middle may lie just outside the cell): the ring two out from the middle is furniture
     /// facing in, the corners lumps of tar, with one gap; inside, a bedroll and a lantern.
     /// </summary>
-    private static void Shelter(Builder b, int cx, int cz, ulong h)
+    private void Shelter(Builder b, int cx, int cz, ulong h)
     {
         byte[] furniture = { Props.FilingCabinet, Props.WingChair, Props.HotelChair, Props.FilingCabinet, Props.HotelBookshelf, Props.Wardrobe };
         int gap = (int)((h >> 24) % 4); // the way in: north, east, south or west side
@@ -345,7 +350,7 @@ public sealed partial class WorldLayout
                 if (Math.Max(Math.Abs(dx), Math.Abs(dz)) < 2)
                 {
                     // Inside: a bedroll in the middle, a lantern in a corner
-                    if (dx == 0 && dz == 0) { t.Variant = Props.Bedroll; t.Pier = (ArchPier)((h >> 30) & 3); }
+                    if (dx == 0 && dz == 0) { t.Variant = Version >= 11 ? Props.ImprovBed : Props.Bedroll; t.Pier = (ArchPier)((h >> 30) & 3); if (Version >= 11) t.Stack = 2; }
                     else if (dx == 1 && dz == -1) t.Variant = Props.Lantern;
                     continue;
                 }
