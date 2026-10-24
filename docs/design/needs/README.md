@@ -49,7 +49,7 @@ At the default calendar 1 game hour is 2 real minutes and a day 48 real minutes.
 | Rest: drowsy (can sleep) | 24 to 45 awake | 48 to 90 |
 | Rest: exhausted | 45 to 60 awake | 90 to 120 |
 | Rest: dead on your feet | 60 awake and on | 120 and on |
-| A full sleep in a good bed, from empty | 8 slept | 16 real seconds while the clock runs fast |
+| A full sleep in a good bed, from empty | 8 slept | a few real seconds while the clock runs fast (about 284x) |
 
 ## 3. Thirst
 
