@@ -902,7 +902,7 @@ public sealed partial class WorldGenerator
         var (lotX, lotZ) = layout.LotKeyAt(gx, gz);
         int material = barn ? 3 : roofMaterial >= 0 ? roofMaterial : (int)(Hashing.Hash(seed, lotX, lotZ, 0x9D09) % 3); // one colour of shingles per house
         // From layout version 9: chimneys, tall windows, doors that open, the cased garage door
-        if (t.Level == 9 && layout.Version >= 9 && SuburbV9Block(t, gx, gz, rel, material) is int v9 and >= 0) return v9;
+        if ((t.Level == 9 && layout.Version >= 9 || t.Level == WorldLayout.Motion && layout.Version >= 11) && SuburbV9Block(t, gx, gz, rel, material) is int v9 and >= 0) return v9;
         switch (t.Kind)
         {
             case TileKind.Wall:

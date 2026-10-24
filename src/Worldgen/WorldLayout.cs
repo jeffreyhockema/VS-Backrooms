@@ -429,7 +429,11 @@ public sealed partial class WorldLayout
     /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
     /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
     /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
-    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>).</item>
+    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>).
+    /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
+    /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
+    /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;

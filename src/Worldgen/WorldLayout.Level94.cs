@@ -689,7 +689,8 @@ public sealed partial class WorldLayout
         {
             case HillTop.House:
             {
-                House house = PlanHouse(lot, HillLot, ref rng, farmhouse: true);
+                House house = PlanHouse(lot, HillLot, ref rng, farmhouse: true,
+                    v9: Version >= 11 ? Hashing.Hash(seed, hi, hj, SaltMotionTop + 0x10) | 1 : 0, motion: true);
                 PlanFrontYard(lot, HillLot, house, ref rng);
                 // (Layout version 9: the front yard's fence goes round it, its corners joined; in 1-8 a loose row)
                 bool fenced = Version >= 9 && LiftFrontFence(lot, HillLot);
@@ -698,6 +699,8 @@ public sealed partial class WorldLayout
                 (coreU0, coreU1, coreV0, coreV1) = (house.U0, house.U1, house.V0 - 2, house.V1);
                 // (Layout version 10: the whole fenced yard stands level, the hill falling away outside the fence, so the
                 // fence along its sides is not a staircase down the lot)
+                // (Layout version 11: and the chimney outside a gable end stands on level ground too, so its cap is at the height planned)
+                if (Version >= 11) coreU0 = Math.Max(1, house.U0 - 1);
                 if (Version >= 10 && fenced) (coreU0, coreU1, coreV0) = (Math.Max(1, house.U0 - 1), Math.Min(HillLot - 2, house.U1 + 1), 1);
                 double kind = rng.NextDouble();
                 for (int i = 0; i < lot.Length; i++)
@@ -1043,7 +1046,8 @@ public sealed partial class WorldLayout
                 var lot = new Tile[HillLot * HillLot];
                 for (int i = 0; i < lot.Length; i++) lot[i] = new Tile { Kind = TileKind.Floor, Floor = FloorKind.Lawn };
                 var lotRng = new Rng(Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTown + 2));
-                House house = PlanHouse(lot, HillLot, ref lotRng, farmhouse: true);
+                House house = PlanHouse(lot, HillLot, ref lotRng, farmhouse: true,
+                    v9: Version >= 11 ? Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTown + 0x10) | 1 : 0, motion: true);
                 PlanFrontYard(lot, HillLot, house, ref lotRng);
                 // (Layout version 9: the front yard's fence goes round it, and more town houses have one)
                 if (Version >= 9 && (LiftFrontFence(lot, HillLot) | Hashing.Unit(Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTownYard)) < 0.4))

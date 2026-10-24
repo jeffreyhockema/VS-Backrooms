@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Level 94 (new worlds): the houses on the hills and in the towns have the Suburbs' real outsides: tall windows in every room's wall (a picture window in the living room, upstairs windows over them, shutters on some), front and back doors that open, and a brick chimney on every house, standing outside a gable end or rising through the ridge, instead of a slit of a window, a doorway with no door and a chimney flat in the wall. The doll's house and flooded house doors are unchanged.
 - The End: the labels on the wrapped stock no longer flicker, and the old computers' buzz (the three on the central desk most of all) is a low hum now, not a painful whine.
 - Level Fun: the Partygoers fit through the doorways (a little smaller), so they can leave a room; the balloon arches stay under the ceiling and no longer flicker; the lure balloon hangs on one continuous string.
 - Level 5: the turntable is a mahogany phonograph with a record, brass tonearm and an open velvet-lined lid, and the room service tray a worn silver-plate service with a cloche, coffee, napkin and a rose.

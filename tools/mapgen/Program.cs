@@ -112,6 +112,7 @@ if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); re
 if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayName(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }
 if (args.Length > 2 && args[2] == "poolstats") { Regions.PoolStats(layout, args.Length > 3 ? int.Parse(args[3]) : 4); return; }
 if (args.Length > 2 && args[2] == "motionstats") { Regions.MotionStats(layout, n); return; }
+if (args.Length > 2 && args[2] == "l94houses") { L94Houses.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "l94fences") { L94Fences.Run(layout, args); return; }
 if (args.Length > 2 && args[2] == "l8roads") { L8Roads.Run(layout, smx, smz, n, args, m0x + n / 2, m0z + n / 2, !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AT"))); return; }
 if (args.Length > 2 && args[2] == "deep") { Deep.Run(layout, m0x, m0z, n); return; }
