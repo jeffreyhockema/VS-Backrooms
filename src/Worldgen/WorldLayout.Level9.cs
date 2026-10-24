@@ -86,7 +86,7 @@ public sealed partial class WorldLayout
     /// floor of its cap (counted as the roof's tile counts it, before a two-storey house lifts its roof a storey). On a
     /// wall tile outside a house's gable end it rises from the ground; on a tile of the house, from the roof.
     /// </summary>
-    public static bool IsChimney(in Tile t) => t.Level == 9 && t.Depth > 0 && t.Kind != TileKind.Water;
+    public static bool IsChimney(in Tile t) => t.Level is 9 or Motion && t.Depth > 0 && t.Kind != TileKind.Water;
 
     /// <summary>Whether a storey value is a floor upstairs (so its <see cref="Tile.Detail"/> is a prop).</summary>
     public static bool IsUpstairsFloor(byte storey) => storey is StoreyFloor or StoreyLightOff or StoreyLightOn;
@@ -553,7 +553,7 @@ public sealed partial class WorldLayout
     /// others, brick chimneys with caps, a garage door cased in trim, and stairs open overhead all the way up with a
     /// balustrade on their open side (see <see cref="PlanExteriorV9"/>).
     /// </summary>
-    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false, ulong v9 = 0)
+    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false, ulong v9 = 0, bool motion = false)
     {
         ref Tile At(int u, int v) => ref tiles[v * w + u];
         HousePlan kind = farmhouse ? HousePlan.Family : (HousePlan)rng.Range(0, 2);
@@ -1002,7 +1002,7 @@ public sealed partial class WorldLayout
             bool frontHalf = v - v0 <= v1 - v;
             for (int u = u0; u <= u1; u++) At(u, v).Roof = RoofBits.Make(Math.Min(v - v0, v1 - v), frontHalf ? ArchPier.North : ArchPier.South);
         }
-        if (v9 != 0) PlanExteriorV9(tiles, w, v9, u0, u1, v0, v1, kind, twoStorey, litWindows, locked, doorU, backDoorU, garageU0);
+        if (v9 != 0) PlanExteriorV9(tiles, w, v9, u0, u1, v0, v1, kind, twoStorey, litWindows, locked, doorU, backDoorU, garageU0, motion);
 
         if (locked)
             for (int v = v0 + 1; v < v1; v++)
@@ -1031,7 +1031,7 @@ public sealed partial class WorldLayout
     /// </list>
     /// </summary>
     private static void PlanExteriorV9(Tile[] tiles, int w, ulong seed, int u0, int u1, int v0, int v1, HousePlan kind, bool twoStorey,
-        bool litWindows, bool locked, int doorU, int backDoorU, int garageU0)
+        bool litWindows, bool locked, int doorU, int backDoorU, int garageU0, bool motion)
     {
         ref Tile At(int u, int v) => ref tiles[v * w + u];
         var style = new Rng(seed);
@@ -1052,7 +1052,7 @@ public sealed partial class WorldLayout
         int ridge = 0; // the height of the ridge, as a roof tile counts it
         for (int v = v0; v <= v1; v++)
             for (int u = u0; u <= u1; u++) ridge = Math.Max(ridge, RoofBits.Height(At(u, v).Roof));
-        int lift = twoStorey ? 4 : 0;
+        int lift = twoStorey || motion ? 4 : 0; // (Level 94's houses stand a faux second storey under their roofs: WorldGenerator.Level94Block)
 
         // The chimney
         for (int v = v0; v <= v1; v++)
@@ -1071,7 +1071,7 @@ public sealed partial class WorldLayout
                 c.Depth = (byte)(lift + ridge + 2);
             }
         }
-        else if (style.Chance(frontGable ? 0.6 : 0.35))
+        else if (motion || style.Chance(frontGable ? 0.6 : 0.35)) // (every house on Level 94 has one)
         {
             // Up through the ridge, near the middle of the house
             int ridgeEnd = wing ? garageU0 : u1;

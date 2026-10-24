@@ -434,6 +434,10 @@ public sealed partial class WorldLayout
     /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
     /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
     /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>).</item> Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.</item>
+    /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
+    /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
+    /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;
